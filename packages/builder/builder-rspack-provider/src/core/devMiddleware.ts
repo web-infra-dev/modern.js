@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
+import webpackDevMiddleware from '@modern-js/builder-shared/webpack-dev-middleware';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 

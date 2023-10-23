@@ -3,9 +3,10 @@
   "name": "@e2e/builder",
   "version": "2.9.0",
   "scripts": {
-    "test": "pnpm run test:webpack && pnpm run test:rspack",
+    "test": "pnpm run test:webpack && pnpm run test:rspack && pnpm run test:rspack:legacy",
     "test:webpack": "playwright test",
     "test:rspack": "PROVIDE_TYPE=rspack playwright test",
+    "test:rspack:legacy": "PROVIDE_TYPE=rspack INTERNAL_USE_RSPACK_TRANSFORM_LEGACY=true playwright test",
     "test:webpack-swc": "playwright test swc"
   },
   "dependencies": {

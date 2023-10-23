@@ -164,7 +164,7 @@ export const handle = {
 
 ```ts title="routes/layout.ts"
 export default () => {
-  const matches = useMatches;
+  const matches = useMatches();
   const breadcrumbs = matches.map(
     matchedRoute => matchedRoute?.handle?.breadcrumbName,
   );
@@ -189,7 +189,7 @@ export default () => {
 
 在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
 
-在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
+在 loader 中，params 会作为 [loader](/guides/basic-features/data/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
 
 ### 动态可选路由
 
@@ -209,7 +209,7 @@ export default () => {
 
 在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
 
-在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
+在 loader 中，params 会作为 [loader](/guides/basic-features/data/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
 
 ### 通配路由
 
@@ -352,12 +352,12 @@ Modern.js 建议必须有根 Layout 和根 Loading。
 
 ### 路由重定向
 
-可以通过创建 [`Data Loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
+可以通过创建 [`Data Loader`](/guides/basic-features/data/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.data.ts` 文件：
 
-```ts title="routes/user/page.loader.ts"
+```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
 
-export default () => {
+export const loader () => {
   const user = await getUser();
   if (!user) {
     return redirect('/login');
@@ -504,7 +504,7 @@ export const init = (context: RuntimeContext) => {
 :::info
 
 - 该功能目前仅在 Webpack 项目中支持，Rspack 项目暂不支持。
-- 对数据的预加载目前只会预加载 SSR 项目中 [Data Loader](/guides/basic-features/data-fetch) 中返回的数据。
+- 对数据的预加载目前只会预加载 SSR 项目中 [Data Loader](/guides/basic-features/data/data-fetch) 中返回的数据。
 
 :::
 

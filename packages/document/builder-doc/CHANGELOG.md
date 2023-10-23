@@ -1,5 +1,16 @@
 # @modern-js/builder-doc
 
+## 2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 21c0976: fix: correct content about disableHtmlFolder API
+  fix: 更正 disableHtmlFolder API 的内容
+
+## 2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

@@ -1,6 +1,5 @@
 import { dirname, resolve, extname } from 'path';
 import module from 'module';
-import pm from 'picomatch';
 import { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
@@ -39,6 +38,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
   return {
     name: 'esbuild:adapter',
     setup(build) {
+      build.onStart(async () => {
+        compiler.outputChunk = new Map();
+      });
       build.onResolve({ filter: /.*/ }, async args => {
         if (args.kind === 'url-token') {
           return {
@@ -48,8 +50,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         }
 
         for (const [key] of Object.entries(config.umdGlobals)) {
-          const isMatch = pm(key);
-          if (isMatch(args.path)) {
+          if (args.path === key) {
             debugResolve('resolve umdGlobals:', key);
             return {
               path: args.path,
@@ -185,11 +186,21 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         const isExternal = getIsExternal(originalFilePath);
         const dir =
           args.resolveDir ?? (args.importer ? dirname(args.importer) : root);
-        const sideEffects = await getSideEffects(originalFilePath, isExternal);
+        const resultPath = isExternal
+          ? args.path
+          : getResultPath(originalFilePath, dir, args.kind);
+        if (resultPath === false) {
+          // https://github.com/defunctzombie/package-browser-field-spec
+          // we may get false when resolve browser field, in this case, we set it a empty object
+          debugResolve('resolve false:', args);
+          return {
+            path: '/empty-stub',
+            sideEffects: false,
+          };
+        }
+        const sideEffects = await getSideEffects(resultPath, isExternal);
         const result = {
-          path: isExternal
-            ? args.path
-            : getResultPath(originalFilePath, dir, args.kind),
+          path: resultPath,
           external: isExternal,
           namespace: isExternal ? undefined : 'file',
           sideEffects,
@@ -215,6 +226,12 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
 
         if (args.namespace !== 'file') {
           return;
+        }
+
+        if (args.path === '/empty-stub') {
+          return {
+            contents: 'module.exports = {}',
+          };
         }
 
         compiler.addWatchFile(args.path);

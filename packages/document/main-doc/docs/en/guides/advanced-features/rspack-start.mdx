@@ -26,7 +26,7 @@ After the project is created, you can experience the project by running `pnpm ru
 When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
 
 - Storybook Devtool
-- The usage of [useLoader](/guides/basic-features/data-fetch.html) in Client Side Rendering
+- The usage of [useLoader](/guides/basic-features/data/data-fetch.html) in Client Side Rendering
 
 :::
 
@@ -49,6 +49,9 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
   plugins: [
     appTools({
 +     bundler: 'experimental-rspack',
++     rspackFuture: {
++       disableTransformByDefault: true,
++     }
     }),
   ],
 });
@@ -84,7 +87,8 @@ For example, if you are using pnpm, you can update the Rspack version with `over
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/plugin-html": "nightly"
+      "@rspack/plugin-html": "nightly",
+      "@rspack/plugin-react-refresh": "nightly"
     }
   }
 }

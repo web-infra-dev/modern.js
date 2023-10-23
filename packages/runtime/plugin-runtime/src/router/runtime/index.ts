@@ -19,6 +19,8 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
   return useRouteData(realRouteId);
 };
 
+export { createShouldRevalidate } from './shouldRevalidate';
+
 export type { LoaderFunction, LoaderFunctionArgs } from './types';
 
 // Note: Keep in sync with react-router-dom exports!

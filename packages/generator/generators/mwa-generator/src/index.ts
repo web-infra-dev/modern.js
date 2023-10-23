@@ -37,7 +37,7 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const { isMonorepoSubProject, isTest, projectDir = '' } = context.config;
+  const { isMonorepoSubProject, projectDir = '' } = context.config;
 
   const { outputPath } = generator;
 
@@ -83,7 +83,6 @@ export const handleTemplateFile = async (
             input as string,
             path.join(process.cwd(), projectDir),
             {
-              isTest,
               isMwa: true,
             },
           ),
@@ -103,7 +102,7 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isTest, isMwa: true },
+            { isMwa: true },
           ),
       },
     );
@@ -122,7 +121,6 @@ export const handleTemplateFile = async (
   const projectPath = getMWAProjectPath(
     packagePath as string,
     isMonorepoSubProject,
-    isTest,
   );
 
   const dirname = path.basename(generator.outputPath);

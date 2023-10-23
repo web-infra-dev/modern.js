@@ -66,20 +66,25 @@ export async function rebaseUrls(
   if (!cssUrlRE.test(content)) {
     return { file };
   }
-  const rebased = await rewriteCssUrls(
-    content,
-    path.extname(file).slice(1),
-    url => {
-      if (url.startsWith('/')) {
-        return url;
-      }
-      return resolver(url, fileDir);
-    },
-  );
-  return {
-    file,
-    contents: rebased,
-  };
+  try {
+    // FIXME: use ast match instead of reg match
+    const rebased = await rewriteCssUrls(
+      content,
+      path.extname(file).slice(1),
+      url => {
+        if (url.startsWith('/')) {
+          return url;
+        }
+        return resolver(url, fileDir);
+      },
+    );
+    return {
+      file,
+      contents: rebased,
+    };
+  } catch (e) {
+    return { file };
+  }
 }
 
 export function rewriteCssUrls(

@@ -26,7 +26,7 @@ They have their own benefits.
 - bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
 
 :::warning
-bundleless is a single file compilation mode, so for type references and exports you need to add the `type` field, e.g. `import type { A } from '. /types`
+bundleless is a single-file compilation mode, so for referencing and exporting types, you need to add the `type` keyword. For example, `import type { A } from './types'`. Please refer to the [esbuild documentation](https://esbuild.github.io/content-types/#isolated-modules) for more information.
 :::
 
 In `buildConfig` you can specify whether the current build task is bundle or bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
@@ -40,7 +40,7 @@ In `buildConfig` you can specify whether the current build task is bundle or bun
 
 From the default value, we know that **building in bundle mode usually specifies one or more files as the entry point for the build, while building in bundleless mode specifies a directory and uses all the files in that directory as the entry point**.
 
-[`sourceDir`](/api/config/build-config#sourcedir) is used to specify the source directory, which is **only** related to **the following two elements:
+[`sourceDir`](/api/config/build-config#sourcedir) is used to specify the source directory, which is **only** related to the following two elements:
 
 - Type file generation
 - [`outbase`](https://esbuild.github.io/api/#outbase) for specifying the build process
@@ -48,7 +48,7 @@ From the default value, we know that **building in bundle mode usually specifies
 So we can get its best practices:
 
 - **Only specify `input` during the bundle build.**
-- **In general, bundleless only needs to specify `sourceDir` (where `input` will be aligned with `sourceDir`).** ** If we want to use the `input` in bundleless, we only need to specify `sourceDir`.
+- **In general, bundleless only needs to specify `sourceDir` (where `input` will be aligned with `sourceDir`).** If we want to use the `input` in bundleless, we only need to specify `sourceDir`.
 
 If you want to convert only some of the files in bundleless, e.g. only the files in the `src/runtime` directory, you need to configure `input`:
 
@@ -77,7 +77,144 @@ Starting from version **2.36.0**, the Modern.js Module will use swc by default w
 - [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
 
 In fact, we've been using swc for full code conversion since **2.16.0**. However, swc also has some limitations, so we added [sourceType](/api/config/build-config#sourcetype) to turn off swc when the source is formatted as 'commonjs', which isn't really user-intuitive, and the cjs mode of the swc formatted outputs don't have annotate each export name, which can cause problems in node.
-So we deprecated this behaviour and went back to the original design - using swc as a supplement only in situations where it was needed.
+So we deprecated this behaviour and went back to the original design - **using swc as a supplement only in situations where it was needed**.
+
+## Using Hooks to Intervene in the Build Process
+
+The Modern.js Module provides a Hook mechanism that allows us to inject custom logic at different stages of the build process.
+The Modern.js Module Hook is implemented using [tapable](https://github.com/webpack/tapable), which extends esbuild's plugin mechanism, and is recommended to be used directly if esbuild plugins already meet your needs.
+Here's how to use it:
+
+### Hook type
+
+#### AsyncSeriesBailHook
+
+Serial hooks that stop the execution of other tapped functions if a tapped function returns a non-undefined result.
+
+#### AsyncSeriesWaterFallHooks
+
+Serial hooks whose results are passed to the next tapped function.
+
+### Hook API
+
+#### load
+
+- AsyncSeriesBailHook
+- Triggered at esbuild [onLoad callbacks](https://esbuild.github.io/plugins/#on-load) to fetch module content based on the module path
+- Input parameters
+
+```ts
+interface LoadArgs {
+  path: string;
+  namespace: string;
+  suffix: string;
+}
+```
+
+- Return parameters
+
+```ts
+type LoadResult =
+  | {
+      contents: string; // module contents
+      map?: SourceMap; // https://esbuild.github.io/api/#sourcemap
+      loader?: Loader; // https://esbuild.github.io/api/#loader
+      resolveDir?: string;
+    }
+  | undefined;
+```
+
+- Example
+
+```ts
+compiler.hooks.load.tapPromise('load content from memfs', async args => {
+  const contents = memfs.readFileSync(args.path);
+  return {
+    contents: contents,
+    loader: 'js',
+  };
+});
+```
+
+#### transform
+
+- AsyncSeriesWaterFallHooks
+- Triggered at esbuild [onLoad callbacks](https://esbuild.github.io/plugins/#on-load).
+  Transforms the contents of the module fetched during the load phase
+- Input parameters (return parameters)
+
+```ts
+export type Source = {
+  code: string;
+  map?: SourceMap;
+  path: string;
+  loader?: string;
+};
+```
+
+- Example
+
+```ts
+compiler.hooks.transform.tapPromise('6to5', async args => {
+  const result = babelTransform(args.code, { presets: ['@babel/preset-env'] });
+  return {
+    code: result.code,
+    map: result.map,
+  };
+});
+```
+
+#### renderChunk
+
+- AsyncSeriesWaterFallHooks
+- Triggered at esbuild [onEnd callbacks](https://esbuild.github.io/plugins/#on-end).
+  This is similar to the transform hook, but works on the products generated by esbuild.
+- Input parameters (return parameters)
+
+```ts
+export type AssetChunk = {
+  type: 'asset';
+  contents: string | Buffer;
+  entryPoint?: string;
+  /**
+   * absolute file path
+   */
+  fileName: string;
+  originalFileName?: string;
+};
+
+export type JsChunk = {
+  type: 'chunk';
+  contents: string;
+  entryPoint?: string;
+  /**
+   * absolute file path
+   */
+  fileName: string;
+  map?: SourceMap;
+  modules?: Record<string, any>;
+  originalFileName?: string;
+};
+
+export type Chunk = AssetChunk | JsChunk;
+```
+
+- Examples
+
+```ts
+compiler.hooks.renderChunk.tapPromise('minify', async chunk => {
+  if (chunk.type === 'chunk') {
+    const code = chunk.contents.toString();
+    const result = await minify.call(compiler, code);
+    return {
+      ...chunk,
+      contents: result.code,
+      map: result.map,
+    };
+  }
+  return chunk;
+});
+```
 
 ## dts
 

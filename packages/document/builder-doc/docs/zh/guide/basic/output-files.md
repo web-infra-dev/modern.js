@@ -134,6 +134,8 @@ export default {
       css: '',
       html: '',
     },
+  },
+  html: {
     disableHtmlFolder: true,
   },
 };

@@ -1,5 +1,47 @@
 # @modern-js/runtime
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.37.1
+- @modern-js/runtime-utils@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/runtime-utils@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 4e3310b: chore(runtime): remove unused redux-logger dependencies
+
+  chore(runtime): 移除未使用的 redux-logger 依赖
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/runtime-utils@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

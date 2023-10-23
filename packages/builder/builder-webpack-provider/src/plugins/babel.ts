@@ -1,9 +1,6 @@
-import {
-  getBabelConfig,
-  createBabelChain,
-  type BabelOptions,
-  BabelChain,
-} from '@modern-js/babel-preset-app';
+import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
+import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
+import type { BabelConfig } from '@rsbuild/babel-preset';
 import {
   JS_REGEX,
   TS_REGEX,
@@ -20,6 +17,7 @@ import type {
   NormalizedConfig,
   TransformImport,
 } from '../types';
+import { getBabelUtils } from '@modern-js/utils';
 
 export const getUseBuiltIns = (config: NormalizedConfig) => {
   const { polyfill } = config.output;
@@ -44,9 +42,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           getCompiledPath,
         },
       ) => {
-        const { lodash, applyOptionsChain, isUseSSRBundle } = await import(
-          '@modern-js/utils'
-        );
+        const { lodash, applyOptionsChain } = await import('@modern-js/utils');
 
         const config = api.getNormalizedConfig();
         const browserslist = await getBrowserslistWithDefault(
@@ -55,21 +51,8 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           target,
         );
 
-        const getBabelOptions = (
-          appDirectory: string,
-          config: NormalizedConfig,
-        ) => {
+        const getBabelOptions = (config: NormalizedConfig) => {
           // 1. Get styled-components options
-          const styledComponentsOptions =
-            config.tools.styledComponents !== false
-              ? applyOptionsChain(
-                  getDefaultStyledComponentsConfig(
-                    isProd,
-                    isUseSSRBundle(config),
-                  ),
-                  config.tools.styledComponents,
-                )
-              : false;
 
           // 2. Create babel util function about include/exclude
           const includes: Array<string | RegExp> = [];
@@ -92,49 +75,59 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
-          const chain = createBabelChain();
-          applyPluginImport(chain, config.source.transformImport);
-          applyPluginLodash(chain, config.performance.transformLodash);
+          const baseBabelConfig =
+            isServer || isServiceWorker
+              ? getBabelConfigForNode()
+              : getBabelConfigForWeb({
+                  presetEnv: {
+                    targets: browserslist,
+                    useBuiltIns: getUseBuiltIns(config),
+                  },
+                  pluginDecorators: {
+                    version: config.output.enableLatestDecorators
+                      ? '2018-09'
+                      : 'legacy',
+                  },
+                });
 
-          // 3. Compute final babel config by @modern-js/babel-preset-app
-          const babelOptions: BabelOptions = {
+          applyPluginImport(baseBabelConfig, config.source.transformImport);
+          applyPluginLodash(
+            baseBabelConfig,
+            config.performance.transformLodash,
+          );
+          applyPluginStyledComponents(baseBabelConfig, config, isProd);
+
+          const babelConfig = applyOptionsChain(
+            baseBabelConfig,
+            config.tools.babel,
+            {
+              ...getBabelUtils(baseBabelConfig),
+              ...babelUtils,
+            },
+          );
+
+          // 3. Compute final babel config
+          const finalOptions: BabelConfig = {
             babelrc: false,
             configFile: false,
             compact: isProd,
-            ...getBabelConfig({
-              target: isServer || isServiceWorker ? 'server' : 'client',
-              appDirectory,
-              useLegacyDecorators: !config.output.enableLatestDecorators,
-              useBuiltIns:
-                isServer || isServiceWorker ? false : getUseBuiltIns(config),
-              chain,
-              styledComponents: styledComponentsOptions,
-              userBabelConfig: config.tools.babel,
-              userBabelConfigUtils: babelUtils,
-              overrideBrowserslist: browserslist,
-              importAntd: false,
-              disableReactPreset: true,
-            }),
+            ...babelConfig,
           };
 
           if (config.output.charset === 'utf8') {
-            babelOptions.generatorOpts = {
+            finalOptions.generatorOpts = {
               jsescOption: { minimal: true },
             };
           }
 
           return {
-            babelOptions,
+            babelOptions: finalOptions,
             includes,
             excludes,
           };
         };
 
-        const { rootPath } = api.context;
-        const { babelOptions, includes, excludes } = getBabelOptions(
-          rootPath,
-          config,
-        );
+        const { babelOptions, includes, excludes } = getBabelOptions(config);
         const useTsLoader = Boolean(config.tools.tsLoader);
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
@@ -176,16 +169,42 @@ export const builderPluginBabel = (): BuilderPlugin => ({
   },
 });
 
-function applyPluginLodash(chain: BabelChain, transformLodash?: boolean) {
+function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
   if (transformLodash) {
-    chain
-      .plugin('babel-plugin-lodash')
-      .use(getCompiledPath('babel-plugin-lodash'), [{}]);
+    config.plugins?.push([getCompiledPath('babel-plugin-lodash'), {}]);
+  }
+}
+
+async function applyPluginStyledComponents(
+  babelConfig: BabelConfig,
+  builderConfig: NormalizedConfig,
+  isProd: boolean,
+) {
+  const { applyOptionsChain, isUseSSRBundle } = await import(
+    '@modern-js/utils'
+  );
+
+  const styledComponentsOptions =
+    builderConfig.tools.styledComponents !== false
+      ? applyOptionsChain(
+          getDefaultStyledComponentsConfig(
+            isProd,
+            isUseSSRBundle(builderConfig),
+          ),
+          builderConfig.tools.styledComponents,
+        )
+      : false;
+
+  if (styledComponentsOptions) {
+    babelConfig.plugins?.push([
+      require.resolve('babel-plugin-styled-components'),
+      styledComponentsOptions,
+    ]);
   }
 }
 
 function applyPluginImport(
-  chain: BabelChain,
+  config: BabelConfig,
   pluginImport?: false | TransformImport[],
 ) {
   if (pluginImport !== false && pluginImport) {
@@ -207,14 +226,11 @@ function applyPluginImport(
         delete option.camelToDashComponentName;
       }
 
-      chain
-        .plugin(`plugin-import-${name}`)
-        .use(
-          require.resolve(
-            '@modern-js/babel-preset-base/compiled/babel-plugin-import',
-          ),
-          [option, name],
-        );
+      config.plugins?.push([
+        require.resolve('babel-plugin-import'),
+        option,
+        name,
+      ]);
     }
   }
 }

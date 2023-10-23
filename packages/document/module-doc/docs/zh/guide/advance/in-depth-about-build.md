@@ -26,7 +26,7 @@ sidebar_position: 1
 - bundleless 则是可以保持原有的文件结构，更有利于调试和 tree shaking。
 
 :::warning
-bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`
+bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`，背景参考 [esbuild 文档](https://esbuild.github.io/content-types/#isolated-modules)。
 :::
 
 在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 bundle 还是 bundleless。
@@ -77,7 +77,144 @@ export default defineConfig({
 - [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
 
 事实上，我们在 **2.16.0** 开始全量使用 swc 进行代码转换。不过 swc 同样也存在一些限制，为此我们添加了 [sourceType](/api/config/build-config#sourcetype) 配置，当源码格式为 'commonjs' 时关闭 swc， 但这种方式并不符合用户直觉，另外，swc 格式化输出的 cjs 模式没有给每个导出名称添加注释，这在 node 中使用可能会带来一些问题。
-因为我们废弃了此行为，回到了最初的设计 - 只在需要的场景下使用 swc 作为补充。
+因为我们废弃了此行为，回到了最初的设计 - **只在需要的场景下使用 swc 作为补充**。
+
+## 使用 Hook 介入构建流程
+
+Modern.js Module 提供了 Hook 机制，允许我们在构建流程的不同阶段注入自定义逻辑。
+Modern.js Module Hook 使用了 [tapable](https://github.com/webpack/tapable) 实现，扩展了 esbuild 的插件机制，若 esbuild plugins 已经满足了你的需求,建议直接使用它。
+下面展开说明其用法:
+
+### Hook 类型
+
+#### AsyncSeriesBailHook
+
+串行执行的 hooks，如果某个 tapped function 返回非 undefined 结果，则后续其他的 tapped function 停止执行。
+
+#### AsyncSeriesWaterFallHooks
+
+串行执行的 hooks，其结果会传递给下一个 tapped function
+
+### Hook API
+
+#### load
+
+- AsyncSeriesBailHook
+- 在 esbuild [onLoad callbacks](https://esbuild.github.io/plugins/#on-load) 触发，根据模块路径来获取模块内容
+- 输入参数
+
+```ts
+interface LoadArgs {
+  path: string;
+  namespace: string;
+  suffix: string;
+}
+```
+
+- 返回参数
+
+```ts
+type LoadResult =
+  | {
+      contents: string; // 模块内容
+      map?: SourceMap; // https://esbuild.github.io/api/#sourcemap
+      loader?: Loader; // https://esbuild.github.io/api/#loader
+      resolveDir?: string;
+    }
+  | undefined;
+```
+
+- 例子
+
+```ts
+compiler.hooks.load.tapPromise('load content from memfs', async args => {
+  const contents = memfs.readFileSync(args.path);
+  return {
+    contents: contents,
+    loader: 'js',
+  };
+});
+```
+
+#### transform
+
+- AsyncSeriesWaterFallHooks
+- 在 esbuild [onLoad callbacks](https://esbuild.github.io/plugins/#on-load) 触发，
+  将 load 阶段获取的模块内容进行转换
+- 输入参数(返回参数)
+
+```ts
+export type Source = {
+  code: string;
+  map?: SourceMap;
+  path: string;
+  loader?: string;
+};
+```
+
+- 例子
+
+```ts
+compiler.hooks.transform.tapPromise('6to5', async args => {
+  const result = babelTransform(args.code, { presets: ['@babel/preset-env'] });
+  return {
+    code: result.code,
+    map: result.map,
+  };
+});
+```
+
+#### renderChunk
+
+- AsyncSeriesWaterFallHooks
+- 在 esbuild [onEnd callbacks](https://esbuild.github.io/plugins/#on-end) 触发，
+  类似于 transform hook，但是作用在 esbuild 生成的产物
+- 输入参数(返回参数)
+
+```ts
+export type AssetChunk = {
+  type: 'asset';
+  contents: string | Buffer;
+  entryPoint?: string;
+  /**
+   * absolute file path
+   */
+  fileName: string;
+  originalFileName?: string;
+};
+
+export type JsChunk = {
+  type: 'chunk';
+  contents: string;
+  entryPoint?: string;
+  /**
+   * absolute file path
+   */
+  fileName: string;
+  map?: SourceMap;
+  modules?: Record<string, any>;
+  originalFileName?: string;
+};
+
+export type Chunk = AssetChunk | JsChunk;
+```
+
+- 例子
+
+```ts
+compiler.hooks.renderChunk.tapPromise('minify', async chunk => {
+  if (chunk.type === 'chunk') {
+    const code = chunk.contents.toString();
+    const result = await minify.call(compiler, code);
+    return {
+      ...chunk,
+      contents: result.code,
+      map: result.map,
+    };
+  }
+  return chunk;
+});
+```
 
 ## 类型文件生成
 

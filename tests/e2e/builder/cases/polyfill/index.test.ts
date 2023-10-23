@@ -1,6 +1,5 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { webpackOnlyTest } from '@scripts/helper';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
 const POLYFILL_RE = /\/lib-polyfill/;
@@ -48,8 +47,7 @@ test('should add polyfill when set polyfill entry (default)', async ({
   expect(content.includes('es.array.flat.js')).toBeTruthy();
 });
 
-// TODO: needs builtin:swc-loader
-webpackOnlyTest(
+(process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY ? test.skip : test)(
   'should add polyfill when set polyfill usage',
   async ({ page }) => {
     const builder = await build({

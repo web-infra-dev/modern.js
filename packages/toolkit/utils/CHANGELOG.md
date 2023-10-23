@@ -1,5 +1,40 @@
 # @modern-js/utils
 
+## 2.37.1
+
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- 708f248: fix(utils): bump rslog@1.1.0 to fix color support detection
+
+  fix(utils): 升级 rslog@1.1.0 并修复 color 支持检测
+
+## 2.36.0
+
+### Patch Changes
+
+- 3473bee: chore: remove legacy monorepo include and unused utils
+
+  chore: 移除旧版的 monorepo include 逻辑和未使用的 utils
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
 ## 2.35.1
 
 ### Patch Changes

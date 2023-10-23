@@ -90,8 +90,6 @@ export const enableRegister = (
       },
       {
         tsconfigPath,
-        syntax: 'es6+',
-        type: 'commonjs',
       },
     );
 

@@ -1,3 +1,4 @@
+import path from 'path';
 import { BuilderPlugin, BundlerChain } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI } from '../types';
 
@@ -34,6 +35,12 @@ export const builderPluginAdapterBasic =
             .use('server-module-loader')
             .loader(require.resolve('../loaders/serverModuleLoader'));
         }
+
+        // compat modern-js v1
+        // this helps symlinked packages to resolve packages correctly, such as `react/jsx-runtime`.
+        chain.resolve.modules
+          .add('node_modules')
+          .add(path.join(api.context.rootPath, 'node_modules'));
       });
     },
   });

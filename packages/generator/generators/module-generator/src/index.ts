@@ -38,7 +38,6 @@ export const handleTemplateFile = async (
 ) => {
   const {
     isMonorepoSubProject,
-    isPublic = true,
     isLocalPackages,
     projectDir = '',
   } = context.config;
@@ -79,7 +78,6 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isPublic },
           ),
       },
       {
@@ -102,7 +100,6 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isPublic },
           ),
       },
       {
@@ -126,7 +123,6 @@ export const handleTemplateFile = async (
   const moduleProjectPath = getModuleProjectPath(
     packagePath as string,
     isMonorepoSubProject,
-    isPublic,
     isLocalPackages,
   );
   const projectPath = projectDir
@@ -155,7 +151,6 @@ export const handleTemplateFile = async (
       isTs: language === Language.TS,
       packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
-      isPublic,
       modernVersion,
     },
   );

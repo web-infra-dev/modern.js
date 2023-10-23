@@ -25,10 +25,6 @@ export async function getInternalList(context: Context): Promise<HookList> {
     internal.push(redirect, json);
   }
 
-  if (config.minify && config.minify !== 'esbuild') {
-    internal.push(minify);
-  }
-
   const userTsconfig = await getProjectTsconfig(context.config.tsconfig);
   const emitDecoratorMetadata =
     userTsconfig?.compilerOptions?.emitDecoratorMetadata ?? false;
@@ -52,6 +48,10 @@ export async function getInternalList(context: Context): Promise<HookList> {
   if (enableSwcRenderChunk) {
     const { swcRenderChunk } = await import('./swc');
     internal.push(swcRenderChunk);
+  }
+
+  if (config.minify && config.minify !== 'esbuild') {
+    internal.push(minify);
   }
 
   return internal;

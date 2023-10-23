@@ -1,17 +1,32 @@
 import {
   mergeRegex,
-  applyScriptCondition,
   JS_REGEX,
   TS_REGEX,
+  applyScriptCondition,
 } from '@modern-js/builder-shared';
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
+import { useLegacyTransform } from '../shared';
+
+/**
+ * The `@babel/preset-typescript` default options.
+ */
+export const DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS = {
+  allowNamespaces: true,
+  allExtensions: true,
+  allowDeclareFields: true,
+  // aligns Babel's behavior with TypeScript's default behavior.
+  // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
+  optimizeConstEnums: true,
+  isTSX: true,
+};
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
+
+  pre: ['builder-plugin-swc'],
+
   setup(api) {
     api.modifyBundlerChain(
       async (chain, { CHAIN_ID, isProd, getCompiledPath }) => {
@@ -48,6 +63,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           const baseConfig = {
             plugins: [],
             presets: [
+              // TODO: only apply preset-typescript for ts file (isTSX & allExtensions false)
               [
                 require.resolve('@babel/preset-typescript'),
                 DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
@@ -96,17 +112,29 @@ export const builderPluginBabel = (): BuilderPlugin => ({
 
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        applyScriptCondition({
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+        if (useLegacyTransform()) {
+          applyScriptCondition({
+            rule,
+            config,
+            context: api.context,
+            includes,
+            excludes,
+          });
+        } else {
+          // already set source.include / exclude in plugin-swc
+          includes.forEach(condition => {
+            rule.include.add(condition);
+          });
+
+          excludes.forEach(condition => {
+            rule.exclude.add(condition);
+          });
+        }
 
         rule
           .test(mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
+          .after(CHAIN_ID.USE.SWC)
           .loader(getCompiledPath('babel-loader'))
           .options(babelOptions);
       },

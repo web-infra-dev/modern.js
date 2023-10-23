@@ -1,5 +1,41 @@
 # @modern-js/plugin-bff
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.37.1
+- @modern-js/create-request@2.37.1
+- @modern-js/server-utils@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/server-utils@2.37.0
+  - @modern-js/bff-core@2.37.0
+  - @modern-js/create-request@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- f59b6f9: feat: support custom sdk in BFF
+  feat: 在 BFF 中支持自定义 SDK
+- Updated dependencies [3473bee]
+- Updated dependencies [f59b6f9]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/create-request@2.36.0
+  - @modern-js/bff-core@2.36.0
+  - @modern-js/server-utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

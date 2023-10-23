@@ -1,5 +1,40 @@
 # @modern-js/builder-plugin-swc
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

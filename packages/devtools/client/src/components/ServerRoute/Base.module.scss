@@ -1,0 +1,70 @@
+.container {
+  background-color: var(--gray-1);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-4);
+}
+
+.trigger {
+  all: unset;
+  width: 100%;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  cursor: pointer;
+  & * {
+    cursor: pointer;
+  }
+}
+
+.content {
+  padding-top: var(--space-2);
+  overflow: hidden;
+  &[data-state='open'] {
+    animation: slideDown 150ms ease-out;
+  }
+  &[data-state='closed'] {
+    animation: slideUp 150ms ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
+  }
+}
+
+.url-text {
+  color: var(--gray-12);
+  font-size: var(--font-size-2);
+  transition: color 200ms;
+}
+
+.mark {
+  height: var(--font-size-5);
+  width: var(--font-size-5);
+  border-radius: var(--radius-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 100ms;
+  background-color: transparent;
+  &[data-open='true'] {
+    background-color: var(--gray-4);
+  }
+}

@@ -21,6 +21,11 @@ export const applyBaseConfig = (
             process.env.BUNDLER === 'webpack'
               ? 'webpack'
               : 'experimental-rspack',
+          rspackFuture: process.env.USE_RSPACK_LEGACY
+            ? undefined
+            : {
+                disableTransformByDefault: true,
+              },
         }),
       ],
     },

@@ -1,15 +1,12 @@
 import _ from '@modern-js/utils/lodash';
 import {
-  NameDefinition,
+  ClientDefinition,
   type BuilderConfig,
   type BundlerConfig,
-  type ClientDefinition,
   type ClientFunctions,
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
-  PackageDefinition,
-  AssetDefinition,
 } from '@modern-js/devtools-kit';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
@@ -136,14 +133,11 @@ export const setupClientConnection = async (
       return deferred.compileTimeCost.promise;
     },
     async getClientDefinition() {
-      const ret: ClientDefinition = {
-        name: new NameDefinition(),
-        packages: new PackageDefinition(),
-        assets: new AssetDefinition(),
-      };
+      const ret = new ClientDefinition();
       Object.assign(ret.name, def.name);
       Object.assign(ret.packages, def.packages);
       Object.assign(ret.assets, def.assets);
+      Object.assign(ret.announcement, def.announcement);
       return ret;
     },
     echo(content) {

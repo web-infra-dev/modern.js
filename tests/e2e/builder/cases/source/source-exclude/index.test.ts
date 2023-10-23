@@ -1,10 +1,8 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
-// TODO: needs builtin:swc-loader
-webpackOnlyTest(
+(process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY ? test.skip : test)(
   'should not compile specified file when source.exclude',
   async () => {
     await expect(

@@ -64,7 +64,7 @@ class ServerResponse implements ServerResponseLike {
 }
 
 export const base = (context: WorkerServerContext): HookContext => {
-  const { req, res, logger, metrics, reporter } = context;
+  const { req, res, logger, metrics } = context;
   const serverResponse = new ServerResponse(res);
 
   // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
@@ -77,7 +77,6 @@ export const base = (context: WorkerServerContext): HookContext => {
 
   return {
     response: new BaseResponse(serverResponse),
-    reporter,
     request: new BaseRequest({
       url: req.url,
       host,
@@ -127,6 +126,7 @@ export const createMiddlewareContext = (
 
   return {
     ...baseContext,
+    reporter: context.reporter,
     response: baseContext.response as any,
     source: {
       req: rawRequest,

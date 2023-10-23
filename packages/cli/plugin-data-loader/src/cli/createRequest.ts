@@ -71,3 +71,45 @@ export const createRequest = (routeId: string, method = 'get') => {
     return res;
   };
 };
+
+export const createActionRequest = (routeId: string) => {
+  return async ({
+    params,
+    request,
+  }: {
+    params: Record<string, string>;
+    request: Request;
+  }) => {
+    const url = getRequestUrl({ params, request, routeId });
+
+    const init: RequestInit = {
+      signal: request.signal,
+    };
+    if (request.method !== 'GET') {
+      init.method = request.method;
+
+      const contentType = request.headers.get('Content-Type');
+      if (contentType && /\bapplication\/json\b/.test(contentType)) {
+        init.headers = { 'Content-Type': contentType };
+        init.body = JSON.stringify(await request.json());
+      } else if (contentType && /\btext\/plain\b/.test(contentType)) {
+        init.headers = { 'Content-Type': contentType };
+        init.body = await request.text();
+      } else if (
+        contentType &&
+        /\bapplication\/x-www-form-urlencoded\b/.test(contentType)
+      ) {
+        // eslint-disable-next-line node/prefer-global/url-search-params
+        init.body = new URLSearchParams(await request.text());
+      } else {
+        init.body = await request.formData();
+      }
+    }
+
+    const res: Response = await fetch(url, init);
+    if (!res.ok) {
+      throw res;
+    }
+    return res;
+  };
+};

@@ -1,5 +1,73 @@
 # @modern-js/builder-webpack-provider
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.37.1
+- @modern-js/server@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- b4725c8: fix(builder): deep-merge lose array items under tools.tschecker
+
+  fix(builder): 修复 deep-merge 在 tools.tschecker 中会丢失数组子元素的问题
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 2675812: feat(builder): improve time logs format
+
+  feat(builder): 优化时间日志的格式
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3dcad90]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/babel-preset-app@2.36.0
+  - @modern-js/babel-preset-base@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

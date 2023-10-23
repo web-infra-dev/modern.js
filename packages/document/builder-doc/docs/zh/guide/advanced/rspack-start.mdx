@@ -56,8 +56,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
-- [source.exclude](/api/config-source.html#sourceexclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -87,7 +85,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项及能力包括：
 
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
-- [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
+- [output.enableLatestDecorators](/api/config-output.html#outputenablelatestdecorators)
 
 #### Experiments Config
 
@@ -196,9 +194,46 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 
 ### 5. SWC 配置支持
 
-Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，可参考 [Builtins](https://www.rspack.dev/zh/config/builtins.html)。
+Builder 使用 Rspack [builtin:swc-loader](https://www.rspack.dev/guide/loader.html#builtinswc-loader) 进行代码转译，如果对 builtin:swc-loader 有自定义配置的需求，可参考以下代码：
 
-暂不支持在 Rspack 中添加 swc 插件和更多自定义配置，相关需求可追踪对应 [issue 进度](https://github.com/web-infra-dev/rspack/issues/3067)。
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
+
+:::tip
+Builder 新版本已经从 Rspack 内置的全量编译切换到 `builtin:swc-loader` 编译。
+
+在 Modern.js 中仍使用 Rspack 内置的编译能力，默认所有文件都会经过编译，不支持 [source.exclude](/api/config-source.html#sourceexclude)、[output.polyfill.usage](/api/config-output.html#usage) 配置项。
+
+如果希望切换到 `builtin:swc-loader` 编译，可参考以下修改：
+
+```diff title=modern.config.ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
++     rspackFuture: {
++       disableTransformByDefault: true,
++     }
+    }),
+  ],
+});
+```
+:::
 
 ### 6. Webpack Plugin 插件迁移
 
@@ -238,6 +273,20 @@ export default {
 -  }
 };
 ```
+
+## Rspack 性能分析
+
+Builder 支持使用 `RSPACK_PROFILE` 环境变量来进行构建性能分析。
+
+```bash
+$ RSPACK_PROFILE=ALL pnpm build
+```
+
+执行该命令后会在当前产物目录下生成一个 `rspack-profile-${timestamp}` 文件夹，该文件夹下会包含 `logging.json`、`trace.json` 和 `jscpuprofile.json` 三个文件
+
+- `trace.json`：使用 tracing 细粒度地记录了 Rust 侧各个阶段的耗时，可以使用 [ui.perfetto.dev](https://ui.perfetto.dev/) 进行查看
+- `jscpuprofile.json`：使用 [Node.js inspector](https://nodejs.org/dist/latest-v18.x/docs/api/inspector.html) 细粒度地记录了 JavaScript 侧的各个阶段的耗时，可以使用 [speedscope.app](https://www.speedscope.app/) 进行查看
+- `logging.json`：包含一些日志信息，粗粒度地记录了构建的各个阶段耗时
 
 ## 对比 Rspack CLI
 

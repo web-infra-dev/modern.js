@@ -3,7 +3,7 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
 
-// TODO: needs builtin:swc-loader
+// TODO: needs builtin:swc-loader wasm plugin
 webpackOnlyTest('should optimize lodash bundle size by default', async () => {
   const builder = await build({
     cwd: __dirname,

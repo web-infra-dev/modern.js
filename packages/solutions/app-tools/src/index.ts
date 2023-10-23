@@ -25,6 +25,7 @@ import type {
 } from './utils/types';
 import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/generateWatchFiles';
+import type { RspackFuture } from './builder/builder-rspack';
 
 export { mergeConfig } from '@modern-js/core';
 export { dev } from './commands';
@@ -116,6 +117,10 @@ export type AppToolsOptions = {
    * @default `webpack`
    * */
   bundler?: 'experimental-rspack' | 'webpack';
+  /**
+   * rspack future flag
+   */
+  rspackFuture?: RspackFuture;
 };
 
 /**
@@ -149,6 +154,7 @@ export const appTools = (
     analyzePlugin({
       bundler:
         options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+      rspackFuture: options.rspackFuture,
     }),
     lintPlugin(),
   ],

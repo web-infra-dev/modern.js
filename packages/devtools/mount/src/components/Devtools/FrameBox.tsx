@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
+import { Box } from '@radix-ui/themes';
+import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
 import { LoaderIcon } from '../LoadingIcon';
 import styles from './FrameBox.module.scss';
+import { ReactComponent as XMarkIcon } from './xmark.svg';
 
-export interface FrameBoxProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FrameBoxProps
+  extends BoxProps,
+    React.RefAttributes<HTMLDivElement> {
   src?: string;
+  onClose?: () => void;
 }
 
-const FrameBox: React.FC<FrameBoxProps> = ({ src, ...props }) => {
+export const FrameBox: React.FC<FrameBoxProps> = ({
+  src,
+  onClose,
+  ...props
+}) => {
   const [showFrame, setShowFrame] = useState(false);
 
-  const handleFrameMount = (el: HTMLIFrameElement | null) => {
-    const handleLoad = () => setShowFrame(true);
-    el?.addEventListener('load', handleLoad, { once: true });
-  };
-
   return (
-    <div className={styles.container} {...props}>
+    <Box className={styles.container} {...props}>
+      <iframe
+        className={styles.frame}
+        onLoad={() => setShowFrame(true)}
+        src={src}
+      ></iframe>
+      <XMarkIcon className={styles.closeButton} onClick={() => onClose?.()} />
       <div
         className={styles.backdrop}
         style={{ display: showFrame ? 'none' : undefined }}
       >
         <LoaderIcon className={styles.loading} />
       </div>
-      <iframe
-        className={styles.frame}
-        ref={handleFrameMount}
-        src={src}
-      ></iframe>
-    </div>
+    </Box>
   );
 };
-
-export default FrameBox;

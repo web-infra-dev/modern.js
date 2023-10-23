@@ -17,6 +17,21 @@ describe('applyDefaultPlugins', () => {
     process.env.NODE_ENV = NODE_ENV;
   });
 
+  it('should apply default plugins correctly when use rspack transform legacy', async () => {
+    process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY = 'true';
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'development';
+    const builder = await createBuilder({});
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
+    delete process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY;
+  });
+
   it('should apply default plugins correctly when prod', async () => {
     const { NODE_ENV } = process.env;
     process.env.NODE_ENV = 'production';

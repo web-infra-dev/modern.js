@@ -211,7 +211,6 @@ Whether to require peerDep dependencies for external projects
 - **Type**: `boolean`
 - **Default**: `true`
 
-
 ## banner
 
 Provides the ability to inject content into the top and bottom of each JS , CSS and DTS file.
@@ -240,15 +239,13 @@ const copyRight = `/*
 */`;
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-  ],
+  plugins: [moduleTools()],
   buildConfig: {
     banner: {
       js: copyRight,
       css: copyRight,
-    }
-  }
+    },
+  },
 });
 ```
 
@@ -647,6 +644,47 @@ export default defineConfig({
 });
 ```
 
+## hooks
+
+Build lifecycle hooks that allow custom logic to be injected at specific stages of the build process.
+
+- **Types**:
+
+```ts
+type HookList = {
+  name: string;
+  apply: (compiler: ICompiler) => void.
+}
+
+```
+
+- **Default**: `[]`.
+
+We can get the compiler instance in the apply method, modify its properties, and execute custom logic at different stages. For more information on Hooks, see [Using Hooks to Intervene in the Build Process](see [Using Hooks to Intervene in the Build Process]).
+For more information on Hooks, see [Using-hooks-to-intervene-in-the-build-process](/guide/advance/in-depth-about-build.html#using-hooks-to-intervene-in-the-build-process).
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    hooks: [
+      {
+        name: 'renderChunk',
+        apply: compiler => {
+          // any logic for compiler
+          compiler.hooks.renderChunk.tapPromise(
+            { name: 'renderChunk' },
+            async chunk => {
+              return chunk;
+            },
+          );
+        },
+      },
+    ],
+  },
+});
+```
+
 ## input
 
 Specify the entry file for the build, in the form of an array that can specify the directory
@@ -854,7 +892,7 @@ export default defineConfig({
   buildConfig: {
     resolve: {
       mainFields: ['js:source', 'module', 'main'],
-    }
+    },
   },
 });
 ```
@@ -871,7 +909,6 @@ Support for implicit file extensions
 - **Default**: `['.jsx', '.tsx', '.js', '.ts', '.json']`
 - **Version**: `v2.36.0`
 
-
 Do not use implicit file extensions for css files, currently Module only supports ['.less', '.css', '.sass', '.scss'] suffixes.
 
 Node's parsing algorithm does not consider `.mjs` and `cjs` as implicit file extensions, so they are not included here by default, but can be included by changing this configuration:
@@ -880,8 +917,8 @@ Node's parsing algorithm does not consider `.mjs` and `cjs` as implicit file ext
 export default defineConfig({
   buildConfig: {
     resolve: {
-      jsExtentions: ['.mts', 'ts']
-    }
+      jsExtentions: ['.mts', 'ts'],
+    },
   },
 });
 ```

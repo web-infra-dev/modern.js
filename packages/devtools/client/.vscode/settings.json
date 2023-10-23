@@ -1,0 +1,9 @@
+{
+  "cssVariables.lookupFiles": [
+    "./node_modules/@radix-ui/themes/styles.css",
+    "./src/**/*.css",
+    "./src/**/*.scss",
+    "./src/**/*.sass",
+    "./src/**/*.less"
+  ]
+}

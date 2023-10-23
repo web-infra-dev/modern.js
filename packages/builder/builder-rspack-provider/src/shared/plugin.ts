@@ -1,5 +1,6 @@
 import { BuilderPlugin } from '../types';
 import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
+import { useLegacyTransform } from './constants';
 
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
@@ -27,7 +28,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.nodeAddons(),
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
-    import('../plugins/babel').then(m => m.builderPluginBabel()),
     plugins.define(),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
@@ -37,8 +37,13 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.rem(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
-    import('../plugins/react').then(m => m.builderPluginReact()),
-    import('../plugins/swc').then(m => m.builderPluginSwc()),
+    useLegacyTransform()
+      ? import('../plugins/swc-old').then(m => m.builderPluginSwc())
+      : import('../plugins/swc').then(m => m.builderPluginSwc()),
+    import('../plugins/babel').then(m => m.builderPluginBabel()),
+    useLegacyTransform()
+      ? import('../plugins/react-old').then(m => m.builderPluginReact())
+      : import('../plugins/react').then(m => m.builderPluginReact()),
     plugins.externals(),
     plugins.toml(),
     plugins.yaml(),
@@ -51,5 +56,8 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.networkPerformance(),
     plugins.preloadOrPrefetch(),
     plugins.performance(),
+    import('../plugins/rspack-profile').then(m =>
+      m.builderPluginRspackProfile(),
+    ),
     import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);

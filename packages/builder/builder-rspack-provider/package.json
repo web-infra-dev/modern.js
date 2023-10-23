@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.35.1",
+  "version": "2.37.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -46,7 +46,7 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
+    "test:watch": "vitest dev",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
@@ -56,9 +56,10 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/preset-typescript": "^7.22.15",
-    "@rspack/core": "0.3.5",
-    "@rspack/dev-client": "0.3.5",
-    "@rspack/plugin-html": "0.3.5",
+    "@rspack/core": "0.3.6",
+    "@rspack/dev-client": "0.3.6",
+    "@rspack/plugin-html": "0.3.6",
+    "@rspack/plugin-react-refresh": "0.3.6",
     "@swc/helpers": "0.5.1",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001520",
@@ -66,7 +67,7 @@
     "react-refresh": "0.14.0",
     "style-loader": "3.3.3",
     "webpack": "^5.88.1",
-    "postcss": "8.4.27"
+    "postcss": "8.4.31"
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",

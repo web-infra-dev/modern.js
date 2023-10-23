@@ -48,15 +48,15 @@ jobs:
       - name: Install npm v9
         run: npm install -g npm@9
 
-      - name: Turbo Cache
-        id: turbo-cache
+      - name: Nx Cache
+        id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+            nx-${{ github.ref_name }}-
+            nx-
 
       - name: Install Dependencies && Build
         run: pnpm install
@@ -97,18 +97,24 @@ jobs:
       - name: Install npm v9
         run: npm install -g npm@9
 
-      - name: Turbo Cache
-        id: turbo-cache
+      - name: Nx Cache
+        id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+            nx-${{ github.ref_name }}-
+            nx-
 
       - name: Install Dependencies && Build
         run: pnpm install
+
+      - name: Update Rsbuild Nightly Version
+        run: pnpm run update-rsbuild
+
+      - name: Install Dependencies && Build
+        run: pnpm install --no-frozen-lockfile
 
       - name: Release
         uses: web-infra-dev/actions@v2
@@ -131,3 +137,12 @@ jobs:
           -H 'Authorization: Bearer ${{ secrets.REPO_SCOPED_TOKEN }}' \
           -d '{"ref": "main", "inputs": {"version": "latest"}}' \
           https://api.github.com/repos/web-infra-dev/rspress/actions/workflows/release-pull-request-with-modernjs.yml/dispatches
+
+      - name: Trigger Rsbuild Update Modern
+        if: ${{github.event.inputs.version == 'latest'}}
+        run: |
+          curl -X POST \
+          -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer ${{ secrets.REPO_SCOPED_TOKEN }}' \
+          -d '{"ref": "main"}' \
+          https://api.github.com/repos/web-infra-dev/rsbuild/actions/workflows/update-modern.yml/dispatches

@@ -1,5 +1,21 @@
 # @modern-js-app/eslint-config
 
+## 2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+## 2.36.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

@@ -1,5 +1,56 @@
 # @modern-js/builder-cli
 
+## 2.37.1
+
+### Patch Changes
+
+- Updated dependencies [9eb817f]
+  - @modern-js/builder@2.37.1
+  - @modern-js/builder-rspack-provider@2.37.1
+  - @modern-js/builder-webpack-provider@2.37.1
+  - @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+- Updated dependencies [2527cbf]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder@2.37.0
+  - @modern-js/builder-rspack-provider@2.37.0
+  - @modern-js/utils@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- Updated dependencies [3448e82]
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3921cd4]
+- Updated dependencies [d90d83a]
+- Updated dependencies [5c89910]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [73dcace]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [4289ffd]
+- Updated dependencies [eb602d2]
+- Updated dependencies [5b4bf21]
+  - @modern-js/builder@2.36.0
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

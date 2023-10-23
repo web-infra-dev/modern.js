@@ -35,6 +35,7 @@ Modern.js is an open source web engineering system from ByteDance, including mul
 The following solutions and libraries are available within the Modern.js ecosystem:
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
+- 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：An Rspack-based build tool for the web, rebranded from Modern.js Builder.
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress): A fast Rspack-based static site generator.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
@@ -43,6 +44,10 @@ The following solutions and libraries are available within the Modern.js ecosyst
 ## Benchmark
 
 We use [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+
+## Roadmap
+
+Please refer to the [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741). We will update the Roadmap content every quarter. Please stay tuned.
 
 ## Examples
 

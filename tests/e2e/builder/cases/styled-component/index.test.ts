@@ -29,7 +29,7 @@ const noStyledConfig = {
   },
 };
 
-// TODO: needs builtin:swc-loader
+// TODO: needs builtin:swc-loader wasm plugin
 webpackOnlyTest('should allow to disable styled-components', async () => {
   const builder = await build(noStyledConfig);
   const files = await builder.unwrapOutputJSON();
@@ -38,7 +38,7 @@ webpackOnlyTest('should allow to disable styled-components', async () => {
   expect(content).toContain('div(');
 });
 
-// TODO: needs builtin:swc-loader
+// TODO: needs builtin:swc-loader wasm plugin
 webpackOnlyTest('should transform styled-components by default', async () => {
   const builder = await build(commonConfig);
   const files = await builder.unwrapOutputJSON();

@@ -1,5 +1,50 @@
 # @modern-js/plugin-testing
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.37.1
+- @modern-js/prod-server@2.37.1
+- @modern-js/babel-compiler@2.37.1
+- @modern-js/plugin@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/runtime@2.37.0
+  - @modern-js/prod-server@2.37.0
+  - @modern-js/babel-compiler@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+- Updated dependencies [4e3310b]
+  - @modern-js/utils@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/runtime@2.36.0
+  - @modern-js/babel-preset-app@2.36.0
+  - @modern-js/babel-compiler@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

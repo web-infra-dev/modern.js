@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.35.1",
+  "version": "2.37.1",
   "description": "SWC plugin for builder in Modern.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
+    "test:watch": "vitest dev",
     "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
     "prepublishOnly": "only-allow-pnpm"
   },

@@ -1,11 +1,11 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
 import { swcPlugin } from '@modern-js/plugin-swc';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 import { getPort, getPublicPath } from '../../testUtils';
 
 const port = getPort('@e2e/garfish-main-router-v6');
 
-module.exports = defineConfig({
+module.exports = applyBaseConfig({
   runtime: {
     router: true,
     state: false,
@@ -36,14 +36,5 @@ module.exports = defineConfig({
   server: {
     port,
   },
-  plugins: [
-    appTools({
-      bundler:
-        process.env.PROVIDE_TYPE === 'rspack'
-          ? 'experimental-rspack'
-          : 'webpack',
-    }),
-    garfishPlugin(),
-    swcPlugin(),
-  ],
+  plugins: [garfishPlugin(), swcPlugin()],
 });

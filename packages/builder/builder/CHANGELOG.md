@@ -1,5 +1,65 @@
 # @modern-js/builder
 
+## 2.37.1
+
+### Patch Changes
+
+- 9eb817f: chore: bump rspress
+  - @modern-js/builder-shared@2.37.1
+  - @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- 2527cbf: fix(builder-cli): load provider based on package.json
+
+  fix(builder-cli): 优先基于 package.json 加载 provider
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 3448e82: chore(builder): simplify assets rule
+
+  chore(builder): 简化 assets 规则
+
+- d90d83a: feat(builder): use jiti to load config
+
+  feat(builder): 使用 jiti 来加载配置
+
+- 5c89910: chore(builder): migrate monorepo-utils to rsbuild repo
+
+  chore(builder): 迁移 monorepo-utils 到 rsbuild 仓库
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

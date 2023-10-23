@@ -59,7 +59,7 @@ export const pluginDagSort = <P extends Record<string, any>>(
     });
 
     throw new Error(
-      `plugins dependences has loop: ${Object.keys(restInRingPoints).join(
+      `plugins dependencies has loop: ${Object.keys(restInRingPoints).join(
         ',',
       )}`,
     );

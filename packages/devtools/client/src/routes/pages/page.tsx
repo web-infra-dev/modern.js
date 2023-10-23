@@ -1,62 +1,73 @@
-import styled from '@emotion/styled';
-import { Box, Text, TextField } from '@radix-ui/themes';
+import { Box, Flex, TextField } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { useSnapshot } from 'valtio';
-import { MatchUrlContext } from './MatchUrl';
-import { ServerRoute } from './ServerRoute';
+import { parseURL, withTrailingSlash } from 'ufo';
+import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
+import styles from './page.module.scss';
 import { useStore } from '@/stores';
+import {
+  MatchServerRouteValue,
+  MatchUrlContext,
+} from '@/components/ServerRoute/Context';
+import { ServerRoute } from '@/components/ServerRoute/Route';
 
 const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
   const { serverRoutes } = store.framework.context;
 
-  const [testingUrl, setTestingUrl] = useState<string>('');
+  const [matchContext, setMatchContext] = useState<MatchServerRouteValue>({
+    url: '',
+  });
+  const handleUrlInput = (url: string) => {
+    const { pathname } = parseURL(url);
+    const matched = serverRoutes.find(
+      route =>
+        pathname === route.urlPath ||
+        pathname.startsWith(withTrailingSlash(route.urlPath)),
+    );
+    setMatchContext({ url, matched });
+  };
 
   return (
-    <MatchUrlContext.Provider value={testingUrl}>
-      <Container>
-        <Box>
-          <TextField.Root>
-            <TextField.Slot>
-              <Text size="2">test:</Text>
-            </TextField.Slot>
-            <TextField.Input
-              placeholder="/foo?bar#baz"
-              onChange={e => setTestingUrl(e.target.value)}
-              type="search"
-              autoComplete="false"
-              autoCapitalize="false"
-              autoCorrect="false"
-            />
-          </TextField.Root>
+    <MatchUrlContext.Provider value={matchContext}>
+      <Flex
+        position="relative"
+        direction="column"
+        gap="2"
+        align="stretch"
+        justify="between"
+        pt="8"
+      >
+        {serverRoutes.map(route => (
+          <ServerRoute key={route.entryPath} route={route} />
+        ))}
+        <Box mb="2" className={styles.input}>
+          <Box
+            style={{
+              maxWidth: '40rem',
+              margin: '0 auto',
+              padding: '0 var(--space-4)',
+            }}
+          >
+            <TextField.Root>
+              <TextField.Slot>
+                <HiOutlineArrowsRightLeft />
+              </TextField.Slot>
+              <TextField.Input
+                placeholder="/foo?bar#baz"
+                onChange={e => handleUrlInput(e.target.value)}
+                type="url"
+                autoComplete="false"
+                autoCapitalize="false"
+                autoCorrect="false"
+              />
+            </TextField.Root>
+          </Box>
         </Box>
-        <Box height="2" />
-        <Box style={{ overflow: 'hidden scroll' }}>
-          <RoutesContainer>
-            {serverRoutes.map(route => (
-              <ServerRoute key={route.entryPath} route={route} />
-            ))}
-          </RoutesContainer>
-        </Box>
-      </Container>
+      </Flex>
     </MatchUrlContext.Provider>
   );
 };
 
 export default Page;
-
-const Container = styled(Box)({
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-});
-
-const RoutesContainer = styled(Box)({
-  display: 'flex',
-  flex: '0',
-  flexDirection: 'column',
-  alignItems: 'stretch',
-  gap: 'var(--space-2)',
-  justifyContent: 'space-between',
-});

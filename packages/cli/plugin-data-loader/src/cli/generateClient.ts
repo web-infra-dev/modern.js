@@ -1,60 +1,44 @@
 import path from 'path';
 
 export const generateClient = ({
-  mapFile,
-  loaderId,
+  inline,
+  action,
+  routeId,
 }: {
-  mapFile: string;
-  loaderId?: string;
+  inline: boolean;
+  action?: boolean;
+  routeId: string;
 }) => {
-  delete require.cache[mapFile];
-  const loadersMap: Record<
-    string,
-    {
-      routeId: string;
-      filePath: string;
-      inline: boolean;
-    }
-  > = require(mapFile);
   let requestCode = ``;
-  let exportsCode = ``;
   const requestCreatorPath = path
     .join(__dirname, './createRequest')
     .replace('/cjs/cli/', '/esm/cli/')
     .replace(/\\/g, '/');
 
   const importCode = `
-    import { createRequest } from '${requestCreatorPath}';
+    import { createRequest, createActionRequest } from '${requestCreatorPath}';
   `;
 
-  if (!loaderId) {
-    requestCode = Object.keys(loadersMap)
-      .map(loaderId => {
-        const { routeId } = loadersMap[loaderId];
-        return `
-      const ${loaderId} = createRequest('${routeId}');
+  if (inline) {
+    if (action) {
+      requestCode = `
+      export const loader = createRequest('${routeId}');
+      export const action = createActionRequest('${routeId}')
     `;
-      })
-      .join('');
-
-    exportsCode = `export {`;
-    for (const loader of Object.keys(loadersMap)) {
-      exportsCode += `${loader},`;
+    } else {
+      requestCode = `
+      export const loader = createRequest('${routeId}');
+    `;
     }
-    exportsCode += '}';
   } else {
-    const loader = loadersMap[loaderId];
     requestCode = `
-      const loader = createRequest('${loader.routeId}');
-    `;
-
-    exportsCode = `export default loader;`;
+    export default createRequest('${routeId}');
+  `;
   }
 
   const generatedCode = `
     ${importCode}
     ${requestCode}
-    ${exportsCode}
   `;
 
   return generatedCode;

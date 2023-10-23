@@ -26,7 +26,7 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 在使用 Rspack 作为打包工具时，由于部分能力尚在开发中，以下 features 暂时无法使用，我们将在未来提供支持：
 
 - Storybook 调试
-- 客户端渲染（CSR）使用 [useLoader](/guides/basic-features/data-fetch.html)
+- 客户端渲染（CSR）使用 [useLoader](/guides/basic-features/data/data-fetch.html)
 
 :::
 
@@ -49,6 +49,9 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
   plugins: [
     appTools({
 +     bundler: 'experimental-rspack',
++     rspackFuture: {
++       disableTransformByDefault: true,
++     }
     }),
   ],
 });
@@ -84,7 +87,8 @@ import RspackPrecautions from '@modern-js/builder-doc/docs/zh/shared/rspackPreca
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/plugin-html": "nightly"
+      "@rspack/plugin-html": "nightly",
+      "@rspack/plugin-react-refresh": "nightly"
     }
   }
 }

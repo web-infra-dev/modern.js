@@ -2,7 +2,7 @@ import * as path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
-import { replaceWithAlias } from './utils';
+import { hasAction, replaceWithAlias } from './utils';
 
 const conventionNames = Object.values(NESTED_ROUTE);
 
@@ -152,12 +152,16 @@ export const walk = async (
 
   let pageLoaderFile = '';
   let pageRoute = null;
+  let pageConfigFile = '';
+  let pageClientData = '';
+  let pageData = '';
+  let pageAction = '';
   let splatLoaderFile = '';
+  let splatRoute = null;
+  let splatConfigFile = '';
   let splatClientData = '';
   let splatData = '';
-  let splatRoute: NestedRouteForCli | null = null;
-  let pageConfigFile = '';
-  let splatConfigFile = '';
+  let splatAction = '';
 
   const items = await fs.readdir(dirname);
 
@@ -202,6 +206,9 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
       route.data = itemPath;
+      if (await hasAction(itemPath)) {
+        route.action = itemPath;
+      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
@@ -219,11 +226,14 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
-      route.clientData = itemPath;
+      pageClientData = itemPath;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
-      route.data = itemPath;
+      pageData = itemPath;
+      if (await hasAction(itemPath)) {
+        pageAction = itemPath;
+      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
@@ -247,6 +257,15 @@ export const walk = async (
       if (pageConfigFile) {
         pageRoute.config = pageConfigFile;
       }
+      if (pageData) {
+        pageRoute.data = pageData;
+      }
+      if (pageClientData) {
+        pageRoute.clientData = pageClientData;
+      }
+      if (pageAction) {
+        pageRoute.action = pageAction;
+      }
       route.children?.push(pageRoute);
     }
 
@@ -266,6 +285,9 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
       splatData = itemPath;
+      if (await hasAction(itemPath)) {
+        splatAction = itemPath;
+      }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
@@ -291,6 +313,9 @@ export const walk = async (
       }
       if (splatConfigFile) {
         splatRoute.config = splatConfigFile;
+      }
+      if (splatAction) {
+        splatRoute.action = splatAction;
       }
       route.children?.push(splatRoute);
     }
@@ -328,7 +353,12 @@ export const walk = async (
     childRoute => childRoute,
   ));
 
-  if (childRoutes && childRoutes.length === 0 && !finalRoute.index) {
+  if (
+    childRoutes &&
+    childRoutes.length === 0 &&
+    !finalRoute.index &&
+    !finalRoute._component
+  ) {
     return null;
   }
 
@@ -348,6 +378,12 @@ export const walk = async (
         path,
       };
     }
+  }
+
+  if (isRoot && !finalRoute._component) {
+    throw new Error(
+      'The root layout component is required, make sure the routes/layout.tsx file exists.',
+    );
   }
 
   if (isRoot && !oldVersion) {

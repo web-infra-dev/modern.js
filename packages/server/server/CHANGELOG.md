@@ -1,5 +1,49 @@
 # @modern-js/server
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.37.1
+- @modern-js/server-utils@2.37.1
+- @modern-js/runtime-utils@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/server-utils@2.37.0
+  - @modern-js/prod-server@2.37.0
+  - @modern-js/runtime-utils@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 3dcad90: fix(server): use cjs format hmr-client to fix hmr issue
+
+  fix(server): 使用 cjs 格式的 hmr-client 来修复 hmr 问题
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/server-utils@2.36.0
+  - @modern-js/runtime-utils@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

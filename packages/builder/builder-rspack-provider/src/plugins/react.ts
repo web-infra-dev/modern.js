@@ -1,28 +1,54 @@
 import type { BuilderPlugin } from '../types';
-import { setConfig, isUsingHMR } from '@modern-js/builder-shared';
+import { isUsingHMR } from '@modern-js/builder-shared';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
 
+  pre: ['builder-plugin-swc'],
+
   setup(api) {
-    api.modifyRspackConfig(async (rspackConfig, utils) => {
+    api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd, target }) => {
       const config = api.getNormalizedConfig();
+      const usingHMR = isUsingHMR(config, { isProd, target });
+      const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-      const usingHMR = isUsingHMR(config, utils);
-
-      setConfig(rspackConfig, 'builtins.react', {
-        development: !utils.isProd,
+      const reactOptions = {
+        development: !isProd,
         refresh: usingHMR,
-        // https://swc.rs/docs/configuration/compilation#jsctransformreactruntime
         runtime: 'automatic',
+      };
+
+      rule.use(CHAIN_ID.USE.SWC).tap(options => {
+        options.jsc.transform.react = {
+          ...reactOptions,
+        };
+        return options;
       });
 
-      setConfig(rspackConfig, 'builtins.provide', {
-        ...(rspackConfig.builtins?.provide || {}),
-        $ReactRefreshRuntime$: [
-          require.resolve('@rspack/dev-client/react-refresh'),
-        ],
-      });
+      if (chain.module.rules.has(CHAIN_ID.RULE.JS_DATA_URI)) {
+        chain.module
+          .rule(CHAIN_ID.RULE.JS_DATA_URI)
+          .use(CHAIN_ID.USE.SWC)
+          .tap(options => {
+            options.jsc.transform.react = {
+              ...reactOptions,
+            };
+            return options;
+          });
+      }
+
+      if (!usingHMR) {
+        return;
+      }
+
+      const { default: ReactRefreshRspackPlugin } = await import(
+        // @ts-expect-error
+        '@rspack/plugin-react-refresh'
+      );
+
+      chain
+        .plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH)
+        .use(ReactRefreshRspackPlugin);
     });
   },
 });

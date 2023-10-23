@@ -4,6 +4,7 @@ import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 export default defineConfig({
   buildConfig: {
     input: ['./src/index.js'],
+    sourceMap: true,
   },
 
   plugins: [

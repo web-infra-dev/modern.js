@@ -31,23 +31,6 @@ export const isPnpmWorkspaces = (root: string) =>
 export const isMonorepo = (root: string) =>
   isLerna(root) || isYarnWorkspaces(root) || isPnpmWorkspaces(root);
 
-export const isModernjsMonorepo = (root: string) => {
-  const pkgJsonPath = path.join(root, 'package.json');
-
-  if (!fs.existsSync(pkgJsonPath)) {
-    return false;
-  }
-
-  const json = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8'));
-
-  const deps = {
-    ...(json.dependencies || {}),
-    ...(json.devDependencies || {}),
-  };
-
-  return Boolean(deps['@modern-js/monorepo-tools']);
-};
-
 export const findMonorepoRoot = (
   appDirectory: string,
   maxDepth: number = PACKAGE_MAX_DEPTH,

@@ -89,13 +89,6 @@ export const TASKS: TaskConfig[] = [
         },
         packageJsonField: ['options'],
       },
-      {
-        name: 'gradient-string',
-        ignoreDts: true,
-        externals: {
-          chalk: '../chalk',
-        },
-      },
       'execa',
       'fs-extra',
       'browserslist',
@@ -179,15 +172,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           ajv: '../ajv',
-        },
-      },
-      {
-        name: 'webpack-dev-middleware',
-        externals: {
-          'schema-utils': '../schema-utils3',
-          'schema-utils/declarations/validate':
-            'schema-utils/declarations/validate',
-          'mime-types': '../mime-types',
         },
       },
     ],
@@ -411,6 +395,15 @@ export const TASKS: TaskConfig[] = [
           );
         },
       },
+      {
+        name: 'webpack-dev-middleware',
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'schema-utils/declarations/validate':
+            'schema-utils/declarations/validate',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+      },
     ],
   },
   {
@@ -476,80 +469,6 @@ export const TASKS: TaskConfig[] = [
             json.types = 'dist/index.d.ts';
             return JSON.stringify(json);
           });
-        },
-      },
-    ],
-  },
-  {
-    packageDir: 'cli/babel-preset-base',
-    packageName: '@modern-js/babel-preset-base',
-    dependencies: [
-      {
-        name: '@babel/helper-plugin-utils',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/helper-annotate-as-pure',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/helper-module-imports',
-        ignoreDts: true,
-      },
-      {
-        name: 'babel-plugin-dynamic-import-node',
-        ignoreDts: true,
-      },
-      {
-        name: 'babel-plugin-import',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-module-imports': '../@babel/helper-module-imports',
-        },
-      },
-      {
-        name: 'babel-plugin-styled-components',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-module-imports': '../@babel/helper-module-imports',
-          '@babel/helper-annotate-as-pure': '../@babel/helper-annotate-as-pure',
-        },
-      },
-      {
-        name: '@babel/plugin-proposal-pipeline-operator',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-        },
-      },
-      {
-        name: '@babel/plugin-proposal-export-default-from',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-        },
-      },
-      {
-        name: '@babel/plugin-proposal-partial-application',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-        },
-      },
-      {
-        name: '@babel/helper-create-class-features-plugin',
-        ignoreDts: true,
-        externals: {
-          '@babel/template': '@babel/template',
-        },
-      },
-      {
-        name: '@babel/plugin-proposal-decorators',
-        ignoreDts: true,
-        externals: {
-          '@babel/helper-plugin-utils': '../helper-plugin-utils',
-          '@babel/helper-create-class-features-plugin':
-            '../helper-create-class-features-plugin',
         },
       },
     ],

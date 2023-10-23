@@ -1,5 +1,44 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.37.1
+- @modern-js/module-tools@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [194c9a5]
+- Updated dependencies [0488090]
+- Updated dependencies [822c75e]
+- Updated dependencies [907dcc8]
+- Updated dependencies [70fbaae]
+- Updated dependencies [94671a1]
+  - @modern-js/module-tools@2.37.0
+  - @modern-js/plugin-module-babel@2.37.0
+
+## 2.36.0
+
+### Minor Changes
+
+- 602d1fb: refactor(plugin-module): use buildConfig.hooks to realize afresh
+  refactor(plugin-module): 使用 buildConfig.hooks 重新实现各插件功能
+
+### Patch Changes
+
+- Updated dependencies [2d8b2df]
+- Updated dependencies [bbc65b8]
+- Updated dependencies [d11870b]
+- Updated dependencies [71a23a6]
+- Updated dependencies [602d1fb]
+- Updated dependencies [a1536f0]
+- Updated dependencies [602d1fb]
+  - @modern-js/plugin-module-babel@2.36.0
+  - @modern-js/module-tools@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes
