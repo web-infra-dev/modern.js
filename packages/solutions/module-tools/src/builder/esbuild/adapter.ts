@@ -190,7 +190,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           ? args.path
           : getResultPath(originalFilePath, dir, args.kind);
         if (resultPath === false) {
-          debugResolve('empty resolve:', args);
+          // https://github.com/defunctzombie/package-browser-field-spec
+          // we may get false when resolve browser field, in this case, we set it a empty object
+          debugResolve('resolve false:', args);
           return {
             path: '/empty-stub',
             sideEffects: false,
