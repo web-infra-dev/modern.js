@@ -11,7 +11,7 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.4.6",
+    "@storybook/addon-essentials": "^7.5.1",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/storybook": "workspace:*",

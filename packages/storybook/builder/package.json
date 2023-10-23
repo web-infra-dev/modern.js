@@ -22,7 +22,11 @@
       "default": "./dist/cjs/index.js"
     },
     "./preset": "./dist/esm/preset.js",
-    "./addons": "./dist/esm/addons/preset/preview.js",
+    "./addons": {
+      "jsnext:source": "./src/addons/preset/preview.ts",
+      "types": "./dist/types/addons/preset/preview.d.ts",
+      "default": "./dist/esm/addons/preset/preview.js"
+    },
     "./types": {
       "jsnext:source": "./src/types.ts",
       "types": "./dist/types/types.d.ts",
@@ -31,6 +35,16 @@
     "./templates/preview.ejs": "./templates/preview.ejs",
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "./addons": [
+        "./dist/types/addons/preset/preview.d.ts"
+      ]
+    }
   },
   "engines": {
     "node": ">=16.0.0"
@@ -45,17 +59,17 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rspack/dev-client": "0.3.2",
-    "@storybook/components": "^7.4.6",
-    "@storybook/core-common": "^7.4.6",
-    "@storybook/csf-plugin": "^7.4.6",
+    "@storybook/components": "^7.5.1",
+    "@storybook/core-common": "^7.5.1",
+    "@storybook/csf-plugin": "^7.5.1",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx1-csf": "^1.0.0",
     "@storybook/mdx2-csf": "^1.1.0",
-    "@storybook/preview": "^7.4.6",
-    "@storybook/preview-api": "^7.4.6",
+    "@storybook/preview": "^7.5.1",
+    "@storybook/preview-api": "^7.5.1",
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
-    "@storybook/router": "^7.4.6",
-    "@storybook/theming": "^7.4.6",
+    "@storybook/router": "^7.5.1",
+    "@storybook/theming": "^7.5.1",
     "ast-types": "^0.14.2",
     "minimatch": "^9.0.3",
     "react-docgen": "6.0.0-alpha.3",
@@ -70,7 +84,7 @@
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@storybook/types": "^7.4.6",
+    "@storybook/types": "^7.5.1",
     "@types/babel__core": "^7.20.1",
     "@types/serve-static": "^1.13.10",
     "@types/webpack-hot-middleware": "^2.25.6",
