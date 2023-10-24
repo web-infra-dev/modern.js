@@ -20,7 +20,7 @@ export async function getCompiler(
     () => loadConfig(cwd, builderOptions.configPath || getConfigFileName()),
     'Failed to load config',
   );
-  const loadedConfig = res ? res.config : {};
+  const loadedConfig = (res ? res.config : {}) as BuilderConfig;
 
   const finalConfig =
     (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
