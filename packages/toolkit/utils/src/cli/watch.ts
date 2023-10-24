@@ -21,7 +21,7 @@ type RunTaskType = (option: {
 export const watch = (
   watchDir: string | string[],
   runTask: RunTaskType,
-  ignored: string[] = [],
+  ignored: (string | RegExp)[] = [],
 ) => {
   let ready = false;
   const watcher = chokidar.watch(watchDir, {

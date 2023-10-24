@@ -1,0 +1,79 @@
+{
+  "name": "@modern-js/storybook",
+  "version": "2.31.2",
+  "description": "modern.js support for storybook",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/storybook/builder"
+  },
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "bin": {
+    "storybook": "./bin.js",
+    "sb": "./bin.js"
+  },
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch --incremental",
+    "test": "vitest run"
+  },
+  "typesVersions": {
+    "*": {
+      "addons": [
+        "./dist/addons.d.ts"
+      ],
+      "types": [
+        "./dist/types.d.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./addons": {
+      "jsnext:source": "./src/addons.ts",
+      "types": "./dist/addons.d.ts",
+      "default": "./dist/addons.js"
+    },
+    "./preset": {
+      "jsnext:source": "./src/preset.ts",
+      "types": "./dist/preset.d.ts",
+      "default": "./dist/preset.js"
+    },
+    "./types": {
+      "jsnext:source": "./src/types.ts",
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.ks"
+    },
+    "./bin": "./bin.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modern-js/storybook-builder": "workspace:*",
+    "@storybook/react": "^7.5.1",
+    "@modern-js/utils": "workspace:*",
+    "storybook": "^7.5.1"
+  },
+  "devDependencies": {
+    "@storybook/types": "^7.5.1",
+    "typescript": "^5.2.2",
+    "@types/node": "^20.5.6"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/index.d.ts"
+  }
+}

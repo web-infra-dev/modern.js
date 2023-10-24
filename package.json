@@ -93,6 +93,11 @@
       "@types/react": "^18",
       "@types/react-dom": "^18"
     },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@mdx-js/react@^1.6.22>react": "18"
+      }
+    },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-class-properties": "7.18.6",
       "@babel/plugin-proposal-nullish-coalescing-operator": "7.18.6",

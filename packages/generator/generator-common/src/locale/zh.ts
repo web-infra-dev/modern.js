@@ -27,6 +27,7 @@ export const ZH_LOCALE = {
       test: '启用「单元测试 / 集成测试」功能',
       e2e_test: '启用「E2E 测试」功能',
       storybook: '启用「Storybook」',
+      storybookV7: '启用「Storybook」V7',
       runtime_api: '启用「Runtime API」',
       mwa_storybook: '启用「Visual Testing (Storybook)」模式',
       ssg: '启用「SSG」功能',

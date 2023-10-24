@@ -1,7 +1,9 @@
 import { createCli } from './createCli';
 
 export * from './types';
+export * from './loadEnv';
 export * from '@modern-js/plugin';
+export { loadConfig } from './config';
 export { mergeConfig, initAppDir } from './utils';
 export { manager, createPlugin, registerHook } from './manager';
 export {

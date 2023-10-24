@@ -1,0 +1,99 @@
+{
+  "name": "@modern-js/storybook-builder",
+  "version": "2.31.2",
+  "description": "modern.js support for storybook",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/storybook/builder"
+  },
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/cjs/index.js"
+    },
+    "./preset": "./dist/esm/preset.js",
+    "./addons": {
+      "jsnext:source": "./src/addons/preset/preview.ts",
+      "types": "./dist/types/addons/preset/preview.d.ts",
+      "default": "./dist/esm/addons/preset/preview.js"
+    },
+    "./types": {
+      "jsnext:source": "./src/types.ts",
+      "types": "./dist/types/types.d.ts",
+      "default": "./dist/cjs/types.js"
+    },
+    "./templates/preview.ejs": "./templates/preview.ejs",
+    "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "./addons": [
+        "./dist/types/addons/preset/preview.d.ts"
+      ]
+    }
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@rspack/dev-client": "0.3.2",
+    "@storybook/components": "^7.5.1",
+    "@storybook/core-common": "^7.5.1",
+    "@storybook/csf-plugin": "^7.5.1",
+    "@storybook/global": "^5.0.0",
+    "@storybook/mdx1-csf": "^1.0.0",
+    "@storybook/mdx2-csf": "^1.1.0",
+    "@storybook/preview": "^7.5.1",
+    "@storybook/preview-api": "^7.5.1",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
+    "@storybook/router": "^7.5.1",
+    "@storybook/theming": "^7.5.1",
+    "ast-types": "^0.14.2",
+    "minimatch": "^9.0.3",
+    "react-docgen": "6.0.0-alpha.3",
+    "remark-external-links": "^9.0.1",
+    "remark-slug": "^7.0.1",
+    "serve-static": "^1.14.1",
+    "tinypool": "^0.8.0",
+    "webpack-hot-middleware": "^2.25.4"
+  },
+  "devDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@storybook/types": "^7.5.1",
+    "@types/babel__core": "^7.20.1",
+    "@types/serve-static": "^1.13.10",
+    "@types/webpack-hot-middleware": "^2.25.6",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/index.d.ts"
+  }
+}

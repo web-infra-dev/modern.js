@@ -18,9 +18,13 @@ export default {
 
 ## storybook
 
+:::warning
+Deprecated：该配置已过时，只适用于 StorybookV6，配置新的 Storybook 请查看[使用 storybook](https://modernjs.dev/builder/guide/advanced/storybook.html)。
+:::
+
 **首先需要确保**：
 
-- 开启 Storybook 调试功能或者安装 `@modern-js/plugin-storybook` 插件。
+- 开启 Storybook 调试功能或者安装 `@modern-js/storybook`。
 - 注册 `@modern-js/plugin-storybook` 插件。
 
 > 关于如何开启 Storybook 调试功能，可以参考：[「Storybook 调试」](guide/basic/use-micro-generator#storybook-调试)
