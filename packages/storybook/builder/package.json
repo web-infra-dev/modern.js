@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.31.2",
+  "version": "2.37.1",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -15,6 +15,9 @@
     "dev": "modern-lib build --watch",
     "test": "vitest run"
   },
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
@@ -49,8 +52,6 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "keywords": [],
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "@modern-js/builder": "workspace:*",
