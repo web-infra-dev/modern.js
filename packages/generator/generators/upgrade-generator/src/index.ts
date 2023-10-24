@@ -11,6 +11,8 @@ import {
   execa,
   semver,
   fs,
+  isPackageExist,
+  getPackageVersion,
 } from '@modern-js/generator-utils';
 import {
   PackageManager,
@@ -19,6 +21,17 @@ import {
   SolutionToolsMap,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
+
+// Special modern.js dependencies, the plugin version maybe not same with other modern.js plugin
+const SpecialModernDeps = ['@modern-js/plugin-storybook'];
+
+const handleSpecialModernDeps = async (dep: string, modernVersion: string) => {
+  const version = await getAvailableVersion(dep, modernVersion);
+  if (!(await isPackageExist(`${dep}@${version}`))) {
+    return getPackageVersion(dep);
+  }
+  return version;
+};
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -124,23 +137,35 @@ export const handleTemplateFile = async (
   }).start();
 
   await Promise.all(
-    modernDeps.map(
-      async dep =>
-        (updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
+    modernDeps.map(async dep => {
+      if (SpecialModernDeps.includes(dep)) {
+        updateInfo[`dependencies.${dep}`] = await handleSpecialModernDeps(
           dep,
           modernVersion,
-        )),
-    ),
+        );
+      } else {
+        updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
+          dep,
+          modernVersion,
+        );
+      }
+    }),
   );
 
   await Promise.all(
-    modernDevDeps.map(
-      async dep =>
-        (updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
+    modernDevDeps.map(async dep => {
+      if (SpecialModernDeps.includes(dep)) {
+        updateInfo[`devDependencies.${dep}`] = await handleSpecialModernDeps(
           dep,
           modernVersion,
-        )),
-    ),
+        );
+      } else {
+        updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
+          dep,
+          modernVersion,
+        );
+      }
+    }),
   );
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, 'package.json')),
