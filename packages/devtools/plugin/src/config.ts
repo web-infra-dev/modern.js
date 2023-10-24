@@ -7,6 +7,10 @@ export interface Options {
   def?: PartialDeep<ClientDefinition>;
 }
 
+export interface InlineOptions extends Options {
+  enable?: boolean;
+}
+
 export const getDefaultOptions = () =>
   ({
     def: new ClientDefinition(),

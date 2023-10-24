@@ -1,7 +1,7 @@
 import http from 'http';
 import path from 'path';
 import { ProxyDetail } from '@modern-js/types';
-import { getPort } from '@modern-js/utils';
+import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
@@ -10,16 +10,25 @@ import {
   ROUTE_BASENAME,
 } from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
-import { Options, resolveOptions } from './config';
+import { Options, InlineOptions, resolveOptions } from './config';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
 
-export type { Options };
+export type { Options, InlineOptions };
 
-export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
+export const devtoolsPlugin = (
+  options?: InlineOptions,
+): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
+    // Enable in development by default.
+    const enablePlugin =
+      options?.enable ?? process.env.NODE_ENV === 'development';
+    if (!enablePlugin) {
+      return {};
+    }
+
     const port = await getPort(8782, { slient: true });
     const clientServeDir = path.resolve(
       require.resolve('@modern-js/devtools-client/package.json'),
@@ -61,6 +70,7 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
       },
       config() {
         const opts = resolveOptions(api, options);
+        logger.info(`${opts.def.name.formalName} Devtools is enabled`);
         opts.def && rpc.setDefinition(opts.def);
 
         const mountOpts = {
