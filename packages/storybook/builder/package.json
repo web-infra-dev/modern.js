@@ -16,7 +16,9 @@
     "test": "vitest run"
   },
   "files": [
-    "dist"
+    "dist",
+    "templates",
+    "preset.js"
   ],
   "exports": {
     ".": {
