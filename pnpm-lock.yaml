@@ -8302,6 +8302,21 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/testing-plugin:
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-testing':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-testing
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+
   tests/integration/write-to-dist:
     dependencies:
       '@modern-js/runtime':
