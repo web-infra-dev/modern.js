@@ -214,7 +214,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         if (args.namespace === globalNamespace) {
           const value = config.umdGlobals[args.path];
           return {
-            contents: `module.exports = (typeof globalThis !== "undefined" ? globalThis : Function('return this')() || global || self)[${JSON.stringify(
+            contents: `module.exports = (typeof globalThis !== "undefined" ? globalThis : (typeof global !== "undefined" ? global : self || Function('return this')()))[${JSON.stringify(
               value,
             )}]`,
           };
