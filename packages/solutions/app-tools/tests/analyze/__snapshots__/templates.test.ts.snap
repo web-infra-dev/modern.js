@@ -52,21 +52,21 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
               "id": "user/[id]/page",
               "loader": loader_0,
               "type": "nested",
-              "lazyImport": async function(){const routeModule = await import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx'); if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule;return routeModule;},
-              "component": lazy(async function(){const routeModule = await import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx'); if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule;return routeModule;}),
+              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule; return routeModule; }) ,
+              "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule; return routeModule; }) ),
               "shouldRevalidate": createShouldRevalidate("user/[id]/page")
             }
           ],
           "lazyImport": null
         }
       ],
-      "lazyImport": async function(){const routeModule = await import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx'); if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule;return routeModule;},
-      "component": lazy(async function(){const routeModule = await import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx'); if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule;return routeModule;}),
+      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule; return routeModule; }) ,
+      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule; return routeModule; }) ),
       "shouldRevalidate": createShouldRevalidate("user/layout")
     }
   ],
-  "lazyImport": async function(){const routeModule = await import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'); if(typeof document !== "undefined") window._routeModules["layout"] = routeModule;return routeModule;},
-  "component": lazy(async function(){const routeModule = await import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx'); if(typeof document !== "undefined") window._routeModules["layout"] = routeModule;return routeModule;})
+  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["layout"] = routeModule; return routeModule; }) ,
+  "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["layout"] = routeModule; return routeModule; }) )
 },
 ];
   

@@ -555,9 +555,11 @@ const supportShouldRevalidateInSSR = async (
   appPort: number,
 ) => {
   expect(errors.length).toBe(0);
-  await page.goto(`http://localhost:${appPort}/three/user/111`, {
+  await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['networkidle0'],
   });
+  await page.click('.should-revalidate');
+  await new Promise(resolve => setTimeout(resolve, 300));
   const rootElm = await page.$('#root');
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('param is 111')).toBeTruthy();
