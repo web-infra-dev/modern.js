@@ -7,5 +7,6 @@ export default defineConfig({
     target: 'esnext',
     outDir: './dist/redirect',
     dts: false,
+    autoExtension: true,
   },
 });

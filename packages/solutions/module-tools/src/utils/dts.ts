@@ -154,9 +154,14 @@ export const writeDtsFiles = async (
   await Promise.all(
     result.map(({ path, content }) => {
       const relativePath = relative(tempDistAbsSrcPath, path);
+      const filepath = join(
+        distPath,
+        relativePath.replace(/\.d\.ts/, dtsExtension),
+      );
+      fs.ensureFileSync(filepath);
       return fs.writeFile(
         // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
-        join(distPath, relativePath.replace(/\.d\.ts/, dtsExtension)),
+        filepath,
         content,
       );
     }),

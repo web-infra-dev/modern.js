@@ -8,6 +8,8 @@ export default defineConfig({
       input: { bundle: './src/index.ts' },
       format: 'esm',
       outDir: 'dist/esm',
+      target: 'esnext',
+      autoExtension: true,
     },
     {
       buildType: 'bundle',
@@ -21,6 +23,8 @@ export default defineConfig({
       shims: true,
       format: 'esm',
       outDir: 'dist/esm',
+      target: 'esnext',
+      autoExtension: true,
     },
     {
       buildType: 'bundleless',

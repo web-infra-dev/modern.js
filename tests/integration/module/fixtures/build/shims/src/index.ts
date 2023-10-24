@@ -5,5 +5,4 @@ export const debug = async (str: string) => {
   addPrefix('DEBUG:', path.join(str));
 };
 
-console.log(__dirname);
-console.log(import.meta.url);
+console.log(__dirname, import.meta.url);

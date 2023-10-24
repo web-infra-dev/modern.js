@@ -27,6 +27,7 @@ import {
   isJsLoader,
   resolvePathAndQuery,
   getDefaultOutExtension,
+  isTsExt,
 } from '../../utils';
 import { getAssetContents, loadSvgr } from './asset';
 import { isCssModule } from './style/postcssTransformer';
@@ -93,27 +94,18 @@ async function redirectImport(
       }
 
       if (redirect.autoExtension) {
-        if (ext === '') {
+        if (ext === '' && jsExtension !== '.js' && name.startsWith('.')) {
           // add extension for relative path, no check if it's a directory.
-          if (jsExtension !== '.js' && name.startsWith('.')) {
-            str.overwrite(start, end, `${name}${jsExtension}`);
-            return;
-          }
+          str.overwrite(start, end, `${name}${jsExtension}`);
+          return;
+        }
+
+        if (isTsExt(name)) {
+          //  .c(m)ts -> jsExtension
+          str.overwrite(start, end, name.replace(/\.(m|c)?tsx?$/, jsExtension));
+          return;
         }
       }
-
-      // //  .c(m)ts -> .c(m)js
-      // // we don't want user use c(m)ts in source code directly
-      // if (isTsExt(name)) {
-      //   str.overwrite(
-      //     start,
-      //     end,
-      //     name.replace(/(.+)(\.[c|m]?)(ts)/, (_, p1, p2) => {
-      //       return `${p1}${p2}js`;
-      //     }),
-      //   );
-      //   return;
-      // }
 
       if (style) {
         // redirect style path
