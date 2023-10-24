@@ -201,6 +201,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             config => config.name === 'client',
           )?.output?.chunkLoadingGlobal;
           const config = api.useResolvedConfigContext();
+          const { enableInlineScripts, enableInlineStyles } = config.output;
           const { crossorigin, scriptLoading } = config.html;
           const disablePrerender =
             typeof config.server?.ssr === 'object'
@@ -215,6 +216,14 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
               scriptLoading,
               chunkLoadingGlobal,
               disablePrerender,
+              enableInlineScripts:
+                typeof enableInlineScripts === 'function'
+                  ? undefined
+                  : enableInlineScripts,
+              enableInlineStyles:
+                typeof enableInlineStyles === 'function'
+                  ? undefined
+                  : enableInlineStyles,
             }),
           });
         }

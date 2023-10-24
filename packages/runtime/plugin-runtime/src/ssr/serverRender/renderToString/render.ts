@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 export interface Collector {
   collect: (comopnent: ReactElement) => ReactElement;
-  effect: () => void;
+  effect: () => void | Promise<void>;
 }
 
 class Render {
@@ -20,7 +20,7 @@ class Render {
     return this;
   }
 
-  finish(): string {
+  async finish(): Promise<string> {
     // collectors do collect
     const App = this.collectors.reduce(
       (pre, collector) => collector.collect(pre),
@@ -31,9 +31,7 @@ class Render {
     const html = ReactDomServer.renderToString(App);
 
     // collectors do effect
-    this.collectors.forEach(component => {
-      component.effect();
-    });
+    await Promise.all(this.collectors.map(component => component.effect()));
 
     return html;
   }

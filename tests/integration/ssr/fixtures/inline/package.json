@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "ssr-inline",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*"
+  }
+}

@@ -86,6 +86,8 @@ export default class Entry {
 
   private readonly nonce?: string;
 
+  private readonly routeManifest?: Record<string, any>;
+
   constructor(options: EntryOptions) {
     const { ctx, config } = options;
     const { entryName, template, nonce } = ctx;
@@ -95,6 +97,7 @@ export default class Entry {
     this.App = options.App;
     this.pluginConfig = config;
 
+    this.routeManifest = ctx.routeManifest;
     this.tracker = ctx.tracker;
     this.metrics = ctx.metrics;
     this.htmlModifiers = ctx.htmlModifiers;
@@ -123,7 +126,7 @@ export default class Entry {
     }
 
     if (this.result.renderLevel >= RenderLevel.SERVER_PREFETCH) {
-      this.result.html = this.renderToString(context);
+      this.result.html = await this.renderToString(context);
     }
     if (ssrContext.redirection?.url) {
       return '';
@@ -175,7 +178,7 @@ export default class Entry {
     return prefetchData || {};
   }
 
-  private renderToString(context: RuntimeContext): string {
+  private async renderToString(context: RuntimeContext): Promise<string> {
     let html = '';
     const end = time();
     const { ssrContext } = context;
@@ -185,7 +188,7 @@ export default class Entry {
         context: Object.assign(context, { ssr: true }),
       });
 
-      html = createRender(App)
+      html = await createRender(App)
         .addCollector(createStyledCollector(this.result))
         .addCollector(
           createLoadableCollector({
@@ -195,6 +198,7 @@ export default class Entry {
             config: this.pluginConfig,
             nonce: this.nonce,
             template: this.template,
+            routeManifest: this.routeManifest,
           }),
         )
         .finish();
