@@ -28,11 +28,13 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*"
+  },
   "devDependencies": {
     "@modern-js/codesmith": "2.3.0",
     "@modern-js/codesmith-api-app": "2.3.0",
     "@modern-js/generator-common": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
