@@ -105,6 +105,9 @@ const buildConfigProperties = {
     },
     else: { type: 'boolean' },
   },
+  autoExtension: {
+    type: 'boolean',
+  },
   externals: {
     type: 'array',
     items: {
@@ -171,6 +174,9 @@ const buildConfigProperties = {
         typeof: 'string',
       },
     ],
+  },
+  shims: {
+    type: 'boolean',
   },
   sideEffects: {
     anyOf: [

@@ -13,6 +13,7 @@ export interface GeneratorDtsConfig {
   externals: BaseBuildConfig['externals'];
   input: Input;
   respectExternal: boolean;
+  dtsExtension: string;
 }
 
 export interface GeneratedDtsInfo {

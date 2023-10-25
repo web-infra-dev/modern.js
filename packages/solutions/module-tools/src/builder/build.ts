@@ -1,5 +1,5 @@
 import { slash, logger, fs } from '@modern-js/utils';
-import { withLogTitle } from '../utils';
+import { withLogTitle, getDefaultOutExtension } from '../utils';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -63,6 +63,8 @@ export const generatorDts = async (
     tsconfig,
     footer: { dts: footer },
     banner: { dts: banner },
+    format,
+    autoExtension,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { distPath, abortOnError, respectExternal } = dts;
@@ -70,6 +72,11 @@ export const generatorDts = async (
   // remove this line after remove dts.tsconfigPath
   const tsconfigPath = dts.tsconfigPath ?? tsconfig;
 
+  const { dtsExtension } = getDefaultOutExtension({
+    format,
+    root: appDirectory,
+    autoExtension,
+  });
   const generatorDtsConfig = {
     distPath,
     watch,
@@ -83,6 +90,7 @@ export const generatorDts = async (
     banner,
     alias,
     sourceDir,
+    dtsExtension,
   };
   const prevTime = Date.now();
   debug(`${label('dts')} Build Start`);

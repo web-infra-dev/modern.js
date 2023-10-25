@@ -1080,8 +1080,6 @@ module.exports = {
     'import/no-default-export': 'off',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-export.md
     'import/no-named-export': 'off',
-    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-useless-path-segments.md
-    'import/no-useless-path-segments': ['error', { noUselessIndex: true }],
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-cycle.md
     'import/no-cycle': 'off',
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/dynamic-import-chunkname.md

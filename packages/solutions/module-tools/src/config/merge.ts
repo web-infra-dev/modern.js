@@ -113,6 +113,8 @@ export const mergeDefaultBaseConfig = async (
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
+    shims: pConfig.shims ?? defaultConfig.shims,
+    autoExtension: pConfig.autoExtension ?? defaultConfig.autoExtension,
     footer: pConfig.footer ?? defaultConfig.footer,
     banner: pConfig.banner ?? defaultConfig.banner,
     resolve,
