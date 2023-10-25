@@ -45,9 +45,7 @@ class LoadableCollector implements Collector {
 
   private get existsAssets(): string[] | undefined {
     const { routeManifest, entryName } = this.options;
-    return routeManifest?.routeAssets?.[entryName]?.assets as
-      | string[]
-      | undefined;
+    return routeManifest?.routeAssets?.[entryName]?.assets;
   }
 
   collect(comopnent: ReactElement): ReactElement {
