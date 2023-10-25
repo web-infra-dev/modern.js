@@ -118,9 +118,13 @@ export async function getModernPluginVersion(
     if (typeof modernVersion !== 'string') {
       return getLatetPluginVersion();
     }
-    const version = getAvailableVersion(packageName, modernVersion, registry);
+    const version = await getAvailableVersion(
+      packageName,
+      modernVersion,
+      registry,
+    );
     if (!(await isPackageExist(`${packageName}@${version}`))) {
-      return getLatetPluginVersion(packageName);
+      return getLatetPluginVersion();
     }
     return version;
   }
