@@ -88,7 +88,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/inspector-webpack-plugin": "1.0.6",

@@ -61,7 +61,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.23.2",
     "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@remix-run/node": "^1.12.0",
