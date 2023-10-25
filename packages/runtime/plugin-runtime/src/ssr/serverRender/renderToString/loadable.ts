@@ -43,6 +43,11 @@ class LoadableCollector implements Collector {
     this.options = options;
   }
 
+  private get existsAssets(): string[] | undefined {
+    const { routeManifest, entryName } = this.options;
+    return routeManifest?.routeAssets?.[entryName]?.assets;
+  }
+
   collect(comopnent: ReactElement): ReactElement {
     const { stats, entryName } = this.options;
 
@@ -99,8 +104,7 @@ class LoadableCollector implements Collector {
   }
 
   private async emitScriptAssets(chunks: ChunkAsset[]) {
-    const { template, config, nonce, result, routeManifest, entryName } =
-      this.options;
+    const { template, config, nonce, result } = this.options;
     const { chunksMap } = result;
     const { scriptLoading = 'defer', enableInlineScripts } = config;
 
@@ -120,10 +124,9 @@ class LoadableCollector implements Collector {
       chunks
         .filter(chunk => {
           const jsChunkReg = new RegExp(`<script .*src="${chunk.url!}".*>`);
-          const existsAssets = routeManifest?.routeAssets?.[entryName]
-            ?.assets as string[];
           return (
-            !jsChunkReg.test(template) && !existsAssets.includes(chunk.path!)
+            !jsChunkReg.test(template) &&
+            !this.existsAssets?.includes(chunk.path!)
           );
         })
         .map(chunk => {
@@ -145,8 +148,6 @@ class LoadableCollector implements Collector {
       template,
       result: { chunksMap },
       config: { enableInlineStyles },
-      entryName,
-      routeManifest,
     } = this.options;
 
     const atrributes = attributesToString(this.generateAttributes());
@@ -155,10 +156,10 @@ class LoadableCollector implements Collector {
       chunks
         .filter(chunk => {
           const cssChunkReg = new RegExp(`<link .*href="${chunk.url!}".*>`);
-          const existsAssets = routeManifest?.routeAssets?.[entryName]
-            ?.assets as string[];
+
           return (
-            !cssChunkReg.test(template) && !existsAssets.includes(chunk.path!)
+            !cssChunkReg.test(template) &&
+            !this.existsAssets?.includes(chunk.path!)
           );
         })
         .map(chunk => {
