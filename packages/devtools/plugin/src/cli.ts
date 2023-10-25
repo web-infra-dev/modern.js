@@ -10,14 +10,18 @@ import {
   ROUTE_BASENAME,
 } from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
-import { Options, InlineOptions, resolveOptions } from './config';
+import {
+  DevtoolsPluginOptions,
+  DevtoolsPluginInlineOptions,
+  resolveOptions,
+} from './config';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
 
-export type { Options, InlineOptions };
+export type { DevtoolsPluginOptions, DevtoolsPluginInlineOptions };
 
 export const devtoolsPlugin = (
-  options?: InlineOptions,
+  options?: DevtoolsPluginInlineOptions,
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],

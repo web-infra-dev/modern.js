@@ -3,26 +3,25 @@ import _ from '@modern-js/utils/lodash';
 import { PartialDeep } from 'type-fest';
 import { CliPluginAPI } from './types';
 
-export interface Options {
+export interface DevtoolsPluginOptions {
   def?: PartialDeep<ClientDefinition>;
 }
 
-export interface InlineOptions extends Options {
+export interface DevtoolsPluginInlineOptions extends DevtoolsPluginOptions {
   enable?: boolean;
 }
 
 export const getDefaultOptions = () =>
   ({
     def: new ClientDefinition(),
-  } satisfies Options);
+  } satisfies DevtoolsPluginOptions);
 
-export const resolveOptions = (api: CliPluginAPI, options: Options = {}) => {
+export const resolveOptions = (
+  api: CliPluginAPI,
+  options: DevtoolsPluginOptions = {},
+) => {
   const config = api.useConfigContext();
-  const opts: Options & ReturnType<typeof getDefaultOptions> = _.defaultsDeep(
-    {},
-    options,
-    config.devtools,
-    getDefaultOptions(),
-  );
+  const opts: DevtoolsPluginOptions & ReturnType<typeof getDefaultOptions> =
+    _.defaultsDeep({}, options, config.devtools, getDefaultOptions());
   return opts;
 };
