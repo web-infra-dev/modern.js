@@ -32,6 +32,7 @@ export const runRollup = async (
     appDirectory,
     footer,
     banner,
+    dtsExtension,
   }: GeneratorDtsConfig,
 ) => {
   const ignoreFiles: Plugin = {
@@ -110,6 +111,7 @@ export const runRollup = async (
     exports: 'named',
     footer,
     banner,
+    entryFileNames: `[name]${dtsExtension}`,
   };
   if (watch) {
     const { watch } = await import('../../../compiled/rollup');

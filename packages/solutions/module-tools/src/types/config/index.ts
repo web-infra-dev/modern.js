@@ -69,6 +69,7 @@ export type Redirect = {
   alias?: boolean;
   style?: boolean;
   asset?: boolean;
+  autoExtension?: boolean;
 };
 
 export type DTSOptions = {
@@ -144,6 +145,8 @@ export type BaseBuildConfig = Omit<
 };
 
 export type PartialBaseBuildConfig = {
+  shims?: boolean;
+  autoExtension?: boolean;
   resolve?: Resolve;
   footer?: BannerAndFooter;
   banner?: BannerAndFooter;

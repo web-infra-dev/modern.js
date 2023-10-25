@@ -12,4 +12,7 @@ export { a, b } from '@/alias';
 export * from '@/alias';
 export * as c from '@/alias';
 
+// autoExtension
+export * from './extension.mts';
+
 console.log(css, svg, a, b, namedImport, wildcardImport);

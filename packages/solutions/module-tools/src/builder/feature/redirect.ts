@@ -26,6 +26,8 @@ import {
   isJsExt,
   isJsLoader,
   resolvePathAndQuery,
+  getDefaultOutExtension,
+  isTsExt,
 } from '../../utils';
 import { getAssetContents, loadSvgr } from './asset';
 import { isCssModule } from './style/postcssTransformer';
@@ -43,6 +45,7 @@ async function redirectImport(
   aliasRecord: Record<string, string>,
   filePath: string,
   outputDir: string,
+  jsExtension: string,
   matchPath?: MatchPath,
 ): Promise<MagicString> {
   const str: MagicString = new MagicString(code);
@@ -54,6 +57,7 @@ async function redirectImport(
       }
       const { start, end } = module;
       let { name } = module;
+      const ext = extname(name);
 
       const { redirect, asset } = compiler.config;
       const { alias, style } = redirect;
@@ -89,9 +93,22 @@ async function redirectImport(
         }
       }
 
+      if (redirect.autoExtension) {
+        if (ext === '' && jsExtension !== '.js' && name.startsWith('.')) {
+          // add extension for relative path, no check if it's a directory.
+          str.overwrite(start, end, `${name}${jsExtension}`);
+          return;
+        }
+
+        if (isTsExt(name)) {
+          //  .c(m)ts -> jsExtension
+          str.overwrite(start, end, name.replace(/\.(m|c)?tsx?$/, jsExtension));
+          return;
+        }
+      }
+
       if (style) {
         // redirect style path
-        const ext = extname(name);
         const { originalFilePath, query } = resolvePathAndQuery(name);
 
         if (query.css_virtual) {
@@ -181,7 +198,9 @@ export const redirect = {
         return args;
       }
       const { code, path: id } = args;
-      const { format, alias, sourceDir, outDir } = compiler.config;
+      const { format, alias, sourceDir, outDir, autoExtension } =
+        compiler.config;
+      const { root } = compiler.context;
 
       if (!code || format === 'iife' || format === 'umd') {
         return args;
@@ -249,6 +268,11 @@ export const redirect = {
       if (!matchModule.length) {
         return args;
       }
+      const { jsExtension } = getDefaultOutExtension({
+        format,
+        root,
+        autoExtension,
+      });
       const outputPath = resolve(outDir, relative(sourceDir, id));
       const str = await redirectImport(
         compiler,
@@ -257,6 +281,7 @@ export const redirect = {
         absoluteAlias,
         id,
         dirname(outputPath),
+        jsExtension,
         matchPath,
       );
       return {

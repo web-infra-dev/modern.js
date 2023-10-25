@@ -148,16 +148,24 @@ export const writeDtsFiles = async (
   },
   result: { path: string; content: string }[],
 ) => {
-  const { distPath } = config;
+  const { distPath, dtsExtension } = config;
   const { tempDistAbsSrcPath } = options;
-
-  for (const r of result) {
-    fs.writeFileSync(r.path, r.content);
-  }
-
-  // why use `ensureDir` before copy? look this: https://github.com/jprichardson/node-fs-extra/issues/957
-  await fs.ensureDir(distPath);
-  await fs.copy(tempDistAbsSrcPath, distPath);
+  // write to dist
+  await Promise.all(
+    result.map(({ path, content }) => {
+      const relativePath = relative(tempDistAbsSrcPath, path);
+      const filepath = join(
+        distPath,
+        relativePath.replace(/\.d\.ts/, dtsExtension),
+      );
+      fs.ensureFileSync(filepath);
+      return fs.writeFile(
+        // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
+        filepath,
+        content,
+      );
+    }),
+  );
 };
 
 export const addBannerAndFooter = (
