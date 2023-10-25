@@ -26,14 +26,14 @@ jobs:
       - name: Install Pnpm
         uses: pnpm/action-setup@v2
 
-      - name: Show Pnpm Version
-        run: pnpm -v
-
       - name: Setup Node.js 18
         uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'pnpm'
+
+      - name: Show Pnpm Version
+        run: pnpm -v
 
       - name: Check skip CI
         run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
