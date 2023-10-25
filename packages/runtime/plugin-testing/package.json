@@ -116,7 +116,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.22.15",
     "@babel/preset-react": "^7.22.15",
     "@modern-js-reduck/plugin-auto-actions": "^1.1.10",

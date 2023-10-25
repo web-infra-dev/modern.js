@@ -50,7 +50,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
-    "@babel/core": "^7.22.15",
+    "@babel/core": "^7.23.2",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
