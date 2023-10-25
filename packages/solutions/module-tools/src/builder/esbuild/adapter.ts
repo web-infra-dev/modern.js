@@ -1,4 +1,4 @@
-import { dirname, resolve, extname } from 'path';
+import { dirname, resolve, extname, sep } from 'path';
 import module from 'module';
 import { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
@@ -194,8 +194,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           // we may get false when resolve browser field, in this case, we set it a empty object
           debugResolve('resolve false:', args);
           return {
-            path: '/empty-stub',
+            path: `${sep}empty-stub`,
             sideEffects: false,
+            namespace: 'resolve-false',
           };
         }
         const sideEffects = await getSideEffects(resultPath, isExternal);
@@ -220,18 +221,18 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           };
         }
 
+        if (args.namespace === 'resolve-false') {
+          return {
+            contents: 'module.exports = {}',
+          };
+        }
+
         if (args.suffix) {
           args.path += args.suffix;
         }
 
         if (args.namespace !== 'file') {
           return;
-        }
-
-        if (args.path === '/empty-stub') {
-          return {
-            contents: 'module.exports = {}',
-          };
         }
 
         compiler.addWatchFile(args.path);
