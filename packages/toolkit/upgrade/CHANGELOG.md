@@ -1,5 +1,16 @@
 # @modern-js/upgrade
 
+## 4.0.0
+
+### Patch Changes
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
+  - @modern-js/plugin-i18n@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes

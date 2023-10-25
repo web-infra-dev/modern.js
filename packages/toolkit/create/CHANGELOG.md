@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 4.0.0
+
+### Patch Changes
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
 ## 2.37.2
 
 ## 2.37.1

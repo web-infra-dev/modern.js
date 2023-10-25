@@ -1,5 +1,35 @@
 # @modern-js/builder-webpack-provider
 
+## 4.0.0
+
+### Patch Changes
+
+- 6e8cb66: fix(plugin-testing): failed to run tests with decorators
+
+  fix(plugin-testing): 修复无法运行带有 decorator 的测试用例的问题
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- 64da831: fix(builder): should not print stats object
+
+  fix(builder): 修复报错时输出完整 stats 对象的问题
+
+- 9b525dc: fix(builder): display error progress bar when compile failed
+
+  fix(builder): 编译错误时展示 error 进度条
+
+- add9dfd: fix(builder): babel addIncludes & addExcludes not take effect
+
+  fix(builder): babel addIncludes & addExcludes 方法不生效
+
+- Updated dependencies [3304d33]
+  - @modern-js/builder-shared@4.0.0
+  - @modern-js/server@4.0.0
+  - @modern-js/types@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes

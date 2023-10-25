@@ -1,5 +1,21 @@
 # @modern-js/generator-plugin
 
+## 3.2.7
+
+### Patch Changes
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
+- Updated dependencies [472f065]
+- Updated dependencies [8f43163]
+  - @modern-js/generator-utils@3.2.7
+  - @modern-js/generator-common@3.2.7
+  - @modern-js/new-action@4.0.0
+  - @modern-js/plugin-i18n@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 3.2.6
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/module-test-generator
 
+## 3.2.7
+
+### Patch Changes
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
+  - @modern-js/utils@4.0.0
+
 ## 3.2.6
 
 ## 3.2.5

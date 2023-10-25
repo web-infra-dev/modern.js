@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 4.0.0
+
+### Patch Changes
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- Updated dependencies [3304d33]
+- Updated dependencies [6d8ef7d]
+  - @modern-js/server-utils@4.0.0
+  - @modern-js/prod-server@4.0.0
+  - @modern-js/runtime-utils@4.0.0
+  - @modern-js/types@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes

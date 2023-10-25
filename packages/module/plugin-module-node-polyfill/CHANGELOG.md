@@ -1,5 +1,15 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 4.0.0
+
+### Patch Changes
+
+- 83ae977: fix: no bundle globals.js
+- Updated dependencies [ac236b3]
+- Updated dependencies [44fea2c]
+- Updated dependencies [0b9e483]
+  - @modern-js/module-tools@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes

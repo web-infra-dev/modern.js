@@ -1,5 +1,13 @@
 # @modern-js-app/eslint-config
 
+## 4.0.0
+
+### Patch Changes
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
 ## 2.37.2
 
 ## 2.37.1

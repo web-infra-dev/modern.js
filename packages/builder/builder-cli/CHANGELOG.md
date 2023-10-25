@@ -1,5 +1,20 @@
 # @modern-js/builder-cli
 
+## 4.0.0
+
+### Patch Changes
+
+- Updated dependencies [6e8cb66]
+- Updated dependencies [3304d33]
+- Updated dependencies [64da831]
+- Updated dependencies [9b525dc]
+- Updated dependencies [add9dfd]
+- Updated dependencies [09fc285]
+  - @modern-js/builder-webpack-provider@4.0.0
+  - @modern-js/builder-rspack-provider@4.0.0
+  - @modern-js/builder@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes

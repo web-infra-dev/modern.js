@@ -1,5 +1,27 @@
 # @modern-js/builder-rspack-provider
 
+## 4.0.0
+
+### Patch Changes
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- 64da831: fix(builder): should not print stats object
+
+  fix(builder): 修复报错时输出完整 stats 对象的问题
+
+- 09fc285: chore(builder): update rspack to 0.3.8
+
+  chore(builder): 升级 rspack 到 0.3.8
+
+- Updated dependencies [3304d33]
+  - @modern-js/builder-shared@4.0.0
+  - @modern-js/server@4.0.0
+  - @modern-js/types@4.0.0
+  - @modern-js/utils@4.0.0
+
 ## 2.37.2
 
 ### Patch Changes
