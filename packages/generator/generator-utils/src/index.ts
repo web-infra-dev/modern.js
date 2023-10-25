@@ -11,7 +11,7 @@ import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { GeneratorContext } from '@modern-js/codesmith';
 import { stripAnsi } from './utils/stripAnsi';
 import { i18n, localeKeys } from './locale';
-import { getAvailableVersion } from './utils/package';
+import { getAvailableVersion, isPackageExist } from './utils/package';
 import { fileExist } from './utils/fsExist';
 
 export * from './utils';
@@ -118,7 +118,11 @@ export async function getModernPluginVersion(
     if (typeof modernVersion !== 'string') {
       return getLatetPluginVersion();
     }
-    return getAvailableVersion(packageName, modernVersion, registry);
+    const version = getAvailableVersion(packageName, modernVersion, registry);
+    if (!(await isPackageExist(`${packageName}@${version}`))) {
+      return getLatetPluginVersion(packageName);
+    }
+    return version;
   }
   return getLatetPluginVersion();
 }
