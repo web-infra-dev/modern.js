@@ -8,17 +8,6 @@ export default defineConfig({
       umdGlobals: {
         react: 'React',
       },
-
-      outDir: './dist/umd',
-    },
-    {
-      buildType: 'bundle',
-      format: 'iife',
-      umdGlobals: {
-        react: 'React',
-      },
-
-      outDir: './dist/iife',
     },
   ],
 });

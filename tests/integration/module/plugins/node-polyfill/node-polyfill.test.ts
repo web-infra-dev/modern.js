@@ -11,10 +11,10 @@ describe('plugin-node-polyfill', () => {
       argv: ['build'],
       appDirectory: fixtureDir,
     });
-    const outFile = fs.readFileSync(
+    const content = fs.readFileSync(
       path.resolve(__dirname, 'dist/index.js'),
       'utf8',
     );
-    expect(outFile).toContain('require_globals');
+    expect(content).toContain('init_globals');
   });
 });

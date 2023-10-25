@@ -166,6 +166,7 @@ export const SERVER_PLUGIN_KOA = '@modern-js/plugin-koa';
 export const SERVER_PLUGIN_SERVER = '@modern-js/plugin-server';
 export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
 
+// Todo remove it.
 export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
   [SERVER_PLUGIN_BFF]: '@modern-js/plugin-bff/server',
   [SERVER_PLUGIN_EXPRESS]: '@modern-js/plugin-express/server',

@@ -14,20 +14,11 @@ export type BuildExecuter = {
   (compiler: Compiler | MultiCompiler): Promise<{ stats?: Stats | MultiStats }>;
 };
 
-export interface RspackBuildError extends Error {
-  stats?: Stats | MultiStats;
-}
-
-/**
- * @throws {RspackBuildError}
- */
 export const rspackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
     compiler.run((err: any, stats?: Stats) => {
       if (err || stats?.hasErrors()) {
-        const buildError: RspackBuildError =
-          err || new Error('Rspack build failed!');
-        buildError.stats = stats;
+        const buildError = err || new Error('Rspack build failed!');
         reject(buildError);
       }
       // If there is a compilation error, the close method should not be called.

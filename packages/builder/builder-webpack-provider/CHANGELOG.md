@@ -1,5 +1,18 @@
 # @modern-js/builder-webpack-provider
 
+## 2.37.2
+
+### Patch Changes
+
+- d12c00f: fix(builder): babel addIncludes & addExcludes not take effect
+
+  fix(builder): babel addIncludes & addExcludes 方法不生效
+
+  - @modern-js/builder-shared@2.37.2
+  - @modern-js/server@2.37.2
+  - @modern-js/types@2.37.2
+  - @modern-js/utils@2.37.2
+
 ## 2.37.1
 
 ### Patch Changes
