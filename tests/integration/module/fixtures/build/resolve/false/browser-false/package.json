@@ -1,0 +1,6 @@
+{
+  "name": "browser-false",
+  "browser": {
+    "./util": false
+  }
+}
