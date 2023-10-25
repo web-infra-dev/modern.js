@@ -55,20 +55,20 @@ class Bus {
     const maxIdLen = Math.max(...this.states.map(i => i.id?.length ?? 0)) + 2;
     const { columns = FULL_WIDTH } = process.stdout;
     this.prevOutput = this.states
-      .map((i, k) =>
-        cliTruncate(
-          renderBar({
-            maxIdLen,
-            color: i.color ?? getProgressColor(k),
-            ...i,
-          }),
-          columns,
-          {
-            position: 'end',
-          },
-        ),
-      )
+      .map((i, k) => {
+        const bar = renderBar({
+          maxIdLen,
+          color: i.color ?? getProgressColor(k),
+          ...i,
+        });
+        if (bar) {
+          return cliTruncate(bar, columns, { position: 'end' });
+        }
+        return null;
+      })
+      .filter(item => item !== null)
       .join('\n');
+
     this.writeToStd();
   }
 

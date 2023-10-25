@@ -11,6 +11,8 @@ const defaultOption: Props = {
   char: '━',
   width: 25,
   buildIcon: '◯',
+  errorIcon: '✖',
+  errorInfo: 'compile failed',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -40,6 +42,8 @@ export const renderBar = (option: Partial<Props>) => {
     total,
     done,
     buildIcon,
+    errorIcon,
+    errorInfo,
     width,
     current,
     color,
@@ -68,6 +72,17 @@ export const renderBar = (option: Partial<Props>) => {
   const { columns: terminalWidth = FULL_WIDTH } = process.stdout;
 
   if (done) {
+    if (hasErrors) {
+      const message = doneColor(errorInfo);
+
+      if (terminalWidth >= MIDDLE_WIDTH) {
+        return [idColor(errorIcon), id, doneColor(`${space}${message}`)].join(
+          '',
+        );
+      }
+      return [id, doneColor(`${message}`)].join('');
+    }
+
     return '';
   }
 
