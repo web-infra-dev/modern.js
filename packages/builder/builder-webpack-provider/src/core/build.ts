@@ -18,20 +18,11 @@ export interface BuildExecuter {
   (compiler: Compiler | MultiCompiler): Promise<{ stats: Stats | MultiStats }>;
 }
 
-export interface WebpackBuildError extends Error {
-  stats?: Stats | MultiStats;
-}
-
-/**
- * @throws {WebpackBuildError}
- */
 export const webpackBuild: BuildExecuter = async compiler => {
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {
       if (err || stats?.hasErrors()) {
-        const buildError: WebpackBuildError =
-          err || new Error('webpack build failed!');
-        buildError.stats = stats as Stats;
+        const buildError = err || new Error('webpack build failed!');
         reject(buildError);
       }
       // If there is a compilation error, the close method should not be called.
