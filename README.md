@@ -38,7 +38,7 @@ The following solutions and libraries are available within the Modern.js ecosyst
 - 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild): An Rspack-based build tool for the web, rebranded from Modern.js Builder.
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress): A fast Rspack-based static site generator.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
-- 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
+- 🦆 [Reduck](https://github.com/web-infra-dev/reduck): An redux-based state management library.
 - 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins): Built-in SWC plugins for Modern.js.
 
 ## Benchmark
