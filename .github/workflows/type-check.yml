@@ -32,9 +32,6 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Show Pnpm Version
-        run: pnpm -v
-
       - name: Check skip CI
         run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
         id: skip-ci
