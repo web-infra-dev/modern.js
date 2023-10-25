@@ -166,6 +166,37 @@ Set unmatched svg files
 - **Type**: `string | RegExp | (string | RegExp)[]`
 - **Default**: `undefined`
 
+## autoExtension
+
+Suffixes for js files and type description files in automation products based on [format](#format) and [type](https://nodejs.org/api/packages.html#type).
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Version**: `2.38.0`
+
+When off, js products are suffixed with `.js` and type description files are suffixed with `d.ts`.
+
+When on, node loads `.js` as esm by default when type is `module`, so when we want to output cjs products, the js product is suffixed with `.cjs` and the type description file is suffixed with `d.cts`.
+
+On the other hand, if the type field is missing or the type is `commonjs`, node loads the `.js` file as cjs by default.
+So when we want to output esm output, the js output is suffixed with `.mjs` and the type description file is suffixed with `d.mts`.
+
+:::warning
+When used in bundleless mode, we have an extra step of processing the import/export statement in each file. We will suffix the relative path to the js file, possibly `.mjs` or `.cjs`, depending on your package configuration.
+You can disable this step by [redirect.autoExtension](#redirect).
+
+But [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) will break this behavior.
+If you need to use this configuration in bundleless, please patch the `index`, e.g. if utils is a folder, you need to rewrite `import * from './utils'` to `import * from './utils/index'`
+:::
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    autoExtension: true,
+  },
+});
+```
+
 ## autoExternal
 
 Automatically externalize project dependencies and peerDependencies and not package them into the final bundle
@@ -852,10 +883,11 @@ export default defineConfig({
 
 ## redirect
 
-In `buildType: 'bundleless'` build mode, the reference path is redirected to ensure that it points to the correct product, e.g:
+In **`buildType: 'bundleless'`** build mode, the reference path is redirected to ensure that it points to the correct product, e.g:
 
 - `import '. /index.less'` will be rewritten to `import '. /index.css'`
 - `import icon from '. /close.svg'` would be rewritten as `import icon from '... /asset/close.svg'` to `import icon from '. /asset/close.svg'` (depending on the situation)
+- `import * from './utils'` will be rewritten to `import * from './utils.mjs'` (if generate utils.mjs, depending on the situation)
 
 In some scenarios, you may not need these functions, then you can turn it off with this configuration, and its reference path will not be changed after turning it off.
 
@@ -866,6 +898,7 @@ export default {
       alias: false, // Turn off modifying alias paths
       style: false, // Turn off modifying the path to the style file
       asset: false, // Turn off modifying the path to the asset
+      autoExtension: false, // Turn off modifying the suffix to the js file
     },
   },
 };
@@ -919,6 +952,26 @@ export default defineConfig({
     resolve: {
       jsExtentions: ['.mts', 'ts'],
     },
+  },
+});
+```
+
+## shims
+
+When building CommonJS/ESM artifacts, inject some filler code such as `__dirname` which can only be used in CommonJS.
+After Enable this option, it will compiler `__dirname` as `path.dirname(fileURLToPath(import.meta.url))` when format is esm.
+
+See details [here](https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/shims),
+Note that esm shims will only be injected if [platform](#platform) is node, because the url module is used.
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Version**: `v2.38.0`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    shims: true,
   },
 });
 ```

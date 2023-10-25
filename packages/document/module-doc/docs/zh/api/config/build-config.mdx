@@ -167,6 +167,34 @@ declare module '*.svg' {
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `undefined`
 
+## autoExtension
+
+根据 [format](#format) 和 [type](https://nodejs.org/api/packages.html#type) 自动化产物里 js 文件和类型描述文件的后缀。
+
+- 类型：`boolean`
+- 默认值：`false`
+- 版本：`2.38.0`
+
+关闭时，js 产物后缀为 `.js`，类型描述文件后缀为 `d.ts`。
+
+开启后，当 type 为 `module` 时，node 默认将 `.js` 作为 esm 加载，因此当我们要输出 cjs 产物时，js 产物后缀为 `.cjs`，类型描述文件后缀为 `d.cts`;
+反之，如果缺少 type 字段或者 type 为 `commonjs` 时， node 默认将 `.js` 文件作为 cjs 加载，因此当我们要输出 esm 产物时，js 产物后缀为 `.mjs`，类型描述文件后缀为 `d.mts`。
+
+:::warning
+在 bundleless 模式下使用时，我们会有一步额外的操作，那就是处理每个文件里的 import/export 语句。我们会给相对路径加上 js 文件后缀，可能是 `.mjs` 或者 `.cjs`，这取决于你的包配置，此行为可以通过 [redirect.autoExtension](#redirect)关闭。
+
+但 [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) 会破坏此行为，
+如果你需要在 bundleless 使用此配置，请补齐 `index`，例如 utils 是一个文件夹， 你需要将 `import * from './utils'` 改写为 `import * from './utils/index'`
+:::
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    autoExtension: true,
+  },
+});
+```
+
 ## autoExternal
 
 自动外置项目的 `"dependencies"` 和 `"peerDependencies"`，不会将其打包到最终的 bundle 产物中。
@@ -850,10 +878,11 @@ export default defineConfig({
 
 ## redirect
 
-在 `buildType: 'bundleless'` 构建模式下，会对引用路径进行重定向，确保指向了正确的产物，例如：
+在 **`buildType: 'bundleless'`** 构建模式下，会对引用路径进行重定向，确保指向了正确的产物，例如：
 
 - `import './index.less'` 会被改写成 `import './index.css'`
 - `import icon from './close.svg'` 会被改写成 `import icon from '../asset/close.svg'`（依实际情况而定）
+- `import * from './utils'` 会被改写成 `import * from './utils.mjs'` (如果生成了 utils.mjs，视实际情况而定)
 
 在某些场景下，你可能不需要这些功能，那么可以通过此配置关闭它，关闭后，其引用路径将不会发生改变。
 
@@ -864,6 +893,7 @@ export default {
       alias: false, // 关闭对别名路径的修改
       style: false, // 关闭对样式文件路径的修改
       asset: false, // 关闭对资源文件路径的修改
+      autoExtension: false, // 关闭对 js 文件后缀的修改
     },
   },
 };
@@ -917,6 +947,27 @@ export default defineConfig({
     resolve: {
       jsExtentions: ['.mts', 'ts'],
     },
+  },
+});
+```
+
+## shims
+
+在构建 cjs / esm 产物时注入一些填充代码。
+
+例如 `__dirname` 只能在 commonjs 里使用，开启此选项后，当产物格式为 esm 时，会将 `__dirname` 编译为 `path.dirname(fileURLToPath(import.meta.url))`。
+
+详细代码见 [shims](https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/shims)，
+需要注意的是 esm shims 只会在 [platform](#platform) 为 node 时注入，因为用到了 url 模块。
+
+- 类型： `boolean`
+- 默认值： `false`
+- 版本：`v2.38.0`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    shims: true,
   },
 });
 ```
