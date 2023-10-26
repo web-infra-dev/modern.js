@@ -1,5 +1,28 @@
 # @modern-js/plugin-testing
 
+## 2.38.0
+
+### Patch Changes
+
+- 6e8cb66: fix(plugin-testing): failed to run tests with decorators
+
+  fix(plugin-testing): 修复无法运行带有 decorator 的测试用例的问题
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- Updated dependencies [3304d33]
+- Updated dependencies [ce967bb]
+- Updated dependencies [6d8ef7d]
+- Updated dependencies [623c6c8]
+  - @modern-js/runtime@2.38.0
+  - @modern-js/babel-compiler@2.38.0
+  - @modern-js/prod-server@2.38.0
+  - @modern-js/plugin@2.38.0
+  - @modern-js/types@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/upgrade-generator
 
+## 3.2.7
+
+### Patch Changes
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
+- c90a91a: feat: upgrade generator support handle special package
+
+  feat: upgrade 生成器支持处理特殊的插件包版本
+
+  - @modern-js/utils@2.38.0
+
 ## 3.2.6
 
 ## 3.2.5

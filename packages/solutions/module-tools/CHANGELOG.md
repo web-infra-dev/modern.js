@@ -1,5 +1,29 @@
 # @modern-js/module-tools
 
+## 2.38.0
+
+### Minor Changes
+
+- 44fea2c: feat(module-tools): support autoExtension and shims to improve node esm mode
+  feat(module-tools): 支持 autoExtension 和 shims 配置以完善 node esm 模式
+
+### Patch Changes
+
+- ac236b3: fix(module-tools): Add namespace when resolve result is false. Build failed in windows because `\empty-stub` is treated as a non-absolute path by esbuild.
+  fix(module-tools): 当 resovle 的结果是 false 时，添加 namespace，因为在 windows 系统下，`\empty-stub` 会被 esbuild 当成一个非绝对路径导致构建失败。
+- 0b9e483: feat(module-tools): update umd global code
+  feat(module-tools): 更新 umd 全局代码
+- Updated dependencies [8f43163]
+  - @modern-js/new-action@2.38.0
+  - @modern-js/upgrade@2.38.0
+  - @modern-js/core@2.38.0
+  - @modern-js/plugin-changeset@2.38.0
+  - @modern-js/plugin-i18n@2.38.0
+  - @modern-js/plugin-lint@2.38.0
+  - @modern-js/plugin@2.38.0
+  - @modern-js/types@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.37.2",
+  "version": "2.38.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -76,7 +76,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.37.2"
+    "@modern-js/runtime": "workspace:^2.38.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

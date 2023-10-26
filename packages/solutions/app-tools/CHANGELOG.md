@@ -1,5 +1,41 @@
 # @modern-js/app-tools
 
+## 2.38.0
+
+### Patch Changes
+
+- a614227: fix: modify the generated routes code, compatible with loadable and swc
+  fix: 修改生成的 routes 代码，兼容 loadable 和 swc
+- adc4ca3: fix: deploy command need collect server plugin
+  fix: deploy 命令需要收集服务端插件
+- Updated dependencies [6e8cb66]
+- Updated dependencies [3304d33]
+- Updated dependencies [6d8ef7d]
+- Updated dependencies [64da831]
+- Updated dependencies [9b525dc]
+- Updated dependencies [add9dfd]
+- Updated dependencies [09fc285]
+- Updated dependencies [8f43163]
+  - @modern-js/builder-webpack-provider@2.38.0
+  - @modern-js/builder-rspack-provider@2.38.0
+  - @modern-js/builder-shared@2.38.0
+  - @modern-js/plugin-data-loader@2.38.0
+  - @modern-js/server@2.38.0
+  - @modern-js/prod-server@2.38.0
+  - @modern-js/new-action@2.38.0
+  - @modern-js/upgrade@2.38.0
+  - @modern-js/builder@2.38.0
+  - @modern-js/builder-plugin-esbuild@2.38.0
+  - @modern-js/builder-plugin-node-polyfill@2.38.0
+  - @modern-js/core@2.38.0
+  - @modern-js/plugin-i18n@2.38.0
+  - @modern-js/plugin-lint@2.38.0
+  - @modern-js/server-core@2.38.0
+  - @modern-js/node-bundle-require@2.38.0
+  - @modern-js/plugin@2.38.0
+  - @modern-js/types@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes
