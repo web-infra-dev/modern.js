@@ -67,7 +67,7 @@ export default defineConfig({
 
 在部分场景下，esbuild 不足以满足我们的需求，此时我们会使用 swc 来做代码转换。
 
-从 **2.36.0** 版本开始，涉及到以下功能时，Modern.js Module 默认会使用 swc ，但不这意味着不使用 esbuild 了，其余功能还是使用 esbuild:
+从 **MAJOR_VERSION.36.0** 版本开始，涉及到以下功能时，Modern.js Module 默认会使用 swc ，但不这意味着不使用 esbuild 了，其余功能还是使用 esbuild:
 
 - [transformImport](/api/config/build-config#transformimport)
 - [transformLodash](/api/config/build-config#transformlodash)
@@ -76,7 +76,7 @@ export default defineConfig({
 - [target: es5](api/config/build-config#target)
 - [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
 
-事实上，我们在 **2.16.0** 开始全量使用 swc 进行代码转换。不过 swc 同样也存在一些限制，为此我们添加了 [sourceType](/api/config/build-config#sourcetype) 配置，当源码格式为 'commonjs' 时关闭 swc， 但这种方式并不符合用户直觉，另外，swc 格式化输出的 cjs 模式没有给每个导出名称添加注释，这在 node 中使用可能会带来一些问题。
+事实上，我们在 **MAJOR_VERSION.16.0** 版本开始全量使用 swc 进行代码转换。不过 swc 同样也存在一些限制，为此我们添加了 [sourceType](/api/config/build-config#sourcetype) 配置，当源码格式为 'commonjs' 时关闭 swc， 但这种方式并不符合用户直觉，另外，swc 格式化输出的 cjs 模式没有给每个导出名称添加注释，这在 node 中使用可能会带来一些问题。
 因为我们废弃了此行为，回到了最初的设计 - **只在需要的场景下使用 swc 作为补充**。
 
 ## 使用 Hook 介入构建流程
@@ -347,7 +347,7 @@ bundle DTS failed:
 
 ## 调试模式
 
-从 **2.36.0** 版本开始，为了便于排查问题，Modern.js Module 提供了调试模式，你可以在执行构建时添加 DEBUG=module 环境变量来开启调试模式。
+从 **MAJOR_VERSION.36.0** 版本开始，为了便于排查问题，Modern.js Module 提供了调试模式，你可以在执行构建时添加 DEBUG=module 环境变量来开启调试模式。
 
 ```bash
 DEBUG=module modern build

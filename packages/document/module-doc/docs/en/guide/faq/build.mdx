@@ -118,7 +118,7 @@ If you import a cjs product from a third-party npm package, the resulting produc
 
 #### Solution
 
-1. **First you need to find which third-party package is causing the problem**. For example, if the error message points to the `react` package, then look for a third-party package that has code like `require('react')` in it. For example [`react-draggable`](https://www.npmjs.com/package/react-draggable), which only contains `cjs` products, then the problem is localized to the `react-draggable` package.
+1. **First you need to find which third-party package is causing the problem**. For example, if the error message points to the `react` package, then look for a third-party package that has code like `require('react')` in it. For example [`react-draggable`](https://www.npmjs.com/package/react-draggable), which only contains `cjs` artifacts, then the problem is localized to the `react-draggable` package.
 2. Then we need to exclude this package with the following configuration, i.e. **not package problematic third-party packages**.
 
 ```ts
@@ -198,7 +198,7 @@ module.exports = {
 
 ### Bundle DTS failed
 
-Normally, the type file output with `tsc` is loose. Modern.js Module not only supports outputting loose type file products, but also supports packing type files, which allows you to package these loose type files and third-party dependent type files into one file.
+Normally, the type file output with `tsc` is loose. Modern.js Module not only supports outputting loose type file artifacts, but also supports packing type files, which allows you to package these loose type files and third-party dependent type files into one file.
 
 However, there is a risk in packaging the type files of third-party dependencies, **because there are cases where the type files of third-party dependencies cannot be packaged**.
 

@@ -2,9 +2,9 @@
 sidebar_position: 3
 ---
 
-# Modify the output product
+# Modify the output
 
-## Default output products
+## Default output artifacts
 
 When you use the `modern build` command in an initialized project, Modern.js Module will generate corresponding build artifacts based on the current configuration.
 
@@ -50,7 +50,7 @@ In addition, we can also fully customize the build configuration:
 
 ## buildConfig
 
-**`buildConfig` is a configuration option that describes how to compile and generate build artifacts**. What was mentioned at the beginning about "_features of build products_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some properties that artifacts have, but also contains some features needed to build products. The following is a brief list from a classification point of view.
+**`buildConfig` is a configuration option that describes how to compile and generate build artifacts**. What was mentioned at the beginning about "_features of build artifacts_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building artifacts. `buildConfig` not only contains some properties that artifacts have, but also contains some features needed to build artifacts. The following is a brief list from a classification point of view.
 
 **The basic attributes of a build artifacts include:**
 

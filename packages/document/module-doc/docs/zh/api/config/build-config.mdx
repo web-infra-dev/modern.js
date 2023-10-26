@@ -169,11 +169,11 @@ declare module '*.svg' {
 
 ## autoExtension
 
-根据 [format](#format) 和 [type](https://nodejs.org/api/packages.html#type) 自动化产物里 js 文件和类型描述文件的后缀。
+根据 [format](#format) 和 [type](https://nodejs.org/api/packages.html#type) 自动添加产物里 js 文件和类型描述文件的后缀。
 
 - 类型：`boolean`
 - 默认值：`false`
-- 版本：`2.38.0`
+- 版本：`>=MAJOR_VERSION.38.0`
 
 关闭时，js 产物后缀为 `.js`，类型描述文件后缀为 `d.ts`。
 
@@ -183,7 +183,7 @@ declare module '*.svg' {
 :::warning
 在 bundleless 模式下使用时，我们会有一步额外的操作，那就是处理每个文件里的 import/export 语句。我们会给相对路径加上 js 文件后缀，可能是 `.mjs` 或者 `.cjs`，这取决于你的包配置，此行为可以通过 [redirect.autoExtension](#redirect)关闭。
 
-但 [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) 会破坏此行为，
+注意 [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) 规则会破坏此行为，你需要禁用此规则
 如果你需要在 bundleless 使用此配置，请补齐 `index`，例如 utils 是一个文件夹， 你需要将 `import * from './utils'` 改写为 `import * from './utils/index'`
 :::
 
@@ -254,7 +254,7 @@ interface BannerAndFooter {
 
 - 类型： `BannerAndFooter`
 - 默认值: `{}`
-- 版本： `v2.36.0`
+- 版本： `>=MAJOR_VERSION.36.0`
 
 例如你想为 JS 和 CSS 文件添加版权信息:
 
@@ -911,7 +911,7 @@ package.json 中，在解析包的入口点时尝试的字段列表。
 - 默认值：取决于[platform](#platform)
   - node: ['module', 'main']
   - browser: ['module', 'browser', 'main']
-- 版本：`v2.36.0`
+- 版本：`>=MAJOR_VERSION.36.0`
 
 例如，我们想要先加载 `js:source` 字段：
 
@@ -935,7 +935,7 @@ export default defineConfig({
 
 - 类型： `string[]`
 - 默认值： `['.jsx', '.tsx', '.js', '.ts', '.json']`
-- 版本：`v2.36.0`
+- 版本：`>=MAJOR_VERSION.36.0`
 
 对于 css 文件，请不要使用隐式文件扩展名，目前 Module 仅支持 ['.less', '.css', '.sass', '.scss'] 后缀。
 
@@ -953,7 +953,7 @@ export default defineConfig({
 
 ## shims
 
-在构建 cjs / esm 产物时注入一些填充代码。
+在构建 cjs / esm 产物时注入一些垫片代码。
 
 例如 `__dirname` 只能在 commonjs 里使用，开启此选项后，当产物格式为 esm 时，会将 `__dirname` 编译为 `path.dirname(fileURLToPath(import.meta.url))`。
 
@@ -962,7 +962,7 @@ export default defineConfig({
 
 - 类型： `boolean`
 - 默认值： `false`
-- 版本：`v2.38.0`
+- 版本：`>=MAJOR_VERSION.38.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({
@@ -1460,7 +1460,7 @@ TypeScript 配置文件的路径。
 
 - 类型： `string`
 - 默认值： `tsconfig.json`
-- 版本： `v2.36.0`
+- 版本： `>=MAJOR_VERSION.36.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({

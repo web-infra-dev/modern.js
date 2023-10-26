@@ -168,15 +168,15 @@ Set unmatched svg files
 
 ## autoExtension
 
-Suffixes for js files and type description files in automation products based on [format](#format) and [type](https://nodejs.org/api/packages.html#type).
+Suffixes for js files and type description files in automation based on [format](#format) and [type](https://nodejs.org/api/packages.html#type).
 
 - **Type**: `boolean`
 - **Default**: `false`
-- **Version**: `2.38.0`
+- **Version**: `>=MAJOR_VERSION.38.0`
 
-When off, js products are suffixed with `.js` and type description files are suffixed with `d.ts`.
+When disabled, js artifacts are suffixed with `.js` and type description files are suffixed with `d.ts`.
 
-When on, node loads `.js` as esm by default when type is `module`, so when we want to output cjs products, the js product is suffixed with `.cjs` and the type description file is suffixed with `d.cts`.
+When enabled, node loads `.js` as esm by default when type is `module`, so when we want to output cjs artifacts, the js product is suffixed with `.cjs` and the type description file is suffixed with `d.cts`.
 
 On the other hand, if the type field is missing or the type is `commonjs`, node loads the `.js` file as cjs by default.
 So when we want to output esm output, the js output is suffixed with `.mjs` and the type description file is suffixed with `d.mts`.
@@ -185,7 +185,7 @@ So when we want to output esm output, the js output is suffixed with `.mjs` and 
 When used in bundleless mode, we have an extra step of processing the import/export statement in each file. We will suffix the relative path to the js file, possibly `.mjs` or `.cjs`, depending on your package configuration.
 You can disable this step by [redirect.autoExtension](#redirect).
 
-But [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) will break this behavior.
+Notice [noUselessIndex](https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-useless-path-segments.md#nouselessindex) will break this behavior, you should disable it.
 If you need to use this configuration in bundleless, please patch the `index`, e.g. if utils is a folder, you need to rewrite `import * from './utils'` to `import * from './utils/index'`
 :::
 
@@ -256,7 +256,7 @@ interface BannerAndFooter {
 
 - **Type**: `BannerAndFooter`
 - **Default**: `{}`
-- **Version**: `v2.36.0`
+- **Version**: `>=MAJOR_VERSION.36.0`
 
 Let's say you want to add copyright information to JS and CSS files.
 
@@ -916,7 +916,7 @@ A list of fields in package.json to try when parsing the package entry point.
 - **Default**: depends on [platform](#platform)
   - node: ['module', 'main']
   - browser: ['module', 'browser', 'main']
-- **Version**: `v2.36.0`
+- **Version**: `>=MAJOR_VERSION.36.0`
 
 For example, we want to load the `js:source` field first:
 
@@ -940,7 +940,7 @@ Support for implicit file extensions
 
 - **Type**: `string[]`
 - **Default**: `['.jsx', '.tsx', '.js', '.ts', '.json']`
-- **Version**: `v2.36.0`
+- **Version**: `>=MAJOR_VERSION.36.0`
 
 Do not use implicit file extensions for css files, currently Module only supports ['.less', '.css', '.sass', '.scss'] suffixes.
 
@@ -958,15 +958,15 @@ export default defineConfig({
 
 ## shims
 
-When building CommonJS/ESM artifacts, inject some filler code such as `__dirname` which can only be used in CommonJS.
-After Enable this option, it will compiler `__dirname` as `path.dirname(fileURLToPath(import.meta.url))` when format is esm.
+When building CommonJS/ESM artifacts, inject some polyfill code such as `__dirname` which can only be used in CommonJS.
+After enable this option, it will compile `__dirname` as `path.dirname(fileURLToPath(import.meta.url))` when format is esm.
 
 See details [here](https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/shims),
 Note that esm shims will only be injected if [platform](#platform) is node, because the url module is used.
 
 - **Type**: `boolean`
 - **Default**: `false`
-- **Version**: `v2.38.0`
+- **Version**: `>=MAJOR_VERSION.38.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({
@@ -1463,7 +1463,7 @@ Path to the tsconfig file
 
 - **Type**: `string`
 - **Default**: `tsconfig.json`
-- **Version**: `v2.36.0`
+- **Version**: `>=MAJOR_VERSION.36.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({
