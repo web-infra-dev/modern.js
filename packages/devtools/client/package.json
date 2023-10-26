@@ -17,6 +17,7 @@
   "files": [
     "dist"
   ],
+  "dependencies": {},
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
@@ -56,6 +57,5 @@
     "typescript": "~5.0.4",
     "ufo": "^1.2.0",
     "valtio": "^1.11.1"
-  },
-  "dependencies": {}
+  }
 }
