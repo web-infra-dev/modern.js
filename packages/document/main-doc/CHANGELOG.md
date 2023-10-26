@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.39.0
+
+### Patch Changes
+
+- 4e1fcd7: fix(storybook-docs): fix document reference
+  - @modern-js/builder-doc@2.39.0
+  - @modern-js/sandpack-react@2.39.0
+
 ## 2.38.0
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @modern-js/plugin-devtools
 
+## 2.39.0
+
+### Minor Changes
+
+- fe7545f: build(devtools): reduce package size by remove radix-ui from dependencies
+
+  build(devtools): 移出 radix-ui 依赖以减小包体积
+
+### Patch Changes
+
+- Updated dependencies [fe7545f]
+  - @modern-js/devtools-client@2.39.0
+  - @modern-js/devtools-kit@2.39.0
+  - @modern-js/devtools-mount@2.39.0
+  - @modern-js/runtime@2.39.0
+  - @modern-js/utils@2.39.0
+
 ## 2.38.0
 
 ### Patch Changes
