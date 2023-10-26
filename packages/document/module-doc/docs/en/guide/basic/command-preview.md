@@ -17,7 +17,7 @@ Options:
   -w, --watch Build code in listening mode
   --tsconfig [tsconfig] Specify the path to the tsconfig.json file (default:
                          ". /tsconfig.json")
-  --platform [platform] Build products for all or specified platforms
+  --platform [platform] Build artifacts for all or specified platforms
   --no-dts disables DTS type file generation and type checking
   --no-clear disables automatic clearing of output directories
   -h, --help Show information about the current command
