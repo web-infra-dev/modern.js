@@ -54,7 +54,7 @@ module.exports = {
 };
 ```
 
-For a complete introduction to Builder config, please see the [Builder Config](/guide/basic/builder-config.html) chapter.
+For a complete introduction to Builder config, please see the [Builder Config](https://modernjs.dev/builder/guide/basic/builder-config.html) chapter.
 
 ## Webpack Config File
 
