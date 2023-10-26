@@ -1,3 +1,3 @@
-import xxx from 'object-inspect';
+import jjj from './browser-false/util';
 
-console.log('xxx:', xxx);
+console.log('jjj:', jjj); // the value of `jjj` should `{}`

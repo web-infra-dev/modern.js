@@ -7152,11 +7152,7 @@ importers:
 
   tests/integration/module/fixtures/build/resolve/data-url: {}
 
-  tests/integration/module/fixtures/build/resolve/false:
-    devDependencies:
-      object-inspect:
-        specifier: 1.13.0
-        version: 1.13.0
+  tests/integration/module/fixtures/build/resolve/false: {}
 
   tests/integration/module/fixtures/build/resolve/node-protocol: {}
 
