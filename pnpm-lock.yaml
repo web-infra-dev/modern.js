@@ -7154,6 +7154,8 @@ importers:
 
   tests/integration/module/fixtures/build/resolve/false: {}
 
+  tests/integration/module/fixtures/build/resolve/false/browser-false: {}
+
   tests/integration/module/fixtures/build/resolve/node-protocol: {}
 
   tests/integration/module/fixtures/build/resolve/with-condition-exports: {}
