@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 2.38.0
+
+### Minor Changes
+
+- ce967bb: feat(plugin-runtime): support ssr inline assets
+  feat(plugin-runtime): 支持 SSR 内联 css, scripts 资源
+
+### Patch Changes
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- 623c6c8: fix(ssr): routerManifest may be a undefined
+  fix(ssr): routerManifest 可能是个 undefined
+  - @modern-js/plugin@2.38.0
+  - @modern-js/runtime-utils@2.38.0
+  - @modern-js/types@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes

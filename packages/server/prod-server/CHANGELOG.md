@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 2.38.0
+
+### Patch Changes
+
+- 6d8ef7d: fix: export reporter only in middlewares-context
+  fix: 只在 middlewares-context 导出 reporter
+  - @modern-js/server-core@2.38.0
+  - @modern-js/plugin@2.38.0
+  - @modern-js/runtime-utils@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.37.2",
+  "version": "2.38.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -111,7 +111,7 @@
     "webpack": "^5.88.1"
   },
   "peerDependencies": {
-    "@modern-js/builder-rspack-provider": "workspace:^2.37.2"
+    "@modern-js/builder-rspack-provider": "workspace:^2.38.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-rspack-provider": {

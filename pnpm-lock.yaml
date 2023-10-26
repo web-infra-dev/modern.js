@@ -128,10 +128,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.37.2
+        specifier: workspace:^2.38.0
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.37.2
+        specifier: workspace:^2.38.0
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*

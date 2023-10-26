@@ -1,5 +1,22 @@
 # @modern-js/generator-utils
 
+## 3.2.7
+
+### Patch Changes
+
+- 472f065: fix: new modern plugin version not exist
+
+  fix: 修复 new 命令开启插件，插件版本不存在问题
+
+- 8f43163: feat: optimize generator bundle
+
+  feat: 优化生成器打包
+
+- Updated dependencies [8f43163]
+  - @modern-js/generator-common@3.2.7
+  - @modern-js/plugin-i18n@2.38.0
+  - @modern-js/utils@2.38.0
+
 ## 3.2.6
 
 ### Patch Changes

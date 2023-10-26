@@ -1,5 +1,23 @@
 # @modern-js/builder-plugin-vue
 
+## 2.38.0
+
+### Patch Changes
+
+- 3304d33: chore(deps): bump @babel/core to v7.23.2
+
+  chore(deps): 升级 @babel/core 至 v7.23.2
+
+- Updated dependencies [6e8cb66]
+- Updated dependencies [3304d33]
+- Updated dependencies [64da831]
+- Updated dependencies [9b525dc]
+- Updated dependencies [add9dfd]
+- Updated dependencies [09fc285]
+  - @modern-js/builder-webpack-provider@2.38.0
+  - @modern-js/builder-rspack-provider@2.38.0
+  - @modern-js/builder-shared@2.38.0
+
 ## 2.37.2
 
 ### Patch Changes
