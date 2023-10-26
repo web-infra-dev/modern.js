@@ -50,11 +50,11 @@ export default config;
 
 Update dependencies like @storybook/addon-\* to major version 7.
 
-Finally, follow the official Storybook documentation to make the necessary updates for some breaking changes, such as changes in story writing and MDX syntax. You can refer to the migration guide at https://storybook.js.org/docs/react/migration-guide.
+Finally, follow the official Storybook documentation to make the necessary updates for some breaking changes, such as changes in story writing and MDX syntax. You can refer to the migration guide at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
 
 ### Native Storybook users
 
-Modern.js Builder only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at https://storybook.js.org/docs/react/migration-guide.
+Modern.js Builder only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
 
 To install @modern-js/storybook as the framework for Storybook, if you have interest in Rspack, install `@modern-js/builder-provider-rspack`, otherwise you should install `@modern-js/builder-provider-webpack`. Rspack is super fast compared to Webpack.
 
@@ -67,7 +67,7 @@ const config = {
 export default config;
 ```
 
-The default config file is `modern.config.(j|t)s`, for the detail config, see [builder config](/guide/basic/builder-config.html).
+The default config file is `modern.config.(j|t)s`, for the detail config, see [builder config](https://modernjs.dev/builder/guide/basic/builder-config.html).
 
 If the original project includes configurations for Babel, they need to be written in the modern configuration. Most Babel configurations have already been included in Modern.js.
 

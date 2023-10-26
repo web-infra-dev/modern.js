@@ -54,7 +54,7 @@ module.exports = {
 };
 ```
 
-关于 Builder 配置项的完整介绍，请查看 [Builder 配置项](/guide/basic/builder-config.html) 章节。
+关于 Builder 配置项的完整介绍，请查看 [Builder 配置项](https://modernjs.dev/builder/guide/basic/builder-config.html) 章节。
 
 ## webpack 配置文件
 

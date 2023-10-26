@@ -50,11 +50,11 @@ export default config;
 
 升级 @storybook/addon-\* 系列依赖，升级到 7 版本。
 
-最后按照 Storybook 官网文档，对一些 breaking change 做相应的更新，例如 stories 的写法，MDX 的写法等，参考 https://storybook.js.org/docs/react/migration-guide。
+最后按照 Storybook 官网文档，对一些 breaking change 做相应的更新，例如 stories 的写法，MDX 的写法等，参考[storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
 ### 当前项目是 Storybook 项目，没有使用 Modern.js
 
-若当前 Storybook 版本还是 6，需要先按照 Storybook 官网文档升级到版本 7 ，参考 https://storybook.js.org/docs/react/migration-guide。
+若当前 Storybook 版本还是 6，需要先按照 Storybook 官网文档升级到版本 7 ，参考[storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
 安装 @modern-js/storybook，作为 storybook 的 framework。若想要使用 Rspack 作为构建工具，安装 @modern-js/builder-provider-rspack，若要使用 Webpack 作为构建工具，则安装 @modern-js/builder-provider-webpack。
 
@@ -67,7 +67,7 @@ const config = {
 export default config;
 ```
 
-Modern.js 的配置文件默认为 `modern.config.(j|t)s`，配置请查看 [builder 配置](/guide/basic/builder-config.html)。
+Modern.js 的配置文件默认为 `modern.config.(j|t)s`，配置请查看 [builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html)。
 
 若原来项目中包含了 Babel 等配置，需要对应的写在 modern 配置中，大部分 Babel 配置已经包含进了 Modern.js。
 
