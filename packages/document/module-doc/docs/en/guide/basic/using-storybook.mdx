@@ -25,14 +25,14 @@ Modern.js Module is integrated with Storybook, so you can pretty much follow the
 
 The project code needs to be introduced during the debugging process and can currently be introduced in two ways:
 
-- Use of project products
+- Use of project artifacts
 - Using the project source code
 
 We recommend using the first "**referenced project product**" approach. Because it is closer to the real usage scenario, not only can we debug the component functionality, but also verify the correctness of the build product. However, we can also refer to the source code when testing the project functionality and refer to the project package name when verifying the project product.
 
 Next, we will talk about how to use each of these two methods.
 
-### Referencing component products
+### Referencing component artifacts
 
 If the TypeScript project `foo` exists. Make sure the `main` and `types` of `package.json` values are real paths.
 
@@ -113,7 +113,7 @@ For npm and Yarn projects, the values of `types` of `package.json` can only be c
 
 So why is it possible to reference the product directly?
 
-1. execute `modern build --watch` command before executing `modern dev storybook` command to ensure the existence of project build products.
+1. execute `modern build --watch` command before executing `modern dev storybook` command to ensure the existence of project build artifacts.
 2. Add processing logic inside Storybook to ensure that the project's product paths can be parsed **according to `package.json`, based on the `compilerOptions.paths` configuration in the `tsconfig.json` file or (in JS projects) directly with the project name as an alias**.
 
 ### Referencing component source code
@@ -153,7 +153,7 @@ For more information on how to use the various Storybook configuration files, se
 
 In the future we will consider whether these configurations can be allowed to be modified, but for now we are limiting their use to reduce unpredictable issues.
 
-## Building Storybook Products
+## Building Storybook Artifacts
 
 In addition to Storybook debugging of components or common modules, you can also perform Storybook build tasks with the following commands.
 

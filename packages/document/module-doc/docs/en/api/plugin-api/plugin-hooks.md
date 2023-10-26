@@ -5,7 +5,7 @@ This chapter describes the lifecycle hooks supported by module-tools.
 Currently there are two main types of lifecycle hooks.
 
 * Build hooks: triggered only when the `build` command is executed to build the source code product.
-* `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build products.
+* `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build artifacts.
 * dev hooks: hooks that are triggered when running the `dev` command.
 
 ## build hooks
@@ -274,14 +274,14 @@ export interface BuildPlatformResult {
 
 The following Hooks are triggered in order when the `dev` command is executed.
 
-- `registerDev`: triggered when getting dev function information.
-- `beforeDev`: Triggered before starting the dev process as a whole.
-- `beforeDevMenu`: triggered before the dev list/menu appears.
-- `afterDevMenu`: triggered after dev list/menu option is selected.
-- `beforeDevTask`: Triggered before executing the dev task.
-- `afterDev`: Triggered at the end of the overall dev process.
+* `registerDev`: triggered when getting dev function information.
+* `beforeDev`: Triggered before starting the dev process as a whole.
+* `beforeDevMenu`: triggered before the dev list/menu appears.
+* `afterDevMenu`: triggered after dev list/menu option is selected.
+* `beforeDevTask`: Triggered before executing the dev task.
+* `afterDev`: Triggered at the end of the overall dev process.
 
-### `registerDev`.
+### `registerDev`
 
 Register dev tool related data. Mainly contains.
 
@@ -338,7 +338,7 @@ export interface DevToolData {
 <!-- :::tip About disableRunBuild configuration
 When dev a project, it may be possible to set `disableRunBuild: true` to disable build tasks for source execution (in listening mode) if you only need to dev code functionality.
 
-The currently supported Storybook dev supports using source code products as dev objects, so `disableRunBuild: false` in the Storybook plugin.
+The currently supported Storybook dev supports using source code artifacts as dev objects, so `disableRunBuild: false` in the Storybook plugin.
 ::: -->
 
 ### `beforeDev`
@@ -489,5 +489,3 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
   },
 });
 ```
-
-
