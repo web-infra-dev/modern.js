@@ -5742,7 +5742,7 @@ importers:
   scripts/update-rspress:
     dependencies:
       '@modern-js/generator-utils':
-        specifier: 'workspace: *'
+        specifier: workspace:*
         version: link:../../packages/generator/generator-utils
       fs-extra:
         specifier: ^10.1.0

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "@modern-js/generator-utils": "workspace: *"
+    "@modern-js/generator-utils": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^3.12.7",
