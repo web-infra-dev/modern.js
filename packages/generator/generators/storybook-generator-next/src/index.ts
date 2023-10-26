@@ -160,11 +160,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
-  generator.logger.debug(`start run @modern-js/storybook-generator-next`);
+  generator.logger.debug(`start run @modern-js/storybook-next-generator`);
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
   await handleTemplateFile(context, appApi, generator);
 
-  generator.logger.debug(`forge @modern-js/storybook-generator-next succeed `);
+  generator.logger.debug(`forge @modern-js/storybook-next-generator succeed `);
 };

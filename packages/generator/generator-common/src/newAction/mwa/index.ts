@@ -182,7 +182,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
-    [ActionFunction.StorybookV7]: '@modern-js/storybook-generator-next',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
