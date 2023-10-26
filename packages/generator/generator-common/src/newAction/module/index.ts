@@ -91,7 +91,7 @@ export const ModuleNewActionGenerators: Partial<
     [ActionFunction.Test]: '@modern-js/module-test-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
-    [ActionFunction.StorybookV7]: '@modern-js/storybook-generator-next',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
   },
 };
