@@ -119,8 +119,8 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "serialize-javascript": "^6.0.0",
-    "react-router-dom": "6.15.0",
-    "@remix-run/router": "1.8.0",
+    "react-router-dom": "6.17.0",
+    "@remix-run/router": "1.10.0",
     "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {

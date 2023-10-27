@@ -7,9 +7,9 @@ import {
 } from '@remix-run/node';
 import {
   createStaticHandler,
-  ErrorResponse,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
+  isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import { isPlainObject } from '@modern-js/utils/lodash';
@@ -162,7 +162,10 @@ export const handleRequest = async ({
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {
-      response = convertModernRedirectResponse(response.headers, basename);
+      response = convertModernRedirectResponse(
+        response.headers as unknown as Headers,
+        basename,
+      );
     } else if (isPlainObject(response) && DEFERRED_SYMBOL in response) {
       const deferredData = response[DEFERRED_SYMBOL] as DeferredData;
       const body = createDeferredReadableStream(deferredData, request.signal);
@@ -191,7 +194,7 @@ export const handleRequest = async ({
           });
     }
   } catch (error) {
-    const message = error instanceof ErrorResponse ? error.data : String(error);
+    const message = isRouteErrorResponse(error) ? error.data : String(error);
     if (error instanceof Error) {
       logger?.error(error);
     } else {
