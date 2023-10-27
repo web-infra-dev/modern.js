@@ -2625,14 +2625,14 @@ importers:
         specifier: ^5
         version: 5.0.4
 
-  packages/generator/generators/storybook-generator-next:
+  packages/generator/generators/storybook-next-generator:
     devDependencies:
       '@modern-js/codesmith':
         specifier: 2.2.5
         version: 2.2.5
       '@modern-js/codesmith-api-app':
         specifier: 2.2.5
-        version: 2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.0.4)
+        version: 2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.2.2)
       '@modern-js/codesmith-api-json':
         specifier: 2.2.5
         version: 2.2.5
@@ -2665,7 +2665,7 @@ importers:
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
       typescript:
         specifier: ^5
-        version: 5.0.4
+        version: 5.2.2
 
   packages/generator/generators/tailwindcss-generator:
     dependencies:
@@ -10674,13 +10674,13 @@ packages:
       '@types/node': 18.11.17
       chalk: 4.1.2
       cosmiconfig: 8.1.3
-      cosmiconfig-typescript-loader: 4.3.0(@types/node@18.11.17)(cosmiconfig@8.1.3)(ts-node@10.9.1)(typescript@5.0.4)
+      cosmiconfig-typescript-loader: 4.3.0(@types/node@18.11.17)(cosmiconfig@8.1.3)(ts-node@10.9.1)(typescript@5.2.2)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
-      typescript: 5.0.4
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
+      typescript: 5.2.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -11583,6 +11583,18 @@ packages:
       '@formily/shared': 2.2.24
       typescript: 5.0.4
 
+  /@formily/json-schema@2.2.24(typescript@5.2.2):
+    resolution: {integrity: sha512-3aEMEO5D0B1p5rM/lzWmhx3rYqid4OKzCXAdxBsyicacFK9dVqxlOBt8d6auOsppMZ675q52jSVDxNSgh4xKqg==}
+    engines: {npm: '>=3.0.0'}
+    peerDependencies:
+      typescript: '>4.1.5'
+    dependencies:
+      '@formily/core': 2.2.24
+      '@formily/reactive': 2.2.24
+      '@formily/shared': 2.2.24
+      typescript: 5.2.2
+    dev: true
+
   /@formily/path@2.2.24:
     resolution: {integrity: sha512-DrRBIPvlqGr7+xQ/74MY/j7WSbUzvWeHOsjfXTIllbijKAdUm+DovpQuHMXR16I3gnuQ8CvyMzCizP9RKVnhzw==}
     engines: {npm: '>=3.0.0'}
@@ -12266,7 +12278,7 @@ packages:
       redux: 4.2.0
     dev: false
 
-  /@modern-js/codesmith-api-app@2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.0.4):
+  /@modern-js/codesmith-api-app@2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.2.2):
     resolution: {integrity: sha512-s3tZt553MgATJ8FaoztCrPOqvO1g+lNDfC+QfkzTgUoFWk9vefueQ/mqqj+AuAQC22S+hk6pdJ0HtOBkHWee7w==}
     peerDependencies:
       '@modern-js/codesmith': ^2.2.5
@@ -12278,17 +12290,14 @@ packages:
       '@modern-js/codesmith-api-git': 2.2.5(@modern-js/codesmith@2.2.5)
       '@modern-js/codesmith-api-handlebars': 2.2.5(@modern-js/codesmith@2.2.5)
       '@modern-js/codesmith-api-npm': 2.2.5
-      '@modern-js/codesmith-formily': 2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.0.4)
-      '@modern-js/plugin-i18n': 2.18.0
-      '@modern-js/utils': 2.35.1
+      '@modern-js/codesmith-formily': 2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.2.2)
+      '@modern-js/plugin-i18n': 2.37.2
+      '@modern-js/utils': 2.37.2
       comment-json: 4.2.3
       extra: 0.2.1
       inquirer: 8.1.3
     transitivePeerDependencies:
       - debug
-      - react
-      - react-dom
-      - react-router-dom
       - typescript
     dev: true
 
@@ -12360,7 +12369,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       '@modern-js/codesmith': 2.2.5
-      '@modern-js/utils': 2.35.1
+      '@modern-js/utils': 2.37.2
     dev: true
 
   /@modern-js/codesmith-api-git@2.3.0(@modern-js/codesmith@2.3.0):
@@ -12420,7 +12429,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       '@modern-js/codesmith': 2.2.5
-      '@modern-js/utils': 2.35.1
+      '@modern-js/utils': 2.37.2
     transitivePeerDependencies:
       - debug
     dev: true
@@ -12434,16 +12443,16 @@ packages:
     transitivePeerDependencies:
       - debug
 
-  /@modern-js/codesmith-formily@2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.0.4):
+  /@modern-js/codesmith-formily@2.2.5(@modern-js/codesmith@2.2.5)(typescript@5.2.2):
     resolution: {integrity: sha512-K2A+e/ptl3XoMlrCHIyAd+Oo49rwzQQrU8sOdwjRgQD/Ik4vNbIBSvZeTqU8ViYO2ZEk5IvffyTJw2ZbDNM99Q==}
     peerDependencies:
       '@modern-js/codesmith': ^2.2.5
     dependencies:
       '@babel/runtime': 7.23.2
-      '@formily/json-schema': 2.2.24(typescript@5.0.4)
+      '@formily/json-schema': 2.2.24(typescript@5.2.2)
       '@formily/validator': 2.2.24
       '@modern-js/codesmith': 2.2.5
-      '@modern-js/utils': 2.35.1
+      '@modern-js/utils': 2.37.2
       inquirer: 8.2.5
     transitivePeerDependencies:
       - typescript
@@ -12467,9 +12476,9 @@ packages:
     resolution: {integrity: sha512-crlaJqKT8iSLRTLOgTU7PCVWtXJ66ezM5CmKTRGdQYIEWx85Pmuj3lmupyXM3ecv4lhVzoonVs/nh3bS5ubeOQ==}
     dependencies:
       '@babel/runtime': 7.23.2
-      '@modern-js/utils': 2.35.1
+      '@modern-js/utils': 2.37.2
       axios: 0.21.4
-      tar: 6.1.13
+      tar: 6.2.0
     transitivePeerDependencies:
       - debug
     dev: true
@@ -12487,17 +12496,6 @@ packages:
   /@modern-js/inspector-webpack-plugin@1.0.6:
     resolution: {integrity: sha512-QAiW00QKoSfj0Dn/J8rnXh3vq1cA1tHsTbhEOkzgtGdKlV70SZ+54aPDFjygAOrY/GurmuLLoUgPpcPKLbHAmQ==}
     dev: false
-
-  /@modern-js/plugin-i18n@2.18.0:
-    resolution: {integrity: sha512-Slu4zeA1VyvJVSq/hjomtf6f5iB8SfAA86Bwun+bHVQWbtzvz6yL34jdYlJsgkXL7L8vdRjR5jeT3pvzuswGzw==}
-    dependencies:
-      '@babel/runtime': 7.23.2
-      '@modern-js/utils': 2.18.0
-    transitivePeerDependencies:
-      - react
-      - react-dom
-      - react-router-dom
-    dev: true
 
   /@modern-js/plugin-i18n@2.37.2:
     resolution: {integrity: sha512-jZ4c8dczWGGllHbzVOjnW+eVTN0uMXElUx4nf89H9YOeBv0pYZrqEnQ8mWsqUXDUjtg0Omp6OzUtsAbwr4bU1Q==}
@@ -12646,34 +12644,6 @@ packages:
       '@modern-js/swc-plugins-win32-arm64-msvc': 0.6.4
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.4
     dev: false
-
-  /@modern-js/utils@2.18.0:
-    resolution: {integrity: sha512-QSa5CEPnAHK0Qy1xNNao2AdGLPvWiV0yfG3mKoxCKXVSISB/d8bGpGnCmmrw0qZHJAqEjTirrsmVJrzc7k8Ncg==}
-    peerDependencies:
-      react: '>=17.0.0'
-      react-dom: '>=17.0.0'
-      react-router-dom: ^6.8.1
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-      react-router-dom:
-        optional: true
-    dependencies:
-      '@remix-run/router': 1.8.0
-      caniuse-lite: 1.0.30001520
-      lodash: 4.17.21
-      serialize-javascript: 6.0.1
-    dev: true
-
-  /@modern-js/utils@2.35.1:
-    resolution: {integrity: sha512-DrHXjU/74bVfwEhTXzjd8MO6B2v80kBe7qZTMVQKMTzEeLAJsJbxsl9OMy747fDyI8+Wv9NNngknazJIE9NlZw==}
-    dependencies:
-      '@swc/helpers': 0.5.1
-      caniuse-lite: 1.0.30001520
-      lodash: 4.17.21
-    dev: true
 
   /@modern-js/utils@2.37.2:
     resolution: {integrity: sha512-w9qsxogSrvUBHmBPKjr7vqV9b6HkzcSd7Ps0KhBaB+iAfv2fNumVELA/zWqtRyJdlXvMB0Y3ilYB9+XM17NmNw==}
@@ -19837,7 +19807,7 @@ packages:
   /core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
-  /cosmiconfig-typescript-loader@4.3.0(@types/node@18.11.17)(cosmiconfig@8.1.3)(ts-node@10.9.1)(typescript@5.0.4):
+  /cosmiconfig-typescript-loader@4.3.0(@types/node@18.11.17)(cosmiconfig@8.1.3)(ts-node@10.9.1)(typescript@5.2.2):
     resolution: {integrity: sha512-NTxV1MFfZDLPiBMjxbHRwSh5LaLcPMwNdCutmnHJCKoVnlvldPWlllonKwrsRJ5pYZBIBGRWWU2tfvzxgeSW5Q==}
     engines: {node: '>=12', npm: '>=6'}
     peerDependencies:
@@ -19848,8 +19818,8 @@ packages:
     dependencies:
       '@types/node': 18.11.17
       cosmiconfig: 8.1.3
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
-      typescript: 5.0.4
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
+      typescript: 5.2.2
     dev: true
 
   /cosmiconfig@6.0.0:
@@ -24001,7 +23971,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -24040,7 +24010,7 @@ packages:
       pretty-format: 29.5.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -26025,7 +25995,6 @@ packages:
   /minipass@5.0.0:
     resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
     engines: {node: '>=8'}
-    dev: false
 
   /minipass@7.0.4:
     resolution: {integrity: sha512-jYofLM5Dam9279rdkWzqHozUo4ybjdZmCsDHePy5V/PbBcVMiSZR97gmAy45aqi8CK1lG2ECd356FU86avfwUQ==}
@@ -27349,7 +27318,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
       yaml: 1.10.2
     dev: true
 
@@ -27367,7 +27336,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.31
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
       yaml: 1.10.2
     dev: false
 
@@ -27385,7 +27354,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.31
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
       yaml: 2.2.1
 
   /postcss-loader@7.0.2(postcss@8.4.31)(webpack@5.88.1):
@@ -31442,7 +31411,6 @@ packages:
       minizlib: 2.1.2
       mkdirp: 1.0.4
       yallist: 4.0.0
-    dev: false
 
   /telejson@7.2.0:
     resolution: {integrity: sha512-1QTEcJkJEhc8OnStBx/ILRu5J2p0GjvWsBx56bmZRqnrkdBMUe+nX92jxV+p3dB4CP6PZCdJMQJwCggkNBMzkQ==}
@@ -31904,7 +31872,7 @@ packages:
       yn: 3.1.1
     dev: true
 
-  /ts-node@10.9.1(@types/node@18.11.17)(typescript@5.0.4):
+  /ts-node@10.9.1(@types/node@18.11.17)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -31930,7 +31898,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 5.0.4
+      typescript: 5.2.2
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
