@@ -160,13 +160,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     generator,
   );
 
-  if (context.config.isSubGenerator) {
-    appApi.showSuccessInfo(
-      i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
-      }),
-    );
-  }
+  appApi.showSuccessInfo(
+    i18n.t(localeKeys.success, {
+      packageManager: getPackageManagerText(packageManager),
+    }),
+  );
 
   generator.logger.debug(`forge @modern-js/storybook-next-generator succeed `);
 };
