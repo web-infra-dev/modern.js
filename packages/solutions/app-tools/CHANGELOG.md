@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 2.39.0
+
+### Patch Changes
+
+- @modern-js/builder@2.39.0
+- @modern-js/builder-rspack-provider@2.39.0
+- @modern-js/builder-shared@2.39.0
+- @modern-js/builder-webpack-provider@2.39.0
+- @modern-js/builder-plugin-esbuild@2.39.0
+- @modern-js/builder-plugin-node-polyfill@2.39.0
+- @modern-js/core@2.39.0
+- @modern-js/plugin-data-loader@2.39.0
+- @modern-js/plugin-i18n@2.39.0
+- @modern-js/plugin-lint@2.39.0
+- @modern-js/new-action@2.39.0
+- @modern-js/server-core@2.39.0
+- @modern-js/prod-server@2.39.0
+- @modern-js/server@2.39.0
+- @modern-js/node-bundle-require@2.39.0
+- @modern-js/plugin@2.39.0
+- @modern-js/types@2.39.0
+- @modern-js/upgrade@2.39.0
+- @modern-js/utils@2.39.0
+
 ## 2.38.0
 
 ### Patch Changes

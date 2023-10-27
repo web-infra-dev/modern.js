@@ -128,10 +128,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.38.0
+        specifier: workspace:^2.39.0
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.38.0
+        specifier: workspace:^2.39.0
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*
@@ -5720,7 +5720,7 @@ importers:
         specifier: ^1.1.3
         version: 1.1.3
       '@modern-js/generator-utils':
-        specifier: 'workspace: *'
+        specifier: workspace:*
         version: link:../../packages/generator/generator-utils
       fs-extra:
         specifier: ^10.1.0
@@ -5742,7 +5742,7 @@ importers:
   scripts/update-rspress:
     dependencies:
       '@modern-js/generator-utils':
-        specifier: 'workspace: *'
+        specifier: workspace:*
         version: link:../../packages/generator/generator-utils
       fs-extra:
         specifier: ^10.1.0

@@ -1,6 +1,6 @@
 {
   "name": "@scripts/update-rsbuild",
-  "version": "2.38.0",
+  "version": "2.39.0",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "fs-extra": "^10.1.0",
-    "@modern-js/generator-utils": "workspace: *",
+    "@modern-js/generator-utils": "workspace:*",
     "@manypkg/get-packages": "^1.1.3"
   },
   "devDependencies": {

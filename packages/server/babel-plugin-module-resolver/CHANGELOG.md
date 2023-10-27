@@ -1,5 +1,7 @@
 # @modern-js/babel-plugin-module-resolver
 
+## 2.39.0
+
 ## 2.38.0
 
 ### Patch Changes
