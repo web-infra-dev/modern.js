@@ -1,11 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 
-const tip: Record<string, string> = {
-  zh: '该配置由 Modern.js Builder 提供，更多信息可参考',
-  en: 'This config is provided by Modern.js Builder, more detail can see',
-};
-
 export type Summary = {
   name: string;
   dirname: string;
@@ -16,21 +11,11 @@ export type Language = 'en' | 'zh';
 const createMarkdown = (summary: Summary, lng: Language) => {
   const { name, dirname } = summary;
 
-  const langPrefix = lng === 'zh' ? '' : `/${lng}`;
-
   return `---
 sidebar_label: ${name}
 ---
 
 # ${dirname}.${name}
-
-:::tip
-${
-  tip[lng]
-} [${dirname}.${name}](https://modernjs.dev/builder${langPrefix}/api/config-${dirname}.html#${dirname}${name.toLowerCase()})${
-    lng === 'en' ? '.' : '。'
-  }
-:::
 
 import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md';
 
