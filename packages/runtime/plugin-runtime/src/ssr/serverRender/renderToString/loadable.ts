@@ -1,5 +1,5 @@
+import fs from 'node:fs/promises';
 import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
-import { fs } from '@modern-js/utils';
 import { ReactElement } from 'react';
 import { attributesToString } from '../utils';
 import { SSRPluginConfig } from '../types';
@@ -134,13 +134,18 @@ class LoadableCollector implements Collector {
             const filepath = chunk.path!;
             return fs
               .readFile(filepath, 'utf-8')
-              .then(content => `<script>${content}</script>`);
+              .then(content => `<script>${content}</script>`)
+              .catch(_ => {
+                // ignore, then return a empty string.
+                return '';
+              });
           } else {
             return `<script${attributes} src="${chunk.url}"></script>`;
           }
         }),
     );
-    chunksMap.js += scripts.join('');
+    // filter empty string;
+    chunksMap.js += scripts.filter(script => Boolean(script)).join('');
   }
 
   private async emitStyleAssets(chunks: ChunkAsset[]) {
@@ -166,14 +171,19 @@ class LoadableCollector implements Collector {
           if (checkIsInline(chunk, enableInlineStyles)) {
             return fs
               .readFile(chunk.path!)
-              .then(content => `<style>${content}</style>`);
+              .then(content => `<style>${content}</style>`)
+              .catch(_ => {
+                // ignore, then return a empty string.
+                return '';
+              });
           } else {
             return `<link${atrributes} href="${chunk.url!}" rel="stylesheet" />`;
           }
         }),
     );
 
-    chunksMap.css += css.join('');
+    // filter empty string;
+    chunksMap.css += css.filter(css => Boolean(css)).join('');
   }
 
   private generateAttributes(
