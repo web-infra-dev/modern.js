@@ -7,3 +7,4 @@
 * [@modern-js/plugin-module-node-polyfill](./plugin-node-polyfill.mdx)： Inject Polyfills of Node core modules in the browser side.
 * [@modern-js/plugin-module-polyfill](./plugin-polyfill.md)：Inject polyfill for unsupported features used in your code.
 * [@modern-js/plugin-module-babel](./plugin-babel.md)：Use Babel to transform your code.
+* [@modern-js/plugin-module-vue](./plugin-vue.md)：Support for Vue component.
