@@ -230,7 +230,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
     [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
-    [ActionFunction.StorybookV7]: '@modern-js/storybook',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
