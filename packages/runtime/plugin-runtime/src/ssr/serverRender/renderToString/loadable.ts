@@ -136,7 +136,7 @@ class LoadableCollector implements Collector {
               .readFile(filepath, 'utf-8')
               .then(content => `<script>${content}</script>`)
               .catch(_ => {
-                // ignore, then return a empty string.
+                // ignore error, then return a empty string.
                 return '';
               });
           } else {
@@ -173,7 +173,7 @@ class LoadableCollector implements Collector {
               .readFile(chunk.path!)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {
-                // ignore, then return a empty string.
+                // ignore error, then return a empty string.
                 return '';
               });
           } else {
