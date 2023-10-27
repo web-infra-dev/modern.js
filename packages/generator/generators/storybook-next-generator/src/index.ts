@@ -8,17 +8,17 @@ import {
   fs,
   isReact18,
   getPackageVersion,
+  getPackageManagerText,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
   Language,
 } from '@modern-js/generator-common';
-import { i18n } from './locale';
+import { i18n, localeKeys } from './locale';
 import { getMajorVersion } from './utils';
 
 const ADDON_ESSENTIAL = '@storybook/addon-essentials';
-const MODERN_STORYBOOK = '@modern-js/storybook';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -75,14 +75,9 @@ const handleTemplateFile = async (
         react: isReact18(context.materials.default.basePath) ? '^18' : '^17',
       };
 
-  const { modernVersion } = context.config;
-
   const exitAddonsVersion =
     pkg.devDependencies?.[ADDON_ESSENTIAL] ||
     pkg.dependencies?.[ADDON_ESSENTIAL];
-  const isExitStorybook =
-    pkg.devDependencies?.[MODERN_STORYBOOK] ||
-    pkg.dependencies?.[MODERN_STORYBOOK];
 
   const latestVersion = await getPackageVersion(ADDON_ESSENTIAL);
   let availableVersion = latestVersion;
@@ -108,11 +103,6 @@ const handleTemplateFile = async (
 
   const addStorybookDependence = {
     [ADDON_ESSENTIAL]: availableVersion,
-    ...(!isExitStorybook
-      ? {
-          [MODERN_STORYBOOK]: modernVersion,
-        }
-      : {}),
   };
 
   const jsonAPI = new JsonAPI(generator);
@@ -164,7 +154,19 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  await handleTemplateFile(context, appApi, generator);
+  const { packageManager } = await handleTemplateFile(
+    context,
+    appApi,
+    generator,
+  );
+
+  if (context.config.isSubGenerator) {
+    appApi.showSuccessInfo(
+      i18n.t(localeKeys.success, {
+        packageManager: getPackageManagerText(packageManager),
+      }),
+    );
+  }
 
   generator.logger.debug(`forge @modern-js/storybook-next-generator succeed `);
 };
