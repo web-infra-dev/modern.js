@@ -1,6 +1,7 @@
 ---
 title: Add Loader
 ---
+
 # Add Loader
 
 In the previous chapter, we learned how to add client route.
@@ -23,7 +24,7 @@ Create `src/routes/page.data.ts`:
 ```tsx
 import { name, internet } from 'faker';
 
-type LoaderData = {
+export type LoaderData = {
   code: number;
   data: {
     name: string;
@@ -56,8 +57,9 @@ Data Loader doesn't just work for SSR. In CSR projects, Data Loader can also avo
 
 Modern.js also provides a hooks API called `useLoaderData`, we modify the exported component of `src/routes/page.tsx`:
 
-```tsx {1,4,13}
+```tsx {1,2,5,13}
 import { useLoaderData } from '@modern-js/runtime/router';
+import type { LoaderData } from './page.data';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;

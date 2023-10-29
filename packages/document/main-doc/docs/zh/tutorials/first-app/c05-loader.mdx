@@ -1,6 +1,7 @@
 ---
 title: 添加 Loader
 ---
+
 # 添加 Loader
 
 上一章节中，我们学习了如何添加客户端路由。
@@ -23,7 +24,7 @@ pnpm add @types/faker@5 -D
 ```tsx
 import { name, internet } from 'faker';
 
-type LoaderData = {
+export type LoaderData = {
   code: number;
   data: {
     name: string;
@@ -56,8 +57,9 @@ Data Loader 并非只为 SSR 工作。在 CSR 项目中，Data Loader 也可以�
 
 Modern.js 也提供了一个叫 `useLoaderData` 的 hooks API，我们修改 `src/routes/page.tsx` 导出的组件：
 
-```tsx {1,4,13}
+```tsx {1,2,5,13}
 import { useLoaderData } from '@modern-js/runtime/router';
+import type { LoaderData } from './page.data';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;
@@ -78,7 +80,7 @@ function Index() {
 export default Index;
 ```
 
-{/* Todo 重新截图，SSR 内容  */}
+{/* Todo 重新截图，SSR 内容 */}
 
 重新执行 `pnpm run dev`，查看 `view-source:http://localhost:8080/`，或在 devtools 的 Network 面板里查看 HTML 请求的「 Preview 」，可以看到 SSR 渲染出来的 HTML 已经包含完整的 UI：
 
