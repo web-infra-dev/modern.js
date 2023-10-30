@@ -7,7 +7,7 @@ import type {
   SSRMode,
 } from '@modern-js/types';
 import {
-  ErrorResponse,
+  UNSAFE_ErrorResponseImpl as ErrorResponseImpl,
   type StaticHandlerContext,
   type Router,
 } from '@modern-js/runtime-utils/remix-router';
@@ -175,7 +175,7 @@ export function deserializeErrors(
     // Hey you!  If you change this, please change the corresponding logic in
     // serializeErrors
     if (val && val.__type === 'RouteErrorResponse') {
-      serialized[key] = new ErrorResponse(
+      serialized[key] = new ErrorResponseImpl(
         val.status,
         val.statusText,
         val.data,
