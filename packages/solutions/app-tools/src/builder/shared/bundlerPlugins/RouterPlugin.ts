@@ -205,7 +205,20 @@ export class RouterPlugin {
           };
 
           const entryNames = Array.from(compilation.entrypoints.keys());
-          const entryChunks = this.getEntryChunks(compilation, chunks);
+          const orignalEntryIds = Object.keys(compilation.options.entry).map(
+            entryName => {
+              const chunk = compilation.namedChunks.get(
+                entryName,
+              ) as webpack.Chunk;
+              if (chunk) {
+                return chunk.id;
+              }
+              return entryName;
+            },
+          );
+          const entryChunks = this.getEntryChunks(compilation, chunks).filter(
+            chunk => orignalEntryIds.includes(chunk.id as string),
+          );
           const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
 
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
