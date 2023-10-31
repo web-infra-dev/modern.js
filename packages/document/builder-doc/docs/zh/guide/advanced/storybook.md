@@ -12,7 +12,7 @@
 
 使用 Modern.js builder 还可以一键在 Webpack 和 Rspack 之间进行切换。对于使用 Modern.js builder 开发应用的用户，也可以很方便的直接使用现有的 Modern.js 配置用 Storybook 进行组件的测试。
 
-## 开启 Storybook
+## 快速开始
 
 ### 在 Modern.js 项目中使用
 
@@ -42,7 +42,9 @@ $ npx modern new
 
 ```diff
 const config = {
-+  framework: '@modern-js/storybook'
++  framework: {
++    name: '@modern-js/storybook'
++  },
 };
 
 export default config;
@@ -56,12 +58,12 @@ export default config;
 
 若当前 Storybook 版本还是 6，需要先按照 Storybook 官网文档升级到版本 7 ，参考[storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
-安装 @modern-js/storybook，作为 storybook 的 framework。若想要使用 Rspack 作为构建工具，安装 @modern-js/builder-provider-rspack，若要使用 Webpack 作为构建工具，则安装 @modern-js/builder-provider-webpack。
-
 ```diff filename='.storybook/main.js'
 const config = {
 -  framework: '@storybook/react-webapck5',
-+  framework: '@modern-js/storybook',
++  framework: {
++    name: '@modern-js/storybook'
++  },
 };
 
 export default config;
@@ -70,6 +72,12 @@ export default config;
 Modern.js 的配置文件默认为 `modern.config.(j|t)s`，配置请查看 [builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html)。
 
 若原来项目中包含了 Babel 等配置，需要对应的写在 modern 配置中，大部分 Babel 配置已经包含进了 Modern.js。
+
+## 使用 Webpack 或 Rspack
+
+当前 Storybook 支持底层使用 Webpack 或是 Rspack 进行构建，根据你的需求安装 @modern-js/builder-webpack-provider 或 @modern-js/builder-rspack-provider。
+
+安装完成后进行相应的[配置](/guide/advanced/storybook#bundler)。
 
 ## 开启 Rspack 构建
 
@@ -83,10 +91,10 @@ const config = {
 -      bundler: 'webpack'
 +      bundler: 'rspack'
     },
-    typescript: {
--      reactDocgen: 'react-docgen-typescript'
-+      reactDocgen: 'react-docgen'
-    }
+  },
+  typescript: {
+-    reactDocgen: 'react-docgen-typescript'
++    reactDocgen: 'react-docgen'
   }
 };
 
@@ -121,7 +129,7 @@ const config = {
 export default config;
 ```
 
-#### bundler
+### bundler
 
 - **类型**: `'webpack' | 'rspack'`
 - **默认值**: `webpack`
@@ -142,7 +150,7 @@ const config = {
 export default config;
 ```
 
-#### builderConfig
+### builderConfig
 
 - **类型**: `BuilderConfig`
 - **默认值**: `undefined`
@@ -168,7 +176,19 @@ const config = {
 export default config;
 ```
 
-#### 配置文件
+## 命令行
+
+@modern-js/storybook 代理了部分 storybook cli 的命令。
+
+### storybook dev
+
+启动 Storybook，详情请看 https://storybook.js.org/docs/react/api/cli-options#dev。
+
+### storybook build
+
+对 Storybook 进行生产环境构建，详情请看 https://storybook.js.org/docs/react/api/cli-options#build。
+
+## 配置文件
 
 配置文件中除了 Modern.js builder 配置还包含一个额外的字段，builderPlugins，方便使用 builder 插件，例如启用 SWC 编译。
 
