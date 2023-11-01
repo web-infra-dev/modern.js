@@ -67,4 +67,5 @@ jobs:
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        run: cd ./tests && pnpm run test
+        # Run the module-tools tests separately to avoid OOM
+        run: cd ./tests && pnpm run test && pnpm run test:module-tools
