@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.39.1
+
+### Patch Changes
+
+- 0bb35da: docs(main-doc): 导出 LoaderData 类型 检查代码高亮
+  - @modern-js/sandpack-react@2.39.1
+  - @modern-js/builder-doc@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

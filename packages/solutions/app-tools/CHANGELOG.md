@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 2.39.1
+
+### Patch Changes
+
+- 4869299: fix(app-tools): router plugin should filter mf entry
+  fix(app-tools): 路由插件需要过滤 MF 入口
+- a04983d: fix: should not filter mf entrys when compiler is rspack
+  fix: 不应该过滤 mf entry，当 compiler 是 rspack 的时候
+- Updated dependencies [0efe396]
+- Updated dependencies [5a67147]
+- Updated dependencies [f397649]
+  - @modern-js/builder-webpack-provider@2.39.1
+  - @modern-js/builder@2.39.1
+  - @modern-js/plugin-data-loader@2.39.1
+  - @modern-js/builder-plugin-esbuild@2.39.1
+  - @modern-js/builder-plugin-node-polyfill@2.39.1
+  - @modern-js/new-action@2.39.1
+  - @modern-js/prod-server@2.39.1
+  - @modern-js/server@2.39.1
+  - @modern-js/builder-shared@2.39.1
+  - @modern-js/builder-rspack-provider@2.39.1
+  - @modern-js/core@2.39.1
+  - @modern-js/plugin-i18n@2.39.1
+  - @modern-js/plugin-lint@2.39.1
+  - @modern-js/server-core@2.39.1
+  - @modern-js/node-bundle-require@2.39.1
+  - @modern-js/plugin@2.39.1
+  - @modern-js/types@2.39.1
+  - @modern-js/upgrade@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

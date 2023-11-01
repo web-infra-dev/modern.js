@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.39.1
+
+### Patch Changes
+
+- f397649: chore: upgrade react-router and remix
+  chore: 更新 react-router 和 remix
+- d4d942c: fix(ssr): loadable import node:fs, handle if we can't read file
+  fix(ssr): loadable collector 引用 node:fs, 处理我们可能无法读取文件的情况
+- e93fac9: fix(ssr): only node runtime read assets from fs.
+  fix(ssr): 只有在 node 运行时才从文件系统中读取资源
+- Updated dependencies [f397649]
+  - @modern-js/runtime-utils@2.39.1
+  - @modern-js/plugin@2.39.1
+  - @modern-js/types@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

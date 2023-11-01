@@ -1,5 +1,17 @@
 # @modern-js/plugin-garfish
 
+## 2.39.1
+
+### Patch Changes
+
+- f397649: chore: upgrade react-router and remix
+  chore: 更新 react-router 和 remix
+- Updated dependencies [f397649]
+- Updated dependencies [d4d942c]
+- Updated dependencies [e93fac9]
+  - @modern-js/runtime@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes
