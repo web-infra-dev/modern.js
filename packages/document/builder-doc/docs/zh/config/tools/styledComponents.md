@@ -39,4 +39,12 @@ export default {
 };
 ```
 
-该特性默认启用，可以配置为 `false` 关闭该行为。
+该特性默认启用，你可以配置 `tools.styledComponents` 为 `false` 来关闭该行为，关闭后可以提升编译性能：
+
+```js
+export default {
+  tools: {
+    styledComponents: false,
+  },
+};
+```
