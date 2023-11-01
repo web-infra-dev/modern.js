@@ -17,7 +17,11 @@ import type {
   NormalizedConfig,
   TransformImport,
 } from '../types';
-import { getBabelUtils } from '@modern-js/utils';
+import {
+  getBabelUtils,
+  isUseSSRBundle,
+  applyOptionsChain,
+} from '@modern-js/utils';
 
 export const getUseBuiltIns = (config: NormalizedConfig) => {
   const { polyfill } = config.output;
@@ -179,15 +183,11 @@ function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
   }
 }
 
-async function applyPluginStyledComponents(
+function applyPluginStyledComponents(
   babelConfig: BabelConfig,
   builderConfig: NormalizedConfig,
   isProd: boolean,
 ) {
-  const { applyOptionsChain, isUseSSRBundle } = await import(
-    '@modern-js/utils'
-  );
-
   const styledComponentsOptions =
     builderConfig.tools.styledComponents !== false
       ? applyOptionsChain(

@@ -152,6 +152,15 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
               ],
               "presets": [
                 [
