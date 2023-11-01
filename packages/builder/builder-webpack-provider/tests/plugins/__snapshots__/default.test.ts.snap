@@ -504,6 +504,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -1376,6 +1385,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   {},
                 ],
                 [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
                   "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
                   {
                     "removeImport": true,
@@ -1502,18 +1520,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   {},
                 ],
                 [
-                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": true,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
                   },
                 ],
               ],
@@ -2197,6 +2215,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   {},
                 ],
                 [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
                   "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
                   {
                     "removeImport": true,
@@ -2308,18 +2335,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   {},
                 ],
                 [
-                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": true,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
                   },
                 ],
               ],
@@ -2912,6 +2939,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   {},
                 ],
                 [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": true,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
                   "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
                   {
                     "removeImport": true,
@@ -3038,18 +3074,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   {},
                 ],
                 [
-                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": true,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
+                  },
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
                   },
                 ],
               ],
