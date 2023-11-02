@@ -1,5 +1,19 @@
 # @modern-js/plugin-testing
 
+## 2.39.1
+
+### Patch Changes
+
+- Updated dependencies [f397649]
+- Updated dependencies [d4d942c]
+- Updated dependencies [e93fac9]
+  - @modern-js/runtime@2.39.1
+  - @modern-js/prod-server@2.39.1
+  - @modern-js/babel-compiler@2.39.1
+  - @modern-js/plugin@2.39.1
+  - @modern-js/types@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

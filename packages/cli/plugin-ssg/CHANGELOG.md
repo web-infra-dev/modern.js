@@ -1,5 +1,13 @@
 # @modern-js/plugin-ssg
 
+## 2.39.1
+
+### Patch Changes
+
+- f397649: chore: upgrade react-router and remix
+  chore: 更新 react-router 和 remix
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

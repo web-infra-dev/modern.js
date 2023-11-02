@@ -1,5 +1,15 @@
 # @modern-js/mwa-generator
 
+## 3.2.9
+
+### Patch Changes
+
+- 9161795: fix: generator `package.json` template
+
+  fix: 修复生成器 `package.json` 模板
+
+  - @modern-js/utils@2.39.1
+
 ## 3.2.8
 
 ### Patch Changes
