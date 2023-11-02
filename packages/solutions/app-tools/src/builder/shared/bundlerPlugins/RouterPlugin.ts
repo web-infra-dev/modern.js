@@ -106,6 +106,7 @@ export class RouterPlugin {
     }
 
     const { webpack } = compiler;
+    const isRspack = webpack.rspackVersion;
     const { Compilation, sources } = webpack;
     const { RawSource } = sources;
 
@@ -205,9 +206,28 @@ export class RouterPlugin {
           };
 
           const entryNames = Array.from(compilation.entrypoints.keys());
-          const entryChunks = this.getEntryChunks(compilation, chunks);
-          const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
+          let entryChunks = [];
+          if (isRspack) {
+            entryChunks = this.getEntryChunks(compilation, chunks);
+          } else {
+            const orignalEntryIds = Object.keys(compilation.options.entry).map(
+              entryName => {
+                const chunk = compilation.namedChunks.get(
+                  entryName,
+                ) as webpack.Chunk;
+                if (chunk) {
+                  return chunk.id;
+                }
+                return entryName;
+              },
+            );
 
+            entryChunks = this.getEntryChunks(compilation, chunks).filter(
+              chunk => orignalEntryIds.includes(chunk.id as string),
+            );
+          }
+
+          const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
           for (let i = 0; i < entryChunkFiles.length; i++) {
             const entryName = entryNames[i];

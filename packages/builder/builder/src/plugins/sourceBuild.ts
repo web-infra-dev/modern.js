@@ -108,7 +108,9 @@ export function builderPluginSourceBuild(
             // webpack.js.org/configuration/module/#ruleresolve
             chain.module
               .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
-              .resolve.mainFields.merge(['...', sourceField]);
+              // source > webpack default mainFiedls.
+              // when source is not exist, other mainFields will effect.
+              .resolve.mainFields.merge([sourceField, '...']);
 
             // webpack chain not support resolve.conditionNames
             chain.module

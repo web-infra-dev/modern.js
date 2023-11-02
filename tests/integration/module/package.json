@@ -15,6 +15,7 @@
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/plugin-module-babel": "workspace:*",
+    "@modern-js/plugin-module-vue": "workspace:*",
     "@modern-js/plugin-module-node-polyfill": "workspace:*",
     "@modern-js/plugin-module-polyfill": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",

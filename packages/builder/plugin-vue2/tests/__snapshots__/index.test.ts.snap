@@ -186,6 +186,15 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -428,6 +437,15 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                 [
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
                 ],
               ],
               "presets": [

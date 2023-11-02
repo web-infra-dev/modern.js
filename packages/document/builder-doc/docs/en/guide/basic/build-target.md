@@ -8,7 +8,7 @@ You can set the type through the `target` parameter of the [createBuilder](/en/a
 
 By default, the build target is `'web'`, and the build result can run in a browser environment.
 
-the Builder will read the [Browserslist config](https://github.com/browserslist/browserslist) in the project to determine the range of browsers.
+The Builder will read the [Browserslist config](https://github.com/browserslist/browserslist) in the project to determine the range of browsers.
 
 ## Optional Targets
 

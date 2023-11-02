@@ -1,13 +1,23 @@
 {
-  "extends": "@modern-js/tsconfig/base",
-  "declaration": true,
   "compilerOptions": {
-    "baseUrl": "./",
+    "allowJs": true,
+    "baseUrl": ".",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "lib": ["DOM", "ESNext"],
+    "moduleResolution": "node",
     "paths": {
       "@/*": ["./src/*"]
     },
-    "isolatedModules": true
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "strict": true
   },
-  "include": ["src"],
-  "exclude": ["**/node_modules"]
+  "exclude": ["**/node_modules"],
+  "include": ["src"]
 }

@@ -146,6 +146,15 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -302,6 +311,15 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
                 ],
               ],
               "presets": [
@@ -476,6 +494,15 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
                 ],
               ],
               "presets": [
@@ -662,6 +689,15 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -838,6 +874,15 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
                 ],
               ],
               "presets": [
@@ -1021,6 +1066,15 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
                 ],
               ],
               "presets": [

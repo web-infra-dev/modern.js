@@ -1,0 +1,55 @@
+# Vue 插件
+
+Vue 插件提供了对 Vue 3 组件构建的支持，插件内部集成了 [esbuild-plugin-vue3](https://github.com/pipe01/esbuild-plugin-vue3) 和 [@vue/babel-plugin-jsx](https://github.com/vuejs/babel-plugin-jsx)。
+
+:::warning
+目前此插件的实现是直接集成社区插件，因此不支持在 sfc 里写 jsx/tsx.
+:::
+
+## 快速开始
+
+### 安装
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @modern-js/plugin-module-vue -D" />
+
+### 注册插件
+
+在 Modern.js Module 中，你可以按照如下方式注册插件：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginVue } from '@modern-js/plugin-module-vue';
+
+export default defineConfig({
+  plugins: [moduleTools(), modulePluginVue()],
+});
+```
+
+## 配置
+
+### vueJsxPluginOptions
+
+- **Type:**
+
+```ts
+type VueJSXPluginOptions = {
+  /** transform `on: { click: xx }` to `onClick: xxx` */
+  transformOn?: boolean;
+  /** enable optimization or not. */
+  optimize?: boolean;
+  /** merge static and dynamic class / style attributes / onXXX handlers */
+  mergeProps?: boolean;
+  /** configuring custom elements */
+  isCustomElement?: (tag: string) => boolean;
+  /** enable object slots syntax */
+  enableObjectSlots?: boolean;
+  /** Replace the function used when compiling JSX expressions */
+  pragma?: string;
+};
+```
+
+- **Default:** `{}`
+
+传递给 `@vue/babel-plugin-jsx` 的选项，请查阅 [@vue/babel-plugin-jsx](<(https://github.com/vuejs/babel-plugin-jsx)>) 文档 来了解具体用法。

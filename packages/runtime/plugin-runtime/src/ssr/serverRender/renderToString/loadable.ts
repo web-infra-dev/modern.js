@@ -1,4 +1,3 @@
-import fs from 'node:fs/promises';
 import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
 import { ReactElement } from 'react';
 import { attributesToString } from '../utils';
@@ -33,6 +32,9 @@ const checkIsInline = (
     return false;
   }
 };
+
+const checkIsNode = () =>
+  typeof process !== 'undefined' && process.release?.name === 'node';
 
 class LoadableCollector implements Collector {
   private options: LoadableCollectorOptions;
@@ -129,8 +131,9 @@ class LoadableCollector implements Collector {
             !this.existsAssets?.includes(chunk.path!)
           );
         })
-        .map(chunk => {
-          if (checkIsInline(chunk, enableInlineScripts)) {
+        .map(async chunk => {
+          if (checkIsInline(chunk, enableInlineScripts) && checkIsNode()) {
+            const fs = await import('node:fs/promises');
             const filepath = chunk.path!;
             return fs
               .readFile(filepath, 'utf-8')
@@ -167,8 +170,9 @@ class LoadableCollector implements Collector {
             !this.existsAssets?.includes(chunk.path!)
           );
         })
-        .map(chunk => {
-          if (checkIsInline(chunk, enableInlineStyles)) {
+        .map(async chunk => {
+          if (checkIsInline(chunk, enableInlineStyles) && checkIsNode()) {
+            const fs = await import('node:fs/promises');
             return fs
               .readFile(chunk.path!)
               .then(content => `<style>${content}</style>`)

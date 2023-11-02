@@ -40,4 +40,13 @@ export default {
 };
 ```
 
-This feature is enabled by default, configuring it to `false` can disable this behaviour.
+The feature is enabled by default, and you can configure `tools.styledComponents` to `false` to disable this behavior, which can improve build performance:
+
+```js
+export default {
+  tools: {
+    styledComponents: false,
+  },
+};
+```
+

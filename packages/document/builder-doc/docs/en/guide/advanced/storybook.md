@@ -12,11 +12,11 @@ Before when using Storybook, there are various problems related to configuration
 
 You can switch between Webpack and Rspack smoothly in Modern.js builder, for those who already use Modern.js builder or Modern.js framework, you can start using Storybook with the same configurations.
 
-## Enable Storybook
+## Quick Start
 
-### Use in Modern.js projects
+### Using in Modern.js projects
 
-#### Haven't used legacy Storybook plugin(@modern-js/plugin-storybook)
+#### Not using legacy Storybook plugin(@modern-js/plugin-storybook)
 
 If your current project is already a Modern.js project and you haven't used any old version Storybook plugins, you can directly enable the Storybook feature by using the following command:
 
@@ -36,13 +36,15 @@ This command will create a template for Storybook, including:
 
 If you are using an older version of the Storybook plugin, you can still run the command above to create templates and modify the package.json. You can also upgrade manually.
 
-If you have made some custom configurations to Storybook in the older version, you need to move the configuration files from `root/config/storybook/` to the `root/.storybook/ directory`.
+If you have made some custom configurations to Storybook in the older version, you need to move the configuration files from `root/config/storybook/` to the `root/.storybook/` directory.
 
 Specify framework as `@modern-js/storybook` in `root/.storybook/main.(j|t)s`.
 
 ```diff
 const config = {
-+  framework: '@modern-js/storybook'
++  framework: {
++    name: '@modern-js/storybook'
++  }
 };
 
 export default config;
@@ -56,20 +58,26 @@ Finally, follow the official Storybook documentation to make the necessary updat
 
 Modern.js Builder only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
 
-To install @modern-js/storybook as the framework for Storybook, if you have interest in Rspack, install `@modern-js/builder-provider-rspack`, otherwise you should install `@modern-js/builder-provider-webpack`. Rspack is super fast compared to Webpack.
-
 ```diff filename='.storybook/main.js'
 const config = {
 -  framework: '@storybook/react-webapck5',
-+  framework: '@modern-js/storybook',
++  framework: {
++    name: '@modern-js/storybook'
++  },
 };
 
 export default config;
 ```
 
-The default config file is `modern.config.(j|t)s`, for the detail config, see [builder config](https://modernjs.dev/builder/guide/basic/builder-config.html).
+The default config file path is `modern.config.(j|t)s`, for the detail config, see [builder config](https://modernjs.dev/builder/guide/basic/builder-config.html).
 
 If the original project includes configurations for Babel, they need to be written in the modern configuration. Most Babel configurations have already been included in Modern.js.
+
+## Using Webpack or Rspack
+
+Currently, Storybook supports building with either Webpack or Rspack as the underlying bundler. Depending on your needs, install @modern-js/builder-webpack-provider or @modern-js/builder-rspack-provider.
+
+After installation, proceed with the corresponding [configuration](/guide/advanced/storybook#bundler).
 
 ## Enable Rspack build
 
@@ -83,10 +91,10 @@ const config = {
 -      bundler: 'webpack'
 +      bundler: 'rspack'
     },
-    typescript: {
--      reactDocgen: 'react-docgen-typescript'
-+      reactDocgen: 'react-docgen'
-    }
+  },
+  typescript: {
+-    reactDocgen: 'react-docgen-typescript'
++    reactDocgen: 'react-docgen'
   }
 };
 
@@ -123,7 +131,7 @@ const config = {
 export default config;
 ```
 
-#### bundler
+### bundler
 
 - **Type**: `'webpack' | 'rspack'`
 - **Default**: `webpack`
@@ -145,7 +153,7 @@ const config = {
 export default config;
 ```
 
-#### builderConfig
+### builderConfig
 
 - **Type**: `BuilderConfig`
 - **Default**: `undefined`
@@ -172,7 +180,20 @@ const config = {
 export default config;
 ```
 
-#### ConfigFile
+
+## Command Line Interface
+
+@modern-js/storybook proxies some of the storybook cli commands.
+
+### storybook dev
+
+Start Storybook, more details at https://storybook.js.org/docs/react/api/cli-options#dev.
+
+### storybook build
+
+Build Storybook for production, more details at https://storybook.js.org/docs/react/api/cli-options#build.
+
+## ConfigFile
 
 The configuration file includes an additional field: `builderPlugins`, in addition to the Modern.js builder configuration. This field is used to enable builder plugins, such as enabling SWC compilation.
 
