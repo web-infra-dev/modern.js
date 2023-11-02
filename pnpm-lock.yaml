@@ -1610,8 +1610,8 @@ importers:
         specifier: workspace:*
         version: link:../../review/tsconfig
       '@rspress/shared':
-        specifier: 1.3.2
-        version: 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+        specifier: 1.4.0
+        version: 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -1622,8 +1622,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.3.2
-        version: 1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        specifier: 1.4.0
+        version: 1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
 
   packages/document/main-doc:
     dependencies:
@@ -1638,8 +1638,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 1.3.2
-        version: 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+        specifier: 1.4.0
+        version: 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       '@types/fs-extra':
         specifier: ^9
         version: 9.0.13
@@ -1662,8 +1662,8 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.3.2
-        version: 1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        specifier: 1.4.0
+        version: 1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
@@ -1677,8 +1677,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 1.3.2
-        version: 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+        specifier: 1.4.0
+        version: 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1686,8 +1686,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.3.2
-        version: 1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        specifier: 1.4.0
+        version: 1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
 
   packages/generator/generator-cases:
     dependencies:
@@ -9080,6 +9080,7 @@ packages:
       '@babel/helper-replace-supers': 7.22.20(@babel/core@7.23.2)
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/plugin-syntax-decorators': 7.22.10(@babel/core@7.23.2)
+    dev: false
 
   /@babel/plugin-proposal-decorators@7.23.2(@babel/core@7.23.2):
     resolution: {integrity: sha512-eR0gJQc830fJVGz37oKLvt9W9uUIQSAovUl0e9sJ3YeO09dlcoBVYD3CLrjCj4qHdXmfiyTyFt8yeQYSN5fxLg==}
@@ -10367,7 +10368,7 @@ packages:
       babel-plugin-polyfill-corejs2: 0.4.6(@babel/core@7.23.2)
       babel-plugin-polyfill-corejs3: 0.8.6(@babel/core@7.23.2)
       babel-plugin-polyfill-regenerator: 0.5.3(@babel/core@7.23.2)
-      core-js-compat: 3.32.1
+      core-js-compat: 3.33.2
       semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
@@ -10434,7 +10435,6 @@ packages:
       '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.23.2)
       '@babel/plugin-transform-modules-commonjs': 7.23.0(@babel/core@7.23.2)
       '@babel/plugin-transform-typescript': 7.22.15(@babel/core@7.23.2)
-    dev: true
 
   /@babel/register@7.22.15(@babel/core@7.23.2):
     resolution: {integrity: sha512-V3Q3EqoQdn65RCgTLwauZaTfd1ShhwPmbBv+1dkZV/HpCGMKVyn6oFcRlI7RaKqiDQjX2Qd3AuoEguBgdjIKlg==}
@@ -12929,10 +12929,10 @@ packages:
     resolution: {integrity: sha512-s3c15lhv6MOpgd4st6o1eiL0hp7o4Qsi6Qz3jp2WkUm9TgqHPzyxlnruAhWR5+EGHrHi6HK8ywHqjBHrinsFCA==}
     dependencies:
       '@babel/core': 7.23.2
-      '@babel/plugin-proposal-decorators': 7.23.0(@babel/core@7.23.2)
+      '@babel/plugin-proposal-decorators': 7.23.2(@babel/core@7.23.2)
       '@babel/preset-env': 7.22.15(@babel/core@7.23.2)
       '@babel/preset-react': 7.22.15(@babel/core@7.23.2)
-      '@babel/preset-typescript': 7.23.0(@babel/core@7.23.2)
+      '@babel/preset-typescript': 7.23.2(@babel/core@7.23.2)
       '@modern-js/babel-compiler': 2.39.0
       '@modern-js/babel-plugin-module-resolver': 2.39.0
       '@modern-js/utils': 2.39.0
@@ -13117,7 +13117,7 @@ packages:
     resolution: {integrity: sha512-k8J4eYgguKRHbJd4gON9DDzxX8Cmb7BS2lOGf6Uqsd4T8/KkfTl1C0qTO9Jso63K7RJJpw6dKGUQEp46qWelBA==}
     dependencies:
       '@swc/helpers': 0.5.1
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001559
       lodash: 4.17.21
       rslog: 1.1.0
     dev: true
@@ -15259,7 +15259,7 @@ packages:
       '@types/fs-extra': 11.0.2
       acorn: 8.10.0
       browserslist: 4.22.1
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001559
       chalk: 4.1.2
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.88.1)
       cssnano: 6.0.1(postcss@8.4.31)
@@ -15320,7 +15320,7 @@ packages:
       '@types/fs-extra': 11.0.2
       acorn: 8.10.0
       browserslist: 4.22.1
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001559
       chalk: 4.1.2
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.88.1)
       cssnano: 6.0.1(postcss@8.4.31)
@@ -15533,8 +15533,8 @@ packages:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  /@rspress/core@1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1):
-    resolution: {integrity: sha512-QlIdE4ykSGnczapT6hnx9FSYq3exVbPl9+STnvhjm1rIB5Vc1tkNmkzkKdIPOFolxwSWcMT9MD8UAgUT2W/J0A==}
+  /@rspress/core@1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1):
+    resolution: {integrity: sha512-B9N1oDYd29ZzwIxAdTC30sV36XDSZsYw8DEXVmKQKGxPcHdDmEtML8lXzTEcyvUWHs882wts1trgMax1vV+ijA==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@loadable/component': 5.15.2(react@18.2.0)
@@ -15546,13 +15546,13 @@ packages:
       '@rsbuild/plugin-react': 0.0.10(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
       '@rsbuild/plugin-svgr': 0.0.10(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
       '@rspress/mdx-rs': 0.4.1
-      '@rspress/plugin-auto-nav-sidebar': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rspress/plugin-container-syntax': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rspress/plugin-last-updated': 1.3.2
-      '@rspress/plugin-medium-zoom': 1.3.2(@rspress/runtime@1.3.2)
-      '@rspress/runtime': 1.3.2(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rspress/theme-default': 1.3.2(esbuild@0.17.19)(postcss@8.4.21)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1)
+      '@rspress/plugin-auto-nav-sidebar': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/plugin-container-syntax': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/plugin-last-updated': 1.4.0
+      '@rspress/plugin-medium-zoom': 1.4.0(@rspress/runtime@1.4.0)
+      '@rspress/runtime': 1.4.0(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/theme-default': 1.4.0(esbuild@0.17.19)(postcss@8.4.21)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1)
       '@types/compression': 1.7.2
       '@types/polka': 0.5.4
       autoprefixer: 10.4.13(postcss@8.4.21)
@@ -15727,12 +15727,12 @@ packages:
       '@rspress/mdx-rs-win32-x64-msvc': 0.4.1
     dev: true
 
-  /@rspress/plugin-auto-nav-sidebar@1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-Ml+T14/3Uik3z3VTKoYM7fKuOTNOz4LDZVZO86h+LZgdAXuZnassCYb9VJobb2erb5Vz+RcuEFOkyK17rHWb7w==}
+  /@rspress/plugin-auto-nav-sidebar@1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-tRnBk89eGK2hRBVlCeRgISJzyX7H9SgGD8yGB7ycFW4Hg0tRU9tpKcg04hVkOQAWi58tFPYUYRDXJXrL6l7LHw==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@modern-js/utils': link:packages/toolkit/utils
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@parcel/css'
@@ -15763,11 +15763,11 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@rspress/plugin-container-syntax@1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-Iqw7n8LOIbN4+gvm3dMvBEB7e7j5O49KGanoiQ2+3OKpB0i4Lz9QAB9kEUb7eQQ+HeLM81aFtX3o5o0QiKRaRg==}
+  /@rspress/plugin-container-syntax@1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-28ztdem36mYfdeBglkLCfzCzOssmyV/eDJaJjRP6ox2FH5GZVvfCV51ewHdKjrFGDtkRNHmK1ZRtq31JHV5zhw==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@parcel/css'
@@ -15798,28 +15798,28 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@rspress/plugin-last-updated@1.3.2:
-    resolution: {integrity: sha512-yDym6MeaaS4gjwg02fSd9c8/Yx40yufnfIgIoGpRV1hVRJaM0MHNSvXIuV3PEZ07P7tPhdnJpxbgVjXo8VVPXw==}
+  /@rspress/plugin-last-updated@1.4.0:
+    resolution: {integrity: sha512-bp/7gTJayI1iid7OPec6mrGfd2JoATJmW4X5AlBV+Zr3wyimov6oc1BzYdjw9LSfL/mSshwiwK3WMD8dP2FhVA==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@modern-js/utils': link:packages/toolkit/utils
     dev: true
 
-  /@rspress/plugin-medium-zoom@1.3.2(@rspress/runtime@1.3.2):
-    resolution: {integrity: sha512-nDdXupP8yw3kD+XXPloKzdRmreg1YTYw/MTHh7pxZKouWflFB8GLOUyYLeecjAPKYYkbElR0Sj7yMDXJ2cEiKw==}
+  /@rspress/plugin-medium-zoom@1.4.0(@rspress/runtime@1.4.0):
+    resolution: {integrity: sha512-KlY7XT5EJ7zWCy1MjfgB8N3k7M5kuhXZmlzw3I6DqeXL+c995d4H1fVWThZlDaVVcAFbI9pJDpUemDtFItW+8w==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
       '@rspress/runtime': ^1.0.2
     dependencies:
-      '@rspress/runtime': 1.3.2(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
+      '@rspress/runtime': 1.4.0(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
       medium-zoom: 1.0.8
     dev: true
 
-  /@rspress/runtime@1.3.2(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-0+OuO5evv318oplr0B+XAbAcgrnkhVbvHVTjLjERXeoUsIsUbwOVQYXWpEH6bgbvnnq6mWh9mkXLWYmwQ4aUQA==}
+  /@rspress/runtime@1.4.0(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-aCLqqpGxyWzTxZcN+SLXJr4zm6rd8j5TP/iIpFo/xivUqmgQSkmN33d8mUlxFRKmON20KV+Bm96/aO8AvQAE2g==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -15852,8 +15852,8 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@rspress/shared@1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
-    resolution: {integrity: sha512-MLbn4DK1eu7y0NJemYecysk7+iKccmKPF6X0B/fmhsUfNGzioI8nHwBAJi7QptUbRZmbNJwvBE6sB3RvSUtWTg==}
+  /@rspress/shared@1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1):
+    resolution: {integrity: sha512-X9fYuIEBjWrf9nvt/SifCQEO9dbqqGOSu50UtW58ddDGWf3XQDmxgR+elZuoTRTyTxyy3YwKlkieRMJXTUGMUg==}
     dependencies:
       '@rsbuild/core': 0.0.10(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       chalk: 4.1.2
@@ -15889,13 +15889,13 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@rspress/theme-default@1.3.2(esbuild@0.17.19)(postcss@8.4.21)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1):
-    resolution: {integrity: sha512-quQQDU6dNTimCT+S48xgxNnWrKmSfyO/FlQATK3jgXlUU2MHeb3JsJK8ADs64ql6jSjViIfDxBYx9TTs76PmkA==}
+  /@rspress/theme-default@1.4.0(esbuild@0.17.19)(postcss@8.4.21)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1):
+    resolution: {integrity: sha512-/CPpvgYzMKDQhh/jPsIMJfv44TmbiqkR0Et29npxLj967ciPG4zwEfcUfQrFavpF34geMt+Gz2dV6VIQehD1uA==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@mdx-js/react': 2.2.1(react@18.2.0)
-      '@rspress/runtime': 1.3.2(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/runtime': 1.4.0(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       body-scroll-lock: 4.0.0-beta.0
       copy-to-clipboard: 3.3.3
       flexsearch: 0.6.32
@@ -17169,7 +17169,6 @@ packages:
       '@types/babel__generator': 7.6.4
       '@types/babel__template': 7.4.1
       '@types/babel__traverse': 7.18.5
-    dev: true
 
   /@types/babel__generator@7.6.4:
     resolution: {integrity: sha512-tFkciB9j2K755yrTALxD44McOrk+gfpIpvC3sxHjRawj6PfnQxrse4Clq5y/Rq+G3mrBurMax/lG8Qn2t9mSsg==}
@@ -19173,8 +19172,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.10
-      caniuse-lite: 1.0.30001520
+      browserslist: 4.22.1
+      caniuse-lite: 1.0.30001559
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -19325,7 +19324,7 @@ packages:
     dependencies:
       '@babel/template': 7.22.15
       '@babel/types': 7.23.0
-      '@types/babel__core': 7.20.2
+      '@types/babel__core': 7.20.3
       '@types/babel__traverse': 7.18.5
 
   /babel-plugin-lodash@3.3.4:
@@ -19372,7 +19371,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
-      '@babel/compat-data': 7.22.20
+      '@babel/compat-data': 7.23.2
       '@babel/core': 7.23.2
       '@babel/helper-define-polyfill-provider': 0.4.3(@babel/core@7.23.2)
       semver: 6.3.1
@@ -19899,7 +19898,7 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.20.2
-      caniuse-lite: 1.0.30001520
+      caniuse-lite: 1.0.30001559
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
@@ -25688,7 +25687,7 @@ packages:
       '@babel/plugin-transform-modules-commonjs': 7.23.0(@babel/core@7.23.2)
       '@babel/preset-env': 7.22.15(@babel/core@7.23.2)
       '@babel/preset-flow': 7.18.6(@babel/core@7.23.2)
-      '@babel/preset-typescript': 7.23.0(@babel/core@7.23.2)
+      '@babel/preset-typescript': 7.23.2(@babel/core@7.23.2)
       '@babel/register': 7.22.15(@babel/core@7.23.2)
       babel-core: 7.0.0-bridge.0(@babel/core@7.23.2)
       chalk: 4.1.2
@@ -31328,13 +31327,13 @@ packages:
       fs-extra: 11.1.1
     dev: true
 
-  /rspress@1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
-    resolution: {integrity: sha512-6G2D/A1n66I3aToJ2pi9zSKFjvBQbDs7eEUVUTCNMs+5dWSKk3Nd6KR5Aj6HO8ZP1nl1QbNzJ+Zo2nwMzZEw/Q==}
+  /rspress@1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
+    resolution: {integrity: sha512-e+jBxXcVWNsVXRukxXrlDVLpQbPQBB3TDV+3Ljb+JDEdeW+L2jbfWqiwAlQTXxynLiI7HjWXQiRhS9JVA3aWQw==}
     hasBin: true
     dependencies:
       '@modern-js/node-bundle-require': link:packages/toolkit/node-bundle-require
-      '@rspress/core': 1.3.2(@babel/core@7.23.2)(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1)
-      '@rspress/shared': 1.3.2(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
+      '@rspress/core': 1.4.0(@babel/core@7.23.2)(esbuild@0.17.19)(react-refresh@0.14.0)(ts-node@10.9.1)(webpack@5.88.1)
+      '@rspress/shared': 1.4.0(esbuild@0.17.19)(react-dom@18.2.0)(react-refresh@0.14.0)(react@18.2.0)(ts-node@10.9.1)
       cac: 6.7.14
       chalk: 5.3.0
       chokidar: 3.5.3
