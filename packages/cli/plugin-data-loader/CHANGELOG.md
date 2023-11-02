@@ -1,5 +1,15 @@
 # @modern-js/plugin-data-loader
 
+## 2.39.1
+
+### Patch Changes
+
+- f397649: chore: upgrade react-router and remix
+  chore: 更新 react-router 和 remix
+- Updated dependencies [f397649]
+  - @modern-js/runtime-utils@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

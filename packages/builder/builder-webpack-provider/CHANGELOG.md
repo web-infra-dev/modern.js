@@ -1,5 +1,18 @@
 # @modern-js/builder-webpack-provider
 
+## 2.39.1
+
+### Patch Changes
+
+- 0efe396: fix(builder): apply babel-plugin-styled-components correctly
+
+  fix(builder): 正确注册 babel-plugin-styled-components 插件
+
+  - @modern-js/server@2.39.1
+  - @modern-js/builder-shared@2.39.1
+  - @modern-js/types@2.39.1
+  - @modern-js/utils@2.39.1
+
 ## 2.39.0
 
 ### Patch Changes

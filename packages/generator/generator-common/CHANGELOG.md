@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.2.9
+
+### Patch Changes
+
+- 17d34c6: fix: storybook v7 generator dependencies error
+
+  fix: storybook v7 生成器依赖安装错误
+
+  - @modern-js/plugin-i18n@2.39.1
+
 ## 3.2.8
 
 ### Patch Changes
