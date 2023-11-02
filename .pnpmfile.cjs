@@ -38,8 +38,6 @@ function readPackage(pkg, _context) {
     }
   }
 
-  const outsideModernPkgList = ['@modern-js/mdx-rs-binding'];
-
   if (
     (pkg.name.startsWith('@rspress/') ||
       pkg.name.startsWith('@rsbuild/') ||
@@ -48,9 +46,7 @@ function readPackage(pkg, _context) {
   ) {
     pkg.dependencies = Object.fromEntries(
       Object.entries(pkg.dependencies).map(([key, value]) =>
-        key.startsWith('@modern-js/') && !outsideModernPkgList.includes(key)
-          ? [key, 'workspace:*']
-          : [key, value],
+        key.startsWith('@modern-js/') ? [key, 'workspace:*'] : [key, value],
       ),
     );
   }
