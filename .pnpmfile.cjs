@@ -41,7 +41,9 @@ function readPackage(pkg, _context) {
   const outsideModernPkgList = ['@modern-js/mdx-rs-binding'];
 
   if (
-    (pkg.name.startsWith('@rspress/') || pkg.name.startsWith('rspress')) &&
+    (pkg.name.startsWith('@rspress/') ||
+      pkg.name.startsWith('@rsbuild/') ||
+      pkg.name.startsWith('rspress')) &&
     pkg.dependencies
   ) {
     pkg.dependencies = Object.fromEntries(
