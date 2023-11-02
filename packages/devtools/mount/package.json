@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-mount",
-  "version": "2.39.1",
+  "version": "2.39.2",
   "main": "dist/main.js",
   "types": "dist/types.d.ts",
   "scripts": {
