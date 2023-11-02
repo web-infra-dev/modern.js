@@ -58,59 +58,63 @@ export function initSourceConfig(
     (config as AppNormalizedConfig).source.moduleScopes =
       createBuilderModuleScope(config as AppNormalizedConfig);
   }
+}
 
-  function createBuilderInclude(
-    config: AppNormalizedConfig<'shared'>,
-    appContext: IAppContext,
-  ) {
-    const { include } = config.source;
-    const defaultInclude = [appContext.internalDirectory];
-    const transformInclude = (include || [])
-      .map((include: string | RegExp) => {
-        if (typeof include === 'string') {
-          if (isAbsolute(include)) {
-            return include;
-          }
-          return new RegExp(include);
+function createBuilderInclude(
+  config: AppNormalizedConfig<'shared'>,
+  appContext: IAppContext,
+) {
+  const { include } = config.source;
+  const defaultInclude = [appContext.internalDirectory];
+  const transformInclude = (include || [])
+    .map((include: string | RegExp) => {
+      if (typeof include === 'string') {
+        if (isAbsolute(include)) {
+          return include;
         }
-        return include;
-      })
-      .concat(defaultInclude); // concat default Include
+        return new RegExp(include);
+      }
+      return include;
+    })
+    .concat(defaultInclude); // concat default Include
 
-    return transformInclude;
+  return transformInclude;
+}
+
+export function createBuilderModuleScope(
+  config: AppNormalizedConfig<'webpack'>,
+) {
+  type ModuleScopes = Array<string | RegExp>;
+
+  const { moduleScopes } = config.source;
+  if (moduleScopes) {
+    const DEFAULT_SCOPES: ModuleScopes = ['./src', './shared', /node_modules/];
+
+    const builderModuleScope = applyScopeOptions(DEFAULT_SCOPES, moduleScopes);
+    return builderModuleScope;
+  } else {
+    return undefined;
   }
 
-  function createBuilderModuleScope(config: AppNormalizedConfig<'webpack'>) {
-    const { moduleScopes } = config.source;
-    if (moduleScopes) {
-      let builderModuleScope: any[] = [];
-      const DEFAULT_SCOPES: Array<string | RegExp> = [
-        './src',
-        './shared',
-        /node_modules/,
-      ];
-      if (Array.isArray(moduleScopes)) {
-        if (isPrimitiveScope(moduleScopes)) {
-          builderModuleScope = DEFAULT_SCOPES.concat(moduleScopes);
-        } else {
-          builderModuleScope = [DEFAULT_SCOPES, ...moduleScopes];
-        }
-      } else {
-        builderModuleScope = [DEFAULT_SCOPES, moduleScopes];
-      }
-      return builderModuleScope;
-    } else {
-      return undefined;
-    }
+  function isPrimitiveScope(items: unknown[]): items is ModuleScopes {
+    return items.every(
+      item =>
+        typeof item === 'string' ||
+        Object.prototype.toString.call(item) === '[object RegExp]',
+    );
+  }
 
-    function isPrimitiveScope(
-      items: unknown[],
-    ): items is Array<string | RegExp> {
-      return items.every(
-        item =>
-          typeof item === 'string' ||
-          Object.prototype.toString.call(item) === '[object RegExp]',
-      );
+  type ScopesOptions = NonNullable<
+    AppNormalizedConfig<'webpack'>['source']['moduleScopes']
+  >;
+
+  function applyScopeOptions(defaults: ModuleScopes, options: ScopesOptions) {
+    if (Array.isArray(options)) {
+      if (isPrimitiveScope(options)) {
+        return defaults.concat(options);
+      }
+      return options.reduce<ModuleScopes>(applyScopeOptions, defaults);
     }
+    return options(defaults) || defaults;
   }
 }
