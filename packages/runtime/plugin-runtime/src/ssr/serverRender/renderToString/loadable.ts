@@ -38,12 +38,9 @@ const readAsset = async (chunk: ChunkAsset) => {
   const fs = await import('node:fs/promises');
   const path = await import('node:path');
 
-  let filepath: string;
-  if (process.env.NODE_ENV === 'production') {
-    filepath = path.resolve(__dirname, chunk.filename!);
-  } else {
-    filepath = chunk.path!;
-  }
+  // only working in 'production' env
+  // we need ensure the assetsDir is same as ssr bundles.
+  const filepath = path.resolve(__dirname, chunk.filename!);
 
   return fs.readFile(filepath, 'utf-8');
 };
