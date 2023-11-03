@@ -28,7 +28,6 @@ import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
-import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
 import type { DevServerOptions, ModernDevServerOptions } from '../types';
 import DevMiddleware from '../dev-tools/dev-middleware';
@@ -65,8 +64,6 @@ export class ModernDevServer extends ModernServer {
       dev: this.dev,
       devMiddleware: options.devMiddleware,
     });
-
-    enableRegister(this.pwd, this.conf);
   }
 
   private getDevOptions(options: ModernDevServerOptions) {

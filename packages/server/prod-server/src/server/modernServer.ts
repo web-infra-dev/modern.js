@@ -16,7 +16,6 @@ import {
   LoaderHandler,
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
-import { time } from '@modern-js/runtime-utils/time';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -56,7 +55,7 @@ import {
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
-  ServerReportTimings,
+  // ServerReportTimings,
 } from '../constants';
 import {
   createAfterMatchContext,
@@ -521,12 +520,12 @@ export class ModernServer implements ModernServerInterface {
     // initial for every route handle
     await reporter.init({ match: matched });
 
-    const end = time();
+    // const end = time();
 
-    res.on('finish', () => {
-      const cost = end();
-      reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
-    });
+    // res.on('finish', () => {
+    //   const cost = end();
+    //   reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
+    // });
 
     // route is api service
     let route = matched.generate(context.url);
@@ -541,15 +540,15 @@ export class ModernServer implements ModernServerInterface {
         route.entryName,
       );
       // only full mode run server hook
-      const end = time();
+      // const end = time();
 
       await this.runner.afterMatch(afterMatchContext, { onLast: noop });
-      const cost = end();
-      cost &&
-        reporter.reportTiming(
-          ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
-          cost,
-        );
+      // const cost = end();
+      // cost &&
+      //   reporter.reportTiming(
+      //     ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
+      //     cost,
+      //   );
 
       if (this.isSend(res)) {
         return;
@@ -576,11 +575,11 @@ export class ModernServer implements ModernServerInterface {
     if (this.frameWebHandler) {
       res.locals = res.locals || {};
       const middlewareContext = createMiddlewareContext(context);
-      const end = time();
+      // const end = time();
       await this.frameWebHandler(middlewareContext);
-      const cost = end();
-      cost &&
-        reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
+      // const cost = end();
+      // cost &&
+      //   reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
       res.locals = {
         ...res.locals,
         ...middlewareContext.response.locals,
@@ -613,15 +612,15 @@ export class ModernServer implements ModernServerInterface {
 
       // only full mode run server hook
       // FIXME: how to run server hook in streaming
-      const end = time();
+      // const end = time();
       await this.runner.afterRender(afterRenderContext, { onLast: noop });
-      const cost = end();
-      // we shouldn't reporter unable run after-render.
-      cost &&
-        reporter.reportTiming(
-          ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
-          cost,
-        );
+      // const cost = end();
+      // // we shouldn't reporter unable run after-render.
+      // cost &&
+      //   reporter.reportTiming(
+      //     ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
+      //     cost,
+      //   );
 
       if (this.isSend(res)) {
         return;

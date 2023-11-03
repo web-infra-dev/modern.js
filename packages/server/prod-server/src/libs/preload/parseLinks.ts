@@ -6,8 +6,8 @@ import {
   fs,
 } from '@modern-js/utils';
 import { parse as htmlParse } from 'node-html-parser';
-import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
-import { matchEntry } from '@modern-js/runtime-utils/node';
+// import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
+// import { matchEntry } from '@modern-js/runtime-utils/node';
 
 export interface Link {
   uri: string;
@@ -100,59 +100,59 @@ async function parseLinksFromRoutes(
   ) {
     return noopLinks;
   }
-  const routesJson = await import(routesJsonPath);
-  const serverRoutes = routesJson.routes;
-  const entry = matchEntry(pathname, serverRoutes);
-  if (entry) {
-    const routes = await import(nestedRoutesSpec);
-    const { entryName } = entry;
+  // const routesJson = await import(routesJsonPath);
+  // const serverRoutes = routesJson.routes;
+  // const entry = matchEntry(pathname, serverRoutes);
+  // if (entry) {
+  //   const routes = await import(nestedRoutesSpec);
+  //   const { entryName } = entry;
 
-    if (!entryName) {
-      return noopLinks;
-    }
+  //   if (!entryName) {
+  //     return noopLinks;
+  //   }
 
-    const entryRoutes = routes[entryName];
+  //   const entryRoutes = routes[entryName];
 
-    if (!entryRoutes) {
-      return noopLinks;
-    }
+  //   if (!entryRoutes) {
+  //     return noopLinks;
+  //   }
 
-    const routesManifest = await import(routeManifestPath);
+  //   const routesManifest = await import(routeManifestPath);
 
-    const { routeAssets } = routesManifest;
+  //   const { routeAssets } = routesManifest;
 
-    const matches = matchRoutes(entryRoutes, pathname, entry.urlPath);
+  //   const matches = matchRoutes(entryRoutes, pathname, entry.urlPath);
 
-    const entryAssets = routeAssets[entryName]?.assets;
-    const assets = matches
-      ?.reduce((acc, match) => {
-        const routeId = match.route.id;
-        if (routeId) {
-          const matchedManifest = routeAssets[routeId];
-          const assets = matchedManifest?.assets;
-          if (Array.isArray(assets)) {
-            acc.push(...assets);
-          }
-        }
-        return acc;
-      }, [] as string[])
-      .concat(entryAssets || []);
+  //   const entryAssets = routeAssets[entryName]?.assets;
+  //   const assets = matches
+  //     ?.reduce((acc, match) => {
+  //       const routeId = match.route.id;
+  //       if (routeId) {
+  //         const matchedManifest = routeAssets[routeId];
+  //         const assets = matchedManifest?.assets;
+  //         if (Array.isArray(assets)) {
+  //           acc.push(...assets);
+  //         }
+  //       }
+  //       return acc;
+  //     }, [] as string[])
+  //     .concat(entryAssets || []);
 
-    const cssLinks = assets
-      ?.filter(asset => asset.endsWith('.css'))
-      ?.map(uri => ({
-        uri,
-        as: 'style',
-      }));
+  //   const cssLinks = assets
+  //     ?.filter(asset => asset.endsWith('.css'))
+  //     ?.map(uri => ({
+  //       uri,
+  //       as: 'style',
+  //     }));
 
-    const scriptLinks = assets
-      ?.filter(asset => asset.endsWith('.js'))
-      ?.map(uri => ({
-        uri,
-        as: 'script',
-      }));
+  //   const scriptLinks = assets
+  //     ?.filter(asset => asset.endsWith('.js'))
+  //     ?.map(uri => ({
+  //       uri,
+  //       as: 'script',
+  //     }));
 
-    return (cssLinks || []).concat(scriptLinks || []);
-  }
+  //   return (cssLinks || []).concat(scriptLinks || []);
+  // }
   return noopLinks;
 }
