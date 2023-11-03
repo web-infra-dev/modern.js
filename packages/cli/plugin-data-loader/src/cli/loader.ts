@@ -50,6 +50,8 @@ export default async function loader(
         ? this.resourcePath.replace('.loader.', '.data.client.')
         : this.resourcePath.replace('.data.', '.data.client.');
 
+      this.addDependency(clientDataPath);
+
       const clientDataContent = await readFile(clientDataPath);
       return clientDataContent;
     } catch (error) {
