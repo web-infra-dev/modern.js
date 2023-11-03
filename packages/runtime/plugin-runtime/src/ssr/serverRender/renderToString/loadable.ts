@@ -33,6 +33,21 @@ const checkIsInline = (
   }
 };
 
+const readAsset = async (chunk: ChunkAsset) => {
+  // working node env
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+
+  let filepath: string;
+  if (process.env.NODE_ENV === 'production') {
+    filepath = path.resolve(__dirname, chunk.filename!);
+  } else {
+    filepath = chunk.path!;
+  }
+
+  return fs.readFile(filepath, 'utf-8');
+};
+
 const checkIsNode = () =>
   typeof process !== 'undefined' && process.release?.name === 'node';
 
@@ -136,7 +151,7 @@ class LoadableCollector implements Collector {
 
           // only in node read assets
           if (checkIsInline(chunk, enableInlineScripts) && checkIsNode()) {
-            return this.readAsset(chunk)
+            return readAsset(chunk)
               .then(content => `<script>${content}</script>`)
               .catch(_ => {
                 // if read file occur error, we should return script tag to import js assets.
@@ -175,7 +190,7 @@ class LoadableCollector implements Collector {
 
           // only in node read asserts
           if (checkIsInline(chunk, enableInlineStyles) && checkIsNode()) {
-            return this.readAsset(chunk)
+            return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {
                 // if read file occur error, we should return link to import css assets.
@@ -207,21 +222,6 @@ class LoadableCollector implements Collector {
       ...attributes,
       ...extraAtr,
     };
-  }
-
-  private async readAsset(chunk: ChunkAsset) {
-    // working node env
-    const fs = await import('node:fs/promises');
-    const path = await import('node:path');
-
-    let filepath: string;
-    if (process.env.NODE_ENV === 'production') {
-      filepath = path.resolve(__dirname, chunk.filename!);
-    } else {
-      filepath = chunk.path!;
-    }
-
-    return fs.readFile(filepath, 'utf-8');
   }
 }
 export interface LoadableCollectorOptions {
