@@ -33,6 +33,18 @@ const checkIsInline = (
   }
 };
 
+const readAsset = async (chunk: ChunkAsset) => {
+  // working node env
+  const fs = await import('node:fs/promises');
+  const path = await import('node:path');
+
+  // only working in 'production' env
+  // we need ensure the assetsDir is same as ssr bundles.
+  const filepath = path.resolve(__dirname, chunk.filename!);
+
+  return fs.readFile(filepath, 'utf-8');
+};
+
 const checkIsNode = () =>
   typeof process !== 'undefined' && process.release?.name === 'node';
 
@@ -132,18 +144,18 @@ class LoadableCollector implements Collector {
           );
         })
         .map(async chunk => {
+          const script = `<script${attributes} src="${chunk.url}"></script>`;
+
+          // only in node read assets
           if (checkIsInline(chunk, enableInlineScripts) && checkIsNode()) {
-            const fs = await import('node:fs/promises');
-            const filepath = chunk.path!;
-            return fs
-              .readFile(filepath, 'utf-8')
+            return readAsset(chunk)
               .then(content => `<script>${content}</script>`)
               .catch(_ => {
-                // ignore error, then return a empty string.
-                return '';
+                // if read file occur error, we should return script tag to import js assets.
+                return script;
               });
           } else {
-            return `<script${attributes} src="${chunk.url}"></script>`;
+            return script;
           }
         }),
     );
@@ -171,17 +183,18 @@ class LoadableCollector implements Collector {
           );
         })
         .map(async chunk => {
+          const link = `<link${atrributes} href="${chunk.url!}" rel="stylesheet" />`;
+
+          // only in node read asserts
           if (checkIsInline(chunk, enableInlineStyles) && checkIsNode()) {
-            const fs = await import('node:fs/promises');
-            return fs
-              .readFile(chunk.path!)
+            return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {
-                // ignore error, then return a empty string.
-                return '';
+                // if read file occur error, we should return link to import css assets.
+                return link;
               });
           } else {
-            return `<link${atrributes} href="${chunk.url!}" rel="stylesheet" />`;
+            return link;
           }
         }),
     );
