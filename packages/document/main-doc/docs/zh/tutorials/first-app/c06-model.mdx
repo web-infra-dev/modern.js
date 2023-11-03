@@ -204,7 +204,7 @@ export type LoaderData = {
   }[];
 };
 
-export const loader async (): Promise<LoaderData> => {
+export const loader = async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
