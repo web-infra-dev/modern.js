@@ -33,13 +33,4 @@ describe('cli-router', () => {
       ),
     ).toBeTruthy();
   });
-
-  it('plugin-router cli schema is defined', async () => {
-    const result = await runner.validateSchema();
-    expect(
-      result.find((item: any) =>
-        item.find(({ target }: any) => target === 'runtime.router'),
-      ),
-    ).toBeTruthy();
-  });
 });
