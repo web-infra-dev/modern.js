@@ -20,6 +20,7 @@ Options:
   --platform [platform]  构建所有或者指定平台的产物
   --no-dts               关闭 DTS 类型文件生成和类型检查
   --no-clear             关闭自动清除产物输出目录的行为
+  -c, --config <config>  指定配置文件（default: "modern.config.j(t)s"）
   -h, --help             展示当前命令的信息
 ```
 

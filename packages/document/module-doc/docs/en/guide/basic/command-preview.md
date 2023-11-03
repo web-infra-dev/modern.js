@@ -20,6 +20,7 @@ Options:
   --platform [platform] Build artifacts for all or specified platforms
   --no-dts disables DTS type file generation and type checking
   --no-clear disables automatic clearing of output directories
+  -c, --config <config>  Specify the path to the config file (default: "modern.config.j(t)s")
   -h, --help Show information about the current command
 ```
 
