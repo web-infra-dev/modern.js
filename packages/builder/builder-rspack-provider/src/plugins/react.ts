@@ -16,13 +16,24 @@ export const builderPluginReact = (): BuilderPlugin => ({
         // https://swc.rs/docs/configuration/compilation#jsctransformreactruntime
         runtime: 'automatic',
       });
+    });
 
-      setConfig(rspackConfig, 'builtins.provide', {
-        ...(rspackConfig.builtins?.provide || {}),
-        $ReactRefreshRuntime$: [
-          require.resolve('@rspack/dev-client/react-refresh'),
-        ],
-      });
+    api.modifyBundlerChain(async (chain, utils) => {
+      const config = api.getNormalizedConfig();
+
+      const usingHMR = isUsingHMR(config, utils);
+
+      const { bundler } = utils;
+
+      if (usingHMR) {
+        chain.plugin('ReactRefreshRuntime').use(bundler.ProvidePlugin, [
+          {
+            $ReactRefreshRuntime$: [
+              require.resolve('@rspack/dev-client/react-refresh'),
+            ],
+          },
+        ]);
+      }
     });
   },
 });

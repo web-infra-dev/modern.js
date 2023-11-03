@@ -155,13 +155,14 @@ export async function generateWebpackConfig({
   context: Context;
 }) {
   const chainUtils = await getChainUtils(target);
-  const { BannerPlugin, DefinePlugin } = await import('webpack');
+  const { BannerPlugin, DefinePlugin, ProvidePlugin } = await import('webpack');
 
   const bundlerChain = await modifyBundlerChain(context, {
     ...chainUtils,
     bundler: {
       BannerPlugin,
       DefinePlugin,
+      ProvidePlugin,
     },
   });
 

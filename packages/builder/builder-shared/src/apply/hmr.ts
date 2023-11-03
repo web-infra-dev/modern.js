@@ -2,7 +2,7 @@ import { ModifyChainUtils, SharedNormalizedConfig } from '../types';
 
 export function isUsingHMR(
   config: SharedNormalizedConfig,
-  { isProd, target }: ModifyChainUtils,
+  { isProd, target }: Pick<ModifyChainUtils, 'isProd' | 'target'>,
 ) {
   return (
     !isProd &&
