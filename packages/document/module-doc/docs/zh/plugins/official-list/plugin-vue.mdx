@@ -3,7 +3,11 @@
 Vue 插件提供了对 Vue 3 组件构建的支持，插件内部集成了 [esbuild-plugin-vue3](https://github.com/pipe01/esbuild-plugin-vue3) 和 [@vue/babel-plugin-jsx](https://github.com/vuejs/babel-plugin-jsx)。
 
 :::warning
-目前此插件的实现是直接集成社区插件，因此不支持在 sfc 里写 jsx/tsx.
+请注意，此插件仍有一些用法限制：
+
+1. 目前此插件的实现是直接集成社区插件，因此不支持在 sfc 里写 jsx/tsx。
+2. 如果要为组件生成 d.ts，请使用官方推荐方式 [vue-tsc](https://www.npmjs.com/package/vue-tsc)。
+3. 仅支持打包场景，推荐将 input 设置为 `['src/**/*.vue']` 或者 `['src/index.ts']`。
 :::
 
 ## 快速开始
@@ -24,6 +28,10 @@ import { modulePluginVue } from '@modern-js/plugin-module-vue';
 
 export default defineConfig({
   plugins: [moduleTools(), modulePluginVue()],
+  buildType: 'bundle',
+  format: 'esm',
+  input: ['src/index.vue'],
+  dts: false,
 });
 ```
 
