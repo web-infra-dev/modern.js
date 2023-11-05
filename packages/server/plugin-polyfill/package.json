@@ -58,7 +58,7 @@
     "@modern-js/polyfill-lib": "^1.0.0",
     "lru-cache": "^6.0.0",
     "ua-parser-js": "^0.7.33",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",

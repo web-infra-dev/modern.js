@@ -53,7 +53,7 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "esbuild": "0.17.19",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

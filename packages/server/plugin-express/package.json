@@ -59,7 +59,7 @@
     "formidable": "^1.2.2",
     "reflect-metadata": "^0.1.13",
     "type-is": "^1.6.18",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",

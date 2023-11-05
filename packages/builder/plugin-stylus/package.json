@@ -40,7 +40,7 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "stylus": "0.59.0",
     "stylus-loader": "7.1.0"
   },
