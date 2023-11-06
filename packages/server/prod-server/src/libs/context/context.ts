@@ -74,6 +74,9 @@ export class ModernServerContext implements ModernServerContextInterface {
       this.res,
       cutNameByHyphen(options?.metaName || 'modern-js'),
     );
+
+    // inject reporter from req if it has.
+    req.reporter && (this.reporter = req.reporter);
   }
 
   private get parsedURL() {
