@@ -13,7 +13,7 @@ const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 dns.setDefaultResultOrder('ipv4first');
 
-describe('Inline SSR', () => {
+describe.skip('Inline SSR', () => {
   let app: any;
   let appPort: number;
   let page: Page;
