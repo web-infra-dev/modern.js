@@ -12989,7 +12989,7 @@ packages:
       http-compression: 1.0.6
       minimatch: 3.1.2
       path-to-regexp: 6.2.1
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       ws: 8.13.0
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -28692,7 +28692,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 
