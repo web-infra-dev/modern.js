@@ -24,6 +24,16 @@ const ensureExtensions = (file: string) => {
  */
 const isDirectory = (file: string) => !path.extname(file);
 
+const isSubDirOrEqual = (parent: string, child: string): boolean => {
+  if (parent === child) {
+    return true;
+  }
+  const relative = path.relative(parent, child);
+  const isSubdir =
+    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+  return Boolean(isSubdir);
+};
+
 const ifAlreadyExists = (
   entrypoints: Entrypoint[],
   checked: Entrypoint,
@@ -38,8 +48,8 @@ const ifAlreadyExists = (
     }
     // filesystem routes entrypoint conflict with normal entrypoint.
     if (
-      entrypoint.entry.startsWith(checked.entry) ||
-      checked.entry.startsWith(entrypoint.entry)
+      isSubDirOrEqual(entrypoint.entry, checked.entry) ||
+      isSubDirOrEqual(checked.entry, entrypoint.entry)
     ) {
       throw new Error(
         `Entry configuration conflicts\n Your configuration: ${checked.entry}.\n Default entrypoint: ${entrypoint.entry}\n Please reset source.entries or set source.disableDefaultEntries to disable the default entry rules.`,
