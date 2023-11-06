@@ -50,7 +50,6 @@
       "import": "./dist/esm/universal/pluginDagSort.js",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
-    "./ajv": "./compiled/ajv/index.js",
     "./commander": "./compiled/commander/index.js",
     "./ora": "./compiled/ora/index.js",
     "./glob": "./compiled/glob/index.js",
@@ -65,11 +64,9 @@
     "./gzip-size": "./compiled/gzip-size/index.js",
     "./mime-types": "./compiled/mime-types/index.js",
     "./strip-ansi": "./compiled/strip-ansi/index.js",
-    "./ajv-keywords": "./compiled/ajv-keywords/index.js",
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
-    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
+    "./tsconfig-paths": "./compiled/tsconfig-paths/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -104,7 +101,6 @@
         "import": "./dist/esm/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
-      "./ajv": "./dist/compiled/ajv/index.js",
       "./commander": "./dist/compiled/commander/index.js",
       "./ora": "./dist/compiled/ora/index.js",
       "./glob": "./dist/compiled/glob/index.js",
@@ -119,11 +115,9 @@
       "./gzip-size": "./dist/compiled/gzip-size/index.js",
       "./mime-types": "./dist/compiled/mime-types/index.js",
       "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
-      "./ajv-keywords": "./dist/compiled/ajv-keywords/index.js",
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
-      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js"
+      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js"
     }
   },
   "typesVersions": {
@@ -143,14 +137,8 @@
       "universal/plugin-dag-sort": [
         "./dist/types/universal/pluginDagSort.d.ts"
       ],
-      "ajv": [
-        "./dist/compiled/ajv/types/ajv.d.ts"
-      ],
       "execa": [
         "./dist/compiled/execa/index.d.ts"
-      ],
-      "ajv/json-schema": [
-        "./dist/compiled/ajv/types/types/json-schema.d.ts"
       ],
       "glob": [
         "./dist/compiled/glob/index.d.ts"
@@ -185,9 +173,6 @@
       "strip-ansi": [
         "./dist/compiled/strip-ansi/index.d.ts"
       ],
-      "ajv-keywords": [
-        "./dist/compiled/ajv-keywords/index.d.ts"
-      ],
       "browserslist": [
         "./dist/compiled/browserslist/index.d.ts"
       ],
@@ -196,9 +181,6 @@
       ],
       "tsconfig-paths": [
         "./dist/compiled/tsconfig-paths/lib/index.d.ts"
-      ],
-      "better-ajv-errors": [
-        "./dist/compiled/better-ajv-errors/index.d.ts"
       ],
       "commander": [
         "./dist/compiled/commander/typings/index.d.ts"

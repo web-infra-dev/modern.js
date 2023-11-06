@@ -19,7 +19,6 @@ const baseHooks: BaseHooks<{}> = {
   beforeConfig: createAsyncWorkflow(),
   config: createParallelWorkflow(),
   resolvedConfig: createAsyncWaterfall(),
-  validateSchema: createParallelWorkflow(),
   prepare: createAsyncWorkflow(),
   afterPrepare: createAsyncWorkflow(),
   commands: createAsyncWorkflow(),

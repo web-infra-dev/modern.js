@@ -25,20 +25,6 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
     const agreedRouteMap: AgreedRouteMap = {};
 
     return {
-      validateSchema() {
-        return [
-          {
-            target: 'output.ssg',
-            schema: {
-              oneOf: [
-                { type: 'boolean' },
-                { type: 'object' },
-                { instanceof: 'Function' },
-              ],
-            },
-          },
-        ];
-      },
       modifyFileSystemRoutes({ entrypoint, routes }) {
         const { entryName } = entrypoint;
         const flattedRoutes = flattenRoutes(routes);

@@ -62,16 +62,6 @@ export const tailwindcssPlugin = (
           }
         }
       },
-
-      validateSchema() {
-        return [
-          {
-            target: 'tools.tailwindcss',
-            schema: { typeof: ['object', 'function'] },
-          },
-        ];
-      },
-
       config() {
         let tailwindConfig: Record<string, any>;
 

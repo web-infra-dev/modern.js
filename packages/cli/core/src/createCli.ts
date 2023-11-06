@@ -119,14 +119,7 @@ export const createCli = () => {
 
     const extraConfigs = await hooksRunner.config();
 
-    const extraSchemas = await hooksRunner.validateSchema();
-
-    const normalizedConfig = await createResolveConfig(
-      loaded,
-      extraConfigs,
-      extraSchemas,
-      options?.onSchemaError,
-    );
+    const normalizedConfig = await createResolveConfig(loaded, extraConfigs);
 
     const { resolved } = await hooksRunner.resolvedConfig({
       resolved: normalizedConfig,

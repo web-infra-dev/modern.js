@@ -9,15 +9,6 @@ export const proxyPlugin = (): CliPlugin => {
     name: '@modern-js/plugin-proxy',
 
     setup: api => ({
-      validateSchema() {
-        return [
-          {
-            target: 'dev.proxy',
-            schema: { typeof: ['string', 'object'] },
-          },
-        ];
-      },
-
       async afterDev() {
         const { dev } = api.useResolvedConfigContext() as any;
         const { internalDirectory } = api.useAppContext();

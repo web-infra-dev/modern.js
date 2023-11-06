@@ -27,7 +27,6 @@ export type BaseHooks<
   resolvedConfig: AsyncWaterfall<{
     resolved: NormalizedConfig<Extends>;
   }>;
-  validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
   afterPrepare: AsyncWorkflow<void, void>;
   watchFiles: ParallelWorkflow<

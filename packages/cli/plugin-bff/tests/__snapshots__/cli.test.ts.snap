@@ -34,33 +34,3 @@ exports[`bff cli plugin routes 1`] = `
   ],
 }
 `;
-
-exports[`bff cli plugin schema 1`] = `
-[
-  [
-    {
-      "schema": {
-        "properties": {
-          "fetcher": {
-            "type": "string",
-          },
-          "prefix": {
-            "items": {
-              "type": "string",
-            },
-            "type": [
-              "string",
-              "array",
-            ],
-          },
-          "proxy": {
-            "type": "object",
-          },
-        },
-        "type": "object",
-      },
-      "target": "bff",
-    },
-  ],
-]
-`;

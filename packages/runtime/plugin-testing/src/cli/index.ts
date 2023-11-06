@@ -75,30 +75,6 @@ export const testingPlugin = (): CliPlugin<{
               await test(api);
             });
         },
-
-        validateSchema() {
-          return [
-            {
-              target: 'testing',
-              schema: {
-                type: 'object',
-                additionalProperties: false,
-                properties: {
-                  transformer: {
-                    type: 'string',
-                    enum: ['babel-jest', 'ts-jest'],
-                  },
-                  jest: { typeof: ['object', 'function'] },
-                },
-              },
-            },
-            {
-              target: 'tools.jest',
-              schema: { typeof: ['object', 'function'] },
-            },
-          ];
-        },
-
         config() {
           const appContext = api.useAppContext();
 
