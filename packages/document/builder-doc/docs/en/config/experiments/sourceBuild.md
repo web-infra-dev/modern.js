@@ -1,7 +1,7 @@
 - **Type:** `boolean`
 - **Default:** `false`
 - **Bundler:** `only support webpack`
-- **Version:** `2.26.0`
+- **Version:** `MAJOR_VERSION.26.0`
 
 Used to enable the ability for source code building. When this configuration option is enabled, Builder will read the source code files corresponding to the `source` field in the sub-project's package.json and compile them.
 
