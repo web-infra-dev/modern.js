@@ -60,18 +60,16 @@ describe('tracker', () => {
 
   it('track ssr error', () => {
     const error = new Error('mock error');
-    tracker.trackError(SSRErrors.PREFETCH, error);
+    tracker.trackError(SSRErrors.PRERENDER, error);
 
-    expect(reporter.errors).toEqual([
-      ['SSR Error - App Prefetch Render', error],
-    ]);
-    expect(logger.errors).toEqual([['App Prefetch Render', error]]);
-    expect(metrics.errors.get('app.prefetch.render.error')).toEqual(1);
+    expect(reporter.errors).toEqual([['SSR Error - App Prerender', error]]);
+    expect(logger.errors).toEqual([['App Prerender', error]]);
+    expect(metrics.errors.get('app.prerender.error')).toEqual(1);
   });
 
   it('track ssr timing', () => {
     const cost = 13;
-    tracker.trackTiming(SSRTimings.SSR_RENDER_HTML, cost);
+    tracker.trackTiming(SSRTimings.RENDER_HTML, cost);
 
     expect(serverTiming.serverTimings).toEqual([['ssr-render-html', cost]]);
     expect(logger.timings).toEqual([['App Render To HTML cost = %d ms', cost]]);

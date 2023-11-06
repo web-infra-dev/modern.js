@@ -3,14 +3,15 @@ import type { BaseSSRServerContext } from '@modern-js/types';
 export type SSRTracker = ReturnType<typeof createSSRTracker>;
 
 export enum SSRTimings {
-  SSR_RENDER_TOTAL,
-  SSR_PREFETCH,
-  SSR_RENDER_HTML,
-  SSR_RENDER_SHELL,
+  PRERENDER,
+  RENDER_HTML,
+  RENDER_SHELL,
+  USE_LOADER,
 }
 
 export enum SSRErrors {
-  PREFETCH,
+  PRERENDER,
+  USE_LOADER,
   RENDER_HTML,
   RENDER_STREAM,
   RENDER_SHELL,
@@ -24,10 +25,15 @@ const errors: Record<
     logger?: string;
   }
 > = {
-  [SSRErrors.PREFETCH]: {
-    reporter: 'SSR Error - App Prefetch Render',
-    logger: 'App Prefetch Render',
-    metrics: 'app.prefetch.render.error',
+  [SSRErrors.PRERENDER]: {
+    reporter: 'SSR Error - App Prerender',
+    logger: 'App Prerender',
+    metrics: 'app.prerender.error',
+  },
+  [SSRErrors.USE_LOADER]: {
+    reporter: 'SSR Error - App run useLoader',
+    logger: 'App run useLoader',
+    metrics: 'app.useloader.error',
   },
   [SSRErrors.RENDER_HTML]: {
     reporter: 'SSR Error - App Render To HTML',
@@ -53,26 +59,25 @@ const timings: Record<
     logger?: string;
   }
 > = {
-  [SSRTimings.SSR_PREFETCH]: {
-    reporter: 'ssr-prefetch',
-    serverTiming: 'ssr-prefetch',
-    metrics: 'app.prefeth.cost',
-    logger: 'App Prefetch cost = %d ms',
+  [SSRTimings.PRERENDER]: {
+    reporter: 'ssr-prerender',
+    serverTiming: 'ssr-prerender',
+    metrics: 'app.prerender.cost',
+    logger: 'App Prerender cost = %d ms',
   },
-  [SSRTimings.SSR_RENDER_HTML]: {
+  [SSRTimings.RENDER_HTML]: {
     reporter: 'ssr-render-html',
     serverTiming: 'ssr-render-html',
     metrics: 'app.render.html.cost',
     logger: 'App Render To HTML cost = %d ms',
   },
-  [SSRTimings.SSR_RENDER_TOTAL]: {
-    reporter: 'ssr-render-total',
-    serverTiming: 'ssr-render-total',
-    metrics: 'app.render.cost',
-    logger: 'App Render Total cost = %d ms',
-  },
-  [SSRTimings.SSR_RENDER_SHELL]: {
+  [SSRTimings.RENDER_SHELL]: {
     reporter: 'ssr-render-shell',
+  },
+  [SSRTimings.USE_LOADER]: {
+    reporter: 'use-loader',
+    serverTiming: 'use-loader',
+    logger: 'App run useLoader cost = %d ms',
   },
 };
 

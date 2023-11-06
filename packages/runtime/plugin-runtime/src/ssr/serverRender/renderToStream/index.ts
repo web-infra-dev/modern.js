@@ -33,12 +33,12 @@ export const render = ({ App, context }: ServerRenderOptions) => {
         }
 
         const cost = end();
-        tracker.trackTiming(SSRTimings.SSR_RENDER_SHELL, cost);
+        tracker.trackTiming(SSRTimings.RENDER_SHELL, cost);
       },
       onAllReady() {
         // calculate streaming ssr cost
         const cost = end();
-        tracker.trackTiming(SSRTimings.SSR_RENDER_TOTAL, cost);
+        tracker.trackTiming(SSRTimings.RENDER_HTML, cost);
       },
       onShellError(e) {
         // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
