@@ -1,9 +1,5 @@
 import path from 'path';
-import {
-  isReact18,
-  cleanRequireCache,
-  ENTRY_NAME_PATTERN,
-} from '@modern-js/utils';
+import { isReact18, cleanRequireCache } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { statePlugin } from '../state/cli';
 import { ssrPlugin } from '../ssr/cli';
@@ -49,25 +45,6 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
             },
           },
         };
-      },
-      validateSchema() {
-        return [
-          {
-            target: 'runtime',
-            schema: {
-              type: 'object',
-              additionalProperties: false,
-            },
-          },
-          {
-            target: 'runtimeByEntries',
-            schema: {
-              type: 'object',
-              patternProperties: { [ENTRY_NAME_PATTERN]: { type: 'object' } },
-              additionalProperties: false,
-            },
-          },
-        ];
       },
       async beforeRestart() {
         cleanRequireCache([

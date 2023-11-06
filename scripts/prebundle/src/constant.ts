@@ -1,6 +1,6 @@
 import { basename, join } from 'path';
 import glob from 'fast-glob';
-import { copyFileSync, copySync, moveSync } from 'fs-extra';
+import { copyFileSync, copySync } from 'fs-extra';
 import { replaceFileContent } from './helper';
 import type { TaskConfig } from './types';
 
@@ -128,50 +128,6 @@ export const TASKS: TaskConfig[] = [
           dtsFiles.forEach(file => {
             copyFileSync(file, file.replace(task.depPath, task.distPath));
           });
-        },
-      },
-      {
-        name: 'ajv',
-        beforeBundle(task) {
-          replaceFileContent(task.depEntry, content => {
-            const addExports = `exports.codegen = require("./compile/codegen");`;
-            if (content.includes(addExports)) {
-              return content;
-            }
-            return `${content}\n${addExports}`;
-          });
-        },
-        afterBundle(task) {
-          // Fix dts-packer failed to handle uri-js type
-          moveSync(
-            join(task.distPath, 'uri-js/dist/es5/uri.all.d.ts'),
-            join(task.distPath, 'uri-js.d.ts'),
-          );
-        },
-        emitFiles: [
-          {
-            path: 'codegen.js',
-            content: `module.exports = require('./').codegen;`,
-          },
-          {
-            path: 'types/vocabularies/errors.d.ts',
-            content: 'export type DefinedError = any;',
-          },
-        ],
-      },
-      {
-        name: 'ajv-keywords',
-        ignoreDts: true,
-        externals: {
-          ajv: '../ajv',
-          'ajv/dist/compile/codegen': '../ajv/codegen',
-        },
-      },
-      {
-        name: 'better-ajv-errors',
-        ignoreDts: true,
-        externals: {
-          ajv: '../ajv',
         },
       },
     ],

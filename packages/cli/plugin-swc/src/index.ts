@@ -15,14 +15,6 @@ export function factory(
   return () => ({
     name,
     setup: api => ({
-      validateSchema() {
-        return [
-          {
-            target: 'tools.swc',
-            schema: { typeof: ['object', 'function'] },
-          },
-        ];
-      },
       prepare() {
         const context = api.useAppContext();
         if (!context.builder || context.bundlerType === 'rspack') {

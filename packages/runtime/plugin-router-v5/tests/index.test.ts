@@ -31,13 +31,4 @@ describe('cli-router-legacy', () => {
       ),
     ).toBeTruthy();
   });
-
-  it('plugin-router-legacy cli schema is defined', async () => {
-    const result = await runner.validateSchema();
-    expect(
-      result.find((item: any) =>
-        item.find(({ target }: any) => target === 'runtime.router'),
-      ),
-    ).toBeTruthy();
-  });
 });

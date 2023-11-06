@@ -65,6 +65,7 @@ export type ModifyBundlerChainUtils = ModifyChainUtils & {
   bundler: {
     BannerPlugin: WebpackPluginInstance;
     DefinePlugin: WebpackPluginInstance;
+    ProvidePlugin: WebpackPluginInstance;
   };
 };
 

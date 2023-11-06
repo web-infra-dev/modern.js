@@ -20,24 +20,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
   setup: api => {
     let unRegisterResolveRuntimePath: (() => void) | null = null;
     return {
-      validateSchema() {
-        return [
-          {
-            target: 'bff',
-            schema: {
-              type: 'object',
-              properties: {
-                prefix: {
-                  type: ['string', 'array'],
-                  items: { type: 'string' },
-                },
-                fetcher: { type: 'string' },
-                proxy: { type: 'object' },
-              },
-            },
-          },
-        ];
-      },
       config() {
         return {
           tools: {

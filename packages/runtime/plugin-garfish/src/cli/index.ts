@@ -46,22 +46,6 @@ export const garfishPlugin = ({
   setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
-      validateSchema() {
-        return [
-          {
-            target: 'runtime.masterApp',
-            schema: { type: ['boolean', 'object'] },
-          },
-          {
-            target: 'dev.withMasterApp',
-            schema: { type: ['object'] },
-          },
-          {
-            target: 'deploy.microFrontend',
-            schema: { type: ['boolean', 'object'] },
-          },
-        ];
-      },
       resolvedConfig: async config => {
         const { resolved } = config;
         const { masterApp, router } = getRuntimeConfig(resolved);

@@ -18,13 +18,4 @@ describe('plugin runtime cli', () => {
     expect(config.find((item: any) => item.runtime)).toBeTruthy();
     expect(config.find((item: any) => item.runtimeByEntries)).toBeTruthy();
   });
-
-  it('plugin-runtime cli schema is defined', async () => {
-    const result = await runner.validateSchema();
-    expect(
-      result.find((item: any) =>
-        item.find(({ target }: any) => target === 'runtime'),
-      ),
-    ).toBeTruthy();
-  });
 });

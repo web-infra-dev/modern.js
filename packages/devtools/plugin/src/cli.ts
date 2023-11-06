@@ -59,14 +59,6 @@ export const devtoolsPlugin = (
     return {
       prepare: rpc.hooks.prepare,
       modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
-      validateSchema() {
-        return [
-          {
-            target: 'devtools',
-            schema: { typeof: ['boolean', 'object'] },
-          },
-        ];
-      },
       beforeRestart() {
         return new Promise((resolve, reject) =>
           httpServer.close(err => (err ? reject(err) : resolve())),

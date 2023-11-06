@@ -4,7 +4,6 @@ import {
   isDev,
   isDevCommand,
 } from '@modern-js/utils';
-import { legacySchema, schema } from '../schema';
 import {
   checkIsLegacyConfig,
   createDefaultConfig,
@@ -51,15 +50,8 @@ export default ({
         : createDefaultConfig(appContext, bundler);
     };
 
-    const validateSchema = () => {
-      const userConfig = api.useConfigContext();
-      const schemas = checkIsLegacyConfig(userConfig) ? legacySchema : schema;
-      return schemas.generate();
-    };
-
     return {
       config,
-      validateSchema,
       async resolvedConfig({ resolved }) {
         let appContext = api.useAppContext();
         const userConfig = api.useConfigContext();

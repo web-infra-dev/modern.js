@@ -9,6 +9,7 @@ import type {
   NextFunction,
   ModernServerContext,
   InternalPlugins,
+  Reporter,
 } from '@modern-js/types';
 import type { ModernRouteInterface } from './libs/route';
 
@@ -16,6 +17,7 @@ declare module 'http' {
   interface IncomingMessage {
     logger: Logger;
     metrics: Metrics;
+    reporter?: Reporter;
     body?: any;
   }
 
