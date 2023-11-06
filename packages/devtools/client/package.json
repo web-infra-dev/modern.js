@@ -17,6 +17,12 @@
   "files": [
     "dist"
   ],
+  "main": "./dist/html/client/index.html",
+  "exports": {
+    ".": "./dist/html/client/index.html",
+    "./mount": "./exports/mount.mjs",
+    "./package.json": "./package.json"
+  },
   "dependencies": {},
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
