@@ -1,4 +1,5 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
+import { nanoid } from '@modern-js/utils';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
 import packageMeta from './package.json';
 
@@ -28,7 +29,7 @@ export default defineConfig<'rspack'>({
     globalVars: {
       'process.env.VERSION': packageMeta.version,
       'process.env.PKG_VERSION': packageMeta.version,
-      'process.env.DEVTOOLS_MARK': 'friw89',
+      'process.env.DEVTOOLS_MARK': nanoid(),
     },
   },
   output: {

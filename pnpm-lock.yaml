@@ -1307,6 +1307,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
       '@radix-ui/react-collapsible':
         specifier: ^1.0.3
         version: 1.0.3(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
@@ -1542,7 +1545,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.5.0
-        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0)
 
   packages/document/main-doc:
     dependencies:
@@ -1582,7 +1585,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.5.0
-        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
@@ -1606,7 +1609,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.5.0
-        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+        version: 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0)
 
   packages/generator/generator-cases:
     dependencies:
@@ -4758,7 +4761,7 @@ importers:
         version: link:../../toolkit/utils
       '@rspack/dev-client':
         specifier: 0.3.2
-        version: 0.3.2(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.88.1)
+        version: 0.3.2(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
       '@storybook/components':
         specifier: ^7.5.1
         version: 7.5.1(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
@@ -4785,7 +4788,7 @@ importers:
         version: 7.5.1
       '@storybook/react-docgen-typescript-plugin':
         specifier: 1.0.6--canary.9.0c3f3b7.0
-        version: 1.0.6--canary.9.0c3f3b7.0(typescript@5.2.2)(webpack@5.88.1)
+        version: 1.0.6--canary.9.0c3f3b7.0(typescript@5.2.2)(webpack@5.89.0)
       '@storybook/router':
         specifier: ^7.5.1
         version: 7.5.1(react-dom@18.2.0)(react@18.2.0)
@@ -12092,14 +12095,14 @@ packages:
       read-yaml-file: 1.1.0
     dev: false
 
-  /@mdx-js/loader@2.2.1(webpack@5.88.1):
+  /@mdx-js/loader@2.2.1(webpack@5.89.0):
     resolution: {integrity: sha512-J4E8A5H+xtk4otZiEZ5AXl61Tj04Avm5MqLQazITdI3+puVXVnTTuZUKM1oNHTtfDIfOl0uMt+o/Ij+x6Fvf+g==}
     peerDependencies:
       webpack: '>=4'
     dependencies:
       '@mdx-js/mdx': 2.2.1
       source-map: 0.7.4
-      webpack: 5.88.1(esbuild@0.17.19)
+      webpack: 5.89.0(esbuild@0.17.19)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -12655,7 +12658,7 @@ packages:
       http-compression: 1.0.6
       minimatch: 3.1.2
       path-to-regexp: 6.2.1
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
       ws: 8.13.0
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -13075,7 +13078,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
 
-  /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.88.1):
+  /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
     resolution: {integrity: sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA==}
     engines: {node: '>= 10.13'}
     peerDependencies:
@@ -13111,7 +13114,7 @@ packages:
       react-refresh: 0.14.0
       schema-utils: 3.3.0
       source-map: 0.7.4
-      webpack: 5.88.1(esbuild@0.18.20)
+      webpack: 5.89.0(esbuild@0.18.20)
       webpack-hot-middleware: 2.25.4
     dev: false
 
@@ -13152,6 +13155,46 @@ packages:
       schema-utils: 3.3.0
       source-map: 0.7.4
       webpack: 5.88.1(esbuild@0.17.19)
+    dev: false
+
+  /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.0)(webpack@5.89.0):
+    resolution: {integrity: sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      '@types/webpack': 4.x || 5.x
+      react-refresh: '>=0.10.0 <1.0.0'
+      sockjs-client: ^1.4.0
+      type-fest: '>=0.17.0 <4.0.0'
+      webpack: '>=4.43.0 <6.0.0'
+      webpack-dev-server: 3.x || 4.x
+      webpack-hot-middleware: 2.x
+      webpack-plugin-serve: 0.x || 1.x
+    peerDependenciesMeta:
+      '@types/webpack':
+        optional: true
+      sockjs-client:
+        optional: true
+      type-fest:
+        optional: true
+      webpack-dev-server:
+        optional: true
+      webpack-hot-middleware:
+        optional: true
+      webpack-plugin-serve:
+        optional: true
+    dependencies:
+      ansi-html-community: 0.0.8
+      common-path-prefix: 3.0.0
+      core-js-pure: 3.26.0
+      error-stack-parser: 2.1.4
+      find-up: 5.0.0
+      html-entities: 2.3.3
+      loader-utils: 2.0.4
+      react-refresh: 0.14.0
+      schema-utils: 3.3.0
+      source-map: 0.7.4
+      webpack: 5.89.0(esbuild@0.17.19)
+    dev: true
 
   /@polka/url@0.5.0:
     resolution: {integrity: sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==}
@@ -14779,11 +14822,11 @@ packages:
       p-map: 4.0.0
     dev: false
 
-  /@rsbuild/plugin-react@0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
+  /@rsbuild/plugin-react@0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0):
     resolution: {integrity: sha512-G8rXlh0XYLrHrFzyr8vi6ePSrGSFqlYd7M6hMRbpBTRNUpoH4ftgmtSOVuuLAwrCDzZbjRRW9lHrrmoKwvScXg==}
     dependencies:
       '@rsbuild/shared': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rspack/plugin-react-refresh': 0.3.10(react-refresh@0.14.0)(webpack@5.88.1)
+      '@rspack/plugin-react-refresh': 0.3.10(react-refresh@0.14.0)(webpack@5.89.0)
       react-refresh: 0.14.0
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -14810,12 +14853,12 @@ packages:
       - webpack-plugin-serve
     dev: true
 
-  /@rsbuild/plugin-svgr@0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
+  /@rsbuild/plugin-svgr@0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0):
     resolution: {integrity: sha512-P09Fx3Ep05ir35LkLXnpHVZRPdjavqS8qA0ngQpkYC+eX+c5PGy4SWpyXMoWRqY2+fOiYCiHp+WV0Mc/HxFxJg==}
     dependencies:
       '@rsbuild/shared': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
       '@svgr/webpack': 8.0.1
-      url-loader: 4.1.1(file-loader@6.2.0)(webpack@5.88.1)
+      url-loader: 4.1.1(webpack@5.89.0)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc/core'
@@ -15001,7 +15044,7 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client@0.3.2(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.88.1):
+  /@rspack/dev-client@0.3.2(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
     resolution: {integrity: sha512-t/4b6rzMh13pi0JARj85xaU02FNihUmGGpsHsG3UdqM1pVzS3z6Kl6h0FrmMG8NNJAvoTT0p6drltdijIxb6Qw==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
@@ -15009,7 +15052,7 @@ packages:
       react-refresh:
         optional: true
     dependencies:
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.88.1)
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
       react-refresh: 0.14.0
     transitivePeerDependencies:
       - '@types/webpack'
@@ -15056,19 +15099,41 @@ packages:
       - webpack-dev-server
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: false
 
-  /@rspress/core@1.5.0(esbuild@0.17.19)(ts-node@10.9.1)(webpack@5.88.1):
+  /@rspack/plugin-react-refresh@0.3.10(react-refresh@0.14.0)(webpack@5.89.0):
+    resolution: {integrity: sha512-oeCsfEXRguZox5rNyV3ifbyk3G578YZ+5l0ZNCk/tDF5xQnMeJ9vRJ7iFYcHVcuZhZQhuxCwLzeXJ5RNWleqig==}
+    peerDependencies:
+      react-refresh: '>=0.10.0 <1.0.0'
+    peerDependenciesMeta:
+      react-refresh:
+        optional: true
+    dependencies:
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack@5.89.0)
+      react-refresh: 0.14.0
+      schema-utils: 4.2.0
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - sockjs-client
+      - type-fest
+      - webpack
+      - webpack-dev-server
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: true
+
+  /@rspress/core@1.5.0(esbuild@0.17.19)(ts-node@10.9.1)(webpack@5.89.0):
     resolution: {integrity: sha512-HiH0T6Zrm0csvUifpuwNJZj64T6LRMKD9aSge6GK2So/GAAiB/Itq4o3tTMDT6i7mejxvyh13A/9w8jjEboUcw==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@loadable/component': 5.15.2(react@18.2.0)
-      '@mdx-js/loader': 2.2.1(webpack@5.88.1)
+      '@mdx-js/loader': 2.2.1(webpack@5.89.0)
       '@mdx-js/mdx': 2.2.1
       '@mdx-js/react': 2.2.1(react@18.2.0)
       '@modern-js/utils': link:packages/toolkit/utils
       '@rsbuild/core': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rsbuild/plugin-react': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
-      '@rsbuild/plugin-svgr': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1)
+      '@rsbuild/plugin-react': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0)
+      '@rsbuild/plugin-svgr': 0.0.13(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0)
       '@rspress/mdx-rs': 0.4.1
       '@rspress/plugin-auto-nav-sidebar': 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
       '@rspress/plugin-container-syntax': 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
@@ -15076,7 +15141,7 @@ packages:
       '@rspress/plugin-medium-zoom': 1.5.0(@rspress/runtime@1.5.0)
       '@rspress/runtime': 1.5.0(esbuild@0.17.19)(ts-node@10.9.1)
       '@rspress/shared': 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
-      '@rspress/theme-default': 1.5.0(esbuild@0.17.19)(postcss@8.4.21)(ts-node@10.9.1)(webpack@5.88.1)
+      '@rspress/theme-default': 1.5.0(esbuild@0.17.19)(postcss@8.4.21)(ts-node@10.9.1)(webpack@5.89.0)
       '@types/compression': 1.7.2
       '@types/polka': 0.5.4
       autoprefixer: 10.4.13(postcss@8.4.21)
@@ -15117,7 +15182,7 @@ packages:
       rspack-plugin-virtual-module: 0.1.12
       sirv: 2.0.3
       source-map: 0.7.4
-      string-replace-loader: 3.1.0(webpack@5.88.1)
+      string-replace-loader: 3.1.0(webpack@5.89.0)
       tailwindcss: 3.2.7(postcss@8.4.21)(ts-node@10.9.1)
       unified: 10.1.2
       unist-util-visit: 4.1.1
@@ -15358,7 +15423,7 @@ packages:
       - webpack-cli
     dev: true
 
-  /@rspress/theme-default@1.5.0(esbuild@0.17.19)(postcss@8.4.21)(ts-node@10.9.1)(webpack@5.88.1):
+  /@rspress/theme-default@1.5.0(esbuild@0.17.19)(postcss@8.4.21)(ts-node@10.9.1)(webpack@5.89.0):
     resolution: {integrity: sha512-lXfZqjok6pBOahoILIMr8iT8PjT+W+65vBDQDIbugUWHTCKl+LUwyrbaNILFyrYCnjA6+Uv+XwOymrwUrE455Q==}
     engines: {node: '>=14.17.6'}
     dependencies:
@@ -15382,7 +15447,7 @@ packages:
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
       react-syntax-highlighter: 15.5.0(react@18.2.0)
       rspack-plugin-virtual-module: 0.1.12
-      string-replace-loader: 3.1.0(webpack@5.88.1)
+      string-replace-loader: 3.1.0(webpack@5.89.0)
       tailwindcss: 3.2.7(postcss@8.4.21)(ts-node@10.9.1)
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -16134,7 +16199,7 @@ packages:
     resolution: {integrity: sha512-nfZC103z9Cy27FrJKUr2IjDuVt8Mvn1Z5gZ0TtJihoK7sfLTv29nd/XU9zzrb/epM3o8UEzc63xZZsMaToDbAw==}
     dev: false
 
-  /@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.2.2)(webpack@5.88.1):
+  /@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.2.2)(webpack@5.89.0):
     resolution: {integrity: sha512-KUqXC3oa9JuQ0kZJLBhVdS4lOneKTOopnNBK4tUAgoxWQ3u/IjzdueZjFr7gyBrXMoU6duutk3RQR9u8ZpYJ4Q==}
     peerDependencies:
       typescript: '>= 4.x'
@@ -16148,7 +16213,7 @@ packages:
       react-docgen-typescript: 2.2.2(typescript@5.2.2)
       tslib: 2.4.0
       typescript: 5.2.2
-      webpack: 5.88.1(esbuild@0.18.20)
+      webpack: 5.89.0(esbuild@0.18.20)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -27912,7 +27977,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
       yaml: 1.10.2
     dev: true
 
@@ -30726,12 +30791,12 @@ packages:
       fs-extra: 11.1.1
     dev: true
 
-  /rspress@1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
+  /rspress@1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)(webpack@5.89.0):
     resolution: {integrity: sha512-aAjyzDXYOn8eu2v5w8EeELAAXcmM10UpIReq/h0Ff713vPI1epfDVQyCaEaHDKoWQ4BPxQbVlxVbsmG+tXYJZg==}
     hasBin: true
     dependencies:
       '@modern-js/node-bundle-require': link:packages/toolkit/node-bundle-require
-      '@rspress/core': 1.5.0(esbuild@0.17.19)(ts-node@10.9.1)(webpack@5.88.1)
+      '@rspress/core': 1.5.0(esbuild@0.17.19)(ts-node@10.9.1)(webpack@5.89.0)
       '@rspress/shared': 1.5.0(esbuild@0.17.19)(react-dom@18.2.0)(react@18.2.0)(ts-node@10.9.1)
       cac: 6.7.14
       chalk: 5.3.0
@@ -31476,14 +31541,14 @@ packages:
       char-regex: 1.0.2
       strip-ansi: 6.0.1
 
-  /string-replace-loader@3.1.0(webpack@5.88.1):
+  /string-replace-loader@3.1.0(webpack@5.89.0):
     resolution: {integrity: sha512-5AOMUZeX5HE/ylKDnEa/KKBqvlnFmRZudSOjVJHxhoJg9QYTwl1rECx7SLR8BBH7tfxb4Rp7EM2XVfQFxIhsbQ==}
     peerDependencies:
       webpack: ^5
     dependencies:
       loader-utils: 2.0.4
       schema-utils: 3.3.0
-      webpack: 5.88.1(esbuild@0.17.19)
+      webpack: 5.89.0(esbuild@0.17.19)
     dev: true
 
   /string-similarity@4.0.4:
@@ -32150,6 +32215,32 @@ packages:
       serialize-javascript: 6.0.1
       terser: 5.19.2
       webpack: 5.88.1(esbuild@0.18.20)
+    dev: true
+
+  /terser-webpack-plugin@5.3.9(esbuild@0.18.20)(webpack@5.89.0):
+    resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.19
+      esbuild: 0.18.20
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.1
+      terser: 5.19.2
+      webpack: 5.89.0(esbuild@0.18.20)
+    dev: false
 
   /terser@5.19.2:
     resolution: {integrity: sha512-qC5+dmecKJA4cpYxRa5aVkKehYsQKc+AHeKl0Oe62aYjBL8ZA33tTljktDHJSaxxMnbI5ZYw+o/S2DxxLu8OfA==}
@@ -33085,6 +33176,22 @@ packages:
       webpack: 5.88.1(esbuild@0.17.19)
     dev: true
 
+  /url-loader@4.1.1(webpack@5.89.0):
+    resolution: {integrity: sha512-3BTV812+AVHHOJQO8O5MkWgZ5aosP7GnROJwvzLS9hWDj00lZ6Z0wNak423Lp9PBZN05N+Jk/N5Si8jRAlGyWA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      file-loader: '*'
+      webpack: ^4.0.0 || ^5.0.0
+    peerDependenciesMeta:
+      file-loader:
+        optional: true
+    dependencies:
+      loader-utils: 2.0.4
+      mime-types: 2.1.35
+      schema-utils: 3.3.0
+      webpack: 5.89.0(esbuild@0.17.19)
+    dev: true
+
   /url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
     dependencies:
@@ -33907,6 +34014,7 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+    dev: true
 
   /webpack@5.89.0(esbuild@0.17.19):
     resolution: {integrity: sha512-qyfIC10pOr70V+jkmud8tMfajraGCZMBWJtrmuBymQKCrLTRejBI8STDp1MCyZu/QTdZSeacCQYpYNQVOzX5kw==}
@@ -33947,6 +34055,46 @@ packages:
       - esbuild
       - uglify-js
     dev: true
+
+  /webpack@5.89.0(esbuild@0.18.20):
+    resolution: {integrity: sha512-qyfIC10pOr70V+jkmud8tMfajraGCZMBWJtrmuBymQKCrLTRejBI8STDp1MCyZu/QTdZSeacCQYpYNQVOzX5kw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.3
+      '@types/estree': 1.0.0
+      '@webassemblyjs/ast': 1.11.6
+      '@webassemblyjs/wasm-edit': 1.11.6
+      '@webassemblyjs/wasm-parser': 1.11.6
+      acorn: 8.10.0
+      acorn-import-assertions: 1.9.0(acorn@8.10.0)
+      browserslist: 4.20.2
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 1.2.1
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.10
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.9(esbuild@0.18.20)(webpack@5.89.0)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: false
 
   /websocket@1.0.34:
     resolution: {integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==}

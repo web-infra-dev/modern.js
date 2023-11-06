@@ -32,6 +32,7 @@
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/plugin-proxy": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
