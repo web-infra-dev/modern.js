@@ -10,6 +10,7 @@ import type { Entrypoint } from '@modern-js/types';
 import type { AppNormalizedConfig, IAppContext } from '../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
+import { isSubDirOrEqual } from './utils';
 
 const ensureExtensions = (file: string) => {
   if (!path.extname(file)) {
@@ -38,8 +39,8 @@ const ifAlreadyExists = (
     }
     // filesystem routes entrypoint conflict with normal entrypoint.
     if (
-      entrypoint.entry.startsWith(checked.entry) ||
-      checked.entry.startsWith(entrypoint.entry)
+      isSubDirOrEqual(entrypoint.entry, checked.entry) ||
+      isSubDirOrEqual(checked.entry, entrypoint.entry)
     ) {
       throw new Error(
         `Entry configuration conflicts\n Your configuration: ${checked.entry}.\n Default entrypoint: ${entrypoint.entry}\n Please reset source.entries or set source.disableDefaultEntries to disable the default entry rules.`,
