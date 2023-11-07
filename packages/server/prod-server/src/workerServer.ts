@@ -102,6 +102,9 @@ export type Manifest = {
    */
   pages: Record<string, Page>;
   routes: ModernRouteInterface[];
+  options?: {
+    forceCSR?: boolean;
+  };
 };
 
 const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404);
@@ -126,7 +129,7 @@ const middlewarePipeline = createAsyncPipeline<
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
-  const { pages, routes } = manifest;
+  const { pages, routes, options: manifestOpts = {} } = manifest;
   routeMgr.reset(routes);
   return async (options: HandlerOptions): Promise<ReturnResponse> => {
     const { request, loadableStats, routeManifest } = options;
@@ -139,6 +142,10 @@ export const createHandler = (manifest: Manifest) => {
 
     const entryName = pageMatch.spec.urlPath;
     const page = pages[entryName];
+    if (manifestOpts.forceCSR && url.searchParams.get('csr') === '1') {
+      return createResponse(page.template);
+    }
+
     const logger = createLogger({ level: 'warn' });
     const metrics = defaultMetrics as any;
     const reporter = defaultReporter;
