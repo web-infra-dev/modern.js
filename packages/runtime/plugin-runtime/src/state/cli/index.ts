@@ -78,14 +78,6 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
           plugins,
         };
       },
-      validateSchema() {
-        return [
-          {
-            target: 'runtime.state',
-            schema: { type: ['boolean', 'object'] },
-          },
-        ];
-      },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as state } from '@modern-js/runtime/model'`,

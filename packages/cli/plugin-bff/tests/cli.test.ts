@@ -14,14 +14,6 @@ import plugin from '../src/cli';
 import './helper';
 
 describe('bff cli plugin', () => {
-  it('schema', async () => {
-    const main = manager.clone().usePlugin(plugin as CliPlugin);
-    const runner = await main.init();
-    const result = await runner.validateSchema();
-
-    expect(result).toMatchSnapshot();
-  });
-
   it('routes', async () => {
     const main = manager.clone().usePlugin(plugin as CliPlugin);
     main.registerHook({

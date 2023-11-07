@@ -162,17 +162,17 @@ export default class Entry {
 
   private async prefetch(context: RuntimeContext) {
     let prefetchData;
-    const end = time();
 
     try {
-      prefetchData = await prefetch(this.App, context, this.pluginConfig);
+      prefetchData = await prefetch(
+        this.App,
+        context,
+        this.pluginConfig,
+        this.tracker,
+      );
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
-      const prefetchCost = end();
-
-      this.tracker.trackTiming(SSRTimings.SSR_PREFETCH, prefetchCost);
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
-      this.tracker.trackError(SSRErrors.PREFETCH, e as Error);
     }
 
     return prefetchData || {};
@@ -204,7 +204,7 @@ export default class Entry {
         .finish();
 
       const cost = end();
-      this.tracker.trackTiming(SSRTimings.SSR_RENDER_HTML, cost);
+      this.tracker.trackTiming(SSRTimings.RENDER_HTML, cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.tracker.trackError(SSRErrors.RENDER_HTML, e as Error);

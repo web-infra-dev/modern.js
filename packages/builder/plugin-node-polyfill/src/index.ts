@@ -1,4 +1,3 @@
-import { setConfig } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type { BuilderPluginAPI as RspackBuilderPluginAPI } from '@modern-js/builder-rspack-provider';
@@ -41,7 +40,7 @@ export function builderPluginNodePolyfill(): BuilderPlugin<
     name: 'builder-plugin-node-polyfill',
 
     async setup(api) {
-      api.modifyBundlerChain(async (chain, { isServer }) => {
+      api.modifyBundlerChain(async (chain, { CHAIN_ID, isServer, bundler }) => {
         // it had not need `node polyfill`, if the target is 'node'(server runtime).
         if (isServer) {
           return;
@@ -54,32 +53,11 @@ export function builderPluginNodePolyfill(): BuilderPlugin<
 
         // module polyfill
         chain.resolve.fallback.merge(getResolveFallback(nodeLibs));
-      });
 
-      if (api.context.bundlerType === 'rspack') {
-        (api as RspackBuilderPluginAPI).modifyRspackConfig(
-          async (config, { isServer }) => {
-            if (isServer) {
-              return;
-            }
-            setConfig(config, 'builtins.provide', {
-              ...(config.builtins?.provide ?? {}),
-              ...(await getProvideLibs()),
-            });
-          },
-        );
-      } else {
-        (api as WebpackBuilderPluginAPI).modifyWebpackChain(
-          async (chain, { CHAIN_ID, isServer, webpack }) => {
-            if (isServer) {
-              return;
-            }
-            chain
-              .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
-              .use(webpack.ProvidePlugin, [await getProvideLibs()]);
-          },
-        );
-      }
+        chain
+          .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
+          .use(bundler.ProvidePlugin, [await getProvideLibs()]);
+      });
     },
   };
 }

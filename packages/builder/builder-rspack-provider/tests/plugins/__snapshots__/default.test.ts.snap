@@ -41,11 +41,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "not op_mini all",
       ],
     },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
-    },
     "react": {
       "development": true,
       "refresh": true,
@@ -702,6 +697,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
       "name": "ProgressPlugin",
     },
+    Plugin {
+      "_options": {
+        "$ReactRefreshRuntime$": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+        ],
+      },
+      "name": "ProvidePlugin",
+    },
   ],
   "resolve": {
     "alias": {
@@ -763,11 +766,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "> 0.01%",
         "not dead",
         "not op_mini all",
-      ],
-    },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
       ],
     },
     "react": {
@@ -1541,11 +1539,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "node >= 14",
       ],
     },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
-    },
     "react": {
       "development": true,
       "refresh": false,
@@ -2009,11 +2002,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "> 0.01%",
         "not dead",
         "not op_mini all",
-      ],
-    },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
       ],
     },
     "react": {
@@ -2682,6 +2670,14 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "profile": false,
       },
       "name": "ProgressPlugin",
+    },
+    Plugin {
+      "_options": {
+        "$ReactRefreshRuntime$": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+        ],
+      },
+      "name": "ProvidePlugin",
     },
   ],
   "resolve": {

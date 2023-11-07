@@ -102,25 +102,6 @@ export const designTokenPlugin = (
         };
       },
 
-      validateSchema() {
-        // add source.designSystem.supportStyledComponents config
-        return [
-          // Legacy Features
-          {
-            target: 'source.designSystem',
-            schema: { typeof: ['object'] },
-          },
-          {
-            target: 'source.designSystem.supportStyledComponents',
-            schema: { type: ['boolean'] },
-          },
-          {
-            target: 'designSystem',
-            schema: { typeof: ['object'] },
-          },
-        ];
-      },
-
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as designToken } from '${pluginName}/runtime-design-token'`,

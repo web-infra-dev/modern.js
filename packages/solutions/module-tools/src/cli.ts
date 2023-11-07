@@ -9,10 +9,7 @@ import {
   newCommand,
   upgradeCommand,
 } from './command';
-import { isLegacyUserConfig } from './config/merge';
 import { addExitListener } from './utils/onExit';
-import { legacySchema } from './config/legacySchema';
-import { schema } from './config/schema';
 
 export const moduleTools = (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/module-tools',
@@ -49,16 +46,8 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
     });
   };
 
-  const validateSchema = async () => {
-    const userConfig = api.useConfigContext();
-    return isLegacyUserConfig(userConfig as { legacy?: boolean })
-      ? legacySchema
-      : schema;
-  };
-
   return {
     prepare,
-    validateSchema,
     async commands({ program }) {
       await buildCommand(program, api);
       await devCommand(program, api);

@@ -39,14 +39,6 @@ export const workerPlugin = (): CliPlugin<AppTools> => ({
           // },
         };
       },
-      validateSchema() {
-        return [
-          {
-            target: 'deploy.worker.ssr',
-            schema: { type: ['boolean'] },
-          },
-        ];
-      },
       async afterDev() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
 

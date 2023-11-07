@@ -43,14 +43,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
           },
         };
       },
-      validateSchema() {
-        return [
-          {
-            target: 'runtime.router',
-            schema: { type: ['boolean', 'object'] },
-          },
-        ];
-      },
       modifyEntryImports({ entrypoint, imports }) {
         const { entryName, isMainEntry } = entrypoint;
         const userConfig = api.useResolvedConfigContext();

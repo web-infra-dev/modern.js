@@ -46,7 +46,7 @@ export const devtoolsPlugin = (
         res.end();
       };
       const useMainRoute = () => {
-        req.url = '/html/main/index.html';
+        req.url = '/html/client/index.html';
         serveMiddleware(req, res, usePageNotFound);
       };
       serveMiddleware(req, res, useMainRoute);
@@ -59,14 +59,6 @@ export const devtoolsPlugin = (
     return {
       prepare: rpc.hooks.prepare,
       modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
-      validateSchema() {
-        return [
-          {
-            target: 'devtools',
-            schema: { typeof: ['boolean', 'object'] },
-          },
-        ];
-      },
       beforeRestart() {
         return new Promise((resolve, reject) =>
           httpServer.close(err => (err ? reject(err) : resolve())),
@@ -80,21 +72,16 @@ export const devtoolsPlugin = (
         const mountOpts = {
           dataSource: `${ROUTE_BASENAME}/rpc`,
           endpoint: ROUTE_BASENAME,
+          def: new ClientDefinition(),
           __keep: true,
         } as SetupClientOptions;
-        let runtimeEntry = require.resolve(
-          '@modern-js/plugin-devtools/runtime',
-        );
+        let runtimeEntry = require.resolve('@modern-js/devtools-client/mount');
         runtimeEntry = withQuery(runtimeEntry, mountOpts);
 
         return {
           builderPlugins: [rpc.builderPlugin],
           source: {
             preEntry: [runtimeEntry],
-            globalVars: {
-              'process.env._MODERN_DEVTOOLS_LOGO_SRC': new ClientDefinition()
-                .assets.logo,
-            },
           },
           tools: {
             devServer: {

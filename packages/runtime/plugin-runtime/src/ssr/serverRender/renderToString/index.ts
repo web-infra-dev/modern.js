@@ -1,8 +1,6 @@
 import { run } from '@modern-js/runtime-utils/node';
-import { time } from '@modern-js/runtime-utils/time';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
-import { SSRTimings } from '../tracker';
 import SSREntry from './entry';
 
 export const render = ({
@@ -20,11 +18,7 @@ export const render = ({
     });
     entry.metrics.emitCounter('app.visit.count', 1);
 
-    const end = time();
     const html = await entry.renderToHtml(context);
-    const cost = end();
-
-    entry.tracker.trackTiming(SSRTimings.SSR_RENDER_TOTAL, cost);
 
     const cacheConfig = PreRender.config();
     if (cacheConfig) {
