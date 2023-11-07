@@ -10,6 +10,7 @@ import type { Entrypoint } from '@modern-js/types';
 import type { AppNormalizedConfig, IAppContext } from '../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
+import { isSubDirOrEqual } from './utils';
 
 const ensureExtensions = (file: string) => {
   if (!path.extname(file)) {
@@ -23,16 +24,6 @@ const ensureExtensions = (file: string) => {
  * Lightweight method for whether it is a directory.
  */
 const isDirectory = (file: string) => !path.extname(file);
-
-const isSubDirOrEqual = (parent: string, child: string): boolean => {
-  if (parent === child) {
-    return true;
-  }
-  const relative = path.relative(parent, child);
-  const isSubdir =
-    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
-  return Boolean(isSubdir);
-};
 
 const ifAlreadyExists = (
   entrypoints: Entrypoint[],

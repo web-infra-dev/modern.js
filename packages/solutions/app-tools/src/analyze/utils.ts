@@ -203,3 +203,13 @@ export const checkIsBuildCommands = () => {
 
   return buildCommands.includes(command);
 };
+
+export const isSubDirOrEqual = (parent: string, child: string): boolean => {
+  if (parent === child) {
+    return true;
+  }
+  const relative = path.relative(parent, child);
+  const isSubdir =
+    relative && !relative.startsWith('..') && !path.isAbsolute(relative);
+  return Boolean(isSubdir);
+};
