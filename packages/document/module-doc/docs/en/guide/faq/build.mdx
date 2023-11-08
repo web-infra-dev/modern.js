@@ -214,6 +214,13 @@ Check if the [`include`](https://www.typescriptlang.org/tsconfig#include) config
 }
 ```
 
+### Bundleless DTS failed
+
+In the bundleless scenario, it's `tsc` that generates the type declaration file directly. You can find the problem file by printing the error message in the terminal. For source code files, it is recommended to fix the type problem, which can better enable reuse of your package. However. if you encounter a type checking problem with a thrid-party package:
+
+1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
+2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check, so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
+
 ## Other FAQ
 
 import BuildOtherFAQ from '@site-docs-en/components/faq-build-other';
@@ -239,7 +246,7 @@ import RegisterEsbuildPlugin from '@site-docs-en/components/register-esbuild-plu
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig(async () => {
-  const { dts } =  await import("@guanghechen/postcss-modules-dts");
+  const { dts } = await import('@guanghechen/postcss-modules-dts');
   return {
     buildConfig: {
       style: {
@@ -247,6 +254,6 @@ export default defineConfig(async () => {
       },
     },
     // custom config
-  }
+  };
 });
 ```
