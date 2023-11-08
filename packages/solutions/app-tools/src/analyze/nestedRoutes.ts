@@ -78,14 +78,12 @@ export const optimizeRoute = (
   }
 
   const { children } = routeTree;
-  const hasPage = children.some(child => child.index);
   if (
     !routeTree._component &&
     !routeTree.error &&
     !routeTree.loading &&
     !routeTree.config &&
-    !routeTree.clientData &&
-    !hasPage
+    !routeTree.clientData
   ) {
     const newRoutes = children.map(child => {
       const routePath = `${routeTree.path ? routeTree.path : ''}${
