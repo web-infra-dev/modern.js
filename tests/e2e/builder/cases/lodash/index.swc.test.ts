@@ -15,6 +15,11 @@ test('should optimize lodash bundle size when using SWC plugin', async () => {
           strategy: 'all-in-one',
         },
       },
+      output: {
+        distPath: {
+          root: 'dist-swc',
+        },
+      },
     },
     plugins: [builderPluginSwc()],
     runServer: false,
@@ -36,6 +41,11 @@ test('should not optimize lodash bundle size when transformLodash is false and u
         transformLodash: false,
         chunkSplit: {
           strategy: 'all-in-one',
+        },
+      },
+      output: {
+        distPath: {
+          root: 'dist-swc',
         },
       },
     },
