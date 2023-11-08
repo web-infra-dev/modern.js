@@ -868,7 +868,8 @@ export default defineConfig({
 
 ## platform
 
-Generates code for the node environment by default, you can also specify `browser` which will generate code for the browser environment
+Generates code for the node environment by default, you can also specify `browser` which will generate code for the browser environment.
+See [esbuild.platform](https://esbuild.github.io/api/#platform) learn more.
 
 - **Type**: `'browser' | 'node'`
 - **Default**: `'node'`
@@ -1022,6 +1023,7 @@ After adding this configuration, the sideEffects field in package.json will no l
 ## sourceDir
 
 Specify the source directory of the build, default is `src`, which is used to generate the corresponding output directory based on the source directory structure when building `bundleless`.
+Same as [esbuild.outbase](https://esbuild.github.io/api/#outbase).
 
 - **Type**: `string`
 - **Default**: `src`
@@ -1042,7 +1044,8 @@ Sets the format of the source code. By default, the source code will be treated 
 
 ## splitting
 
-Whether to enable code splitting
+Whether to enable code splitting.
+Only support [format: 'esm'](#format-esm) and [format: 'cjs'](#format-cjs)，see [esbuild.splitting](https://esbuild.github.io/api/#splitting) learn more.
 
 - **Type**: `boolean`
 - **Default**: `false`
