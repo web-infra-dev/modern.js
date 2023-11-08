@@ -864,6 +864,7 @@ export default defineConfig({
 ## platform
 
 默认生成用于 Node.js 环境下的代码，你也可以指定为 `browser`，会生成用于浏览器环境的代码。
+查看[esbuild.platform](https://esbuild.github.io/api/#platform)了解更多。
 
 - 类型： `'browser' | 'node'`
 - 默认值： `'node'`
@@ -1019,6 +1020,7 @@ export default defineConfig({
 ## sourceDir
 
 指定构建的源码目录,默认为 `src`，用于在 `bundleless` 构建时基于源码目录结构生成对应的产物目录。
+等同于[esbuild.outbase](https://esbuild.github.io/api/#outbase)。
 
 - 类型： `string`
 - 默认值： `src`
@@ -1044,6 +1046,7 @@ export default defineConfig({
 ## splitting
 
 是否开启代码分割。
+仅支持 [format: 'esm'](#format-esm) 和 [format: 'cjs'](#format-cjs)，查看[esbuild.splitting](https://esbuild.github.io/api/#splitting)了解更多。
 
 - 类型： `boolean`
 - 默认值： `false`
