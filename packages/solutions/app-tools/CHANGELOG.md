@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.39.2
+
+### Patch Changes
+
+- 957de56: fix(app-tools): init config can't handle moduleScopes as function
+  fix(app-tools): 初始化 config 不能处理 moduleScopes 是 function 的情况
+  - @modern-js/builder@2.39.2
+  - @modern-js/builder-rspack-provider@2.39.2
+  - @modern-js/builder-shared@2.39.2
+  - @modern-js/builder-webpack-provider@2.39.2
+  - @modern-js/builder-plugin-esbuild@2.39.2
+  - @modern-js/builder-plugin-node-polyfill@2.39.2
+  - @modern-js/core@2.39.2
+  - @modern-js/plugin-data-loader@2.39.2
+  - @modern-js/plugin-i18n@2.39.2
+  - @modern-js/plugin-lint@2.39.2
+  - @modern-js/new-action@2.39.2
+  - @modern-js/server-core@2.39.2
+  - @modern-js/prod-server@2.39.2
+  - @modern-js/server@2.39.2
+  - @modern-js/node-bundle-require@2.39.2
+  - @modern-js/plugin@2.39.2
+  - @modern-js/types@2.39.2
+  - @modern-js/upgrade@2.39.2
+  - @modern-js/utils@2.39.2
+
 ## 2.39.1
 
 ### Patch Changes
