@@ -34,6 +34,7 @@ export default defineConfig<'rspack'>({
   },
   output: {
     assetPrefix: ROUTE_BASENAME,
+    disableInlineRuntimeChunk: true,
   },
   tools: {
     postcss: (config, { addPlugins }) => {

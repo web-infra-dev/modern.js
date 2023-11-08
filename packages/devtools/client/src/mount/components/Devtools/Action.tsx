@@ -1,41 +1,19 @@
-import {
-  ClientDefinition,
-  ROUTE_BASENAME,
-  SetupClientOptions,
-} from '@modern-js/devtools-kit';
+import { SetupClientParams } from '@modern-js/devtools-kit';
+import { Flex, Theme } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { useEvent, useToggle } from 'react-use';
-import { Flex, Theme } from '@radix-ui/themes';
-import { parseURL, stringifyParsedURL, withQuery } from 'ufo';
-import _ from 'lodash';
+import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
 import { FrameBox } from './FrameBox';
 import { ReactComponent as DevToolsIcon } from './heading.svg';
 import { useStickyDraggable } from '@/mount/utils/draggable';
 
-const parseDataSource = (url: string) => {
-  const newSrc = parseURL(url);
-  return stringifyParsedURL({
-    protocol: location.protocol === 'https:' ? 'wss:' : 'ws:',
-    host: location.host,
-    ...newSrc,
-    pathname: newSrc.pathname || `${ROUTE_BASENAME}/rpc`,
-  });
-};
-
-const DevtoolsAction: React.FC<SetupClientOptions> = props => {
-  const opts: Required<SetupClientOptions> = {
-    endpoint: 'https://modernjs.dev/devtools',
-    ...props,
-    def: _(new ClientDefinition()).toPlainObject().merge(props.def).value(),
-    dataSource: parseDataSource(props.dataSource ?? ''),
-  };
-  const logoSrc = opts.def.assets.logo;
+const DevtoolsAction: React.FC<SetupClientParams> = props => {
+  const logoSrc = props.def.assets.logo;
   const [showDevtools, toggleDevtools] = useToggle(false);
 
-  let src = opts.endpoint;
-  src = withQuery(src, { src: opts.dataSource });
+  const src = withQuery(props.endpoint, { src: props.dataSource });
 
   const draggable = useStickyDraggable({ clamp: true });
 
