@@ -1,17 +1,11 @@
 /// <reference types="node" />
 /// <reference types="react" />
-/// <reference types="react-dom" />
 
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: 'development' | 'production' | 'test';
     readonly PUBLIC_URL: string;
   }
-}
-
-declare module '*.bmp' {
-  const src: string;
-  export default src;
 }
 
 declare module '*.gif' {
@@ -34,10 +28,6 @@ declare module '*.png' {
   export default src;
 }
 
-declare module '*.ico' {
-  const src: string;
-  export default src;
-}
 
 declare module '*.webp' {
   const src: string;
@@ -87,31 +77,6 @@ declare module '*.module.less' {
 declare module '*.module.sass' {
   const classes: { readonly [key: string]: string };
   export default classes;
-}
-
-declare module '*.md' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.hbs' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.yaml' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.toml' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.xml' {
-  const src: string;
-  export default src;
 }
 
 declare module '@modern-js/runtime/*' {}
