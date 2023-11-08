@@ -1,5 +1,19 @@
 # @modern-js/builder-rspack-provider
 
+## 2.40.0
+
+### Patch Changes
+
+- f5f7526: chore(builder): update rspack to 0.3.11 and fix deprecate warning
+
+  chore(builder): 升级 rspack 到 0.3.11 并修复 deprecate warning
+
+- Updated dependencies [95f15d2]
+  - @modern-js/utils@2.40.0
+  - @modern-js/builder-shared@2.40.0
+  - @modern-js/server@2.40.0
+  - @modern-js/types@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

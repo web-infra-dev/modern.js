@@ -1,5 +1,20 @@
 # @modern-js/plugin-bff
 
+## 2.40.0
+
+### Minor Changes
+
+- 95f15d2: chore: remove ajv schema verification of configuration
+  chore: 移除 ajv 对项目配置的校验
+
+### Patch Changes
+
+- Updated dependencies [95f15d2]
+  - @modern-js/utils@2.40.0
+  - @modern-js/bff-core@2.40.0
+  - @modern-js/create-request@2.40.0
+  - @modern-js/server-utils@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

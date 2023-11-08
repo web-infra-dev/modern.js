@@ -1,5 +1,21 @@
 # @modern-js/plugin-worker
 
+## 2.40.0
+
+### Minor Changes
+
+- 95f15d2: chore: remove ajv schema verification of configuration
+  chore: 移除 ajv 对项目配置的校验
+
+### Patch Changes
+
+- Updated dependencies [95f15d2]
+- Updated dependencies [c960bcb]
+- Updated dependencies [a68a2e9]
+  - @modern-js/utils@2.40.0
+  - @modern-js/prod-server@2.40.0
+  - @modern-js/server-utils@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

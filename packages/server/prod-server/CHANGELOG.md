@@ -1,5 +1,22 @@
 # @modern-js/prod-server
 
+## 2.40.0
+
+### Minor Changes
+
+- c960bcb: feat: add forceCSR options for worker server
+  feat: 在 worker server 新增 forceCSR 参数和判断 csr=1 降级
+
+### Patch Changes
+
+- a68a2e9: fix(prod-server): inject reporter from req
+  fix(prod-server): 从 req 里拿到 reporter 去注入
+- Updated dependencies [95f15d2]
+  - @modern-js/utils@2.40.0
+  - @modern-js/server-core@2.40.0
+  - @modern-js/plugin@2.40.0
+  - @modern-js/runtime-utils@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes
