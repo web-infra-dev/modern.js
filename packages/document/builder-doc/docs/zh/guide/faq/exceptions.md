@@ -260,7 +260,7 @@ export default {
 
 当 Babel 编译大文件时，Modern.js 内置的 babel-plugin-styled-components 会卡死，社区中已有 [相关 issue](https://github.com/styled-components/babel-plugin-styled-components/issues/374)。
 
-未来 Modern.js 会考虑移除内置的 babel-plugin-styled-components。在当前版本里，你可以将 [tools.styledComponents](/configure/app/tools/styled-components.html) 设置为 `false` 来移除该插件。
+未来 Modern.js 会考虑移除内置的 babel-plugin-styled-components。在当前版本里，你可以将 [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents) 设置为 `false` 来移除该插件。
 
 ```ts title="modern.config.ts"
 export default {
