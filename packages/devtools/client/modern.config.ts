@@ -34,6 +34,8 @@ export default defineConfig<'rspack'>({
   },
   output: {
     assetPrefix: ROUTE_BASENAME,
+    disableInlineRuntimeChunk: true,
+    disableSourceMap: process.env.NODE_ENV === 'production',
   },
   tools: {
     postcss: (config, { addPlugins }) => {

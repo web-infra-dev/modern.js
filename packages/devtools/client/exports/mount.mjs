@@ -4,10 +4,7 @@
 import routesManifest from '../dist/routes-manifest.json';
 
 (function () {
-  /**
-   * @param {import('@modern-js/devtools-kit').SetupClientOptions} options
-   */
-  function mountDevTools(options) {
+  try {
     var container = document.createElement('div');
     container.className = '_modern_js_devtools_container';
     document.body.appendChild(container);
@@ -29,18 +26,13 @@ import routesManifest from '../dist/routes-manifest.json';
 
     var app = document.createElement('div');
     app.className = '_modern_js_devtools_mountpoint theme-register';
-    var appGlobalExport = `_modern_js_devtools_app`;
+    var appGlobalExport = '_modern_js_devtools_app';
     window[appGlobalExport] = {
       container: app,
-      options,
+      // eslint-disable-next-line no-undef
+      resourceQuery: __resourceQuery,
     };
     shadow.appendChild(app);
-  }
-
-  try {
-    // eslint-disable-next-line no-undef
-    var opts = decodeURIComponent(__resourceQuery);
-    mountDevTools(opts);
   } catch (err) {
     var e = new Error('Failed to execute mount point of DevTools.');
     e.cause = err;

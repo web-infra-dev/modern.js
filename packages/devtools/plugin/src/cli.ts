@@ -4,16 +4,12 @@ import { ProxyDetail } from '@modern-js/types';
 import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import {
-  SetupClientOptions,
-  ClientDefinition,
-  ROUTE_BASENAME,
-} from '@modern-js/devtools-kit';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
 import {
   DevtoolsPluginOptions,
   DevtoolsPluginInlineOptions,
-  resolveOptions,
+  resolveContext,
 } from './config';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
@@ -21,39 +17,21 @@ import { SocketServer } from './utils/socket';
 export type { DevtoolsPluginOptions, DevtoolsPluginInlineOptions };
 
 export const devtoolsPlugin = (
-  options?: DevtoolsPluginInlineOptions,
+  inlineOptions: DevtoolsPluginInlineOptions = {},
 ): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
-    // Enable in development by default.
-    const enablePlugin =
-      options?.enable ?? process.env.NODE_ENV === 'development';
-    if (!enablePlugin) {
+    const ctx = resolveContext(inlineOptions);
+    if (!ctx.enable) {
       return {};
     }
 
-    const port = await getPort(8782, { slient: true });
-    const clientServeDir = path.resolve(
-      require.resolve('@modern-js/devtools-client/package.json'),
-      '../dist',
-    );
-    const serveMiddleware = createServeMiddleware(clientServeDir);
-    const httpServer = http.createServer((req, res) => {
-      const usePageNotFound = () => {
-        res.write('404');
-        res.statusCode = 404;
-        res.end();
-      };
-      const useMainRoute = () => {
-        req.url = '/html/client/index.html';
-        serveMiddleware(req, res, usePageNotFound);
-      };
-      serveMiddleware(req, res, useMainRoute);
+    const httpServer = await setupHttpServer();
+    const socketServer = new SocketServer({
+      server: httpServer.instance,
+      path: '/rpc',
     });
-    httpServer.listen(port);
-
-    const socketServer = new SocketServer({ server: httpServer, path: '/rpc' });
     const rpc = await setupClientConnection({ api, server: socketServer });
 
     return {
@@ -61,33 +39,30 @@ export const devtoolsPlugin = (
       modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
       beforeRestart() {
         return new Promise((resolve, reject) =>
-          httpServer.close(err => (err ? reject(err) : resolve())),
+          httpServer.instance.close(err => (err ? reject(err) : resolve())),
         );
       },
       config() {
-        const opts = resolveOptions(api, options);
-        logger.info(`${opts.def.name.formalName} Devtools is enabled`);
-        opts.def && rpc.setDefinition(opts.def);
+        const config = api.useConfigContext().devtools ?? {};
+        Object.assign(ctx, resolveContext(ctx, config), {
+          __keep: true, // Keep resource query always existing.
+        });
+        logger.info(`${ctx.def.name.formalName} Devtools is enabled`);
 
-        const mountOpts = {
-          dataSource: `${ROUTE_BASENAME}/rpc`,
-          endpoint: ROUTE_BASENAME,
-          def: new ClientDefinition(),
-          __keep: true,
-        } as SetupClientOptions;
-        let runtimeEntry = require.resolve('@modern-js/devtools-client/mount');
-        runtimeEntry = withQuery(runtimeEntry, mountOpts);
+        const runtimeEntry = require.resolve(
+          '@modern-js/devtools-client/mount',
+        );
 
         return {
           builderPlugins: [rpc.builderPlugin],
           source: {
-            preEntry: [runtimeEntry],
+            preEntry: [withQuery(runtimeEntry, ctx)],
           },
           tools: {
             devServer: {
               proxy: {
                 [ROUTE_BASENAME]: {
-                  target: `http://localhost:${port}`,
+                  target: `http://localhost:${httpServer.port}`,
                   pathRewrite: {
                     [`^${ROUTE_BASENAME}`]: '',
                   },
@@ -103,3 +78,29 @@ export const devtoolsPlugin = (
 });
 
 export default devtoolsPlugin;
+
+const setupHttpServer = async () => {
+  const port = await getPort(8782, { slient: true });
+  const clientServeDir = path.resolve(
+    require.resolve('@modern-js/devtools-client/package.json'),
+    '../dist',
+  );
+  const serveMiddleware = createServeMiddleware(clientServeDir);
+  const instance = http.createServer((req, res) => {
+    const usePageNotFound = () => {
+      res.write('404');
+      res.statusCode = 404;
+      res.end();
+    };
+    const useMainRoute = () => {
+      req.url = '/html/client/index.html';
+      serveMiddleware(req, res, usePageNotFound);
+    };
+    serveMiddleware(req, res, useMainRoute);
+  });
+  instance.listen(port);
+  return {
+    instance,
+    port,
+  };
+};

@@ -101,7 +101,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     breadcrumb: [],
   }));
 
-  useAsync(async () => {
+  const { error } = useAsync(async () => {
     const { server } = await setupServerConnection({ url: dataSource, $store });
 
     deferred.framework.context.resolve(server.getAppContext());
@@ -128,6 +128,10 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
         server.getFileSystemRoutes(entryName);
     }
   }, [dataSource, deferred]);
+
+  if (error) {
+    throw error;
+  }
 
   return (
     <StoreContext.Provider value={$store}>{children}</StoreContext.Provider>
