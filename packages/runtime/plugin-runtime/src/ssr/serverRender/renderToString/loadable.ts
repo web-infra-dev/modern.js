@@ -35,8 +35,8 @@ const checkIsInline = (
 
 const readAsset = async (chunk: ChunkAsset) => {
   // working node env
-  const fs = await import('node:fs/promises');
-  const path = await import('node:path');
+  const fs = await import('fs/promises');
+  const path = await import('path');
 
   // only working in 'production' env
   // we need ensure the assetsDir is same as ssr bundles.
