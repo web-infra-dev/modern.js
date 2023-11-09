@@ -27,13 +27,13 @@ window.__STORYBOOK_CLIENT_API__ = new ClientApi({ storyStore: preview.storyStore
 
 preview.initialize({ importFn, getProjectAnnotations });
 
-if (import.meta.webpackHot) {
-  import.meta.webpackHot.accept('./{{storiesFilename}}', () => {
+if (module.hot) {
+  module.hot.accept('./{{storiesFilename}}', () => {
     // importFn has changed so we need to patch the new one in
     preview.onStoriesChanged({ importFn });
   });
 
-  import.meta.webpackHot.accept([
+  module.hot.accept([
     {{#each previewAnnotations}}'{{this}}',
     {{/each}}
   ], () => {

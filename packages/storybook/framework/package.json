@@ -35,23 +35,23 @@
   },
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./addons": {
-      "jsnext:source": "./src/addons.ts",
       "types": "./dist/addons.d.ts",
+      "jsnext:source": "./src/addons.ts",
       "default": "./dist/addons.js"
     },
     "./preset": {
-      "jsnext:source": "./src/preset.ts",
       "types": "./dist/preset.d.ts",
+      "jsnext:source": "./src/preset.ts",
       "default": "./dist/preset.js"
     },
     "./types": {
-      "jsnext:source": "./src/types.ts",
       "types": "./dist/types.d.ts",
+      "jsnext:source": "./src/types.ts",
       "default": "./dist/types.ks"
     },
     "./bin": "./bin.js",
