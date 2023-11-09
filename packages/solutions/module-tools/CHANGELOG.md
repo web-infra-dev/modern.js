@@ -1,5 +1,29 @@
 # @modern-js/module-tools
 
+## 2.40.0
+
+### Minor Changes
+
+- 95f15d2: chore: remove ajv schema verification of configuration
+  chore: 移除 ajv 对项目配置的校验
+
+### Patch Changes
+
+- 0c1a627: chore(module-tools): remove unuse schema
+  chore(module-tools): 移除没有使用的 schema
+- 0d36351: chore(module-tools): remove unuse types and reference in types.d.ts
+  chore(module-tools): 移除 types.d.ts 无用的类型和引用
+- Updated dependencies [95f15d2]
+  - @modern-js/utils@2.40.0
+  - @modern-js/core@2.40.0
+  - @modern-js/plugin-changeset@2.40.0
+  - @modern-js/plugin-i18n@2.40.0
+  - @modern-js/plugin-lint@2.40.0
+  - @modern-js/new-action@2.40.0
+  - @modern-js/plugin@2.40.0
+  - @modern-js/upgrade@2.40.0
+  - @modern-js/types@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

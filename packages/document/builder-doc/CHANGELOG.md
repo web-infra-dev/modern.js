@@ -1,5 +1,12 @@
 # @modern-js/builder-doc
 
+## 2.40.0
+
+### Patch Changes
+
+- 477f18d: doc(builder-doc): add version tip for sourceBuild api
+  doc(builder-doc): 为 sourceBuild API 添加版本提示信息
+
 ## 2.39.2
 
 ## 2.39.1
