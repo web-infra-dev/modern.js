@@ -910,8 +910,8 @@ importers:
         specifier: 0.5.1
         version: 0.5.1
       axios:
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.6.0
+        version: 1.6.0
       resolve-from:
         specifier: ^5.0.0
         version: 5.0.0
@@ -4257,8 +4257,8 @@ importers:
         specifier: ^8.5.5
         version: 8.5.5
       axios:
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.6.0
+        version: 1.6.0
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
@@ -4305,8 +4305,8 @@ importers:
         specifier: 0.5.1
         version: 0.5.1
       axios:
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.6.0
+        version: 1.6.0
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -7585,8 +7585,8 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
       axios:
-        specifier: ^1.2.1
-        version: 1.2.1
+        specifier: ^1.6.0
+        version: 1.6.0
       express:
         specifier: ^4.17.1
         version: 4.18.1
@@ -12585,7 +12585,7 @@ packages:
       '@modern-js/types': 0.0.0-next-20231103131234
       '@modern-js/utils': 0.0.0-next-20231103131234
       '@swc/helpers': 0.5.1
-      axios: 1.2.1
+      axios: 1.6.0
       connect-history-api-fallback: 2.0.0
       http-compression: 1.0.6
       minimatch: 3.1.2
@@ -18681,8 +18681,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.22.1
-      caniuse-lite: 1.0.30001559
+      browserslist: 4.21.10
+      caniuse-lite: 1.0.30001520
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -18735,8 +18735,8 @@ packages:
       - debug
     dev: true
 
-  /axios@1.2.1:
-    resolution: {integrity: sha512-I88cFiGu9ryt/tfVEi4kX2SITsvDddTajXTOFmt2uK1ZVA8LytjtdeyefdQWEf5PU8w+4SSJDoYnggflB5tW4A==}
+  /axios@1.6.0:
+    resolution: {integrity: sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==}
     dependencies:
       follow-redirects: 1.15.1
       form-data: 4.0.0
@@ -27126,7 +27126,7 @@ packages:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.2.1
+      axios: 1.6.0
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
