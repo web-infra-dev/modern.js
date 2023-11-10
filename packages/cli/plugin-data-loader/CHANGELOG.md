@@ -1,5 +1,15 @@
 # @modern-js/plugin-data-loader
 
+## 2.40.0
+
+### Patch Changes
+
+- ce7d45c: fix: add client data into dependencies
+  fix: 添加 client data 文件到 dependencies 中
+- Updated dependencies [95f15d2]
+  - @modern-js/utils@2.40.0
+  - @modern-js/runtime-utils@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

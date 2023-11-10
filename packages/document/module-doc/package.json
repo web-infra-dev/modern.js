@@ -9,7 +9,7 @@
     "directory": "packages/document/module-doc"
   },
   "license": "MIT",
-  "version": "2.39.2",
+  "version": "2.40.0",
   "main": "index.js",
   "scripts": {
     "dev": "rspress dev",
@@ -20,7 +20,7 @@
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rspress": "1.5.0",
-    "@rspress/shared": "1.5.0"
+    "rspress": "1.6.0",
+    "@rspress/shared": "1.6.0"
   }
 }

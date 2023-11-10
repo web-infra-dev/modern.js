@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.2.10",
+  "version": "3.2.11",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/index.js",
   "files": [

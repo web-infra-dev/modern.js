@@ -1,5 +1,43 @@
 # @modern-js/app-tools
 
+## 2.40.0
+
+### Minor Changes
+
+- 95f15d2: chore: remove ajv schema verification of configuration
+  chore: 移除 ajv 对项目配置的校验
+
+### Patch Changes
+
+- 7555827: fix: startsWith cannot determine subdirectories correctly
+  fix: startsWith 函数不能正确地判断子目录
+- bf0f008: fix: Even if the page component exists, we should not create the empty layout component
+  fix: 即使页面组件存在，也不应该创建一个空的 layout component
+- Updated dependencies [ce7d45c]
+- Updated dependencies [95f15d2]
+- Updated dependencies [f5f7526]
+- Updated dependencies [c960bcb]
+- Updated dependencies [a68a2e9]
+  - @modern-js/plugin-data-loader@2.40.0
+  - @modern-js/utils@2.40.0
+  - @modern-js/core@2.40.0
+  - @modern-js/builder-rspack-provider@2.40.0
+  - @modern-js/prod-server@2.40.0
+  - @modern-js/builder@2.40.0
+  - @modern-js/builder-shared@2.40.0
+  - @modern-js/builder-webpack-provider@2.40.0
+  - @modern-js/builder-plugin-esbuild@2.40.0
+  - @modern-js/builder-plugin-node-polyfill@2.40.0
+  - @modern-js/plugin-i18n@2.40.0
+  - @modern-js/plugin-lint@2.40.0
+  - @modern-js/new-action@2.40.0
+  - @modern-js/server-core@2.40.0
+  - @modern-js/server@2.40.0
+  - @modern-js/node-bundle-require@2.40.0
+  - @modern-js/plugin@2.40.0
+  - @modern-js/upgrade@2.40.0
+  - @modern-js/types@2.40.0
+
 ## 2.39.2
 
 ### Patch Changes

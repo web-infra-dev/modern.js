@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.40.0
+
+### Minor Changes
+
+- 95f15d2: chore: remove ajv schema verification of configuration
+  chore: 移除 ajv 对项目配置的校验
+
 ## 2.39.2
 
 ## 2.39.1
