@@ -33,7 +33,7 @@ export interface StatsAsset {
   type: string;
   name: string;
   size: number;
-  chunks?: Array<string | number>;
+  chunks?: Array<string | undefined | null>;
   chunkNames?: Array<string | number>;
   info: StatsAssetInfo;
 }
@@ -49,7 +49,7 @@ interface StatsModule {
   identifier?: string;
   name?: string;
   id?: string;
-  chunks?: Array<string>;
+  chunks?: Array<string | undefined | null>;
   size?: number;
 }
 
