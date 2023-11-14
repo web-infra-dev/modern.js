@@ -8,7 +8,6 @@ import {
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
 import { createLogger } from '@modern-js/utils/logger';
-import { cutNameByHyphen } from '@modern-js/utils';
 import {
   WorkerServerContext,
   createAfterMatchContext,
@@ -20,7 +19,7 @@ import { metrics as defaultMetrics } from './libs/metrics';
 import { defaultReporter } from './libs/reporter';
 
 const calcFallback = (metaName: string) =>
-  `x-${cutNameByHyphen(metaName)}-ssr-fallback`;
+  `x-${metaName.split(/[-_]/)[0]}-ssr-fallback`;
 
 export type Context = Record<string, any>;
 
