@@ -8,6 +8,7 @@ import {
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
 import { createLogger } from '@modern-js/utils/logger';
+import { cutNameByHyphen } from '@modern-js/utils';
 import {
   WorkerServerContext,
   createAfterMatchContext,
@@ -17,6 +18,9 @@ import {
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
 import { defaultReporter } from './libs/reporter';
+
+const calcFallback = (metaName: string) =>
+  `x-${cutNameByHyphen(metaName)}-ssr-fallback`;
 
 export type Context = Record<string, any>;
 
@@ -104,6 +108,7 @@ export type Manifest = {
   routes: ModernRouteInterface[];
   options?: {
     forceCSR?: boolean;
+    metaName?: string;
   };
 };
 
@@ -129,7 +134,8 @@ const middlewarePipeline = createAsyncPipeline<
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
-  const { pages, routes, options: manifestOpts = {} } = manifest;
+  const { pages, routes, options: manifestOpts } = manifest;
+  const { metaName = 'modern-js', forceCSR = false } = manifestOpts || {};
   routeMgr.reset(routes);
   return async (options: HandlerOptions): Promise<ReturnResponse> => {
     const { request, loadableStats, routeManifest } = options;
@@ -142,7 +148,7 @@ export const createHandler = (manifest: Manifest) => {
 
     const entryName = pageMatch.spec.urlPath;
     const page = pages[entryName];
-    if (manifestOpts.forceCSR && url.searchParams.get('csr') === '1') {
+    if (forceCSR && url.searchParams.get('csr') === '1') {
       return createResponse(page.template);
     }
 
@@ -182,6 +188,12 @@ export const createHandler = (manifest: Manifest) => {
             hookContext.res.status,
             hookContext.res.headers,
           );
+        }
+        if (
+          forceCSR &&
+          middlewarsHookContext.request.headers[calcFallback(metaName)]
+        ) {
+          return createResponse(page.template);
         }
 
         const responseLike = {
