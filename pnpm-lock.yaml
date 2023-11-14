@@ -91,8 +91,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -137,8 +137,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -180,8 +180,8 @@ importers:
         specifier: 0.3.11
         version: 0.3.11(@rspack/core@0.3.11)
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       caniuse-lite:
         specifier: ^1.0.30001520
         version: 1.0.30001520
@@ -253,8 +253,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       acorn:
         specifier: ^8.10.0
         version: 8.10.0
@@ -356,8 +356,8 @@ importers:
         specifier: 0.0.7
         version: 0.0.7
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       babel-plugin-import:
         specifier: 1.13.5
         version: 1.13.5
@@ -435,8 +435,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
@@ -469,8 +469,8 @@ importers:
         specifier: ^1.7.0
         version: 1.7.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       svgo:
         specifier: ^3.0.2
         version: 3.0.2
@@ -503,8 +503,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       node-libs-browser:
         specifier: 2.2.1
         version: 2.2.1
@@ -540,8 +540,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-webpack-provider
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       stylus:
         specifier: 0.59.0
         version: 0.59.0
@@ -589,14 +589,14 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@modern-js/swc-plugins':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.1)
+        specifier: 0.6.5
+        version: 0.6.5(@swc/helpers@0.5.3)
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       core-js:
         specifier: ~3.32.1
         version: 3.32.2
@@ -647,8 +647,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@vue/babel-plugin-jsx':
         specifier: 1.1.1
         version: 1.1.1(@babel/core@7.23.2)
@@ -690,8 +690,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@vue/babel-preset-jsx':
         specifier: ^1.4.0
         version: 1.4.0(@babel/core@7.23.2)
@@ -739,8 +739,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/builder-shared':
         specifier: workspace:*
@@ -837,8 +837,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -907,8 +907,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -953,8 +953,8 @@ importers:
         specifier: ^1.12.0
         version: 1.13.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       path-to-regexp:
         specifier: ^6.2.0
         version: 6.2.1
@@ -1020,8 +1020,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -1051,8 +1051,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       cross-spawn:
         specifier: ^7.0.1
         version: 7.0.3
@@ -1094,8 +1094,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       whistle:
         specifier: ^2.7.18
         version: 2.9.22
@@ -1128,8 +1128,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       node-mocks-http:
         specifier: ^1.10.1
         version: 1.11.0
@@ -1186,8 +1186,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -1223,8 +1223,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       babel-plugin-macros:
         specifier: 3.1.0
         version: 3.1.0
@@ -1432,8 +1432,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/build
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -1508,8 +1508,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/build
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -1617,8 +1617,8 @@ importers:
         specifier: workspace:*
         version: link:../generator-common
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       covertable:
         specifier: ^2.2.2
         version: 2.2.5
@@ -1651,8 +1651,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/codesmith':
         specifier: 2.3.0
@@ -1715,8 +1715,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       ejs:
         specifier: ^3.1.9
         version: 3.1.9
@@ -1761,8 +1761,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/codesmith':
         specifier: 2.3.0
@@ -2736,8 +2736,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -2797,8 +2797,8 @@ importers:
         specifier: ^2.6.9
         version: 2.6.9(@lezer/common@1.0.4)(react-dom@18.2.0)(react@18.2.0)
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       react:
         specifier: ^18
         version: 18.2.0
@@ -2870,8 +2870,8 @@ importers:
         specifier: ^7.22.5
         version: 7.23.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -2901,8 +2901,8 @@ importers:
   packages/module/plugin-module-banner:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -2929,11 +2929,11 @@ importers:
   packages/module/plugin-module-import:
     dependencies:
       '@modern-js/swc-plugins':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.1)
+        specifier: 0.6.5
+        version: 0.6.5(@swc/helpers@0.5.3)
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -2960,8 +2960,8 @@ importers:
   packages/module/plugin-module-node-polyfill:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       assert:
         specifier: 2.0.0
         version: 2.0.0
@@ -3079,8 +3079,8 @@ importers:
         specifier: workspace:*
         version: link:../../../scripts/jest-config
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -3106,8 +3106,8 @@ importers:
         specifier: workspace:*
         version: link:../plugin-module-babel
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@vue/babel-plugin-jsx':
         specifier: 1.1.5
         version: 1.1.5(@babel/core@7.23.2)
@@ -3216,8 +3216,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/debug':
         specifier: ^4.1.7
         version: 4.1.7
@@ -3310,8 +3310,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/history':
         specifier: ^4.7.9
         version: 4.7.11
@@ -3428,8 +3428,8 @@ importers:
         specifier: ^1.12.0
         version: 1.13.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@types/loadable__component':
         specifier: ^5.13.4
         version: 5.13.4
@@ -3567,8 +3567,8 @@ importers:
         specifier: 0.0.7
         version: 0.0.7
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       '@testing-library/jest-dom':
         specifier: ^5.14.1
         version: 5.16.4
@@ -3646,8 +3646,8 @@ importers:
   packages/server/babel-plugin-module-resolver:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       glob:
         specifier: ^8.0.3
         version: 8.1.0
@@ -3692,8 +3692,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       koa-compose:
         specifier: ^4.1.0
         version: 4.1.0
@@ -3741,8 +3741,8 @@ importers:
   packages/server/bff-runtime:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       farrow-api:
         specifier: ^1.10.8
         version: 1.12.1
@@ -3784,8 +3784,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -3824,8 +3824,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       node-fetch:
         specifier: ^2.6.1
         version: 2.6.7
@@ -3882,8 +3882,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       cookie-parser:
         specifier: ^1.4.5
         version: 1.4.6
@@ -3970,8 +3970,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       koa-body:
         specifier: ^4.2.0
         version: 4.2.0
@@ -4040,8 +4040,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       lru-cache:
         specifier: ^6.0.0
         version: 6.0.0
@@ -4095,8 +4095,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -4141,8 +4141,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -4187,8 +4187,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       cookie:
         specifier: ^0.4.2
         version: 0.4.2
@@ -4302,8 +4302,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       axios:
         specifier: ^1.6.0
         version: 1.6.0
@@ -4402,8 +4402,8 @@ importers:
         specifier: 0.0.7
         version: 0.0.7
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       babel-plugin-transform-typescript-metadata:
         specifier: ^0.3.2
         version: 0.3.2(@babel/core@7.23.2)
@@ -4502,8 +4502,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       es-module-lexer:
         specifier: ^1.1.0
         version: 1.2.1
@@ -4581,8 +4581,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/plugin-lint
       '@modern-js/swc-plugins':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.1)
+        specifier: 0.6.5
+        version: 0.6.5(@swc/helpers@0.5.3)
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -4605,8 +4605,8 @@ importers:
         specifier: 8.0.1
         version: 8.0.1(@svgr/core@8.0.0)
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       convert-source-map:
         specifier: 1.8.0
         version: 1.8.0
@@ -4708,8 +4708,8 @@ importers:
         specifier: ^3.0.54
         version: 3.2.29
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       anymatch:
         specifier: ^3.1.2
         version: 3.1.2
@@ -4879,8 +4879,8 @@ importers:
         specifier: workspace:*
         version: link:../../utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@babel/plugin-transform-classes':
         specifier: ^7.22.15
@@ -4961,8 +4961,8 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       connect:
         specifier: ^3.7.0
         version: 3.7.0
@@ -5001,8 +5001,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
@@ -5032,8 +5032,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
@@ -5063,8 +5063,8 @@ importers:
         specifier: 1.10.0
         version: 1.10.0
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       react-router-dom:
         specifier: 6.17.0
         version: 6.17.0(react-dom@18.2.0)(react@18.2.0)
@@ -5142,8 +5142,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
     devDependencies:
       '@modern-js/upgrade-generator':
         specifier: workspace:*
@@ -5173,8 +5173,8 @@ importers:
   packages/toolkit/utils:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
       caniuse-lite:
         specifier: ^1.0.30001520
         version: 1.0.30001520
@@ -7174,8 +7174,8 @@ importers:
   tests/integration/module/fixtures/preset/function:
     dependencies:
       '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.5.3
+        version: 0.5.3
 
   tests/integration/module/fixtures/preset/string: {}
 
@@ -12600,8 +12600,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@modern-js/swc-plugins-darwin-arm64@0.6.4:
-    resolution: {integrity: sha512-JunAQouAx1/d1I6omWFh9iSs5SdefDlrhGmiqg4OdNC5rXJe6b4BGu30a/g4Ijkg9FPj+F0Pysn9wPAJz13Bfg==}
+  /@modern-js/swc-plugins-darwin-arm64@0.6.5:
+    resolution: {integrity: sha512-232haroyTPTED+d+KmxlrR3mPH6AAI9V06Sbd8JOElBcXyxHoznp1qsgzKqdWnl1wnRMbJibvR60JzMlehZAiQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -12609,8 +12609,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64@0.6.4:
-    resolution: {integrity: sha512-z7I03iIdCsQBBfOlOyXT6/zMM1oDEgWY5d7/DR2u82MBaqYPd4jmhjypJLvyo2xRwLA50ipMaCOrZ236yUVg3w==}
+  /@modern-js/swc-plugins-darwin-x64@0.6.5:
+    resolution: {integrity: sha512-uxNxJ/FqFbS23I5gIuRSQgLDbHlhH6Uffotl1pGszjeSpahHx2cYnpzYJ4PCiAbR2D1U4e5PAw7qUvJYwhDJAQ==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -12618,8 +12618,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu@0.6.4:
-    resolution: {integrity: sha512-s+duNlG891PFLsootfm+DqFG8Qev8ynGqSJoJNDZqQbFRkrVg/v4heaKdUrEKfJRyV6zY/NPp46s6iNiI2KSpQ==}
+  /@modern-js/swc-plugins-linux-arm64-gnu@0.6.5:
+    resolution: {integrity: sha512-aqDPykIwJs6bSBcNIH4Afmb4mrUx3p6s0wteKvJAOuIuHJawkLLyPc6LxlaAJqdpOiFDyB1GnJY7TJLogQOxSw==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12627,8 +12627,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl@0.6.4:
-    resolution: {integrity: sha512-kDIg8Ei0sTn5kSBS/jPakdViTnsb6uBw+fDnBGCUT33fawZaVz0tiAd0UK+NyrlT7MZrbatqPEEERfvULOunnw==}
+  /@modern-js/swc-plugins-linux-arm64-musl@0.6.5:
+    resolution: {integrity: sha512-2yGQuvyKJAi1+KikM2LxAOouMDX0igJwHIYTg6J8lcnOLSgriWaEDQYVowKmEBfp21tWldrCeHmy6zir0ZxZGQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12636,8 +12636,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu@0.6.4:
-    resolution: {integrity: sha512-3MrgfHJhZPVbRwdbbsMwUfG8cvZ6oEWdNUj8NAMxVRwFgV+QWp1vTzljqi+ZgSjwygvADdZBIFKJ6k2OVgAM7w==}
+  /@modern-js/swc-plugins-linux-x64-gnu@0.6.5:
+    resolution: {integrity: sha512-ZCfmaoLzLQxLC1NgYTkv1jFJHbkQTD5MSJyls/J5hKfq8mE4jVpGKBfeHiIMFq9TAiMJuCnGnuYL7Asv/v3KYg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12645,8 +12645,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl@0.6.4:
-    resolution: {integrity: sha512-UHEIzOb/JImyeyr8FCX8ffLXU8sIQAZuvxHX4AU4ntlxLe/7lVHKiSMKJ6D3XeQ3lf3qj0wTMSBzNuN9tYN3cg==}
+  /@modern-js/swc-plugins-linux-x64-musl@0.6.5:
+    resolution: {integrity: sha512-7Wyl+kgHBoviG5+0n78gZHVKeRm+nmZEpn5rnve+uIOYP2XAV3Z/A0fWJktfJMaSDjffAKnfGnZssLoVQXD9YA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12654,8 +12654,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc@0.6.4:
-    resolution: {integrity: sha512-QEvLEgVnPgS46iQKiDOgcB5v0nGyt6io2IQfCCx00fid+3O2flHegW2NhPf6qCM1nXszv3r/stw35vAIIGAnHQ==}
+  /@modern-js/swc-plugins-win32-arm64-msvc@0.6.5:
+    resolution: {integrity: sha512-2IN05bjr9+8y14CVc8NHQrTzbpEwKtL1m7iEA6YCNEGBC1M73ftH4FUBbdAdTUIzt5k8yo2C8xDDwFmoX/nUDg==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -12663,8 +12663,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc@0.6.4:
-    resolution: {integrity: sha512-JP9VvQ9yK/wiOQ8PCcym0oWPLpwoW/d0b1l5RxjangEtIwagIMKr1cHDchR70rcN2J2enZxqc0RFabunyOd8PA==}
+  /@modern-js/swc-plugins-win32-x64-msvc@0.6.5:
+    resolution: {integrity: sha512-GhV4wISTWEaLFqFJmzL/pAX/sEbdlk6+8Ih4HILp8pANJW9nKBDtAW0zgHcd8V+BsbmHvPtKtREN4qYanx1oYA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -12672,22 +12672,22 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins@0.6.4(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-0p0iEzUxl9N5BL5JXwBVMdNXr2ClI7OV7CAhD6licUA4cRS0RLkruyddI90EZ2/zuTQ5XCFdwK3JjDeY3HiGdg==}
+  /@modern-js/swc-plugins@0.6.5(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-9YFMXJgThjv53dUGbJAnCk5m3gswqWhFfpFKZPWXyMpqw/ijF+mDfzt8Ej2MI4SuPGmmo645Av8t4+kbE/DR+Q==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
-      '@swc/helpers': 0.5.1
+      '@swc/helpers': 0.5.3
     dependencies:
-      '@swc/helpers': 0.5.1
+      '@swc/helpers': 0.5.3
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.6.4
-      '@modern-js/swc-plugins-darwin-x64': 0.6.4
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.6.4
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.6.4
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.6.4
-      '@modern-js/swc-plugins-linux-x64-musl': 0.6.4
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.6.4
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.6.4
+      '@modern-js/swc-plugins-darwin-arm64': 0.6.5
+      '@modern-js/swc-plugins-darwin-x64': 0.6.5
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.6.5
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.6.5
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.6.5
+      '@modern-js/swc-plugins-linux-x64-musl': 0.6.5
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.6.5
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.6.5
     dev: false
 
   /@modern-js/types@0.0.0-next-20231103131234:
@@ -16554,6 +16554,11 @@ packages:
     dependencies:
       tslib: 2.4.0
 
+  /@swc/helpers@0.5.3:
+    resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
+    dependencies:
+      tslib: 2.4.0
+
   /@swc/jest@0.2.22(@swc/core@1.3.42):
     resolution: {integrity: sha512-PIUIk9IdB1oAVfF9zNIfYoMBoEhahrrSvyryFANas7swC1cF0L5HR0f9X4qfet46oyCHCBtNcSpN0XJEOFIKlw==}
     engines: {npm: '>= 7.0.0'}
@@ -18681,7 +18686,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.22.1
+      browserslist: 4.21.10
       caniuse-lite: 1.0.30001520
       fraction.js: 4.2.0
       normalize-range: 0.1.2
