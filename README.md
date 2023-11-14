@@ -18,17 +18,15 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Modern.js is an open source web engineering system from ByteDance, including multiple solutions:
+Modern.js is an open source web engineering system from ByteDance, including:
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
-- 🐈 [Modern.js Builder](https://modernjs.dev/builder/en/): An Rspack-based build tool for web development.
 
 ## Getting Started
 
 - Use [Modern.js Framework](https://modernjs.dev/en/guides/get-started/quick-start) to develop a web application.
 - Use [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to develop an npm package.
-- Use [Modern.js Builder](https://modernjs.dev/builder/en/guide/quick-start.html) to provide build capabilities for your own web framework.
 
 ## Ecosystem
 
@@ -77,7 +75,6 @@ Some implementations of Modern.js are modified from existing projects, such as [
 
 - `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
-- `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app), the generateMetaTags function is referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
 - `@modern-js/plugin-testing`: the jest runner is referenced from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 - `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix).
 - `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver).

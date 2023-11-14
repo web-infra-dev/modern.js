@@ -18,17 +18,15 @@
 
 ## 介绍
 
-Modern.js 是字节跳动 Web 工程体系的开源版本，包含以下解决方案：
+Modern.js 是字节跳动 Web 工程体系的开源版本，包含：
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/)：基于 React 的渐进式 Web 开发框架。
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools)：简单、高性能的 npm 包开发方案。
-- 🐈 [Modern.js Builder](https://modernjs.dev/builder/)：基于 Rspack 的 Web 构建工具。
 
 ## 快速上手
 
 - 使用 [Modern.js Framework](https://modernjs.dev/guides/get-started/quick-start) 来开发一个 Web 应用。
 - 使用 [Modern.js Module](https://modernjs.dev/module-tools/guide/intro/getting-started.html) 来开发一个 npm 包。
-- 使用 [Modern.js Builder](https://modernjs.dev/builder/guide/quick-start.html) 来为你的 Web 框架提供构建能力。
 
 ## 生态
 
@@ -77,7 +75,6 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 
 - `@modern-js/bundle-require`：修改自 [bundle-require](https://github.com/egoist/bundle-require)。
 - `@modern-js/plugin`：hook API 的实现参考了 [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline)。
-- `@modern-js/builder`：moduleScope 和 fileSize 插件参考了 [create-react-app](https://github.com/facebook/create-react-app)，generateMetaTags 函数参考了 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)。
 - `@modern-js/plugin-testing`：jest runner 参考了 [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21)。
 - `@modern-js/plugin-data-loader`：部分实现参考了 [remix](https://github.com/remix-run/remix)。
 - `@modern-js/babel-plugin-module-resolver`: 修改自 [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)。

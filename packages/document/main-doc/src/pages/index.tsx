@@ -99,16 +99,6 @@ export default function Home() {
       href: `https://modernjs.dev/module-tools${lang === 'en' ? '/en' : ''}`,
       desc: t('solutionsDesc2'),
     },
-    {
-      title: 'Modern.js Builder',
-      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
-      desc: t('solutionsDesc3'),
-    },
-    {
-      title: 'Rspress',
-      href: `https://rspress.dev${lang === 'en' ? '' : '/zh'}`,
-      desc: t('solutionsDesc4'),
-    },
   ];
 
   return (
