@@ -7,7 +7,7 @@ sidebar_position: 1
 
 **Modern.js is an open source web engineering system from ByteDance**, which provides multiple solutions to help developers solve problems in different development scenarios.
 
-Currently, Modern.js includes three solutions, targeting web application development, npm package development, and web application building:
+Currently, Modern.js includes two solutions, targeting web application development and npm package development:
 
 import { SolutionCards } from '@site/src/components/SolutionCards';
 
@@ -23,11 +23,6 @@ import { SolutionCards } from '@site/src/components/SolutionCards';
       description: 'For npm package development',
       link: 'http://modernjs.dev/module-tools/en/',
     },
-    {
-      title: 'Modern.js Builder',
-      description: 'For web application building',
-      link: 'http://modernjs.dev/builder/en/',
-    },
   ]}
 />
 
@@ -37,17 +32,13 @@ As part of the Modern.js engineering system, each of the above solutions can be 
 
 **The current documentation site corresponds to the Modern.js framework**, which is used to developing web applications.
 
-- If you need to develop an npm package, please refer to the [Modern.js Module](https://modernjs.dev/module-tools) documentation.
-- If you need to implement a web development framework based on the Modern.js build tool, please refer to the [Modern.js Builder](https://modernjs.dev/builder) documentation.
+- If you need to develop an npm package, please refer to the [Modern.js Module documentation](https://modernjs.dev/module-tools).
+- If you need a build tool to bundle web applications, [Rsbuild](https://rsbuild.dev/) is recommended.
+- If you need to develop a documentation site, [Rspress](https://rspress.dev/) is recommended.
 
 :::tip
 Since the Modern.js framework is the most widely used, in this documentation site, we will omit "framework" and directly refer to it as Modern.js.
 :::
-
-Modern.js can also be combined with the following solutions:
-
-- If you need to develop a documentation site, [Rspress](https://rspress.dev/) is recommended.
-- If you need to introduce micro-frontend architecture, [Garfish](https://garfishjs.org/) is recommended.
 
 ## Modern.js Framework
 
@@ -85,6 +76,10 @@ Umi is a popular React framework in the Chinese community and serves as the unde
 **The main difference between Modern.js and Umi is their approach to optimizing build speed**. Umi uses MFSU technology to improve build speed, while Modern.js uses Rspack to achieve 5 to 10 times faster build speed. From our perspective, Rust tools like Rspack are more in line with the long-term evolution of the front-end toolchain, as they can strike a good balance between performance, stability, and ecosystem compatibility.
 
 In addition, Modern.js provides richer server-side features, including comprehensive SSR capabilities, integrated BFF development capabilities, and support for custom web servers. These capabilities have been extensively validated by ByteDance in numerous online applications and can be directly used in production environments.
+
+### Remix
+
+Pelease refer to [Modern.js vs Remix](https://github.com/web-infra-dev/modern.js/discussions/4872).
 
 ## Next Step
 

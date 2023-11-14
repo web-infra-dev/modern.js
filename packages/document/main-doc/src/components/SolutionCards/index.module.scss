@@ -42,6 +42,10 @@
   }
 }
 
+.twoCards {
+  flex: 0 1 48%;
+}
+
 @media (max-width: 480px) {
   .card {
     flex: 0 1 100%;
