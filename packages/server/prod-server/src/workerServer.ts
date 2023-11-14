@@ -326,6 +326,8 @@ function createWorkerHookContext(
   };
 }
 
+let appliedMiddlewares = false;
+
 function applyMiddlewares(
   ctx: MiddlewareContext<'worker'>,
   middleware?: Middleware[] | Middleware,
@@ -340,9 +342,12 @@ function applyMiddlewares(
       }
     })();
 
-    middlewares.forEach(middleware => {
-      middlewarePipeline.use(middleware);
-    });
+    if (!appliedMiddlewares) {
+      middlewares.forEach(middleware => {
+        middlewarePipeline.use(middleware);
+      });
+      appliedMiddlewares = true;
+    }
     middlewarePipeline.run(ctx, { onLast: () => undefined });
   }
 }
