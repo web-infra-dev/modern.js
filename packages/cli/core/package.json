@@ -80,7 +80,7 @@
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/builder-shared": "workspace:*",

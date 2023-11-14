@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "@vue/babel-preset-jsx": "^1.4.0",
     "vue-loader": "^15.10.1"
   },

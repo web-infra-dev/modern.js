@@ -167,7 +167,7 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "fork-ts-checker-webpack-plugin": "8.0.0",
     "acorn": "^8.10.0",
     "caniuse-lite": "^1.0.30001520",

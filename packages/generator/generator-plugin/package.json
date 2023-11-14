@@ -28,7 +28,7 @@
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "ejs": "^3.1.9",
     "handlebars": "^4.7.7"
   },

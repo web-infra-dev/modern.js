@@ -95,7 +95,7 @@
     "@modern-js/utils": "workspace:*",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "@modern-js/server-core": "workspace:*"
   },
   "devDependencies": {
