@@ -27,15 +27,14 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuild(options: Options): Return {
-        return options.config;
+      beforeBuild(options: Options): void {
       },
     };
   },
 });
 ```
 
-参数和返回值类型：
+参数类型：
 
 ```ts
 type Options = {
@@ -50,8 +49,6 @@ export interface BuildCommandOptions {
   tsconfig: string;
   watch?: boolean;
 }
-
-type Return = BuildConfig;
 ```
 
 > `BuildConfig` 类型参考 [API 配置](/api/)
