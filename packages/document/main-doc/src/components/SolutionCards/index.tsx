@@ -14,7 +14,11 @@ export const SolutionCards = ({ cards }: { cards: Card[] }) => {
       <a
         key={card.title}
         href={card.link}
-        className={clsx([styles.card, classNames[index]])}
+        className={clsx([
+          styles.card,
+          classNames[index],
+          cards.length === 2 ? styles.twoCards : '',
+        ])}
         target="_blank"
       >
         <div className={styles.title}>{card.title}</div>

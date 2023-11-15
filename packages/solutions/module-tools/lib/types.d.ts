@@ -1,5 +1,4 @@
 /// <reference types="node" />
-/// <reference types="react" />
 
 declare namespace NodeJS {
   interface ProcessEnv {

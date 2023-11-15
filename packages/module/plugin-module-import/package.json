@@ -33,14 +33,14 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/swc-plugins": "0.6.4",
-    "@swc/helpers": "0.5.1"
+    "@modern-js/swc-plugins": "0.6.5",
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",

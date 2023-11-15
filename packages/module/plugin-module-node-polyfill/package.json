@@ -25,7 +25,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "assert": "2.0.0",
     "browserify-zlib": "0.2.0",
     "buffer": "6.0.3",

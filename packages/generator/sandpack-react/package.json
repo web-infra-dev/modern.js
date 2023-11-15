@@ -39,7 +39,7 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "@codesandbox/sandpack-react": "^2.6.9"
   },
   "devDependencies": {

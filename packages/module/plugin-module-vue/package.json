@@ -28,7 +28,7 @@
     "@babel/core": "^7.22.5",
     "@babel/plugin-syntax-typescript": "7.22.5",
     "@modern-js/plugin-module-babel": "workspace:*",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "@vue/babel-plugin-jsx": "1.1.5",
     "esbuild-plugin-vue3": "0.3.2"
   },

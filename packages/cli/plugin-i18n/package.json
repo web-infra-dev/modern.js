@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@types/jest": "^29",

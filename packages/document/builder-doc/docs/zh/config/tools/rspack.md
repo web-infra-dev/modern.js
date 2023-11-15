@@ -142,6 +142,23 @@ export default {
 };
 ```
 
+#### rspack
+
+- **类型：** `typeof import('@rspack/core')`
+
+通过这个参数你可以拿到 Rspack 实例。比如：
+
+```js
+export default {
+  tools: {
+    rspack: (config, { rspack }) => {
+      config.plugins.push(new rspack.BannerPlugin());
+      return config;
+    },
+  },
+};
+```
+
 #### addRules
 
 - **类型：** `(rules: RuleSetRule | RuleSetRule[]) => void`

@@ -142,6 +142,23 @@ export default {
 };
 ```
 
+#### rspack
+
+- **Type:** `typeof import('@rspack/core')`
+
+The Rspack instance. For example:
+
+```js
+export default {
+  tools: {
+    rspack: (config, { rspack }) => {
+      config.plugins.push(new rspack.BannerPlugin());
+      return config;
+    },
+  },
+};
+```
+
 #### addRules
 
 - **Type:** `(rules: RuleSetRule | RuleSetRule[]) => void`

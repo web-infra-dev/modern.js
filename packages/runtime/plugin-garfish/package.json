@@ -78,7 +78,7 @@
     "garfish": "^1.8.1",
     "hoist-non-react-statics": "^3.3.2",
     "react-loadable": "^5.5.0",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.40.0",

@@ -39,7 +39,7 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@napi-rs/image": "^1.7.0",
-    "@swc/helpers": "0.5.1",
+    "@swc/helpers": "0.5.3",
     "svgo": "^3.0.2"
   },
   "devDependencies": {

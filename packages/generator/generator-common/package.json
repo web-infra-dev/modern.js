@@ -39,7 +39,7 @@
   "dependencies": {
     "@modern-js/codesmith-formily": "2.3.0",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/codesmith": "2.3.0",

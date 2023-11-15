@@ -41,7 +41,7 @@
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
