@@ -4,11 +4,6 @@ sidebar_position: 5
 
 # Using Storybook
 
-First of all, if you haven't read the following, take a few minutes to understand it first.
-
-- [use micro-generator to enable Storybook debugging](/en/guide/basic/use-micro-generator#storybook-debug)
-- [`modern dev`](/en/guide/basic/command-preview#modern-dev)
-
 [Storybook](https://storybook.js.org/) is a tool dedicated to component debugging, providing around component development.
 
 - Develop UIs that are more durable
@@ -17,84 +12,53 @@ First of all, if you haven't read the following, take a few minutes to understan
 - Share how the UI actually works
 - Automate UI workflows
 
-So Storybook is a complex and powerful tool.
+Before when using Storybook, there are various problems related to configurations, Babel, Webpack, less or sass.
+Modern.js integrates with Storybook, which greatly simplifies configuration for us as we develop our Storybook project.
 
-Modern.js Module is integrated with Storybook, so you can pretty much follow the official Storybook documentation. However, there are still a few things to keep in mind, which are explained below.
+## V7 (Recommended)
 
-## Debugging code
+### Enable Storybook
 
-The project code needs to be introduced during the debugging process and can currently be introduced in two ways:
+You can directly enable the Storybook feature by using the following command:
 
-- Use of project artifacts
-- Using the project source code
-
-We recommend using the first "**referenced project product**" approach. Because it is closer to the real usage scenario, not only can we debug the component functionality, but also verify the correctness of the build product. However, we can also refer to the source code when testing the project functionality and refer to the project package name when verifying the project product.
-
-Next, we will talk about how to use each of these two methods.
-
-### Referencing component artifacts
-
-If the TypeScript project `foo` exists. Make sure the `main` and `types` of `package.json` values are real paths.
-
-```json title="package.json"
-{
-  "name": "foo",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts"
-}
+```bash
+$ npx modern new
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable「Storybook」V7
 ```
 
-The source code of the `foo` project:
+This command will create a template for Storybook, including:
 
-```ts title="src/index.ts"
-export const content = 'hello world';
-```
+- Creating a configuration folder .storybook and a default configuration file .storybook/main.ts.
+- Creating example story components.
+- Updating package.json to add dependencies @storybook/addon-essentials and @modern-js/storybook, as well as creating Storybook-related scripts.
 
-Make sure that the `paths` configuration pointing to the project root is set in `stories/tsconfig.json`. The `key` of `paths` is the same as the project name.
+### Enable Debug output
 
-```json title="stories/tsconfig.json"
-{
-  "extends": "../tsconfig.json",
-  "include": ["./"],
-  "compilerOptions": {
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "foo": ["../"]
-    }
-  }
-}
-```
+In fact, Modern.js Module is implemented based on esbuild, while Storybook uses Webpack as the default build tool, and their configurations are not fully compatible. Therefore, we recommend building the components first, and then importing the component output in stories.
 
-Referenced directly in Story code by the project name:
+The way to import component outputs is very simple. Suppose your module exports a Button component, then you can use it in stories like this:
 
-```tsx title="stories/index.stories.tsx"
-import { content } from 'foo';
+```ts filename="stories/index.stories.tsx"
+import { Button } from '.';
 
-const Component = () => <div>this is a Story Component {content}</div>;
-
-export const YourStory = () => <Component />;
+export const YourStory = () => <Button />;
 
 export default {
   title: 'Your Stories',
 };
 ```
 
-Finally, when executing the command, first start the source build in listening mode and then start Storybook debugging.
+If you want to update the components, you can start the build in watch mode before starting Storybook:
 
-```bash title="terminal-1"
-## Source Code Build
+```bash
 modern build --watch
 ```
 
-```bash title="terminal-2"
-## Storybook Debug
-modern dev storybook
-```
+:::info
+In the development process, you may encounter situations where you cannot get type definitions in real time. Because only when the code is saved, the type file under the output directory will be updated. At this time:
 
-If, during development, you encounter a situation where the type definition is not available in real time, at that point.
-
-For `pnpm` projects, `package.json` can be modified as follows.
+For `pnpm` projects, you can modify the `package.json` as follows:
 
 ```ts
 {
@@ -107,77 +71,139 @@ For `pnpm` projects, `package.json` can be modified as follows.
 }
 ```
 
-> For the use of pnpm's `publishConfig`, you can read the following [link](https://pnpm.io/package_json#publishconfig).
+> For the use of `publishConfig` in pnpm, you can read the following [link](https://pnpm.io/package_json#publishconfig).
 
-For npm and Yarn projects, the values of `types` of `package.json` can only be changed manually in **development phase** and **release phase**.
-
-So why is it possible to reference the product directly?
-
-1. execute `modern build --watch` command before executing `modern dev storybook` command to ensure the existence of project build artifacts.
-2. Add processing logic inside Storybook to ensure that the project's product paths can be parsed **according to `package.json`, based on the `compilerOptions.paths` configuration in the `tsconfig.json` file or (in JS projects) directly with the project name as an alias**.
-
-### Referencing component source code
-
-Referencing component source code can be done by means of relative paths to:
-
-```ts title="./stories/index.tsx"
-import { content } from '../src';
-
-const Component = () => <div>this is a Story Component {content}</div>;
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
-};
-```
-
-:::tip Why is the source code approach not recommended
-Not only is it impossible to verify that the component product is correct using the component source code, **but also some of the configurations supported by Modern.js Module for building the product cannot be fully translated into Storybook internal configuration**. If some of the configurations cannot be converted to each other, there will be unintended results during Storybook debugging.
-
-Modern.js Module is based on esbuild, while Storybook is based on Webpack, and esbuild's configuration is not fully compatible with Webpack.
+For npm and Yarn projects, the `types` value of `package.json` can only be modified manually during the **development stage** and **release stage**.
 :::
 
-## Configure Storybook
+### Enable Rspack build
 
-Storybook is officially configured for projects through a folder called `.storybook`, which contains various configuration files. **In Modern.js Module, Storybook configuration files can be added to the `config/storybook` directory of the project.**
+Rspack is known for its fast build speed. To use Rspack as a build tool in Modern.js, you only need to configure it as follows:
 
-For more information on how to use the various Storybook configuration files, see the following links:
+```diff filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+-      bundler: 'webpack'
++      bundler: 'rspack'
+    },
+  },
+  typescript: {
+-    reactDocgen: 'react-docgen-typescript'
++    reactDocgen: 'react-docgen'
+  }
+};
+
+export default config;
+```
+
+Note that in the above configuration, the reactDocgen configuration has been changed because Rspack currently does not support @storybook/react-docgen-typescript-plugin.
+
+Before starting, make sure that you have installed the @modern-js/builder-rspack-provider package.
+
+### Configurations
+
+There are some separate configurations in `.storybook/main.js`.
+
+#### bundler
+
+- **Type**: `'webpack' | 'rspack'`
+- **Default**: `webpack`
+
+Specify the underlying build tool to use either Webpack or Rspack. Please make sure to install the corresponding provider. To use Webpack, install @modern-js/builder-webpack-provider. To use Rspack, install @modern-js/builder-rspack-provider.
+
+Example:
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      bundler: 'rspack',
+    },
+  },
+};
+
+export default config;
+```
+
+#### builderConfig
+
+- **Type**: `BuilderConfig`
+- **Default**: `undefined`
+
+To modify the configuration of the builder.
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      builderCofnig: {
+        alias: {
+          react: require.resolve('react'),
+          'react-dom': require.resolve('react-dom'),
+        },
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+### Command
+
+@modern-js/storybook 代理了部分 storybook cli 的命令
+
+#### storybook dev
+
+Start Storybook,[detail](https://storybook.js.org/docs/react/api/cli-options#dev)
+
+#### storybook build
+
+Build Storybook for production,[detail](https://storybook.js.org/docs/react/api/cli-options#build)
+
+## V6 (legacy)
+
+Starting from `MAJOR_VERSION.40.0` version, `@modern-js/plugin-storybook` will stop iterating. It is recommended to use the V7 version.
+If your `@modern-js/module-tools` version is lower than `MAJOR_VERSION.40.0`, you can use Storybook V6 in the following ways:
+
+### Start Storybook
+
+You can directly use the following command to enable the Storybook feature.
+
+```bash
+$ npx modern new
+? Please select the operation you want Enable optional features
+? Please select the function name Enable "Storybook"
+```
+
+This command will create commonly used templates for Storybook, including
+
+- Create stories component examples
+- Update package.json, add a dependency on @modern-js/plugin-storybook, and add related scripts such as `pnpm dev storybook`.
+
+### Configure Storybook
+
+The Storybook official configures the project through a folder named `.storybook`, which contains various configuration files. **In Modern.js Module, you can add Storybook configuration files in the project's `config/storybook` directory.**
+
+For how to use various Storybook configuration files, you can check the following link:
 
 - [Configure Storybook](https://storybook.js.org/docs/react/configure/overview)
 
-**But there are some limitations to Storybooking in a module project**:
+**However, there are some restrictions when using it in module projects**:
 
-- It is currently not possible to change the location of the Story file, i.e., you cannot change the `stories` configuration in the `main.js` file.
-- Currently you cannot modify Webpack and Babel related configuration, i.e. you cannot modify `webpackFinal` and `babel` configuration in the `main.js` file.
+- Cannot change the location where Story files are stored, that is, the `stories` configuration cannot be modified in the `main.js` file.
+- Cannot modify the configuration related to Webpack and Babel, that is, the `webpackFinal` and `babel` configurations cannot be modified in the `main.js` file.
 
-In the future we will consider whether these configurations can be allowed to be modified, but for now we are limiting their use to reduce unpredictable issues.
+### Build Storybook Output
 
-## Building Storybook Artifacts
-
-In addition to Storybook debugging of components or common modules, you can also perform Storybook build tasks with the following commands.
+In addition to debugging the component or ordinary modules with Storybook, you can also use the following command to execute the Storybook build task.
 
 ```bash
 modern build --platform storybook
 ```
 
-For the `modern build --platform` command you can see.
-
-- [`modern build`](/en/guide/basic/command-preview#modern-build)
-
-After the build is complete, you can see the build artifacts files in the `dist/storybook-static` directory.
-
-## Use Tailwind CSS with Storybook
-
-If you need to use Tailwind CSS in the `stories` directory, make sure that the Tailwind CSS configuration for your current project includes the `stories` directory.
-
-Taking the `tailwind.config.ts` file as an example, you need to configure the following content:
-
-```diff title="tailwind.config.ts"
-export default {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-+   './stories/**/*.{js,jsx,ts,tsx}',
-  ],
-};
-```
+After the build is complete, you can see the build output files in the `dist/storybook-static` directory.

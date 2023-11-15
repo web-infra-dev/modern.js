@@ -31,11 +31,10 @@ Options:
 - 当需要关闭项目的 DTS 类型文件生成和类型检查行为时，可以使用 `--no-dts` 选项。**注意：类型文件的生成依赖类型检查的结果。如果关闭了类型检查，那么类型文件也不会生成**。
 - 当需要关闭自动清除产物输出目录的行为时，可以使用 `--no-clear` 选项。
 
-除了以上方式，Modern.js Module 还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，若使用旧版本 Storybook 插件，官方支持在安装了 `@modern-js/plugin-storybook` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform storybook` 命令启动 Storybook 构建任务生成 Storybook 产物。
+除了以上方式，Modern.js Module 还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，若使用 doc 插件，官方支持在安装了 `@modern-js/plugin-module-doc` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform doc` 命令启动 doc 构建任务生成 doc 产物。
 
 :::tip
-在执行 Storybook 构建的时候，如果需要读取项目的构建产物。那么**在执行 `modern build --platform` 命令启动 Storybook 构建之前，不要忘记先执行 `modern build` 命令确保项目构建产物的存在**。
-使用新版本的 Storybook 功能则直接使用 `storybook build` 进行 Storybook 的构建。
+在执行 doc 构建的时候，如果需要读取项目的构建产物。那么**在执行 `modern build --platform` 命令启动 doc 构建之前，不要忘记先执行 `modern build` 命令确保项目构建产物的存在**。
 :::
 
 ## `modern new`
@@ -58,7 +57,7 @@ Options:
 目前可以开启的功能有：
 
 - Test 测试
-- Storybook 调试
+- Storybook V7
 - Tailwind CSS 支持
 - Modern.js Runtime API
 
@@ -80,7 +79,7 @@ Commands:
 
 Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
 
-目前官方支持的调试工具有 [Storybook](https://storybook.js.org/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev storybook` 执行它。
+目前官方支持的调试工具有 [Rspress](https://rspress.dev/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev doc` 执行它。
 
 ## `modern test`
 

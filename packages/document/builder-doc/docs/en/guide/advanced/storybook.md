@@ -36,9 +36,9 @@ This command will create a template for Storybook, including:
 
 If you are using an older version of the Storybook plugin, you can still run the command above to create templates and modify the package.json. You can also upgrade manually.
 
-If you have made some custom configurations to Storybook in the older version, you need to move the configuration files from `root/config/storybook/` to the `root/.storybook/` directory.
+If you have made some custom configurations to Storybook in the older version, you need to move the configuration file `root/config/storybook/main.(j|t)s` to `root/.storybook/main.(j|t)s`.
 
-Specify framework as `@modern-js/storybook` in `root/.storybook/main.(j|t)s`.
+And then add the following lines in `root/.storybook/main.(j|t)s`, specify framework as `@modern-js/storybook`.
 
 ```diff
 const config = {
@@ -180,18 +180,17 @@ const config = {
 export default config;
 ```
 
-
 ## Command Line Interface
 
 @modern-js/storybook proxies some of the storybook cli commands.
 
 ### storybook dev
 
-Start Storybook, more details at https://storybook.js.org/docs/react/api/cli-options#dev.
+Start Storybook, more details at <https://storybook.js.org/docs/react/api/cli-options#dev>.
 
 ### storybook build
 
-Build Storybook for production, more details at https://storybook.js.org/docs/react/api/cli-options#build.
+Build Storybook for production, more details at <https://storybook.js.org/docs/react/api/cli-options#build>.
 
 ## ConfigFile
 
