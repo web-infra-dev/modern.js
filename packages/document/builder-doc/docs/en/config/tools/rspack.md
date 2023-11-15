@@ -144,7 +144,7 @@ export default {
 
 #### rspack
 
-- **Type:** `typeof import('rspack')`
+- **Type:** `typeof import('@rspack/core')`
 
 The Rspack instance. For example:
 

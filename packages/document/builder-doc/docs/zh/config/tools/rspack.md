@@ -144,7 +144,7 @@ export default {
 
 #### rspack
 
-- **类型：** `typeof import('rspack')`
+- **类型：** `typeof import('@rspack/core')`
 
 通过这个参数你可以拿到 Rspack 实例。比如：
 
