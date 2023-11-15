@@ -1,5 +1,18 @@
 # @modern-js/builder-cli
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [dc80bbc]
+- Updated dependencies [c4d396a]
+  - @modern-js/builder-rspack-provider@2.40.1
+  - @modern-js/builder-webpack-provider@2.40.1
+  - @modern-js/builder@2.40.1
+  - @modern-js/utils@2.40.1
+
 ## 2.40.0
 
 ### Patch Changes

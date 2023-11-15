@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [969def1]
+- Updated dependencies [dc80bbc]
+- Updated dependencies [2555586]
+- Updated dependencies [c4d396a]
+  - @modern-js/builder-shared@2.40.1
+  - @modern-js/builder-rspack-provider@2.40.1
+  - @modern-js/prod-server@2.40.1
+  - @modern-js/builder-webpack-provider@2.40.1
+  - @modern-js/builder-plugin-node-polyfill@2.40.1
+  - @modern-js/node-bundle-require@2.40.1
+  - @modern-js/builder-plugin-esbuild@2.40.1
+  - @modern-js/plugin-data-loader@2.40.1
+  - @modern-js/new-action@2.40.1
+  - @modern-js/builder@2.40.1
+  - @modern-js/plugin-i18n@2.40.1
+  - @modern-js/plugin-lint@2.40.1
+  - @modern-js/upgrade@2.40.1
+  - @modern-js/plugin@2.40.1
+  - @modern-js/server@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/server-core@2.40.1
+  - @modern-js/core@2.40.1
+  - @modern-js/types@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # @modern-js/builder-plugin-vue2
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [969def1]
+- Updated dependencies [dc80bbc]
+- Updated dependencies [c4d396a]
+  - @modern-js/builder-shared@2.40.1
+  - @modern-js/builder-rspack-provider@2.40.1
+  - @modern-js/builder-webpack-provider@2.40.1
+
 ## 2.40.0
 
 ### Patch Changes

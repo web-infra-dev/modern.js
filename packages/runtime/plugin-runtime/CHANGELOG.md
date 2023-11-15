@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- 7640d4d: fix: import('node:xx') would compile failed when target = webworker
+  fix: import('node:xx') 将在 target = webworker 时构建失败
+- Updated dependencies [c4d396a]
+  - @modern-js/runtime-utils@2.40.1
+  - @modern-js/plugin@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/types@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes

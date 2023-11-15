@@ -1,5 +1,12 @@
 # @modern-js/tailwindcss-generator
 
+## 3.2.12
+
+### Patch Changes
+
+- Updated dependencies [c4d396a]
+  - @modern-js/utils@2.40.1
+
 ## 3.2.11
 
 ### Patch Changes

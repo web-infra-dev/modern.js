@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 2.40.1
+
+### Patch Changes
+
+- 8a3408d: chore(module-tools): remove unuse types in template and reference
+  chore(module-tools): 移除模板和引用中的未使用类型
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- ce00f6c: chore: update magic-string version to 0.30
+  chore: 更新 magic-string 版本到 0.30
+- Updated dependencies [c4d396a]
+  - @modern-js/plugin-changeset@2.40.1
+  - @modern-js/new-action@2.40.1
+  - @modern-js/plugin-i18n@2.40.1
+  - @modern-js/plugin-lint@2.40.1
+  - @modern-js/upgrade@2.40.1
+  - @modern-js/plugin@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/core@2.40.1
+  - @modern-js/types@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes

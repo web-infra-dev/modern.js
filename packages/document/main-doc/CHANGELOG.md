@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.40.1
+
+### Patch Changes
+
+- Updated dependencies [c4d396a]
+  - @modern-js/sandpack-react@2.40.1
+  - @modern-js/builder-doc@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes

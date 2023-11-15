@@ -1,5 +1,16 @@
 # @modern-js/new-action
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [c4d396a]
+  - @modern-js/generator-common@3.2.12
+  - @modern-js/generator-utils@3.2.12
+  - @modern-js/utils@2.40.1
+
 ## 2.40.0
 
 ### Patch Changes

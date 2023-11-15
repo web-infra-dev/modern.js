@@ -1,5 +1,12 @@
 # @modern-js/bff-runtime
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+
 ## 2.40.0
 
 ## 2.39.2

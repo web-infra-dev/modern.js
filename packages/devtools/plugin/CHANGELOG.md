@@ -1,5 +1,18 @@
 # @modern-js/plugin-devtools
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [c4d396a]
+- Updated dependencies [7640d4d]
+  - @modern-js/runtime@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/devtools-kit@2.40.1
+  - @modern-js/devtools-client@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes

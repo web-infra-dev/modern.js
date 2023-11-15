@@ -1,5 +1,7 @@
 # @modern-js/devtools-client
 
+## 2.40.1
+
 ## 2.40.0
 
 ## 2.39.2

@@ -1,5 +1,17 @@
 # @modern-js/plugin-koa
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [c4d396a]
+  - @modern-js/bff-runtime@2.40.1
+  - @modern-js/bff-core@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/types@2.40.1
+
 ## 2.40.0
 
 ### Patch Changes

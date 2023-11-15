@@ -1,5 +1,16 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.40.1
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [8a3408d]
+- Updated dependencies [c4d396a]
+- Updated dependencies [ce00f6c]
+  - @modern-js/module-tools@2.40.1
+
 ## 2.40.0
 
 ### Patch Changes

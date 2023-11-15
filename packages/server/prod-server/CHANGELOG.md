@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 2.40.1
+
+### Patch Changes
+
+- 2555586: feat: worker server support header likes `x-${metaName}-ssr-fallback` to return csr template
+  feat: worker server 支持 header 头 `x-${metaName}-ssr-fallback` 降级
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [c4d396a]
+  - @modern-js/runtime-utils@2.40.1
+  - @modern-js/plugin@2.40.1
+  - @modern-js/utils@2.40.1
+  - @modern-js/server-core@2.40.1
+
 ## 2.40.0
 
 ### Minor Changes
