@@ -41,7 +41,7 @@ async function getConfigUtils(
   chainUtils: ModifyChainUtils,
 ): Promise<ModifyRspackConfigUtils> {
   const { merge } = await import('@modern-js/builder-shared/webpack-merge');
-  const { default: rspack } = await import('@rspack/core');
+  const rspack = await import('@rspack/core');
 
   return {
     ...chainUtils,
