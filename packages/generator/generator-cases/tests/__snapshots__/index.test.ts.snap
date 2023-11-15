@@ -124,10 +124,6 @@ exports[`test generator cases test getModuleNewCases 1`] = `
   },
   {
     "actionType": "function",
-    "function": "storybook",
-  },
-  {
-    "actionType": "function",
     "function": "storybookV7",
   },
   {
