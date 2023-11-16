@@ -12,7 +12,6 @@ export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [
   ActionFunction.Test,
   ActionFunction.TailwindCSS,
-  ActionFunction.Storybook,
   ActionFunction.StorybookV7,
   ActionFunction.RuntimeApi,
 ];
@@ -66,7 +65,6 @@ export const getModuleNewActionSchema = (
 export const ModuleActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
-  [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',

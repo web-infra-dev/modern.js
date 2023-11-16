@@ -8,13 +8,12 @@ The `dev` command provided by the Modern.js Module is mainly used for debugging 
 
 ## The overall flow of the command run
 
-1. When the `dev` command is executed, Modern.js Module starts looking for debugging tools or tasks that can be executed. A debugging tool or task is a Modern.js Module debugging tool plugin like Storybook.
+1. When the `dev` command is executed, Modern.js Module starts looking for debugging tools or tasks that can be executed. A debugging tool or task is a Modern.js Module debugging tool plugin like module doc.
 2. When a debugging tool is found, it is executed immediately.
 3. When multiple debugging tools are found, the debugging tools list menu is displayed. A debug tool can be started by selecting the name option corresponding to it.
 4. When no debug tool is found, the user is informed that no debug tool is available.
 
 In addition to the `dev` command, you can also start a debugging tool or task directly by using the `dev [debug tool name]` option.
-
 
 ## Extending the dev command
 

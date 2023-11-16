@@ -36,9 +36,9 @@ $ npx modern new
 
 若正使用旧版本 Storybook 插件，那么你仍然可以运行上方的命令，来创建模版以及修改 package.json，也可以手动升级。
 
-若你在旧版本对 storybook 进行了一些自定义配置，需要将配置文件从 `root/config/storybook/` 移动到 `root/.storybook/` 目录。
+若你在旧版本对 storybook 进行了一些自定义配置，需要将配置文件 `root/config/storybook/main.(j|t)s` 移动到 `root/.storybook/main.(j|t)s`。
 
-在 `root/.storybook/main.(j|t)s` 中指定 framework 为 @modern-js/storybook
+并在 `root/.storybook/main.(j|t)s` 中添加以下配置，指定 framework 为 @modern-js/storybook：
 
 ```diff
 const config = {
@@ -116,6 +116,7 @@ export default config;
 用于指定配置文件路径。
 
 例如
+
 ```javascript filename='.storybook/main.js'
 const config = {
   framework: {
@@ -137,6 +138,7 @@ export default config;
 指定底层构建工具使用 Webpack 还是 Rspack。请确保安装了对应的 provider，使用 Webpack 请安装 @modern-js/builder-webpack-provider，使用 Rspack 请安装 @modern-js/builder-rspack-provider。
 
 例如
+
 ```javascript filename='.storybook/main.js'
 const config = {
   framework: {
@@ -158,6 +160,7 @@ export default config;
 更改 builder 的配置，该配置比配置文件拥有更高的优先级，若不想使用配置文件，也可直接在此处指定 Modern.js builder 配置。
 
 例如
+
 ```javascript filename='.storybook/main.js'
 const config = {
   framework: {
@@ -182,11 +185,11 @@ export default config;
 
 ### storybook dev
 
-启动 Storybook，详情请看 https://storybook.js.org/docs/react/api/cli-options#dev。
+启动 Storybook，详情请看 <https://storybook.js.org/docs/react/api/cli-options#dev>
 
 ### storybook build
 
-对 Storybook 进行生产环境构建，详情请看 https://storybook.js.org/docs/react/api/cli-options#build。
+对 Storybook 进行生产环境构建，详情请看 <https://storybook.js.org/docs/react/api/cli-options#build>
 
 ## 配置文件
 

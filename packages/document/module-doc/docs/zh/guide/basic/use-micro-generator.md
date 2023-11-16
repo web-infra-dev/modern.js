@@ -34,11 +34,7 @@ export default defineConfig({
 
 ## Storybook 调试
 
-当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及相关文件，在 package.json 中新增 `"@modern-js/storybook"` 依赖**。
-
-关于如何启动 Storybook 以及如何使用 Storybook，可以查看下面的链接：
-
-- [使用 Storybook](https://modernjs.dev/builder/guide/advanced/storybook.html)
+当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及 `.storybook` 目录，在 package.json 中新增 `"@modern-js/storybook"` 依赖**。
 
 ## Tailwind CSS 支持
 

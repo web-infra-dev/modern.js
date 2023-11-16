@@ -6,28 +6,11 @@ sidebar_position: 3
 
 本章节描述了 Modern.js Module 关于调试工具相关的所有配置。
 
-```ts
-export default {
-  dev: {
-    storybook: {
-      /* Storybook Config */
-    },
-  },
-};
-```
-
 ## storybook
 
 :::warning
-Deprecated：该配置已过时，只适用于 StorybookV6，配置新的 Storybook 请查看[使用 storybook](https://modernjs.dev/builder/guide/advanced/storybook.html)。
+**Deprecated**：该配置已过时，只适用于 StorybookV6，详情请看[使用Storybook](/guide/basic/using-storybook)。
 :::
-
-**首先需要确保**：
-
-- 开启 Storybook 调试功能或者安装 `@modern-js/storybook`。
-- 注册 `@modern-js/plugin-storybook` 插件。
-
-> 关于如何开启 Storybook 调试功能，可以参考：[「Storybook 调试」](guide/basic/use-micro-generator#storybook-调试)
 
 ### storybook.webpack
 
