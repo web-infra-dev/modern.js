@@ -247,7 +247,7 @@ const params = useParams();
 params['*']; // => 'aaa/bbb'
 ```
 
-### No-path Layout
+### Route Group
 
 When the directory name starts with `__`, the directory name will not be converted to an actual route path. For example, the following file directory:
 
@@ -266,9 +266,9 @@ When the directory name starts with `__`, the directory name will not be convert
 
 Modern.js will generate two routes, `/login` and `/signup`. The `__auth/layout.tsx` component will serve as the layout component for `login/page.tsx` and `signup/page.tsx`, but `__auth` will not be a route path segment.
 
-This feature is very useful when you need to create independent layouts for certain types of routes or want to classify routes.
+This feature is very useful when you need to create independent layouts or group routes for certain types of routes or want to classify routes.
 
-### No Layout
+###  Route Flating
 
 In some cases, the project requires complex routing, but these routes do not have independent UI layouts. If you create routes like ordinary file directories, it will result in deep directory levels.
 
@@ -289,6 +289,8 @@ When accessing the route, you will get the following UI layout:
   <UserProfileEdit /> // routes/user.profile.[id].edit/page.tsx
 </RootLayout>
 ```
+
+This scheme avoids the traditional hierarchical file structure and achieves compactness and efficiency
 
 ### (WIP)Loading
 
