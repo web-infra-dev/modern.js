@@ -72,12 +72,12 @@ jobs:
           result-encoding: string
           script: |
             const prData = ${{ steps.get-pr-data.outputs.result }}
-
+            const commentBody = ${{ github.event.comment.body }}
             let productName
 
-            if (startsWith(github.event.comment.body, '!bench-framework')) {
+            if (commentBody.startsWith('!bench-framework')) {
               productName = 'MODERNJS_FRAMEWORK'
-            } else if (startsWith(github.event.comment.body, '!bench-module')) {
+            } else if (commentBody.startsWith('!bench-module')) {
               productName = 'MODERNJS_MODULE'
             }
 
