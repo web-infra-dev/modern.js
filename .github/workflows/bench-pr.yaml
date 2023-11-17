@@ -72,7 +72,7 @@ jobs:
           result-encoding: string
           script: |
             const prData = ${{ steps.get-pr-data.outputs.result }}
-            const commentBody = ${{ github.event.comment.body }}
+            const commentBody = '' + ${{ github.event.comment.body }}
             let productName
 
             if (commentBody.startsWith('!bench-framework')) {
