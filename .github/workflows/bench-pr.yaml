@@ -67,12 +67,19 @@ jobs:
             }
       - uses: actions/github-script@v6
         id: trigger
-        if: github.event.issue.pull_request && startsWith(github.event.comment.body, '!bench-framework')
         with:
           github-token: ${{ secrets.REPO_SCOPED_TOKEN }}
           result-encoding: string
           script: |
             const prData = ${{ steps.get-pr-data.outputs.result }}
+
+            let productName
+
+            if (startsWith(github.event.comment.body, '!bench-framework')) {
+              productName = 'MODERNJS_FRAMEWORK'
+            } else if (startsWith(github.event.comment.body, '!bench-module')) {
+              productName = 'MODERNJS_MODULE'
+            }
 
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
@@ -81,27 +88,7 @@ jobs:
               ref: 'master',
               inputs: {
                 prNumber: '' + prData.num,
-                product: 'MODERNJS_FRAMEWORK',
-                repo: 'modern.js'
-              }
-            })
-      - uses: actions/github-script@v6
-        id: trigger
-        if: github.event.issue.pull_request && startsWith(github.event.comment.body, '!bench-module')
-        with:
-          github-token: ${{ secrets.REPO_SCOPED_TOKEN }}
-          result-encoding: string
-          script: |
-            const prData = ${{ steps.get-pr-data.outputs.result }}
-
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: 'web-infra-QoS',
-              workflow_id: 'pr-bench.yaml',
-              ref: 'master',
-              inputs: {
-                prNumber: '' + prData.num,
-                product: 'MODERNJS_MODULE',
+                product: productName,
                 repo: 'modern.js'
               }
             })
