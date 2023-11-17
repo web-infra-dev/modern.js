@@ -1,6 +1,12 @@
 /* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
-import { slash, watch, globby, applyOptionsChain } from '@modern-js/utils';
+import {
+  slash,
+  watch,
+  globby,
+  applyOptionsChain,
+  logger,
+} from '@modern-js/utils';
 import {
   BuilderPlugin,
   SharedBuilderConfig,
@@ -22,7 +28,7 @@ import {
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
-
+import type { PluginItem } from '@babel/core';
 import type {
   BuilderPluginAPI as WebpackAPI,
   WebpackConfig,
@@ -119,6 +125,8 @@ export const pluginStorybook: (
       };
 
       if ('modifyWebpackConfig' in api) {
+        addonAdapter(api, options);
+
         api.modifyWebpackConfig(modifyConfig);
         api.modifyWebpackChain(async chain => {
           await applyDocgenWebpack(chain, options);
@@ -471,4 +479,78 @@ async function watchStories(
     [/node_modules/],
   );
   return watcher;
+}
+
+/**
+ * Some addons expose babel plugins and presets, or modify webpack
+ */
+function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
+  const { presets } = options;
+
+  api.modifyBuilderConfig(async finalConfig => {
+    const babelOptions = await presets.apply('babel', {}, { ...options });
+    finalConfig.tools ??= {};
+    const userConfig = finalConfig.tools.babel;
+    finalConfig.tools.babel = (config, utils) => {
+      const getPluginName = (plugin: PluginItem) =>
+        Array.isArray(plugin) ? plugin[0] : plugin;
+      const getOptions = (plugin: PluginItem) =>
+        Array.isArray(plugin) ? plugin[1] : null;
+
+      const replaceOrInsert = (plugin: PluginItem, plugins: PluginItem[]) => {
+        const pluginName = getPluginName(plugin);
+
+        const append = [];
+        for (let i = 0; i < plugins.length; i++) {
+          if (getPluginName(plugins[i]) === pluginName) {
+            if (getOptions(plugin)) {
+              logger.info(
+                `Detected duplicated babel plugin or presets: ${pluginName}, overrides with the new one`,
+              );
+              plugins[i] = plugin;
+            }
+          } else {
+            append.push(plugin);
+          }
+        }
+
+        plugins.push(...append);
+      };
+
+      const currentPlugins = config.plugins || [];
+      const currentPresets = config.presets || [];
+
+      // O(n * n) but the number of plugins should be small
+      for (const plugin of babelOptions.plugins || []) {
+        replaceOrInsert(plugin, currentPlugins);
+      }
+      for (const preset of babelOptions.presets || []) {
+        replaceOrInsert(preset, currentPresets);
+      }
+
+      const finalConfig = {
+        ...config,
+        ...babelOptions,
+        plugins: currentPlugins,
+        presets: currentPresets,
+      };
+
+      if (typeof userConfig === 'function') {
+        return userConfig(finalConfig, utils);
+      } else if (typeof userConfig === 'object') {
+        return { ...finalConfig, ...userConfig };
+      } else {
+        return finalConfig;
+      }
+    };
+  });
+
+  (api as WebpackAPI).modifyWebpackConfig(async config => {
+    const finalDefaultConfig = await presets.apply(
+      'webpackFinal',
+      config,
+      options,
+    );
+    return finalDefaultConfig;
+  });
 }

@@ -1,4 +1,4 @@
-import { createBuilder } from '@modern-js/builder';
+import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@modern-js/builder-shared/webpack-dev-middleware';
@@ -14,6 +14,7 @@ export async function getCompiler(
   const bundler = builderOptions.bundler || 'webpack';
 
   const { presets } = options;
+
   const entries = await presets.apply<string[]>('entries', []);
 
   const res = await runWithErrorMsg(
@@ -26,7 +27,10 @@ export async function getCompiler(
     (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
     loadedConfig;
 
-  const provider = await getProvider(bundler, finalConfig);
+  const provider = await getProvider(
+    bundler,
+    mergeBuilderConfig(finalConfig, builderOptions.builderConfig) || {},
+  );
 
   if (!provider) {
     throw new Error(`@modern-js/builder-${bundler}-provider not found `);
