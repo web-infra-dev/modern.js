@@ -53,6 +53,7 @@ export function Html(props: { children: any[] }) {
   const hasSetLinks = Boolean(findTargetElement('Links', children));
   const hasSetBody = Boolean(findTargetChild('Body', children));
   const hasSetRoot = Boolean(findTargetElement('Root', children));
+  const hasSetTitle = Boolean(findTargetElement('title', children));
   const notMissMustChild = [
     hasSetHead,
     hasSetBody,
@@ -96,6 +97,7 @@ export function Html(props: { children: any[] }) {
           hasSetLinks,
           hasSetRoot,
           hasSetBody,
+          hasSetTitle,
           docChild: children,
         }}
       >
