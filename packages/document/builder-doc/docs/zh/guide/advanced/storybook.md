@@ -14,11 +14,14 @@
 
 ## 快速开始
 
-### 在 Modern.js 项目中使用
+在开始之前，当前 Storybook 支持底层使用 Webpack 或是 Rspack 进行构建，根据你的需求安装下列任何一个包：
 
-#### 没有使用过 Storybook 插件(@modern-js/plugin-storybook)
+- @modern-js/builder-webpack-provider： 使用 Webpack 构建，更好的兼容性
+- @modern-js/builder-rspack-provider：使用 Rspack 构建，极致的启动速度（推荐）
 
-如果当前项目已经是 Modern.js 项目，并且没有使用旧版本 Storybook 插件， 则可以直接使用如下命令开启 Storybook 功能。
+### 在 Modern.js 项目中使用, 没有使用过 Storybook 插件(@modern-js/plugin-storybook)
+
+如果没有使用旧版本 Storybook 插件， 情直接使用如下命令开启 Storybook 功能。
 
 ```bash
 $ npx modern new
@@ -30,11 +33,13 @@ $ npx modern new
 
 - 创建配置文件夹 `.storybook`，以及默认配置文件 `.storybook/main.ts`
 - 创建 stories 组件示例
-- 更新 package.json，新增依赖 @storybook/addon-essential 和 @modern-js/storybook，以及创建 storybook 相关脚本。
+- 更新 package.json，新增依赖 @storybook/addon-essential 和 @modern-js/storybook，以及创建 storybook 相关脚本
 
-#### 正在使用旧版本 Storybook 插件(@modern-js/plugin-storybook)
+运行 `npm run storybook` 即可启动 Storybook 预览。
 
-若正使用旧版本 Storybook 插件，那么你仍然可以运行上方的命令，来创建模版以及修改 package.json，也可以手动升级。
+### 从 @modern-js/plugin-storybook 迁移
+
+你仍然可以运行上方的命令，来创建模版以及修改 package.json，也可以手动升级。
 
 若你在旧版本对 storybook 进行了一些自定义配置，需要将配置文件 `root/config/storybook/main.(j|t)s` 移动到 `root/.storybook/main.(j|t)s`。
 
@@ -54,7 +59,20 @@ export default config;
 
 最后按照 Storybook 官网文档，对一些 breaking change 做相应的更新，例如 stories 的写法，MDX 的写法等，参考[storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
-### 当前项目是 Storybook 项目，没有使用 Modern.js
+在项目的 package.json 中添加相应的命令
+
+```json
+{
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+  }
+}
+```
+
+使用 `npm run storybook` 即可启动
+
+### 原生 Storybook 项目，没有使用 Modern.js
 
 若当前 Storybook 版本还是 6，需要先按照 Storybook 官网文档升级到版本 7 ，参考[storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
@@ -72,10 +90,6 @@ export default config;
 Modern.js 的配置文件默认为 `modern.config.(j|t)s`，配置请查看 [builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html)。
 
 若原来项目中包含了 Babel 等配置，需要对应的写在 modern 配置中，大部分 Babel 配置已经包含进了 Modern.js。
-
-## 使用 Webpack 或 Rspack
-
-当前 Storybook 支持底层使用 Webpack 或是 Rspack 进行构建，根据你的需求安装 @modern-js/builder-webpack-provider 或 @modern-js/builder-rspack-provider。
 
 安装完成后进行相应的[配置](/guide/advanced/storybook#bundler)。
 
@@ -205,6 +219,14 @@ const config = defineConfig({
 
 export default config;
 ```
+
+## Storybook addon 兼容性
+
+由于当前文档中的 Storybook 版本为 7，因此请选择 storybook V7 的 addon。
+
+当 addon 不需要额外的 Babel 或 Webpack 配置时，可以直接使用，如 @storybook/addon-essentials。
+
+部分 addon 需要依赖 babel 插件和 Webpack 配置时，如 @storybook/addon-coverage，只能使用 @modern-js/builder-webpack-provider 才有支持。
 
 ## 收益
 

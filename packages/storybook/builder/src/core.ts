@@ -11,7 +11,7 @@ export async function getCompiler(
   builderOptions: BuilderOptions,
   options: Options,
 ): Promise<Compiler> {
-  const bundler = builderOptions.bundler || 'webpack';
+  const { bundler } = builderOptions;
 
   const { presets } = options;
 
@@ -33,7 +33,15 @@ export async function getCompiler(
   );
 
   if (!provider) {
-    throw new Error(`@modern-js/builder-${bundler}-provider not found `);
+    if (bundler) {
+      throw new Error(
+        `You choose to use ${bundler}, but @modern-js/builder-${bundler}-provider not found in your project, please install it`,
+      );
+    } else {
+      throw new Error(
+        `Please install one provider first, try install @modern-js/builder-rspack-provider or @modern-js/builder-webpack-provider first`,
+      );
+    }
   }
 
   const builder = await createBuilder(provider, {
