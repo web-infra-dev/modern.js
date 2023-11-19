@@ -27,15 +27,14 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuild(options: Options): Return {
-        return options.config;
+      beforeBuild(options: Options): void {
       }
     }
   },
 });
 ```
 
-Parameters and return value types.
+Parameters value types.
 
 ```ts
 type Options = { options: { config: BuildConfig; cliOptions: BuildCommandOptions } }
@@ -48,8 +47,6 @@ export interface BuildCommandOptions {
   tsconfig: string;
   watch?: boolean;
 }
-
-type Return = BuildConfig;
 ```
 
 > `BuildConfig` type reference [API configuration](en/api/)
