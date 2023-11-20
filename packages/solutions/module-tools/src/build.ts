@@ -15,23 +15,37 @@ export const build = async (
 
   const runner = api.useHookRunners();
 
-  debug('normalize build config');
+  debug('merge build config');
 
-  const { normalizeBuildConfig } = await import('./config/normalize');
-  const resolvedBuildConfig = await normalizeBuildConfig(api, context, options);
+  const { mergeBuildConfig, normalizeBuildConfig } = await import(
+    './config/normalize'
+  );
+  const mergedConfig = await mergeBuildConfig(api);
 
-  debug('normalize build config done');
+  debug('merge build config done');
 
-  debug('normalizedBuildConfig', resolvedBuildConfig);
+  debug('mergedConfig', mergedConfig);
 
   debug('run beforeBuild hooks');
 
   await runner.beforeBuild({
-    config: resolvedBuildConfig,
+    config: mergedConfig,
     cliOptions: options,
   });
 
   debug('run beforeBuild hooks done');
+
+  debug('normalize build config');
+
+  const resolvedBuildConfig = await normalizeBuildConfig(
+    mergedConfig,
+    context,
+    options,
+  );
+
+  debug('normalize build config done');
+
+  debug('normalizedBuildConfig', resolvedBuildConfig);
 
   const builder = await import('./builder');
   await builder.run({ cmdOptions: options, resolvedBuildConfig, context }, api);

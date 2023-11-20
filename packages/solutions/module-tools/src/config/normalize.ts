@@ -67,25 +67,10 @@ export const mergeConfig = (
 };
 
 export const normalizeBuildConfig = async (
-  api: PluginAPI<ModuleTools>,
+  mergedConfig: PartialBaseBuildConfig[],
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
-  let config = api.useConfigContext() as unknown as ModuleUserConfig;
-
-  if (isLegacyUserConfig(config as { legacy?: boolean })) {
-    const { createUserConfigFromLegacy } = await import(
-      './transformLegacyConfig'
-    );
-    config = await createUserConfigFromLegacy(config as ModuleLegacyUserConfig);
-  }
-
-  const { buildConfig, buildPreset } = config;
-
-  const configFromPreset = await presetToConfig(buildPreset);
-
-  const mergedConfig = mergeConfig(configFromPreset, buildConfig ?? {});
-
   validPartialBuildConfig(mergedConfig, context.appDirectory);
 
   const normalizedConfig = await Promise.all(
@@ -103,6 +88,27 @@ export const normalizeBuildConfig = async (
   );
 
   return normalizedConfig;
+};
+
+export const mergeBuildConfig = async (
+  api: PluginAPI<ModuleTools>,
+): Promise<PartialBaseBuildConfig[]> => {
+  let config = api.useConfigContext() as unknown as ModuleUserConfig;
+
+  if (isLegacyUserConfig(config as { legacy?: boolean })) {
+    const { createUserConfigFromLegacy } = await import(
+      './transformLegacyConfig'
+    );
+    config = await createUserConfigFromLegacy(config as ModuleLegacyUserConfig);
+  }
+
+  const { buildConfig, buildPreset } = config;
+
+  const configFromPreset = await presetToConfig(buildPreset);
+
+  const mergedConfig = mergeConfig(configFromPreset, buildConfig ?? {});
+
+  return mergedConfig;
 };
 
 export const transformToAbsPath = async (
