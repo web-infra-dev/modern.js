@@ -35,6 +35,7 @@ export const ZH_LOCALE = {
       proxy: '启用「全局代理」',
       swc: '启用「SWC 编译」',
       rspack: '启用「Rspack 构建」(实验性)',
+      module_doc: '启动「模块文档」功能',
     },
     element: {
       self: '创建工程元素',

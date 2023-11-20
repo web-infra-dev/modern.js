@@ -14,6 +14,7 @@ export const ModuleActionFunctions = [
   ActionFunction.TailwindCSS,
   ActionFunction.StorybookV7,
   ActionFunction.RuntimeApi,
+  ActionFunction.ModuleDoc,
 ];
 
 export const ModuleActionTypesMap: Record<string, string[]> = {
@@ -69,6 +70,7 @@ export const ModuleActionFunctionsDevDependencies: Partial<
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.RuntimeApi]: '@modern-js/runtime',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
+  [ActionFunction.ModuleDoc]: '@modern-js/plugin-rspress',
 };
 
 export const ModuleActionFunctionsPeerDependencies: Partial<
@@ -90,9 +92,9 @@ export const ModuleNewActionGenerators: Partial<
   [ActionType.Function]: {
     [ActionFunction.Test]: '@modern-js/module-test-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
-    [ActionFunction.Storybook]: '@modern-js/storybook-generator',
     [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
+    [ActionFunction.ModuleDoc]: '@modern-js/module-doc-generator',
   },
 };
 
@@ -101,7 +103,7 @@ export const ModuleNewActionPluginName: Partial<
 > = {
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
-    [ActionFunction.Storybook]: 'storybookPlugin',
+    [ActionFunction.ModuleDoc]: 'modulePluginDoc',
     [ActionFunction.Test]: 'testPlugin',
   },
 };
@@ -112,6 +114,6 @@ export const ModuleNewActionPluginDependence: Partial<
   [ActionType.Function]: {
     [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
-    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+    [ActionFunction.ModuleDoc]: '@modern-js/plugin-rspress',
   },
 };

@@ -14,6 +14,24 @@ Modern.js Module 提供了微生成器工具，它可以为当前项目：
 
 可以通过 [`modern new`](/guide/basic/command-preview) 启动微生成器。目前 Modern.js Module 支持的微生成器功能有：
 
+## 开发模块文档
+
+当我们想要为模块编写文档的时候，可以启用模块文档功能。**会在项目目录下创建 `docs` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-rspress"` 依赖**。
+
+:::tip
+在成功开启后，会提示需要手动在配置中增加如下类似的代码。
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [moduleTools(), modulePluginDoc()],
+});
+```
+
+:::
+
 ## Test 测试
 
 当我们想要对一些模块进行测试的时候，可以启用测试功能。启动该功能后，**会在项目目录下创建 `tests` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-testing"` 依赖**。

@@ -1,0 +1,416 @@
+---
+sidebar_position: 5
+---
+
+# Developing Module documentation
+
+This chapter describes how to quickly build a static documentation site for a module project.
+
+## Before we start
+
+### Why we need to build a documentation site for a module
+
+1. a documentation site can help us to better organize the structure of the documentation.
+2. the documentation site has better presentation, such as the ability to execute functions in the page, render components.
+3. to make better use of AI search capabilities.
+
+### Preliminary preparation
+
+1. Enable the documentation feature via [micro-generator](/guide/basic/use-micro-generator).
+2. Read [Introduction to Rspress](https://rspress.dev/guide/start/introduction.html).
+
+After finishing the preparation work, we will build a documentation site for the module project based on Rspress.
+
+## Basic site structure
+
+The overall layout of the site consists of three parts: the navigation bar, the sidebar and the body part, which also includes the TOC (Table of contents found at the beginning of a book or document).
+
+The Rspress uses [File System Routing](https://rspress.dev/guide/basic/conventional-route.html), on which the module documentation is based, to automate the generation of the sidebar.
+For example, if you have the following file structure:
+
+```bash
+docs
+├── foo
+│ └── bar.md
+│ └── index.md
+└── foo.md
+└── index.md
+
+```
+
+Then the routing path for `foo/bar.md` will be `/foo/bar`, the routing path for `foo.md` will be `/foo`, and the routing path for `index.md` will be `/`.
+
+The specific mapping rules are as follows:
+
+| file-path       | routing-path |
+| --------------- | ------------ |
+| `index.md`      | `/`          |
+| `/foo.md`       | `/foo`       |
+| `/foo/index.md` | `/foo/`      |
+| `/foo/bar.md`   | `/foo/bar`   |
+
+The sidebars corresponding in turn to the above file paths and routing paths are shown below:
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/rpauheh7nulwbm/edenx-module/docs-blog/autosidebar.png"></img>
+
+:::tip
+The text in each column of sidebar is determined by the primary title or directory name of the file. If you need to customize the sidebar, please configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar)。
+:::
+
+## Writing Documentation
+
+Next, we can focus on writing the content of the document. In addition to the basic Markdown syntax, you may also need to understand the following advanced topics:
+
+- [Using MDX](https://rspress.dev/guide/basic/use-mdx.html)
+- [Using Assets](https://rspress.dev/guide/basic/static-assets.html)
+
+## Component preview
+
+Module documentation provides preview capabilities for component libraries. The contents in code blocks written in jsx and tsx will be parsed as React components.
+
+### Example
+
+Here is a complete example using the component preview feature:
+
+Assuming our project name is `demo` and we export a Button component.
+
+1. Add a new `docs/Button.mdx` file:
+
+````mdx title="Button.mdx"
+# Button
+
+## Basic Usage
+
+Buttons come in four sizes: small, medium, large
+
+```tsx
+import React from 'react';
+import { Button } from 'demo';
+
+export default () => {
+  return <Button size="large">Click Me</Button>;
+};
+```
+````
+
+2. In the `tsconfig.json`, configure aliases and point the package name to the current project directory, make the way document developers and users use components consistent:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "demo": ["."]
+    }
+  }
+}
+```
+
+3. In the `.gitignore`, add `docs_build/`:
+
+```bash title=".gitignore"
+docs_build/
+```
+
+Congratulations, you have finished writing a component document, execute `pnpm run dev` to see the result, remember to build the component library first to make sure the component product exists.
+
+### Mobile Preview
+
+Also, we support mobile preview mode, i.e. rendering mobile components using iframe, and set iframe position by `iframePosition`,
+support swipe preview and new page opening.
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools'.
+import { modulePluginDoc } from '@modern-js/plugin-rspress'.
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      /**
+       * Select the preview method
+       * @default web
+       */
+      previewMode: 'mobile',
+      /**
+       * Select iframe position
+       * @default 'follow'
+       */
+      iframePosition: 'fixed',
+    }),
+  ],
+});
+```
+
+:::tip
+If you only want to change the way a particular `jsx` and `tsx` block is previewed, you can use a different modifier to identify it:
+
+````mdx
+```jsx pure
+// The content here will not be rendered
+```
+
+```jsx web
+// Used to render desktop components
+```
+
+```jsx mobile
+// Used to render mobile components
+```
+````
+
+:::
+
+### Using external demos
+
+If our demo is very complex, then it is recommended to write the demo separately and then use the `code` tag in the mdx:
+
+```mdx
+<code src="/path/demo.tsx"></code>
+```
+
+## Using built-in components
+
+The plugin implements some built-in components internally so that you can develop module documentation more easily.
+
+### API
+
+Display the API content of the module.
+
+#### Parse file
+
+Before we can use the API component, we first need to specify the files to parse:
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      entries: {
+        Button: './src/button.tsx',
+      },
+      apiParseTool: 'react-docgen-typescript',
+    }),
+  ],
+});
+```
+
+#### Content generation
+
+Next, we'll see what kind of markdown content is generated based on the parsed file.
+
+Content can be generated with two different tools, [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript) or [documentation](https://github.com/documentationjs/documentation):
+
+- `react-docgen-typescript` is targeted at component library scenarios and will only parse props to generate tables.
+
+```tsx
+export type ButtonProps = {
+  /**
+   * Whether to disable the button
+   */
+  disabled?: boolean;
+  /* * Whether to disable the button */ disabled?
+   * Type of Button
+   * @default 'default'
+   */
+  size?: 'mini' | 'small' | 'default' | 'large';
+}.
+export const Button = (props?: ButtonProps) => {};
+```
+
+The above is a standard writeup where `ButtonProps` will be extracted into the table and `Button` will be the title of the table.
+If you use the default export, the filename will be used as the form title. The generated content is as follows:
+
+```mdx
+### ButtonTest
+
+| property |          description          |                   type                   |   default   |
+| :------: | :---------------------------: | :--------------------------------------: | :---------: |
+| disabled | Whether to disable the button |                `boolean`                 |     `-`     |
+|   size   |        Type of Button         | `"mini" \|"small" \|"default" \|"large"` | `'default'` |
+```
+
+:::warning
+If React types are used in Props, you need to add the types in tsconfig.json, otherwise the types will not be resolved under the React namespace.
+```json
+{
+  "compilerOptions": {
+    "types": ["react"],
+  },
+}
+```
+:::
+
+- `documentation` is used in tool library scenarios to parse JSDoc annotations.
+
+```ts
+/**
+ * Greet function that returns a greeting message.
+ * @param {string} name - The name of the person to greet.
+ * @param {string} [greeting='Hello'] - The greeting to use.
+ * @returns {string} The greeting message.
+ */
+function greet(name: string, greeting = 'Hello') {
+  return `${greeting}, ${name}! `;
+}
+```
+
+The above is a greet function with a JSDoc annotation. The generated content is as follows:
+
+```md
+<! -- Generated by documentation.js. Update this documentation by updating the source code. -->
+
+## greet
+
+Greet function that returns a greeting message.
+
+### Parameters
+
+- `name` **[string][1]** The name of the person to greet.
+- `greeting` **[string][1]** The greeting to use. (optional, default `'Hello'`)
+
+Returns **[string][1]** The greeting message.
+
+[1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+```
+
+#### Using the component
+
+Next, you can use our built-in API components in your documentation by passing the `key` value into the `moduleName` property。
+
+```mdx title="Button.mdx"
+# Button
+
+## API
+
+<API moduleName="Button" />
+```
+
+### Overview
+
+Displays a list of modules that can be placed on the front page to display all modules.
+
+The Overview component has only one list property, which receives an array of objects, and the following properties of the objects
+
+| property |      description       |      type       | default |
+| :------: | :--------------------: | :-------------: | :-----: |
+|   icon   |          icon          | React.ReactNode |         |
+|   text   |   text(**required**)   |     string      |         |
+|   link   |   link(**required**)   |     string      |         |
+|  arrow   | whether to show arrows |     boolean     | `false` |
+
+## Plugin options
+
+### apiParseTool
+
+API parse tool.
+
+- Type:`'react-docgen-typescript' | 'documentation'`
+- Default: `'react-docgen-typescript'`
+
+### parseToolOptions
+
+API parse tool options.
+
+- Type:`ParseToolOptions`
+- Default: `{}`
+
+```ts
+type ParseToolOptions = {
+  // https://github.com/styleguidist/react-docgen-typescript#options
+  'react-docgen-typescript'?: ParserOptions;
+  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
+  documentation?: DocumentationArgs;
+};
+```
+
+### entries
+
+Module names and relative paths for automatically generated documents.
+
+- Type:`Entries | ToolEntries`
+- Default: `{}`
+
+```ts
+type Entries = Record<string, string>;
+type ToolEntries = {
+  documentation: Entries;
+  'react-docgen-typescript': Entries;
+};
+```
+
+It also supports the use of different parsing tools for different files:
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      entries: {
+        documentation: {
+          Add: './src/utils/add.ts',
+        },
+        'react-docgen-typescript': {
+          Button: './src/components/button.tsx',
+        },
+      },
+    }),
+  ],
+});
+```
+
+### useModuleSidebar
+
+If you want to use[\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) to automate sidebar，you should set it `false`.
+
+- Type:`boolean`
+- Default: `true`
+
+### previewMode
+
+- Type:`'mobile' | 'web'`
+- Default: `'web'`
+
+In case of `web`, the component will be rendered directly in the page, otherwise it will be loaded through an iframe.
+
+### iframePosition
+
+- 类型：`'follow' | 'fixed'`
+- 默认值: `'follow'`
+
+When the value is `follow`, each code block will have an iframe showing its rendered view.
+When `fixed`, the iframe will be fixed to the right side of the page, showing the view of all the code blocks on the current page.
+
+### doc
+
+[Config](https://rspress.dev/api/index.html).
+
+## Advanced guide
+
+The above has covered the basics of developing module documentation, but this is not enough for developing a complete documentation station. Check out the [Rspress](https://rspress.dev) for an in-depth look at our documentation framework.
+You can modify the documentation framework configuration via the `doc` configuration.
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools'.
+import { modulePluginDoc } from '@modern-js/plugin-rspress'.
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      doc: {
+        // Customize the documentation site configuration
+      }
+    }),
+  ],
+});
+```
+
+import ReleaseModuleDoc from '@site-docs-en/components/release-module-doc';
+
+<ReleaseModuleDoc />
