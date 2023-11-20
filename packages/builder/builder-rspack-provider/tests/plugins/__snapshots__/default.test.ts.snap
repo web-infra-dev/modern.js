@@ -54,6 +54,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "devtool": "cheap-module-source-map",
   "experiments": {
     "asyncWebAssembly": true,
+    "rspackFuture": {
+      "disableTransformByDefault": false,
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -781,6 +784,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "devtool": "hidden-source-map",
   "experiments": {
     "asyncWebAssembly": true,
+    "rspackFuture": {
+      "disableTransformByDefault": false,
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1552,6 +1558,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "devtool": "cheap-module-source-map",
   "experiments": {
     "asyncWebAssembly": true,
+    "rspackFuture": {
+      "disableTransformByDefault": false,
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -2017,6 +2026,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
   "devtool": "cheap-module-source-map",
   "experiments": {
     "asyncWebAssembly": true,
+    "rspackFuture": {
+      "disableTransformByDefault": false,
+    },
   },
   "infrastructureLogging": {
     "level": "error",
