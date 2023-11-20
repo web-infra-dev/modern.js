@@ -6,6 +6,7 @@ import {
   TARGET_ID_MAP,
 } from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
+import { Stats, MultiStats } from '@rspack/core';
 
 export async function createCompiler({
   context,
@@ -22,27 +23,38 @@ export async function createCompiler({
   const { rspack } = await import('@rspack/core');
   const { isDev } = await import('@modern-js/utils');
 
-  const compiler = rspack(rspackConfigs);
+  const compiler =
+    rspackConfigs.length === 1
+      ? rspack(rspackConfigs[0])
+      : rspack(rspackConfigs);
 
   let isFirstCompile = true;
 
-  compiler.hooks.done.tap('done', async stats => {
+  compiler.hooks.done.tap('done', async (stats: Stats | MultiStats) => {
     const obj = stats.toJson({
       all: false,
       timings: true,
     });
 
+    const printTime = (c: typeof obj, index: number) => {
+      if (c.time) {
+        const time = prettyTime(c.time / 1000);
+        const target = Array.isArray(context.target)
+          ? context.target[index]
+          : context.target;
+        const name = TARGET_ID_MAP[target || 'web'];
+        logger.ready(`${name} compiled in ${time}`);
+      }
+    };
+
     if (!stats.hasErrors()) {
-      obj.children?.forEach((c, index) => {
-        if (c.time) {
-          const time = prettyTime([0, c.time * 10 ** 6]);
-          const target = Array.isArray(context.target)
-            ? context.target[index]
-            : context.target;
-          const name = TARGET_ID_MAP[target || 'web'];
-          logger.ready(`${name} compiled in ${time}`);
-        }
-      });
+      if (obj.children) {
+        obj.children.forEach((c, index) => {
+          printTime(c, index);
+        });
+      } else {
+        printTime(obj, 0);
+      }
     }
 
     const { message, level } = formatStats(stats);
