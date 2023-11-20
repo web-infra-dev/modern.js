@@ -36,6 +36,7 @@ export const EN_LOCALE = {
       proxy: 'Enable Global Proxy',
       swc: 'Enable SWC Compile',
       rspack: 'Enable Rspack Build (experimental)',
+      module_doc: 'Enable Module Doc',
     },
     element: {
       self: 'Create Element',
