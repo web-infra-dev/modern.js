@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from 'react';
+import { nanoid } from 'nanoid';
 import { Box, IconButton, TextField } from '@radix-ui/themes';
 import { HiPlusSmall, HiMinusSmall } from 'react-icons/hi2';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
@@ -31,7 +32,7 @@ export const HeaderRuleEditor: React.FC<HeaderRuleEditorProps> = ({
   const createInsertHandler = (index: number) => {
     return () => {
       onCreateRule?.(index + 1, {
-        id: Date.now().toString(),
+        id: nanoid(),
         key: '',
         value: '',
       });

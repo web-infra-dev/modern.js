@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
+import { nanoid } from 'nanoid';
 import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
 import { useList } from 'react-use';
 import { useSnapshot } from 'valtio';
@@ -14,7 +15,7 @@ const Page: React.FC = () => {
   const [rules, $rules] = useList(() =>
     state.service.rules?.length
       ? _.slice(state.service.rules)
-      : [{ id: Date.now().toString(), key: '', value: '' }],
+      : [{ id: nanoid(), key: '', value: '' }],
   );
   const [isOutdated, setIsOutdated] = useState(false);
   let statusText = isActive ? 'Active' : 'Offline';

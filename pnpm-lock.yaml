@@ -1276,10 +1276,6 @@ importers:
         version: 5.0.4
 
   packages/devtools/client:
-    dependencies:
-      idb-keyval:
-        specifier: ^6.2.1
-        version: 6.2.1
     devDependencies:
       '@modern-js-app/eslint-config':
         specifier: workspace:*
@@ -1356,6 +1352,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      nanoid:
+        specifier: 3.3.4
+        version: 3.3.4
       p-defer:
         specifier: 3.0.0
         version: 3.0.0
@@ -23826,10 +23825,6 @@ packages:
       postcss: ^8.1.0
     dependencies:
       postcss: 8.4.31
-
-  /idb-keyval@6.2.1:
-    resolution: {integrity: sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg==}
-    dev: false
 
   /identity-obj-proxy@3.0.0:
     resolution: {integrity: sha512-00n6YnVHKrinT9t0d9+5yZC6UBNJANpYEQvL2LlX6Ab9lnmxzIRcEmTPuyGScvl1+jKuCICX1Z0Ab1pPKKdikA==}
