@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import { nanoid } from 'nanoid';
 import { Box, IconButton, TextField } from '@radix-ui/themes';
 import { HiPlusSmall, HiMinusSmall } from 'react-icons/hi2';
@@ -41,9 +41,27 @@ export const HeaderRuleEditor: React.FC<HeaderRuleEditorProps> = ({
 
   const createRemoveHandler = (index: number) => {
     return () => {
-      onDeleteRule?.(index);
+      if (value.length > 1) {
+        onDeleteRule?.(index);
+      } else {
+        onChangeRule?.(0, {
+          id: nanoid(),
+          key: '',
+          value: '',
+        });
+      }
     };
   };
+
+  useEffect(() => {
+    if (value.length === 0) {
+      onCreateRule?.(0, {
+        id: nanoid(),
+        key: '',
+        value: '',
+      });
+    }
+  }, []);
 
   return (
     <Box className={styles.container} {...props}>

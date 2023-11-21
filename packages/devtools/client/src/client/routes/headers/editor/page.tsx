@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
 import { useList } from 'react-use';
 import { useSnapshot } from 'valtio';
@@ -12,11 +11,7 @@ import { HeaderRuleEditor } from '@/client/components/HeaderRule/Editor';
 const Page: React.FC = () => {
   const state = useSnapshot($state);
   const isActive = Boolean(state.service.href);
-  const [rules, $rules] = useList(() =>
-    state.service.rules?.length
-      ? _.slice(state.service.rules)
-      : [{ id: nanoid(), key: '', value: '' }],
-  );
+  const [rules, $rules] = useList(() => _.slice(state.service.rules));
   const [isOutdated, setIsOutdated] = useState(false);
   let statusText = isActive ? 'Active' : 'Offline';
   if (isOutdated && isActive) {
