@@ -1,5 +1,6 @@
 import { proxy } from 'valtio';
 import { ReadonlyDeep } from 'type-fest';
+import _ from 'lodash';
 import { ModifyHeaderRule, ServiceStatus } from '@/client/utils/service-agent';
 
 const SERVICE_SCRIPT = '/sw-proxy.js';
@@ -21,19 +22,24 @@ export const unregisterService = async () => {
   for (const reg of registrations) {
     success = success && (await reg.unregister());
   }
-  $state.service = {};
+  $state.service = Promise.resolve({});
   return success;
 };
 
+const FETCH_STATUS_RETRY = 3;
+const FETCH_STATUS_TIMEOUT = 300;
+
 export const fetchServiceStatus = async (): Promise<Partial<ServiceStatus>> => {
-  try {
-    const signal = AbortSignal.timeout(500);
-    const resp = await fetch('/__devtools/service/status', { signal });
-    const body = await resp.json();
-    return body;
-  } catch {
-    return {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const _i of _.times(FETCH_STATUS_RETRY)) {
+    try {
+      const signal = AbortSignal.timeout(FETCH_STATUS_TIMEOUT);
+      const resp = await fetch('/__devtools/service/status', { signal });
+      const body = await resp.json();
+      return body;
+    } catch {}
   }
+  return {};
 };
 
 type PromiseOrNot<T> = Promise<T> | T;

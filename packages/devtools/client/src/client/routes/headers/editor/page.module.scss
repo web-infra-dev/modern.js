@@ -1,2 +1,12 @@
 .container {
 }
+
+.signal {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-thumb);
+  background-color: var(--red-8);
+  &[data-active='true'] {
+    background-color: var(--green-8);
+  }
+}
