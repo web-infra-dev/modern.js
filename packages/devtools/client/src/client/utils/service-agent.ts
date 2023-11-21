@@ -1,4 +1,5 @@
 export interface ModifyHeaderRule {
+  id: string;
   test?: string;
   key: string;
   value: string;

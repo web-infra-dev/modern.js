@@ -1,47 +1,24 @@
 import _ from 'lodash';
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { useList } from 'react-use';
 import { useSnapshot } from 'valtio';
 import { $state, registerService, unregisterService } from '../state';
+import { HeaderRuleEditor } from '@/client/components/HeaderRule/Editor';
 
 const Page: React.FC = () => {
   const state = useSnapshot($state);
-  const [rules, $rules] = useList(
-    _.slice(state.service.rules).map(s => ({
-      ...s,
-      id: Math.random().toString(),
-    })),
-  );
-
-  const createInputHandler = (type: 'key' | 'value', index: number) => {
-    return (e: ChangeEvent<HTMLInputElement>) => {
-      const oldValue = rules[index];
-      const newValue = {
-        ...oldValue,
-        [type]: e.target.value,
-      };
-      $rules.update(_.matches(oldValue), newValue);
-    };
-  };
+  const [rules, $rules] = useList(() => _.slice(state.service.rules));
 
   return (
     <div>
       <div>Editor</div>
-      {rules.map((rule, i) => (
-        <div key={rule.id}>
-          <input value={rule.key} onChange={createInputHandler('key', i)} />
-          <input value={rule.value} onChange={createInputHandler('value', i)} />
-        </div>
-      ))}
-      <button
-        onClick={() =>
-          $rules.push({ id: Math.random().toString(), key: '', value: '' })
-        }
-      >
-        +
-      </button>
-      <button onClick={() => $rules.removeAt(-1)}>-</button>
-      <button onClick={() => registerService(rules as any)}>register</button>
+      <HeaderRuleEditor
+        value={rules}
+        onChangeRule={$rules.updateAt}
+        onCreateRule={$rules.insertAt}
+        onDeleteRule={$rules.removeAt}
+      />
+      <button onClick={() => registerService(rules)}>register</button>
       <button onClick={unregisterService}>unregister</button>
     </div>
   );
