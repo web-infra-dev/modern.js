@@ -9,6 +9,7 @@ const Page = () => {
     id: string;
   }>();
   const data = useLoaderData() as string;
+  const dataWrap = data && <span className="data-wrapper">{data}</span>;
   const { submit } = useFetcher();
   const handleClick = () => {
     const user = {
@@ -23,7 +24,7 @@ const Page = () => {
   return (
     <div>
       <span>item page, param is {params.id}</span>
-      <span className="modern-test-name">{data}</span>
+      <span className="modern-test-name">{dataWrap}</span>
       <div className="action-btn" onClick={handleClick}>
         update
       </div>
