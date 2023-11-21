@@ -159,6 +159,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
       pluginName: ModuleNewActionPluginName[actionType]![action],
       pluginDependence: ModuleNewActionPluginDependence[actionType]![action],
       shouldUsePluginNameExport,
+      isModuleProject: true,
     },
   );
 

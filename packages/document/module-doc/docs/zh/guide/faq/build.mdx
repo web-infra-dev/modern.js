@@ -175,23 +175,27 @@ module.exports = {
 
 如果是在 Storybook 中使用了类似这样的组件，则需要修改 Storybook 的调试配置：
 
-```js
+```js filename='.storybook/main.ts'
 module.exports = {
-  dev: {
-    storybook: {
-      webpackChain(chain, { CHAIN_ID }) {
-        chain.module
-          .rule(CHAIN_ID.RULE.LESS)
-          .use(CHAIN_ID.USE.LESS)
-          .tap(options => {
-            options.lessOptions = {
-              ...options.lessOptions,
-              math: 'always',
-            };
-            return options;
-          });
-      },
-    },
+  framework: {
+    options: {
+      builderConfig: {
+        tools: {
+          webpackChain(chain, { CHAIN_ID }) {
+            chain.module
+              .rule(CHAIN_ID.RULE.LESS)
+              .use(CHAIN_ID.USE.LESS)
+              .tap(options => {
+                options.lessOptions = {
+                  ...options.lessOptions,
+                  math: 'always',
+                };
+                return options;
+              });
+          },
+        }
+      }
+    }
   },
 };
 ```
@@ -219,7 +223,7 @@ module.exports = {
 在不打包的场景下，是直接 `tsc` 生成类型声明文件。通过终端打印的错误信息，你可以找到问题文件。对于源码文件，推荐将类型问题进行修复，这能够更好地使你的包得到复用。但如果遇到三方包的类型检查问题：
 
 1. 开启 [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) 来跳过三方包的 d.ts 检查。
-2. 如果三方包直接导出 ts 文件， skipLibCheck 将会失效，因为其只能跳过 d.ts 检查，因此你只能关闭[dts.abortOnError](<(/api/config/build-config.html#dtsabortonerror)>)来忽略这些错误。
+2. 如果三方包直接导出 ts 文件， skipLibCheck 将会失效，因为其只能跳过 d.ts 检查，因此你只能关闭[dts.abortOnError](/api/config/build-config.html#dtsabortonerror)来忽略这些错误。
 
 ## 其他
 

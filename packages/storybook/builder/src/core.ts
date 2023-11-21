@@ -1,4 +1,4 @@
-import { createBuilder } from '@modern-js/builder';
+import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@modern-js/builder-shared/webpack-dev-middleware';
@@ -11,9 +11,10 @@ export async function getCompiler(
   builderOptions: BuilderOptions,
   options: Options,
 ): Promise<Compiler> {
-  const bundler = builderOptions.bundler || 'webpack';
+  const { bundler } = builderOptions;
 
   const { presets } = options;
+
   const entries = await presets.apply<string[]>('entries', []);
 
   const res = await runWithErrorMsg(
@@ -26,10 +27,21 @@ export async function getCompiler(
     (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
     loadedConfig;
 
-  const provider = await getProvider(bundler, finalConfig);
+  const provider = await getProvider(
+    bundler,
+    mergeBuilderConfig(finalConfig, builderOptions.builderConfig) || {},
+  );
 
   if (!provider) {
-    throw new Error(`@modern-js/builder-${bundler}-provider not found `);
+    if (bundler) {
+      throw new Error(
+        `You choose to use ${bundler}, but @modern-js/builder-${bundler}-provider not found in your project, please install it`,
+      );
+    } else {
+      throw new Error(
+        `Please install one provider first, try install @modern-js/builder-rspack-provider or @modern-js/builder-webpack-provider first`,
+      );
+    }
   }
 
   const builder = await createBuilder(provider, {

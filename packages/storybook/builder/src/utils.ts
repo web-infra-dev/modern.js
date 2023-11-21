@@ -2,6 +2,8 @@
 import path, { dirname, join } from 'path';
 import { createRequire } from 'node:module';
 import { fs, logger } from '@modern-js/utils';
+import { BuilderWebpackProvider } from '@modern-js/builder-webpack-provider';
+import { BuilderRspackProvider } from '@modern-js/builder-rspack-provider';
 import {
   AllBuilderConfig,
   RspackBuilderConfig,
@@ -19,9 +21,9 @@ export const requireResolve = (importer: string, path: string) => {
 };
 
 export async function getProvider(
-  bundler: 'webpack' | 'rspack',
+  bundler: 'webpack' | 'rspack' | undefined,
   builderConfig: AllBuilderConfig,
-) {
+): Promise<BuilderWebpackProvider | BuilderRspackProvider | undefined> {
   try {
     if (bundler === 'webpack') {
       const { builderWebpackProvider } = await import(
@@ -30,19 +32,21 @@ export async function getProvider(
       return builderWebpackProvider({
         builderConfig: builderConfig as WebpackBuilderConfig,
       });
-    } else {
+    } else if (bundler === 'rspack') {
       const { builderRspackProvider } = await import(
         '@modern-js/builder-rspack-provider'
       );
       return builderRspackProvider({
         builderConfig: builderConfig as RspackBuilderConfig,
       });
+    } else {
+      // auto detect
+      return (
+        (await getProvider('webpack', builderConfig)) ||
+        (await getProvider('rspack', builderConfig))
+      );
     }
-  } catch (e) {
-    logger.error(
-      `Cannot find provider, you need to install @modern-js/builder-${bundler}-provider first`,
-    );
-  }
+  } catch (e) {}
 }
 
 // use this instead of virtualModuleWebpackPlugin for rspack compatibility

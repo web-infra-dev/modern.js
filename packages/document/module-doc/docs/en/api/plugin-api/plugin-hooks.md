@@ -27,15 +27,14 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuild(options: Options): Return {
-        return options.config;
+      beforeBuild(options: Options): void {
       }
     }
   },
 });
 ```
 
-Parameters and return value types.
+Parameters value types.
 
 ```ts
 type Options = { options: { config: BuildConfig; cliOptions: BuildCommandOptions } }
@@ -48,8 +47,6 @@ export interface BuildCommandOptions {
   tsconfig: string;
   watch?: boolean;
 }
-
-type Return = BuildConfig;
 ```
 
 > `BuildConfig` type reference [API configuration](en/api/)
@@ -138,7 +135,7 @@ export interface BuildResult {
 
 module-tools also provides the `build --platform` command to perform specific build tasks.
 
-For example, after installing the Storybook plugin, you can run `build --platform` or `build --platform storybook` to perform Storybook build tasks. This is because the Storybook plugin is based on the buildPlatform Hooks.
+For example, after installing the Module Doc plugin, you can run `build --platform` or `build --platform doc` to perform Doc build tasks.
 
 Hooks are triggered in the following order after executing `build --platform`.
 
@@ -160,9 +157,9 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
       registerBuildPlatform(): RegisterBuildPlatformResult {
         // ...
         return {
-          platform: 'stroybook',
+          platform: 'doc',
           build() {
-            // run storybook logic
+            // logic
           },
         }, };
       },
@@ -334,12 +331,6 @@ export interface DevToolData {
   ) => void | Promise<void>;
 }
 ```
-
-<!-- :::tip About disableRunBuild configuration
-When dev a project, it may be possible to set `disableRunBuild: true` to disable build tasks for source execution (in listening mode) if you only need to dev code functionality.
-
-The currently supported Storybook dev supports using source code artifacts as dev objects, so `disableRunBuild: false` in the Storybook plugin.
-::: -->
 
 ### `beforeDev`
 

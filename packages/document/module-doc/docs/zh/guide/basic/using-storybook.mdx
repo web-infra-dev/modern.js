@@ -4,11 +4,6 @@ sidebar_position: 5
 
 # 使用 Storybook
 
-首先如果没有看过以下内容的话，可以先花几分钟先了解一下：
-
-- [使用微生成器开启 Storybook 调试](/guide/basic/use-micro-generator#storybook-调试)
-- [`modern dev`](/guide/basic/command-preview#modern-dev)
-
 [Storybook](https://storybook.js.org/) 是一个专门用于组件调试的工具，它围绕着组件开发提供了：
 
 - 丰富多样的调试能力
@@ -17,79 +12,48 @@ sidebar_position: 5
 - 可分享能力
 - 工作流程自动化
 
-因此 Storybook 是一个复杂且功能强大的工具。
+在使用 Storybook 时，难免会遇到各种配置问题，需要手动配置 Babel 插件，手动配置 Webpack 去支持 less，sass 等。
+Modern.js 集成了 Storybook，这对于我们开发 Storybook 项目来说极大地简化了配置工作。
 
-Modern.js Module 集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
+## V7 (推荐)
 
-## 调试代码
+### 开启 Storybook
 
-在调试代码过程中需要引入项目代码，目前可以通过两种方式引入项目代码：
+可以直接使用如下命令开启 Storybook 功能。
 
-- 引用项目产物
-- 引用项目源码
-
-我们推荐使用第一种“**引用项目产物**”的方式。因为它更接近真实的使用场景，不仅可以对组件功能进行调试，同时也对构建产物的正确性进行了验证。不过我们也可以在测试项目功能的时候引用源码，在验证项目产物的时候引用项目的包名。
-
-接下来我们分别讲一下这两种方式具体如何使用。
-
-### 引用组件产物
-
-假如存在 TypeScript 项目 `foo`，首先要确保 `package.json` 的 `main` 和 `types` 的值为正确的产物路径。
-
-```json title="package.json"
-{
-  "name": "foo",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts"
-}
+```bash
+$ npx modern new
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「Storybook」V7
 ```
 
-`foo` 项目的源码：
+该命令会创建好 Storybook 常用的模版，包括
 
-```ts title="src/index.ts"
-export const content = 'hello world';
-```
+- 创建配置文件夹 `.storybook`，以及默认配置文件 `.storybook/main.ts`
+- 创建 stories 组件示例
+- 更新 package.json，新增依赖 @storybook/addon-essential 和 @modern-js/storybook，以及创建 storybook 相关脚本。
 
-请确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
+### 开启产物调试
 
-```json title="stories/tsconfig.json"
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "../",
-    "paths": {
-      "foo": ["."],
-      "foo/*": ["./*"]
-    }
-  },
-  "include": ["**/*"]
-}
-```
+事实上，Modern.js Module 是基于 esbuild 实现的，而 Storybook 使用 Webpack 作为默认构建工具，二者的配置无法完全兼容，
+所以这里我们推荐先对组件进行构建，然后在 stories 里引入组件产物。
 
-在 Story 代码中直接以项目名称的方式引用：
+引入组件产物的方式非常简单，假设你的模块导出了一个 Button 组件，那么在 stories 里可以这样使用:
 
-```tsx title="stories/index.stories.tsx"
-import { content } from 'foo';
+```ts filename="stories/index.stories.tsx"
+import { Button } from '.';
 
-const Component = () => <div>this is a Story Component {content}</div>;
-
-export const YourStory = () => <Component />;
+export const YourStory = () => <Button />;
 
 export default {
   title: 'Your Stories',
 };
 ```
 
-最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试即可：
+如果想要更新组件，则可以在启动 Storybook 前启动监听模式的构建：
 
-```bash title="terminal-1"
-## 源码构建
+```bash
 modern build --watch
-```
-
-```bash title="terminal-2"
-## Storybook 调试
-modern dev storybook
 ```
 
 :::info
@@ -113,35 +77,128 @@ modern dev storybook
 而对于 npm 和 Yarn 的项目，则只能通过手动的方式在**开发阶段**和**发布阶段**对 `package.json` 的 `types` 的值进行修改。
 :::
 
-那么为什么可以直接引用产物呢？
+### 开启 Rspack 构建
 
-1. 在执行 `modern dev storybook` 命令之前，执行 `modern build --watch` 命令，保证项目构建产物的存在。
-2. 在 Storybook 内部增加了根据 `tsconfig.json` 文件的 `compilerOptions.paths` 配置或者（在 JS 项目中）直接以项目名称作为别名的处理逻辑，保证能够**根据 `package.json` 解析出项目的产物路径**。
+Rspack 构建速度非常快，只需要如下配置即可使用 Rspack 作为构建工具。
 
-### 引用组件源码
-
-引用组件的源码可以通过相对路径的方式：
-
-```ts title="./stories/index.tsx"
-import { content } from '../src';
-
-const Component = () => <div>this is a Story Component {content}</div>;
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
+```diff filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+-      bundler: 'webpack'
++      bundler: 'rspack'
+    },
+  },
+  typescript: {
+-    reactDocgen: 'react-docgen-typescript'
++    reactDocgen: 'react-docgen'
+  }
 };
+
+export default config;
 ```
 
-:::tip 为什么不推荐使用源码的方式?
-不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时 Modern.js Module 对于构建产物支持的一些配置无法完全转换为 Storybook
-内部的配置**。如果某些配置无法进行相互转换的话，就会在 Storybook 调试过程中出现不符合预期的结果。
+注意上面配置中，更改了 reactDocgen 配置，因为 Rspack 目前还不支持 @storybook/react-docgen-typescript-plugin。
+在启动前，确保已安装 @modern-js/builder-rspack-provider 包。
 
-Modern.js Module 是基于 esbuild 实现的，而 Storybook 是基于 Webpack 实现的。esbuild 的配置无法与 Webpack 完全兼容。
-:::
+### 配置
 
-## 配置 Storybook
+在 `.storybook/main.js` 中包含一些独有的配置。
+
+#### bundler
+
+- **类型**: `'webpack' | 'rspack'`
+- **默认值**: `webpack`
+
+指定底层构建工具使用 Webpack 还是 Rspack。请确保安装了对应的 provider，使用 Webpack 请安装 @modern-js/builder-webpack-provider，使用 Rspack 请安装 @modern-js/builder-rspack-provider。
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      bundler: 'rspack',
+    },
+  },
+};
+
+export default config;
+```
+
+#### builderConfig
+
+- **类型**: `BuilderConfig`
+- **默认值**: `undefined`
+
+更改[Modern.js builder](https://modernjs.dev/builder/guide/basic/builder-config.html) 的配置
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      builderCofnig: {
+        alias: {
+          react: require.resolve('react'),
+          'react-dom': require.resolve('react-dom'),
+        },
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+### 命令行
+
+@modern-js/storybook 代理了部分 storybook cli 的命令。
+
+#### storybook dev
+
+启动 Storybook，查看[详情](https://storybook.js.org/docs/react/api/cli-options#dev)
+
+#### storybook build
+
+对 Storybook 进行生产环境构建，查看[详情](https://storybook.js.org/docs/react/api/cli-options#build)
+
+### 配置文件
+
+配置文件中除了 Modern.js builder 配置还包含一个额外的字段，builderPlugins，方便使用 builder 插件，例如启用 SWC 编译。
+
+```typescript filename='modern.config.ts'
+import { defineConfig } from '@modern-js/storybook';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+
+const config = defineConfig({
+  builderPlugins: [builderPluginSwc()],
+});
+
+export default config;
+```
+
+## V6 (legacy)
+
+从 `MAJOR_VERSION.40.0` 版本开始，`@modern-js/plugin-storybook`将停止迭代。建议使用 V7 版本。
+如果你的 `@modern-js/module-tools` 版本低于 `MAJOR_VERSION.40.0`，可以按照以下方式使用 Storybook V6:
+
+### 开启 Storybook
+
+可以直接使用如下命令开启 Storybook 功能。
+
+```bash
+$ npx modern new
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「Storybook」
+```
+
+该命令会创建好 Storybook 常用的模版，包括
+
+- 创建 stories 组件示例
+- 更新 package.json，新增依赖 @modern-js/plugin-storybook，以及添加 `pnpm dev storybook` 等相关脚本。
+
+### 配置 Storybook
 
 Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配置，其中包含各种配置文件。**在 Modern.js Module 中，可以在项目的 `config/storybook` 目录下增加 Storybook 配置文件。**
 
@@ -149,14 +206,12 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 - [Configure Storybook](https://storybook.js.org/docs/react/configure/overview)
 
-**不过在模块项目里进行 Storybook 存在一些限制**：
+**不过这在模块项目里使用时存在一些限制**：
 
-- 目前不能修改 Story 文件存放的位置，即无法在 `main.js` 文件里修改 `stories` 配置。
-- 目前不能修改 Webpack 和 Babel 相关的配置，即无法在 `main.js` 文件里修改 `webpackFinal` 和 `babel` 配置。
+- 不能修改 Story 文件存放的位置，即无法在 `main.js` 文件里修改 `stories` 配置。
+- 不能修改 Webpack 和 Babel 相关的配置，即无法在 `main.js` 文件里修改 `webpackFinal` 和 `babel` 配置。
 
-在未来我们会考虑这些配置是否可以允许修改，不过目前为了减少不可预知的问题暂时限制使用这些配置。
-
-## 构建 Storybook 产物
+### 构建 Storybook 产物
 
 除了可以对组件或者普通的模块进行 Storybook 调试，还可以通过下面的命令来执行 Storybook 的构建任务。
 
@@ -164,23 +219,4 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 modern build --platform storybook
 ```
 
-关于 `modern build --platform` 命令可以查看：
-
-- [`modern build`](/guide/basic/command-preview#modern-build)
-
 构建完成后，可以在 `dist/storybook-static` 目录看到构建产物文件。
-
-## 结合 Tailwind CSS 使用
-
-如果你需要在 `stories` 目录下使用 Tailwind CSS，请确保当前项目的 Tailwind CSS 配置中包含了 `stories` 目录。
-
-以 `tailwind.config.ts` 文件为例，你需要配置以下内容：
-
-```diff title="tailwind.config.ts"
-export default {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-+   './stories/**/*.{js,jsx,ts,tsx}',
-  ],
-};
-```

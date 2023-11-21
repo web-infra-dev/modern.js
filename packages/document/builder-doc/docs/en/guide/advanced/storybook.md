@@ -14,9 +14,12 @@ You can switch between Webpack and Rspack smoothly in Modern.js builder, for tho
 
 ## Quick Start
 
-### Using in Modern.js projects
+Before getting started, the current Storybook supports building using either Webpack or Rspack as the underlying tool. Depending on your needs, install any of the following packages:
 
-#### Not using legacy Storybook plugin(@modern-js/plugin-storybook)
+- @modern-js/builder-webpack-provider: Use Webpack for building with better compatibility.
+- @modern-js/builder-rspack-provider: Use Rspack for building with super fast startup speed (recommended).
+
+### Using in Modern.js projects, Not using legacy Storybook plugin(@modern-js/plugin-storybook)
 
 If your current project is already a Modern.js project and you haven't used any old version Storybook plugins, you can directly enable the Storybook feature by using the following command:
 
@@ -32,13 +35,15 @@ This command will create a template for Storybook, including:
 - Creating example story components.
 - Updating package.json to add dependencies @storybook/addon-essentials and @modern-js/storybook, as well as creating Storybook-related scripts.
 
-#### Using legacy Storybook plugin(@modern-js/plugin-storybook)
+To start, run `npm run storybook`.
+
+### Migrate from @modern-js/plugin-storybook
 
 If you are using an older version of the Storybook plugin, you can still run the command above to create templates and modify the package.json. You can also upgrade manually.
 
-If you have made some custom configurations to Storybook in the older version, you need to move the configuration files from `root/config/storybook/` to the `root/.storybook/` directory.
+If you have made some custom configurations to Storybook in the older version, you need to move the configuration file `root/config/storybook/main.(j|t)s` to `root/.storybook/main.(j|t)s`.
 
-Specify framework as `@modern-js/storybook` in `root/.storybook/main.(j|t)s`.
+And then add the following lines in `root/.storybook/main.(j|t)s`, specify framework as `@modern-js/storybook`.
 
 ```diff
 const config = {
@@ -53,6 +58,19 @@ export default config;
 Update dependencies like @storybook/addon-\* to major version 7.
 
 Finally, follow the official Storybook documentation to make the necessary updates for some breaking changes, such as changes in story writing and MDX syntax. You can refer to the migration guide at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
+
+Addon some scripts in your package.json
+
+```json
+{
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+  }
+}
+```
+
+To Start, run `npm run storybook`
 
 ### Native Storybook users
 
@@ -72,12 +90,6 @@ export default config;
 The default config file path is `modern.config.(j|t)s`, for the detail config, see [builder config](https://modernjs.dev/builder/guide/basic/builder-config.html).
 
 If the original project includes configurations for Babel, they need to be written in the modern configuration. Most Babel configurations have already been included in Modern.js.
-
-## Using Webpack or Rspack
-
-Currently, Storybook supports building with either Webpack or Rspack as the underlying bundler. Depending on your needs, install @modern-js/builder-webpack-provider or @modern-js/builder-rspack-provider.
-
-After installation, proceed with the corresponding [configuration](/guide/advanced/storybook#bundler).
 
 ## Enable Rspack build
 
@@ -180,18 +192,17 @@ const config = {
 export default config;
 ```
 
-
 ## Command Line Interface
 
 @modern-js/storybook proxies some of the storybook cli commands.
 
 ### storybook dev
 
-Start Storybook, more details at https://storybook.js.org/docs/react/api/cli-options#dev.
+Start Storybook, more details at <https://storybook.js.org/docs/react/api/cli-options#dev>.
 
 ### storybook build
 
-Build Storybook for production, more details at https://storybook.js.org/docs/react/api/cli-options#build.
+Build Storybook for production, more details at <https://storybook.js.org/docs/react/api/cli-options#build>.
 
 ## ConfigFile
 
@@ -207,6 +218,14 @@ const config = defineConfig({
 
 export default config;
 ```
+
+## Storybook addon compatibility
+
+Due to the current version of Storybook in the document being version 7, please select the addon for Storybook V7.
+
+When an addon does not require additional Babel or Webpack configurations, it can be used directly, such as @storybook/addon-essentials.
+
+For some addons that require dependencies on Babel plugins and Webpack configurations, such as @storybook/addon-coverage, only @modern-js/builder-webpack-provider supports them.
 
 ## Benefits
 

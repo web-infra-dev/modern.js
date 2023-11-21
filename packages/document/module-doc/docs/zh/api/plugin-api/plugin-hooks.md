@@ -27,15 +27,14 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuild(options: Options): Return {
-        return options.config;
+      beforeBuild(options: Options): void {
       },
     };
   },
 });
 ```
 
-参数和返回值类型：
+参数类型：
 
 ```ts
 type Options = {
@@ -50,8 +49,6 @@ export interface BuildCommandOptions {
   tsconfig: string;
   watch?: boolean;
 }
-
-type Return = BuildConfig;
 ```
 
 > `BuildConfig` 类型参考 [API 配置](/api/)
@@ -140,7 +137,7 @@ export interface BuildResult {
 
 module-tools 还提供了 `build --platform` 命令来执行特定的构建任务。
 
-例如在安装了 Storybook 插件后，就可以执行 `build --platform` 或者 `build --platform storybook` 来执行 Storybook 的构建任务。因为 Storybook 插件基于 buildPlatform Hooks 实现了该功能。
+例如在安装了 Doc 插件后，就可以执行 `build --platform` 或者 `build --platform doc` 来执行 doc 的构建任务。因为 doc 插件基于 buildPlatform Hooks 实现了该功能。
 
 在执行 `build --platform` 后会按照以下顺序触发 Hooks：
 
@@ -162,9 +159,9 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
       registerBuildPlatform(): RegisterBuildPlatformResult {
         // ...
         return {
-          platform: 'stroybook',
+          platform: 'doc',
           build() {
-            // run storybook logic
+            // logic
           },
         };
       },
@@ -336,12 +333,6 @@ export interface DevToolData {
   ) => void | Promise<void>;
 }
 ```
-
-<!-- :::tip 关于 disableRunBuild 配置
-在调试项目的时候，如果仅需要对代码功能进行调试的话，也许可以设置 `disableRunBuild: true` 来关闭对于源码执行（监听模式下的）构建任务。
-
-目前支持的 Storybook 调试支持将源码产物作为调试对象，因此在 Storybook 插件中 `disableRunBuild: false`。
-::: -->
 
 ### `beforeDev`
 

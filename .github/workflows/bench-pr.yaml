@@ -1,0 +1,107 @@
+name: Benchmark PR
+
+on:
+  issue_comment:
+    types: [created]
+
+# cancel previous job runs for the same workflow + pr
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '!bench')
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const user = context.payload.sender.login
+            console.log(`Validate user: ${user}`)
+
+            let hasTriagePermission = false
+            try {
+              const { data } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: user,
+              });
+              hasTriagePermission = data.user.permissions.triage
+            } catch (e) {
+              console.warn(e)
+            }
+
+            if (hasTriagePermission) {
+              console.log('Allowed')
+              await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: '+1',
+              })
+            } else {
+              console.log('Not allowed')
+              await github.rest.reactions.createForIssueComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: context.payload.comment.id,
+                content: '-1',
+              })
+              throw new Error('not allowed')
+            }
+      - uses: actions/github-script@v6
+        id: get-pr-data
+        with:
+          script: |
+            console.log(`Get PR info: ${context.repo.owner}/${context.repo.repo}#${context.issue.number}`)
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            })
+            return {
+              num: context.issue.number,
+              branchName: pr.head.ref,
+              repo: pr.head.repo.full_name
+            }
+      - uses: actions/github-script@v6
+        id: trigger-framework
+        if: startsWith(github.event.comment.body, '!bench-framework')
+        with:
+          github-token: ${{ secrets.REPO_SCOPED_TOKEN }}
+          result-encoding: string
+          script: |
+            const prData = ${{ steps.get-pr-data.outputs.result }}
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: 'web-infra-QoS',
+              workflow_id: 'pr-bench.yaml',
+              ref: 'master',
+              inputs: {
+                prNumber: '' + prData.num,
+                product: 'MODERNJS_FRAMEWORK',
+                repo: 'modern.js'
+              }
+            })
+      - uses: actions/github-script@v6
+        id: trigger-module
+        if: startsWith(github.event.comment.body, '!bench-module')
+        with:
+          github-token: ${{ secrets.REPO_SCOPED_TOKEN }}
+          result-encoding: string
+          script: |
+            const prData = ${{ steps.get-pr-data.outputs.result }}
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: 'web-infra-QoS',
+              workflow_id: 'pr-bench.yaml',
+              ref: 'master',
+              inputs: {
+                prNumber: '' + prData.num,
+                product: 'MODERNJS_MODULE',
+                repo: 'modern.js'
+              }
+            })

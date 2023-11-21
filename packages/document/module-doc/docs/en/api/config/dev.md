@@ -6,28 +6,11 @@ sidebar_position: 3
 
 This section describes all configuration of Modern.js Module related to debugging tools.
 
-```ts
-export default {
-  dev: {
-    storybook: {
-      /* Storybook Config */
-    },
-  },
-};
-```
-
 ## storybook
 
 :::warning
-Deprecated: This configuration is deprecated and only applicable to Storybook V6. For configuring the new Storybook, please refer to [Using Storybook](https://modernjs.dev/builder/guide/advanced/storybook.html).
+**Deprecated**: This configuration is deprecated and only applicable to Storybook V6. Please see [使用Storybook](/guide/basic/using-storybook) to get more info.
 :::
-
-**Requirements**:
-
-- Turn on Storybook debugging or install the `@modern-js/plugin-storybook` plugin.
-- Register the `@modern-js/plugin-storybook` plugin。
-
-> For more information on how to enable Storybook debugging, please refer to：["Storybook"](guide/basic/use-micro-generator#storybook)
 
 ### storybook.webpack
 
