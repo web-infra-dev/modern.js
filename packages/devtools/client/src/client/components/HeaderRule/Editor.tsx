@@ -1,8 +1,11 @@
 import React, { ChangeEvent } from 'react';
+import { Box, IconButton, TextField } from '@radix-ui/themes';
+import { HiPlusSmall, HiMinusSmall } from 'react-icons/hi2';
+import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
 import styles from './Editor.module.scss';
 import { ModifyHeaderRule } from '@/client/utils/service-agent';
 
-export interface HeaderRuleEditorProps {
+export interface HeaderRuleEditorProps extends BoxProps {
   value?: ModifyHeaderRule[];
   onChangeRule?: (index: number, value: ModifyHeaderRule) => void;
   onDeleteRule?: (index: number) => void;
@@ -14,8 +17,9 @@ export const HeaderRuleEditor: React.FC<HeaderRuleEditorProps> = ({
   onChangeRule,
   onDeleteRule,
   onCreateRule,
+  ...props
 }) => {
-  const createInputHandler = (type: 'key' | 'value', index: number) => {
+  const createInputHandler = (index: number, type: 'key' | 'value') => {
     return (e: ChangeEvent<HTMLInputElement>) => {
       onChangeRule?.(index, {
         ...value[index],
@@ -24,28 +28,59 @@ export const HeaderRuleEditor: React.FC<HeaderRuleEditorProps> = ({
     };
   };
 
-  const handleAppendRule = () => {
-    onCreateRule?.(value.length - 1, {
-      id: Date.now().toString(),
-      key: '',
-      value: '',
-    });
+  const createInsertHandler = (index: number) => {
+    return () => {
+      onCreateRule?.(index + 1, {
+        id: Date.now().toString(),
+        key: '',
+        value: '',
+      });
+    };
   };
 
-  const handlePopRule = () => {
-    onDeleteRule?.(value.length - 1);
+  const createRemoveHandler = (index: number) => {
+    return () => {
+      onDeleteRule?.(index);
+    };
   };
 
   return (
-    <div className={styles.container}>
+    <Box className={styles.container} {...props}>
       {value?.map((rule, i) => (
-        <div key={rule.id}>
-          <input value={rule.key} onChange={createInputHandler('key', i)} />
-          <input value={rule.value} onChange={createInputHandler('value', i)} />
-        </div>
+        <Box key={rule.id} className={styles.inputPair}>
+          <TextField.Root>
+            <TextField.Input
+              value={rule.key}
+              placeholder="Match header field..."
+              onChange={createInputHandler(i, 'key')}
+            />
+          </TextField.Root>
+          <Box asChild grow="1">
+            <TextField.Root>
+              <TextField.Input
+                value={rule.value}
+                placeholder="Replace by..."
+                onChange={createInputHandler(i, 'value')}
+              />
+            </TextField.Root>
+          </Box>
+          <Box className={styles.spacer} />
+          <IconButton
+            variant="ghost"
+            color="gray"
+            onClick={createInsertHandler(i)}
+          >
+            <HiPlusSmall />
+          </IconButton>
+          <IconButton
+            variant="ghost"
+            color="gray"
+            onClick={createRemoveHandler(i)}
+          >
+            <HiMinusSmall />
+          </IconButton>
+        </Box>
       ))}
-      <button onClick={handleAppendRule}>+</button>
-      <button onClick={handlePopRule}>-</button>
-    </div>
+    </Box>
   );
 };
