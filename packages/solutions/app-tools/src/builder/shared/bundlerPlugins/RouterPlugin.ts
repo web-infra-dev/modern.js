@@ -106,7 +106,7 @@ export class RouterPlugin {
     }
 
     const { webpack } = compiler;
-    const isRspack = webpack.rspackVersion;
+    const isRspack = 'rspackVersion' in webpack;
     const { Compilation, sources } = webpack;
     const { RawSource } = sources;
 
