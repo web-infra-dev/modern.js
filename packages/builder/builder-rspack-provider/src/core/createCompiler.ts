@@ -38,7 +38,7 @@ export async function createCompiler({
 
     const printTime = (c: typeof obj, index: number) => {
       if (c.time) {
-        const time = prettyTime(c.time / 1000);
+        const time = prettyTime([0, c.time * 10 ** 6]);
         const target = Array.isArray(context.target)
           ? context.target[index]
           : context.target;
