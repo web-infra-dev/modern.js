@@ -1,7 +1,7 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
-import { ServiceWorkerCompilerPlugin } from './plugins/sw-compiler-plugin';
+import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
 // https://modernjs.dev/en/configure/app/usage
