@@ -1,24 +1,27 @@
-import { Link } from '@modern-js/runtime/router';
+import { useNavigate } from '@modern-js/runtime/router';
+import { Box, Button, Heading, Text, Link } from '@radix-ui/themes';
 import React from 'react';
 
 const Page: React.FC = () => {
+  const navigate = useNavigate();
   return (
-    <div>
-      <div>Header Modifier</div>
-      <p>
+    <Box>
+      <Heading my="4">Header Modifier</Heading>
+      <Text as="p" mb="2">
         Modifying headers of requests, useful for switch between traffic lanes.
-      </p>
-      <p>
-        That will register{' '}
-        <a href="/sw-proxy.js" target="_blank">
+      </Text>
+      <Text as="p">
+        That will register
+        <Link href="/sw-proxy.js" target="_blank" mx="1">
           /sw-proxy.js
-        </a>{' '}
-        as a service worker to handle requests.
-        <Link to="./editor">
-          <button>Enable</button>
         </Link>
-      </p>
-    </div>
+        as a service worker to handle all requests under
+        <Link mx="1">{location.host}</Link>
+      </Text>
+      <Button my="4" onClick={() => navigate('../editor')}>
+        Enable
+      </Button>
+    </Box>
   );
 };
 
