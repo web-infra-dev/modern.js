@@ -26,6 +26,7 @@ export enum ActionFunction {
   Proxy = 'proxy',
   SWC = 'swc',
   Rspack = 'rspack',
+  ModuleDoc = 'module_doc',
 }
 
 export enum ActionRefactor {
@@ -69,6 +70,8 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.Proxy]: () => i18n.t(localeKeys.action.function.proxy),
   [ActionFunction.SWC]: () => i18n.t(localeKeys.action.function.swc),
   [ActionFunction.Rspack]: () => i18n.t(localeKeys.action.function.rspack),
+  [ActionFunction.ModuleDoc]: () =>
+    i18n.t(localeKeys.action.function.module_doc),
 };
 
 export const ActionRefactorText: Record<ActionRefactor, () => string> = {

@@ -10,13 +10,21 @@ import {
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
+import { SequenceWait } from '../../../utils/testInSequence';
+
 const appDir = path.resolve(__dirname, '../');
 
 function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
+const curSequence = new SequenceWait();
+curSequence.add('dev');
+
 describe('test dev', () => {
+  afterAll(async () => {
+    await curSequence.done('dev');
+  });
   test(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort, {}, {});
@@ -46,6 +54,7 @@ describe('test build', () => {
   let buildRes: { code: number };
   let app: any;
   beforeAll(async () => {
+    await curSequence.waitUntil('dev');
     port = await getPort();
 
     buildRes = await modernBuild(appDir);

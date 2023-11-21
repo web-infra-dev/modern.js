@@ -14,6 +14,24 @@ Thus with these capabilities, **Microgenerator can enable additional feature fun
 
 The microgenerator can be started via [`modern new`](/guide/basic/command-preview). The current Microgenerator features supported by the Modern.js Module are:
 
+## Develop Module Doc
+
+When we want to write documentation for out module project, we can enable the module doc feature. **will create `docs` directory and related files in the project directory, and add `"@modern-js/plugin-rspress"` dependency** in package.json.
+
+:::tip
+After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [moduleTools(), modulePluginDoc()],
+});
+```
+
+:::
+
 ## Test
 
 When we want to test some modules, we can enable the test feature. When this feature is enabled, **a `tests` directory and related files will be created in the project directory, and a new `"@modern-js/plugin-testing"` dependency will be added to package.json**.

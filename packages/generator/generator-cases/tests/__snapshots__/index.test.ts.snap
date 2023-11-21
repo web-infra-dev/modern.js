@@ -130,6 +130,10 @@ exports[`test generator cases test getModuleNewCases 1`] = `
     "actionType": "function",
     "function": "runtimeApi",
   },
+  {
+    "actionType": "function",
+    "function": "module_doc",
+  },
 ]
 `;
 

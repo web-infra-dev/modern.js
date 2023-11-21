@@ -1,0 +1,417 @@
+---
+sidebar_position: 5
+---
+
+# 开发模块文档
+
+本章介绍如何为模块项目快速搭建一个静态文档站点。
+
+## 开始之前
+
+### 为什么我们需要为模块搭建一个文档站点
+
+1. 文档站点可以帮助我们更好地组织文档的结构。
+2. 文档站点具有更好的表现形式，例如可以在页面中执行函数，渲染组件等。
+3. 可以更好地利用 AI 搜索的能力。
+
+### 前置准备
+
+1. 通过[微生成器](/guide/basic/use-micro-generator)开启文档功能。
+2. 阅读[Rspress 介绍](https://rspress.dev/zh/guide/start/introduction.html)。
+
+完成准备工作之后，接下来我们会基于 Rspress 为模块项目搭建一个文档站点。
+
+## 站点基本结构
+
+站点整体布局由三部分组成：导航栏、侧边栏以及正文部分，其中正文还包括了 TOC(Table of contents found at the beginning of a book or document)。
+
+Rspress 使用的是[文件系统路由](https://rspress.dev/zh/guide/basic/conventional-route.html)，模块文档基于此实现了侧边栏的自动生成。
+例如，如果你有以下的文件结构：
+
+```bash
+docs
+├── foo
+│   └── bar.md
+│   └── index.md
+└── foo.md
+└── index.md
+```
+
+那么 `foo/bar.md` 的路由路径会是 `/foo/bar`，`foo.md` 的路由路径会是 `/foo`，`index.md` 的路由路径会是 `/`。
+
+具体映射规则如下：
+
+| 文件路径        | 路由路径   |
+| --------------- | ---------- |
+| `index.md`      | `/`        |
+| `/foo.md`       | `/foo`     |
+| `/foo/index.md` | `/foo/`    |
+| `/foo/bar.md`   | `/foo/bar` |
+
+与上述文件路径和路由路径依次对应的侧边栏如下所示：
+
+<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/rpauheh7nulwbm/edenx-module/docs-blog/autosidebar.png"></img>
+
+:::tip
+侧边栏每一栏的文本是由文件的一级标题或者目录名决定。如果你需要自定义侧边栏，请配置[sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
+:::
+
+## 编写文档
+
+接下来我们可以专注于文档内容的编写了。除了最基本的编写 markdown 以外，你可能还需要了解以下进阶内容：
+
+- [使用 MDX](https://rspress.dev/zh/guide/basic/use-mdx.html)
+- [使用静态资源](https://rspress.dev/zh/guide/basic/static-assets.html)
+
+## 组件预览
+
+模块文档为组件库提供了预览能力，`jsx`和`tsx`的代码块里的内容将会被解析为 React 组件。
+
+### 示例
+
+假设我们的项目名是`demo`，并导出了一个 Button 组件。
+
+1. 首先新增 `docs/Button.mdx` 文件：
+
+````mdx title="Button.mdx"
+# Button
+
+## 基本用法
+
+按钮分为： 小、中、大四种尺寸
+
+```tsx
+import React from 'react';
+import { Button } from 'demo';
+
+export default () => {
+  return <Button size="large">点我</Button>;
+};
+```
+````
+
+2. 在`tsconfig.json`里配置别名，将包名指向当前项目目录，使得文档开发者和用户使用组件方式一致：
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "demo": ["."]
+    }
+  }
+}
+```
+
+3. 在 `.gitignore` 文件下添加 `docs_build/`，文档产物将会生成在此目录下：
+
+```bash title=".gitignore"
+docs_build/
+```
+
+恭喜你，已经完成了一个组件文档的编写，执行`pnpm run dev`看看效果吧，记得先构建一下组件库，确保组件产物存在。
+
+### 移动端预览
+
+同时，我们也支持了移动端预览的方式，即使用 iframe 渲染移动端组件，并可以通过 `iframePosition` 设置 iframe 的位置，支持扫码预览以及新页面打开。
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      /**
+       * 选择预览方式
+       * @default web
+       */
+      previewMode: 'mobile',
+      /**
+       * 设置 iframe 的位置
+       * @default 'follow'
+       */
+      iframePosition: 'fixed',
+    }),
+  ],
+});
+```
+
+:::tip
+如果只想要改变某一个 `jsx` 和 `tsx` 代码块的预览方式，可以使用不同的修饰符进行标识：
+
+````mdx
+```jsx pure
+// 这里的内容不会被渲染
+```
+
+```jsx web
+// 用来渲染桌面端组件
+```
+
+```jsx mobile
+// 用来渲染移动端组件
+```
+````
+
+:::
+
+### 使用外部 demo
+
+如果我们的 demo 非常复杂，那么建议单独编写 demo，然后在 MDX 中使用 `code` 标签：
+
+```mdx
+<code src="/path/demo.tsx"></code>
+```
+
+## 使用内置组件
+
+插件内部实现了一部分内置组件，以便于你可以更轻松地开发模块文档。
+
+### API
+
+展示模块的 API 内容
+
+#### 解析文件
+
+在使用 API 组件之前，首先我们需要指定解析的文件：
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      entries: {
+        Button: './src/button.tsx',
+      },
+      apiParseTool: 'react-docgen-typescript',
+    }),
+  ],
+});
+```
+
+#### 内容生成
+
+接下来我们了解一下根据解析的文件会生成什么样的 markdown 内容。
+
+内容可以通过 [react-docgen-typescript](https://github.com/styleguidist/react-docgen-typescript) 或者 [documentation](https://github.com/documentationjs/documentation) 两个不同的工具生成：
+
+- `react-docgen-typescript`针对于组件库场景，仅会解析 props 生成表格。
+
+```tsx
+export type ButtonProps = {
+  /**
+   * Whether to disable the button
+   */
+  disabled?: boolean;
+  /**
+   * Type of Button
+   * @default 'default'
+   */
+  size?: 'mini' | 'small' | 'default' | 'large';
+};
+export const Button = (props?: ButtonProps) => {};
+```
+
+上面是一个标准写法，其中 `ButtonProps` 将被提取至表格中， `Button` 作为表格的标题。
+如果使用默认导出，文件名将作为表格标题。生成的内容如下：
+
+```mdx
+### ButtonTest
+
+|   属性   |             说明              |                    类型                     |   默认值    |
+| :------: | :---------------------------: | :-----------------------------------------: | :---------: |
+| disabled | Whether to disable the button |                  `boolean`                  |     `-`     |
+|   size   |        Type of Button         | `"mini" \| "small" \| "default" \| "large"` | `'default'` |
+```
+
+:::warning
+如果 Props 里使用了 React 的类型，你需要在 tsconfig.json 里添加 types ，否则会解析不到 React 命名空间下的类型。
+```json
+{
+  "compilerOptions": {
+    "types": ["react"],
+  },
+}
+```
+:::
+
+
+- `documentation`适用于工具库场景，用来解析 JSDoc 注释。
+
+```ts
+/**
+ * Greet function that returns a greeting message.
+ * @param {string} name - The name of the person to greet.
+ * @param {string} [greeting='Hello'] - The greeting to use.
+ * @returns {string} The greeting message.
+ */
+function greet(name: string, greeting = 'Hello') {
+  return `${greeting}, ${name}!`;
+}
+```
+
+上面是一个带有 JSDoc 注释的 greet 函数。生成的内容如下：
+
+```md
+<!-- Generated by documentation.js. Update this documentation by updating the source code. -->
+
+## greet
+
+Greet function that returns a greeting message.
+
+### Parameters
+
+- `name` **[string][1]** The name of the person to greet.
+- `greeting` **[string][1]** The greeting to use. (optional, default `'Hello'`)
+
+Returns **[string][1]** The greeting message.
+
+[1]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+```
+
+#### 组件使用
+
+接下来，你便可以在文档里使用我们的内置 API 组件了，将`key`值传入`moduleName`属性里
+
+```mdx title="Button.mdx"
+# Button
+
+## API
+
+<API moduleName="Button" />
+```
+
+### Overview
+
+展示模块列表，可以放在首页用来展示所有模块。
+
+Overview 组件只有一个 list 属性，接收一个对象数组，下面是对象的属性
+
+| 属性  |      说明      |      类型       | 默认值  |
+| :---: | :------------: | :-------------: | :-----: |
+| icon  |      图标      | React.ReactNode |         |
+| text  | 文本(**必填**) |     string      |         |
+| link  | 链接(**必填**) |     string      |         |
+| arrow |  是否展示箭头  |     boolean     | `false` |
+
+## 插件配置
+
+### apiParseTool
+
+API 解析工具
+
+- 类型：`'react-docgen-typescript' | 'documentation'`
+- 默认值：`'react-docgen-typescript'`
+
+### parseToolOptions
+
+API 解析工具的参数
+
+- 类型：`ParseToolOptions`
+- 默认值：`{}`
+
+```ts
+type ParseToolOptions = {
+  // https://github.com/styleguidist/react-docgen-typescript#options
+  'react-docgen-typescript'?: ParserOptions;
+  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
+  documentation?: DocumentationArgs;
+};
+```
+
+### entries
+
+自动生成文档的模块名称及相对路径
+
+- 类型：`Entries | ToolEntries`
+- 默认值：`{}`
+
+```ts
+type Entries = Record<string, string>;
+type ToolEntries = {
+  documentation: Entries;
+  'react-docgen-typescript': Entries;
+};
+```
+
+Entries 同时支持针对不同的文件使用不同的解析工具：
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      entries: {
+        documentation: {
+          Add: './src/utils/add.ts',
+        },
+        'react-docgen-typescript': {
+          Button: './src/components/button.tsx',
+        },
+      },
+    }),
+  ],
+});
+```
+
+### useModuleSidebar
+
+使用模块列表侧边栏。如果你想要使用[\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)来自动化侧边栏，你需要关闭此选项。
+
+- 类型：`boolean`
+- 默认值：`true`
+
+### previewMode
+
+代码块预览方式。
+
+- 类型：`'mobile' | 'web'`
+- 默认值: `'web'`
+
+`web`时，代码块内容将会直接渲染在页面中，反之将会通过 iframe 加载。
+
+### iframePosition
+
+iframe 所处页面位置
+
+- 类型：`'follow' | 'fixed'`
+- 默认值: `'follow'`
+
+`follow`时，每一个代码块都会有一个 iframe 展示其渲染视图。
+`fixed`时，iframe 将会固定在页面右侧，展示当前页面所有代码块的视图。
+
+### doc
+
+[文档框架配置](https://rspress.dev/zh/api/index.html)
+
+## 进阶指南
+
+以上已经介绍完了开发模块文档的基本内容，但是这对于开发一个完整的文档站是不够的。查看[Rspress](https://rspress.dev)以深入了解我们的文档框架。
+你可以通过 `doc` 配置来修改文档框架配置。
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginDoc } from '@modern-js/plugin-rspress';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginDoc({
+      doc: {
+        // 自定义文档站点配置
+      },
+    }),
+  ],
+});
+```
+
+import ReleaseModuleDoc from '@site-docs/components/release-module-doc';
+
+<ReleaseModuleDoc />

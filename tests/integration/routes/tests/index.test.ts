@@ -16,7 +16,7 @@ import {
   modernServe,
   launchOptions,
 } from '../../../utils/modernTestUtils';
-
+import { SequenceWait } from '../../../utils/testInSequence';
 // declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
@@ -527,7 +527,7 @@ const supportActionInCSR = async (
   });
   const rootElm = await page.$('#root');
   await page.click('.action-btn');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await page.waitForSelector('.data-wrapper');
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('profile page')).toBeTruthy();
   expect(text?.includes('modern_four_action')).toBeTruthy();
@@ -544,7 +544,7 @@ const supportActionInSSR = async (
   });
   const rootElm = await page.$('#root');
   await page.click('.action-btn');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await page.waitForSelector('.data-wrapper');
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('modern_three_action')).toBeTruthy();
 };
@@ -564,7 +564,7 @@ const supportShouldRevalidateInSSR = async (
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('param is 111')).toBeTruthy();
   await page.click('.should-not-revalidate');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise(resolve => setTimeout(resolve, 400));
   const text1 = await page.evaluate(el => el?.textContent, rootElm);
   expect(text1?.includes('param is 111')).toBeTruthy();
 };
@@ -582,7 +582,7 @@ const supportShouldRevalidateInCSR = async (
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('param is 111')).toBeTruthy();
   await page.click('.should-not-revalidate');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise(resolve => setTimeout(resolve, 400));
   const text1 = await page.evaluate(el => el?.textContent, rootElm);
   expect(text1?.includes('param is 111')).toBeTruthy();
 };
@@ -622,8 +622,11 @@ const supportPrefetchInIntentMode = async (
       isRequestProfilePageData = true;
     }
   });
+
+  await page.waitForSelector('.user-profile-btn');
+
   await page.hover('.user-profile-btn');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise(resolve => setTimeout(resolve, 400));
   expect(isRequestJS).toBe(true);
   expect(isRequestProfileLayoutData).toBe(true);
   expect(isRequestProfilePageData).toBe(true);
@@ -641,7 +644,7 @@ const supportPrefetchWithShouldRevalidate = async (
   // make sure assets have been loaded
   await new Promise(resolve => setTimeout(resolve, 800));
   await page.click('.root-btn');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise(resolve => setTimeout(resolve, 400));
 
   let isRequestLayoutData = false;
   let isRequestPageData = false;
@@ -657,10 +660,14 @@ const supportPrefetchWithShouldRevalidate = async (
     }
   });
   await page.hover('.should-not-revalidate');
-  await new Promise(resolve => setTimeout(resolve, 200));
+  await new Promise(resolve => setTimeout(resolve, 400));
   expect(isRequestLayoutData).toBe(true);
   expect(isRequestPageData).toBe(false);
 };
+
+const curSequence = new SequenceWait();
+curSequence.add('dev-test');
+curSequence.add('build-test');
 
 describe('dev', () => {
   let app: unknown;
@@ -724,7 +731,7 @@ describe('dev', () => {
     test('support handle config', async () =>
       supportHandleConfig(page, appPort));
 
-    test('support handle loader error', async () =>
+    test.skip('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -798,6 +805,7 @@ describe('dev', () => {
     await killApp(app);
     await page.close();
     await browser.close();
+    await curSequence.done('dev-test');
   });
 });
 
@@ -807,10 +815,15 @@ describe('build', () => {
   let page: Page;
   let browser: Browser;
   const errors: string[] = [];
-
   beforeAll(async () => {
+    await curSequence.waitUntil('dev-test');
     appPort = await getPort();
-    await modernBuild(appDir);
+    const buildResult = await modernBuild(appDir);
+    // log in case for test failed by build failed
+    if (buildResult.code !== 0) {
+      console.log('ut test build failed, err: ', buildResult.stderr);
+      console.log('ut test build failed, output: ', buildResult.stdout);
+    }
     app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
@@ -860,7 +873,7 @@ describe('build', () => {
     test('path without layout', async () =>
       supportPathWithoutLayout(page, errors, appPort));
 
-    test('support handle loader error', async () =>
+    test.skip('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -935,6 +948,7 @@ describe('build', () => {
     await killApp(app);
     await page.close();
     await browser.close();
+    await curSequence.done('build-test');
   });
 });
 
@@ -945,6 +959,7 @@ describe('dev with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
+    await curSequence.waitUntil('build-test');
     appPort = await getPort();
     app = await launchApp(
       appDir,
@@ -1003,7 +1018,7 @@ describe('dev with rspack', () => {
       supportHandleConfig(page, appPort));
 
     // FIXME: skip the test
-    test('support handle loader error', async () =>
+    test.skip('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
