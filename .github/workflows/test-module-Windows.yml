@@ -4,7 +4,7 @@ name: Module Tools Test (Windows)
 on:
   # Triggers the workflow on pull request events but only for the main branch
   push:
-    branches: [main]
+    branches: [main, dev/**]
 
   merge_group:
 
