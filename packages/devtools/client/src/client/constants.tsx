@@ -3,6 +3,7 @@ import {
   HiOutlineAdjustmentsHorizontal,
   HiOutlineRectangleGroup,
   HiOutlineCube,
+  HiOutlineAcademicCap,
 } from 'react-icons/hi2';
 import { InternalTab } from './types';
 
@@ -30,5 +31,11 @@ export const getDefaultTabs = (): InternalTab[] => [
     title: 'Context',
     icon: <HiOutlineCube />,
     view: { type: 'builtin', url: '/context' },
+  },
+  {
+    name: 'headers',
+    title: 'Header Modifier',
+    icon: <HiOutlineAcademicCap />,
+    view: { type: 'builtin', url: '/headers' },
   },
 ];

@@ -1,6 +1,7 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
+import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
 // https://modernjs.dev/en/configure/app/usage
@@ -48,6 +49,9 @@ export default defineConfig<'rspack'>({
         .use('RADIX_TOKEN')
         .loader('./plugins/radix-token-transformer.js')
         .options({ root: '.theme-register' });
+      chain
+        .plugin('ServiceWorkerCompilerPlugin')
+        .use(ServiceWorkerCompilerPlugin);
     },
   },
   plugins: [appTools({ bundler: 'experimental-rspack' })],
