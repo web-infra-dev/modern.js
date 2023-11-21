@@ -15,23 +15,23 @@ import { clearBuildConfigPaths, clearDtsTemp } from './clear';
 export const run = async (
   options: {
     cmdOptions: BuildCommandOptions;
-    resolvedBuildConfig: BaseBuildConfig[];
+    normalizedBuildConfig: BaseBuildConfig[];
     context: ModuleContext;
   },
   api: PluginAPI<ModuleTools>,
 ) => {
-  const { resolvedBuildConfig, context, cmdOptions } = options;
+  const { normalizedBuildConfig, context, cmdOptions } = options;
   const { watch, clear } = cmdOptions;
   const runner = api.useHookRunners();
 
   let totalDuration = 0;
 
-  if (resolvedBuildConfig.length !== 0) {
+  if (normalizedBuildConfig.length !== 0) {
     totalDuration = Date.now();
 
     if (clear) {
       debug('clear output paths');
-      await clearBuildConfigPaths(resolvedBuildConfig, context.appDirectory);
+      await clearBuildConfigPaths(normalizedBuildConfig, context.appDirectory);
       debug('clear output paths done');
     }
     await clearDtsTemp();
@@ -42,7 +42,7 @@ export const run = async (
 
     try {
       await pMap(
-        resolvedBuildConfig,
+        normalizedBuildConfig,
         async config => {
           debug('run beforeBuildTask hooks');
           const buildConfig = await runner.beforeBuildTask(config);
@@ -86,7 +86,7 @@ export const run = async (
 
   await runner.afterBuild({
     status: 'success',
-    config: resolvedBuildConfig,
+    config: normalizedBuildConfig,
     commandOptions: cmdOptions,
     totalDuration,
   });

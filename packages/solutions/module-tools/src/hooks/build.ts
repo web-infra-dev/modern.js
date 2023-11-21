@@ -10,13 +10,12 @@ import type {
   BuildPlatformResult,
   WatchDtsHookContext,
   WatchJsHookContext,
-  BuildConfig,
   BaseBuildConfig,
 } from '../types';
 
 export const buildHooks = {
   beforeBuild: createParallelWorkflow<
-    { config: BuildConfig; cliOptions: BuildCommandOptions },
+    { config: BaseBuildConfig[]; cliOptions: BuildCommandOptions },
     void
   >(),
   beforeBuildTask: createAsyncWaterfall<BaseBuildConfig>(),
