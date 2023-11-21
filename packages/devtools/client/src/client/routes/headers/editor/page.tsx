@@ -37,7 +37,7 @@ const Page: React.FC = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <Box className={styles.container}>
       <Heading mt="4">Header Modifier</Heading>
       <Flex align="center" gap="1">
         <Box className={styles.signal} data-active={isActive} />
@@ -63,7 +63,7 @@ const Page: React.FC = () => {
           Unregister
         </Button>
       </Flex>
-    </div>
+    </Box>
   );
 };
 
