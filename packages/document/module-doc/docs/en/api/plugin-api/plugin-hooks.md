@@ -9,7 +9,7 @@ Currently there are following main types of lifecycle hooks.
 - `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build artifacts.
 - dev hooks: hooks that are triggered when running the `dev` command.
 
-这里详细解释了 [Hook 模型](https://modernjs.dev/guides/topic-detail/framework-plugin/hook.html)
+[Hook Model](https://modernjs.dev/guides/topic-detail/framework-plugin/hook.html) is explained in detail here.
 
 ## Config hooks
 
