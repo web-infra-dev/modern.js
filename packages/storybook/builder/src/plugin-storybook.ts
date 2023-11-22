@@ -310,6 +310,14 @@ async function applyMdxLoader(
   config.module.rules ??= [];
   config.module.rules.push(
     {
+      resourceQuery: /raw/,
+      type: 'asset/source',
+    },
+    {
+      test: /\.md$/,
+      type: 'asset/source',
+    },
+    {
       test: /(stories|story)\.mdx$/,
       use: [
         {
