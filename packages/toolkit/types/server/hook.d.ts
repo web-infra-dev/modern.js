@@ -52,9 +52,11 @@ export type AfterMatchContext = HookContext & {
 };
 
 export type AfterRenderContext = HookContext & {
-  route?: Pick<
-    ServerRoute,
-    'entryName' | 'bundle' | 'isSPA' | 'isSSR' | 'urlPath' | 'entryPath'
+  route?: Partial<
+    Pick<
+      ServerRoute,
+      'entryName' | 'bundle' | 'isSPA' | 'isSSR' | 'urlPath' | 'entryPath'
+    >
   >;
   template: {
     set: (content: string) => void;

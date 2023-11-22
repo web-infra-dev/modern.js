@@ -34,10 +34,11 @@ export const createAfterMatchContext = (
 
 export const createAfterRenderContext = (
   context: ModernServerContext,
-  route: ServerRoute,
+  route: Partial<ServerRoute>,
   content: string,
 ): AfterRenderContext => {
   const baseContext = base(context);
+
   return {
     ...baseContext,
     route,

@@ -104,7 +104,7 @@ export const createAfterMatchContext = (
 
 export const createAfterRenderContext = (
   context: WorkerServerContext,
-  route: ServerRoute,
+  route: Partial<ServerRoute>,
   content: string,
 ): AfterRenderContext => {
   const baseContext = base(context);

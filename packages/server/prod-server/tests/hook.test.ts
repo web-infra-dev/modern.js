@@ -101,6 +101,7 @@ describe('test hook api', () => {
     const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
     const { template } = createAfterRenderContext(
       createContext(req, res),
+      {},
       content,
     );
 
