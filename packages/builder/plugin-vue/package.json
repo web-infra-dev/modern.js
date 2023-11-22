@@ -40,7 +40,7 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@swc/helpers": "0.5.3",
-    "@vue/babel-plugin-jsx": "1.1.1",
+    "@vue/babel-plugin-jsx": "1.1.5",
     "vue-loader": "^17.2.2"
   },
   "devDependencies": {
