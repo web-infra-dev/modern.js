@@ -1332,8 +1332,8 @@ importers:
         specifier: ^29
         version: 29.2.6
       '@types/lodash':
-        specifier: 4.14.181
-        version: 4.14.181
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ~16.11.7
         version: 16.11.68
@@ -5388,8 +5388,8 @@ importers:
         specifier: 3.0.3
         version: 3.0.3
       '@types/lodash':
-        specifier: 4.14.181
-        version: 4.14.181
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/mime-types':
         specifier: 2.1.1
         version: 2.1.1
@@ -5769,8 +5769,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/review/tsconfig
       '@types/lodash':
-        specifier: 4.14.181
-        version: 4.14.181
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -5929,8 +5929,8 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@types/lodash':
-        specifier: 4.14.181
-        version: 4.14.181
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -15586,7 +15586,7 @@ packages:
       '@storybook/preview-api': 7.5.1
       '@storybook/theming': 7.5.1(react-dom@18.2.0)(react@18.2.0)
       '@storybook/types': 7.5.1
-      '@types/lodash': 4.14.181
+      '@types/lodash': 4.14.202
       color-convert: 2.0.1
       dequal: 2.0.3
       lodash: 4.17.21
@@ -16828,12 +16828,8 @@ packages:
       '@types/webpack': 4.41.32
     dev: true
 
-  /@types/lodash@4.14.181:
-    resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
-
-  /@types/lodash@4.14.199:
-    resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
-    dev: true
+  /@types/lodash@4.14.202:
+    resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
 
   /@types/lru-cache@5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -20690,7 +20686,7 @@ packages:
       '@types/debug': 0.0.30
       '@types/get-port': 3.2.0
       '@types/glob': 5.0.38
-      '@types/lodash': 4.14.181
+      '@types/lodash': 4.14.202
       '@types/mkdirp': 0.5.2
       '@types/node': 8.10.66
       '@types/rimraf': 2.0.5
@@ -29602,7 +29598,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.2
       '@types/base16': 1.0.2
-      '@types/lodash': 4.14.181
+      '@types/lodash': 4.14.202
       base16: 1.0.0
       color: 3.2.1
       csstype: 3.1.2
@@ -29766,7 +29762,7 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@babel/runtime': 7.23.2
-      '@types/lodash': 4.14.199
+      '@types/lodash': 4.14.202
       '@types/react': 18.0.21
       react: 18.2.0
       react-base16-styling: 0.9.1

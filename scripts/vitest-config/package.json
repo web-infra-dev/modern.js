@@ -13,7 +13,7 @@
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
     "@types/node": "^14",
-    "@types/lodash": "4.14.181",
+    "@types/lodash": "^4.14.202",
     "execa": "5.1.1",
     "lodash": "^4.17.21",
     "fs-extra": "^10",
