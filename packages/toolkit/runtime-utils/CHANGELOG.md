@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.41.0
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [c4d396a]
+  - @modern-js/utils@2.41.0
+
 ## 2.40.0
 
 ### Patch Changes

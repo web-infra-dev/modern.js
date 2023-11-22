@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 2.41.0
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [2555586]
+- Updated dependencies [c4d396a]
+  - @modern-js/prod-server@2.41.0
+  - @modern-js/runtime-utils@2.41.0
+  - @modern-js/utils@2.41.0
+  - @modern-js/server-utils@2.41.0
+  - @modern-js/types@2.41.0
+
 ## 2.40.0
 
 ### Patch Changes

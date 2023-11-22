@@ -1,5 +1,23 @@
 # @modern-js/new-action
 
+## 2.41.0
+
+### Minor Changes
+
+- 11b99a2: feat: remove legacy storybook from module generator
+  feat: 从模块生成器里移除过时的 storybook
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [11b99a2]
+- Updated dependencies [c4d396a]
+- Updated dependencies [39c1df8]
+  - @modern-js/generator-common@3.3.0
+  - @modern-js/generator-utils@3.3.0
+  - @modern-js/utils@2.41.0
+
 ## 2.40.0
 
 ### Patch Changes
