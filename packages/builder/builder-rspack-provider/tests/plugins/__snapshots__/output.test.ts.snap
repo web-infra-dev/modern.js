@@ -44,7 +44,7 @@ exports[`plugins/output > should allow to use copy plugin 1`] = `
     "publicPath": "/",
   },
   "plugins": [
-    Plugin {
+    CopyRspackPlugin {
       "_options": {
         "patterns": [
           {
@@ -75,7 +75,7 @@ exports[`plugins/output > should allow to use copy plugin with multiply config 1
     "publicPath": "/",
   },
   "plugins": [
-    Plugin {
+    CopyRspackPlugin {
       "_options": {
         "patterns": [
           {
