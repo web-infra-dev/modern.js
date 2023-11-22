@@ -39,6 +39,7 @@
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
+    "check-dependencies": "check-dependency-version-consistency .",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
     "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
@@ -79,6 +80,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@vitest/ui": "^0.33.0",
+    "check-dependency-version-consistency": "4.1.0",
     "cross-env": "^7.0.3",
     "esbuild": "0.17.19",
     "eslint": "^8.28.0",
@@ -131,7 +133,8 @@
       "resolve-url": "0.2.1",
       "devcert": "1.0.0",
       "superagent": "6.1.0",
-      "@types/sass": "1.45.0"
+      "@types/sass": "1.45.0",
+      "trim": "0.0.1"
     }
   }
 }

@@ -2,6 +2,6 @@
   "name": "plugin-babel",
   "version": "1.0.0",
   "devDependencies": {
-    "@babel/preset-env": "7.22.15"
+    "@babel/preset-env": "^7.22.15"
   }
 }

@@ -15,6 +15,6 @@
   "devDependencies": {
     "tsx": "^3.12.7",
     "@types/node": "^18.0.1",
-    "@types/fs-extra": "^9"
+    "@types/fs-extra": "9.0.13"
   }
 }

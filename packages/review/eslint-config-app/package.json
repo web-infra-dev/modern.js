@@ -38,7 +38,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.8.1"
   },
   "devDependencies": {
     "eslint-find-rules": "^4.1.0",

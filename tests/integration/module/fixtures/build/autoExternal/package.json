@@ -2,7 +2,7 @@
   "name": "auto-external-test",
   "version": "1.0.0",
   "dependencies": {
-    "path-browserify": "^1"
+    "path-browserify": "1.0.1"
   },
   "devDependencies": {
     "react": "^18"
