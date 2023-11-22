@@ -1,20 +1,9 @@
 ## Summary
 
-<!-- The summary can be generated automatically by GitHub Copilot, so you don't have to do anything. -->
-<!-- If you want to write it manually, remove the "copilot:summary" placeholder. -->
 
-copilot:summary
+## Related Links
 
-## Details
-
-<!-- The details can be generated automatically by GitHub Copilot, so you don't have to do anything. -->
-<!-- If you want to write it manually, remove the "copilot:walkthrough" placeholder. -->
-
-copilot:walkthrough
-
-## Related Issue
-
-<!--- Provide link of related issues -->
+<!--- Provide links of related issues or pages -->
 
 ## Checklist
 
