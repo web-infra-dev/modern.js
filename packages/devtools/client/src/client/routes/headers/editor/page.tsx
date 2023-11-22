@@ -1,49 +1,69 @@
 import _ from 'lodash';
-import React, { ChangeEvent } from 'react';
+import React, { useState } from 'react';
+import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
 import { useList } from 'react-use';
 import { useSnapshot } from 'valtio';
+import { parseURL } from 'ufo';
 import { $state, registerService, unregisterService } from '../state';
+import styles from './page.module.scss';
+import { HeaderRuleEditor } from '@/client/components/HeaderRule/Editor';
 
 const Page: React.FC = () => {
   const state = useSnapshot($state);
-  const [rules, $rules] = useList(
-    _.slice(state.service.rules).map(s => ({
-      ...s,
-      id: Math.random().toString(),
-    })),
-  );
+  const isActive = Boolean(state.service.href);
+  const [rules, $rules] = useList(() => _.slice(state.service.rules));
+  const [isOutdated, setIsOutdated] = useState(false);
+  let statusText = isActive ? 'Active' : 'Offline';
+  if (isOutdated && isActive) {
+    statusText = 'Outdated';
+  }
 
-  const createInputHandler = (type: 'key' | 'value', index: number) => {
-    return (e: ChangeEvent<HTMLInputElement>) => {
-      const oldValue = rules[index];
-      const newValue = {
-        ...oldValue,
-        [type]: e.target.value,
-      };
-      $rules.update(_.matches(oldValue), newValue);
+  const withOutdate = <T extends (...args: any[]) => any>(func: T): T => {
+    const wrapped = (...args: any[]) => {
+      setIsOutdated(true);
+      return func(...args);
     };
+    return wrapped as T;
+  };
+
+  const handleRegister = async () => {
+    setIsOutdated(false);
+    await registerService(rules);
+  };
+
+  const handleUnregister = async () => {
+    setIsOutdated(false);
+    await unregisterService();
   };
 
   return (
-    <div>
-      <div>Editor</div>
-      {rules.map((rule, i) => (
-        <div key={rule.id}>
-          <input value={rule.key} onChange={createInputHandler('key', i)} />
-          <input value={rule.value} onChange={createInputHandler('value', i)} />
-        </div>
-      ))}
-      <button
-        onClick={() =>
-          $rules.push({ id: Math.random().toString(), key: '', value: '' })
-        }
-      >
-        +
-      </button>
-      <button onClick={() => $rules.removeAt(-1)}>-</button>
-      <button onClick={() => registerService(rules as any)}>register</button>
-      <button onClick={unregisterService}>unregister</button>
-    </div>
+    <Box className={styles.container}>
+      <Heading mt="4">Header Modifier</Heading>
+      <Flex align="center" gap="1">
+        <Box className={styles.signal} data-active={isActive} />
+        <Text color="gray" size={'1'}>
+          {statusText}
+        </Text>
+        {state.service.href && (
+          <Link size="1" href={state.service.href} target="_blank">
+            {parseURL(state.service.href).pathname}
+          </Link>
+        )}
+      </Flex>
+      <HeaderRuleEditor
+        value={rules}
+        my="4"
+        onChangeRule={withOutdate($rules.updateAt)}
+        onCreateRule={withOutdate($rules.insertAt)}
+        onDeleteRule={withOutdate($rules.removeAt)}
+      />
+      <Flex justify="end" gap="2">
+        <Button onClick={handleRegister}>Register</Button>
+        <Button onClick={handleUnregister} color="gray">
+          Unregister
+        </Button>
+      </Flex>
+    </Box>
   );
 };
 

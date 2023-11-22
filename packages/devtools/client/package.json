@@ -51,6 +51,7 @@
     "birpc": "0.2.13",
     "clsx": "^1.2.1",
     "lodash": "^4.17.21",
+    "nanoid": "3.3.4",
     "p-defer": "3.0.0",
     "postcss-custom-media": "^10.0.1",
     "react": "~18.2.0",
@@ -67,7 +68,5 @@
     "ufo": "^1.2.0",
     "valtio": "^1.11.1"
   },
-  "dependencies": {
-    "idb-keyval": "^6.2.1"
-  }
+  "dependencies": {}
 }
