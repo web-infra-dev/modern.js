@@ -2,11 +2,34 @@
 
 本章介绍关于 Modern.js Module 支持的生命周期钩子。
 
-目前主要包含两类生命周期钩子：
+目前主要包含以下几类生命周期钩子：
 
+- 配置钩子：用于处理用户配置。
 - 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
 - `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
 - 调试钩子：运行 `dev` 命令时会触发的钩子。
+
+这里详细解释了 [Hook 模型](https://modernjs.dev/guides/topic-detail/framework-plugin/hook.html)
+
+## 配置钩子
+
+### `resolveModuleUserConfig`
+
+用于修改用户配置。
+
+类型：`AsyncWaterfall`
+
+```ts
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
+  name: 'my-plugin',
+
+  setup() {
+    return {
+      resolveModuleUserConfig(config: ModuleUserConfig): ModuleUserConfig {},
+    };
+  },
+});
+```
 
 ## 构建钩子
 
@@ -21,14 +44,15 @@
 
 执行整体构建流程之前触发。
 
+类型：`ParallelWorkflow`
+
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
     return {
-      beforeBuild(options: Options): void {
-      },
+      beforeBuild(options: Options): void {},
     };
   },
 });
@@ -38,7 +62,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 ```ts
 type Options = {
-  options: { config: BuildConfig; cliOptions: BuildCommandOptions };
+  options: { config: BaseBuildConfig[]; cliOptions: BuildCommandOptions };
 };
 
 export interface BuildCommandOptions {
@@ -57,6 +81,8 @@ export interface BuildCommandOptions {
 
 根据构建配置，Modern.js Module 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
 
+类型：`AsyncWaterfall`
+
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
@@ -71,13 +97,9 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 });
 ```
 
-参数和返回值类型：
-
-`BaseBuildConfig` 类型参考 [API 配置](/api/)。
-
 ### `afterBuildTask`
 
-每一个构建子任务结束之后触发。
+类型：`ParallelWorkflow`，每一个构建子任务结束之后触发。
 
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
@@ -105,7 +127,7 @@ export interface BuildTaskResult {
 
 ### `afterBuild`
 
-整体构建流程结束之后触发。
+类型：`ParallelWorkflow`，整体构建流程结束之后触发。
 
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
