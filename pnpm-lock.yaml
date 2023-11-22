@@ -4809,8 +4809,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rspack/dev-client':
-        specifier: 0.3.11
-        version: 0.3.11(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
+        specifier: 0.4.0
+        version: 0.4.0(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
       '@storybook/components':
         specifier: ^7.5.1
         version: 7.5.1(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
@@ -14816,15 +14816,15 @@ packages:
       zod-validation-error: 1.2.0(zod@3.22.3)
     dev: false
 
-  /@rspack/dev-client@0.3.11(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
-    resolution: {integrity: sha512-vHmJe4OOOi85ID+7h76UZMjipEiE63PDkr0LABanJUbIUDQbj6v8bO3DMb2uZzdpwpiABB9wYuxqm/QxvGnEGA==}
+  /@rspack/dev-client@0.4.0(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
+    resolution: {integrity: sha512-G9q2Wn1JBlqvtHD31E5Nsr62sOdbIJjIZfV3Evy91gmnmfnDTZCB6P5nJ4pXiYqV0U4anHRZB4l1zpnMhB6q4Q==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
       react-refresh:
         optional: true
     dependencies:
-      '@rspack/plugin-react-refresh': 0.3.11(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
+      '@rspack/plugin-react-refresh': 0.4.0(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
       react-refresh: 0.14.0
     transitivePeerDependencies:
       - '@types/webpack'
@@ -14871,27 +14871,6 @@ packages:
       tapable: 2.2.1
     dev: false
 
-  /@rspack/plugin-react-refresh@0.3.11(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
-    resolution: {integrity: sha512-S5LjsV4HeZ5sCV4168QXCiuZL1dnwiLtpykB+1RAIQH+rBLDZebiflwgWHKD0B8oxYYiqGeVbQ5JvGWn4jyZVg==}
-    peerDependencies:
-      react-refresh: '>=0.10.0 <1.0.0'
-    peerDependenciesMeta:
-      react-refresh:
-        optional: true
-    dependencies:
-      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
-      react-refresh: 0.14.0
-      schema-utils: 4.2.0
-    transitivePeerDependencies:
-      - '@types/webpack'
-      - sockjs-client
-      - type-fest
-      - webpack
-      - webpack-dev-server
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-    dev: false
-
   /@rspack/plugin-react-refresh@0.3.13(react-refresh@0.14.0)(webpack@5.89.0):
     resolution: {integrity: sha512-Xl6xsNds4kqblnmm1aXHFykKJk+x9wU53Qeq7FSyWGuDWTrdXZTUB9dzwDG56/ouB52OzVKze4JAugSZit7zwg==}
     peerDependencies:
@@ -14911,6 +14890,26 @@ packages:
       - webpack-hot-middleware
       - webpack-plugin-serve
     dev: true
+
+  /@rspack/plugin-react-refresh@0.4.0(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0):
+    resolution: {integrity: sha512-yo2FXVj6P2HrBGIxBqqRJQzAdG6CrL0WFE+kQk/Uz+7Ct09nPvl7zRdHE1BUXHnSXIjrMJj4fRmd7hXsmtTHXQ==}
+    peerDependencies:
+      react-refresh: '>=0.10.0 <1.0.0'
+    peerDependenciesMeta:
+      react-refresh:
+        optional: true
+    dependencies:
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack-hot-middleware@2.25.4)(webpack@5.89.0)
+      react-refresh: 0.14.0
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - sockjs-client
+      - type-fest
+      - webpack
+      - webpack-dev-server
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: false
 
   /@rspack/plugin-react-refresh@0.4.0(react-refresh@0.14.0)(webpack@5.88.1):
     resolution: {integrity: sha512-yo2FXVj6P2HrBGIxBqqRJQzAdG6CrL0WFE+kQk/Uz+7Ct09nPvl7zRdHE1BUXHnSXIjrMJj4fRmd7hXsmtTHXQ==}
