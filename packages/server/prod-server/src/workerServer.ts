@@ -154,6 +154,7 @@ export const createHandler = (manifest: Manifest) => {
     const logger = createLogger({ level: 'warn' });
     const metrics = defaultMetrics as any;
     const reporter = defaultReporter;
+    const route = pageMatch.generate(url.pathname);
 
     const hookContext = createWorkerHookContext(
       request.url,
@@ -235,6 +236,7 @@ export const createHandler = (manifest: Manifest) => {
         // apply afterRender
         const afterRenderHookContext = createAfterRenderContext(
           hookContext,
+          route,
           body,
         );
         page.serverHooks?.afterRender?.(

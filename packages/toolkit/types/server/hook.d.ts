@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 import { Reporter } from './utils';
+import { ServerRoute } from './route';
 
 export type CookieAPI = {
   /**
@@ -51,6 +52,12 @@ export type AfterMatchContext = HookContext & {
 };
 
 export type AfterRenderContext = HookContext & {
+  route?: Partial<
+    Pick<
+      ServerRoute,
+      'entryName' | 'bundle' | 'isSPA' | 'isSSR' | 'urlPath' | 'entryPath'
+    >
+  >;
   template: {
     set: (content: string) => void;
     get: () => string;

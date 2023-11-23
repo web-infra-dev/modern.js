@@ -6,6 +6,7 @@ import {
   Metrics,
   MiddlewareContext,
   Reporter,
+  ServerRoute,
 } from '@modern-js/types/server';
 import { BaseRequest, BaseResponse, ServerResponseLike } from './base';
 import { RouteAPI } from './route';
@@ -103,11 +104,13 @@ export const createAfterMatchContext = (
 
 export const createAfterRenderContext = (
   context: WorkerServerContext,
+  route: Partial<ServerRoute>,
   content: string,
 ): AfterRenderContext => {
   const baseContext = base(context);
   return {
     ...baseContext,
+    route,
     template: new TemplateAPI(content),
   };
 };

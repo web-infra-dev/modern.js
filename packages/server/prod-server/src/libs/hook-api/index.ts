@@ -4,6 +4,7 @@ import type {
   AfterMatchContext,
   AfterRenderContext,
   MiddlewareContext,
+  ServerRoute,
 } from '@modern-js/types';
 import { RouteAPI } from './route';
 import { TemplateAPI } from './template';
@@ -33,11 +34,14 @@ export const createAfterMatchContext = (
 
 export const createAfterRenderContext = (
   context: ModernServerContext,
+  route: Partial<ServerRoute>,
   content: string,
 ): AfterRenderContext => {
   const baseContext = base(context);
+
   return {
     ...baseContext,
+    route,
     template: new TemplateAPI(content),
   };
 };
