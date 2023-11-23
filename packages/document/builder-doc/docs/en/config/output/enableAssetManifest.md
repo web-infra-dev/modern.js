@@ -27,3 +27,8 @@ After compiler, there will be a `dist/manifest.json` file:
   "entrypoints": ["static/css/main.45b01211.css", "static/js/main.52fd298f.js"]
 }
 ```
+
+If the current project has multiple types of build artifacts, such as including SSR build artifacts, multiple manifest.json files will be generated.
+
+- web artifact: `asset-manifest.json`
+- node artifact: `asset-manifest-node.json`

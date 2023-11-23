@@ -2,24 +2,22 @@
 
 This chapter describes the lifecycle hooks supported by module-tools.
 
-Currently there are two main types of lifecycle hooks.
+Currently there are following main types of lifecycle hooks.
 
-* Build hooks: triggered only when the `build` command is executed to build the source code product.
-* `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build artifacts.
-* dev hooks: hooks that are triggered when running the `dev` command.
+- Config hooks: change user config.
+- Build hooks: triggered only when the `build` command is executed to build the source code product.
+- `buildPlatform` hook: triggered only when the `build --platform` command is executed to generate other build artifacts.
+- dev hooks: hooks that are triggered when running the `dev` command.
 
-## build hooks
+[Hook Model](https://modernjs.dev/guides/topic-detail/framework-plugin/hook.html) is explained in detail here.
 
-The following Hooks are triggered in order when the `build` command is executed.
+## Config hooks
 
-* `beforeBuild`
-* `beforeBuildTask`
-* `afterBuildTask`
-* `afterBuild`
+### `resolveModuleUserConfig`
 
-### `beforeBuild`
+chang user config.
 
-Triggered before the execution of the overall build process.
+type: `AsyncWaterfall`
 
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
@@ -27,9 +25,35 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
   setup() {
     return {
-      beforeBuild(options: Options): void {
-      }
-    }
+      resolveModuleUserConfig(config: ModuleUserConfig): ModuleUserConfig {},
+    };
+  },
+});
+```
+
+## build hooks
+
+The following Hooks are triggered in order when the `build` command is executed.
+
+- `beforeBuild`
+- `beforeBuildTask`
+- `afterBuildTask`
+- `afterBuild`
+
+### `beforeBuild`
+
+Triggered before the execution of the overall build process.
+
+type: `ParallelWorkflow`
+
+```ts
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
+  name: 'my-plugin',
+
+  setup() {
+    return {
+      beforeBuild(options: Options): void {},
+    };
   },
 });
 ```
@@ -37,7 +61,9 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 Parameters value types.
 
 ```ts
-type Options = { options: { config: BuildConfig; cliOptions: BuildCommandOptions } }
+type Options = {
+  options: { config: BaseBuildConfig[]; cliOptions: BuildCommandOptions };
+};
 
 export interface BuildCommandOptions {
   config: string;
@@ -55,6 +81,8 @@ export interface BuildCommandOptions {
 
 Based on the build configuration, Modern.js Module will split the overall build into multiple sub-build tasks. The Hook will be triggered before each build subtask.
 
+type: `AsyncWaterfall`
+
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
@@ -63,8 +91,8 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
     return {
       beforeBuildTask(config: BaseBuildConfig): BaseBuildConfig {
         return config;
-      }
-    }
+      },
+    };
   },
 });
 ```
@@ -77,6 +105,8 @@ Parameters and return value types.
 
 Triggered after the end of each build subtask.
 
+type: `ParallelWorkflow`
+
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
@@ -85,8 +115,8 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
     return {
       afterBuildTask(options: BuildTaskResult): void {
         // ...
-      }
-    }
+      },
+    };
   },
 });
 ```
@@ -105,6 +135,8 @@ export interface BuildTaskResult {
 
 Triggered after the end of the overall build process.
 
+type: `ParallelWorkflow`
+
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
@@ -113,8 +145,8 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
     return {
       afterBuild(options: BuildResult): void {
         // ...
-      }
-    }
+      },
+    };
   },
 });
 ```
@@ -139,10 +171,10 @@ For example, after installing the Module Doc plugin, you can run `build --platfo
 
 Hooks are triggered in the following order after executing `build --platform`.
 
-* `registerBuildPlatform`
-* `beforeBuildPlatform`
-* `buildPlatform`
-* `afterBuildPlatform`
+- `registerBuildPlatform`
+- `beforeBuildPlatform`
+- `buildPlatform`
+- `afterBuildPlatform`
 
 ### `registerBuildPlatform`
 
@@ -271,22 +303,22 @@ export interface BuildPlatformResult {
 
 The following Hooks are triggered in order when the `dev` command is executed.
 
-* `registerDev`: triggered when getting dev function information.
-* `beforeDev`: Triggered before starting the dev process as a whole.
-* `beforeDevMenu`: triggered before the dev list/menu appears.
-* `afterDevMenu`: triggered after dev list/menu option is selected.
-* `beforeDevTask`: Triggered before executing the dev task.
-* `afterDev`: Triggered at the end of the overall dev process.
+- `registerDev`: triggered when getting dev function information.
+- `beforeDev`: Triggered before starting the dev process as a whole.
+- `beforeDevMenu`: triggered before the dev list/menu appears.
+- `afterDevMenu`: triggered after dev list/menu option is selected.
+- `beforeDevTask`: Triggered before executing the dev task.
+- `afterDev`: Triggered at the end of the overall dev process.
 
 ### `registerDev`
 
 Register dev tool related data. Mainly contains.
 
-* the name of the dev tool
-* The name of the item displayed in the menu list and the corresponding value.
-* The definition of the `dev` subcommand.
-* Whether to execute the source code build before running the dev task
-* The function to execute the dev task.
+- the name of the dev tool
+- The name of the item displayed in the menu list and the corresponding value.
+- The definition of the `dev` subcommand.
+- Whether to execute the source code build before running the dev task
+- The function to execute the dev task.
 
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
@@ -392,12 +424,12 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
   setup() {
     return {
       beforeDevMenu(questions) {
-        questions[0].message += '!' ;
+        questions[0].message += '!';
         return questions; // required
       },
       afterDevMenu(options: Options) {
         console.info(`choise ${options.result.choiceDevTool} dev tools`);
-      }
+      },
     };
   },
 });
@@ -413,7 +445,7 @@ export interface Options {
   devTools: DevToolData[];
 }
 
-export type PromptResult = { choiceDevTool: string }
+export type PromptResult = { choiceDevTool: string };
 export interface DevToolData {
   name: string;
   subCommands?: string[];

@@ -15,24 +15,37 @@ export const build = async (
 
   const runner = api.useHookRunners();
 
+  const resolvedConfig = await runner.resolveModuleUserConfig(
+    api.useConfigContext(),
+  );
+
+  debug('resolvedConfig', resolvedConfig);
+
   debug('normalize build config');
 
   const { normalizeBuildConfig } = await import('./config/normalize');
-  const resolvedBuildConfig = await normalizeBuildConfig(api, context, options);
+  const normalizedBuildConfig = await normalizeBuildConfig(
+    resolvedConfig,
+    context,
+    options,
+  );
 
   debug('normalize build config done');
 
-  debug('normalizedBuildConfig', resolvedBuildConfig);
+  debug('normalizedBuildConfig', normalizedBuildConfig);
 
   debug('run beforeBuild hooks');
 
   await runner.beforeBuild({
-    config: resolvedBuildConfig,
+    config: normalizedBuildConfig,
     cliOptions: options,
   });
 
   debug('run beforeBuild hooks done');
 
   const builder = await import('./builder');
-  await builder.run({ cmdOptions: options, resolvedBuildConfig, context }, api);
+  await builder.run(
+    { cmdOptions: options, normalizedBuildConfig, context },
+    api,
+  );
 };

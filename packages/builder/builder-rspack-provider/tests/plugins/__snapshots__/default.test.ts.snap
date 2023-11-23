@@ -686,21 +686,21 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
-    Plugin {
+    DefinePlugin {
       "_options": {
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
       "name": "DefinePlugin",
     },
-    Plugin {
+    ProgressPlugin {
       "_options": {
         "prefix": "Client",
         "profile": false,
       },
       "name": "ProgressPlugin",
     },
-    Plugin {
+    ProvidePlugin {
       "_options": {
         "$ReactRefreshRuntime$": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
@@ -1331,18 +1331,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
-      Plugin {
+      SwcJsMinimizerRspackPlugin {
         "_options": {
-          "asciiOnly": true,
-          "comments": "false",
-          "dropConsole": false,
+          "compress": "{\\"passes\\":1,\\"pure_funcs\\":[],\\"drop_console\\":false}",
           "exclude": undefined,
           "extractComments": "true",
+          "format": "{\\"comments\\":false,\\"asciiOnly\\":true}",
           "include": undefined,
-          "keepClassNames": false,
-          "keepFnNames": false,
-          "passes": 1,
-          "pureFuncs": [],
+          "mangle": "{\\"keep_classnames\\":false,\\"keep_fnames\\":false}",
           "test": undefined,
         },
         "name": "SwcJsMinimizerRspackPlugin",
@@ -1455,7 +1451,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
-    Plugin {
+    DefinePlugin {
       "_options": {
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
@@ -1466,7 +1462,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
     },
-    Plugin {
+    ProgressPlugin {
       "_options": {
         "prefix": "Client",
         "profile": false,
@@ -1938,14 +1934,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         },
       },
     },
-    Plugin {
+    DefinePlugin {
       "_options": {
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"test\\"",
       },
       "name": "DefinePlugin",
     },
-    Plugin {
+    ProgressPlugin {
       "_options": {
         "prefix": "Server",
         "profile": false,
@@ -2669,21 +2665,21 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
-    Plugin {
+    DefinePlugin {
       "_options": {
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
       "name": "DefinePlugin",
     },
-    Plugin {
+    ProgressPlugin {
       "_options": {
         "prefix": "Client",
         "profile": false,
       },
       "name": "ProgressPlugin",
     },
-    Plugin {
+    ProvidePlugin {
       "_options": {
         "$ReactRefreshRuntime$": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
