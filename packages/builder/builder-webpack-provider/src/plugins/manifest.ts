@@ -5,7 +5,7 @@ export const builderPluginManifest = (): BuilderPlugin => ({
   name: 'builder-plugin-manifest',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID, target }) => {
       const config = api.getNormalizedConfig();
 
       if (!config.output.enableAssetManifest) {
@@ -19,7 +19,10 @@ export const builderPluginManifest = (): BuilderPlugin => ({
 
       chain.plugin(CHAIN_ID.PLUGIN.MANIFEST).use(WebpackManifestPlugin, [
         {
-          fileName: 'asset-manifest.json',
+          fileName:
+            target === 'web'
+              ? 'asset-manifest.json'
+              : `asset-manifest-${target}.json`,
           publicPath,
           generate: generateManifest,
         },
