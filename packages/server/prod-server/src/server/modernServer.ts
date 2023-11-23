@@ -608,6 +608,7 @@ export class ModernServer implements ModernServerInterface {
     if (route.entryName && this.runMode === RUN_MODE.FULL) {
       const afterRenderContext = createAfterRenderContext(
         context,
+        route,
         response.toString(),
       );
 
