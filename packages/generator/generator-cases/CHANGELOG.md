@@ -1,5 +1,16 @@
 # @modern-js/generator-cases
 
+## 3.3.0
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- Updated dependencies [11b99a2]
+- Updated dependencies [c4d396a]
+- Updated dependencies [39c1df8]
+  - @modern-js/generator-common@3.3.0
+
 ## 3.2.11
 
 ### Patch Changes

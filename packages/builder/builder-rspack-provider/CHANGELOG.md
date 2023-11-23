@@ -1,5 +1,31 @@
 # @modern-js/builder-rspack-provider
 
+## 2.41.0
+
+### Patch Changes
+
+- dc80bbc: hotfix(rspack-provider): can't get rspack util in tools.rspack
+- 4dffb01: chore(rspack-provider): set disableTransformByDefault false to compat rspack next version(0.4.0)
+
+  chore(rspack-provider): 设置 disableTransformByDefault 为 false 以兼容 Rspack next(0.4.0) 版本
+
+- 88d5c57: chore(rspack-provider): return compiler instead of multiCompiler when targets length is 1
+
+  chore(rspack-provider): 返回 compiler 而非 multiCompiler 当 targets 长度为 1 时
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- 7459705: chore(rspack-provider): update rspack to 0.4.0
+
+  chore(rspack-provider): 升级 rspack 到 0.4.0
+
+- Updated dependencies [969def1]
+- Updated dependencies [c4d396a]
+  - @modern-js/builder-shared@2.41.0
+  - @modern-js/server@2.41.0
+  - @modern-js/utils@2.41.0
+  - @modern-js/types@2.41.0
+
 ## 2.40.0
 
 ### Patch Changes

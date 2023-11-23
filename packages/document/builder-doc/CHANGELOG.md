@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.41.0
+
+### Patch Changes
+
+- 3164aad: chore(storybook): enhance docs and auto detect builder provider
+
+  chore(storybook): 改进文档，自动判断的 builder provider
+
 ## 2.40.0
 
 ### Patch Changes
