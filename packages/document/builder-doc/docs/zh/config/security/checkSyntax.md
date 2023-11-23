@@ -51,6 +51,7 @@ error   [Syntax Checker] Find some syntax errors after production build:
 
 :::tip
 目前语法检测是基于 AST parser 来实现的，每次检测时，只能找出文件中的第一个不兼容语法。如果一个文件中存在多个不兼容语法，你需要修复已发现的语法，并重新执行检测。
+如果日志中没有显示对应的源码位置，可以尝试将 **output.disableMinimize** 设置为 true 后再重新构建。
 :::
 
 ### 解决方法
