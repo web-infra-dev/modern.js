@@ -51,6 +51,7 @@ error   [Syntax Checker] Find some syntax errors after production build:
 
 :::tip
 Currently, syntax checking is implemented based on AST parser. Each time it performs a check, it can only identify the first incompatible syntax found in the file. If there are multiple incompatible syntaxes in the file, you need to fix the detected syntax and re-run the check.
+If the corresponding source location is not shown in the log, try setting **output.disableMinimize** to true and rebuild again.
 :::
 
 ### Solutions

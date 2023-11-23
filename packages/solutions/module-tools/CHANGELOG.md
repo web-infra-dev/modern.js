@@ -1,5 +1,32 @@
 # @modern-js/module-tools
 
+## 2.41.0
+
+### Minor Changes
+
+- 97c8812: feat(module-tools): support resolveModuleUserConfig to change user config in hooks
+  feat(module-tools): 支持 resolveModuleUserConfig 从而能在 hooks 里修改用户配置
+
+### Patch Changes
+
+- 8a3408d: chore(module-tools): remove unuse types in template and reference
+  chore(module-tools): 移除模板和引用中的未使用类型
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- ce00f6c: chore: update magic-string version to 0.30
+  chore: 更新 magic-string 版本到 0.30
+- Updated dependencies [11b99a2]
+- Updated dependencies [c4d396a]
+  - @modern-js/new-action@2.41.0
+  - @modern-js/plugin-changeset@2.41.0
+  - @modern-js/plugin-i18n@2.41.0
+  - @modern-js/plugin-lint@2.41.0
+  - @modern-js/upgrade@2.41.0
+  - @modern-js/plugin@2.41.0
+  - @modern-js/utils@2.41.0
+  - @modern-js/core@2.41.0
+  - @modern-js/types@2.41.0
+
 ## 2.40.0
 
 ### Minor Changes

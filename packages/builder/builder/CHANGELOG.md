@@ -1,5 +1,18 @@
 # @modern-js/builder
 
+## 2.41.0
+
+### Patch Changes
+
+- c4d396a: chore(swc): bump swc and helpers
+  chore(swc): 升级 swc 以及 helpers
+- 9016367: fix(builder): printFileSize throw err when set output.filename query
+  fix(builder): printFileSize 报错当用户设置了 filename query 参数
+- Updated dependencies [969def1]
+- Updated dependencies [c4d396a]
+  - @modern-js/builder-shared@2.41.0
+  - @modern-js/utils@2.41.0
+
 ## 2.40.0
 
 ### Patch Changes

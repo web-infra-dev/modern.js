@@ -1,5 +1,14 @@
 # @modern-js/module-generator
 
+## 3.3.0
+
+### Patch Changes
+
+- 8a3408d: chore(module-tools): remove unuse types in template and reference
+  chore(module-tools): 移除模板和引用中的未使用类型
+- Updated dependencies [c4d396a]
+  - @modern-js/utils@2.41.0
+
 ## 3.2.11
 
 ### Patch Changes
