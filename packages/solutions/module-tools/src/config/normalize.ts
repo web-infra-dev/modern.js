@@ -1,5 +1,4 @@
 import path from 'path';
-import type { PluginAPI } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
 import { ensureArray } from '@modern-js/utils';
 import type {
@@ -11,7 +10,6 @@ import type {
   PartialBaseBuildConfig,
   ModuleContext,
   BuildCommandOptions,
-  ModuleTools,
 } from '../types';
 import { internalPreset, presetList } from '../constants/preset';
 import { isLegacyUserConfig, mergeDefaultBaseConfig } from './merge';
@@ -67,11 +65,11 @@ export const mergeConfig = (
 };
 
 export const normalizeBuildConfig = async (
-  api: PluginAPI<ModuleTools>,
+  resolvedConfig: ModuleUserConfig,
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
-  let config = api.useConfigContext() as unknown as ModuleUserConfig;
+  let config = resolvedConfig;
 
   if (isLegacyUserConfig(config as { legacy?: boolean })) {
     const { createUserConfigFromLegacy } = await import(

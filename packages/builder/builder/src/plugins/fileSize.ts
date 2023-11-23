@@ -50,14 +50,15 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   );
 
   const formatAsset = (asset: StatsAsset) => {
-    const contents = fs.readFileSync(path.join(distPath, asset.name));
+    const fileName = asset.name.split('?')[0];
+    const contents = fs.readFileSync(path.join(distPath, fileName));
     const size = contents.length;
     const gzippedSize = gzipSize.sync(contents);
 
     return {
       size,
-      folder: path.join(path.basename(distPath), path.dirname(asset.name)),
-      name: path.basename(asset.name),
+      folder: path.join(path.basename(distPath), path.dirname(fileName)),
+      name: path.basename(fileName),
       gzippedSize,
       sizeLabel: filesize(size, { round: 1 }),
       gzipSizeLabel: getAssetColor(gzippedSize)(

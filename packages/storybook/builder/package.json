@@ -61,7 +61,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/dev-client": "0.3.2",
+    "@rspack/dev-client": "0.4.0",
     "@storybook/components": "^7.5.1",
     "@storybook/core-common": "^7.5.1",
     "@storybook/csf-plugin": "^7.5.1",

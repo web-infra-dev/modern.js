@@ -3,7 +3,7 @@
   "name": "@e2e/builder-remove-prop-types",
   "version": "2.9.0",
   "dependencies": {
-    "prop-types": "^15"
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "@types/prop-types": "^15"

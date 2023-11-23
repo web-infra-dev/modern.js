@@ -54,7 +54,7 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "ufo": "^1.2.0",
+    "ufo": "^1.3.0",
     "ws": "^8.13.0"
   },
   "devDependencies": {

@@ -1,0 +1,50 @@
+name: Check Dependency Version Consistency
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Install Pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Check dependency version consistency
+        run: pnpm run check-dependencies
+          --ignore-dep '@types/node'
+          --ignore-dep 'antd'
+          --ignore-dep 'esbuild'
+          --ignore-dep 'fs-extra'
+          --ignore-dep 'glob'
+          --ignore-dep 'minimatch'
+          --ignore-dep 'react'
+          --ignore-dep 'react-dom'
+          --ignore-dep 'react-router-dom'
+          --ignore-dep 'tailwindcss'
+          --ignore-dep 'tsconfig-paths'
+          --ignore-dep 'twin.macro'
+          --ignore-dep 'type-fest'
+          --ignore-dep 'typescript'
+          --ignore-dep 'vue'
+          --ignore-dep 'vue-loader'
