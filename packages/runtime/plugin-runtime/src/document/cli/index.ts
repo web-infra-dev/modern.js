@@ -25,6 +25,7 @@ import {
   DOCUMENT_COMMENT_PLACEHOLDER_END,
   DOCUMENT_STYLE_PLACEHOLDER_START,
   DOCUMENT_STYLE_PLACEHOLDER_END,
+  DOCUMENT_TITLE_PLACEHOLDER,
   TOP_PARTICALS_SEPARATOR,
   HEAD_PARTICALS_SEPARATOR,
   BODY_PARTICALS_SEPARATOR,
@@ -224,6 +225,13 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
             .join(''),
         ].join('');
 
+        const titles = [
+          templateParameters.title,
+          htmlWebpackPlugin.tags.headTags
+            .filter((item: any) => item.tagName === 'title')
+            .join(''),
+        ].join('');
+
         // if the Document.tsx has a functional script, replace to convert it
         if (
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
@@ -281,7 +289,8 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           .replace(
             DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
             PLACEHOLDER_REPLACER_MAP[DOCUMENT_SSRDATASCRIPT_PLACEHOLDER],
-          );
+          )
+          .replace(DOCUMENT_TITLE_PLACEHOLDER, titles);
         return finalHtml;
       };
     };
