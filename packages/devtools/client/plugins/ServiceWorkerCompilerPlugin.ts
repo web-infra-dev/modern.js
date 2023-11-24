@@ -25,6 +25,11 @@ export class ServiceWorkerCompilerPlugin {
               worker: './public',
             },
           },
+          tools: {
+            bundlerChain(chain) {
+              chain.output.delete('libraryTarget');
+            },
+          },
           dev: { progressBar: false },
         },
       });
