@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-builder-website:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.SELF_LINUX_LABELS || '"ubuntu-latest"') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
