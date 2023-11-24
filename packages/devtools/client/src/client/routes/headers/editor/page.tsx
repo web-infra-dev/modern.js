@@ -1,38 +1,28 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
-import { useList } from 'react-use';
-import { useSnapshot } from 'valtio';
+import { proxy, useSnapshot } from 'valtio';
 import { parseURL } from 'ufo';
 import { $state, registerService, unregisterService } from '../state';
 import styles from './page.module.scss';
-import { HeaderRuleEditor } from '@/client/components/HeaderRule/Editor';
+import { PairsEditor } from '@/client/components/PairsEditor/Editor';
+import { ModifyHeaderRule } from '@/client/utils/service-agent';
 
 const Page: React.FC = () => {
   const state = useSnapshot($state);
   const isActive = Boolean(state.service.href);
-  const [rules, $rules] = useList(() => _.slice(state.service.rules));
-  const [isOutdated, setIsOutdated] = useState(false);
-  let statusText = isActive ? 'Active' : 'Offline';
-  if (isOutdated && isActive) {
-    statusText = 'Outdated';
-  }
-
-  const withOutdate = <T extends (...args: any[]) => any>(func: T): T => {
-    const wrapped = (...args: any[]) => {
-      setIsOutdated(true);
-      return func(...args);
-    };
-    return wrapped as T;
-  };
+  const $rules = useMemo(
+    () => proxy((_.cloneDeep(state.service.rules) as ModifyHeaderRule[]) ?? []),
+    [],
+  );
+  const rules = useSnapshot($rules);
+  const statusText = isActive ? 'Active' : 'Offline';
 
   const handleRegister = async () => {
-    setIsOutdated(false);
-    await registerService(rules);
+    await registerService(rules.filter(rule => rule.key));
   };
 
   const handleUnregister = async () => {
-    setIsOutdated(false);
     await unregisterService();
   };
 
@@ -50,18 +40,20 @@ const Page: React.FC = () => {
           </Link>
         )}
       </Flex>
-      <HeaderRuleEditor
-        value={rules}
-        my="4"
-        onChangeRule={withOutdate($rules.updateAt)}
-        onCreateRule={withOutdate($rules.insertAt)}
-        onDeleteRule={withOutdate($rules.removeAt)}
+      <PairsEditor
+        $data={$rules}
+        disabled={isActive}
+        my="3"
+        placeholders={['Match header field...', 'Replace by...']}
       />
       <Flex justify="end" gap="2">
-        <Button onClick={handleRegister}>Register</Button>
-        <Button onClick={handleUnregister} color="gray">
-          Unregister
-        </Button>
+        {isActive ? (
+          <Button color="red" onClick={handleUnregister}>
+            Unregister
+          </Button>
+        ) : (
+          <Button onClick={handleRegister}>Register</Button>
+        )}
       </Flex>
     </Box>
   );

@@ -12,7 +12,7 @@ export const registerService = async (
   const url = `${SERVICE_SCRIPT}?rules=${encodedRules}`;
   const reg = await navigator.serviceWorker.register(url);
   await navigator.serviceWorker.ready;
-  $state.service = fetchServiceStatus();
+  $state.service = await fetchServiceStatus();
   return reg;
 };
 
