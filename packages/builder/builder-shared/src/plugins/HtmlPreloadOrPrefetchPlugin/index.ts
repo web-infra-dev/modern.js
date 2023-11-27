@@ -145,7 +145,8 @@ function generateLinks(
           crossOriginLoading &&
           !(crossOriginLoading !== 'use-credentials' && publicPath === '/')
         ) {
-          attributes.crossorigin = crossOriginLoading;
+          attributes.crossorigin =
+            crossOriginLoading === 'anonymous' ? '' : crossOriginLoading;
         }
       }
     }
