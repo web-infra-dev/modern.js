@@ -10,6 +10,7 @@ import {
 import {
   BuilderPlugin,
   SharedBuilderConfig,
+  ToolsBabelConfig,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
 import { CompileOptions } from '@storybook/mdx2-csf';
@@ -500,7 +501,6 @@ function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
       const replaceOrInsert = (plugin: PluginItem, plugins: PluginItem[]) => {
         const pluginName = getPluginName(plugin);
 
-        const append = [];
         for (let i = 0; i < plugins.length; i++) {
           if (getPluginName(plugins[i]) === pluginName) {
             if (getOptions(plugin)) {
@@ -509,12 +509,11 @@ function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
               );
               plugins[i] = plugin;
             }
-          } else {
-            append.push(plugin);
+            return;
           }
         }
 
-        plugins.push(...append);
+        plugins.push(plugin);
       };
 
       const currentPlugins = config.plugins || [];
@@ -528,17 +527,14 @@ function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
         replaceOrInsert(preset, currentPresets);
       }
 
-      const finalConfig = {
-        ...config,
+      const finalConfig: ToolsBabelConfig = {
         ...babelOptions,
         plugins: currentPlugins,
         presets: currentPresets,
       };
 
-      if (typeof userConfig === 'function') {
-        return userConfig(finalConfig, utils);
-      } else if (typeof userConfig === 'object') {
-        return { ...finalConfig, ...userConfig };
+      if (userConfig) {
+        return applyOptionsChain(finalConfig, userConfig, utils);
       } else {
         return finalConfig;
       }
