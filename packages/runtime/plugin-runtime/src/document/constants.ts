@@ -2,6 +2,7 @@ import { HTML_CHUNKSMAP_SEPARATOR } from '@modern-js/utils/universal/constants';
 
 export const DOC_EXT = ['jsx', 'tsx', 'ts', 'js'];
 export const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
+export const DOCUMENT_TITLE_PLACEHOLDER = encodeURIComponent('<%= title %>');
 export const HTML_SEPARATOR = '<!--<?- html ?>-->';
 export const HEAD_PARTICALS_SEPARATOR = encodeURIComponent(
   '<!--<?- partials.head ?>-->',

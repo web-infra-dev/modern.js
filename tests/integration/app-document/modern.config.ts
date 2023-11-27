@@ -39,6 +39,7 @@ export default applyBaseConfig({
   },
   html: {
     favicon: './static/a.icon',
+    title: 'test-title',
   },
   plugins: [routerPlugin(), tmpTest()],
 });
