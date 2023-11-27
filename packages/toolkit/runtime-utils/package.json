@@ -47,6 +47,11 @@
       "jsnext:source": "./src/time.ts",
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
+    },
+    "./parsed": {
+      "jsnext:source": "./src/parsed.ts",
+      "require": "./dist/cjs/parsed.js",
+      "default": "./dist/esm/parsed.js"
     }
   },
   "publishConfig": {
@@ -84,6 +89,11 @@
         "types": "./dist/types/time.d.ts",
         "require": "./dist/cjs/time.js",
         "default": "./dist/esm/time.js"
+      },
+      "./parsed": {
+        "types": "./dist/types/parsed.d.ts",
+        "require": "./dist/cjs/parsed.js",
+        "default": "./dist/esm/parsed.js"
       }
     }
   },
@@ -106,6 +116,9 @@
       ],
       "time": [
         "./dist/types/time.d.ts"
+      ],
+      "parsed": [
+        "./dist/types/parsed.d.ts"
       ]
     }
   },

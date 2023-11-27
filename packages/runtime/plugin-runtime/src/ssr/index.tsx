@@ -1,6 +1,6 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/browser';
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { Plugin } from '../core';
 import {
   RenderLevel,
