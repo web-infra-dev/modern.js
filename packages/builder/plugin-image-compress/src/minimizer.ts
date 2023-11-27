@@ -49,10 +49,11 @@ export class ModernJsImageMinimizerPlugin {
 
     const handleAsset = async (name: string) => {
       const info = compilation.getAsset(name)?.info;
+      const fileName = name.split('?')[0];
 
       // 1. Skip double minimize assets from child compilation
       // 2. Test file by options (e.g. test, include, exclude)
-      if (info?.minimized || !matchObject(opts, name)) {
+      if (info?.minimized || !matchObject(opts, fileName)) {
         return;
       }
 
