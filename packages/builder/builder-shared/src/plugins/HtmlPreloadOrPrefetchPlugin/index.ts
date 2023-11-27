@@ -116,6 +116,7 @@ function generateLinks(
   const sortedFilteredFiles = filteredFiles.sort();
   const links: HtmlWebpackPlugin.HtmlTagObject[] = [];
   const publicPath = getPublicPathFromCompiler(compilation.compiler);
+  const { crossOriginLoading } = compilation.options.output;
 
   for (const file of sortedFilteredFiles) {
     const href = withPublicPath(file, publicPath);
@@ -137,6 +138,15 @@ function generateLinks(
       // fonts can't be used.
       if (attributes.as === 'font') {
         attributes.crossorigin = '';
+      }
+
+      if (attributes.as === 'script' || attributes.as === 'style') {
+        if (
+          crossOriginLoading &&
+          !(crossOriginLoading !== 'use-credentials' && publicPath === '/')
+        ) {
+          attributes.crossorigin = crossOriginLoading;
+        }
       }
     }
 

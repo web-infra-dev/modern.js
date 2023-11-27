@@ -22,7 +22,13 @@ export class HtmlCrossOriginPlugin implements WebpackPluginInstance {
   }
 
   apply(compiler: Compiler): void {
-    if (!this.crossOrigin) {
+    if (
+      !this.crossOrigin ||
+      // align with webpack crossOriginLoading logic
+      // https://github.com/webpack/webpack/blob/87660921808566ef3b8796f8df61bd79fc026108/lib/runtime/LoadScriptRuntimeModule.js#L104
+      (compiler.options.output.publicPath === '/' &&
+        this.crossOrigin !== ('use-credentials' as const))
+    ) {
       return;
     }
 
