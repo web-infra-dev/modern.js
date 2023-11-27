@@ -116,7 +116,7 @@ function generateLinks(
   const sortedFilteredFiles = filteredFiles.sort();
   const links: HtmlWebpackPlugin.HtmlTagObject[] = [];
   const publicPath = getPublicPathFromCompiler(compilation.compiler);
-  const { crossOriginLoading } = compilation.options.output;
+  const { crossOriginLoading } = compilation.compiler.options.output;
 
   for (const file of sortedFilteredFiles) {
     const href = withPublicPath(file, publicPath);
