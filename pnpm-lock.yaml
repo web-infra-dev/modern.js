@@ -1328,6 +1328,9 @@ importers:
       '@radix-ui/themes':
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
+      '@rsbuild/core':
+        specifier: ^0.1.0
+        version: 0.1.0
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -1352,6 +1355,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      nanoid:
+        specifier: 3.3.4
+        version: 3.3.4
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -18263,8 +18269,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.22.1
-      caniuse-lite: 1.0.30001559
+      browserslist: 4.21.10
+      caniuse-lite: 1.0.30001520
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0

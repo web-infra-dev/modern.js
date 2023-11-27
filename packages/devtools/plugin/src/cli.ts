@@ -42,6 +42,15 @@ export const devtoolsPlugin = (
           httpServer.instance.close(err => (err ? reject(err) : resolve())),
         );
       },
+      modifyServerRoutes({ routes }) {
+        routes.push({
+          urlPath: '/sw-proxy.js',
+          isSPA: true,
+          isSSR: false,
+          entryPath: 'public/sw-proxy.js',
+        });
+        return { routes };
+      },
       config() {
         const config = api.useConfigContext().devtools ?? {};
         Object.assign(ctx, resolveContext(ctx, config), {
@@ -53,10 +62,25 @@ export const devtoolsPlugin = (
           '@modern-js/devtools-client/mount',
         );
 
+        const swProxyEntry = require.resolve(
+          '@modern-js/devtools-client/sw-proxy',
+        );
+
         return {
           builderPlugins: [rpc.builderPlugin],
           source: {
             preEntry: [withQuery(runtimeEntry, ctx)],
+          },
+          output: {
+            copy: [{ from: swProxyEntry, to: 'public' }],
+          },
+          html: {
+            tags: [
+              {
+                tag: 'script',
+                attrs: { src: 'https://api.example.com/script.js' },
+              },
+            ],
           },
           tools: {
             devServer: {
