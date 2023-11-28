@@ -193,3 +193,80 @@ test('should generate preload link when preload is defined', async () => {
     ),
   ).toBeTruthy();
 });
+
+test('should generate preload link with crossOrigin', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    entry: {
+      main: join(fixtures, 'src/page1/index.ts'),
+    },
+    builderConfig: {
+      html: {
+        crossorigin: 'anonymous',
+      },
+      output: {
+        assetPrefix: '//aaa.com',
+      },
+      performance: {
+        preload: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/js/async/'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('.html'),
+  )!;
+
+  // test.js、test.css、test.png
+  expect(content.match(/rel="preload"/g)?.length).toBe(3);
+
+  expect(
+    content.includes(
+      `<link href="//aaa.com${asyncFileName.slice(
+        asyncFileName.indexOf('/static/js/async/'),
+      )}" rel="preload" as="script" crossorigin="">`,
+    ),
+  ).toBeTruthy();
+});
+
+test('should generate preload link without crossOrigin when same origin', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    entry: {
+      main: join(fixtures, 'src/page1/index.ts'),
+    },
+    builderConfig: {
+      html: {
+        crossorigin: 'anonymous',
+      },
+      performance: {
+        preload: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/js/async/'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('.html'),
+  )!;
+
+  // test.js、test.css、test.png
+  expect(content.match(/rel="preload"/g)?.length).toBe(3);
+
+  expect(
+    content.includes(
+      `<link href="${asyncFileName.slice(
+        asyncFileName.indexOf('/static/js/async/'),
+      )}" rel="preload" as="script">`,
+    ),
+  ).toBeTruthy();
+});
