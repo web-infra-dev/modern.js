@@ -1,5 +1,11 @@
 # @modern-js/packages-generator
 
+## 3.3.1
+
+### Patch Changes
+
+- @modern-js/utils@2.42.0
+
 ## 3.3.0
 
 ### Patch Changes

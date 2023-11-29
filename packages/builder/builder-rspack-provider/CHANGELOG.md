@@ -1,5 +1,22 @@
 # @modern-js/builder-rspack-provider
 
+## 2.42.0
+
+### Patch Changes
+
+- fc1f36f: fix(builder): should generate manifest correctly when enable SSR
+- ef60f58: fix(builder): export type of rspack config and add globalObject type for rspack output
+  fix(builder): 导出一些 rspack config 类型同时给 rspack output 添加 globalObject 类型
+- ba443b8: chore: bump rspack version to 0.4.1
+  chore: 升级 rspack 版本到 0.4.1
+- f4eadb5: chore: bump rspack and update snapshot
+- Updated dependencies [04d9522]
+- Updated dependencies [ef60f58]
+  - @modern-js/builder-shared@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

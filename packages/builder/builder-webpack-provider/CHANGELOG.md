@@ -1,5 +1,17 @@
 # @modern-js/builder-webpack-provider
 
+## 2.42.0
+
+### Patch Changes
+
+- fc1f36f: fix(builder): should generate manifest correctly when enable SSR
+- Updated dependencies [04d9522]
+- Updated dependencies [ef60f58]
+  - @modern-js/builder-shared@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes
