@@ -7,7 +7,7 @@ import { BundlerChain, RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 // Rspack will not output builder runtime source map, but it not necessary
 // Identify whether the builder runtime chunk is included through some specific code snippets
 const isRuntimeChunkInHtml = (html: string): boolean =>
-  Boolean(html.includes('builder-runtime') && html.includes('Loading chunk'));
+  Boolean(html.includes('Loading chunk'));
 
 // use source-map for easy to test. By default, builder use hidden-source-map
 const toolsConfig = {

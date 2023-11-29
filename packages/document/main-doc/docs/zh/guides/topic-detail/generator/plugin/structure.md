@@ -99,7 +99,7 @@ export default function (context: IPluginContext) {
 
 ## templates
 
-`templates` 目录存在当前定制化方式的模板文件，支持 [Handlebars](https://handlebarsjs.com/) 和 [EJS](https://ejs.co/) 格式，将根据模板文件后缀使用不同的渲染引擎就行渲染，如果无后缀，将会直接复制模板文件到目标目录。
+`templates` 目录存在当前定制化方式的模板文件，支持 [Handlebars](https://handlebarsjs.com/) 和 [EJS](https://ejs.co/) 格式，将根据模板文件后缀使用不同的渲染引擎执行渲染，如果无后缀，将会直接复制模板文件到目标目录。
 
 如果模板文件为 `js`、`ts` 或者 `json` 文件，推荐直接使用 `.handlebars` 或者 `.ejs` 后缀，可避免项目 eslint 报错和在 Monorepo 中项目识别问题。
 
