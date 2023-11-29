@@ -6,6 +6,12 @@ export type {
   // Config Types
   BuilderConfig,
   NormalizedConfig,
+  DevConfig,
+  OutputConfig,
+  ToolsConfig,
+  SourceConfig,
+  SecurityConfig,
+  PerformanceConfig,
 
   // Hook Callback Types
   ModifyRspackConfigFn,
