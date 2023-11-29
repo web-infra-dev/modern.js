@@ -9,6 +9,8 @@ async function addNewActionDevDependence(repoCwd: string) {
     'packages/generator/new-action/package.json',
   );
   const pkgJSON = JSON.parse(await fs.readFile(actionPath, 'utf-8'));
+
+  // Should add new generator below for testing
   pkgJSON.devDependencies = {
     ...pkgJSON.devDependencies,
     '@modern-js/bff-generator': 'workspace:*',
@@ -23,6 +25,7 @@ async function addNewActionDevDependence(repoCwd: string) {
     '@modern-js/ssg-generator': 'workspace:*',
     '@modern-js/module-test-generator': 'workspace:*',
     '@modern-js/rspack-generator': 'workspace:*',
+    '@modern-js/module-doc-generator': 'workspace:*',
   };
   await fs.writeFile(
     actionPath,
