@@ -50,6 +50,7 @@ type RspackOutput = {
   assetModuleFilename?: string;
   filename?: string;
   chunkFilename?: string;
+  globalObject?: string;
   uniqueName?: string;
   hashFunction?: string;
   cssFilename?: string;
