@@ -52,6 +52,11 @@
       "jsnext:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
+    },
+    "./store": {
+      "jsnext:source": "./src/node/store/index.ts",
+      "esm": "./dist/esm/node/store/index.js",
+      "default": "./dist/cjs/node/store/index.js"
     }
   },
   "publishConfig": {
@@ -119,6 +124,9 @@
       ],
       "parsed": [
         "./dist/types/parsed.d.ts"
+      ],
+      "store": [
+        "./dist/types/node/store/index.d.ts"
       ]
     }
   },
@@ -131,6 +139,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "lru-cache": "^6.0.0",
     "serialize-javascript": "^6.0.0",
     "react-router-dom": "6.17.0",
     "@remix-run/router": "1.10.0",
@@ -156,6 +165,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "@types/lru-cache": "^5.1.1",
     "jest": "^29",
     "typescript": "^5",
     "@types/serialize-javascript": "^5.0.1"
