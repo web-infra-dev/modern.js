@@ -75,14 +75,7 @@ export const devtoolsPlugin = (
           output: {
             copy: [{ from: swProxyEntry, to: 'public' }],
           },
-          html: {
-            tags: [
-              {
-                tag: 'script',
-                attrs: { src: 'https://api.example.com/script.js' },
-              },
-            ],
-          },
+          html: {},
           tools: {
             devServer: {
               proxy: {
