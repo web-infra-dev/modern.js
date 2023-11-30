@@ -1,8 +1,5 @@
 /// <reference lib="webworker" />
-import type {
-  ModifyHeaderRule,
-  ServiceStatus,
-} from '@/client/utils/service-agent';
+import type { ModifyHeaderRule, ServiceStatus } from '@/utils/service-agent';
 
 declare const self: ServiceWorkerGlobalScope;
 

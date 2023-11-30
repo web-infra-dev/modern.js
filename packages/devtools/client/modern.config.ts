@@ -17,9 +17,10 @@ export default defineConfig<'rspack'>({
   },
   source: {
     mainEntryName: 'client',
+    entriesDir: './src/entries',
     entries: {
       mount: {
-        entry: './src/mount/index.tsx',
+        entry: './src/entries/mount/index.tsx',
         disableMount: true,
       },
     },
