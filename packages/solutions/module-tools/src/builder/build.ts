@@ -1,5 +1,9 @@
 import { slash, logger, fs } from '@modern-js/utils';
-import { withLogTitle, getDefaultOutExtension } from '../utils';
+import {
+  withLogTitle,
+  getDefaultOutExtension,
+  getProjectTsconfig,
+} from '../utils';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -77,6 +81,9 @@ export const generatorDts = async (
     root: appDirectory,
     autoExtension,
   });
+
+  const userTsconfig = await getProjectTsconfig(tsconfigPath);
+
   const generatorDtsConfig = {
     distPath,
     watch,
@@ -91,6 +98,7 @@ export const generatorDts = async (
     alias,
     sourceDir,
     dtsExtension,
+    userTsconfig,
   };
   const prevTime = Date.now();
   debug(`${label('dts')} Build Start`);
