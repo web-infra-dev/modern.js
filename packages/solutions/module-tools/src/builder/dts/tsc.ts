@@ -65,11 +65,21 @@ const runTscBin = async (
 ) => {
   const { appDirectory, watch = false, abortOnError = true } = config;
 
-  const { tempTsconfigPath } = info;
+  const { tempTsconfigPath, userTsconfig } = info;
 
   const tscBinFile = await getTscBinPath(appDirectory);
 
-  const watchParams = watch ? ['-w'] : [];
+  const params: string[] = [];
+
+  if (watch) {
+    params.push('-w');
+  }
+
+  // avoid error TS6305
+  if (userTsconfig.references) {
+    params.push('-b');
+  }
+
   const childProgress = execa(
     tscBinFile,
     [
@@ -79,7 +89,7 @@ const runTscBin = async (
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
       '--preserveWatchOutput',
-      ...watchParams,
+      ...params,
     ],
     {
       stdio: 'pipe',
