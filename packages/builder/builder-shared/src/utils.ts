@@ -5,6 +5,8 @@ import type {
 } from './types';
 import { join } from 'path';
 
+export const isProd = (): boolean => process.env.NODE_ENV === 'production';
+
 export const createVirtualModule = (content: string) =>
   `data:text/javascript,${content}`;
 
