@@ -45,7 +45,7 @@ export default defineConfig<'rspack'>({
     bundlerChain(chain) {
       chain.module
         .rule('RADIX_TOKEN')
-        .test(/\/@radix-ui\/themes\/styles\.css/)
+        .test(require.resolve('@radix-ui/themes/styles.css'))
         .use('RADIX_TOKEN')
         .loader('./plugins/radix-token-transformer.js')
         .options({ root: '.theme-register' });

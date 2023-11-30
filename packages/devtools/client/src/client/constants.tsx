@@ -5,6 +5,7 @@ import {
   HiOutlineCube,
   HiOutlineAcademicCap,
 } from 'react-icons/hi2';
+import { RiReactjsLine } from 'react-icons/ri';
 import { InternalTab } from './types';
 
 export const getDefaultTabs = (): InternalTab[] => [
@@ -25,6 +26,12 @@ export const getDefaultTabs = (): InternalTab[] => [
     title: 'Pages',
     icon: <HiOutlineRectangleGroup />,
     view: { type: 'builtin', url: '/pages' },
+  },
+  {
+    name: 'react',
+    title: 'React',
+    icon: <RiReactjsLine />,
+    view: { type: 'builtin', url: '/react' },
   },
   {
     name: 'context',

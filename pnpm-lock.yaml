@@ -1343,6 +1343,9 @@ importers:
       '@types/react':
         specifier: ^18
         version: 18.0.21
+      '@types/react-devtools-inline':
+        specifier: ^4.24.8
+        version: 4.24.8
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
@@ -1370,12 +1373,18 @@ importers:
       react-base16-styling:
         specifier: ^0.9.1
         version: 0.9.1
+      react-devtools-inline:
+        specifier: 4.10.4
+        version: 4.10.4
       react-dom:
         specifier: ~18.2.0
         version: 18.2.0(react@18.2.0)
       react-icons:
         specifier: ^4.11.0
         version: 4.11.0(react@18.2.0)
+      react-is:
+        specifier: ^18.2.0
+        version: 18.2.0
       react-json-tree:
         specifier: ^0.18.0
         version: 0.18.0(@types/react@18.0.21)(react@18.2.0)
@@ -1388,6 +1397,9 @@ importers:
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
+      scheduler:
+        specifier: ^0.23.0
+        version: 0.23.0
       suspend-react:
         specifier: ^0.1.3
         version: 0.1.3(react@18.2.0)
@@ -16831,6 +16843,13 @@ packages:
   /@types/range-parser@1.2.4:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
 
+  /@types/react-devtools-inline@4.24.8:
+    resolution: {integrity: sha512-hx6l47j2oRvqHKpbtSdvZV185NjJUEDrz7QW02cz2k02cceVoXx+WfAvuFj5x0c8/9Wymw/X7dOeRRqs3gaukA==}
+    dependencies:
+      '@types/react': 18.0.21
+      '@types/react-reconciler': 0.28.8
+    dev: true
+
   /@types/react-dom@18.0.6:
     resolution: {integrity: sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==}
     dependencies:
@@ -16848,6 +16867,12 @@ packages:
       '@types/react': 18.0.21
       '@types/webpack': 4.41.32
     dev: false
+
+  /@types/react-reconciler@0.28.8:
+    resolution: {integrity: sha512-SN9c4kxXZonFhbX4hJrZy37yw9e7EIxcpHCxQv5JUS18wDE5ovkQKlqQEkufdJCCMfuI9BnjUJvhYeJ9x5Ra7g==}
+    dependencies:
+      '@types/react': 18.0.21
+    dev: true
 
   /@types/react-router-dom@5.3.3:
     resolution: {integrity: sha512-kpqnYK4wcdm5UaWI3fLcELopqLrHgLqNsdpHauzlQktfkHL3npOSwtj1Uz9oKBAzs7lFtVkV8j83voAz2D8fhw==}
@@ -29464,6 +29489,10 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+    dev: true
+
+  /react-devtools-inline@4.10.4:
+    resolution: {integrity: sha512-N2tujWfiLXplM/7Hf1WASTVDRhP0UzmTGCUa0la2PdkW1fNWty4AVn+nCsu2cywM1gfijq9NhVpNWHZdyHjrAw==}
     dev: true
 
   /react-devtools-inline@4.4.0:
