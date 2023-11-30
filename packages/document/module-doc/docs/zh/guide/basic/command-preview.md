@@ -87,7 +87,9 @@ Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev
 Usage: modern test [options]
 
 Options:
-  -h, --help  display help for command
+  -u --updateSnapshot  使用此选项来更新快照
+  --watch              监视文件的变更并重新运行相关的测试
+  -h, --help           显示命令帮助
 ```
 
 需要先执行 `modern new` 开启测试功能，然后才可以执行 `modern test` 命令。

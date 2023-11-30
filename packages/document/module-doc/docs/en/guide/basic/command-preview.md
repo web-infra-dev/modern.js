@@ -87,7 +87,9 @@ The officially supported debugging tool is [Rspress](https://rspress.dev/), so y
 Usage: modern test [options]
 
 Options:
-  -h, --help display help for command
+  -u --updateSnapshot  use this flag to re-record snapshots.
+  --watch              watch files for changes and rerun tests related to changed files.
+  -h, --help           show command help
 ```
 
 You need to execute `modern new` to turn on the test function before you can execute the `modern test` command.
