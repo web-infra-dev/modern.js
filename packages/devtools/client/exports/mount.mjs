@@ -15,7 +15,7 @@ if (!window.opener) {
         e.data.type === 'modern_js_devtools::react_devtools::activate'
       ) {
         activate(window);
-        window.removeEventListener(handleMessage);
+        window.removeEventListener('message', handleMessage);
       }
     };
     window.addEventListener('message', handleMessage);
