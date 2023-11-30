@@ -41,6 +41,12 @@ const buildArgv = async (
     result.config = JSON.stringify(config);
   }
 
+  // `-u` is the shorthand of `--updateSnapshot`
+  if (result.u === true) {
+    result.updateSnapshot = true;
+    delete result.u;
+  }
+
   return result;
 };
 
