@@ -69,6 +69,14 @@ export const testingPlugin = (): CliPlugin<{
         commands: ({ program }: any) => {
           program
             .command('test')
+            .option(
+              '-u --updateSnapshot',
+              'use this flag to re-record snapshots',
+            )
+            .option(
+              '--watch',
+              'watch files for changes and rerun tests related to changed files',
+            )
             .allowUnknownOption()
             .usage('<regexForTestFiles> --[options]')
             .action(async () => {
