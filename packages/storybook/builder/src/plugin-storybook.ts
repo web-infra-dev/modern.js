@@ -28,7 +28,7 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { PluginItem } from '@babel/core';
 import type {
   BuilderPluginAPI as WebpackAPI,
@@ -353,7 +353,7 @@ function applyExternals(builderConfig: AllBuilderConfig) {
     },
     {
       output: {
-        externals: globals,
+        externals: globalsNameReferenceMap,
       },
     },
   );
