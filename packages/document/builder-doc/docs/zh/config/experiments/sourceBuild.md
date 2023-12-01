@@ -13,4 +13,4 @@ export default {
 };
 ```
 
-更多信息可参考[「进阶-源码构建模式」](https://modernjs.dev/builder/guide/advanced/source-build.html)。
+更多信息可参考[「源码构建模式」](https://modernjs.dev/guides/advanced-features/source-build.html)。

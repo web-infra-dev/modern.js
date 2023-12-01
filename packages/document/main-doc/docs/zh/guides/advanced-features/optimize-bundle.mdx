@@ -1,3 +1,7 @@
+---
+sidebar_position: 13
+---
+
 # 产物体积优化
 
 产物体积的优化在生产环境中是非常重要的，因为它直接影响到了线上的用户体验。在这篇文档中，我们将介绍在 Builder 中一些常见的产物体积优化方式。
@@ -36,7 +40,7 @@ npx yarn-deduplicate && yarn
 BUNDLE_ANALYZE=true pnpm build
 ```
 
-详见 [performance.bundleAnalyze](/api/config-performance.html#performancebundleanalyze) 配置项。
+详见 [performance.bundleAnalyze](/configure/app/performance/bundle-analyze.html) 配置项。
 
 ## 提升 Browserslist 范围
 
@@ -55,12 +59,12 @@ Builder 默认的 Browserslist 配置为：
 ```
 
 :::tip
-请阅读 [设置浏览器范围](/guide/advanced/browserslist.html) 章节来了解更多关于 Browserslist 的用法。
+请阅读 [设置浏览器范围](https://modernjs.dev/builder/guide/advanced/browserslist.html) 章节来了解更多关于 Browserslist 的用法。
 :::
 
 ## 按需引入 polyfill
 
-在明确第三方依赖不需要额外 polyfill 的情况下，你可以将 [output.polyfill](/api/config-output.html#outputpolyfill) 设置为 `usage`。
+在明确第三方依赖不需要额外 polyfill 的情况下，你可以将 [output.polyfill](/configure/app/output/polyfill.html) 设置为 `usage`。
 
 在 `usage` 模式下，Builder 会分析源代码中使用的语法，按需注入所需的 polyfill 代码，从而减少 polyfill 的代码量。
 
@@ -73,7 +77,7 @@ export default {
 ```
 
 :::tip
-请阅读 [浏览器兼容性](/guide/advanced/browser-compatibility.html) 章节来了解更多关于 polyfill 的用法。
+请阅读 [浏览器兼容性](https://modernjs.dev/builder/guide/advanced/browser-compatibility.html) 章节来了解更多关于 polyfill 的用法。
 :::
 
 ## 使用图片压缩
@@ -87,13 +91,13 @@ import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-comp
 builder.addPlugins([builderPluginImageCompress()]);
 ```
 
-详见 [Image Compress 插件](/plugins/plugin-image-compress)。
+详见 [Image Compress 插件](https://modernjs.dev/builder/plugins/plugin-image-compress.html)。
 
 ## 代码拆包
 
 良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
 
-在 Builder 中内置了[多种拆包策略](/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
+在 Builder 中内置了[多种拆包策略](https://modernjs.dev/builder/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
 
 比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
 
