@@ -2,7 +2,15 @@ import { useNavigate } from '@modern-js/runtime/router';
 import React, { ComponentType, useEffect } from 'react';
 import { useGetSet } from 'react-use';
 import { Box, useThemeContext } from '@radix-ui/themes';
-import { DevtoolsProps, initialize } from 'react-devtools-inline/frontend';
+import {
+  DevtoolsProps,
+  createBridge,
+  createStore,
+  initialize,
+} from 'react-devtools-inline/frontend';
+import { setupMountPointConnection } from '../../rpc';
+
+let connecting = false;
 
 const Page: React.FC = () => {
   const [getView, setView] = useGetSet<ComponentType<DevtoolsProps> | null>(
@@ -19,15 +27,14 @@ const Page: React.FC = () => {
     }
   }, []);
 
-  const handleRef = (ref: HTMLDivElement | null) => {
-    if (!ref || getView()) return;
-    const DevTools = initialize(window.parent);
-    // TODO: will implement custom bridge via birpc.
-    // @ts-expect-error: builtin bridge can only inspect react application in iframe.
-    window.parent.parent = window;
-    window.parent.postMessage({
-      type: 'modern_js_devtools::react_devtools::activate',
-    });
+  const handleRef = async (ref: HTMLDivElement | null) => {
+    if (!ref || getView() || connecting) return;
+    connecting = true;
+    const { mountPoint, wall } = await setupMountPointConnection();
+    const bridge = createBridge(window.parent, wall);
+    const store = createStore(bridge);
+    const DevTools = initialize(window.parent, { bridge, store });
+    mountPoint.activateReactDevtools();
     setView(React.memo(DevTools));
   };
 
