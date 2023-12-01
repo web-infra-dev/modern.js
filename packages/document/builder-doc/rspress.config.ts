@@ -77,7 +77,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/advanced/browserslist'),
           getLink('/guide/advanced/browser-compatibility'),
           getLink('/guide/advanced/custom-webpack-config'),
-          getLink('/guide/advanced/source-build'),
           getLink('/guide/advanced/storybook'),
         ],
       },
@@ -93,8 +92,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         collapsible: false,
         text: getText('优化', 'Optimization'),
         items: [
-          getLink('/guide/optimization/optimize-bundle'),
-          getLink('/guide/optimization/build-performance'),
           getLink('/guide/optimization/split-chunk'),
           getLink('/guide/optimization/inline-assets'),
         ],

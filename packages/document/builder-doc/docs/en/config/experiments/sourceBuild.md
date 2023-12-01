@@ -13,4 +13,4 @@ export default {
 };
 ```
 
-More detail can see ["Advanced - Source-code Build Mode"](https://modernjs.dev/builder/en/guide/advanced/source-build.html)。
+More detail can see ["Source Code Build Mode"](https://modernjs.dev/en/guides/advanced-features/source-build.html)。

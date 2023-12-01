@@ -1,11 +1,15 @@
+---
+sidebar_position: 12
+---
+
 # Improve Build Performance
 
-Modern.js Builder optimizes build performance by default, but as the project becomes larger, you may encounter some build performance problems.
+Modern.js optimizes build performance by default, but as the project becomes larger, you may encounter some build performance problems.
 
 This document provides some optional speed-up strategies, developers can choose some of them to improve the build performance.
 
 :::tip 📢 Notice
-The strategies in [Bundle Size Optimization](/en/guide/optimization/optimize-bundle.html) can also be used to improve build performance, so we won't repeat them here.
+The strategies in [Bundle Size Optimization](/guides/advanced-features/optimize-bundle.html) can also be used to improve build performance, so we won't repeat them here.
 :::
 
 ## General optimization strategy
@@ -38,11 +42,7 @@ node -v
 
 ### Using Rspack build
 
-import Rspack from '@en/shared/rspack.md';
-
-<Rspack />
-
-If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guide/advanced/rspack-start.html) for more information.
+If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guides/advanced-features/rspack-start.html) for more information.
 
 ### Using SWC or esbuild
 
@@ -50,10 +50,10 @@ If you have higher build performance requirements, you can easily switch to Rspa
 
 [esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
 
-Builder provides SWC plugin and esbuild plugin that allow you to use SWC or esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See:
+Modern.js provides SWC plugin and esbuild plugin that allow you to use SWC or esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See:
 
-- [SWC plugin document](/plugins/plugin-swc.html)
-- [esbuild plugin document](/plugins/plugin-esbuild.html)
+- [SWC plugin document](/configure/app/tools/swc.html)
+- [esbuild plugin document](/configure/app/tools/esbuild.html)
 
 :::tip SWC vs esbuild
 The SWC compiled outputs has better compatibility, supports polyfills such as core-js, and has more complete features, so it is recommended to use the SWC plugin first.
@@ -61,7 +61,7 @@ The SWC compiled outputs has better compatibility, supports polyfills such as co
 
 ### Avoid using ts-loader
 
-By default, Builder uses Babel to compile TS files. After enabling the [tools.tsLoader](/en/api/config-tools.html#toolstsloader) option, `ts-loader` will be used to compile TS files.
+By default, Modern.js uses Babel to compile TS files. After enabling the [tools.tsLoader](/en/configure/app/tools/ts-loader.html) option, `ts-loader` will be used to compile TS files.
 
 Please avoid using `ts-loader` because it requires additional parsing and type checking, which will slow down the build.
 
@@ -74,32 +74,15 @@ export default {
 };
 ```
 
-See the [tools.tsLoader documentation](/en/api/config-tools.html#toolstsloader) for details.
+See the [tools.tsLoader documentation](/en/configure/app/tools/ts-loader.html) for details.
 
 ## Development optimization strategies
 
 The following are strategies for improve build performance in development environment.
 
-### Enable Lazy Compilation
-
-You can enable the lazy compilation (i.e. on-demand compilation) to improve the compilation startup speed.
-
-```ts
-export default {
-  experiments: {
-    lazyCompilation: {
-      imports: true,
-      entries: false,
-    },
-  },
-};
-```
-
-This is an experimental feature and may not work correctly in some scenarios, see [experiments.lazyCompilation](/en/api/config-experiments.html#experiments-lazycompilation) for details.
-
 ### Adjust Source Map format
 
-In order to provide a good debugging experience, Builder uses the `cheap-module-source-map` format Source Map by default in the development environment, which is a high-quality Source Map format and will bring certain performance overhead.
+In order to provide a good debugging experience, Modern.js uses the `cheap-module-source-map` format Source Map by default in the development environment, which is a high-quality Source Map format and will bring certain performance overhead.
 
 You can improve build speed by adjusting the source map format of your development environment.
 
@@ -135,7 +118,7 @@ export default {
 
 ### Adjust Browserslist for development
 
-This strategy is similar to ["Adjust Browserslist"](/en/guide/optimization/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
+This strategy is similar to ["Adjust Browserslist"](/guides/advanced-features/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
 
 For example, you can add the following config to `package.json`, which means that only the latest browsers are compatible in the development environment, and the actual browsers are compatible in the production environment:
 
@@ -170,4 +153,4 @@ export default {
 };
 ```
 
-See [output.disableSourceMap](/en/api/config-output.html#outputdisablesourcemap) for details.
+See [output.disableSourceMap](/en/configure/app/output/disable-source-map.html) for details.
