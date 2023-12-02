@@ -1,46 +1,30 @@
-import { useNavigate } from '@modern-js/runtime/router';
-import React, { ComponentType, useEffect } from 'react';
-import { useGetSet } from 'react-use';
 import { Box, useThemeContext } from '@radix-ui/themes';
+import React from 'react';
 import {
-  DevtoolsProps,
   createBridge,
   createStore,
   initialize,
 } from 'react-devtools-inline/frontend';
+import { useAsync } from 'react-use';
 import { setupMountPointConnection } from '../../rpc';
 
-let connecting = false;
+const connTask = setupMountPointConnection();
 
 const Page: React.FC = () => {
-  const [getView, setView] = useGetSet<ComponentType<DevtoolsProps> | null>(
-    null,
-  );
-  const View = getView();
-  const navigate = useNavigate();
   const ctx = useThemeContext();
   const browserTheme = ctx.appearance === 'light' ? 'light' : 'dark';
 
-  useEffect(() => {
-    if (window.parent.window) {
-      navigate('./');
-    }
-  }, []);
-
-  const handleRef = async (ref: HTMLDivElement | null) => {
-    if (!ref || getView() || connecting) return;
-    connecting = true;
-    const { mountPoint, wall } = await setupMountPointConnection();
+  const { value: InnerView } = useAsync(async () => {
+    const { mountPoint, wall } = await connTask;
     const bridge = createBridge(window.parent, wall);
     const store = createStore(bridge);
-    const DevTools = initialize(window.parent, { bridge, store });
+    const ret = initialize(window.parent, { bridge, store });
     mountPoint.activateReactDevtools();
-    setView(React.memo(DevTools));
-  };
+    return ret;
+  }, []);
 
   return (
     <Box
-      ref={handleRef}
       style={{
         position: 'fixed',
         left: 'var(--navigator-width)',
@@ -49,7 +33,9 @@ const Page: React.FC = () => {
         right: 0,
       }}
     >
-      {View && <View browserTheme={browserTheme} hideSettings={false} />}
+      {InnerView && (
+        <InnerView browserTheme={browserTheme} hideSettings={false} />
+      )}
     </Box>
   );
 };
