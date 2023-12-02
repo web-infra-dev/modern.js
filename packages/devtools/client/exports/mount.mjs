@@ -12,9 +12,10 @@ if (!window.opener) {
     // Deny react devtools extension to activate.
     const originSubHook = window.__REACT_DEVTOOLS_GLOBAL_HOOK__.sub;
     window.__REACT_DEVTOOLS_GLOBAL_HOOK__.sub = (e, handler) => {
-      if (e !== 'devtools-backend-installed') {
-        originSubHook(e, handler);
+      if (e === 'devtools-backend-installed') {
+        return undefined;
       }
+      return originSubHook(e, handler);
     };
   } catch (err) {
     const e = new Error('Failed to inject React DevTools backend.');
