@@ -218,7 +218,7 @@ export const routesForServer = ({
 };
 
 const createMatchReg = (keyword: string) =>
-  new RegExp(`("${keyword}":\\s)"([^,]+)"`, 'g');
+  new RegExp(`("${keyword}":\\s)"([^\n]+)"`, 'g');
 
 export const fileSystemRoutes = async ({
   routes,
@@ -342,19 +342,19 @@ export const fileSystemRoutes = async ({
       if (route._component) {
         if (splitRouteChunks) {
           if (route.isRoot) {
-            lazyImport = `() => import('${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
+            lazyImport = `() => import('${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
             rootLayoutCode = `import RootLayout from '${route._component}'`;
             component = `RootLayout`;
           } else if (ssrMode === 'string') {
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
             component = `loadable(${lazyImport})`;
           } else {
             // csr and streaming
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
             component = `lazy(${lazyImport})`;
           }
         } else {
-          lazyImport = `() => import(/* webpackMode: "eager" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
+          lazyImport = `() => import(/* webpackMode: "eager" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
           if (ssrMode === 'string') {
             component = `loadable(${lazyImport})`;
           } else {
@@ -507,7 +507,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate } from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){

@@ -8,7 +8,7 @@ exports[`fileSystemRoutes generate code 1`] = `
   
     
     
-    import { createShouldRevalidate } from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
   
     
     import loading_0 from '@_modern_js_src/routes/loading.tsx';
@@ -52,21 +52,21 @@ import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
               "id": "user/[id]/page",
               "loader": loader_0,
               "type": "nested",
-              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule; return routeModule; }) ,
-              "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/[id]/page"] = routeModule; return routeModule; }) ),
+              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError) ,
+              "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError) ),
               "shouldRevalidate": createShouldRevalidate("user/[id]/page")
             }
           ],
           "lazyImport": null
         }
       ],
-      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule; return routeModule; }) ,
-      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["user/layout"] = routeModule; return routeModule; }) ),
+      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError) ,
+      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError) ),
       "shouldRevalidate": createShouldRevalidate("user/layout")
     }
   ],
-  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["layout"] = routeModule; return routeModule; }) ,
-  "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => {if(typeof document !== "undefined") window._routeModules["layout"] = routeModule; return routeModule; }) )
+  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError) ,
+  "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError) )
 },
 ];
   
@@ -80,7 +80,7 @@ exports[`fileSystemRoutes generate code for legacy router 1`] = `
   
     
     
-    import { createShouldRevalidate } from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
   
     
     
