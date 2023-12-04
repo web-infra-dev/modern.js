@@ -4,7 +4,9 @@
     "baseUrl": "./",
     "paths": {
       "@src/*": ["./src/*"]
-    }
+    },
+    "declaration": true,
+    "declarationMap": true
   },
   "include": ["src"]
 }

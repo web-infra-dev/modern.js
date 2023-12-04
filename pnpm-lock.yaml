@@ -7132,7 +7132,11 @@ importers:
 
   tests/integration/module/fixtures/build/define/ts: {}
 
-  tests/integration/module/fixtures/build/dts: {}
+  tests/integration/module/fixtures/build/dts:
+    devDependencies:
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
 
   tests/integration/module/fixtures/build/esbuildOptions: {}
 
