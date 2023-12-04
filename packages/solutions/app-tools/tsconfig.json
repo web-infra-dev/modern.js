@@ -9,5 +9,5 @@
     "skipLibCheck": true,
     "isolatedModules": true
   },
-  "include": ["src", "lib/types.d.ts"]
+  "include": ["src"]
 }
