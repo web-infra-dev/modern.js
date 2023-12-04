@@ -12,7 +12,6 @@ Please note the limitations of `tools.babel` in the following usage scenarios:
 
 ### Function Type
 
-
 When `tools.babel` is of type `Function`, the default Babel configuration will be passed as the first parameter. You can directly modify the configuration object or return an object as the final `babel-loader` configuration.
 
 ```js
@@ -144,50 +143,6 @@ export default {
 };
 ```
 
-#### addIncludes
-
-- **Type:** `(includes: string | RegExp | (string | RegExp)[]) => void`
-
-By default, Babel will only compile the application code in the src directory. With `addIncludes` you can specify that Babel compile some files in node_modules. For example:
-
-```js
-export default {
-  tools: {
-    babel(config, { addIncludes }) {
-      addIncludes(/\/node_modules\/query-string\//);
-    },
-  },
-};
-```
-
-:::tip
-The usage of the `addIncludes` function is identical to the `source.include` configuration option. We recommend using `source.include` instead of `addIncludes` because `source.include` has a wider range of use cases. For example, when migrating from Babel to SWC compilation, `source.include` can still work, while the `addIncludes` function will not be effective.
-
-Please refer to the [source.include documentation](https://modernjs.dev/builder/en/api/config-source.html#sourceinclude) for more detailed usage.
-:::
-
-#### addExcludes
-
-- **Type:** `(excludes: string | RegExp | (string | RegExp)[]) => void`
-
-Contrary to `addIncludes`, specifies that certain files are excluded from Babel's compilation.
-
-For example, without compiling files in the `src/example` directory:
-
-```js
-export default {
-  tools: {
-    babel(config, { addExcludes }) {
-      addExcludes('src/example');
-    },
-  },
-};
-```
-
-:::tip
-The usage of the `addExcludes` function is basically the same as the `source.exclude` config, please see the [source.exclude documentation](https://modernjs.dev/builder/api/config-source.html#sourceexclude) for a more detailed usage. You can also use `source.exclude` directly instead of the `addExcludes` function.
-:::
-
 #### modifyPresetEnvOptions
 
 - **Type:** `(options: PresetEnvOptions) => void`
@@ -225,6 +180,14 @@ export default {
   },
 };
 ```
+
+#### addIncludes
+
+Deprecated, please use [source.include](https://modernjs.dev/en/configure/app/source/include.html) instead, both have the same functionality.
+
+#### addExcludes
+
+Deprecated, please use [source.exclude](https://modernjs.dev/en/configure/app/source/exclude.html) instead, both have the same functionality.
 
 ### Debugging Babel Configuration
 

@@ -209,7 +209,7 @@ Solution:
 
 If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by Babel.
 
-Under normal circumstances, Modern.js will not use Babel to compile CommonJS modules. If the [source.include](/en/configure/app/source/include.html) configuration option is used in the project, or the [tools.babel](/configure/app/tools/babel.html) `addIncludes` method, some CommonJS modules may be added to the Babel compilation.
+Under normal circumstances, Modern.js will not use Babel to compile CommonJS modules. If the [source.include](/en/configure/app/source/include.html) configuration option is used in the project, some CommonJS modules may be added to the Babel compilation.
 
 There are two workarounds for this problem:
 

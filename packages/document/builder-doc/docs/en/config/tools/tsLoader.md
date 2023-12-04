@@ -49,38 +49,10 @@ export default {
 
 ### Util Functions
 
-When the value of `tools.tsLoader` is a Function, the utils functions available for the second parameter are as follows:
-
 #### addIncludes
 
-- **Type:** `(includes: string | RegExp | Array<string | RegExp>) => void`
-
-By default, only the application code in the src directory will be compiled. Use `addIncludes` to specify ts-loader to compile some files under `node_modules`. For example:
-
-```ts
-export default {
-  tools: {
-    tsLoader: (config, { addIncludes }) => {
-      addIncludes([/node_modules\/react/]);
-    },
-  },
-};
-```
+Deprecated, please use [source.include](https://modernjs.dev/en/configure/app/source/include.html) instead, both have the same functionality.
 
 #### addExcludes
 
-- **Type:** `(excludes: string | RegExp | Array<string | RegExp>) => void`
-
-Contrary to `addIncludes`, specify `ts-loader` to exclude certain files when compiling.
-
-For example, without compiling files in the `src/example` directory:
-
-```ts
-export default {
-  tools: {
-    tsLoader: (config, { addExcludes }) => {
-      addExcludes([/src\/example\//]);
-    },
-  },
-};
-```
+Deprecated, please use [source.exclude](https://modernjs.dev/en/configure/app/source/exclude.html) instead, both have the same functionality.

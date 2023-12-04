@@ -142,51 +142,6 @@ export default {
 };
 ```
 
-#### addIncludes
-
-- **类型：** `(includes: string | RegExp | (string | RegExp)[]) => void`
-
-默认情况下 Babel 只会编译 src 目录下的业务代码，使用 `addIncludes` 你可以指定 Babel 编译 node_modules 下的一些文件。比如编译 `query-string` 依赖：
-
-```js
-export default {
-  tools: {
-    babel(config, { addIncludes }) {
-      addIncludes(/\/node_modules\/query-string\//);
-    },
-  },
-};
-```
-
-:::tip
-`addIncludes` 函数的用法与 `source.include` 配置项完全一致，我们建议直接使用 `source.include` 来代替它，因为 `source.include` 的使用场景更广。比如，当你从 Babel 迁移切换到 SWC 编译时，`source.include` 仍然可以生效，而 `addIncludes` 函数则无法生效。
-
-请查看 [「source.include 文档」](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 来查看更详细的用法说明。
-
-:::
-
-#### addExcludes
-
-- **类型：** `(excludes: string | RegExp | (string | RegExp)[]) => void`
-
-`addExcludes` 和 `addIncludes` 的用处相反，指定 Babel 编译时排除某些文件。
-
-比如不编译 `src/example` 目录下的文件:
-
-```js
-export default {
-  tools: {
-    babel(config, { addExcludes }) {
-      addExcludes('src/example');
-    },
-  },
-};
-```
-
-:::tip
-`addExcludes` 函数的用法与 `source.exclude` 配置项基本一致，请查看 [source.exclude 文档](https://modernjs.dev/builder/api/config-source.html#sourceexclude) 来查看更详细的用法说明。也可以直接使用 `source.exclude` 来代替 `addExcludes` 函数。
-:::
-
 #### modifyPresetEnvOptions
 
 - **类型：** `(options: PresetEnvOptions) => void`
@@ -224,6 +179,14 @@ export default {
   },
 };
 ```
+
+#### addIncludes
+
+已废弃，请使用 [source.include](https://modernjs.dev/configure/app/source/include.html) 代替，两者功能完全一致。
+
+#### addExcludes
+
+已废弃，请使用 [source.exclude](https://modernjs.dev/configure/app/source/exclude.html) 代替，两者功能完全一致。
 
 ### 调试 Babel 配置
 

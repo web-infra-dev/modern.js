@@ -49,38 +49,10 @@ export default {
 
 ### 工具函数
 
-`tools.tsLoader` 的值为 Function 类型时，第二个参数可用的工具函数如下：
-
 #### addIncludes
 
-- **类型：** `(includes: string | RegExp | Array<string | RegExp>) => void`
-
-默认情况下只会编译 src 目录下的业务代码，使用 addIncludes 可以指定 ts-loader 编译 `node_modules` 下的一些文件。比如:
-
-```ts
-export default {
-  tools: {
-    tsLoader: (config, { addIncludes }) => {
-      addIncludes([/node_modules\/react/]);
-    },
-  },
-};
-```
+已废弃，请使用 [source.include](https://modernjs.dev/configure/app/source/include.html) 代替，两者功能完全一致。
 
 #### addExcludes
 
-- **类型：** `(excludes: string | RegExp | Array<string | RegExp>) => void`
-
-和 `addIncludes` 相反，指定 `ts-loader` 编译时排除某些文件。
-
-例如不编译 src/example 目录下的文件：
-
-```ts
-export default {
-  tools: {
-    tsLoader: (config, { addExcludes }) => {
-      addExcludes([/src\/example\//]);
-    },
-  },
-};
-```
+已废弃，请使用 [source.exclude](https://modernjs.dev/configure/app/source/exclude.html) 代替，两者功能完全一致。
