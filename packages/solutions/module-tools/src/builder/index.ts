@@ -10,7 +10,7 @@ import type {
 import pMap from '../../compiled/p-map';
 import { debug } from '../debug';
 import { runBuildTask } from './build';
-import { clearBuildConfigPaths, clearDtsTemp } from './clear';
+import { clearBuildConfigPaths } from './clear';
 
 export const run = async (
   options: {
@@ -34,7 +34,6 @@ export const run = async (
       await clearBuildConfigPaths(normalizedBuildConfig, context.appDirectory);
       debug('clear output paths done');
     }
-    await clearDtsTemp();
 
     if (watch) {
       logger.info('Start build in watch mode...');

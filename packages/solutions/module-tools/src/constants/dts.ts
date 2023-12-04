@@ -19,4 +19,3 @@ export const defaultTransformedFunctions = [
 ];
 
 export const watchDoneText = 'Watching for file changes';
-export const dtsTempDirectory = 'node_modules/.dts-temp';
