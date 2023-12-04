@@ -19,7 +19,11 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
   return useRouteData(realRouteId);
 };
 
-export { createShouldRevalidate } from './shouldRevalidate';
+export {
+  createShouldRevalidate,
+  handleRouteModule,
+  handleRouteModuleError,
+} from './routeModule';
 
 export type { LoaderFunction, LoaderFunctionArgs } from './types';
 
