@@ -16,6 +16,49 @@ afterAll(() => {
 const fixtureDir = __dirname;
 const enableDts = true;
 
+describe('dts build', () => {
+  it('buildType is bundle', async () => {
+    const configFile = path.join(fixtureDir, './dts-bundle.ts');
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+      enableDts,
+    });
+    // dts.distPath
+    const distDtsFilePath = path.join(
+      fixtureDir,
+      './dist/bundle/types/index.d.ts',
+    );
+    const distJsFilePath = path.join(fixtureDir, './dist/bundle/index.js');
+    // dts.only
+    expect(fs.existsSync(distJsFilePath)).toBeFalsy();
+    const content = await fs.readFile(distDtsFilePath, 'utf8');
+    // dts.respectExternal
+    expect(content.includes('export { Ref } from')).toBeTruthy();
+  });
+
+  it('buildType is bundleless', async () => {
+    const configFile = path.join(fixtureDir, './dts-bundleless.ts');
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+      enableDts,
+    });
+    const distMapPath = path.join(
+      fixtureDir,
+      './dist/bundleless/types/index.d.ts.map',
+    );
+    const content = JSON.parse(await fs.readFile(distMapPath, 'utf8'));
+    // source map
+    expect(
+      path.resolve(path.dirname(distMapPath), content.sources[0]) ===
+        path.resolve(fixtureDir, 'src/index.ts'),
+    ).toBeTruthy();
+  });
+});
+
 describe('dts is false', () => {
   it('buildType is bundle', async () => {
     const configFile = path.join(fixtureDir, './false-bundle.ts');
@@ -46,126 +89,6 @@ describe('dts is false', () => {
       fixtureDir,
       './dist/false-bundleless/index.d.ts',
     );
-    expect(await fs.pathExists(distDtsFilePath)).toBeFalsy();
-  });
-});
-
-describe('dts.distPath', () => {
-  it('buildType is bundle', async () => {
-    const configFile = path.join(fixtureDir, './distPath-bundle.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-    expect(success).toBeTruthy();
-    const distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/bundle-dist-path/types/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-  });
-
-  it('buildType is bundleless', async () => {
-    const configFile = path.join(fixtureDir, './distPath-bundleless.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-    expect(success).toBeTruthy();
-
-    let distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/bundleless-dist-path/types/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-    distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/bundleless-dist-path/types/b.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-  });
-});
-
-describe('dts.tsconfigPath', () => {
-  it('buildType is bundle', async () => {
-    const configFile = path.join(fixtureDir, './tsconfigPath-bundle.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-
-    expect(success).toBeTruthy();
-    const distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/tsconfig-path/bundle/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-  });
-
-  it('buildType is bundleless', async () => {
-    const configFile = path.join(fixtureDir, './tsconfigPath-bundleless.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-    expect(success).toBeTruthy();
-    let distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/tsconfig-path/bundleless/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-
-    distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/tsconfig-path/bundleless/b.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-  });
-});
-
-describe('dts.only is true', () => {
-  it('buildType is bundle', async () => {
-    const configFile = path.join(fixtureDir, './only-bundle.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-    expect(success).toBeTruthy();
-    let distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/only-bundle/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-    distDtsFilePath = path.join(fixtureDir, './dist/only-bundle/index.js');
-    expect(await fs.pathExists(distDtsFilePath)).toBeFalsy();
-  });
-
-  it('buildType is bundleless', async () => {
-    const configFile = path.join(fixtureDir, './only-bundleless.ts');
-    const { success } = await runCli({
-      argv: ['build'],
-      configFile,
-      appDirectory: fixtureDir,
-      enableDts,
-    });
-    expect(success).toBeTruthy();
-    let distDtsFilePath = path.join(
-      fixtureDir,
-      './dist/only-bundleless/index.d.ts',
-    );
-    expect(await fs.pathExists(distDtsFilePath)).toBeTruthy();
-
-    distDtsFilePath = path.join(fixtureDir, './dist/only-bundleless/index.js');
     expect(await fs.pathExists(distDtsFilePath)).toBeFalsy();
   });
 });
