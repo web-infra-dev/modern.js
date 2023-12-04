@@ -39,11 +39,20 @@ const buildTemplateData = (
   data: Record<string, any>,
   renderLevel: RenderLevel,
   tracker: SSRTracker,
+  config: SSRPluginConfig,
 ) => {
-  const { request, enableUnsafeCtx } = context;
-  const unsafeContext = {
-    headers: request.headers,
-  };
+  const { request } = context;
+  const { unsafeContext } = config;
+
+  const headers = unsafeContext?.headers
+    ? Object.fromEntries(
+        Object.entries(request.headers).filter(([key, _]) => {
+          return unsafeContext.headers
+            ?.map(header => header.toLowerCase())
+            ?.includes(key.toLowerCase());
+        }),
+      )
+    : undefined;
 
   return {
     data,
@@ -54,7 +63,7 @@ const buildTemplateData = (
         pathname: request.pathname,
         host: request.host,
         url: request.url,
-        ...(enableUnsafeCtx ? unsafeContext : {}),
+        headers,
       },
       reporter: {
         sessionId: tracker.sessionId,
@@ -142,6 +151,7 @@ export default class Entry {
       prefetchData,
       this.result.renderLevel,
       this.tracker,
+      this.pluginConfig,
     );
     const ssrDataScripts = this.getSSRDataScript(templateData, routerData);
 
