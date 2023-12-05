@@ -53,7 +53,7 @@ export const builderPluginReact = (): BuilderPlugin => ({
         chain.plugin('ReactRefreshRuntime').use(bundler.ProvidePlugin, [
           {
             $ReactRefreshRuntime$: [
-              require.resolve('@rspack/dev-client/react-refresh'),
+              require.resolve('@rspack/plugin-react-refresh/react-refresh'),
             ],
           },
         ]);

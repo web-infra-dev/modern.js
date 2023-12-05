@@ -26,7 +26,7 @@ export const entries = async (_: unknown, options: Options) => {
         )}?reload=true&quiet=false&noInfo=${options.quiet}`,
 
         bundler === 'rspack'
-          ? require.resolve('@rspack/dev-client/react-refresh-entry')
+          ? require.resolve('@rspack/plugin-react-refresh/react-refresh-entry')
           : null,
       ].filter(Boolean) as string[]),
     );

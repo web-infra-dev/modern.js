@@ -703,7 +703,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ProvidePlugin {
       "_options": {
         "$ReactRefreshRuntime$": [
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client/reactRefresh.js",
         ],
       },
       "name": "ProvidePlugin",
@@ -2682,7 +2682,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     ProvidePlugin {
       "_options": {
         "$ReactRefreshRuntime$": [
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client/reactRefresh.js",
         ],
       },
       "name": "ProvidePlugin",
