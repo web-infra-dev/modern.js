@@ -373,6 +373,9 @@ importers:
       html-webpack-plugin:
         specifier: 5.5.3
         version: 5.5.3(webpack@5.88.1)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       mini-css-extract-plugin:
         specifier: 2.7.6
         version: 2.7.6(webpack@5.88.1)
@@ -416,6 +419,9 @@ importers:
       '@types/caniuse-lite':
         specifier: ^1.0.1
         version: 1.0.1
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.14.202
       '@types/node':
         specifier: ^14
         version: 14.18.35
