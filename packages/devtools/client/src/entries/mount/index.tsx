@@ -2,6 +2,7 @@ import { createRoot } from 'react-dom/client';
 import { parseQuery } from 'ufo';
 import _ from 'lodash';
 import { SetupClientParams } from '@modern-js/devtools-kit';
+import { waitClientConnection } from './rpc';
 import { DevtoolsActionButton } from '@/components/Devtools/Action';
 
 // @ts-expect-error
@@ -22,4 +23,5 @@ const options: SetupClientParams = {
   endpoint: parsed.endpoint,
   def: JSON.parse(parsed.def),
 };
+waitClientConnection();
 root.render(<DevtoolsActionButton {...options} />);

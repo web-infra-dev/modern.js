@@ -1,3 +1,4 @@
+import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
@@ -32,6 +33,11 @@ export default defineConfig<'rspack'>({
       'process.env.VERSION': packageMeta.version,
       'process.env.PKG_VERSION': packageMeta.version,
       'process.env.DEVTOOLS_MARK': nanoid(),
+    },
+    alias: {
+      // Trick to fix: Modern.js won't recognize experimental react as react@18.
+      react: path.resolve('./node_modules/react-exp'),
+      'react-dom': path.resolve('./node_modules/react-dom-exp'),
     },
   },
   output: {
