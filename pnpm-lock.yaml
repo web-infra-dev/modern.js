@@ -4629,18 +4629,6 @@ importers:
       '@ast-grep/napi':
         specifier: 0.12.0
         version: 0.12.0
-      '@babel/generator':
-        specifier: ^7.22.15
-        version: 7.23.0
-      '@babel/parser':
-        specifier: ^7.22.15
-        version: 7.23.0
-      '@babel/traverse':
-        specifier: ^7.23.2
-        version: 7.23.2
-      '@babel/types':
-        specifier: ^7.22.15
-        version: 7.23.0
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -4738,12 +4726,6 @@ importers:
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
-      '@types/babel__generator':
-        specifier: 7.6.4
-        version: 7.6.4
-      '@types/babel__traverse':
-        specifier: 7.18.5
-        version: 7.18.5
       '@types/convert-source-map':
         specifier: 1.5.2
         version: 1.5.2
