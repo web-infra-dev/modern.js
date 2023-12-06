@@ -1395,7 +1395,7 @@ importers:
         specifier: ^4.11.0
         version: 4.11.0(react@18.2.0)
       react-is:
-        specifier: ^18.2.0
+        specifier: ^18
         version: 18.2.0
       react-json-tree:
         specifier: ^0.18.0
