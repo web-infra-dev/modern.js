@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 2.42.0
+
+### Patch Changes
+
+- c2fa7c4: refactor(module-tools): use ast-grep to replace dts alias instead of babel
+  refactor(module-tools): 使用 ast-grep 替代 babel 处理 d.ts 文件里的别名
+- 5d2f474: fix(module-tools): d.ts.map invalid sources when bundleless
+  fix(module-tools): 修复 bundleless 里生成的 d.ts.map 文件中无效的 sources 字段
+- 6200cf2: fix(module-tools): add -b param to tsc when user add references to avoid error ts6305
+  fix(module-tools): 用户使用 references 时给 tsc 添加 -b 参数来避免 TS6305 错误
+- Updated dependencies [b182eb2]
+  - @modern-js/new-action@2.42.0
+  - @modern-js/upgrade@2.42.0
+  - @modern-js/core@2.42.0
+  - @modern-js/plugin-changeset@2.42.0
+  - @modern-js/plugin-i18n@2.42.0
+  - @modern-js/plugin-lint@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Minor Changes
