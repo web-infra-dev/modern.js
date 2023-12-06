@@ -70,18 +70,12 @@ export const devtoolsPlugin = (
           builderPlugins: [rpc.builderPlugin],
           source: {
             preEntry: [withQuery(runtimeEntry, ctx)],
+            include: [runtimeEntry],
           },
           output: {
             copy: [{ from: swProxyEntry, to: 'public' }],
           },
-          html: {
-            tags: [
-              {
-                tag: 'script',
-                attrs: { src: 'https://api.example.com/script.js' },
-              },
-            ],
-          },
+          html: {},
           tools: {
             devServer: {
               proxy: {
