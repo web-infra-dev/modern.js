@@ -50,12 +50,21 @@ describe('dts build', () => {
       fixtureDir,
       './dist/bundleless/types/index.d.ts.map',
     );
-    const content = JSON.parse(await fs.readFile(distMapPath, 'utf8'));
+    const mapContent = JSON.parse(await fs.readFile(distMapPath, 'utf8'));
+
     // source map
     expect(
-      path.resolve(path.dirname(distMapPath), content.sources[0]) ===
+      path.resolve(path.dirname(distMapPath), mapContent.sources[0]) ===
         path.resolve(fixtureDir, 'src/index.ts'),
     ).toBeTruthy();
+
+    /// / fix jest bug
+    // const content = await fs.readFile(distPath, 'utf8');
+    // const distPath = path.join(
+    //   fixtureDir,
+    //   './dist/bundleless/types/index.d.ts',
+    // );
+    // expect(content.includes('./b')).toBeTruthy();
   });
 });
 

@@ -4,11 +4,9 @@ import type { GeneratorDtsConfig, PluginAPI, ModuleTools } from '../../types';
 import {
   getTscBinPath,
   printOrThrowDtsErrors,
-  resolveAlias,
   addDtsFiles,
-  writeDtsFiles,
-  addBannerAndFooter,
   withLogTitle,
+  processDtsFilesAfterTsc,
 } from '../../utils';
 import { watchDoneText } from '../../constants/dts';
 
@@ -100,9 +98,7 @@ const runTscBin = async (
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
-      const result = await resolveAlias(config);
-      const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
-      await writeDtsFiles(config, dtsFiles);
+      await processDtsFilesAfterTsc(config);
       runner.buildWatchDts({ buildType: 'bundleless' });
     },
   });
@@ -119,8 +115,6 @@ export const runTsc = async (
   config: GeneratorDtsConfig,
 ) => {
   await runTscBin(api, config);
-  const result = await resolveAlias(config);
-  const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
-  await writeDtsFiles(config, dtsFiles);
+  await processDtsFilesAfterTsc(config);
   await addDtsFiles(config.distPath, config.appDirectory);
 };
