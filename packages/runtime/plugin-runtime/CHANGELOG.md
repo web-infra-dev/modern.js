@@ -1,5 +1,23 @@
 # @modern-js/runtime
 
+## 2.42.0
+
+### Patch Changes
+
+- 103cf92: feat(runtime-utils): split parsed from browser
+  feat(runtime-utils): 从 browser 中拆分 parsed 方法
+- ecc57b6: fix(plugin-runtime): `Document.tsx` should work fine when user config `html.title` or `html.titleByEntries`
+  fix(plugin-runtime): `Document.tsx` 正常工作当用户配置 `html.title` or `html.titleByEntries` 的时候
+- d6596cb: fix: catch the error of import route module
+  fix: 捕获导入 route module 的错误
+- e2c899b: fix: add more ssr metrics logger
+  fix: 增加更多 ssr metrics 日志信息
+- Updated dependencies [103cf92]
+  - @modern-js/runtime-utils@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes
