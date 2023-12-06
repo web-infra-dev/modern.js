@@ -8,10 +8,11 @@ import {
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
-import cache from './cache';
-import { SSRServerContext } from './type';
+// import cache from './cache';
+import { CacheOption, RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
+import { ssrCache } from './ssrCache';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -24,6 +25,7 @@ export const render = async (
     staticGenerate: boolean;
     enableUnsafeCtx?: boolean;
     nonce?: string;
+    cacheOption?: CacheOption;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
@@ -36,6 +38,7 @@ export const render = async (
     staticGenerate,
     enableUnsafeCtx = false,
     nonce,
+    cacheOption,
   } = renderOptions;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
@@ -84,8 +87,18 @@ export const render = async (
 
   runner.extendSSRContext(context);
   const bundleJSContent = await Promise.resolve(require(bundleJS));
-  const serverRender = bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
-  const content = await cache(serverRender, ctx)(context);
+  const serverRender: RenderFunction =
+    bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
+
+  // const content = await cache(serverRender, ctx)(context);
+
+  const content = await ssrCache(
+    ctx.req,
+    ctx,
+    serverRender,
+    context,
+    cacheOption,
+  );
 
   const { url, status = 302 } = context.redirection;
 

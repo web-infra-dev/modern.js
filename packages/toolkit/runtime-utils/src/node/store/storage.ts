@@ -1,4 +1,4 @@
-import { Container } from './container';
+import { Container } from '@modern-js/types';
 
 export class Storage<V = unknown> {
   private symbol: string;

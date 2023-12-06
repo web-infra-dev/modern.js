@@ -72,3 +72,15 @@ export type BffProxyOptions =
   | Record<string, ProxyDetail>
   | ProxyDetail[]
   | ProxyDetail;
+
+export interface Container<V = string> {
+  get: (key: string) => V | undefined;
+
+  set: (key: string, value: V) => this;
+
+  has: (key: string) => boolean;
+
+  delete: (key: string) => boolean;
+
+  forEach?: (callbackFn: (v: V, k: string, container: this) => void) => void;
+}

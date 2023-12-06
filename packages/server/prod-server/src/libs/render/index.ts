@@ -10,6 +10,7 @@ import { shouldFlushServerHeader } from '../preload/shouldFlushServerHeader';
 import { handleDirectory } from './static';
 import * as ssr from './ssr';
 import { injectServerData } from './utils';
+import { CacheOption } from './type';
 
 export type RenderHandler = (options: {
   ctx: ModernServerContext;
@@ -25,6 +26,7 @@ type CreateRenderHandler = (ctx: {
   forceCSR?: boolean;
   nonce?: string;
   metaName?: string;
+  cacheOption?: CacheOption;
 }) => RenderHandler;
 
 const calcFallback = (metaName: string) =>
@@ -38,6 +40,7 @@ export const createRenderHandler: CreateRenderHandler = ({
   nonce,
   ssrRender,
   metaName = 'modern-js',
+  cacheOption,
 }: {
   distDir: string;
   staticGenerate: boolean;
@@ -46,6 +49,7 @@ export const createRenderHandler: CreateRenderHandler = ({
   forceCSR?: boolean;
   nonce?: string;
   metaName?: string;
+  cacheOption?: CacheOption;
 }): RenderHandler =>
   async function render({
     ctx,
@@ -108,6 +112,7 @@ export const createRenderHandler: CreateRenderHandler = ({
           template: content.toString(),
           staticGenerate,
           nonce,
+          cacheOption,
         };
         const result = await (ssrRender
           ? ssrRender(ctx, ssrRenderOptions, runner)

@@ -17,6 +17,8 @@ import {
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
+import { store } from '@modern-js/runtime-utils/store';
+import { loadServerCacheMod } from 'libs/loadCacheMod';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -197,6 +199,10 @@ export class ModernServer implements ModernServerInterface {
     const ssrConfig = this.conf.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
 
+    const { customContainer, cacheOption } = loadServerCacheMod(this.pwd);
+
+    customContainer && store.setCustomContainer(customContainer);
+
     return createRenderHandler({
       distDir,
       staticGenerate,
@@ -204,6 +210,7 @@ export class ModernServer implements ModernServerInterface {
       conf: this.conf,
       nonce: conf.security?.nonce,
       metaName,
+      cacheOption,
     });
   }
 

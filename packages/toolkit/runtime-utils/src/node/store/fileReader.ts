@@ -5,14 +5,8 @@ import type { Storage } from './storage';
 export class FileReader {
   private storage: Storage<Buffer>;
 
-  constructor(storage: Storage<Buffer>, maxAge?: number) {
+  constructor(storage: Storage<Buffer>) {
     this.storage = storage;
-
-    if (maxAge) {
-      setInterval(() => {
-        this.storage.clear?.();
-      }, maxAge);
-    }
   }
 
   async readFile(path: string, encoding: 'utf-8' | 'buffer' = 'utf-8') {

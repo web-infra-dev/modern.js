@@ -1,6 +1,10 @@
-import { Container, MemoryContainer } from './container';
+import type { Container } from '@modern-js/types';
+import { MemoryContainer } from './container';
 import { Storage } from './storage';
 import { FileReader } from './fileReader';
+
+export type { Storage } from './storage';
+export type { FileReader } from './fileReader';
 
 export class Store {
   private defaultContainer: Container<any>;
@@ -9,12 +13,12 @@ export class Store {
 
   private id: number = 0;
 
-  constructor(
-    defaultContainer: Container<unknown>,
-    customContainer?: Container<unknown>,
-  ) {
+  constructor(defaultContainer: Container<unknown>) {
     this.defaultContainer = defaultContainer;
-    this.customContainer = customContainer;
+  }
+
+  setCustomContainer(ct: Container<any>) {
+    this.customContainer = ct;
   }
 
   createContainer<V = unknown>(type: 'default' | 'custom' = 'default') {
@@ -23,6 +27,9 @@ export class Store {
     if (type === 'default') {
       return new Storage<V>(symbol, this.defaultContainer);
     } else if (this.customContainer) {
+      // TODO: only production env
+      // TODO: how to debug by user
+      // use process.env.xxx
       return new Storage<V>(symbol, this.customContainer);
     } else {
       return new Storage<V>(symbol, this.defaultContainer);
@@ -31,7 +38,7 @@ export class Store {
 
   private generateSymbol() {
     // TODO: how to generate symbol
-    return `__modern__${this.id++}`;
+    return `__modern__symbol_#${this.id++}`;
   }
 }
 

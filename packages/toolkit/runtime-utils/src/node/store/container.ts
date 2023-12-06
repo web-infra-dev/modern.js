@@ -1,22 +1,17 @@
+import { Container } from '@modern-js/types';
 import LRU from 'lru-cache';
-
-export interface Container<V = string> {
-  get: (key: string) => V | undefined;
-
-  set: (key: string, value: V) => this;
-
-  has: (key: string) => boolean;
-
-  delete: (key: string) => boolean;
-
-  forEach?: (callbackFn: (v: V, k: string, container: this) => void) => void;
-}
 
 interface MemoryContainerOptions {
   /** The maximum size of the cache, unit(MB). The default of value is 256. */
   max?: number;
+
+  maxAge?: number;
 }
 
+/**
+ * MemoryContainer, it use lur-cache as cahe layer.
+ * It has a Time to Live, by default as 1 hour.
+ */
 export class MemoryContainer<V = unknown> implements Container<V> {
   private static BYTE: number = 1;
 
@@ -24,11 +19,20 @@ export class MemoryContainer<V = unknown> implements Container<V> {
 
   private static MB: number = 1024 * this.KB;
 
+  private static ms: number = 1;
+
+  private static second: number = this.ms * 1000;
+
+  private static minute: number = this.second * 60;
+
+  private static hour: number = this.minute * 60;
+
   private cache: LRU<string, V>;
 
-  constructor({ max }: MemoryContainerOptions = {}) {
+  constructor({ max, maxAge }: MemoryContainerOptions = {}) {
     this.cache = new LRU({
       max: (max || 256) * MemoryContainer.MB,
+      maxAge: maxAge || MemoryContainer.hour,
     });
   }
 
