@@ -17,6 +17,9 @@ async function basicUsage(page: Page, appPort: number) {
     waitUntil: ['networkidle0'],
   });
   await (expect(page) as any).toMatchTextContent('user1-18');
+
+  const content = await page.content();
+  await (expect(content) as any).toMatch('"headers":{"host":');
 }
 
 async function errorThrown(page: Page, appPort: number) {
