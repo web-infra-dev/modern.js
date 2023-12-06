@@ -62,7 +62,7 @@
     "react-dom": "^18.2.0",
     "react-dom-exp": "npm:react-dom@0.0.0-experimental-51ffd3564-20231025",
     "react-icons": "^4.11.0",
-    "react-is": "^18.2.0",
+    "react-is": "^18",
     "react-json-tree": "^0.18.0",
     "react-json-view": "^1.21.3",
     "react-use": "^17.4.0",
