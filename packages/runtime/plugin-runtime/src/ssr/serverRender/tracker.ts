@@ -26,22 +26,22 @@ const errors: Record<
   }
 > = {
   [SSRErrors.PRERENDER]: {
-    reporter: 'SSR Error - App Prerender',
+    reporter: 'App Prerender',
     logger: 'App Prerender',
     metrics: 'app.prerender.error',
   },
   [SSRErrors.USE_LOADER]: {
-    reporter: 'SSR Error - App run useLoader',
+    reporter: 'App run useLoader',
     logger: 'App run useLoader',
     metrics: 'app.useloader.error',
   },
   [SSRErrors.RENDER_HTML]: {
-    reporter: 'SSR Error - App Render To HTML',
+    reporter: 'App Render To HTML',
     logger: 'App Render To HTML',
     metrics: 'app.render.html.error',
   },
   [SSRErrors.RENDER_STREAM]: {
-    reporter: 'SSR Error - App Render To Streaming',
+    reporter: 'App Render To Streaming',
     logger: 'An error occurs during streaming SSR',
     metrics: 'app.render.streaming.error',
   },
@@ -73,10 +73,13 @@ const timings: Record<
   },
   [SSRTimings.RENDER_SHELL]: {
     reporter: 'ssr-render-shell',
+    metrics: 'app.render.shell.cost',
+    logger: 'App Render To Shell cost = %d ms',
   },
   [SSRTimings.USE_LOADER]: {
     reporter: 'use-loader',
     serverTiming: 'use-loader',
+    metrics: 'app.useloader.cost',
     logger: 'App run useLoader cost = %d ms',
   },
 };
@@ -98,7 +101,9 @@ export function createSSRTracker({
         logger: loggerContent,
       } = errors[key];
 
-      reporterContent && reporter.reportError(reporterContent, e);
+      // unit add `SSR Error - `prefix
+      reporterContent &&
+        reporter.reportError(`SSR Error - ${reporterContent}`, e);
       metricsContent && metrics.emitCounter(metricsContent, 1);
       loggerContent && logger.error(loggerContent, e);
     },

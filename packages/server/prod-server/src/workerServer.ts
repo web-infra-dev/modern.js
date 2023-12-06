@@ -1,13 +1,13 @@
-import {
+import type {
   AfterMatchContext,
   AfterRenderContext,
   BaseSSRServerContext,
+  Logger,
   MiddlewareContext,
   NextFunction,
   Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
-import { createLogger } from '@modern-js/utils/logger';
 import {
   WorkerServerContext,
   createAfterMatchContext,
@@ -17,6 +17,25 @@ import {
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
 import { defaultReporter } from './libs/reporter';
+
+// TODO: inject logger from worker
+const createLogger = (): Logger => ({
+  error(message, ...args: any[]) {
+    console.error(message, ...args);
+  },
+  info(message, ...args: any[]) {
+    console.error(message, ...args);
+  },
+  warn(message, ...args: any[]) {
+    console.warn(message, ...args);
+  },
+  debug(message, ...args: any[]) {
+    console.debug(message, ...args);
+  },
+  log(message, ...args: any[]) {
+    console.log(message, ...args);
+  },
+});
 
 const calcFallback = (metaName: string) =>
   `x-${metaName.split(/[-_]/)[0]}-ssr-fallback`;
@@ -151,7 +170,7 @@ export const createHandler = (manifest: Manifest) => {
       return createResponse(page.template);
     }
 
-    const logger = createLogger({ level: 'warn' });
+    const logger = createLogger();
     const metrics = defaultMetrics as any;
     const reporter = defaultReporter;
     const route = pageMatch.generate(url.pathname);

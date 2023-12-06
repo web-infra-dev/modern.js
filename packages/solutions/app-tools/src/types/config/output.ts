@@ -38,6 +38,11 @@ export interface SharedOutputConfig extends BuilderSharedOutputConfig {
    */
   enableInlineRouteManifests?: boolean;
   /**
+   * Used to control whether to inject convention-based routing information into the HTML.
+   * @default false
+   */
+  disableInlineRouteManifests?: boolean;
+  /**
    * Specify the temporary directory for framework generated files.
    */
   tempDir?: string;

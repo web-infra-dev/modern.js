@@ -14,6 +14,7 @@ export interface GeneratorDtsConfig {
   input: Input;
   respectExternal: boolean;
   dtsExtension: string;
+  userTsconfig: ITsconfig;
 }
 
 export interface GeneratedDtsInfo {

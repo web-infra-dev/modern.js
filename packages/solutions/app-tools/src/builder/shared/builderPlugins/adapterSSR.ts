@@ -133,12 +133,17 @@ function applyRouterPlugin<B extends Bundler>(
   const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
+  const { enableInlineRouteManifests, disableInlineRouteManifests } =
+    normalizedConfig.output;
+  const inlineRouteManifests = disableInlineRouteManifests
+    ? !disableInlineRouteManifests
+    : enableInlineRouteManifests;
+
   if (existNestedRoutes || routerManifest || workerSSR) {
     chain.plugin(pluginName).use(RouterPlugin, [
       {
         HtmlBundlerPlugin,
-        enableInlineRouteManifests:
-          normalizedConfig.output.enableInlineRouteManifests,
+        enableInlineRouteManifests: inlineRouteManifests,
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
         scriptLoading: normalizedConfig.html?.scriptLoading,

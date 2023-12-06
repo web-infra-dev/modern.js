@@ -1,13 +1,7 @@
 import type { ChildProcess } from 'child_process';
 import { execa, logger } from '@modern-js/utils';
-import type {
-  GeneratorDtsConfig,
-  PluginAPI,
-  ModuleTools,
-  GeneratedDtsInfo,
-} from '../../types';
+import type { GeneratorDtsConfig, PluginAPI, ModuleTools } from '../../types';
 import {
-  generateDtsInfo,
   getTscBinPath,
   printOrThrowDtsErrors,
   resolveAlias,
@@ -61,25 +55,40 @@ const resolveLog = async (
 const runTscBin = async (
   api: PluginAPI<ModuleTools>,
   config: GeneratorDtsConfig,
-  info: GeneratedDtsInfo,
 ) => {
   const { appDirectory, watch = false, abortOnError = true } = config;
 
-  const { tempTsconfigPath } = info;
-
   const tscBinFile = await getTscBinPath(appDirectory);
 
-  const watchParams = watch ? ['-w'] : [];
+  const { tsconfigPath, userTsconfig, distPath } = config;
+
+  const params: string[] = [];
+
+  if (watch) {
+    params.push('-w');
+  }
+
+  // avoid error TS6305
+  if (userTsconfig.references) {
+    params.push('-b');
+  }
+
   const childProgress = execa(
     tscBinFile,
     [
       '-p',
-      tempTsconfigPath,
+      tsconfigPath,
       /* Required parameter, use it stdout have color */
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
       '--preserveWatchOutput',
-      ...watchParams,
+      // Only emit d.ts files
+      '--declaration',
+      '--emitDeclarationOnly',
+      // write d.ts files to distPath that defined in buildConfig.dts
+      '--outDir',
+      distPath,
+      ...params,
     ],
     {
       stdio: 'pipe',
@@ -91,9 +100,9 @@ const runTscBin = async (
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
-      const result = await resolveAlias(config, info);
+      const result = await resolveAlias(config);
       const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
-      await writeDtsFiles(config, info, dtsFiles);
+      await writeDtsFiles(config, dtsFiles);
       runner.buildWatchDts({ buildType: 'bundleless' });
     },
   });
@@ -109,10 +118,9 @@ export const runTsc = async (
   api: PluginAPI<ModuleTools>,
   config: GeneratorDtsConfig,
 ) => {
-  const generatedDtsInfo = await generateDtsInfo(config);
-  await runTscBin(api, config, generatedDtsInfo);
-  const result = await resolveAlias(config, generatedDtsInfo);
+  await runTscBin(api, config);
+  const result = await resolveAlias(config);
   const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
-  await writeDtsFiles(config, generatedDtsInfo, dtsFiles);
+  await writeDtsFiles(config, dtsFiles);
   await addDtsFiles(config.distPath, config.appDirectory);
 };

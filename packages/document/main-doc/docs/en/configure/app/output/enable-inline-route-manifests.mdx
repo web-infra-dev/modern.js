@@ -1,10 +1,20 @@
 ---
-sidebar_label: enableInlineRouteManifests
+sidebar_label: disableInlineRouteManifests
 ---
 
-# output.enableInlineRouteManifests
+# output.disableInlineRouteManifests
 
 - **Type:** `boolean`
-- **Default:** `true`
+- **Default:** `false`
 
-When using convention-based routing, the framework injects routing information into the client for optimization purposes. By default, routing information is injected into the html, but when this is configured to `false`, routing information is injected into a separate JS file.
+When using convention-based routing, the framework injects routing information into the client for optimization purposes. By default, routing information is injected into the html, but when this is configured to `true`, routing information is injected into a separate JS file.
+
+Example:
+
+```ts
+export default {
+  output: {
+    disableInlineRouteManifests: true,
+  },
+};
+```
