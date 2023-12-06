@@ -3612,6 +3612,9 @@ importers:
       '@modern-js/babel-compiler':
         specifier: workspace:*
         version: link:../../toolkit/compiler/babel
+      '@modern-js/bff-core':
+        specifier: workspace:*
+        version: link:../../server/bff-core
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
@@ -3667,9 +3670,6 @@ importers:
         specifier: ^17.0.1
         version: 17.7.1
     devDependencies:
-      '@modern-js/bff-core':
-        specifier: workspace:*
-        version: link:../../server/bff-core
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core

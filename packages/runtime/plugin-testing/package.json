@@ -142,7 +142,8 @@
     "@jest/types": "^29.5.0",
     "ts-jest": "^29.1.0",
     "yargs": "^17.0.1",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.3",
+    "@modern-js/bff-core": "workspace:*"
   },
   "peerDependencies": {
     "react": ">=17",
@@ -159,7 +160,6 @@
     "react-dom": "^18",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/bff-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
