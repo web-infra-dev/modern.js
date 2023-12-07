@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["./src/*"]
+    },
+    "composite": true,
+    "declaration": true,
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
