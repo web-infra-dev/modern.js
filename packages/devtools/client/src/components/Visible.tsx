@@ -3,6 +3,7 @@ import React, { useRef } from 'react';
 export interface VisibleProps {
   children: React.ReactNode;
   when?: boolean;
+  load?: boolean;
   keepAlive?: boolean;
 }
 
@@ -11,10 +12,10 @@ const Visible: React.FC<VisibleProps> = props => {
 
   const { when } = props;
   const opened = useRef(false);
-  if (when) {
+  if (when ?? props.load) {
     opened.current = true;
   }
-  const load = keepAlive ? opened.current : when;
+  const load = props.load ?? (keepAlive ? opened.current : when);
   const visible = keepAlive ? when : true;
 
   return load ? (
