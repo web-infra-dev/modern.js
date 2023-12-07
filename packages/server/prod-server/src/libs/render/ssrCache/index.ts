@@ -1,31 +1,35 @@
 import { IncomingMessage } from 'http';
 import { Transform, type Readable } from 'stream';
-import { ModernServerContext } from '@modern-js/types';
 import {
   CacheControl,
   CacheOption,
   CacheOptionProvider,
-  RenderFunction,
-  SSRServerContext,
-} from '../type';
+} from '@modern-js/types';
+import { createMemoryStorage } from '@modern-js/runtime-utils/storage';
+import { RenderFunction, SSRServerContext } from '../type';
+import { cacheMod } from './cacheMod';
 import { CacheManager } from './manager';
 
-type ServerRender = RenderFunction;
+const cacheStorage = createMemoryStorage<string>('__ssr__cache');
 
 export async function ssrCache(
   req: IncomingMessage,
-  serverContext: ModernServerContext,
-  serverRender: ServerRender,
+  render: RenderFunction,
   ssrContext: SSRServerContext,
-  cacheOption?: CacheOption,
 ): Promise<string | Readable> {
+  if (!cacheMod.loaded) {
+    cacheMod.loadServerCacheMod();
+  }
+  const { customContainer, cacheOption } = cacheMod;
   const cacheControl = matchCacheControl(req, cacheOption);
-  const asyncRender = serverRender(ssrContext);
+  const cacheManager = new CacheManager(
+    customContainer ? customContainer : cacheStorage,
+  );
 
   if (cacheControl) {
-    return new CacheManager().getCacheResult(req, cacheControl, asyncRender);
+    return cacheManager.getCacheResult(req, cacheControl, render, ssrContext);
   } else {
-    const renderResult = await asyncRender;
+    const renderResult = await render(ssrContext);
     if (typeof renderResult === 'string') {
       return renderResult;
     } else {

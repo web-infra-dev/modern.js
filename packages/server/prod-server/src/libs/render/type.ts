@@ -1,8 +1,6 @@
 import { Writable, Readable } from 'stream';
 import { BaseSSRServerContext } from '@modern-js/types';
 
-export * from './ssrCache/type';
-
 type MetaKeyMap = {
   header?: string[];
   query?: string[];

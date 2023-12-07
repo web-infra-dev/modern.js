@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 import { readFile, exists } from '@modern-js/utils/fs-extra';
-import type { Storage } from './storage';
+import { Storage } from './storage';
 
 export class FileReader {
   private storage: Storage<Buffer>;

@@ -3,7 +3,7 @@ import { Link, Outlet } from '@modern-js/runtime/router';
 export default function Layout() {
   return (
     <div>
-      Root layout
+      Root layout - {Date.now()}
       <div>
         <Link to="/user/1" id="user-btn">
           Go User 1

@@ -1,8 +1,7 @@
 import { IncomingMessage } from 'http';
 import { Readable, Transform } from 'stream';
-import { Storage, store } from '@modern-js/runtime-utils/store';
-import { RenderFunction } from '../type';
-import { CacheControl } from './type';
+import { CacheControl, Container } from '@modern-js/types';
+import { RenderFunction, SSRServerContext } from '../type';
 
 interface CacheStruct {
   val: string;
@@ -10,15 +9,20 @@ interface CacheStruct {
 }
 
 export class CacheManager {
-  private storage: Storage<string> = store.createContainer('custom');
+  private containter: Container<string, string>;
+
+  constructor(containter: Container<string, string>) {
+    this.containter = containter;
+  }
 
   async getCacheResult(
     req: IncomingMessage,
     cacheControl: CacheControl,
-    asyncRender: ReturnType<RenderFunction>,
+    render: RenderFunction,
+    ssrContext: SSRServerContext,
   ): Promise<string | Readable> {
     const key = this.computedKey(req, cacheControl);
-    const value = this.storage.get(key);
+    const value = this.containter.get(key);
 
     if (value) {
       // has cache
@@ -29,27 +33,29 @@ export class CacheManager {
 
       if (interval < maxAge) {
         // the cache is validate
-        throw new Error('TODO: cache is validate');
+        return cache.val;
       } else if (interval < staleWhileRevalidate + maxAge) {
-        throw new Error('TODO: the cache is stale while revalidate');
         // the cache is stale while revalidate
+
+        // we shouldn't await this promise.
+        this.processCache(key, render, ssrContext);
+
+        return cache.val;
       } else {
         // the cache is invalidate
-        return this.processWithoutCache(key, asyncRender);
+        return this.processCache(key, render, ssrContext);
       }
     } else {
-      return this.processWithoutCache(key, asyncRender);
+      return this.processCache(key, render, ssrContext);
     }
   }
 
-  // private async processWithCache() {}
-
-  private async processWithoutCache(
+  private async processCache(
     key: string,
-    asyncRender: ReturnType<RenderFunction>,
+    render: RenderFunction,
+    ssrContext: SSRServerContext,
   ) {
-    // no cache
-    const renderResult = await asyncRender;
+    const renderResult = await render(ssrContext);
 
     if (typeof renderResult === 'string') {
       const current = Date.now();
@@ -57,7 +63,7 @@ export class CacheManager {
         val: renderResult,
         cursor: current,
       };
-      this.storage.set(key, JSON.stringify(cache));
+      this.containter.set(key, JSON.stringify(cache));
       return renderResult;
     } else {
       let html: string;
@@ -75,7 +81,7 @@ export class CacheManager {
           val: html,
           cursor: current,
         };
-        this.storage.set(key, JSON.stringify(cache));
+        this.containter.set(key, JSON.stringify(cache));
       });
 
       return renderResult(stream);
@@ -83,9 +89,31 @@ export class CacheManager {
   }
 
   private computedKey(
-    _req: IncomingMessage,
-    _cacheControl: CacheControl,
+    req: IncomingMessage,
+    cacheControl: CacheControl,
   ): string {
-    throw new Error('TODO');
+    const { url, headers } = req;
+    const [pathname, query] = url!.split('?');
+
+    // we use `pathname.replace(/\/+$/, '')` to remove the '/' with end.
+    // examples:
+    // pathname1: '/api', pathname2: '/api/'
+    // pathname1 as same as pathname2
+    const keySlice: string[] = [pathname.replace(/.+\/+$/, '')];
+    const { controlRanges, customKey } = cacheControl;
+
+    if (controlRanges?.includes('query')) {
+      keySlice.push(query);
+    }
+
+    if (controlRanges?.includes('header')) {
+      keySlice.push(JSON.stringify(headers));
+    }
+
+    if (customKey) {
+      keySlice.push(customKey);
+    }
+
+    return keySlice.join(';');
   }
 }

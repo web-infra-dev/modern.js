@@ -9,7 +9,7 @@ import {
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 // import cache from './cache';
-import { CacheOption, RenderFunction, SSRServerContext } from './type';
+import { RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
 import { ssrCache } from './ssrCache';
@@ -25,7 +25,6 @@ export const render = async (
     staticGenerate: boolean;
     enableUnsafeCtx?: boolean;
     nonce?: string;
-    cacheOption?: CacheOption;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
@@ -38,7 +37,6 @@ export const render = async (
     staticGenerate,
     enableUnsafeCtx = false,
     nonce,
-    cacheOption,
   } = renderOptions;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
@@ -92,13 +90,7 @@ export const render = async (
 
   // const content = await cache(serverRender, ctx)(context);
 
-  const content = await ssrCache(
-    ctx.req,
-    ctx,
-    serverRender,
-    context,
-    cacheOption,
-  );
+  const content = await ssrCache(ctx.req, serverRender, context);
 
   const { url, status = 302 } = context.redirection;
 

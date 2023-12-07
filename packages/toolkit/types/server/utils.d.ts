@@ -73,14 +73,56 @@ export type BffProxyOptions =
   | ProxyDetail[]
   | ProxyDetail;
 
-export interface Container<V = string> {
-  get: (key: string) => V | undefined;
+export type CacheControlRange = 'header' | 'query';
+export type CacheControl = {
+  /**
+   * The maxAge like http cache-control: max-age.
+   *
+   * It refers to the cache validation time, measured in (ms).
+   */
+  maxAge: number;
 
-  set: (key: string, value: V) => this;
+  /**
+   * The staleWhileRevalidate reference to http header cache-control: stale-while-revalidate.
+   *
+   * It means that the cache is stale but can still be used directly while asynchronously revalidating it, measured in (ms).
+   */
+  staleWhileRevalidate: number;
+  controlRanges?: CacheControlRange[];
 
-  has: (key: string) => boolean;
+  /**
+    Users can specify CacheID in server hook or custom server middleware.
 
-  delete: (key: string) => boolean;
+    Then CacheID would be as a part of cache symbol to cache SSR render result.
+  */
+  customKey?: string;
+};
+export type CacheOptionProvider = (req: IncomingMessage) => CacheControl;
+export type CacheOption =
+  | false
+  | CacheOptionProvider
+  | CacheControl
+  | Record<string, CacheControl | CacheOptionProvider>;
 
-  forEach?: (callbackFn: (v: V, k: string, container: this) => void) => void;
+export interface Container<K = string, V = string> {
+  /**
+   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
+   * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
+   */
+  get: (key: K) => V | undefined;
+
+  /**
+   * Adds a new element with a specified key and value to the storage. If an element with the same key already exists, the element will be updated.
+   */
+  set: (key: K, value: V) => this;
+
+  /**
+   * @returns boolean indicating whether an element with the specified key exists or not.
+   */
+  has: (key: K) => boolean;
+
+  /**
+   * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
+   */
+  delete: (key: K) => boolean;
 }

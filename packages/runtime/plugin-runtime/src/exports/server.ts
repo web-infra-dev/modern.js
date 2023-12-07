@@ -5,6 +5,14 @@ import {
   NextFunction,
 } from '@modern-js/types';
 
+export type {
+  Container,
+  CacheControl,
+  CacheControlRange,
+  CacheOptionProvider,
+  CacheOption,
+} from '@modern-js/types';
+
 export const hook = (
   attacher: ({
     addMiddleware,

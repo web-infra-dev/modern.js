@@ -53,10 +53,10 @@
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
     },
-    "./store": {
-      "jsnext:source": "./src/node/store/index.ts",
-      "esm": "./dist/esm/node/store/index.js",
-      "default": "./dist/cjs/node/store/index.js"
+    "./storage": {
+      "jsnext:source": "./src/node/storage/index.ts",
+      "esm": "./dist/esm/node/storage/index.js",
+      "default": "./dist/cjs/node/storage/index.js"
     }
   },
   "publishConfig": {
@@ -125,8 +125,8 @@
       "parsed": [
         "./dist/types/parsed.d.ts"
       ],
-      "store": [
-        "./dist/types/node/store/index.d.ts"
+      "storage": [
+        "./dist/types/node/storage/index.d.ts"
       ]
     }
   },
