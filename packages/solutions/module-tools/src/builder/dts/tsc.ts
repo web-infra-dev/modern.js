@@ -1,5 +1,6 @@
 import type { ChildProcess } from 'child_process';
-import { execa, logger } from '@modern-js/utils';
+import path from 'path';
+import { execa, fs, logger } from '@modern-js/utils';
 import type { GeneratorDtsConfig, PluginAPI, ModuleTools } from '../../types';
 import {
   getTscBinPath,
@@ -54,28 +55,48 @@ const runTscBin = async (
   api: PluginAPI<ModuleTools>,
   config: GeneratorDtsConfig,
 ) => {
-  const { appDirectory, watch = false, abortOnError = true } = config;
+  const {
+    appDirectory,
+    watch = false,
+    abortOnError = true,
+    tsconfigPath,
+    userTsconfig,
+    distPath,
+  } = config;
 
   const tscBinFile = await getTscBinPath(appDirectory);
 
-  const { tsconfigPath, userTsconfig, distPath } = config;
-
   const params: string[] = [];
+
+  // avoid error TS6305
+  if (userTsconfig.references) {
+    params.push('-b', tsconfigPath);
+
+    // update outDir
+    userTsconfig.compilerOptions ??= {};
+    const { baseUrl = '.', outDir = 'dist' } = userTsconfig.compilerOptions;
+    const abosultBaseUrl = path.isAbsolute(baseUrl)
+      ? baseUrl
+      : path.join(path.dirname(tsconfigPath), baseUrl);
+    if (path.resolve(abosultBaseUrl, outDir) !== distPath) {
+      userTsconfig.compilerOptions.outDir = path.relative(
+        abosultBaseUrl,
+        distPath,
+      );
+      fs.writeFileSync(tsconfigPath, JSON.stringify(userTsconfig, null, 2));
+    }
+  } else {
+    params.push('-p', tsconfigPath, '--outDir', distPath);
+  }
 
   if (watch) {
     params.push('-w');
   }
 
-  // avoid error TS6305
-  if (userTsconfig.references) {
-    params.push('-b');
-  }
-
   const childProgress = execa(
     tscBinFile,
     [
-      '-p',
-      tsconfigPath,
+      ...params,
       /* Required parameter, use it stdout have color */
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
@@ -83,10 +104,6 @@ const runTscBin = async (
       // Only emit d.ts files
       '--declaration',
       '--emitDeclarationOnly',
-      // write d.ts files to distPath that defined in buildConfig.dts
-      '--outDir',
-      distPath,
-      ...params,
     ],
     {
       stdio: 'pipe',
