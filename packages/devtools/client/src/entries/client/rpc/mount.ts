@@ -41,7 +41,9 @@ export const setupMountPointConnection = async () => {
     },
   );
 
-  wallAgent.sender = e => mountPoint.sendReactDevtoolsData(e);
+  wallAgent.sender = e => {
+    mountPoint.sendReactDevtoolsData(e);
+  };
 
   mountPointWindow.postMessage({ type: CLIENT_CONNECT_EVENT }, '*', [
     mountPointPort,
