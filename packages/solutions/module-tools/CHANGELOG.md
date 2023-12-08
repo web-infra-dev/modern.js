@@ -1,5 +1,21 @@
 # @modern-js/module-tools
 
+## 2.42.1
+
+### Patch Changes
+
+- fef529c: fix(module-tools): fix ts6369
+  fix(module-tools): 修复 ts6369 错误
+  - @modern-js/core@2.42.1
+  - @modern-js/plugin-changeset@2.42.1
+  - @modern-js/plugin-i18n@2.42.1
+  - @modern-js/plugin-lint@2.42.1
+  - @modern-js/new-action@2.42.1
+  - @modern-js/plugin@2.42.1
+  - @modern-js/types@2.42.1
+  - @modern-js/upgrade@2.42.1
+  - @modern-js/utils@2.42.1
+
 ## 2.42.0
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @modern-js/plugin-testing
 
+## 2.42.1
+
+### Patch Changes
+
+- 7cbc90c: fix(testing): transform jsx failed when use React 18
+
+  fix(testing): 修复使用 React 18 时 JSX 编译错误的问题
+
+  - @modern-js/runtime@2.42.1
+  - @modern-js/bff-core@2.42.1
+  - @modern-js/prod-server@2.42.1
+  - @modern-js/babel-compiler@2.42.1
+  - @modern-js/plugin@2.42.1
+  - @modern-js/types@2.42.1
+  - @modern-js/utils@2.42.1
+
 ## 2.42.0
 
 ### Patch Changes
