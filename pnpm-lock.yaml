@@ -131,10 +131,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.42.0
+        specifier: workspace:^2.42.1
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.42.0
+        specifier: workspace:^2.42.1
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*
@@ -7143,6 +7143,8 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.2.0
+
+  tests/integration/module/fixtures/build/dts-composite: {}
 
   tests/integration/module/fixtures/build/esbuildOptions: {}
 
