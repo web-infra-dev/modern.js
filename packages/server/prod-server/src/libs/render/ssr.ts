@@ -8,7 +8,6 @@ import {
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
-// import cache from './cache';
 import { RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
@@ -87,8 +86,6 @@ export const render = async (
   const bundleJSContent = await Promise.resolve(require(bundleJS));
   const serverRender: RenderFunction =
     bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
-
-  // const content = await cache(serverRender, ctx)(context);
 
   const content = await ssrCache(ctx.req, serverRender, context);
 
