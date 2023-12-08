@@ -23,6 +23,7 @@ class ServerCacheMod {
 
     this.customContainer = mod?.customContainer;
     this.cacheOption = mod?.cacheOption;
+    this.loaded = true;
   }
 }
 
