@@ -49,7 +49,7 @@
     "@modern-js/entry-generator": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
-    "@modern-js/codesmith-api-handlebars": "2.3.1",
+    "@modern-js/codesmith-api-handlebars": "2.3.2",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
