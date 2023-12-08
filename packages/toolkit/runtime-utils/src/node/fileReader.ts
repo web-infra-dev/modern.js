@@ -46,6 +46,13 @@ export class FileReader {
     }
   }
 
+  /**
+   * Clear the fileCache entriely.
+   */
+  reset() {
+    this.storage.clear?.();
+  }
+
   private encodingContent(value: Buffer, encoding: 'utf-8' | 'buffer') {
     if (encoding === 'utf-8') {
       return value.toString();

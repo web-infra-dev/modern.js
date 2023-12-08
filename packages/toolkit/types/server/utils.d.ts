@@ -96,6 +96,8 @@ export type CacheControl = {
     Then CacheID would be as a part of cache symbol to cache SSR render result.
   */
   customKey?: string;
+
+  cacheHandler?: (key: string) => void;
 };
 export type CacheOptionProvider = (req: IncomingMessage) => CacheControl;
 export type CacheOption =
@@ -125,4 +127,6 @@ export interface Container<K = string, V = string> {
    * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
    */
   delete: (key: K) => boolean;
+
+  forEach?: (callbackFn: (v: V, k: K, containter: this) => void) => void;
 }

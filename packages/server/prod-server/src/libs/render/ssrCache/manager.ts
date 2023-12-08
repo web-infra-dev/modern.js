@@ -22,6 +22,10 @@ export class CacheManager {
     ssrContext: SSRServerContext,
   ): Promise<string | Readable> {
     const key = this.computedKey(req, cacheControl);
+
+    // support user handle the by themself.
+    cacheControl.cacheHandler?.(key);
+
     const value = this.containter.get(key);
 
     if (value) {
