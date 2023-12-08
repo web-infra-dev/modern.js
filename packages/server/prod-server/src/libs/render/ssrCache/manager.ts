@@ -31,10 +31,10 @@ export class CacheManager {
 
       const { maxAge, staleWhileRevalidate } = cacheControl;
 
-      if (interval < maxAge) {
+      if (interval <= maxAge) {
         // the cache is validate
         return cache.val;
-      } else if (interval < staleWhileRevalidate + maxAge) {
+      } else if (interval <= staleWhileRevalidate + maxAge) {
         // the cache is stale while revalidate
 
         // we shouldn't await this promise.

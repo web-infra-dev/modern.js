@@ -5,7 +5,7 @@ import {
   CacheOption,
   CacheOptionProvider,
 } from '@modern-js/types';
-import { createMemoryStorage } from '@modern-js/runtime-utils/storage';
+import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import { RenderFunction, SSRServerContext } from '../type';
 import { cacheMod } from './cacheMod';
 import { CacheManager } from './manager';

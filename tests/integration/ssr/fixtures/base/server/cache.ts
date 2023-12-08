@@ -8,7 +8,6 @@ class MyContainter implements Container {
   }
 
   set(key: string, value: string): this {
-    // console.log('set', key);
     this.map.set(key, value);
     return this;
   }

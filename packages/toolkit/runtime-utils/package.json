@@ -53,10 +53,15 @@
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
     },
-    "./storage": {
-      "jsnext:source": "./src/node/storage/index.ts",
-      "esm": "./dist/esm/node/storage/index.js",
-      "default": "./dist/cjs/node/storage/index.js"
+    "./storer": {
+      "jsnext:source": "./src/node/storer/index.ts",
+      "esm": "./dist/esm/node/storer/index.js",
+      "default": "./dist/cjs/node/storer/index.js"
+    },
+    "./fileReader": {
+      "jsnext:source": "./src/node/fileReader.ts",
+      "esm": "./dist/esm/node/fileReader.js",
+      "default": "./dist/cjs/node/fileReader.js"
     }
   },
   "publishConfig": {
@@ -125,8 +130,11 @@
       "parsed": [
         "./dist/types/parsed.d.ts"
       ],
-      "storage": [
-        "./dist/types/node/storage/index.d.ts"
+      "storer": [
+        "./dist/types/node/storer/index.d.ts"
+      ],
+      "fileReader": [
+        "./dist/types/node/fileReader.d.ts"
       ]
     }
   },

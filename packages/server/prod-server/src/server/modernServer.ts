@@ -48,7 +48,6 @@ import {
   debug,
   isRedirect,
 } from '../utils';
-import * as reader from '../libs/render/reader';
 import { createProxyHandler } from '../libs/proxy';
 import { createContext } from '../libs/context';
 import {
@@ -96,8 +95,6 @@ export class ModernServer implements ModernServerInterface {
   protected readonly metrics: Metrics;
 
   protected readonly runMode: string;
-
-  protected reader: typeof reader = reader;
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
@@ -149,8 +146,6 @@ export class ModernServer implements ModernServerInterface {
 
     const { distDir, conf } = this;
 
-    this.initReader();
-
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     if (conf.bff?.proxy) {
@@ -161,11 +156,6 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    // the app server maybe a `undefined`;
-    app?.on('close', () => {
-      this.reader.close();
-    });
-
     // use preset routes priority
     const usageRoutes = this.filterRoutes(this.getRoutes());
     this.router.reset(usageRoutes);
@@ -175,11 +165,6 @@ export class ModernServer implements ModernServerInterface {
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);
-
-    // int store custom containter
-    // const { customContainer, cacheOption } = loadServerCacheMod(this.pwd);
-
-    // customContainer && store.setCustomContainer(customContainer);
 
     this.routeRenderHandler = this.getRenderHandler();
     await this.setupBeforeProdMiddleware();
@@ -259,9 +244,6 @@ export class ModernServer implements ModernServerInterface {
   }
 
   /* —————————————————————— function will be overwrite —————————————————————— */
-  protected initReader() {
-    this.reader.init();
-  }
 
   protected async onServerChange({ filepath }: { filepath: string }) {
     const { pwd } = this;

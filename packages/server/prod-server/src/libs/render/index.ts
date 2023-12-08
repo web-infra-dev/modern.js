@@ -2,7 +2,7 @@ import path from 'path';
 import { cutNameByHyphen, mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { ServerOptions } from '@modern-js/server-core';
-import { fileReader } from '@modern-js/runtime-utils/storage';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
 import { ERROR_DIGEST } from '../../constants';
