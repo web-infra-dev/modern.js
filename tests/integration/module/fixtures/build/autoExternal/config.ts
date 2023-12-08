@@ -36,5 +36,12 @@ export default defineConfig({
       },
       outDir: './dist/5',
     },
+    {
+      buildType: 'bundle',
+      input: ['./src/umd.ts'],
+      format: 'umd',
+      autoExternal: false,
+      outDir: './dist/6',
+    },
   ],
 });

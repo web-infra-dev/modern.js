@@ -166,7 +166,11 @@ export const swcRenderChunk = {
                     type: 'umd',
                   }
                 : undefined,
-            isModule: 'unknown',
+            // If `chunk.contents` is recognized as [Script](https://swc.rs/docs/configuration/compilation#ismodule),
+            // then it will not be converted to umd format content.
+            // so we need to set `isModule` to `true`.
+            // eg: when `autoExternal` is false, then chunk.contents will be recognized as [Script]
+            isModule: format === 'umd' ? true : 'unknown',
           });
           const result = await swcCompiler.transform(
             name,
