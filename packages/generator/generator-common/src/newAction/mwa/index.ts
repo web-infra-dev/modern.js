@@ -205,7 +205,7 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
-    [ActionFunction.Test]: 'testPlugin',
+    [ActionFunction.Test]: 'testingPlugin',
     [ActionFunction.Storybook]: 'storybookPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
