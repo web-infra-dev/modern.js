@@ -37,7 +37,7 @@ const transformToRsbuildServerOptions = (
   dev: DevServerOptions,
 ): RsbuildDevServerOptions['dev'] => {
   const rsbuildOptions: RsbuildDevServerOptions['dev'] = {
-    hmr: dev.hot,
+    hmr: Boolean(dev.hot),
     client: dev.client,
     writeToDisk: dev.devMiddleware?.writeToDisk,
     compress: dev.compress,
@@ -75,6 +75,8 @@ export class ModernDevServer extends ModernServer {
   private getDevMiddlewares: any;
 
   private watcher?: Watcher;
+
+  private closeCb: Array<() => Promise<void>> = [];
 
   constructor(options: ModernDevServerOptions) {
     super(options);
@@ -133,16 +135,19 @@ export class ModernDevServer extends ModernServer {
       );
     };
 
-    const { middlewares: rsbuildMiddlewares, devMiddlewareEvents } =
-      await this.getDevMiddlewares(app, {
-        ...transformToRsbuildServerOptions(this.dev),
-        compress:
-          !isUseStreamingSSR(this.getRoutes()) &&
-          !isUseSSRPreload() &&
-          dev.compress,
-        htmlFallback: false,
-        publicDir: false,
-      });
+    const {
+      middlewares: rsbuildMiddlewares,
+      close,
+      devMiddlewareEvents,
+    } = await this.getDevMiddlewares(app, {
+      ...transformToRsbuildServerOptions(this.dev),
+      compress:
+        !isUseStreamingSSR(this.getRoutes()) &&
+        !isUseSSRPreload() &&
+        dev.compress,
+      htmlFallback: false,
+      publicDir: false,
+    });
 
     devMiddlewareEvents.on('change', (stats: any) => {
       // Reset only when client compile done
@@ -159,6 +164,8 @@ export class ModernDevServer extends ModernServer {
 
     this.addMiddlewareHandler(rsbuildMiddlewares);
 
+    this.closeCb.push(close);
+
     // after dev handler
     const afterHandlers = await this.setupAfterDevMiddleware();
 
@@ -172,6 +179,12 @@ export class ModernDevServer extends ModernServer {
       app.on('close', async () => {
         await this.watcher?.close();
       });
+    }
+  }
+
+  public async close() {
+    for (const cb of this.closeCb) {
+      await cb();
     }
   }
 

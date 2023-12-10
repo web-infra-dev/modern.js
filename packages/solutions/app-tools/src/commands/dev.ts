@@ -80,6 +80,7 @@ export const dev = async (
     ...devServerOptions,
   };
 
+  // TODO: test
   if (apiOnly) {
     const app = await createServer({
       ...(serverOptions as any),

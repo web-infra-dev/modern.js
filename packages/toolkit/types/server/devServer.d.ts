@@ -50,7 +50,7 @@ export type DevServerOptions = {
   /** Whether to watch files change. */
   watch?: boolean;
   /** Whether to enable hot reload. */
-  hot?: boolean;
+  hot?: boolean | string;
   /** Whether to enable page reload. */
   liveReload?: boolean;
   /** Whether to enable https. */
