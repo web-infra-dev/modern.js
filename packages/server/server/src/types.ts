@@ -1,10 +1,12 @@
-import type { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse, Server } from 'http';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
   NextFunction,
+  RequestHandler,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
+import { RsbuildDevServerOptions } from '@rsbuild/shared';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -51,6 +53,13 @@ export type ExtraOptions = {
   dev: boolean | Partial<DevServerOptions>;
   devMiddleware?: DevMiddleware;
   useWorkerSSR?: boolean;
+  getDevMiddlewares?: (options: {
+    dev: RsbuildDevServerOptions['dev'];
+    app: Server;
+  }) => Promise<{
+    middlewares: RequestHandler[];
+    close: () => Promise<void>;
+  }>;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;

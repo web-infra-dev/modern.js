@@ -4362,6 +4362,12 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/core':
+        specifier: 0.1.9
+        version: 0.1.9
+      '@rsbuild/shared':
+        specifier: 0.1.9
+        version: 0.1.9
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -15241,6 +15247,18 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@rsbuild/core@0.1.9:
+    resolution: {integrity: sha512-UsMUeBQqIOulHyLCaVQew0WtHSL+/S5zSMU9+Iby/t5szEsWytRDjwekcZDxKhhut21Kyktr5d1RofTvY19ttg==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      '@rsbuild/shared': 0.1.9
+      '@rspack/core': 0.4.1
+      core-js: 3.32.2
+      html-webpack-plugin: /html-rspack-plugin@5.5.7
+      postcss: 8.4.31
+    dev: false
+
   /@rsbuild/monorepo-utils@0.0.7:
     resolution: {integrity: sha512-Sm/QdCm3QfvzylyxKBy+u7N6OWpuhtEFJRy9btXkiI6W/jSRAzfLpT4akrtx+o3cGP98jeR2frwxwHUbHIe8NQ==}
     dependencies:
@@ -15299,6 +15317,16 @@ packages:
       lodash: 4.17.21
       postcss: 8.4.31
     dev: true
+
+  /@rsbuild/shared@0.1.9:
+    resolution: {integrity: sha512-u2RAfuNRMIt+7KnCgikjIzl64nS3Ce3HI1EB3ALPkPdtV8ZvORID8RqdYzIJSfv4/cHD8rGeR6oXIFsAOc84OA==}
+    dependencies:
+      '@rspack/core': 0.4.1
+      caniuse-lite: 1.0.30001559
+      line-diff: 2.1.1
+      lodash: 4.17.21
+      postcss: 8.4.31
+    dev: false
 
   /@rspack/binding-darwin-arm64@0.4.0:
     resolution: {integrity: sha512-iQ6ERHXzY58zgHIZZAC7L7hrosO7BZXH3RpOTTibiZdTVex4Bq10CVmy6q6m88iQuqAQS2BHOXzAYLJtZlZRRw==}
@@ -18907,8 +18935,8 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.10
-      caniuse-lite: 1.0.30001520
+      browserslist: 4.22.1
+      caniuse-lite: 1.0.30001559
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -23934,7 +23962,6 @@ packages:
     dependencies:
       lodash: 4.17.21
       tapable: 2.2.1
-    dev: true
 
   /html-tags@2.0.0:
     resolution: {integrity: sha512-+Il6N8cCo2wB/Vd3gqy/8TZhTD3QvcVeQLCnZiGkGCH3JP28IgGAY41giccp2W4R3jfyJPAP318FQTa1yU7K7g==}
