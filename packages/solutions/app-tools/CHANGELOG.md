@@ -1,5 +1,68 @@
 # @modern-js/app-tools
 
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/builder@2.42.1
+- @modern-js/builder-rspack-provider@2.42.1
+- @modern-js/builder-shared@2.42.1
+- @modern-js/builder-webpack-provider@2.42.1
+- @modern-js/builder-plugin-esbuild@2.42.1
+- @modern-js/builder-plugin-node-polyfill@2.42.1
+- @modern-js/core@2.42.1
+- @modern-js/plugin-data-loader@2.42.1
+- @modern-js/plugin-i18n@2.42.1
+- @modern-js/plugin-lint@2.42.1
+- @modern-js/new-action@2.42.1
+- @modern-js/server-core@2.42.1
+- @modern-js/prod-server@2.42.1
+- @modern-js/server@2.42.1
+- @modern-js/node-bundle-require@2.42.1
+- @modern-js/plugin@2.42.1
+- @modern-js/types@2.42.1
+- @modern-js/upgrade@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- 980dcfd: chore: use disableInlineRouteManifests instead of enableInlineRouteManifests
+  chore: 使用 disableInlineRouteManifests 代替 enableInlineRouteManifests
+- d6596cb: fix: catch the error of import route module
+  fix: 捕获导入 route module 的错误
+- Updated dependencies [d433c97]
+- Updated dependencies [b182eb2]
+- Updated dependencies [8c2efe1]
+- Updated dependencies [fc1f36f]
+- Updated dependencies [04d9522]
+- Updated dependencies [ef60f58]
+- Updated dependencies [ba443b8]
+- Updated dependencies [8793e64]
+- Updated dependencies [898f325]
+- Updated dependencies [98bff14]
+- Updated dependencies [f4eadb5]
+  - @modern-js/builder-rspack-provider@2.42.0
+  - @modern-js/builder-shared@2.42.0
+  - @modern-js/new-action@2.42.0
+  - @modern-js/upgrade@2.42.0
+  - @modern-js/prod-server@2.42.0
+  - @modern-js/builder-webpack-provider@2.42.0
+  - @modern-js/plugin-data-loader@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/builder@2.42.0
+  - @modern-js/builder-plugin-node-polyfill@2.42.0
+  - @modern-js/builder-plugin-esbuild@2.42.0
+  - @modern-js/core@2.42.0
+  - @modern-js/plugin-i18n@2.42.0
+  - @modern-js/plugin-lint@2.42.0
+  - @modern-js/server-core@2.42.0
+  - @modern-js/node-bundle-require@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

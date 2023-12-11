@@ -1,5 +1,20 @@
 # @modern-js/builder-doc
 
+## 2.42.1
+
+### Patch Changes
+
+- 7d327e5: docs: change builderCofnig to builderConfig
+
+## 2.42.0
+
+### Patch Changes
+
+- e8d838c: fix: update storybook doc file extension
+  fix: 更新 Storybook 文档后缀
+- 6434114: fix: change storybook doc file extension
+  fix: 修改 Storybook 文档文件后缀
+
 ## 2.41.0
 
 ### Patch Changes

@@ -1,3 +1,4 @@
+import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
@@ -17,9 +18,10 @@ export default defineConfig<'rspack'>({
   },
   source: {
     mainEntryName: 'client',
+    entriesDir: './src/entries',
     entries: {
       mount: {
-        entry: './src/mount/index.tsx',
+        entry: './src/entries/mount/index.tsx',
         disableMount: true,
       },
     },
@@ -31,6 +33,11 @@ export default defineConfig<'rspack'>({
       'process.env.VERSION': packageMeta.version,
       'process.env.PKG_VERSION': packageMeta.version,
       'process.env.DEVTOOLS_MARK': nanoid(),
+    },
+    alias: {
+      // Trick to fix: Modern.js won't recognize experimental react as react@18.
+      react: path.resolve('./node_modules/react-exp'),
+      'react-dom': path.resolve('./node_modules/react-dom-exp'),
     },
   },
   output: {
@@ -45,7 +52,7 @@ export default defineConfig<'rspack'>({
     bundlerChain(chain) {
       chain.module
         .rule('RADIX_TOKEN')
-        .test(/\/@radix-ui\/themes\/styles\.css/)
+        .test(require.resolve('@radix-ui/themes/styles.css'))
         .use('RADIX_TOKEN')
         .loader('./plugins/radix-token-transformer.js')
         .options({ root: '.theme-register' });

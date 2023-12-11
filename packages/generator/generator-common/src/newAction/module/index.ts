@@ -104,7 +104,7 @@ export const ModuleNewActionPluginName: Partial<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.ModuleDoc]: 'modulePluginDoc',
-    [ActionFunction.Test]: 'testPlugin',
+    [ActionFunction.Test]: 'testingPlugin',
   },
 };
 

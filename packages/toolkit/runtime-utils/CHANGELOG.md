@@ -1,5 +1,19 @@
 # @modern-js/runtime-utils
 
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- 103cf92: feat(runtime-utils): split parsed from browser
+  feat(runtime-utils): 从 browser 中拆分 parsed 方法
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

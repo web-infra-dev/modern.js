@@ -1,5 +1,31 @@
 # @modern-js/prod-server
 
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.42.1
+- @modern-js/plugin@2.42.1
+- @modern-js/runtime-utils@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Minor Changes
+
+- 8c2efe1: feat(prod-server): afterRender Hook context add route attributes
+  feat(prod-server): afterRender Hook context 新增 route 属性
+
+### Patch Changes
+
+- 8793e64: fix(worker-server): rslogger can't work in worker env.
+  fix(worker-server): rslogger 在 worker 环境不能正常工作.
+- Updated dependencies [103cf92]
+  - @modern-js/runtime-utils@2.42.0
+  - @modern-js/server-core@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

@@ -255,13 +255,7 @@ export default defineConfig({
 import utils from '@common/utils';
 ```
 
-正常来说，使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 Modern.js Module 会对 `tsc` 生成的类型文件里的别名进行转换处理：
-
-- 对于类似 `import '@common/utils'` 或者 `import utils from '@common/utils'` 这样形式的代码可以进行别名转换。
-- 对于类似 `export { utils } from '@common/utils'` 这样形式的代码可以进行别名转换。
-
-然而也存在一些情况，目前还无法处理，例如 `Promise<import('@common/utils')>` 这样形式的输出类型目前无法进行转换。
-对于这种情况的解决办法，可以参与[讨论](https://github.com/web-infra-dev/modern.js/discussions/4511)。
+使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 Modern.js Module 会对 `tsc` 生成的类型文件里的别名进行转换处理。
 
 ### 一些示例
 

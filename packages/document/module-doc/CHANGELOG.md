@@ -1,5 +1,13 @@
 # @modern-js/module-tools-docs
 
+## 2.42.1
+
+### Patch Changes
+
+- 7d327e5: docs: change builderCofnig to builderConfig
+
+## 2.42.0
+
 ## 2.41.0
 
 ## 2.40.0

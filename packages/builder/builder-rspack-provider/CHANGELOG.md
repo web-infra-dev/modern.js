@@ -1,5 +1,40 @@
 # @modern-js/builder-rspack-provider
 
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.42.1
+- @modern-js/server@2.42.1
+- @modern-js/types@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- d433c97: fix(rspack-provider): react refresh not work in Micro front-end projects
+
+  fix(rspack-provider): 修复 react refresh 在微前端场景下不生效的问题
+
+- fc1f36f: fix(builder): should generate manifest correctly when enable SSR
+- ef60f58: fix(builder): export type of rspack config and add globalObject type for rspack output
+  fix(builder): 导出一些 rspack config 类型同时给 rspack output 添加 globalObject 类型
+- ba443b8: chore: bump rspack version to 0.4.2
+  chore: 升级 rspack 版本到 0.4.2
+- 898f325: chore: replace @rspack/dev-client with @rspack/plugin-react-refresh
+
+  chore: 将 @rspack/dev-client 替换为 @rspack/plugin-react-refresh
+
+- f4eadb5: chore: bump rspack and update snapshot
+- Updated dependencies [d433c97]
+- Updated dependencies [04d9522]
+- Updated dependencies [ef60f58]
+  - @modern-js/builder-shared@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

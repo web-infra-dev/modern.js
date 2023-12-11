@@ -1,5 +1,35 @@
 # @modern-js/builder-shared
 
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.42.1
+- @modern-js/server@2.42.1
+- @modern-js/types@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- d433c97: fix(rspack-provider): react refresh not work in Micro front-end projects
+
+  fix(rspack-provider): 修复 react refresh 在微前端场景下不生效的问题
+
+- 04d9522: fix(builder): add crossOrigin attr for preload resource when origin resource is crossOrigin
+
+  fix(builder): preload 资源的 crossOrigin 属性与原资源的 crossOrigin 属性保持一致
+
+- ef60f58: fix(builder): export type of rspack config and add globalObject type for rspack output
+  fix(builder): 导出一些 rspack config 类型同时给 rspack output 添加 globalObject 类型
+- Updated dependencies [8c2efe1]
+- Updated dependencies [8793e64]
+  - @modern-js/prod-server@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes
