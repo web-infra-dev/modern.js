@@ -1,6 +1,6 @@
 import type { ChildProcess } from 'child_process';
 import path from 'path';
-import { execa, fs, logger } from '@modern-js/utils';
+import { execa, logger, chalk } from '@modern-js/utils';
 import type { GeneratorDtsConfig, PluginAPI, ModuleTools } from '../../types';
 import {
   getTscBinPath,
@@ -8,6 +8,7 @@ import {
   addDtsFiles,
   withLogTitle,
   processDtsFilesAfterTsc,
+  detectTSVersion,
 } from '../../utils';
 import { watchDoneText } from '../../constants/dts';
 
@@ -72,21 +73,50 @@ const runTscBin = async (
   if (userTsconfig.references) {
     params.push('-b', tsconfigPath);
 
-    // update outDir
-    userTsconfig.compilerOptions ??= {};
-    const { baseUrl = '.', outDir = 'dist' } = userTsconfig.compilerOptions;
+    const {
+      baseUrl = '.',
+      outDir,
+      emitDeclarationOnly,
+      declaration,
+    } = userTsconfig.compilerOptions ?? {};
     const abosultBaseUrl = path.isAbsolute(baseUrl)
       ? baseUrl
       : path.join(path.dirname(tsconfigPath), baseUrl);
-    if (path.resolve(abosultBaseUrl, outDir) !== distPath) {
-      userTsconfig.compilerOptions.outDir = path.relative(
-        abosultBaseUrl,
-        distPath,
+
+    // can not set '--outDir' with '--build'.
+    if (!outDir || path.resolve(abosultBaseUrl, outDir) !== distPath) {
+      const correctOutDir = path.relative(abosultBaseUrl, distPath);
+      throw new Error(
+        `Please set outDir: "${correctOutDir}" in ${chalk.underline(
+          tsconfigPath,
+        )} to keep it same as buildConfig.`,
       );
-      fs.writeFileSync(tsconfigPath, JSON.stringify(userTsconfig, null, 2));
+    }
+
+    // can not set '--declaration' and '--emitDeclaration' with '--build' if ts is not v5.
+    const tsVersion = await detectTSVersion(appDirectory);
+    if (tsVersion !== 5) {
+      if (!declaration || !emitDeclarationOnly) {
+        throw new Error(
+          `Please set declaration: true and emitDeclaration: true in ${chalk.underline(
+            tsconfigPath,
+          )}`,
+        );
+      }
+    } else {
+      params.push('--declaration', '--emitDeclarationOnly');
     }
   } else {
-    params.push('-p', tsconfigPath, '--outDir', distPath);
+    params.push(
+      '-p',
+      tsconfigPath,
+      // Same as dts.distPath
+      '--outDir',
+      distPath,
+      // Only emit d.ts files
+      '--declaration',
+      '--emitDeclarationOnly',
+    );
   }
 
   if (watch) {
@@ -101,9 +131,6 @@ const runTscBin = async (
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
       '--preserveWatchOutput',
-      // Only emit d.ts files
-      '--declaration',
-      '--emitDeclarationOnly',
     ],
     {
       stdio: 'pipe',
