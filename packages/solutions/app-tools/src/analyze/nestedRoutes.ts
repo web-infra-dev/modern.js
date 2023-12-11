@@ -194,24 +194,24 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_LOADER_FILE) {
       if (!route.loader) {
-        route.loader = itemPath;
+        route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CLIENT_LOADER) {
-      route.clientData = itemPath;
+      route.clientData = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
-      route.data = itemPath;
+      route.data = replaceWithAlias(alias.basename, itemPath, alias.name);
       if (await hasAction(itemPath)) {
-        route.action = itemPath;
+        route.action = replaceWithAlias(alias.basename, itemPath, alias.name);
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
       if (!route.config) {
-        route.config = itemPath;
+        route.config = replaceWithAlias(alias.basename, itemPath, alias.name);
       }
     }
 
@@ -220,22 +220,22 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
-      pageLoaderFile = itemPath;
+      pageLoaderFile = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
-      pageClientData = itemPath;
+      pageClientData = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
-      pageData = itemPath;
+      pageData = replaceWithAlias(alias.basename, itemPath, alias.name);
       if (await hasAction(itemPath)) {
-        pageAction = itemPath;
+        pageAction = replaceWithAlias(alias.basename, itemPath, alias.name);
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
-      pageConfigFile = itemPath;
+      pageConfigFile = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_FILE) {
@@ -268,23 +268,27 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
-      splatLoaderFile = itemPath;
+      splatLoaderFile = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CLIENT_DATA) {
-      splatClientData = itemPath;
+      splatClientData = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CONFIG_FILE) {
       if (!route.config) {
-        splatConfigFile = itemPath;
+        splatConfigFile = replaceWithAlias(
+          alias.basename,
+          itemPath,
+          alias.name,
+        );
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
-      splatData = itemPath;
+      splatData = replaceWithAlias(alias.basename, itemPath, alias.name);
       if (await hasAction(itemPath)) {
-        splatAction = itemPath;
+        splatAction = replaceWithAlias(alias.basename, itemPath, alias.name);
       }
     }
 
