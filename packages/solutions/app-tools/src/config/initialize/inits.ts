@@ -16,8 +16,9 @@ export function initHtmlConfig(
     config: AppNormalizedConfig<'shared'>,
     appContext: IAppContext,
   ) {
+    const { appIcon } = config.html;
     const { configDir } = config.source;
-    const appIcon = findExists(
+    const defaultAppIcon = findExists(
       ICON_EXTENSIONS.map(ext =>
         path.resolve(
           appContext.appDirectory,
@@ -26,7 +27,7 @@ export function initHtmlConfig(
         ),
       ),
     );
-    return typeof appIcon === 'string' ? appIcon : undefined;
+    return appIcon || defaultAppIcon || undefined;
   }
   function createBuilderFavicon(
     config: AppNormalizedConfig<'shared'>,
