@@ -7,7 +7,7 @@ import type {
   RequestHandler,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
-import { RsbuildDevServerOptions } from '@rsbuild/shared';
+import { RsbuildDevServerOptions, ServerConfig } from '@rsbuild/shared';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -62,7 +62,8 @@ export type ExtraOptionsNew = {
   dev: boolean | Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
   getDevMiddlewares: (options: {
-    dev: RsbuildDevServerOptions['dev'];
+    // TODO: update type after rsbuild 0.2.0
+    dev: RsbuildDevServerOptions['dev'] & ServerConfig;
     app: Server;
   }) => Promise<{
     middlewares: RequestHandler[];
