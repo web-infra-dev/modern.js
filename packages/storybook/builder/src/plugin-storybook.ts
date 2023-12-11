@@ -115,11 +115,6 @@ export const pluginStorybook: (
 
       const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
         config.resolve ??= {};
-        config.resolve.conditionNames = [
-          'require',
-          'node',
-          ...(config.resolve.conditionNames || []),
-        ];
         config.resolve.fullySpecified = false;
         await applyMdxLoader(config, options);
         await applyCsfPlugin(config, options);
