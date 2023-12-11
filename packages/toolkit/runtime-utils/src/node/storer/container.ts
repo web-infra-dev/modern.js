@@ -40,7 +40,16 @@ export class MemoryContainer<K, V = unknown> implements Container<K, V> {
     return this.cache.get(key);
   }
 
-  set(key: K, value: V): this {
+  set(key: K, value: V, options?: { ttl?: number } | undefined): this {
+    const ttl = options?.ttl;
+    if (ttl) {
+      // FIXME:
+      // Is too many setTimout func?
+      setTimeout(() => {
+        this.delete(key);
+      }, ttl);
+    }
+
     this.cache.set(key, value);
     return this;
   }

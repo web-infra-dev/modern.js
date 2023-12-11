@@ -21,7 +21,7 @@ export async function ssrCache(
     cacheMod.loadServerCacheMod();
   }
   const { customContainer, cacheOption } = cacheMod;
-  const cacheControl = matchCacheControl(req, cacheOption);
+  const cacheControl = await matchCacheControl(req, cacheOption);
   const cacheManager = new CacheManager(
     customContainer ? customContainer : cacheStorage,
   );
@@ -44,10 +44,10 @@ export async function ssrCache(
   }
 }
 
-function matchCacheControl(
+async function matchCacheControl(
   req: IncomingMessage,
   cacheOption?: CacheOption,
-): CacheControl | undefined {
+): Promise<CacheControl | undefined> {
   if (!cacheOption) {
     return undefined;
   } else if (isCacheControl(cacheOption)) {

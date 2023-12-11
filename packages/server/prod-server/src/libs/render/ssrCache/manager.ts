@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { Readable, Transform } from 'stream';
-import { CacheControl, Container } from '@modern-js/types';
+import { AsyncContainter, CacheControl, Container } from '@modern-js/types';
 import { RenderFunction, SSRServerContext } from '../type';
 
 interface CacheStruct {
@@ -9,9 +9,13 @@ interface CacheStruct {
 }
 
 export class CacheManager {
-  private containter: Container<string, string>;
+  private containter:
+    | Container<string, string>
+    | AsyncContainter<string, string>;
 
-  constructor(containter: Container<string, string>) {
+  constructor(
+    containter: Container<string, string> | AsyncContainter<string, string>,
+  ) {
     this.containter = containter;
   }
 
@@ -26,14 +30,14 @@ export class CacheManager {
     // support user handle the by themself.
     cacheControl.cacheHandler?.(key);
 
-    const value = this.containter.get(key);
+    const value = await this.containter.get(key);
+    const { maxAge, staleWhileRevalidate } = cacheControl;
+    const ttl = maxAge + staleWhileRevalidate;
 
     if (value) {
       // has cache
       const cache: CacheStruct = JSON.parse(value);
       const interval = Date.now() - cache.cursor;
-
-      const { maxAge, staleWhileRevalidate } = cacheControl;
 
       if (interval <= maxAge) {
         // the cache is validate
@@ -42,15 +46,15 @@ export class CacheManager {
         // the cache is stale while revalidate
 
         // we shouldn't await this promise.
-        this.processCache(key, render, ssrContext);
+        this.processCache(key, render, ssrContext, ttl);
 
         return cache.val;
       } else {
         // the cache is invalidate
-        return this.processCache(key, render, ssrContext);
+        return this.processCache(key, render, ssrContext, ttl);
       }
     } else {
-      return this.processCache(key, render, ssrContext);
+      return this.processCache(key, render, ssrContext, ttl);
     }
   }
 
@@ -58,6 +62,7 @@ export class CacheManager {
     key: string,
     render: RenderFunction,
     ssrContext: SSRServerContext,
+    ttl: number,
   ) {
     const renderResult = await render(ssrContext);
 
@@ -67,7 +72,7 @@ export class CacheManager {
         val: renderResult,
         cursor: current,
       };
-      this.containter.set(key, JSON.stringify(cache));
+      await this.containter.set(key, JSON.stringify(cache), { ttl });
       return renderResult;
     } else {
       let html: string;
@@ -85,7 +90,7 @@ export class CacheManager {
           val: html,
           cursor: current,
         };
-        this.containter.set(key, JSON.stringify(cache));
+        this.containter.set(key, JSON.stringify(cache), { ttl });
       });
 
       return renderResult(stream);
