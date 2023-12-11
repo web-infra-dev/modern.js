@@ -72,7 +72,7 @@ export class ModernDevServer extends ModernServer {
 
   private readonly appContext: ModernDevServerOptionsNew['appContext'];
 
-  private getDevMiddlewares: any;
+  private getDevMiddlewares: ModernDevServerOptionsNew['getDevMiddlewares'];
 
   private watcher?: Watcher;
 
@@ -138,16 +138,18 @@ export class ModernDevServer extends ModernServer {
     const {
       middlewares: rsbuildMiddlewares,
       close,
-      // TODO
       devMiddlewareEvents,
-    } = await this.getDevMiddlewares(app, {
-      ...transformToRsbuildServerOptions(this.dev),
-      compress:
-        !isUseStreamingSSR(this.getRoutes()) &&
-        !isUseSSRPreload() &&
-        dev.compress,
-      htmlFallback: false,
-      publicDir: false,
+    } = await this.getDevMiddlewares({
+      app,
+      dev: {
+        ...transformToRsbuildServerOptions(this.dev),
+        compress:
+          !isUseStreamingSSR(this.getRoutes()) &&
+          !isUseSSRPreload() &&
+          dev.compress,
+        htmlFallback: false,
+        publicDir: false,
+      },
     });
 
     devMiddlewareEvents.on('change', (stats: any) => {

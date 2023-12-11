@@ -1,5 +1,8 @@
 import { Server, ModernServerOptions } from '@modern-js/prod-server';
-import type { ModernDevServerOptions } from '../types';
+import type {
+  ModernDevServerOptions,
+  ModernDevServerOptionsNew,
+} from '../types';
 import { ModernDevServer } from './devServer';
 import { ModernDevServer as ModernDevServerForRsbuild } from './devServerNew';
 
@@ -23,7 +26,7 @@ export class DevServerForRsbuild extends Server {
 
     if (options.dev) {
       this.serverImpl = options =>
-        new ModernDevServerForRsbuild(options as ModernDevServerOptions);
+        new ModernDevServerForRsbuild(options as ModernDevServerOptionsNew);
     }
   }
 }

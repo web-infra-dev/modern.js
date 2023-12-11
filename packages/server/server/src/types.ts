@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse, Server } from 'http';
+import { EventEmitter } from 'events';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
@@ -60,12 +61,13 @@ export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 export type ExtraOptionsNew = {
   dev: boolean | Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
-  getDevMiddlewares?: (options: {
+  getDevMiddlewares: (options: {
     dev: RsbuildDevServerOptions['dev'];
     app: Server;
   }) => Promise<{
     middlewares: RequestHandler[];
     close: () => Promise<void>;
+    devMiddlewareEvents: EventEmitter;
   }>;
 };
 
