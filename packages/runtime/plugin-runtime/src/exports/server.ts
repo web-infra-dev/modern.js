@@ -7,6 +7,7 @@ import {
 
 export type {
   Container,
+  AsyncContainter,
   CacheControl,
   CacheControlRange,
   CacheOptionProvider,
