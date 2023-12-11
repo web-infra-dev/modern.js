@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 import { Readable, Transform } from 'stream';
-import { AsyncContainter, CacheControl, Container } from '@modern-js/types';
+import { CacheControl, Container } from '@modern-js/types';
 import { RenderFunction, SSRServerContext } from '../type';
 
 interface CacheStruct {
@@ -9,13 +9,9 @@ interface CacheStruct {
 }
 
 export class CacheManager {
-  private containter:
-    | Container<string, string>
-    | AsyncContainter<string, string>;
+  private containter: Container<string, string>;
 
-  constructor(
-    containter: Container<string, string> | AsyncContainter<string, string>,
-  ) {
+  constructor(containter: Container<string, string>) {
     this.containter = containter;
   }
 
@@ -26,9 +22,6 @@ export class CacheManager {
     ssrContext: SSRServerContext,
   ): Promise<string | Readable> {
     const key = this.computedKey(req, cacheControl);
-
-    // support user handle the by themself.
-    cacheControl.cacheHandler?.(key);
 
     const value = await this.containter.get(key);
     const { maxAge, staleWhileRevalidate } = cacheControl;
@@ -101,28 +94,24 @@ export class CacheManager {
     req: IncomingMessage,
     cacheControl: CacheControl,
   ): string {
-    const { url, headers } = req;
-    const [pathname, query] = url!.split('?');
+    const { url } = req;
+    const [pathname] = url!.split('?');
+    const { customKey } = cacheControl;
 
     // we use `pathname.replace(/\/+$/, '')` to remove the '/' with end.
     // examples:
     // pathname1: '/api', pathname2: '/api/'
     // pathname1 as same as pathname2
-    const keySlice: string[] = [pathname.replace(/.+\/+$/, '')];
-    const { controlRanges, customKey } = cacheControl;
-
-    if (controlRanges?.includes('query')) {
-      keySlice.push(query);
-    }
-
-    if (controlRanges?.includes('header')) {
-      keySlice.push(JSON.stringify(headers));
-    }
+    const defaultKey = pathname.replace(/.+\/+$/, '');
 
     if (customKey) {
-      keySlice.push(customKey);
+      if (typeof customKey === 'string') {
+        return customKey;
+      } else {
+        return customKey(defaultKey);
+      }
+    } else {
+      return defaultKey;
     }
-
-    return keySlice.join(';');
   }
 }

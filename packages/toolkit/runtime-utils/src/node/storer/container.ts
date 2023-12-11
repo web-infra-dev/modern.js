@@ -36,30 +36,21 @@ export class MemoryContainer<K, V = unknown> implements Container<K, V> {
     });
   }
 
-  get(key: K): V | undefined {
+  async get(key: K) {
     return this.cache.get(key);
   }
 
-  set(key: K, value: V, options?: { ttl?: number } | undefined): this {
-    const ttl = options?.ttl;
-    if (ttl) {
-      // FIXME:
-      // Is too many setTimout func?
-      setTimeout(() => {
-        this.delete(key);
-      }, ttl);
-    }
-
+  async set(key: K, value: V) {
     this.cache.set(key, value);
     return this;
   }
 
-  has(key: K): boolean {
+  async has(key: K) {
     return this.cache.has(key);
   }
 
-  delete(key: K): boolean {
-    const exist = this.has(key);
+  async delete(key: K) {
+    const exist = await this.has(key);
     if (exist) {
       this.cache.del(key);
     }

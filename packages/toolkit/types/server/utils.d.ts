@@ -73,7 +73,6 @@ export type BffProxyOptions =
   | ProxyDetail[]
   | ProxyDetail;
 
-export type CacheControlRange = 'header' | 'query';
 export type CacheControl = {
   /**
    * The maxAge like http cache-control: max-age.
@@ -88,16 +87,13 @@ export type CacheControl = {
    * It means that the cache is stale but can still be used directly while asynchronously revalidating it, measured in (ms).
    */
   staleWhileRevalidate: number;
-  controlRanges?: CacheControlRange[];
 
   /**
-    Users can specify CacheID in server hook or custom server middleware.
-
-    Then CacheID would be as a part of cache symbol to cache SSR render result.
-  */
-  customKey?: string;
-
-  cacheHandler?: (key: string) => void;
+   * Specify a custom cache key yourself.
+   *
+   * The custom key will override the key used by default.
+   */
+  customKey?: string | ((pathname: string) => string);
 };
 
 export type CacheOptionProvider = (
@@ -111,31 +107,6 @@ export type CacheOption =
   | Record<string, CacheControl | CacheOptionProvider>;
 
 export interface Container<K = string, V = string> {
-  /**
-   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
-   * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
-   */
-  get: (key: K) => V | undefined;
-
-  /**
-   * Adds a new element with a specified key and value to the storage. If an element with the same key already exists, the element will be updated.
-   */
-  set: (key: K, value: V, options?: { ttl?: number }) => this;
-
-  /**
-   * @returns boolean indicating whether an element with the specified key exists or not.
-   */
-  has: (key: K) => boolean;
-
-  /**
-   * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
-   */
-  delete: (key: K) => boolean;
-
-  forEach?: (callbackFn: (v: V, k: K, containter: this) => void) => void;
-}
-
-export interface AsyncContainter<K = string, V = string> {
   /**
    * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
    * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
@@ -156,4 +127,6 @@ export interface AsyncContainter<K = string, V = string> {
    * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
    */
   delete: (key: K) => Promise<boolean>;
+
+  forEach?: (callbackFn: (v: V, k: K, containter: this) => void) => void;
 }

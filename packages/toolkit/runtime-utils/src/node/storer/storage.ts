@@ -10,7 +10,7 @@ export class Storage<V = unknown> {
     this.container = containter;
   }
 
-  keys?(): string[] {
+  async keys?(): Promise<string[]> {
     const _keys: string[] = [];
     this.forEach?.((_, k) => {
       _keys.push(k);
@@ -18,7 +18,7 @@ export class Storage<V = unknown> {
     return _keys;
   }
 
-  values?(): V[] {
+  async values?(): Promise<V[]> {
     const _values: V[] = [];
     this.forEach?.(v => {
       _values.push(v);
@@ -30,7 +30,7 @@ export class Storage<V = unknown> {
    * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
    * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
    */
-  get(key: string): V | undefined {
+  get(key: string): Promise<V | undefined> {
     const uniqueKey = this.computedUniqueKey(key);
 
     return this.container.get(uniqueKey);
@@ -39,9 +39,9 @@ export class Storage<V = unknown> {
   /**
    * Adds a new element with a specified key and value to the storage. If an element with the same key already exists, the element will be updated.
    */
-  set(key: string, value: V): this {
+  async set(key: string, value: V): Promise<this> {
     const uniqueKey = this.computedUniqueKey(key);
-    this.container.set(uniqueKey, value);
+    await this.container.set(uniqueKey, value);
 
     return this;
   }
@@ -49,21 +49,23 @@ export class Storage<V = unknown> {
   /**
    * @returns boolean indicating whether an element with the specified key exists or not.
    */
-  has(key: string): boolean {
+  has(key: string): Promise<boolean> {
     const uniqueKey = this.computedUniqueKey(key);
     return this.container.has(uniqueKey);
   }
 
-  delete(key: string): boolean {
+  delete(key: string): Promise<boolean> {
     const uniqueKey = this.computedUniqueKey(key);
     return this.container.delete(uniqueKey);
   }
 
-  clear?() {
-    const keys = this.keys?.();
-    keys?.forEach(key => {
-      this.delete(key);
-    });
+  async clear?() {
+    const keys = await this.keys?.();
+    await Promise.all(
+      keys?.map(async key => {
+        return this.delete(key);
+      }) || [],
+    );
   }
 
   forEach?(fallbackFn: (v: V, k: string, storage: this) => void) {

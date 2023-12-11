@@ -11,7 +11,7 @@ export class FileReader {
   }
 
   async readFile(path: string, encoding: 'utf-8' | 'buffer' = 'utf-8') {
-    const cache = this.storage.get(path);
+    const cache = await this.storage.get(path);
     if (cache === null) {
       return null;
     }
@@ -50,7 +50,8 @@ export class FileReader {
    * Clear the fileCache entriely.
    */
   reset() {
-    this.storage.clear?.();
+    // FIXME: make me more safyly.
+    return this.storage.clear?.() as Promise<void>;
   }
 
   private encodingContent(value: Buffer, encoding: 'utf-8' | 'buffer') {

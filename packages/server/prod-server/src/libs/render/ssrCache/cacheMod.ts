@@ -1,15 +1,15 @@
 import path from 'path';
 import { SERVER_DIR, requireExistModule } from '@modern-js/utils';
-import type { AsyncContainter, CacheOption, Container } from '@modern-js/types';
+import type { CacheOption, Container } from '@modern-js/types';
 
 const CACHE_FILENAME = 'cache';
 type CacheMod = {
-  customContainer?: Container | AsyncContainter;
+  customContainer?: Container;
   cacheOption?: CacheOption;
 };
 
 class ServerCacheMod {
-  customContainer?: Container | AsyncContainter;
+  customContainer?: Container;
 
   cacheOption?: CacheOption;
 
