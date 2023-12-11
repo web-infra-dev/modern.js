@@ -12,14 +12,17 @@ export class ServiceWorkerCompilerPlugin {
 
       const builder = await createRsbuild({
         cwd,
-        target: 'service-worker',
         rsbuildConfig: {
           source: {
             entry: { 'sw-proxy': path.resolve(cwd, './src/service.worker.ts') },
             define: { 'process.env.VERSION': JSON.stringify(version) },
           },
           output: {
-            disableSourceMap: true,
+            targets: ['service-worker'],
+            sourceMap: {
+              js: false,
+              css: false,
+            },
             distPath: {
               root: './dist',
               worker: './public',

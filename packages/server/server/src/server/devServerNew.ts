@@ -25,7 +25,10 @@ import type {
 import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
-import { RsbuildDevServerOptions, ServerConfig } from '@rsbuild/shared';
+import type {
+  RsbuildDevMiddlewareOptions,
+  RsbuildInstance,
+} from '@rsbuild/shared';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -35,8 +38,8 @@ import { workerSSRRender } from './workerSSRRender';
 
 const transformToRsbuildServerOptions = (
   dev: DevServerOptions,
-): RsbuildDevServerOptions['dev'] & ServerConfig => {
-  const rsbuildOptions: RsbuildDevServerOptions['dev'] & ServerConfig = {
+): RsbuildDevMiddlewareOptions['dev'] => {
+  const rsbuildOptions: RsbuildDevMiddlewareOptions['dev'] = {
     hmr: Boolean(dev.hot),
     client: dev.client,
     writeToDisk: dev.devMiddleware?.writeToDisk,
@@ -72,7 +75,9 @@ export class ModernDevServer extends ModernServer {
 
   private readonly appContext: ModernDevServerOptionsNew['appContext'];
 
-  private getDevMiddlewares: ModernDevServerOptionsNew['getDevMiddlewares'];
+  private getMiddlewares: ModernDevServerOptionsNew['getMiddlewares'];
+
+  private rsbuild: RsbuildInstance;
 
   private watcher?: Watcher;
 
@@ -91,7 +96,9 @@ export class ModernDevServer extends ModernServer {
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
 
-    this.getDevMiddlewares = options.getDevMiddlewares;
+    this.getMiddlewares = options.getMiddlewares;
+
+    this.rsbuild = options.rsbuild;
 
     enableRegister(this.pwd, this.conf);
   }
@@ -135,24 +142,23 @@ export class ModernDevServer extends ModernServer {
       );
     };
 
-    const {
-      middlewares: rsbuildMiddlewares,
-      close,
-      devMiddlewareEvents,
-    } = await this.getDevMiddlewares({
-      app,
-      dev: {
-        ...transformToRsbuildServerOptions(this.dev),
-        compress:
-          !isUseStreamingSSR(this.getRoutes()) &&
-          !isUseSSRPreload() &&
-          dev.compress,
-        htmlFallback: false,
-        publicDir: false,
-      },
-    });
+    const { middlewares: rsbuildMiddlewares, close } =
+      await this.getMiddlewares({
+        app,
+        dev: {
+          ...transformToRsbuildServerOptions(this.dev),
+          compress:
+            !isUseStreamingSSR(this.getRoutes()) &&
+            !isUseSSRPreload() &&
+            dev.compress,
+          htmlFallback: false,
+          publicDir: false,
+        },
+      });
 
-    devMiddlewareEvents.on('change', (stats: any) => {
+    // TODO: rsbuild next version
+    // @ts-expect-error
+    this.rsbuild.onDevCompileDone(({ stats }) => {
       // Reset only when client compile done
       if (stats.toJson({ all: false }).name !== 'server') {
         this.onRepack({ routes: this.getRoutes() });

@@ -1335,8 +1335,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@rsbuild/core':
-        specifier: ^0.1.9
-        version: 0.1.9
+        specifier: ^0.2.0
+        version: 0.2.0
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -4381,11 +4381,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: ^0.1.9
-        version: 0.1.9
+        specifier: ^0.2.0
+        version: 0.2.0
       '@rsbuild/shared':
-        specifier: ^0.1.9
-        version: 0.1.9
+        specifier: ^0.2.0
+        version: 0.2.0
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -15163,6 +15163,18 @@ packages:
       core-js: 3.32.2
       html-webpack-plugin: /html-rspack-plugin@5.5.7
       postcss: 8.4.31
+    dev: true
+
+  /@rsbuild/core@0.2.0:
+    resolution: {integrity: sha512-pjVNvsDLh4CK3DAm1RG2h74gZXVucY92eHdvxOOMKdbHPWdK7d4gKiwH6hb/Jy1mRoKm5dkAkTpVYnIUrGveZA==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      '@rsbuild/shared': 0.2.0
+      '@rspack/core': 0.4.2
+      core-js: 3.32.2
+      html-webpack-plugin: /html-rspack-plugin@5.5.7
+      postcss: 8.4.31
 
   /@rsbuild/monorepo-utils@0.0.7:
     resolution: {integrity: sha512-Sm/QdCm3QfvzylyxKBy+u7N6OWpuhtEFJRy9btXkiI6W/jSRAzfLpT4akrtx+o3cGP98jeR2frwxwHUbHIe8NQ==}
@@ -15213,12 +15225,22 @@ packages:
       line-diff: 2.1.1
       lodash: 4.17.21
       postcss: 8.4.31
+    dev: true
+
+  /@rsbuild/shared@0.2.0:
+    resolution: {integrity: sha512-HULJpfp3Ij1bxJg4nhM0mwFmnQMqTARVNUbOCOjcGhgegyfe0gCK3ixM9Jw2rrCcI9OdE9go3IL1GZi/tpYDvw==}
+    dependencies:
+      '@rspack/core': 0.4.2
+      caniuse-lite: 1.0.30001559
+      lodash: 4.17.21
+      postcss: 8.4.31
 
   /@rspack/binding-darwin-arm64@0.4.1:
     resolution: {integrity: sha512-oGosukPLEycihtFq+sfx4NOCYJW6+LBbdwlj9hNW8s7mqSshkKBTEkzGgEA+tsyQODOD13Qvg9R4dhUkXnMFJg==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-darwin-arm64@0.4.2:
@@ -15226,7 +15248,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-darwin-x64@0.4.1:
@@ -15234,6 +15255,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-darwin-x64@0.4.2:
@@ -15241,7 +15263,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-linux-arm64-gnu@0.4.1:
@@ -15249,6 +15270,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-linux-arm64-gnu@0.4.2:
@@ -15256,7 +15278,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-linux-arm64-musl@0.4.1:
@@ -15264,6 +15285,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-linux-arm64-musl@0.4.2:
@@ -15271,7 +15293,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-linux-x64-gnu@0.4.1:
@@ -15279,6 +15300,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-linux-x64-gnu@0.4.2:
@@ -15286,7 +15308,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-linux-x64-musl@0.4.1:
@@ -15294,6 +15315,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-linux-x64-musl@0.4.2:
@@ -15301,7 +15323,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-win32-arm64-msvc@0.4.1:
@@ -15309,6 +15330,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-win32-arm64-msvc@0.4.2:
@@ -15316,7 +15338,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-win32-ia32-msvc@0.4.1:
@@ -15324,6 +15345,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-win32-ia32-msvc@0.4.2:
@@ -15331,7 +15353,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding-win32-x64-msvc@0.4.1:
@@ -15339,6 +15360,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
 
   /@rspack/binding-win32-x64-msvc@0.4.2:
@@ -15346,7 +15368,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: false
     optional: true
 
   /@rspack/binding@0.4.1:
@@ -15361,6 +15382,7 @@ packages:
       '@rspack/binding-win32-arm64-msvc': 0.4.1
       '@rspack/binding-win32-ia32-msvc': 0.4.1
       '@rspack/binding-win32-x64-msvc': 0.4.1
+    dev: true
 
   /@rspack/binding@0.4.2:
     resolution: {integrity: sha512-2Rb4cmDxHOqAoExiB7RZGyMUp17kDUkcHoPIi3W803mclqwHU9XpLdIMggy0J2Ig2Kp8TCF0tpoUSu2UhgXQgA==}
@@ -15374,7 +15396,6 @@ packages:
       '@rspack/binding-win32-arm64-msvc': 0.4.2
       '@rspack/binding-win32-ia32-msvc': 0.4.2
       '@rspack/binding-win32-x64-msvc': 0.4.2
-    dev: false
 
   /@rspack/core@0.4.1:
     resolution: {integrity: sha512-g502i0fHMj0lCr1Y/Bh5iwsEGB1BTiN+H06Oc39qEgs4bwQqnkGg/iQSBoR7q1886lAK8yIIDQeyCxF/6qI7EA==}
@@ -15396,6 +15417,7 @@ packages:
       webpack-sources: 3.2.3
       zod: 3.22.3
       zod-validation-error: 1.3.1(zod@3.22.3)
+    dev: true
 
   /@rspack/core@0.4.2:
     resolution: {integrity: sha512-D5gKawtOMnzp0JIk62t09WrgqU1TR1X44km8mWZqGs5EunQVCvE5wW785cGOXgfuV8yxFXUKEqdHPg5Cp9fvEg==}
@@ -15417,7 +15439,6 @@ packages:
       webpack-sources: 3.2.3
       zod: 3.22.3
       zod-validation-error: 1.3.1(zod@3.22.3)
-    dev: false
 
   /@rspack/plugin-html@0.4.2(@rspack/core@0.4.2):
     resolution: {integrity: sha512-tzTPqjTPwWeZ01pbwLPI1d1C4yGel3JFfnrwqSxa3TX1l0vZ5IbBoiTcKws+nLub6Jl5KJ8/ic03Unx8F7WkZQ==}

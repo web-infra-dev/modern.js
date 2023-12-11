@@ -1,5 +1,4 @@
 import type { IncomingMessage, ServerResponse, Server } from 'http';
-import { EventEmitter } from 'events';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
@@ -7,7 +6,7 @@ import type {
   RequestHandler,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
-import { RsbuildDevServerOptions, ServerConfig } from '@rsbuild/shared';
+import { RsbuildDevMiddlewareOptions, RsbuildInstance } from '@rsbuild/shared';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -61,14 +60,13 @@ export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 export type ExtraOptionsNew = {
   dev: boolean | Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
-  getDevMiddlewares: (options: {
-    // TODO: update type after rsbuild 0.2.0
-    dev: RsbuildDevServerOptions['dev'] & ServerConfig;
+  rsbuild: RsbuildInstance;
+  getMiddlewares: (options: {
+    dev: RsbuildDevMiddlewareOptions['dev'];
     app: Server;
   }) => Promise<{
     middlewares: RequestHandler[];
     close: () => Promise<void>;
-    devMiddlewareEvents: EventEmitter;
   }>;
 };
 
