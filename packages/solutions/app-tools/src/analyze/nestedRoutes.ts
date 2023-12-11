@@ -165,6 +165,11 @@ export const walk = async (
 
   for (const item of items) {
     const itemPath = path.join(dirname, item);
+    const itemPathWithAlias = replaceWithAlias(
+      alias.basename,
+      itemPath,
+      alias.name,
+    );
     const extname = path.extname(item);
     const itemWithoutExt = item.slice(0, -extname.length);
 
@@ -194,54 +199,54 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_LOADER_FILE) {
       if (!route.loader) {
-        route.loader = replaceWithAlias(alias.basename, itemPath, alias.name);
+        route.loader = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CLIENT_LOADER) {
-      route.clientData = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.clientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
-      route.data = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.data = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        route.action = replaceWithAlias(alias.basename, itemPath, alias.name);
+        route.action = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
       if (!route.config) {
-        route.config = replaceWithAlias(alias.basename, itemPath, alias.name);
+        route.config = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_FILE) {
-      route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route._component = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
-      pageLoaderFile = replaceWithAlias(alias.basename, itemPath, alias.name);
+      pageLoaderFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
-      pageClientData = replaceWithAlias(alias.basename, itemPath, alias.name);
+      pageClientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
-      pageData = replaceWithAlias(alias.basename, itemPath, alias.name);
+      pageData = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        pageAction = replaceWithAlias(alias.basename, itemPath, alias.name);
+        pageAction = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
-      pageConfigFile = replaceWithAlias(alias.basename, itemPath, alias.name);
+      pageConfigFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_FILE) {
       pageRoute = createIndexRoute(
         {
-          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          _component: itemPathWithAlias,
         } as NestedRouteForCli,
         rootDir,
         itemPath,
@@ -268,11 +273,11 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
-      splatLoaderFile = replaceWithAlias(alias.basename, itemPath, alias.name);
+      splatLoaderFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CLIENT_DATA) {
-      splatClientData = replaceWithAlias(alias.basename, itemPath, alias.name);
+      splatClientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CONFIG_FILE) {
@@ -286,16 +291,16 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
-      splatData = replaceWithAlias(alias.basename, itemPath, alias.name);
+      splatData = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        splatAction = replaceWithAlias(alias.basename, itemPath, alias.name);
+        splatAction = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
       splatRoute = createRoute(
         {
-          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          _component: itemPathWithAlias,
           path: '*',
         },
         rootDir,
@@ -323,11 +328,11 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LOADING_FILE) {
-      route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.loading = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.ERROR_FILE) {
-      route.error = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.error = itemPathWithAlias;
     }
   }
 
