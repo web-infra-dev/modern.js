@@ -65,15 +65,17 @@ const handleTemplateFile = async (
     ? {}
     : {
         'react-dom': isReact18(context.materials.default.basePath)
-          ? '^18'
-          : '^17',
+          ? '^18.2.0'
+          : '^17.0.2',
       };
 
   const isExitReact = pkg.devDependencies?.react || pkg.dependencies?.react;
   const addReactDependence = isExitReact
     ? {}
     : {
-        react: isReact18(context.materials.default.basePath) ? '^18' : '^17',
+        react: isReact18(context.materials.default.basePath)
+          ? '^18.2.0'
+          : '^17.0.2',
       };
 
   // modify stories/tsconfig.json
