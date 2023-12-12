@@ -15,7 +15,12 @@ export const clearBuildConfigPaths = async (
     }
 
     // tsc --build --clean
-    if (config.buildType === 'bundleless' && config.dts) {
+    if (
+      config.buildType === 'bundleless' &&
+      config.dts &&
+      // keep it same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/build.ts#L37
+      (await fs.pathExists(config.tsconfig))
+    ) {
       const tscBinFile = await getTscBinPath(projectAbsRootPath);
       const childProgress = execa(tscBinFile, ['--build', '--clean'], {
         stdio: 'pipe',
