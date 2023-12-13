@@ -1,5 +1,13 @@
 # @modern-js/tailwindcss-generator
 
+## 3.3.3
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+  - @modern-js/utils@2.42.2
+
 ## 3.3.2
 
 ### Patch Changes

@@ -131,10 +131,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.42.1
+        specifier: workspace:^2.42.2
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.42.1
+        specifier: workspace:^2.42.2
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*
@@ -18809,7 +18809,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.22.2
+      browserslist: 4.21.10
       caniuse-lite: 1.0.30001520
       fraction.js: 4.2.0
       normalize-range: 0.1.2
