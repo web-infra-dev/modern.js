@@ -165,6 +165,11 @@ export const walk = async (
 
   for (const item of items) {
     const itemPath = path.join(dirname, item);
+    const itemPathWithAlias = replaceWithAlias(
+      alias.basename,
+      itemPath,
+      alias.name,
+    );
     const extname = path.extname(item);
     const itemWithoutExt = item.slice(0, -extname.length);
 
@@ -194,54 +199,54 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_LOADER_FILE) {
       if (!route.loader) {
-        route.loader = itemPath;
+        route.loader = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CLIENT_LOADER) {
-      route.clientData = itemPath;
+      route.clientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
-      route.data = itemPath;
+      route.data = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        route.action = itemPath;
+        route.action = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
       if (!route.config) {
-        route.config = itemPath;
+        route.config = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_FILE) {
-      route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route._component = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
-      pageLoaderFile = itemPath;
+      pageLoaderFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
-      pageClientData = itemPath;
+      pageClientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
-      pageData = itemPath;
+      pageData = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        pageAction = itemPath;
+        pageAction = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
-      pageConfigFile = itemPath;
+      pageConfigFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_FILE) {
       pageRoute = createIndexRoute(
         {
-          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          _component: itemPathWithAlias,
         } as NestedRouteForCli,
         rootDir,
         itemPath,
@@ -268,30 +273,34 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
-      splatLoaderFile = itemPath;
+      splatLoaderFile = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CLIENT_DATA) {
-      splatClientData = itemPath;
+      splatClientData = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_CONFIG_FILE) {
       if (!route.config) {
-        splatConfigFile = itemPath;
+        splatConfigFile = replaceWithAlias(
+          alias.basename,
+          itemPath,
+          alias.name,
+        );
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
-      splatData = itemPath;
+      splatData = itemPathWithAlias;
       if (await hasAction(itemPath)) {
-        splatAction = itemPath;
+        splatAction = itemPathWithAlias;
       }
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
       splatRoute = createRoute(
         {
-          _component: replaceWithAlias(alias.basename, itemPath, alias.name),
+          _component: itemPathWithAlias,
           path: '*',
         },
         rootDir,
@@ -319,11 +328,11 @@ export const walk = async (
     }
 
     if (itemWithoutExt === NESTED_ROUTE.LOADING_FILE) {
-      route.loading = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.loading = itemPathWithAlias;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.ERROR_FILE) {
-      route.error = replaceWithAlias(alias.basename, itemPath, alias.name);
+      route.error = itemPathWithAlias;
     }
   }
 
