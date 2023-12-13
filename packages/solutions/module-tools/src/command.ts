@@ -49,6 +49,7 @@ export const devCommand = async (
     .usage('[options]')
     .description(i18n.t(localeKeys.command.dev.describe))
     .option('--tsconfig [tsconfig]', i18n.t(localeKeys.command.dev.tsconfig))
+    .option('-c, --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async (options: DevCommandOptions) => {
       const context = await initModuleContext(api);
       const { dev } = await import('./dev');
