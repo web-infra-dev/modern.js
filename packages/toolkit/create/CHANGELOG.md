@@ -1,5 +1,12 @@
 # @modern-js/create
 
+## 2.42.2
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+
 ## 2.42.1
 
 ## 2.42.0
