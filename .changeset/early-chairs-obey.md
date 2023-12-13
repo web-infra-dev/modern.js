@@ -7,6 +7,6 @@
 '@modern-js/server-utils': patch
 ---
 
-chore: bump rsbuild to 0.2.2
+chore: bump rsbuild to 0.2.3
 
-chore: 升级 rsbuild 到 0.2.2
+chore: 升级 rsbuild 到 0.2.3

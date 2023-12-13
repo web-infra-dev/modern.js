@@ -96,7 +96,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-    "@rsbuild/babel-preset": "0.2.2",
+    "@rsbuild/babel-preset": "0.2.3",
     "@swc/helpers": "0.5.3",
     "babel-plugin-import": "1.13.5",
     "babel-plugin-styled-components": "1.13.3",
