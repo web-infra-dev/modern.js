@@ -3,17 +3,14 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@src/*": [
-        "./src/*"
-      ]
+      "@src/*": ["./src/*"]
     },
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist/bundleless/types"
   },
-  "include": [
-    "src"
-  ],
+  "include": ["src"],
   "references": [
     {
       "path": "../dts-composite"
