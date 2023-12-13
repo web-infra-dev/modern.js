@@ -9,6 +9,7 @@ import type { ModernServerOptions } from '@modern-js/prod-server';
 import {
   RsbuildDevMiddlewareOptions,
   RsbuildInstance,
+  // @ts-expect-error
   UpgradeEvent,
 } from '@rsbuild/shared';
 
