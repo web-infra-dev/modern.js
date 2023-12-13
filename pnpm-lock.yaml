@@ -28188,7 +28188,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 

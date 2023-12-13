@@ -10,6 +10,7 @@ const createDevServer = (options: ModernServerOptions) => {
   return new ModernDevServer(options as ModernDevServerOptions);
 };
 
+// It should be replaced by DevServerForRsbuild when rsbuild is fully integrated into modern.js
 export class DevServer extends Server {
   constructor(options: ModernDevServerOptions) {
     super(options);
@@ -21,7 +22,7 @@ export class DevServer extends Server {
 }
 
 export class DevServerForRsbuild extends Server {
-  constructor(options: ModernDevServerOptions) {
+  constructor(options: ModernDevServerOptionsNew) {
     super(options);
 
     if (options.dev) {
