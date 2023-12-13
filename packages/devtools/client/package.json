@@ -25,6 +25,7 @@
     "./sw-proxy": "./dist/public/sw-proxy.js",
     "./package.json": "./package.json"
   },
+  "license": "MIT",
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
