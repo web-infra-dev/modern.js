@@ -3,10 +3,15 @@ import { parseQuery } from 'ufo';
 import _ from 'lodash';
 import { SetupClientParams } from '@modern-js/devtools-kit';
 import { waitClientConnection } from './rpc';
+import styles from './index.module.scss';
 import { DevtoolsActionButton } from '@/components/Devtools/Action';
 
 // @ts-expect-error
-const { container, resourceQuery } = window._modern_js_devtools_app;
+const { container, resourceQuery } = window._modern_js_devtools_app as {
+  container: HTMLDivElement;
+  resourceQuery: string;
+};
+container.classList.add(styles.container);
 const root = createRoot(container);
 const parsed = parseQuery(resourceQuery);
 if (
