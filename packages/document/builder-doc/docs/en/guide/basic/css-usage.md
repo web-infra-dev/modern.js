@@ -65,10 +65,6 @@ body {
 }
 ```
 
-## Using CSS Modules
-
-Please read the [Using CSS Modules](/guide/basic/css-modules.html) chapter for a complete usage of CSS Modules.
-
 ## CSS Minify
 
 Usually, in production environments we compress static assets such as CSS, JS, etc. to achieve better transfer efficiency.
