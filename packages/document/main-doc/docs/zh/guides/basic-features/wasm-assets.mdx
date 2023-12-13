@@ -1,6 +1,10 @@
+---
+sidebar_position: 13
+---
+
 # 引用 Wasm 资源
 
-Builder 支持在代码引用 WebAssembly 资源。
+Modern.js 支持在代码引用 WebAssembly 资源。
 
 :::tip 什么是 WebAssembly
 WebAssembly（缩写为 wasm）是一种可移植、高性能的字节码格式，被设计用来在现代 Web 浏览器中执行 CPU 密集型计算任务，为 Web 平台带来了接近本地编译代码的性能和可靠性。
@@ -37,9 +41,9 @@ console.log(wasmURL).pathname; // "/static/wasm/[hash].module.wasm"
 
 ## 输出目录
 
-当 `.wasm` 资源被引用后，默认会被 Builder 输出到 `dist/static/wasm` 目录下。
+当 `.wasm` 资源被引用后，默认会被 Modern.js 输出到 `dist/static/wasm` 目录下。
 
-你可以通过 [output.distPath](/api/config-output.html#outputdistpath) 配置项来修改 `.wasm` 产物的输出目录。
+你可以通过 [output.distPath](/configure/app/output/dist-path) 配置项来修改 `.wasm` 产物的输出目录。
 
 ```ts
 export default {
