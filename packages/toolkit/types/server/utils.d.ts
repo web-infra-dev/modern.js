@@ -1,5 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type { Options as ProxyOptions } from 'http-proxy-middleware';
+import type {
+  Options as ProxyOptions,
+  Filter as ProxyFilter,
+} from 'http-proxy-middleware';
 
 export type Metrics = {
   emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
@@ -61,7 +64,7 @@ export type ProxyDetail = ProxyOptions & {
     res: ServerResponse,
     proxyOptions: BffProxyOptions,
   ) => string | undefined | null | false;
-  context?: string | string[];
+  context?: ProxyFilter;
 };
 
 export type BffProxyOptions =
