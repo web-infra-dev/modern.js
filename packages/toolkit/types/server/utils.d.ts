@@ -114,7 +114,7 @@ export interface Container<K = string, V = string> {
   get: (key: K) => Promise<V | undefined>;
 
   /**
-   * Adds a new element with a specified key and value to the storage. If an element with the same key already exists, the element will be updated.
+   * Adds a new element with a specified key and value to the containter. If an element with the same key already exists, the element will be updated.
    */
   set: (key: K, value: V, options?: { ttl?: number }) => Promise<this>;
 
@@ -124,7 +124,7 @@ export interface Container<K = string, V = string> {
   has: (key: K) => Promise<boolean>;
 
   /**
-   * @returns true if an element in the Map existed and has been removed, or false if the element does not exist.
+   * @returns true if an element in the containter existed and has been removed, or false if the element does not exist.
    */
   delete: (key: K) => Promise<boolean>;
 

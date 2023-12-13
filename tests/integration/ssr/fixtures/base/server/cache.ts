@@ -3,20 +3,20 @@ import type { CacheOption, Container } from '@modern-js/runtime/server';
 class MyContainter implements Container {
   map: Map<string, string> = new Map();
 
-  get(key: string) {
+  async get(key: string) {
     return this.map.get(key);
   }
 
-  set(key: string, value: string): this {
+  async set(key: string, value: string): Promise<this> {
     this.map.set(key, value);
     return this;
   }
 
-  has(key: string): boolean {
+  async has(key: string): Promise<boolean> {
     return this.map.has(key);
   }
 
-  delete(key: string): boolean {
+  async delete(key: string): Promise<boolean> {
     return this.map.delete(key);
   }
 }

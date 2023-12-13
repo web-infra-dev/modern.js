@@ -1,0 +1,182 @@
+---
+sidebar_position: 3
+title: 缓存
+---
+
+# 渲染缓存
+
+有时我们会将计算结果进行缓存，例如 React useMemo, useCallback Hook。
+通过缓存我们可以减少计算的次数来减少 CPU 资源占用，提高用户体验。
+
+通过将服务器端渲染（SSR）结果进行缓存能够减少服务器每次请求时的计算和渲染时间，从而加速页面加载速度，提高用户体验。
+降低服务端负载，节省计算资源，提高用户访问速度。
+
+## 配置方式
+
+在 `server/cache.[t|j]s` 中配置缓存即可开启缓存：
+
+```ts title="server/cache.ts"
+import type { CacheOption } from '@modern-js/runtime/server';
+
+export const cacheOption: CacheOption = {
+  maxAge: 500, // ms
+  staleWhileRevalidate: 1000, // ms
+};
+```
+
+## 配置说明
+
+### 缓存配置
+
+缓存策略参考 [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) 进行实现。
+
+在 `maxAge` 时间内会直接返回缓存内容，超过 `maxAge` 但在 `staleWhileRevalidate` 内也会直接返回缓存内容，但同时会异步做一次重新渲染。
+
+**Object 类型**
+
+```ts
+export interface CacheControl {
+  maxAge: number;
+
+  staleWhileRevalidate: number;
+
+  customKey?: string | ((pathname: string) => string);
+}
+```
+
+其中 customKey 为自定义缓存 key。默认情况下 Modern.js 将会把请求 pathname 作为 key 进行缓存，但在某些情况下这不能满足你的需求，开发者可以进行自定义。
+
+**Function 类型**
+
+```ts
+export type CacheOptionProvider = (
+  req: IncomingMessage,
+) => Promise<CacheControl> | CacheControl;
+```
+
+有时开发者需要通过 req 来自定义缓存 key，可以配置为函数的形式进行处理, 例如以下代码：
+
+```ts title="server/cache.ts"
+
+import type { CacheOption, CacheOptionProvider } from '@modern-js/runtime/server';
+
+const provider: CacheOptionProvider = (req) => {
+  const { url, headers, ... } = req;
+
+  const key = computedKey(url, headers, ...);
+
+  return {
+    maxAge: 500, // ms
+    staleWhileRevalidate: 1000, // ms
+    customKey: key,
+  }
+}
+
+export const cacheOption: CacheOption = provider;
+```
+
+**Map 类型**
+
+```ts
+export type CacheOptions = Record<string, CacheControl | CacheOptionProvider>;
+```
+
+有时开发者面对不同的路由需要应用不同的缓存策略。我们也提供一种映射的方式进行配置, 以下列代码为例子
+
+```ts title="server/cache.ts"
+import type { CacheOption } from '@modern-js/runtime/server';
+
+export const cacheOption: CacheOption = {
+  '/home': {
+    maxAge: 50,
+    staleWhileRevalidate: 100,
+  },
+  '/about': {
+    maxAge: 1000 * 60 * 60 * 24, // one day
+    staleWhileRevalidate: 1000 * 60 * 60 * 24 * 2 // two day
+  },
+  '*': (req) => { // 若上述路由无法匹配，则会匹配到 '*'
+    const { url, headers, ... } = req;
+    const key = computedKey(url, headers, ...);
+
+    return {
+      maxAge: 500,
+      staleWhileRevalidate: 1000,
+      customKey: key,
+    }
+  }
+}
+```
+
+- 路由 `http://xxx/home` 将会应用第一条规则。
+- 路由 `http://xxx/about` 将会应用第二条规则。
+- 路由 `http://xxx/abc` 将会应用最后一条规则。
+
+### 缓存容器
+
+默认情况下，Server 将会使用内存进行缓存。但通常情况下服务将会部署在 serverless 上。每一次的服务访问可能都是一个新的进程，这样每次访问都不能应用缓存
+
+故开发者也可以自定义缓存容器，容器需实现接口 `Containter`
+
+```ts
+export interface Containter<K = string, V = string> {
+  /**
+   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
+   * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
+   */
+  get: (key: K) => Promise<V | undefined>;
+
+  /**
+   * Adds a new element with a specified key and value to the containter. If an element with the same key already exists, the element will be updated.
+   *
+   * The ttl indicates cache expiration time.
+   */
+  set: (key: K, value: V, options?: { ttl?: number }) => Promise<this>;
+
+  /**
+   * @returns boolean indicating whether an element with the specified key exists or not.
+   */
+  has: (key: K) => Promise<boolean>;
+
+  /**
+   * @returns true if an element in the containter existed and has been removed, or false if the element does not exist.
+   */
+  delete: (key: K) => Promise<boolean>;
+}
+```
+
+以下面代码为例，开发者可实现一个 redis 容器。
+
+```ts
+import type { Containter, CacheOption } from '@modern-js/runtime/server';
+
+class RedisContainter implements Containter {
+  redis = new Redis();
+
+  async get(key: string) {
+    return this.redis.get(key);
+  }
+
+  async set(key: string, value: string): Promise<this> {
+    this.redis.set(key, value);
+    return this;
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.redis.has(key);
+  }
+
+  async delete(key: string): Promise<boolean> {
+    return this.redis.delete(key);
+  }
+}
+
+const containter = new RedisContainter();
+
+export const customContainer: Containter = containter;
+
+export const cacheOption: CacheOption = {
+  maxAge: 500, // ms
+  staleWhileRevalidate: 1000, // ms
+};
+```

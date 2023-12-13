@@ -8,7 +8,6 @@ import {
 export type {
   Container,
   CacheControl,
-  CacheControlRange,
   CacheOptionProvider,
   CacheOption,
 } from '@modern-js/types';

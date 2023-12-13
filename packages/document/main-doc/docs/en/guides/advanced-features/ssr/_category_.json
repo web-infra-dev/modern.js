@@ -1,0 +1,8 @@
+{
+  "label": "SSR",
+  "position": 3,
+  "link": {
+    "type": "doc",
+    "id": "guides/advanced-features/ssr/index"
+  }
+}
