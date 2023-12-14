@@ -3,14 +3,9 @@ import type {
   DevServerOptions,
   DevServerHttpsOptions,
   NextFunction,
-  RequestHandler,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
-import type {
-  RsbuildDevMiddlewareOptions,
-  RsbuildInstance,
-  UpgradeEvent,
-} from '@rsbuild/shared';
+import type { RsbuildInstance, DevServerAPIs } from '@rsbuild/shared';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -65,11 +60,7 @@ export type ExtraOptionsNew = {
   dev: boolean | Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
   rsbuild: RsbuildInstance;
-  getMiddlewares: (overrides: RsbuildDevMiddlewareOptions['dev']) => Promise<{
-    middlewares: RequestHandler[];
-    close: () => Promise<void>;
-    onUpgrade: UpgradeEvent;
-  }>;
+  getMiddlewares: DevServerAPIs['getMiddlewares'];
 };
 
 export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;

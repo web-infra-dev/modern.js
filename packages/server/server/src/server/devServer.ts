@@ -143,19 +143,17 @@ export class ModernDevServer extends ModernServer {
       );
     };
 
-    const {
-      middlewares: rsbuildMiddlewares,
-      close,
-      onUpgrade,
-    } = await this.getMiddlewares({
-      ...transformToRsbuildServerOptions(this.dev),
-      compress:
-        !isUseStreamingSSR(this.getRoutes()) &&
-        !isUseSSRPreload() &&
-        dev.compress,
-      htmlFallback: false,
-      publicDir: false,
-    });
+    const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
+      // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
+      await this.getMiddlewares({
+        ...transformToRsbuildServerOptions(this.dev),
+        compress:
+          !isUseStreamingSSR(this.getRoutes()) &&
+          !isUseSSRPreload() &&
+          dev.compress,
+        htmlFallback: false,
+        publicDir: false,
+      });
 
     app.on('upgrade', onUpgrade);
 
