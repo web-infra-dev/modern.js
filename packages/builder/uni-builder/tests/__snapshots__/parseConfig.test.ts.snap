@@ -1,0 +1,492 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseCommonConfig > dev.xxx 1`] = `
+{
+  "dev": {
+    "hmr": false,
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "compress": false,
+    "headers": {
+      "X-Custom-Foo": "bar",
+    },
+    "historyApiFallback": true,
+    "host": "xxx.xxx",
+    "https": {
+      "cert": "xxx",
+      "key": "xxxx",
+    },
+    "port": 8081,
+    "publicDir": false,
+  },
+  "tools": {},
+}
+`;
+
+exports[`parseCommonConfig > dev.xxx 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+  "tools": {},
+}
+`;
+
+exports[`parseCommonConfig > html.faviconByEntries 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "favicon": [Function],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.faviconByEntries 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "favicon": [
+      "/https/www.foo.com/default.ico",
+      [Function],
+    ],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.faviconByEntries 3`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "inject": [Function],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.faviconByEntries 4`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "inject": [
+      "body",
+      [Function],
+    ],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.metaByEntries 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "meta": [Function],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.metaByEntries 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "meta": [
+      {
+        "charset": {
+          "charset": "UTF-8",
+        },
+      },
+      [Function],
+    ],
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.templateByEntries 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "template": [Function],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.templateByEntries 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "template": [
+      "static/index.html",
+      [Function],
+    ],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "templateParameters": [Function],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "templateParameters": [
+      {
+        "name": "jack",
+      },
+      [Function],
+    ],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.titleByEntries 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "title": [Function],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > html.titleByEntries 2`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+    "title": [
+      "Default",
+      [Function],
+    ],
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "cssModules": {
+      "localIdentName": "[local]-[hash:base64:6]",
+    },
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "cssModules": {
+      "auto": [Function],
+    },
+    "disableCssModuleExtension": true,
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "inlineScripts": true,
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;
+
+exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
+{
+  "dev": {
+    "progressBar": true,
+    "writeToDisk": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "inlineStyles": true,
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "server": {
+    "publicDir": false,
+  },
+}
+`;

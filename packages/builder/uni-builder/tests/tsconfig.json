@@ -5,6 +5,8 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
-    "isolatedModules": true
+    "isolatedModules": true,
+    "module": "ES2020",
+    "moduleResolution": "Bundler"
   }
 }
