@@ -3,8 +3,8 @@ import type {
   ModernDevServerOptions,
   ModernDevServerOptionsNew,
 } from '../types';
-import { ModernDevServer } from './devServer';
-import { ModernDevServer as ModernDevServerForRsbuild } from './devServerNew';
+import { ModernDevServer } from './devServerOld';
+import { ModernDevServer as ModernDevServerForRsbuild } from './devServer';
 
 const createDevServer = (options: ModernServerOptions) => {
   return new ModernDevServer(options as ModernDevServerOptions);
