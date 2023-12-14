@@ -43,8 +43,8 @@
     "ts-node": "^10.9.1",
     "typescript": "^5",
     "fs-extra": "^10",
-    "rspress": "1.8.2",
-    "@rspress/shared": "1.8.2",
+    "rspress": "1.8.3",
+    "@rspress/shared": "1.8.3",
     "@types/node": "^16",
     "@types/fs-extra": "9.0.13"
   }
