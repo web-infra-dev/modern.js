@@ -66,6 +66,7 @@ const transformToRsbuildServerOptions = (
   return rsbuildOptions;
 };
 
+// TODO：support start without compiler (api-only mode)
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
