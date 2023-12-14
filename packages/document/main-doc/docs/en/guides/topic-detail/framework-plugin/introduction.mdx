@@ -6,22 +6,69 @@ sidebar_position: 1
 
 ## Modern.js Plugin System
 
-Modern.js is a system used for extending the functionality of a project at different stages such as running, requesting, and rendering. It mainly consists of three parts: the Hook model, the Manager, and the Context Sharing mechanism.
+Modern.js offers a comprehensive plugin system with a complete lifecycle. Plugins can be used to extend different stages of project operation, request handling, rendering, and more.
 
-The Hook model is used to determine the execution method of the current Hook, and functions with different Hook models have different execution logics. The Manager is used to control the execution and scheduling of Hooks. The Context Sharing mechanism is used to pass information between different Hooks.
+## Usage
 
-Currently, Modern.js provides several different Hook models:
+Plugins must be explicitly registered in the configuration file to be effective. When you need to add plugins to Modern.js, you can configure them in the `[plugin](/configure/app/plugins.html)` field:
 
-- Pipeline
-  - Sync
-  - Async
-- Waterfall
-  - Sync
-  - Async
-- Workflow
-  - Sync
-  - Async
-  - Parallel(Async)
+```ts title="edenx.config.ts"
+// an example for bff
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin()],
+});
+```
+
+:::note
+Note that this configuration only supports adding Modern.js plugins and does not support adding Webpack plugins.
+:::
+
+## Official Plugins
+
+Modern.js offers a range of official plugins, which are integrated with the Modern.js generator. All the functionalities of the official plugins can be enabled by executing the `new` command. For instance, to enable the BFF (Backend For Frontend) feature:
+
+```bash
+$ npx modern new
+? Please select the operation you want: Enable Features
+? Please select the feature name: (Use arrow keys)
+  Enable Tailwind CSS
+❯ Enable BFF
+  Enable SSG
+  Enable Micro Frontend
+  Enable Unit Test / Integration Test
+  Enable Visual Testing (Storybook)
+```
+
+After the selection is completed, the Modern.js generator will automatically install the corresponding plugins and third-party dependencies. Upon completion of the installation, you will see:
+
+```bash
+[INFO] Dependency automatic installation succeeded
+
+[INFO] install plugin dependencies success！add follow code to modern.config.ts :
+
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { expressPlugin } from '@modern-js/plugin-express';
+
+export default defineConfig({
+  ...,
+  plugins: [..., bffPlugin(), expressPlugin()],
+});
+```
+
+At this point, you can add the plugin to the configuration file according to the output in the console.
+
+## Composition
+
+The Modern.js plugin system is mainly divided into three parts: Hook model, Manager, and Context Sharing Mechanism.
+
+- The Hook model is used to determine the execution logic of the current Hook.
+- The Manager controls the execution and scheduling of Hooks.
+- The Context Sharing Mechanism is used to pass information between different Hooks.
+
+Currently, Modern.js offers several different Hook models: **Pipeline, Waterfall, Workflow**.
 
 :::note
 Subsequent chapters will introduce the execution methods of each model in detail.
