@@ -105,12 +105,12 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "2.7.6",
     "postcss": "8.4.31",
-    "react-refresh": "0.14.0",
+    "react-refresh": "^0.14.0",
     "style-loader": "3.3.3",
     "terser-webpack-plugin": "5.3.9",
     "ts-loader": "9.4.4",
     "tsconfig-paths-webpack-plugin": "4.1.0",
-    "webpack": "^5.88.1",
+    "webpack": "^5.89.0",
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {

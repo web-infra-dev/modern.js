@@ -81,7 +81,7 @@
     "magic-string": "0.30.5",
     "source-map": "0.7.4",
     "typescript": "^5",
-    "webpack": "^5.88.1",
+    "webpack": "^5.89.0",
     "react": "^18",
     "react-dom": "^18"
   },
