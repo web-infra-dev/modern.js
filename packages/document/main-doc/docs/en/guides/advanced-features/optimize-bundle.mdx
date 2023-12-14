@@ -44,9 +44,9 @@ See the [performance.bundleAnalyze](/configure/app/performance/bundle-analyze.ht
 
 ## Adjust Browserslist
 
-The Builder will compile the code according to the project's Browserslist config, and inject some Polyfills. If the project does not need to be compatible with legacy browsers, you can adjust the Browserslist and drop some legacy browsers, thereby reducing the compilation overhead on syntax and polyfill.
+Modern.js will compile the code according to the project's Browserslist config, and inject some Polyfills. If the project does not need to be compatible with legacy browsers, you can adjust the Browserslist and drop some legacy browsers, thereby reducing the compilation overhead on syntax and polyfill.
 
-Builder's default Browserslist config is:
+Modern.js's default Browserslist config is:
 
 ```js
 ['> 0.01%', 'not dead', 'not op_mini all'];
@@ -66,7 +66,7 @@ Please read the [Browserslist](https://modernjs.dev/builder/en/guide/advanced/br
 
 When it is clear that third-party dependencies do not require additional polyfill, you can set [output.polyfill](/configure/app/output/polyfill.html) to `usage`.
 
-In `usage` mode, Builder analyzes the syntax used in the source code and injects the required polyfill code on demand to reduce the size of polyfill.
+In `usage` mode, Modern.js analyzes the syntax used in the source code and injects the required polyfill code on demand to reduce the size of polyfill.
 
 ```js
 export default {
@@ -84,11 +84,12 @@ Please read the [Browser Compatibility](https://modernjs.dev/builder/en/guide/ad
 
 In general front-end projects, the size of image often accounts for a large proportion of the total bundle size of the project.So if the image size can be reduced as much as possible, it will have a significant optimization effect on the project bundle size. You can enable image compression by registering a plugin in the Builder:
 
-```js
+```ts title="modern.config.ts"
 import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
-// Add the plugin to the Builder
-builder.addPlugins([builderPluginImageCompress()]);
+export default {
+  builderPlugins: [builderPluginImageCompress()],
+};
 ```
 
 See details in [plugin-image-compress](https://modernjs.dev/builder/en/plugins/plugin-image-compress.html).

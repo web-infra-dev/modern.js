@@ -1,6 +1,10 @@
+---
+sidebar_position: 11
+---
+
 # 引用 SVG 资源
 
-Builder 支持在代码中引用 SVG 资源，并将 SVG 图片转换为 React 组件或 URL。
+Modern.js 支持在代码中引用 SVG 资源，并将 SVG 图片转换为 React 组件或 URL。
 
 :::tip 什么是 SVG
 SVG 是 Scalable Vector Graphics 的缩写，意为可伸缩矢量图形。SVG 是一种用来描述二维矢量图形的 XML-based 格式，可以用来创建可以无限放大或缩小而不失真的图像。因为 SVG 图形是由矢量图形元素组成的，所以可以轻松地在各种尺寸和分辨率下渲染。
@@ -8,7 +12,7 @@ SVG 是 Scalable Vector Graphics 的缩写，意为可伸缩矢量图形。SVG �
 
 ## 在 JS 文件中引用
 
-在 JS 文件中引用 SVG 资源时，如果你具名导入 `ReactComponent` 对象，Builder 会调用 [SVGR](https://react-svgr.com/)，将 SVG 图片转换为一个 React 组件。
+在 JS 文件中引用 SVG 资源时，如果你具名导入 `ReactComponent` 对象，Modern.js 会调用 [SVGR](https://react-svgr.com/)，将 SVG 图片转换为一个 React 组件。
 
 ```tsx title="src/component/Logo.tsx"
 import { ReactComponent as Logo } from './static/logo.svg';
@@ -26,7 +30,7 @@ console.log(logoURL); // => "/static/logo.6c12aba3.png"
 
 ## 修改默认导出
 
-你可以通过 [output.svgDefaultExport](/api/config-output.html#outputsvgdefaultexport) 配置项来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
+你可以通过 [output.svgDefaultExport](/configure/app/output/svg-default-export) 配置项来修改 SVG 文件默认导出的内容，比如把默认导出的内容设置为 React 组件：
 
 ```ts
 export default {
@@ -58,12 +62,13 @@ export default () => <Logo />;
 
 当 SVG 不是作为 React 组件，而是作为一个普通的静态资源被引用时，它的处理逻辑和其他静态资源完全一致，也会受到静态资源内联、URL 前缀等规则的影响。
 
-请阅读 [引用静态资源](/guide/basic/static-assets.html) 章节来了解静态资源的处理规则。
+请阅读 [引用静态资源](/guides/basic-features/static-assets) 章节来了解静态资源的处理规则。
 
 ## 禁用 SVGR 处理
 
-默认情况下，在 JS 文件中引用 SVG 资源时，Builder 会调用 SVGR，将 SVG 图片转换为一个 React 组件。
-如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用时，可以通过将 [disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 true 来关闭此项转换，以提升构建性能。
+默认情况下，在 JS 文件中引用 SVG 资源时，Modern.js 会调用 SVGR，将 SVG 图片转换为一个 React 组件。
+
+如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用时，可以通过将 [disableSvgr](/configure/app/output/disable-svgr) 设置为 true 来关闭此项转换，以提升构建性能。
 
 ```js
 export default {

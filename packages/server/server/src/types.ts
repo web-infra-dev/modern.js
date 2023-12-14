@@ -6,10 +6,9 @@ import type {
   RequestHandler,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
-import {
+import type {
   RsbuildDevMiddlewareOptions,
   RsbuildInstance,
-  // @ts-expect-error
   UpgradeEvent,
 } from '@rsbuild/shared';
 

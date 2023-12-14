@@ -151,8 +151,8 @@ export default class Entry {
     const html = buildHtml(this.template, [
       createReplaceChunkCss(this.result.chunksMap.css),
       createReplaceChunkJs(this.result.chunksMap.js),
-      createReplaceHtml(this.result.html || ''),
       createReplaceSSRDataScript(ssrDataScripts),
+      createReplaceHtml(this.result.html || ''),
       ...this.htmlModifiers,
     ]);
     const helmetData: HelmetData = ReactHelmet.renderStatic();

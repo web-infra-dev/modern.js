@@ -53,14 +53,8 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         items: [
           getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
-          getLink('/guide/basic/output-files'),
           getLink('/guide/basic/css-usage'),
-          getLink('/guide/basic/static-assets'),
-          getLink('/guide/basic/svg-assets'),
-          getLink('/guide/basic/json-files'),
-          getLink('/guide/basic/wasm-assets'),
           getLink('/guide/basic/html-template'),
-          getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
           getLink('/guide/basic/builder-cli'),
         ],
@@ -70,7 +64,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('进阶', 'Advanced'),
         items: [
           getLink('/guide/advanced/rspack-start'),
-          getLink('/guide/advanced/alias'),
           getLink('/guide/advanced/define'),
           getLink('/guide/advanced/hmr'),
           getLink('/guide/advanced/rem'),
@@ -93,7 +86,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('优化', 'Optimization'),
         items: [
           getLink('/guide/optimization/split-chunk'),
-          getLink('/guide/optimization/inline-assets'),
         ],
       },
       {

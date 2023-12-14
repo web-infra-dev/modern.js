@@ -333,13 +333,15 @@ DevServer Proxy 完整类型定义为：
 ```ts
 import type { Options as HttpProxyOptions } from 'http-proxy-middleware';
 
+type Filter = string | string[] | ((pathname: string, req: Request) => boolean);
+
 type ProxyDetail = HttpProxyOptions & {
   bypass?: (
     req: IncomingMessage,
     res: ServerResponse,
     proxyOptions: ProxyOptions,
   ) => string | undefined | null | false;
-  context?: string | string[];
+  context?: Filter;
 };
 
 type ProxyOptions =
