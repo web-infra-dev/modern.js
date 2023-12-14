@@ -70,7 +70,7 @@
     "@rsbuild/plugin-swc": "0.2.3",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "@types/lodash": "^4.14.200",
+    "@types/lodash": "^4.14.202",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^5.3.0"
