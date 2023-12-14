@@ -3,7 +3,8 @@ import ReactHelmet, { HelmetData } from 'react-helmet';
 import { matchRoutes } from '@modern-js/runtime-utils/router';
 import helmetReplace from '../helmet';
 import { RuntimeContext } from '../types';
-import { CSS_CHUNKS_PLACEHOLDER } from '../utils';
+import { CHUNK_CSS_PLACEHOLDER } from '../constants';
+import { unsafeReplace } from '../utils';
 import {
   HEAD_REG_EXP,
   BuildTemplateCb,
@@ -30,7 +31,7 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
   return buildTemplate(headTemplate, callbacks);
 
   function injectCss(headTemplate: string) {
-    return headTemplate.replace(CSS_CHUNKS_PLACEHOLDER, getCssChunks());
+    return unsafeReplace(headTemplate, CHUNK_CSS_PLACEHOLDER, getCssChunks());
 
     function getCssChunks() {
       const { routeManifest, routerContext, routes } = context;
