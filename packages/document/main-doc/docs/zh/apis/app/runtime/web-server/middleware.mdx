@@ -91,7 +91,7 @@ type MiddlewareContext = {
 ```ts
 export const Middleware = () => async (ctx, next) => {
   const start = Date.now();
-  ctx.res.once('finish', () => {
+  ctx.source.res.once('finish', () => {
     console.log(Date.now() - start);
   });
 };
@@ -99,12 +99,12 @@ export const Middleware = () => async (ctx, next) => {
 
 ### 注入服务端工具 & 数据
 
-Modern.js 提供了 `res.locals` 属性用来存放当前请求的局部变量。
+Modern.js 提供了 `response.locals` 属性用来存放当前请求的局部变量。
 
 ```ts
 export const Middleware = () => async (ctx, next) => {
-  ctx.res.locals.id = 'Modern.js';
-  ctx.res.locals.rpc = createRpcInstance();
+  ctx.response.locals.id = 'Modern.js';
+  ctx.response.locals.rpc = createRpcInstance();
 };
 ```
 
