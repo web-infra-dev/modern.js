@@ -4548,8 +4548,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@rsbuild/shared':
-        specifier: 0.2.3
-        version: 0.2.3
+        specifier: 0.2.4
+        version: 0.2.4
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -14560,15 +14560,6 @@ packages:
       '@rspack/core': 0.4.1
       caniuse-lite: 1.0.30001566
       line-diff: 2.1.1
-      lodash: 4.17.21
-      postcss: 8.4.31
-    dev: true
-
-  /@rsbuild/shared@0.2.3:
-    resolution: {integrity: sha512-8ND3ETIr2pWnrVNLita2qEI0x3YKNhcPfiNdxWVdZoYaMCrbTJKLbxsMqOCsVk+TVBEnZ0QeIjU7o1ylTzhN7Q==}
-    dependencies:
-      '@rspack/core': 0.4.3
-      caniuse-lite: 1.0.30001566
       lodash: 4.17.21
       postcss: 8.4.31
     dev: true
