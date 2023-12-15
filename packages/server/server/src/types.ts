@@ -5,7 +5,11 @@ import type {
   NextFunction,
 } from '@modern-js/types';
 import type { ModernServerOptions } from '@modern-js/prod-server';
-import type { RsbuildInstance, DevServerAPIs } from '@rsbuild/shared';
+import type {
+  RsbuildInstance,
+  DevServerAPIs,
+  DevMiddlewaresConfig,
+} from '@rsbuild/shared';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -60,7 +64,9 @@ export type ExtraOptionsNew = {
   dev: boolean | Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
   rsbuild: RsbuildInstance;
-  getMiddlewares: DevServerAPIs['getMiddlewares'];
+  getMiddlewares: (
+    overrides?: DevMiddlewaresConfig,
+  ) => ReturnType<DevServerAPIs['getMiddlewares']>;
 };
 
 export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;
