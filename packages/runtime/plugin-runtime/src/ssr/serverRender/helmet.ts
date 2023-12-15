@@ -1,7 +1,7 @@
 // 用于 react-helmet 正则替换
 import { EOL } from 'os';
 import { HelmetData } from 'react-helmet';
-import { unsafeReplace } from './utils';
+import { safeReplace } from './utils';
 
 const RE_HTML_ATTR = /<html[^>]*>/;
 const RE_BODY_ATTR = /<body[^>]*>/;
@@ -15,12 +15,12 @@ export default function helmet(content: string, helmetData: HelmetData) {
   let result = content;
   const bodyAttributes = helmetData.bodyAttributes.toString();
   if (bodyAttributes) {
-    result = unsafeReplace(result, RE_BODY_ATTR, `<body ${bodyAttributes}>`);
+    result = safeReplace(result, RE_BODY_ATTR, `<body ${bodyAttributes}>`);
   }
 
   const htmlAttributes = helmetData.htmlAttributes.toString();
   if (htmlAttributes) {
-    result = unsafeReplace(result, RE_HTML_ATTR, `<html ${htmlAttributes}>`);
+    result = safeReplace(result, RE_HTML_ATTR, `<html ${htmlAttributes}>`);
   }
 
   const base = helmetData.base.toString();
@@ -36,7 +36,7 @@ export default function helmet(content: string, helmetData: HelmetData) {
   const shouldReplaceTitle =
     existTitleTag && TEST_TITLE_CONTENT.test(title.trim());
   if (shouldReplaceTitle) {
-    result = unsafeReplace(result, RE_TITLE, title);
+    result = safeReplace(result, RE_TITLE, title);
   }
 
   const helmetStr = [
@@ -51,5 +51,5 @@ export default function helmet(content: string, helmetData: HelmetData) {
     return pre + (cur.length > 0 ? `  ${cur}${EOL}` : '');
   }, '');
 
-  return unsafeReplace(result, RE_LAST_IN_HEAD, `${helmetStr}</head>`);
+  return safeReplace(result, RE_LAST_IN_HEAD, `${helmetStr}</head>`);
 }
