@@ -17,9 +17,6 @@ export async function ssrCache(
   render: RenderFunction,
   ssrContext: SSRServerContext,
 ): Promise<string | Readable> {
-  if (!cacheMod.loaded) {
-    cacheMod.loadServerCacheMod();
-  }
   const { customContainer, cacheOption } = cacheMod;
   const cacheControl = await matchCacheControl(req, cacheOption);
   const cacheManager = new CacheManager(

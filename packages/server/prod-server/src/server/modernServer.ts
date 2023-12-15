@@ -62,6 +62,7 @@ import {
   createAfterRenderContext,
   createMiddlewareContext,
 } from '../libs/hook-api';
+import { cacheMod } from '../libs/render/ssrCache/cacheMod';
 
 type ModernServerAsyncHandler = (
   context: ModernServerContext,
@@ -162,6 +163,9 @@ export class ModernServer implements ModernServerInterface {
 
     // warmup ssr bundle in production env
     this.warmupSSRBundle();
+
+    // warmup cacheMod
+    cacheMod.loadServerCacheMod(this.pwd);
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);

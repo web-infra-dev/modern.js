@@ -13,8 +13,6 @@ class ServerCacheMod {
 
   cacheOption?: CacheOption;
 
-  loaded: boolean = false;
-
   loadServerCacheMod(pwd: string = process.cwd()) {
     const serverCacheFilepath = path.resolve(pwd, SERVER_DIR, CACHE_FILENAME);
     const mod: CacheMod | undefined = requireExistModule(serverCacheFilepath, {
@@ -23,7 +21,6 @@ class ServerCacheMod {
 
     this.customContainer = mod?.customContainer;
     this.cacheOption = mod?.cacheOption;
-    this.loaded = true;
   }
 }
 
