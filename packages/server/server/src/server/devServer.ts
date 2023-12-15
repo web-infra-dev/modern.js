@@ -66,7 +66,6 @@ const transformToRsbuildServerOptions = (
   return rsbuildOptions;
 };
 
-// TODO：support start without compiler (api-only mode)
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
@@ -273,7 +272,7 @@ export class ModernDevServer extends ModernServer {
 
   protected initReader() {
     let isInit = false;
-    // TODO: this.devMiddleware ?
+
     if (this.dev?.devMiddleware?.writeToDisk === false) {
       this.addHandler((ctx, next) => {
         if (isInit) {
@@ -281,12 +280,12 @@ export class ModernDevServer extends ModernServer {
         }
         isInit = true;
 
-        if (!ctx.res.locals!.webpack) {
+        if (!ctx.res.locals?.webpack) {
           this.reader.init();
           return next();
         }
 
-        const { devMiddleware: webpackDevMid } = ctx.res.locals!.webpack;
+        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
         const { outputFileSystem } = webpackDevMid;
         if (outputFileSystem) {
           this.reader.init(outputFileSystem);
