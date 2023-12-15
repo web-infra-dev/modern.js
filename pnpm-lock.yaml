@@ -131,10 +131,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.42.1
+        specifier: workspace:^2.42.2
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.42.1
+        specifier: workspace:^2.42.2
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*
