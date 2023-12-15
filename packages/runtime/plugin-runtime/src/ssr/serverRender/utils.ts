@@ -18,5 +18,11 @@ export function unsafeReplace(
   replaceValue: string,
 ) {
   const [s1, s2] = source.split(searchValue);
-  return s1 + replaceValue + s2;
+  if (typeof s2 === 'undefined') {
+    // if s2 === 'undefined', it means we can't find `searchValue`.
+    // so we only need return s1.
+    return s1;
+  } else {
+    return s1 + replaceValue + s2;
+  }
 }
