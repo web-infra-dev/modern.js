@@ -5,22 +5,10 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@shared/*": [
-        "./shared/*"
-      ],
-      "@api/*": [
-        "./api/*"
-      ]
+      "@/*": ["./src/*"],
+      "@shared/*": ["./shared/*"],
+      "@api/*": ["./api/*"]
     }
   },
-  "include": [
-    "src",
-    "shared",
-    "config",
-    "modern.config.ts",
-    "api"
-  ]
+  "include": ["src", "shared", "config", "modern.config.ts", "api", "server"]
 }
