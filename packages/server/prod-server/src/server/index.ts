@@ -173,6 +173,7 @@ export class Server {
   }
 
   public async close() {
+    await this.server.close?.();
     this.app.close();
   }
 

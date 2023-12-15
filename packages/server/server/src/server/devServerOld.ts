@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
@@ -10,6 +9,7 @@ import {
   LOADABLE_STATS_FILE,
 } from '@modern-js/utils';
 import {
+  createProxyHandler,
   NextFunction,
   ServerHookRunner,
   ModernServer,
@@ -20,48 +20,19 @@ import {
 import type {
   ModernServerContext,
   RequestHandler,
+  ExposeServerApis,
   ServerRoute,
 } from '@modern-js/types';
 import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
-import type { DevMiddlewaresConfig, RsbuildInstance } from '@rsbuild/shared';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
-import type { DevServerOptions, ModernDevServerOptionsNew } from '../types';
+import type { DevServerOptions, ModernDevServerOptions } from '../types';
+import DevMiddleware from '../dev-tools/dev-middleware';
 import { workerSSRRender } from './workerSSRRender';
-
-const transformToRsbuildServerOptions = (
-  dev: DevServerOptions,
-): DevMiddlewaresConfig => {
-  const rsbuildOptions: DevMiddlewaresConfig = {
-    hmr: Boolean(dev.hot),
-    client: dev.client,
-    writeToDisk: dev.devMiddleware?.writeToDisk,
-    compress: dev.compress,
-    headers: dev.headers,
-    historyApiFallback: dev.historyApiFallback,
-    proxy: dev.proxy,
-    publicDir: false,
-  };
-  if (dev.before?.length || dev.after?.length) {
-    rsbuildOptions.setupMiddlewares = [
-      ...(dev.setupMiddlewares || []),
-      middlewares => {
-        // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-        middlewares.unshift(...(dev.before || []));
-
-        middlewares.push(...(dev.after || []));
-      },
-    ];
-  } else if (dev.setupMiddlewares) {
-    rsbuildOptions.setupMiddlewares = dev.setupMiddlewares;
-  }
-
-  return rsbuildOptions;
-};
 
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
@@ -70,17 +41,13 @@ export class ModernDevServer extends ModernServer {
 
   private readonly useWorkerSSR: boolean;
 
-  private readonly appContext: ModernDevServerOptionsNew['appContext'];
+  private readonly appContext: ModernDevServerOptions['appContext'];
 
-  private getMiddlewares: ModernDevServerOptionsNew['getMiddlewares'];
-
-  private rsbuild: RsbuildInstance;
+  private readonly devMiddleware: DevMiddleware;
 
   private watcher?: Watcher;
 
-  private closeCb: Array<() => Promise<void>> = [];
-
-  constructor(options: ModernDevServerOptionsNew) {
+  constructor(options: ModernDevServerOptions) {
     super(options);
 
     this.appContext = options.appContext;
@@ -93,14 +60,16 @@ export class ModernDevServer extends ModernServer {
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
 
-    this.getMiddlewares = options.getMiddlewares;
-
-    this.rsbuild = options.rsbuild;
+    // create dev middleware instance
+    this.devMiddleware = new DevMiddleware({
+      dev: this.dev,
+      devMiddleware: options.devMiddleware,
+    });
 
     enableRegister(this.pwd, this.conf);
   }
 
-  private getDevOptions(options: ModernDevServerOptionsNew) {
+  private getDevOptions(options: ModernDevServerOptions) {
     const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
     const defaultOptions = getDefaultDevOptions();
     return deepMerge(defaultOptions, devOptions);
@@ -115,56 +84,48 @@ export class ModernDevServer extends ModernServer {
     });
   }
 
+  private applySetupMiddlewares() {
+    const setupMiddlewares = this.dev.setupMiddlewares || [];
+
+    const serverOptions: ExposeServerApis = {
+      sockWrite: (type, data) => this.devMiddleware.sockWrite(type, data),
+    };
+
+    const befores: RequestHandler[] = [];
+    const afters: RequestHandler[] = [];
+
+    setupMiddlewares.forEach(handler => {
+      handler(
+        {
+          unshift: (...handlers) => befores.unshift(...handlers),
+          push: (...handlers) => afters.push(...handlers),
+        },
+        serverOptions,
+      );
+    });
+
+    return { befores, afters };
+  }
+
   // Complete the preparation of services
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
-    const { dev, conf } = this;
 
-    // the http-compression can't handler stream http.
-    // so we disable compress when user use stream ssr temporarily.
-    const isUseStreamingSSR = (routes?: ServerRoute[]) =>
-      routes?.some(r => r.isStream === true);
+    const { dev } = this;
 
-    const isUseSSRPreload = () => {
-      const {
-        server: { ssr, ssrByEntries },
-      } = conf;
+    // Order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after
+    const { befores, afters } = this.applySetupMiddlewares();
 
-      const checkUsePreload = (ssr?: SSR) =>
-        typeof ssr === 'object' && Boolean(ssr.preload);
+    // before dev handler
+    const beforeHandlers = this.dev.before || [];
+    this.addMiddlewareHandler([...beforeHandlers, ...befores]);
 
-      return (
-        checkUsePreload(ssr) ||
-        Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
-      );
-    };
+    await this.applyDefaultMiddlewares(app);
 
-    const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
-      // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-      await this.getMiddlewares({
-        ...transformToRsbuildServerOptions(this.dev),
-        compress:
-          !isUseStreamingSSR(this.getRoutes()) &&
-          !isUseSSRPreload() &&
-          dev.compress,
-        htmlFallback: false,
-        publicDir: false,
-      });
+    // after dev handler
+    const afterHandlers = this.dev.after || [];
 
-    app.on('upgrade', onUpgrade);
-
-    this.rsbuild.onDevCompileDone(({ stats }) => {
-      // Reset only when client compile done
-      if (stats.toJson({ all: false }).name !== 'server') {
-        this.onRepack({ routes: this.getRoutes() });
-      }
-    });
-
-    await this.applyDefaultMiddlewares();
-
-    this.addMiddlewareHandler(rsbuildMiddlewares);
-
-    this.closeCb.push(close);
+    this.addMiddlewareHandler([...afters, ...afterHandlers]);
 
     await super.onInit(runner, app);
 
@@ -174,12 +135,6 @@ export class ModernDevServer extends ModernServer {
       app.on('close', async () => {
         await this.watcher?.close();
       });
-    }
-  }
-
-  public async close() {
-    for (const cb of this.closeCb) {
-      await cb();
     }
   }
 
@@ -205,8 +160,60 @@ export class ModernDevServer extends ModernServer {
     return super.getRenderHandler();
   }
 
-  private async applyDefaultMiddlewares() {
-    const { pwd } = this;
+  private async applyDefaultMiddlewares(app: Server) {
+    const { pwd, dev, devMiddleware, conf } = this;
+
+    // the http-compression can't handler stream http.
+    // so we disable compress when user use stream ssr temporarily.
+    const isUseStreamingSSR = (routes?: ServerRoute[]) =>
+      routes?.some(r => r.isStream === true);
+
+    const isUseSSRPreload = () => {
+      const {
+        server: { ssr, ssrByEntries },
+      } = conf;
+
+      const checkUsePreload = (ssr?: SSR) =>
+        typeof ssr === 'object' && Boolean(ssr.preload);
+
+      return (
+        checkUsePreload(ssr) ||
+        Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
+      );
+    };
+
+    // compression should be the first middleware
+    if (
+      !isUseStreamingSSR(this.getRoutes()) &&
+      !isUseSSRPreload() &&
+      dev.compress
+    ) {
+      // @ts-expect-error http-compression does not provide a type definition
+      const { default: compression } = await import('http-compression');
+      this.addHandler((ctx, next) => {
+        compression({
+          gzip: true,
+          brotli: false,
+        })(ctx.req, ctx.res, next);
+      });
+    }
+
+    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
+      // allow hmr request cross-domain, because the user may use global proxy
+      ctx.res.setHeader('Access-Control-Allow-Origin', '*');
+      if (ctx.path.includes('hot-update')) {
+        ctx.res.setHeader('Access-Control-Allow-Credentials', 'false');
+      }
+
+      // 用户在 devServer 上配置的 headers 不会对 html 的请求生效，加入下面代码，使配置的 headers 对所有请求生效
+      const confHeaders = dev.headers;
+      if (confHeaders) {
+        for (const [key, value] of Object.entries(confHeaders)) {
+          ctx.res.setHeader(key, value);
+        }
+      }
+      next();
+    });
 
     // mock handler
     this.mockHandler = createMockHandler({ pwd });
@@ -217,6 +224,47 @@ export class ModernDevServer extends ModernServer {
         next();
       }
     });
+
+    // dev proxy handler, each proxy has own handler
+    if (dev.proxy) {
+      const { handlers, handleUpgrade } = createProxyHandler(dev.proxy);
+      app && handleUpgrade(app);
+      handlers.forEach(handler => {
+        this.addHandler(handler);
+      });
+    }
+
+    // do webpack build / plugin apply / socket server when pass compiler instance
+    devMiddleware.init(app);
+    devMiddleware.on('change', (stats: any) => {
+      // Reset only when client compile done
+      if (stats.toJson({ all: false }).name !== 'server') {
+        this.onRepack({ routes: this.getRoutes() });
+      }
+    });
+    this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
+      const { req, res } = ctx;
+      if (devMiddleware.middleware) {
+        devMiddleware.middleware(req, res, next);
+      } else {
+        next();
+      }
+    });
+
+    if (dev.historyApiFallback) {
+      const { default: connectHistoryApiFallback } = await import(
+        'connect-history-api-fallback'
+      );
+
+      const historyApiFallbackMiddleware = connectHistoryApiFallback(
+        typeof dev.historyApiFallback === 'boolean'
+          ? {}
+          : dev.historyApiFallback,
+      ) as RequestHandler;
+      this.addHandler((ctx, next) =>
+        historyApiFallbackMiddleware(ctx.req, ctx.res, next),
+      );
+    }
   }
 
   public onRepack(options: BuildOptions = {}) {
@@ -260,20 +308,19 @@ export class ModernDevServer extends ModernServer {
 
   protected initReader() {
     let isInit = false;
-
-    if (this.dev?.devMiddleware?.writeToDisk === false) {
+    if (this.devMiddleware && this.dev?.devMiddleware?.writeToDisk === false) {
       this.addHandler((ctx, next) => {
         if (isInit) {
           return next();
         }
         isInit = true;
 
-        if (!ctx.res.locals?.webpack) {
+        if (!ctx.res.locals!.webpack) {
           this.reader.init();
           return next();
         }
 
-        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
+        const { devMiddleware: webpackDevMid } = ctx.res.locals!.webpack;
         const { outputFileSystem } = webpackDevMid;
         if (outputFileSystem) {
           this.reader.init(outputFileSystem);
@@ -330,7 +377,7 @@ export class ModernDevServer extends ModernServer {
 
   protected setupStaticMiddleware(_: string) {
     // dev-server-middleware hosting all assets in the development env
-    return async (_context: ModernServerContext, next: NextFunction) => {
+    return async (context: ModernServerContext, next: NextFunction) => {
       return next();
     };
   }

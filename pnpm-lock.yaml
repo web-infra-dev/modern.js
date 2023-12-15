@@ -4547,6 +4547,9 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
+      '@rsbuild/shared':
+        specifier: 0.2.4
+        version: 0.2.4
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
