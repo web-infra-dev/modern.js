@@ -85,9 +85,10 @@ export async function createWebpackBuilder(
   );
 
   const { webpackProvider } = await import('@rsbuild/webpack');
+  rsbuildConfig.provider = webpackProvider;
+
   const rsbuild = await createRsbuild({
     rsbuildConfig,
-    provider: webpackProvider,
     cwd,
   });
 

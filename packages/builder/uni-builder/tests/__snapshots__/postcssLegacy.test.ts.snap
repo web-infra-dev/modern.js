@@ -117,6 +117,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
@@ -153,6 +154,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
@@ -195,6 +197,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
@@ -241,6 +244,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
@@ -293,6 +297,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
@@ -343,6 +348,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
               "options": {
                 "postcssOptions": {
+                  "config": false,
                   "plugins": [
                     [Function],
                     {
