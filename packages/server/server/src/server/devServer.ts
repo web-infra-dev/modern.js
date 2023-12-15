@@ -117,13 +117,13 @@ export class ModernDevServer extends ModernServer {
     const { befores, afters } = this.applySetupMiddlewares();
 
     // before dev handler
-    const beforeHandlers = await this.setupBeforeDevMiddleware();
+    const beforeHandlers = this.dev.before || [];
     this.addMiddlewareHandler([...beforeHandlers, ...befores]);
 
     await this.applyDefaultMiddlewares(app);
 
     // after dev handler
-    const afterHandlers = await this.setupAfterDevMiddleware();
+    const afterHandlers = this.dev.after || [];
 
     this.addMiddlewareHandler([...afters, ...afterHandlers]);
 
@@ -380,24 +380,6 @@ export class ModernDevServer extends ModernServer {
     return async (context: ModernServerContext, next: NextFunction) => {
       return next();
     };
-  }
-
-  private async setupBeforeDevMiddleware() {
-    const { runner, conf, dev } = this;
-
-    const setupMids = dev.before || [];
-    const pluginMids = await runner.beforeDevServer(conf);
-
-    return [...setupMids, ...pluginMids].flat();
-  }
-
-  private async setupAfterDevMiddleware() {
-    const { runner, conf, dev } = this;
-
-    const setupMids = dev.after || [];
-    const pluginMids = await runner.afterDevServer(conf);
-
-    return [...pluginMids, ...setupMids].flat();
   }
 
   private cleanSSRCache() {
