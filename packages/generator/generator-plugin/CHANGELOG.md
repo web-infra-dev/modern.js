@@ -1,5 +1,19 @@
 # @modern-js/generator-plugin
 
+## 3.3.3
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+- Updated dependencies [ad2862b]
+- Updated dependencies [fa731a7]
+  - @modern-js/generator-common@3.3.3
+  - @modern-js/generator-utils@3.3.3
+  - @modern-js/new-action@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+
 ## 3.3.2
 
 ### Patch Changes

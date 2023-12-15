@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 2.42.2
+
+### Patch Changes
+
+- b79ba29: fix: temp routes file should use alias intead of absolute path
+  fix: 临时路由文件应该使用 alias 代替路径
+- Updated dependencies [bb48362]
+- Updated dependencies [2dfc891]
+- Updated dependencies [07c56c0]
+- Updated dependencies [fa731a7]
+  - @modern-js/builder-rspack-provider@2.42.2
+  - @modern-js/types@2.42.2
+  - @modern-js/builder-webpack-provider@2.42.2
+  - @modern-js/builder@2.42.2
+  - @modern-js/new-action@2.42.2
+  - @modern-js/upgrade@2.42.2
+  - @modern-js/builder-plugin-node-polyfill@2.42.2
+  - @modern-js/builder-shared@2.42.2
+  - @modern-js/core@2.42.2
+  - @modern-js/plugin-data-loader@2.42.2
+  - @modern-js/server-core@2.42.2
+  - @modern-js/prod-server@2.42.2
+  - @modern-js/server@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/builder-plugin-esbuild@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+  - @modern-js/plugin-lint@2.42.2
+  - @modern-js/node-bundle-require@2.42.2
+  - @modern-js/plugin@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes

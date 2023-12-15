@@ -1,5 +1,14 @@
 # @modern-js/upgrade
 
+## 2.42.2
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes

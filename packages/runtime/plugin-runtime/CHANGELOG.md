@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.42.2
+
+### Patch Changes
+
+- e05e496: fix: if the second args of string.replace is a string, it would as RegExp. so we use function to replace
+  fix: 如果 string.replace 第二个参数是字符串,他若有特殊字符将会被当作正则处理，所以我们用函数去替换他
+- Updated dependencies [2dfc891]
+  - @modern-js/types@2.42.2
+  - @modern-js/runtime-utils@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes

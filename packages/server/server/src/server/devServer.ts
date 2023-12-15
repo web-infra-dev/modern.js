@@ -160,20 +160,11 @@ export class ModernDevServer extends ModernServer {
       }
     });
 
-    // before dev handler
-    const beforeHandlers = await this.setupBeforeDevMiddleware();
-    this.addMiddlewareHandler([...beforeHandlers]);
-
     await this.applyDefaultMiddlewares();
 
     this.addMiddlewareHandler(rsbuildMiddlewares);
 
     this.closeCb.push(close);
-
-    // after dev handler
-    const afterHandlers = await this.setupAfterDevMiddleware();
-
-    this.addMiddlewareHandler([...afterHandlers]);
 
     await super.onInit(runner, app);
 
@@ -342,21 +333,6 @@ export class ModernDevServer extends ModernServer {
     return async (_context: ModernServerContext, next: NextFunction) => {
       return next();
     };
-  }
-
-  private async setupBeforeDevMiddleware() {
-    const { runner, conf } = this;
-
-    const pluginMids = await runner.beforeDevServer(conf);
-
-    return [...pluginMids].flat();
-  }
-
-  private async setupAfterDevMiddleware() {
-    const { runner, conf } = this;
-    const pluginMids = await runner.afterDevServer(conf);
-
-    return [...pluginMids].flat();
   }
 
   private cleanSSRCache() {

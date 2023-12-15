@@ -1,5 +1,14 @@
 # @modern-js/generator-common
 
+## 3.3.3
+
+### Patch Changes
+
+- ad2862b: fix tips typo of testingPlugin, "testPlugin" -> "testingPlugin"
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+  - @modern-js/plugin-i18n@2.42.2
+
 ## 3.3.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/module-tools-docs
 
+## 2.42.2
+
+### Patch Changes
+
+- 24e25e2: docs(module-tools): update example link
+  docs(module-tools): 更新示例链接
+
 ## 2.42.1
 
 ### Patch Changes

@@ -91,11 +91,7 @@ const beforeServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
 const afterServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
-const beforeDevServer = createParallelWorkflow<ServerOptions, any>();
-
 const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
-
-const afterDevServer = createParallelWorkflow<ServerOptions, any>();
 
 // TODO FIXME
 export type Route = Record<string, unknown>;
@@ -198,9 +194,7 @@ const serverHooks = {
   onApiChange,
   beforeServerInit,
   afterServerInit,
-  beforeDevServer,
   setupCompiler,
-  afterDevServer,
   beforeRouteSet,
   afterRouteSet,
   beforeProdServer,
