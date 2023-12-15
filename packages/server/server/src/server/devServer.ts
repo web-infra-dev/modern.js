@@ -25,10 +25,7 @@ import type {
 import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
-import type {
-  RsbuildDevMiddlewareOptions,
-  RsbuildInstance,
-} from '@rsbuild/shared';
+import type { DevMiddlewaresConfig, RsbuildInstance } from '@rsbuild/shared';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -38,8 +35,8 @@ import { workerSSRRender } from './workerSSRRender';
 
 const transformToRsbuildServerOptions = (
   dev: DevServerOptions,
-): RsbuildDevMiddlewareOptions['dev'] => {
-  const rsbuildOptions: RsbuildDevMiddlewareOptions['dev'] = {
+): DevMiddlewaresConfig => {
+  const rsbuildOptions: DevMiddlewaresConfig = {
     hmr: Boolean(dev.hot),
     client: dev.client,
     writeToDisk: dev.devMiddleware?.writeToDisk,
