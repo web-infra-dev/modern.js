@@ -1,6 +1,6 @@
 {
   "name": "@scripts/update-rsbuild",
-  "version": "2.42.1",
+  "version": "2.42.2",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

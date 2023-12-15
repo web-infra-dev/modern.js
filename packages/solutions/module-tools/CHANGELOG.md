@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 2.42.2
+
+### Patch Changes
+
+- ffeb83b: fix(module-tools): `dev --config <config>` does not work
+  fix(module-tools): `dev --config <config>` 未生效
+- 4bce612: fix(module-tools): Modify the configuration of isModule when converting umd products.
+  fix(module-tools): 修改转换 umd 产物过程中 isModule 的配置
+- 923fee7: fix(module-tools): not execa tsc clean in js project
+  fix(module-tools): 不在 js 项目执行 tsc clean
+- eda89cb: chore(module-tools): upgrade remapping version to 2.2.1
+  chore(module-tools): 更新 remapping 版本至 2.2.1
+- e4dd353: fix(module-tools): use tsc --clean to clear the tsbuildinfo and d.ts files
+  fix(module-tools): 使用 "tsc --clean" 来清理生成的 tsbuildinfo 和类型描述文件
+- 82e0af0: fix(module-tools): improve ts references, not change the user tsconfig
+  fix(module-tools): 完善对于 ts references 的支持，不再改变用户的 tsconfig
+- Updated dependencies [2dfc891]
+- Updated dependencies [fa731a7]
+  - @modern-js/types@2.42.2
+  - @modern-js/new-action@2.42.2
+  - @modern-js/upgrade@2.42.2
+  - @modern-js/core@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin-changeset@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+  - @modern-js/plugin-lint@2.42.2
+  - @modern-js/plugin@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes

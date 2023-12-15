@@ -1,5 +1,19 @@
 # @modern-js/builder-rspack-provider
 
+## 2.42.2
+
+### Patch Changes
+
+- bb48362: chore: bump rspack to 0.4.3
+
+  chore: rspack 版本升级到 0.4.3
+
+- Updated dependencies [2dfc891]
+  - @modern-js/types@2.42.2
+  - @modern-js/builder-shared@2.42.2
+  - @modern-js/server@2.42.2
+  - @modern-js/utils@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes
