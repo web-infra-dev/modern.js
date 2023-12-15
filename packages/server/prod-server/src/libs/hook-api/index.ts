@@ -5,6 +5,7 @@ import type {
   AfterRenderContext,
   MiddlewareContext,
   ServerRoute,
+  AfterStreamingRenderContext,
 } from '@modern-js/types';
 import { RouteAPI } from './route';
 import { TemplateAPI } from './template';
@@ -43,6 +44,20 @@ export const createAfterRenderContext = (
     ...baseContext,
     route,
     template: new TemplateAPI(content),
+  };
+};
+
+export const createAfterStreamingRenderContext = (
+  context: ModernServerContext,
+  route: Partial<ServerRoute>,
+): ((chunk: string) => AfterStreamingRenderContext) => {
+  const baseContext = base(context);
+  return (chunk: string) => {
+    return {
+      ...baseContext,
+      route,
+      chunk,
+    };
   };
 };
 

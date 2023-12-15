@@ -10,6 +10,7 @@ import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
 import { injectServerData } from './utils';
+import { SSRRenderOptions } from './ssr';
 
 export type RenderHandler = (options: {
   ctx: ModernServerContext;
@@ -100,30 +101,16 @@ export const createRenderHandler: CreateRenderHandler = ({
             },
           });
         }
-        const ssrRenderOptions = {
+        const ssrRenderOptions: SSRRenderOptions = {
           distDir,
-          entryName: route.entryName,
-          urlPath: route.urlPath,
-          bundle: route.bundle,
+          route,
           template: content.toString(),
           staticGenerate,
           nonce,
         };
         const result = await (ssrRender
           ? ssrRender(ctx, ssrRenderOptions, runner)
-          : ssr.render(
-              ctx,
-              {
-                distDir,
-                entryName: route.entryName,
-                urlPath: route.urlPath,
-                bundle: route.bundle,
-                template: content.toString(),
-                staticGenerate,
-                nonce,
-              },
-              runner,
-            ));
+          : ssr.render(ctx, ssrRenderOptions, runner));
         return result;
       } catch (err) {
         ctx.error(
