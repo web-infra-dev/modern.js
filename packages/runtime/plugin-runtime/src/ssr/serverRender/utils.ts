@@ -14,7 +14,7 @@ export function attributesToString(attributes: Record<string, any>) {
  */
 export function unsafeReplace(
   source: string,
-  searchValue: RegExp | string,
+  searchValue: string,
   replaceValue: string,
 ) {
   const [s1, s2] = source.split(searchValue);
