@@ -9,7 +9,10 @@ import {
 } from './serverRender/types';
 import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse, isReact18 } from './utils';
-import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from './serverRender/utils';
+import {
+  ROUTER_DATA_JSON_ID,
+  SSR_DATA_JSON_ID,
+} from './serverRender/constants';
 
 declare module '../core' {
   interface SSRContainer {

@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 2.42.2
+
+### Patch Changes
+
+- 07c56c0: chore: bump rsbuild to 0.2.3
+
+  chore: 升级 rsbuild 到 0.2.3
+
+- Updated dependencies [2dfc891]
+- Updated dependencies [e05e496]
+  - @modern-js/types@2.42.2
+  - @modern-js/runtime@2.42.2
+  - @modern-js/bff-core@2.42.2
+  - @modern-js/prod-server@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/babel-compiler@2.42.2
+  - @modern-js/plugin@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes

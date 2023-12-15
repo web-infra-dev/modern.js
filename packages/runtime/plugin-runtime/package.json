@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.42.1",
+  "version": "2.42.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -154,7 +154,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.23.2",
-    "@babel/types": "^7.22.15",
+    "@babel/types": "^7.23.0",
     "cookie": "0.5.0",
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",
@@ -206,7 +206,7 @@
     "react-dom": "^18",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.88.1"
+    "webpack": "^5.89.0"
   },
   "sideEffects": false,
   "publishConfig": {

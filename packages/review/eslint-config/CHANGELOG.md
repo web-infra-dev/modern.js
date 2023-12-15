@@ -1,5 +1,12 @@
 # @modern-js/eslint-config
 
+## 2.42.2
+
+### Patch Changes
+
+- Updated dependencies [07c56c0]
+  - @modern-js-app/eslint-config@2.42.2
+
 ## 2.42.1
 
 ### Patch Changes
