@@ -75,7 +75,7 @@ const provider: CacheOptionProvider = (req) => {
 export const cacheOption: CacheOption = provider;
 ```
 
-**Map 类型**
+**Mapping 类型**
 
 ```ts
 export type CacheOptions = Record<string, CacheControl | CacheOptionProvider>;
@@ -111,6 +111,9 @@ export const cacheOption: CacheOption = {
 - 路由 `http://xxx/home` 将会应用第一条规则。
 - 路由 `http://xxx/about` 将会应用第二条规则。
 - 路由 `http://xxx/abc` 将会应用最后一条规则。
+
+上述 `/home` 和 `/about` 将会作为模式进行匹配，这意味着 `/home/abc` 也会匹配上该规则。
+同时，你也可以在其中编写正则语法：`/home/.+`
 
 ### 缓存容器
 

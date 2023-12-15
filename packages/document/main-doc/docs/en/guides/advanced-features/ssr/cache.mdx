@@ -109,6 +109,9 @@ export const cacheOption: CacheOption = {
 - The route `http://xxx/about` will apply the second rule.
 - The route `http://xxx/abc` will apply the last rule.
 
+The above-mentioned `/home` and `/about` will be used as patterns for matching, which means that `/home/abc` will also comply with this rule.
+Simultaneously, you can also include regular expression syntax in it, such as `/home/.+`.
+
 ### Cache Container
 
 By default, Server will use memory for caching. But typically, services will be deployed on serverless. Each service access may be a new process, so caching cannot be applied every time.
