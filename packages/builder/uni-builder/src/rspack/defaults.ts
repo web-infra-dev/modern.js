@@ -8,7 +8,7 @@ import {
   getDefaultPerformanceConfig,
   getDefaultExperimentsConfig,
 } from '../shared/defaults';
-import { mergeRsbuildConfig } from '@rsbuild/shared';
+import { mergeRsbuildConfig } from '@rsbuild/core';
 import type { UniBuilderRspackConfig } from '../types';
 
 export const createDefaultConfig = (): UniBuilderRspackConfig => ({

@@ -145,6 +145,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -189,6 +190,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -239,6 +241,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -293,6 +296,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -353,6 +357,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -411,6 +416,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -861,8 +867,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "log": [Function],
         },
         "typescript": {
+          "build": false,
           "configFile": "tsconfig.json",
           "memoryLimit": 8192,
+          "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
@@ -1040,6 +1048,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1084,6 +1093,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1134,6 +1144,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1188,6 +1199,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1248,6 +1260,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1306,6 +1319,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
+                    "config": false,
                     "plugins": [
                       [Function],
                       {
@@ -1822,8 +1836,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "log": [Function],
         },
         "typescript": {
+          "build": false,
           "configFile": "tsconfig.json",
           "memoryLimit": 8192,
+          "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
@@ -2008,6 +2024,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -2067,6 +2084,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -2140,6 +2158,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -2709,8 +2728,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "log": [Function],
         },
         "typescript": {
+          "build": false,
           "configFile": "tsconfig.json",
           "memoryLimit": 8192,
+          "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
@@ -2924,6 +2945,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -2983,6 +3005,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -3056,6 +3079,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
+                "config": false,
                 "plugins": [
                   [Function],
                   {
@@ -3700,8 +3724,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "log": [Function],
         },
         "typescript": {
+          "build": false,
           "configFile": "tsconfig.json",
           "memoryLimit": 8192,
+          "mode": "readonly",
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
