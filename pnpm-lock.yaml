@@ -753,9 +753,6 @@ importers:
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.10
         version: 0.5.10(react-refresh@0.14.0)(webpack@5.89.0)
