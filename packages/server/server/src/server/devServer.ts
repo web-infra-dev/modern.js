@@ -101,7 +101,7 @@ export class ModernDevServer extends ModernServer {
   }
 
   private getDevOptions(options: ModernDevServerOptionsNew) {
-    const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
+    const devOptions = options.dev;
     const defaultOptions = getDefaultDevOptions();
     return deepMerge(defaultOptions, devOptions);
   }

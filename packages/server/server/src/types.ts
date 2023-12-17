@@ -61,7 +61,7 @@ export type ExtraOptions = {
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 
 export type ExtraOptionsNew = {
-  dev: boolean | Partial<DevServerOptions>;
+  dev: Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares: (

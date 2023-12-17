@@ -1,11 +1,8 @@
+/* eslint-disable complexity */
 import {
   deepmerge,
   NODE_MODULES_REGEX,
   CSS_MODULES_REGEX,
-  isProd,
-  ServerConfig,
-  logger,
-  color,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
@@ -15,11 +12,7 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type {
-  UniBuilderRspackConfig,
-  UniBuilderWebpackConfig,
-  DevServerHttpsOptions,
-} from '../types';
+import type { UniBuilderRspackConfig, UniBuilderWebpackConfig } from '../types';
 import { pluginRem } from '@rsbuild/plugin-rem';
 import { pluginPug } from '@rsbuild/plugin-pug';
 import { pluginAssetsRetry } from '@rsbuild/plugin-assets-retry';
@@ -46,40 +39,6 @@ export const isLooseCssModules = (path: string) => {
     return CSS_MODULES_REGEX.test(path);
   }
   return !GLOBAL_CSS_REGEX.test(path);
-};
-
-const genHttpsOptions = async (
-  userOptions: DevServerHttpsOptions,
-  cwd: string,
-): Promise<{
-  key: string;
-  cert: string;
-}> => {
-  const httpsOptions: { key?: string; cert?: string } =
-    typeof userOptions === 'boolean' ? {} : userOptions;
-
-  if (!httpsOptions.key || !httpsOptions.cert) {
-    let devcertPath: string;
-
-    try {
-      devcertPath = require.resolve('devcert', { paths: [cwd, __dirname] });
-    } catch (err) {
-      const command = color.bold(color.yellow(`npm add devcert@1.2.2 -D`));
-      logger.error(
-        `You have enabled "dev.https" option, but the "devcert" package is not installed.`,
-      );
-      logger.error(
-        `Please run ${command} to install manually, otherwise the https can not work.`,
-      );
-      throw new Error('[https] "devcert" is not found.');
-    }
-
-    const devcert = require(devcertPath);
-    const selfsign = await devcert.certificateFor(['localhost']);
-    return selfsign;
-  }
-
-  return httpsOptions as { key: string; cert: string };
 };
 
 function removeUndefinedKey(obj: { [key: string]: any }) {
@@ -226,52 +185,6 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
       html.templateParametersByEntries![entryName];
     delete html.templateParametersByEntries;
   }
-
-  const server: ServerConfig = isProd()
-    ? {
-        publicDir: false,
-      }
-    : {
-        https:
-          tools.devServer?.https || dev.https
-            ? await genHttpsOptions((tools.devServer?.https || dev.https)!, cwd)
-            : undefined,
-        port: dev.port,
-        host: dev.host,
-        compress: tools.devServer?.compress,
-        headers: tools.devServer?.headers,
-        historyApiFallback: tools.devServer?.historyApiFallback,
-        proxy: tools.devServer?.proxy,
-        publicDir: false,
-      };
-
-  dev.client = tools.devServer?.client;
-  dev.writeToDisk = tools.devServer?.devMiddleware?.writeToDisk ?? true;
-
-  if (tools.devServer?.hot === false) {
-    dev.hmr = false;
-  }
-
-  if (tools.devServer?.before?.length || tools.devServer?.after?.length) {
-    dev.setupMiddlewares = [
-      ...(tools.devServer?.setupMiddlewares || []),
-      middlewares => {
-        // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-        middlewares.unshift(...(tools.devServer?.before || []));
-
-        middlewares.push(...(tools.devServer?.after || []));
-      },
-    ];
-  } else if (tools.devServer?.setupMiddlewares) {
-    dev.setupMiddlewares = tools.devServer?.setupMiddlewares;
-  }
-
-  delete tools.devServer;
-  delete dev.https;
-  delete dev.port;
-  delete dev.host;
-
-  rsbuildConfig.server = removeUndefinedKey(server);
 
   rsbuildConfig.dev = removeUndefinedKey(dev);
   rsbuildConfig.html = html;

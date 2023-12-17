@@ -14,6 +14,7 @@ import { pluginStyledComponents } from './plugins/styledComponents';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
 import { withDefaultConfig } from './defaults';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderWebpackConfig,
@@ -77,9 +78,10 @@ export async function createWebpackBuilder(
   options: CreateWebpackBuilderOptions,
 ): Promise<RsbuildInstance> {
   const { cwd = process.cwd() } = options;
+  const uniBuilderConfig = withDefaultConfig(options.config);
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    withDefaultConfig(options.config),
+    uniBuilderConfig,
     cwd,
     options.frameworkConfigPath,
   );
@@ -97,5 +99,12 @@ export async function createWebpackBuilder(
     pluginModuleScopes(options.config.source?.moduleScopes),
   ]);
 
-  return rsbuild;
+  return {
+    ...rsbuild,
+    startDevServer: async (options: StartDevServerOptions = {}) => {
+      const { startDevServer } = await import('../shared/devServer');
+
+      return startDevServer(rsbuild, options, uniBuilderConfig);
+    },
+  };
 }
