@@ -3,45 +3,13 @@
 exports[`parseCommonConfig > dev.xxx 1`] = `
 {
   "dev": {
-    "hmr": false,
-    "progressBar": true,
-    "writeToDisk": true,
-  },
-  "html": {
-    "outputStructure": "nested",
-  },
-  "output": {
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
-    },
-  },
-  "server": {
-    "compress": false,
-    "headers": {
-      "X-Custom-Foo": "bar",
-    },
-    "historyApiFallback": true,
     "host": "xxx.xxx",
     "https": {
       "cert": "xxx",
       "key": "xxxx",
     },
     "port": 8081,
-    "publicDir": false,
-  },
-  "tools": {},
-}
-`;
-
-exports[`parseCommonConfig > dev.xxx 2`] = `
-{
-  "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -55,10 +23,47 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
+  "tools": {
+    "devServer": {
+      "compress": false,
+      "headers": {
+        "X-Custom-Foo": "bar",
+      },
+      "historyApiFallback": true,
+      "hot": false,
+    },
   },
-  "tools": {},
+}
+`;
+
+exports[`parseCommonConfig > dev.xxx 2`] = `
+{
+  "dev": {
+    "host": "xxx.xxx",
+    "https": {
+      "cert": "xxx",
+      "key": "xxxx",
+    },
+    "port": 8081,
+    "progressBar": true,
+  },
+  "html": {
+    "outputStructure": "nested",
+  },
+  "output": {
+    "overrideBrowserslist": {
+      "web": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "tools": {
+    "devServer": {
+      "historyApiFallback": true,
+    },
+  },
 }
 `;
 
@@ -66,7 +71,6 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "favicon": [Function],
@@ -81,9 +85,6 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -91,7 +92,6 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "favicon": [
@@ -109,9 +109,6 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -119,7 +116,6 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "inject": [Function],
@@ -134,9 +130,6 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -144,7 +137,6 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "inject": [
@@ -162,9 +154,6 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -172,7 +161,6 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "meta": [Function],
@@ -187,9 +175,6 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -197,7 +182,6 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "meta": [
@@ -219,9 +203,6 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -229,7 +210,6 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -244,9 +224,6 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -254,7 +231,6 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -272,9 +248,6 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -282,7 +255,6 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -297,9 +269,6 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -307,7 +276,6 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -327,9 +295,6 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -337,7 +302,6 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -352,9 +316,6 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -362,7 +323,6 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -380,9 +340,6 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -390,7 +347,6 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -407,9 +363,6 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -417,7 +370,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -435,9 +387,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -445,7 +394,6 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -460,9 +408,6 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
       ],
     },
   },
-  "server": {
-    "publicDir": false,
-  },
 }
 `;
 
@@ -470,7 +415,6 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
 {
   "dev": {
     "progressBar": true,
-    "writeToDisk": true,
   },
   "html": {
     "outputStructure": "nested",
@@ -484,9 +428,6 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
         "not op_mini all",
       ],
     },
-  },
-  "server": {
-    "publicDir": false,
   },
 }
 `;

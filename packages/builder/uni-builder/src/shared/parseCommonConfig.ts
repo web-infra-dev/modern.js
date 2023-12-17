@@ -186,6 +186,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     delete html.templateParametersByEntries;
   }
 
+  // more dev & server config will compat in modern-js/server
   rsbuildConfig.dev = removeUndefinedKey(dev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
