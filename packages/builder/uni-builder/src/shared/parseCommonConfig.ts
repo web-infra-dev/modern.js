@@ -1,3 +1,5 @@
+/* eslint-disable max-lines */
+/* eslint-disable complexity */
 import {
   deepmerge,
   NODE_MODULES_REGEX,
@@ -344,9 +346,9 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     );
   }
 
-  if (!uniBuilderConfig.output?.disableInlineRuntimeChunk) {
-    rsbuildPlugins.push(pluginRuntimeChunk());
-  }
+  rsbuildPlugins.push(
+    pluginRuntimeChunk(uniBuilderConfig.output?.disableInlineRuntimeChunk),
+  );
 
   if (uniBuilderConfig.experiments?.sourceBuild) {
     const { pluginSourceBuild } = await import('@rsbuild/plugin-source-build');

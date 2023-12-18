@@ -7,8 +7,8 @@ import {
   getDefaultSecurityConfig,
   getDefaultPerformanceConfig,
   getDefaultExperimentsConfig,
+  mergeUniBuilderConfig,
 } from '../shared/defaults';
-import { mergeRsbuildConfig } from '@rsbuild/core';
 import type { UniBuilderWebpackConfig } from '../types';
 
 export const createDefaultConfig = (): UniBuilderWebpackConfig => ({
@@ -35,4 +35,4 @@ export const createDefaultConfig = (): UniBuilderWebpackConfig => ({
 });
 
 export const withDefaultConfig = (config: UniBuilderWebpackConfig) =>
-  mergeRsbuildConfig<UniBuilderWebpackConfig>(createDefaultConfig(), config);
+  mergeUniBuilderConfig<UniBuilderWebpackConfig>(createDefaultConfig(), config);
