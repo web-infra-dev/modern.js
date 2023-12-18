@@ -4,6 +4,7 @@ import { expect, test } from '@modern-js/e2e/playwright';
 
 const fixtures = __dirname;
 
+// TODO: apply cssnano in uni-builder
 test('should inline style when disableCssExtract is false', async ({
   page,
 }) => {
@@ -12,6 +13,7 @@ test('should inline style when disableCssExtract is false', async ({
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
+    useUniBuilder: false,
     runServer: true,
     builderConfig: {
       output: {
