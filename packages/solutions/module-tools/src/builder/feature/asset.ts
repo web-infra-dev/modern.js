@@ -112,6 +112,8 @@ export async function getAssetContents(
       },
     });
     loader = 'jsx';
+    // if use url-loader, should copy asset by user, not emit in dist, or copy public dir like webpack.
+    emitAsset = false;
   } else if (buildType === 'bundle') {
     // inline base64 text-loader
     if (fileContent.length <= limit) {
