@@ -285,7 +285,10 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 
-  rsbuildConfig.source.entry = entry;
+  if (entry) {
+    rsbuildConfig.source ??= {};
+    rsbuildConfig.source.entry = entry;
+  }
 
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
