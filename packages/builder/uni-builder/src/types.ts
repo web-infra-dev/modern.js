@@ -9,6 +9,7 @@ import type {
   InlineChunkTest,
   DevConfig,
   RequestHandler,
+  RsbuildEntry,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -23,21 +24,22 @@ import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 
-export type CreateWebpackBuilderOptions = {
-  bundlerType: 'webpack';
-  config: UniBuilderWebpackConfig;
-  frameworkConfigPath?: string;
-  /** The root path of current project. */
-  cwd: string;
-};
-
-export type CreateRspackBuilderOptions = {
-  bundlerType: 'rspack';
-  config: UniBuilderRspackConfig;
+export type CreateBuilderCommonOptions = {
+  entry?: RsbuildEntry;
   frameworkConfigPath?: string;
   /** The root path of current project. */
   cwd?: string;
 };
+
+export type CreateWebpackBuilderOptions = {
+  bundlerType: 'webpack';
+  config: UniBuilderWebpackConfig;
+} & CreateBuilderCommonOptions;
+
+export type CreateRspackBuilderOptions = {
+  bundlerType: 'rspack';
+  config: UniBuilderRspackConfig;
+} & CreateBuilderCommonOptions;
 
 export type CreateUniBuilderOptions =
   | CreateWebpackBuilderOptions

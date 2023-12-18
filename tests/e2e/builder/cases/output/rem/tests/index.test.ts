@@ -30,6 +30,7 @@ test('rem enable', async ({ page }) => {
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
+    useUniBuilder: false,
     runServer: true,
     builderConfig: {
       output: {
@@ -62,6 +63,7 @@ test('should inline runtime code to html by default', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: { index: join(fixtures, 'src/index.ts') },
+    useUniBuilder: false,
     builderConfig: {
       output: {
         convertToRem: {},
@@ -79,6 +81,7 @@ test('should extract runtime code when inlineRuntime is false', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: { index: join(fixtures, 'src/index.ts') },
+    useUniBuilder: false,
     builderConfig: {
       output: {
         convertToRem: {

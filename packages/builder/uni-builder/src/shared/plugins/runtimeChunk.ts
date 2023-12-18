@@ -1,7 +1,9 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { RUNTIME_CHUNK_NAME } from '../constants';
 
-export const pluginRuntimeChunk = (): RsbuildPlugin => ({
+export const pluginRuntimeChunk = (
+  disableInlineRuntimeChunk?: boolean,
+): RsbuildPlugin => ({
   name: 'uni-builder:runtime-chunk',
 
   setup(api) {
@@ -23,6 +25,10 @@ export const pluginRuntimeChunk = (): RsbuildPlugin => ({
 
     api.modifyRsbuildConfig(config => {
       config.output ||= {};
+
+      if (disableInlineRuntimeChunk) {
+        return;
+      }
 
       // RegExp like /bundler-runtime([.].+)?\.js$/
       // matches bundler-runtime.js and bundler-runtime.123456.js

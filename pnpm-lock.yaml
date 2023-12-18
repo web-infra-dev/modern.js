@@ -6076,6 +6076,9 @@ importers:
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../../packages/toolkit/e2e
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../../packages/builder/uni-builder
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../../packages/toolkit/utils

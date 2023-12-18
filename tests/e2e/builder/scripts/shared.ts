@@ -5,6 +5,7 @@ import fs from '@modern-js/utils/fs-extra';
 import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
+import type { BuilderConfig as UniBuilderConfig } from '@modern-js/uni-builder';
 import { StartDevServerOptions } from '@modern-js/builder-shared';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
@@ -42,6 +43,28 @@ async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
+export const createUniBuilder = async (
+  builderOptions: CreateBuilderOptions,
+  builderConfig: UniBuilderConfig = {},
+) => {
+  const { createUniBuilder } = await import('@modern-js/uni-builder');
+
+  const builder =
+    process.env.PROVIDE_TYPE === 'rspack'
+      ? await createUniBuilder({
+          ...builderOptions,
+          bundlerType: 'rspack',
+          config: builderConfig,
+        })
+      : await createUniBuilder({
+          ...builderOptions,
+          bundlerType: 'webpack',
+          config: builderConfig as UniBuilderConfig<'webpack'>,
+        });
+
+  return builder;
+};
+
 export const createBuilder = async (
   builderOptions: CreateBuilderOptions,
   builderConfig: BuilderConfig | RspackBuilderConfig = {},
@@ -73,7 +96,9 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
 }
 
 const updateConfigForTest = <BuilderType>(
-  config: BuilderType extends 'webpack' ? BuilderConfig : RspackBuilderConfig,
+  config: BuilderType extends 'webpack'
+    ? UniBuilderConfig<'webpack'>
+    : UniBuilderConfig<'rspack'>,
 ) => {
   // make devPort random to avoid port conflict
   config.dev = {
@@ -89,6 +114,8 @@ const updateConfigForTest = <BuilderType>(
       buildCache: false,
     };
   }
+
+  config.performance.printFileSize = false;
 
   // disable ts checker to make the tests faster
   if (config.output?.disableTsChecker !== false) {
@@ -119,6 +146,7 @@ export async function dev<BuilderType = 'webpack'>({
 }) {
   process.env.NODE_ENV = 'development';
 
+  // @ts-expect-error
   updateConfigForTest(builderConfig);
 
   const builder = await createBuilder(options, builderConfig);
@@ -132,22 +160,25 @@ export async function build<BuilderType = 'webpack'>({
   plugins,
   runServer = false,
   builderConfig = {},
+  useUniBuilder = true,
   ...options
 }: CreateBuilderOptions & {
   plugins?: any[];
   runServer?: boolean;
+  /** TODO: should removed when all test cases migrate to uniBuilder */
+  useUniBuilder?: boolean;
   builderConfig?: BuilderType extends 'webpack'
-    ? BuilderConfig
-    : RspackBuilderConfig;
+    ? UniBuilderConfig<'webpack'>
+    : UniBuilderConfig<'rspack'>;
 }) {
   process.env.NODE_ENV = 'production';
 
   updateConfigForTest(builderConfig);
 
-  // todo: support test swc (add swc plugin) use providerType 'webpack-swc'?
-  const builder = await createBuilder(options, builderConfig);
-
-  builder.removePlugins(['builder-plugin-file-size']);
+  const builder = useUniBuilder
+    ? await createUniBuilder(options, builderConfig)
+    : // @ts-expect-error
+      await createBuilder(options, builderConfig);
 
   if (plugins) {
     builder.addPlugins(plugins);

@@ -731,7 +731,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -823,9 +823,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -1670,7 +1668,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     ],
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -1780,9 +1778,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -1811,7 +1807,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "scriptTests": [
-        /bundler-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
     },
@@ -2573,7 +2569,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -2681,9 +2677,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -3542,7 +3536,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
     ],
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -3665,9 +3659,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -3700,7 +3692,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "scriptTests": [
-        /bundler-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
     },

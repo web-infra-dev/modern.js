@@ -32,6 +32,7 @@ export const getDefaultHtmlConfig = (): UniBuilderRspackConfig['html'] => ({
   crossorigin: rsbuildDefaultHtmlConfig.crossorigin,
   scriptLoading: rsbuildDefaultHtmlConfig.scriptLoading,
   disableHtmlFolder: false,
+  title: '',
 });
 
 export const getDefaultSecurityConfig = () => ({
@@ -68,8 +69,6 @@ export const getDefaultOutputConfig = (): UniBuilderRspackConfig['output'] => ({
   enableAssetFallback: false,
   enableAssetManifest: false,
   enableLatestDecorators: false,
-  enableInlineScripts: false,
-  enableInlineStyles: false,
   cssModules: {
     exportLocalsConvention: 'camelCase',
   },
