@@ -6,6 +6,7 @@ import {
   createAfterMatchContext,
   createAfterRenderContext,
   createMiddlewareContext,
+  createAfterStreamingRenderContext,
 } from '../src/libs/hook-api';
 import { createContext } from '../src/libs/context';
 import { createDoc } from './helper';
@@ -143,5 +144,26 @@ describe('test hook api', () => {
 
     response.locals.foo = 'bar';
     expect((locals as any).foo).toBe('bar');
+  });
+
+  test('should after streaming render context work correctly', () => {
+    const content = createDoc();
+    const req = httpMocks.createRequest({
+      url: '/',
+      headers: {
+        host: 'modernjs.com',
+      },
+      eventEmitter: Readable,
+      method: 'GET',
+    });
+    const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+    const afterStreamingRenderContext = createAfterStreamingRenderContext(
+      createContext(req, res),
+      {},
+    );
+
+    const context = afterStreamingRenderContext(content);
+
+    expect(context.chunk).toMatch(content);
   });
 });
