@@ -6,7 +6,6 @@ test('should compile Node addons correctly', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    useUniBuilder: false,
     target: 'node',
   });
   const files = await builder.unwrapOutputJSON();

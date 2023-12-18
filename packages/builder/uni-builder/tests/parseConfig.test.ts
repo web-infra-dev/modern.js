@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { describe, afterAll, test, expect } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 
@@ -17,7 +18,7 @@ describe('parseCommonConfig', () => {
               cssModuleLocalIdentName: '[local]-[hash:base64:6]',
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -32,7 +33,7 @@ describe('parseCommonConfig', () => {
               disableCssModuleExtension: true,
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -51,7 +52,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -73,7 +74,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -90,7 +91,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -106,7 +107,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -123,7 +124,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -139,7 +140,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -156,7 +157,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -172,7 +173,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -189,7 +190,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -205,7 +206,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -224,7 +225,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -244,7 +245,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -252,7 +253,7 @@ describe('parseCommonConfig', () => {
 
   test('output.assetsRetry', async () => {
     expect(
-      (await parseCommonConfig({}, __dirname)).rsbuildPlugins.some(
+      (await parseCommonConfig({}, {})).rsbuildPlugins.some(
         item => item.name === 'rsbuild:assets-retry',
       ),
     ).toBeFalsy();
@@ -265,7 +266,7 @@ describe('parseCommonConfig', () => {
               assetsRetry: {},
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildPlugins.some(item => item.name === 'rsbuild:assets-retry'),
     ).toBeTruthy();
@@ -296,7 +297,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -320,7 +321,7 @@ describe('parseCommonConfig', () => {
               },
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -335,7 +336,7 @@ describe('parseCommonConfig', () => {
               enableInlineScripts: true,
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -350,7 +351,7 @@ describe('parseCommonConfig', () => {
               enableInlineStyles: true,
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
@@ -365,7 +366,7 @@ describe('parseCommonConfig', () => {
               overrideBrowserslist: ['iOS >= 9', 'Android >= 4.4'],
             },
           },
-          __dirname,
+          {},
         )
       ).rsbuildConfig.output!.overrideBrowserslist,
     ).toMatchInlineSnapshot(`
@@ -380,13 +381,10 @@ describe('parseCommonConfig', () => {
     expect(
       (
         await parseCommonConfig(
+          {},
           {
-            output: {
-              targets: ['web', 'node', 'web-worker'],
-            },
+            target: ['web', 'node', 'web-worker'],
           },
-          __dirname,
-          '',
         )
       ).rsbuildConfig.output!.overrideBrowserslist,
     ).toMatchInlineSnapshot(`

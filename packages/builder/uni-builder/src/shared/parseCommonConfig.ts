@@ -140,7 +140,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { cwd, frameworkConfigPath, entry } = options;
+  const { cwd, frameworkConfigPath, entry, target } = options;
   const rsbuildConfig = deepmerge({}, uniBuilderConfig);
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
@@ -172,7 +172,10 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     delete output.disableCssExtract;
   }
 
-  const targets = uniBuilderConfig.output?.targets || ['web'];
+  const targets = Array.isArray(target) ? target : [target || 'web'];
+
+  output.targets = targets;
+
   const overrideBrowserslist: OverrideBrowserslist = {};
 
   for (const target of targets) {
