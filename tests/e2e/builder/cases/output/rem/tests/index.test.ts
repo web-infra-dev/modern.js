@@ -79,6 +79,7 @@ test('should extract runtime code when inlineRuntime is false', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: { index: join(fixtures, 'src/index.ts') },
+    useUniBuilder: false,
     builderConfig: {
       output: {
         convertToRem: {
