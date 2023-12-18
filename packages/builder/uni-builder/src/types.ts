@@ -27,6 +27,7 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
   frameworkConfigPath?: string;
+  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd?: string;
 };
