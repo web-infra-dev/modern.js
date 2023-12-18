@@ -19,6 +19,7 @@ import type {
   UniBuilderRspackConfig,
   UniBuilderWebpackConfig,
   DevServerHttpsOptions,
+  CreateBuilderCommonOptions,
 } from '../types';
 import { pluginRem } from '@rsbuild/plugin-rem';
 import { pluginPug } from '@rsbuild/plugin-pug';
@@ -132,12 +133,12 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   uniBuilderConfig: B extends 'rspack'
     ? UniBuilderRspackConfig
     : UniBuilderWebpackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
+  const { cwd, frameworkConfigPath, entry } = options;
   const rsbuildConfig = deepmerge({}, uniBuilderConfig);
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
@@ -175,7 +176,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   for (const target of targets) {
     // Incompatible with the scenario where target contains both 'web' and 'modern-web'
     overrideBrowserslist[target] = await getBrowserslistWithDefault(
-      cwd,
+      cwd!,
       uniBuilderConfig,
       target,
     );
@@ -193,37 +194,39 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   extraConfig.html.outputStructure = html.disableHtmlFolder ? 'flat' : 'nested';
   delete html.disableHtmlFolder;
 
-  if (html.metaByEntries) {
-    extraConfig.html.meta = ({ entryName }) => html.metaByEntries![entryName];
+  if (uniBuilderConfig.html?.metaByEntries) {
+    extraConfig.html.meta = ({ entryName }) =>
+      uniBuilderConfig.html!.metaByEntries![entryName];
     delete html.metaByEntries;
   }
 
-  if (html.titleByEntries) {
-    extraConfig.html.title = ({ entryName }) => html.titleByEntries![entryName];
+  if (uniBuilderConfig.html?.titleByEntries) {
+    extraConfig.html.title = ({ entryName }) =>
+      uniBuilderConfig.html!.titleByEntries![entryName];
     delete html.titleByEntries;
   }
 
-  if (html.faviconByEntries) {
+  if (uniBuilderConfig.html?.faviconByEntries) {
     extraConfig.html.favicon = ({ entryName }) =>
-      html.faviconByEntries![entryName];
+      uniBuilderConfig.html!.faviconByEntries![entryName];
     delete html.faviconByEntries;
   }
 
-  if (html.injectByEntries) {
+  if (uniBuilderConfig.html?.injectByEntries) {
     extraConfig.html.inject = ({ entryName }) =>
-      html.injectByEntries![entryName];
+      uniBuilderConfig.html!.injectByEntries![entryName];
     delete html.injectByEntries;
   }
 
-  if (html.templateByEntries) {
+  if (uniBuilderConfig.html?.templateByEntries) {
     extraConfig.html.template = ({ entryName }) =>
-      html.templateByEntries![entryName];
+      uniBuilderConfig.html!.templateByEntries![entryName];
     delete html.templateByEntries;
   }
 
-  if (html.templateParametersByEntries) {
+  if (uniBuilderConfig.html?.templateParametersByEntries) {
     extraConfig.html.templateParameters = (_, { entryName }) =>
-      html.templateParametersByEntries![entryName];
+      uniBuilderConfig.html!.templateParametersByEntries![entryName];
     delete html.templateParametersByEntries;
   }
 
@@ -234,7 +237,10 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     : {
         https:
           tools.devServer?.https || dev.https
-            ? await genHttpsOptions((tools.devServer?.https || dev.https)!, cwd)
+            ? await genHttpsOptions(
+                (tools.devServer?.https || dev.https)!,
+                cwd!,
+              )
             : undefined,
         port: dev.port,
         host: dev.host,
@@ -276,6 +282,8 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   rsbuildConfig.dev = removeUndefinedKey(dev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
+
+  rsbuildConfig.source.entry = entry;
 
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
@@ -329,12 +337,6 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     );
   }
 
-  if (uniBuilderConfig.output?.assetsRetry) {
-    rsbuildPlugins.push(
-      pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
-    );
-  }
-
   const remOptions = uniBuilderConfig.output?.convertToRem;
   if (remOptions) {
     rsbuildPlugins.push(
@@ -364,6 +366,13 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
               pugOptions,
             },
       ),
+    );
+  }
+
+  // assetsRetry inject should be later
+  if (uniBuilderConfig.output?.assetsRetry) {
+    rsbuildPlugins.push(
+      pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
     );
   }
 

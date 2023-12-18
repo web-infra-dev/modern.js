@@ -32,6 +32,7 @@ export const getDefaultHtmlConfig = (): UniBuilderRspackConfig['html'] => ({
   crossorigin: rsbuildDefaultHtmlConfig.crossorigin,
   scriptLoading: rsbuildDefaultHtmlConfig.scriptLoading,
   disableHtmlFolder: false,
+  title: '',
 });
 
 export const getDefaultSecurityConfig = () => ({
