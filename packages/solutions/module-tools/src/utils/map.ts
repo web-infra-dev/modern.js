@@ -1,6 +1,6 @@
 import convertSourceMap from 'convert-source-map';
 import ampremapping from '@ampproject/remapping';
-import { RawSourceMap } from '@ampproject/remapping/dist/types/types';
+import type { RawSourceMap } from '@ampproject/remapping';
 import type { SourceMap } from '../types';
 
 interface Options {

@@ -1,5 +1,17 @@
 # @modern-js/types
 
+## 2.42.2
+
+### Patch Changes
+
+- 2dfc891: types: proxy.context should allow function type
+
+  types: proxy.context 允许传入 function
+
+## 2.42.1
+
+## 2.42.0
+
 ## 2.41.0
 
 ## 2.40.0

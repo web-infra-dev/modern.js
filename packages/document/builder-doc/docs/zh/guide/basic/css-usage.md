@@ -65,10 +65,6 @@ body {
 }
 ```
 
-## 使用 CSS Modules
-
-请阅读 [使用 CSS Modules](/guide/basic/css-modules.html) 章节来了解 CSS Modules 的完整用法。
-
 ## CSS 压缩
 
 通常情况下，在生产环境我们会将 CSS、JS 等静态资源进行压缩，以达到更好的传输效率。

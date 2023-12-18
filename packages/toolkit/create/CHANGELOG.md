@@ -1,5 +1,21 @@
 # @modern-js/create
 
+## 2.42.2
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+
+## 2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- b182eb2: chore: bump codesmith v2.3.1 to show timing
+  chore: 升级 codesmith 到 v2.3.1, 用于展示执行时间
+
 ## 2.41.0
 
 ## 2.40.0

@@ -91,7 +91,7 @@ The execution of the `next` function does not affect built-in processes, only co
 ```ts
 export const Middleware = () => async (ctx, next) => {
   const start = Date.now();
-  ctx.res.once('finish', () => {
+  ctx.source.res.once('finish', () => {
     console.log(Date.now() - start);
   });
 };
@@ -103,8 +103,8 @@ Modern.js provides `res.locals` to store local variables for the current request
 
 ```ts
 export const Middleware = () => async (ctx, next) => {
-  ctx.res.locals.id = 'Modern.js';
-  ctx.res.locals.rpc = createRpcInstance();
+  ctx.response.locals.id = 'Modern.js';
+  ctx.response.locals.rpc = createRpcInstance();
 };
 ```
 

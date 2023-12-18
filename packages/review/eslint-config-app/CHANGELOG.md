@@ -1,5 +1,17 @@
 # @modern-js-app/eslint-config
 
+## 2.42.2
+
+### Patch Changes
+
+- 07c56c0: chore: bump rsbuild to 0.2.3
+
+  chore: 升级 rsbuild 到 0.2.3
+
+## 2.42.1
+
+## 2.42.0
+
 ## 2.41.0
 
 ## 2.40.0

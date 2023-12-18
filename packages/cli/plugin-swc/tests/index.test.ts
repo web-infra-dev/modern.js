@@ -49,4 +49,28 @@ describe('plugin config', () => {
 
     expect(count).toBe(2);
   });
+
+  it('should not override user extensions config', () => {
+    const config = applyBuilderSwcConfig(
+      config => {
+        config.extensions ??= {};
+        config.extensions.emotion = true;
+      },
+      undefined,
+      true,
+    ) as FnPluginSwcOptions;
+
+    const finalConfig = config(
+      {
+        extensions: {
+          styledComponents: true,
+        },
+      },
+      null as any,
+    )!;
+
+    expect(finalConfig.extensions).toBeDefined();
+    expect(finalConfig.extensions!.emotion).toBeDefined();
+    expect(finalConfig.extensions!.styledComponents).toBeDefined();
+  });
 });

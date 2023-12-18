@@ -6,29 +6,74 @@ sidebar_position: 1
 
 ## Modern.js 插件系统
 
-Modern.js 用于扩展项目运行、请求、渲染等不同阶段功能的系统，主要分为三个部分：Hook 模型、管理器，上下文共享机制。
+Modern.js 提供了一套拥有完整生命周期的插件系统。插件可用于扩展项目运行、请求、渲染等不同阶段功能，
 
-Hook 模型用于确定当前 Hook 的执行方式，不同 Hook 模型的函数拥有不同的执行逻辑。管理器用于控制 Hook 的执行与调度。上下文共享机制用于在不同 Hook 间传递信息。
+## 使用方式
 
-目前 Modern.js 提供几种不同的 Hook 模型：
+插件需要在配置文件中显示注册才能够生效，当需要为 Modern.js 添加插件时，可以将它配置到 [plugin](/configure/app/plugins.html) 字段中：
 
-- Pipeline
-  - Sync
-  - Async
-- Waterfall
-  - Sync
-  - Async
-- Workflow
-  - Sync
-  - Async
-  - Parallel(Async)
+```ts title="edenx.config.ts"
+// an example for bff
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
+
+export default defineConfig({
+  plugins: [appTools(), bffPlugin()],
+});
+```
+
+:::note
+注意，该配置仅支持添加 Modern.js 插件，无法添加 Webpack 插件。
+:::
+
+## 官方插件
+
+Modern.js 提供了一系列官方插件，并与 Modern.js 生成器结合。所有的官方插件功能，都可以通过执行 `new` 命令开启。例如当需要开启 BFF 功能时：
+
+```bash
+$ npx modern new
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 (Use arrow keys)
+  启用 「Tailwind CSS」 支持
+❯ 启用「BFF」功能
+  启用「微前端」模式
+  启用「单元测试 / 集成测试」功能
+  启用「Visual Testing (Storybook)」模式
+```
+
+完成选择后，Modern.js 生成器会自动安装对应的插件和三方依赖，安装完成后可以看到：
+
+```bash
+[INFO] 依赖自动安装成功
+
+[INFO] 安装插件依赖成功！请添加如下代码至 modern.config.ts :
+
+import { bffPlugin } from '@modern-js/plugin-bff';
+import { expressPlugin } from '@modern-js/plugin-express';
+
+export default defineConfig({
+  ...,
+  plugins: [..., bffPlugin(), expressPlugin()],
+});
+```
+
+此时，可以按照控制台的输出，将插件添加到配置文件中。
+
+## 插件系统组成
+
+Modern.js 插件系统主要分为三个部分：Hook 模型、管理器，上下文共享机制。
+
+- Hook 模型用于确定当前 Hook 的执行逻辑。
+- 管理器用于控制 Hook 的执行与调度。
+- 上下文共享机制用于在不同 Hook 间传递信息。
+
+目前 Modern.js 提供几种不同的 Hook 模型：**Pipeline、Waterfall、Workflow**。
 
 :::note
 后续章节详细介绍各个模型的执行方式。
-
 :::
 
-基于 Hook 模型和管理器，Modern.js 暴露了三套插件：CLI、Runtime、Server。
+Modern.js 基于 Hook 模型暴露了三套插件：CLI、Runtime、Server。
 
 其中 CLI 插件是 Modern.js 中主要的运行流程控制模型，Modern.js 中绝大部分功能都是主要通过这一套模型运行的。Runtime 插件主要负责处理 React 组件渲染逻辑。Server 插件主要用于对服务端的生命周期以及用户请求的控制。
 
@@ -48,4 +93,4 @@ Modern.js 的所有功能都是通过这套插件实现的，这意味着 Modern
 - 自定义 React 组件客户端/服务器端渲染
 - ...
 
-当 Modern.js 暂时没有覆盖到你所需要的功能或场景时，可以开发一个自定义插件，来实现适配特殊场景的相关功能。
+当 Modern.js 暂时没有覆盖到所需要的功能或场景时，可以开发一个自定义插件，来实现适配特殊场景的相关功能。

@@ -3,14 +3,14 @@
 
 import { isReact18 } from '../utils';
 import { ServerRenderOptions } from './types';
-import { CSS_CHUNKS_PLACEHOLDER } from './utils';
+import { CHUNK_JS_PLACEHOLDER } from './constants';
 
 export default async function serverRender(options: ServerRenderOptions) {
   if (options.context.ssrContext?.template) {
     options.context.ssrContext.template =
       options.context.ssrContext?.template.replace(
         '</head>',
-        `${CSS_CHUNKS_PLACEHOLDER}</head>`,
+        `${CHUNK_JS_PLACEHOLDER}</head>`,
       );
   }
 

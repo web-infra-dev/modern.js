@@ -1,5 +1,70 @@
 # @modern-js/module-tools
 
+## 2.42.2
+
+### Patch Changes
+
+- ffeb83b: fix(module-tools): `dev --config <config>` does not work
+  fix(module-tools): `dev --config <config>` 未生效
+- 4bce612: fix(module-tools): Modify the configuration of isModule when converting umd products.
+  fix(module-tools): 修改转换 umd 产物过程中 isModule 的配置
+- 923fee7: fix(module-tools): not execa tsc clean in js project
+  fix(module-tools): 不在 js 项目执行 tsc clean
+- eda89cb: chore(module-tools): upgrade remapping version to 2.2.1
+  chore(module-tools): 更新 remapping 版本至 2.2.1
+- e4dd353: fix(module-tools): use tsc --clean to clear the tsbuildinfo and d.ts files
+  fix(module-tools): 使用 "tsc --clean" 来清理生成的 tsbuildinfo 和类型描述文件
+- 82e0af0: fix(module-tools): improve ts references, not change the user tsconfig
+  fix(module-tools): 完善对于 ts references 的支持，不再改变用户的 tsconfig
+- Updated dependencies [2dfc891]
+- Updated dependencies [fa731a7]
+  - @modern-js/types@2.42.2
+  - @modern-js/new-action@2.42.2
+  - @modern-js/upgrade@2.42.2
+  - @modern-js/core@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin-changeset@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+  - @modern-js/plugin-lint@2.42.2
+  - @modern-js/plugin@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- fef529c: fix(module-tools): fix ts6369
+  fix(module-tools): 修复 ts6369 错误
+  - @modern-js/core@2.42.1
+  - @modern-js/plugin-changeset@2.42.1
+  - @modern-js/plugin-i18n@2.42.1
+  - @modern-js/plugin-lint@2.42.1
+  - @modern-js/new-action@2.42.1
+  - @modern-js/plugin@2.42.1
+  - @modern-js/types@2.42.1
+  - @modern-js/upgrade@2.42.1
+  - @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- c2fa7c4: refactor(module-tools): use ast-grep to replace dts alias instead of babel
+  refactor(module-tools): 使用 ast-grep 替代 babel 处理 d.ts 文件里的别名
+- 5d2f474: fix(module-tools): d.ts.map invalid sources when bundleless
+  fix(module-tools): 修复 bundleless 里生成的 d.ts.map 文件中无效的 sources 字段
+- 6200cf2: fix(module-tools): add -b param to tsc when user add references to avoid error ts6305
+  fix(module-tools): 用户使用 references 时给 tsc 添加 -b 参数来避免 TS6305 错误
+- Updated dependencies [b182eb2]
+  - @modern-js/new-action@2.42.0
+  - @modern-js/upgrade@2.42.0
+  - @modern-js/core@2.42.0
+  - @modern-js/plugin-changeset@2.42.0
+  - @modern-js/plugin-i18n@2.42.0
+  - @modern-js/plugin-lint@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Minor Changes

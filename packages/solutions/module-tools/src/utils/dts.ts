@@ -27,6 +27,20 @@ export const getProjectTsconfig = async (
   return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
 };
 
+export async function detectTSVersion(appDirectory?: string) {
+  // Detect typescript version from current cwd
+  // return the major version of typescript
+  const cwd = appDirectory ?? process.cwd();
+  const typescriptPath = join(cwd, 'node_modules', 'typescript');
+  if (await fs.pathExists(typescriptPath)) {
+    const typescriptPkg = await fs.readJson(
+      join(typescriptPath, 'package.json'),
+    );
+    const version = Number(typescriptPkg.version.split('.')[0]);
+    return version;
+  }
+}
+
 export const getTscBinPath = async (appDirectory: string) => {
   const { default: findUp, exists: pathExists } = await import(
     '../../compiled/find-up'

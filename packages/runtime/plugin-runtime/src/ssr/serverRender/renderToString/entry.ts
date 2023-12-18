@@ -13,11 +13,8 @@ import {
   SSRServerContext,
 } from '../types';
 import prefetch from '../../prefetch';
-import {
-  ROUTER_DATA_JSON_ID,
-  SSR_DATA_JSON_ID,
-  attributesToString,
-} from '../utils';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
+import { attributesToString } from '../utils';
 import { SSRErrors, SSRTimings, SSRTracker } from '../tracker';
 import { createLoadableCollector } from './loadable';
 import { createRender } from './render';
@@ -151,8 +148,8 @@ export default class Entry {
     const html = buildHtml(this.template, [
       createReplaceChunkCss(this.result.chunksMap.css),
       createReplaceChunkJs(this.result.chunksMap.js),
-      createReplaceHtml(this.result.html || ''),
       createReplaceSSRDataScript(ssrDataScripts),
+      createReplaceHtml(this.result.html || ''),
       ...this.htmlModifiers,
     ]);
     const helmetData: HelmetData = ReactHelmet.renderStatic();

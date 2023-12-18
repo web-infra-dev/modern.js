@@ -1,5 +1,25 @@
 # @modern-js/bff-core
 
+## 2.42.2
+
+### Patch Changes
+
+- @modern-js/utils@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- a3f2269: fix: avoid to duplicate register ts-node in dev
+  fix: 避免在开发环境重复注册 ts-node
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

@@ -104,6 +104,8 @@ export interface ModernServerInterface {
     res: ServerResponse,
     url?: string,
   ) => Promise<string | Readable | null>;
+
+  close?: () => Promise<void>;
 }
 
 export type ServerConstructor = (

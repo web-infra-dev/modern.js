@@ -1,5 +1,29 @@
 # @modern-js/storybook-generator
 
+## 3.3.3
+
+### Patch Changes
+
+- 2c087e8: chore(storybook-generator): adjust addDep version in template
+  chore(storybook-generator): 调整模板里新增依赖的版本
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+  - @modern-js/utils@2.42.2
+
+## 3.3.2
+
+### Patch Changes
+
+- @modern-js/utils@2.42.1
+
+## 3.3.1
+
+### Patch Changes
+
+- b182eb2: chore: bump codesmith v2.3.1 to show timing
+  chore: 升级 codesmith 到 v2.3.1, 用于展示执行时间
+  - @modern-js/utils@2.42.0
+
 ## 3.3.0
 
 ### Patch Changes

@@ -4,7 +4,7 @@ sidebar_position: 13
 
 # 产物体积优化
 
-产物体积的优化在生产环境中是非常重要的，因为它直接影响到了线上的用户体验。在这篇文档中，我们将介绍在 Builder 中一些常见的产物体积优化方式。
+产物体积的优化在生产环境中是非常重要的，因为它直接影响到了线上的用户体验。在这篇文档中，我们将介绍在 Modern.js 中一些常见的产物体积优化方式。
 
 ## 减少重复依赖
 
@@ -82,13 +82,14 @@ export default {
 
 ## 使用图片压缩
 
-在一般的前端项目中，图片资源的体积往往是项目产物体积的大头，因此如果能尽可能精简图片的体积，那么将会对项目的打包产物体积起到明显的优化效果。你可以在 Builder 中注册插件来启用图片压缩功能:
+在一般的前端项目中，图片资源的体积往往是项目产物体积的大头，因此如果能尽可能精简图片的体积，那么将会对项目的打包产物体积起到明显的优化效果。你可以在 Modern.js 中注册插件来启用图片压缩功能:
 
-```js
+```js title="modern.config.ts"
 import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 
-// 往 builder 实例上添加插件
-builder.addPlugins([builderPluginImageCompress()]);
+export default {
+  builderPlugins: [builderPluginImageCompress()],
+};
 ```
 
 详见 [Image Compress 插件](https://modernjs.dev/builder/plugins/plugin-image-compress.html)。
@@ -97,7 +98,7 @@ builder.addPlugins([builderPluginImageCompress()]);
 
 良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
 
-在 Builder 中内置了[多种拆包策略](https://modernjs.dev/builder/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
+在 Modern.js 中内置了[多种拆包策略](https://modernjs.dev/builder/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
 
 比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
 

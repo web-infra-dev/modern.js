@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.41.0",
+  "version": "2.42.2",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
@@ -25,6 +25,7 @@
     "./sw-proxy": "./dist/public/sw-proxy.js",
     "./package.json": "./package.json"
   },
+  "license": "MIT",
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
@@ -42,7 +43,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/themes": "^2.0.0",
-    "@rsbuild/core": "^0.1.0",
+    "@rsbuild/core": "0.2.4",
     "@types/jest": "^29",
     "@types/lodash": "^4.14.202",
     "@types/node": "~16.11.7",

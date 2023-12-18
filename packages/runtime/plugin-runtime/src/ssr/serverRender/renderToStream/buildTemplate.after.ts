@@ -1,6 +1,7 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { RenderLevel, RuntimeContext } from '../types';
-import { attributesToString } from '../utils';
+import { attributesToString, unsafeReplace } from '../utils';
+import { SSR_DATA_PLACEHOLDER } from '../constants';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 type BuildShellAfterTemplateOptions = {
@@ -16,7 +17,8 @@ export function buildShellAfterTemplate(
 
   function injectSSRDataScript(template: string) {
     const ssrDataScript = buildSSRDataScript();
-    return template.replace('<!--<?- SSRDataScript ?>-->', ssrDataScript);
+
+    return unsafeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);
 
     function buildSSRDataScript() {
       const {

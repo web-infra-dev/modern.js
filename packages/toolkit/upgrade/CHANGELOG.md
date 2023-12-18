@@ -1,5 +1,30 @@
 # @modern-js/upgrade
 
+## 2.42.2
+
+### Patch Changes
+
+- fa731a7: chore: bump codesmith to 2.3.2
+  chore: 升级 codesmith 版本到 2.3.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/plugin-i18n@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- b182eb2: chore: bump codesmith v2.3.1 to show timing
+  chore: 升级 codesmith 到 v2.3.1, 用于展示执行时间
+  - @modern-js/plugin-i18n@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

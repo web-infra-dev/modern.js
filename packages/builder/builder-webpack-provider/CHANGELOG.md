@@ -1,5 +1,45 @@
 # @modern-js/builder-webpack-provider
 
+## 2.42.2
+
+### Patch Changes
+
+- 07c56c0: chore: bump rsbuild to 0.2.3
+
+  chore: 升级 rsbuild 到 0.2.3
+
+- Updated dependencies [2dfc891]
+  - @modern-js/types@2.42.2
+  - @modern-js/builder-shared@2.42.2
+  - @modern-js/server@2.42.2
+  - @modern-js/utils@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.42.1
+- @modern-js/server@2.42.1
+- @modern-js/types@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- fc1f36f: fix(builder): should generate manifest correctly when enable SSR
+- 98bff14: fix(builder): add missing lodash dependency
+
+  fix(builder): 增加缺失的 lodash 依赖
+
+- Updated dependencies [d433c97]
+- Updated dependencies [04d9522]
+- Updated dependencies [ef60f58]
+  - @modern-js/builder-shared@2.42.0
+  - @modern-js/server@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

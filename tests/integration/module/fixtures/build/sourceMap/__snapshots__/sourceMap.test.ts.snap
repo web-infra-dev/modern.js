@@ -2,7 +2,7 @@
 
 exports[`sourcemap usage sourcemap is external 1`] = `
 {
-  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG",
   "names": [],
   "sources": [
     "../../src/index.js",
@@ -22,7 +22,7 @@ export const debug = str => addPrefix('DEBUG:', str);
 
 exports[`sourcemap usage sourcemap is true 1`] = `
 {
-  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG;",
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAO,IAAM,YAAY,CAAC,QAAQ,QAAQ,GAAG,MAAM,IAAI,GAAG;;;ADEnD,IAAM,QAAQ,SAAO,UAAU,UAAU,GAAG",
   "names": [],
   "sources": [
     "../../src/index.js",
@@ -42,7 +42,7 @@ export const debug = str => addPrefix('DEBUG:', str);
 
 exports[`sourcemap usage sourcemap with swc 1`] = `
 {
-  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;;;;;;;ACAO,IAAMA,YAAY,CAACC,QAAQC,QAAQ,GAAGD,UAAUC;;;ADEhD,IAAMC,QAAQD,SAAOF,UAAU,UAAUE;",
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;;;;;;;ACAO,IAAMA,YAAY,CAACC,QAAQC,QAAQ,GAAGD,UAAUC;;;ADEhD,IAAMC,QAAQD,SAAOF,UAAU,UAAUE",
   "names": [
     "addPrefix",
     "prefix",

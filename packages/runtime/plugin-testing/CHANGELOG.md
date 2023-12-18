@@ -1,5 +1,64 @@
 # @modern-js/plugin-testing
 
+## 2.42.2
+
+### Patch Changes
+
+- 07c56c0: chore: bump rsbuild to 0.2.3
+
+  chore: 升级 rsbuild 到 0.2.3
+
+- Updated dependencies [2dfc891]
+- Updated dependencies [e05e496]
+  - @modern-js/types@2.42.2
+  - @modern-js/runtime@2.42.2
+  - @modern-js/bff-core@2.42.2
+  - @modern-js/prod-server@2.42.2
+  - @modern-js/utils@2.42.2
+  - @modern-js/babel-compiler@2.42.2
+  - @modern-js/plugin@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- 7cbc90c: fix(testing): transform jsx failed when use React 18
+
+  fix(testing): 修复使用 React 18 时 JSX 编译错误的问题
+
+  - @modern-js/runtime@2.42.1
+  - @modern-js/bff-core@2.42.1
+  - @modern-js/prod-server@2.42.1
+  - @modern-js/babel-compiler@2.42.1
+  - @modern-js/plugin@2.42.1
+  - @modern-js/types@2.42.1
+  - @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- d787f79: fix: bff-core should be a dependency of testing plugin
+  fix: bff-core 应该是 testing 插件的直接依赖
+- a8923ca: feat(plugin-testing): support -u option to update snapshot
+
+  feat(plugin-testing): 支持 -u 选项来更新快照
+
+- Updated dependencies [103cf92]
+- Updated dependencies [8c2efe1]
+- Updated dependencies [ecc57b6]
+- Updated dependencies [a3f2269]
+- Updated dependencies [d6596cb]
+- Updated dependencies [e2c899b]
+- Updated dependencies [8793e64]
+  - @modern-js/runtime@2.42.0
+  - @modern-js/prod-server@2.42.0
+  - @modern-js/bff-core@2.42.0
+  - @modern-js/babel-compiler@2.42.0
+  - @modern-js/plugin@2.42.0
+  - @modern-js/types@2.42.0
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

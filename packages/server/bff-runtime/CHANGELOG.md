@@ -1,5 +1,11 @@
 # @modern-js/bff-runtime
 
+## 2.42.2
+
+## 2.42.1
+
+## 2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

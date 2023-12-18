@@ -50,4 +50,11 @@ describe('autoExternal usage', () => {
     expect(content.includes(`require("postcss")`)).toBeTruthy();
     expect(content.includes(`require("path-browserify")`)).toBeFalsy();
   });
+
+  it('autoExternal is false, and format is umd', async () => {
+    const distFilePath = path.join(fixtureDir, './dist/6/umd.js');
+    const content = await fs.readFile(distFilePath, 'utf-8');
+    expect(await fs.pathExists(distFilePath)).toBeTruthy();
+    expect(content.includes(`function(global, factory)`)).toBeTruthy();
+  });
 });

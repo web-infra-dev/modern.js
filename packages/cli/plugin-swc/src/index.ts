@@ -45,10 +45,8 @@ export function applyBuilderSwcConfig(
   if (isSSR) {
     // eslint-disable-next-line no-param-reassign
     swc = applyConfig(swc, config => {
-      config.extensions = {
-        ...(config.extensions || {}),
-        loadableComponents: true,
-      };
+      config.extensions ??= {};
+      config.extensions.loadableComponents = true;
     });
   }
 
@@ -72,12 +70,10 @@ const PLUGIN_NAME = '@modern-js/plugin-swc';
 
 export const swcPlugin = factory(PLUGIN_NAME, swcOptions => {
   return applyConfig(swcOptions, swcOptions => {
-    swcOptions.extensions = {
-      ...(swcOptions.extensions || {}),
-      ssrLoaderId: {
-        runtimePackageName: '@modern-js/runtime',
-        functionUseLoaderName: 'useLoader',
-      },
+    swcOptions.extensions ??= {};
+    swcOptions.extensions.ssrLoaderId = {
+      runtimePackageName: '@modern-js/runtime',
+      functionUseLoaderName: 'useLoader',
     };
   });
 });
@@ -91,7 +87,7 @@ function applyConfig(
       handler(config);
 
       // in the last invoke user config
-      return rawConfig(config, utils);
+      return rawConfig(config, utils) || config;
     };
   } else {
     handler(rawConfig);

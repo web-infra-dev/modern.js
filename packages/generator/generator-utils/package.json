@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.3.0",
+  "version": "3.3.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -42,7 +42,7 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.3.1",
+    "@modern-js/codesmith": "2.3.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

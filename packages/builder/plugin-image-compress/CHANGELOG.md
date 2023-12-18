@@ -1,5 +1,25 @@
 # @modern-js/builder-plugin-image-compress
 
+## 2.42.2
+
+### Patch Changes
+
+- @modern-js/utils@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- 8ca5480: fix(builder): plugin-image-compress can not work with filename query
+  fix(builder): plugin-image-compress 在 filename 包含 query 时不生效
+  - @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes

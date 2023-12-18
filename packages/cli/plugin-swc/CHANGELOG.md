@@ -1,5 +1,28 @@
 # @modern-js/core
 
+## 2.42.2
+
+### Patch Changes
+
+- 7bcce80: fix(plugin-swc): should not override extensions when using function config
+  fix(plugin-swc): 使用函数配置时不应该覆盖 extensions
+  - @modern-js/utils@2.42.2
+  - @modern-js/builder-plugin-swc@2.42.2
+
+## 2.42.1
+
+### Patch Changes
+
+- @modern-js/builder-plugin-swc@2.42.1
+- @modern-js/utils@2.42.1
+
+## 2.42.0
+
+### Patch Changes
+
+- @modern-js/builder-plugin-swc@2.42.0
+- @modern-js/utils@2.42.0
+
 ## 2.41.0
 
 ### Patch Changes
