@@ -159,18 +159,12 @@ declare module '*.svg' {
 
 ## asset.svgr.exportType
 
-使用 svgr 的导出形式
+用于配置使用 SVGR 时 SVG 的导出形式。
 
 - 类型： `'named' | 'default'`
 - 默认值： `default`
 
-当此设置为 'named' 时，使用以下语法导入组件：
-
-```js title="index.ts"
-import { ReactComponent } from './logo.svg';
-```
-
-named export 默认导出为 `ReactComponent`，这可以通过 `asset.svgr.namedExport` 自定义
+当此选项设置为 'named' 时，你可以使用以下语法导入组件：
 
 ## autoExtension
 
