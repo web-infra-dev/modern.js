@@ -5,7 +5,7 @@ import { createFilter } from '@rollup/pluginutils';
 import { transform } from '@svgr/core';
 import svgo from '@svgr/plugin-svgo';
 import jsx from '@svgr/plugin-jsx';
-import { ICompiler, LoadResult, SvgrOptions } from '../../types';
+import { ICompiler } from '../../types';
 import { assetExt } from '../../constants/file';
 import { normalizeSlashes, getHash } from '../../utils';
 
@@ -17,12 +17,7 @@ export const asset = {
   apply(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
       if (assetExt.find(ext => ext === extname(args.path))) {
-        const { buildType, outDir, sourceDir, asset } = compiler.config;
-
-        const svgrResult = await loadSvgr(args.path, asset.svgr);
-        if (svgrResult) {
-          return svgrResult;
-        }
+        const { buildType, outDir, sourceDir } = compiler.config;
 
         const rebaseFrom =
           buildType === 'bundle'
@@ -79,7 +74,7 @@ export async function getAssetContents(
 ) {
   const fileContent = await fs.promises.readFile(assetPath);
   const { buildType, format, outDir } = this.config;
-  const { limit, path, publicPath } = this.config.asset;
+  const { limit, path, publicPath, svgr } = this.config.asset;
   const hash = getHash(fileContent, null).slice(0, 8);
 
   const outputFileName = basename(assetPath).split('.').join(`.${hash}.`);
@@ -92,11 +87,33 @@ export async function getAssetContents(
     typeof publicPath === 'function' ? publicPath(assetPath) : publicPath
   }${path}/${outputFileName}`;
 
+  // default url-loader
   let emitAsset = true;
   let contents: string | Buffer = normalizedPublicPath;
   let loader: Loader = 'text';
-  if (buildType === 'bundle') {
-    // inline base64
+
+  const config = typeof svgr === 'boolean' ? {} : svgr;
+  const filter = createFilter(config.include || SVG_REGEXP, config.exclude);
+  if (svgr && filter(assetPath)) {
+    // svgr jsx-loader
+
+    // HACK: only support publich path, the same as url-loader of webpack and rollup,
+    // in fact, url-loader is not applicable to library scenario except for umd.
+    const previousExport =
+      config.exportType === 'named'
+        ? `export default "${normalizedPublicPath}"`
+        : null;
+    contents = await transform(fileContent.toString(), config, {
+      filePath: assetPath,
+      caller: {
+        name: 'svgr',
+        defaultPlugins: [svgo, jsx],
+        previousExport,
+      },
+    });
+    loader = 'jsx';
+  } else if (buildType === 'bundle') {
+    // inline base64 text-loader
     if (fileContent.length <= limit) {
       const mimetype = (
         await import('@modern-js/utils/mime-types')
@@ -110,12 +127,16 @@ export async function getAssetContents(
       loader = 'text';
       emitAsset = false;
     } else if ((format === 'esm' || format === 'cjs') && !publicPath) {
+      // copy-loader
+      // in the library scenario, the copy loader takes precedence over the url loader,
+      // so we use relative path.
       contents = calledOnLoad ? fileContent : normalizedRelativePath;
       loader = calledOnLoad ? 'copy' : 'text';
       emitAsset = !calledOnLoad;
     }
   } else {
-    // bundleless
+    // bundleless, it will be called in redirect plugin,
+    // so we use relative path.
     contents = normalizedRelativePath;
   }
   if (emitAsset) {
@@ -128,35 +149,6 @@ export async function getAssetContents(
   }
   return {
     contents,
-    loader,
-  };
-}
-
-export async function loadSvgr(
-  path: string,
-  options: boolean | SvgrOptions,
-): Promise<LoadResult | undefined> {
-  if (!options) {
-    return;
-  }
-
-  const config = typeof options === 'boolean' ? {} : options;
-
-  const filter = createFilter(config.include || SVG_REGEXP, config.exclude);
-  if (!filter(path)) {
-    return;
-  }
-  const loader = 'jsx';
-  const text = fs.readFileSync(path, 'utf8');
-  const jsCode = await transform(text, config, {
-    filePath: path,
-    caller: {
-      name: 'svgr',
-      defaultPlugins: [svgo, jsx],
-    },
-  });
-  return {
-    contents: jsCode,
     loader,
   };
 }
