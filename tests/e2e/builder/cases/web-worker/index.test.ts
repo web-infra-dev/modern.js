@@ -23,6 +23,7 @@ webpackOnlyTest(
   async () => {
     const builder = await build({
       cwd: __dirname,
+      useUniBuilder: false,
       entry: { index: path.resolve(__dirname, './src/index2.js') },
       target: 'web-worker',
     });

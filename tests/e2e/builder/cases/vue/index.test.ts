@@ -8,6 +8,7 @@ test('should build basic Vue sfc correctly', async ({ page }) => {
 
   const builder = await build({
     cwd: root,
+    useUniBuilder: false,
     entry: {
       main: join(root, 'src/index.js'),
     },
@@ -31,6 +32,7 @@ test('should build Vue sfc style correctly', async ({ page }) => {
 
   const builder = await build({
     cwd: root,
+    useUniBuilder: false,
     entry: {
       main: join(root, 'src/index.js'),
     },
@@ -54,6 +56,7 @@ test('should build basic Vue jsx correctly', async ({ page }) => {
 
   const builder = await build({
     cwd: root,
+    useUniBuilder: false,
     entry: {
       main: join(root, 'src/index.js'),
     },
@@ -77,6 +80,7 @@ test('should build Vue sfc with lang="ts" correctly', async ({ page }) => {
     entry: {
       main: join(root, 'src/index.js'),
     },
+    useUniBuilder: false,
     runServer: true,
     plugins: [builderPluginVue()],
   });
@@ -97,6 +101,7 @@ test('should build Vue sfc with lang="jsx" correctly', async ({ page }) => {
     entry: {
       main: join(root, 'src/index.js'),
     },
+    useUniBuilder: false,
     runServer: true,
     plugins: [builderPluginVue()],
   });
@@ -120,6 +125,7 @@ test('should build Vue sfc with lang="tsx" correctly', async ({ page }) => {
     entry: {
       main: join(root, 'src/index.js'),
     },
+    useUniBuilder: false,
     runServer: true,
     plugins: [builderPluginVue()],
   });

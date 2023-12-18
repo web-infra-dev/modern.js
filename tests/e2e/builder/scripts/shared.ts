@@ -160,10 +160,13 @@ export async function build<BuilderType = 'webpack'>({
   plugins,
   runServer = false,
   builderConfig = {},
+  useUniBuilder = true,
   ...options
 }: CreateBuilderOptions & {
   plugins?: any[];
   runServer?: boolean;
+  /** TODO: should removed when all test cases migrate to uniBuilder */
+  useUniBuilder?: boolean;
   builderConfig?: BuilderType extends 'webpack'
     ? UniBuilderConfig<'webpack'>
     : UniBuilderConfig<'rspack'>;
@@ -172,7 +175,10 @@ export async function build<BuilderType = 'webpack'>({
 
   updateConfigForTest(builderConfig);
 
-  const builder = await createUniBuilder(options, builderConfig);
+  const builder = useUniBuilder
+    ? await createUniBuilder(options, builderConfig)
+    : // @ts-expect-error
+      await createBuilder(options, builderConfig);
 
   if (plugins) {
     builder.addPlugins(plugins);

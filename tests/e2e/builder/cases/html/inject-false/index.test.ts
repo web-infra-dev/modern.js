@@ -6,6 +6,7 @@ test('builder injection script order should be as expected', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
+    useUniBuilder: false,
     builderConfig: {
       html: {
         inject: false,

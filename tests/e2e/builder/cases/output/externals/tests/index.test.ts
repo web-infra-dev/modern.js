@@ -44,6 +44,7 @@ test('should not external dependencies when target is web worker', async () => {
     cwd: fixtures,
     target: 'web-worker',
     entry: { index: resolve(fixtures, './src/index.js') },
+    useUniBuilder: false,
     builderConfig: {
       output: {
         externals: {

@@ -7,6 +7,7 @@ import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 test('should compile stylus correctly', async () => {
   const builder = await build({
     cwd: __dirname,
+    useUniBuilder: false,
     entry: { index: path.resolve(__dirname, './src/index.js') },
     plugins: [builderPluginStylus()],
   });
