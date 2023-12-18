@@ -810,6 +810,9 @@ importers:
       babel-plugin-transform-react-remove-prop-types:
         specifier: 0.4.24
         version: 0.4.24
+      cssnano:
+        specifier: 6.0.1
+        version: 6.0.1(postcss@8.4.31)
       glob:
         specifier: ^9.3.5
         version: 9.3.5
