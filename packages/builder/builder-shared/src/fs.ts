@@ -36,11 +36,13 @@ export async function isFileExists(file: string) {
     .catch(() => false);
 }
 
-export function getPackageNameFromModulePath(modulePath: string) {
+export function getPackageNameFromModulePath(
+  modulePath: string,
+): string | undefined {
   const handleModuleContext = modulePath?.match(MODULE_PATH_REGEX);
 
   if (!handleModuleContext) {
-    return false;
+    return undefined;
   }
 
   const [, , scope, name] = handleModuleContext;
