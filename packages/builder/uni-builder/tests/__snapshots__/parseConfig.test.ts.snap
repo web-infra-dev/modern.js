@@ -9,8 +9,12 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -18,6 +22,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -48,8 +53,12 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -57,6 +66,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -77,8 +87,12 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "html": {
     "favicon": [Function],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -86,6 +100,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -108,8 +123,12 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       [Function],
     ],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -117,6 +136,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -136,8 +156,12 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "html": {
     "inject": [Function],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -145,6 +169,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -167,8 +192,12 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       [Function],
     ],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -176,6 +205,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -195,8 +225,12 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "html": {
     "meta": [Function],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -204,6 +238,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -230,8 +265,12 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       [Function],
     ],
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -239,6 +278,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -258,8 +298,12 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "html": {
     "outputStructure": "nested",
     "template": [Function],
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -267,6 +311,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -289,8 +334,12 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       "static/index.html",
       [Function],
     ],
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -298,6 +347,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -317,8 +367,12 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "html": {
     "outputStructure": "nested",
     "templateParameters": [Function],
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -326,6 +380,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -350,8 +405,12 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       },
       [Function],
     ],
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -359,6 +418,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -377,9 +437,15 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   },
   "html": {
     "outputStructure": "nested",
-    "title": [Function],
+    "title": [
+      "",
+      [Function],
+    ],
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -387,6 +453,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -411,6 +478,9 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     ],
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -418,6 +488,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -436,10 +507,14 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "cssModules": {
       "localIdentName": "[local]-[hash:base64:6]",
+    },
+    "distPath": {
+      "html": "html",
     },
     "overrideBrowserslist": {
       "web": [
@@ -448,6 +523,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -466,12 +542,16 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
     "cssModules": {
       "auto": [Function],
     },
     "disableCssModuleExtension": true,
+    "distPath": {
+      "html": "html",
+    },
     "overrideBrowserslist": {
       "web": [
         "> 0.01%",
@@ -479,6 +559,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -497,8 +578,12 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "inlineScripts": true,
     "overrideBrowserslist": {
       "web": [
@@ -507,6 +592,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
@@ -525,8 +611,12 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   },
   "html": {
     "outputStructure": "nested",
+    "title": "",
   },
   "output": {
+    "distPath": {
+      "html": "html",
+    },
     "inlineStyles": true,
     "overrideBrowserslist": {
       "web": [
@@ -535,6 +625,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
         "not op_mini all",
       ],
     },
+    "polyfill": "entry",
     "targets": [
       "web",
     ],
