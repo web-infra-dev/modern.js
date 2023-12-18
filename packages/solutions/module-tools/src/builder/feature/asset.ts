@@ -97,7 +97,7 @@ export async function getAssetContents(
   if (svgr && filter(assetPath)) {
     // svgr jsx-loader
 
-    // HACK: only support publich path, the same as url-loader of webpack and rollup,
+    // HACK: only support public path, the same as url-loader of webpack and rollup,
     // in fact, url-loader is not applicable to library scenario except for umd.
     const previousExport =
       config.exportType === 'named'
