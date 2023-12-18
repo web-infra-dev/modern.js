@@ -14,7 +14,6 @@ import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginStyledComponents } from './plugins/styledComponents';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
-import { withDefaultConfig } from './defaults';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderWebpackConfig,
@@ -77,13 +76,10 @@ export async function createWebpackBuilder(
 ): Promise<RsbuildInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
-  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    withDefaultConfig(options.config),
-    {
-      ...rest,
-      cwd,
-    },
-  );
+  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
+    ...rest,
+    cwd,
+  });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
   rsbuildConfig.provider = webpackProvider;

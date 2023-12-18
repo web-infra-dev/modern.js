@@ -155,6 +155,11 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     delete output.cssModuleLocalIdentName;
   }
 
+  output.distPath ??= {};
+  output.distPath.html ??= 'html';
+
+  output.polyfill ??= 'entry';
+
   if (output.disableCssModuleExtension) {
     output.cssModules ||= {};
     // priority: output.cssModules.auto -> disableCssModuleExtension
@@ -204,6 +209,8 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
       uniBuilderConfig.html!.metaByEntries![entryName];
     delete html.metaByEntries;
   }
+
+  html.title ??= '';
 
   if (uniBuilderConfig.html?.titleByEntries) {
     extraConfig.html.title = ({ entryName }) =>
@@ -325,7 +332,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   if (!uniBuilderConfig.output?.disableSvgr) {
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport,
+        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
       }),
     );
 

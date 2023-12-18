@@ -844,10 +844,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
       "name": "ProgressPlugin",
     },
-    DefinePlugin {
-      "_options": {},
-      "name": "DefinePlugin",
-    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1811,10 +1807,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       ],
       "styleTests": [],
     },
-    DefinePlugin {
-      "_options": {},
-      "name": "DefinePlugin",
-    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2701,9 +2693,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-    },
-    DefinePlugin {
-      "definitions": {},
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
@@ -3695,9 +3684,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
-    },
-    DefinePlugin {
-      "definitions": {},
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
