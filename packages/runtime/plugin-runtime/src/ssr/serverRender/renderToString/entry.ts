@@ -11,6 +11,7 @@ import {
   ModernSSRReactComponent,
   SSRPluginConfig,
   SSRServerContext,
+  RenderResult,
 } from '../types';
 import prefetch from '../../prefetch';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
@@ -26,7 +27,6 @@ import {
   createReplaceHtml,
   createReplaceSSRDataScript,
 } from './buildHtml';
-import { RenderResult } from './type';
 
 type EntryOptions = {
   ctx: SSRServerContext;
