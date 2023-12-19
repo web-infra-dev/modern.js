@@ -10,6 +10,7 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
 
 export type { CreateUniBuilderOptions };
 export type { BundlerChain } from '@rsbuild/shared';
+export { logger } from '@rsbuild/core';
 export type { BuilderConfig } from './types';
 
 export { RUNTIME_CHUNK_NAME } from './shared/constants';

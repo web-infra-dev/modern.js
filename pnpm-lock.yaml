@@ -6088,6 +6088,9 @@ importers:
       '@playwright/test':
         specifier: 1.33.0
         version: 1.33.0
+      '@rsbuild/plugin-stylus':
+        specifier: 0.2.5
+        version: 0.2.5(webpack@5.89.0)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
@@ -8535,7 +8538,6 @@ packages:
 
   /@adobe/css-tools@4.0.1:
     resolution: {integrity: sha512-+u76oB43nOHrF4DDWRLWDCtci7f3QJoEBigemIdIeTi1ODqjx6Tad9NCVnPRwewWlKkVab5PlK8DCtPTyX7S8g==}
-    dev: false
 
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -14506,6 +14508,22 @@ packages:
       '@rsbuild/shared': 0.2.4
     dev: false
 
+  /@rsbuild/plugin-stylus@0.2.5(webpack@5.89.0):
+    resolution: {integrity: sha512-TO7TDwHCuEbGMwcMpeIqisHWMdVx5DrmCHZieZtwwWfHlQ8WtxAmDY5rIE6hvMakHbTIZxXmf/W6xwnfh/zyCw==}
+    peerDependencies:
+      '@rsbuild/core': 0.x
+    peerDependenciesMeta:
+      '@rsbuild/core':
+        optional: true
+    dependencies:
+      '@rsbuild/shared': 0.2.5
+      stylus: 0.59.0
+      stylus-loader: 7.1.0(stylus@0.59.0)(webpack@5.89.0)
+    transitivePeerDependencies:
+      - supports-color
+      - webpack
+    dev: true
+
   /@rsbuild/plugin-svgr@0.2.1(webpack@5.89.0):
     resolution: {integrity: sha512-8tjwHnm7GTLZpk6xjnSEzOoNGVRQOnQYhChqJfM9GLfRLNuctGpv5/B0fCkJv2dLTzf0OI3bJi0CtFzIOgX8cA==}
     dependencies:
@@ -14576,6 +14594,15 @@ packages:
       caniuse-lite: 1.0.30001566
       lodash: 4.17.21
       postcss: 8.4.31
+
+  /@rsbuild/shared@0.2.5:
+    resolution: {integrity: sha512-R5ceycicv+Fvscbo2WAE48EmRD7bTMzEYldv50eOkQHn67rAJIsEUUPEY1WRI/95HOs1Y/TBfHhLTqrlnGQZ+g==}
+    dependencies:
+      '@rspack/core': 0.4.3
+      caniuse-lite: 1.0.30001566
+      lodash: 4.17.21
+      postcss: 8.4.31
+    dev: true
 
   /@rsbuild/webpack@0.2.4(esbuild@0.17.19):
     resolution: {integrity: sha512-CJkTHi4JURozRCcE0JInqdl+zzHRy0Oy5A0T7Yi7OiJMzs3xGEsZlPrNisL1ZXbc27LshuTfAIjMNBSXSvWeFg==}
@@ -31293,7 +31320,6 @@ packages:
       normalize-path: 3.0.0
       stylus: 0.59.0
       webpack: 5.89.0(esbuild@0.17.19)
-    dev: false
 
   /stylus@0.59.0:
     resolution: {integrity: sha512-lQ9w/XIOH5ZHVNuNbWW8D822r+/wBSO/d6XvtyHLF7LW4KaCIDeVbvn5DF8fGCJAUCwVhVi/h6J0NUcnylUEjg==}
@@ -31306,7 +31332,6 @@ packages:
       source-map: 0.7.4
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /sucrase@3.29.0:
     resolution: {integrity: sha512-bZPAuGA5SdFHuzqIhTAqt9fvNEo9rESqXIG3oiKdF8K4UmkQxC4KlNL3lVyAErXp+mPvUqZ5l13qx6TrDIGf3A==}
