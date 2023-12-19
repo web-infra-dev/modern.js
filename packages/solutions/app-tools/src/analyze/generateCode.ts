@@ -109,6 +109,7 @@ export const generateCode = async (
   const {
     internalDirectory,
     srcDirectory,
+    appDirectory,
     internalDirAlias,
     internalSrcAlias,
     packageName,
@@ -260,9 +261,9 @@ export const generateCode = async (
         imports: getDefaultImports({
           entrypoint,
           srcDirectory,
+          appDirectory,
           internalSrcAlias,
           internalDirAlias,
-          internalDirectory,
         }),
       });
       importsStatemets.set(entryName, imports);
