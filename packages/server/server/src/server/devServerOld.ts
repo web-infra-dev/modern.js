@@ -128,6 +128,7 @@ export class ModernDevServer extends ModernServer {
 
     this.addMiddlewareHandler([...afters, ...afterHandlers]);
 
+    this.initFileReader();
     await super.onInit(runner, app);
 
     // watch mock/ server/ api/ dir file change
@@ -159,6 +160,33 @@ export class ModernDevServer extends ModernServer {
       });
     }
     return super.getRenderHandler();
+  }
+
+  private initFileReader() {
+    let isInit = false;
+
+    if (this.dev?.devMiddleware?.writeToDisk === false) {
+      this.addHandler((ctx, next) => {
+        if (isInit) {
+          return next();
+        }
+        isInit = true;
+
+        if (!ctx.res.locals?.webpack) {
+          fileReader.reset();
+          return next();
+        }
+
+        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
+        const { outputFileSystem } = webpackDevMid;
+        if (outputFileSystem) {
+          fileReader.reset(outputFileSystem);
+        } else {
+          fileReader.reset();
+        }
+        return next();
+      });
+    }
   }
 
   private async applyDefaultMiddlewares(app: Server) {
@@ -278,7 +306,6 @@ export class ModernDevServer extends ModernServer {
     this.cleanSSRCache();
 
     // reset static file
-
     fileReader.reset();
 
     this.runner.repack();
