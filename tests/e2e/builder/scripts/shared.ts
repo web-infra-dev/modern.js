@@ -5,7 +5,10 @@ import fs from '@modern-js/utils/fs-extra';
 import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
-import type { BuilderConfig as UniBuilderConfig } from '@modern-js/uni-builder';
+import type {
+  BuilderConfig as UniBuilderConfig,
+  CreateUniBuilderOptions,
+} from '@modern-js/uni-builder';
 import { StartDevServerOptions } from '@modern-js/builder-shared';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
@@ -44,7 +47,7 @@ async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
 const noop = () => {};
 
 export const createUniBuilder = async (
-  builderOptions: CreateBuilderOptions,
+  builderOptions: CreateUniBuilderOptions,
   builderConfig: UniBuilderConfig = {},
 ) => {
   const { createUniBuilder } = await import('@modern-js/uni-builder');
