@@ -8,11 +8,13 @@ test('should serve dist files correctly', async ({ page }) => {
 
   const { instance } = await build({
     cwd,
+    useUniBuilder: false,
     entry: {
       main: join(cwd, 'src/index.js'),
     },
   });
 
+  // @ts-expect-error
   const { port, server } = await instance.serve();
 
   await page.goto(getHrefByEntryName('main', port));

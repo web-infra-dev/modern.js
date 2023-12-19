@@ -1,1 +1,1 @@
-export const RUNTIME_CHUNK_NAME = 'bundler-runtime';
+export const RUNTIME_CHUNK_NAME = 'builder-runtime';

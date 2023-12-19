@@ -7,26 +7,24 @@ import {
 import type {
   UniBuilderWebpackConfig,
   CreateWebpackBuilderOptions,
+  CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginStyledComponents } from './plugins/styledComponents';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
-import { withDefaultConfig } from './defaults';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderWebpackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'webpack'>(
     uniBuilderConfig,
-    cwd,
-    frameworkConfigPath,
+    options,
   );
 
   rsbuildPlugins.push(
@@ -76,13 +74,12 @@ export async function parseConfig(
 export async function createWebpackBuilder(
   options: CreateWebpackBuilderOptions,
 ): Promise<RsbuildInstance> {
-  const { cwd = process.cwd() } = options;
+  const { cwd = process.cwd(), config, ...rest } = options;
 
-  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    withDefaultConfig(options.config),
+  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
+    ...rest,
     cwd,
-    options.frameworkConfigPath,
-  );
+  });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
   rsbuildConfig.provider = webpackProvider;

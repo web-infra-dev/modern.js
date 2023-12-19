@@ -8,11 +8,8 @@ describe('plugins/styled-components', () => {
     const rsbuild = await createUniBuilder({
       bundlerType: 'webpack',
       cwd: '',
-      config: {
-        output: {
-          targets: ['node', 'web'],
-        },
-      },
+      target: ['node', 'web'],
+      config: {},
     });
 
     const configs = await rsbuild.initConfigs();

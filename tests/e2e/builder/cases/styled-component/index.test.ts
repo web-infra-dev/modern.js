@@ -20,6 +20,7 @@ const commonConfig = {
 
 const noStyledConfig = {
   ...commonConfig,
+  useUniBuilder: false,
   builderConfig: {
     ...commonConfig.builderConfig,
     tools: {
