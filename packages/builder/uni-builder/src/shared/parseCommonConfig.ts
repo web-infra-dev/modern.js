@@ -36,6 +36,7 @@ import { pluginCheckSyntax } from '@rsbuild/plugin-check-syntax';
 import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginPostcssLegacy } from './plugins/postcssLegacy';
 import { pluginDevtool } from './plugins/devtools';
+import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -237,6 +238,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     pluginDevtool({
       disableSourceMap: uniBuilderConfig.output?.disableSourceMap,
     }),
+    pluginEmitRouteFile(),
   ];
 
   const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;

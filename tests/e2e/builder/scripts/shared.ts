@@ -8,7 +8,6 @@ import type {
   BuilderConfig as UniBuilderConfig,
   CreateUniBuilderOptions,
   StartDevServerOptions,
-  RsbuildPlugin,
 } from '@modern-js/uni-builder';
 
 type CreateBuilderOptions = Omit<
@@ -142,33 +141,6 @@ const updateConfigForTest = <BuilderType>(
   }
 };
 
-// generate a basic route.json for test (modern.js server required)
-const pluginEmitRoute = (): RsbuildPlugin => ({
-  name: 'plugin-emit-route',
-
-  setup(api) {
-    api.onBeforeStartDevServer(async () => {
-      const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
-      const routeFilePath = join(api.context.distPath, ROUTE_SPEC_FILE);
-      const htmlPaths = api.getHTMLPaths();
-
-      const routesInfo = Object.entries(htmlPaths).map(
-        ([entryName, filename], index) => ({
-          urlPath: index === 0 ? '/' : `/${entryName}`,
-          entryName,
-          entryPath: filename,
-          isSPA: true,
-        }),
-      );
-
-      await fs.outputFile(
-        routeFilePath,
-        JSON.stringify({ routes: routesInfo }, null, 2),
-      );
-    });
-  },
-});
-
 export async function dev<BuilderType = 'webpack'>({
   serverOptions,
   builderConfig = {},
@@ -185,7 +157,6 @@ export async function dev<BuilderType = 'webpack'>({
 
   const builder = await createUniBuilder(options, builderConfig);
 
-  builder.addPlugins([pluginEmitRoute()]);
   return builder.startDevServer({
     serverOptions,
   });
