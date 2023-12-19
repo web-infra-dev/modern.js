@@ -11,7 +11,6 @@ import type {
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginModuleScopes } from './plugins/moduleScopes';
-import { pluginStyledComponents } from './plugins/styledComponents';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
 
@@ -61,9 +60,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      './plugins/styledComponents'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,

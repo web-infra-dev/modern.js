@@ -11,7 +11,6 @@ import type {
   CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderRspackConfig,
@@ -39,9 +38,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      '@rsbuild/plugin-styled-components'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,

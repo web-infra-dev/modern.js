@@ -8,6 +8,7 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
     : createWebpackBuilder(options);
 }
 
+export type { CreateUniBuilderOptions };
 export type { BundlerChain } from '@rsbuild/shared';
 export type { BuilderConfig } from './types';
 
