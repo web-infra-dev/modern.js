@@ -17,6 +17,5 @@ export function unsafeReplace(
   searchValue: RegExp | string,
   replaceValue: string,
 ) {
-  const [s1, s2] = source.split(searchValue);
-  return s1 + replaceValue + s2;
+  return source.replace(searchValue, () => replaceValue);
 }

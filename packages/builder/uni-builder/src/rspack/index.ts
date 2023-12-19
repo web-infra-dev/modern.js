@@ -8,24 +8,21 @@ import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
   UniBuilderRspackConfig,
   CreateRspackBuilderOptions,
+  CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
-import { withDefaultConfig } from './defaults';
 import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderRspackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'rspack'>(
     uniBuilderConfig,
-    cwd,
-    frameworkConfigPath,
+    options,
   );
 
   if (uniBuilderConfig.output?.enableAssetManifest) {
@@ -42,9 +39,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      '@rsbuild/plugin-styled-components'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,
@@ -55,15 +57,13 @@ export async function parseConfig(
 export async function createRspackBuilder(
   options: CreateRspackBuilderOptions,
 ): Promise<RsbuildInstance<RsbuildProvider>> {
-  const { cwd = process.cwd() } = options;
+  const { cwd = process.cwd(), config, ...rest } = options;
 
-  const uniBuilderConfig = withDefaultConfig(options.config);
-
-  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    uniBuilderConfig,
+  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
+    ...rest,
     cwd,
-    options.frameworkConfigPath,
-  );
+  });
+
   const rsbuild = await createRsbuild({
     cwd,
     rsbuildConfig,
@@ -76,7 +76,7 @@ export async function createRspackBuilder(
     startDevServer: async (options: StartDevServerOptions = {}) => {
       const { startDevServer } = await import('../shared/devServer');
 
-      return startDevServer(rsbuild, options, uniBuilderConfig);
+      return startDevServer(rsbuild, options, config);
     },
   };
 }

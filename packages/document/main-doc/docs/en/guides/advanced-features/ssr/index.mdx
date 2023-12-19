@@ -1,0 +1,22 @@
+# SSR
+
+By rendering the HTML content of web pages into complete web pages on the server side, and then sending the generated web pages to the client, the client only needs to display the web pages without further rendering.
+
+Its main advantages are:
+
+- Improve first screen load speed: SSR can generate complete websites on the server side, the client only needs to download the content of the website, no additional renderings are required, thus improving the first screen load speed.
+- Improve user experience: SSR can improve the responsiveness of web pages, thereby enhancing the user experience.
+- Good for SEO: SSR can generate complete HTML content. Search engines can directly index HTML content to improve website ranking.
+
+If you have the following scenarios, developers can consider using SSR to render your pages:
+
+1. Websites with higher first-screen loading speed requirements, such as e-commerce websites, news websites, etc.
+2. Websites with higher user experience requirements, such as social networking sites, gaming sites, etc.
+3. Websites with higher SEO requirements, such as corporate websites, blogs, etc.
+
+In Modern.js, SSR is also out-of-the-box. Developers do not need to write complex server-side logic for SSR, nor do they need to worry about the operation and maintenance of SSR, or create separate services.
+In addition to the out-of-the-box SSR service, to ensure the developer's development experience, we also have:
+
+- A complete SSR downgrade strategy to ensure that the page can run safely.
+- Automatically split sub-routes to load on demand, reducing the size of the first screen resources.
+- Built-in caching system to solve the problem of high server-side load.

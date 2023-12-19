@@ -46,9 +46,9 @@ describe('plugin-manifest', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
+      target: ['node'],
       config: {
         output: {
-          targets: ['node'],
           enableAssetManifest: true,
         },
       },
@@ -58,27 +58,27 @@ describe('plugin-manifest', () => {
 
     expect(matchPlugins(config, 'WebpackManifestPlugin'))
       .toMatchInlineSnapshot(`
-      [
-        WebpackManifestPlugin {
-          "options": {
-            "assetHookStage": Infinity,
-            "basePath": "",
-            "fileName": "asset-manifest-node.json",
-            "filter": null,
-            "generate": [Function],
-            "map": null,
-            "publicPath": "/",
-            "removeKeyHash": /\\(\\[a-f0-9\\]\\{16,32\\}\\\\\\.\\?\\)/gi,
-            "seed": undefined,
-            "serialize": [Function],
-            "sort": null,
-            "transformExtensions": /\\^\\(gz\\|map\\)\\$/i,
-            "useEntryKeys": false,
-            "useLegacyEmit": false,
-            "writeToFileEmit": false,
+        [
+          WebpackManifestPlugin {
+            "options": {
+              "assetHookStage": Infinity,
+              "basePath": "",
+              "fileName": "asset-manifest-node.json",
+              "filter": null,
+              "generate": [Function],
+              "map": null,
+              "publicPath": "/",
+              "removeKeyHash": /\\(\\[a-f0-9\\]\\{16,32\\}\\\\\\.\\?\\)/gi,
+              "seed": undefined,
+              "serialize": [Function],
+              "sort": null,
+              "transformExtensions": /\\^\\(gz\\|map\\)\\$/i,
+              "useEntryKeys": false,
+              "useLegacyEmit": false,
+              "writeToFileEmit": false,
+            },
           },
-        },
-      ]
-    `);
+        ]
+      `);
   });
 });

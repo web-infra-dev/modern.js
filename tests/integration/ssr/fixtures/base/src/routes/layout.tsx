@@ -1,5 +1,6 @@
 import { Link, Outlet } from '@modern-js/runtime/router';
 
+let count = 0;
 export default function Layout() {
   return (
     <div>
@@ -19,6 +20,7 @@ export default function Layout() {
         </Link>
       </div>
       <Outlet />
+      <footer>count:{count++}</footer>
     </div>
   );
 }

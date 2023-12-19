@@ -89,6 +89,10 @@ function factory(Component: React.ComponentType<any>) {
         throw new Error('invalid props, check usage');
       }
 
+      console.error(
+        '[Warn] PreRender has been deprecated, please use SSR Cache instead. reference to docs: https://modernjs.dev/guides/advanced-features/ssr.html',
+      );
+
       return createElement(Component, { ...newProps });
     }
   }
@@ -103,4 +107,8 @@ const SprSideEffects = withSideEffect(
   mapStateOnServer,
 )(NullComponent);
 
+/**
+ * @deprecated
+ * The Prerender already has been deprecated, please use [SSR Cache](https://modernjs.dev/guides/advanced-features/ssr.html) instead.
+ */
 export const PreRender: any = factory(SprSideEffects);

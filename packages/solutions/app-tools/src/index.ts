@@ -17,6 +17,7 @@ import initializePlugin from './initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
+import serverBuildPlugin from './plugins/serverBuild';
 import type {
   DevOptions,
   BuildOptions,
@@ -150,6 +151,7 @@ export const appTools = (
       bundler:
         options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
     }),
+    serverBuildPlugin(),
     lintPlugin(),
   ],
 

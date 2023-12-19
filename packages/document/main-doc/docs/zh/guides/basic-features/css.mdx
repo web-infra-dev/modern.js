@@ -22,7 +22,7 @@ Modern.js 内置了 [PostCSS](https://postcss.org/) 来转换 CSS 代码。
 
 ## 使用 CSS Modules
 
-请阅读 [使用 CSS Modules](https://modernjs.dev/builder/guide/basic/css-modules.html) 章节来了解 CSS Modules 的完整用法。
+请阅读 [使用 CSS Modules](/guides/basic-features/css-modules) 章节来了解 CSS Modules 的完整用法。
 
 ## 使用 CSS-in-JS
 
@@ -72,18 +72,7 @@ Modern.js 内部集成了 Babel 的 [babel-plugin-styled-components](https://git
 ? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
 
-成功开启后，会看到 `package.json` 中新增了依赖：
-
-```json title="./package.json"
-{
-  "dependencies": {
-    "tailwindcss": "^3.0.0"
-  },
-  "devDependencies": {
-    "@modern-js/plugin-tailwindcss": "^2.0.0"
-  }
-}
-```
+成功开启后，你会看到 `package.json` 中新增了 `tailwindcss` 和 `@modern-js/plugin-tailwindcss` 依赖。
 
 2. 在 `modern.config.ts` 中注册 Tailwind 插件:
 

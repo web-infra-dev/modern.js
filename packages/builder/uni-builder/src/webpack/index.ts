@@ -7,27 +7,24 @@ import {
 import type {
   UniBuilderWebpackConfig,
   CreateWebpackBuilderOptions,
+  CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginModuleScopes } from './plugins/moduleScopes';
-import { pluginStyledComponents } from './plugins/styledComponents';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
-import { withDefaultConfig } from './defaults';
 import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderWebpackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'webpack'>(
     uniBuilderConfig,
-    cwd,
-    frameworkConfigPath,
+    options,
   );
 
   rsbuildPlugins.push(
@@ -64,9 +61,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      './plugins/styledComponents'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,
@@ -77,14 +79,12 @@ export async function parseConfig(
 export async function createWebpackBuilder(
   options: CreateWebpackBuilderOptions,
 ): Promise<RsbuildInstance> {
-  const { cwd = process.cwd() } = options;
-  const uniBuilderConfig = withDefaultConfig(options.config);
+  const { cwd = process.cwd(), config, ...rest } = options;
 
-  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    uniBuilderConfig,
+  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
+    ...rest,
     cwd,
-    options.frameworkConfigPath,
-  );
+  });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
   rsbuildConfig.provider = webpackProvider;
@@ -104,7 +104,7 @@ export async function createWebpackBuilder(
     startDevServer: async (options: StartDevServerOptions = {}) => {
       const { startDevServer } = await import('../shared/devServer');
 
-      return startDevServer(rsbuild, options, uniBuilderConfig);
+      return startDevServer(rsbuild, options, config);
     },
   };
 }

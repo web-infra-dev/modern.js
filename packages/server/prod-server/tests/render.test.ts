@@ -2,7 +2,6 @@ import path from 'path';
 import { createRenderHandler } from '../src/libs/render';
 import { render as renderSSR } from '../src/libs/render/ssr';
 import { handleDirectory } from '../src/libs/render/static';
-import { LruReader } from '../src/libs/render/reader';
 import { createLogger, createMetrics } from '../src/libs/render/measure';
 
 describe('test render function', () => {
@@ -77,30 +76,6 @@ describe('test render function', () => {
     );
 
     expect(res1?.content.toString()).toMatch('baz');
-  });
-
-  test('should reader work correctly', async () => {
-    const reader = new LruReader();
-    const dir = path.join(__dirname, 'fixtures', 'reader');
-
-    const nullRes = await reader.read(path.join(dir, 'foo.ts'));
-    expect(nullRes).toBeNull();
-
-    const dirRes = await reader.read(path.join(dir, 'test-dir'));
-    expect(dirRes).toBeNull();
-
-    const res = await reader.read(path.join(dir, 'index.ts'));
-    expect(res).not.toBeNull();
-    expect(res?.content.toString()).toMatch('modern');
-
-    const res1 = await reader.read(path.join(dir, 'index.ts'));
-    expect(res1).not.toBeNull();
-    expect(res1?.content.toString()).toMatch('modern');
-
-    reader.update();
-    const res2 = await reader.read(path.join(dir, 'index.ts'));
-    expect(res2).not.toBeNull();
-    expect(res2?.content.toString()).toMatch('modern');
   });
 
   test('should entry render fn work correctly', async () => {

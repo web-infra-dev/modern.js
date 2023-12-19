@@ -1,0 +1,341 @@
+---
+sidebar_position: 1
+title: Usage
+---
+
+# Usage
+
+Enabling SSR is simple. Just set the value of [`server.ssr`](/configure/app/server/ssr) to `true`.
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: true,
+  },
+});
+```
+
+## SSR Data Fetch
+
+Modern.js provides a Data Loader that simplifies data fetching for developers working with SSR and CSR. Each routing module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
+
+```ts title="src/routes/page.data.ts"
+export const loader = () => {
+  return {
+    message: 'Hello World',
+  };
+};
+```
+
+Within the component, data returned by the `loader` function can be accessed through the Hooks API:
+
+```tsx
+export default () => {
+  const data = useLoaderData();
+  return <div>{data.message}</div>;
+};
+```
+
+Modern.js breaks the traditional model of server-side rendering (SSR) development and offers users a more user-friendly SSR development experience.
+
+This feature offers elegant degradation processing. If the SSR request fails, it will automatically downgrade and restart the request on the browser side.
+
+Developers should still be mindful of data fallback, including `null` values or unexpected data returns. This will help prevent React rendering errors and messy results during SSR.
+
+:::info
+
+1. When requesting a page through client-side routing, Modern.js sends an HTTP request. The server receives the request and executes the corresponding Data Loader function for the page, then returns the execution result as a response to the browser.
+
+2. When using Data Loader, data is fetched before rendering. Modern.js also supports obtaining data during component rendering. For more related content, please refer to [Data Fetch](/guides/basic-features/data/data-fetch).
+
+:::
+
+## Keep Rendering Consistent
+
+In some businesses, it is usually necessary to make different UI displays based on the current operating container environment characteristics, such as [UA](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent) information.
+
+If not handled carefully, unexpected rendering results are likely to occur.
+
+Here is an example to show the problem when SSR and CSR rendering are inconsistent, add the following code to the component:
+
+```tsx
+{
+  typeof window !== 'undefined' ? <div>browser content</div> : null;
+}
+```
+
+After launching the application and accessing the page, you will find that the browser console throws a warning message.
+
+```sh
+Warning: Expected server HTML to contain a matching <div> in <div>.
+```
+
+This is caused by React's hydration logic on the client side detecting inconsistencies between the rendered result and the SSR rendering result. Although the page appears normal, in complex applications, it is likely to cause problems such as DOM hierarchy confusion and style disorder.
+
+:::info
+More information about [`React hydrate`](https://reactjs.org/docs/react-dom.html#hydrate).
+
+:::
+
+The application needs to maintain consistency between SSR and CSR rendering results. If there is inconsistency, it means that this part of the content does not need to be rendered in SSR.
+
+Modern.js provides a [`<NoSSR>`](/apis/app/runtime/core/use-runtime-context) component for such content that does not need to be rendered in SSR.
+
+```ts
+import { NoSSR } from '@modern-js/runtime/ssr';
+```
+
+Wrap the element that does not require SSR with the `NoSSR` component:
+
+```tsx
+<NoSSR>
+  <div>client content</div>
+</NoSSR>
+```
+
+After modifying the code, refreshing the page shows that the previous warning has disappeared. Opening the Network tab of the browser devtools and checking the returned HTML document does not contain content wrapped by `NoSSR` components.
+
+:::info
+['useRuntimeContext'](/apis/app/runtime/core/use-runtime-context) can get complete request information, which can be used to ensure consistent rendering results between SSR and CSR.
+
+:::
+
+## Pay Attention to Memory Leaks
+
+:::warning
+Developers need to pay special attention to memory leaks in the SSR mode. Even tiny memory leaks can have an impact on the service after a large number of accesses.
+
+:::
+
+When using SSR, each request from the browser will trigger the server to re-execute the component rendering logic. Therefore, it is necessary to avoid defining any data structures that may continue to grow globally, subscribing to events globally, or creating streams that will not be destroyed globally.
+
+For example, when using [redux-observable](https://redux-observable.js.org/), developers who are used to CSR development usually code in the component like this:
+
+```tsx
+/* This code is for demonstration purposes only */
+import { createEpicMiddleware, combineEpics } from 'redux-observable';
+
+const epicMiddleware = createEpicMiddleware();
+const rootEpic = combineEpics();
+
+export default function Test() {
+  epicMiddleware.run(rootEpic);
+  return <div>Hello Modern.js</div>;
+}
+```
+
+Create a Middleware instance `epicMiddleware` outside the component and call epicMiddleware.run inside the component.
+
+When running on the client-side, this code will not cause any issues. However, during SSR, the Middleware instance cannot be destroyed.
+
+Every time a component is rendered and `epicMiddleware.run(rootEpic)` is called, new event bindings are added internally which causes the entire object to grow continuously and ultimately affects application performance.
+
+CSR issues are not easy to detect, so when switching from CSR to SSR, if you are unsure whether the application has such problems, you can perform stress testing on applications.
+
+## Converging Server Data.
+
+In order to maintain the data requested during the SSR phase, it can be directly used on the browser side. Modern.js will inject the data and state collected during rendering into HTML.
+
+However, in CSR applications, there are often situations where interface data is large and component states are not converged. If SSR is used directly in this case, the rendered HTML may have a problem of being too large.
+
+At this time, SSR may not only fail to improve user experience for applications but may also have an opposite effect.
+
+Therefore, when using SSR, **developers need to properly slim down the application**.
+
+1. Focus on the first screen, SSR can request only the data needed for the first screen and render the remaining parts on the browser side.
+2. Remove data unrelated to rendering from the returned data of the interface.
+
+## Serverless Pre-render
+
+:::warning
+x.43.0+ has been deprecated, Please instance of [SSR Cache](guides/advanced-features/ssr/cache).
+:::
+
+Modern.js provides the Serverless Pre-rendering (SPR) feature to improve SSR performance.
+
+SPR uses pre-rendering and caching technology to provide responsive performance for SSR pages. It enables SSR applications to have the response speed and stability of static web pages while also maintaining dynamic data updates.
+
+Using SPR in Modern.js is very simple. Just add the PreRender component to your component, and the page where it is located will automatically enable SPR.
+
+Here is a simulated component that uses the useLoaderData API. The request in the Data Loader takes 2 seconds to consume.
+
+```tsx title="page.data.ts"
+import { useLoaderData } from '@modern-js/runtime/router';
+
+export const loader = async () => {
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(null);
+    }, 2000);
+  });
+
+  return {
+    message: 'Hello Modern.js',
+  };
+};
+```
+
+```tsx title="page.tsx"
+import { useLoaderData } from '@modern-js/runtime/router';
+
+export default () => {
+  const data = useLoaderData();
+  return <div>{data?.message}</div>;
+};
+```
+
+After executing the `dev` command and opening the page, it is obvious that the page needs to wait 2s before returning.
+
+Use the `<PreRender>` component for optimization next, which can be directly exported from `@modern-js/runtime/ssr`.
+
+```ts
+import { PreRender } from '@modern-js/runtime/ssr';
+```
+
+Use the `<PreRender>` component within the routing component and set the parameter `interval` to indicate that the expiration time of this rendering result is 5 seconds:
+
+```tsx
+<PreRender interval={5} />
+```
+
+After modification, execute `pnpm run build && pnpm run serve` to start the application and open the page.
+
+The first time it is opened, there is no difference in rendering compared to before, and there is still a 2-second delay.
+
+Clicking refresh opens the page instantly, but at this point, the page data has not changed due to the refresh because the cache has not yet expired.
+
+After waiting for 5 seconds and refreshing the page, the data on the page remained unchanged. After refreshing again, the data changed, but the response was nearly immediate.
+
+This is because during the previous request, SPR had already asynchronously obtained a new rendering result in the background, and this time's requested page is a version that has been cached on the server.
+
+One can imagine that when the `interval` is set to 1, users can have a responsive experience of static pages while perceiving real-time data.
+
+:::info
+For more detail, see [`<PreRender>`](/apis/app/runtime/ssr/pre-render).
+
+:::
+
+## Treeshaking
+
+When SSR is enabled, Modern.js uses the same entry point to build both SSR Bundle and CSR Bundle. Therefore, errors may occur if there are Web APIs in the SSR Bundle or Node APIs in the CSR Bundle.
+
+Introducing Web APIs in components usually do some global listening or obtaining browser-related data, such as:
+
+```tsx
+document.addEventListener('load', () => {
+  console.log('document load');
+});
+const App = () => {
+  return <div>Hello World</div>;
+};
+export default App;
+```
+
+Importing Node API in component files is usually done when using `useLoader`, for example:
+
+```ts
+import fse from 'fs-extra';
+export default () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+};
+```
+
+### Use Environment Variables
+
+For the first case, we can directly use the built-in environment variable `MODERN_TARGET` in Modern.js to determine and remove unused code during build time:
+
+```ts
+if (process.env.MODERN_TARGET === 'browser') {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
+}
+```
+
+After the development environment is bundled, the SSR and CSR artifacts will be compiled into the following content. Therefore, there will be no more Web API errors in the SSR environment.
+
+```ts
+// SSR production
+if (false) {
+}
+
+// CSR production
+if (true) {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
+}
+```
+
+:::note
+For more information, see [environment variables](/guides/basic-features/env-vars).
+
+:::
+
+### Use File Suffix
+
+But for example, in the second case, `fs-extra` is imported in the code, which has side effects using Node API internally. If it is directly referenced in the component, it will cause an error when CSR loading.
+
+Environment variables does not work in this case. Modern.js also supports using files with the `.node.` suffix to distinguish between the packaging files of SSR Bundle and CSR Bundle products.
+
+You can create a proxy layer by creating files with the same name but different extensions, such as `.ts` and `.node.ts`:
+
+```ts title="compat.ts"
+export const readFileSync: any = () => {};
+```
+
+```ts title="compat.node.ts"
+export { readFileSync } from 'fs-extra';
+```
+
+Import `./compat` directly in the file. In SSR environment, files with `.node.ts` suffix will be used first, while in CSR environment, files with `.ts` suffix will be used.
+
+```ts title="App.tsx"
+import { readFileSync } from './compat'
+
+export const loader = () => {
+  const file = readFileSync('./myfile');
+  return {
+    ...
+  };
+};
+```
+
+### Independent File
+
+The two methods mentioned above will both bring some mental burden to developers. In real business scenarios, we found that most of the mixed Node/Web code appears in data requests.
+
+Therefore, Modern.js has designed a [Data Fetch](/guides/basic-features/data/data-fetch) to separate CSR and SSR code based on [Nested Routing](/guides/basic-features/routes).
+
+We can separate **data requests from component code** by using independent files. Write the component logic in `routes/page.tsx` and write the data request logic in `routes/page.data.ts`.
+
+```ts title="routes/page.tsx"
+export default Page = () => {
+  return <div>Hello World<div>
+}
+```
+
+```ts title="routes/page.data.tsx"
+import fse from 'fs-extra';
+export const loader = () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+}
+```
+
+## Remote Request
+
+When initiating interface requests in SSR, developers sometimes encapsulate isomorphic request tools themselves. For some interfaces that require passing user cookies, developers can use the ['useRuntimeContext'](/guides/basic-features/data/data-fetch#route-loader) API to get the request header for implementation.
+
+It should be noted that the obtained request header is for HTML requests, which may not be suitable for API requests. Therefore, ** don't passed through all request headers **.
+
+In addition, some backend interfaces or common gateways will verify based on the information in the request header. Full pass-through can easily lead to various difficult-to-troubleshoot issues, so it is recommended to **pass through as needed**.
+
+If it is really necessary to pass through all request headers, please be sure to filter the `host` field.

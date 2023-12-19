@@ -1,0 +1,186 @@
+---
+sidebar_position: 3
+title: Cache
+---
+
+# Render Cache
+
+Sometimes we cache computation results, such as with the React useMemo, useCallback Hook. By caching, we can reduce the number of computations, thus reducing CPU resource usage and enhancing the user experience.
+
+Caching the results of server-side rendering (SSR) can reduce the computation and rendering time for each server request, enabling faster page load speeds and improving the user experience. It also lowers the server load, saves computational resources, and speeds up user access.
+
+:::info
+Need x.43.0+
+:::
+
+## Configuration
+
+You can enable caching by configuring it in `server/cache.[t|j]s`:
+
+```ts title="server/cache.ts"
+import type { CacheOption } from '@modern-js/runtime/server';
+
+export const cacheOption: CacheOption = {
+  maxAge: 500, // ms
+  staleWhileRevalidate: 1000, // ms
+};
+```
+
+## Configuration Explanation
+
+### Cache Configuration
+
+The caching policy is implemented based on [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+
+During the `maxAge` period, cache content will be returned directly. After `maxAge` but within `staleWhileRevalidate`, the cache content will also be returned directly, but at the same time, re-rendering will be executed asynchronously.
+
+**Object type**
+
+```ts
+export interface CacheControl {
+  maxAge: number;
+
+  staleWhileRevalidate: number;
+
+  customKey?: string | ((pathname: string) => string);
+}
+```
+
+In this, customKey is used for custom cache key. By default, Modern.js will use the request pathname as key for caching, but in some cases, this may not meet your needs, so developers can customise it.
+
+**Function type**
+
+```ts
+export type CacheOptionProvider = (
+  req: IncomingMessage,
+) => Promise<CacheControl> | CacheControl;
+```
+
+Sometimes developers need to customise the cache key through req, which can be handled using the function form, as shown in the following code:
+
+```ts title="server/cache.ts"
+import type { CacheOption, CacheOptionProvider } from '@modern-js/runtime/server';
+
+const provider: CacheOptionProvider = (req) => {
+  const { url, headers, ... } = req;
+
+  const key = computedKey(url, headers, ...);
+
+  return {
+    maxAge: 500, // ms
+    staleWhileRevalidate: 1000, // ms
+    customKey: key,
+  }
+}
+
+export const cacheOption: CacheOption = provider;
+```
+
+**Mapping type**
+
+```ts
+export type CacheOptions = Record<string, CacheControl | CacheOptionProvider>;
+```
+
+Sometimes, developers need to apply different caching policies for different routes. We also provide a mapping way for configuration, as shown in example below:
+
+```ts title="server/cache.ts"
+import type { CacheOption } from '@modern-js/runtime/server';
+
+export const cacheOption: CacheOption = {
+  '/home': {
+    maxAge: 50,
+    staleWhileRevalidate: 100,
+  },
+  '/about': {
+    maxAge: 1000 * 60 * 60 * 24, // one day
+    staleWhileRevalidate: 1000 * 60 * 60 * 24 * 2 // two day
+  },
+  '*': (req) => { // If the above routes cannot be matched, it will match to '*'
+    const { url, headers, ... } = req;
+    const key = computedKey(url, headers, ...);
+
+    return {
+      maxAge: 500,
+      staleWhileRevalidate: 1000,
+      customKey: key,
+    }
+  }
+}
+```
+
+- The route `http://xxx/home` will apply the first rule.
+- The route `http://xxx/about` will apply the second rule.
+- The route `http://xxx/abc` will apply the last rule.
+
+The above-mentioned `/home` and `/about` will be used as patterns for matching, which means that `/home/abc` will also comply with this rule.
+Simultaneously, you can also include regular expression syntax in it, such as `/home/.+`.
+
+### Cache Container
+
+By default, Server will use memory for caching. But typically, services will be deployed on serverless. Each service access may be a new process, so caching cannot be applied every time.
+
+Therefore, developers can also customise the cache container, which needs to implement the `Containter` interface.
+
+```ts
+export interface Containter<K = string, V = string> {
+  /**
+   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
+   * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
+   */
+  get: (key: K) => Promise<V | undefined>;
+
+  /**
+   * Adds a new element with a specified key and value to the containter. If an element with the same key already exists, the element will be updated.
+   *
+   * The ttl indicates cache expiration time.
+   */
+  set: (key: K, value: V, options?: { ttl?: number }) => Promise<this>;
+
+  /**
+   * @returns boolean indicating whether an element with the specified key exists or not.
+   */
+  has: (key: K) => Promise<boolean>;
+
+  /**
+   * @returns true if an element in the containter existed and has been removed, or false if the element does not exist.
+   */
+  delete: (key: K) => Promise<boolean>;
+}
+```
+
+As an example in the following code, a developer can implement a Redis container.
+
+```ts
+import type { Containter, CacheOption } from '@modern-js/runtime/server';
+
+class RedisContainter implements Containter {
+  redis = new Redis();
+
+  async get(key: string) {
+    return this.redis.get(key);
+  }
+
+  async set(key: string, value: string): Promise<this> {
+    this.redis.set(key, value);
+    return this;
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.redis.has(key);
+  }
+
+  async delete(key: string): Promise<boolean> {
+    return this.redis.delete(key);
+  }
+}
+
+const containter = new RedisContainter();
+
+export const customContainer: Containter = containter;
+
+export const cacheOption: CacheOption = {
+  maxAge: 500, // ms
+  staleWhileRevalidate: 1000, // ms
+};
+```

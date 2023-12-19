@@ -53,6 +53,7 @@
     "babel-plugin-import": "1.13.5",
     "babel-plugin-styled-components": "1.13.3",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "cssnano": "6.0.1",
     "glob": "^9.3.5",
     "lodash": "^4.17.21",
     "postcss-custom-properties": "13.1.5",

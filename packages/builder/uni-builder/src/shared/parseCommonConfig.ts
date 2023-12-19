@@ -12,7 +12,11 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type { UniBuilderRspackConfig, UniBuilderWebpackConfig } from '../types';
+import type {
+  CreateBuilderCommonOptions,
+  UniBuilderRspackConfig,
+  UniBuilderWebpackConfig,
+} from '../types';
 import { pluginRem } from '@rsbuild/plugin-rem';
 import { pluginPug } from '@rsbuild/plugin-pug';
 import { pluginAssetsRetry } from '@rsbuild/plugin-assets-retry';
@@ -91,12 +95,12 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   uniBuilderConfig: B extends 'rspack'
     ? UniBuilderRspackConfig
     : UniBuilderWebpackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
+  const { cwd, frameworkConfigPath, entry, target } = options;
   const rsbuildConfig = deepmerge({}, uniBuilderConfig);
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
@@ -110,6 +114,11 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     output.cssModules.localIdentName = output.cssModuleLocalIdentName;
     delete output.cssModuleLocalIdentName;
   }
+
+  output.distPath ??= {};
+  output.distPath.html ??= 'html';
+
+  output.polyfill ??= 'entry';
 
   if (output.disableCssModuleExtension) {
     output.cssModules ||= {};
@@ -128,13 +137,16 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     delete output.disableCssExtract;
   }
 
-  const targets = uniBuilderConfig.output?.targets || ['web'];
+  const targets = Array.isArray(target) ? target : [target || 'web'];
+
+  output.targets = targets;
+
   const overrideBrowserslist: OverrideBrowserslist = {};
 
   for (const target of targets) {
     // Incompatible with the scenario where target contains both 'web' and 'modern-web'
     overrideBrowserslist[target] = await getBrowserslistWithDefault(
-      cwd,
+      cwd!,
       uniBuilderConfig,
       target,
     );
@@ -152,37 +164,41 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   extraConfig.html.outputStructure = html.disableHtmlFolder ? 'flat' : 'nested';
   delete html.disableHtmlFolder;
 
-  if (html.metaByEntries) {
-    extraConfig.html.meta = ({ entryName }) => html.metaByEntries![entryName];
+  if (uniBuilderConfig.html?.metaByEntries) {
+    extraConfig.html.meta = ({ entryName }) =>
+      uniBuilderConfig.html!.metaByEntries![entryName];
     delete html.metaByEntries;
   }
 
-  if (html.titleByEntries) {
-    extraConfig.html.title = ({ entryName }) => html.titleByEntries![entryName];
+  html.title ??= '';
+
+  if (uniBuilderConfig.html?.titleByEntries) {
+    extraConfig.html.title = ({ entryName }) =>
+      uniBuilderConfig.html!.titleByEntries![entryName];
     delete html.titleByEntries;
   }
 
-  if (html.faviconByEntries) {
+  if (uniBuilderConfig.html?.faviconByEntries) {
     extraConfig.html.favicon = ({ entryName }) =>
-      html.faviconByEntries![entryName];
+      uniBuilderConfig.html!.faviconByEntries![entryName];
     delete html.faviconByEntries;
   }
 
-  if (html.injectByEntries) {
+  if (uniBuilderConfig.html?.injectByEntries) {
     extraConfig.html.inject = ({ entryName }) =>
-      html.injectByEntries![entryName];
+      uniBuilderConfig.html!.injectByEntries![entryName];
     delete html.injectByEntries;
   }
 
-  if (html.templateByEntries) {
+  if (uniBuilderConfig.html?.templateByEntries) {
     extraConfig.html.template = ({ entryName }) =>
-      html.templateByEntries![entryName];
+      uniBuilderConfig.html!.templateByEntries![entryName];
     delete html.templateByEntries;
   }
 
-  if (html.templateParametersByEntries) {
+  if (uniBuilderConfig.html?.templateParametersByEntries) {
     extraConfig.html.templateParameters = (_, { entryName }) =>
-      html.templateParametersByEntries![entryName];
+      uniBuilderConfig.html!.templateParametersByEntries![entryName];
     delete html.templateParametersByEntries;
   }
 
@@ -190,6 +206,11 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   rsbuildConfig.dev = removeUndefinedKey(dev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
+
+  if (entry) {
+    rsbuildConfig.source ??= {};
+    rsbuildConfig.source.entry = entry;
+  }
 
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
@@ -223,7 +244,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   if (!uniBuilderConfig.output?.disableSvgr) {
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport,
+        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
       }),
     );
 
@@ -243,12 +264,6 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     );
   }
 
-  if (uniBuilderConfig.output?.assetsRetry) {
-    rsbuildPlugins.push(
-      pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
-    );
-  }
-
   const remOptions = uniBuilderConfig.output?.convertToRem;
   if (remOptions) {
     rsbuildPlugins.push(
@@ -256,9 +271,9 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     );
   }
 
-  if (!uniBuilderConfig.output?.disableInlineRuntimeChunk) {
-    rsbuildPlugins.push(pluginRuntimeChunk());
-  }
+  rsbuildPlugins.push(
+    pluginRuntimeChunk(uniBuilderConfig.output?.disableInlineRuntimeChunk),
+  );
 
   if (uniBuilderConfig.experiments?.sourceBuild) {
     const { pluginSourceBuild } = await import('@rsbuild/plugin-source-build');
@@ -278,6 +293,13 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
               pugOptions,
             },
       ),
+    );
+  }
+
+  // assetsRetry inject should be later
+  if (uniBuilderConfig.output?.assetsRetry) {
+    rsbuildPlugins.push(
+      pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
     );
   }
 

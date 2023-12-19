@@ -8,6 +8,7 @@ webpackOnlyTest('security.sri', async ({ page }) => {
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
     runServer: true,
+    useUniBuilder: false,
     builderConfig: {
       security: {
         sri: true,
