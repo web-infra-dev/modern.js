@@ -215,6 +215,11 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
         host: dev.host,
       };
 
+  delete tools.devServer;
+  delete dev.https;
+  delete dev.port;
+  delete dev.host;
+
   rsbuildConfig.server = removeUndefinedKey(server);
 
   rsbuildConfig.dev = removeUndefinedKey(dev);

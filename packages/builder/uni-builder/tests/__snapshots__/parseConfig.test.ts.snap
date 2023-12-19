@@ -3,12 +3,6 @@
 exports[`parseCommonConfig > dev.xxx 1`] = `
 {
   "dev": {
-    "host": "xxx.xxx",
-    "https": {
-      "cert": "xxx",
-      "key": "xxxx",
-    },
-    "port": 8081,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -36,28 +30,13 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "host": "xxx.xxx",
     "port": 8081,
   },
-  "tools": {
-    "devServer": {
-      "compress": false,
-      "headers": {
-        "X-Custom-Foo": "bar",
-      },
-      "historyApiFallback": true,
-      "hot": false,
-    },
-  },
+  "tools": {},
 }
 `;
 
 exports[`parseCommonConfig > dev.xxx 2`] = `
 {
   "dev": {
-    "host": "xxx.xxx",
-    "https": {
-      "cert": "xxx",
-      "key": "xxxx",
-    },
-    "port": 8081,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -82,11 +61,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     ],
   },
   "server": {},
-  "tools": {
-    "devServer": {
-      "historyApiFallback": true,
-    },
-  },
+  "tools": {},
 }
 `;
 
