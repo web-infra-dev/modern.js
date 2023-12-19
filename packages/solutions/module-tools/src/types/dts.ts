@@ -53,6 +53,9 @@ export interface ITsconfig {
         paths?: Record<string, string[]>;
         target?: TsTarget;
         useDefineForClassFields?: boolean;
+        composite?: boolean;
+        incremental?: boolean;
+        tsBuildInfoFile?: string;
       }
     | undefined;
   include?: string[];
