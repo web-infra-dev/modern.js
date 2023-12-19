@@ -4309,9 +4309,6 @@ importers:
 
   packages/server/plugin-server:
     dependencies:
-      '@modern-js/server-utils':
-        specifier: workspace:*
-        version: link:../utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -4425,9 +4422,6 @@ importers:
       ignore-styles:
         specifier: ^5.0.1
         version: 5.0.1
-      lru-cache:
-        specifier: ^6.0.0
-        version: 6.0.0
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
@@ -4462,9 +4456,6 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.2.6
-      '@types/lru-cache':
-        specifier: ^5.1.1
-        version: 5.1.1
       '@types/merge-deep':
         specifier: ^3.0.0
         version: 3.0.0
@@ -4716,6 +4707,9 @@ importers:
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../../server/core
+      '@modern-js/server-utils':
+        specifier: workspace:*
+        version: link:../../server/utils
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -5271,6 +5265,9 @@ importers:
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
+      lru-cache:
+        specifier: ^6.0.0
+        version: 6.0.0
       react-router-dom:
         specifier: 6.17.0
         version: 6.17.0(react-dom@18.2.0)(react@18.2.0)
@@ -5290,6 +5287,9 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.2.6
+      '@types/lru-cache':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@types/node':
         specifier: ^14
         version: 14.18.35

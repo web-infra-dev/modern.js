@@ -2,12 +2,12 @@ import path from 'path';
 import { cutNameByHyphen, mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { ServerOptions } from '@modern-js/server-core';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
 import { ERROR_DIGEST } from '../../constants';
 import { shouldFlushServerHeader } from '../preload/shouldFlushServerHeader';
 import { handleDirectory } from './static';
-import { readFile } from './reader';
 import * as ssr from './ssr';
 import { injectServerData } from './utils';
 
@@ -69,7 +69,7 @@ export const createRenderHandler: CreateRenderHandler = ({
     }
 
     const templatePath = entry;
-    const content = await readFile(templatePath);
+    const content = await fileReader.readFile(templatePath);
     if (!content) {
       return null;
     }
@@ -111,19 +111,7 @@ export const createRenderHandler: CreateRenderHandler = ({
         };
         const result = await (ssrRender
           ? ssrRender(ctx, ssrRenderOptions, runner)
-          : ssr.render(
-              ctx,
-              {
-                distDir,
-                entryName: route.entryName,
-                urlPath: route.urlPath,
-                bundle: route.bundle,
-                template: content.toString(),
-                staticGenerate,
-                nonce,
-              },
-              runner,
-            ));
+          : ssr.render(ctx, ssrRenderOptions, runner));
         return result;
       } catch (err) {
         ctx.error(

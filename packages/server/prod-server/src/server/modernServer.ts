@@ -48,7 +48,6 @@ import {
   debug,
   isRedirect,
 } from '../utils';
-import * as reader from '../libs/render/reader';
 import { createProxyHandler } from '../libs/proxy';
 import { createContext } from '../libs/context';
 import {
@@ -63,6 +62,7 @@ import {
   createAfterRenderContext,
   createMiddlewareContext,
 } from '../libs/hook-api';
+import { cacheMod } from '../libs/render/ssrCache/cacheMod';
 
 type ModernServerAsyncHandler = (
   context: ModernServerContext,
@@ -96,8 +96,6 @@ export class ModernServer implements ModernServerInterface {
   protected readonly metrics: Metrics;
 
   protected readonly runMode: string;
-
-  protected reader: typeof reader = reader;
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
@@ -149,8 +147,6 @@ export class ModernServer implements ModernServerInterface {
 
     const { distDir, conf } = this;
 
-    this.initReader();
-
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     if (conf.bff?.proxy) {
@@ -161,17 +157,15 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    // the app server maybe a `undefined`;
-    app?.on('close', () => {
-      this.reader.close();
-    });
-
     // use preset routes priority
     const usageRoutes = this.filterRoutes(this.getRoutes());
     this.router.reset(usageRoutes);
 
     // warmup ssr bundle in production env
     this.warmupSSRBundle();
+
+    // warmup cacheMod
+    cacheMod.loadServerCacheMod(this.pwd);
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);
@@ -254,9 +248,6 @@ export class ModernServer implements ModernServerInterface {
   }
 
   /* —————————————————————— function will be overwrite —————————————————————— */
-  protected initReader() {
-    this.reader.init();
-  }
 
   protected async onServerChange({ filepath }: { filepath: string }) {
     const { pwd } = this;
