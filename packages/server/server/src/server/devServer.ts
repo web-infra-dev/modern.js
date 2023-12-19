@@ -101,7 +101,7 @@ export class ModernDevServer extends ModernServer {
   }
 
   private getDevOptions(options: ModernDevServerOptionsNew) {
-    const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
+    const devOptions = options.dev;
     const defaultOptions = getDefaultDevOptions();
     return deepMerge(defaultOptions, devOptions);
   }
@@ -166,6 +166,8 @@ export class ModernDevServer extends ModernServer {
 
     this.closeCb.push(close);
 
+    // use webpack Fs to init FileReader
+    this.initFileReader();
     await super.onInit(runner, app);
 
     // watch mock/ server/ api/ dir file change
@@ -173,6 +175,33 @@ export class ModernDevServer extends ModernServer {
       this.startWatcher();
       app.on('close', async () => {
         await this.watcher?.close();
+      });
+    }
+  }
+
+  private initFileReader() {
+    let isInit = false;
+
+    if (this.dev?.devMiddleware?.writeToDisk === false) {
+      this.addHandler((ctx, next) => {
+        if (isInit) {
+          return next();
+        }
+        isInit = true;
+
+        if (!ctx.res.locals?.webpack) {
+          fileReader.reset();
+          return next();
+        }
+
+        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
+        const { outputFileSystem } = webpackDevMid;
+        if (outputFileSystem) {
+          fileReader.reset(outputFileSystem);
+        } else {
+          fileReader.reset();
+        }
+        return next();
       });
     }
   }

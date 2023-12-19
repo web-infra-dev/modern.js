@@ -1,16 +1,20 @@
 import type { Buffer } from 'buffer';
-import { readFile, stat } from '@modern-js/utils/fs-extra';
+import Fs from '@modern-js/utils/fs-extra';
 import { Storage } from './storer/storage';
 import { createMemoryStorage } from './storer';
 
 export class FileReader {
   private storage: Storage<Buffer | null>;
 
+  private fs: typeof Fs;
+
   constructor(storage: Storage<Buffer | null>) {
+    this.fs = Fs;
     this.storage = storage;
   }
 
   async readFile(path: string, encoding: 'utf-8' | 'buffer' = 'utf-8') {
+    const { fs } = this;
     const cache = await this.storage.get(path);
     if (cache === null) {
       return null;
@@ -20,7 +24,7 @@ export class FileReader {
     }
 
     const isExistFile = await new Promise(resolve => {
-      stat(path, (err, stats) => {
+      fs.stat(path, (err, stats) => {
         if (err) {
           resolve(false);
           return;
@@ -34,7 +38,7 @@ export class FileReader {
     });
 
     if (isExistFile) {
-      const content = await readFile(path);
+      const content = await fs.promises.readFile(path);
 
       this.storage.set(path, content);
 
@@ -49,8 +53,9 @@ export class FileReader {
   /**
    * Clear the fileCache entriely.
    */
-  reset() {
+  reset(fs?: typeof Fs) {
     // FIXME: make me more safyly.
+    fs && (this.fs = fs);
     return this.storage.clear?.() as Promise<void>;
   }
 

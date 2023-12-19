@@ -4,6 +4,7 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
+import type { StartServerResult } from '@rsbuild/shared';
 import type {
   UniBuilderWebpackConfig,
   CreateWebpackBuilderOptions,
@@ -13,6 +14,7 @@ import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderWebpackConfig,
@@ -75,9 +77,15 @@ export async function parseConfig(
   };
 }
 
+type UniBuilderWebpackInstance = Omit<RsbuildInstance, 'startDevServer'> & {
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<StartServerResult>;
+};
+
 export async function createWebpackBuilder(
   options: CreateWebpackBuilderOptions,
-): Promise<RsbuildInstance> {
+): Promise<UniBuilderWebpackInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
@@ -98,5 +106,12 @@ export async function createWebpackBuilder(
     pluginModuleScopes(options.config.source?.moduleScopes),
   ]);
 
-  return rsbuild;
+  return {
+    ...rsbuild,
+    startDevServer: async (options: StartDevServerOptions = {}) => {
+      const { startDevServer } = await import('../shared/devServer');
+
+      return startDevServer(rsbuild, options, config);
+    },
+  };
 }
