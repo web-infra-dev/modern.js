@@ -747,6 +747,15 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
+      '@modern-js/prod-server':
+        specifier: workspace:*
+        version: link:../../server/prod-server
+      '@modern-js/server':
+        specifier: workspace:*
+        version: link:../../server/server
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.10
         version: 0.5.10(react-refresh@0.14.0)(webpack@5.89.0)
@@ -6218,18 +6227,6 @@ importers:
       source-map:
         specifier: 0.7.4
         version: 0.7.4
-
-  tests/e2e/builder/cases/vue:
-    dependencies:
-      vue:
-        specifier: ^3.3.4
-        version: 3.3.4
-
-  tests/e2e/builder/cases/vue2:
-    dependencies:
-      vue:
-        specifier: ^2.7.14
-        version: 2.7.14
 
   tests/e2e/garfish:
     dependencies:
@@ -17293,14 +17290,6 @@ packages:
     dependencies:
       '@vue/compiler-core': 3.3.4
       '@vue/shared': 3.3.4
-
-  /@vue/compiler-sfc@2.7.14:
-    resolution: {integrity: sha512-aNmNHyLPsw+sVvlQFQ2/8sjNuLtK54TC6cuKnVzAY93ks4ZBrvwQSnkkIh7bsbNhum5hJBS00wSDipQ937f5DA==}
-    dependencies:
-      '@babel/parser': 7.23.6
-      postcss: 8.4.31
-      source-map: 0.6.1
-    dev: false
 
   /@vue/compiler-sfc@3.3.4:
     resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
@@ -33159,13 +33148,6 @@ packages:
 
   /vue-template-es2015-compiler@1.9.1:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
-    dev: false
-
-  /vue@2.7.14:
-    resolution: {integrity: sha512-b2qkFyOM0kwqWFuQmgd4o+uHGU7T+2z3T+WQp8UBjADfEv2n4FEMffzBmCKNP0IGzOEEfYjvtcC62xaSKeQDrQ==}
-    dependencies:
-      '@vue/compiler-sfc': 2.7.14
-      csstype: 3.1.3
     dev: false
 
   /vue@3.3.4:
