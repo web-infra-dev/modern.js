@@ -3,6 +3,8 @@ import {
   deepmerge,
   NODE_MODULES_REGEX,
   CSS_MODULES_REGEX,
+  isProd,
+  ServerConfig,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
@@ -104,11 +106,6 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   const rsbuildConfig = deepmerge({}, uniBuilderConfig);
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
-  // enable progress bar by default
-  if (dev.progressBar === undefined) {
-    dev.progressBar = true;
-  }
-
   if (output.cssModuleLocalIdentName) {
     output.cssModules ||= {};
     output.cssModules.localIdentName = output.cssModuleLocalIdentName;
@@ -203,6 +200,23 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   // more dev & server config will compat in modern-js/server
+
+  // enable progress bar by default
+  if (dev.progressBar === undefined) {
+    dev.progressBar = true;
+  }
+
+  dev.writeToDisk ??= (file: string) => !file.includes('.hot-update.');
+
+  const server: ServerConfig = isProd()
+    ? {}
+    : {
+        port: dev.port,
+        host: dev.host,
+      };
+
+  rsbuildConfig.server = removeUndefinedKey(server);
+
   rsbuildConfig.dev = removeUndefinedKey(dev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;

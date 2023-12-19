@@ -58,9 +58,6 @@ const getDevServerOptions = async ({
       },
       port,
       liveReload: builderConfig.dev?.hmr ?? true,
-      devMiddleware: {
-        writeToDisk: (file: string) => !file.includes('.hot-update.'),
-      },
       https: builderConfig.dev?.https,
     },
     // merge devServerOptions from serverOptions
@@ -128,14 +125,14 @@ export async function startDevServer(
   });
 
   const {
-    config: { port, host, https },
+    config: { port, host },
   } = rsbuildServer;
 
   debug('create dev server done');
 
   await rsbuildServer.beforeStart();
 
-  const protocol = https ? 'https' : 'http';
+  const protocol = devConfig.https ? 'https' : 'http';
   const urls = getAddressUrls(protocol, port, host);
 
   debug('listen dev server');

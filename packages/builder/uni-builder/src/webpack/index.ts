@@ -4,6 +4,7 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
+import type { StartServerResult } from '@rsbuild/shared';
 import type {
   UniBuilderWebpackConfig,
   CreateWebpackBuilderOptions,
@@ -76,9 +77,15 @@ export async function parseConfig(
   };
 }
 
+type UniBuilderWebpackInstance = Omit<RsbuildInstance, 'startDevServer'> & {
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<StartServerResult>;
+};
+
 export async function createWebpackBuilder(
   options: CreateWebpackBuilderOptions,
-): Promise<RsbuildInstance> {
+): Promise<UniBuilderWebpackInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {

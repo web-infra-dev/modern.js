@@ -2,14 +2,19 @@ import { URL } from 'url';
 import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 import type {
   BuilderConfig as UniBuilderConfig,
   CreateUniBuilderOptions,
+  StartDevServerOptions,
+  RsbuildPlugin,
 } from '@modern-js/uni-builder';
-import { StartDevServerOptions } from '@modern-js/builder-shared';
+
+type CreateBuilderOptions = Omit<
+  CreateUniBuilderOptions,
+  'bundlerType' | 'config'
+>;
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -47,7 +52,7 @@ async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
 const noop = () => {};
 
 export const createUniBuilder = async (
-  builderOptions: CreateUniBuilderOptions,
+  builderOptions: CreateBuilderOptions,
   builderConfig: UniBuilderConfig = {},
 ) => {
   const { createUniBuilder } = await import('@modern-js/uni-builder');
@@ -137,24 +142,51 @@ const updateConfigForTest = <BuilderType>(
   }
 };
 
+// generate a basic route.json for test (modern.js server required)
+const pluginEmitRoute = (): RsbuildPlugin => ({
+  name: 'plugin-emit-route',
+
+  setup(api) {
+    api.onBeforeStartDevServer(async () => {
+      const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
+      const routeFilePath = join(api.context.distPath, ROUTE_SPEC_FILE);
+      const htmlPaths = api.getHTMLPaths();
+
+      const routesInfo = Object.entries(htmlPaths).map(
+        ([entryName, filename], index) => ({
+          urlPath: index === 0 ? '/' : `/${entryName}`,
+          entryName,
+          entryPath: filename,
+          isSPA: true,
+        }),
+      );
+
+      await fs.outputFile(
+        routeFilePath,
+        JSON.stringify({ routes: routesInfo }, null, 2),
+      );
+    });
+  },
+});
+
 export async function dev<BuilderType = 'webpack'>({
   serverOptions,
   builderConfig = {},
   ...options
 }: CreateBuilderOptions & {
   builderConfig?: BuilderType extends 'webpack'
-    ? BuilderConfig
-    : RspackBuilderConfig;
+    ? UniBuilderConfig<'webpack'>
+    : UniBuilderConfig<'rspack'>;
   serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
 
-  // @ts-expect-error
   updateConfigForTest(builderConfig);
 
-  const builder = await createBuilder(options, builderConfig);
+  const builder = await createUniBuilder(options, builderConfig);
+
+  builder.addPlugins([pluginEmitRoute()]);
   return builder.startDevServer({
-    printURLs: false,
     serverOptions,
   });
 }

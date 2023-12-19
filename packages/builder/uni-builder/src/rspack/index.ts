@@ -4,7 +4,7 @@ import type {
   RsbuildPlugin,
   RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider } from '@rsbuild/shared';
+import type { RsbuildProvider, StartServerResult } from '@rsbuild/shared';
 import type {
   UniBuilderRspackConfig,
   CreateRspackBuilderOptions,
@@ -54,9 +54,23 @@ export async function parseConfig(
   };
 }
 
+type UniBuilderInstance = Omit<
+  RsbuildInstance<RsbuildProvider>,
+  'startDevServer'
+> & {
+  /**
+   * should be used in conjunction with the upper-layer framework:
+   *
+   * missing route.json (required in modern server)
+   */
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<StartServerResult>;
+};
+
 export async function createRspackBuilder(
   options: CreateRspackBuilderOptions,
-): Promise<RsbuildInstance<RsbuildProvider>> {
+): Promise<UniBuilderInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
