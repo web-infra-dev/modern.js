@@ -6,15 +6,14 @@ export function attributesToString(attributes: Record<string, any>) {
 }
 
 /**
- * It is unsafe unsafeReplace, only support serachValue exsit one time.
  * @param source
  * @param searchValue
  * @param replaceValue
  * @returns
  */
-export function unsafeReplace(
+export function safeReplace(
   source: string,
-  searchValue: RegExp | string,
+  searchValue: string | RegExp,
   replaceValue: string,
 ) {
   return source.replace(searchValue, () => replaceValue);

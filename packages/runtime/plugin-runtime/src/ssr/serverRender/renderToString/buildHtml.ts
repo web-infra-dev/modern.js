@@ -1,4 +1,4 @@
-import { unsafeReplace } from '../utils';
+import { safeReplace } from '../utils';
 import {
   HTML_PLACEHOLDER,
   SSR_DATA_PLACEHOLDER,
@@ -13,20 +13,19 @@ export function buildHtml(template: string, callbacks: BuildHtmlCb[]) {
 }
 
 export function createReplaceHtml(html: string): BuildHtmlCb {
-  return (template: string) => unsafeReplace(template, HTML_PLACEHOLDER, html);
+  return (template: string) => safeReplace(template, HTML_PLACEHOLDER, html);
 }
 
 export function createReplaceSSRDataScript(data: string): BuildHtmlCb {
   return (template: string) =>
-    unsafeReplace(template, SSR_DATA_PLACEHOLDER, data);
+    safeReplace(template, SSR_DATA_PLACEHOLDER, data);
 }
 
 export function createReplaceChunkJs(js: string): BuildHtmlCb {
-  return (template: string) =>
-    unsafeReplace(template, CHUNK_JS_PLACEHOLDER, js);
+  return (template: string) => safeReplace(template, CHUNK_JS_PLACEHOLDER, js);
 }
 
 export function createReplaceChunkCss(css: string): BuildHtmlCb {
   return (template: string) =>
-    unsafeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
+    safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
 }
