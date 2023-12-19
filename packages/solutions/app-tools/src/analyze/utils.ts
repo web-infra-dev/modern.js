@@ -31,15 +31,15 @@ export const walkDirectory = (dir: string): string[] =>
 export const getDefaultImports = ({
   entrypoint,
   srcDirectory,
+  appDirectory,
   internalSrcAlias,
   internalDirAlias,
-  internalDirectory,
 }: {
   entrypoint: Entrypoint;
   srcDirectory: string;
+  appDirectory: string;
   internalSrcAlias: string;
   internalDirAlias: string;
-  internalDirectory: string;
 }): ImportStatement[] => {
   const { entryName, fileSystemRoutes, customBootstrap, entry } = entrypoint;
   const imports = [
@@ -49,7 +49,7 @@ export const getDefaultImports = ({
     },
     {
       specifiers: [{ local: 'ReactDOM' }],
-      value: isReact18(path.join(internalDirectory, '../../'))
+      value: isReact18(path.join(appDirectory))
         ? 'react-dom/client'
         : 'react-dom',
     },

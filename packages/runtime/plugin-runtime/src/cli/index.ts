@@ -1,4 +1,3 @@
-import path from 'path';
 import { isReact18, cleanRequireCache } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { statePlugin } from '../state/cli';
@@ -20,8 +19,8 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   setup: api => {
     return {
       config() {
-        const dir = api.useAppContext().internalDirectory || '';
-        process.env.IS_REACT18 = isReact18(path.join(dir, '../../')).toString();
+        const appDir = api.useAppContext().appDirectory;
+        process.env.IS_REACT18 = isReact18(appDir).toString();
         return {
           runtime: {},
           runtimeByEntries: {},
