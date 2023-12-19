@@ -26,6 +26,7 @@ import type {
 import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -277,7 +278,8 @@ export class ModernDevServer extends ModernServer {
     this.cleanSSRCache();
 
     // reset static file
-    this.reader.updateFile();
+
+    fileReader.reset();
 
     this.runner.repack();
 
@@ -304,34 +306,6 @@ export class ModernDevServer extends ModernServer {
 
   protected warmupSSRBundle() {
     // not warmup ssr bundle on development
-  }
-
-  protected initReader() {
-    let isInit = false;
-    if (this.devMiddleware && this.dev?.devMiddleware?.writeToDisk === false) {
-      this.addHandler((ctx, next) => {
-        if (isInit) {
-          return next();
-        }
-        isInit = true;
-
-        if (!ctx.res.locals!.webpack) {
-          this.reader.init();
-          return next();
-        }
-
-        const { devMiddleware: webpackDevMid } = ctx.res.locals!.webpack;
-        const { outputFileSystem } = webpackDevMid;
-        if (outputFileSystem) {
-          this.reader.init(outputFileSystem);
-        } else {
-          this.reader.init();
-        }
-        return next();
-      });
-    } else {
-      super.initReader();
-    }
   }
 
   protected async onServerChange({

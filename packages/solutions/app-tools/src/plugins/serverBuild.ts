@@ -23,10 +23,11 @@ export default (): CliPlugin<AppTools> => ({
         const sourceDirs = [];
         if (fs.existsSync(serverDir)) {
           sourceDirs.push(serverDir);
-        }
 
-        if (fs.existsSync(sharedDir)) {
-          sourceDirs.push(sharedDir);
+          // compile the sharedDir only when serverDir exists
+          if (fs.existsSync(sharedDir)) {
+            sourceDirs.push(sharedDir);
+          }
         }
 
         const { server } = modernConfig;
