@@ -19,20 +19,11 @@ import type {
   UniBuilderRspackConfig,
   UniBuilderWebpackConfig,
 } from '../types';
-import { pluginRem } from '@rsbuild/plugin-rem';
-import { pluginPug } from '@rsbuild/plugin-pug';
-import { pluginAssetsRetry } from '@rsbuild/plugin-assets-retry';
-import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginFallback } from './plugins/fallback';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
 import { pluginFrameworkConfig } from './plugins/frameworkConfig';
-import { pluginMainFields } from './plugins/mainFields';
-import { pluginExtensionPrefix } from './plugins/extensionPrefix';
 import { pluginSplitChunks } from './plugins/splitChunk';
-import { pluginSvgr } from '@rsbuild/plugin-svgr';
-import { pluginCheckSyntax } from '@rsbuild/plugin-check-syntax';
 import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginPostcssLegacy } from './plugins/postcssLegacy';
 import { pluginDevtool } from './plugins/devtools';
@@ -244,6 +235,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;
 
   if (checkSyntaxOptions) {
+    const { pluginCheckSyntax } = await import('@rsbuild/plugin-check-syntax');
     rsbuildPlugins.push(
       pluginCheckSyntax(
         typeof checkSyntaxOptions === 'boolean' ? {} : checkSyntaxOptions,
@@ -252,6 +244,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (!uniBuilderConfig.output?.disableTsChecker) {
+    const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
         forkTsCheckerOptions: uniBuilderConfig.tools?.tsChecker,
@@ -263,6 +256,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (!uniBuilderConfig.output?.disableSvgr) {
+    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
         svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
@@ -274,12 +268,14 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (uniBuilderConfig.source?.resolveMainFields) {
+    const { pluginMainFields } = await import('./plugins/mainFields');
     rsbuildPlugins.push(
       pluginMainFields(uniBuilderConfig.source?.resolveMainFields),
     );
   }
 
   if (uniBuilderConfig.source?.resolveExtensionPrefix) {
+    const { pluginExtensionPrefix } = await import('./plugins/extensionPrefix');
     rsbuildPlugins.push(
       pluginExtensionPrefix(uniBuilderConfig.source?.resolveExtensionPrefix),
     );
@@ -287,6 +283,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   const remOptions = uniBuilderConfig.output?.convertToRem;
   if (remOptions) {
+    const { pluginRem } = await import('@rsbuild/plugin-rem');
     rsbuildPlugins.push(
       pluginRem(typeof remOptions === 'boolean' ? {} : remOptions),
     );
@@ -306,6 +303,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   const pugOptions = uniBuilderConfig.tools?.pug;
   if (pugOptions) {
+    const { pluginPug } = await import('@rsbuild/plugin-pug');
     rsbuildPlugins.push(
       pluginPug(
         typeof pugOptions === 'boolean'
@@ -319,6 +317,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   // assetsRetry inject should be later
   if (uniBuilderConfig.output?.assetsRetry) {
+    const { pluginAssetsRetry } = await import('@rsbuild/plugin-assets-retry');
     rsbuildPlugins.push(
       pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
     );
@@ -326,6 +325,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   // Note: fallback should be the last plugin
   if (uniBuilderConfig.output?.enableAssetFallback) {
+    const { pluginFallback } = await import('./plugins/fallback');
     rsbuildPlugins.push(pluginFallback());
   }
 
