@@ -6,21 +6,21 @@ import type {
 } from '@rsbuild/core';
 import type { RsbuildProvider, StartServerResult } from '@rsbuild/shared';
 import type {
-  UniBuilderRspackConfig,
-  CreateRspackBuilderOptions,
+  BuilderConfig,
+  CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: UniBuilderRspackConfig,
+  uniBuilderConfig: BuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'rspack'>(
+  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
     options,
   );
@@ -69,7 +69,7 @@ type UniBuilderInstance = Omit<
 };
 
 export async function createRspackBuilder(
-  options: CreateRspackBuilderOptions,
+  options: CreateUniBuilderOptions,
 ): Promise<UniBuilderInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
