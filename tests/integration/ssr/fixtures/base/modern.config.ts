@@ -7,9 +7,7 @@ export default applyBaseConfig({
   server: {
     ssr: {
       disablePrerender: true,
-      unsafeContext: {
-        headers: ['Host'],
-      },
+      unsafeHeaders: ['Host'],
     },
   },
   tools: {
