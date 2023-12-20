@@ -29,22 +29,13 @@ export type CreateBuilderCommonOptions = {
   frameworkConfigPath?: string;
   target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
-  cwd?: string;
+  cwd: string;
 };
 
-export type CreateWebpackBuilderOptions = {
-  bundlerType: 'webpack';
-  config: UniBuilderWebpackConfig;
-} & CreateBuilderCommonOptions;
-
-export type CreateRspackBuilderOptions = {
-  bundlerType: 'rspack';
-  config: UniBuilderRspackConfig;
-} & CreateBuilderCommonOptions;
-
-export type CreateUniBuilderOptions =
-  | CreateWebpackBuilderOptions
-  | CreateRspackBuilderOptions;
+export type CreateUniBuilderOptions = {
+  bundlerType: 'rspack' | 'webpack';
+  config: BuilderConfig;
+} & Partial<CreateBuilderCommonOptions>;
 
 export type GlobalVars = Record<string, any>;
 
@@ -106,6 +97,13 @@ export type UniBuilderExtraConfig = {
      * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
      */
     babel?: PluginBabelOptions['babelLoaderOptions'];
+    /**
+     * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
+     * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
+     *
+     * Tips: this configuration not yet support in rspack
+     */
+    tsLoader?: PluginTsLoaderOptions;
   };
   dev?: {
     /**
@@ -233,11 +231,22 @@ export type UniBuilderExtraConfig = {
   };
   security?: {
     /**
+     * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
+     * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
+     *
+     * Tips: this configuration not yet support in rspack
+     */
+    sri?: SriOptions | boolean;
+    /**
      * Analyze the build artifacts to identify advanced syntax that is incompatible with the current browser scope.
      */
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
+    /**
+     * Tips: this configuration not yet support in rspack
+     */
+    lazyCompilation?: LazyCompilationOptions;
     /**
      * Enable the ability for source code building
      */
@@ -251,29 +260,4 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type UniBuilderWebpackConfig = RsbuildConfig &
-  UniBuilderExtraConfig & {
-    security?: {
-      /**
-       * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
-       * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
-       */
-      sri?: SriOptions | boolean;
-    };
-    experiments?: {
-      lazyCompilation?: LazyCompilationOptions;
-    };
-    tools?: {
-      /**
-       * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
-       * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
-       */
-      tsLoader?: PluginTsLoaderOptions;
-    };
-  };
-
-export type UniBuilderRspackConfig = RsbuildConfig & UniBuilderExtraConfig;
-
-export type BuilderConfig<B = 'rspack'> = B extends 'rspack'
-  ? UniBuilderRspackConfig
-  : UniBuilderWebpackConfig;
+export type BuilderConfig = RsbuildConfig & UniBuilderExtraConfig;

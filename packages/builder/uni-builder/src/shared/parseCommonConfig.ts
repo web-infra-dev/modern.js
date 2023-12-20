@@ -14,11 +14,7 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type {
-  CreateBuilderCommonOptions,
-  UniBuilderRspackConfig,
-  UniBuilderWebpackConfig,
-} from '../types';
+import type { CreateBuilderCommonOptions, BuilderConfig } from '../types';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -85,10 +81,8 @@ async function getBrowserslistWithDefault(
   return DEFAULT_BROWSERSLIST[target];
 }
 
-export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
-  uniBuilderConfig: B extends 'rspack'
-    ? UniBuilderRspackConfig
-    : UniBuilderWebpackConfig,
+export async function parseCommonConfig(
+  uniBuilderConfig: BuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
@@ -135,7 +129,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   for (const target of targets) {
     // Incompatible with the scenario where target contains both 'web' and 'modern-web'
     overrideBrowserslist[target] = await getBrowserslistWithDefault(
-      cwd!,
+      cwd,
       uniBuilderConfig,
       target,
     );
