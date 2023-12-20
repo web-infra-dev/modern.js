@@ -56,18 +56,11 @@ export const createUniBuilder = async (
 ) => {
   const { createUniBuilder } = await import('@modern-js/uni-builder');
 
-  const builder =
-    process.env.PROVIDE_TYPE === 'rspack'
-      ? await createUniBuilder({
-          ...builderOptions,
-          bundlerType: 'rspack',
-          config: builderConfig,
-        })
-      : await createUniBuilder({
-          ...builderOptions,
-          bundlerType: 'webpack',
-          config: builderConfig as UniBuilderConfig<'webpack'>,
-        });
+  const builder = await createUniBuilder({
+    ...builderOptions,
+    bundlerType: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+    config: builderConfig,
+  });
 
   return builder;
 };
@@ -102,11 +95,7 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
   }
 }
 
-const updateConfigForTest = <BuilderType>(
-  config: BuilderType extends 'webpack'
-    ? UniBuilderConfig<'webpack'>
-    : UniBuilderConfig<'rspack'>,
-) => {
+const updateConfigForTest = (config: UniBuilderConfig) => {
   // make devPort random to avoid port conflict
   config.dev = {
     ...(config.dev || {}),
@@ -141,14 +130,12 @@ const updateConfigForTest = <BuilderType>(
   }
 };
 
-export async function dev<BuilderType = 'webpack'>({
+export async function dev({
   serverOptions,
   builderConfig = {},
   ...options
 }: CreateBuilderOptions & {
-  builderConfig?: BuilderType extends 'webpack'
-    ? UniBuilderConfig<'webpack'>
-    : UniBuilderConfig<'rspack'>;
+  builderConfig?: UniBuilderConfig;
   serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
@@ -162,7 +149,7 @@ export async function dev<BuilderType = 'webpack'>({
   });
 }
 
-export async function build<BuilderType = 'webpack'>({
+export async function build({
   plugins,
   runServer = false,
   builderConfig = {},
@@ -173,9 +160,7 @@ export async function build<BuilderType = 'webpack'>({
   runServer?: boolean;
   /** TODO: should removed when all test cases migrate to uniBuilder */
   useUniBuilder?: boolean;
-  builderConfig?: BuilderType extends 'webpack'
-    ? UniBuilderConfig<'webpack'>
-    : UniBuilderConfig<'rspack'>;
+  builderConfig?: UniBuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
