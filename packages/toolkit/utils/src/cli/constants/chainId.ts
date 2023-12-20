@@ -1,3 +1,6 @@
+/**
+ * Don't add anything. will be removed on next version
+ */
 export const CHAIN_ID = {
   /** Predefined rules */
   RULE: {

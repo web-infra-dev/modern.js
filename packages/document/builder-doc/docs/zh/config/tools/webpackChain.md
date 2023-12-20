@@ -146,9 +146,6 @@ export default {
 - less
 - less-loader
 - css-loader
-- babel-loader
-- url-loader
-- file-loader
 - ...
 
 该方法通常在需要与 builder 复用同一份依赖时会被用到。
@@ -226,7 +223,6 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `USE.TOML`                        | 对应 `toml-loader`                    |
 | `USE.YAML`                        | 对应 `yaml-loader`                    |
 | `USE.NODE`                        | 对应 `node-loader`                    |
-| `USE.FILE`                        | 对应 `file-loader`                    |
 | `USE.URL`                         | 对应 `url-loader`                     |
 | `USE.SVGR`                        | 对应 `@svgr/webpack`                  |
 | `USE.BABEL`                       | 对应 `babel-loader`                   |
@@ -250,12 +246,10 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.BANNER`                | 对应 `BannerPlugin`                                                                |
 | `PLUGIN.PROGRESS`              | 对应 `Webpackbar`                                                                  |
 | `PLUGIN.APP_ICON`              | 对应 `AppIconPlugin`                                                               |
-| `PLUGIN.LOADABLE`              | 对应 `LoadableWebpackPlugin`                                                       |
 | `PLUGIN.MANIFEST`              | 对应 `WebpackManifestPlugin`                                                       |
 | `PLUGIN.TS_CHECKER`            | 对应 `ForkTsCheckerWebpackPlugin`                                                  |
 | `PLUGIN.INLINE_HTML`           | 对应 `InlineChunkHtmlPlugin`                                                       |
 | `PLUGIN.BUNDLE_ANALYZER`       | 对应 `WebpackBundleAnalyzer`                                                       |
-| `PLUGIN.BOTTOM_TEMPLATE`       | 对应 `BottomTemplatePlugin`                                                        |
 | `PLUGIN.MINI_CSS_EXTRACT`      | 对应 `MiniCssExtractPlugin`                                                        |
 | `PLUGIN.VUE_LOADER_PLUGIN`     | 对应 `VueLoaderPlugin`                                                             |
 | `PLUGIN.REACT_FAST_REFRESH`    | 对应 `ReactFastRefreshPlugin`                                                      |

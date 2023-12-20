@@ -107,6 +107,6 @@ function applyBottomHtmlPlugin<B extends Bundler>({
     ]);
   }
   chain
-    .plugin(CHAIN_ID.PLUGIN.BOTTOM_TEMPLATE)
+    .plugin('bottom-template')
     .use(BottomTemplatePlugin, [HtmlBundlerPlugin]);
 }
