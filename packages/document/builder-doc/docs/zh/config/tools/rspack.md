@@ -279,9 +279,6 @@ export default {
 - sass-loader
 - less
 - less-loader
-- babel-loader
-- url-loader
-- file-loader
 - ...
 
 该方法通常在需要与 builder 复用同一份依赖时会被用到。

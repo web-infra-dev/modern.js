@@ -1,7 +1,6 @@
 import path from 'path';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 
 const commonConfig = {
   cwd: __dirname,
@@ -20,7 +19,6 @@ const commonConfig = {
 
 const noStyledConfig = {
   ...commonConfig,
-  useUniBuilder: false,
   builderConfig: {
     ...commonConfig.builderConfig,
     tools: {
@@ -30,8 +28,7 @@ const noStyledConfig = {
   },
 };
 
-// TODO: needs builtin:swc-loader
-webpackOnlyTest('should allow to disable styled-components', async () => {
+test('should allow to disable styled-components', async () => {
   const builder = await build(noStyledConfig);
   const files = await builder.unwrapOutputJSON();
 
@@ -39,8 +36,7 @@ webpackOnlyTest('should allow to disable styled-components', async () => {
   expect(content).toContain('div(');
 });
 
-// TODO: needs builtin:swc-loader
-webpackOnlyTest('should transform styled-components by default', async () => {
+test('should transform styled-components by default', async () => {
   const builder = await build(commonConfig);
   const files = await builder.unwrapOutputJSON();
 

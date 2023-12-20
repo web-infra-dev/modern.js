@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 /* eslint-disable complexity */
 import {
   deepmerge,
@@ -6,8 +5,6 @@ import {
   CSS_MODULES_REGEX,
   isProd,
   ServerConfig,
-  logger,
-  color,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
@@ -18,28 +15,19 @@ import {
   type RsbuildConfig,
 } from '@rsbuild/core';
 import type {
+  CreateBuilderCommonOptions,
   UniBuilderRspackConfig,
   UniBuilderWebpackConfig,
-  DevServerHttpsOptions,
-  CreateBuilderCommonOptions,
 } from '../types';
-import { pluginRem } from '@rsbuild/plugin-rem';
-import { pluginPug } from '@rsbuild/plugin-pug';
-import { pluginAssetsRetry } from '@rsbuild/plugin-assets-retry';
-import { pluginTypeCheck } from '@rsbuild/plugin-type-check';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginFallback } from './plugins/fallback';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
 import { pluginFrameworkConfig } from './plugins/frameworkConfig';
-import { pluginMainFields } from './plugins/mainFields';
-import { pluginExtensionPrefix } from './plugins/extensionPrefix';
 import { pluginSplitChunks } from './plugins/splitChunk';
-import { pluginSvgr } from '@rsbuild/plugin-svgr';
-import { pluginCheckSyntax } from '@rsbuild/plugin-check-syntax';
 import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginPostcssLegacy } from './plugins/postcssLegacy';
 import { pluginDevtool } from './plugins/devtools';
+import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -49,40 +37,6 @@ export const isLooseCssModules = (path: string) => {
     return CSS_MODULES_REGEX.test(path);
   }
   return !GLOBAL_CSS_REGEX.test(path);
-};
-
-const genHttpsOptions = async (
-  userOptions: DevServerHttpsOptions,
-  cwd: string,
-): Promise<{
-  key: string;
-  cert: string;
-}> => {
-  const httpsOptions: { key?: string; cert?: string } =
-    typeof userOptions === 'boolean' ? {} : userOptions;
-
-  if (!httpsOptions.key || !httpsOptions.cert) {
-    let devcertPath: string;
-
-    try {
-      devcertPath = require.resolve('devcert', { paths: [cwd, __dirname] });
-    } catch (err) {
-      const command = color.bold(color.yellow(`npm add devcert@1.2.2 -D`));
-      logger.error(
-        `You have enabled "dev.https" option, but the "devcert" package is not installed.`,
-      );
-      logger.error(
-        `Please run ${command} to install manually, otherwise the https can not work.`,
-      );
-      throw new Error('[https] "devcert" is not found.');
-    }
-
-    const devcert = require(devcertPath);
-    const selfsign = await devcert.certificateFor(['localhost']);
-    return selfsign;
-  }
-
-  return httpsOptions as { key: string; cert: string };
 };
 
 function removeUndefinedKey(obj: { [key: string]: any }) {
@@ -143,11 +97,6 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   const { cwd, frameworkConfigPath, entry, target } = options;
   const rsbuildConfig = deepmerge({}, uniBuilderConfig);
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
-
-  // enable progress bar by default
-  if (dev.progressBar === undefined) {
-    dev.progressBar = true;
-  }
 
   if (output.cssModuleLocalIdentName) {
     output.cssModules ||= {};
@@ -242,47 +191,21 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     delete html.templateParametersByEntries;
   }
 
+  // more dev & server config will compat in modern-js/server
+
+  // enable progress bar by default
+  if (dev.progressBar === undefined) {
+    dev.progressBar = true;
+  }
+
+  dev.writeToDisk ??= (file: string) => !file.includes('.hot-update.');
+
   const server: ServerConfig = isProd()
-    ? {
-        publicDir: false,
-      }
+    ? {}
     : {
-        https:
-          tools.devServer?.https || dev.https
-            ? await genHttpsOptions(
-                (tools.devServer?.https || dev.https)!,
-                cwd!,
-              )
-            : undefined,
         port: dev.port,
         host: dev.host,
-        compress: tools.devServer?.compress,
-        headers: tools.devServer?.headers,
-        historyApiFallback: tools.devServer?.historyApiFallback,
-        proxy: tools.devServer?.proxy,
-        publicDir: false,
       };
-
-  dev.client = tools.devServer?.client;
-  dev.writeToDisk = tools.devServer?.devMiddleware?.writeToDisk ?? true;
-
-  if (tools.devServer?.hot === false) {
-    dev.hmr = false;
-  }
-
-  if (tools.devServer?.before?.length || tools.devServer?.after?.length) {
-    dev.setupMiddlewares = [
-      ...(tools.devServer?.setupMiddlewares || []),
-      middlewares => {
-        // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-        middlewares.unshift(...(tools.devServer?.before || []));
-
-        middlewares.push(...(tools.devServer?.after || []));
-      },
-    ];
-  } else if (tools.devServer?.setupMiddlewares) {
-    dev.setupMiddlewares = tools.devServer?.setupMiddlewares;
-  }
 
   delete tools.devServer;
   delete dev.https;
@@ -306,11 +229,13 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
     pluginDevtool({
       disableSourceMap: uniBuilderConfig.output?.disableSourceMap,
     }),
+    pluginEmitRouteFile(),
   ];
 
   const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;
 
   if (checkSyntaxOptions) {
+    const { pluginCheckSyntax } = await import('@rsbuild/plugin-check-syntax');
     rsbuildPlugins.push(
       pluginCheckSyntax(
         typeof checkSyntaxOptions === 'boolean' ? {} : checkSyntaxOptions,
@@ -319,6 +244,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (!uniBuilderConfig.output?.disableTsChecker) {
+    const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
         forkTsCheckerOptions: uniBuilderConfig.tools?.tsChecker,
@@ -330,6 +256,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (!uniBuilderConfig.output?.disableSvgr) {
+    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
         svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
@@ -341,12 +268,14 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
   }
 
   if (uniBuilderConfig.source?.resolveMainFields) {
+    const { pluginMainFields } = await import('./plugins/mainFields');
     rsbuildPlugins.push(
       pluginMainFields(uniBuilderConfig.source?.resolveMainFields),
     );
   }
 
   if (uniBuilderConfig.source?.resolveExtensionPrefix) {
+    const { pluginExtensionPrefix } = await import('./plugins/extensionPrefix');
     rsbuildPlugins.push(
       pluginExtensionPrefix(uniBuilderConfig.source?.resolveExtensionPrefix),
     );
@@ -354,6 +283,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   const remOptions = uniBuilderConfig.output?.convertToRem;
   if (remOptions) {
+    const { pluginRem } = await import('@rsbuild/plugin-rem');
     rsbuildPlugins.push(
       pluginRem(typeof remOptions === 'boolean' ? {} : remOptions),
     );
@@ -373,6 +303,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   const pugOptions = uniBuilderConfig.tools?.pug;
   if (pugOptions) {
+    const { pluginPug } = await import('@rsbuild/plugin-pug');
     rsbuildPlugins.push(
       pluginPug(
         typeof pugOptions === 'boolean'
@@ -386,6 +317,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   // assetsRetry inject should be later
   if (uniBuilderConfig.output?.assetsRetry) {
+    const { pluginAssetsRetry } = await import('@rsbuild/plugin-assets-retry');
     rsbuildPlugins.push(
       pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
     );
@@ -393,6 +325,7 @@ export async function parseCommonConfig<B = 'rspack' | 'webpack'>(
 
   // Note: fallback should be the last plugin
   if (uniBuilderConfig.output?.enableAssetFallback) {
+    const { pluginFallback } = await import('./plugins/fallback');
     rsbuildPlugins.push(pluginFallback());
   }
 

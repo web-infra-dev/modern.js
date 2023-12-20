@@ -99,7 +99,7 @@ export const isBeyondReact17 = (cwd: string) => {
   return semver.satisfies(semver.minVersion(deps.react)!, '>=17.0.0');
 };
 
-export const isReact18 = (cwd: string) => {
+export const isReact18 = (cwd: string = process.cwd()) => {
   const pkgPath = path.join(cwd, 'package.json');
 
   if (!fs.existsSync(pkgPath)) {

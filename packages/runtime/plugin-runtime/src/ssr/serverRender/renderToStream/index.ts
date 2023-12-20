@@ -1,7 +1,6 @@
 import { createElement } from 'react';
 import { run } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
-import { PreRender } from '../../react/prerender';
 import { ServerRenderOptions } from '../types';
 import { SSRErrors, SSRTimings } from '../tracker';
 import renderToPipe from './renderToPipe';
@@ -26,12 +25,6 @@ export const render = ({ App, context }: ServerRenderOptions) => {
 
     const pipe = renderToPipe(rootElement, context, {
       onShellReady() {
-        // set cacheConfig
-        const cacheConfig = PreRender.config();
-        if (cacheConfig) {
-          ssrContext.cacheConfig = cacheConfig;
-        }
-
         const cost = end();
         tracker.trackTiming(SSRTimings.RENDER_SHELL, cost);
       },

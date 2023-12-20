@@ -119,7 +119,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
+            bundlerChain(chain, { isServer, isServiceWorker }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -131,7 +131,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
-                  .plugin(CHAIN_ID.PLUGIN.LOADABLE)
+                  .plugin('loadable')
                   .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);

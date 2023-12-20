@@ -1,7 +1,7 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
-import type { Plugin } from '../core';
+import type { Plugin, RuntimeContext } from '../core';
 import {
   RenderLevel,
   SSRServerContext,
@@ -33,13 +33,22 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
 
     return {
       client: async ({ App, context, ModernRender, ModernHydrate }) => {
-        const hydrateContext: { _hydration?: boolean } = {
+        const hydrateContext: RuntimeContext & { __hydration?: boolean } = {
           ...context,
           get routes() {
             return context.routes;
           },
           _hydration: true,
         };
+        const { ssrContext } = hydrateContext;
+        const { pathname: initialPathname } = ssrContext!.request;
+        const currentPathname = window.location.pathname;
+        if (initialPathname !== currentPathname) {
+          const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
+          console.error(errorMsg);
+          window.location.reload();
+        }
+
         const callback = () => {
           // won't cause component re-render because context's reference identity doesn't change
           delete hydrateContext._hydration;

@@ -4,14 +4,14 @@ import type {
   RsbuildPlugin,
   RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider } from '@rsbuild/shared';
+import type { RsbuildProvider, StartServerResult } from '@rsbuild/shared';
 import type {
   UniBuilderRspackConfig,
   CreateRspackBuilderOptions,
   CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderRspackConfig,
@@ -39,9 +39,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      '@rsbuild/plugin-styled-components'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,
@@ -49,9 +54,23 @@ export async function parseConfig(
   };
 }
 
+type UniBuilderInstance = Omit<
+  RsbuildInstance<RsbuildProvider>,
+  'startDevServer'
+> & {
+  /**
+   * should be used in conjunction with the upper-layer framework:
+   *
+   * missing route.json (required in modern server)
+   */
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<StartServerResult>;
+};
+
 export async function createRspackBuilder(
   options: CreateRspackBuilderOptions,
-): Promise<RsbuildInstance<RsbuildProvider>> {
+): Promise<UniBuilderInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
@@ -66,5 +85,12 @@ export async function createRspackBuilder(
 
   rsbuild.addPlugins(rsbuildPlugins);
 
-  return rsbuild;
+  return {
+    ...rsbuild,
+    startDevServer: async (options: StartDevServerOptions = {}) => {
+      const { startDevServer } = await import('../shared/devServer');
+
+      return startDevServer(rsbuild, options, config);
+    },
+  };
 }

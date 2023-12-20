@@ -63,7 +63,7 @@
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
-    "@modern-js/swc-plugins": "0.6.5",
+    "@modern-js/swc-plugins": "0.6.6",
     "@modern-js/types": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",

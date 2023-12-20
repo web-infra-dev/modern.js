@@ -1,0 +1,236 @@
+---
+sidebar_position: 2
+title: Streaming SSR
+---
+
+# Streaming SSR
+
+## Overview
+
+Stream rendering is a new way of rendering, which can update the page content in real time when the user interacts with the page, thereby improving the user experience.
+
+In traditional rendering, the rendering of the page is completed at once, while in stream rendering, the rendering of the page is gradually completed. When the user interacts with the page, data is loaded gradually instead of loading all at once.
+
+Compared to traditional rendering:
+
+- Faster perceived speed: Stream rendering can gradually display content during the rendering process to display the business home page at the fastest speed.
+- Better user experience: Through stream rendering, users can see the content on the page faster, instead of waiting for the entire page to be rendered before they can interact.
+- Better performance control: Stream rendering allows developers to better control the loading priority and order of pages, thereby optimizing performance and user experience.
+- Better adaptability: Stream rendering can better adapt to different network speeds and device performances, allowing the page to perform better in various environments.
+
+## Usage
+
+Modern.js supports streaming rendering in React 18 which can be enabled through the following configuration:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'stream',
+    },
+  },
+});
+```
+
+The streaming SSR of Modern.js is implemented based on React Router, and the main APIs involved are:
+
+- [`defer`](https://reactrouter.com/en/main/utils/defer): This utility allows you to defer values returned from loaders by passing promises instead of resolved values.
+- [`Await`](https://reactrouter.com/en/main/components/await): Used to render deferred values with automatic error handling.
+- [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value): Returns the resolved data from the nearest `<Await>` ancestor component.
+
+### Return async data
+
+```ts title="page.data.ts"
+import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+interface User {
+  name: string;
+  age: number;
+}
+
+export interface Data {
+  data: User;
+}
+
+export const loader = ({ params }: LoaderFunctionArgs) => {
+  const userId = params.id;
+
+  const user = new Promise<User>(resolve => {
+    setTimeout(() => {
+      resolve({
+        name: `user-${userId}`,
+        age: 18,
+      });
+    }, 200);
+  });
+
+  return defer({ data: user });
+};
+```
+
+`user` is a `Promise` object that represents the data that needs to be obtained asynchronously. Use `defer` to handle the asynchronous retrieval of user. Note that `defer` must receive an object type parameter, so the parameter passed to `defer` is: `{ data: user }`.
+
+`defer` can receive both asynchronous and synchronous data at the same time. For example:
+
+```ts title="page.data.ts"
+// skip some codes
+
+export default ({ params }: LoaderFunctionArgs) => {
+  const userId = params.id;
+
+  const user = new Promise<User>(resolve => {
+    setTimeout(() => {
+      resolve({
+        name: `user-${userId}`,
+        age: 18,
+      });
+    }, 200);
+  });
+
+  const otherData = new Promise<string>(resolve => {
+    setTimeout(() => {
+      resolve('some sync data');
+    }, 200);
+  });
+
+  return defer({
+    data: user,
+    other: await otherData,
+  });
+};
+```
+
+The data obtained from otherData is synchronous because it has an `await` keyword in front of it. It can be passed into `defer` together with the asynchronous data obtained from `user`.
+
+### Render asynchronous data.
+
+With the `<Await>` component, you can retrieve the data asynchronously returned by the Data Loader and then render it. For example:
+
+```tsx title="page.tsx"
+import { Await, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+import type { Data } from './page.data';
+
+const Page = () => {
+  const data = useLoaderData() as Data;
+
+  return (
+    <div>
+      User info:
+      <Suspense fallback={<div id="loading">loading user data ...</div>}>
+        <Await resolve={data.data}>
+          {user => {
+            return (
+              <div id="data">
+                name: {user.name}, age: {user.age}
+              </div>
+            );
+          }}
+        </Await>
+      </Suspense>
+    </div>
+  );
+};
+
+export default Page;
+```
+
+`<Await>` needs to be wrapped inside the `<Suspense>` component. The `resolve` function passed into `<Await>` is used to asynchronously retrieve data from a Data Loader. Once the data has been retrieved, it is rendered using [Render Props](https://reactjs.org/docs/render-props.html) mode. During the data retrieval phase, the content specified in the `fallback` property of `<Suspense>` will be displayed.
+
+:::warning Warning
+When importing types from a Data Loader file, it is necessary to use the `import type` syntax to ensure that only type information is imported. This can avoid packaging Data Loader code into the bundle file of the front-end product.
+
+Therefore, the import method here is: `import type { Data } from './page.data'`;
+:::
+
+You can also retrieve asynchronous data returned by the Data Loader using `useAsyncValue`. For example:
+
+```tsx title="page.tsx"
+import { useAsyncValue } from '@modern-js/runtime/router';
+
+// skip some codes
+
+const UserInfo = () => {
+  const user = useAsyncValue();
+
+  return (
+    <div>
+      name: {user.name}, age: {user.age}
+    </div>
+  );
+};
+
+const Page = () => {
+  const data = useLoaderData() as Data;
+
+  return (
+    <div>
+      User info:
+      <Suspense fallback={<div id="loading">loading user data ...</div>}>
+        <Await resolve={data.data}>
+          <UserInfo />
+        </Await>
+      </Suspense>
+    </div>
+  );
+};
+
+export default Page;
+```
+
+### Error handling
+
+The `errorElement` property of the `<Await>` component can be used to handle errors thrown when the Data Loader executes or when a child component renders.
+For example, we intentionally throw an error in the Data Loader function:
+
+```ts title="page.data.ts"
+import { defer } from '@modern-js/runtime/router';
+
+export const loader = () => {
+  const data = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('error occurs'));
+    }, 200);
+  });
+
+  return defer({ data });
+};
+```
+
+Then use `useAsyncError` to get the error, and assign the component used to render the error to the `errorElement` property of the `<Await>` component:
+
+```tsx title="page.ts"
+import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+
+export default function Page() {
+  const data = useLoaderData();
+
+  return (
+    <div>
+      Error page
+      <Suspense fallback={<div>loading ...</div>}>
+        <Await resolve={data.data} errorElement={<ErrorElement />}>
+          {(data: any) => {
+            return <div>never displayed</div>;
+          }}
+        </Await>
+      </Suspense>
+    </div>
+  );
+}
+
+function ErrorElement() {
+  const error = useAsyncError() as Error;
+  return <p>Something went wrong! {error.message}</p>;
+}
+```
+
+:::info More
+
+1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
+2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+
+:::

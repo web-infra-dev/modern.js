@@ -2,11 +2,18 @@ import { URL } from 'url';
 import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
-import type { BuilderConfig as UniBuilderConfig } from '@modern-js/uni-builder';
-import { StartDevServerOptions } from '@modern-js/builder-shared';
+import type {
+  BuilderConfig as UniBuilderConfig,
+  CreateUniBuilderOptions,
+  StartDevServerOptions,
+} from '@modern-js/uni-builder';
+
+type CreateBuilderOptions = Omit<
+  CreateUniBuilderOptions,
+  'bundlerType' | 'config'
+>;
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -140,18 +147,17 @@ export async function dev<BuilderType = 'webpack'>({
   ...options
 }: CreateBuilderOptions & {
   builderConfig?: BuilderType extends 'webpack'
-    ? BuilderConfig
-    : RspackBuilderConfig;
+    ? UniBuilderConfig<'webpack'>
+    : UniBuilderConfig<'rspack'>;
   serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
 
-  // @ts-expect-error
   updateConfigForTest(builderConfig);
 
-  const builder = await createBuilder(options, builderConfig);
+  const builder = await createUniBuilder(options, builderConfig);
+
   return builder.startDevServer({
-    printURLs: false,
     serverOptions,
   });
 }

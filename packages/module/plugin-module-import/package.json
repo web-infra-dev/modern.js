@@ -33,7 +33,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/swc-plugins": "0.6.5",
+    "@modern-js/swc-plugins": "0.6.6",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {

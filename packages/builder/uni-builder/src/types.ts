@@ -71,7 +71,7 @@ export type DisableSourceMapOption =
 
 export type UniBuilderExtraConfig = {
   tools?: {
-    styledComponents?: PluginStyledComponentsOptions;
+    styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: {
       before?: RequestHandler[];
       after?: RequestHandler[];
