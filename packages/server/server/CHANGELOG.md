@@ -1,5 +1,27 @@
 # @modern-js/server
 
+## 2.43.0
+
+### Patch Changes
+
+- 9e749d8: fix: adapte webpack-dev-middleware disable write-to-disk
+  fix: 适配 webpack-dev-middleware 禁止写入磁盘
+- acd3861: feat(server): Integrate Rsbuild Server capabilities into Modern.js Server
+
+  feat(server): 集成 Rsbuild Server 能力到 Modern.js Server 中
+
+- 5782aa3: chore(server): remove useless server plugin hooks (beforeDevServer & afterDevServer)
+
+  chore(server): 移除无用的 server 插件钩子 (beforeDevServer 和 afterDevServer)
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+  - @modern-js/runtime-utils@2.43.0
+  - @modern-js/prod-server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/server-utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

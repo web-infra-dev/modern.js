@@ -1,5 +1,13 @@
 # @modern-js/devtools-client
 
+## 2.43.0
+
+### Patch Changes
+
+- 3067256: chore: bump rsbuild to 0.2.7
+
+  chore: 升级 rsbuild 到 0.2.7
+
 ## 2.42.2
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @modern-js/prod-server
 
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
+### Patch Changes
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5782aa3]
+  - @modern-js/runtime-utils@2.43.0
+  - @modern-js/server-core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

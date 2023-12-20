@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
 ## 2.42.2
 
 ### Patch Changes
