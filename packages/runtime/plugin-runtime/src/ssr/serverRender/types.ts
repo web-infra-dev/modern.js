@@ -1,9 +1,23 @@
 import { ServerUserConfig } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
 import type { RuntimeContext } from '../../core';
-import { RenderLevel } from './renderToString/type';
 import type { BuildHtmlCb } from './renderToString/buildHtml';
 import type { SSRTracker } from './tracker';
+
+export enum RenderLevel {
+  CLIENT_RENDER,
+  SERVER_PREFETCH,
+  SERVER_RENDER,
+}
+
+export type RenderResult = {
+  renderLevel: RenderLevel;
+  html?: string;
+  chunksMap: {
+    js: string;
+    css: string;
+  };
+};
 
 export type SSRServerContext = BaseSSRServerContext & {
   request: BaseSSRServerContext['request'] & {
@@ -15,7 +29,7 @@ export type SSRServerContext = BaseSSRServerContext & {
   tracker: SSRTracker;
 };
 export type ModernSSRReactComponent = React.ComponentType<any>;
-export { RuntimeContext, RenderLevel };
+export { RuntimeContext };
 
 export type SSRPluginConfig = {
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
@@ -24,6 +38,7 @@ export type SSRPluginConfig = {
   enableInlineScripts?: boolean | RegExp;
   disablePrerender?: boolean;
   chunkLoadingGlobal?: string;
+  unsafeHeaders?: string[];
 } & Exclude<ServerUserConfig['ssr'], boolean>;
 
 export type ServerRenderOptions = {

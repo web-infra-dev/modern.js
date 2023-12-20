@@ -207,6 +207,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             typeof config.server?.ssr === 'object'
               ? Boolean(config.server.ssr.disablePrerender)
               : false;
+          const unsafeHeaders =
+            typeof config.server?.ssr === 'object'
+              ? config.server.ssr.unsafeHeaders
+              : undefined;
 
           plugins.push({
             name: PLUGIN_IDENTIFIER,
@@ -224,6 +228,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 typeof enableInlineStyles === 'function'
                   ? undefined
                   : enableInlineStyles,
+              unsafeHeaders,
             }),
           });
         }

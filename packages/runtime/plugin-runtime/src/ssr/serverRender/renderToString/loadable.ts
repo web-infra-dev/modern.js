@@ -1,8 +1,7 @@
 import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
 import { ReactElement } from 'react';
 import { attributesToString } from '../utils';
-import { SSRPluginConfig } from '../types';
-import { RenderResult } from './type';
+import { SSRPluginConfig, RenderResult } from '../types';
 import type { Collector } from './render';
 
 const extname = (uri: string): string => {
