@@ -61,7 +61,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/plugin-react-refresh": "0.4.3",
+    "@rspack/plugin-react-refresh": "0.4.4",
     "@storybook/components": "~7.6.1",
     "@storybook/core-common": "~7.6.1",
     "@storybook/csf-plugin": "~7.6.1",
