@@ -168,14 +168,20 @@ export const processDtsFilesAfterTsc = async (config: GeneratorDtsConfig) => {
           // users can use c(m)ts directly rather than enable autoExtension, in this condition,
           // users need to set esbuild out-extensions like { '.js': '.mjs' }
           filePath.replace(/\.d\.ts/, dtsExtension);
-        const writeTask = fs.writeFile(
-          // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
-          finalPath,
-          content,
-        );
-        const removeTask = fs.remove(filePath);
+        const writeTask = () => {
+          return fs.writeFile(
+            // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
+            finalPath,
+            content,
+          );
+        };
+        const removeTask = () => {
+          return fs.remove(filePath);
+        };
         // if write the new file, remove the old file, and the two tasks do not conflict and can run parallel
-        return dtsExtension === '.d.ts' ? [writeTask] : [writeTask, removeTask];
+        return dtsExtension === '.d.ts'
+          ? [writeTask()]
+          : [writeTask(), removeTask()];
       })
       .flat(),
   );
