@@ -17,7 +17,9 @@ export const postcssUrlPlugin = (options: {
     postcssPlugin: 'postcss-url',
     async Declaration(decl) {
       const isProcessed = (decl as any)[Processed];
-
+      if (isProcessed) {
+        return;
+      }
       decl.value = await rewriteCssUrls(
         decl.value,
         false,
@@ -26,8 +28,7 @@ export const postcssUrlPlugin = (options: {
             URL &&
             !HTTP_PATTERNS.test(URL) &&
             !HASH_PATTERNS.test(URL) &&
-            !DATAURL_PATTERNS.test(URL) &&
-            !isProcessed
+            !DATAURL_PATTERNS.test(URL)
           ) {
             let filePath = URL;
             const { outDir, sourceDir, buildType } = options.compilation.config;
