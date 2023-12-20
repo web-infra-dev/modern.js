@@ -30,6 +30,7 @@ export default defineConfig({
 - `inlineScript`：`boolean = true`，默认情况下，SSR 的数据会以内联脚本的方式注入到 HTML 中，并且直接赋值给全局变量。配置为 `false` 后，会下发 JSON，而不是赋值给全局变量。
 - `disablePrerender`: `boolean = fasle`, 为了兼容旧数据请求方式 - `useLoader`, 默认情况下 Modern.js 会对组件进行一次预渲染即有两次渲染。
   开发者在保证项目中没有使用 useLoader Api 情况下, 可通过配置 `disablePrerender=true`来减少一次渲染。
+- `unsafeHeaders`: `string[] = []`, 为了安全考虑，Modern.js 不会往 SSR_DATA 添加过多的内容。开发者可以通过该配置，对需要注入的 headers 进行配置。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -39,6 +40,7 @@ export default defineConfig({
       mode: 'stream',
       inlineScript: false,
       disablePrerender: true,
+      unsafeHeaders: ['User-Agent'],
     },
   },
 });
