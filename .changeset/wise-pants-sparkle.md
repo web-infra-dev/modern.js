@@ -7,6 +7,6 @@
 '@modern-js/plugin-bff': patch
 ---
 
-chore: remove Rsbuild unsupport CHAIN_ID
+chore: remove Rsbuild unsupported CHAIN_ID
 
 chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
