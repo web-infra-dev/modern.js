@@ -40,7 +40,7 @@ export async function applyDocgenWebpack(
 
     chain.module
       .rule(CHAIN_ID.RULE.JS)
-      .use(CHAIN_ID.USE.REACT_DOCGEN)
+      .use('react-docgen')
       .loader(loader)
       .options({
         resolveOptions,
@@ -53,7 +53,7 @@ export async function applyDocgenWebpack(
     const tsRuls = chain.module.rule(CHAIN_ID.RULE.TS);
     if (tsRuls.uses.values().length !== 0) {
       tsRuls
-        .use(CHAIN_ID.USE.REACT_DOCGEN)
+        .use('react-docgen')
         .loader(loader)
         .options({
           resolveOptions,

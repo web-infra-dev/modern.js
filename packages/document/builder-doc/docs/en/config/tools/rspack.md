@@ -279,9 +279,6 @@ Get the path to the builder built-in dependencies, such as:
 - sass-loader
 - less
 - less-loader
-- babel-loader
-- url-loader
-- file-loader
 - ...
 
 This method is usually used when you need to reuse the same dependency with the builder.
