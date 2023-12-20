@@ -41,9 +41,7 @@ export type SSR =
       preload?: boolean | SSRPreload;
       inlineScript?: boolean;
       disablePrerender?: boolean;
-      unsafeContext?: {
-        headers?: string[];
-      };
+      unsafeHeaders?: string[];
     };
 
 export type SSRByEntries = Record<string, SSR>;

@@ -38,7 +38,7 @@ export type SSRPluginConfig = {
   enableInlineScripts?: boolean | RegExp;
   disablePrerender?: boolean;
   chunkLoadingGlobal?: string;
-  unsafeContext?: { headers?: string[] };
+  unsafeHeaders?: string[];
 } & Exclude<ServerUserConfig['ssr'], boolean>;
 
 export type ServerRenderOptions = {

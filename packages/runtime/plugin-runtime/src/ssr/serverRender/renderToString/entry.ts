@@ -42,12 +42,12 @@ const buildTemplateData = (
   config: SSRPluginConfig,
 ) => {
   const { request } = context;
-  const { unsafeContext } = config;
+  const { unsafeHeaders } = config;
 
-  const headers = unsafeContext?.headers
+  const headers = unsafeHeaders
     ? Object.fromEntries(
         Object.entries(request.headers).filter(([key, _]) => {
-          return unsafeContext.headers
+          return unsafeHeaders
             ?.map(header => header.toLowerCase())
             ?.includes(key.toLowerCase());
         }),
