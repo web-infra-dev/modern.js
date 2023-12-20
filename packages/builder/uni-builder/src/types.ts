@@ -101,7 +101,7 @@ export type UniBuilderExtraConfig = {
      * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
      * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
      *
-     * Tips: this configuration not yet support in rspack
+     * Tips: this configuration is not yet supported in rspack
      */
     tsLoader?: PluginTsLoaderOptions;
   };
@@ -234,7 +234,7 @@ export type UniBuilderExtraConfig = {
      * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
      * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
      *
-     * Tips: this configuration not yet support in rspack
+     * Tips: this configuration is not yet supported in rspack
      */
     sri?: SriOptions | boolean;
     /**
@@ -244,7 +244,7 @@ export type UniBuilderExtraConfig = {
   };
   experiments?: {
     /**
-     * Tips: this configuration not yet support in rspack
+     * Tips: this configuration is not yet supported in rspack
      */
     lazyCompilation?: LazyCompilationOptions;
     /**
