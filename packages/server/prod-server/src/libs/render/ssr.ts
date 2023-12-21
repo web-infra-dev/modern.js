@@ -11,7 +11,6 @@ import { RenderResult, ServerHookRunner } from '../../type';
 import { createAfterStreamingRenderContext } from '../hook-api';
 import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
 import type { ModernRoute } from '../route';
-import cache from './cache';
 import { RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
