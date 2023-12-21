@@ -47,7 +47,7 @@ export default ({
 
       return checkIsLegacyConfig(userConfig)
         ? (createLegacyDefaultConfig(appContext) as unknown as AppUserConfig)
-        : createDefaultConfig(appContext, bundler);
+        : createDefaultConfig(appContext);
     };
 
     return {
@@ -96,10 +96,9 @@ export default ({
 
         if (bundler === 'webpack') {
           (resolved as AppNormalizedConfig<'webpack'>).security =
-            (normalizedConfig as AppNormalizedConfig<'webpack'>).security || {};
-          (resolved as AppNormalizedConfig<'webpack'>).experiments = (
-            normalizedConfig as AppNormalizedConfig<'webpack'>
-          ).experiments;
+            normalizedConfig.security || {};
+          (resolved as AppNormalizedConfig<'webpack'>).experiments =
+            normalizedConfig.experiments;
         }
 
         return { resolved };

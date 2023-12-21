@@ -12,6 +12,7 @@ import {
 } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { Bundler } from '../../../types';
+import { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
 
@@ -77,7 +78,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
     // FIXME: the only need necessary
     const baseTemplateParams = {
       entryName,
-      title: getEntryOptions<string | undefined>(
+      title: getEntryOptions<HtmlUserConfig['title']>(
         entryName,
         isMainEntry,
         modernConfig.html.title,

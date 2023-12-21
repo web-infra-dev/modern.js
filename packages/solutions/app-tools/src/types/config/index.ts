@@ -20,10 +20,11 @@ export interface RuntimeByEntriesUserConfig {
   [name: string]: RuntimeUserConfig;
 }
 
-export interface SharedUserConfig {
+export interface AppToolsUserConfig {
   server?: ServerUserConfig;
   source?: SourceUserConfig;
   output?: OutputUserConfig;
+  experiments?: ExperimentsUserConfig;
   /**
    * The configuration of `bff` is provided by `bff` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -43,20 +44,10 @@ export interface SharedUserConfig {
   devtools?: any;
 }
 
-export interface AppToolsUserConfig extends SharedUserConfig {
-  source?: SourceUserConfig;
-  output?: OutputUserConfig;
-  html?: HtmlUserConfig;
-  tools?: ToolsUserConfig;
-  security?: SecurityUserConfig;
-  performance?: PerformanceUserConfig;
-  experiments?: ExperimentsUserConfig;
-}
-
 interface SharedNormalizedConfig<RawConfig> {
   cliOptions?: Record<string, any>;
   _raw: RawConfig;
 }
 
-export type AppToolsNormalizedConfig<Config = SharedUserConfig> =
+export type AppToolsNormalizedConfig<Config = AppToolsUserConfig> =
   Required<Config> & SharedNormalizedConfig<Config>;
