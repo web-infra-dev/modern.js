@@ -1,5 +1,8 @@
-import type { Rspack, webpack } from '@modern-js/uni-builder';
-import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type {
+  Rspack,
+  webpack,
+  HtmlWebpackPlugin,
+} from '@modern-js/uni-builder';
 
 export class BottomTemplatePlugin {
   htmlWebpackPlugin: typeof HtmlWebpackPlugin;

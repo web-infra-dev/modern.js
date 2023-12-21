@@ -1,6 +1,9 @@
 import { createRspackBuilder } from './rspack';
 import { createWebpackBuilder } from './webpack';
 import type { CreateUniBuilderOptions } from './types';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+
+export { HtmlWebpackPlugin };
 
 export type { CreateUniBuilderOptions };
 export type {

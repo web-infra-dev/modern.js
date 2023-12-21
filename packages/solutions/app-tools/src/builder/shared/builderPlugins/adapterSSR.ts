@@ -7,7 +7,7 @@ import {
 } from '@modern-js/builder-shared';
 import { isSSR, fs } from '@modern-js/utils';
 import { ChainIdentifier } from '@modern-js/utils/chain-id';
-import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
   Bundler,
