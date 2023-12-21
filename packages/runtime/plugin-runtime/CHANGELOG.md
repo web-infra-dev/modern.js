@@ -1,5 +1,35 @@
 # @modern-js/runtime
 
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
+### Patch Changes
+
+- 2006851: fix: unsafeReplace fn fix
+  fix: unsafeReplace 函数修复, 处理找不到 searchValue 的边界 case
+- 563c286: fix: the Helment replace may meets special char
+  fix: the Helment 替换可能会遇到特殊字符，导致替换出问题
+- bb75155: fix: whether it is react18 should not rely on internalDirectory
+  fix: 判断是不是 react18 不应该依赖内部目录
+- ae22b74: feat: support ssr pass more context
+  feat: 支持传递更多的 ssr context
+- 5e9a6a9: fix: handle the quick navigation issue in ssr
+  fix: 修复 ssr 场景下 quick navigation 的问题
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+  - @modern-js/runtime-utils@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

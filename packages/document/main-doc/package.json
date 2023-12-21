@@ -21,7 +21,7 @@
     "build:doc": "rspress build",
     "preview": "rspress preview"
   },
-  "version": "2.42.2",
+  "version": "2.43.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
@@ -31,7 +31,7 @@
     "@modern-js/sandpack-react": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/builder-doc": "workspace:^2.42.2"
+    "@modern-js/builder-doc": "workspace:^2.43.0"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",

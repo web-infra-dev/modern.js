@@ -1,5 +1,18 @@
 # @modern-js/runtime-utils
 
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
+### Patch Changes
+
+- 9e749d8: fix: adapte webpack-dev-middleware disable write-to-disk
+  fix: 适配 webpack-dev-middleware 禁止写入磁盘
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes
