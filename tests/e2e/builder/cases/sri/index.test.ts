@@ -3,13 +3,11 @@ import { expect } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
 
-// TODO: sri deps html-webpack-plugin
 webpackOnlyTest('security.sri', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
     runServer: true,
-    useUniBuilder: false,
     builderConfig: {
       security: {
         sri: true,

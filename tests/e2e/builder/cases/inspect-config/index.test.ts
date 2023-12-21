@@ -1,9 +1,9 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { createBuilder } from '@scripts/shared';
+import { createUniBuilder } from '@scripts/shared';
 
-const builderConfig = path.resolve(__dirname, './dist/builder.config.js');
+const builderConfig = path.resolve(__dirname, './dist/rsbuild.config.js');
 const bundlerConfig = path.resolve(
   __dirname,
   `./dist/${process.env.PROVIDE_TYPE || 'webpack'}.config.web.js`,
@@ -14,7 +14,7 @@ const bundlerNodeConfig = path.resolve(
 );
 
 test('should generate config files when writeToDisk is true', async () => {
-  const builder = await createBuilder(
+  const builder = await createUniBuilder(
     {
       cwd: __dirname,
       entry: {
@@ -35,7 +35,7 @@ test('should generate config files when writeToDisk is true', async () => {
 });
 
 test('should generate bundler config for node when target contains node', async () => {
-  const builder = await createBuilder(
+  const builder = await createUniBuilder(
     {
       cwd: __dirname,
       target: ['web', 'node'],
@@ -59,7 +59,7 @@ test('should generate bundler config for node when target contains node', async 
 });
 
 test('should not generate config files when writeToDisk is false', async () => {
-  const builder = await createBuilder(
+  const builder = await createUniBuilder(
     {
       cwd: __dirname,
       entry: {
