@@ -1,5 +1,5 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
-import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
+import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import type { OutputUserConfig } from './output';
 import type { SourceUserConfig } from './source';
 import type { TestingUserConfig } from './testing';
@@ -39,7 +39,8 @@ export interface AppToolsUserConfig {
   tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
-  builderPlugins?: BuilderPlugin[];
+  // TODO: loose type
+  builderPlugins?: RsbuildPlugin[];
   performance?: PerformanceUserConfig;
   devtools?: any;
 }
