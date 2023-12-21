@@ -17,6 +17,9 @@ async function basicUsage(page: Page, appPort: number) {
     waitUntil: ['networkidle0'],
   });
   await (expect(page) as any).toMatchTextContent('user1-18');
+
+  const content = await page.content();
+  await (expect(content) as any).toMatch('"headers":{"host":');
 }
 
 async function errorThrown(page: Page, appPort: number) {
@@ -105,5 +108,20 @@ describe('Traditional SSR', () => {
 
   test('redirect in loader', async () => {
     await redirectInLoader(page, appPort);
+  });
+
+  test('ssr cache on 5000ms', async () => {
+    await page.goto(`http://localhost:${appPort}`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content = await page.content();
+    const result = content.match(/count:(\d+)/)![0];
+
+    // twice visit, because the cache, the count still same.
+    await page.goto(`http://localhost:${appPort}`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content1 = await page.content();
+    expect(content1).toMatch(result);
   });
 });

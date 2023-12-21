@@ -12,9 +12,10 @@ import { createAfterStreamingRenderContext } from '../hook-api';
 import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
 import type { ModernRoute } from '../route';
 import cache from './cache';
-import { SSRServerContext } from './type';
+import { RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
+import { ssrCache } from './ssrCache';
 
 export type SSRRenderOptions = {
   distDir: string;
@@ -86,8 +87,10 @@ export const render = async (
 
   runner.extendSSRContext(context);
   const bundleJSContent = await Promise.resolve(require(bundleJS));
-  const serverRender = bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
-  const content = await cache(serverRender, ctx)(context);
+  const serverRender: RenderFunction =
+    bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
+
+  const content = await ssrCache(ctx.req, serverRender, context);
 
   const { url, status = 302 } = context.redirection;
 

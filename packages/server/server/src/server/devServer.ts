@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { createServer, IncomingMessage, Server, ServerResponse } from 'http';
 import path from 'path';
 import { createServer as createHttpsServer } from 'https';
@@ -26,6 +25,7 @@ import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import type { DevMiddlewaresConfig, RsbuildInstance } from '@rsbuild/shared';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -101,7 +101,7 @@ export class ModernDevServer extends ModernServer {
   }
 
   private getDevOptions(options: ModernDevServerOptionsNew) {
-    const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
+    const devOptions = options.dev;
     const defaultOptions = getDefaultDevOptions();
     return deepMerge(defaultOptions, devOptions);
   }
@@ -166,6 +166,8 @@ export class ModernDevServer extends ModernServer {
 
     this.closeCb.push(close);
 
+    // use webpack Fs to init FileReader
+    this.initFileReader();
     await super.onInit(runner, app);
 
     // watch mock/ server/ api/ dir file change
@@ -173,6 +175,33 @@ export class ModernDevServer extends ModernServer {
       this.startWatcher();
       app.on('close', async () => {
         await this.watcher?.close();
+      });
+    }
+  }
+
+  private initFileReader() {
+    let isInit = false;
+
+    if (this.dev?.devMiddleware?.writeToDisk === false) {
+      this.addHandler((ctx, next) => {
+        if (isInit) {
+          return next();
+        }
+        isInit = true;
+
+        if (!ctx.res.locals?.webpack) {
+          fileReader.reset();
+          return next();
+        }
+
+        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
+        const { outputFileSystem } = webpackDevMid;
+        if (outputFileSystem) {
+          fileReader.reset(outputFileSystem);
+        } else {
+          fileReader.reset();
+        }
+        return next();
       });
     }
   }
@@ -229,7 +258,7 @@ export class ModernDevServer extends ModernServer {
     this.cleanSSRCache();
 
     // reset static file
-    this.reader.updateFile();
+    fileReader.reset();
 
     this.runner.repack();
 
@@ -256,35 +285,6 @@ export class ModernDevServer extends ModernServer {
 
   protected warmupSSRBundle() {
     // not warmup ssr bundle on development
-  }
-
-  protected initReader() {
-    let isInit = false;
-
-    if (this.dev?.devMiddleware?.writeToDisk === false) {
-      this.addHandler((ctx, next) => {
-        if (isInit) {
-          return next();
-        }
-        isInit = true;
-
-        if (!ctx.res.locals?.webpack) {
-          this.reader.init();
-          return next();
-        }
-
-        const { devMiddleware: webpackDevMid } = ctx.res.locals.webpack;
-        const { outputFileSystem } = webpackDevMid;
-        if (outputFileSystem) {
-          this.reader.init(outputFileSystem);
-        } else {
-          this.reader.init();
-        }
-        return next();
-      });
-    } else {
-      super.initReader();
-    }
   }
 
   protected async onServerChange({

@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.43.0
+
+### Patch Changes
+
+- ae22b74: feat: support ssr pass more context
+  feat: 支持传递更多的 ssr context
+- 5782aa3: chore(server): remove useless server plugin hooks (beforeDevServer & afterDevServer)
+
+  chore(server): 移除无用的 server 插件钩子 (beforeDevServer 和 afterDevServer)
+
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

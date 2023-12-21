@@ -3,7 +3,7 @@ import module from 'module';
 import { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
-import { normalizeSourceMap, resolvePathAndQuery } from '../../utils';
+import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
 import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
 import type { SideEffects, ICompiler } from '../../types';
@@ -295,7 +295,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           if (!item) {
             continue;
           }
-          if (absPath.endsWith('.js')) {
+          if (isJsExt(absPath)) {
             compiler.emitAsset(absPath, {
               type: 'chunk',
               contents: item.text,

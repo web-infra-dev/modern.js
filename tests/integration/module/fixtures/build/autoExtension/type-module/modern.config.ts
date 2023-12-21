@@ -7,12 +7,14 @@ export default defineConfig({
       input: { bundle: './src/index.ts' },
       autoExtension: true,
       format: 'cjs',
+      sourceMap: true,
     },
 
     {
       buildType: 'bundleless',
       autoExtension: true,
       format: 'cjs',
+      sourceMap: true,
     },
   ],
 });

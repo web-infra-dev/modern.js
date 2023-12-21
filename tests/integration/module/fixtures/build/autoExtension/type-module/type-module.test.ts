@@ -19,10 +19,18 @@ describe('autoExtension', () => {
     const outputCjsFile = await globby('*.d.cts', {
       cwd,
     });
+    const outputSourceMapFile = await globby('*.cjs.map', {
+      cwd,
+    });
     expect(
-      outputDeclarationFile.length === 3 && outputCjsFile.length === 3,
+      outputDeclarationFile.length === 3 &&
+        outputCjsFile.length === 3 &&
+        outputSourceMapFile.length === 3,
     ).toBeTruthy();
     const content = await fs.readFile(path.join(cwd, 'index.cjs'), 'utf-8');
-    expect(content.includes('./common.cjs'));
+    expect(
+      content.includes('./common.cjs') &&
+        content.includes('//# sourceMappingURL=index.cjs.map'),
+    );
   });
 });

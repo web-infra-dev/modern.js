@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.43.0
+
+### Patch Changes
+
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
 ## 2.42.2
 
 ## 2.42.1

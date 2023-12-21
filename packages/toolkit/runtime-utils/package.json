@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.42.2",
+  "version": "2.43.0",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -52,6 +52,16 @@
       "jsnext:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
+    },
+    "./storer": {
+      "jsnext:source": "./src/node/storer/index.ts",
+      "require": "./dist/cjs/node/storer/index.js",
+      "default": "./dist/esm/node/storer/index.js"
+    },
+    "./fileReader": {
+      "jsnext:source": "./src/node/fileReader.ts",
+      "require": "./dist/cjs/node/fileReader.js",
+      "default": "./dist/esm/node/fileReader.js"
     }
   },
   "publishConfig": {
@@ -94,6 +104,16 @@
         "types": "./dist/types/parsed.d.ts",
         "require": "./dist/cjs/parsed.js",
         "default": "./dist/esm/parsed.js"
+      },
+      "./storer": {
+        "types": "./dist/types/node/storer/index.d.ts",
+        "require": "./dist/cjs/node/storer/index.js",
+        "default": "./dist/esm/node/storer/index.js"
+      },
+      "./fileReader": {
+        "types": "./dist/types/node/fileReader.d.ts",
+        "require": "./dist/cjs/node/fileReader.js",
+        "default": "./dist/esm/node/fileReader.js"
       }
     }
   },
@@ -119,6 +139,12 @@
       ],
       "parsed": [
         "./dist/types/parsed.d.ts"
+      ],
+      "storer": [
+        "./dist/types/node/storer/index.d.ts"
+      ],
+      "fileReader": [
+        "./dist/types/node/fileReader.d.ts"
       ]
     }
   },
@@ -131,6 +157,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "lru-cache": "^6.0.0",
     "serialize-javascript": "^6.0.0",
     "react-router-dom": "6.17.0",
     "@remix-run/router": "1.10.0",
@@ -156,6 +183,7 @@
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "@types/lru-cache": "^5.1.1",
     "jest": "^29",
     "typescript": "^5",
     "@types/serialize-javascript": "^5.0.1"

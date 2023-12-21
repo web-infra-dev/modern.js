@@ -1,6 +1,6 @@
 import { ServerStyleSheet } from 'styled-components';
 import { ReactElement } from 'react';
-import type { RenderResult } from './type';
+import type { RenderResult } from '../types';
 import type { Collector } from './render';
 
 class StyledCollector implements Collector {

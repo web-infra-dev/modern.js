@@ -2,10 +2,13 @@ import {
   DevServer as Server,
   DevServerForRsbuild as ServerForRsbuild,
 } from './server';
-import type { ModernDevServerOptions } from './types';
+import type {
+  ModernDevServerOptions,
+  ModernDevServerOptionsNew,
+} from './types';
 
 export { Server, ServerForRsbuild };
-export type { ModernDevServerOptions };
+export type { ModernDevServerOptions, ModernDevServerOptionsNew };
 
 // TODO: it seems not used in any pkgs?
 export default (options: ModernDevServerOptions): Promise<Server> => {

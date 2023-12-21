@@ -1,5 +1,43 @@
 # @modern-js/app-tools
 
+## 2.43.0
+
+### Patch Changes
+
+- bb75155: fix: whether it is react18 should not rely on internalDirectory
+  fix: 判断是不是 react18 不应该依赖内部目录
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
+- Updated dependencies [40678b1]
+- Updated dependencies [9e749d8]
+- Updated dependencies [2d2cf71]
+- Updated dependencies [d959200]
+- Updated dependencies [acd3861]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5782aa3]
+  - @modern-js/builder-rspack-provider@2.43.0
+  - @modern-js/server@2.43.0
+  - @modern-js/prod-server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/server-core@2.43.0
+  - @modern-js/builder@2.43.0
+  - @modern-js/builder-plugin-node-polyfill@2.43.0
+  - @modern-js/plugin-data-loader@2.43.0
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/builder-webpack-provider@2.43.0
+  - @modern-js/core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/server-utils@2.43.0
+  - @modern-js/builder-plugin-esbuild@2.43.0
+  - @modern-js/plugin-i18n@2.43.0
+  - @modern-js/plugin-lint@2.43.0
+  - @modern-js/new-action@2.43.0
+  - @modern-js/node-bundle-require@2.43.0
+  - @modern-js/plugin@2.43.0
+  - @modern-js/upgrade@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

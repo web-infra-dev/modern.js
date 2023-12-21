@@ -143,9 +143,6 @@ Get the path to the builder built-in dependencies, such as:
 - less
 - less-loader
 - css-loader
-- babel-loader
-- url-loader
-- file-loader
 - ...
 
 This method is usually used when you need to reuse the same dependency with the builder.
@@ -223,7 +220,6 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 | `USE.TOML`                        | correspond to `toml-loader`                    |
 | `USE.YAML`                        | correspond to `yaml-loader`                    |
 | `USE.NODE`                        | correspond to `node-loader`                    |
-| `USE.FILE`                        | correspond to `file-loader`                    |
 | `USE.URL`                         | correspond to `url-loader`                     |
 | `USE.SVGR`                        | correspond to `@svgr/webpack`                  |
 | `USE.BABEL`                       | correspond to `babel-loader`                   |
@@ -247,12 +243,10 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 | `PLUGIN.BANNER`                | correspond to `BannerPlugin`                                                                                   |
 | `PLUGIN.PROGRESS`              | correspond to `Webpackbar`                                                                                     |
 | `PLUGIN.APP_ICON`              | correspond to `AppIconPlugin`                                                                                  |
-| `PLUGIN.LOADABLE`              | correspond to `LoadableWebpackPlugin`                                                                          |
 | `PLUGIN.MANIFEST`              | correspond to `WebpackManifestPlugin`                                                                          |
 | `PLUGIN.TS_CHECKER`            | correspond to `ForkTsCheckerWebpackPlugin`                                                                     |
 | `PLUGIN.INLINE_HTML`           | correspond to `InlineChunkHtmlPlugin`                                                                          |
 | `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                                          |
-| `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                                           |
 | `PLUGIN.MINI_CSS_EXTRACT`      | correspond to `MiniCssExtractPlugin`                                                                           |
 | `PLUGIN.VUE_LOADER_PLUGIN`     | correspond to `VueLoaderPlugin`                                                                                |
 | `PLUGIN.REACT_FAST_REFRESH`    | correspond to `ReactFastRefreshPlugin`                                                                         |

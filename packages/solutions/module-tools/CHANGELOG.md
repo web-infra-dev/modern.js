@@ -1,5 +1,30 @@
 # @modern-js/module-tools
 
+## 2.43.0
+
+### Patch Changes
+
+- 83415e3: fix(module-tools): add sourcemap output and remove the useless declaration file when autoExtension takes effect
+  fix(module-tools): autoExtension 生效时，添加 sourcemap 输出并移除无用的类型描述文件
+- 96f2884: chore: bump swc
+  chore: 升级 swc
+- a7c6bd8: fix(module-tools): fix logic error in remove dts task
+  fix(module-tools): 修复删除 dts 任务的错误逻辑
+- 0696cdd: chore(module-tools): simplify logic in rewrite css url
+  chore(module-tools): 简化更新 css url 的逻辑
+- 11ad678: fix(module-tools): clear .tsbuildinfo before build instead of tsc --clean
+  fix(module-tools): 构建前清除 .tsbuildinfo 文件而不是调用 tsc --clean
+- Updated dependencies [d959200]
+  - @modern-js/types@2.43.0
+  - @modern-js/core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin-changeset@2.43.0
+  - @modern-js/plugin-i18n@2.43.0
+  - @modern-js/plugin-lint@2.43.0
+  - @modern-js/new-action@2.43.0
+  - @modern-js/plugin@2.43.0
+  - @modern-js/upgrade@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

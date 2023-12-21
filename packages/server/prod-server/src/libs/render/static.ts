@@ -1,8 +1,8 @@
 import path from 'path';
 import { mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { RenderResult } from '../../type';
-import { readFile } from './reader';
 
 export async function handleDirectory(
   ctx: ModernServerContext,
@@ -13,17 +13,17 @@ export async function handleDirectory(
   const filepath = path.join(entryPath, trimLeft(pathname, urlPath));
 
   // If can match accurately, always return the one that matches accurately
-  let content = await readFile(filepath);
+  let content = await fileReader.readFile(filepath);
   let contentType = mime.contentType(path.extname(filepath) || '');
 
   // automatic addressing
   if (!content) {
     if (pathname.endsWith('/')) {
-      content = await readFile(`${filepath}index.html`);
+      content = await fileReader.readFile(`${filepath}index.html`);
     } else if (!pathname.includes('.')) {
-      content = await readFile(`${filepath}.html`);
+      content = await fileReader.readFile(`${filepath}.html`);
       if (!content) {
-        content = await readFile(`${filepath}/index.html`);
+        content = await fileReader.readFile(`${filepath}/index.html`);
       }
     }
 

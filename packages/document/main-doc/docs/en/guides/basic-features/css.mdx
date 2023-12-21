@@ -22,7 +22,7 @@ Please refer to [Modern.js Builder - Using PostCSS](https://modernjs.dev/builder
 
 ## Using CSS Modules
 
-Please read the [Using CSS Modules](https://modernjs.dev/builder/en/guide/basic/css-modules.html) section to learn about the complete usage of CSS Modules.
+Please read the [Using CSS Modules](/guides/basic-features/css-modules) section to learn about the complete usage of CSS Modules.
 
 ## Using CSS-in-JS
 
@@ -72,18 +72,7 @@ To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you can follow the
 ? Please select the feature name: Enable Tailwind CSS
 ```
 
-After successful initialization, you will see the following additions to the `package.json` file:
-
-```json title="./package.json"
-{
-  "dependencies": {
-    "tailwindcss": "^3.0.0"
-  },
-  "devDependencies": {
-    "@modern-js/plugin-tailwindcss": "^2.0.0"
-  }
-}
-```
+After successful initialization, you will see that the `package.json` has added dependencies for `tailwindcss` and `@modern-js/plugin-tailwindcss`.
 
 2. Register the Tailwind plugin in `modern.config.ts`:
 

@@ -119,7 +119,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
+            bundlerChain(chain, { isServer, isServiceWorker }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -131,7 +131,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
-                  .plugin(CHAIN_ID.PLUGIN.LOADABLE)
+                  .plugin('loadable')
                   .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
@@ -207,6 +207,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             typeof config.server?.ssr === 'object'
               ? Boolean(config.server.ssr.disablePrerender)
               : false;
+          const unsafeHeaders =
+            typeof config.server?.ssr === 'object'
+              ? config.server.ssr.unsafeHeaders
+              : undefined;
 
           plugins.push({
             name: PLUGIN_IDENTIFIER,
@@ -224,6 +228,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 typeof enableInlineStyles === 'function'
                   ? undefined
                   : enableInlineStyles,
+              unsafeHeaders,
             }),
           });
         }

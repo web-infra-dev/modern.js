@@ -731,7 +731,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -769,13 +769,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\\\/plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -816,6 +816,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -823,9 +824,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -834,6 +833,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
+      "affectedHooks": undefined,
       "name": "DefinePlugin",
     },
     RemoveCssSourcemapPlugin {
@@ -844,11 +844,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "prefix": "Client",
         "profile": false,
       },
+      "affectedHooks": undefined,
       "name": "ProgressPlugin",
-    },
-    DefinePlugin {
-      "_options": {},
-      "name": "DefinePlugin",
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
@@ -1646,6 +1643,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "module": undefined,
           "test": undefined,
         },
+        "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
       CssMinimizerPlugin {
@@ -1670,7 +1668,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     ],
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -1714,7 +1712,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -1773,6 +1771,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -1780,9 +1779,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -1791,6 +1788,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
+      "affectedHooks": undefined,
       "name": "DefinePlugin",
     },
     RemoveCssSourcemapPlugin {
@@ -1801,6 +1799,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "prefix": "Client",
         "profile": false,
       },
+      "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
     InlineChunkHtmlPlugin {
@@ -1811,13 +1810,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "scriptTests": [
-        /bundler-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
-    },
-    DefinePlugin {
-      "_options": {},
-      "name": "DefinePlugin",
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
@@ -2573,7 +2568,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -2611,13 +2606,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\\\/plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -2674,6 +2669,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -2681,9 +2677,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -2707,9 +2701,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-    },
-    DefinePlugin {
-      "definitions": {},
     },
     ForkTsCheckerWebpackPlugin {
       "options": {
@@ -3542,7 +3533,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
     ],
     "runtimeChunk": {
-      "name": "bundler-runtime",
+      "name": "builder-runtime",
     },
     "splitChunks": {
       "cacheGroups": {
@@ -3586,7 +3577,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -3658,6 +3649,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -3665,9 +3657,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "name": "HtmlBasicPlugin",
       "options": {
         "info": {
-          "index": {
-            "title": "Rsbuild App",
-          },
+          "index": {},
         },
       },
     },
@@ -3700,12 +3690,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
       "scriptTests": [
-        /bundler-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
-    },
-    DefinePlugin {
-      "definitions": {},
     },
     ForkTsCheckerWebpackPlugin {
       "options": {

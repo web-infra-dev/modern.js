@@ -29,8 +29,10 @@ test('builder injection script order should be as expected', async () => {
 
   // assetsRetry => rem => normal resource => template custom resource
   expect(
-    /(<script src="\/static\/js\/assets-retry).*(<script src="\/static\/js\/convert-rem).*(\/static\/js\/index).*(example.com\/assets\/a.js)/.test(
-      html,
-    ),
+    html.indexOf('/js/assets-retry') < html.indexOf('/js/convert-rem'),
   ).toBeTruthy();
+  expect(
+    html.indexOf('/js/convert-rem') < html.indexOf('/js/index'),
+  ).toBeTruthy();
+  expect(html.indexOf('/js/index') < html.indexOf('/assets/a.js')).toBeTruthy();
 });

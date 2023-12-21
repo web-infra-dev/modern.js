@@ -87,12 +87,17 @@ export async function rebaseUrls(
   }
 }
 
-export function rewriteCssUrls(
+export async function rewriteCssUrls(
   css: string,
   type: false | string,
   replacer: CssUrlReplacer,
 ): Promise<string> {
-  return asyncReplace(css, cssUrlRE, async match => {
+  let match: RegExpExecArray | null;
+  let remaining = css;
+  let rewritten = '';
+  // eslint-disable-next-line no-cond-assign
+  while ((match = cssUrlRE.exec(remaining))) {
+    rewritten += remaining.slice(0, match.index);
     const matched = match[0];
     let rawUrl = match[1];
     let wrap = '';
@@ -101,33 +106,15 @@ export function rewriteCssUrls(
       wrap = first;
       rawUrl = rawUrl.slice(1, -1);
     }
-    if (
+    const result =
       (type === 'less' && rawUrl.startsWith('@')) ||
       ((type === 'sass' || type === 'scss') && rawUrl.startsWith('$')) ||
       isExternalUrl(rawUrl) ||
       isDataUrl(rawUrl) ||
       rawUrl.startsWith('#')
-    ) {
-      // do not rewrite
-      return matched;
-    }
-
-    return `url(${wrap}${normalizeSlashes(await replacer(rawUrl))}${wrap})`;
-  });
-}
-
-async function asyncReplace(
-  input: string,
-  re: RegExp,
-  replacer: (match: RegExpExecArray) => string | Promise<string>,
-): Promise<string> {
-  let match: RegExpExecArray | null;
-  let remaining = input;
-  let rewritten = '';
-  // eslint-disable-next-line no-cond-assign
-  while ((match = re.exec(remaining))) {
-    rewritten += remaining.slice(0, match.index);
-    rewritten += await replacer(match);
+        ? matched
+        : `url(${wrap}${normalizeSlashes(await replacer(rawUrl))}${wrap})`;
+    rewritten += result;
     remaining = remaining.slice(match.index + match[0].length);
   }
   rewritten += remaining;

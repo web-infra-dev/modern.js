@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-import",
-  "version": "2.42.2",
+  "version": "2.43.0",
   "description": "The import plugin of Modern.js Module.",
   "keywords": [
     "react",
@@ -33,7 +33,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/swc-plugins": "0.6.5",
+    "@modern-js/swc-plugins": "0.6.6",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
@@ -47,7 +47,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.42.2"
+    "@modern-js/module-tools": "workspace:^2.43.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

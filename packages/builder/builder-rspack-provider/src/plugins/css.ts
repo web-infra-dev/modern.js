@@ -182,7 +182,9 @@ export const applyCSSModuleRule = (
     return;
   }
 
-  const ruleIndex = rules.findIndex(r => r !== '...' && r.test === ruleTest);
+  const ruleIndex = rules.findIndex(
+    r => r !== '...' && r && r.test === ruleTest,
+  );
 
   if (ruleIndex === -1) {
     return;

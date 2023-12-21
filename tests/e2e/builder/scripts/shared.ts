@@ -2,10 +2,16 @@ import { URL } from 'url';
 import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import type { CreateBuilderOptions } from '@modern-js/builder';
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
-import { StartDevServerOptions } from '@modern-js/builder-shared';
+import type {
+  BuilderConfig as UniBuilderConfig,
+  CreateUniBuilderOptions,
+  StartDevServerOptions,
+} from '@modern-js/uni-builder';
+
+type CreateBuilderOptions = Omit<
+  CreateUniBuilderOptions,
+  'bundlerType' | 'config'
+>;
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -15,45 +21,20 @@ export const getHrefByEntryName = (entryName: string, port: number) => {
   return homeUrl.href;
 };
 
-async function getWebpackBuilderProvider(builderConfig: BuilderConfig) {
-  const { builderWebpackProvider } = await import(
-    '@modern-js/builder-webpack-provider'
-  );
-
-  const builderProvider = builderWebpackProvider({
-    builderConfig,
-  });
-
-  return builderProvider;
-}
-
-async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
-  const { builderRspackProvider } = await import(
-    '@modern-js/builder-rspack-provider'
-  );
-
-  const builderProvider = builderRspackProvider({
-    builderConfig,
-  });
-
-  return builderProvider;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
-export const createBuilder = async (
+export const createUniBuilder = async (
   builderOptions: CreateBuilderOptions,
-  builderConfig: BuilderConfig | RspackBuilderConfig = {},
+  builderConfig: UniBuilderConfig = {},
 ) => {
-  const { createBuilder } = await import('@modern-js/builder');
+  const { createUniBuilder } = await import('@modern-js/uni-builder');
 
-  const builderProvider =
-    process.env.PROVIDE_TYPE === 'rspack'
-      ? await getRspackBuilderProvider(builderConfig as RspackBuilderConfig)
-      : await getWebpackBuilderProvider(builderConfig as BuilderConfig);
-
-  const builder = await createBuilder(builderProvider, builderOptions);
+  const builder = await createUniBuilder({
+    ...builderOptions,
+    bundlerType: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
+    config: builderConfig,
+  });
 
   return builder;
 };
@@ -72,9 +53,7 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
   }
 }
 
-const updateConfigForTest = <BuilderType>(
-  config: BuilderType extends 'webpack' ? BuilderConfig : RspackBuilderConfig,
-) => {
+const updateConfigForTest = (config: UniBuilderConfig) => {
   // make devPort random to avoid port conflict
   config.dev = {
     ...(config.dev || {}),
@@ -89,6 +68,8 @@ const updateConfigForTest = <BuilderType>(
       buildCache: false,
     };
   }
+
+  config.performance.printFileSize = false;
 
   // disable ts checker to make the tests faster
   if (config.output?.disableTsChecker !== false) {
@@ -107,28 +88,26 @@ const updateConfigForTest = <BuilderType>(
   }
 };
 
-export async function dev<BuilderType = 'webpack'>({
+export async function dev({
   serverOptions,
   builderConfig = {},
   ...options
 }: CreateBuilderOptions & {
-  builderConfig?: BuilderType extends 'webpack'
-    ? BuilderConfig
-    : RspackBuilderConfig;
+  builderConfig?: UniBuilderConfig;
   serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
 
   updateConfigForTest(builderConfig);
 
-  const builder = await createBuilder(options, builderConfig);
+  const builder = await createUniBuilder(options, builderConfig);
+
   return builder.startDevServer({
-    printURLs: false,
     serverOptions,
   });
 }
 
-export async function build<BuilderType = 'webpack'>({
+export async function build({
   plugins,
   runServer = false,
   builderConfig = {},
@@ -136,18 +115,13 @@ export async function build<BuilderType = 'webpack'>({
 }: CreateBuilderOptions & {
   plugins?: any[];
   runServer?: boolean;
-  builderConfig?: BuilderType extends 'webpack'
-    ? BuilderConfig
-    : RspackBuilderConfig;
+  builderConfig?: UniBuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
   updateConfigForTest(builderConfig);
 
-  // todo: support test swc (add swc plugin) use providerType 'webpack-swc'?
-  const builder = await createBuilder(options, builderConfig);
-
-  builder.removePlugins(['builder-plugin-file-size']);
+  const builder = await createUniBuilder(options, builderConfig);
 
   if (plugins) {
     builder.addPlugins(plugins);

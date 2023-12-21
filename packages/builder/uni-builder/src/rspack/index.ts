@@ -4,27 +4,25 @@ import type {
   RsbuildPlugin,
   RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider } from '@rsbuild/shared';
+import type { RsbuildProvider, StartServerResult } from '@rsbuild/shared';
 import type {
-  UniBuilderRspackConfig,
-  CreateRspackBuilderOptions,
+  BuilderConfig,
+  CreateUniBuilderOptions,
+  CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { pluginStyledComponents } from '@rsbuild/plugin-styled-components';
-import { withDefaultConfig } from './defaults';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: UniBuilderRspackConfig,
-  cwd: string,
-  frameworkConfigPath?: string,
+  uniBuilderConfig: BuilderConfig,
+  options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'rspack'>(
+  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
-    cwd,
-    frameworkConfigPath,
+    options,
   );
 
   if (uniBuilderConfig.output?.enableAssetManifest) {
@@ -41,9 +39,14 @@ export async function parseConfig(
     );
   }
 
-  rsbuildPlugins.push(
-    pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-  );
+  if (uniBuilderConfig.tools?.styledComponents !== false) {
+    const { pluginStyledComponents } = await import(
+      '@rsbuild/plugin-styled-components'
+    );
+    rsbuildPlugins.push(
+      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
+    );
+  }
 
   return {
     rsbuildConfig,
@@ -51,16 +54,30 @@ export async function parseConfig(
   };
 }
 
-export async function createRspackBuilder(
-  options: CreateRspackBuilderOptions,
-): Promise<RsbuildInstance<RsbuildProvider>> {
-  const { cwd = process.cwd() } = options;
+type UniBuilderInstance = Omit<
+  RsbuildInstance<RsbuildProvider>,
+  'startDevServer'
+> & {
+  /**
+   * should be used in conjunction with the upper-layer framework:
+   *
+   * missing route.json (required in modern server)
+   */
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<StartServerResult>;
+};
 
-  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(
-    withDefaultConfig(options.config),
+export async function createRspackBuilder(
+  options: CreateUniBuilderOptions,
+): Promise<UniBuilderInstance> {
+  const { cwd = process.cwd(), config, ...rest } = options;
+
+  const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
+    ...rest,
     cwd,
-    options.frameworkConfigPath,
-  );
+  });
+
   const rsbuild = await createRsbuild({
     cwd,
     rsbuildConfig,
@@ -68,5 +85,12 @@ export async function createRspackBuilder(
 
   rsbuild.addPlugins(rsbuildPlugins);
 
-  return rsbuild;
+  return {
+    ...rsbuild,
+    startDevServer: async (options: StartDevServerOptions = {}) => {
+      const { startDevServer } = await import('../shared/devServer');
+
+      return startDevServer(rsbuild, options, config);
+    },
+  };
 }

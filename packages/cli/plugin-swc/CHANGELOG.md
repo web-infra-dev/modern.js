@@ -1,5 +1,14 @@
 # @modern-js/core
 
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [96f2884]
+- Updated dependencies [4b4d08a]
+  - @modern-js/builder-plugin-swc@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

@@ -50,7 +50,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
               const name = isServer ? 'server' : 'client';
               chain.module.rule(CHAIN_ID.RULE.JS).exclude.add(apiRegexp);
               chain.module
-                .rule(CHAIN_ID.RULE.JS_BFF_API)
+                .rule('js-bff-api')
                 .test(apiRegexp)
                 .use('custom-loader')
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))

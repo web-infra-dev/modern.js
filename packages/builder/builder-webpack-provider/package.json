@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.42.2",
+  "version": "2.43.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -96,7 +96,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-    "@rsbuild/babel-preset": "0.2.4",
+    "@rsbuild/babel-preset": "0.2.8",
     "@swc/helpers": "0.5.3",
     "babel-plugin-import": "1.13.5",
     "babel-plugin-styled-components": "1.13.3",

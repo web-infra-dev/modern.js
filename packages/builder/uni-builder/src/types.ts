@@ -9,6 +9,7 @@ import type {
   InlineChunkTest,
   DevConfig,
   RequestHandler,
+  RsbuildEntry,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -23,25 +24,18 @@ import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 
-export type CreateWebpackBuilderOptions = {
-  bundlerType: 'webpack';
-  config: UniBuilderWebpackConfig;
+export type CreateBuilderCommonOptions = {
+  entry?: RsbuildEntry;
   frameworkConfigPath?: string;
+  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd: string;
 };
 
-export type CreateRspackBuilderOptions = {
-  bundlerType: 'rspack';
-  config: UniBuilderRspackConfig;
-  frameworkConfigPath?: string;
-  /** The root path of current project. */
-  cwd?: string;
-};
-
-export type CreateUniBuilderOptions =
-  | CreateWebpackBuilderOptions
-  | CreateRspackBuilderOptions;
+export type CreateUniBuilderOptions = {
+  bundlerType: 'rspack' | 'webpack';
+  config: BuilderConfig;
+} & Partial<CreateBuilderCommonOptions>;
 
 export type GlobalVars = Record<string, any>;
 
@@ -68,7 +62,7 @@ export type DisableSourceMapOption =
 
 export type UniBuilderExtraConfig = {
   tools?: {
-    styledComponents?: PluginStyledComponentsOptions;
+    styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: {
       before?: RequestHandler[];
       after?: RequestHandler[];
@@ -103,6 +97,13 @@ export type UniBuilderExtraConfig = {
      * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
      */
     babel?: PluginBabelOptions['babelLoaderOptions'];
+    /**
+     * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
+     * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
+     *
+     * Tips: this configuration is not yet supported in rspack
+     */
+    tsLoader?: PluginTsLoaderOptions;
   };
   dev?: {
     /**
@@ -230,11 +231,22 @@ export type UniBuilderExtraConfig = {
   };
   security?: {
     /**
+     * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
+     * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
+     *
+     * Tips: this configuration is not yet supported in rspack
+     */
+    sri?: SriOptions | boolean;
+    /**
      * Analyze the build artifacts to identify advanced syntax that is incompatible with the current browser scope.
      */
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
+    /**
+     * Tips: this configuration is not yet supported in rspack
+     */
+    lazyCompilation?: LazyCompilationOptions;
     /**
      * Enable the ability for source code building
      */
@@ -248,29 +260,4 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type UniBuilderWebpackConfig = RsbuildConfig &
-  UniBuilderExtraConfig & {
-    security?: {
-      /**
-       * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
-       * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
-       */
-      sri?: SriOptions | boolean;
-    };
-    experiments?: {
-      lazyCompilation?: LazyCompilationOptions;
-    };
-    tools?: {
-      /**
-       * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
-       * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
-       */
-      tsLoader?: PluginTsLoaderOptions;
-    };
-  };
-
-export type UniBuilderRspackConfig = RsbuildConfig & UniBuilderExtraConfig;
-
-export type BuilderConfig<B = 'rspack'> = B extends 'rspack'
-  ? UniBuilderRspackConfig
-  : UniBuilderWebpackConfig;
+export type BuilderConfig = RsbuildConfig & UniBuilderExtraConfig;
