@@ -8,6 +8,7 @@ export type {
   RsbuildPlugin,
   ChainedConfig,
   CopyPluginOptions,
+  ChainIdentifier,
 } from '@rsbuild/shared';
 export type { BuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';

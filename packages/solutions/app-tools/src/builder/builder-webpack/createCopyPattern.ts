@@ -46,6 +46,7 @@ export function createUploadPattern<B extends Bundler>(
 ): CopyPluginOptions['patterns']['0'] {
   const { uploadDir } = createCopyInfo(appContext, config);
   return {
+    // rspack copy info structure is inconsistent with webpack, it only used in webpack mode
     // @ts-expect-error
     info,
     from: '**/*',

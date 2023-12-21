@@ -112,6 +112,14 @@
     "typescript": "^5",
     "webpack": "^5.89.0"
   },
+  "peerDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:^2.42.2"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/builder-rspack-provider": {
+      "optional": true
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
