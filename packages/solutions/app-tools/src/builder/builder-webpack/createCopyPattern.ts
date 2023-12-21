@@ -1,5 +1,6 @@
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
 import { removeTailSlash } from '@modern-js/utils';
+import { CopyPluginOptions } from '@modern-js/uni-builder';
 import { createCopyInfo } from '../shared';
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
@@ -42,9 +43,10 @@ export function createPublicPattern(
 export function createUploadPattern<B extends Bundler>(
   appContext: IAppContext,
   config: AppNormalizedConfig<B>,
-) {
+): CopyPluginOptions['patterns']['0'] {
   const { uploadDir } = createCopyInfo(appContext, config);
   return {
+    // @ts-expect-error
     info,
     from: '**/*',
     to: 'upload',

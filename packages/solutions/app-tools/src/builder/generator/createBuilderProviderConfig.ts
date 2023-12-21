@@ -1,9 +1,4 @@
-import type {
-  Bundler,
-  IAppContext,
-  OutputUserConfig,
-  AppNormalizedConfig,
-} from '../../types';
+import type { Bundler, IAppContext, AppNormalizedConfig } from '../../types';
 import { createUploadPattern } from '../builder-webpack/createCopyPattern';
 
 function modifyOutputConfig<B extends Bundler>(
@@ -11,7 +6,7 @@ function modifyOutputConfig<B extends Bundler>(
   appContext: IAppContext,
 ) {
   const defaultCopyPattern = createUploadPattern(appContext, config);
-  const { copy } = config.output as OutputUserConfig;
+  const { copy } = config.output;
   const copyOptions = Array.isArray(copy) ? copy : copy?.patterns;
   const builderCopy = [...(copyOptions || []), defaultCopyPattern];
 

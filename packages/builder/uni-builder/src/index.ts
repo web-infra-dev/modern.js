@@ -3,7 +3,12 @@ import { createWebpackBuilder } from './webpack';
 import type { CreateUniBuilderOptions } from './types';
 
 export type { CreateUniBuilderOptions };
-export type { BundlerChain, RsbuildPlugin } from '@rsbuild/shared';
+export type {
+  BundlerChain,
+  RsbuildPlugin,
+  ChainedConfig,
+  CopyPluginOptions,
+} from '@rsbuild/shared';
 export type { BuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 

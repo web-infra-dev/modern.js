@@ -212,6 +212,8 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `html.title` instead
      */
     titleByEntries?: Record<string, string>;
+    // TODO: need support rsbuild favicon type in server/utils
+    favicon?: string;
     /**
      * @deprecated use `html.favicon` instead
      */
