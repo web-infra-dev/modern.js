@@ -2,8 +2,6 @@ import { URL } from 'url';
 import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 import type {
   BuilderConfig as UniBuilderConfig,
   CreateUniBuilderOptions,
@@ -23,30 +21,6 @@ export const getHrefByEntryName = (entryName: string, port: number) => {
   return homeUrl.href;
 };
 
-async function getWebpackBuilderProvider(builderConfig: BuilderConfig) {
-  const { builderWebpackProvider } = await import(
-    '@modern-js/builder-webpack-provider'
-  );
-
-  const builderProvider = builderWebpackProvider({
-    builderConfig,
-  });
-
-  return builderProvider;
-}
-
-async function getRspackBuilderProvider(builderConfig: RspackBuilderConfig) {
-  const { builderRspackProvider } = await import(
-    '@modern-js/builder-rspack-provider'
-  );
-
-  const builderProvider = builderRspackProvider({
-    builderConfig,
-  });
-
-  return builderProvider;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
@@ -61,22 +35,6 @@ export const createUniBuilder = async (
     bundlerType: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
     config: builderConfig,
   });
-
-  return builder;
-};
-
-export const createBuilder = async (
-  builderOptions: CreateBuilderOptions,
-  builderConfig: BuilderConfig | RspackBuilderConfig = {},
-) => {
-  const { createBuilder } = await import('@modern-js/builder');
-
-  const builderProvider =
-    process.env.PROVIDE_TYPE === 'rspack'
-      ? await getRspackBuilderProvider(builderConfig as RspackBuilderConfig)
-      : await getWebpackBuilderProvider(builderConfig as BuilderConfig);
-
-  const builder = await createBuilder(builderProvider, builderOptions);
 
   return builder;
 };
@@ -153,23 +111,17 @@ export async function build({
   plugins,
   runServer = false,
   builderConfig = {},
-  useUniBuilder = true,
   ...options
 }: CreateBuilderOptions & {
   plugins?: any[];
   runServer?: boolean;
-  /** TODO: should removed when all test cases migrate to uniBuilder */
-  useUniBuilder?: boolean;
   builderConfig?: UniBuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
   updateConfigForTest(builderConfig);
 
-  const builder = useUniBuilder
-    ? await createUniBuilder(options, builderConfig)
-    : // @ts-expect-error
-      await createBuilder(options, builderConfig);
+  const builder = await createUniBuilder(options, builderConfig);
 
   if (plugins) {
     builder.addPlugins(plugins);
