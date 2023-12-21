@@ -1,5 +1,26 @@
 # @modern-js/builder-rspack-provider
 
+## 2.43.0
+
+### Patch Changes
+
+- 40678b1: fix: rspack 0.4.4 plugin & rule type error
+
+  fix: 修复 rspack 0.4.4 plugin 和 rule 的类型问题
+
+- 2d2cf71: chore: bump rspack to 0.4.4
+
+  chore: 升级 rspack 到 0.4.4
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+- Updated dependencies [acd3861]
+- Updated dependencies [5782aa3]
+  - @modern-js/server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

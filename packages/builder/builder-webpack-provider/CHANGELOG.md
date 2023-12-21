@@ -1,5 +1,18 @@
 # @modern-js/builder-webpack-provider
 
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+- Updated dependencies [acd3861]
+- Updated dependencies [5782aa3]
+  - @modern-js/server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes
