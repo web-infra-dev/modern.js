@@ -1,21 +1,9 @@
-import type { SharedOutputConfig as BuilderSharedOutputConfig } from '@modern-js/builder-shared';
+import type { BuilderConfig } from '@modern-js/uni-builder';
 import type { SSGConfig } from '@modern-js/types';
-import {
-  WebpackBuilderConfig,
-  RspackBuilderConfig,
-} from '../../builder/shared';
-import { UnwrapBuilderConfig } from '../utils';
+import type { UnwrapBuilderConfig } from '../utils';
 
-export type BuilderOutputConfig = UnwrapBuilderConfig<
-  WebpackBuilderConfig,
-  'output'
->;
-export type RsBuilderOutputConfig = UnwrapBuilderConfig<
-  RspackBuilderConfig,
-  'output'
->;
-
-export interface SharedOutputConfig extends BuilderSharedOutputConfig {
+export interface OutputUserConfig
+  extends UnwrapBuilderConfig<BuilderConfig, 'output'> {
   /**
    * Enable SSG for self-controlled routing or conventional routing.
    * @default false
@@ -47,14 +35,6 @@ export interface SharedOutputConfig extends BuilderSharedOutputConfig {
    */
   tempDir?: string;
 }
-
-export interface OutputUserConfig
-  extends BuilderOutputConfig,
-    SharedOutputConfig {}
-
-export interface RsOutputUserConfig
-  extends RsBuilderOutputConfig,
-    SharedOutputConfig {}
 
 export type {
   SSGRouteOptions,

@@ -1,39 +1,15 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
-import type {
-  OutputUserConfig,
-  RsOutputUserConfig,
-  SharedOutputConfig,
-} from './output';
-import type {
-  RsSourceUserConfig,
-  SharedSourceConfig,
-  SourceUserConfig,
-} from './source';
+import type { OutputUserConfig } from './output';
+import type { SourceUserConfig } from './source';
 import type { TestingUserConfig } from './testing';
 import type { DevUserConfig } from './dev';
-import type {
-  RsToolsUserConfig,
-  SharedToolsConfig,
-  ToolsUserConfig,
-} from './tools';
-import type {
-  HtmlUserConfig,
-  RsHtmlUserConfig,
-  SharedHtmlConfig,
-} from './html';
-import type {
-  RsSecurityConfig,
-  SecurityUserConfig,
-  SharedSecurityConfig,
-} from './security';
+import type { ToolsUserConfig } from './tools';
+import type { HtmlUserConfig } from './html';
+import type { SecurityUserConfig } from './security';
 import type { DeployUserConfig } from './deploy';
 import type { ExperimentsUserConfig } from './experiments';
-import type {
-  PerformanceUserConfig,
-  RsPerformanceConfig,
-  SharedPerformanceConfig,
-} from './performance';
+import type { PerformanceUserConfig } from './performance';
 
 export * from './output';
 
@@ -46,8 +22,8 @@ export interface RuntimeByEntriesUserConfig {
 
 export interface SharedUserConfig {
   server?: ServerUserConfig;
-  source?: SharedSourceConfig;
-  output?: SharedOutputConfig;
+  source?: SourceUserConfig;
+  output?: OutputUserConfig;
   /**
    * The configuration of `bff` is provided by `bff` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
@@ -58,12 +34,12 @@ export interface SharedUserConfig {
   deploy?: DeployUserConfig;
   runtime?: RuntimeUserConfig;
   runtimeByEntries?: RuntimeByEntriesUserConfig;
-  html?: SharedHtmlConfig;
-  tools?: SharedToolsConfig;
-  security?: SharedSecurityConfig;
+  html?: HtmlUserConfig;
+  tools?: ToolsUserConfig;
+  security?: SecurityUserConfig;
   testing?: TestingUserConfig;
   builderPlugins?: BuilderPlugin[];
-  performance?: SharedPerformanceConfig;
+  performance?: PerformanceUserConfig;
   devtools?: any;
 }
 
@@ -75,15 +51,6 @@ export interface AppToolsUserConfig extends SharedUserConfig {
   security?: SecurityUserConfig;
   performance?: PerformanceUserConfig;
   experiments?: ExperimentsUserConfig;
-}
-
-export interface RsAppToolsUserConfig extends SharedUserConfig {
-  source?: RsSourceUserConfig;
-  output?: RsOutputUserConfig;
-  html?: RsHtmlUserConfig;
-  tools?: RsToolsUserConfig;
-  performance?: RsPerformanceConfig;
-  security?: RsSecurityConfig;
 }
 
 interface SharedNormalizedConfig<RawConfig> {

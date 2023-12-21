@@ -1,16 +1,11 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type {
-  AppToolsUserConfig,
-  AppToolsNormalizedConfig,
-  SharedUserConfig,
-  RsAppToolsUserConfig,
-} from './config';
+import type { AppToolsUserConfig, AppToolsNormalizedConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
   AppToolsLegacyUserConfig,
   AppToolsLegacyNormalizedConfig,
 } from './legacyConfig';
-import { Bundler, FromConfig } from './utils';
+import { Bundler } from './utils';
 
 export * from './hooks';
 export * from './config';
@@ -36,22 +31,8 @@ export type {
 
 export type AppTools<B extends Bundler = 'webpack'> = {
   hooks: AppToolsHooks<B>;
-  userConfig: FromConfig<
-    B,
-    {
-      rspack: RsAppToolsUserConfig;
-      webpack: AppToolsUserConfig;
-      shared: SharedUserConfig;
-    }
-  >;
-  normalizedConfig: FromConfig<
-    B,
-    {
-      rspack: AppToolsNormalizedConfig<RsAppToolsUserConfig>;
-      webpack: AppToolsNormalizedConfig<AppToolsUserConfig>;
-      shared: AppToolsNormalizedConfig<SharedUserConfig>;
-    }
-  >;
+  userConfig: AppToolsUserConfig;
+  normalizedConfig: AppToolsNormalizedConfig<AppToolsUserConfig>;
 };
 
 export type LegacyAppTools = {

@@ -1,18 +1,7 @@
-import { UnwrapBuilderConfig } from '../utils';
-import type {
-  WebpackBuilderConfig,
-  RspackBuilderConfig,
-} from '../../builder/shared';
+import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UnwrapBuilderConfig } from '../utils';
 
-export type { SharedPerformanceConfig } from '@modern-js/builder-shared';
-
-export type BuilderPerformanceConfig = UnwrapBuilderConfig<
-  WebpackBuilderConfig,
+export type PerformanceUserConfig = UnwrapBuilderConfig<
+  BuilderConfig,
   'performance'
 >;
-export type RsPerformanceConfig = UnwrapBuilderConfig<
-  RspackBuilderConfig,
-  'performance'
->;
-
-export type PerformanceUserConfig = BuilderPerformanceConfig;

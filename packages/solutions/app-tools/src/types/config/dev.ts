@@ -1,6 +1,6 @@
-import type { SharedBuilderConfig } from '@modern-js/builder-shared';
+import type { BuilderConfig } from '@modern-js/uni-builder';
 
-type BuilderDevConfig = Required<SharedBuilderConfig>['dev'];
+type BuilderDevConfig = Required<BuilderConfig>['dev'];
 
 export type DevProxyOptions = string | Record<string, string>;
 

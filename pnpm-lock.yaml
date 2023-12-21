@@ -4722,6 +4722,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@modern-js/upgrade':
         specifier: workspace:*
         version: link:../../toolkit/upgrade

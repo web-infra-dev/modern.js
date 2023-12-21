@@ -1,9 +1,4 @@
-import { UnwrapBuilderConfig } from '../utils';
-import type {
-  WebpackBuilderConfig,
-  RspackBuilderConfig,
-} from '../../builder/shared';
+import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UnwrapBuilderConfig } from '../utils';
 
-export type { SharedHtmlConfig } from '@modern-js/builder-shared';
-export type HtmlUserConfig = UnwrapBuilderConfig<WebpackBuilderConfig, 'html'>;
-export type RsHtmlUserConfig = UnwrapBuilderConfig<RspackBuilderConfig, 'html'>;
+export type HtmlUserConfig = UnwrapBuilderConfig<BuilderConfig, 'html'>;
