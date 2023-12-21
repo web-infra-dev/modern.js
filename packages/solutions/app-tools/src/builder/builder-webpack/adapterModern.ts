@@ -1,5 +1,4 @@
-import { BuilderPlugin } from '@modern-js/builder-shared';
-import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import { RsbuildPlugin } from '@modern-js/uni-builder';
 import { BuilderOptions } from '../shared';
 import { createPublicPattern } from './createCopyPattern';
 
@@ -8,7 +7,7 @@ import { createPublicPattern } from './createCopyPattern';
  */
 export const builderPluginAdapterModern = (
   options: BuilderOptions<'webpack'>,
-): BuilderPlugin<BuilderPluginAPI> => ({
+): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern',
 
   setup(api) {

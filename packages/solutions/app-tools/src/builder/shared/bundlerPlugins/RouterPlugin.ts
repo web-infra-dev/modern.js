@@ -7,7 +7,7 @@ import type {
   webpack,
   HtmlWebpackPlugin,
 } from '@modern-js/uni-builder';
-import type { ScriptLoading } from '@modern-js/builder-shared';
+import type { ScriptLoading } from '@rsbuild/shared';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -25,7 +25,7 @@ type Chunks = webpack.StatsChunk[];
 
 type Options = {
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
-  staticJsDir: string;
+  staticJsDir?: string;
   enableInlineRouteManifests: boolean;
   disableFilenameHash?: boolean;
   scriptLoading?: ScriptLoading;

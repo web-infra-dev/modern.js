@@ -23,5 +23,5 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
 }
 
 export { logger, type Rspack } from '@rsbuild/core';
-export { type webpack } from '@rsbuild/webpack';
+export type { webpack, WebpackChain } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';

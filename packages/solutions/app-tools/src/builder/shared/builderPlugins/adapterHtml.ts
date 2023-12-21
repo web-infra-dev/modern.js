@@ -1,11 +1,12 @@
 import {
   isHtmlDisabled,
-  BuilderPlugin,
+  RsbuildPlugin,
   BundlerChain,
   createVirtualModule,
-} from '@modern-js/builder-shared';
-import {
   ChainIdentifier,
+  RsbuildPluginAPI,
+} from '@rsbuild/shared';
+import {
   MAIN_ENTRY_NAME,
   getEntryOptions,
   removeTailSlash,
@@ -14,11 +15,11 @@ import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { Bundler } from '../../../types';
 import { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
-import type { BuilderOptions, BuilderPluginAPI } from '../types';
+import type { BuilderOptions } from '../types';
 
 export const builderPluginAdapterHtml = <B extends Bundler>(
   options: BuilderOptions<B>,
-): BuilderPlugin<BuilderPluginAPI> => ({
+): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-html',
   setup(api) {
     api.modifyBundlerChain(
@@ -62,7 +63,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
   CHAIN_ID,
   HtmlBundlerPlugin,
 }: {
-  api: BuilderPluginAPI;
+  api: RsbuildPluginAPI;
   chain: BundlerChain;
   options: BuilderOptions<B>;
   CHAIN_ID: ChainIdentifier;

@@ -1,6 +1,5 @@
-import { WebpackChain } from '@modern-js/builder-webpack-provider';
 import { removeTailSlash } from '@modern-js/utils';
-import { CopyPluginOptions } from '@modern-js/uni-builder';
+import { CopyPluginOptions, WebpackChain } from '@modern-js/uni-builder';
 import { createCopyInfo } from '../shared';
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
