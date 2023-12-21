@@ -2,8 +2,7 @@ import { createHash } from 'crypto';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
-import type { webpack } from '@modern-js/builder-webpack-provider';
-import type { Rspack } from '@modern-js/builder-rspack-provider';
+import type { Rspack, webpack } from '@modern-js/uni-builder';
 import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import type { ScriptLoading } from '@modern-js/builder-shared';
 

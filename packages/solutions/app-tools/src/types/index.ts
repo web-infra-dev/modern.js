@@ -10,8 +10,7 @@ import { Bundler } from './utils';
 export * from './hooks';
 export * from './config';
 export * from './legacyConfig';
-export type { webpack } from '@modern-js/builder-webpack-provider';
-export type { Rspack } from '@modern-js/builder-rspack-provider';
+export type { webpack, Rspack } from '@modern-js/uni-builder';
 export type { Bundler } from './utils';
 export type {
   ServerUserConfig,

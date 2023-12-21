@@ -14,7 +14,7 @@ import type {
 } from '@modern-js/types';
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type { Stats, MultiStats } from '@modern-js/builder-shared';
-import type { Rspack } from '@modern-js/builder-rspack-provider';
+import type { Rspack } from '@modern-js/uni-builder';
 import { Bundler } from './utils';
 
 export interface ImportSpecifier {
