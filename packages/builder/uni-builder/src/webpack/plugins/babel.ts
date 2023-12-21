@@ -5,7 +5,6 @@ import type { BabelConfig } from '@rsbuild/babel-preset';
 import { isBeyondReact17 } from '@rsbuild/plugin-react';
 import {
   SCRIPT_REGEX,
-  addCoreJsEntry,
   mergeChainedOptions,
   applyScriptCondition,
   getBrowserslistWithDefault,
@@ -164,8 +163,6 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           .loader(require.resolve('babel-loader'))
           // Using cloned options to keep options separate from each other
           .options(lodash.cloneDeep(babelOptions));
-
-        addCoreJsEntry({ chain, config, isServer, isServiceWorker });
       },
     );
   },

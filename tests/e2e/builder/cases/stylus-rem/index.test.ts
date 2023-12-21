@@ -2,14 +2,13 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
-import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
+import { pluginStylus } from '@rsbuild/plugin-stylus';
 
 test('should compile stylus and rem correctly', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    useUniBuilder: false,
-    plugins: [builderPluginStylus()],
+    plugins: [pluginStylus()],
     builderConfig: {
       output: {
         convertToRem: true,
