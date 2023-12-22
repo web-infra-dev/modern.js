@@ -166,6 +166,12 @@ declare module '*.svg' {
 
 当此选项设置为 'named' 时，你可以使用以下语法导入组件：
 
+```js title="index.ts"
+import { ReactComponent } from './logo.svg';
+```
+
+命名导出默认为 `ReactComponent`，并可以通过 `asset.svgr.namedExport` 进行自定义。
+
 ## autoExtension
 
 根据 [format](#format) 和 [type](https://nodejs.org/api/packages.html#type) 自动添加产物里 js 文件和类型描述文件的后缀。
