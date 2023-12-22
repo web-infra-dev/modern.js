@@ -18,11 +18,13 @@ describe('test render function', () => {
         req: {},
       } as any,
       {
-        urlPath: '/foo',
-        bundle: 'bundle.js',
+        route: {
+          urlPath: '/foo',
+          bundle: 'bundle.js',
+          entryName: 'foo',
+        },
         distDir: path.join(__dirname, 'fixtures', 'ssr'),
         template: 'tpl.html',
-        entryName: 'foo',
         staticGenerate: false,
       } as any,
       {

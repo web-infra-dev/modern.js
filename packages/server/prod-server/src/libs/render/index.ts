@@ -10,6 +10,7 @@ import { shouldFlushServerHeader } from '../preload/shouldFlushServerHeader';
 import { handleDirectory } from './static';
 import * as ssr from './ssr';
 import { injectServerData } from './utils';
+import { SSRRenderOptions } from './ssr';
 
 export type RenderHandler = (options: {
   ctx: ModernServerContext;
@@ -100,11 +101,9 @@ export const createRenderHandler: CreateRenderHandler = ({
             },
           });
         }
-        const ssrRenderOptions = {
+        const ssrRenderOptions: SSRRenderOptions = {
           distDir,
-          entryName: route.entryName,
-          urlPath: route.urlPath,
-          bundle: route.bundle,
+          route,
           template: content.toString(),
           staticGenerate,
           nonce,
