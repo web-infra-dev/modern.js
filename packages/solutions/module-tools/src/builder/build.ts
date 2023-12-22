@@ -71,7 +71,7 @@ export const generatorDts = async (
     autoExtension,
   } = config;
   const { appDirectory } = api.useAppContext();
-  const { distPath, abortOnError, respectExternal } = dts;
+  const { distPath, abortOnError, respectExternal, enableTscBuild } = dts;
 
   // remove this line after remove dts.tsconfigPath
   const tsconfigPath = dts.tsconfigPath ?? tsconfig;
@@ -99,6 +99,7 @@ export const generatorDts = async (
     sourceDir,
     dtsExtension,
     userTsconfig,
+    enableTscBuild,
   };
   const prevTime = Date.now();
   debug(`${label('dts')} Build Start`);

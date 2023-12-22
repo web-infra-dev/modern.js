@@ -21,6 +21,7 @@ export const getDefaultBuildConfig = () => {
       tsconfigPath: undefined,
       abortOnError: true,
       respectExternal: true,
+      enableTscBuild: false,
     }),
     autoExtension: false,
     esbuildOptions: c => c,

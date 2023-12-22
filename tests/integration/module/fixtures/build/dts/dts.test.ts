@@ -46,6 +46,13 @@ describe('dts build', () => {
       appDirectory: fixtureDir,
       enableDts,
     });
+
+    const compositeDistPath = path.join(
+      fixtureDir,
+      '../dts-composite/dist/index.d.ts',
+    );
+    expect(fs.existsSync(compositeDistPath)).toBeTruthy();
+
     const distMapPath = path.join(
       fixtureDir,
       './dist/bundleless/types/index.d.ts.map',

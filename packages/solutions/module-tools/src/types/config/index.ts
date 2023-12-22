@@ -75,6 +75,12 @@ export type Redirect = {
 export type DTSOptions = {
   abortOnError: boolean;
   distPath: string;
+  /**
+   * Build one or more projects and their dependencies, if out of date
+   * The same as 'tsc --build'
+   * @default false
+   */
+  enableTscBuild: boolean;
   only: boolean;
   /**
    * @deprecated
