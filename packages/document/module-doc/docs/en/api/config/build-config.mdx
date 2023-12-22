@@ -463,12 +463,12 @@ we experimentally enabled this option in the MAJOR_VERSION.42.0 version, but the
 
 ```warning
 When this option is enabled, to meet the build requirements, you must explicitly set 'declarationDir' or 'outDir' in tsconfig.json,
-If you are not using TS5 version, you also need to explicitly set 'declaration' and 'emitDeclarationOnly'.
+If you are not using TS >= 5.0 version, you also need to explicitly set 'declaration' and 'emitDeclarationOnly'.
 ```
 
-- 类型： `boolean`
-- 默认值： `false`
-- 版本： `>MAJOR_VERSION.43.0`
+- **Type**: `boolean`
+- **Default**: `false`
+- **Version**: `>MAJOR_VERSION.43.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({
