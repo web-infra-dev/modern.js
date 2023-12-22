@@ -19,10 +19,6 @@ const ssrServerContext = {
     ...console,
     error: errorLogger,
   },
-  metrics: {
-    emitCounter,
-    emitTimer: jest.fn(),
-  },
   reporter: {
     reportError,
     reportTiming() {

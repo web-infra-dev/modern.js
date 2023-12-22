@@ -7,7 +7,6 @@ import type {
 export type Metrics = {
   emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
   emitTimer: (name: string, value: number, tags: Record<string, any>) => void;
-  gauges: () => void;
 };
 
 type LoggerFunction = (
