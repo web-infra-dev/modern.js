@@ -132,16 +132,6 @@ import Logo from './logo.svg';
 export default () => <Logo />;
 ```
 
-:::warning
-
-目前不支持下面的用法：
-
-```js title="index.ts"
-import { ReactComponent } from './logo.svg';
-```
-
-:::
-
 当开启功能后，可以通过在 `modern-app-env.d.ts` 文件中增加类型定义，修改使用 SVG 的类型：
 
 ```ts title="modern-app-env.d.ts"
@@ -166,6 +156,21 @@ declare module '*.svg' {
 
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `undefined`
+
+## asset.svgr.exportType
+
+用于配置使用 SVGR 时 SVG 的导出形式。
+
+- 类型： `'named' | 'default'`
+- 默认值： `default`
+
+当此选项设置为 'named' 时，你可以使用以下语法导入组件：
+
+```js title="index.ts"
+import { ReactComponent } from './logo.svg';
+```
+
+命名导出默认为 `ReactComponent`，并可以通过 `asset.svgr.namedExport` 进行自定义。
 
 ## autoExtension
 
@@ -1364,10 +1369,7 @@ export default defineConfig({
 
 ```js title="modern.config.ts"
 const tailwind = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './config/html/**/*.{html,ejs,hbs}'],
 };
 ```
 

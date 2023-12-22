@@ -132,13 +132,6 @@ import Logo from './logo.svg';
 export default () => <Logo />;
 ```
 
-:::warning
-The following usage is not currently supported:
-
-```js title="index.ts"
-import { ReactComponent } from './logo.svg';
-```
-
 :::
 
 When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
@@ -165,6 +158,21 @@ Set unmatched svg files
 
 - **Type**: `string | RegExp | (string | RegExp)[]`
 - **Default**: `undefined`
+
+## asset.svgr.exportType
+
+Used to configure the SVG export type when using SVGR.
+
+- **Type**: `'named' | 'default'`
+- **Default**: `default`
+
+when it is 'named', use the following syntax:
+
+```js title="index.ts"
+import { ReactComponent } from './logo.svg';
+```
+
+The named export defaults to `ReactComponent`, and can be customized with the `asset.svgr.namedExport`.
 
 ## autoExtension
 
@@ -1362,10 +1370,7 @@ Used to modify the configuration of [Tailwind CSS](https://tailwindcss.com/docs/
 
 ```js title="modern.config.ts"
 const tailwind = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './config/html/**/*.{html,ejs,hbs}'],
 };
 ```
 
