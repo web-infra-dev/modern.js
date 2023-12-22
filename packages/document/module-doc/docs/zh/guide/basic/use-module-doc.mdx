@@ -52,8 +52,23 @@ docs
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/rpauheh7nulwbm/edenx-module/docs-blog/autosidebar.png"></img>
 
-:::tip
-侧边栏每一栏的文本是由文件的一级标题或者目录名决定。如果你需要自定义侧边栏，请配置[sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
+### 配置侧边栏
+
+如上图所示，模块文档已经为文件系统路由自动生成了侧边栏，其中侧边栏每一栏的文本是由文件的一级标题或者目录名决定。
+如果你需要自定义侧边栏，请使用 [_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html) 或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
+
+:::info
+如果你的文档目录结构是符合国际化的，例如：
+```bash
+docs
+├── en
+│   ├── button.mdx
+│   ├── index.mdx
+└── zh
+    ├── button.mdx
+    ├── index.mdx
+```
+你需要按照[国际化](https://rspress.dev/zh/guide/default-theme/i18n.html)章节，同时配置 `lang` 和 `locales`，否则模块自动生成的侧边栏不会处理 `zh` 和 `en` 这两个目录。
 :::
 
 ## 编写文档
@@ -307,21 +322,9 @@ API 解析工具
 - 类型：`'react-docgen-typescript' | 'documentation'`
 - 默认值：`'react-docgen-typescript'`
 
-### parseToolOptions
+### doc
 
-API 解析工具的参数
-
-- 类型：`ParseToolOptions`
-- 默认值：`{}`
-
-```ts
-type ParseToolOptions = {
-  // https://github.com/styleguidist/react-docgen-typescript#options
-  'react-docgen-typescript'?: ParserOptions;
-  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
-  documentation?: DocumentationArgs;
-};
-```
+[文档框架配置](https://rspress.dev/zh/api/index.html)
 
 ### entries
 
@@ -361,22 +364,6 @@ export default defineConfig({
 });
 ```
 
-### useModuleSidebar
-
-使用模块列表侧边栏。如果你想要使用[\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)来自动化侧边栏，你需要关闭此选项。
-
-- 类型：`boolean`
-- 默认值：`true`
-
-### previewMode
-
-代码块预览方式。
-
-- 类型：`'mobile' | 'web'`
-- 默认值: `'web'`
-
-`web`时，代码块内容将会直接渲染在页面中，反之将会通过 iframe 加载。
-
 ### iframePosition
 
 iframe 所处页面位置
@@ -387,9 +374,43 @@ iframe 所处页面位置
 `follow`时，每一个代码块都会有一个 iframe 展示其渲染视图。
 `fixed`时，iframe 将会固定在页面右侧，展示当前页面所有代码块的视图。
 
-### doc
+### parseToolOptions
 
-[文档框架配置](https://rspress.dev/zh/api/index.html)
+API 解析工具的参数
+
+- 类型：`ParseToolOptions`
+- 默认值：`{}`
+
+```ts
+type ParseToolOptions = {
+  // https://github.com/styleguidist/react-docgen-typescript#options
+  'react-docgen-typescript'?: ParserOptions;
+  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
+  documentation?: DocumentationArgs;
+};
+```
+
+### previewMode
+
+代码块预览方式。
+
+- 类型：`'mobile' | 'web'`
+- 默认值: `'web'`
+
+`web`时，代码块内容将会直接渲染在页面中，反之将会通过 iframe 加载。
+
+### desperated: languages
+
+:::warning
+从 MAJOR_VERSION.44.0 版本开始，请参考 [国际化](https://rspress.dev/zh/guide/default-theme/i18n.html) 章节来实现多语言。
+:::
+
+### desperated: useModuleSidebar
+
+:::warning
+从 MAJOR_VERSION.44.0 版本开始，内部实现了嗅探机制，请直接使用 [_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)
+或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar) 来实现自定义侧边栏。
+:::
 
 ## 进阶指南
 
