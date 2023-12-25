@@ -65,13 +65,12 @@ describe('dts build', () => {
         path.resolve(fixtureDir, 'src/index.ts'),
     ).toBeTruthy();
 
-    /// / fix jest bug
-    // const content = await fs.readFile(distPath, 'utf8');
-    // const distPath = path.join(
-    //   fixtureDir,
-    //   './dist/bundleless/types/index.d.ts',
-    // );
-    // expect(content.includes('./b')).toBeTruthy();
+    const distPath = path.join(
+      fixtureDir,
+      './dist/bundleless/types/index.d.ts',
+    );
+    const content = await fs.readFile(distPath, 'utf8');
+    expect(content.includes('./b')).toBeTruthy();
   });
 });
 

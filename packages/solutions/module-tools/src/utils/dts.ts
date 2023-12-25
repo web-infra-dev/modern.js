@@ -140,7 +140,13 @@ export const processDtsFilesAfterTsc = async (config: GeneratorDtsConfig) => {
             return;
           }
           const { start, end, name } = module;
-          const absoluteImportPath = matchPath(name);
+          // same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/feature/redirect.ts#L52
+          const absoluteImportPath = matchPath(name, undefined, undefined, [
+            '.jsx',
+            '.tsx',
+            '.js',
+            '.ts',
+          ]);
           if (absoluteImportPath) {
             const relativePath = relative(
               dirname(originalFilePath),
