@@ -103,11 +103,11 @@ function getHeadTemplate(
         }
       });
 
-      const { enableInlineScripts } = pluginConfig;
+      const { enableInlineStyles } = pluginConfig;
       const styles = await Promise.all(
         cssChunks.map(async chunk => {
           const link = `<link href="${chunk}" rel="stylesheet" />`;
-          if (checkIsNode() && checkIsInline(chunk, enableInlineScripts)) {
+          if (checkIsNode() && checkIsInline(chunk, enableInlineStyles)) {
             return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {
