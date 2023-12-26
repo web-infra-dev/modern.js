@@ -1,6 +1,6 @@
 import type { CacheOption, Container } from '@modern-js/runtime/server';
 
-class MyContainter implements Container {
+class MyContainer implements Container {
   map: Map<string, string> = new Map();
 
   async get(key: string) {
@@ -21,7 +21,7 @@ class MyContainter implements Container {
   }
 }
 
-export const customContainer: Container = new MyContainter();
+export const customContainer: Container = new MyContainer();
 
 export const cacheOption: CacheOption = {
   maxAge: 5000,

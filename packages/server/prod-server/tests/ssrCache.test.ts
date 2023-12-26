@@ -11,7 +11,7 @@ function sleep(timeout: number) {
   });
 }
 
-class MyContainter implements Container {
+class MyContainer implements Container {
   cache: Map<string, string> = new Map();
 
   get(key: string): string | undefined {
@@ -33,7 +33,7 @@ class MyContainter implements Container {
   }
 }
 
-const container = new MyContainter();
+const container = new MyContainer();
 
 const cacheManager = new CacheManager(container);
 
