@@ -25,6 +25,7 @@ export interface AddManyFilesParams {
   templateBase?: string; // template base path, targetPath = templateFile - base
   fileNameFunc?: (name: string) => string;
   data?: Record<string, string>; // template data
+  dot?: boolean; // include dotfiles
 }
 
 export async function fileExists(filePath: string) {
@@ -130,7 +131,7 @@ export async function addManyFiles(
     : `${path.sep}${config.templateBase || ''}`;
 
   const templateFiles = globby
-    .sync(config.templateFiles, { braceExpansion: false })
+    .sync(config.templateFiles, { braceExpansion: false, dot: config.dot })
     .map(filePath => dropFileRootPath(filePath, templatePath))
     .filter(filePath => filePath.startsWith(config.templateBase || ''))
     .filter(isAbsoluteOrRelativeFileTo(templatePath));
