@@ -5,7 +5,7 @@ import { ServerRenderOptions } from '../types';
 import { SSRErrors, SSRTimings } from '../tracker';
 import renderToPipe from './renderToPipe';
 
-export const render = ({ App, context }: ServerRenderOptions) => {
+export const render = ({ App, context, config }: ServerRenderOptions) => {
   const { ssrContext } = context;
 
   if (!ssrContext) {
@@ -23,7 +23,7 @@ export const render = ({ App, context }: ServerRenderOptions) => {
 
     const { tracker } = ssrContext;
 
-    const pipe = renderToPipe(rootElement, context, {
+    const pipe = renderToPipe(rootElement, context, config, {
       onShellReady() {
         const cost = end();
         tracker.trackTiming(SSRTimings.RENDER_SHELL, cost);

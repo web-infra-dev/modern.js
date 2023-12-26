@@ -18,3 +18,7 @@ export function safeReplace(
 ) {
   return source.replace(searchValue, () => replaceValue);
 }
+
+export function checkIsNode(): boolean {
+  return typeof process !== 'undefined' && process.release?.name === 'node';
+}
