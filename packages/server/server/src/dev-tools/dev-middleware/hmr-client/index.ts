@@ -190,8 +190,7 @@ function tryApplyUpdates() {
   }
 
   function handleApplyUpdates(err: any, updatedModules: any) {
-    const wantsForcedReload =
-      err || !updatedModules || updatedModules.length === 0 || hadRuntimeError;
+    const wantsForcedReload = err || !updatedModules || hadRuntimeError;
     if (wantsForcedReload) {
       window.location.reload();
       return;
