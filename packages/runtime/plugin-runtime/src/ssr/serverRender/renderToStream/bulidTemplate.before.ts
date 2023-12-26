@@ -18,7 +18,7 @@ const readAsset = async (chunk: string) => {
 
   // only working in 'production' env
   // we need ensure the assetsDir is same as ssr bundles.
-  const filepath = path.resolve(__dirname, chunk);
+  const filepath = path.join(__dirname, chunk);
 
   return fs.readFile(filepath, 'utf-8');
 };
