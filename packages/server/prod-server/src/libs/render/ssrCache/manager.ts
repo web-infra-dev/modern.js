@@ -9,10 +9,10 @@ interface CacheStruct {
 }
 
 export class CacheManager {
-  private containter: Container<string, string>;
+  private container: Container<string, string>;
 
-  constructor(containter: Container<string, string>) {
-    this.containter = containter;
+  constructor(container: Container<string, string>) {
+    this.container = container;
   }
 
   async getCacheResult(
@@ -23,7 +23,7 @@ export class CacheManager {
   ): Promise<string | Readable> {
     const key = this.computedKey(req, cacheControl);
 
-    const value = await this.containter.get(key);
+    const value = await this.container.get(key);
     const { maxAge, staleWhileRevalidate } = cacheControl;
     const ttl = maxAge + staleWhileRevalidate;
 
@@ -65,7 +65,7 @@ export class CacheManager {
         val: renderResult,
         cursor: current,
       };
-      await this.containter.set(key, JSON.stringify(cache), { ttl });
+      await this.container.set(key, JSON.stringify(cache), { ttl });
       return renderResult;
     } else {
       let html: string;
@@ -83,7 +83,7 @@ export class CacheManager {
           val: html,
           cursor: current,
         };
-        this.containter.set(key, JSON.stringify(cache), { ttl });
+        this.container.set(key, JSON.stringify(cache), { ttl });
       });
 
       return renderResult(stream);
