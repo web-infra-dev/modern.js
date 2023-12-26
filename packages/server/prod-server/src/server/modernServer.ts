@@ -17,13 +17,13 @@ import {
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
+import { Logger } from '@modern-js/utils/logger';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
   Metrics,
-  Logger,
   ConfWithBFF,
   ModernServerInterface,
   BuildOptions,
@@ -700,12 +700,7 @@ export class ModernServer implements ModernServerInterface {
     try {
       context = this.createContext(req, res, { metaName: this.metaName });
     } catch (e) {
-      this.logger.error(
-        `Error - createServerContext failed, error = %s, req.url = %s, req.headers = %o`,
-        e instanceof Error ? e.stack || e.message : e,
-        req.url!,
-        req.headers,
-      );
+      this.logger.error(e);
       res.statusCode = 500;
       res.setHeader('content-type', mime.contentType('html') as string);
       return res.end(createErrorDocument(500, ERROR_PAGE_TEXT[500]));
