@@ -32,9 +32,6 @@ const createLogger = (): Logger => ({
   debug(message, ...args: any[]) {
     console.debug(message, ...args);
   },
-  log(message, ...args: any[]) {
-    console.log(message, ...args);
-  },
 });
 
 const calcFallback = (metaName: string) =>

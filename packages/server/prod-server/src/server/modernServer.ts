@@ -700,7 +700,12 @@ export class ModernServer implements ModernServerInterface {
     try {
       context = this.createContext(req, res, { metaName: this.metaName });
     } catch (e) {
-      this.logger.error(e as Error);
+      this.logger.error(
+        `Error - createServerContext failed, error = %s, req.url = %s, req.headers = %o`,
+        e instanceof Error ? e.stack || e.message : e,
+        req.url!,
+        req.headers,
+      );
       res.statusCode = 500;
       res.setHeader('content-type', mime.contentType('html') as string);
       return res.end(createErrorDocument(500, ERROR_PAGE_TEXT[500]));
