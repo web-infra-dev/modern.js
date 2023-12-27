@@ -23,6 +23,7 @@ import type {
   ServerRoute,
   HttpMethodDecider,
   ServerInitHookContext,
+  AfterStreamingRenderContext,
 } from '@modern-js/types';
 
 import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
@@ -152,6 +153,11 @@ const beforeRender = createAsyncPipeline<
 
 const afterRender = createAsyncPipeline<AfterRenderContext, any>();
 
+const afterStreamingRender = createAsyncPipeline<
+  AfterStreamingRenderContext,
+  string
+>();
+
 const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
 
 const afterSend = createParallelWorkflow<{
@@ -212,6 +218,7 @@ const serverHooks = {
   renderToString,
   beforeRender,
   afterRender,
+  afterStreamingRender,
   beforeSend,
   afterSend,
   reset,

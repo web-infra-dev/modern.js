@@ -15,6 +15,7 @@ export interface GeneratorDtsConfig {
   respectExternal: boolean;
   dtsExtension: string;
   userTsconfig: ITsconfig;
+  enableTscBuild: boolean;
 }
 
 export interface GeneratedDtsInfo {

@@ -53,8 +53,26 @@ The sidebars corresponding in turn to the above file paths and routing paths are
 
 <img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/rpauheh7nulwbm/edenx-module/docs-blog/autosidebar.png"></img>
 
-:::tip
-The text in each column of sidebar is determined by the primary title or directory name of the file. If you need to customize the sidebar, please configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar)。
+### Configure sidebar
+
+As shown in the figure above, the module documentation has automatically generated sidebars for file system routing, where the text of each column of the sidebar is determined by the file's first level title or directory name.
+If you need to customize the sidebar, please use [_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) or configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) directly.
+
+:::info
+If your document directory structure complies with internationalization, for example:
+
+```bash
+docs
+├── en
+│   ├── button.mdx
+│   ├── index.mdx
+└── zh
+    ├── button.mdx
+    ├── index.mdx
+```
+
+You need to follow [internationalization](https://rspress.dev/guide/default-theme/i18n.html) guide and configure `lang` 和 `locales`,
+otherwise, the automatically generated sidebar of the module will not handle the `zh` and `en` directories.
 :::
 
 ## Writing Documentation
@@ -234,13 +252,15 @@ If you use the default export, the filename will be used as the form title. The 
 
 :::warning
 If React types are used in Props, you need to add the types in tsconfig.json, otherwise the types will not be resolved under the React namespace.
+
 ```json
 {
   "compilerOptions": {
-    "types": ["react"],
-  },
+    "types": ["react"]
+  }
 }
 ```
+
 :::
 
 - `documentation` is used in tool library scenarios to parse JSDoc annotations.
@@ -310,21 +330,9 @@ API parse tool.
 - Type:`'react-docgen-typescript' | 'documentation'`
 - Default: `'react-docgen-typescript'`
 
-### parseToolOptions
+### doc
 
-API parse tool options.
-
-- Type:`ParseToolOptions`
-- Default: `{}`
-
-```ts
-type ParseToolOptions = {
-  // https://github.com/styleguidist/react-docgen-typescript#options
-  'react-docgen-typescript'?: ParserOptions;
-  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
-  documentation?: DocumentationArgs;
-};
-```
+[Config](https://rspress.dev/api/index.html).
 
 ### entries
 
@@ -364,20 +372,6 @@ export default defineConfig({
 });
 ```
 
-### useModuleSidebar
-
-If you want to use[\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) to automate sidebar，you should set it `false`.
-
-- Type:`boolean`
-- Default: `true`
-
-### previewMode
-
-- Type:`'mobile' | 'web'`
-- Default: `'web'`
-
-In case of `web`, the component will be rendered directly in the page, otherwise it will be loaded through an iframe.
-
 ### iframePosition
 
 - 类型：`'follow' | 'fixed'`
@@ -386,9 +380,41 @@ In case of `web`, the component will be rendered directly in the page, otherwise
 When the value is `follow`, each code block will have an iframe showing its rendered view.
 When `fixed`, the iframe will be fixed to the right side of the page, showing the view of all the code blocks on the current page.
 
-### doc
+### parseToolOptions
 
-[Config](https://rspress.dev/api/index.html).
+API parse tool options.
+
+- Type:`ParseToolOptions`
+- Default: `{}`
+
+```ts
+type ParseToolOptions = {
+  // https://github.com/styleguidist/react-docgen-typescript#options
+  'react-docgen-typescript'?: ParserOptions;
+  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
+  documentation?: DocumentationArgs;
+};
+```
+
+### previewMode
+
+- Type:`'mobile' | 'web'`
+- Default: `'web'`
+
+In case of `web`, the component will be rendered directly in the page, otherwise it will be loaded through an iframe.
+
+### desperated: languages
+
+:::warning
+Starting from version MAJOR_VERSION.44.0, please refer to the [Internationalization](https://rspress.dev/guide/default-theme/i18n.html) section to implement multiple languages.
+:::
+
+### desperated: useModuleSidebar
+
+:::warning
+Starting from version MAJOR_VERSION.44.0, a sniffing mechanism has been implemented internally, so please directly use [\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html)
+or directly configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) to implement a custom sidebar.
+:::
 
 ## Advanced guide
 

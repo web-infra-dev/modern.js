@@ -29,7 +29,7 @@ import {
   getDefaultOutExtension,
   isTsExt,
 } from '../../utils';
-import { getAssetContents, loadSvgr } from './asset';
+import { getAssetContents } from './asset';
 import { isCssModule } from './style/postcssTransformer';
 
 type MatchModule = {
@@ -59,7 +59,7 @@ async function redirectImport(
       let { name } = module;
       const ext = extname(name);
 
-      const { redirect, asset } = compiler.config;
+      const { redirect } = compiler.config;
       const { alias, style } = redirect;
 
       if (alias) {
@@ -155,16 +155,15 @@ async function redirectImport(
         if (assetExt.filter(ext => name.endsWith(ext)).length) {
           // asset
           const absPath = resolve(dirname(filePath), name);
-          const svgrResult = await loadSvgr(absPath, asset.svgr);
-          if (svgrResult) {
+          const { contents: relativeImportPath, loader } =
+            await getAssetContents.apply(compiler, [absPath, outputDir]);
+          if (loader === 'jsx') {
             // svgr
             const ext = extname(name);
             const outputName = `${name.slice(0, -ext.length)}.js`;
             str.overwrite(start, end, outputName);
           } else {
             // other assets
-            const { contents: relativeImportPath } =
-              await getAssetContents.apply(compiler, [absPath, outputDir]);
             str.overwrite(start, end, `${relativeImportPath}`);
           }
         }

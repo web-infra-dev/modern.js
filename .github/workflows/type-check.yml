@@ -44,7 +44,7 @@ jobs:
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/cache@v3
         with:
-          path: .nx-cache
+          path: .nx/cache
           key: nx-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             nx-${{ github.base_ref }}-${{ github.ref_name }}-

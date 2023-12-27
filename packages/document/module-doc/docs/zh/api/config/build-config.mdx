@@ -132,16 +132,6 @@ import Logo from './logo.svg';
 export default () => <Logo />;
 ```
 
-:::warning
-
-目前不支持下面的用法：
-
-```js title="index.ts"
-import { ReactComponent } from './logo.svg';
-```
-
-:::
-
 当开启功能后，可以通过在 `modern-app-env.d.ts` 文件中增加类型定义，修改使用 SVG 的类型：
 
 ```ts title="modern-app-env.d.ts"
@@ -166,6 +156,21 @@ declare module '*.svg' {
 
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `undefined`
+
+## asset.svgr.exportType
+
+用于配置使用 SVGR 时 SVG 的导出形式。
+
+- 类型： `'named' | 'default'`
+- 默认值： `default`
+
+当此选项设置为 'named' 时，你可以使用以下语法导入组件：
+
+```js title="index.ts"
+import { ReactComponent } from './logo.svg';
+```
+
+命名导出默认为 `ReactComponent`，并可以通过 `asset.svgr.namedExport` 进行自定义。
 
 ## autoExtension
 
@@ -449,6 +454,34 @@ export default defineConfig({
   },
 });
 ```
+
+## dts.enableTscBuild
+
+开启 tsc '--build' 选项。当使用 project reference 时，
+可以使用 '--build' 选项以实现项目之间的协同工作以加快构建速度。
+
+此选项要求版本 > MAJOR_VERSION.43.0，
+事实上，我们在 MAJOR_VERSION.42.0 版本曾试验性地开启此选项，但其带来的许多问题使我们不得不动态开启。
+
+```warning
+当开启此选项时，为了满足构建需求，你必须显式地在 tsconfig.json 里设置 'declarationDir' 或者 'outDir'，
+如果你用的不是 TS >= 5.0 版本，你还需要显式地设置 'declaration' 和 'emitDeclarationOnly'。
+```
+
+- 类型： `boolean`
+- 默认值： `false`
+- 版本： `>MAJOR_VERSION.43.0`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      enableTscBuild: true,
+    },
+  },
+});
+```
+
 
 ## dts.only
 
@@ -1336,10 +1369,7 @@ export default defineConfig({
 
 ```js title="modern.config.ts"
 const tailwind = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './config/html/**/*.{html,ejs,hbs}'],
 };
 ```
 

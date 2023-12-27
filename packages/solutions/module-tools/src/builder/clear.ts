@@ -1,4 +1,4 @@
-import { basename, relative, resolve, dirname } from 'path';
+import { basename, relative, resolve, dirname, join } from 'path';
 import { fs, logger, chalk } from '@modern-js/utils';
 
 import type { BaseBuildConfig } from '../types';
@@ -24,14 +24,13 @@ export const clearBuildConfigPaths = async (
         composite,
         incremental,
         rootDir,
+        outDir,
         tsBuildInfoFile = '.tsbuildinfo',
       } = compilerOptions || {};
       if (!composite && !incremental) {
         // js project will return, too.
         return;
       }
-      // real outDir will be set to distPath
-      const outDir = config.dts.distPath;
       const tsconfigDir = dirname(config.tsconfig);
 
       // https://www.typescriptlang.org/tsconfig#tsBuildInfoFile
@@ -39,21 +38,25 @@ export const clearBuildConfigPaths = async (
         config.tsconfig,
         '.json',
       )}${tsBuildInfoFile}`;
-      if (rootDir) {
-        tsbuildInfoFilePath = resolve(
-          outDir,
-          relative(resolve(tsconfigDir, rootDir), tsconfigDir),
-          tsbuildInfoFilePath,
-        );
-      } else {
-        tsbuildInfoFilePath = resolve(outDir, tsbuildInfoFilePath);
+      if (outDir) {
+        if (rootDir) {
+          tsbuildInfoFilePath = join(
+            outDir,
+            relative(resolve(tsconfigDir, rootDir), tsconfigDir),
+            tsbuildInfoFilePath,
+          );
+        } else {
+          tsbuildInfoFilePath = join(outDir, tsbuildInfoFilePath);
+        }
       }
 
+      const tsbuildInfoFileAbsPath = resolve(tsconfigDir, tsbuildInfoFilePath);
+
       debug('clear tsbuildinfo');
-      if (await fs.pathExists(tsbuildInfoFilePath)) {
-        await fs.remove(tsbuildInfoFilePath);
+      if (await fs.pathExists(tsbuildInfoFileAbsPath)) {
+        await fs.remove(tsbuildInfoFileAbsPath);
       } else {
-        debug(`${tsbuildInfoFilePath} doesn't exist`);
+        debug(`${tsbuildInfoFileAbsPath} doesn't exist`);
       }
     }
   }

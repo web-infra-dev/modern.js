@@ -33,7 +33,8 @@ export function formatURL({
   hostname: string;
   pathname: string;
 }) {
-  if (window.URL) {
+  // eslint-disable-next-line node/prefer-global/url, node/no-unsupported-features/node-builtins
+  if (typeof URL !== 'undefined') {
     // eslint-disable-next-line node/prefer-global/url, node/no-unsupported-features/node-builtins
     const url = new URL('http://localhost');
     url.port = port;
