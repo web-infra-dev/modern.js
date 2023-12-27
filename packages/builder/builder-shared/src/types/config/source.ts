@@ -60,20 +60,7 @@ export interface SharedSourceConfig {
    * Add a prefix to [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolveextensions).
    */
   resolveExtensionPrefix?: string | Partial<Record<BuilderTarget, string>>;
-  /**
-   * Simple transformImport configuration
-   */
-  transformImport?: false | SharedTransformImport[];
 }
-
-export type SharedTransformImport = {
-  libraryName: string;
-  libraryDirectory?: string;
-  style?: string | boolean;
-  styleLibraryDirectory?: string;
-  camelToDashComponentName?: boolean;
-  transformToDefaultImport?: boolean;
-};
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {
   alias: ChainedConfig<Alias>;
