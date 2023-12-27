@@ -1,5 +1,14 @@
 # @modern-js/main-doc
 
+## 2.44.0
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+  - @modern-js/sandpack-react@2.44.0
+  - @modern-js/builder-doc@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

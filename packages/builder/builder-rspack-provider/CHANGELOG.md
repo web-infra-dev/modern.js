@@ -1,5 +1,22 @@
 # @modern-js/builder-rspack-provider
 
+## 2.44.0
+
+### Patch Changes
+
+- b32f60a: chore(deps): bump rspack to 0.4.5 and bump rsbuild to 0.2.11
+
+  chore(deps): 升级 rspack 到 0.4.5 & 升级 rsbuild 到 0.2.11
+
+- Updated dependencies [0ed968c]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+- Updated dependencies [35a9961]
+  - @modern-js/types@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/utils@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

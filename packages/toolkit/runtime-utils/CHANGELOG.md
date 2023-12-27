@@ -1,5 +1,13 @@
 # @modern-js/runtime-utils
 
+## 2.44.0
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+  - @modern-js/utils@2.44.0
+
 ## 2.43.0
 
 ### Minor Changes

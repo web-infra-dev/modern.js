@@ -1,5 +1,13 @@
 # @modern-js/base-generator
 
+## 3.3.5
+
+### Patch Changes
+
+- 991e14e: chore(generator): update vscode settings template
+  chore(generator): 更新项目里 vscode 设置的模板
+  - @modern-js/utils@2.44.0
+
 ## 3.3.4
 
 ### Patch Changes
