@@ -39,7 +39,6 @@ export interface AppToolsUserConfig {
   tools?: ToolsUserConfig;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
-  // TODO: loose type
   builderPlugins?: RsbuildPlugin[];
   performance?: PerformanceUserConfig;
   devtools?: any;

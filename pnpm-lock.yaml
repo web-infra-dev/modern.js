@@ -1342,12 +1342,12 @@ importers:
 
   packages/cli/plugin-swc:
     dependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../builder/plugin-swc
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/plugin-swc':
+        specifier: 0.2.8
+        version: 0.2.8
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -1355,9 +1355,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -1446,12 +1443,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/devtools-kit':
         specifier: workspace:*
         version: link:../kit
@@ -1600,21 +1591,15 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1667,15 +1652,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -1691,6 +1667,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -14578,7 +14557,6 @@ packages:
       lodash: 4.17.21
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@rsbuild/plugin-type-check@0.2.8(@rsbuild/core@0.2.8)(typescript@5.3.3)(webpack@5.89.0):
     resolution: {integrity: sha512-JGFbjrM4+sSrYKobSfKL8M7eWy7Sfgzsj9l4X52pDjMWm1cGhrabxwcPQ84Zj/JB2O4sOhUNQmfaodRePdXAQg==}

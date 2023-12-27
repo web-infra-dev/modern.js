@@ -1,17 +1,13 @@
 import type { AppTools, IAppContext, UserConfig } from '@modern-js/app-tools';
-import type { BuilderContext } from '@modern-js/builder-shared';
 import type {
-  BuilderConfig as WebpackBuilderConfig,
-  NormalizedConfig as NormalizedWebpackBuilderConfig,
-  WebpackConfig,
+  RsbuildContext,
+  NormalizedConfig as NormalizedBuilderConfig,
+  RsbuildConfig,
   webpack,
-} from '@modern-js/builder-webpack-provider';
-import type {
-  BuilderConfig as RspackBuilderConfig,
-  NormalizedConfig as NormalizedRspackBuilderConfig,
-  RspackConfig,
   Rspack,
-} from '@modern-js/builder-rspack-provider';
+  WebpackConfig,
+  RspackConfig,
+} from '@modern-js/uni-builder';
 import { NormalizedConfig } from '@modern-js/core';
 import {
   RouteLegacy,
@@ -20,15 +16,15 @@ import {
 } from '@modern-js/types/cli';
 import type { ClientDefinition } from './client';
 
-export type { BuilderContext };
+export type BuilderContext = RsbuildContext;
 
 export type FrameworkConfig = UserConfig<AppTools>;
 
 export type TransformedFrameworkConfig = NormalizedConfig<AppTools>;
 
-export type BuilderConfig = WebpackBuilderConfig | RspackBuilderConfig;
+export type BuilderConfig = RsbuildConfig;
 
-export type { WebpackConfig, RspackConfig };
+export type { NormalizedBuilderConfig, WebpackConfig, RspackConfig };
 
 export type Aliases = NonNullable<
   NonNullable<WebpackConfig['resolve']>['alias']
@@ -41,10 +37,6 @@ export type Compiler =
   | Rspack.Compiler
   | webpack.MultiCompiler
   | Rspack.MultiCompiler;
-
-export type NormalizedBuilderConfig =
-  | NormalizedWebpackBuilderConfig
-  | NormalizedRspackBuilderConfig;
 
 export type AppContext = Omit<IAppContext, 'builder' | 'serverInternalPlugins'>;
 
@@ -61,7 +53,7 @@ export interface ServerFunctions {
   getTransformedBundlerConfigs: () => Promise<BundlerConfig[]>;
   getAppContext: () => Promise<AppContext>;
   getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
-  getBuilderContext: () => Promise<BuilderContext>;
+  getBuilderContext: () => Promise<RsbuildContext>;
   getDependencies: () => Promise<Record<string, string>>;
   getCompileTimeCost: () => Promise<number>;
   getClientDefinition: () => Promise<ClientDefinition>;

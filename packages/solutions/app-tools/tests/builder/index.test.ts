@@ -34,7 +34,7 @@ describe('create builder Options', () => {
     const options = createBuilderOptions(targets, appContext as any);
     expect(options).toEqual({
       target: targets,
-      configPath: 'modern.config.ts',
+      frameworkConfigPath: 'modern.config.ts',
       entry: {
         main: ['./src/index.ts', './src/main.ts'],
         next: ['./src/next.ts'],

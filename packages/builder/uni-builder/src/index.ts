@@ -16,6 +16,8 @@ export type {
   ChainedConfig,
   CopyPluginOptions,
   ChainIdentifier,
+  NormalizedConfig,
+  RspackConfig,
 } from '@rsbuild/shared';
 export type { BuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
@@ -26,6 +28,11 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
     : createWebpackBuilder(options);
 }
 
-export { logger, type Rspack } from '@rsbuild/core';
-export type { webpack, WebpackChain } from '@rsbuild/webpack';
+export {
+  logger,
+  type Rspack,
+  type RsbuildContext,
+  RsbuildConfig,
+} from '@rsbuild/core';
+export type { webpack, WebpackChain, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';
