@@ -1,6 +1,8 @@
 import { isPackageInstalled } from '@modern-js/utils';
 import { useSSR } from './antd';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
+import { SourceConfig as WebpackSourceConfig } from '@modern-js/builder-webpack-provider';
+import { SourceConfig as RspackSourceConfig } from '@modern-js/builder-rspack-provider';
 
 export const builderPluginArco = (): DefaultBuilderPlugin => ({
   name: `builder-plugin-arco`,
@@ -10,7 +12,8 @@ export const builderPluginArco = (): DefaultBuilderPlugin => ({
     const ARCO_ICON = `${ARCO_NAME}/icon`;
 
     api.modifyBuilderConfig(builderConfig => {
-      const { transformImport = [] } = builderConfig.source || {};
+      const { transformImport = [] } = (builderConfig.source ||
+        {}) as WebpackSourceConfig & RspackSourceConfig;
 
       if (
         transformImport === false ||
@@ -39,7 +42,9 @@ export const builderPluginArco = (): DefaultBuilderPlugin => ({
       }
 
       builderConfig.source ||= {};
-      builderConfig.source.transformImport = transformImport;
+      (
+        builderConfig.source as RspackSourceConfig & WebpackSourceConfig
+      ).transformImport = transformImport;
     });
   },
 });
