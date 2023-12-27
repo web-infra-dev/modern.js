@@ -23,6 +23,7 @@ import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { AliasOption } from '@modern-js/utils';
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
@@ -120,6 +121,8 @@ export type UniBuilderExtraConfig = {
     port?: number;
   };
   source?: {
+    // TODO: need to support rsbuild alias type in server/utils
+    alias?: AliasOption;
     /**
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
@@ -262,4 +265,12 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type BuilderConfig = RsbuildConfig & UniBuilderExtraConfig;
+export type BuilderConfig = {
+  dev?: RsbuildConfig['dev'];
+  html?: RsbuildConfig['html'];
+  output?: RsbuildConfig['output'];
+  performance?: RsbuildConfig['performance'];
+  security?: RsbuildConfig['security'];
+  tools?: RsbuildConfig['tools'];
+  source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
+} & UniBuilderExtraConfig;

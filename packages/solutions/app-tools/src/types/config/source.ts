@@ -1,5 +1,4 @@
-import type { BuilderConfig, ChainedConfig } from '@modern-js/uni-builder';
-import type { Alias } from '@modern-js/utils';
+import type { BuilderConfig } from '@modern-js/uni-builder';
 
 export type Entry =
   | string
@@ -20,10 +19,7 @@ export type Entry =
 
 export type Entries = Record<string, Entry>;
 
-export interface SourceUserConfig
-  extends Omit<NonNullable<BuilderConfig['source']>, 'alias'> {
-  // TODO: need to support rsbuild alias type in server/utils
-  alias?: ChainedConfig<Alias>;
+export interface SourceUserConfig extends NonNullable<BuilderConfig['source']> {
   /**
    * Used to configure custom page entries.
    */

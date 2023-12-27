@@ -7,7 +7,7 @@ import {
   deepmerge,
   mergeChainedOptions,
 } from '@rsbuild/shared';
-import type { ModernDevServerOptionsNew } from '@modern-js/server';
+import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
 import { type ModernServerOptions } from '@modern-js/prod-server';
 import { BuilderConfig } from '../types';
 
@@ -88,6 +88,10 @@ export type StartDevServerOptions = Omit<
   serverOptions?: ServerOptions;
 };
 
+export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
+  server: Server;
+};
+
 export async function startDevServer(
   rsbuild: RsbuildInstance,
   options: StartDevServerOptions = {},
@@ -139,7 +143,7 @@ export async function startDevServer(
 
   await server.init();
 
-  return new Promise<StartServerResult>(resolve => {
+  return new Promise<UniBuilderStartServerResult>(resolve => {
     server.listen(
       {
         host,

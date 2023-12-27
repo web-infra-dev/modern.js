@@ -89,7 +89,8 @@ export async function parseCommonConfig(
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
-  const rsbuildConfig = deepmerge({}, uniBuilderConfig);
+  const rsbuildConfig = deepmerge({}, uniBuilderConfig) as RsbuildConfig &
+    BuilderConfig;
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
   if (output.cssModuleLocalIdentName) {

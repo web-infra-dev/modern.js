@@ -5,7 +5,7 @@ import {
   HtmlTemplates,
   HtmlPartials,
 } from '@modern-js/types';
-import { BuilderInstance } from '@modern-js/builder-shared';
+import type { UniBuilderInstance } from '@modern-js/uni-builder';
 
 export type ToolsType = 'app-tools' | 'module-tools' | 'monorepo-tools';
 
@@ -51,7 +51,7 @@ export interface IAppContext {
   /** Whether to use api only mode */
   apiOnly: boolean;
   /** The Builder instance */
-  builder?: BuilderInstance;
+  builder?: UniBuilderInstance;
   /** Tools type of the current project */
   toolsType?: ToolsType;
   /** Type of the bundler being used */
