@@ -98,8 +98,6 @@ export const html = (partials: {
 <!DOCTYPE html>
 <html>
 <head>
-  <%= meta %>
-  <title><%= title %></title>
 
   ${partials.top.join('\n')}
 
