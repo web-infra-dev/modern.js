@@ -1,6 +1,6 @@
 import type { JestConfig } from '@modern-js/types';
-import type { PluginSwcOptions } from '@modern-js/builder-plugin-swc';
-import type { PluginEsbuildOptions } from '@modern-js/builder-plugin-esbuild';
+import type { PluginSwcOptions } from '@rsbuild/plugin-swc';
+import type { PluginEsbuildOptions } from '@rsbuild/plugin-esbuild';
 import type { BuilderConfig } from '@modern-js/uni-builder';
 import type { UnwrapBuilderConfig } from '../utils';
 

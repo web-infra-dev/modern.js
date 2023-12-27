@@ -905,12 +905,12 @@ importers:
         specifier: 0.5.3
         version: 0.5.3
     devDependencies:
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4677,18 +4677,6 @@ importers:
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../../builder/builder
-      '@modern-js/builder-plugin-esbuild':
-        specifier: workspace:*
-        version: link:../../builder/plugin-esbuild
-      '@modern-js/builder-plugin-node-polyfill':
-        specifier: workspace:*
-        version: link:../../builder/plugin-node-polyfill
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -4734,6 +4722,12 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/plugin-esbuild':
+        specifier: 0.2.8
+        version: 0.2.8
+      '@rsbuild/plugin-node-polyfill':
+        specifier: 0.2.8
+        version: 0.2.8
       '@rsbuild/shared':
         specifier: 0.2.8
         version: 0.2.8
@@ -4747,12 +4741,9 @@ importers:
         specifier: 0.17.19
         version: 0.17.19
     devDependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../builder/plugin-swc
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
+      '@rsbuild/plugin-swc':
+        specifier: 0.2.8
+        version: 0.2.8
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -14464,6 +14455,25 @@ packages:
       - esbuild
       - lightningcss
       - webpack
+    dev: false
+
+  /@rsbuild/plugin-esbuild@0.2.8:
+    resolution: {integrity: sha512-AfuIdA+IDaNTftmc9r0umKPppHb2O6AT61giGS7x2Kp/ZylV+ZzwAvFsbZCNcrQGea72lJCZ1hUVBDd+k/21yg==}
+    dependencies:
+      '@rsbuild/shared': 0.2.8
+      esbuild: 0.17.19
+      webpack: 5.89.0(esbuild@0.17.19)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - uglify-js
+      - webpack-cli
+    dev: false
+
+  /@rsbuild/plugin-node-polyfill@0.2.8:
+    resolution: {integrity: sha512-nxlK8KKC7et0DEzcAuv8ZniaRrKEe80srl0vIEH3aant+IsaMM5A8hr8sYEWlNMguNXEtxTT9D2FmzEfGZ+Qrg==}
+    dependencies:
+      '@rsbuild/shared': 0.2.8
+      node-libs-browser: 2.2.1
     dev: false
 
   /@rsbuild/plugin-pug@0.2.8:

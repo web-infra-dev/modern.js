@@ -84,7 +84,6 @@
   },
   "devDependencies": {
     "@modern-js/uni-builder": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

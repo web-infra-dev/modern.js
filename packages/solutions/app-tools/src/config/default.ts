@@ -2,6 +2,7 @@ import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { getAutoInjectEnv } from '../utils/env';
 import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
+// Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(
   appContext: IAppContext,
 ): AppUserConfig<'webpack'> | AppUserConfig<'rspack'> {
@@ -12,6 +13,9 @@ export function createDefaultConfig(
   };
 
   const output: AppUserConfig['output'] = {
+    distPath: {
+      html: 'html',
+    },
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,
     disableInlineRouteManifests: false,
@@ -37,6 +41,7 @@ export function createDefaultConfig(
 
   const html: AppUserConfig['html'] = {
     title: '',
+    mountId: 'root',
     meta: {
       charset: { charset: 'utf-8' },
       viewport:
