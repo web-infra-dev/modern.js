@@ -40,6 +40,7 @@ module.exports = {
     '<rootDir>/packages/solutions/module-tools/compiled/',
     '<rootDir>/packages/toolkit/utils/compiled/',
     '<rootDir>/.nx-cache',
+    '<rootDir>/.nx',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/packages/builder/',

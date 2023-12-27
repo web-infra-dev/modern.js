@@ -44,6 +44,7 @@ website/**/.temp
 
 .wireit/
 .nx-cache/
+.nx/
 playground/
 
 # Local Netlify folder

@@ -42,8 +42,7 @@
     "check-dependencies": "check-dependency-version-consistency .",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
-    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
-    "update-nx-cache": "cross-env NX_DAEMON=false nx reset && npm run prepare-build"
+    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start"
   },
   "engines": {
     "node": ">=14.17.6",
@@ -86,8 +85,7 @@
     "eslint": "^8.28.0",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
-    "nx": "16.5.1",
-    "nx-cloud": "^16.5.2",
+    "nx": "^17.0.1",
     "vitest": "0.33.0"
   },
   "pnpm": {

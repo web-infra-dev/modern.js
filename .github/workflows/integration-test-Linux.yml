@@ -47,7 +47,7 @@ jobs:
         id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .nx-cache
+          path: .nx/cache
           key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             nx-${{ github.ref_name }}-

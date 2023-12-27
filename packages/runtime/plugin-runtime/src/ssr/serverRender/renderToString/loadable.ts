@@ -1,6 +1,6 @@
 import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
 import { ReactElement } from 'react';
-import { attributesToString } from '../utils';
+import { attributesToString, checkIsNode } from '../utils';
 import { SSRPluginConfig, RenderResult } from '../types';
 import type { Collector } from './render';
 
@@ -43,9 +43,6 @@ const readAsset = async (chunk: ChunkAsset) => {
 
   return fs.readFile(filepath, 'utf-8');
 };
-
-const checkIsNode = () =>
-  typeof process !== 'undefined' && process.release?.name === 'node';
 
 class LoadableCollector implements Collector {
   private options: LoadableCollectorOptions;
@@ -146,7 +143,7 @@ class LoadableCollector implements Collector {
           const script = `<script${attributes} src="${chunk.url}"></script>`;
 
           // only in node read assets
-          if (checkIsInline(chunk, enableInlineScripts) && checkIsNode()) {
+          if (checkIsNode() && checkIsInline(chunk, enableInlineScripts)) {
             return readAsset(chunk)
               .then(content => `<script>${content}</script>`)
               .catch(_ => {
@@ -185,7 +182,7 @@ class LoadableCollector implements Collector {
           const link = `<link${atrributes} href="${chunk.url!}" rel="stylesheet" />`;
 
           // only in node read asserts
-          if (checkIsInline(chunk, enableInlineStyles) && checkIsNode()) {
+          if (checkIsNode() && checkIsInline(chunk, enableInlineStyles)) {
             return readAsset(chunk)
               .then(content => `<style>${content}</style>`)
               .catch(_ => {

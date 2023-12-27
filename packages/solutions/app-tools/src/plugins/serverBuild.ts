@@ -6,6 +6,13 @@ import { CliPlugin, AppTools } from '../types';
 
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
+function checkHasCache(appDir: string) {
+  const tsFilepath = path.resolve(appDir, 'server', 'cache.ts');
+  const jsfilepath = path.resolve(appDir, 'server', 'cache.js');
+
+  return fs.existsSync(tsFilepath) || fs.existsSync(jsfilepath);
+}
+
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/server-build',
 
@@ -13,6 +20,9 @@ export default (): CliPlugin<AppTools> => ({
     return {
       async afterBuild() {
         const { appDirectory, distDirectory } = api.useAppContext();
+        if (!checkHasCache(appDirectory)) {
+          return;
+        }
         const modernConfig = api.useResolvedConfigContext();
 
         const distDir = path.resolve(distDirectory);
