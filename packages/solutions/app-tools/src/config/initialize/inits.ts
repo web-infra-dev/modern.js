@@ -67,7 +67,7 @@ function createBuilderInclude(
   const { include } = config.source;
   const defaultInclude = [appContext.internalDirectory];
   const transformInclude = (include || [])
-    .map((include: string | RegExp) => {
+    .map(include => {
       if (typeof include === 'string') {
         if (isAbsolute(include)) {
           return include;
