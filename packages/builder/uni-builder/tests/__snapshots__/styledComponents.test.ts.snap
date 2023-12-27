@@ -486,7 +486,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               },
             ],
           },
-          "inlineSourcesContent": true,
           "jsc": {
             "externalHelpers": true,
             "parser": {
@@ -502,7 +501,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               },
             },
           },
-          "minify": false,
           "sourceMaps": true,
         },
       },

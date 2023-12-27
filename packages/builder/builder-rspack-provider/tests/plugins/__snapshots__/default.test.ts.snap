@@ -691,7 +691,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
-      "affectedHooks": undefined,
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
@@ -1461,7 +1461,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
-      "affectedHooks": undefined,
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     RemoveCssSourcemapPlugin {
@@ -1946,7 +1946,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"test\\"",
       },
-      "affectedHooks": undefined,
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
@@ -2679,7 +2679,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
-      "affectedHooks": undefined,
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
