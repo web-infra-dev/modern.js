@@ -14,7 +14,12 @@ export function createDefaultConfig(
 
   const output: AppUserConfig['output'] = {
     distPath: {
+      root: 'dist',
       html: 'html',
+      js: 'static/js',
+      css: 'static/css',
+      server: 'bundles',
+      worker: 'worker',
     },
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,

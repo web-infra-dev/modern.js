@@ -193,7 +193,9 @@ export async function parseCommonConfig(
     dev.progressBar = true;
   }
 
-  dev.writeToDisk ??= (file: string) => !file.includes('.hot-update.');
+  dev.writeToDisk =
+    tools.devServer?.devMiddleware?.writeToDisk ??
+    ((file: string) => !file.includes('.hot-update.'));
 
   const server: ServerConfig = isProd()
     ? {}
