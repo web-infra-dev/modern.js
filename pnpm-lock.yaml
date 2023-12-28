@@ -8515,6 +8515,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
       '@types/jest':
         specifier: ^29
         version: 29.2.6
