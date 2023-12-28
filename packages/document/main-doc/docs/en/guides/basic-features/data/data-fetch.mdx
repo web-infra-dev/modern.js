@@ -306,6 +306,10 @@ If you define the [`shouldRevalidate`](#/shouldrevalidate) function on the route
 
 ### `shouldRevalidate`
 
+:::warning
+Currently `shouldRevalidate` works under csr and streaming ssr.
+:::
+
 In each routing component (`layout.tsx`, `page.tsx`, `$.tsx`), we can export a `shouldRevalidate` function, which is triggered each time a route changes in the project. This function controls which routes' data are reloaded, and when it returns true, the data for the corresponding route is reloaded. data of the corresponding route will be reloaded.
 
 ```ts title="routes/user/layout.tsx"
