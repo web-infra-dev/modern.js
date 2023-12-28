@@ -56,8 +56,7 @@ export const core = async (config: any, options: any) => {
       options:
         typeof framework === 'string' ? {} : framework?.options?.builder || {},
     },
-    // FIXME: renderer: absPath('@storybook/react'),
-    renderer: '@storybook/react',
+    renderer: absPath('@storybook/react'),
   };
 };
 

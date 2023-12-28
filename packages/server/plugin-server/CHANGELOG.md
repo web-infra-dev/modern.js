@@ -1,5 +1,14 @@
 # @modern-js/plugin-server
 
+## 2.44.0
+
+### Patch Changes
+
+- c56146b: fix: server dir compile only server/cache exsits
+  fix: 只有存在 server/cache 才默认编译
+  - @modern-js/utils@2.44.0
+  - @modern-js/server-utils@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

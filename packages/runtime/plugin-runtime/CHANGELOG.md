@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.44.0
+
+### Patch Changes
+
+- e25a5e3: fix(ssr): support stream ssr inline asserts
+  fix(ssr): 支持 stream ssr 内链静态文件
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/runtime-utils@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/plugin@2.44.0
+
 ## 2.43.0
 
 ### Minor Changes

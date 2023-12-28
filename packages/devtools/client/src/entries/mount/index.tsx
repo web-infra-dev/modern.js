@@ -1,3 +1,4 @@
+import './react-devtools-backend';
 import { createRoot } from 'react-dom/client';
 import { parseQuery } from 'ufo';
 import _ from 'lodash';
