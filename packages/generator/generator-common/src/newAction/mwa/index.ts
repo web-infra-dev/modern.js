@@ -137,7 +137,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
   [ActionFunction.SWC]: '@modern-js/plugin-swc',
-  [ActionFunction.Rspack]: '@modern-js/builder-rspack-provider',
 };
 
 export const MWAActionFunctionsDependencies: Partial<
