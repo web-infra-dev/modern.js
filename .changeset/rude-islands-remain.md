@@ -7,4 +7,4 @@
 
 feat: use rsbuild(uni-builder) instead of modern.js builder
 
-feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder) instead of
+feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
