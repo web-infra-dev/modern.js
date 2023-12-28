@@ -299,6 +299,10 @@ defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/de
 
 ### `shouldRevalidate`
 
+:::warning
+目前 `shouldRevalidate` 会在 csr 和 streaming ssr 下生效。
+:::
+
 在每个路由组件(`layout.tsx`，`page.tsx`, `$.tsx`)中，我们可以导出一个 `shouldRevalidate` 函数，在每次项目中的路由变化时，这个函数会触发，该函数可以控制要重新加载哪些路由中的数据，当这个函数返回 true， 对应路由的数据就会重新加载。
 
 ```ts title="routes/user/layout.tsx"
