@@ -4653,9 +4653,6 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
-      '@modern-js/builder':
-        specifier: workspace:*
-        version: link:../../builder/builder
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core

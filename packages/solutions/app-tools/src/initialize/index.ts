@@ -15,7 +15,6 @@ import type {
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
-  AppNormalizedConfig,
 } from '../types';
 
 export default ({
@@ -95,10 +94,8 @@ export default ({
         ]);
 
         if (bundler === 'webpack') {
-          (resolved as AppNormalizedConfig<'webpack'>).security =
-            normalizedConfig.security || {};
-          (resolved as AppNormalizedConfig<'webpack'>).experiments =
-            normalizedConfig.experiments;
+          resolved.security = normalizedConfig.security || {};
+          resolved.experiments = normalizedConfig.experiments;
         }
 
         return { resolved };

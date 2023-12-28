@@ -119,7 +119,6 @@ export const setupClientConnection = async (
         '@rspack/core': [
           ctx.rootPath,
           '@modern-js/uni-builder',
-          '@rsbuild/webpack',
           '@rsbuild/core',
           '@rspack/core/package.json',
         ],
