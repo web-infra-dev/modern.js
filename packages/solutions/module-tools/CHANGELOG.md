@@ -1,5 +1,31 @@
 # @modern-js/module-tools
 
+## 2.44.0
+
+### Patch Changes
+
+- c6a1b97: fix(module-tools): When dealing with dts file alias, explicitly declare the extension when calling matchPath to avoid the problem of not being able to find the module.
+  fix(module-tools): 处理类型描述文件别名过程中，在调用 matchPath 时显式声明后缀名，避免无法找到模块的问题
+- 52e707b: feat(module-tools): add enableTscBuild option, only log error about config and prefer to use declarationDir over outDir when tsc build.
+  feat(module-tools): 新增 enableTscBuild option, 并且在 tsc build 时对于配置错误仅进行控制台输出，同时优先于 outDir 使用 declarationDir
+- 6df8c9f: chore(module-tools): bump SVGR to v8.1.0
+
+  chore(module-tools): 升级 SVGR 到 v8.1.0
+
+- bf498d8: feat(module-tools): support svgr with url-loader
+  feat(module-tools): 支持 svgr 与 url-loader 一起使用
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/types@2.44.0
+  - @modern-js/core@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/plugin-changeset@2.44.0
+  - @modern-js/plugin-i18n@2.44.0
+  - @modern-js/plugin-lint@2.44.0
+  - @modern-js/new-action@2.44.0
+  - @modern-js/plugin@2.44.0
+  - @modern-js/upgrade@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

@@ -128,10 +128,10 @@ importers:
         specifier: workspace:*
         version: link:../builder
       '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.43.0
+        specifier: workspace:^2.44.0
         version: link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.43.0
+        specifier: workspace:^2.44.0
         version: link:../builder-webpack-provider
       '@modern-js/utils':
         specifier: workspace:*
@@ -8515,6 +8515,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
       '@types/jest':
         specifier: ^29
         version: 29.2.6

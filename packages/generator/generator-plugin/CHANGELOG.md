@@ -1,5 +1,17 @@
 # @modern-js/generator-plugin
 
+## 3.3.5
+
+### Patch Changes
+
+- e9ba96a: feat(generator-plugin): `addManyFiles` supports config to include dotfiles
+  feat(generator-plugin): `addManyFiles` 支持配置允许包含 dotfiles
+  - @modern-js/utils@2.44.0
+  - @modern-js/generator-common@3.3.5
+  - @modern-js/generator-utils@3.3.5
+  - @modern-js/plugin-i18n@2.44.0
+  - @modern-js/new-action@2.44.0
+
 ## 3.3.4
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 2.44.0
+
+### Minor Changes
+
+- 56d7f9a: feat: SSR server support afterStreamingRender
+  feat: SSR 服务端支持 afterStreamingRender
+
+### Patch Changes
+
+- @modern-js/utils@2.44.0
+- @modern-js/plugin@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

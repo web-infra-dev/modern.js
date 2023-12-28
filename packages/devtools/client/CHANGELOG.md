@@ -1,5 +1,12 @@
 # @modern-js/devtools-client
 
+## 2.44.0
+
+### Patch Changes
+
+- eaf723b: fix(devtools): failed to resolve react-devtools-inline
+  fix(devtools): react-devtools-inline 包不存在导致报错
+
 ## 2.43.0
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 2.44.0
+
+### Patch Changes
+
+- 2b41e70: fix(hmr-client): make hmr-client isomorphic
+  fix(hmr-client): hmr-client 支持跨环境
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/runtime-utils@2.44.0
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/server-utils@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

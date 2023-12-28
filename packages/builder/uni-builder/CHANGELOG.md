@@ -1,5 +1,20 @@
 # @modern-js/uni-builder
 
+## 2.44.0
+
+### Patch Changes
+
+- bfe1347: chore(deps): bump rsbuild to 0.2.8 and use html-webpack-plugin in uni-builder webpack mode
+
+  chore(deps): 升级 rsbuild 到 0.2.8，在 uni-builder webpack 模式下使用 html-webpack-plugin
+
+- Updated dependencies [0ed968c]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/utils@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

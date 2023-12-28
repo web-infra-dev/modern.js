@@ -1,5 +1,19 @@
 # @modern-js/builder-shared
 
+## 2.44.0
+
+### Patch Changes
+
+- 35a9961: fix(transform-import): remove SharedTransformImport config
+  fix(transform-import): 移除 SharedTransformImport 配置
+- Updated dependencies [0ed968c]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/utils@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes

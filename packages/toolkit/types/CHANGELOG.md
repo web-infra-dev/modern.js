@@ -1,5 +1,17 @@
 # @modern-js/types
 
+## 2.44.0
+
+### Minor Changes
+
+- 56d7f9a: feat: SSR server support afterStreamingRender
+  feat: SSR 服务端支持 afterStreamingRender
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+
 ## 2.43.0
 
 ### Minor Changes

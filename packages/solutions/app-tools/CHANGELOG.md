@@ -1,5 +1,38 @@
 # @modern-js/app-tools
 
+## 2.44.0
+
+### Patch Changes
+
+- c56146b: fix: server dir compile only server/cache exsits
+  fix: 只有存在 server/cache 才默认编译
+- Updated dependencies [0ed968c]
+- Updated dependencies [6df8c9f]
+- Updated dependencies [b32f60a]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+- Updated dependencies [35a9961]
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/builder@2.44.0
+  - @modern-js/builder-webpack-provider@2.44.0
+  - @modern-js/builder-rspack-provider@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/server-core@2.44.0
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/plugin-data-loader@2.44.0
+  - @modern-js/core@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/builder-plugin-esbuild@2.44.0
+  - @modern-js/builder-plugin-node-polyfill@2.44.0
+  - @modern-js/server-utils@2.44.0
+  - @modern-js/plugin-i18n@2.44.0
+  - @modern-js/plugin-lint@2.44.0
+  - @modern-js/new-action@2.44.0
+  - @modern-js/node-bundle-require@2.44.0
+  - @modern-js/plugin@2.44.0
+  - @modern-js/upgrade@2.44.0
+
 ## 2.43.0
 
 ### Patch Changes
