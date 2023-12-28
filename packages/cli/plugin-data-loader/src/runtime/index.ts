@@ -196,7 +196,7 @@ export const handleRequest = async ({
   } catch (error) {
     const message = isRouteErrorResponse(error) ? error.data : String(error);
     if (error instanceof Error) {
-      logger?.error(error);
+      logger?.error(`Error: ${error.name} ${error.message} ${error.stack}`);
     } else {
       logger?.error(message);
     }
