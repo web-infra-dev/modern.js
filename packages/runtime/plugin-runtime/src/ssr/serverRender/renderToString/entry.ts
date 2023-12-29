@@ -78,8 +78,6 @@ export default class Entry {
 
   public result: RenderResult;
 
-  public metrics: SSRServerContext['metrics'];
-
   public tracker: SSRTracker;
 
   private readonly template: string;
@@ -105,7 +103,6 @@ export default class Entry {
 
     this.routeManifest = ctx.routeManifest;
     this.tracker = ctx.tracker;
-    this.metrics = ctx.metrics;
     this.htmlModifiers = ctx.htmlModifiers;
     this.nonce = nonce;
 

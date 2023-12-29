@@ -11,6 +11,7 @@ import type {
   InternalPlugins,
   Reporter,
 } from '@modern-js/types';
+import { Logger as LocalLogger } from '@modern-js/utils/logger';
 import type { ModernRouteInterface } from './libs/route';
 
 declare module 'http' {
@@ -35,7 +36,7 @@ export type ModernServerOptions = {
   internalPlugins?: InternalPlugins;
   routes?: ModernRouteInterface[];
   staticGenerate?: boolean;
-  logger?: Logger;
+  logger?: LocalLogger;
   metrics?: Metrics;
   apiOnly?: boolean;
   ssrOnly?: boolean;

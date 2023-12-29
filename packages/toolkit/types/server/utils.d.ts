@@ -4,23 +4,28 @@ import type {
   Filter as ProxyFilter,
 } from 'http-proxy-middleware';
 
-export type Metrics = {
-  emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
-  emitTimer: (name: string, value: number, tags: Record<string, any>) => void;
-  gauges: () => void;
-};
+export interface Metrics {
+  emitCounter: (
+    name: string,
+    value: number,
+    prefix?: string,
+    tags?: Record<string, any>,
+  ) => void;
+  emitTimer: (
+    name: string,
+    value: number,
+    prefix?: string,
+    tags?: Record<string, any>,
+  ) => void;
+}
 
-type LoggerFunction = (
-  message?: number | string | Error,
-  ...args: any[]
-) => void;
-export type Logger = {
+type LoggerFunction = (message: string, ...args: any[]) => void;
+export interface Logger {
   error: LoggerFunction;
   info: LoggerFunction;
   warn: LoggerFunction;
   debug: LoggerFunction;
-  log: LoggerFunction;
-};
+}
 
 export interface ServerTiming {
   addServeTiming: (name: string, dur: number, decs?: string) => this;

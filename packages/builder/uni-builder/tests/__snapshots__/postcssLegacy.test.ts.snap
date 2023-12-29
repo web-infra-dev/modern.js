@@ -389,7 +389,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           ],
         },
       ],
-      "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+      "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     },
     {
       "include": [
@@ -401,9 +401,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             },
           ],
         },
-        /\\\\\\.\\(ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
       ],
-      "test": /\\\\\\.\\(js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+      "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
       "type": "javascript/auto",
       "use": [
         {
@@ -560,8 +560,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           },
           "issuer": {
             "not": [
-              /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
             ],
           },
           "resourceQuery": /\\(__inline=false\\|url\\)/,
@@ -570,8 +570,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         {
           "issuer": {
             "not": [
-              /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
             ],
           },
           "resourceQuery": /inline/,
@@ -583,8 +583,8 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           },
           "issuer": {
             "not": [
-              /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
             ],
           },
           "parser": {
