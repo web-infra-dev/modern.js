@@ -24,17 +24,6 @@ const serverTiming = {
   },
 };
 
-const metrics = {
-  errors: new Map<string, number>(),
-  timings: [] as [string, number][],
-  emitTimer(name: string, cost: number) {
-    this.timings.push([name, cost]);
-  },
-  emitCounter(content: string, counter: number) {
-    this.errors.set(content, counter);
-  },
-};
-
 const logger = {
   errors: [] as [string, Error][],
   timings: [] as [string, number][],
@@ -52,7 +41,6 @@ describe('tracker', () => {
     const ssrContext: SSRServerContext = {
       reporter,
       serverTiming,
-      metrics,
       logger,
     } as any;
     tracker = createSSRTracker(ssrContext);
@@ -64,7 +52,6 @@ describe('tracker', () => {
 
     expect(reporter.errors).toEqual([['SSR Error - App Prerender', error]]);
     expect(logger.errors).toEqual([['App Prerender', error]]);
-    expect(metrics.errors.get('app.prerender.error')).toEqual(1);
   });
 
   it('track ssr timing', () => {
@@ -73,7 +60,6 @@ describe('tracker', () => {
 
     expect(serverTiming.serverTimings).toEqual([['ssr-render-html', cost]]);
     expect(logger.timings).toEqual([['App Render To HTML cost = %d ms', cost]]);
-    expect(metrics.timings).toEqual([['app.render.html.cost', cost]]);
     expect(reporter.timings).toEqual([['ssr-render-html', cost]]);
   });
 });

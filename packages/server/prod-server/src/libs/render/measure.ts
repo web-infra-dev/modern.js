@@ -14,7 +14,7 @@ export const createMetrics = (
     cost: number,
     tags: Record<string, unknown> = {},
   ) => {
-    metrics.emitTimer(name, cost, {
+    metrics.emitTimer(name, cost, undefined, {
       ...tags,
       pathname,
       entry,
@@ -26,7 +26,7 @@ export const createMetrics = (
     counter: number,
     tags: Record<string, unknown> = {},
   ) => {
-    metrics.emitCounter(name, counter, {
+    metrics.emitCounter(name, counter, undefined, {
       ...tags,
       pathname,
       entry,
