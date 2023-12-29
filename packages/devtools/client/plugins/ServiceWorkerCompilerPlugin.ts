@@ -1,5 +1,5 @@
 import path from 'path';
-import { createRsbuild, Rspack } from '@rsbuild/core';
+import { createRsbuild, type Rspack } from '@rsbuild/core';
 import { logger } from '@modern-js/utils/logger';
 import { version } from '../package.json';
 
