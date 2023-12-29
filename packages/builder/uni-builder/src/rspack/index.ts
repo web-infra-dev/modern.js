@@ -4,17 +4,19 @@ import type {
   RsbuildPlugin,
   RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider, StartServerResult } from '@rsbuild/shared';
 import type {
-  BuilderConfig,
+  UniBuilderConfig,
   CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import type { StartDevServerOptions } from '../shared/devServer';
+import type {
+  StartDevServerOptions,
+  UniBuilderStartServerResult,
+} from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: BuilderConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
@@ -54,10 +56,7 @@ export async function parseConfig(
   };
 }
 
-type UniBuilderInstance = Omit<
-  RsbuildInstance<RsbuildProvider>,
-  'startDevServer'
-> & {
+export type UniBuilderInstance = Omit<RsbuildInstance, 'startDevServer'> & {
   /**
    * should be used in conjunction with the upper-layer framework:
    *
@@ -65,7 +64,7 @@ type UniBuilderInstance = Omit<
    */
   startDevServer: (
     options: StartDevServerOptions,
-  ) => Promise<StartServerResult>;
+  ) => Promise<UniBuilderStartServerResult>;
 };
 
 export async function createRspackBuilder(
