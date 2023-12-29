@@ -14,7 +14,7 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type { CreateBuilderCommonOptions, BuilderConfig } from '../types';
+import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -82,14 +82,15 @@ async function getBrowserslistWithDefault(
 }
 
 export async function parseCommonConfig(
-  uniBuilderConfig: BuilderConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
-  const rsbuildConfig = deepmerge({}, uniBuilderConfig);
+  const rsbuildConfig = deepmerge({}, uniBuilderConfig) as RsbuildConfig &
+    UniBuilderConfig;
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
   if (output.cssModuleLocalIdentName) {
@@ -192,7 +193,9 @@ export async function parseCommonConfig(
     dev.progressBar = true;
   }
 
-  dev.writeToDisk ??= (file: string) => !file.includes('.hot-update.');
+  dev.writeToDisk =
+    tools.devServer?.devMiddleware?.writeToDisk ??
+    ((file: string) => !file.includes('.hot-update.'));
 
   const server: ServerConfig = isProd()
     ? {}

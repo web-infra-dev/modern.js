@@ -4,9 +4,9 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
-import type { StartServerResult } from '@rsbuild/shared';
+import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
-  BuilderConfig,
+  UniBuilderConfig,
   CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
 } from '../types';
@@ -14,10 +14,13 @@ import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
-import type { StartDevServerOptions } from '../shared/devServer';
+import type {
+  StartDevServerOptions,
+  UniBuilderStartServerResult,
+} from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: BuilderConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
@@ -77,10 +80,13 @@ export async function parseConfig(
   };
 }
 
-type UniBuilderWebpackInstance = Omit<RsbuildInstance, 'startDevServer'> & {
+export type UniBuilderWebpackInstance = Omit<
+  RsbuildInstance<RsbuildProvider<'webpack'>>,
+  'startDevServer'
+> & {
   startDevServer: (
     options: StartDevServerOptions,
-  ) => Promise<StartServerResult>;
+  ) => Promise<UniBuilderStartServerResult>;
 };
 
 export async function createWebpackBuilder(

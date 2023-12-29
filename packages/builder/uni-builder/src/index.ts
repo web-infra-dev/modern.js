@@ -1,10 +1,29 @@
-import { createRspackBuilder } from './rspack';
-import { createWebpackBuilder } from './webpack';
+import { createRspackBuilder, type UniBuilderInstance } from './rspack';
+import {
+  createWebpackBuilder,
+  type UniBuilderWebpackInstance,
+} from './webpack';
 import type { CreateUniBuilderOptions } from './types';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-export type { CreateUniBuilderOptions };
-export type { BundlerChain, RsbuildPlugin } from '@rsbuild/shared';
-export type { BuilderConfig } from './types';
+export { HtmlWebpackPlugin };
+
+export type {
+  CreateUniBuilderOptions,
+  UniBuilderInstance,
+  UniBuilderWebpackInstance,
+};
+export type {
+  BundlerChain,
+  RsbuildPlugin,
+  ChainedConfig,
+  CopyPluginOptions,
+  ChainIdentifier,
+  NormalizedConfig,
+  RspackConfig,
+  CacheGroup,
+} from '@rsbuild/shared';
+export type { UniBuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
@@ -13,5 +32,11 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
     : createWebpackBuilder(options);
 }
 
-export { logger } from '@rsbuild/core';
+export {
+  logger,
+  type Rspack,
+  type RsbuildContext,
+  type RsbuildConfig,
+} from '@rsbuild/core';
+export type { webpack, WebpackChain, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';
