@@ -18,6 +18,7 @@ export type {
   ChainIdentifier,
   NormalizedConfig,
   RspackConfig,
+  CacheGroup,
 } from '@rsbuild/shared';
 export type { UniBuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
@@ -32,7 +33,7 @@ export {
   logger,
   type Rspack,
   type RsbuildContext,
-  RsbuildConfig,
+  type RsbuildConfig,
 } from '@rsbuild/core';
 export type { webpack, WebpackChain, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';
