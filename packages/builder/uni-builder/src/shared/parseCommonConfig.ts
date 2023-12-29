@@ -14,7 +14,7 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type { CreateBuilderCommonOptions, BuilderConfig } from '../types';
+import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -82,7 +82,7 @@ async function getBrowserslistWithDefault(
 }
 
 export async function parseCommonConfig(
-  uniBuilderConfig: BuilderConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
@@ -90,7 +90,7 @@ export async function parseCommonConfig(
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
   const rsbuildConfig = deepmerge({}, uniBuilderConfig) as RsbuildConfig &
-    BuilderConfig;
+    UniBuilderConfig;
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
   if (output.cssModuleLocalIdentName) {

@@ -19,7 +19,7 @@ export type {
   NormalizedConfig,
   RspackConfig,
 } from '@rsbuild/shared';
-export type { BuilderConfig } from './types';
+export type { UniBuilderConfig } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {

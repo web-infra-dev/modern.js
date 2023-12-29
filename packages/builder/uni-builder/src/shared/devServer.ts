@@ -9,14 +9,14 @@ import {
 } from '@rsbuild/shared';
 import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
 import { type ModernServerOptions } from '@modern-js/prod-server';
-import { BuilderConfig } from '../types';
+import { UniBuilderConfig } from '../types';
 
 type ServerOptions = Partial<Omit<ModernDevServerOptionsNew, 'config'>> & {
   config?: Partial<ModernDevServerOptionsNew['config']>;
 };
 
 const getServerOptions = (
-  builderConfig: BuilderConfig,
+  builderConfig: UniBuilderConfig,
 ): ModernServerOptions['config'] => {
   return {
     output: {
@@ -42,7 +42,7 @@ const getDevServerOptions = async ({
   serverOptions,
   port,
 }: {
-  builderConfig: BuilderConfig;
+  builderConfig: UniBuilderConfig;
   serverOptions: ServerOptions;
   port: number;
 }): Promise<{
@@ -95,7 +95,7 @@ export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
 export async function startDevServer(
   rsbuild: RsbuildInstance,
   options: StartDevServerOptions = {},
-  builderConfig: BuilderConfig,
+  builderConfig: UniBuilderConfig,
 ) {
   debug('create dev server');
 

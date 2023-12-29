@@ -35,7 +35,7 @@ export type CreateBuilderCommonOptions = {
 
 export type CreateUniBuilderOptions = {
   bundlerType: 'rspack' | 'webpack';
-  config: BuilderConfig;
+  config: UniBuilderConfig;
 } & Partial<CreateBuilderCommonOptions>;
 
 export type GlobalVars = Record<string, any>;
@@ -265,7 +265,7 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type BuilderConfig = {
+export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
   output?: RsbuildConfig['output'];

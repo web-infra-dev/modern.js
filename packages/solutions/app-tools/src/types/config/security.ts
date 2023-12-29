@@ -1,3 +1,3 @@
-import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
-export type SecurityUserConfig = Required<BuilderConfig>['security'];
+export type SecurityUserConfig = Required<UniBuilderConfig>['security'];

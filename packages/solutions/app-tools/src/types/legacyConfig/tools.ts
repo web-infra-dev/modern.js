@@ -1,8 +1,8 @@
 import type { JestConfig, DevServerOptions } from '@modern-js/types';
-import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
 // FIXME: need definition by itself.
-type BuilderToolsConfig = Required<BuilderConfig>['tools'];
+type BuilderToolsConfig = Required<UniBuilderConfig>['tools'];
 export type ToolsLegacyUserConfig = BuilderToolsConfig & {
   esbuild?: Record<string, unknown>;
   devServer?: DevServerOptions;

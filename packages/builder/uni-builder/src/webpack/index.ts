@@ -6,7 +6,7 @@ import {
 } from '@rsbuild/core';
 import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
-  BuilderConfig,
+  UniBuilderConfig,
   CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
 } from '../types';
@@ -20,7 +20,7 @@ import type {
 } from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: BuilderConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;

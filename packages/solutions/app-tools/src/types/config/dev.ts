@@ -1,6 +1,6 @@
-import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
-type BuilderDevConfig = Required<BuilderConfig>['dev'];
+type BuilderDevConfig = Required<UniBuilderConfig>['dev'];
 
 export type DevProxyOptions = string | Record<string, string>;
 

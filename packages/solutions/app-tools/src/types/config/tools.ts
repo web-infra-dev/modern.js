@@ -1,7 +1,7 @@
 import type { JestConfig } from '@modern-js/types';
 import type { PluginSwcOptions } from '@rsbuild/plugin-swc';
 import type { PluginEsbuildOptions } from '@rsbuild/plugin-esbuild';
-import type { BuilderConfig } from '@modern-js/uni-builder';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 import type { UnwrapBuilderConfig } from '../utils';
 
 export type Tailwindcss =
@@ -9,7 +9,7 @@ export type Tailwindcss =
   | ((options: Record<string, any>) => Record<string, any> | void);
 
 export interface ToolsUserConfig
-  extends UnwrapBuilderConfig<BuilderConfig, 'tools'> {
+  extends UnwrapBuilderConfig<UniBuilderConfig, 'tools'> {
   /**
    * Used to custom Tailwind CSS configurations.
    * @requires `tailwindcss` plugin.
