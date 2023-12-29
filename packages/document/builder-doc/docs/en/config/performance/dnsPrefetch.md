@@ -13,7 +13,7 @@ See [Using dns-prefetch](https://developer.mozilla.org/en-US/docs/Web/Performanc
 ```js
 export default {
   performance: {
-    dnsPrefetch: ['http://xxx.com'],
+    dnsPrefetch: ['http://example.com'],
   },
 };
 ```
