@@ -865,6 +865,9 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(html-webpack-plugin@5.5.3)(webpack@5.89.0)
     devDependencies:
+      '@modern-js/builder-plugin-node-polyfill':
+        specifier: workspace:*
+        version: link:../plugin-node-polyfill
       '@rsbuild/plugin-swc':
         specifier: 0.2.13
         version: 0.2.13
