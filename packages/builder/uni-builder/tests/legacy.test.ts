@@ -14,7 +14,7 @@ describe('uni-builder legacy plugins', () => {
       // plugin type check should passed
       builderPluginNodePolyfill(),
       {
-        name: '',
+        name: 'builder-plugin-test',
         setup: api => {
           api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
             const builderConfig = api.getBuilderConfig();
