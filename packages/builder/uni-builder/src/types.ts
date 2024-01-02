@@ -10,6 +10,8 @@ import type {
   DevConfig,
   RequestHandler,
   RsbuildEntry,
+  PromiseOrNot,
+  RsbuildPluginAPI,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -24,6 +26,10 @@ import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import type { AliasOption } from '@modern-js/utils';
+import type {
+  StartDevServerOptions,
+  UniBuilderStartServerResult,
+} from './shared/devServer';
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
@@ -265,6 +271,64 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
+export type OverridesUniBuilderInstance = {
+  addPlugins: (
+    plugins: UniBuilderPlugin[],
+    options?: {
+      before?: string;
+    },
+  ) => void;
+  /**
+   * should be used in conjunction with the upper-layer framework:
+   *
+   * missing route.json (required in modern server)
+   */
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<UniBuilderStartServerResult>;
+};
+
+export type UniBuilderContext = RsbuildPluginAPI['context'] & {
+  target: RsbuildPluginAPI['context']['targets'];
+  framework: string;
+  srcPath: string;
+  entry: Record<string, string | string[]>;
+};
+
+export type UniBuilderPluginAPI = {
+  [key in keyof RsbuildPluginAPI]: RsbuildPluginAPI[key];
+} & {
+  /** The following APIs only type incompatibility */
+  onBeforeCreateCompiler: (fn: any) => void;
+  onAfterCreateCompiler: (fn: any) => void;
+  onBeforeBuild: (fn: any) => void;
+  modifyBundlerChain: (fn: any) => void;
+  getNormalizedConfig: () => any;
+
+  /** The following APIs need to be compatible */
+  context: UniBuilderContext;
+  getBuilderConfig: () => Readonly<any>;
+  modifyBuilderConfig: (
+    fn: (
+      config: any,
+      utils: {
+        mergeBuilderConfig: <T>(...configs: T[]) => T;
+      },
+    ) => PromiseOrNot<any | void>,
+  ) => void;
+};
+
+/**
+ * compat legacy modern.js builder plugin
+ */
+export type UniBuilderPlugin = {
+  name: string;
+  setup: (api: UniBuilderPluginAPI) => PromiseOrNot<void>;
+  pre?: string[];
+  post?: string[];
+  remove?: string[];
+};
+
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
@@ -273,4 +337,6 @@ export type UniBuilderConfig = {
   security?: RsbuildConfig['security'];
   tools?: RsbuildConfig['tools'];
   source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
+  // plugins is a new field, should avoid adding modern plugin by mistake
+  plugins?: RsbuildConfig['plugins'];
 } & UniBuilderExtraConfig;

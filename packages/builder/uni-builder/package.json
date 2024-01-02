@@ -73,6 +73,7 @@
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
+    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
     "@rsbuild/plugin-swc": "0.2.13",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
