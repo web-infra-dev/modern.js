@@ -8,12 +8,11 @@ import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
+  OverridesUniBuilderInstance,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import type {
-  StartDevServerOptions,
-  UniBuilderStartServerResult,
-} from '../shared/devServer';
+import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -56,16 +55,11 @@ export async function parseConfig(
   };
 }
 
-export type UniBuilderInstance = Omit<RsbuildInstance, 'startDevServer'> & {
-  /**
-   * should be used in conjunction with the upper-layer framework:
-   *
-   * missing route.json (required in modern server)
-   */
-  startDevServer: (
-    options: StartDevServerOptions,
-  ) => Promise<UniBuilderStartServerResult>;
-};
+export type UniBuilderInstance = Omit<
+  RsbuildInstance,
+  keyof OverridesUniBuilderInstance
+> &
+  OverridesUniBuilderInstance;
 
 export async function createRspackBuilder(
   options: CreateUniBuilderOptions,
@@ -86,6 +80,12 @@ export async function createRspackBuilder(
 
   return {
     ...rsbuild,
+    addPlugins: (plugins, options) => {
+      const warpedPlugins = plugins.map(plugin => {
+        return compatLegacyPlugin(plugin, { cwd });
+      });
+      rsbuild.addPlugins(warpedPlugins, options);
+    },
     startDevServer: async (options: StartDevServerOptions = {}) => {
       const { startDevServer } = await import('../shared/devServer');
 

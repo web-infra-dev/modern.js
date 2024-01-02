@@ -9,15 +9,14 @@ import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
+  OverridesUniBuilderInstance,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
-import type {
-  StartDevServerOptions,
-  UniBuilderStartServerResult,
-} from '../shared/devServer';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -82,12 +81,9 @@ export async function parseConfig(
 
 export type UniBuilderWebpackInstance = Omit<
   RsbuildInstance<RsbuildProvider<'webpack'>>,
-  'startDevServer'
-> & {
-  startDevServer: (
-    options: StartDevServerOptions,
-  ) => Promise<UniBuilderStartServerResult>;
-};
+  keyof OverridesUniBuilderInstance
+> &
+  OverridesUniBuilderInstance;
 
 export async function createWebpackBuilder(
   options: CreateUniBuilderOptions,
@@ -121,6 +117,12 @@ export async function createWebpackBuilder(
 
   return {
     ...rsbuild,
+    addPlugins: (plugins, options) => {
+      const warpedPlugins = plugins.map(plugin => {
+        return compatLegacyPlugin(plugin, { cwd });
+      });
+      rsbuild.addPlugins(warpedPlugins, options);
+    },
     startDevServer: async (options: StartDevServerOptions = {}) => {
       const { startDevServer } = await import('../shared/devServer');
 
