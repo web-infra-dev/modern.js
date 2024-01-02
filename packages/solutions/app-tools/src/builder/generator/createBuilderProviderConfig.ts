@@ -19,7 +19,7 @@ function modifyOutputConfig<B extends Bundler>(
 export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig<B>,
   appContext: IAppContext,
-): AppNormalizedConfig<B> {
+): Omit<AppNormalizedConfig<B>, 'plugins'> {
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
     htmlConfig.templateByEntries = {
