@@ -23,7 +23,7 @@ export type {
   RspackConfig,
   CacheGroup,
 } from '@rsbuild/shared';
-export type { UniBuilderConfig } from './types';
+export type { UniBuilderConfig, UniBuilderPlugin } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
