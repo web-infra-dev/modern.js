@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "ssr-preload",
+  "name": "ssr-script-loading",
   "version": "2.9.0",
   "scripts": {
     "dev": "modern dev"
