@@ -17,10 +17,6 @@ Polyfill is injected in each file based on the API used in the code.
 
 Equivalent to `useBuiltIns: 'usage'` configuration in `@babel/preset-env`.
 
-:::tip
-When using Rspack as the bundler, the `usage` configuration option is not currently supported.
-:::
-
 #### ua
 
 The Polyfill code is dynamically delivered according to the currently requested UA information.

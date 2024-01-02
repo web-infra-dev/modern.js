@@ -17,10 +17,6 @@
 
 等价于 `@babel/preset-env` 的 `useBuiltIns: 'usage'` 配置。
 
-:::tip
-在使用 Rspack 作为打包工具时，暂不支持 `usage` 配置项。
-:::
-
 #### ua
 
 根据当前请求的 UA 信息，动态下发 Polyfill 代码。
