@@ -33,7 +33,7 @@ export { RuntimeContext };
 
 export type SSRPluginConfig = {
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
-  scriptLoading?: 'defer' | 'blocking' | 'module';
+  scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
   enableInlineStyles?: boolean | RegExp;
   enableInlineScripts?: boolean | RegExp;
   disablePrerender?: boolean;
