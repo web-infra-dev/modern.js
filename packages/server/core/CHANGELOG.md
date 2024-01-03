@@ -1,5 +1,14 @@
 # @modern-js/server-plugin
 
+## 2.45.0
+
+### Patch Changes
+
+- f50ad3e: fix: adjust logger code
+  fix: 调整 logger 冗余代码
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
 ## 2.44.0
 
 ### Minor Changes
