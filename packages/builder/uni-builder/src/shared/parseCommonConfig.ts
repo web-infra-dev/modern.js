@@ -187,6 +187,24 @@ export async function parseCommonConfig(
     delete html.templateParametersByEntries;
   }
 
+  extraConfig.tools ??= {};
+
+  // compat template title and meta params
+  extraConfig.tools.htmlPlugin = config => {
+    if (typeof config.templateParameters === 'function') {
+      const originFn = config.templateParameters;
+
+      config.templateParameters = (...args) => {
+        const res = originFn(...args);
+        return {
+          title: config.title,
+          meta: undefined,
+          ...res,
+        };
+      };
+    }
+  };
+
   // more dev & server config will compat in modern-js/server
 
   // enable progress bar by default
