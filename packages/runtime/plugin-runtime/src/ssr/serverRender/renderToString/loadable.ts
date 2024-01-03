@@ -121,6 +121,7 @@ class LoadableCollector implements Collector {
     const scriptLoadingAtr = {
       defer: scriptLoading === 'defer' ? true : undefined,
       type: scriptLoading === 'module' ? 'module' : undefined,
+      async: scriptLoading === 'async' ? true : undefined,
     };
 
     const attributes = attributesToString(
