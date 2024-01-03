@@ -1,4 +1,4 @@
-import {
+import type {
   TransformOptions as BabelTransformOptions,
   PluginItem as BabelPlugin,
 } from '@babel/core';
