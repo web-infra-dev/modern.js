@@ -1,3 +1,8 @@
+import {
+  TransformOptions as BabelTransformOptions,
+  PluginItem as BabelPlugin,
+} from '@babel/core';
+
 export type {
   TransformOptions as BabelTransformOptions,
   PluginItem as BabelPlugin,
