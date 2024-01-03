@@ -8,6 +8,7 @@ import {
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
+  mergeChainedOptions,
 } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
@@ -193,9 +194,17 @@ export async function parseCommonConfig(
     dev.progressBar = true;
   }
 
-  dev.writeToDisk =
-    tools.devServer?.devMiddleware?.writeToDisk ??
-    ((file: string) => !file.includes('.hot-update.'));
+  const devServer = mergeChainedOptions({
+    defaults: {
+      devMiddleware: {
+        writeToDisk: (file: string) => !file.includes('.hot-update.'),
+      },
+    },
+    options: tools.devServer,
+    mergeFn: deepmerge,
+  });
+
+  dev.writeToDisk = devServer.devMiddleware?.writeToDisk;
 
   const server: ServerConfig = isProd()
     ? {}
