@@ -126,7 +126,7 @@ export default class SocketServer {
       }
     });
 
-    if (this.options.hot || this.options.hot === 'only') {
+    if (this.options.hot) {
       this.singleWrite(connection, 'hot');
     }
 
