@@ -4437,6 +4437,9 @@ importers:
       ignore-styles:
         specifier: ^5.0.1
         version: 5.0.1
+      isbot:
+        specifier: ^4.2.0
+        version: 4.2.0
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
@@ -24080,6 +24083,11 @@ packages:
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
+
+  /isbot@4.2.0:
+    resolution: {integrity: sha512-yVfLv4iS22wXWMWv2KtapKUZ3etRJ0nkaC5u6o5y6dID+rQuKX/NpF2iVcGGORkrYlhA3CS5aEZGKwtdelMkHw==}
+    engines: {node: '>=18'}
     dev: false
 
   /isexe@2.0.0:

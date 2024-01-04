@@ -19,6 +19,9 @@ function renderToPipe(
 ) {
   let shellChunkStatus = ShellChunkStatus.START;
 
+  // When a crawler visit the page, we should waiting for entrie content of page
+  const onReady = context.ssrContext?.isSpider ? 'onAllReady' : 'onShellReady';
+
   const { ssrContext } = context;
   const chunkVec: string[] = [];
   const forUserPipe: Pipe<Writable> = stream => {
@@ -32,7 +35,7 @@ function renderToPipe(
       const { pipe } = renderToPipeableStream(rootElement, {
         ...options,
         nonce: ssrContext?.nonce,
-        onShellReady() {
+        [onReady]() {
           getTemplates(context, RenderLevel.SERVER_RENDER, pluginConfig).then(
             ({ shellAfter, shellBefore }) => {
               options?.onShellReady?.();
