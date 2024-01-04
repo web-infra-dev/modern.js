@@ -26,6 +26,7 @@ describe('test render function', () => {
         distDir: path.join(__dirname, 'fixtures', 'ssr'),
         template: 'tpl.html',
         staticGenerate: false,
+        metaName: 'modern.js',
       } as any,
       {
         extendSSRContext: () => {
