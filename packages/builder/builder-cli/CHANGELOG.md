@@ -1,5 +1,14 @@
 # @modern-js/builder-cli
 
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.45.0
+- @modern-js/builder-webpack-provider@2.45.0
+- @modern-js/utils@2.45.0
+- @modern-js/builder@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes
