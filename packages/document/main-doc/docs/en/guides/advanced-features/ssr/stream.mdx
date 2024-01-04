@@ -228,6 +228,28 @@ function ErrorElement() {
 }
 ```
 
+### Waiting for all content to load for spiders
+
+Streaming offers a better user experience because the user can see the content as it becomes available.
+
+However, when a spider visits your page, you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
+
+Modern.js provides a way to handle spider visits,
+In Middleware or Custom Server hook add req.header `x-modern-spider-agent`, then let all of content load first for spider.
+
+For example:
+
+```ts title="server/index.ts"
+export const middleware = (ctx, next) => {
+  const { req, res } = ctx;
+  if (checkIsBot) {
+    req.headers['x-modern-spider-agent'] = '1';
+  }
+
+  next();
+};
+```
+
 :::info More
 
 1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)

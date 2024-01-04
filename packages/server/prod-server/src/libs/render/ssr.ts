@@ -5,6 +5,7 @@ import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
+  cutNameByHyphen,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
@@ -21,6 +22,7 @@ export type SSRRenderOptions = {
   template: string;
   route: ModernRoute;
   staticGenerate: boolean;
+  metaName: string;
   enableUnsafeCtx?: boolean;
   nonce?: string;
 };
@@ -36,6 +38,7 @@ export const render = async (
     template,
     staticGenerate,
     enableUnsafeCtx = false,
+    metaName,
     nonce,
   } = renderOptions;
   const { urlPath, bundle, entryName } = route;
@@ -46,6 +49,10 @@ export const render = async (
   const routeManifest = fs.existsSync(routesManifestUri)
     ? require(routesManifestUri)
     : undefined;
+
+  const isSpider = Boolean(
+    ctx.headers[`x-${cutNameByHyphen(metaName)}-spider-agent`],
+  );
 
   const context: SSRServerContext = {
     request: {
@@ -79,6 +86,7 @@ export const render = async (
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,
+    isSpider,
     nonce,
   };
   context.logger = createLogger(context, ctx.logger);

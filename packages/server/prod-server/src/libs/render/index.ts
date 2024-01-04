@@ -107,6 +107,7 @@ export const createRenderHandler: CreateRenderHandler = ({
           template: content.toString(),
           staticGenerate,
           nonce,
+          metaName,
         };
         const result = await (ssrRender
           ? ssrRender(ctx, ssrRenderOptions, runner)

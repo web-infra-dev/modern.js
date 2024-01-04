@@ -232,6 +232,27 @@ function ErrorElement() {
 }
 ```
 
+### 为爬虫等待所有内容加载完毕
+
+流式传输可以提高用户体验，因为当页面内容可用时，用户可以及时感知到它们。
+
+然而，当一个爬虫访问该页面时，它可能需要先加载所有内容，然后直接输出整个 HTML，而不是渐进式地加载它。
+
+Modern.js 提供了一种方式来处理爬虫访问情况：
+
+在 Middleware 或者自定义 Server hook 中添加请求头 `x-modern-spider-agent` 即可对爬虫的访问直接输出整个 HTML. 以下面代码为例
+
+```ts title="server/index.ts"
+export const middleware = (ctx, next) => {
+  const { req, res } = ctx;
+  if (checkIsBot) {
+    req.headers['x-modern-spider-agent'] = '1';
+  }
+
+  next();
+};
+```
+
 :::info 补充信息
 
 1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
