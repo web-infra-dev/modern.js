@@ -334,6 +334,37 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 For more details about the `shouldRevalidate` function, please refer to [react-router](https://reactrouter.com/en/main/route/should-revalidate)
 :::
 
+### Client Loader
+
+:::info
+1. This feature requires version x.36.0 or above, and it‘s recommended to use the latest version of the framework.
+2. Only SSR projects have Client Loaders, while in CSR projects, it can be considered as the default Client Loader.
+3. This feature can be used progressively and not every project needs it. For specific information, please refer to the explanation of applicable scenarios in the document below.
+
+:::
+
+#### Applicable scenarios
+
+In the SSR project, the code in Data Loader will only be executed on the server side when the client performs SPA navigation.
+The framework will send an HTTP request to the SSR service to trigger the execution of Data Loader.
+However, in some scenarios, we may expect that requests sent by clients do not go through the SSR service and directly request data sources.
+
+:::info
+Why the Data Loader is only executed server-side in SSR projects can be found in [FAQ](#faq)
+
+:::
+
+For example, the following scenarios:
+
+1. During SSR degradation, it is not desired for the framework to send requests to the SSR service to obtain data. Instead, direct requests to the data source are preferred.
+2. There is some cache on the client side, and we don't want to request SSR service to fetch data.
+
+In these scenarios, we can use Client Loader. After adding the Client Loader, in the following scenarios, the code in the Client Loader will be called instead of sending requests to SSR services:
+
+1. After SSR is downgraded to CSR, when fetch data on the client side, Client Loader will be executed instead of the framework sending requests to Data Loader (Server) to fetch data.
+2. When performing SPA navigation in SSR projects and fetch data, Client Loader will be executed.
+
+
 ### Incorrect usage
 
 1. The `loader` can only return serializable data. In the SSR environment, the return value of the `loader` function will be serialized as a JSON string and then deserialized into an object on the client side. Therefore, the `loader` function cannot return non-serializable data (such as functions).
@@ -406,6 +437,16 @@ export default async (): Promise<ProfileData> => {
 In CSR projects, `loader` is executed on the client side, and the BFF function can be called directly in the `loader` to make interface requests.
 
 In SSR projects, each `loader` is also a server-side interface. We recommend using the `loader` instead of the BFF function with an http method of `get` as the interface layer to avoid an extra layer of forwarding and execution.
+
+2. Why is the Data Loader only executed on the server-side in SSR projects?
+
+The Data Loader in our SSR project is designed to only run on the server side. The main reasons for sending requests from the client to the server during client-side rendering are as follows:
+
+- **Simplified usage**, when using a server loader, the data fetching code for both the SSR and CSR phases is in the server loader (the real calls are made by the framework layer), and the code in the server loader doesn't need to care whether it's in a browser environment or a server-side environment.
+- **Reducing data for network requests**, The server loader can be used as a BFF layer, which reduces the amount of data that needs to be fetched by the front-end at runtime.
+- **Reduce client-side bundle size**, moving the logic code and its dependencies from the client to the server.
+- **Improve maintainability**, moving the logic code to the server side reduces the direct impact of data logic on the front-end UI. In addition, the problem of mistakenly introducing server-side dependencies in the client-side bundle or client-side dependencies in the server-side bundle is also avoided.
+
 
 ## useLoader (old version)
 

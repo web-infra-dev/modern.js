@@ -203,23 +203,14 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           const config = api.useResolvedConfigContext();
           const { enableInlineScripts, enableInlineStyles } = config.output;
           const { crossorigin, scriptLoading } = config.html;
-          const disablePrerender =
-            typeof config.server?.ssr === 'object'
-              ? Boolean(config.server.ssr.disablePrerender)
-              : false;
-          const unsafeHeaders =
-            typeof config.server?.ssr === 'object'
-              ? config.server.ssr.unsafeHeaders
-              : undefined;
 
           plugins.push({
             name: PLUGIN_IDENTIFIER,
             options: JSON.stringify({
+              scriptLoading,
               ...(ssrConfigMap.get(entrypoint.entryName) || {}),
               crossorigin,
-              scriptLoading,
               chunkLoadingGlobal,
-              disablePrerender,
               enableInlineScripts:
                 typeof enableInlineScripts === 'function'
                   ? undefined
@@ -228,7 +219,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 typeof enableInlineStyles === 'function'
                   ? undefined
                   : enableInlineStyles,
-              unsafeHeaders,
             }),
           });
         }
