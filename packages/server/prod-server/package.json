@@ -74,6 +74,7 @@
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
+    "isbot": "^4.2.0",
     "@swc/helpers": "0.5.3",
     "cookie": "0.5.0",
     "etag": "^1.8.1",

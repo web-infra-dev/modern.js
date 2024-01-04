@@ -5,9 +5,9 @@ import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
-  cutNameByHyphen,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
+import { isbot } from 'isbot';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { createAfterStreamingRenderContext } from '../hook-api';
 import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
@@ -22,7 +22,6 @@ export type SSRRenderOptions = {
   template: string;
   route: ModernRoute;
   staticGenerate: boolean;
-  metaName: string;
   enableUnsafeCtx?: boolean;
   nonce?: string;
 };
@@ -38,7 +37,6 @@ export const render = async (
     template,
     staticGenerate,
     enableUnsafeCtx = false,
-    metaName,
     nonce,
   } = renderOptions;
   const { urlPath, bundle, entryName } = route;
@@ -50,9 +48,7 @@ export const render = async (
     ? require(routesManifestUri)
     : undefined;
 
-  const isSpider = Boolean(
-    ctx.headers[`x-${cutNameByHyphen(metaName)}-spider-agent`],
-  );
+  const isSpider = isbot(ctx.headers['user-agent'] || null);
 
   const context: SSRServerContext = {
     request: {
