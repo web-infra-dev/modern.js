@@ -93,7 +93,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('调试', 'Debug'),
         items: [
           getLink('/guide/debug/debug-mode'),
-          getLink('/guide/debug/inspector'),
         ],
       },
       {
