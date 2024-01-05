@@ -21,6 +21,7 @@ export function createDefaultConfig(
       server: 'bundles',
       worker: 'worker',
     },
+    cleanDistPath: true,
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,
     disableInlineRouteManifests: false,
