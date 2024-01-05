@@ -62,7 +62,7 @@
     "axios": "^1.6.0"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.2.15",
+    "@rsbuild/shared": "0.2.17",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
