@@ -7,6 +7,7 @@ export const getBabelConfig = (libPresetOption: ILibPresetOption) => {
     presetEnv: {
       loose: true,
       modules: 'commonjs',
+      targets: ['node >= 14'],
     },
     pluginDecorators: {
       version: 'legacy',
