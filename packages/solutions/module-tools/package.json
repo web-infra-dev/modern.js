@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
-    "@ast-grep/napi": "0.12.0",
+    "@ast-grep/napi": "0.16.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
