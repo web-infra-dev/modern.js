@@ -4757,8 +4757,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       '@ast-grep/napi':
-        specifier: 0.12.0
-        version: 0.12.0
+        specifier: 0.16.0
+        version: 0.16.0
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -8699,8 +8699,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /@ast-grep/napi-darwin-arm64@0.12.0:
-    resolution: {integrity: sha512-yF1AZKCaiv5Yoq+c/EgUBVRJVJ9LOPW6k9Spaa+Vua2WVt0gRsUGf29TWVixp3ChUbtZGqp3pmz+Ypblow5JBg==}
+  /@ast-grep/napi-darwin-arm64@0.16.0:
+    resolution: {integrity: sha512-ESjIg03S0ln+8CP43TKqY6+QPL2Kkm+6iMS5kAUMVtH/WNWd2z0oQLg9bmadUNPylYbB42B3zRtuTKwm/nCpdA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -8708,8 +8708,8 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi-darwin-x64@0.12.0:
-    resolution: {integrity: sha512-fzYiA9fdOF3OoGUpZ001s46HtyWcbfGGnLGwYq/PaK7NqKh2haTfKUuLUfdcos/ZZXxY59vkiNccVIEyuKYMnQ==}
+  /@ast-grep/napi-darwin-x64@0.16.0:
+    resolution: {integrity: sha512-a7cOdfACgmsGyTSMLkVuGiK/v+M8eTgUWew5X/4gcPHX4GcqVbptP82kbtiVVWZW5QXX2j6VYkFCsmJ7knkXBA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -8717,8 +8717,17 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi-linux-x64-gnu@0.12.0:
-    resolution: {integrity: sha512-HQ75OtvuwiFXzySQqEh5je+QKvTiOEzmTQ0vKj5QcoGHCauYmKdR55/KwBNgL2GFD8wRCcNAS6VlSk8m8RIodA==}
+  /@ast-grep/napi-linux-arm64-gnu@0.16.0:
+    resolution: {integrity: sha512-5BaueDB3ZJxLy/qGDzWO16zSmU02da96ABkp6S210OTlaThDgLpjfztoI10iwu/f3WpTnOvbggjfzOLWUAL3Aw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
+    optional: true
+
+  /@ast-grep/napi-linux-x64-gnu@0.16.0:
+    resolution: {integrity: sha512-QjiY45TvPI50I2UxPlfPuoeDeEYJxGDyLegqYfrLsxtdv+wX2Jdgjew6myiMXCVG9oJWgtmp/z28zpl7H8YLPA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -8726,8 +8735,8 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi-win32-arm64-msvc@0.12.0:
-    resolution: {integrity: sha512-87YnIRmBZuJRQnE8Rkvnez6zbehdaNyRCZ+DXbJj0SK02BXYOXBqZ/pDZvP2ItZSEaV7Y5ONxZfSVw3uk+zxzA==}
+  /@ast-grep/napi-win32-arm64-msvc@0.16.0:
+    resolution: {integrity: sha512-4OCpEf44h63RVFiNA2InIoRNlTB2XJUq1nUiFacTagSP5L3HwnZQ4URC1+fdmZh1ESedm7KxzvhgByqGeUyzgA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -8735,8 +8744,8 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi-win32-ia32-msvc@0.12.0:
-    resolution: {integrity: sha512-ToXSBFRidrwtyC9NSVijN+Hgq9pIihpx6wLs8pdP35MK4F4K7+V4iilY41eEh9Deo15+Z1oIJiuGFyZTmFNqjA==}
+  /@ast-grep/napi-win32-ia32-msvc@0.16.0:
+    resolution: {integrity: sha512-bJW9w9btdE9OuGKZSNiKkBR+Ax4113VhiJgxC2t9KbhmOsOM9E4l2U570h+DrjWdf+H3Oyb4Cz8so2noh5LQqw==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -8744,8 +8753,8 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi-win32-x64-msvc@0.12.0:
-    resolution: {integrity: sha512-7Co11h6fkNwJ8fJA3Xg6Nh1pr99VKO9V0KcA9ibT0VQmh9YBmH8VeUOT7XFPvKm3jZvqGL1ONHx0A531+Fyc8g==}
+  /@ast-grep/napi-win32-x64-msvc@0.16.0:
+    resolution: {integrity: sha512-+qUauPADrUIBgSGMmjnCBuy2xuGlG97qjrRAYo9y+Mv9gGnAMpGA5zzLZArHcQwNzXwFB9aIqavtCL+tu28wHg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -8753,16 +8762,17 @@ packages:
     dev: false
     optional: true
 
-  /@ast-grep/napi@0.12.0:
-    resolution: {integrity: sha512-5q6juGHXpIa5WCnSt/OXaC5TsvJWmNd1xm53XNiCfT3xGLd2CbAU2335/geUB0IO/jt35xomgEBZWA0WEElCOQ==}
+  /@ast-grep/napi@0.16.0:
+    resolution: {integrity: sha512-qOqQG9o97Q4tIZXZyWI7JuDZGJi3yibTN7LiGLmnzNLaIhmpv26BWj5OYJibUyQLVH/aTjdZSNx4spa7EihUzg==}
     engines: {node: '>= 10'}
     optionalDependencies:
-      '@ast-grep/napi-darwin-arm64': 0.12.0
-      '@ast-grep/napi-darwin-x64': 0.12.0
-      '@ast-grep/napi-linux-x64-gnu': 0.12.0
-      '@ast-grep/napi-win32-arm64-msvc': 0.12.0
-      '@ast-grep/napi-win32-ia32-msvc': 0.12.0
-      '@ast-grep/napi-win32-x64-msvc': 0.12.0
+      '@ast-grep/napi-darwin-arm64': 0.16.0
+      '@ast-grep/napi-darwin-x64': 0.16.0
+      '@ast-grep/napi-linux-arm64-gnu': 0.16.0
+      '@ast-grep/napi-linux-x64-gnu': 0.16.0
+      '@ast-grep/napi-win32-arm64-msvc': 0.16.0
+      '@ast-grep/napi-win32-ia32-msvc': 0.16.0
+      '@ast-grep/napi-win32-x64-msvc': 0.16.0
     dev: false
 
   /@aw-web-design/x-default-browser@1.4.126:
