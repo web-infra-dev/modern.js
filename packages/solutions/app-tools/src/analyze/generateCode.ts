@@ -18,7 +18,7 @@ import type {
   SSRMode,
   NestedRouteForCli,
 } from '@modern-js/types';
-import { BundlerConfig } from '@modern-js/builder-shared';
+import { RspackConfig, WebpackConfig } from '@rsbuild/shared';
 import {
   AppNormalizedConfig,
   AppTools,
@@ -290,7 +290,7 @@ export const generateIndexCode = async ({
   entrypoints: Entrypoint[];
   config: AppNormalizedConfig<'shared'>;
   importsStatemets: Map<string, ImportStatement[]>;
-  bundlerConfigs?: BundlerConfig[];
+  bundlerConfigs?: RspackConfig[] | WebpackConfig[];
 }) => {
   const hookRunners = api.useHookRunners();
   const { mountId } = config.html;

@@ -45,6 +45,8 @@ export const pluginSplitChunks = (): RsbuildPlugin => ({
 
       chain.optimization.splitChunks({
         ...currentConfig,
+        // rspack chunks type mismatch with webpack
+        // @ts-expect-error
         cacheGroups: {
           ...(currentConfig as Exclude<SplitChunks, false>).cacheGroups,
           ...createCacheGroups(groups),

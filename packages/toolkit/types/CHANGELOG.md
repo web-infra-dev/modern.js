@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.45.0
+
+### Patch Changes
+
+- 19c8687: fix: add missing babel types
+  fix: 添加缺失 babel 类型
+
 ## 2.44.0
 
 ### Minor Changes

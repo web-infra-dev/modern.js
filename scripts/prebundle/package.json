@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.44.0",
+  "version": "2.45.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -20,6 +20,9 @@
     "webpack": "^5.89.0"
   },
   "devDependencies": {
+    "@svgr/core": "8.1.0",
+    "@svgr/plugin-jsx": "8.1.0",
+    "@svgr/plugin-svgo": "8.1.0",
     "@rollup/plugin-json": "6.0.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "9.0.13",

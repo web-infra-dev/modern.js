@@ -70,13 +70,13 @@ export type DisableSourceMapOption =
 export type UniBuilderExtraConfig = {
   tools?: {
     styledComponents?: false | PluginStyledComponentsOptions;
-    devServer?: {
+    devServer?: ChainedConfig<{
       before?: RequestHandler[];
       after?: RequestHandler[];
       client?: DevConfig['client'];
       compress?: ServerConfig['compress'];
       devMiddleware?: {
-        writeToDisk: DevConfig['writeToDisk'];
+        writeToDisk?: DevConfig['writeToDisk'];
       };
       headers?: ServerConfig['headers'];
       historyApiFallback?: ServerConfig['historyApiFallback'];
@@ -84,7 +84,7 @@ export type UniBuilderExtraConfig = {
       https?: DevServerHttpsOptions;
       setupMiddlewares?: DevConfig['setupMiddlewares'];
       proxy?: ServerConfig['proxy'];
-    };
+    }>;
     /**
      * Configure the [Pug](https://pugjs.org/) template engine.
      */

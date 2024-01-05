@@ -1,7 +1,7 @@
 import path from 'path';
 import { Compilation, Compiler } from 'webpack';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
-import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import {
   RouterPlugin,
   RouteAssets,

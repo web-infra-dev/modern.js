@@ -1,7 +1,7 @@
 import type {
   FnPluginSwcOptions,
   ObjPluginSwcOptions,
-} from '@modern-js/builder-plugin-swc';
+} from '@rsbuild/plugin-swc';
 import { logger } from '@modern-js/utils/logger';
 import { applyBuilderSwcConfig } from '../src';
 

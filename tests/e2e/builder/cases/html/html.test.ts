@@ -130,11 +130,14 @@ test.describe('html element set', () => {
   });
 
   test('custom meta', async () => {
-    expect(
-      /<meta name="description" content="a description of the page">/.test(
-        mainContent,
-      ),
-    ).toBeTruthy();
+    const metaContent =
+      '<meta name="description" content="a description of the page">';
+
+    // only insert once
+    expect(mainContent.indexOf(metaContent)).toBeGreaterThan(0);
+    expect(mainContent.indexOf(metaContent)).toBe(
+      mainContent.lastIndexOf(metaContent),
+    );
   });
 });
 
@@ -204,6 +207,7 @@ test('templateByEntries & templateParametersByEntries', async ({ page }) => {
     runServer: true,
     builderConfig: {
       html: {
+        title: 'aaaa',
         templateByEntries: {
           foo: './static/foo.html',
           bar: './static/bar.html',
@@ -227,6 +231,8 @@ test('templateByEntries & templateParametersByEntries', async ({ page }) => {
   await expect(page.evaluate(`window.type`)).resolves.toBe('foo');
 
   await page.goto(getHrefByEntryName('bar', builder.port));
+
+  await expect(page.evaluate(`document.title`)).resolves.toBe('aaaa');
 
   await expect(testTemplate).toHaveText('bar');
   await expect(page.evaluate(`window.type`)).resolves.toBe('bar');

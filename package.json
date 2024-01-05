@@ -27,6 +27,7 @@
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
     "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --maxParallel=100",
     "prepare": "npm run prepare-build && husky install",
+    "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/uni-builder",
     "lint": "npm run fast-lint",
     "change": "modern change",
     "clear": "modern clear",

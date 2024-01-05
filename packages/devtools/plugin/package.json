@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.44.0",
+  "version": "2.45.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -63,9 +63,7 @@
     "@modern-js/runtime": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/serve-static": "^1.13.10",
     "@swc/helpers": "0.5.3",
@@ -75,7 +73,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.44.0"
+    "@modern-js/runtime": "workspace:^2.45.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

@@ -102,7 +102,6 @@ export const dev = async (
     );
   } else {
     const { server } = await appContext.builder!.startDevServer({
-      printURLs: false,
       serverOptions: serverOptions as any,
     });
     setServer(server);

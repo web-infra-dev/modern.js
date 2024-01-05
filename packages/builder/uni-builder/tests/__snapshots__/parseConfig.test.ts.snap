@@ -30,7 +30,9 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "host": "xxx.xxx",
     "port": 8081,
   },
-  "tools": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -61,7 +63,9 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     ],
   },
   "server": {},
-  "tools": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -93,6 +97,9 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -127,6 +134,9 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -158,6 +168,9 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -192,6 +205,9 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -223,6 +239,9 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -261,6 +280,9 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -292,6 +314,9 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -326,6 +351,9 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -357,6 +385,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -393,6 +424,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -426,6 +460,9 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -459,6 +496,9 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -492,6 +532,9 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -526,6 +569,9 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -557,6 +603,9 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
@@ -588,5 +637,8 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     ],
   },
   "server": {},
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;

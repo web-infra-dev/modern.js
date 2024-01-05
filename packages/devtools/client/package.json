@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.44.0",
+  "version": "2.45.0",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
@@ -29,8 +29,6 @@
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/plugin-proxy": "workspace:*",
@@ -43,7 +41,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/themes": "^2.0.0",
-    "@rsbuild/core": "0.2.13",
+    "@rsbuild/core": "0.2.17",
     "@types/jest": "^29",
     "@types/lodash": "^4.14.202",
     "@types/node": "~16.11.7",

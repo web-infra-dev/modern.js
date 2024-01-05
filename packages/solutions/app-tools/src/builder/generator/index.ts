@@ -1,24 +1,19 @@
-import type {
-  BuilderProvider,
-  BuilderInstance,
-} from '@modern-js/builder-shared';
-import { createBuilder } from '@modern-js/builder';
+import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
+import { BundlerType } from '@rsbuild/shared';
 import { BuilderOptions } from '../shared';
 import { Bundler } from '../../types';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
 import { getBuilderTargets } from './getBuilderTargets';
 import { createBuilderOptions } from './createBuilderOptions';
 
-export type GenerateProvider = (c: { builderConfig: any }) => BuilderProvider;
-
 /**
  * @param options BuilderOptions
- * @param generateProvider GenerateProvider
+ * @param bundlerType BundlerType
  * @returns BuilderInstance
  */
 export async function generateBuilder<B extends Bundler>(
   options: BuilderOptions<B>,
-  generateProvider: GenerateProvider,
+  bundlerType: BundlerType,
 ) {
   const { normalizedConfig, appContext } = options;
 
@@ -28,13 +23,13 @@ export async function generateBuilder<B extends Bundler>(
     appContext,
   );
 
-  const provider = generateProvider({
-    builderConfig,
-  });
-
   const target = getBuilderTargets(normalizedConfig);
   const builderOptions = createBuilderOptions(target, appContext);
-  const builder = await createBuilder(provider, builderOptions);
+  const builder = await createUniBuilder({
+    ...builderOptions,
+    bundlerType,
+    config: builderConfig,
+  });
 
   await applyBuilderPlugins(builder, options);
 
@@ -42,7 +37,7 @@ export async function generateBuilder<B extends Bundler>(
 }
 
 async function applyBuilderPlugins<B extends Bundler>(
-  builder: BuilderInstance,
+  builder: UniBuilderInstance,
   options: BuilderOptions<B>,
 ) {
   const {
@@ -59,9 +54,10 @@ async function applyBuilderPlugins<B extends Bundler>(
 
   const { normalizedConfig } = options;
   if (!normalizedConfig.output.disableNodePolyfill) {
-    const { builderPluginNodePolyfill } = await import(
-      '@modern-js/builder-plugin-node-polyfill'
+    const { pluginNodePolyfill } = await import(
+      '@rsbuild/plugin-node-polyfill'
     );
-    builder.addPlugins([builderPluginNodePolyfill()]);
+
+    builder.addPlugins([pluginNodePolyfill()]);
   }
 }

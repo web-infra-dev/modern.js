@@ -1,23 +1,27 @@
-import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { getAutoInjectEnv } from '../utils/env';
 import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
+// Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(
   appContext: IAppContext,
-  bundler: 'webpack' | 'rspack',
 ): AppUserConfig<'webpack'> | AppUserConfig<'rspack'> {
-  const defaultBuilderConfig = createDefaultBuilderConfig();
-
   const dev: AppUserConfig['dev'] = {
-    ...defaultBuilderConfig.dev,
     // `dev.port` should not have a default value
     // because we will use `server.port` by default
     port: undefined,
   };
 
   const output: AppUserConfig['output'] = {
-    ...defaultBuilderConfig.output,
+    distPath: {
+      root: 'dist',
+      html: 'html',
+      js: 'static/js',
+      css: 'static/css',
+      server: 'bundles',
+      worker: 'worker',
+    },
+    cleanDistPath: true,
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,
     disableInlineRouteManifests: false,
@@ -26,7 +30,6 @@ export function createDefaultConfig(
   const source: AppUserConfig['source'] & {
     alias: Record<string, string>;
   } = {
-    ...defaultBuilderConfig.source,
     entries: undefined,
     mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
@@ -43,8 +46,8 @@ export function createDefaultConfig(
   };
 
   const html: AppUserConfig['html'] = {
-    ...defaultBuilderConfig.html,
     title: '',
+    mountId: 'root',
     meta: {
       charset: { charset: 'utf-8' },
       viewport:
@@ -67,21 +70,13 @@ export function createDefaultConfig(
     port: 8080,
   };
 
-  const defaultTsCheckerConfig = {
+  const tools = {
     tsChecker: {
       issue: {
         include: [{ file: '**/src/**/*' }],
       },
     },
   };
-
-  const tools =
-    bundler === 'webpack'
-      ? {
-          ...defaultBuilderConfig.tools,
-          ...defaultTsCheckerConfig,
-        }
-      : defaultTsCheckerConfig;
 
   return {
     source,

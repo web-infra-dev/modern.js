@@ -1,4 +1,4 @@
-import type { BuilderTarget } from '@modern-js/builder-shared';
+import type { RsbuildTarget } from '@rsbuild/shared';
 import {
   isProd,
   isServiceWorker,
@@ -10,7 +10,7 @@ import type { AppNormalizedConfig } from '../../types';
 export function getBuilderTargets(
   normalizedConfig: AppNormalizedConfig<'shared'>,
 ) {
-  const targets: BuilderTarget[] = ['web'];
+  const targets: RsbuildTarget[] = ['web'];
 
   const useNodeTarget = isProd()
     ? isUseSSRBundle(normalizedConfig)

@@ -1,5 +1,5 @@
 import { join } from 'path';
-import type { BuilderMode } from '@modern-js/builder-shared';
+import type { RsbuildMode } from '@rsbuild/shared';
 import type { PluginAPI } from '@modern-js/core';
 import type { InspectOptions } from '../utils/types';
 import type { AppTools } from '../types';
@@ -15,7 +15,7 @@ export const inspect = async (
     );
   }
   return appContext.builder.inspectConfig({
-    env: options.env as BuilderMode,
+    env: options.env as RsbuildMode,
     verbose: options.verbose,
     outputPath: join(appContext?.builder.context.distPath, options.output),
     writeToDisk: true,

@@ -1,5 +1,18 @@
 # @modern-js/uni-builder
 
+## 2.45.0
+
+### Patch Changes
+
+- 783dd96: chore(deps): bump rsbuild to 0.2.15
+
+  chore(deps): 升级 rsbuild 到 0.2.15
+
+- Updated dependencies [f50ad3e]
+  - @modern-js/prod-server@2.45.0
+  - @modern-js/server@2.45.0
+  - @modern-js/utils@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes

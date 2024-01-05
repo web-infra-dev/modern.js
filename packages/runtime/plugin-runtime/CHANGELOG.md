@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.45.0
+
+### Minor Changes
+
+- 10d8203: feat: support ssr.scriptLoading set `async`
+  feat: 支持 ssr.scriptLoading 设置为 `async`
+
+### Patch Changes
+
+- f50ad3e: fix: adjust logger code
+  fix: 调整 logger 冗余代码
+- Updated dependencies [19c8687]
+  - @modern-js/types@2.45.0
+  - @modern-js/runtime-utils@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes

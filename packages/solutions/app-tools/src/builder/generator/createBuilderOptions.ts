@@ -1,13 +1,11 @@
-import type {
-  BuilderTarget,
-  CreateBuilderOptions,
-} from '@modern-js/builder-shared';
+import type { CreateUniBuilderOptions } from '@modern-js/uni-builder';
+import type { RsbuildTarget } from '@rsbuild/shared';
 import type { IAppContext } from '@modern-js/core';
 
 export function createBuilderOptions(
-  target: BuilderTarget | BuilderTarget[],
+  target: RsbuildTarget | RsbuildTarget[],
   appContext: IAppContext,
-): CreateBuilderOptions {
+): Omit<CreateUniBuilderOptions, 'bundlerType' | 'config'> {
   // create entries
   type Entries = Record<string, string[]>;
   const entries: Entries = {};
@@ -28,8 +26,7 @@ export function createBuilderOptions(
   return {
     cwd: appContext.appDirectory,
     target,
-    configPath: appContext.configFile || undefined,
+    frameworkConfigPath: appContext.configFile || undefined,
     entry: entries,
-    framework: appContext.metaName,
   };
 }

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.44.0",
+  "version": "2.45.0",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -68,9 +68,6 @@
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rollup/pluginutils": "4.1.1",
-    "@svgr/core": "8.1.0",
-    "@svgr/plugin-jsx": "8.1.0",
-    "@svgr/plugin-svgo": "8.1.0",
     "@swc/helpers": "0.5.3",
     "convert-source-map": "1.8.0",
     "enhanced-resolve": "5.12.0",

@@ -1,4 +1,3 @@
-import type { webpack } from '@modern-js/builder-webpack-provider';
 import type {
   AsyncWaterfall,
   AsyncWorkflow,
@@ -13,8 +12,8 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
-import type { Stats, MultiStats } from '@modern-js/builder-shared';
-import type { Rspack } from '@modern-js/builder-rspack-provider';
+import type { Stats, MultiStats } from '@rsbuild/shared';
+import type { Rspack, webpack } from '@modern-js/uni-builder';
 import { Bundler } from './utils';
 
 export interface ImportSpecifier {

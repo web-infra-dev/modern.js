@@ -63,7 +63,7 @@ export class Storage<V = unknown> {
     const keys = await this.keys?.();
     await Promise.all(
       keys?.map(async key => {
-        return this.delete(key);
+        return this.container.delete(key);
       }) || [],
     );
   }

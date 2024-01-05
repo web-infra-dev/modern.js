@@ -1,5 +1,5 @@
 import path from 'path';
-import type { BuilderTarget } from '@modern-js/builder-shared';
+import type { RsbuildTarget } from '@rsbuild/shared';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
 import { createBuilderOptions } from '../../src/builder/generator/createBuilderOptions';
@@ -8,7 +8,7 @@ initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
 describe('create builder Options', () => {
   it('test create builder Options', () => {
-    const targets: BuilderTarget[] = ['node', 'web'];
+    const targets: RsbuildTarget[] = ['node', 'web'];
     const appContext = {
       entrypoints: [
         {
@@ -34,7 +34,7 @@ describe('create builder Options', () => {
     const options = createBuilderOptions(targets, appContext as any);
     expect(options).toEqual({
       target: targets,
-      configPath: 'modern.config.ts',
+      frameworkConfigPath: 'modern.config.ts',
       entry: {
         main: ['./src/index.ts', './src/main.ts'],
         next: ['./src/next.ts'],

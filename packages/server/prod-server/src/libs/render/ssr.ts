@@ -7,6 +7,7 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
+import { isbot } from 'isbot';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { createAfterStreamingRenderContext } from '../hook-api';
 import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
@@ -47,6 +48,8 @@ export const render = async (
     ? require(routesManifestUri)
     : undefined;
 
+  const isSpider = isbot(ctx.headers['user-agent'] || null);
+
   const context: SSRServerContext = {
     request: {
       baseUrl: urlPath,
@@ -79,6 +82,7 @@ export const render = async (
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,
+    isSpider,
     nonce,
   };
   context.logger = createLogger(context, ctx.logger);

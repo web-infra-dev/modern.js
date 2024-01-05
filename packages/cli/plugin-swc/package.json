@@ -14,7 +14,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.44.0",
+  "version": "2.45.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -37,13 +37,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "@modern-js/builder-plugin-swc": "workspace:*",
+    "@rsbuild/plugin-swc": "0.2.17",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

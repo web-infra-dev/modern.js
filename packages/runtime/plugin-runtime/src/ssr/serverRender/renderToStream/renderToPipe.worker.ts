@@ -45,7 +45,15 @@ function renderToPipe(
             options?.onError?.(error);
           },
         });
+
+      if (context.ssrContext?.isSpider) {
+        // However, when a crawler visits your page, or if you’re generating the pages at the build time,
+        // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
+        // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
+        await readableOriginal.allReady;
+      }
       const reader: ReadableStreamDefaultReader = readableOriginal.getReader();
+
       const injectableStream = new ReadableStream({
         start(controller) {
           async function push() {
