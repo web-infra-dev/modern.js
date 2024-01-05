@@ -4,14 +4,12 @@ import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   chalk,
   getModernConfigFile,
-  getModernPluginVersion,
   isTsProject,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
   Language,
-  Solution,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
@@ -29,7 +27,7 @@ const handleTemplateFile = async (
   _generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const { isNewProject, modernVersion } = context.config;
+  const { isNewProject } = context.config;
   if (isNewProject) {
     const appDir = context.materials.default.basePath;
     const language = isTsProject(appDir) ? Language.TS : Language.JS;
@@ -43,24 +41,12 @@ const handleTemplateFile = async (
     );
   }
 
-  const rspackProviderName = '@modern-js/builder-rspack-provider';
-  const getRspackProviderVersion = () => {
-    return getModernPluginVersion(Solution.MWA, rspackProviderName, {
-      registry: context.config.registry,
-      distTag: context.config.distTag,
-      cwd: context.materials.default.basePath,
-    });
-  };
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
     undefined,
     {
       ...context.config,
       isSubGenerator: true,
-      devDependencies: {
-        [rspackProviderName]:
-          modernVersion || (await getRspackProviderVersion()),
-      },
     },
   );
 };

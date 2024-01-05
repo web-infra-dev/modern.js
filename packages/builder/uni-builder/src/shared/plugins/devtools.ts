@@ -1,5 +1,5 @@
 import { RsbuildPlugin } from '@rsbuild/shared';
-import { DisableSourceMapOption } from 'src/types';
+import { DisableSourceMapOption } from '../../types';
 
 const isUseJsSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
   return typeof disableSourceMap === 'boolean'

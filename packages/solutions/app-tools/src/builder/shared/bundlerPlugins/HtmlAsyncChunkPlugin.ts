@@ -1,6 +1,8 @@
-import type { webpack } from '@modern-js/builder-webpack-provider';
-import type { Rspack } from '@modern-js/builder-rspack-provider';
-import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type {
+  Rspack,
+  webpack,
+  HtmlWebpackPlugin,
+} from '@modern-js/uni-builder';
 
 export class HtmlAsyncChunkPlugin {
   name: string;

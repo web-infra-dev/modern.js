@@ -905,12 +905,12 @@ importers:
         specifier: 0.5.3
         version: 0.5.3
     devDependencies:
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1342,12 +1342,12 @@ importers:
 
   packages/cli/plugin-swc:
     dependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../builder/plugin-swc
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/plugin-swc':
+        specifier: 0.2.17
+        version: 0.2.17
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -1355,9 +1355,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -1446,12 +1443,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
       '@modern-js/devtools-kit':
         specifier: workspace:*
         version: link:../kit
@@ -1600,21 +1591,15 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1667,15 +1652,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -1691,6 +1667,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4439,7 +4418,7 @@ importers:
         version: 5.0.1
       isbot:
         specifier: ^4.2.0
-        version: 4.2.0
+        version: 4.3.0
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
@@ -4680,21 +4659,6 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
-      '@modern-js/builder':
-        specifier: workspace:*
-        version: link:../../builder/builder
-      '@modern-js/builder-plugin-esbuild':
-        specifier: workspace:*
-        version: link:../../builder/plugin-esbuild
-      '@modern-js/builder-plugin-node-polyfill':
-        specifier: workspace:*
-        version: link:../../builder/plugin-node-polyfill
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
@@ -4731,12 +4695,24 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../builder/uni-builder
       '@modern-js/upgrade':
         specifier: workspace:*
         version: link:../../toolkit/upgrade
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/plugin-esbuild':
+        specifier: 0.2.17
+        version: 0.2.17
+      '@rsbuild/plugin-node-polyfill':
+        specifier: 0.2.17
+        version: 0.2.17
+      '@rsbuild/shared':
+        specifier: 0.2.17
+        version: 0.2.17
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4747,12 +4723,9 @@ importers:
         specifier: 0.17.19
         version: 0.17.19
     devDependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../builder/plugin-swc
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../builder/builder-rspack-provider
+      '@rsbuild/plugin-swc':
+        specifier: 0.2.17
+        version: 0.2.17
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -10725,7 +10698,7 @@ packages:
     dependencies:
       '@commitlint/top-level': 17.4.0
       '@commitlint/types': 17.4.4
-      fs-extra: 11.2.0
+      fs-extra: 11.1.1
       git-raw-commits: 2.0.11
       minimist: 1.2.6
     dev: true
@@ -14519,6 +14492,25 @@ packages:
       - webpack
     dev: false
 
+  /@rsbuild/plugin-esbuild@0.2.17:
+    resolution: {integrity: sha512-DbZ6rHmJXBC6PA3CPyQ+agnX98htdV2MAhjz7UmnUJD6v3kxrTzElOmI+kgwV+0yl0zB0+GhXaq4DtxXjbJqwg==}
+    dependencies:
+      '@rsbuild/shared': 0.2.17
+      esbuild: 0.17.19
+      webpack: 5.89.0(esbuild@0.17.19)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - uglify-js
+      - webpack-cli
+    dev: false
+
+  /@rsbuild/plugin-node-polyfill@0.2.17:
+    resolution: {integrity: sha512-Mlv34b6cOYahwldFK0g9EGQ5ctxDPaKJ51/kSmxfA/i753ftqCYBflwF3Hmzfthqwzwf4haa0EyUvD5qTSE7jg==}
+    dependencies:
+      '@rsbuild/shared': 0.2.17
+      node-libs-browser: 2.2.1
+    dev: false
+
   /@rsbuild/plugin-pug@0.2.17:
     resolution: {integrity: sha512-koYK6lLq4emhYQCS315Ppt/CUjdjA+0vax0fyDACwJ3LL4M+4jW52SjJcOxwt8XwDtdgutuaLXIZCpCXKF2tsQ==}
     dependencies:
@@ -14623,7 +14615,6 @@ packages:
       lodash: 4.17.21
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@rsbuild/plugin-type-check@0.2.17(@rsbuild/core@0.2.17)(typescript@5.3.3)(webpack@5.89.0):
     resolution: {integrity: sha512-OAVbjnD9J3JRxIfukbK2/iW2xN6HD3ZmvWFeqExBNLIGChXQoaU3Rw8F24tzSlnJWmwME31wO+YmQ/2gqds67w==}
@@ -15295,7 +15286,7 @@ packages:
       '@storybook/react-dom-shim': 7.6.3(react-dom@18.2.0)(react@18.2.0)
       '@storybook/theming': 7.6.3(react-dom@18.2.0)(react@18.2.0)
       '@storybook/types': 7.6.3
-      fs-extra: 11.2.0
+      fs-extra: 11.1.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       remark-external-links: 8.0.0
@@ -15466,7 +15457,7 @@ packages:
       execa: 5.1.1
       express: 4.18.1
       find-up: 5.0.0
-      fs-extra: 11.2.0
+      fs-extra: 11.1.1
       get-npm-tarball-url: 2.0.3
       get-port: 5.1.1
       giget: 1.1.3
@@ -15562,7 +15553,7 @@ packages:
       file-system-cache: 2.3.0
       find-cache-dir: 3.3.2
       find-up: 5.0.0
-      fs-extra: 11.2.0
+      fs-extra: 11.1.1
       glob: 10.3.10
       handlebars: 4.7.7
       lazy-universal-dotenv: 4.0.0
@@ -15649,7 +15640,7 @@ packages:
       '@babel/types': 7.23.6
       '@storybook/csf': 0.1.2
       '@storybook/types': 7.6.3
-      fs-extra: 11.2.0
+      fs-extra: 11.1.1
       recast: 0.23.4
       ts-dedent: 2.2.0
     transitivePeerDependencies:
@@ -17270,7 +17261,7 @@ packages:
       vitest: '>=0.30.1 <1'
     dependencies:
       '@vitest/utils': 0.33.0
-      fast-glob: 3.3.2
+      fast-glob: 3.3.1
       fflate: 0.8.0
       flatted: 3.2.7
       pathe: 1.1.1
@@ -21951,6 +21942,16 @@ packages:
       merge2: 1.4.1
       micromatch: 4.0.5
 
+  /fast-glob@3.3.1:
+    resolution: {integrity: sha512-kNFPyjhh5cKjrUltxs+wFx+ZkbRaxxmZ+X0ZU31SOsxCEtP9VPgtq2teZw1DebupL5GmDaNQ6yKMMVcM41iqDg==}
+    engines: {node: '>=8.6.0'}
+    dependencies:
+      '@nodelib/fs.stat': 2.0.5
+      '@nodelib/fs.walk': 1.2.8
+      glob-parent: 5.1.2
+      merge2: 1.4.1
+      micromatch: 4.0.5
+
   /fast-glob@3.3.2:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
     engines: {node: '>=8.6.0'}
@@ -24085,8 +24086,8 @@ packages:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: false
 
-  /isbot@4.2.0:
-    resolution: {integrity: sha512-yVfLv4iS22wXWMWv2KtapKUZ3etRJ0nkaC5u6o5y6dID+rQuKX/NpF2iVcGGORkrYlhA3CS5aEZGKwtdelMkHw==}
+  /isbot@4.3.0:
+    resolution: {integrity: sha512-cohu4X66cXP120xwF+UubL+BQzOQLN1O0DOPOmkci6elgZ7o6XIn8B3FARk59RL0aX3cGTq8Ta7MVOWpay3rbw==}
     engines: {node: '>=18'}
     dev: false
 
@@ -31332,7 +31333,7 @@ packages:
       stylus: '>=0.52.4'
       webpack: ^5.0.0
     dependencies:
-      fast-glob: 3.3.2
+      fast-glob: 3.3.1
       klona: 2.0.5
       normalize-path: 3.0.0
       stylus: 0.59.0
@@ -31540,7 +31541,7 @@ packages:
       chokidar: 3.5.3
       didyoumean: 1.2.2
       dlv: 1.1.3
-      fast-glob: 3.3.2
+      fast-glob: 3.3.1
       glob-parent: 6.0.2
       is-glob: 4.0.3
       jiti: 1.20.0

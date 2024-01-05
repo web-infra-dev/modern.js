@@ -59,9 +59,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",

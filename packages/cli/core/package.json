@@ -83,7 +83,7 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

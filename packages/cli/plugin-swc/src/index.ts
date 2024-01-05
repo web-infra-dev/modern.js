@@ -1,10 +1,10 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { isSSR } from '@modern-js/utils';
 import {
-  builderPluginSwc,
+  pluginSwc,
   ObjPluginSwcOptions,
   PluginSwcOptions,
-} from '@modern-js/builder-plugin-swc';
+} from '@rsbuild/plugin-swc';
 import { logger } from '@modern-js/utils/logger';
 import type { ToolsUserConfig } from '@modern-js/app-tools/src/types/config/tools';
 
@@ -30,7 +30,7 @@ export function factory(
           isSSR(config),
         );
 
-        context.builder.addPlugins([builderPluginSwc(finalConfig)]);
+        context.builder.addPlugins([pluginSwc(finalConfig)]);
       },
     }),
   });
