@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 2.45.0
+
+### Patch Changes
+
+- efe7340: fix: when splitRouteChunks is false, dont use loadable to load components
+  fix: 当 splitRouteChunks 为 false，不使用 loadable 加载组件
+- Updated dependencies [f50ad3e]
+- Updated dependencies [19c8687]
+  - @modern-js/prod-server@2.45.0
+  - @modern-js/server-core@2.45.0
+  - @modern-js/types@2.45.0
+  - @modern-js/builder-shared@2.45.0
+  - @modern-js/server@2.45.0
+  - @modern-js/plugin-data-loader@2.45.0
+  - @modern-js/server-utils@2.45.0
+  - @modern-js/builder-rspack-provider@2.45.0
+  - @modern-js/builder-webpack-provider@2.45.0
+  - @modern-js/core@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/builder@2.45.0
+  - @modern-js/builder-plugin-esbuild@2.45.0
+  - @modern-js/builder-plugin-node-polyfill@2.45.0
+  - @modern-js/plugin-i18n@2.45.0
+  - @modern-js/plugin-lint@2.45.0
+  - @modern-js/new-action@2.45.0
+  - @modern-js/node-bundle-require@2.45.0
+  - @modern-js/plugin@2.45.0
+  - @modern-js/upgrade@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes

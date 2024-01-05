@@ -1,5 +1,12 @@
 # @modern-js/builder
 
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.45.0
+- @modern-js/utils@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes

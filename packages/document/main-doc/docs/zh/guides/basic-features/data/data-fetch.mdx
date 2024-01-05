@@ -327,6 +327,66 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 `shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/en/main/route/should-revalidate)
 :::
 
+### Client Loader
+
+:::info
+1. 这个 feature 需要 x.36.0 以上版本，推荐使用框架最新版本
+2. 只有 SSR 项目中有 Client Loader，CSR 项目中可以认为默认就是 Client Loader
+3. 这个特性可以渐进使用，并不是每个项目都需要，具体可以看下面文档适用场景的说明
+
+:::
+
+#### 适用场景
+
+在 SSR 项目中，Data Loader 中的代码只会在服务端执行，当客户端进行 SPA 导航时，
+框架会发送一个 http 请求到 SSR 服务，触发 Data Loader 的执行，
+但有些场景下，我们可能期望在客户端发送的请求不经过 SSR 服务，直接请求数据源。
+
+:::info
+为什么 SSR 项目中 Data Loader 只会在服务端执行可参考 [常见问题](#常见问题)
+
+:::
+
+例如以下场景：
+
+1. 在 SSR 降级时，不希望框架向 SSR 服务发送请求获取数据，希望能直接请求后端服务。
+2. 在客户端有一些缓存，不希望请求 SSR 服务获取数据。
+
+这些场景下，我们可以使用 Client Loader， 添加 Client Loader 后，在以下的场景，会调用 Client Loader 中的代码，而不再像 SSR 服务发送请求：
+
+1. SSR 降级为 CSR 后，在客户端获取数据时，会执行 Client Loader 代替框架发送请求到 Data Loader（Server） 获取数据。
+2. SSR 项目进行 SPA 跳转时，获取数据，会执行 Clinet Loader。
+
+
+#### 使用方式
+
+:::warning
+要使用  client loader，必须有对应的 server loader(data loader)
+:::
+
+1. 如果原有项目中 loader 是以 `.loader.ts` 文件为约定的，需要修改 `.loader.ts` 为 `.data.ts`（如果 loader 是在 `.data.ts` 文件中定义，忽略这个步骤）。
+
+  - 将 `.loader.ts` 文件重命名为 `.data.ts`
+  - 将文件中的代码做以下改动：
+  ```ts
+    // xxx.loader.ts
+  export default () => {}
+
+  // xxx.data.ts
+  export const loader = () => {}
+  ```
+
+
+2. 添加 client loader，client loader API 中的入参和 data loader 是一致的。
+
+```
+// xxx.data.client.ts
+export const loader = () => {}
+```
+
+
+
+
 ### 错误用法
 
 1. `loader` 中只能返回可序列化的数据，在 SSR 环境下，`loader` 函数的返回值会被序列化为 JSON 字符串，然后在客户端被反序列化为对象。因此，`loader` 函数中不能返回不可序列化的数据（如函数）。
@@ -397,6 +457,17 @@ export const loader = async (): Promise<ProfileData> => {
 在 CSR 项目中，`loader` 在客户端执行，在 `loader` 可以直接调用 BFF 函数进行接口请求。
 
 在 SSR 项目中，每个 `loader` 也是一个服务端接口，我们推荐使用 `loader` 替代 http method 为 `get` 的 BFF 函数，作为接口层，避免多一层转发和执行。
+
+
+2. 为什么 SSR 项目中 Data Loader 只会在服务端执行？
+
+我们设计 SSR 项目中 Data Loader 只会在服务端，在客户端渲染时，由框架发送请求到服务端主要有以下原因：
+
+- **简化使用方式**，有 server loader 后，SSR 阶段和  CSR 阶段数据获取的操作都可以放在 server loader 中（真实的调用由框架层去做），server  loader 中的代码无需关心是在浏览器环境中还是服务端环境中。
+- **减少网络请求的数据**，作为 BFF 层，可以减少前端运行时需要获取的数据。
+- **减少客户端 bundle 体积**，将逻辑代码及其依赖，从客户端移动到了服务端。
+- **提高可维护性**，将逻辑代码移动到服务端，减少了数据逻辑对前端 UI 的直接影响。此外，也避免了客户端 bundle 中误引入服务端依赖，或服务端 bundle 中误引入客户端依赖的问题。
+
 
 ## useLoader（旧版）
 

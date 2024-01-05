@@ -42,6 +42,7 @@ export type SSR =
       inlineScript?: boolean;
       disablePrerender?: boolean;
       unsafeHeaders?: string[];
+      scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
     };
 
 export type SSRByEntries = Record<string, SSR>;

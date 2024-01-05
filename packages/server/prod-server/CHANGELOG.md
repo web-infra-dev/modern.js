@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 2.45.0
+
+### Patch Changes
+
+- f50ad3e: fix: adjust logger code
+  fix: 调整 logger 冗余代码
+- Updated dependencies [f50ad3e]
+  - @modern-js/server-core@2.45.0
+  - @modern-js/runtime-utils@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
 ## 2.44.0
 
 ### Minor Changes

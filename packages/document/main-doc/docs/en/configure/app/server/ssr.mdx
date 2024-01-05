@@ -31,6 +31,7 @@ When the value type is `Object`, the following properties can be configured:
 - `disablePrerender`: `boolean = fasle`, To ensure compatibility with the old data request method (`useLoader`), by default, Modern.js performs pre-rendering of components.
   However, if developers want to reduce one rendering when there is no use of the useLoader API in your project, you can set the configuration `disablePrerender=true`.
 - `unsafeHeaders`: `string[] = []`, For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected.
+- `scriptLoading`: `'defer' | 'blocking' | 'module' | 'async'`, The configuration is the same as [html.scriptLoading](/configure/app/html/script-loading), supporting SSR injected script set to `async` loading. The priority is `ssr.scriptLoading` > `html.scriptLoading`.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -40,6 +41,7 @@ export default defineConfig({
       mode: 'stream',
       inlineScript: false,
       unsafeHeaders: ['User-Agent'],
+      scriptLoading: 'async',
     },
   },
 });

@@ -1,5 +1,16 @@
 # @modern-js/builder-shared
 
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [f50ad3e]
+- Updated dependencies [19c8687]
+  - @modern-js/prod-server@2.45.0
+  - @modern-js/types@2.45.0
+  - @modern-js/server@2.45.0
+  - @modern-js/utils@2.45.0
+
 ## 2.44.0
 
 ### Patch Changes
