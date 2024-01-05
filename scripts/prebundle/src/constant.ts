@@ -461,6 +461,9 @@ export const TASKS: TaskConfig[] = [
       'p-map',
       'rollup',
       'find-up',
+      '@svgr/core',
+      '@svgr/plugin-jsx',
+      '@svgr/plugin-svgo',
       {
         name: 'rollup-plugin-dts',
         externals: {

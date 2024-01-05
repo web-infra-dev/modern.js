@@ -1,9 +1,9 @@
 import type { BuildOptions } from 'esbuild';
 import type { ImportItem } from '@modern-js/swc-plugins';
-import type { Config } from '@svgr/core';
 import type { CreateFilter } from '@rollup/pluginutils';
 import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { TestConfig } from '@modern-js/types';
+import type { Config } from '../../../compiled/@svgr/core';
 import { internalPreset, presetList } from '../../constants/preset';
 import { ICompiler } from '../esbuild';
 import type { CopyConfig } from './copy';
