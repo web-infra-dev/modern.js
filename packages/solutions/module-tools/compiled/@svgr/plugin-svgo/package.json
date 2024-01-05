@@ -1,0 +1,1 @@
+{"name":"@svgr/plugin-svgo","author":"Greg Bergé <berge.greg@gmail.com>","version":"8.1.0","funding":{"type":"github","url":"https://github.com/sponsors/gregberge"},"license":"MIT","types":"./dist/index.d.ts"}
