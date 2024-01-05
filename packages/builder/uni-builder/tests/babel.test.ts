@@ -2,6 +2,66 @@ import { describe, it, expect } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
+describe('plugin-babel (rspack mode)', () => {
+  it('should not set babel-loader when babel config not modified', async () => {
+    const rsbuild = await createUniBuilder({
+      cwd: '',
+      bundlerType: 'rspack',
+      config: {
+        output: {
+          polyfill: 'entry',
+        },
+        tools: {
+          babel: {},
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(
+      matchRules({
+        config,
+        testFile: 'a.js',
+      }),
+    ).toMatchSnapshot();
+  });
+
+  it('should set babel-loader when babel config modified', async () => {
+    const rsbuild = await createUniBuilder({
+      cwd: '',
+      bundlerType: 'rspack',
+      config: {
+        output: {
+          polyfill: 'entry',
+        },
+        tools: {
+          babel(config) {
+            config.plugins ??= [];
+            config.plugins.push([
+              'babel-plugin-import',
+              {
+                libraryName: 'xxx-components',
+                libraryDirectory: 'es',
+                style: true,
+              },
+            ]);
+          },
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(
+      matchRules({
+        config,
+        testFile: 'a.js',
+      }),
+    ).toMatchSnapshot();
+  });
+});
+
 describe('plugin-babel', () => {
   it('should set babel-loader', async () => {
     const rsbuild = await createUniBuilder({

@@ -1,5 +1,211 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`plugin-babel (rspack mode) > should not set babel-loader when babel config not modified 1`] = `
+[
+  {
+    "resolve": {
+      "fullySpecified": false,
+    },
+    "test": /\\\\\\.m\\?js/,
+  },
+  {
+    "include": [
+      {
+        "and": [
+          "",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
+      },
+      /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+    ],
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "builtin:swc-loader",
+        "options": {
+          "env": {
+            "coreJs": "3.32",
+            "mode": "entry",
+            "targets": [
+              "> 0.01%",
+              "not dead",
+              "not op_mini all",
+            ],
+          },
+          "isModule": "unknown",
+          "jsc": {
+            "externalHelpers": true,
+            "parser": {
+              "decorators": true,
+              "syntax": "typescript",
+              "tsx": true,
+            },
+            "preserveAllComments": true,
+            "transform": {
+              "decoratorMetadata": true,
+              "legacyDecorator": true,
+              "react": {
+                "development": true,
+                "refresh": true,
+                "runtime": "automatic",
+              },
+            },
+          },
+          "rspackExperiments": {
+            "import": [
+              {
+                "libraryDirectory": "es",
+                "libraryName": "antd",
+                "style": true,
+              },
+              {
+                "camelToDashComponentName": false,
+                "libraryDirectory": "es",
+                "libraryName": "@arco-design/web-react",
+                "style": true,
+              },
+              {
+                "camelToDashComponentName": false,
+                "libraryDirectory": "react-icon",
+                "libraryName": "@arco-design/web-react/icon",
+              },
+            ],
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
+          },
+          "sourceMaps": true,
+        },
+      },
+    ],
+  },
+]
+`;
+
+exports[`plugin-babel (rspack mode) > should set babel-loader when babel config modified 1`] = `
+[
+  {
+    "resolve": {
+      "fullySpecified": false,
+    },
+    "test": /\\\\\\.m\\?js/,
+  },
+  {
+    "include": [
+      {
+        "and": [
+          "",
+          {
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+          },
+        ],
+      },
+      /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+    ],
+    "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "builtin:swc-loader",
+        "options": {
+          "env": {
+            "coreJs": "3.32",
+            "mode": "entry",
+            "targets": [
+              "> 0.01%",
+              "not dead",
+              "not op_mini all",
+            ],
+          },
+          "isModule": "unknown",
+          "jsc": {
+            "externalHelpers": true,
+            "parser": {
+              "decorators": true,
+              "syntax": "typescript",
+              "tsx": true,
+            },
+            "preserveAllComments": true,
+            "transform": {
+              "decoratorMetadata": true,
+              "legacyDecorator": true,
+              "react": {
+                "development": true,
+                "refresh": true,
+                "runtime": "automatic",
+              },
+            },
+          },
+          "rspackExperiments": {
+            "import": [
+              {
+                "libraryDirectory": "es",
+                "libraryName": "antd",
+                "style": true,
+              },
+              {
+                "camelToDashComponentName": false,
+                "libraryDirectory": "es",
+                "libraryName": "@arco-design/web-react",
+                "style": true,
+              },
+              {
+                "camelToDashComponentName": false,
+                "libraryDirectory": "react-icon",
+                "libraryName": "@arco-design/web-react/icon",
+              },
+            ],
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
+          },
+          "sourceMaps": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-babel/compiled/babel-loader/index.js",
+        "options": {
+          "babelrc": false,
+          "compact": false,
+          "configFile": false,
+          "plugins": [
+            [
+              "babel-plugin-import",
+              {
+                "libraryDirectory": "es",
+                "libraryName": "xxx-components",
+                "style": true,
+              },
+            ],
+          ],
+          "presets": [
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+              {
+                "allExtensions": true,
+                "allowDeclareFields": true,
+                "allowNamespaces": true,
+                "isTSX": true,
+                "optimizeConstEnums": true,
+              },
+            ],
+          ],
+        },
+      },
+    ],
+  },
+]
+`;
+
 exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1`] = `
 [
   {
