@@ -469,6 +469,9 @@ export const TASKS: TaskConfig[] = [
         externals: {
           typescript: 'typescript',
         },
+        ignoreDts: true,
+        emitDts: false,
+        clear: false,
       },
       {
         name: 'less',
