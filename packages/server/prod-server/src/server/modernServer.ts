@@ -3,6 +3,7 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import path from 'path';
 import {
   fs,
+  isProd,
   isPromise,
   isWebOnly,
   mime,
@@ -165,7 +166,7 @@ export class ModernServer implements ModernServerInterface {
     this.warmupSSRBundle();
 
     // warmup cacheMod
-    cacheMod.loadServerCacheMod(this.pwd);
+    cacheMod.loadServerCacheMod(isProd() ? distDir : this.pwd);
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);
