@@ -105,6 +105,7 @@ describe('test hook api', () => {
       {},
       content,
     );
+    const initialTemplateContent = template.get();
 
     expect(template.get()).toMatch(content);
     template.appendBody('after body');
@@ -120,6 +121,23 @@ describe('test hook api', () => {
 
     template.set('<div>empty</div>');
     expect(template.get()).toBe('<div>empty</div>');
+
+    template.set(
+      initialTemplateContent
+        .replace('<head>', '<head tag="head">')
+        .replace('<body>', '<body tag="body">'),
+    );
+
+    template.appendBody('after body');
+    template.prependBody('before body');
+    template.appendHead('after head');
+    template.prependHead('before head');
+
+    const nextContent = template.get();
+    expect(nextContent).toMatch('<head tag="head">before head');
+    expect(nextContent).toMatch('<body tag="body">before body');
+    expect(nextContent).toMatch('after head</head>');
+    expect(nextContent).toMatch('after body</body>');
   });
 
   test('should middleware context worke correctly', () => {
