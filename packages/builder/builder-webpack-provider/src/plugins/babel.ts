@@ -88,6 +88,9 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           const baseBabelConfig =
             isServer || isServiceWorker
               ? getBabelConfigForNode({
+                  presetEnv: {
+                    targets: ['node >= 14'],
+                  },
                   pluginDecorators: decoratorConfig,
                 })
               : getBabelConfigForWeb({
