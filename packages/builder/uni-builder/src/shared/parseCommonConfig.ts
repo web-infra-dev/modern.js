@@ -104,6 +104,7 @@ export async function parseCommonConfig(
 
   output.distPath ??= {};
   output.distPath.html ??= 'html';
+  output.distPath.server ??= 'bundles';
 
   output.polyfill ??= 'entry';
 
