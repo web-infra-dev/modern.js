@@ -792,9 +792,15 @@ importers:
       '@rsbuild/plugin-svgr':
         specifier: 0.0.0-next-20240109045121
         version: 0.0.0-next-20240109045121(@swc/helpers@0.5.3)(webpack@5.89.0)
+      '@rsbuild/plugin-toml':
+        specifier: 0.0.0-next-20240109045121
+        version: 0.0.0-next-20240109045121(@swc/helpers@0.5.3)
       '@rsbuild/plugin-type-check':
         specifier: 0.0.0-next-20240109045121
         version: 0.0.0-next-20240109045121(@rsbuild/core@0.0.0-next-20240109045121)(@swc/helpers@0.5.3)(typescript@5.3.3)(webpack@5.89.0)
+      '@rsbuild/plugin-yaml':
+        specifier: 0.0.0-next-20240109045121
+        version: 0.0.0-next-20240109045121(@swc/helpers@0.5.3)
       '@rsbuild/shared':
         specifier: 0.0.0-next-20240109045121
         version: 0.0.0-next-20240109045121(@swc/helpers@0.5.3)
@@ -14675,6 +14681,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@rsbuild/plugin-toml@0.0.0-next-20240109045121(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-gx6JaYPi6ek2LmLf4uqCchWBwmTGiH1TmLU/oq+gLqaqQ7P3/EGV8b9w7hhFLhxRaNfJxCAyUHSsNfiJNdzTtA==}
+    dependencies:
+      '@rsbuild/shared': 0.0.0-next-20240109045121(@swc/helpers@0.5.3)
+    transitivePeerDependencies:
+      - '@swc/helpers'
+    dev: false
+
   /@rsbuild/plugin-type-check@0.0.0-next-20240109045121(@rsbuild/core@0.0.0-next-20240109045121)(@swc/helpers@0.5.3)(typescript@5.3.3)(webpack@5.89.0):
     resolution: {integrity: sha512-RWjIYYSKiToTHSHWzgumIhbd4yX1WtjC8heEpd4hwgaNk61OdS+dsNc0T/ghF0uTASmvAyqZlLuBj+BTGsEEUg==}
     peerDependencies:
@@ -14687,6 +14701,14 @@ packages:
       - '@swc/helpers'
       - typescript
       - webpack
+    dev: false
+
+  /@rsbuild/plugin-yaml@0.0.0-next-20240109045121(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-Qa4YJ4hYG7wGWyczpHNnv6+CYbGAoQF+8MszPv90tiRE9tNu35qZydHguVhsXjYP98E8g0KCkA4sejYSABWYJA==}
+    dependencies:
+      '@rsbuild/shared': 0.0.0-next-20240109045121(@swc/helpers@0.5.3)
+    transitivePeerDependencies:
+      - '@swc/helpers'
     dev: false
 
   /@rsbuild/shared@0.0.0-next-20240109045121(@swc/helpers@0.5.3):

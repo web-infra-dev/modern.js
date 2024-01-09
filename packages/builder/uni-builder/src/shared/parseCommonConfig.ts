@@ -16,6 +16,8 @@ import {
   type RsbuildConfig,
 } from '@rsbuild/core';
 import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
+import { pluginToml } from '@rsbuild/plugin-toml';
+import { pluginYaml } from '@rsbuild/plugin-yaml';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -254,6 +256,8 @@ export async function parseCommonConfig(
       disableSourceMap: uniBuilderConfig.output?.disableSourceMap,
     }),
     pluginEmitRouteFile(),
+    pluginToml(),
+    pluginYaml(),
   ];
 
   const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;

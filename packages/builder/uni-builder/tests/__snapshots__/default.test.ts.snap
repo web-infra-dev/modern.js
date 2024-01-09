@@ -12,9 +12,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
   },
   "context": "",
-  "devServer": {
-    "hot": true,
-  },
   "devtool": "cheap-module-source-map",
   "entry": {
     "index": [
@@ -24,9 +21,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "rspackFuture": {
-      "disableApplyEntryLazily": true,
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -70,7 +64,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
         "oneOf": [
@@ -97,7 +91,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
         "oneOf": [
@@ -124,7 +118,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -622,7 +616,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -631,7 +625,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -855,6 +849,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    HotModuleReplacementPlugin {
+      "name": "HotModuleReplacementPlugin",
+    },
     HtmlWebpackPlugin {
       "userOptions": {
         "chunks": [
@@ -938,7 +935,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   ],
   "resolve": {
     "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+      "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
     "extensions": [
       ".ts",
@@ -969,9 +968,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     },
   },
   "context": "",
-  "devServer": {
-    "hot": false,
-  },
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
@@ -981,9 +977,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "rspackFuture": {
-      "disableApplyEntryLazily": true,
-    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1027,7 +1020,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1054,7 +1047,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1081,7 +1074,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -1579,7 +1572,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -1588,7 +1581,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -1743,14 +1736,15 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "name": "Client",
   "optimization": {
-    "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
         "_options": {
           "compress": "{\\"passes\\":1,\\"pure_funcs\\":[],\\"drop_console\\":false}",
           "exclude": undefined,
-          "extractComments": "true",
+          "extractComments": {
+            "condition": "@preserve|@lic|@cc_on|^/**!",
+          },
           "format": "{\\"comments\\":false,\\"asciiOnly\\":true}",
           "include": undefined,
           "mangle": "{\\"keep_classnames\\":false,\\"keep_fnames\\":false}",
@@ -1956,6 +1950,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   ],
   "resolve": {
     "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
     },
     "extensions": [
@@ -2043,7 +2038,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2070,7 +2065,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2097,7 +2092,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -2316,7 +2311,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -2325,7 +2320,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -2852,6 +2847,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    HotModuleReplacementPlugin {
+      "options": {},
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -2866,9 +2864,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "insert": undefined,
         "linkType": "text/css",
       },
-    },
-    HotModuleReplacementPlugin {
-      "options": {},
     },
     HtmlWebpackPlugin {
       "userOptions": {
@@ -3065,7 +3060,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
       },
       {
         "oneOf": [
@@ -3092,7 +3087,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
         "oneOf": [
@@ -3119,7 +3114,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -3338,7 +3333,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -3347,7 +3342,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
