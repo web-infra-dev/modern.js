@@ -18,7 +18,10 @@ export const templateInjectableStream = ({
 
       if (prependHead) {
         const { head } = RegList.before;
-        chunk_str = chunk_str.replace(head, `${head}${prependHead}`);
+        chunk_str = chunk_str.replace(
+          new RegExp(head),
+          beforeHead => `${beforeHead}${prependHead}`,
+        );
       }
 
       if (appendHead) {
@@ -28,7 +31,10 @@ export const templateInjectableStream = ({
 
       if (prependBody) {
         const { body } = RegList.before;
-        chunk_str = chunk_str.replace(body, `${body}${prependBody}`);
+        chunk_str = chunk_str.replace(
+          new RegExp(body),
+          beforeBody => `${beforeBody}${prependBody}`,
+        );
       }
 
       if (appendBody) {
