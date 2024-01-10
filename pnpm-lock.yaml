@@ -4759,6 +4759,12 @@ importers:
       '@ast-grep/napi':
         specifier: 0.16.0
         version: 0.16.0
+      '@babel/core':
+        specifier: ^7.23.2
+        version: 7.23.6
+      '@babel/types':
+        specifier: ^7.23.0
+        version: 7.23.6
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
