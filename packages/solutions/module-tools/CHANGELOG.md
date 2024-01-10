@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 2.46.0
+
+### Patch Changes
+
+- 0b2a379: chore(module-tools): prebundle svgr to reduce install size
+  chore(module-tools): 预打包 svgr 以减小安装体积
+- 969455d: chore(module-tools): upgrade ast-grep 0.16.0 to support win32-arm64
+- Updated dependencies [494b290]
+- Updated dependencies [40ee539]
+  - @modern-js/types@2.46.0
+  - @modern-js/core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin-changeset@2.46.0
+  - @modern-js/plugin-lint@2.46.0
+  - @modern-js/plugin-i18n@2.46.0
+  - @modern-js/new-action@2.46.0
+  - @modern-js/plugin@2.46.0
+  - @modern-js/upgrade@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

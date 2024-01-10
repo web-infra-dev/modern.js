@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [4c4b2b0]
+- Updated dependencies [494b290]
+- Updated dependencies [40ee539]
+- Updated dependencies [4699e22]
+- Updated dependencies [4699e22]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/uni-builder@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/core@2.46.0
+  - @modern-js/server-utils@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/plugin-data-loader@2.46.0
+  - @modern-js/server-core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin-lint@2.46.0
+  - @modern-js/plugin-i18n@2.46.0
+  - @modern-js/new-action@2.46.0
+  - @modern-js/node-bundle-require@2.46.0
+  - @modern-js/plugin@2.46.0
+  - @modern-js/upgrade@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/runtime-utils
 
+## 2.46.0
+
+### Patch Changes
+
+- 78e2722: fix(runtime-utils): FileReader#reset didn't clear storage as expected
+  fix(runtime-utils): FileReader#reset 没有按预期清除缓存的问题。
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

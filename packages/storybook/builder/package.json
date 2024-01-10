@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.45.0",
+  "version": "2.46.0",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -94,8 +94,8 @@
     "typescript": "^5.2.2"
   },
   "peerDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:^2.45.0",
-    "@modern-js/builder-rspack-provider": "workspace:^2.45.0"
+    "@modern-js/builder-webpack-provider": "workspace:^2.46.0",
+    "@modern-js/builder-rspack-provider": "workspace:^2.46.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-webpack-provider": {

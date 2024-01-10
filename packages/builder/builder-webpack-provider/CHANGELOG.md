@@ -1,5 +1,19 @@
 # @modern-js/builder-webpack-provider
 
+## 2.46.0
+
+### Patch Changes
+
+- 4699e22: chore: explicitly declare Node version of babel target
+
+  chore: 显式声明 babel 的目标 Node 版本
+
+- Updated dependencies [494b290]
+  - @modern-js/types@2.46.0
+  - @modern-js/builder-shared@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

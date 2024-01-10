@@ -1,5 +1,11 @@
 # @modern-js/rspack-generator
 
+## 3.3.7
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+
 ## 3.3.6
 
 ### Patch Changes

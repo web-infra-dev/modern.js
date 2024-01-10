@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.46.0
+
+### Patch Changes
+
+- 494b290: feat: Waiting for all content to load for spiders in streaming ssr
+  feat: 在 streaming ssr 时，为爬虫等待所有内容加载完毕
+- Updated dependencies [78e2722]
+- Updated dependencies [494b290]
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin@2.46.0
+
 ## 2.45.0
 
 ### Minor Changes

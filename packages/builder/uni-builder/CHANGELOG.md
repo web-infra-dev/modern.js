@@ -1,5 +1,31 @@
 # @modern-js/uni-builder
 
+## 2.46.0
+
+### Minor Changes
+
+- 4699e22: feat: bump Rsbuild 0.3.0 and Rspack 0.5.0
+
+  feat: 升级 Rsbuild 0.3.0 和 Rspack 0.5.0
+
+### Patch Changes
+
+- 4c4b2b0: chore(deps): bump rsbuild to 0.2.17
+
+  chore(deps): 升级 rsbuild 到 0.2.17
+
+- 4699e22: chore: explicitly declare Node version of babel target
+
+  chore: 显式声明 babel 的目标 Node 版本
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [494b290]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes
