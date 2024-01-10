@@ -31,7 +31,7 @@ When using Rspack as the bundler, the following Features are temporarily unavail
 
 ## Enable Rspack build
 
-You can enable Rspack build by add the following configuration in `modern.config.ts`:
+Since Modern.js MAJOR_VERSION.46.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -44,6 +44,10 @@ export default defineConfig({
   ],
 });
 ```
+
+:::tip
+If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
+:::
 
 import RspackPrecautions from '@modern-js/builder-doc/docs/en/shared/rspackPrecautions.md';
 

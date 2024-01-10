@@ -31,7 +31,7 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 
 ## 开启 Rspack 构建
 
-在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
+从 Modern.js MAJOR_VERSION.46.0 版本起，在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -44,6 +44,10 @@ export default defineConfig({
   ],
 });
 ```
+
+:::tip
+如果你当前版本低于 MAJOR_VERSION.46.0, 可通过执行 `npx modern upgrade` 进行升级。
+:::
 
 import RspackPrecautions from '@modern-js/builder-doc/docs/zh/shared/rspackPrecautions.md';
 
