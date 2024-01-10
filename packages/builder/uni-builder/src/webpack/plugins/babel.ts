@@ -65,6 +65,9 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           const baseBabelConfig =
             isServer || isServiceWorker
               ? getBabelConfigForNode({
+                  presetEnv: {
+                    targets: ['node >= 14'],
+                  },
                   pluginDecorators: decoratorConfig,
                 })
               : getBabelConfigForWeb({
