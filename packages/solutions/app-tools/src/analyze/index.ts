@@ -11,7 +11,7 @@ import {
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { printInstructions } from '../utils/printInstructions';
-import { generateRoutes } from '../utils/routes';
+import { generateRoutes, getPathWithoutExt } from '../utils/routes';
 import { emitResolvedConfig } from '../utils/config';
 import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools, webpack } from '../types';
@@ -269,11 +269,10 @@ export default ({
             const hasAppConfig = moduleExports.some(
               e => e.n === APP_CONFIG_NAME,
             );
-            const generateLayoutPath = replaceWithAlias(
-              srcDirectory,
-              rootLayoutFile,
-              internalSrcAlias,
+            const generateLayoutPath = getPathWithoutExt(
+              replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
             );
+
             if (hasAppConfig) {
               imports.push({
                 value: generateLayoutPath,
