@@ -929,6 +929,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     ReactRefreshRspackPlugin {
       "options": {
         "exclude": /node_modules/i,
+        "forceEnable": false,
         "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
       },
     },
