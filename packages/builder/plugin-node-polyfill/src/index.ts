@@ -27,12 +27,8 @@ const getProvideLibs = async () => {
 };
 
 /**
- * Usage:
- *
- *   const { builderPluginNodePolyfill } = await import('@modern-js/builder-plugin-node-polyfill');
- *
- *   builder.addPlugins([ builderPluginNodePolyfill() ]);
- */
+ * @deprecated Using [@rsbuild/plugin-node-polyfill](https://rsbuild.dev/plugins/list/plugin-node-polyfill) instead.
+ * */
 export function builderPluginNodePolyfill(): BuilderPlugin<
   WebpackBuilderPluginAPI | RspackBuilderPluginAPI
 > {

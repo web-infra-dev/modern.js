@@ -16,6 +16,8 @@ import { SwcMinimizerPlugin } from './minizer';
 const PLUGIN_NAME = 'builder-plugin-swc';
 
 /**
+ * @deprecated Using \@rsbuild/plugin-swc instead.
+ *
  * In this plugin, we do:
  * - Remove Babel loader if exists
  * - Add our own swc loader

@@ -18,6 +18,9 @@ type StylusLoaderOptions = {
 
 export type PluginStylusOptions = StylusLoaderOptions;
 
+/**
+ * @deprecated Using [@rsbuild/plugin-stylus](https://rsbuild.dev/plugins/list/plugin-stylus) instead.
+ * */
 export function builderPluginStylus(
   options?: PluginStylusOptions,
 ): BuilderPlugin<BuilderPluginAPI> {

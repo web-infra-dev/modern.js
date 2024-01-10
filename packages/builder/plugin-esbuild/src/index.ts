@@ -15,6 +15,9 @@ export interface PluginEsbuildOptions {
   minimize?: false | MinifyPluginOptions;
 }
 
+/**
+ * @deprecated Using @rsbuild/plugin-esbuild instead.
+ * */
 export function builderPluginEsbuild(
   userOptions: PluginEsbuildOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {
