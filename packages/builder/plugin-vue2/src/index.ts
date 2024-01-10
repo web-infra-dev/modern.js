@@ -18,6 +18,9 @@ export type PluginVueOptions = {
   vueLoaderOptions?: VueLoaderOptions;
 };
 
+/**
+ * @deprecated Using [@rsbuild/plugin-vue2](https://rsbuild.dev/plugins/list/plugin-vue2) instead.
+ * */
 export function builderPluginVue2(
   options: PluginVueOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {

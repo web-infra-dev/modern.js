@@ -33,7 +33,11 @@ const normalizeOptions = (options: Options[]) => {
   return normalized;
 };
 
-/** Options enable by default: {@link DEFAULT_OPTIONS} */
+/**
+ * @deprecated Using [@rsbuild/plugin-image-compress](https://rsbuild.dev/plugins/list/plugin-image-compress) instead.
+ *
+ * Options enable by default: {@link DEFAULT_OPTIONS}
+ * */
 export const builderPluginImageCompress: IPluginImageCompress = (
   ...args
 ): BuilderPlugin => ({
