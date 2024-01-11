@@ -22,6 +22,7 @@ export class ServiceWorkerCompilerPlugin {
               js: false,
               css: false,
             },
+            cleanDistPath: false,
             distPath: {
               root: './dist',
               worker: './public',

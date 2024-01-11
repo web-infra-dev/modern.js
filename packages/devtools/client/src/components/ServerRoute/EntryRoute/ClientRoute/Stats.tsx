@@ -2,10 +2,22 @@ import { FileSystemRoutes } from '@modern-js/devtools-kit';
 import type { RouteLegacy, ServerRoute } from '@modern-js/types';
 import _ from 'lodash';
 import React from 'react';
-import { useSnapshot } from 'valtio';
+import { proxy, useSnapshot } from 'valtio';
+import { Promisable } from 'type-fest';
 import { LegacyRouteStats } from './LegacyRoute/Stats';
 import { RemixRouteStats } from './RemixRoute/Stats';
-import { useStore } from '@/entries/client/stores';
+import { $framework, $server } from '@/entries/client/routes/state';
+
+export const $fileSystemRoutes = proxy<
+  Record<string, Promisable<FileSystemRoutes>>
+>({});
+
+$server.then(({ hooks, remote }) => {
+  remote.getFileSystemRoutes('');
+  hooks.hook('updateFileSystemRoutes', ({ entrypoint, routes }) => {
+    $fileSystemRoutes[entrypoint.entryName] = routes;
+  });
+});
 
 export interface ClientRouteStatsProps {
   route: ServerRoute;
@@ -14,9 +26,9 @@ export interface ClientRouteStatsProps {
 export const ClientRouteStats: React.FC<ClientRouteStatsProps> = ({
   route,
 }) => {
-  const $store = useStore();
-  const store = useSnapshot($store);
-  const { entrypoints } = store.framework.context;
+  const framework = useSnapshot($framework);
+  const fileSystemRoutes = useSnapshot($fileSystemRoutes);
+  const { entrypoints } = framework.context;
   const entrypoint =
     route.entryName && _.find(entrypoints, { entryName: route.entryName });
 
@@ -26,8 +38,7 @@ export const ClientRouteStats: React.FC<ClientRouteStatsProps> = ({
     );
   }
 
-  const fileSystemRoute =
-    store.framework.fileSystemRoutes[entrypoint.entryName];
+  const fileSystemRoute = fileSystemRoutes[entrypoint.entryName];
 
   if (isLegacyRoutes(fileSystemRoute as any)) {
     return <LegacyRouteStats />;

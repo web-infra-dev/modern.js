@@ -1,9 +1,9 @@
 import './react-devtools-backend';
+import './state';
 import { createRoot } from 'react-dom/client';
 import { parseQuery } from 'ufo';
 import _ from 'lodash';
 import { SetupClientParams } from '@modern-js/devtools-kit';
-import { waitClientConnection } from './rpc';
 import styles from './index.module.scss';
 import { DevtoolsActionButton } from '@/components/Devtools/Action';
 
@@ -29,5 +29,5 @@ const options: SetupClientParams = {
   endpoint: parsed.endpoint,
   def: JSON.parse(parsed.def),
 };
-waitClientConnection();
+
 root.render(<DevtoolsActionButton {...options} />);

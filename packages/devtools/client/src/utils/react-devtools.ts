@@ -1,4 +1,5 @@
-import type { Wall } from 'react-devtools-inline';
+import { Hookable } from 'hookable';
+import { Wall, AnyFn } from 'react-devtools-inline';
 
 export interface ReactDevtoolsWallEvent {
   event: string;
@@ -8,27 +9,23 @@ export interface ReactDevtoolsWallEvent {
 
 export type ReactDevtoolsWallListener = (event: ReactDevtoolsWallEvent) => void;
 
-export class ReactDevtoolsWallAgent implements Wall {
-  listeners: ReactDevtoolsWallListener[] = [];
+export type WallAgentHooks = Record<
+  'send' | 'receive',
+  (event: ReactDevtoolsWallEvent) => void
+>;
 
-  sender?: (event: ReactDevtoolsWallEvent) => void;
-
-  send(event: string, payload: any, transferable?: any[] | undefined): void {
-    this.sender?.({
-      event,
-      payload,
-      transferable,
-    });
-  }
-
-  listen(fn: ReactDevtoolsWallListener): ReactDevtoolsWallListener {
-    this.listeners.includes(fn) || this.listeners.push(fn);
+export class WallAgent extends Hookable<WallAgentHooks> implements Wall {
+  listen(fn: AnyFn): AnyFn {
+    this.hook('receive', fn);
     return fn;
   }
 
-  emit(event: ReactDevtoolsWallEvent) {
-    for (const listener of this.listeners) {
-      listener(event);
-    }
+  send(event: string, payload: any, transferable?: any[] | undefined): void {
+    const e = {
+      event,
+      payload,
+      transferable,
+    };
+    this.callHook('send', e);
   }
 }

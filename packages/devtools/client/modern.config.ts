@@ -50,6 +50,7 @@ export default defineConfig<'rspack'>({
       addPlugins(require('postcss-custom-media'));
     },
     bundlerChain(chain) {
+      chain.output.uniqueName('modernjsDevtools');
       chain.module
         .rule('RADIX_TOKEN')
         .test(require.resolve('@radix-ui/themes/styles.css'))
