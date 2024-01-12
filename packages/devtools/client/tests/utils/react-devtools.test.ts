@@ -88,5 +88,7 @@ describe('WallAgent', () => {
         },
       ]
     `);
+    channel1.port.close();
+    channel2.port.close();
   });
 });
