@@ -1,6 +1,5 @@
 import { nanoid } from 'nanoid';
 import type { ChannelOptions } from 'birpc';
-import { Hookable, createHooks } from 'hookable';
 
 export class WebSocketChannel implements ChannelOptions {
   static link(ws: WebSocket) {
@@ -59,35 +58,51 @@ export class WebSocketChannel implements ChannelOptions {
   }
 }
 
-export type PostMessageTarget = Pick<Window, 'postMessage'>;
-
 export class MessagePortTimeout extends Error {
   constructor() {
     super('Connection to target message channel port timed out');
   }
 }
 
+export type PostMessageListener = (ev: MessageEvent) => void;
+
+export interface PostMessageTarget {
+  postMessage: (
+    message: any,
+    targetOrigin: string,
+    transfer?: Transferable[],
+  ) => void;
+  addEventListener: (
+    type: string,
+    listener: PostMessageListener,
+    options?: boolean | AddEventListenerOptions,
+  ) => void;
+  removeEventListener: (
+    type: string,
+    listener: PostMessageListener,
+    options?: boolean | EventListenerOptions,
+  ) => void;
+}
+
 export class MessagePortChannel implements ChannelOptions {
   static link(target: PostMessageTarget, tag = 'channel:connect') {
-    return new Promise<MessagePortChannel>((resolve, _reject) => {
+    return new Promise<MessagePortChannel>((resolve, reject) => {
       const id = nanoid();
       const { port1, port2 } = new MessageChannel();
       const handleMessage = (e: MessageEvent) => {
         if (e.data.tag !== tag) return;
         if (e.data.type !== 'accepted') return;
         if (e.data.id !== id) return;
-        port2.onmessage = null;
+        port2.removeEventListener('message', handleMessage);
         resolve(new MessagePortChannel(port2));
       };
-      // const handleError = (e: MessageEvent) => reject(e.data);
-      port2.onmessage = handleMessage;
-      // port2.addEventListener('messageerror', handleError, { once: true });
-      // setTimeout(() => reject(new MessagePortTimeout()), 1000);
+      port2.addEventListener('messageerror', reject, { once: true });
+      port2.addEventListener('message', handleMessage);
       target.postMessage({ tag, type: 'request', id }, '*', [port1]);
     });
   }
 
-  static wait(tag = 'channel:connect') {
+  static wait(target: PostMessageTarget, tag = 'channel:connect') {
     return new Promise<MessagePortChannel>((resolve, reject) => {
       const handleMessage = async (e: MessageEvent) => {
         const { data } = e;
@@ -95,7 +110,7 @@ export class MessagePortChannel implements ChannelOptions {
         if (typeof data !== 'object') return;
         if (data.tag !== tag) return;
         if (data.type !== 'request') return;
-        window.removeEventListener('message', handleMessage);
+        target.removeEventListener('message', handleMessage);
         const port = e.ports[0];
         if (port) {
           port.postMessage({ type: 'accepted', id: data.id, tag });
@@ -104,18 +119,14 @@ export class MessagePortChannel implements ChannelOptions {
           reject(new Error('Missing message channel port from remote.'));
         }
       };
-      window.addEventListener('message', handleMessage);
+      target.addEventListener('message', handleMessage);
     });
   }
 
   protected port: MessagePort;
 
-  protected hooks: Hookable<{ message: (e: MessageEvent<any>) => void }>;
-
   constructor(port: MessagePort) {
     this.port = port;
-    this.hooks = createHooks();
-    this.port.onmessage = e => this.hooks.callHook('message', e);
     const binds: ChannelOptions = {
       on: this.on.bind(this),
       post: this.post.bind(this),
@@ -142,7 +153,7 @@ export class MessagePortChannel implements ChannelOptions {
   }
 
   on(fn: (data: any, ...extras: any[]) => void): any {
-    this.hooks.hook('message', fn);
+    this.port.addEventListener('message', fn);
   }
 
   serialize(e: any): any {
