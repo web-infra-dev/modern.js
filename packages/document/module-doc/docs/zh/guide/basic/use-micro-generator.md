@@ -17,6 +17,7 @@ Modern.js Module 提供了微生成器工具，它可以为当前项目：
 ## 开发模块文档
 
 当我们想要为模块编写文档的时候，可以启用模块文档功能。**会在项目目录下创建 `docs` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-rspress"` 依赖**。
+使用 `modern dev` 和 `modern build --platform` 来调试和构建你的文档站点。
 
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
@@ -34,7 +35,7 @@ export default defineConfig({
 
 ## Test 测试
 
-当我们想要对一些模块进行测试的时候，可以启用测试功能。启动该功能后，**会在项目目录下创建 `tests` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-testing"` 依赖**。
+当我们想要对一些模块进行测试的时候，可以启用测试功能。启动该功能后，**会在项目目录下创建 `tests` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-testing"` 依赖**。使用 `modern test` 来测试你的模块。
 
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
@@ -52,7 +53,7 @@ export default defineConfig({
 
 ## Storybook 调试
 
-当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及 `.storybook` 目录，在 package.json 中新增 `"@modern-js/storybook"` 依赖**。
+当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及 `.storybook` 目录，在 package.json 中新增 `"@modern-js/storybook"` 依赖**。使用 `storybook dev` 和 `storybook build` 来调试和构建。
 
 ## Tailwind CSS 支持
 
