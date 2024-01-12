@@ -9,8 +9,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "paths": {},
-    "skipLibCheck": true,
-    "types": ["jest"]
+    "skipLibCheck": true
   },
-  "include": ["src", "tests", "jest.config.ts"]
+  "include": ["src"]
 }

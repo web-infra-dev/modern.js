@@ -58,14 +58,14 @@ describe('MessagePortChannel', () => {
     const { port1, port2 } = new MessageChannel();
     const fn = jest.fn();
 
-    port2.postMessage('123123');
+    port2.postMessage('some_message_foo');
     port1.addEventListener('message', fn);
     await once(port1, 'message');
 
     expect(fn.mock.calls.length).toBe(1);
     expect(fn.mock.calls.map(params => params[0].data)).toMatchInlineSnapshot(`
       [
-        "123123",
+        "some_message_foo",
       ]
     `);
   });
@@ -78,15 +78,15 @@ describe('MessagePortChannel', () => {
     const fn = jest.fn();
 
     channel1.on(fn);
-    channel2.post('some_messages');
+    channel2.post('some_message_bar');
     await new Promise(resolve => {
       channel1.on(resolve);
     });
 
     expect(fn.mock.calls.length).toBe(1);
-    expect(fn.mock.calls.map(params => params[0].data)).toMatchInlineSnapshot(`
+    expect(fn.mock.calls.map(params => params[0])).toMatchInlineSnapshot(`
       [
-        "some_messages",
+        "some_message_bar",
       ]
     `);
   });
@@ -101,15 +101,15 @@ describe('MessagePortChannel', () => {
     const fn = jest.fn();
 
     channel1.on(fn);
-    channel2.post('some_messages');
+    channel2.post('some_message_baz');
     await new Promise(resolve => {
       channel1.on(resolve);
     });
 
     expect(fn.mock.calls.length).toBe(1);
-    expect(fn.mock.calls.map(params => params[0].data)).toMatchInlineSnapshot(`
+    expect(fn.mock.calls.map(params => params[0])).toMatchInlineSnapshot(`
       [
-        "some_messages",
+        "some_message_baz",
       ]
     `);
   });

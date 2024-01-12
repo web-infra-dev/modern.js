@@ -98,6 +98,7 @@ export class MessagePortChannel implements ChannelOptions {
       };
       port2.addEventListener('messageerror', reject, { once: true });
       port2.addEventListener('message', handleMessage);
+      port2.start();
       target.postMessage({ tag, type: 'request', id }, '*', [port1]);
     });
   }
@@ -123,15 +124,14 @@ export class MessagePortChannel implements ChannelOptions {
     });
   }
 
-  protected port: MessagePort;
+  port: MessagePort;
 
   constructor(port: MessagePort) {
     this.port = port;
+    this.port.start();
     const binds: ChannelOptions = {
       on: this.on.bind(this),
       post: this.post.bind(this),
-      deserialize: this.deserialize.bind(this),
-      serialize: this.serialize.bind(this),
     };
     Object.assign(this, binds);
   }
@@ -140,8 +140,6 @@ export class MessagePortChannel implements ChannelOptions {
     return {
       on: this.on.bind(this),
       post: this.post.bind(this),
-      deserialize: this.deserialize.bind(this),
-      serialize: this.serialize.bind(this),
     };
   }
 
@@ -153,14 +151,6 @@ export class MessagePortChannel implements ChannelOptions {
   }
 
   on(fn: (data: any, ...extras: any[]) => void): any {
-    this.port.addEventListener('message', fn);
-  }
-
-  serialize(e: any): any {
-    return e.data;
-  }
-
-  deserialize(e: any): any {
-    return e.data;
+    this.port.addEventListener('message', e => fn(e.data));
   }
 }
