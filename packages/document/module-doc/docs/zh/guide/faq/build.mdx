@@ -1,5 +1,10 @@
 # 构建相关问题
 
+这里只记录了一些常见问题和 bad case。
+
+**如果是构建产物不符合预期的场景，尤其是配置了 [buildPreset](/api/config/build-preset) 的情况下，
+请先了解 buildPreset 代表了哪些配置项，再根据所有的配置项逐个检查**
+
 ## 产物问题
 
 import BuildProductFAQ from '@site-docs/components/faq-build-product';
@@ -193,20 +198,26 @@ module.exports = {
                 return options;
               });
           },
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };
 ```
 
+### Bundleless DTS failed
+
+在不打包的场景下，是直接 `tsc` 生成类型声明文件。通过终端打印的错误信息，你可以找到问题文件。对于源码文件，推荐将类型问题进行修复，这能够更好地使你的包得到复用。但如果遇到三方包的类型检查问题：
+
+1. 开启 [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) 来跳过三方包的 d.ts 检查。
+2. 如果三方包直接导出 ts 文件， skipLibCheck 将会失效，因为其只能跳过 d.ts 检查，因此你只能关闭 [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) 来忽略这些错误。
+
 ### Bundle DTS failed
 
-正常情况下，使用 `tsc` Modern.js Module 不仅支持输出松散的类型文件产物，同时也支持打包类型文件，可以将这些松散的类型文件以及第三方依赖的类型文件打包成一个文件。
+Modern.js Module 直接使用 [rollup-plugin-dts](https://github.com/Swatinem/rollup-plugin-dts) 来打包你的类型描述文件。
+**它可能无法处理某些第三方依赖的类型文件**。
 
-不过，打包第三方依赖的类型文件是存在风险的，**因为存在第三方依赖的类型文件无法打包的情况**。
-
-因此当遇到 Modern.js Module 构建过程中出现 `Bundle DTS failed` 的错误信息标题的时候，可以观察报错信息是来自某个第三方依赖。尝试设置 [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) 为 `false` 来关闭打包第三方依赖的类型文件的行为。
+如果遇到 Modern.js Module 构建过程中出现 `Bundle DTS failed` 的错误信息标题的时候，可以观察报错信息是来自某个第三方依赖。尝试设置 [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) 为 `false` 来关闭打包第三方依赖的类型文件的行为。
 
 ### `defineConfig` 函数类型报错：`如果没有引用 "..."，则无法命名 "default" 的推断类型`
 
@@ -217,13 +228,6 @@ module.exports = {
   "include": ["src"]
 }
 ```
-
-### Bundleless DTS failed
-
-在不打包的场景下，是直接 `tsc` 生成类型声明文件。通过终端打印的错误信息，你可以找到问题文件。对于源码文件，推荐将类型问题进行修复，这能够更好地使你的包得到复用。但如果遇到三方包的类型检查问题：
-
-1. 开启 [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) 来跳过三方包的 d.ts 检查。
-2. 如果三方包直接导出 ts 文件， skipLibCheck 将会失效，因为其只能跳过 d.ts 检查，因此你只能关闭[dts.abortOnError](/api/config/build-config.html#dtsabortonerror)来忽略这些错误。
 
 ## 其他
 

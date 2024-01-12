@@ -244,8 +244,11 @@ With `buildType: 'bundleless'`, type files are generated using the project's `ts
 
 The **Modern.js Module also supports bundling of type files**, although care needs to be taken when using this feature.
 
+- Bundle type files does not enable type checking.
 - Some third-party dependencies have incorrect syntax that can cause the bundling process to fail. So in this case, you need to exclude such third-party packages manually with [`buildConfig.externals`](/en/api/config/build-config#externals) or close [dts.respectExternal](/api/config/build-config#dtsrespectexternal) to external all third-party packages types.
 - It is not possible to handle the case where the type file of a third-party dependency points to a `.ts` file. For example, the `package.json` of a third-party dependency contains something like this: `{"types": ". /src/index.ts"}`.
+
+For the above problems, our recommended approach is to first use `tsc` to generate d.ts files, then package the index.d.ts as the entry and close `dts.respectExternal`. In the future evolution, we will gradually move towards this handling approach.
 
 ### Alias Conversion
 
