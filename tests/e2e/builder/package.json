@@ -16,7 +16,7 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-stylus": "0.3.0",
+    "@rsbuild/plugin-stylus": "0.3.1",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-image-compress": "workspace:*",

@@ -284,18 +284,6 @@ export async function parseCommonConfig(
     delete tools.tsChecker;
   }
 
-  if (!uniBuilderConfig.output?.disableSvgr) {
-    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
-    rsbuildPlugins.push(
-      pluginSvgr({
-        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
-      }),
-    );
-
-    delete output.disableSvgr;
-    delete output.svgDefaultExport;
-  }
-
   if (uniBuilderConfig.source?.resolveMainFields) {
     const { pluginMainFields } = await import('./plugins/mainFields');
     rsbuildPlugins.push(
@@ -329,6 +317,18 @@ export async function parseCommonConfig(
   }
 
   rsbuildPlugins.push(pluginReact());
+
+  if (!uniBuilderConfig.output?.disableSvgr) {
+    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
+    rsbuildPlugins.push(
+      pluginSvgr({
+        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
+      }),
+    );
+
+    delete output.disableSvgr;
+    delete output.svgDefaultExport;
+  }
 
   const pugOptions = uniBuilderConfig.tools?.pug;
   if (pugOptions) {
