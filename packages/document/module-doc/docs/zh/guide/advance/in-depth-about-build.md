@@ -244,8 +244,11 @@ export default defineConfig({
 
 **Modern.js Module 同时还支持对类型文件进行打包**，不过使用该功能的时候需要注意：
 
+- 对类型文件进行打包不会开启类型检查。
 - 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/api/config/build-config#externals) 将这类第三方包排除，或者直接关闭[dts.respectExternal](/api/config/build-config#dtsrespectexternal)从而不打包任何三方包类型。
-- 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"}`。
+- 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"`。
+
+对于上述问题，我们推荐的处理方式是首先使用 `tsc` 生成 d.ts 文件，然后将 index.d.ts 作为入口进行打包处理，并且关闭 `dts.respectExternal`。在之后的演进我们也会逐渐向这种处理方式靠拢。
 
 ### 别名转换
 
