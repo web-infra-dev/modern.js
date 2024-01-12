@@ -9,7 +9,8 @@
     "serve": "modern serve",
     "new": "modern new",
     "lint": "modern lint",
-    "upgrade": "modern upgrade"
+    "upgrade": "modern upgrade",
+    "test": "jest"
   },
   "engines": {
     "node": ">=14.0.0"
@@ -72,6 +73,8 @@
     "type-fest": "^4.1.0",
     "typescript": "~5.0.4",
     "ufo": "^1.3.0",
-    "valtio": "^1.11.1"
+    "valtio": "^1.11.1",
+    "babel-jest": "^29.5.0",
+    "jest": "^29"
   }
 }
