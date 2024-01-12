@@ -686,7 +686,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/url-loader/dist/cjs.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
               "options": {
                 "limit": 10000,
                 "name": "static/svg/[name].[contenthash:8].svg",

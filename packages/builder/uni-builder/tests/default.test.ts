@@ -13,10 +13,13 @@ describe('uni-builder rspack', () => {
     });
 
     const {
-      origin: { bundlerConfigs },
+      origin: { bundlerConfigs, rsbuildConfig },
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
+    console.log('rsbuildConfig.plugins', rsbuildConfig);
+
+    expect(rsbuildConfig.pluginNames).toMatchSnapshot();
 
     process.env.NODE_ENV = NODE_ENV;
   });
