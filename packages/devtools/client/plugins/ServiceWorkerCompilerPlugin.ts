@@ -30,6 +30,7 @@ export class ServiceWorkerCompilerPlugin {
           },
           tools: {
             bundlerChain(chain) {
+              chain.output.uniqueName('modernjsDevtoolsSW');
               chain.output.delete('libraryTarget');
             },
           },
