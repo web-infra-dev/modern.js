@@ -24,18 +24,7 @@ Options:
   -h, --help             展示当前命令的信息
 ```
 
-当想要启动项目构建的时候，可以执行 `modern build` 命令。在使用这个命令的时候，我们可以：
-
-- 当想要以观察模式启动构建时，使用 `--watch` 选项。
-- 当想要指定项目编译读取的 TypeScript 配置文件的路径时，使用 `build --tsconfig ./path/config.json` 选项。使用该选项后，会覆盖所有 [`buildConfig`](/api/config/build-config) 里 [`dts.tsconfigPath`](/api/config/build-config) 配置。
-- 当需要关闭项目的 DTS 类型文件生成和类型检查行为时，可以使用 `--no-dts` 选项。**注意：类型文件的生成依赖类型检查的结果。如果关闭了类型检查，那么类型文件也不会生成**。
-- 当需要关闭自动清除产物输出目录的行为时，可以使用 `--no-clear` 选项。
-
-除了以上方式，Modern.js Module 还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，若使用 doc 插件，官方支持在安装了 `@modern-js/plugin-module-doc` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform doc` 命令启动 doc 构建任务生成 doc 产物。
-
-:::tip
-在执行 doc 构建的时候，如果需要读取项目的构建产物。那么**在执行 `modern build --platform` 命令启动 doc 构建之前，不要忘记先执行 `modern build` 命令确保项目构建产物的存在**。
-:::
+Modern.js Module 支持 `platform` 构建模式，可以用于执行其他工具的构建任务，目前官方支持的有 [Rspress](https://rspress.dev/)。例如，可以通过执行 `modern build --platform` 命令启动 doc 构建任务生成 doc 产物。
 
 ## `modern new`
 

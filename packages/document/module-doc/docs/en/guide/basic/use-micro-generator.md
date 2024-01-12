@@ -17,6 +17,7 @@ The microgenerator can be started via [`modern new`](/guide/basic/command-previe
 ## Develop Module Doc
 
 When we want to write documentation for out module project, we can enable the module doc feature. **will create `docs` directory and related files in the project directory, and add `"@modern-js/plugin-rspress"` dependency** in package.json.
+Use `modern dev` and `modern build --platform` to debug and build your doc site.
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
@@ -35,6 +36,7 @@ export default defineConfig({
 ## Test
 
 When we want to test some modules, we can enable the test feature. When this feature is enabled, **a `tests` directory and related files will be created in the project directory, and a new `"@modern-js/plugin-testing"` dependency will be added to package.json**.
+Use `edenx test` to run tests.
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
@@ -52,7 +54,7 @@ export default defineConfig({
 
 ## Storybook
 
-The **Storybook feature** can be enabled when we want to debug a component or a common module. When this feature is enabled, **the `stories` directory and `.storybook` directory are created in the project directory, and a new `"@modern-js/storybook"` dependency is added to package.json**.
+The **Storybook feature** can be enabled when we want to debug a component or a common module. When this feature is enabled, **the `stories` directory and `.storybook` directory are created in the project directory, and a new `"@modern-js/storybook"` dependency is added to package.json**. Use `storybook dev` and `storybook build` to debug and build.
 
 ## Tailwind CSS Support
 
