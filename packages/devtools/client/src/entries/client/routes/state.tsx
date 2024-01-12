@@ -33,13 +33,11 @@ export const $mountPointChannel = MessagePortChannel.link(
   'channel:connect:client',
 );
 
+$mountPointChannel.then(() => console.log('$mountPointChannel'));
+
 export const $mountPoint = $mountPointChannel.then(async channel => {
   const hooks = createHooks<ToMountPointFunctions>();
-  const definitions: ToMountPointFunctions = {
-    async sendReactDevtoolsData(e) {
-      await hooks.callHook('sendReactDevtoolsData', e);
-    },
-  };
+  const definitions: ToMountPointFunctions = {};
   const remote = createBirpc<MountPointFunctions, ToMountPointFunctions>(
     definitions,
     { ...channel.handlers, timeout: 500 },
