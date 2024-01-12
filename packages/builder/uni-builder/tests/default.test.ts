@@ -17,7 +17,6 @@ describe('uni-builder rspack', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
-    console.log('rsbuildConfig.plugins', rsbuildConfig);
 
     expect(rsbuildConfig.pluginNames).toMatchSnapshot();
 
