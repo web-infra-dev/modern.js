@@ -16,6 +16,8 @@ import {
   type RsbuildConfig,
 } from '@rsbuild/core';
 import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
+import { pluginToml } from '@rsbuild/plugin-toml';
+import { pluginYaml } from '@rsbuild/plugin-yaml';
 import { pluginReact } from '@rsbuild/plugin-react';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
@@ -102,6 +104,7 @@ export async function parseCommonConfig(
 
   output.distPath ??= {};
   output.distPath.html ??= 'html';
+  output.distPath.server ??= 'bundles';
 
   output.polyfill ??= 'entry';
 
@@ -254,6 +257,8 @@ export async function parseCommonConfig(
       disableSourceMap: uniBuilderConfig.output?.disableSourceMap,
     }),
     pluginEmitRouteFile(),
+    pluginToml(),
+    pluginYaml(),
   ];
 
   const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;
@@ -277,18 +282,6 @@ export async function parseCommonConfig(
 
     delete output.disableTsChecker;
     delete tools.tsChecker;
-  }
-
-  if (!uniBuilderConfig.output?.disableSvgr) {
-    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
-    rsbuildPlugins.push(
-      pluginSvgr({
-        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
-      }),
-    );
-
-    delete output.disableSvgr;
-    delete output.svgDefaultExport;
   }
 
   if (uniBuilderConfig.source?.resolveMainFields) {
@@ -324,6 +317,18 @@ export async function parseCommonConfig(
   }
 
   rsbuildPlugins.push(pluginReact());
+
+  if (!uniBuilderConfig.output?.disableSvgr) {
+    const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
+    rsbuildPlugins.push(
+      pluginSvgr({
+        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
+      }),
+    );
+
+    delete output.disableSvgr;
+    delete output.svgDefaultExport;
+  }
 
   const pugOptions = uniBuilderConfig.tools?.pug;
   if (pugOptions) {

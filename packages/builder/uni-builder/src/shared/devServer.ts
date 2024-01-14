@@ -137,7 +137,7 @@ export async function startDevServer(
   await rsbuildServer.beforeStart();
 
   const protocol = devConfig.https ? 'https' : 'http';
-  const urls = getAddressUrls(protocol, port, host);
+  const urls = getAddressUrls({ protocol, port, host });
 
   debug('listen dev server');
 

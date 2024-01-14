@@ -13,6 +13,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -49,6 +50,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -83,6 +85,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -120,6 +123,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -154,6 +158,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -191,6 +196,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -225,6 +231,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -266,6 +273,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -300,6 +308,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -337,6 +346,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -371,6 +381,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -410,6 +421,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -446,6 +458,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -482,6 +495,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -518,6 +532,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     },
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -555,6 +570,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "disableCssModuleExtension": true,
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -588,6 +604,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "inlineScripts": true,
     "overrideBrowserslist": {
@@ -622,6 +639,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "inlineStyles": true,
     "overrideBrowserslist": {

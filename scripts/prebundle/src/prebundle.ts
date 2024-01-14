@@ -42,6 +42,10 @@ function fixTypeExternalPath(
 }
 
 function emitDts(task: ParsedTask) {
+  if (!task.emitDts) {
+    return;
+  }
+
   if (task.ignoreDts) {
     fs.writeFileSync(join(task.distPath, 'index.d.ts'), 'export = any;\n');
     return;
@@ -148,7 +152,9 @@ export async function prebundle(task: ParsedTask) {
 
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
-  fs.removeSync(task.distPath);
+  if (task.clear) {
+    fs.removeSync(task.distPath);
+  }
 
   if (task.beforeBundle) {
     await task.beforeBundle(task);

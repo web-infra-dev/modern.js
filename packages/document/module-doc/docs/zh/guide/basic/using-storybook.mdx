@@ -178,6 +178,16 @@ const config = defineConfig({
 export default config;
 ```
 
+## 从 V6 迁移至 V7
+
+我们对于两个版本的支持方式不同，因此如果你是从 V6 迁移至 V7 的用户，我们希望你也按上述方式使用 V7，同时做以下调整:
+
+- 配置文件：将原来 `root/config/storybook/main.(j|t)s` 里的自定义配置（如果有）迁移到新的 `root/.storybook/main.(j|t)s`。
+- 依赖：升级 `@storybook/addon-*` 系列依赖（如果有）到 7 版本，并删除 `@modern-js/plugin-storybook` 依赖。
+- 命令: 将原来 `edenx dev storybook` 和 `edenx build --platform` 命令删除，如果习惯了原来的 `pnpm run dev` 的调用方式，可以
+  将其替换成 `storybook dev -p 6006` 和 `storybook build`。
+- modern.config.(j|t)s : 删除 `@modern-js/plugin-storybook` 插件的注册。
+
 ## V6 (legacy)
 
 从 `MAJOR_VERSION.40.0` 版本开始，`@modern-js/plugin-storybook`将停止迭代。建议使用 V7 版本。

@@ -1,5 +1,10 @@
 # Build FAQ
 
+Here only some common problems and bad cases are recorded.
+
+**If the build products do not meet expectations, especially when [buildPreset](/api/config/build-preset) is configured,
+please first understand what configuration items buildPreset represents, and then check each configuration item based on all configuration items.**
+
 ## Product FAQ
 
 import BuildProductFAQ from '@site-docs-en/components/faq-build-product';
@@ -200,13 +205,22 @@ module.exports = {
 };
 ```
 
+### Bundleless DTS failed
+
+In the bundleless scenario, it's `tsc` that generates the type declaration file directly. You can find the problem file by printing the error message in the terminal.
+For source code files, it is recommended to fix the type problem, which can better enable reuse of your package. However. if you encounter a type checking problem with a thrid-party package:
+
+1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
+2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check,
+so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
+
 ### Bundle DTS failed
 
-Normally, the type file output with `tsc` is loose. Modern.js Module not only supports outputting loose type file artifacts, but also supports packing type files, which allows you to package these loose type files and third-party dependent type files into one file.
+The Modern.js Module directly uses [rollup-plugin-dts](https://github.com/Swatinem/rollup-plugin-dts) to package your type description files.
+**It may not be able to handle the type files of some third-party dependencies**
 
-However, there is a risk in packaging the type files of third-party dependencies, **because there are cases where the type files of third-party dependencies cannot be packaged**.
-
-So when you encounter a `Bundle DTS failed` error message during the Modern.js Module build, you can observe that the error message comes from a third-party dependency. Try setting [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) to `false` to disable the behavior of packing type files of third-party dependencies.
+If you encounter an error message titled "Bundle DTS failed" during the build process of the Modern.js Module, you can observe that the error message is from a third-party dependency.
+Try setting [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) to `false` to turn off the behavior of packaging type files of third-party dependencies.
 
 ### Error reported for `defineConfig` function type: `If there is no reference to "..." then the inferred type of "default" cannot be named`
 
@@ -217,13 +231,6 @@ Check if the [`include`](https://www.typescriptlang.org/tsconfig#include) config
   "include": ["src"]
 }
 ```
-
-### Bundleless DTS failed
-
-In the bundleless scenario, it's `tsc` that generates the type declaration file directly. You can find the problem file by printing the error message in the terminal. For source code files, it is recommended to fix the type problem, which can better enable reuse of your package. However. if you encounter a type checking problem with a thrid-party package:
-
-1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
-2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check, so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
 
 ## Other FAQ
 

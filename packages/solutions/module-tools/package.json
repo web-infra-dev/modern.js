@@ -57,6 +57,8 @@
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
     "@ast-grep/napi": "0.16.0",
+    "@babel/core": "^7.23.2",
+    "@babel/types": "^7.23.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
@@ -101,7 +103,7 @@
     }
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public",

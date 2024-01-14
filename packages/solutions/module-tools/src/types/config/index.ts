@@ -1,11 +1,11 @@
 import type { BuildOptions } from 'esbuild';
-import type { ImportItem } from '@modern-js/swc-plugins';
 import type { CreateFilter } from '@rollup/pluginutils';
 import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { TestConfig } from '@modern-js/types';
 import type { Config } from '../../../compiled/@svgr/core';
 import { internalPreset, presetList } from '../../constants/preset';
 import { ICompiler } from '../esbuild';
+import type { ImportItem } from './transform-import';
 import type { CopyConfig } from './copy';
 import type { Dev } from './dev';
 import type { Style, StyleConfig } from './style';

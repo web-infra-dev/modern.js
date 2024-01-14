@@ -1,8 +1,8 @@
-exports.id = 249;
-exports.ids = [249];
+exports.id = 846;
+exports.ids = [846];
 exports.modules = {
 
-/***/ 249:
+/***/ 640:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -18,7 +18,7 @@ if (process.platform !== "darwin") {
   throw new Error(`Module 'fsevents' is not compatible with platform '${process.platform}'`);
 }
 
-const Native = __webpack_require__(653);
+const Native = __webpack_require__(326);
 const events = Native.constants;
 
 function watch(path, since, handler) {
@@ -58,6 +58,7 @@ function getInfo(path, flags) {
 function getFileType(flags) {
   if (events.ItemIsFile & flags) return "file";
   if (events.ItemIsDir & flags) return "directory";
+  if (events.MustScanSubDirs & flags) return "directory"; 
   if (events.ItemIsSymlink & flags) return "symlink";
 }
 function anyIsTrue(obj) {
@@ -92,7 +93,7 @@ exports.constants = events;
 
 /***/ }),
 
-/***/ 653:
+/***/ 326:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports = require(__webpack_require__.ab + "fsevents.node")

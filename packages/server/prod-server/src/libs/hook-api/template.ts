@@ -1,7 +1,7 @@
 export const RegList = {
   before: {
-    head: '<head>',
-    body: '<body>',
+    head: '<head[^>]*>',
+    body: '<body[^>]*>',
   },
   after: {
     head: '</head>',
@@ -26,7 +26,10 @@ export class TemplateAPI {
 
   public prependHead(fragment: string) {
     const { head } = RegList.before;
-    return this.replace(head, `${head}${fragment}`);
+    return this.replaceByFunction(
+      new RegExp(head),
+      beforeHead => `${beforeHead}${fragment}`,
+    );
   }
 
   public appendHead(fragment: string) {
@@ -36,12 +39,22 @@ export class TemplateAPI {
 
   public prependBody(fragment: string) {
     const { body } = RegList.before;
-    return this.replace(body, `${body}${fragment}`);
+    return this.replaceByFunction(
+      new RegExp(body),
+      beforeBody => `${beforeBody}${fragment}`,
+    );
   }
 
   public appendBody(fragment: string) {
     const { body } = RegList.after;
     return this.replace(body, `${fragment}${body}`);
+  }
+
+  private replaceByFunction(
+    reg: RegExp | string,
+    replacer: (substring: string, ...others: any[]) => string,
+  ) {
+    this.content = this.content.replace(reg, replacer);
   }
 
   private replace(reg: RegExp | string, text: string) {

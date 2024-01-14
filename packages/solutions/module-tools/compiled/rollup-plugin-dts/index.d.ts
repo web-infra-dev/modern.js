@@ -1,4 +1,4 @@
-import { PluginImpl } from '../rollup';
+import { PluginImpl } from './rollup';
 import ts from 'typescript';
 
 interface Options {
