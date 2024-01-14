@@ -295,8 +295,11 @@ export type UniBuilderContext = RsbuildPluginAPI['context'] & {
   entry: Record<string, string | string[]>;
 };
 
+/**
+ * make the plugins type looser to avoid type mismatch
+ */
 export type UniBuilderPluginAPI = {
-  [key in keyof RsbuildPluginAPI]: RsbuildPluginAPI[key];
+  [key in keyof RsbuildPluginAPI]: any;
 } & {
   /** The following APIs only type incompatibility */
   onBeforeCreateCompiler: (fn: any) => void;
