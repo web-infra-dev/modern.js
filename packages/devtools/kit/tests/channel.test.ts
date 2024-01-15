@@ -53,6 +53,10 @@ class MockPostMessageTarget implements PostMessageTarget {
   }
 }
 
+beforeAll(() => {
+  globalThis.MessageChannel = require('worker_threads').MessageChannel as any;
+});
+
 describe('MessagePortChannel', () => {
   it('should use message channel as basis', async () => {
     const { port1, port2 } = new MessageChannel();

@@ -6,6 +6,10 @@ import {
 } from '@modern-js/devtools-kit';
 import { WallAgent } from '../../src/utils/react-devtools';
 
+beforeAll(() => {
+  globalThis.MessageChannel = require('worker_threads').MessageChannel as any;
+});
+
 class MockPostMessageTarget implements PostMessageTarget {
   private listeners: Record<string, PostMessageListener[]> = {};
 
