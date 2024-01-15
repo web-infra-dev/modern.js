@@ -34,6 +34,11 @@ export const runBuildTask = async (
   const { watch } = buildCmdOptions;
   const existTsconfig = await fs.pathExists(buildConfig.tsconfig);
 
+  if (Object.keys(buildConfig.input).length === 0) {
+    logger.info('The input config is empty, as a result, the JS compilation and dts generation tasks will be skipped. Please provide input to run these tasks.');
+    return;
+  }
+
   if (dts && existTsconfig) {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
     await pMap(tasks, async task => {
