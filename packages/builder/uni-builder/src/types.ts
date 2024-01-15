@@ -30,6 +30,7 @@ import type {
   StartDevServerOptions,
   UniBuilderStartServerResult,
 } from './shared/devServer';
+import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
@@ -261,7 +262,9 @@ export type UniBuilderExtraConfig = {
     /**
      * Enable the ability for source code building
      */
-    sourceBuild?: boolean;
+    sourceBuild?:
+      | boolean
+      | Pick<PluginSourceBuildOptions, 'sourceField' | 'resolvePriority'>;
   };
 };
 
