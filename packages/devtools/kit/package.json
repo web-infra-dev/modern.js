@@ -76,7 +76,7 @@
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/ws": "^8.5.5",
-    "babel-jest": "^29.5.0",
+    "@scripts/jest-config": "workspace:*",
     "jest": "^29",
     "nanoid": "3.3.4",
     "react": "~18.2.0",

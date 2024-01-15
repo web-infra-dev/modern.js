@@ -1493,6 +1493,9 @@ importers:
       '@rsbuild/core':
         specifier: 0.3.1
         version: 0.3.1
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -1511,9 +1514,6 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
-      babel-jest:
-        specifier: ^29.5.0
-        version: 29.5.0(@babel/core@7.23.6)
       birpc:
         specifier: 0.2.13
         version: 0.2.13
@@ -1638,6 +1638,9 @@ importers:
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -1650,9 +1653,6 @@ importers:
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.5
-      babel-jest:
-        specifier: ^29.5.0
-        version: 29.5.0(@babel/core@7.23.6)
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2)

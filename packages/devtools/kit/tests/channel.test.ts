@@ -72,6 +72,8 @@ describe('MessagePortChannel', () => {
         "some_message_foo",
       ]
     `);
+    port1.close();
+    port2.close();
   });
 
   it('can be created from existing pairs', async () => {
@@ -93,6 +95,8 @@ describe('MessagePortChannel', () => {
         "some_message_bar",
       ]
     `);
+    port1.close();
+    port2.close();
   });
 
   it('can be created by link/wait methods', async () => {
@@ -116,5 +120,7 @@ describe('MessagePortChannel', () => {
         "some_message_baz",
       ]
     `);
+    channel1.port.close();
+    channel2.port.close();
   });
 });
