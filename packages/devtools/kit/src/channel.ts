@@ -38,22 +38,25 @@ export class WebSocketChannel implements ChannelOptions {
     };
   }
 
-  post(data: any, ...extras: any[]): any {
+  post(
+    data: string | ArrayBufferLike | Blob | ArrayBufferView,
+    ...extras: unknown[]
+  ): void {
     if (extras.length) {
       throw new Error('Unexpected extra parameters.');
     }
     this.ws.send(data);
   }
 
-  on(fn: (data: any, ...extras: any[]) => void): any {
+  on(fn: (data: unknown, ...extras: unknown[]) => void): void {
     this.ws.onmessage = fn;
   }
 
-  serialize(data: any): any {
+  serialize(data: unknown): string {
     return JSON.stringify(data);
   }
 
-  deserialize(e: any): any {
+  deserialize(e: MessageEvent): unknown {
     return JSON.parse(e.data.toString());
   }
 }
@@ -68,7 +71,7 @@ export type PostMessageListener = (ev: MessageEvent) => void;
 
 export interface PostMessageTarget {
   postMessage: (
-    message: any,
+    message: unknown,
     targetOrigin: string,
     transfer?: Transferable[],
   ) => void;
@@ -143,14 +146,14 @@ export class MessagePortChannel implements ChannelOptions {
     };
   }
 
-  post(data: any, ...extras: any[]): any {
+  post(data: unknown, ...extras: unknown[]): void {
     if (extras.length) {
       throw new Error('Unexpected extra parameters.');
     }
     this.port.postMessage(data);
   }
 
-  on(fn: (data: any, ...extras: any[]) => void): any {
+  on(fn: (data: unknown, ...extras: unknown[]) => void): void {
     this.port.addEventListener('message', e => fn(e.data));
   }
 }
