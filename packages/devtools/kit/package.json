@@ -12,6 +12,9 @@
     "dist"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">14"
+  },
   "keywords": [
     "react",
     "framework",
@@ -49,24 +52,33 @@
     "new": "modern-lib new",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "birpc": "0.2.13",
+    "hookable": "^5.5.3",
     "ufo": "^1.3.0",
     "ws": "^8.13.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.3",
+    "@types/jest": "^29",
     "@types/node": "^14",
     "@types/ws": "^8.5.5",
+    "@scripts/jest-config": "workspace:*",
+    "jest": "^29",
+    "nanoid": "3.3.4",
     "react": "~18.2.0",
     "type-fest": "^4.1.0",
     "typescript": "^5"

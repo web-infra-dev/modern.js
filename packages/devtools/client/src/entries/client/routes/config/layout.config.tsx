@@ -7,22 +7,25 @@ import styles from './layout.module.scss';
 const TooltipSelectItem: React.FC<{ name: string; describe: string[] }> = ({
   name,
   describe,
-}) => (
-  <Tooltip
-    key={name}
-    className={styles.tooltip}
-    side="right"
-    content={describe.map(line => (
-      <Text key={line} style={{ display: 'block' }}>
-        {line}
-      </Text>
-    ))}
-  >
-    <Select.Item value={name}>
-      <Box>{_.startCase(name)}</Box>
-    </Select.Item>
-  </Tooltip>
-);
+}) => {
+  const content = describe.map(line => (
+    <Text key={line} style={{ display: 'block' }}>
+      {line}
+    </Text>
+  ));
+  return (
+    <Tooltip
+      key={name}
+      className={styles.tooltip}
+      side="right"
+      content={content}
+    >
+      <Select.Item value={name}>
+        <Box>{_.startCase(name)}</Box>
+      </Select.Item>
+    </Tooltip>
+  );
+};
 
 const TOOLKIT_LIST = [
   {

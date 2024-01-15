@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Box } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
+import { HiMiniXMark } from 'react-icons/hi2';
 import { LoaderIcon } from '../LoadingIcon';
 import styles from './FrameBox.module.scss';
-import { ReactComponent as XMarkIcon } from './xmark.svg';
 
 export interface FrameBoxProps
   extends BoxProps,
@@ -26,7 +26,7 @@ export const FrameBox: React.FC<FrameBoxProps> = ({
         onLoad={() => setShowFrame(true)}
         src={src}
       ></iframe>
-      <XMarkIcon className={styles.closeButton} onClick={() => onClose?.()} />
+      <HiMiniXMark className={styles.closeButton} onClick={onClose} />
       <div
         className={styles.backdrop}
         style={{ display: showFrame ? 'none' : undefined }}

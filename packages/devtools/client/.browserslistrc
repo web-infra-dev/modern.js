@@ -1,5 +1,5 @@
-chrome >= 51
+chrome >= 55
 edge >= 15
 firefox >= 54
-safari >= 10
-ios_saf >= 10
+safari >= 11
+ios_saf >= 11

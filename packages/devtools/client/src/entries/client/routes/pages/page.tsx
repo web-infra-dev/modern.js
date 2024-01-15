@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { parseURL, withTrailingSlash } from 'ufo';
 import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
+import { $framework } from '../state';
 import styles from './page.module.scss';
-import { useStore } from '@/entries/client/stores';
 import {
   MatchServerRouteValue,
   MatchUrlContext,
@@ -12,9 +12,8 @@ import {
 import { ServerRoute } from '@/components/ServerRoute/Route';
 
 const Page: React.FC = () => {
-  const $store = useStore();
-  const store = useSnapshot($store);
-  const { serverRoutes } = store.framework.context;
+  const framework = useSnapshot($framework);
+  const { serverRoutes } = framework.context;
 
   const [matchContext, setMatchContext] = useState<MatchServerRouteValue>({
     url: '',

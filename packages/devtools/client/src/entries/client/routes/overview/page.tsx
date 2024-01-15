@@ -10,9 +10,16 @@ import {
 } from 'react-icons/hi2';
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
+import {
+  $builder,
+  $definition,
+  $dependencies,
+  $framework,
+  $perf,
+  VERSION,
+} from '../state';
 import srcHeading from './heading.svg';
 import styles from './page.module.scss';
-import { useStore } from '@/entries/client/stores';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
@@ -30,19 +37,22 @@ const IndicateCard: React.FC<
 };
 
 const Page: React.FC = () => {
-  const $store = useStore();
-  const store = useSnapshot($store);
+  const framework = useSnapshot($framework);
+  const def = useSnapshot($definition);
+  const dependencies = useSnapshot($dependencies);
+  const builder = useSnapshot($builder);
+  const perf = useSnapshot($perf);
   const isMacOS = window.navigator.userAgent.includes('Mac OS');
-  const { toolsType } = store.framework.context;
+  const { toolsType } = framework.context;
   if (toolsType !== 'app-tools') {
     throw Error();
   }
-  const toolsPackage = store.packages.appTools;
-  const toolsPackageVer = store.dependencies[toolsPackage]!;
+  const toolsPackage = def.packages.appTools;
+  const toolsPackageVer = dependencies[toolsPackage]!;
 
-  const { bundlerType } = store.builder.context;
+  const { bundlerType } = builder.context;
   const bundlerPackage = BUNDLER_PACKAGE_NAMES[bundlerType];
-  const bundlerPackageVer = store.dependencies[bundlerPackage];
+  const bundlerPackageVer = dependencies[bundlerPackage];
 
   // const numFrameworkPlugin = store.framework.config.transformed.plugins.length;
 
@@ -66,7 +76,7 @@ const Page: React.FC = () => {
             >
               <img src={srcHeading} style={{ width: '8rem' }} />
               <Flex gap="2">
-                <button type="button">v{store.version}</button>
+                <button type="button">v{VERSION}</button>
               </Flex>
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}
@@ -80,12 +90,12 @@ const Page: React.FC = () => {
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
                 <Link
-                  href={store.announcement.fallback}
+                  href={def.announcement.fallback}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <HiLink />
-                  <Text>{parseURL(store.announcement.fallback).host}</Text>
+                  <Text>{parseURL(def.announcement.fallback).host}</Text>
                 </Link>
               </Flex>
             </Box>
@@ -104,7 +114,7 @@ const Page: React.FC = () => {
                 style={{ color: 'var(--gray-11)' }}
                 mb="2"
               >
-                {store.framework.context.plugins.length}
+                {framework.context.plugins.length}
               </Text>
               <Text as="p" size="1" color="gray">
                 Framework Plugins
@@ -122,7 +132,7 @@ const Page: React.FC = () => {
                 weight="bold"
                 style={{ color: 'var(--gray-11)' }}
               >
-                {(store.compileTimeCost / 1000).toFixed(2)}s
+                {(perf.compileDuration / 1000).toFixed(2)}s
               </Text>
               <Text as="p" size="1" color="gray">
                 Compiled in {bundlerPackage}@{bundlerPackageVer}

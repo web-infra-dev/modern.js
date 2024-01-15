@@ -2,5 +2,5 @@
 module.exports = {
   root: true,
   extends: ['@modern-js'],
-  ignorePatterns: ['plugins/'],
+  ignorePatterns: ['plugins/', 'tests/'],
 };

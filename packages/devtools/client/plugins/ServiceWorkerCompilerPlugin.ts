@@ -22,6 +22,7 @@ export class ServiceWorkerCompilerPlugin {
               js: false,
               css: false,
             },
+            cleanDistPath: false,
             distPath: {
               root: './dist',
               worker: './public',
@@ -29,6 +30,7 @@ export class ServiceWorkerCompilerPlugin {
           },
           tools: {
             bundlerChain(chain) {
+              chain.output.uniqueName('modernjsDevtoolsSW');
               chain.output.delete('libraryTarget');
             },
           },

@@ -1,12 +1,11 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
-import { useStore } from '@/entries/client/stores';
+import { $builder } from '../../state';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
-  const $store = useStore();
-  const store = useSnapshot($store);
-  return <ObjectInspector data={store.builder.context} sortObjectKeys={true} />;
+  const { context } = useSnapshot($builder);
+  return <ObjectInspector data={context} sortObjectKeys={true} />;
 };
 
 export default Page;
