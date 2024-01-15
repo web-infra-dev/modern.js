@@ -13,7 +13,7 @@ class MockPostMessageTarget implements PostMessageTarget {
     targetOrigin: string,
     transfer?: Transferable[],
   ): void {
-    // 模拟 postMessage 行为，立即触发 message 事件
+    // Simulate the behavior of postMessage, immediately triggering the message event.
     setTimeout(() => {
       const event = new MessageEvent('message', {
         data: message,
