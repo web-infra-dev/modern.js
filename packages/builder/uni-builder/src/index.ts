@@ -40,3 +40,4 @@ export {
 } from '@rsbuild/core';
 export type { webpack, WebpackChain, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';
+export type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';

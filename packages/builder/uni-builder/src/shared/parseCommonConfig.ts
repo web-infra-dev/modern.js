@@ -310,10 +310,13 @@ export async function parseCommonConfig(
     pluginRuntimeChunk(uniBuilderConfig.output?.disableInlineRuntimeChunk),
   );
 
-  if (uniBuilderConfig.experiments?.sourceBuild) {
+  const { sourceBuild } = uniBuilderConfig.experiments || {};
+  if (sourceBuild) {
     const { pluginSourceBuild } = await import('@rsbuild/plugin-source-build');
 
-    rsbuildPlugins.push(pluginSourceBuild());
+    rsbuildPlugins.push(
+      pluginSourceBuild(sourceBuild === true ? {} : sourceBuild),
+    );
   }
 
   rsbuildPlugins.push(pluginReact());
