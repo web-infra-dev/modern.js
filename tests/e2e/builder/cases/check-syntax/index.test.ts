@@ -1,18 +1,16 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import type { SharedBuilderConfig } from '@modern-js/builder-shared';
+import type { RsbuildConfig } from '@rsbuild/shared';
 
-function getCommonBuildConfig(cwd: string): SharedBuilderConfig {
+function getCommonBuildConfig(cwd: string): RsbuildConfig {
   return {
     source: {
       exclude: [path.resolve(cwd, './src/test.js')],
     },
     tools: {
-      // @ts-expect-error
       rspack: config => {
         config.target = ['web'];
-        config.builtins.presetEnv = undefined;
       },
     },
   };
