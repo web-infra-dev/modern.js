@@ -1,0 +1,41 @@
+{
+  "name": "@modern-js/prod-server-new",
+  "version": "0.1.0",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.js",
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.4.0",
+    "@modern-js/server-core": "^2.45.0",
+    "@modern-js/utils": "^2.45.0",
+    "@swc/helpers": "0.5.3",
+    "@web-std/fetch": "^4.2.1",
+    "hono": "^3.12.2",
+    "merge-deep": "^3.0.3"
+  },
+  "devDependencies": {
+    "@modern-js/eslint-config": "2.45.0",
+    "@modern-js/module-tools": "2.45.0",
+    "@modern-js/types": "^2.45.0",
+    "@types/merge-deep": "^3.0.0",
+    "@types/node": "~16.11.7",
+    "husky": "~8.0.1",
+    "lint-staged": "~13.1.0",
+    "prettier": "~2.8.1",
+    "rimraf": "~3.0.2",
+    "tsx": "^3.12.7",
+    "typescript": "~5.0.4"
+  },
+  "sideEffects": [],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

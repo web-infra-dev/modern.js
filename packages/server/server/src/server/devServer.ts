@@ -100,19 +100,27 @@ export class ModernDevServer extends ModernServer {
     enableRegister(this.pwd, this.conf);
   }
 
-  private getDevOptions(options: ModernDevServerOptionsNew) {
-    const devOptions = options.dev;
-    const defaultOptions = getDefaultDevOptions();
-    return deepMerge(defaultOptions, devOptions);
+  public async close() {
+    for (const cb of this.closeCb) {
+      await cb();
+    }
   }
 
-  private addMiddlewareHandler(handlers: RequestHandler[]) {
-    handlers.forEach(handler => {
-      this.addHandler((ctx, next) => {
-        const { req, res } = ctx;
-        return handler(req, res, next);
-      });
-    });
+  public onRepack(options: BuildOptions = {}) {
+    // reset the routing management instance every times the service starts
+    if (Array.isArray(options.routes)) {
+      this.router.reset(this.filterRoutes(options.routes));
+    }
+
+    // clean ssr bundle cache
+    this.cleanSSRCache();
+
+    // reset static file
+    fileReader.reset();
+
+    this.runner.repack();
+
+    super.onRepack(options);
   }
 
   // Complete the preparation of services
@@ -179,6 +187,61 @@ export class ModernDevServer extends ModernServer {
     }
   }
 
+  // override the ModernServer renderHandler logic
+  public getRenderHandler(): RenderHandler {
+    if (this.useWorkerSSR) {
+      const { distDir, staticGenerate, conf, metaName } = this;
+      const ssrConfig = this.conf.server?.ssr;
+      const forceCSR =
+        typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+
+      // if we use worker ssr, we need override the routeRenderHandler
+      return createRenderHandler({
+        ssrRender: workerSSRRender,
+        distDir,
+        staticGenerate,
+        conf,
+        forceCSR,
+        nonce: conf.security?.nonce,
+        metaName,
+      });
+    }
+    return super.getRenderHandler();
+  }
+
+  public async createHTTPServer(
+    handler: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next?: () => void,
+    ) => void,
+  ) {
+    const { dev } = this;
+    const devHttpsOption = typeof dev === 'object' && dev.https;
+    if (devHttpsOption) {
+      const { genHttpsOptions } = require('../dev-tools/https');
+      const httpsOptions = await genHttpsOptions(devHttpsOption, this.pwd);
+      return createHttpsServer(httpsOptions, handler);
+    } else {
+      return createServer(handler);
+    }
+  }
+
+  private getDevOptions(options: ModernDevServerOptionsNew) {
+    const devOptions = options.dev;
+    const defaultOptions = getDefaultDevOptions();
+    return deepMerge(defaultOptions, devOptions);
+  }
+
+  private addMiddlewareHandler(handlers: RequestHandler[]) {
+    handlers.forEach(handler => {
+      this.addHandler((ctx, next) => {
+        const { req, res } = ctx;
+        return handler(req, res, next);
+      });
+    });
+  }
+
   private initFileReader() {
     let isInit = false;
 
@@ -206,34 +269,6 @@ export class ModernDevServer extends ModernServer {
     }
   }
 
-  public async close() {
-    for (const cb of this.closeCb) {
-      await cb();
-    }
-  }
-
-  // override the ModernServer renderHandler logic
-  public getRenderHandler(): RenderHandler {
-    if (this.useWorkerSSR) {
-      const { distDir, staticGenerate, conf, metaName } = this;
-      const ssrConfig = this.conf.server?.ssr;
-      const forceCSR =
-        typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-
-      // if we use worker ssr, we need override the routeRenderHandler
-      return createRenderHandler({
-        ssrRender: workerSSRRender,
-        distDir,
-        staticGenerate,
-        conf,
-        forceCSR,
-        nonce: conf.security?.nonce,
-        metaName,
-      });
-    }
-    return super.getRenderHandler();
-  }
-
   private async applyDefaultMiddlewares() {
     const { pwd } = this;
 
@@ -246,41 +281,6 @@ export class ModernDevServer extends ModernServer {
         next();
       }
     });
-  }
-
-  public onRepack(options: BuildOptions = {}) {
-    // reset the routing management instance every times the service starts
-    if (Array.isArray(options.routes)) {
-      this.router.reset(this.filterRoutes(options.routes));
-    }
-
-    // clean ssr bundle cache
-    this.cleanSSRCache();
-
-    // reset static file
-    fileReader.reset();
-
-    this.runner.repack();
-
-    super.onRepack(options);
-  }
-
-  public async createHTTPServer(
-    handler: (
-      req: IncomingMessage,
-      res: ServerResponse,
-      next?: () => void,
-    ) => void,
-  ) {
-    const { dev } = this;
-    const devHttpsOption = typeof dev === 'object' && dev.https;
-    if (devHttpsOption) {
-      const { genHttpsOptions } = require('../dev-tools/https');
-      const httpsOptions = await genHttpsOptions(devHttpsOption, this.pwd);
-      return createHttpsServer(httpsOptions, handler);
-    } else {
-      return createServer(handler);
-    }
   }
 
   protected warmupSSRBundle() {
