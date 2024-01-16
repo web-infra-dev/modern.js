@@ -2,10 +2,7 @@ import path from 'path';
 import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { ensureDirSync, copySync } from 'fs-extra';
-import {
-  BuilderConfig,
-  SourceConfig,
-} from '@modern-js/builder-webpack-provider';
+import { RsbuildConfig, SourceConfig } from '@rsbuild/shared';
 
 export const cases: Parameters<typeof shareTest>[] = [
   [
@@ -78,7 +75,7 @@ export function shareTest(
       index: entry,
     },
   };
-  const config: BuilderConfig = {
+  const config: RsbuildConfig = {
     source: {
       transformImport,
     },

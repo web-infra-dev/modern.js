@@ -12,6 +12,7 @@ overrides:
   '@modern-js/builder-rspack-provider>@rspack/plugin-html': 0.4.5
   '@modern-js/storybook-builder>@rspack/plugin-react-refresh': 0.4.5
   '@rspack/core@0.4.5>@rspack/binding': 0.4.5
+  '@rspack/binding@0.4.5>@rspack/binding-linux-x64-gnu': 0.4.5
 
 importers:
 
@@ -6090,36 +6091,15 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
     devDependencies:
-      '@modern-js/builder':
-        specifier: workspace:*
-        version: link:../../../packages/builder/builder
       '@modern-js/builder-plugin-image-compress':
         specifier: workspace:*
         version: link:../../../packages/builder/plugin-image-compress
       '@modern-js/builder-plugin-node-polyfill':
         specifier: workspace:*
         version: link:../../../packages/builder/plugin-node-polyfill
-      '@modern-js/builder-plugin-stylus':
-        specifier: workspace:*
-        version: link:../../../packages/builder/plugin-stylus
       '@modern-js/builder-plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/builder/plugin-swc
-      '@modern-js/builder-plugin-vue':
-        specifier: workspace:*
-        version: link:../../../packages/builder/plugin-vue
-      '@modern-js/builder-plugin-vue2':
-        specifier: workspace:*
-        version: link:../../../packages/builder/plugin-vue2
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../../packages/builder/builder-rspack-provider
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../../packages/toolkit/e2e
@@ -6135,6 +6115,9 @@ importers:
       '@rsbuild/plugin-stylus':
         specifier: 0.3.1
         version: 0.3.1(webpack@5.89.0)
+      '@rsbuild/shared':
+        specifier: 0.3.1
+        version: 0.3.1(@swc/helpers@0.5.3)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
@@ -6147,54 +6130,6 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  tests/e2e/builder/cases/builder-cli/builder-cli-rspack:
-    devDependencies:
-      '@modern-js/builder-cli':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-cli
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-rspack-provider
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  tests/e2e/builder/cases/builder-cli/builder-cli-vue:
-    devDependencies:
-      '@modern-js/builder-cli':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-cli
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-rspack-provider
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-      vue:
-        specifier: ^3.3.4
-        version: 3.3.4
-
-  tests/e2e/builder/cases/builder-cli/builder-cli-webpack:
-    devDependencies:
-      '@modern-js/builder-cli':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-cli
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-webpack-provider
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -17653,12 +17588,14 @@ packages:
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       source-map-js: 1.0.2
+    dev: false
 
   /@vue/compiler-dom@3.3.4:
     resolution: {integrity: sha512-wyM+OjOVpuUukIq6p5+nwHYtj9cFroz9cwkfmP9O1nzH68BenTTv0u7/ndggT8cIQlnBeOo6sUT/gvHcIkLA5w==}
     dependencies:
       '@vue/compiler-core': 3.3.4
       '@vue/shared': 3.3.4
+    dev: false
 
   /@vue/compiler-sfc@3.3.4:
     resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
@@ -17674,12 +17611,14 @@ packages:
       magic-string: 0.30.5
       postcss: 8.4.31
       source-map-js: 1.0.2
+    dev: false
 
   /@vue/compiler-ssr@3.3.4:
     resolution: {integrity: sha512-m0v6oKpup2nMSehwA6Uuu+j+wEwcy7QmwMkVNVfrV9P2qE5KshC6RwOCq8fjGS/Eak/uNb8AaWekfiXxbBB6gQ==}
     dependencies:
       '@vue/compiler-dom': 3.3.4
       '@vue/shared': 3.3.4
+    dev: false
 
   /@vue/component-compiler-utils@3.3.0:
     resolution: {integrity: sha512-97sfH2mYNU+2PzGrmK2haqffDpVASuib9/w2/noxiFi31Z54hW+q3izKQXXQZSNhtiUpAI36uSuYepeBe4wpHQ==}
@@ -17758,17 +17697,20 @@ packages:
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       magic-string: 0.30.5
+    dev: false
 
   /@vue/reactivity@3.3.4:
     resolution: {integrity: sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==}
     dependencies:
       '@vue/shared': 3.3.4
+    dev: false
 
   /@vue/runtime-core@3.3.4:
     resolution: {integrity: sha512-R+bqxMN6pWO7zGI4OMlmvePOdP2c93GsHFM/siJI7O2nxFRzj55pLwkpCedEY+bTMgp5miZ8CxfIZo3S+gFqvA==}
     dependencies:
       '@vue/reactivity': 3.3.4
       '@vue/shared': 3.3.4
+    dev: false
 
   /@vue/runtime-dom@3.3.4:
     resolution: {integrity: sha512-Aj5bTJ3u5sFsUckRghsNjVTtxZQ1OyMWCr5dZRAPijF/0Vy4xEoRCwLyHXcj4D0UFbJ4lbx3gPTgg06K/GnPnQ==}
@@ -17776,6 +17718,7 @@ packages:
       '@vue/runtime-core': 3.3.4
       '@vue/shared': 3.3.4
       csstype: 3.1.3
+    dev: false
 
   /@vue/server-renderer@3.3.4(vue@3.3.4):
     resolution: {integrity: sha512-Q6jDDzR23ViIb67v+vM1Dqntu+HUexQcsWKhhQa4ARVzxOY2HbC7QRW/ggkDBd5BU+uM1sV6XOAP0b216o34JQ==}
@@ -17785,9 +17728,11 @@ packages:
       '@vue/compiler-ssr': 3.3.4
       '@vue/shared': 3.3.4
       vue: 3.3.4
+    dev: false
 
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
+    dev: false
 
   /@web3-storage/multipart-parser@1.0.0:
     resolution: {integrity: sha512-BEO6al7BYqcnfX15W2cnGR+Q566ACXAT9UQykORCWW80lmkpWsnEob6zJS1ZVBKsSJC8+7vJkHwlp+lXG1UCdw==}
@@ -33468,6 +33413,7 @@ packages:
       '@vue/runtime-dom': 3.3.4
       '@vue/server-renderer': 3.3.4(vue@3.3.4)
       '@vue/shared': 3.3.4
+    dev: false
 
   /w-json@1.3.10:
     resolution: {integrity: sha512-XadVyw0xE+oZ5FGApXsdswv96rOhStzKqL53uSe5UaTadABGkWIg1+DTx8kiZ/VqTZTBneoL0l65RcPe4W3ecw==}

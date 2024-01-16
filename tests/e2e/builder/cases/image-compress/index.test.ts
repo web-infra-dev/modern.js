@@ -3,10 +3,10 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-compress';
 import { providerType } from '@scripts/helper';
 import { build } from '@scripts/shared';
-import { SharedBuilderPluginAPI } from '@modern-js/builder-shared';
+import type { RsbuildPluginAPI } from '@rsbuild/shared';
 
 test('should compress image with use builder-plugin-image-compress', async () => {
-  let assets: any[];
+  let assets: any[] | undefined;
   await expect(
     build({
       cwd: __dirname,
@@ -16,7 +16,7 @@ test('should compress image with use builder-plugin-image-compress', async () =>
         {
           name: 'builder-plugin-file-size',
 
-          setup(api: SharedBuilderPluginAPI) {
+          setup(api: RsbuildPluginAPI) {
             api.onAfterBuild(async ({ stats }) => {
               const res = stats?.toJson({
                 all: false,
@@ -25,8 +25,7 @@ test('should compress image with use builder-plugin-image-compress', async () =>
 
               const allAssets =
                 res?.assets ||
-                // @ts-expect-error
-                res?.children.reduce(
+                res?.children?.reduce(
                   (prev: any[], curr: any) => prev.concat(curr.assets || []),
                   [],
                 );
