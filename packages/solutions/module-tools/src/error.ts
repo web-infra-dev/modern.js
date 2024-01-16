@@ -39,8 +39,6 @@ export class InternalBuildError extends Error {
 
   public format: Format;
 
-  private e: Error;
-
   constructor(
     e: Error,
     opts: {
@@ -49,11 +47,10 @@ export class InternalBuildError extends Error {
       target: Target;
     },
   ) {
-    super(e.message);
+    super(e.stack);
 
     Error.captureStackTrace(this, this.constructor);
 
-    this.e = e;
     this.buildType = opts.buildType;
     this.target = opts.target;
     this.format = opts.format;
@@ -65,7 +62,7 @@ export class InternalBuildError extends Error {
 
   formatError() {
     const msgs: string[] = [];
-    const { e, buildType, target, format } = this;
+    const { buildType, target, format } = this;
     const textL = 25;
     const title = `│ ${padSpaceWith(`${buildType} failed:`, textL - 2, {
       style: chalk.red.underline,
@@ -92,11 +89,8 @@ export class InternalBuildError extends Error {
       chalk.blue.bold.underline(`\nDetailed Information: `),
     );
 
-    if (e.stack) {
-      msgs.push(e.stack);
-    } else {
-      msgs.push(e.message);
-    }
+    // remove 'Error: '
+    msgs.push(this.stack?.substring(7) || this.message);
 
     return msgs;
   }
