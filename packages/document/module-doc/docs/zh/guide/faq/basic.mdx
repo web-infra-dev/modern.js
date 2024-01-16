@@ -1,0 +1,11 @@
+# 通用类问题
+
+## Modern.js Module 和 Modern.js Builder 的关系？
+
+Modern.js Module 使用 esbuild 构建工具库和组件库，Modern.js Builder 专注于解决 Web 应用构建场景。
+
+## Modern.js Module 是否可以使用 webpack plugin 或者 loader?
+
+Modern.js Module 基于 esbuild 构建，无法使用 webpack 相关生态的工具。
+
+如果 Modern.js Module 生产的 UMD 产物达不到你的要求，可以使用 Modern.js Builder 构建 UMD 产物。
