@@ -1,6 +1,5 @@
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
 import { Readable } from 'node:stream';
-import { Context } from 'hono';
 import { serverManager, ServerOptions } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type {
@@ -28,6 +27,7 @@ declare module 'http' {
 }
 
 export type ServerCoreOptions = {
+  app: ServerInstance;
   pwd: string;
   // Todo 整理下这里用的 config，尽量少用
   config: ServerOptions;
@@ -112,28 +112,16 @@ export type ModernServerHandler = (
   next: NextFunction,
 ) => Promise<void> | void;
 
-export type Middleware = (
-  ctx: Pick<
-    Context,
-    | 'req'
-    | 'error'
-    | 'res'
-    | 'set'
-    | 'get'
-    | 'body'
-    | 'text'
-    | 'redirect'
-    | 'cookie'
-    | 'header'
-  >,
+export type Middleware<C = any> = (
+  ctx: C,
   next: () => Promise<void>,
 ) => void | Promise<void>;
 
-export interface ServerInstance {
-  use: (middleware: Middleware) => void;
-  get: (path: string, middleware: Middleware) => void;
-  post: (path: string, middleware: Middleware) => void;
-  all: (path: string, middleware: Middleware) => void;
+export interface ServerInstance<C = any> {
+  use: (middleware: Middleware<C>) => void;
+  get: (path: string, middleware: Middleware<C>) => void;
+  post: (path: string, middleware: Middleware<C>) => void;
+  all: (path: string, middleware: Middleware<C>) => void;
   handle: RequestHandler;
 }
 

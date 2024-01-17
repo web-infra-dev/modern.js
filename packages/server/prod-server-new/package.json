@@ -13,17 +13,17 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.4.0",
-    "@modern-js/server-core": "^2.45.0",
-    "@modern-js/utils": "^2.45.0",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3",
     "@web-std/fetch": "^4.2.1",
     "hono": "^3.12.2",
     "merge-deep": "^3.0.3"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "2.45.0",
+    "@modern-js/eslint-config": "workspace:*",
     "@modern-js/module-tools": "2.45.0",
-    "@modern-js/types": "^2.45.0",
+    "@modern-js/types": "workspace:*",
     "@types/merge-deep": "^3.0.0",
     "@types/node": "~16.11.7",
     "husky": "~8.0.1",
