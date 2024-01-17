@@ -11,6 +11,7 @@ import type {
   Reporter,
 } from '@modern-js/types';
 import { Logger as LocalLogger } from '@modern-js/utils/logger';
+import { HonoContext, HonoEnv, NotFoundHandler } from './hono';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -112,16 +113,17 @@ export type ModernServerHandler = (
   next: NextFunction,
 ) => Promise<void> | void;
 
-export type Middleware<C = any> = (
-  ctx: C,
+export type Middleware<Env extends HonoEnv = any> = (
+  ctx: HonoContext<Env>,
   next: () => Promise<void>,
 ) => void | Response | Promise<void | Response>;
 
-export interface ServerInstance<C = any> {
-  use: (middleware: Middleware<C>) => void;
-  get: (path: string, middleware: Middleware<C>) => void;
-  post: (path: string, middleware: Middleware<C>) => void;
-  all: (path: string, middleware: Middleware<C>) => void;
+export interface ServerInstance<Env extends HonoEnv = any> {
+  use: (middleware: Middleware<Env>) => void;
+  get: (path: string, middleware: Middleware<Env>) => void;
+  post: (path: string, middleware: Middleware<Env>) => void;
+  all: (path: string, middleware: Middleware<Env>) => void;
+  notFound: (handler: NotFoundHandler<Env>) => void;
   handle: RequestHandler;
 }
 
@@ -129,3 +131,5 @@ export type RequestHandler = (
   request: Request,
   ...args: any[]
 ) => Response | Promise<Response>;
+
+export * from './hono';

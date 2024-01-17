@@ -1,6 +1,6 @@
 import { Server, createServer, ServerResponse } from 'node:http';
 import { NodeRequest, NodeResponse } from '@modern-js/server-core';
-import { RequestHandler } from '../type';
+import { RequestHandler } from '../types';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,

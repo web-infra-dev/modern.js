@@ -1,7 +1,6 @@
-import { Hono, Context } from 'hono';
+import { Hono } from 'hono';
 import { ServerCore } from './ServerCore';
-import { HonoNodeEnv } from './adapters/hono';
-import { ServerCoreOptions } from './type';
+import { HonoNodeEnv, ServerCoreOptions } from './types';
 import { createNodeServer } from './adapters/node';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
@@ -16,7 +15,7 @@ export async function createServerBase(
 
   const hono = new Hono<HonoNodeEnv>();
 
-  const server = new ServerCore<Context<HonoNodeEnv>>({
+  const server = new ServerCore({
     ...options,
     app: {
       ...hono,
