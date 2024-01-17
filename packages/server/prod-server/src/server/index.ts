@@ -105,19 +105,10 @@ export class Server {
     {
       const result = await this.runner.beforeServerInit({
         app: this.app,
-        server: this.server,
       });
-      ({ app: this.app = this.app, server: this.server } = result);
+      ({ app: this.app = this.app } = result);
     }
     await this.server.onInit(this.runner, this.app);
-    {
-      const result = await this.runner.afterServerInit({
-        app: this.app,
-        server: this.server,
-      });
-      ({ app: this.app = this.app, server: this.server } = result);
-    }
-
     return this;
   }
 
