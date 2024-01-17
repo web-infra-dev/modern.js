@@ -1,4 +1,4 @@
-import { Metrics } from '../type';
+import { Metrics } from '../types';
 
 const metrics: Metrics = {
   emitCounter() {
