@@ -4,6 +4,7 @@ import { HonoNodeEnv } from './adapters/hono';
 import { ServerCoreOptions } from './type';
 import { createNodeServer } from './adapters/node';
 
+export { createStaticMiddleware } from './adapters/serverStatic';
 export { ServerCoreOptions, createNodeServer };
 
 export async function createServerBase(
@@ -22,8 +23,6 @@ export async function createServerBase(
       handle: hono.fetch,
     },
   });
-
-  await server.init();
 
   return server;
 }

@@ -115,7 +115,7 @@ export type ModernServerHandler = (
 export type Middleware<C = any> = (
   ctx: C,
   next: () => Promise<void>,
-) => void | Promise<void>;
+) => void | Response | Promise<void | Response>;
 
 export interface ServerInstance<C = any> {
   use: (middleware: Middleware<C>) => void;
