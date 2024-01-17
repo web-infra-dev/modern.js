@@ -63,7 +63,7 @@ const sendResponse = async (response: Response, res: NodeResponse) => {
 };
 
 /**
- * The following code is modified based on
+ * The function is modified based on
  * https://github.com/honojs/node-server/blob/8cea466fd05e6d2e99c28011fc0e2c2d3f3397c9/src/listener.ts
  *
  * MIT Licensed

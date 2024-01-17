@@ -92,9 +92,10 @@ const onApiChange = createWaterfall<Change[]>();
 
 const repack = createWaterfall();
 
+/**
+ * @deprecated
+ */
 const beforeServerInit = createAsyncWaterfall<ServerInitHookContext>();
-
-const afterServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
 const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
 
@@ -203,7 +204,6 @@ const serverHooks = {
   repack,
   onApiChange,
   beforeServerInit,
-  afterServerInit,
   setupCompiler,
   beforeRouteSet,
   afterRouteSet,

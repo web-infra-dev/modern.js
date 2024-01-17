@@ -10,7 +10,6 @@ export default async (
   options: Omit<ServerCoreOptions, 'app'>,
 ): Promise<NodeServer> => {
   const { config, pwd } = options;
-
   const server = await createServerBase(options);
 
   const staticMiddleware = createStaticMiddleware({
@@ -18,11 +17,12 @@ export default async (
     output: config?.output || {},
     html: config?.html || {},
   });
+
   server.use(staticMiddleware);
 
   await server.init();
-
   const nodeServer = createNodeServer(server.handle.bind(server));
+  await server.afterInitNodeServer({ server: nodeServer });
 
   return nodeServer;
 };
