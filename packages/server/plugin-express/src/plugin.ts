@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { IncomingMessage, ServerResponse } from 'http';
 import express, { RequestHandler, Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
@@ -132,7 +133,11 @@ export default (): ServerPlugin => ({
               return reject(err);
             }
             // finalhanlder will trigger 'finish' event
-            return finalhandler(req, res, {})(null);
+            return finalhandler(
+              req as IncomingMessage,
+              res as ServerResponse,
+              {},
+            )(null);
             // return resolve();
           };
 
