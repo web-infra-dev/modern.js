@@ -2,6 +2,12 @@
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 webpack`
 
+:::warning 不再推荐使用 ts-loader
+使用 [babel-loader](https://modernjs.dev/builder/guide/basic/typescript.html#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%BB%98%E8%AE%A4%E4%BD%BF%E7%94%A8-babel) 或 [Rspack](/guides/advanced-features/rspack-start.html) 转译 TypeScript 代码的性能明显优于 ts-loader 且能够使用更多拓展能力。
+
+启用 ts-loader 时将无法使用 [source.transformImport](/configure/app/source/transform-import.html) 和 [tools.styledComponents](/configure/app/tools/styled-components.html) 等由 Babel 和 SWC 提供支持的能力。
+:::
+
 项目中默认不开启 ts-loader，当 `tools.tsLoader` 不为 undefined 则表示开启 ts-loader，同时禁用 babel-loader 对 TypeScript 的编译。
 
 ### Object 类型
