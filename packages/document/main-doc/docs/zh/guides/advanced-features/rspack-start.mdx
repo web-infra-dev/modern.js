@@ -84,6 +84,32 @@ export default {
 对于不支持的配置，我们在文档中有标注 `打包工具： 仅支持 webpack` 或 `打包工具： 仅支持 rspack`，可参考具体配置介绍。
 :::
 
+## 修改转译配置
+
+Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://www.rspack.dev/zh/guide/builtin-swc-loader.html) 进行代码转译。
+
+Modern.js 已对 `builtin:swc-loader` 的常见配置提供了更方便的配置方式，如：通过 [source.transformImport](/configure/app/source/transform-import) 配置组件库按需引入。如果对 `builtin:swc-loader` 有自定义配置的需求，可参考以下代码：
+
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
+
+:::tip
+在启用 Rspack 构建时，babel-loader 默认不会被启用。如需添加 babel 插件，可通过 [tools.babel](/configure/app/tools/babel) 配置，此时会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
+:::
+
 ## Rspack 和 Modern.js 的版本关系
 
 通常情况下，Modern.js 内会集成 Rspack 的最新版本，通过 `npx modern upgrade` 即可将当前项目中的 Modern.js 相关依赖以及内置的 Rspack 更新至最新版本。
