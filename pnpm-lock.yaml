@@ -3563,6 +3563,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3597,9 +3600,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
-      '@modern-js/runtime-utils':
-        specifier: workspace:*
-        version: link:../../toolkit/runtime-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
