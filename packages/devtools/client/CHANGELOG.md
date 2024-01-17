@@ -1,5 +1,12 @@
 # @modern-js/devtools-client
 
+## 2.46.0
+
+### Patch Changes
+
+- 3c01b68: refactor: dataflow of devtools client
+  refactor: 重构 devtools 客户端数据流
+
 ## 2.45.0
 
 ## 2.44.0

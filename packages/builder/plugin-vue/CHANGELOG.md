@@ -1,5 +1,16 @@
 # @modern-js/builder-plugin-vue
 
+## 2.46.0
+
+### Patch Changes
+
+- 866ebe7: feat: set default vue hydration mismatch flag
+  feat: 设置默认 vue hydration mismatch flag
+- Updated dependencies [4699e22]
+  - @modern-js/builder-webpack-provider@2.46.0
+  - @modern-js/builder-shared@2.46.0
+  - @modern-js/builder-rspack-provider@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

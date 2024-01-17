@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.46.0
+
+### Patch Changes
+
+- 6bc042d: chore: remove tools.inspector api, please use rsdoctor instead
+
+  chore: 移除 tools.inspector api, 可使用 rsdoctor 代替
+
 ## 2.45.0
 
 ## 2.44.0

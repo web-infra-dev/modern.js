@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.46.0
+
+### Patch Changes
+
+- 494b290: feat: Waiting for all content to load for spiders in streaming ssr
+  feat: 在 streaming ssr 时，为爬虫等待所有内容加载完毕
+
 ## 2.45.0
 
 ### Patch Changes

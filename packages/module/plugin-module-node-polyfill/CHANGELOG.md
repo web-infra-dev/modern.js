@@ -1,5 +1,18 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [985d1f2]
+- Updated dependencies [ac03491]
+- Updated dependencies [516cc1d]
+- Updated dependencies [0b2a379]
+- Updated dependencies [737738c]
+- Updated dependencies [d6fa948]
+- Updated dependencies [969455d]
+  - @modern-js/module-tools@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

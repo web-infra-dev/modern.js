@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

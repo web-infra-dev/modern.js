@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [78e2722]
+- Updated dependencies [494b290]
+- Updated dependencies [4699e22]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/server-utils@2.46.0
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes
