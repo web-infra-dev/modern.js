@@ -7,7 +7,7 @@ import {
   HtmlNormalizedConfig,
   OutputNormalizedConfig,
 } from '@modern-js/server-core';
-import { Middleware } from '../type';
+import { Middleware } from '../types';
 
 interface ServerStaticOptions {
   pwd: string;
@@ -18,7 +18,7 @@ interface ServerStaticOptions {
 
 export function createStaticMiddleware(
   options: ServerStaticOptions,
-): Middleware<Context> {
+): Middleware {
   const { pwd } = options;
   const prefix = options.output.assetPrefix || '/';
   const distDir = path.resolve(pwd, options.output.path || 'dist');

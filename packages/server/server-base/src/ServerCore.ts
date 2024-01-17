@@ -21,14 +21,14 @@ import {
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
-import type { Context } from 'hono';
 import { metrics as defaultMetrics } from './libs/metrics';
 import {
   ConfWithBFF,
+  HonoNodeEnv,
   ServerCoreOptions,
   ServerHookRunner,
   ServerInstance,
-} from './type';
+} from './types';
 import { debug } from './utils';
 import {
   getServerConfigPath,
@@ -37,19 +37,21 @@ import {
 } from './libs/loadConfig';
 import { httpCallBack2HonoMid } from './adapters/hono';
 import {
-  createMiddlewareCollecter,
+  createErrorHtml,
   getRuntimeEnv,
   mergeExtension,
+  createMiddlewareCollecter,
 } from './libs/utils';
+import { favionFallbackMiddleware } from './middlewares/faviconFallback';
 
-export class ServerCore<C extends Context> {
+export class ServerCore {
   public options: ServerCoreOptions;
 
   private workDir: string;
 
   private distDir: string;
 
-  private app: ServerInstance<C>;
+  private app: ServerInstance<HonoNodeEnv>;
 
   private runner!: ServerHookRunner;
 
@@ -68,6 +70,12 @@ export class ServerCore<C extends Context> {
     this.distDir = path.resolve(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
+
+    this.app.notFound(c => {
+      // TODO: Modern.js allow user config 404 routes in pages/404.[t|j]x
+      // docs: https://modernjs.dev/apis/app/hooks/src/pages.html#404-%E8%B7%AF%E7%94%B1
+      return c.html(createErrorHtml(404, '404 Not Found'));
+    });
   }
 
   /**
@@ -97,6 +105,8 @@ export class ServerCore<C extends Context> {
     this.initServerConfig(options);
 
     await this.injectContext(this.runner, options);
+
+    this.use(favionFallbackMiddleware);
 
     // initialize server runner
     this.runner = await this.createHookRunner();
