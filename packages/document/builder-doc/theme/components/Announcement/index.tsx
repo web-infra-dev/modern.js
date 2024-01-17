@@ -24,8 +24,8 @@ export function Announcement() {
         }}
       >
         {lang === 'zh'
-          ? 'Modern.js builder 已升级为 Rsbuild, 欢迎使用 Rsbuild 👏🏻'
-          : 'Modern.js builder has been upgraded to Rsbuild, welcome to use Rsbuild 👏🏻'}
+          ? 'Modern.js Builder 已升级为 Rsbuild, 欢迎使用 Rsbuild 👏🏻'
+          : 'Modern.js Builder has been upgraded to Rsbuild, welcome to use Rsbuild 👏🏻'}
       </a>
     </div>
   );
