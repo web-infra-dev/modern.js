@@ -4495,27 +4495,12 @@ importers:
 
   packages/server/prod-server-new:
     dependencies:
-      '@hono/node-server':
-        specifier: ^1.4.0
-        version: 1.4.0
-      '@modern-js/server-core':
+      '@modern-js/server-base':
         specifier: workspace:*
-        version: link:../core
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
+        version: link:../server-base
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
-      '@web-std/fetch':
-        specifier: ^4.2.1
-        version: 4.2.1
-      hono:
-        specifier: ^3.12.2
-        version: 3.12.2
-      merge-deep:
-        specifier: ^3.0.3
-        version: 3.0.3
     devDependencies:
       '@modern-js/eslint-config':
         specifier: workspace:*
@@ -4647,6 +4632,64 @@ importers:
       websocket:
         specifier: ^1
         version: 1.0.34
+
+  packages/server/server-base:
+    dependencies:
+      '@hono/node-server':
+        specifier: ^1.4.0
+        version: 1.4.0
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.3
+        version: 0.5.3
+      '@web-std/fetch':
+        specifier: ^4.2.1
+        version: 4.2.1
+      hono:
+        specifier: ^3.12.2
+        version: 3.12.2
+      merge-deep:
+        specifier: ^3.0.3
+        version: 3.0.3
+    devDependencies:
+      '@modern-js/eslint-config':
+        specifier: workspace:*
+        version: link:../../review/eslint-config
+      '@modern-js/module-tools':
+        specifier: 2.45.0
+        version: 2.45.0(typescript@5.0.4)
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../../toolkit/types
+      '@types/merge-deep':
+        specifier: ^3.0.0
+        version: 3.0.0
+      '@types/node':
+        specifier: ~16.11.7
+        version: 16.11.68
+      husky:
+        specifier: ~8.0.1
+        version: 8.0.1
+      lint-staged:
+        specifier: ~13.1.0
+        version: 13.1.4
+      prettier:
+        specifier: ~2.8.1
+        version: 2.8.8
+      rimraf:
+        specifier: ~3.0.2
+        version: 3.0.2
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
+      typescript:
+        specifier: ~5.0.4
+        version: 5.0.4
 
   packages/server/utils:
     dependencies:

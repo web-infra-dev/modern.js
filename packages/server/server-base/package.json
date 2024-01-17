@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/prod-server-new",
+  "name": "@modern-js/server-base",
   "version": "0.1.0",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
@@ -12,8 +12,13 @@
     "test": "jest"
   },
   "dependencies": {
-    "@modern-js/server-base": "workspace:*",
-    "@swc/helpers": "0.5.3"
+    "@hono/node-server": "^1.4.0",
+    "@modern-js/server-core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.3",
+    "@web-std/fetch": "^4.2.1",
+    "hono": "^3.12.2",
+    "merge-deep": "^3.0.3"
   },
   "devDependencies": {
     "@modern-js/eslint-config": "workspace:*",
