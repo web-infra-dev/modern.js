@@ -85,6 +85,32 @@ After turning on the Rspack build capability, there are currently a small number
 For unsupported configurations, we have marked `Bundler: only support webpack` or `Bundler: only support Rspack` in the document. Please refer to the specific configuration introduction.
 :::
 
+## Modify transpile configuration
+
+Modern.js uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader.html) for code translation in Rspack mode.
+
+Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import). If you have custom configuration requirements for `builtin:swc-loader`, you can refer to the following code:
+
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
+
+:::tip
+When Rspack build is enabled, `babel-loader` is not enabled by default. If you need to add some babel plugins, you can configure it through [tools.babel](/configure/app/tools/babel). This will generate additional compilation overhead and slow down the Rspack build speed to a certain extent.
+:::
+
 ## The relationship between Rspack and Modern.js versions
 
 Usually, the latest version of Rspack will be integrated into Modern.js. You can update the Modern.js-related dependencies and built-in Rspack to the latest version by using `npx modern upgrade` in your project.
