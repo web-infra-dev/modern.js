@@ -182,7 +182,7 @@ export class ServerCore<C extends Context> {
     if (webOnly && process.env.NODE_ENV === 'development') {
       // eslint-disable-next-line consistent-return
       return this.get(
-        prefix,
+        `${prefix}/*`,
         httpCallBack2HonoMid((req, res) => {
           res.setHeader('Content-Type', 'text/plain');
           res.end(JSON.stringify(''));
@@ -201,7 +201,7 @@ export class ServerCore<C extends Context> {
     );
 
     // eslint-disable-next-line consistent-return
-    return this.app.all(prefix, httpCallBack2HonoMid(middleware));
+    return this.app.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
   }
 
   private async createHookRunner() {
