@@ -1,11 +1,11 @@
 import { Server, createServer, ServerResponse } from 'node:http';
+import { NodeRequest, NodeResponse } from '@modern-js/server-core';
 import { RequestHandler } from '../type';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,
 } from './stream';
 import { installGlobals } from './polyfills';
-import { NodeRequest, NodeResponse } from './types';
 
 installGlobals();
 

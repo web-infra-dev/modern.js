@@ -19,13 +19,13 @@ import {
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
-import { Hono } from 'hono';
+import type { Context } from 'hono';
 import { metrics as defaultMetrics } from './libs/metrics';
 import {
   ConfWithBFF,
   ServerCoreOptions,
-  ServerInstance,
   ServerHookRunner,
+  ServerInstance,
 } from './type';
 import { debug } from './utils';
 import {
@@ -34,32 +34,16 @@ import {
   requireConfig,
 } from './libs/loadConfig';
 import { httpCallBack2HonoMid } from './adapters/hono';
-import type { NodeRequest, NodeResponse } from './adapters/types';
+import { getRuntimeEnv } from './libs/utils';
 
-type Bindings = {
-  node?: {
-    req: NodeRequest;
-    res: NodeResponse;
-  };
-};
-
-function createServerInstance(): ServerInstance {
-  const hono = new Hono<{ Bindings: Bindings }>();
-
-  return {
-    ...hono,
-    handle: hono.fetch,
-  };
-}
-
-export class ServerCore {
+export class ServerCore<C extends Context> {
   public options: ServerCoreOptions;
 
   private workDir: string;
 
   private distDir: string;
 
-  private app: ServerInstance = createServerInstance();
+  private app: ServerInstance<C>;
 
   private runner!: ServerHookRunner;
 
@@ -72,6 +56,8 @@ export class ServerCore {
     options.metrics = options.metrics || defaultMetrics;
     this.options = options;
 
+    this.app = options.app;
+    this.serverConfig = {};
     const { pwd, config } = options;
     this.distDir = path.resolve(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
@@ -149,11 +135,16 @@ export class ServerCore {
   }
 
   private async prepareAPIHandler() {
+    const runtimeEnv = getRuntimeEnv();
+    if (runtimeEnv !== 'node') {
+      return;
+    }
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';
     const webOnly = await isWebOnly();
     if (webOnly && process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line consistent-return
       return this.get(
         prefix,
         httpCallBack2HonoMid((req, res) => {
@@ -175,6 +166,7 @@ export class ServerCore {
       { onLast: () => null as any },
     );
 
+    // eslint-disable-next-line consistent-return
     return this.app.all(prefix, httpCallBack2HonoMid(middleware));
   }
 

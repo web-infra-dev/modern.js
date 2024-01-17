@@ -15,6 +15,8 @@ import {
   APIServerStartInput,
   ServerOptions,
   LoaderHandler,
+  NodeRequest,
+  NodeResponse,
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
@@ -357,7 +359,7 @@ export class ModernServer implements ModernServerInterface {
     const prefix = bff?.prefix || '/api';
     const webOnly = await isWebOnly();
     if (webOnly && process.env.NODE_ENV === 'development') {
-      return (req: IncomingMessage, res: ServerResponse) => {
+      return (req: NodeRequest, res: NodeResponse) => {
         res.setHeader('Content-Type', 'text/plain');
         res.end(JSON.stringify(''));
       };
