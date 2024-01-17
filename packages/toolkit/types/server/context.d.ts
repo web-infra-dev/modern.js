@@ -115,7 +115,6 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
 
 export interface ServerInitHookContext {
   app?: HttpServer;
-  server: ModernServerInterface;
 }
 
 export interface ISAppContext {

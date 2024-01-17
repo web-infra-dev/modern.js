@@ -1,4 +1,5 @@
 import path from 'node:path';
+import type { Server as NodeServer } from 'node:http';
 import {
   APIServerStartInput,
   AppContext,
@@ -119,20 +120,21 @@ export class ServerCore {
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await this.runner.prepare();
 
+    return this;
+  }
+
+  async afterInitNodeServer({ server }: { server?: NodeServer }) {
+    if (typeof server !== 'undefined') {
+      await this.runner.beforeServerInit({
+        app: server,
+      });
+    }
+
     // TODO: need to support
     // if (!disableHttpServer) {
     //   this.app = await this.server.createHTTPServer(this.getRequestHandler());
     // }
 
-    // runner can only be used after server init
-    // TODO: beforeServerInit 钩子
-    // {
-    //   const result = await this.runner.beforeServerInit({
-    //     app: this.app,
-    //     server: this.server,
-    //   });
-    //   ({ app: this.app = this.app, server: this.server } = result);
-    // }
     // TODO: 支持 onInit 的功能
     // await this.server.onInit(this.runner, this.app);
 
@@ -146,8 +148,6 @@ export class ServerCore {
     // }
 
     await this.prepareFrameHandler();
-
-    return this;
   }
 
   protected async prepareFrameHandler(options?: {
