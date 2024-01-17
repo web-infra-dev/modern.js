@@ -1,5 +1,6 @@
 import path from 'node:path';
 import {
+  APIServerStartInput,
   AppContext,
   ConfigContext,
   ServerConfig,
@@ -10,6 +11,7 @@ import {
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
+  SERVER_DIR,
   SHARED_DIR,
   createLogger,
   dotenv,
@@ -34,7 +36,11 @@ import {
   requireConfig,
 } from './libs/loadConfig';
 import { httpCallBack2HonoMid } from './adapters/hono';
-import { getRuntimeEnv } from './libs/utils';
+import {
+  createMiddlewareCollecter,
+  getRuntimeEnv,
+  mergeExtension,
+} from './libs/utils';
 
 export class ServerCore<C extends Context> {
   public options: ServerCoreOptions;
@@ -129,12 +135,42 @@ export class ServerCore<C extends Context> {
     //   ({ app: this.app = this.app, server: this.server } = result);
     // }
 
-    await this.prepareAPIHandler();
+    await this.prepareFrameHandler();
 
     return this;
   }
 
-  private async prepareAPIHandler() {
+  protected async prepareFrameHandler(options?: {
+    onlyApi: boolean;
+    onlyWeb: boolean;
+  }) {
+    const { workDir, runner } = this;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { onlyApi, onlyWeb } = options || {};
+
+    // server hook, gather plugin inject
+    const { getMiddlewares, ...collector } = createMiddlewareCollecter();
+
+    await runner.gather(collector);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { api: pluginAPIExt, web: pluginWebExt } = getMiddlewares();
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const serverDir = path.join(workDir, SERVER_DIR);
+
+    // get api or web server handler from server-framework plugin
+    // if ((await fs.pathExists(path.join(serverDir))) && !onlyApi) {
+    //   const webExtension = mergeExtension(pluginWebExt);
+    //   this.frameWebHandler = await this.prepareWebHandler(webExtension);
+    // }
+
+    if (!onlyWeb) {
+      const apiExtension = mergeExtension(pluginAPIExt);
+      await this.runPrepareApiServer(apiExtension);
+    }
+  }
+
+  private async runPrepareApiServer(extension: APIServerStartInput['config']) {
     const runtimeEnv = getRuntimeEnv();
     if (runtimeEnv !== 'node') {
       return;
@@ -156,9 +192,7 @@ export class ServerCore<C extends Context> {
     const middleware = await runner.prepareApiServer(
       {
         pwd: workDir,
-        config: {
-          middleware: [],
-        },
+        config: extension,
         prefix: Array.isArray(prefix) ? prefix[0] : prefix,
         httpMethodDecider: bff?.httpMethodDecider,
         // render: this.render.bind(this),
