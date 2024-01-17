@@ -10,7 +10,7 @@ export function Announcement() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgb(59 130 246 / 0.5)',
+        backgroundColor: 'rgb(88 209 126 / 0.5)',
       }}
     >
       <a
