@@ -70,6 +70,7 @@
     "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "node-fetch": "^2.6.1",
+    "encoding": "^0.1.0",
     "path-to-regexp": "^6.2.0",
     "query-string": "^7.1.1",
     "@swc/helpers": "0.5.3"
