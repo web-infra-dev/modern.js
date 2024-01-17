@@ -2,6 +2,12 @@
 - **Default:** `undefined`
 - **Bundler:** `only support webpack`
 
+:::warning Alternatives for ts-loader
+Using [babel-loader](https://modernjs.dev/builder/en/guide/basic/typescript.html#why-babel-is-the-default-option) or [Rspack](https://modernjs.dev/en/guide/advanced/rspack-start.html) instead of ts-loader can significantly improve compilation speed and provide better extendability.
+
+ts-loader cannot be used with certain features such as [source.transformImport](https://modernjs.dev/en/configure/app/source/transform-import.html) and [tools.styledComponents](https://modernjs.dev/en/configure/app/tools/styled-components.html) provided by Babel & SWC.
+:::
+
 `ts-loader` is not enabled by default in the project. When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
 
 ### Object Type
