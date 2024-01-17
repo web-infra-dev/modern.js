@@ -16,8 +16,8 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-stylus": "0.3.1",
-    "@rsbuild/shared": "0.3.1",
+    "@rsbuild/plugin-stylus": "0.3.3",
+    "@rsbuild/shared": "0.3.3",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/builder-plugin-image-compress": "workspace:*",
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
