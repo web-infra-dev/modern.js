@@ -1,11 +1,13 @@
 # General Questions
 
-## What is the relationship between Modern.js Module and Modern.js Builder?
+## What is the relationship between Modern.js Module and Rsbuild?
 
-Modern.js Module uses esbuild to build toolkits and component libraries, and Modern.js Builder focuses on solving web application building scenarios.
+Modern.js Module uses esbuild to build toolkits and component libraries, and Rsbuild focuses on solving web application building scenarios.
 
 ## Can Modern.js Module use webpack plugins or loaders?
 
 Modern.js Module is based on esbuild for building and cannot use tools from the webpack-related ecosystem.
+You can find more community plugins for esbuild [here](https://github.com/esbuild/community-plugins)
 
-If the UMD product produced by Modern.js Module does not meet your requirements, you can use Modern.js Builder to build UMD products.
+If the UMD product produced by Modern.js Module does not meet your requirements, you can use Rsbuild and add [UMD Plugin](https://rsbuild.dev/plugins/list/plugin-umd) to build UMD products.
+
