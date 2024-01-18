@@ -39,6 +39,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       "key": "xxxx",
     },
     "port": 8081,
+    "publicDir": false,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -78,7 +79,9 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -118,7 +121,9 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -161,7 +166,9 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -201,7 +208,9 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -244,7 +253,9 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -284,7 +295,9 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -331,7 +344,9 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -371,7 +386,9 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -414,7 +431,9 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -454,7 +473,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -499,7 +520,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -541,7 +564,9 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -583,7 +608,9 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -625,7 +652,9 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -668,7 +697,9 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -708,7 +739,9 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },
@@ -748,7 +781,9 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
       "web",
     ],
   },
-  "server": {},
+  "server": {
+    "publicDir": false,
+  },
   "tools": {
     "htmlPlugin": [Function],
   },

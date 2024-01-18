@@ -239,8 +239,11 @@ export async function parseCommonConfig(
   dev.liveReload = devServer.liveReload;
 
   const server: ServerConfig = isProd()
-    ? {}
+    ? {
+        publicDir: false,
+      }
     : {
+        publicDir: false,
         port: dev.port,
         host: dev.host,
         https: dev.https ? (dev.https as ServerConfig['https']) : undefined,
