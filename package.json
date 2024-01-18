@@ -136,7 +136,7 @@
       "source-map-url": "0.4.1",
       "urix": "0.1.0",
       "resolve-url": "0.2.1",
-      "devcert": "1.0.0",
+      "devcert": "1.2.2",
       "superagent": "6.1.0",
       "@types/sass": "1.45.0",
       "trim": "0.0.1"

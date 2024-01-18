@@ -232,6 +232,7 @@ export async function parseCommonConfig(
     : {
         port: dev.port,
         host: dev.host,
+        https: dev.https ? (dev.https as ServerConfig['https']) : undefined,
       };
 
   delete tools.devServer;
