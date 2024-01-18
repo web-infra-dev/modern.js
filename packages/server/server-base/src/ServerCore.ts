@@ -124,6 +124,8 @@ export class ServerCore {
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await this.runner.prepare();
 
+    await this.prepareHandler();
+
     return this;
   }
 
