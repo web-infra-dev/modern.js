@@ -155,8 +155,8 @@ export async function startDevServer(
           port,
           routes: [
             {
-              route: '/',
-              name: 'index',
+              pathname: '/',
+              entryName: 'index',
             },
           ],
         });
