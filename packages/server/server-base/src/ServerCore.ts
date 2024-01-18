@@ -45,6 +45,12 @@ import {
 } from './libs/utils';
 import { favionFallbackMiddleware } from './middlewares/faviconFallback';
 
+declare module '@modern-js/types' {
+  interface ISAppContext {
+    serverBase?: ServerCore;
+  }
+}
+
 export class ServerCore {
   public options: ServerCoreOptions;
 
@@ -226,7 +232,6 @@ export class ServerCore {
       plugins = [],
     } = options;
     const serverPlugins = this.serverConfig.plugins || [];
-
     // server app context for serve plugin
     const loadedPlugins = loadPlugins(pwd, [...serverPlugins, ...plugins], {
       internalPlugins,
@@ -280,6 +285,7 @@ export class ServerCore {
     ConfigContext.set(config);
     AppContext.set({
       ...appContext,
+      serverBase: this,
       distDirectory: path.join(pwd, config.output.path || 'dist'),
     });
   }
