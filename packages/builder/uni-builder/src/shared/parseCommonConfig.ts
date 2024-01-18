@@ -220,6 +220,11 @@ export async function parseCommonConfig(
       devMiddleware: {
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
+      hot: dev?.hmr ?? true,
+      liveReload: true,
+      client: {
+        path: '/webpack-hmr',
+      },
     },
     options: tools.devServer,
     mergeFn: deepmerge,
@@ -227,11 +232,18 @@ export async function parseCommonConfig(
 
   dev.writeToDisk = devServer.devMiddleware?.writeToDisk;
 
+  dev.hmr = devServer.hot;
+
+  dev.client = devServer.client;
+
+  dev.liveReload = devServer.liveReload;
+
   const server: ServerConfig = isProd()
     ? {}
     : {
         port: dev.port,
         host: dev.host,
+        https: dev.https ? (dev.https as ServerConfig['https']) : undefined,
       };
 
   delete tools.devServer;

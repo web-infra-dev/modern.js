@@ -51,13 +51,8 @@ const getDevServerOptions = async ({
 }> => {
   const defaultDevConfig = deepmerge(
     {
-      hot: builderConfig.dev?.hmr ?? true,
       watch: true,
-      client: {
-        port: port.toString(),
-      },
       port,
-      liveReload: builderConfig.dev?.hmr ?? true,
       https: builderConfig.dev?.https,
     },
     // merge devServerOptions from serverOptions
