@@ -80,7 +80,7 @@
     "websocket": "^1"
   },
   "peerDependencies": {
-    "devcert": "^1.0.0",
+    "devcert": "^1.2.2",
     "ts-node": "^10.1.0",
     "tsconfig-paths": ">= 3.0.0 || >= 4.0.0"
   },
