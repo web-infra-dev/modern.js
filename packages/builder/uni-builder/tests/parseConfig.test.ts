@@ -288,6 +288,9 @@ describe('parseCommonConfig', () => {
             },
             tools: {
               devServer: {
+                client: {
+                  path: '/aaaa',
+                },
                 compress: false,
                 hot: false,
                 headers: {
