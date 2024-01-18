@@ -134,14 +134,17 @@ export default () => <Logo />;
 
 :::
 
-When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
+When enabled, the type of svg used can be modified by initing a new declaration file and adding to the `modern-app-env.d.ts`:
 
-```ts title="modern-app-env.d.ts"
+```ts title="your-app-env.d.ts"
 declare module '*.svg' {
   const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   export default src;
 }
+```
 
+```ts title="modern-app-env.d.ts"
+/// <reference path='./your-app-env.d.ts' />
 /// <reference types='@modern-js/module-tools/types' />
 ```
 
