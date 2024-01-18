@@ -95,7 +95,7 @@ export default {
 
 ```js
 const defaultConfig = {
-  path: '/webpack-hmr',
+  path: '/rsbuild-hmr',
   // By default it is set to the port number of the dev server
   port: '',
   // By default it is set to "location.hostname"

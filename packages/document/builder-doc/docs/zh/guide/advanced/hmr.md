@@ -35,7 +35,7 @@ export default {
   tools: {
     devServer: {
       client: {
-        path: '/webpack-hmr',
+        path: '/rsbuild-hmr',
         // 默认设置为 dev server 的端口号
         port: '',
         // 默认设置为 location.hostname

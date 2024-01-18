@@ -35,7 +35,7 @@ export default {
   tools: {
     devServer: {
       client: {
-        path: '/webpack-hmr',
+        path: '/rsbuild-hmr',
         // Equivalent to port of the dev server
         port: '',
         // Equivalent to location.hostname
