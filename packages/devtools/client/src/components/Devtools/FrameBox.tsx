@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
 import { HiMiniXMark } from 'react-icons/hi2';
-import { LoaderIcon } from '../LoadingIcon';
+import { Loading } from '../Loading';
 import styles from './FrameBox.module.scss';
 
 export interface FrameBoxProps
@@ -31,7 +31,7 @@ export const FrameBox: React.FC<FrameBoxProps> = ({
         className={styles.backdrop}
         style={{ display: showFrame ? 'none' : undefined }}
       >
-        <LoaderIcon className={styles.loading} />
+        <Loading />
       </div>
     </Box>
   );
