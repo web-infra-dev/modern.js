@@ -21,7 +21,7 @@ import {
   fs,
   isWebOnly,
 } from '@modern-js/utils';
-import { ISAppContext } from '@modern-js/types';
+import { ISAppContext, ServerRoute } from '@modern-js/types';
 import { metrics as defaultMetrics } from './libs/metrics';
 import {
   ConfWithBFF,
@@ -44,6 +44,7 @@ import {
   createMiddlewareCollecter,
 } from './libs/utils';
 import { favionFallbackMiddleware } from './middlewares/faviconFallback';
+import { createRenderHandler } from './handlers/renderHandler';
 
 export class ServerCore {
   public options: ServerCoreOptions;
@@ -60,10 +61,13 @@ export class ServerCore {
 
   private conf: ServerOptions;
 
+  private routes: ServerRoute[];
+
   constructor(options: ServerCoreOptions) {
     options.logger = options.logger || createLogger({ level: 'warn' });
     options.metrics = options.metrics || defaultMetrics;
     this.options = options;
+    this.routes = options.routes;
 
     this.app = options.app;
     this.serverConfig = {};
@@ -332,6 +336,26 @@ export class ServerCore {
       serverConfig: finalServerConfig,
       resolvedConfigPath,
     });
+  }
+
+  private async prepareHandler() {
+    // prepare render handler
+
+    const ssrConfig = this.conf.server?.ssr;
+    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+    for (const route of this.routes) {
+      const { entryPath } = route;
+
+      const handler = await createRenderHandler({
+        distDir: this.distDir,
+        routeInfo: route,
+        staticGenerate: this.options.staticGenerate,
+        forceCSR,
+        metaName: this.options.metaName || 'modern.js',
+      });
+
+      this.app.get(entryPath, handler);
+    }
   }
 
   get use() {
