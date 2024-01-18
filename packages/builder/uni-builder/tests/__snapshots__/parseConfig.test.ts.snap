@@ -3,6 +3,11 @@
 exports[`parseCommonConfig > dev.xxx 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/aaaa",
+    },
+    "hmr": false,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -44,6 +49,11 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
 exports[`parseCommonConfig > dev.xxx 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -78,6 +88,11 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
 exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -113,6 +128,11 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -151,6 +171,11 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -186,6 +211,11 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -224,6 +254,11 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 exports[`parseCommonConfig > html.metaByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -259,6 +294,11 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
 exports[`parseCommonConfig > html.metaByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -301,6 +341,11 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
 exports[`parseCommonConfig > html.templateByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -336,6 +381,11 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
 exports[`parseCommonConfig > html.templateByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -374,6 +424,11 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
 exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -409,6 +464,11 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -449,6 +509,11 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 exports[`parseCommonConfig > html.titleByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -486,6 +551,11 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
 exports[`parseCommonConfig > html.titleByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -523,6 +593,11 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
 exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -560,6 +635,11 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -598,6 +678,11 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
@@ -633,6 +718,11 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
