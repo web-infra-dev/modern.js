@@ -23,6 +23,9 @@ export const $client = $clientChannel.then(channel => {
     async activateReactDevtools() {
       activate(window, { bridge });
     },
+    async onFinishRender() {
+      await hooks.callHook('onFinishRender');
+    },
   };
   const remote = createBirpc<ClientFunctions, ToClientFunctions>(definitions, {
     ...channel.handlers,

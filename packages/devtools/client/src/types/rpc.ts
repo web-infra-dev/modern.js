@@ -3,4 +3,5 @@ export interface ClientFunctions {}
 
 export interface MountPointFunctions {
   activateReactDevtools: () => Promise<void>;
+  onFinishRender: () => Promise<void>;
 }
