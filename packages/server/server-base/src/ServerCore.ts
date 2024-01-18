@@ -22,7 +22,7 @@ import {
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext, ServerRoute } from '@modern-js/types';
-import { metrics as defaultMetrics } from './libs/metrics';
+import { defaultMetrics } from './libs/default';
 import {
   ConfWithBFF,
   HonoNodeEnv,
@@ -44,7 +44,7 @@ import {
   createMiddlewareCollecter,
 } from './libs/utils';
 import { favionFallbackMiddleware } from './middlewares/faviconFallback';
-import { createRenderHandler } from './handlers/renderHandler';
+import { createRenderHandler } from './renderHandler';
 
 export class ServerCore {
   public options: ServerCoreOptions;
@@ -340,7 +340,7 @@ export class ServerCore {
 
   private async prepareHandler() {
     // prepare render handler
-
+    // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = this.conf.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
     for (const route of this.routes) {

@@ -88,8 +88,7 @@ export const render = async (
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);
 
-  // usel
-  // runner.extendSSRContext(context);
+  runner.extendSSRContext(context);
   const bundleJSContent = await Promise.resolve(require(bundleJS));
   const serverRender: RenderFunction =
     bundleJSContent[SERVER_RENDER_FUNCTION_NAME];

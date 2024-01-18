@@ -1,82 +1,36 @@
-import { readFile } from 'fs/promises';
 import fs from 'fs';
 import path from 'path';
 import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
-  cutNameByHyphen,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import * as isbot from 'isbot';
 import { HonoRequest, Middleware, SSRServerContext } from '../types';
+import {
+  defaultLogger,
+  defaultMetrics,
+  defaultReporter,
+} from '../libs/default';
+import { ServerTiming } from '../libs/serverTiming';
 
-export interface CreateRenderHOptions {
-  routeInfo: ServerRoute;
-  distDir: string;
-  metaName: string;
-  staticGenerate?: boolean;
-  forceCSR?: boolean;
-}
-
-export async function createRenderHandler(
-  options: CreateRenderHOptions,
-): Promise<Middleware> {
-  const {
-    forceCSR,
-    metaName,
-    routeInfo,
-    distDir,
-    staticGenerate = false,
-  } = options;
-
-  const htmlPath = path.join(distDir, routeInfo.entryPath);
-  const html = await readFile(htmlPath, 'utf-8');
-
-  return async (c, _) => {
-    const renderMode = getRenderMode(
-      c.req,
-      metaName,
-      routeInfo.isSSR,
-      forceCSR,
-    );
-
-    const handler =
-      renderMode === 'csr'
-        ? createCSRHandler(html)
-        : await createSSRHandler({
-            distDir,
-            html,
-            staticGenerate,
-            mode: routeInfo.isStream ? 'stream' : 'string',
-            routeInfo,
-          });
-
-    return handler(c, _);
-  };
-}
-
-function createCSRHandler(html: string): Middleware {
-  return async c => {
-    return c.html(html);
-  };
-}
-
-interface SSRHandlerOptions {
+export interface SSRHandlerOptions {
   distDir: string;
   mode: 'string' | 'stream';
   html: string;
   routeInfo: ServerRoute;
   staticGenerate: boolean;
+  metaName: string;
   nonce?: string;
 }
-
-async function createSSRHandler({
+export async function createSSRHandler({
   html,
   routeInfo,
   staticGenerate,
   distDir,
   nonce,
+  metaName,
 }: SSRHandlerOptions): Promise<Middleware> {
   const { entryName } = routeInfo;
   const jsBundlePath = path.join(distDir, routeInfo.bundle!);
@@ -91,8 +45,7 @@ async function createSSRHandler({
 
   return async c => {
     const { req } = c;
-    // FIXME: how get host
-    const host = req.header('host')!;
+    const host = getHost(req);
 
     const isSpider = isbot.default(c.req.header('user-agent'));
 
@@ -124,10 +77,12 @@ async function createSSRHandler({
       routeManifest, // for streaming ssr
       entryName: entryName!,
       staticGenerate,
-      logger: undefined!,
-      metrics: undefined!,
-      reporter: undefined!,
-      serverTiming: undefined!,
+
+      // TODO: get logger, metrics, reporter from server.
+      logger: defaultLogger,
+      metrics: defaultMetrics as any,
+      reporter: defaultReporter,
+      serverTiming: new ServerTiming(c, metaName),
 
       // FIXME: this req, res is NodeReq, NodeRes
       req: c.req as any,
@@ -137,7 +92,6 @@ async function createSSRHandler({
     };
 
     // TODO: ssr cache
-
     const jsBundle = await import(jsBundlePath);
     const render = jsBundle[SERVER_RENDER_FUNCTION_NAME];
 
@@ -153,22 +107,14 @@ async function createSSRHandler({
   };
 }
 
-function getRenderMode(
-  req: HonoRequest,
-  framework: string,
-  isSSR?: boolean,
-  forceCSR?: boolean,
-): 'ssr' | 'csr' {
-  if (isSSR) {
-    if (
-      forceCSR &&
-      (req.query('csr') ||
-        req.header(`x-${cutNameByHyphen(framework)}-ssr-fallback`))
-    ) {
-      return 'csr';
-    }
-    return 'ssr';
-  } else {
-    return 'csr';
+function getHost(req: HonoRequest) {
+  let host = req.header('X-Forwarded-Host');
+  if (!host) {
+    host = req.header('Host');
   }
+  host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+  // the host = '',if we can't cat Host or X-Forwarded-Host header
+  // but the this.href would assign a invalid value:`http[s]://${pathname}`
+  // so we need assign host a no-empty value.
+  return host;
 }
