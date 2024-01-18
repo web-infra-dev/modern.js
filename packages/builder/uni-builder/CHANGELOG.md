@@ -1,5 +1,35 @@
 # @modern-js/uni-builder
 
+## 2.46.0
+
+### Minor Changes
+
+- 4699e22: feat: bump Rsbuild 0.3.3 and Rspack 0.5.0
+
+  feat: 升级 Rsbuild 0.3.3 和 Rspack 0.5.0
+
+### Patch Changes
+
+- f6b0e59: feat(uni-builder): support passing source build options
+
+  feat(uni-builder): 支持传入 source build 配置项
+
+- cac5e16: fix(uni-builder): make the plugins type looser to avoid type mismatch
+
+  fix(uni-builder): 使用更松散的 plugins 类型来避免 type 不匹配的问题
+
+- 4699e22: chore: explicitly declare Node version of babel target
+
+  chore: 显式声明 babel 的目标 Node 版本
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [494b290]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

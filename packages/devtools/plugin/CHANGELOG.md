@@ -1,5 +1,24 @@
 # @modern-js/plugin-devtools
 
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- 3c01b68: refactor: dataflow of devtools client
+  refactor: 重构 devtools 客户端数据流
+- Updated dependencies [3c01b68]
+- Updated dependencies [494b290]
+  - @modern-js/devtools-client@2.46.0
+  - @modern-js/devtools-kit@2.46.0
+  - @modern-js/runtime@2.46.0
+  - @modern-js/utils@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

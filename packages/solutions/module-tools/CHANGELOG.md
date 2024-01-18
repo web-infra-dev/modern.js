@@ -1,5 +1,34 @@
 # @modern-js/module-tools
 
+## 2.46.0
+
+### Patch Changes
+
+- 985d1f2: perf(module-tools): skip build js and d.ts when input is empty
+  perf(module-tools): 当没有入口时跳过构建 js 和 d.ts 文件
+- ac03491: chore(module-tools): upgrade rollup and rollup-plugin-dts version
+  chore(module-tools): 更新 rollup 和 rollup-plugin-dts 版本
+- 516cc1d: perf(module-tools): log error detail which may throw by own plugin and complete error stack
+  perf(module-tools): 补齐错误栈并且打印错误细节，因为这错误可能并不是 esbuild 抛出的，而是我们自己的插件抛出的
+- 0b2a379: chore(module-tools): prebundle svgr to reduce install size
+  chore(module-tools): 预打包 svgr 以减小安装体积
+- 737738c: fix(module-tools): remove function type in transformImport
+  fix(module-tools): 移除 transformImport 配置里的函数类型
+- d6fa948: chore(module-tools): add babel dep, because @svgr/plugin-jsx depended after prebundle
+  chore(module-tools): 新增 babel 依赖，因为预打包后的 @svgr/plugin-jsx 需要这些依赖
+- 969455d: chore(module-tools): upgrade ast-grep 0.16.0 to support win32-arm64
+- Updated dependencies [494b290]
+- Updated dependencies [40ee539]
+  - @modern-js/types@2.46.0
+  - @modern-js/core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin-changeset@2.46.0
+  - @modern-js/plugin-lint@2.46.0
+  - @modern-js/plugin-i18n@2.46.0
+  - @modern-js/new-action@2.46.0
+  - @modern-js/plugin@2.46.0
+  - @modern-js/upgrade@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

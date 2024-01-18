@@ -1,5 +1,17 @@
 # @modern-js/server-utils
 
+## 2.46.0
+
+### Patch Changes
+
+- 4699e22: chore: explicitly declare Node version of babel target
+
+  chore: 显式声明 babel 的目标 Node 版本
+
+  - @modern-js/utils@2.46.0
+  - @modern-js/babel-plugin-module-resolver@2.46.0
+  - @modern-js/babel-compiler@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

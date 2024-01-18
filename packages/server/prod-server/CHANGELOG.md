@@ -1,5 +1,23 @@
 # @modern-js/prod-server
 
+## 2.46.0
+
+### Patch Changes
+
+- 091c7c2: fix(prod-server): ssr cache can't work in `serve` command
+  fix(prod-server): ssr 缓存不能在 `serve` 指令中正常工作
+- d833015: feat: server template support <head xxx=''> edge case
+  feat: 服务端模版方法支持 <head xxx=''> 的边界 case
+- 46e6d56: fix(prod-server): isBot@4.x need nodev18, so we downgrade it to 3.x
+  fix(prod-server): isBot@4.x 需要 nodev18, 所以我们降级到 3.x
+- 494b290: feat: Waiting for all content to load for spiders in streaming ssr
+  feat: 在 streaming ssr 时，为爬虫等待所有内容加载完毕
+- Updated dependencies [78e2722]
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/server-core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes

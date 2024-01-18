@@ -1,5 +1,19 @@
 # @modern-js/builder-cli
 
+## 2.46.0
+
+### Patch Changes
+
+- b209af7: chore(builder-related): add deprecated warning for builder related packages, please use rsbuild instead
+
+  chore(builder-related): 为 builder 相关包添加废弃声明，推荐使用 rsbuild 代替
+
+- Updated dependencies [4699e22]
+  - @modern-js/builder-webpack-provider@2.46.0
+  - @modern-js/builder-rspack-provider@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/builder@2.46.0
+
 ## 2.45.0
 
 ### Patch Changes
