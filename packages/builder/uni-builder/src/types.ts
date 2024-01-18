@@ -79,6 +79,7 @@ export type UniBuilderExtraConfig = {
       devMiddleware?: {
         writeToDisk?: DevConfig['writeToDisk'];
       };
+      liveReload?: boolean;
       headers?: ServerConfig['headers'];
       historyApiFallback?: ServerConfig['historyApiFallback'];
       hot?: boolean;
