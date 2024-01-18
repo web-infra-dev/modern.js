@@ -43,7 +43,6 @@ import {
   mergeExtension,
   createMiddlewareCollecter,
 } from './libs/utils';
-import { favionFallbackMiddleware } from './middlewares/faviconFallback';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -112,8 +111,6 @@ export class ServerCore {
     this.initServerConfig(options);
 
     await this.injectContext(this.runner, options);
-
-    this.use(favionFallbackMiddleware);
 
     // initialize server runner
     this.runner = await this.createHookRunner();
@@ -354,5 +351,9 @@ export class ServerCore {
 
   get handle() {
     return this.app.handle;
+  }
+
+  get request() {
+    return this.app.request;
   }
 }
