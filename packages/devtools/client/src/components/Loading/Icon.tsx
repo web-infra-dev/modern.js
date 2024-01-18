@@ -1,12 +1,14 @@
 import React from 'react';
+import styles from './Icon.module.scss';
 
-export const LoaderIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
+export const LoadingIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
+    className={styles.loading}
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    strokeWidth="2"
+    strokeWidth="3"
     fill="none"
     strokeLinecap="round"
     strokeLinejoin="round"
