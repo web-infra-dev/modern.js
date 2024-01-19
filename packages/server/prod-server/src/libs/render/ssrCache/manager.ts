@@ -59,7 +59,9 @@ export class CacheManager {
   ) {
     const renderResult = await render(ssrContext);
 
-    if (typeof renderResult === 'string') {
+    if (!renderResult) {
+      return '';
+    } else if (typeof renderResult === 'string') {
       const current = Date.now();
       const cache: CacheStruct = {
         val: renderResult,

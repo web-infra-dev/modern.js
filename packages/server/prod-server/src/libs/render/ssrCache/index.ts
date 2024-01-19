@@ -27,7 +27,9 @@ export async function ssrCache(
     return cacheManager.getCacheResult(req, cacheControl, render, ssrContext);
   } else {
     const renderResult = await render(ssrContext);
-    if (typeof renderResult === 'string') {
+    if (!renderResult) {
+      return '';
+    } else if (typeof renderResult === 'string') {
       return renderResult;
     } else {
       const stream = new Transform({
