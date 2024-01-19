@@ -1,30 +1,23 @@
-import { Hono } from 'hono';
-import { ServerCore } from './ServerCore';
-import { HonoNodeEnv, ServerCoreOptions } from './types';
+import { ServerBase } from './ServerCore';
+import { ServerBaseOptions } from './types';
 import { createNodeServer } from './adapters/node';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
 export type { CreateRenderHOptions } from './renderHandler';
 export { createRenderHandler } from './renderHandler';
 export { favionFallbackMiddleware } from './middlewares/faviconFallback';
-export type { ServerCoreOptions };
+export type { ServerBaseOptions };
 export { createNodeServer };
 
 export async function createServerBase(
-  options: Omit<ServerCoreOptions, 'app'>,
+  options: Omit<ServerBaseOptions, 'app'>,
 ) {
   if (options == null) {
     throw new Error('can not start server without options');
   }
 
-  const hono = new Hono<HonoNodeEnv>();
-
-  const server = new ServerCore({
+  const server = new ServerBase({
     ...options,
-    app: {
-      ...hono,
-      handle: hono.fetch,
-    },
   });
 
   return server;
