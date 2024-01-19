@@ -60,7 +60,7 @@ Modern.js 中 [tools.webpack](/configure/app/tools/webpack) 和 [tools.webpackCh
 ```diff
 export default {
   tools: {
--   webppack: (config, { env }) => {
+-   webpack: (config, { env }) => {
 +   rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';
