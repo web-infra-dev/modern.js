@@ -13,7 +13,6 @@
 
 .inner-right {
   padding-top: var(--breadcrumb-height);
-  background-color: var(--gray-2);
 }
 
 .container {
@@ -28,6 +27,7 @@
   width: var(--navigator-width);
   border-right: solid 1px var(--gray-3);
   padding: var(--space-1) 0;
+  background-color: var(--gray-1);
 }
 
 .breadcrumbs {
