@@ -1,5 +1,5 @@
-import { ServerHookRunner } from '@modern-js/server-core';
 import { AfterMatchContext, AfterRenderContext } from '@modern-js/types';
+import { ServerHookRunner } from '@core/plugin';
 import { Middleware } from '../types';
 
 export function createCustomHookMiddleware(

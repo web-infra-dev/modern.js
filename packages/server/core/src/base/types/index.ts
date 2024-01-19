@@ -1,7 +1,5 @@
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
 import { Readable } from 'node:stream';
-import { serverManager, ServerOptions } from '@modern-js/server-core';
-import type { ServerPlugin } from '@modern-js/server-core';
 import type {
   Metrics,
   Logger,
@@ -13,6 +11,8 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import { Logger as LocalLogger } from '@modern-js/utils/logger';
+import { ServerOptions } from '@config/index';
+import { ServerPlugin, serverManager } from '@core/plugin';
 import { HonoContext, HonoEnv, NotFoundHandler } from './hono';
 
 declare module 'http' {
@@ -33,7 +33,7 @@ export type ServerCoreOptions = {
   app: ServerInstance;
   pwd: string;
   // Todo 整理下这里用的 config，尽量少用
-  routes: ServerRoute[];
+  routes?: ServerRoute[];
   config: ServerOptions;
   metaName?: string;
   plugins?: ServerPlugin[];

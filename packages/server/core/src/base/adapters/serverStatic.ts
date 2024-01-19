@@ -3,10 +3,8 @@ import { existsSync, lstatSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { Context } from 'hono';
 import { getMimeType } from 'hono/utils/mime';
-import {
-  HtmlNormalizedConfig,
-  OutputNormalizedConfig,
-} from '@modern-js/server-core';
+import { OutputNormalizedConfig } from '@config/output';
+import { HtmlNormalizedConfig } from '@config/html';
 import { Middleware } from '../types';
 
 interface ServerStaticOptions {
