@@ -1,5 +1,25 @@
 # @modern-js/uni-builder
 
+## 2.46.1
+
+### Patch Changes
+
+- 26cdc77: fix(uni-builder): should print https url when enable dev.https
+
+  fix(uni-builder): 应该打印 https url 当开启 dev.https 时
+
+- 875d5dd: fix(uni-builder): tools.devServer client options not works
+
+  fix(uni-builder): 修复 tools.devServer client 配置项不生效问题
+
+- 1e81b5a: fix(uni-builder): disable default publicDir
+
+  fix(uni-builder): 默认禁用 publicDir
+
+  - @modern-js/prod-server@2.46.1
+  - @modern-js/server@2.46.1
+  - @modern-js/utils@2.46.1
+
 ## 2.46.0
 
 ### Minor Changes
