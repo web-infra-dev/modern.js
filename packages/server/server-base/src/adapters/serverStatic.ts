@@ -10,7 +10,7 @@ import {
 import { Middleware } from '../types';
 
 interface ServerStaticOptions {
-  pwd: string;
+  distDir: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
   onNotFound?: (path: string, c: Context) => void | Promise<void>;
@@ -19,9 +19,9 @@ interface ServerStaticOptions {
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { pwd } = options;
+  const { distDir } = options;
   const prefix = options.output.assetPrefix || '/';
-  const distDir = path.resolve(pwd, options.output.path || 'dist');
+
   const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
     options.output;
   const { favicon, faviconByEntries } = options.html;

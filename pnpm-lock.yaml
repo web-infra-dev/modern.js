@@ -4662,6 +4662,9 @@ importers:
       hono:
         specifier: ^3.12.2
         version: 3.12.2
+      isbot:
+        specifier: 3.8.0
+        version: 3.8.0
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3

@@ -18,6 +18,7 @@
     "@swc/helpers": "0.5.3",
     "@web-std/fetch": "^4.2.1",
     "hono": "^3.12.2",
+    "isbot": "3.8.0",
     "merge-deep": "^3.0.3"
   },
   "devDependencies": {

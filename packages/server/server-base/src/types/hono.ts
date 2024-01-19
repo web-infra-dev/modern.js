@@ -4,6 +4,7 @@ export type {
   NotFoundHandler,
   Context as HonoContext,
   Env as HonoEnv,
+  HonoRequest,
 } from 'hono';
 
 type Bindings = {

@@ -9,6 +9,8 @@ import type {
   ModernServerContext,
   InternalPlugins,
   Reporter,
+  BaseSSRServerContext,
+  ServerRoute,
 } from '@modern-js/types';
 import { Logger as LocalLogger } from '@modern-js/utils/logger';
 import { HonoContext, HonoEnv, NotFoundHandler } from './hono';
@@ -31,7 +33,9 @@ export type ServerCoreOptions = {
   app: ServerInstance;
   pwd: string;
   // Todo 整理下这里用的 config，尽量少用
+  routes: ServerRoute[];
   config: ServerOptions;
+  metaName?: string;
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
   staticGenerate?: boolean;
@@ -50,6 +54,10 @@ export type ServerCoreOptions = {
   };
   serverConfigFile?: string;
   proxyTarget?: any;
+};
+
+export type SSRServerContext = BaseSSRServerContext & {
+  staticGenerate?: boolean;
 };
 
 export type RenderResult = {
