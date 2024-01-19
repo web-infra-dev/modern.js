@@ -1,6 +1,10 @@
 @import '@radix-ui/themes/styles.css';
 @import './breakpoints.scss';
 
+:root {
+  --color-page-background: var(--gray-2) !important;
+}
+
 button {
   cursor: pointer;
 }
