@@ -1,4 +1,4 @@
-import type { NodeRequest, NodeResponse } from '@modern-js/server-core';
+import { NodeRequest, NodeResponse } from '@core/plugin';
 
 export type {
   NotFoundHandler,

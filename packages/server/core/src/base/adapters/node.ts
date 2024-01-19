@@ -1,5 +1,5 @@
 import { Server, createServer, ServerResponse } from 'node:http';
-import { NodeRequest, NodeResponse } from '@modern-js/server-core';
+import { NodeRequest, NodeResponse } from '@core/plugin';
 import { RequestHandler } from '../types';
 import {
   createReadableStreamFromReadable,

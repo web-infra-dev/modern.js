@@ -3995,16 +3995,37 @@ importers:
 
   packages/server/core:
     dependencies:
+      '@hono/node-server':
+        specifier: ^1.4.0
+        version: 1.4.0
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: 'link:'
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
+      '@web-std/fetch':
+        specifier: ^4.2.1
+        version: 4.2.1
+      hono:
+        specifier: ^3.12.2
+        version: 3.12.2
+      isbot:
+        specifier: 3.8.0
+        version: 3.8.0
+      merge-deep:
+        specifier: ^3.0.3
+        version: 3.0.3
     devDependencies:
+      '@modern-js/core':
+        specifier: workspace:*
+        version: link:../../cli/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -4017,6 +4038,9 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.2.6
+      '@types/merge-deep':
+        specifier: ^3.0.0
+        version: 3.0.0
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -4495,9 +4519,9 @@ importers:
 
   packages/server/prod-server-new:
     dependencies:
-      '@modern-js/server-base':
+      '@modern-js/server-core':
         specifier: workspace:*
-        version: link:../server-base
+        version: link:../core
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4641,79 +4665,6 @@ importers:
       websocket:
         specifier: ^1
         version: 1.0.34
-
-  packages/server/server-base:
-    dependencies:
-      '@hono/node-server':
-        specifier: ^1.4.0
-        version: 1.4.0
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: 0.5.3
-        version: 0.5.3
-      '@web-std/fetch':
-        specifier: ^4.2.1
-        version: 4.2.1
-      hono:
-        specifier: ^3.12.2
-        version: 3.12.2
-      isbot:
-        specifier: 3.8.0
-        version: 3.8.0
-      merge-deep:
-        specifier: ^3.0.3
-        version: 3.0.3
-    devDependencies:
-      '@modern-js/core':
-        specifier: workspace:*
-        version: link:../../cli/core
-      '@modern-js/eslint-config':
-        specifier: workspace:*
-        version: link:../../review/eslint-config
-      '@modern-js/module-tools':
-        specifier: 2.45.0
-        version: 2.45.0(typescript@5.0.4)
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/merge-deep':
-        specifier: ^3.0.0
-        version: 3.0.0
-      '@types/node':
-        specifier: ~16.11.7
-        version: 16.11.68
-      husky:
-        specifier: ~8.0.1
-        version: 8.0.1
-      jest:
-        specifier: '29'
-        version: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2)
-      lint-staged:
-        specifier: ~13.1.0
-        version: 13.1.4
-      prettier:
-        specifier: ~2.8.1
-        version: 2.8.8
-      rimraf:
-        specifier: ~3.0.2
-        version: 3.0.2
-      tsx:
-        specifier: ^3.12.7
-        version: 3.12.7
-      typescript:
-        specifier: ~5.0.4
-        version: 5.0.4
 
   packages/server/utils:
     dependencies:
@@ -25139,34 +25090,6 @@ packages:
       - supports-color
       - ts-node
 
-  /jest-cli@29.5.0(@types/node@16.11.68)(ts-node@10.9.2):
-    resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.2)
-      '@jest/test-result': 29.5.0
-      '@jest/types': 29.5.0
-      chalk: 4.1.2
-      exit: 0.1.2
-      graceful-fs: 4.2.11
-      import-local: 3.1.0
-      jest-config: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2)
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      prompts: 2.4.2
-      yargs: 17.7.1
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-    dev: true
-
   /jest-cli@29.5.0(@types/node@18.11.17)(ts-node@10.9.2):
     resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -25261,46 +25184,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.11.17)(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
-
-  /jest-config@29.5.0(@types/node@16.11.68)(ts-node@10.9.2):
-    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': 7.23.6
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.5.0
-      '@types/node': 16.11.68
-      babel-jest: 29.5.0(@babel/core@7.23.6)
-      chalk: 4.1.2
-      ci-info: 3.3.2
-      deepmerge: 4.3.1
-      glob: 7.2.0
-      graceful-fs: 4.2.11
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.4.3
-      jest-regex-util: 29.4.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.5
-      parse-json: 5.2.0
-      pretty-format: 29.7.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-      ts-node: 10.9.2(@types/node@18.11.17)(typescript@5.3.3)
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /jest-config@29.5.0(@types/node@18.11.17)(ts-node@10.9.2):
     resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
@@ -26067,26 +25950,6 @@ packages:
       - '@types/node'
       - supports-color
       - ts-node
-
-  /jest@29.5.0(@types/node@16.11.68)(ts-node@10.9.2):
-    resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0(ts-node@10.9.2)
-      '@jest/types': 29.5.0
-      import-local: 3.1.0
-      jest-cli: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2)
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-    dev: true
 
   /jest@29.5.0(@types/node@18.11.17)(ts-node@10.9.2):
     resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}

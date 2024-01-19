@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@modern-js/server-base": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
