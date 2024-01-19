@@ -128,34 +128,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/builder/builder-cli:
-    dependencies:
-      '@modern-js/builder':
-        specifier: workspace:*
-        version: link:../builder
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:^2.46.1
-        version: link:../builder-rspack-provider
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:^2.46.1
-        version: link:../builder-webpack-provider
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: 0.5.3
-        version: 0.5.3
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/vitest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/vitest-config
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
   packages/builder/builder-rspack-provider:
     dependencies:
       '@babel/core':
