@@ -36,6 +36,7 @@ export type ModernSSRReactComponent = React.ComponentType<any> & {
   prefetch: (context: SSRServerContext) => Promise<Record<string, any>>;
 };
 
+// renderResult maybe is a undefined, when use react-router redirect.
 export type RenderFunction = (
   context: SSRServerContext,
-) => Promise<string | ((writable: Writable) => Promise<Readable>)>;
+) => Promise<string | ((writable: Writable) => Promise<Readable>) | undefined>;
