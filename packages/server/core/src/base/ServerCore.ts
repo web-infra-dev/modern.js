@@ -53,13 +53,13 @@ declare module '@modern-js/types' {
 export class ServerBase {
   public options: ServerBaseOptions;
 
+  public runner!: ServerHookRunner;
+
   private workDir: string;
 
   private distDir: string;
 
   private app: Hono<HonoNodeEnv>;
-
-  private runner!: ServerHookRunner;
 
   private serverConfig: ServerConfig = {};
 

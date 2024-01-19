@@ -1,3 +1,5 @@
+import { HonoRequest } from '../types';
+
 export const getRuntimeEnv = () => {
   if (global?.process?.release?.name === 'node') {
     return 'node';
@@ -70,4 +72,16 @@ export const createErrorHtml = (status: number, text: string) => {
   </body>
   </html>
   `;
+};
+
+export const getHost = (req: HonoRequest) => {
+  let host = req.header('X-Forwarded-Host');
+  if (!host) {
+    host = req.header('Host');
+  }
+  host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+  // the host = '',if we can't cat Host or X-Forwarded-Host header
+  // but the this.href would assign a invalid value:`http[s]://${pathname}`
+  // so we need assign host a no-empty value.
+  return host;
 };
