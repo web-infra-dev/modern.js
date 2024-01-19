@@ -3,7 +3,6 @@ import type { Server as NodeServer } from 'node:http';
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
-  SERVER_DIR,
   SHARED_DIR,
   createLogger,
   dotenv,
@@ -157,7 +156,7 @@ export class ServerBase {
     onlyApi: boolean;
     onlyWeb: boolean;
   }) {
-    const { workDir, runner } = this;
+    const { runner } = this;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { onlyApi, onlyWeb } = options || {};
 
@@ -167,15 +166,6 @@ export class ServerBase {
     await runner.gather(collector);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { api: pluginAPIExt, web: pluginWebExt } = getMiddlewares();
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const serverDir = path.join(workDir, SERVER_DIR);
-
-    // get api or web server handler from server-framework plugin
-    // if ((await fs.pathExists(path.join(serverDir))) && !onlyApi) {
-    //   const webExtension = mergeExtension(pluginWebExt);
-    //   this.frameWebHandler = await this.prepareWebHandler(webExtension);
-    // }
 
     if (!onlyWeb) {
       const apiExtension = mergeExtension(pluginAPIExt);
