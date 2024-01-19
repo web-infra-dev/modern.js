@@ -25,7 +25,7 @@ export default (): ServerPlugin => ({
         .join(',');
       const { serverBase } = api.useAppContext();
       serverBase?.get('*', async (context, next) => {
-        if (context.req.url !== route) {
+        if (context.req.path !== route) {
           return next();
         }
 

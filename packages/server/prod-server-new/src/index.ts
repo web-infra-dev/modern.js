@@ -1,6 +1,6 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'path';
-import type { ServerCoreOptions } from '@modern-js/server-core/base';
+import type { ServerBaseOptions } from '@modern-js/server-core/base';
 import {
   createServerBase,
   createNodeServer,
@@ -10,7 +10,7 @@ import {
 } from '@modern-js/server-core/base';
 
 export default async (
-  options: Omit<ServerCoreOptions, 'app'>,
+  options: Omit<ServerBaseOptions, 'app'>,
 ): Promise<NodeServer> => {
   const { config, pwd, routes } = options;
   const distDir = path.resolve(pwd, config.output.path || 'dist');
