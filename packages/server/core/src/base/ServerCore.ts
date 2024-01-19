@@ -1,15 +1,6 @@
 import path from 'node:path';
 import type { Server as NodeServer } from 'node:http';
 import {
-  APIServerStartInput,
-  AppContext,
-  ConfigContext,
-  ServerConfig,
-  ServerOptions,
-  loadPlugins,
-  serverManager,
-} from '@modern-js/server-core';
-import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
   SERVER_DIR,
@@ -22,6 +13,15 @@ import {
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
+import { ServerOptions } from '@config/index';
+import {
+  APIServerStartInput,
+  AppContext,
+  ConfigContext,
+  ServerConfig,
+  loadPlugins,
+  serverManager,
+} from '../core';
 import { defaultMetrics } from './libs/default';
 import {
   ConfWithBFF,

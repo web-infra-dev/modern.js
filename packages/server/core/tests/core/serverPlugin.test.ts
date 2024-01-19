@@ -1,5 +1,5 @@
-import { serverManager } from '../src';
-import { ServerConfig } from '../src/plugin';
+import { serverManager } from '../../src';
+import { ServerConfig } from '../../src/core/plugin';
 
 describe('Default cases', () => {
   it('Have returns plugins', async () => {

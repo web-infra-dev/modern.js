@@ -4,7 +4,7 @@ import {
   getInternalPlugins,
   tryResolve,
 } from '@modern-js/utils';
-import { createPlugin, ServerPlugin } from './plugin';
+import { createPlugin, ServerPlugin } from '../core/plugin';
 
 const resolvePlugin = (p: string | ServerPlugin, appDirectory: string) => {
   const isPluginInstance = typeof p !== 'string';

@@ -1,13 +1,13 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'path';
-import type { ServerCoreOptions } from '@modern-js/server-base';
+import type { ServerCoreOptions } from '@modern-js/server-core/base';
 import {
   createServerBase,
   createNodeServer,
   createStaticMiddleware,
   createRenderHandler,
   favionFallbackMiddleware,
-} from '@modern-js/server-base';
+} from '@modern-js/server-core/base';
 
 export default async (
   options: Omit<ServerCoreOptions, 'app'>,
@@ -34,19 +34,21 @@ export default async (
   // TODO: get server config from server.ssr & server.ssrByEntries
   const ssrConfig = config.server?.ssr;
   const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-  for (const route of routes) {
-    const { entryPath } = route;
+  if (routes) {
+    for (const route of routes) {
+      const { entryPath } = route;
 
-    const handler = await createRenderHandler({
-      distDir,
-      routeInfo: route,
-      staticGenerate: options.staticGenerate,
-      forceCSR,
-      metaName: options.metaName || 'modern.js',
-    });
+      const handler = await createRenderHandler({
+        distDir,
+        routeInfo: route,
+        staticGenerate: options.staticGenerate,
+        forceCSR,
+        metaName: options.metaName || 'modern.js',
+      });
 
-    // TODO: inject custom server hooks
-    server.get(entryPath, handler);
+      // TODO: inject custom server hooks
+      server.get(entryPath, handler);
+    }
   }
 
   return nodeServer;
