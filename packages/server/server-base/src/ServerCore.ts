@@ -22,7 +22,7 @@ import {
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
-import { metrics as defaultMetrics } from './libs/metrics';
+import { defaultMetrics } from './libs/default';
 import {
   ConfWithBFF,
   HonoNodeEnv,

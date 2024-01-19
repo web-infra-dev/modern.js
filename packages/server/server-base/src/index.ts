@@ -4,6 +4,7 @@ import { HonoNodeEnv, ServerCoreOptions } from './types';
 import { createNodeServer } from './adapters/node';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
+export { createRenderHandler, CreateRenderHOptions } from './renderHandler';
 export { ServerCoreOptions, createNodeServer };
 
 export async function createServerBase(
