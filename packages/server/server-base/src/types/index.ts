@@ -131,6 +131,7 @@ export interface ServerInstance<Env extends HonoEnv = any> {
   get: (path: string, middleware: Middleware<Env>) => void;
   post: (path: string, middleware: Middleware<Env>) => void;
   all: (path: string, middleware: Middleware<Env>) => void;
+  request: (input: RequestInfo | URL) => Response | Promise<Response>;
   notFound: (handler: NotFoundHandler<Env>) => void;
   handle: RequestHandler;
 }

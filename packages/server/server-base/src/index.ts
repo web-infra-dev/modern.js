@@ -5,6 +5,7 @@ import { createNodeServer } from './adapters/node';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
 export { createRenderHandler, CreateRenderHOptions } from './renderHandler';
+export { favionFallbackMiddleware } from './middlewares/faviconFallback';
 export { ServerCoreOptions, createNodeServer };
 
 export async function createServerBase(
