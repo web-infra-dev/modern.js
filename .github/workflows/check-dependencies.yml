@@ -46,4 +46,3 @@ jobs:
           --ignore-dep 'twin.macro'
           --ignore-dep 'type-fest'
           --ignore-dep 'typescript'
-          --ignore-dep 'vue-loader'
