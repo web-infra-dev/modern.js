@@ -13,6 +13,7 @@ import {
   createAsyncWaterfall,
   createParallelWorkflow,
   createWaterfall,
+  ToRunners,
 } from '@modern-js/plugin';
 import type {
   ModernServerContext,
@@ -233,6 +234,9 @@ export type ServerHooks = typeof serverHooks;
 
 /** All hook callbacks of server plugin. */
 export type ServerHookCallbacks = ToThreads<ServerHooks>;
+
+/** The ServerHook Runner type */
+export type ServerHookRunner = ToRunners<ServerHooks>;
 
 /** All apis for server plugin. */
 export type PluginAPI = typeof pluginAPI & CommonAPI<ServerHooks>;
