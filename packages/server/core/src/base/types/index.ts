@@ -13,7 +13,8 @@ import type {
 import { Logger as LocalLogger } from '@modern-js/utils/logger';
 import { ServerOptions } from '@config/index';
 import { ServerPlugin, serverManager } from '@core/plugin';
-import { HonoContext, HonoEnv, NotFoundHandler } from './hono';
+import { MiddlewareHandler } from 'hono';
+import { HonoEnv } from './hono';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -29,8 +30,7 @@ declare module 'http' {
   }
 }
 
-export type ServerCoreOptions = {
-  app: ServerInstance;
+export type ServerBaseOptions = {
   pwd: string;
   // Todo 整理下这里用的 config，尽量少用
   routes?: ServerRoute[];
@@ -113,7 +113,7 @@ export interface ModernServerInterface {
 }
 
 export type ServerConstructor = (
-  options: ServerCoreOptions,
+  options: ServerBaseOptions,
 ) => ModernServerInterface;
 
 export type ModernServerHandler = (
@@ -121,20 +121,7 @@ export type ModernServerHandler = (
   next: NextFunction,
 ) => Promise<void> | void;
 
-export type Middleware<Env extends HonoEnv = any> = (
-  ctx: HonoContext<Env>,
-  next: () => Promise<void>,
-) => void | Response | Promise<void | Response>;
-
-export interface ServerInstance<Env extends HonoEnv = any> {
-  use: (middleware: Middleware<Env>) => void;
-  get: (path: string, middleware: Middleware<Env>) => void;
-  post: (path: string, middleware: Middleware<Env>) => void;
-  all: (path: string, middleware: Middleware<Env>) => void;
-  request: (input: RequestInfo | URL) => Response | Promise<Response>;
-  notFound: (handler: NotFoundHandler<Env>) => void;
-  handle: RequestHandler;
-}
+export type Middleware<Env extends HonoEnv = any> = MiddlewareHandler<Env>;
 
 export type RequestHandler = (
   request: Request,

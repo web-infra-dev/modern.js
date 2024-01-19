@@ -14,6 +14,7 @@ import {
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
+import { Hono } from 'hono';
 import {
   APIServerStartInput,
   AppContext,
@@ -26,9 +27,8 @@ import { defaultMetrics } from './libs/default';
 import {
   ConfWithBFF,
   HonoNodeEnv,
-  ServerCoreOptions,
+  ServerBaseOptions,
   ServerHookRunner,
-  ServerInstance,
 } from './types';
 import { debug } from './utils';
 import {
@@ -46,18 +46,18 @@ import {
 
 declare module '@modern-js/types' {
   interface ISAppContext {
-    serverBase?: ServerCore;
+    serverBase?: ServerBase;
   }
 }
 
-export class ServerCore {
-  public options: ServerCoreOptions;
+export class ServerBase {
+  public options: ServerBaseOptions;
 
   private workDir: string;
 
   private distDir: string;
 
-  private app: ServerInstance<HonoNodeEnv>;
+  private app: Hono<HonoNodeEnv>;
 
   private runner!: ServerHookRunner;
 
@@ -65,12 +65,12 @@ export class ServerCore {
 
   private conf: ServerOptions;
 
-  constructor(options: ServerCoreOptions) {
+  constructor(options: ServerBaseOptions) {
     options.logger = options.logger || createLogger({ level: 'warn' });
     options.metrics = options.metrics || defaultMetrics;
     this.options = options;
 
-    this.app = options.app;
+    this.app = new Hono<HonoNodeEnv>();
     this.serverConfig = {};
     const { pwd, config } = options;
     this.distDir = path.resolve(pwd, config.output.path || 'dist');
@@ -196,6 +196,8 @@ export class ServerCore {
       // eslint-disable-next-line consistent-return
       return this.get(
         `${prefix}/*`,
+        // TODO: need to refractor bff plugin
+        // @ts-expect-error
         httpCallBack2HonoMid((req, res) => {
           res.setHeader('Content-Type', 'text/plain');
           res.end(JSON.stringify(''));
@@ -213,6 +215,8 @@ export class ServerCore {
       { onLast: () => null as any },
     );
 
+    // TODO: need to refractor bff plugin
+    // @ts-expect-error
     // eslint-disable-next-line consistent-return
     return this.app.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
   }
@@ -245,7 +249,7 @@ export class ServerCore {
     return hooksRunner;
   }
 
-  private initServerConfig(options: ServerCoreOptions) {
+  private initServerConfig(options: ServerBaseOptions) {
     const { pwd, serverConfigFile } = options;
     const distDirectory = [pwd, options.config.output.path || 'dist'].join('/');
     const serverConfigPath = getServerConfigPath(
@@ -256,7 +260,7 @@ export class ServerCore {
     this.serverConfig = serverConfig;
   }
 
-  private async loadServerEnv(options: ServerCoreOptions) {
+  private async loadServerEnv(options: ServerBaseOptions) {
     const { pwd: appDirectory } = options;
     const serverEnv = process.env.MODERN_ENV;
     const defaultEnvPath = path.resolve(appDirectory, `.env`);
@@ -274,7 +278,7 @@ export class ServerCore {
 
   private async injectContext(
     runner: ServerHookRunner,
-    options: ServerCoreOptions,
+    options: ServerBaseOptions,
   ) {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
@@ -317,7 +321,7 @@ export class ServerCore {
 
   private async initConfig(
     runner: ServerHookRunner,
-    options: ServerCoreOptions,
+    options: ServerBaseOptions,
   ) {
     const { pwd, config } = options;
 
@@ -350,7 +354,7 @@ export class ServerCore {
   }
 
   get handle() {
-    return this.app.handle;
+    return this.app.fetch;
   }
 
   get request() {
