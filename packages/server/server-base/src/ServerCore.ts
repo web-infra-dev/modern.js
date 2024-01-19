@@ -43,7 +43,12 @@ import {
   mergeExtension,
   createMiddlewareCollecter,
 } from './libs/utils';
-import { favionFallbackMiddleware } from './middlewares/faviconFallback';
+
+declare module '@modern-js/types' {
+  interface ISAppContext {
+    serverBase?: ServerCore;
+  }
+}
 
 export class ServerCore {
   public options: ServerCoreOptions;
@@ -106,8 +111,6 @@ export class ServerCore {
     this.initServerConfig(options);
 
     await this.injectContext(this.runner, options);
-
-    this.use(favionFallbackMiddleware);
 
     // initialize server runner
     this.runner = await this.createHookRunner();
@@ -226,7 +229,6 @@ export class ServerCore {
       plugins = [],
     } = options;
     const serverPlugins = this.serverConfig.plugins || [];
-
     // server app context for serve plugin
     const loadedPlugins = loadPlugins(pwd, [...serverPlugins, ...plugins], {
       internalPlugins,
@@ -280,6 +282,7 @@ export class ServerCore {
     ConfigContext.set(config);
     AppContext.set({
       ...appContext,
+      serverBase: this,
       distDirectory: path.join(pwd, config.output.path || 'dist'),
     });
   }
@@ -348,5 +351,9 @@ export class ServerCore {
 
   get handle() {
     return this.app.handle;
+  }
+
+  get request() {
+    return this.app.request;
   }
 }

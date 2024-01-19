@@ -6,6 +6,7 @@ import {
   createNodeServer,
   createStaticMiddleware,
   createRenderHandler,
+  favionFallbackMiddleware,
 } from '@modern-js/server-base';
 
 export default async (
@@ -22,7 +23,8 @@ export default async (
     html: config?.html || {},
   });
 
-  server.use(staticMiddleware);
+  server.get('*', staticMiddleware);
+  server.get('*', favionFallbackMiddleware);
 
   await server.init();
   const nodeServer = createNodeServer(server.handle.bind(server));
