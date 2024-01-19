@@ -45,6 +45,7 @@ export default async (
       metaName: options.metaName || 'modern.js',
     });
 
+    // TODO: inject custom server hooks
     server.get(entryPath, handler);
   }
 

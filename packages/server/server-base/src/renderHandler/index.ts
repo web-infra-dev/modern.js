@@ -9,6 +9,8 @@ export interface CreateRenderHOptions {
   routeInfo: ServerRoute;
   distDir: string;
   metaName: string;
+
+  // for use-loader api when ssg
   staticGenerate?: boolean;
   forceCSR?: boolean;
 }
