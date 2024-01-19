@@ -1,5 +1,6 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'path';
+import { existsSync } from 'fs';
 import type { ServerBaseOptions } from '@modern-js/server-core/base';
 import {
   createServerBase,
@@ -8,7 +9,9 @@ import {
   createRenderHandler,
   createCustomHookMiddleware,
   favionFallbackMiddleware,
+  createCustomServerMiddleware,
 } from '@modern-js/server-core/base';
+import { SERVER_DIR } from '@modern-js/utils';
 
 export default async (
   options: Omit<ServerBaseOptions, 'app'>,
@@ -52,8 +55,19 @@ export default async (
         entryName || 'main',
       );
 
-      // TODO: inject custom server hooks
-      server.get(entryPath, customServerHookMiddleware, handler);
+      server.use(entryPath, customServerHookMiddleware);
+
+      const serverDir = path.join(distDir, SERVER_DIR);
+      // TODO: onlyApi
+      if (existsSync(serverDir)) {
+        const customServerMiddleware = createCustomServerMiddleware(
+          server.runner,
+          distDir,
+        );
+        server.use(entryPath, customServerMiddleware);
+      }
+
+      server.get(entryPath, handler);
     }
   }
 

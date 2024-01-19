@@ -1,6 +1,9 @@
 /* eslint-disable consistent-return */
 import { ServerHookRunner } from '@core/plugin';
-import { createAfterMatchCtx, createAfterRenderCtx } from '../libs/hook';
+import {
+  createAfterMatchCtx,
+  createAfterRenderCtx,
+} from '../libs/customServer';
 import { Middleware } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
