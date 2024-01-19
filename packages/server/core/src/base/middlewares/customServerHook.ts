@@ -1,31 +1,43 @@
-import { AfterMatchContext, AfterRenderContext } from '@modern-js/types';
+/* eslint-disable consistent-return */
 import { ServerHookRunner } from '@core/plugin';
+import { createAfterMatchCtx, createAfterRenderCtx } from '../libs/hook';
 import { Middleware } from '../types';
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const noop = () => {};
 
 export function createCustomHookMiddleware(
   runner: ServerHookRunner,
+  entryName: string,
 ): Middleware {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  const noop = () => {};
-
   return async (c, next) => {
     // afterMatchhook
-    const isSend = true;
-    const afterMatchCtx = createAfterMatchCtx();
+    const afterMatchCtx = createAfterMatchCtx(c, entryName);
 
     // TODO: reportTiming
     await runner.afterMatch(afterMatchCtx, { onLast: noop });
 
-    const { current, url, status } = afterMatchCtx.router;
+    const {
+      // current,
+      url,
+      status,
+    } = afterMatchCtx.router;
 
     if (url) {
       return c.redirect(url, status);
     }
 
     // TODO: how to rewrite to another entry
-    // 1. use redirect
+    // if (entryName !== current) {
+    //   const matched = this.router.matchEntry(current);
+    //   if (!matched) {
+    //     this.render404(context);
+    //     return;
+    //   }
+    //   route = matched.generate(context.url);
+    // }
 
-    if (isSend) {
+    if (c.finalized) {
       return;
     }
 
@@ -33,31 +45,9 @@ export function createCustomHookMiddleware(
 
     // afterRenderHook
 
-    // only run in string
+    const afterRenderCtx = createAfterRenderCtx(c);
 
-    const afterRenderCtx = createAfterRenderCtx();
-
+    // TODO: repoteTiming
     await runner.afterRender(afterRenderCtx, { onLast: noop });
-
-    if (isSend) {
-      return;
-    }
-
-    const html = getHtmlFromRenderCtx(afterRenderCtx);
-
-    // set new html to response
-    c.res = await c.html(html);
   };
-}
-
-function createAfterMatchCtx(): AfterMatchContext {
-  throw new Error('TODO:');
-}
-
-function createAfterRenderCtx(): AfterRenderContext {
-  throw new Error('TODO:');
-}
-
-function getHtmlFromRenderCtx(ctx: AfterRenderContext): string {
-  throw new Error('TODO:');
 }

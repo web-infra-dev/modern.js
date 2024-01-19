@@ -6,6 +6,7 @@ export { createStaticMiddleware } from './adapters/serverStatic';
 export type { CreateRenderHOptions } from './renderHandler';
 export { createRenderHandler } from './renderHandler';
 export { favionFallbackMiddleware } from './middlewares/faviconFallback';
+export { createCustomHookMiddleware } from './middlewares/customServerHook';
 export type { ServerBaseOptions };
 export { createNodeServer };
 

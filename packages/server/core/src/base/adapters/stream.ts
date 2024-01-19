@@ -1,3 +1,4 @@
+/* eslint-disable node/prefer-global/buffer */
 /**
  * The following code is modified based on
  * https://github.com/remix-run/remix/blob/f7defe0b46c50947f6269d5ab5b6e3fe59339054/packages/remix-node/stream.ts#L3

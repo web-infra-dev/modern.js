@@ -6,6 +6,7 @@ import {
   createNodeServer,
   createStaticMiddleware,
   createRenderHandler,
+  createCustomHookMiddleware,
   favionFallbackMiddleware,
 } from '@modern-js/server-core/base';
 
@@ -36,7 +37,7 @@ export default async (
   const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
   if (routes) {
     for (const route of routes) {
-      const { entryPath } = route;
+      const { entryPath, entryName } = route;
 
       const handler = await createRenderHandler({
         distDir,
@@ -46,8 +47,13 @@ export default async (
         metaName: options.metaName || 'modern.js',
       });
 
+      const customServerHookMiddleware = createCustomHookMiddleware(
+        server.runner,
+        entryName || 'main',
+      );
+
       // TODO: inject custom server hooks
-      server.get(entryPath, handler);
+      server.get(entryPath, customServerHookMiddleware, handler);
     }
   }
 
