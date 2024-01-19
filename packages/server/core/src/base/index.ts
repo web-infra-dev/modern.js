@@ -4,9 +4,11 @@ import { HonoNodeEnv, ServerCoreOptions } from './types';
 import { createNodeServer } from './adapters/node';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
-export { createRenderHandler, CreateRenderHOptions } from './renderHandler';
+export type { CreateRenderHOptions } from './renderHandler';
+export { createRenderHandler } from './renderHandler';
 export { favionFallbackMiddleware } from './middlewares/faviconFallback';
-export { ServerCoreOptions, createNodeServer };
+export type { ServerCoreOptions };
+export { createNodeServer };
 
 export async function createServerBase(
   options: Omit<ServerCoreOptions, 'app'>,

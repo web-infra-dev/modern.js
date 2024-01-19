@@ -28,7 +28,7 @@ import type {
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
-import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
+import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{

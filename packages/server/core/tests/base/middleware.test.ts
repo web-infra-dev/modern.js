@@ -1,4 +1,4 @@
-import { createServerBase, favionFallbackMiddleware } from '../src';
+import { createServerBase, favionFallbackMiddleware } from '../../src/base';
 
 function getDefaultConfig() {
   return {

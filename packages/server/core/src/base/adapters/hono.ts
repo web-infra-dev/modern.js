@@ -1,4 +1,4 @@
-import type { NodeRequest, NodeResponse } from '@modern-js/server-core';
+import { NodeRequest, NodeResponse } from '@core/plugin';
 import { HonoContext, HonoNodeEnv } from '../types';
 
 type Handler = (req: NodeRequest, res: NodeResponse) => void;
