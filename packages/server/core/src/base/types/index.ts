@@ -14,7 +14,7 @@ import { Logger as LocalLogger } from '@modern-js/utils/logger';
 import { ServerOptions } from '@config/index';
 import { ServerPlugin, serverManager } from '@core/plugin';
 import { MiddlewareHandler } from 'hono';
-import { HonoEnv } from './hono';
+import { HonoContext, HonoEnv, HonoNodeEnv } from './hono';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -61,6 +61,7 @@ export type SSRServerContext = BaseSSRServerContext & {
 };
 
 export type RenderResult = {
+  // eslint-disable-next-line node/prefer-global/buffer
   content: string | Buffer;
   contentType: string;
   contentStream?: Readable;
@@ -127,5 +128,8 @@ export type RequestHandler = (
   request: Request,
   ...args: any[]
 ) => Response | Promise<Response>;
+
+export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;
+export type ServerNodeContext = HonoContext<HonoNodeEnv>;
 
 export * from './hono';
