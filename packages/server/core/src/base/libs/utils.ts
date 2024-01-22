@@ -7,19 +7,6 @@ export const getRuntimeEnv = () => {
   return 'other';
 };
 
-export const checkIsProd = (): boolean => {
-  const runtimeEnv = getRuntimeEnv();
-  switch (runtimeEnv) {
-    case 'node':
-      return process.env.NODE_ENV === 'production';
-
-    // TODO: check is prodcution in other runtime env
-    case 'other':
-    default:
-      return false;
-  }
-};
-
 export type CollectMiddlewaresResult = {
   web: any[];
   api: any[];
