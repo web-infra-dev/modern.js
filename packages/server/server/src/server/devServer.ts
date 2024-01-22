@@ -93,9 +93,9 @@ export class ModernDevServer extends ModernServer {
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
 
-    this.getMiddlewares = options.getMiddlewares;
+    this.getMiddlewares = options.getMiddlewares!;
 
-    this.rsbuild = options.rsbuild;
+    this.rsbuild = options.rsbuild!;
 
     enableRegister(this.pwd, this.conf);
   }
@@ -149,7 +149,7 @@ export class ModernDevServer extends ModernServer {
 
     const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
       // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-      await this.getMiddlewares({
+      await this.getMiddlewares!({
         ...transformToRsbuildServerOptions(this.dev),
         compress:
           !isUseStreamingSSR(this.getRoutes()) &&

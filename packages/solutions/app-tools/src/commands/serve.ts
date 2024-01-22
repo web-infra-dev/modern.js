@@ -1,6 +1,6 @@
 import { logger, isApiOnly, getTargetDir } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import createServer from '@modern-js/prod-server-new';
+import { createProdServer } from '@modern-js/prod-server-new';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
 import { injectDataLoaderPlugin } from '../utils/createServer';
@@ -21,7 +21,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   );
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
-  const app = await createServer({
+  const app = await createProdServer({
     pwd: appDirectory,
     config: {
       ...userConfig,

@@ -2,6 +2,7 @@ import { ServerBase } from './serverBase';
 import { ServerNodeContext, ServerBaseOptions, Next } from './types';
 import { createNodeServer } from './adapters/node';
 import { httpCallBack2HonoMid } from './adapters/hono';
+import { registerMockHandler } from './adapters/mock';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
 export type { CreateRenderHOptions } from './renderHandler';
@@ -10,6 +11,7 @@ export * from './middlewares';
 
 export { httpCallBack2HonoMid };
 export type { ServerNodeContext, ServerBaseOptions, Next };
+export { registerMockHandler };
 export { createNodeServer };
 
 export async function createServerBase(

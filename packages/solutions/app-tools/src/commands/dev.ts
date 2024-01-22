@@ -1,11 +1,8 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import { createDevServer } from '@modern-js/server';
 import { printInstructions } from '../utils/printInstructions';
-import {
-  setServer,
-  createServer,
-  injectDataLoaderPlugin,
-} from '../utils/createServer';
+import { setServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
@@ -81,7 +78,7 @@ export const dev = async (
   };
 
   if (apiOnly) {
-    const app = await createServer({
+    const app = await createDevServer({
       ...(serverOptions as any),
       compiler: null,
     });
@@ -93,10 +90,7 @@ export const dev = async (
         port,
         host,
       },
-      async (err: Error) => {
-        if (err) {
-          throw err;
-        }
+      () => {
         printInstructions(hookRunners, appContext, normalizedConfig);
       },
     );

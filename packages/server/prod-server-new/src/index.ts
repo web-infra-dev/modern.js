@@ -9,8 +9,8 @@ import {
   favionFallbackMiddleware,
 } from '@modern-js/server-core/base';
 
-export default async (
-  options: Omit<ServerBaseOptions, 'app'>,
+export const createProdServer = async (
+  options: ServerBaseOptions,
 ): Promise<NodeServer> => {
   const { config, pwd } = options;
   const distDir = path.resolve(pwd, config.output.path || 'dist');

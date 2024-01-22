@@ -54,7 +54,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@hono/node-server": "^1.4.0",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
