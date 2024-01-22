@@ -45,7 +45,7 @@ export function createStaticMiddleware(
       );
       if (!existsSync(filepath)) {
         // we shoud return a response with status is 404, if we can't found static asset
-        return c.html(createErrorHtml(404, 'Not Found'), 404);
+        return c.html(createErrorHtml(404), 404);
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {

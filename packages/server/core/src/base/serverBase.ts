@@ -76,9 +76,12 @@ export class ServerBase {
     this.conf = config;
 
     this.app.notFound(c => {
-      // TODO: Modern.js allow user config 404 routes in pages/404.[t|j]x
-      // docs: https://modernjs.dev/apis/app/hooks/src/pages.html#404-%E8%B7%AF%E7%94%B1
-      return c.html(createErrorHtml(404, '404 Not Found'), 404);
+      return c.html(createErrorHtml(404), 404);
+    });
+
+    this.app.onError((_err, c) => {
+      // TODO: repoter error.
+      return c.html(createErrorHtml(500), 500);
     });
   }
 
