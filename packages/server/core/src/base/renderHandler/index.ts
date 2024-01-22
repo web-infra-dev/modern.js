@@ -104,7 +104,7 @@ export async function bindRenderHandler(
     warmup(ssrBundles);
 
     for (const route of routes) {
-      const { entryPath, entryName } = route;
+      const { urlPath, entryName } = route;
 
       const handler = await createRenderHandler({
         distDir,
@@ -118,7 +118,7 @@ export async function bindRenderHandler(
         entryName || 'main',
       );
 
-      server.use(entryPath, customServerHookMiddleware);
+      server.use(urlPath, customServerHookMiddleware);
 
       const serverDir = path.join(distDir, SERVER_DIR);
 
@@ -126,10 +126,9 @@ export async function bindRenderHandler(
       // FIXME: bind with node runtime
       if (existsSync(serverDir)) {
         const customServerMiddleware = customServer.getServerMiddleware();
-        server.use(entryPath, customServerMiddleware);
+        server.use(urlPath, customServerMiddleware);
       }
-
-      server.get(entryPath, handler);
+      server.get(urlPath, handler);
     }
   }
 }
