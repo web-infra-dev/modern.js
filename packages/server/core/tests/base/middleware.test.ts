@@ -1,16 +1,5 @@
 import { createServerBase, favionFallbackMiddleware } from '../../src/base';
-
-function getDefaultConfig() {
-  return {
-    html: {},
-    output: {},
-    source: {},
-    tools: {},
-    server: {},
-    runtime: {},
-    bff: {},
-  };
-}
+import { getDefaultConfig } from './helpers';
 
 describe('middleware', () => {
   describe('favionFallbackMiddleware', () => {
