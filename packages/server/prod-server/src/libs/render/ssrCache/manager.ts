@@ -70,7 +70,7 @@ export class CacheManager {
       await this.container.set(key, JSON.stringify(cache), { ttl });
       return renderResult;
     } else {
-      let html: string;
+      let html = '';
       const stream = new Transform({
         write(chunk, _, callback) {
           html += chunk.toString();
