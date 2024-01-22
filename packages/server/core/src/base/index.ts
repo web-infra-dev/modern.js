@@ -1,11 +1,11 @@
-import { ServerBase } from './ServerCore';
+import { ServerBase } from './serverBase';
 import { ServerNodeContext, ServerBaseOptions, Next } from './types';
 import { createNodeServer } from './adapters/node';
 import { httpCallBack2HonoMid } from './adapters/hono';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
 export type { CreateRenderHOptions } from './renderHandler';
-export { createRenderHandler } from './renderHandler';
+export { bindRenderHandler } from './renderHandler';
 export * from './middlewares';
 
 export { httpCallBack2HonoMid };
