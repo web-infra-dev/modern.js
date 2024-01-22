@@ -40,7 +40,13 @@ export const createMiddlewareCollecter = () => {
   };
 };
 
-export const createErrorHtml = (status: number, text: string) => {
+const ERROR_PAGE_TEXT: Record<number, string> = {
+  404: 'This page could not be found.',
+  500: 'Internal Server Error.',
+};
+
+export const createErrorHtml = (status: number) => {
+  const text = ERROR_PAGE_TEXT[status] || '';
   const title = `${status}: ${text}`;
   return `<!DOCTYPE html>
   <html lang="en">

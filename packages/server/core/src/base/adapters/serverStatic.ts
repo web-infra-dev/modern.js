@@ -1,17 +1,16 @@
 import path from 'path';
 import { existsSync, lstatSync } from 'fs';
 import { readFile } from 'fs/promises';
-import { Context } from 'hono';
 import { getMimeType } from 'hono/utils/mime';
 import { OutputNormalizedConfig } from '@config/output';
 import { HtmlNormalizedConfig } from '@config/html';
 import { Middleware } from '../types';
+import { createErrorHtml } from '../libs/utils';
 
 interface ServerStaticOptions {
   distDir: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
-  onNotFound?: (path: string, c: Context) => void | Promise<void>;
 }
 
 export function createStaticMiddleware(
@@ -45,8 +44,8 @@ export function createStaticMiddleware(
         pathname.replace(prefix, () => ''),
       );
       if (!existsSync(filepath)) {
-        await options.onNotFound?.(filepath, c);
-        return next();
+        // we shoud return a response with status is 404, if we can't found static asset
+        return c.html(createErrorHtml(404), 404);
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {
