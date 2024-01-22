@@ -137,6 +137,7 @@ export {
   useRoutes,
   useSearchParams,
   useSubmit,
+  unstable_useViewTransitionState,
 
   // Utilities
   createRoutesFromChildren,
