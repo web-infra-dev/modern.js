@@ -31,7 +31,6 @@ export default async (
 
   // bind render handler
   await bindRenderHandler(server, distDir, options);
-  // TODO: get server config from server.ssr & server.ssrByEntries
 
   return nodeServer;
 };
