@@ -1,8 +1,11 @@
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { cutNameByHyphen } from '@modern-js/utils';
+import { existsSync } from 'fs';
+import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
-import { HonoRequest, Middleware } from '../types';
+import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
+import { ServerBase } from '../serverBase';
+import { CustomServer } from '../middlewares';
 import { createSSRHandler } from './ssrHandler';
 
 export interface CreateRenderHOptions {
@@ -15,7 +18,7 @@ export interface CreateRenderHOptions {
   forceCSR?: boolean;
 }
 
-export async function createRenderHandler(
+async function createRenderHandler(
   options: CreateRenderHOptions,
 ): Promise<Middleware> {
   const {
@@ -76,5 +79,50 @@ function getRenderMode(
     return 'ssr';
   } else {
     return 'csr';
+  }
+}
+
+export async function bindRenderHandler(
+  server: ServerBase,
+  distDir: string,
+  options: Omit<ServerBaseOptions, 'app'>,
+) {
+  const { config, routes } = options;
+
+  const { runner } = server;
+  if (routes) {
+    // TODO: get server config from server.ssr & server.ssrByEntries
+    const ssrConfig = config.server?.ssr;
+    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+    const customServer = new CustomServer(runner, distDir);
+
+    for (const route of routes) {
+      const { entryPath, entryName } = route;
+
+      const handler = await createRenderHandler({
+        distDir,
+        routeInfo: route,
+        staticGenerate: options.staticGenerate,
+        forceCSR,
+        metaName: options.metaName || 'modern.js',
+      });
+
+      const customServerHookMiddleware = customServer.getHookMiddleware(
+        entryName || 'main',
+      );
+
+      server.use(entryPath, customServerHookMiddleware);
+
+      const serverDir = path.join(distDir, SERVER_DIR);
+
+      // TODO: onlyApi
+      // FIXME: bind with node runtime
+      if (existsSync(serverDir)) {
+        const customServerMiddleware = customServer.getServerMiddleware();
+        server.use(entryPath, customServerMiddleware);
+      }
+
+      server.get(entryPath, handler);
+    }
   }
 }
