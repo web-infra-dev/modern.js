@@ -1,4 +1,8 @@
-import type { IncomingMessage, ServerResponse } from 'http';
+import type {
+  IncomingMessage,
+  ServerResponse,
+  Server as NodeServer,
+} from 'http';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
@@ -10,6 +14,7 @@ import type {
   DevServerAPIs,
   DevMiddlewaresConfig,
 } from '@rsbuild/shared';
+import { ServerBase, ServerBaseOptions } from '@modern-js/server-core/base';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -70,3 +75,8 @@ export type ExtraOptionsNew = {
 };
 
 export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;
+
+export type CreateNodeServer = (
+  options: ServerBaseOptions,
+  serverBase: ServerBase,
+) => Promise<NodeServer>;

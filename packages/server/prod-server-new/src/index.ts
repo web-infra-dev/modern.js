@@ -1,6 +1,9 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'path';
-import type { ServerBaseOptions } from '@modern-js/server-core/base';
+import type {
+  ServerBase,
+  ServerBaseOptions,
+} from '@modern-js/server-core/base';
 import {
   createServerBase,
   createNodeServer,
@@ -9,13 +12,22 @@ import {
   favionFallbackMiddleware,
 } from '@modern-js/server-core/base';
 
+// for deploy
 export const createProdServer = async (
   options: ServerBaseOptions,
 ): Promise<NodeServer> => {
+  const server = await createServerBase(options);
+
+  return createServer(options, server);
+};
+
+// for dev server
+export const createServer = async (
+  options: ServerBaseOptions,
+  server: ServerBase,
+) => {
   const { config, pwd } = options;
   const distDir = path.resolve(pwd, config.output.path || 'dist');
-
-  const server = await createServerBase(options);
 
   const staticMiddleware = createStaticMiddleware({
     distDir,
@@ -27,10 +39,11 @@ export const createProdServer = async (
   server.get('*', favionFallbackMiddleware);
 
   await server.init();
-  const nodeServer = createNodeServer(server.handle.bind(server), server);
 
   // bind render handler
   await bindRenderHandler(server, distDir, options);
+
+  const nodeServer = createNodeServer(server.handle.bind(server), server);
 
   return nodeServer;
 };

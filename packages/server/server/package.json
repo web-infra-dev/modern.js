@@ -49,7 +49,6 @@
     "@babel/core": "^7.23.2",
     "@babel/register": "^7.22.15",
     "@modern-js/prod-server": "workspace:*",
-    "@modern-js/prod-server-new": "workspace:^",
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",

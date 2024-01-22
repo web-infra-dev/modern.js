@@ -1,18 +1,18 @@
 import { Server as NodeServer } from 'node:http';
-import path from 'path';
 import {
   createServerBase,
-  createNodeServer,
-  createStaticMiddleware,
-  favionFallbackMiddleware,
   httpCallBack2HonoMid,
   registerMockHandler,
-  bindRenderHandler,
 } from '@modern-js/server-core/base';
+
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
 import { ServerRoute } from '@modern-js/types';
 import { SSR } from '@modern-js/server-core';
-import { DevServerOptions, ModernDevServerOptionsNew } from './types';
+import {
+  CreateNodeServer,
+  DevServerOptions,
+  ModernDevServerOptionsNew,
+} from './types';
 import { enableRegister } from './dev-tools/register';
 
 const transformToRsbuildServerOptions = (
@@ -64,9 +64,9 @@ const isUseSSRPreload = (conf: ModernDevServerOptionsNew['config']) => {
 
 export const createDevServer = async (
   options: ModernDevServerOptionsNew,
+  createNodeServer: CreateNodeServer,
 ): Promise<NodeServer> => {
   const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
-  const distDir = path.resolve(pwd, config.output.path || 'dist');
 
   const server = await createServerBase(options);
   const closeCb = [];
@@ -105,17 +105,7 @@ export const createDevServer = async (
     });
   }
 
-  const staticMiddleware = createStaticMiddleware({
-    distDir,
-    output: config?.output || {},
-    html: config?.html || {},
-  });
-
-  server.get('*', staticMiddleware);
-  server.get('*', favionFallbackMiddleware);
-
-  await server.init();
-  const nodeServer = createNodeServer(server.handle.bind(server), server);
+  const nodeServer = await createNodeServer(options, server);
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done
@@ -126,9 +116,6 @@ export const createDevServer = async (
   });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
-
-  // bind render handler
-  await bindRenderHandler(server, distDir, options);
 
   return nodeServer;
 };

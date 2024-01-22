@@ -11,7 +11,8 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
 
-  const { appDirectory, port, serverConfigFile, metaName } = appContext;
+  const { appDirectory, port, serverConfigFile, metaName, serverRoutes } =
+    appContext;
 
   logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
@@ -31,6 +32,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         ...(userConfig.output || {}),
       },
     },
+    routes: serverRoutes,
     appContext: {
       metaName,
       sharedDirectory: getTargetDir(
