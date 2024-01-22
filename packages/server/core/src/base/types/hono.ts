@@ -5,6 +5,7 @@ export type {
   Context as HonoContext,
   Env as HonoEnv,
   HonoRequest,
+  Next,
 } from 'hono';
 
 type Bindings = {
