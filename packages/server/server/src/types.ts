@@ -63,8 +63,8 @@ export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 export type ExtraOptionsNew = {
   dev: Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
-  rsbuild: RsbuildInstance;
-  getMiddlewares: (
+  rsbuild?: RsbuildInstance;
+  getMiddlewares?: (
     overrides?: DevMiddlewaresConfig,
   ) => ReturnType<DevServerAPIs['getMiddlewares']>;
 };

@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/prod-server-new",
   "version": "0.1.0",
-  "types": "./dist/types/index.d.ts",
+  "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
   "scripts": {
@@ -35,6 +35,7 @@
   "sideEffects": [],
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "types": "./dist/types/index.d.ts"
   }
 }

@@ -7,7 +7,8 @@ import {
   deepmerge,
   mergeChainedOptions,
 } from '@rsbuild/shared';
-import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
+import type { ModernDevServerOptionsNew } from '@modern-js/server';
+import type { Server } from 'node:http';
 import { type ModernServerOptions } from '@modern-js/prod-server';
 import { UniBuilderConfig } from '../types';
 
@@ -94,7 +95,7 @@ export async function startDevServer(
 ) {
   debug('create dev server');
 
-  const { ServerForRsbuild } = await import('@modern-js/server');
+  const { createDevServer } = await import('@modern-js/server');
 
   const rsbuildServer = await rsbuild.getServerAPIs(options);
 
@@ -110,7 +111,7 @@ export async function startDevServer(
     ? undefined
     : await rsbuildServer.startCompile();
 
-  const server = new ServerForRsbuild({
+  const server = await createDevServer({
     pwd: rsbuild.context.rootPath,
     ...serverOptions,
     rsbuild,
@@ -135,8 +136,6 @@ export async function startDevServer(
   const urls = getAddressUrls({ protocol, port, host });
 
   debug('listen dev server');
-
-  await server.init();
 
   return new Promise<UniBuilderStartServerResult>(resolve => {
     server.listen(
