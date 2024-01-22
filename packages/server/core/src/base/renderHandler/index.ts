@@ -6,6 +6,7 @@ import { ServerRoute } from '@modern-js/types';
 import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
+import { warmup } from '../libs/warmup';
 import { createSSRHandler } from './ssrHandler';
 
 export interface CreateRenderHOptions {
@@ -95,6 +96,12 @@ export async function bindRenderHandler(
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
     const customServer = new CustomServer(runner, distDir);
+
+    // warn ssr bundles
+    const ssrBundles = routes
+      .filter(route => route.isSSR)
+      .map(route => route.bundle);
+    warmup(ssrBundles);
 
     for (const route of routes) {
       const { entryPath, entryName } = route;
