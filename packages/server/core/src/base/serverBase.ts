@@ -1,5 +1,4 @@
 import path from 'node:path';
-import type { Server as NodeServer } from 'node:http';
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
@@ -125,37 +124,7 @@ export class ServerBase {
     return this;
   }
 
-  async afterInitNodeServer({ server }: { server?: NodeServer }) {
-    if (typeof server !== 'undefined') {
-      await this.runner.beforeServerInit({
-        app: server,
-      });
-    }
-
-    // TODO: need to support
-    // if (!disableHttpServer) {
-    //   this.app = await this.server.createHTTPServer(this.getRequestHandler());
-    // }
-
-    // TODO: 支持 onInit 的功能
-    // await this.server.onInit(this.runner, this.app);
-
-    // TODO: afterServerInit
-    // {
-    //   const result = await this.runner.afterServerInit({
-    //     app: this.app,
-    //     server: this.server,
-    //   });
-    //   ({ app: this.app = this.app, server: this.server } = result);
-    // }
-
-    await this.prepareFrameHandler();
-  }
-
-  protected async prepareFrameHandler(options?: {
-    onlyApi: boolean;
-    onlyWeb: boolean;
-  }) {
+  async prepareFrameHandler(options?: { onlyApi: boolean; onlyWeb: boolean }) {
     const { runner } = this;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { onlyApi, onlyWeb } = options || {};
@@ -178,6 +147,7 @@ export class ServerBase {
     if (runtimeEnv !== 'node') {
       return;
     }
+
     const { workDir, runner, conf } = this;
     const { bff } = conf as ConfWithBFF;
     const prefix = bff?.prefix || '/api';

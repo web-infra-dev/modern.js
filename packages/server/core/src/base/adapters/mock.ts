@@ -2,7 +2,7 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 import { NextFunction } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
-import type { ServerBase } from '../ServerCore';
+import type { ServerBase } from '../serverBase';
 import type { ServerNodeMiddleware } from '../types';
 import { AGGRED_DIR } from '../libs/constants';
 
