@@ -32510,10 +32510,11 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.0.5(@types/node@18.11.17)
+      vite: 4.5.2(@types/node@18.11.17)
     transitivePeerDependencies:
       - '@types/node'
       - less
+      - lightningcss
       - sass
       - stylus
       - sugarss
@@ -32521,13 +32522,14 @@ packages:
       - terser
     dev: true
 
-  /vite@4.0.5(@types/node@18.11.17):
-    resolution: {integrity: sha512-7m87RC+caiAxG+8j3jObveRLqaWA/neAdCat6JAZwMkSWqFHOvg8MYe5fAQxVBRAuKAQ1S6XDh3CBQuLNbY33w==}
+  /vite@4.5.2(@types/node@18.11.17):
+    resolution: {integrity: sha512-tBCZBNSBbHQkaGyhGCDUGqeo2ph8Fstyp6FMSvTtsXeZSPpSMGlviAOav2hxVTqFcx8Hj/twtWKsMJXNY0xI8w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
       '@types/node': '>= 14'
       less: '*'
+      lightningcss: ^1.21.0
       sass: '*'
       stylus: '*'
       sugarss: '*'
@@ -32536,6 +32538,8 @@ packages:
       '@types/node':
         optional: true
       less:
+        optional: true
+      lightningcss:
         optional: true
       sass:
         optional: true
@@ -32549,7 +32553,6 @@ packages:
       '@types/node': 18.11.17
       esbuild: 0.17.19
       postcss: 8.4.31
-      resolve: 1.22.4
       rollup: 3.29.4
     optionalDependencies:
       fsevents: 2.3.3
@@ -32608,11 +32611,12 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.6.0
-      vite: 4.0.5(@types/node@18.11.17)
+      vite: 4.5.2(@types/node@18.11.17)
       vite-node: 0.33.0(@types/node@18.11.17)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
+      - lightningcss
       - sass
       - stylus
       - sugarss
