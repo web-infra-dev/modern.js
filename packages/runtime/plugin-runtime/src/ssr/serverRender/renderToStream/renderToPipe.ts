@@ -1,7 +1,11 @@
-import { Transform, Writable } from 'stream';
-import type { RenderToPipeableStreamOptions } from 'react-dom/server';
+import type { Writable } from 'stream';
+import type {
+  ReactDOMServerReadableStream,
+  RenderToReadableStreamOptions,
+} from 'react-dom/server';
 import { RenderLevel, RuntimeContext, SSRPluginConfig } from '../types';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
+import { SSRErrors } from '../tracker';
 import { getTemplates } from './template';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
@@ -15,91 +19,117 @@ function renderToPipe(
   rootElement: React.ReactElement,
   context: RuntimeContext,
   pluginConfig: SSRPluginConfig,
-  options?: RenderToPipeableStreamOptions,
+  options?: RenderToReadableStreamOptions & {
+    onShellReady?: () => void;
+    onAllReady?: () => void;
+    onShellError?: (e: unknown) => void;
+  },
 ) {
   let shellChunkStatus = ShellChunkStatus.START;
-
-  // When a crawler visit the page, we should waiting for entrie content of page
-  const onReady = context.ssrContext?.isSpider ? 'onAllReady' : 'onShellReady';
+  const chunkVec: string[] = [];
 
   const { ssrContext } = context;
-  const chunkVec: string[] = [];
-  const forUserPipe: Pipe<Writable> = stream => {
-    return new Promise(resolve => {
-      let renderToPipeableStream;
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        ({ renderToPipeableStream } = require('react-dom/server'));
-      } catch (e) {}
+  const forUserPipe = async () => {
+    let renderToReadableStream;
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      ({ renderToReadableStream } = require('react-dom/server'));
+    } catch (e) {}
 
-      const { pipe } = renderToPipeableStream(rootElement, {
-        ...options,
-        nonce: ssrContext?.nonce,
-        [onReady]() {
-          getTemplates(context, RenderLevel.SERVER_RENDER, pluginConfig).then(
-            ({ shellAfter, shellBefore }) => {
-              options?.onShellReady?.();
-              const injectableTransform = new Transform({
-                transform(chunk, _encoding, callback) {
-                  try {
-                    if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
-                      chunkVec.push(chunk.toString());
+    const { shellAfter, shellBefore } = await getTemplates(
+      context,
+      RenderLevel.SERVER_RENDER,
+      pluginConfig,
+    );
+    try {
+      const readableOriginal: ReactDOMServerReadableStream =
+        await renderToReadableStream(rootElement, {
+          ...options,
+          nonce: ssrContext?.nonce,
+          onError(error: unknown) {
+            options?.onError?.(error);
+          },
+        });
 
-                      /**
-                       * The shell content of App may be splitted by multiple chunks to transform,
-                       * when any node value's size is larger than the React limitation, refer to:
-                       * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
-                       * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
-                       */
-                      let concatedChunk = chunkVec.join('');
-                      if (
-                        concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)
-                      ) {
-                        concatedChunk = concatedChunk.replace(
-                          ESCAPED_SHELL_STREAM_END_MARK,
-                          '',
-                        );
+      // If rendering the shell is successful, that Promise will resolve.
+      options?.onShellReady?.();
 
-                        shellChunkStatus = ShellChunkStatus.FINIESH;
-                        this.push(
-                          `${shellBefore}${concatedChunk}${shellAfter}`,
-                        );
-                      }
-                    } else {
-                      this.push(chunk);
-                    }
-                    callback();
-                  } catch (e) {
-                    if (e instanceof Error) {
-                      callback(e);
-                    } else {
-                      callback(
-                        new Error('Received unkown error when streaming'),
-                      );
-                    }
-                  }
-                },
-              });
+      // A Promise that resolves when all rendering is complete
+      // call onAllready, when allReady is resolve.
+      readableOriginal.allReady.then(() => {
+        options?.onAllReady?.();
+      });
 
-              resolve(pipe(injectableTransform).pipe(stream));
-            },
-          );
-        },
-        onShellError(error: unknown) {
-          // eslint-disable-next-line promise/no-promise-in-callback
-          getTemplates(context, RenderLevel.CLIENT_RENDER, pluginConfig).then(
-            ({ shellAfter, shellBefore }) => {
-              const fallbackHtml = `${shellBefore}${shellAfter}`;
-              resolve(fallbackHtml);
-              options?.onShellError?.(error);
-            },
-          );
+      if (context.ssrContext?.isSpider) {
+        // However, when a crawler visits your page, or if you’re generating the pages at the build time,
+        // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
+        // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
+        await readableOriginal.allReady;
+      }
+      const reader: ReadableStreamDefaultReader = readableOriginal.getReader();
+
+      const injectableStream = new ReadableStream({
+        start(controller) {
+          async function push() {
+            const { done, value } = await reader.read();
+            if (done) {
+              controller.close();
+              return;
+            }
+            if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
+              const chunk = new TextDecoder().decode(value);
+
+              chunkVec.push(chunk);
+
+              let concatedChunk = chunkVec.join('');
+              if (concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)) {
+                concatedChunk = concatedChunk.replace(
+                  ESCAPED_SHELL_STREAM_END_MARK,
+                  '',
+                );
+
+                shellChunkStatus = ShellChunkStatus.FINIESH;
+
+                controller.enqueue(
+                  encodeForWebStream(
+                    `${shellBefore}${concatedChunk}${shellAfter}`,
+                  ),
+                );
+              }
+            } else {
+              controller.enqueue(value);
+            }
+            push();
+          }
+          push();
         },
       });
-    });
+      return injectableStream;
+    } catch (err) {
+      // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
+      ssrContext?.tracker.trackError(SSRErrors.RENDER_SHELL, err as Error);
+      const { shellAfter, shellBefore } = await getTemplates(
+        context,
+        RenderLevel.CLIENT_RENDER,
+        pluginConfig,
+      );
+      const fallbackHtml = `${shellBefore}${shellAfter}`;
+      return fallbackHtml;
+    }
   };
 
-  return forUserPipe;
+  return forUserPipe();
+}
+
+let encoder: TextEncoder;
+function encodeForWebStream(thing: unknown) {
+  if (!encoder) {
+    encoder = new TextEncoder();
+  }
+  if (typeof thing === 'string') {
+    return encoder.encode(thing);
+  }
+  return thing;
 }
 
 export default renderToPipe;
