@@ -37,6 +37,7 @@ export const dev = async (
     apiOnly,
     serverConfigFile,
     metaName,
+    serverRoutes,
   } = appContext;
 
   await buildServerConfig({
@@ -71,6 +72,7 @@ export const dev = async (
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
     },
+    routes: serverRoutes,
     pwd: appDirectory,
     config: normalizedConfig,
     serverConfigFile,

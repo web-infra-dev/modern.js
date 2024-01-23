@@ -91,7 +91,7 @@ export async function bindRenderHandler(
   const { config, routes } = options;
 
   const { runner } = server;
-  if (routes) {
+  if (routes && routes.length > 0) {
     // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;

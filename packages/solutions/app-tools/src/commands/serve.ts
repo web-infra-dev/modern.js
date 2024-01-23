@@ -32,7 +32,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         ...(userConfig.output || {}),
       },
     },
-    routes: apiOnly ? undefined : serverRoutes,
+    routes: serverRoutes,
     appContext: {
       metaName,
       sharedDirectory: getTargetDir(
