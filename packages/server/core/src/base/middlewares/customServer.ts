@@ -26,10 +26,9 @@ export class CustomServer {
     this.serverMiddlewarePromise = runner.prepareWebServer(
       {
         pwd: distDir,
-        //
         config: webExtension,
       },
-      { onLast: () => null as any },
+      { onLast: () => null },
     );
   }
 
@@ -81,10 +80,14 @@ export class CustomServer {
   getServerMiddleware(): Middleware {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
+      const serverMiddleware = await this.serverMiddlewarePromise;
+      if (!serverMiddleware) {
+        return next();
+      }
+
       const customMiddlewareCtx = createCustomMiddlewaresCtx(c);
 
       // TODO: add server timing report
-      const serverMiddleware = await this.serverMiddlewarePromise;
       await serverMiddleware(customMiddlewareCtx);
       // TODO: set locals to honoContext
 

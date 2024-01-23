@@ -100,8 +100,8 @@ export async function bindRenderHandler(
 
     // warn ssr bundles
     const ssrBundles = routes
-      .filter(route => route.isSSR)
-      .map(route => route.bundle);
+      .filter(route => route.isSSR && route.bundle)
+      .map(route => path.join(distDir, route.bundle!));
     warmup(ssrBundles);
 
     const pageRoutes = routes.filter(route => !route.isApi);

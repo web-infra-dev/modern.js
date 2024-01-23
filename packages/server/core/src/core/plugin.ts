@@ -65,7 +65,10 @@ const prepareLoaderHandler = createAsyncPipeline<
   LoaderHandler
 >();
 
-const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
+const prepareWebServer = createAsyncPipeline<
+  WebServerStartInput,
+  WebAdapter | null
+>();
 
 export type APIServerStartInput = {
   pwd: string;
