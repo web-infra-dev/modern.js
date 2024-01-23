@@ -90,13 +90,18 @@ export async function createSSRHandler({
     const render = jsBundle[SERVER_RENDER_FUNCTION_NAME];
 
     // TODO: streaming ssr
-    const ssrResult: string = render(ssrContext);
+    const ssrResult: string | ReadableStream = await render(ssrContext);
 
     const { redirection } = ssrContext;
     if (redirection.url) {
       return c.redirect(redirection.url, redirection.status);
     }
 
-    return c.html(ssrResult);
+    return c.body(ssrResult, {
+      status: 200,
+      headers: {
+        'content-type': 'text/html; charset=UTF-8',
+      },
+    });
   };
 }
