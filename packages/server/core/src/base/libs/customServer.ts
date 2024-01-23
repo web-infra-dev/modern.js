@@ -2,7 +2,9 @@ import type { IncomingMessage, ServerResponse } from 'http';
 import {
   AfterMatchContext,
   AfterRenderContext,
+  Metrics,
   MiddlewareContext,
+  Logger,
 } from '@modern-js/types';
 import { HonoContext, HonoNodeEnv } from '../types';
 import { createBaseHookContext } from './hook/base';
@@ -12,8 +14,10 @@ import { TemplateApi } from './hook/template';
 export function createAfterMatchCtx(
   c: HonoContext,
   entryName: string,
+  logger: Logger,
+  metrics?: Metrics,
 ): AfterMatchContext {
-  const baseContext = createBaseHookContext(c);
+  const baseContext = createBaseHookContext(c, logger, metrics);
 
   return {
     ...baseContext,
@@ -21,9 +25,12 @@ export function createAfterMatchCtx(
   };
 }
 
-export function createAfterRenderCtx(c: HonoContext): AfterRenderContext {
-  const baseContext = createBaseHookContext(c);
-
+export function createAfterRenderCtx(
+  c: HonoContext,
+  logger: Logger,
+  metrics?: Metrics,
+): AfterRenderContext {
+  const baseContext = createBaseHookContext(c, logger, metrics);
   return {
     ...baseContext,
     template: new TemplateApi(c),
@@ -32,8 +39,10 @@ export function createAfterRenderCtx(c: HonoContext): AfterRenderContext {
 
 export function createCustomMiddlewaresCtx(
   c: HonoContext<HonoNodeEnv>,
+  logger: Logger,
+  metrics?: Metrics,
 ): MiddlewareContext {
-  const baseContext = createBaseHookContext(c);
+  const baseContext = createBaseHookContext(c, logger, metrics);
 
   return {
     ...baseContext,

@@ -81,14 +81,14 @@ export function createSSRTracker({
 }: BaseSSRServerContext) {
   const tracker = {
     get sessionId() {
-      return reporter.sessionId;
+      return reporter?.sessionId;
     },
     trackError(key: SSRErrors, e: Error) {
       const { reporter: reporterContent, logger: loggerContent } = errors[key];
 
       // unit add `SSR Error - `prefix
       reporterContent &&
-        reporter.reportError(`SSR Error - ${reporterContent}`, e);
+        reporter?.reportError(`SSR Error - ${reporterContent}`, e);
       loggerContent && logger.error(loggerContent, e);
     },
     trackTiming(key: SSRTimings, cost: number) {
@@ -98,7 +98,7 @@ export function createSSRTracker({
         logger: loggerName,
       } = timings[key];
 
-      reporterName && reporter.reportTiming(reporterName, cost);
+      reporterName && reporter?.reportTiming(reporterName, cost);
       serverTimingName && serverTiming.addServeTiming(serverTimingName, cost);
       loggerName && logger.debug(loggerName, cost);
     },

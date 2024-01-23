@@ -123,7 +123,7 @@ export const routerPlugin = ({
             requestContext,
           });
           const cost = end();
-          reporter.reportTiming(LOADER_REPORTER_NAME, cost);
+          reporter?.reportTiming(LOADER_REPORTER_NAME, cost);
           serverTiming.addServeTiming(LOADER_REPORTER_NAME, cost);
 
           if (routerContext instanceof Response) {

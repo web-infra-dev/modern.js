@@ -7,8 +7,8 @@ import {
 } from '@modern-js/utils';
 import { Logger, ServerRoute } from '@modern-js/types';
 import * as isbot from 'isbot';
-import { Middleware, SSRServerContext } from '../types';
-import { defaultMetrics, defaultReporter } from '../libs/default';
+import { HonoNodeEnv, Middleware, SSRServerContext } from '../types';
+import { defaultReporter } from '../libs/default';
 import { getHost } from '../libs/utils';
 import { ServerTiming } from '../libs/serverTiming';
 
@@ -30,7 +30,7 @@ export async function createSSRHandler({
   nonce,
   metaName,
   logger,
-}: SSRHandlerOptions): Promise<Middleware> {
+}: SSRHandlerOptions): Promise<Middleware<HonoNodeEnv>> {
   const { entryName } = routeInfo;
   const jsBundlePath = path.join(distDir, routeInfo.bundle!);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
@@ -69,23 +69,18 @@ export async function createSSRHandler({
         // FIXME: get locals from somewhere
         locals: {},
       },
-
       redirection: {},
       template: html,
       loadableStats,
       routeManifest, // for streaming ssr
       entryName: entryName!,
       staticGenerate,
-
-      // TODO: get logger, metrics, reporter from server.
+      // TODO: get reporter from server.
       logger,
-      metrics: defaultMetrics as any,
       reporter: defaultReporter,
       serverTiming: new ServerTiming(c, metaName),
-
-      // FIXME: this req, res is NodeReq, NodeRes
-      req: c.req as any,
-      res: c.res as any,
+      req: c.env.node?.req,
+      res: c.env.node?.res,
       isSpider,
       nonce,
     };

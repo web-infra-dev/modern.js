@@ -1,4 +1,4 @@
-import { Middleware, ServerHookRunner } from '../types';
+import { Metrics, Middleware, ServerHookRunner, Logger } from '../types';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
@@ -11,12 +11,25 @@ const noop = () => {};
 export class CustomServer {
   private runner: ServerHookRunner;
 
+  private logger: Logger;
+
+  private metrics?: Metrics;
+
   private serverMiddlewarePromise: ReturnType<
     ServerHookRunner['prepareWebServer']
   >;
 
-  constructor(runner: ServerHookRunner, distDir: string) {
+  constructor(
+    runner: ServerHookRunner,
+    distDir: string,
+    logger: Logger,
+    metrics?: Metrics,
+  ) {
     this.runner = runner;
+
+    this.metrics = metrics;
+
+    this.logger = logger;
 
     // The webExtension is deprecated, so we give a empty array to it.
     const webExtension: any[] = [];
@@ -36,7 +49,12 @@ export class CustomServer {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
-      const afterMatchCtx = createAfterMatchCtx(c, entryName);
+      const afterMatchCtx = createAfterMatchCtx(
+        c,
+        entryName,
+        this.logger,
+        this.metrics,
+      );
 
       // TODO: reportTiming
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
@@ -69,8 +87,7 @@ export class CustomServer {
       await next();
 
       // afterRenderHook
-
-      const afterRenderCtx = createAfterRenderCtx(c);
+      const afterRenderCtx = createAfterRenderCtx(c, this.logger, this.metrics);
 
       // TODO: repoteTiming
       await this.runner.afterRender(afterRenderCtx, { onLast: noop });
@@ -85,7 +102,11 @@ export class CustomServer {
         return next();
       }
 
-      const customMiddlewareCtx = createCustomMiddlewaresCtx(c);
+      const customMiddlewareCtx = createCustomMiddlewaresCtx(
+        c,
+        this.logger,
+        this.metrics,
+      );
 
       // TODO: add server timing report
       await serverMiddleware(customMiddlewareCtx);
