@@ -31,7 +31,7 @@
       "default": "./dist/cjs/index.js"
     },
     "./base": {
-      "types": "./dist/types/base/index.d.ts",
+      "types": "./base/index.ts",
       "jsnext:source": "./src/base/index.ts",
       "default": "./dist/cjs/base/index.js"
     }
@@ -81,6 +81,22 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "node": {
+          "jsnext:source": "./src/index.ts",
+          "import": "./dist/esm/index.js",
+          "require": "./dist/cjs/index.js"
+        },
+        "default": "./dist/cjs/index.js"
+      },
+      "./base": {
+        "types": "./dist/types/base/index.d.ts",
+        "jsnext:source": "./src/base/index.ts",
+        "default": "./dist/cjs/base/index.js"
+      }
+    }
   }
 }
