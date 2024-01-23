@@ -114,9 +114,16 @@ export async function bindRenderHandler(
       .map(route => path.join(distDir, route.bundle!));
     warmup(ssrBundles);
 
-    const pageRoutes = routes.filter(route => !route.isApi);
+    const pageRoutes = routes
+      .filter(route => !route.isApi)
+      // ensure route.urlPath.length diminishing
+      .sort((a, b) => b.urlPath.length - a.urlPath.length);
+
     for (const route of pageRoutes) {
-      const { urlPath, entryName } = route;
+      const { urlPath: originUrlPath, entryName } = route;
+      const urlPath = originUrlPath.endsWith('/')
+        ? `${originUrlPath}*`
+        : `${originUrlPath}/*`;
 
       const handler = await createRenderHandler({
         distDir,
