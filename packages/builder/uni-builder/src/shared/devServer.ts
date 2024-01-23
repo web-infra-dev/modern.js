@@ -7,7 +7,10 @@ import {
   deepmerge,
   mergeChainedOptions,
 } from '@rsbuild/shared';
-import type { ModernDevServerOptionsNew } from '@modern-js/server';
+import type {
+  ModernDevServerOptionsNew,
+  CreateProdServer,
+} from '@modern-js/server';
 import type { Server } from 'node:http';
 import { type ModernServerOptions } from '@modern-js/prod-server';
 import { UniBuilderConfig } from '../types';
@@ -82,6 +85,7 @@ export type StartDevServerOptions = Omit<
   apiOnly?: boolean;
   defaultPort?: number;
   serverOptions?: ServerOptions;
+  createProdServer?: CreateProdServer;
 };
 
 export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
@@ -94,6 +98,10 @@ export async function startDevServer(
   builderConfig: UniBuilderConfig,
 ) {
   debug('create dev server');
+
+  if (!options.createProdServer) {
+    throw new Error('Must pass function: createProdServer');
+  }
 
   const { createDevServer } = await import('@modern-js/server');
 
@@ -111,18 +119,21 @@ export async function startDevServer(
     ? undefined
     : await rsbuildServer.startCompile();
 
-  const server = await createDevServer({
-    pwd: rsbuild.context.rootPath,
-    ...serverOptions,
-    rsbuild,
-    getMiddlewares: config =>
-      rsbuildServer.getMiddlewares({
-        compileMiddlewareAPI,
-        overrides: config,
-      }),
-    dev: devConfig,
-    config,
-  });
+  const server = await createDevServer(
+    {
+      pwd: rsbuild.context.rootPath,
+      ...serverOptions,
+      rsbuild,
+      getMiddlewares: config =>
+        rsbuildServer.getMiddlewares({
+          compileMiddlewareAPI,
+          overrides: config,
+        }),
+      dev: devConfig,
+      config,
+    },
+    options.createProdServer,
+  );
 
   const {
     config: { port, host },

@@ -101,7 +101,9 @@ export const dev = async (
   } else {
     const { server } = await appContext.builder!.startDevServer({
       serverOptions: serverOptions as any,
+      createProdServer: createServer,
     });
-    setServer(server);
+    // TODO: set correct server
+    setServer(server as any);
   }
 };

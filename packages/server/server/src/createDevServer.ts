@@ -9,7 +9,7 @@ import { DevMiddlewaresConfig } from '@rsbuild/shared';
 import { ServerRoute } from '@modern-js/types';
 import { SSR } from '@modern-js/server-core';
 import {
-  CreateNodeServer,
+  CreateProdServer,
   DevServerOptions,
   ModernDevServerOptionsNew,
 } from './types';
@@ -64,7 +64,7 @@ const isUseSSRPreload = (conf: ModernDevServerOptionsNew['config']) => {
 
 export const createDevServer = async (
   options: ModernDevServerOptionsNew,
-  createNodeServer: CreateNodeServer,
+  createProdServer: CreateProdServer,
 ): Promise<NodeServer> => {
   const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
 
@@ -105,7 +105,7 @@ export const createDevServer = async (
     });
   }
 
-  const nodeServer = await createNodeServer(options, server);
+  const nodeServer = await createProdServer(options, server);
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done

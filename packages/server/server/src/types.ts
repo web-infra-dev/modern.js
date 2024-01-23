@@ -76,7 +76,7 @@ export type ExtraOptionsNew = {
 
 export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;
 
-export type CreateNodeServer = (
+export type CreateProdServer = (
   options: ServerBaseOptions,
   serverBase: ServerBase,
 ) => Promise<NodeServer>;
