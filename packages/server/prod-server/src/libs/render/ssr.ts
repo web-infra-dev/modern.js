@@ -13,7 +13,7 @@ import { createAfterStreamingRenderContext } from '../hook-api';
 import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
 import type { ModernRoute } from '../route';
 import { RenderFunction, SSRServerContext } from './type';
-import { createLogger, createMetrics } from './measure';
+// import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
 import { ssrCache } from './ssrCache';
 
@@ -76,7 +76,6 @@ export const render = async (
     entryName,
     staticGenerate,
     logger: undefined!,
-    metrics: undefined!,
     reporter: ctx.reporter,
     serverTiming: ctx.serverTiming,
     req: ctx.req,
@@ -85,8 +84,8 @@ export const render = async (
     isSpider,
     nonce,
   };
-  context.logger = createLogger(context, ctx.logger);
-  context.metrics = createMetrics(context, ctx.metrics);
+  // context.logger = createLogger(context, ctx.logger);
+  // context.metrics = createMetrics(context, ctx.metrics);
 
   runner.extendSSRContext(context);
   const bundleJSContent = await Promise.resolve(require(bundleJS));

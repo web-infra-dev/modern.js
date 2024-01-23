@@ -2,11 +2,12 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
-import { ServerRoute, Logger } from '@modern-js/types';
+import { ServerRoute, Logger, Metrics } from '@modern-js/types';
 import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
+import { getRuntimeEnv } from '../libs/utils';
 import { createSSRHandler } from './ssrHandler';
 
 export interface CreateRenderHOptions {
@@ -14,6 +15,7 @@ export interface CreateRenderHOptions {
   distDir: string;
   metaName: string;
   logger: Logger;
+
   // for use-loader api when ssg
   staticGenerate?: boolean;
   forceCSR?: boolean;
@@ -28,6 +30,7 @@ async function createRenderHandler(
     routeInfo,
     distDir,
     logger,
+
     staticGenerate = false,
   } = options;
 
@@ -87,16 +90,23 @@ function getRenderMode(
 export async function bindRenderHandler(
   server: ServerBase,
   distDir: string,
-  options: Omit<ServerBaseOptions, 'app'>,
+  options: Omit<ServerBaseOptions, 'app'> & {
+    metrics?: Metrics;
+  },
 ) {
-  const { config, routes } = options;
+  const { config, routes, metrics } = options;
 
   const { runner } = server;
   if (routes && routes.length > 0) {
     // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-    const customServer = new CustomServer(runner, distDir);
+    const customServer = new CustomServer(
+      runner,
+      distDir,
+      server.logger,
+      metrics,
+    );
 
     // warn ssr bundles
     const ssrBundles = routes
@@ -126,8 +136,7 @@ export async function bindRenderHandler(
       const serverDir = path.join(distDir, SERVER_DIR);
 
       // TODO: onlyApi
-      // FIXME: bind with node runtime
-      if (existsSync(serverDir)) {
+      if (getRuntimeEnv() === 'node' && existsSync(serverDir)) {
         const customServerMiddleware = customServer.getServerMiddleware();
         server.use(urlPath, customServerMiddleware);
       }
