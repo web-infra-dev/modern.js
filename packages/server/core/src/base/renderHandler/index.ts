@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
+import { ServerRoute, Logger } from '@modern-js/types';
 import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
@@ -13,7 +13,7 @@ export interface CreateRenderHOptions {
   routeInfo: ServerRoute;
   distDir: string;
   metaName: string;
-
+  logger: Logger;
   // for use-loader api when ssg
   staticGenerate?: boolean;
   forceCSR?: boolean;
@@ -27,6 +27,7 @@ async function createRenderHandler(
     metaName,
     routeInfo,
     distDir,
+    logger,
     staticGenerate = false,
   } = options;
 
@@ -50,6 +51,7 @@ async function createRenderHandler(
             mode: routeInfo.isStream ? 'stream' : 'string',
             routeInfo,
             metaName,
+            logger,
           });
 
     return handler(c, _);
@@ -112,6 +114,7 @@ export async function bindRenderHandler(
         staticGenerate: options.staticGenerate,
         forceCSR,
         metaName: options.metaName || 'modern.js',
+        logger: server.logger,
       });
 
       const customServerHookMiddleware = customServer.getHookMiddleware(

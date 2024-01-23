@@ -10,7 +10,6 @@ import type {
   BaseSSRServerContext,
   ServerRoute,
 } from '@modern-js/types';
-import { Logger as LocalLogger } from '@modern-js/utils/logger';
 import { ServerOptions } from '@config/index';
 import { ServerPlugin, serverManager } from '@core/plugin';
 import { MiddlewareHandler } from 'hono';
@@ -39,7 +38,7 @@ export type ServerBaseOptions = {
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
   staticGenerate?: boolean;
-  logger?: LocalLogger;
+  logger?: Logger;
   metrics?: Metrics;
   apiOnly?: boolean;
   ssrOnly?: boolean;
