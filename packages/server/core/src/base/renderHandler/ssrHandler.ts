@@ -5,14 +5,10 @@ import {
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
+import { Logger, ServerRoute } from '@modern-js/types';
 import * as isbot from 'isbot';
 import { Middleware, SSRServerContext } from '../types';
-import {
-  defaultLogger,
-  defaultMetrics,
-  defaultReporter,
-} from '../libs/default';
+import { defaultMetrics, defaultReporter } from '../libs/default';
 import { getHost } from '../libs/utils';
 import { ServerTiming } from '../libs/serverTiming';
 
@@ -23,6 +19,7 @@ export interface SSRHandlerOptions {
   routeInfo: ServerRoute;
   staticGenerate: boolean;
   metaName: string;
+  logger: Logger;
   nonce?: string;
 }
 export async function createSSRHandler({
@@ -32,6 +29,7 @@ export async function createSSRHandler({
   distDir,
   nonce,
   metaName,
+  logger,
 }: SSRHandlerOptions): Promise<Middleware> {
   const { entryName } = routeInfo;
   const jsBundlePath = path.join(distDir, routeInfo.bundle!);
@@ -80,7 +78,7 @@ export async function createSSRHandler({
       staticGenerate,
 
       // TODO: get logger, metrics, reporter from server.
-      logger: defaultLogger,
+      logger,
       metrics: defaultMetrics as any,
       reporter: defaultReporter,
       serverTiming: new ServerTiming(c, metaName),

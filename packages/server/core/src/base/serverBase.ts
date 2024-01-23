@@ -10,9 +10,9 @@ import {
   fs,
   isWebOnly,
 } from '@modern-js/utils';
-import { ISAppContext } from '@modern-js/types';
+import { ISAppContext, Logger } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
-import { Hono } from 'hono';
+import { Hono, HonoRequest } from 'hono';
 import {
   APIServerStartInput,
   AppContext,
@@ -48,10 +48,21 @@ declare module '@modern-js/types' {
   }
 }
 
+export enum ErrorDigest {
+  ENOTF = 'Page could not be found',
+  EINTER = 'Internal server error',
+  // INIT: 'Server init error',
+  // WARMUP: 'SSR warmup failed',
+  // ERENDER: 'SSR render failed',
+  // EMICROINJ: 'Get micro-frontend info failed',
+}
+
 export class ServerBase {
   public options: ServerBaseOptions;
 
   public runner!: ServerHookRunner;
+
+  public logger: Logger;
 
   private workDir: string;
 
@@ -64,9 +75,11 @@ export class ServerBase {
   private conf: ServerOptions;
 
   constructor(options: ServerBaseOptions) {
+    // FIXME: createLogger only can run node runtime
     options.logger = options.logger || createLogger({ level: 'warn' });
     options.metrics = options.metrics || defaultMetrics;
     this.options = options;
+    this.logger = options.logger;
 
     this.app = new Hono<HonoNodeEnv>();
     this.serverConfig = {};
@@ -76,12 +89,12 @@ export class ServerBase {
     this.conf = config;
 
     this.app.notFound(c => {
+      this.onError(ErrorDigest.ENOTF, '404 not found', c.req);
       return c.html(createErrorHtml(404), 404);
     });
 
-    this.app.onError((_err, c) => {
-      console.error(_err);
-      // TODO: repoter error.
+    this.app.onError((err, c) => {
+      this.onError(ErrorDigest.EINTER, err, c.req);
       return c.html(createErrorHtml(500), 500);
     });
   }
@@ -303,6 +316,26 @@ export class ServerBase {
       serverConfig: finalServerConfig,
       resolvedConfigPath,
     });
+  }
+
+  private onError(
+    digest: ErrorDigest,
+    error: Error | string,
+    req?: HonoRequest,
+  ) {
+    const header = req?.header();
+
+    // delete the cookie
+    delete header?.cookie;
+
+    this.logger.error(
+      req
+        ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
+        : `Server Error - ${digest}, error = %s`,
+      error instanceof Error ? error.stack || error.message : error,
+      req?.path,
+      header,
+    );
   }
 
   get use() {
