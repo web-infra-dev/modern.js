@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { Readable } from 'node:stream';
 import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
@@ -11,6 +12,7 @@ import { HonoNodeEnv, Middleware, SSRServerContext } from '../types';
 import { defaultReporter } from '../libs/default';
 import { getHost } from '../libs/utils';
 import { ServerTiming } from '../libs/serverTiming';
+import { createReadableStreamFromReadable } from '../adapters/stream';
 
 export interface SSRHandlerOptions {
   distDir: string;
@@ -89,15 +91,22 @@ export async function createSSRHandler({
     const jsBundle = await import(jsBundlePath);
     const render = jsBundle[SERVER_RENDER_FUNCTION_NAME];
 
-    // TODO: streaming ssr
-    const ssrResult: string | ReadableStream = await render(ssrContext);
+    // FIXME: render should return string | ReadableStream
+    const ssrResult: string | ReadableStream | Readable = await render(
+      ssrContext,
+    );
 
     const { redirection } = ssrContext;
     if (redirection.url) {
       return c.redirect(redirection.url, redirection.status);
     }
 
-    return c.body(ssrResult, {
+    const data =
+      ssrResult instanceof Readable
+        ? createReadableStreamFromReadable(ssrResult)
+        : ssrResult;
+
+    return c.body(data, {
       status: 200,
       headers: {
         'content-type': 'text/html; charset=UTF-8',
