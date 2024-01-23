@@ -185,11 +185,13 @@ describe('plugin-garfish', () => {
     unmount();
   });
 
-  test('useModuleApps hook should set basename for sub-app correctly', async () => {
+  test('useModuleApps hook should set basename for sub-app automatically by createHref', async () => {
     const basenameTest = {
       name: 'BasenameTest',
       activeWhen: '/basename-test',
       entry: basenameTestPath,
+
+      cache: false,
     };
 
     const microFrontendConfig = {
@@ -202,7 +204,7 @@ describe('plugin-garfish', () => {
         },
       },
     };
-    window.location.assign('/main-app/basename-test');
+    window.location.assign('/main-app/basename-test/basename-test');
 
     const App = () => {
       const HomeTitle = 'Micro home page';
@@ -260,6 +262,58 @@ describe('plugin-garfish', () => {
 
     expect(
       await screen.findByText('sub-app basename: /main-app/basename-test'),
+    ).toBeInTheDocument();
+  });
+
+  test('useModuleApps sub-app basename can be set by user defineConfig masterApp.apps options', async () => {
+    const basenameTest = {
+      name: 'BasenameTest',
+      activeWhen: '/basename-appInfo-options',
+      entry: basenameTestPath,
+
+      // Each test does not affect with each other.
+      cache: false,
+    };
+
+    const microFrontendConfig = {
+      apps: [basenameTest],
+      manifest: {
+        loadable: {
+          loading: () => {
+            return <div data-testid="loading-id">loading</div>;
+          },
+        },
+      },
+      basename: '/main-app',
+    };
+    window.location.assign('/main-app/basename-appInfo-options/some-test');
+
+    const App = () => {
+      const { BasenameTest } = useModuleApps();
+      const LocationDisplay = () => {
+        const location = useLocation();
+        return <div data-testid="location-display">{location.pathname}</div>;
+      };
+
+      return (
+        <BrowserRouter basename="/main-app" forceRefresh>
+          <BasenameTest useLocation={useLocation} />
+          <LocationDisplay />
+        </BrowserRouter>
+      );
+    };
+
+    await act(async () => {
+      const AppWrapper = createApp({
+        plugins: [garfishPlugin(microFrontendConfig)],
+      })(App);
+      render(<AppWrapper />, {});
+    });
+
+    expect(
+      await screen.findByText(
+        'sub-app basename: /main-app/basename-appInfo-options',
+      ),
     ).toBeInTheDocument();
   });
 });
