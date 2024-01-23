@@ -1,7 +1,7 @@
 import { Server as NodeServer } from 'node:http';
 import {
   createServerBase,
-  httpCallBack2HonoMid,
+  connectMid2HonoMid,
   registerMockHandler,
 } from '@modern-js/server-core/base';
 
@@ -101,7 +101,7 @@ export const createDevServer = async (
     rsbuildMiddlewares.forEach(middleware => {
       // TODO: modify httpCallBack2HonoMid
       // @ts-expect-error-error
-      server.use(httpCallBack2HonoMid(middleware));
+      server.use(connectMid2HonoMid(middleware));
     });
   }
 

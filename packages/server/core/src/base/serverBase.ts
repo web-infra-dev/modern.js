@@ -174,7 +174,6 @@ export class ServerBase {
       return this.get(
         `${prefix}/*`,
         // TODO: need to refractor bff plugin
-        // @ts-expect-error
         httpCallBack2HonoMid((req, res) => {
           res.setHeader('Content-Type', 'text/plain');
           res.end(JSON.stringify(''));
@@ -193,7 +192,6 @@ export class ServerBase {
     );
 
     // TODO: need to refractor bff plugin
-    // @ts-expect-error
     // eslint-disable-next-line consistent-return
     return this.app.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
   }
