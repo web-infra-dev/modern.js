@@ -235,6 +235,36 @@ import BuildOtherFAQ from '@site-docs/components/faq-build-other';
 
 <BuildOtherFAQ />
 
+### bundleless 如何跳过对 less / scss 文件的预处理
+
+bundleless 是单文件编译的方式，只需要将你的 less / scss 文件从入口里移除并且将其拷贝到产物里即可。
+注意我们还会把 js 引用 less / scss 的 moduleId 进行改写，你可以通过 [redirect](/api/config/build-config#redirect) 配置关闭它。
+
+下面是一个跳过 less 文件处理的例子，你会发现 src 里面所有的 less 文件都被拷贝到 dist 里并且保留了一致的相对路径。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildType: 'bundleless',
+  buildConfig: {
+    input: ['src', '!src/**/*.less'],
+    redirect: {
+      style: false,
+    },
+    copy: {
+      patterns: [
+        {
+          from: './**/*.less',
+          to: './',
+        },
+      ],
+      options: {
+        enableCopySync: true,
+      },
+    },
+  },
+});
+```
+
 ### 增加额外的编译能力
 
 Modern.js Module 基于 esbuild 实现，因此如果有特殊需求或者想要增加额外的编译能力，可以通过实现 esbuild 插件来解决。

@@ -198,9 +198,9 @@ module.exports = {
                 return options;
               });
           },
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };
 ```
@@ -212,7 +212,7 @@ For source code files, it is recommended to fix the type problem, which can bett
 
 1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
 2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check,
-so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
+   so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
 
 ### Bundle DTS failed
 
@@ -237,6 +237,36 @@ Check if the [`include`](https://www.typescriptlang.org/tsconfig#include) config
 import BuildOtherFAQ from '@site-docs-en/components/faq-build-other';
 
 <BuildOtherFAQ />
+
+### How to skip the pre-processing of less/scss files with bundleless
+
+Bundleless is a single-file compilation method. You just need to remove your less/scss files from the entry and copy them to the output.
+Note that we will also rewrite the moduleId of js referencing less/scss, turn it off through the [redirect](/api/config/build-config#redirect) plugin.
+
+Below is an example of skipping less file processing. You will find that all less files in src are copied to dist and the relative path is preserved.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/**/*.less'],
+    redirect: {
+      style: false,
+    },
+    copy: {
+      patterns: [
+        {
+          from: './**/*.less',
+          to: './',
+        },
+      ],
+      options: {
+        enableCopySync: true,
+      },
+    },
+  },
+});
+```
 
 ### Add additional compilation feature
 
