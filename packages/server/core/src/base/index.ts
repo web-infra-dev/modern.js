@@ -12,7 +12,7 @@ export * from './middlewares';
 export { httpCallBack2HonoMid };
 export type { ServerNodeContext, ServerBaseOptions, Next };
 export { registerMockHandler };
-export { createNodeServer };
+export { createNodeServer, ServerBase };
 
 export async function createServerBase(
   options: Omit<ServerBaseOptions, 'app'>,

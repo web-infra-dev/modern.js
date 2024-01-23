@@ -1,4 +1,4 @@
-import { Server, createServer, ServerResponse } from 'node:http';
+import { Server as NodeServer, createServer, ServerResponse } from 'node:http';
 import { NodeRequest, NodeResponse } from '@core/plugin';
 import { RequestHandler } from '../types';
 import { ServerBase } from '../serverBase';
@@ -108,21 +108,21 @@ const getRequestListener = (handler: RequestHandler) => {
   };
 };
 
-export const createNodeServer = (
+export const createNodeServer = async (
   handleRequest: RequestHandler,
   serverBase: ServerBase,
-): Server => {
+): Promise<NodeServer> => {
   const requestListener = getRequestListener(handleRequest);
   const nodeServer = createServer(requestListener);
 
-  afterCreateNodeServer(nodeServer, serverBase);
+  await afterCreateNodeServer(nodeServer, serverBase);
   return Object.assign(nodeServer, {
     getRequestHandler: () => requestListener,
   });
 };
 
 async function afterCreateNodeServer(
-  nodeServer: Server,
+  nodeServer: NodeServer,
   serverBase: ServerBase,
 ) {
   await serverBase.runner.beforeServerInit({
