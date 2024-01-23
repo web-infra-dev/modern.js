@@ -17,7 +17,29 @@ export interface AppMap {
   [key: string]: React.FC<MicroComponentProps>;
 }
 
-function getAppInstance(appInfo: ModulesInfo[number], manifest?: Manifest) {
+export function pathJoin(...args: string[]) {
+  const res = args.reduce((res, path: string) => {
+    let nPath = path;
+    if (!nPath || typeof nPath !== 'string') {
+      return res;
+    }
+    if (nPath[0] !== '/') {
+      nPath = `/${nPath}`;
+    }
+    const lastIndex = nPath.length - 1;
+    if (nPath[lastIndex] === '/') {
+      nPath = nPath.substring(0, lastIndex);
+    }
+    return res + nPath;
+  }, '');
+  return res || '/';
+}
+
+function getAppInstance(
+  options: typeof Garfish.options,
+  appInfo: ModulesInfo[number],
+  manifest?: Manifest,
+) {
   let locationHref = '';
   function MicroApp(props: MicroProps) {
     const appRef = useRef<interfaces.App | null>(null);
@@ -33,7 +55,7 @@ function getAppInstance(appInfo: ModulesInfo[number], manifest?: Manifest) {
     const isRouterV5 = Boolean(useHistory);
 
     if (!useLocation) {
-      throw new Error(
+      console.warn(
         `[@modern-js/plugin-garfish] Detected that the 'router: false' mode is used. In this case, the basename and popStateEvent cannot be correctly passed to the sub-app.
 You can manually pass 'useLocation' and 'useHref' props to assist plugin-garfish in calculating the "basename" and sync popStateEvent:
 if you are using react-router-V6:
@@ -51,24 +73,39 @@ or directly pass the "basename":
     let basename = '';
     const activeWhen = appInfo.activeWhen as string;
 
-    // there is no dynamic switching of the router version in the project
-    // so hooks can be used in conditional judgment
+    // 1. options.basename in edenx.config.ts
+    /**
+     * e.g:
+    masterApp: {
+      basename: '/main-app-basename'
+    },
+     */
+    if (options?.basename && typeof options.basename === 'string') {
+      basename = pathJoin(options.basename, activeWhen);
+    }
+
+    // 2. use hooks to calculate the basename automatically
     if (isRouterV5) {
+      // there is no dynamic switching of the router version in the project
+      // so hooks can be used in conditional judgment
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const history = useHistory?.();
-      // Be compatible to history@4.10.1 and @5.3.0
+      // To be compatible to history@4.10.1 and @5.3.0 we cannot write like this `history.createHref(pathname)`
       basename = history?.createHref?.({ pathname: activeWhen });
-    } else {
+    } else if (useHref) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       basename = useHref?.(activeWhen);
     }
 
+    // 3. props.basename
     // props.basename has the highest priority
+    // e.g: <Component basename={basename} useLocation={useLocation} />
     if (props.basename && typeof props.basename === 'string') {
       // eslint-disable-next-line prefer-destructuring
       basename = props.basename;
     }
 
+    // useLocation is NECESSARY in syncPopStateEvent
     useEffect(() => {
       if (location && locationHref !== location.pathname && !Garfish.running) {
         locationHref = location.pathname;
@@ -83,14 +120,14 @@ or directly pass the "basename":
       const { setLoadingState, ...userProps } = props;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
-        ...appInfo,
+        cache: true,
         insulationVariable: [
           ...(appInfo.insulationVariable || []),
           '_SERVER_DATA',
         ],
         domGetter: `#${domId}`,
+        ...appInfo,
         basename,
-        cache: true,
         props: {
           ...appInfo.props,
           ...userProps,
@@ -207,7 +244,7 @@ export function generateApps(
 } {
   const apps: AppMap = {};
   options.apps?.forEach(appInfo => {
-    const Component = getAppInstance(appInfo, manifest);
+    const Component = getAppInstance(options, appInfo, manifest);
     (appInfo as any).Component = Component;
     apps[appInfo.name] = Component as any;
   });
