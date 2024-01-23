@@ -75,6 +75,7 @@ export class ServerBase {
   private conf: ServerOptions;
 
   constructor(options: ServerBaseOptions) {
+    // FIXME: createLogger only can run node runtime
     options.logger = options.logger || createLogger({ level: 'warn' });
     options.metrics = options.metrics || defaultMetrics;
     this.options = options;
