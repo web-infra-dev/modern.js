@@ -30,10 +30,9 @@ async function createRenderHandler(
     staticGenerate = false,
   } = options;
 
-  const htmlPath = path.join(distDir, routeInfo.entryPath);
-  const html = await readFile(htmlPath, 'utf-8');
-
   return async (c, _) => {
+    const htmlPath = path.join(distDir, routeInfo.entryPath);
+    const html = await readFile(htmlPath, 'utf-8');
     const renderMode = getRenderMode(
       c.req,
       metaName,
@@ -103,7 +102,8 @@ export async function bindRenderHandler(
       .map(route => route.bundle);
     warmup(ssrBundles);
 
-    for (const route of routes) {
+    const pageRoutes = routes.filter(route => !route.isApi);
+    for (const route of pageRoutes) {
       const { urlPath, entryName } = route;
 
       const handler = await createRenderHandler({

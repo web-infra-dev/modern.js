@@ -80,6 +80,7 @@ export class ServerBase {
     });
 
     this.app.onError((_err, c) => {
+      console.error(_err);
       // TODO: repoter error.
       return c.html(createErrorHtml(500), 500);
     });
