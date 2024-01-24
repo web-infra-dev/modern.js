@@ -9,8 +9,9 @@ import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
 import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
-import { $client, bridge } from '@/entries/mount/state';
+import { $client, bridge, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
+import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 
 export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   const logoSrc = props.def.assets.logo;
@@ -38,10 +39,19 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   });
 
   useEffect(() => {
-    const handleStartInspecting = () => toggleDevtools(false);
+    const handleStartInspecting = () => {
+      toggleDevtools(false);
+    };
     bridge.addListener('startInspectingNative', handleStartInspecting);
+
+    const handleBeforeWallSend: ReactDevtoolsWallListener = e => {
+      e.event === 'stopInspectingNative' && toggleDevtools(true);
+    };
+    wallAgent.hook('send', handleBeforeWallSend);
+
     return () => {
       bridge.removeListener('startInspectingNative', handleStartInspecting);
+      wallAgent.removeHook('send', handleBeforeWallSend);
     };
   }, []);
 
@@ -67,15 +77,13 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
           />
         </div>
       </Visible>
-      <Flex asChild align="center">
-        <div className={styles.fab} {...draggable.props}>
-          <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
-            <img className={styles.logo} src={logoSrc}></img>
-          </DevtoolsCapsuleButton>
-          <DevtoolsCapsuleButton onClick={handleClickInspect}>
-            <HiMiniCursorArrowRipple />
-          </DevtoolsCapsuleButton>
-        </div>
+      <Flex className={styles.fab} {...draggable.props} align="center">
+        <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
+          <img className={styles.logo} src={logoSrc}></img>
+        </DevtoolsCapsuleButton>
+        <DevtoolsCapsuleButton onClick={handleClickInspect}>
+          <HiMiniCursorArrowRipple />
+        </DevtoolsCapsuleButton>
       </Flex>
     </Theme>
   );

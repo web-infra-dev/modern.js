@@ -8,11 +8,14 @@ export interface ReactDevtoolsWallEvent {
   transferable?: any[] | undefined;
 }
 
-export type ReactDevtoolsWallListener = (event: ReactDevtoolsWallEvent) => void;
+export type ReactDevtoolsWallListener = (
+  event: ReactDevtoolsWallEvent,
+  ...rest: unknown[]
+) => void;
 
 export type WallAgentHooks = Record<
   'send' | 'receive',
-  (...args: any[]) => void
+  ReactDevtoolsWallListener
 >;
 
 export type BirpcReturnLike = Record<string, (...args: any[]) => void> & {
@@ -36,8 +39,11 @@ export class WallAgent extends Hookable<WallAgentHooks> implements Wall {
 
   bindRemote(remote: BirpcReturn<object, object>, methodName: string) {
     const _remote = remote as any;
-    _remote.$functions[methodName] = (...args: any[]) => {
-      this.callHook('receive', ...args);
+    _remote.$functions[methodName] = (
+      event: ReactDevtoolsWallEvent,
+      ...rest: unknown[]
+    ) => {
+      this.callHook('receive', event, ...rest);
     };
     this.hook('send', (...args) => {
       _remote[methodName](...args);
