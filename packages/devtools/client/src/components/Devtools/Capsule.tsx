@@ -1,6 +1,6 @@
 import { SetupClientParams } from '@modern-js/devtools-kit';
 import { Flex, Theme } from '@radix-ui/themes';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useEvent, useToggle } from 'react-use';
 import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
 import { withQuery } from 'ufo';
@@ -9,8 +9,9 @@ import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
 import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
-import { $client } from '@/entries/mount/state';
+import { $client, bridge, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
+import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 
 export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   const logoSrc = props.def.assets.logo;
@@ -37,12 +38,37 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
     e.shiftKey && e.altKey && e.code === 'KeyD' && toggleDevtools();
   });
 
+  useEffect(() => {
+    const handleStartInspecting = () => {
+      toggleDevtools(false);
+      document.documentElement.style.setProperty('cursor', 'cell');
+    };
+    bridge.addListener('startInspectingNative', handleStartInspecting);
+
+    const handleBeforeWallSend: ReactDevtoolsWallListener = e => {
+      if (e.event !== 'stopInspectingNative') return;
+      toggleDevtools(true);
+      document.documentElement.style.removeProperty('cursor');
+    };
+    wallAgent.hook('send', handleBeforeWallSend);
+
+    return () => {
+      bridge.removeListener('startInspectingNative', handleStartInspecting);
+      wallAgent.removeHook('send', handleBeforeWallSend);
+    };
+  }, []);
+
   const handleClickInspect = async () => {
+    document.documentElement.style.setProperty('cursor', 'wait');
     toggleDevtools(false);
     setLoadDevtools(true);
-    const client = await pTimeout($client, 10_000).catch(() => null);
-    if (!client) return;
-    client.remote.pullUpReactInspector();
+    try {
+      const client = await pTimeout($client, 10_000);
+      client.remote.pullUpReactInspector();
+    } catch (e) {
+      console.error(e);
+      document.documentElement.style.removeProperty('cursor');
+    }
   };
 
   return (
@@ -56,15 +82,13 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
           />
         </div>
       </Visible>
-      <Flex asChild align="center">
-        <div className={styles.fab} {...draggable.props}>
-          <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
-            <img className={styles.logo} src={logoSrc}></img>
-          </DevtoolsCapsuleButton>
-          <DevtoolsCapsuleButton onClick={handleClickInspect}>
-            <HiMiniCursorArrowRipple />
-          </DevtoolsCapsuleButton>
-        </div>
+      <Flex className={styles.fab} {...draggable.props} align="center">
+        <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
+          <img className={styles.logo} src={logoSrc}></img>
+        </DevtoolsCapsuleButton>
+        <DevtoolsCapsuleButton onClick={handleClickInspect}>
+          <HiMiniCursorArrowRipple />
+        </DevtoolsCapsuleButton>
       </Flex>
     </Theme>
   );
