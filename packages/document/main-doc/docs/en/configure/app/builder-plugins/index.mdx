@@ -1,0 +1,71 @@
+---
+sidebar_label: Introduction
+---
+
+# builderPlugins
+
+- **Type:** `RsbuildPlugin[]`
+- **Default:** `[]`
+
+Used to configure the Rsbuild plugin.
+
+Rsbuild is the build tool of Modern.js, please read [Build Engine](/guides/concept/builder) for background. If you want to know how to write Rsbuild plugins, you can refer to [Rsbuild - Plugin System](https://rsbuild.dev/plugins/dev/index).
+
+## Precautions
+
+This option **is used to configure the Rsbuild plugins**. If you need to configure other types of plugins, please select the corresponding configs:
+
+- Use [plugins](/configure/app/plugins) to configure Modern.js framework plugins.
+- Use [tools.bundlerChain](/configure/app/tools/bundler-chain) to configure Rspack or webpack plugins.
+- Use [tools.babel](/configure/app/tools/babel) to configure Babel plugins.
+
+## When to use
+
+In most scenarios, we recommend you to use the Modern.js framework plugin, which can be registered through the [plugins](/configure/app/plugins) config. Because the API provided by the framework plugin is richer and more capable, while the API provided by the Rsbuild plugin can only be used to build scenes.
+
+When you need to reference some existing Rsbuild plugins (and there is no related capability in Modern.js), or reuse Rsbuild plugins between different frameworks, you can use the `builderPlugins` field to register them.
+
+## Example
+
+Below is an example of using the Rsbuild plugin.
+
+### Using plugins on npm
+
+To use a plugin on npm, you need to install the plugin through the package manager and import it.
+
+```ts title="modern.config.ts"
+import myRsbuildPlugin from 'my-rsbuild-plugin';
+
+export default defineConfig({
+  builderPlugins: [myRsbuildPlugin()],
+});
+```
+
+### Using local plugins
+
+Use the plugin in the local code repository, you can import it directly through the relative path import.
+
+```ts title="modern.config.ts"
+import myRsbuildPlugin from './plugin/myRsbuildPlugin';
+
+export default defineConfig({
+  builderPlugins: [myRsbuildPlugin()],
+});
+```
+
+### Plugin configuration options
+
+If the plugin provides some custom configuration options, you can pass in the configuration through the parameters of the plugin function.
+
+```ts title="modern.config.ts"
+import myRsbuildPlugin from 'my-rsbuild-plugin';
+
+export default defineConfig({
+  builderPlugins: [
+    myRsbuildPlugin({
+      foo: 1,
+      bar: 2,
+    }),
+  ],
+});
+```

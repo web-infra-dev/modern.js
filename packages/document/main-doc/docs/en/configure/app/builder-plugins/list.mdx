@@ -1,0 +1,21 @@
+---
+sidebar_label: Plugin List
+---
+
+# Plugin List
+
+## Using Plugins
+
+You can register Rsbuild plugins in the `modern.config.ts` file using the `builderPlugins` option. For more details, refer to [Using plugins on npm](/configure/app/builder-plugins/index.html#using-plugins-on-npm).
+
+## Official Plugins
+
+:::tip
+Most plugins in Rsbuild have been built into Modern.js. For example, when you need to inject polyfills of Node core modules in the browser side, you can directly use the [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html) configuration.
+:::
+
+Only the official Rsbuild plugins that are not built into Modern.js are listed below:
+
+- [Image Compress Plugin](https://rsbuild.dev/plugins/list/plugin-image-compress): Compress the image resources used in the project.
+- [Stylus Plugin](https://rsbuild.dev/plugins/list/plugin-stylus): Use Stylus as the CSS preprocessor.
+- [UMD Plugin](https://rsbuild.dev/plugins/list/plugin-umd): Used to build outputs in UMD format.
