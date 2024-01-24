@@ -1,6 +1,6 @@
-import { readFile } from 'fs/promises';
 import path from 'path';
 import { existsSync } from 'fs';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
 import { ServerRoute, Logger, Metrics } from '@modern-js/types';
 import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
@@ -36,7 +36,12 @@ async function createRenderHandler(
 
   return async (c, _) => {
     const htmlPath = path.join(distDir, routeInfo.entryPath);
-    const html = await readFile(htmlPath, 'utf-8');
+    const html = (await fileReader.readFile(htmlPath))?.toString();
+
+    if (!html) {
+      throw new Error(`Can't found html in the path: ${htmlPath}`);
+    }
+
     const renderMode = getRenderMode(
       c.req,
       metaName,
