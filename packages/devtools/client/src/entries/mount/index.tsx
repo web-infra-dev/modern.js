@@ -3,7 +3,7 @@ import './state';
 import { createRoot } from 'react-dom/client';
 import { SetupClientParams } from '@modern-js/devtools-kit';
 import styles from './index.module.scss';
-import { DevtoolsActionButton } from '@/components/Devtools/Action';
+import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
 
 declare global {
   interface Window {
@@ -34,5 +34,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const options = window.__MODERN_JS_DEVTOOLS_OPTIONS__;
   const root = createRoot(container);
-  root.render(<DevtoolsActionButton {...options} />);
+  root.render(<DevtoolsCapsule {...options} />);
 });

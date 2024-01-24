@@ -1,14 +1,10 @@
 import { useParams } from '@modern-js/runtime/router';
 import { Box, useThemeContext } from '@radix-ui/themes';
-import React, { useMemo } from 'react';
-import {
-  createBridge,
-  createStore,
-  initialize,
-} from 'react-devtools-inline/frontend';
+import React, { useEffect, useMemo } from 'react';
+import { initialize } from 'react-devtools-inline/frontend';
 import { $mountPoint } from '../../state';
+import { bridge, store } from '../state';
 import { useThrowable } from '@/utils';
-import { WallAgent } from '@/utils/react-devtools';
 
 const Page: React.FC = () => {
   const params = useParams();
@@ -16,15 +12,14 @@ const Page: React.FC = () => {
   const browserTheme = ctx.appearance === 'light' ? 'light' : 'dark';
 
   const mountPoint = useThrowable($mountPoint);
-  const InnerView = useMemo(() => {
-    const wallAgent = new WallAgent();
-    wallAgent.bindRemote(mountPoint.remote, 'sendReactDevtoolsData');
-    const bridge = createBridge(window.parent, wallAgent);
-    const store = createStore(bridge);
-    const ret = initialize(window.parent, { bridge, store });
+  useEffect(() => {
     mountPoint.remote.activateReactDevtools();
-    return ret;
   }, []);
+
+  const InnerView = useMemo(
+    () => initialize(window.parent, { bridge, store }),
+    [],
+  );
 
   return (
     <Box

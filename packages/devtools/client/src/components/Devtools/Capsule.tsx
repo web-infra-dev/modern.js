@@ -2,16 +2,20 @@ import { SetupClientParams } from '@modern-js/devtools-kit';
 import { Flex, Theme } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { useEvent, useToggle } from 'react-use';
+import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
 import { withQuery } from 'ufo';
 import Visible from '../Visible';
-import styles from './Action.module.scss';
+import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
-import { ReactComponent as DevToolsIcon } from './heading.svg';
+import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
+import { $client } from '@/entries/mount/state';
+import { pTimeout } from '@/utils/promise';
 
-export const DevtoolsActionButton: React.FC<SetupClientParams> = props => {
+export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   const logoSrc = props.def.assets.logo;
   const [showDevtools, toggleDevtools] = useToggle(false);
+  const [loadDevtools, setLoadDevtools] = useState(false);
 
   const src = withQuery(props.endpoint, { src: props.dataSource });
 
@@ -33,9 +37,17 @@ export const DevtoolsActionButton: React.FC<SetupClientParams> = props => {
     e.shiftKey && e.altKey && e.code === 'KeyD' && toggleDevtools();
   });
 
+  const handleClickInspect = async () => {
+    toggleDevtools(false);
+    setLoadDevtools(true);
+    const client = await pTimeout($client, 10_000).catch(() => null);
+    if (!client) return;
+    client.remote.pullUpReactInspector();
+  };
+
   return (
     <Theme appearance={appearance} className={appearance}>
-      <Visible when={showDevtools} keepAlive={true}>
+      <Visible when={showDevtools} keepAlive={true} load={loadDevtools}>
         <div className={styles.container}>
           <FrameBox
             src={src}
@@ -44,15 +56,15 @@ export const DevtoolsActionButton: React.FC<SetupClientParams> = props => {
           />
         </div>
       </Visible>
-      <Flex asChild py="1" px="2" align="center">
-        <button
-          className={styles.fab}
-          onClick={() => toggleDevtools()}
-          {...draggable.props}
-        >
-          <img className={styles.logo} src={logoSrc} alt="" />
-          <DevToolsIcon className={styles.heading} />
-        </button>
+      <Flex asChild align="center">
+        <div className={styles.fab} {...draggable.props}>
+          <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
+            <img className={styles.logo} src={logoSrc}></img>
+          </DevtoolsCapsuleButton>
+          <DevtoolsCapsuleButton onClick={handleClickInspect}>
+            <HiMiniCursorArrowRipple />
+          </DevtoolsCapsuleButton>
+        </div>
       </Flex>
     </Theme>
   );

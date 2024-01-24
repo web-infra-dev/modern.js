@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   pointer-events: none;
+
   & > :global(*) {
     pointer-events: auto;
   }
@@ -26,22 +27,23 @@
   border-radius: 999px;
   cursor: pointer;
   touch-action: none;
-}
-
-.fab :global(*) {
+  padding: 0 var(--space-1);
+  transition: box-shadow 400ms;
   user-select: none;
-  pointer-events: none;
+
+  &:hover {
+    box-shadow: var(--shadow-5), 0 0 20px var(--gray-a7);
+  }
+
+  img {
+    pointer-events: none;
+  }
 }
 
 .logo {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
   object-fit: contain;
+  background-size: contain;
 }
 
-.heading {
-  width: 3.25rem;
-  height: 1rem;
-  color: var(--gray-a10);
-  margin: 0 var(--space-2);
-}
