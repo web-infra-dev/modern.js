@@ -21,7 +21,7 @@ export class CustomServer {
 
   constructor(
     runner: ServerHookRunner,
-    distDir: string,
+    pwd: string,
     logger: Logger,
     metrics?: Metrics,
   ) {
@@ -38,7 +38,7 @@ export class CustomServer {
     // prepareWebServe must run before server runner.
     this.serverMiddlewarePromise = runner.prepareWebServer(
       {
-        pwd: distDir,
+        pwd,
         config: webExtension,
       },
       { onLast: () => null },

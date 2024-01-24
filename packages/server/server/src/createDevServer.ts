@@ -3,6 +3,7 @@ import {
   createServerBase,
   connectMid2HonoMid,
   registerMockHandler,
+  ServerBaseOptions,
 } from '@modern-js/server-core/base';
 
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
@@ -11,7 +12,7 @@ import { SSR } from '@modern-js/server-core';
 import {
   CreateProdServer,
   DevServerOptions,
-  ModernDevServerOptionsNew,
+  ModernDevServerConfig as ModernDevServerOptionsNew,
 } from './types';
 import { enableRegister } from './dev-tools/register';
 
@@ -62,9 +63,9 @@ const isUseSSRPreload = (conf: ModernDevServerOptionsNew['config']) => {
   );
 };
 
-export const createDevServer = async (
-  options: ModernDevServerOptionsNew,
-  createProdServer: CreateProdServer,
+export const createDevServer = async <O extends ServerBaseOptions>(
+  options: ModernDevServerOptionsNew<O>,
+  createProdServer: CreateProdServer<O>,
 ): Promise<NodeServer> => {
   const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
 

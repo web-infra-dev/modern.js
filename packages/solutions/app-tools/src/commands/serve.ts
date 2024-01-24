@@ -20,9 +20,16 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     userConfig?.source?.entriesDir,
     appContext.apiDirectory,
   );
+
+  let runMode: 'apiOnly' | undefined;
+  if (apiOnly) {
+    runMode = 'apiOnly';
+  }
+
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const app = await createProdServer({
+    metaName,
     pwd: appDirectory,
     config: {
       ...userConfig,
@@ -34,12 +41,6 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     },
     routes: serverRoutes,
     appContext: {
-      metaName,
-      sharedDirectory: getTargetDir(
-        appContext.sharedDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
       apiDirectory: getTargetDir(
         appContext.apiDirectory,
         appContext.appDirectory,
@@ -53,7 +54,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     },
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
-    apiOnly,
+    runMode,
   });
 
   app.listen(port, async () => {

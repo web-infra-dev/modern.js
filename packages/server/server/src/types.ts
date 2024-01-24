@@ -74,9 +74,15 @@ export type ExtraOptionsNew = {
   ) => ReturnType<DevServerAPIs['getMiddlewares']>;
 };
 
-export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;
+export type ModernDevServerOptionsNew = ModernDevServerOptions &
+  ExtraOptionsNew;
 
-export type CreateProdServer = (
-  options: ServerBaseOptions,
+// TODO: rename ModernDevServerOptions
+export type ModernDevServerConfig<
+  O extends ServerBaseOptions = ServerBaseOptions,
+> = O & ExtraOptionsNew;
+
+export type CreateProdServer<O extends ServerBaseOptions> = (
+  options: O,
   serverBase: ServerBase,
 ) => Promise<NodeServer>;

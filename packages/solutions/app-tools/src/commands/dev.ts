@@ -1,7 +1,7 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
-import { createDevServer } from '@modern-js/server';
-import { createServer } from '@modern-js/prod-server-new';
+import { createDevServer, ModernDevServerConfig } from '@modern-js/server';
+import { createServer, ProdServerOptions } from '@modern-js/prod-server-new';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
@@ -58,7 +58,8 @@ export const dev = async (
   await generateRoutes(appContext);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
-  const serverOptions = {
+  const serverOptions: ModernDevServerConfig<ProdServerOptions> = {
+    metaName,
     dev: {
       port,
       https: normalizedConfig.dev.https,
@@ -66,15 +67,12 @@ export const dev = async (
       ...normalizedConfig.tools?.devServer,
     },
     appContext: {
-      metaName,
-      appDirectory: appContext.appDirectory,
-      sharedDirectory: appContext.sharedDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
     },
     routes: serverRoutes,
     pwd: appDirectory,
-    config: normalizedConfig,
+    config: normalizedConfig as any,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
     ...devServerOptions,

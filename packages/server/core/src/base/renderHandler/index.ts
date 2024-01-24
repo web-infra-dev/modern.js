@@ -12,7 +12,7 @@ import { createSSRHandler } from './ssrHandler';
 
 export interface CreateRenderHOptions {
   routeInfo: ServerRoute;
-  distDir: string;
+  pwd: string;
   metaName: string;
   logger: Logger;
 
@@ -28,14 +28,13 @@ async function createRenderHandler(
     forceCSR,
     metaName,
     routeInfo,
-    distDir,
+    pwd,
     logger,
-
     staticGenerate = false,
   } = options;
 
   return async (c, _) => {
-    const htmlPath = path.join(distDir, routeInfo.entryPath);
+    const htmlPath = path.join(pwd, routeInfo.entryPath);
     const html = await readFile(htmlPath, 'utf-8');
     const renderMode = getRenderMode(
       c.req,
@@ -48,7 +47,7 @@ async function createRenderHandler(
       renderMode === 'csr'
         ? createCSRHandler(html)
         : await createSSRHandler({
-            distDir,
+            pwd,
             html,
             staticGenerate,
             mode: routeInfo.isStream ? 'stream' : 'string',
@@ -87,31 +86,29 @@ function getRenderMode(
   }
 }
 
+export type BindRenderHandleOptions = {
+  metaName?: string;
+  metrics?: Metrics;
+  staticGenerate?: boolean;
+};
+
 export async function bindRenderHandler(
   server: ServerBase,
-  distDir: string,
-  options: Omit<ServerBaseOptions, 'app'> & {
-    metrics?: Metrics;
-  },
+  options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { config, routes, metrics } = options;
+  const { config, routes, pwd, metrics } = options;
 
   const { runner } = server;
   if (routes && routes.length > 0) {
     // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-    const customServer = new CustomServer(
-      runner,
-      distDir,
-      server.logger,
-      metrics,
-    );
+    const customServer = new CustomServer(runner, pwd, server.logger, metrics);
 
     // warn ssr bundles
     const ssrBundles = routes
       .filter(route => route.isSSR && route.bundle)
-      .map(route => path.join(distDir, route.bundle!));
+      .map(route => path.join(pwd, route.bundle!));
     warmup(ssrBundles);
 
     const pageRoutes = routes
@@ -126,11 +123,11 @@ export async function bindRenderHandler(
         : `${originUrlPath}/*`;
 
       const handler = await createRenderHandler({
-        distDir,
+        pwd,
         routeInfo: route,
         staticGenerate: options.staticGenerate,
         forceCSR,
-        metaName: options.metaName || 'modern.js',
+        metaName: options.metaName || 'modern-js',
         logger: server.logger,
       });
 
@@ -140,7 +137,7 @@ export async function bindRenderHandler(
 
       server.use(urlPath, customServerHookMiddleware);
 
-      const serverDir = path.join(distDir, SERVER_DIR);
+      const serverDir = path.join(pwd, SERVER_DIR);
 
       // TODO: onlyApi
       if (getRuntimeEnv() === 'node' && existsSync(serverDir)) {

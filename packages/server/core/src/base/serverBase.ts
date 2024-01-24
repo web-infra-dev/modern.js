@@ -21,7 +21,6 @@ import {
   loadPlugins,
   serverManager,
 } from '../core';
-import { defaultMetrics } from './libs/default';
 import {
   ConfWithBFF,
   HonoNodeEnv,
@@ -77,7 +76,6 @@ export class ServerBase {
   constructor(options: ServerBaseOptions) {
     // FIXME: createLogger only can run node runtime
     options.logger = options.logger || createLogger({ level: 'warn' });
-    options.metrics = options.metrics || defaultMetrics;
     this.options = options;
     this.logger = options.logger;
 
@@ -125,15 +123,13 @@ export class ServerBase {
 
     this.initServerConfig(options);
 
-    await this.injectContext(this.runner, options);
-
     // initialize server runner
     this.runner = await this.createHookRunner();
 
     // init config and execute config hook
     await this.initConfig(this.runner, options);
 
-    await this.injectContext(this.runner, options);
+    await this.injectContext(options);
 
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await this.runner.prepare();
@@ -251,10 +247,7 @@ export class ServerBase {
     }
   }
 
-  private async injectContext(
-    runner: ServerHookRunner,
-    options: ServerBaseOptions,
-  ) {
+  private async injectContext(options: ServerBaseOptions) {
     const appContext = this.initAppContext();
     const { config, pwd } = options;
 
@@ -277,8 +270,7 @@ export class ServerBase {
       appDirectory,
       apiDirectory: appContext?.apiDirectory,
       lambdaDirectory: appContext?.lambdaDirectory,
-      sharedDirectory:
-        appContext?.sharedDirectory || path.resolve(appDirectory, SHARED_DIR),
+      sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
       distDirectory: path.join(appDirectory, config.output.path || 'dist'),
       plugins: serverPlugins,
     };
