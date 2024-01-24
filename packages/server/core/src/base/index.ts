@@ -11,7 +11,10 @@ import { registerMockHandler } from './adapters/mock';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
 export type { CreateRenderHOptions } from './renderHandler';
-export { bindRenderHandler } from './renderHandler';
+export {
+  bindRenderHandler,
+  type BindRenderHandleOptions,
+} from './renderHandler';
 export * from './middlewares';
 
 export { httpCallBack2HonoMid, connectMid2HonoMid };

@@ -4,6 +4,7 @@ import {
   createServerBase,
   connectMid2HonoMid,
   registerMockHandler,
+  ServerBaseOptions,
   Middleware,
 } from '@modern-js/server-core/base';
 
@@ -15,7 +16,7 @@ import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import {
   CreateProdServer,
   DevServerOptions,
-  ModernDevServerOptionsNew,
+  ModernDevServerConfig as ModernDevServerOptionsNew,
 } from './types';
 import { enableRegister } from './dev-tools/register';
 
@@ -124,9 +125,9 @@ const onRepack = (
   runner.repack();
 };
 
-export const createDevServer = async (
-  options: ModernDevServerOptionsNew,
-  createProdServer: CreateProdServer,
+export const createDevServer = async <O extends ServerBaseOptions>(
+  options: ModernDevServerOptionsNew<O>,
+  createProdServer: CreateProdServer<O>,
 ): Promise<NodeServer> => {
   const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
 
@@ -174,7 +175,7 @@ export const createDevServer = async (
       onRepack(
         path.resolve(options.pwd, options.config.output.path || 'dist'),
         server.runner,
-        routes,
+        routes || [],
       );
     }
   });

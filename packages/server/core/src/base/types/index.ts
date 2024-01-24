@@ -31,28 +31,17 @@ declare module 'http' {
 
 export type ServerBaseOptions = {
   pwd: string;
-  // Todo 整理下这里用的 config，尽量少用
-  routes?: ServerRoute[];
   config: ServerOptions;
-  metaName?: string;
+  serverConfigFile?: string;
+  routes?: ServerRoute[];
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
-  staticGenerate?: boolean;
-  logger?: Logger;
-  metrics?: Metrics;
-  apiOnly?: boolean;
-  ssrOnly?: boolean;
-  webOnly?: boolean;
-  runMode?: string;
-  appContext?: {
-    appDirectory?: string;
-    sharedDirectory: string;
+  appContext: {
     apiDirectory: string;
     lambdaDirectory: string;
-    metaName: string;
   };
-  serverConfigFile?: string;
-  proxyTarget?: any;
+  runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
+  logger?: Logger;
 };
 
 export type SSRServerContext = BaseSSRServerContext & {

@@ -15,7 +15,7 @@ import { ServerTiming } from '../libs/serverTiming';
 import { createReadableStreamFromReadable } from '../adapters/stream';
 
 export interface SSRHandlerOptions {
-  distDir: string;
+  pwd: string;
   mode: 'string' | 'stream';
   html: string;
   routeInfo: ServerRoute;
@@ -28,18 +28,18 @@ export async function createSSRHandler({
   html,
   routeInfo,
   staticGenerate,
-  distDir,
+  pwd,
   nonce,
   metaName,
   logger,
 }: SSRHandlerOptions): Promise<Middleware<HonoNodeEnv>> {
   const { entryName } = routeInfo;
-  const jsBundlePath = path.join(distDir, routeInfo.bundle!);
-  const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
+  const jsBundlePath = path.join(pwd, routeInfo.bundle!);
+  const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
   const loadableStats = fs.existsSync(loadableUri)
     ? await import(loadableUri)
     : '';
-  const routesManifestUri = path.join(distDir, ROUTE_MANIFEST_FILE);
+  const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
   const routeManifest = fs.existsSync(routesManifestUri)
     ? await import(routesManifestUri)
     : undefined;

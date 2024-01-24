@@ -6,6 +6,7 @@ import type {
   ModernDevServerOptions,
   ModernDevServerOptionsNew,
   CreateProdServer,
+  ModernDevServerConfig,
 } from './types';
 
 export { createDevServer } from './createDevServer';
@@ -13,6 +14,7 @@ export { Server, ServerForRsbuild };
 export type {
   ModernDevServerOptions,
   ModernDevServerOptionsNew,
+  ModernDevServerConfig,
   CreateProdServer,
 };
 

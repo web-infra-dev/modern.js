@@ -8,7 +8,7 @@ import { Middleware } from '../types';
 import { createErrorHtml } from '../libs/utils';
 
 interface ServerStaticOptions {
-  distDir: string;
+  pwd: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
 }
@@ -16,7 +16,7 @@ interface ServerStaticOptions {
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { distDir } = options;
+  const { pwd } = options;
   const prefix = options.output.assetPrefix || '/';
 
   const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
@@ -40,7 +40,7 @@ export function createStaticMiddleware(
 
     if (hit) {
       const filepath = path.resolve(
-        distDir,
+        pwd,
         pathname.replace(prefix, () => ''),
       );
       if (!existsSync(filepath)) {
