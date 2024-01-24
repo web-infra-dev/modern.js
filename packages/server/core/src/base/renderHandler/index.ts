@@ -35,7 +35,7 @@ async function createRenderHandler(
 
   return async (c, _) => {
     const htmlPath = path.join(pwd, routeInfo.entryPath);
-    const html = await fileReader.readFile(htmlPath);
+    const html = (await fileReader.readFile(htmlPath))?.toString();
 
     if (!html) {
       throw new Error(`Can't found html in the path: ${htmlPath}`);

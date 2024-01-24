@@ -175,7 +175,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
       onRepack(
         path.resolve(options.pwd, options.config.output.path || 'dist'),
         server.runner,
-        routes,
+        routes || [],
       );
     }
   });
