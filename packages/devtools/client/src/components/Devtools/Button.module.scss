@@ -18,7 +18,7 @@
 
   &[data-type='default'] {
     opacity: 0.4;
-    &:hover {
+    &:not(:disabled):hover {
       opacity: 1;
     }
   }
