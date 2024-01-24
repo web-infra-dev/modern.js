@@ -78,6 +78,8 @@ export function compatLegacyPlugin(
               'modifyBuilderConfig',
               'modifyRsbuildConfig',
             );
+            // @ts-expect-error
+            // rsbuild is not completely consistent with modern.js builder config type
             return fn(config, { mergeBuilderConfig: mergeRsbuildConfig });
           });
         },

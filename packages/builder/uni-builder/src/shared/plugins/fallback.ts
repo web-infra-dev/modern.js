@@ -6,7 +6,6 @@ import {
   JSON_REGEX,
   getDistPath,
   getFilename,
-  setConfig,
   type Rspack,
 } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
@@ -96,21 +95,15 @@ export const pluginFallback = (): RsbuildPlugin => ({
         const distDir = getDistPath(rsbuildConfig, 'media');
         const filename = getFilename(rsbuildConfig, 'media', isProd);
 
-        setConfig(
-          config,
-          'output.assetModuleFilename',
-          join(distDir, filename),
-        );
+        config.output ||= {};
+        config.output.assetModuleFilename = join(distDir, filename);
 
         if (!config.module) {
           return;
         }
 
-        setConfig(
-          config,
-          'module.rules',
-          resourceRuleFallback(config.module?.rules),
-        );
+        config.module ||= {};
+        config.module.rules = resourceRuleFallback(config.module?.rules);
       });
     }
   },
