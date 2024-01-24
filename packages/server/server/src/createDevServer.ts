@@ -1,13 +1,17 @@
 import { Server as NodeServer } from 'node:http';
+import path from 'node:path';
 import {
   createServerBase,
   connectMid2HonoMid,
   registerMockHandler,
+  Middleware,
 } from '@modern-js/server-core/base';
 
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
 import { ServerRoute } from '@modern-js/types';
-import { SSR } from '@modern-js/server-core';
+import { SSR, ServerHookRunner } from '@modern-js/server-core';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import {
   CreateProdServer,
   DevServerOptions,
@@ -62,6 +66,64 @@ const isUseSSRPreload = (conf: ModernDevServerOptionsNew['config']) => {
   );
 };
 
+const getBundles = (routes: ServerRoute[]) => {
+  return routes.filter(route => route.isSSR).map(route => route.bundle);
+};
+
+const cleanSSRCache = (distDir: string, routes: ServerRoute[]) => {
+  const bundles = getBundles(routes);
+
+  bundles.forEach(bundle => {
+    const filepath = path.join(distDir, bundle as string);
+    if (require.cache[filepath]) {
+      delete require.cache[filepath];
+    }
+  });
+
+  const loadable = path.join(distDir, LOADABLE_STATS_FILE);
+  if (require.cache[loadable]) {
+    delete require.cache[loadable];
+  }
+};
+
+const initFileReader = (): Middleware => {
+  let isInit = false;
+
+  return async (ctx, next) => {
+    if (isInit) {
+      return next();
+    }
+    isInit = true;
+
+    const { res } = ctx.env.node;
+    if (!res.locals?.webpack) {
+      fileReader.reset();
+      return next();
+    }
+
+    // When devServer.devMiddleware.writeToDisk is configured as false,
+    // the renderHandler needs to read the html file in memory through the fileReader
+    const { devMiddleware: webpackDevMid } = res.locals.webpack;
+    const { outputFileSystem } = webpackDevMid;
+    if (outputFileSystem) {
+      fileReader.reset(outputFileSystem);
+    } else {
+      fileReader.reset();
+    }
+    return next();
+  };
+};
+
+const onRepack = (
+  distDir: string,
+  runner: ServerHookRunner,
+  routes: ServerRoute[],
+) => {
+  cleanSSRCache(distDir, routes);
+  fileReader.reset();
+  runner.repack();
+};
+
 export const createDevServer = async (
   options: ModernDevServerOptionsNew,
   createProdServer: CreateProdServer,
@@ -69,7 +131,7 @@ export const createDevServer = async (
   const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
 
   const server = await createServerBase(options);
-  const closeCb = [];
+  const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
   registerMockHandler({
     pwd,
@@ -97,25 +159,34 @@ export const createDevServer = async (
     }));
 
     closeCb.push(close);
-
     rsbuildMiddlewares.forEach(middleware => {
-      // TODO: modify httpCallBack2HonoMid
-      // @ts-expect-error-error
-      server.use(connectMid2HonoMid(middleware));
+      server.use('*', connectMid2HonoMid(middleware));
     });
   }
+
+  server.use('*', initFileReader());
 
   const nodeServer = await createProdServer(options, server);
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done
     if (stats.toJson({ all: false }).name !== 'server') {
-      // TODO: add repack
-      // onRepack({ routes });
+      onRepack(
+        path.resolve(options.pwd, options.config.output.path || 'dist'),
+        server.runner,
+        routes,
+      );
     }
   });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
+
+  closeCb.length > 0 &&
+    nodeServer.on('close', () => {
+      closeCb.forEach(cb => {
+        cb();
+      });
+    });
 
   return nodeServer;
 };
