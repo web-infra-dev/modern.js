@@ -8,10 +8,12 @@
   justify-content: center;
   align-items: center;
   transition: opacity 200ms;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 
-  &[data-loading='true'] {
+  &:disabled {
     cursor: wait;
-    pointer-events: none;
   }
 
   &[data-type='default'] {
