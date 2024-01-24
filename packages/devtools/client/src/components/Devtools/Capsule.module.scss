@@ -8,6 +8,7 @@
   justify-content: center;
   align-items: center;
   pointer-events: none;
+
   & > :global(*) {
     pointer-events: auto;
   }
@@ -29,9 +30,11 @@
   padding: 0 var(--space-1);
   transition: box-shadow 400ms;
   user-select: none;
+
   &:hover {
     box-shadow: var(--shadow-5), 0 0 20px var(--gray-a7);
   }
+
   img {
     pointer-events: none;
   }

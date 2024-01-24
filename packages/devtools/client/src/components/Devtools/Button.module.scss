@@ -8,10 +8,12 @@
   justify-content: center;
   align-items: center;
   transition: opacity 200ms;
+
   &[data-loading='true'] {
     cursor: wait;
     pointer-events: none;
   }
+
   &[data-type='default'] {
     opacity: 0.4;
     &:hover {
