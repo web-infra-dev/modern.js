@@ -4,9 +4,9 @@ sidebar_position: 2
 
 # Build Engine
 
-**Modern.js uses [Modern.js Builder](https://modernjs.dev/builder/en) to build your Web App.**
+Modern.js Builder refers to the build layer of Modern.js. Its goal is to provide Modern.js users with out-of-the-box build capabilities and support seamless switching between webpack and Rspack.
 
-Modern.js Builder is one of the core components of the Modern.js system. It is a build tool for web development scenarios that can be used independently of Modern.js. Modern.js Builder supports multiple bundlers such as webpack and Rspack, and by default uses the most mature webpack for bundling.
+Modern.js Builder is based on the [Rsbuild](https://rsbuild.dev/). Rsbuild is one of the core components of the Modern.js system. It is a build tool for web development scenarios that can be used independently of Modern.js.
 
 ## Build Architecture
 
@@ -20,28 +20,14 @@ From a building perspective, Modern.js is divided into three layers, from top to
 
 ## Builder Documentation
 
-Since Modern.js Builder is a module that can be used independently, we have provided separate documentation for it, which can be found at [modernjs.dev/builder](https://modernjs.dev/builder/en).
+Rsbuild is a module that can be used independently and has separate documentation. The documentation address is: [Rsbuild](https://rsbuild.dev/).
 
-In this documentation, you can learn about the detailed introduction of Modern.js Builder, and you can also find complete usage guides for various building capabilities. If you have any building needs or problems, it is recommended that you read the Modern.js Builder documentation first to solve them.
+In this documentation, you can learn about the detailed introduction of Rsbuild, and you can also find complete usage guides for various building capabilities.
 
-## Builder Configuration
-
-Modern.js's configuration inherits from Modern.js Builder, so you can use all the build configurations provided by Modern.js Builder in Modern.js.
-
-Taking the `html.title` config option of Modern.js Builder as an example, you can directly use this option in the `modern.config.ts` file, and it will be automatically passed to Modern.js Builder.
-
-```ts title="modern.config.js"
-export default defineConfig({
-  html: {
-    title: 'example',
-  },
-});
-```
-
-For detailed information about build configuration, please refer to [「Modern.js Builder - Builder Config」](https://modernjs.dev/builder/en/guide/basic/builder-config.html).
+If you want to understand the use of build configurations, it is recommended that you read the Modern.js documentation first, because the build configurations and defaults in Modern.js are not exactly the same as Rsbuild.
 
 ## Builder Capabilities
 
-Modern.js Builder provides rich build capabilities, including JavaScript compilation, CSS compilation, static assets processing, code hot update, code compression, TS type checking, and dozens of other capabilities.
+Rsbuild provides rich build capabilities, including JavaScript compilation, CSS compilation, static assets processing, code hot update, code compression, TS type checking, and dozens of other capabilities.
 
-We recommend that you read [「Modern.js Builder - All Features」](https://modernjs.dev/builder/en/guide/features.html) to learn about all the features provided by Modern.js Builder.
+We recommend that you read [「Rsbuild - All Features」](https://rsbuild.dev/guide/start/features) to learn about all the features provided by Rsbuild.
