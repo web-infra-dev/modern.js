@@ -3434,6 +3434,9 @@ importers:
       jest-fetch-mock:
         specifier: ^3.0.3
         version: 3.0.3
+      jest-location-mock:
+        specifier: 2.0.0
+        version: 2.0.0
       react:
         specifier: ^18
         version: 18.2.0
@@ -11581,6 +11584,10 @@ packages:
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
     engines: {node: '>=8'}
 
+  /@jedmao/location@3.0.0:
+    resolution: {integrity: sha512-p7mzNlgJbCioUYLUEKds3cQG4CHONVFJNYqMe6ocEtENCL/jYmMo1Q3ApwsMmU+L0ZkaDJEyv4HokaByLoPwlQ==}
+    dev: true
+
   /@jest/console@29.5.0:
     resolution: {integrity: sha512-NEpkObxPwyw/XxZVLPmAGKE89IQRp4puc6IQRPru6JKd1M3fW9v1xM1AnzIJE65hbCkzQAdnL8P47e9hzhiYLQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -11727,6 +11734,13 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@sinclair/typebox': 0.25.24
+
+  /@jest/schemas@29.6.3:
+    resolution: {integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@sinclair/typebox': 0.27.8
+    dev: true
 
   /@jest/source-map@29.4.3:
     resolution: {integrity: sha512-qyt/mb6rLyd9j1jUts4EQncvS6Yy3PM9HghnNv86QBlV+zdL2inCdK1tuVlL+J+lpiw2BI67qXOrX3UurBqQ1w==}
@@ -15197,6 +15211,10 @@ packages:
 
   /@sinclair/typebox@0.25.24:
     resolution: {integrity: sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==}
+
+  /@sinclair/typebox@0.27.8:
+    resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
+    dev: true
 
   /@sindresorhus/is@4.6.0:
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
@@ -20101,6 +20119,11 @@ packages:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  /diff-sequences@29.6.3:
+    resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
+
   /diff@4.0.2:
     resolution: {integrity: sha512-58lmxKSA4BNyLz+HHMUzlOEpg09FV+ev6ZMe3vJihgdxzgcwZ8VoEEPmALCZG9LmqfVoNMMKpttIYTVG6uDY7A==}
     engines: {node: '>=0.3.1'}
@@ -23995,6 +24018,16 @@ packages:
       jest-get-type: 29.4.3
       pretty-format: 29.5.0
 
+  /jest-diff@29.7.0:
+    resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      chalk: 4.1.2
+      diff-sequences: 29.6.3
+      jest-get-type: 29.6.3
+      pretty-format: 29.7.0
+    dev: true
+
   /jest-docblock@29.4.3:
     resolution: {integrity: sha512-fzdTftThczeSD9nZ3fzA/4KkHtnmllawWrXO69vtI+L9WjEIuXWs4AmyME7lN5hU7dB0sHhuPfcKofRsUb/2Fg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -24071,6 +24104,11 @@ packages:
     resolution: {integrity: sha512-J5Xez4nRRMjk8emnTpWrlkyb9pfRQQanDrvWHhsR1+VUfbwxi30eVcZFlcdGInRibU4G5LwHXpI7IRHU0CY+gg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
+  /jest-get-type@29.6.3:
+    resolution: {integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
+
   /jest-haste-map@29.5.0:
     resolution: {integrity: sha512-IspOPnnBro8YfVYSw6yDRKh/TiCdRngjxeacCps1cQ9cgVN6+10JUcuJ1EabrgYLOATsIAigxA0rLR9x/YlrSA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -24095,6 +24133,14 @@ packages:
     dependencies:
       jest-get-type: 29.4.3
       pretty-format: 29.5.0
+
+  /jest-location-mock@2.0.0:
+    resolution: {integrity: sha512-loakfclgY/y65/2i4s0fcdlZY3hRPfwNnmzRsGFQYQryiaow2DEIGTLXIPI8cAO1Is36xsVLVkIzgvhQ+FXHdw==}
+    engines: {node: ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jedmao/location': 3.0.0
+      jest-diff: 29.7.0
+    dev: true
 
   /jest-matcher-utils@29.5.0:
     resolution: {integrity: sha512-lecRtgm/rjIK0CQ7LPQwzCs2VwW6WAahA55YBuI+xqmhm7LAaxokSB8C97yJeYyT+HvQkH741StzpU41wohhWw==}
@@ -27652,6 +27698,15 @@ packages:
       '@jest/schemas': 29.4.3
       ansi-styles: 5.2.0
       react-is: 18.2.0
+
+  /pretty-format@29.7.0:
+    resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dependencies:
+      '@jest/schemas': 29.6.3
+      ansi-styles: 5.2.0
+      react-is: 18.2.0
+    dev: true
 
   /pretty-hrtime@1.0.3:
     resolution: {integrity: sha512-66hKPCr+72mlfiSjlEB1+45IjXSqvVAIy6mocupoww4tBFE9R9IhwwUGoI4G++Tc9Aq+2rxOt0RFU6gPcrte0A==}
