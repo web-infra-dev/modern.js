@@ -1,5 +1,13 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.46.2
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.2
+- @modern-js/builder-rspack-provider@2.46.2
+- @modern-js/builder-webpack-provider@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes

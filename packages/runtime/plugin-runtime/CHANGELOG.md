@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 2.46.2
+
+### Patch Changes
+
+- 19ee61f: feat: reexport unstable_useviewtransitionstate
+  feat: 导出 unstable_useviewtransitionstate
+  - @modern-js/plugin@2.46.2
+  - @modern-js/runtime-utils@2.46.2
+  - @modern-js/types@2.46.2
+  - @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes

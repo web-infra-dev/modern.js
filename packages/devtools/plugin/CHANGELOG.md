@@ -1,5 +1,19 @@
 # @modern-js/plugin-devtools
 
+## 2.46.2
+
+### Patch Changes
+
+- b7109a7: refactor(devtools): mounting logic and inject options to client
+- Updated dependencies [e643a0b]
+- Updated dependencies [10d4a57]
+- Updated dependencies [19ee61f]
+- Updated dependencies [b7109a7]
+  - @modern-js/devtools-client@2.46.2
+  - @modern-js/runtime@2.46.2
+  - @modern-js/devtools-kit@2.46.2
+  - @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes
