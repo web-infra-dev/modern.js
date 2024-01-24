@@ -195,7 +195,7 @@ Options:
 
 ## modern inspect
 
-`modern inspect` 命令用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html) 以及 webpack 配置。
+`modern inspect` 命令用于查看项目的 [Rsbuild 配置](https://rsbuild.dev/zh/config/index) 以及 webpack 或 Rspack 配置。
 
 ```bash
 Usage: modern inspect [options]
@@ -210,16 +210,16 @@ Options:
 
 在项目根目录下执行命令 `npx modern inspect` 后，会在项目的 `dist` 目录生成以下文件：
 
-- `builder.config.js`: 表示在构建时使用的 Modern.js Builder 配置。
-- `webpack.config.web.js`: 表示在构建时使用的 webpack 配置。
+- `rsbuild.config.mjs`: 表示在构建时使用的 Rsbuild 配置。
+- `webpack.config.web.mjs`: 表示在构建时使用的 webpack 配置。
 
 ```bash
 ➜ npx modern inspect
 
 Inspect config succeed, open following files to view the content:
 
-  - Builder Config: /root/my-project/dist/builder.config.js
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
 ```
 
 ### 指定环境
@@ -240,16 +240,16 @@ modern inspect --verbose
 
 ### SSR 构建配置
 
-如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.config.node.js` 文件，对应 SSR 构建时的 webpack 配置。
+如果项目开启了 SSR 能力，则在 `dist` 目录会另外生成一份 `webpack.config.node.mjs` 文件，对应 SSR 构建时的 webpack 配置。
 
 ```bash
 ➜ npx modern inspect
 
 Inspect config succeed, open following files to view the content:
 
-  - Builder Config: /root/my-project/dist/builder.config.js
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
-  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
 ```
 
 ## modern lint

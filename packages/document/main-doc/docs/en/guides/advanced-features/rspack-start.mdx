@@ -55,8 +55,6 @@ import RspackPrecautions from '@modern-js/builder-doc/docs/en/shared/rspackPreca
 
 ## Migrating configuration
 
-After enabling Rspack building capability, further configuration migration is needed by referring to the [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
-
 In Modern.js, the [tools.webpack](/configure/app/tools/webpack) and [tools.webpackChain](/configure/app/tools/webpack-chain) configurations only take effect in webpack mode, after turning on the Rspack build, you can modify it to [tools.rspack](/configure/app/tools/rspack) and [tools.bundlerChain](/configure/app/tools/bundler-chain).
 
 ```diff
