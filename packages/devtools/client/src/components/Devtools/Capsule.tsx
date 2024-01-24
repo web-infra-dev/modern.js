@@ -41,11 +41,14 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   useEffect(() => {
     const handleStartInspecting = () => {
       toggleDevtools(false);
+      document.documentElement.style.setProperty('cursor', 'cell');
     };
     bridge.addListener('startInspectingNative', handleStartInspecting);
 
     const handleBeforeWallSend: ReactDevtoolsWallListener = e => {
-      e.event === 'stopInspectingNative' && toggleDevtools(true);
+      if (e.event !== 'stopInspectingNative') return;
+      toggleDevtools(true);
+      document.documentElement.style.removeProperty('cursor');
     };
     wallAgent.hook('send', handleBeforeWallSend);
 
@@ -56,6 +59,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   }, []);
 
   const handleClickInspect = async () => {
+    document.documentElement.style.setProperty('cursor', 'wait');
     toggleDevtools(false);
     setLoadDevtools(true);
     try {
@@ -63,6 +67,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
       client.remote.pullUpReactInspector();
     } catch (e) {
       console.error(e);
+      document.documentElement.style.removeProperty('cursor');
     }
   };
 
