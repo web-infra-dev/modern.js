@@ -75,6 +75,9 @@ export const useStickyDraggable = (options?: StickyDraggableOptions) => {
       setState(undefined);
       el.style[primary.key] = margin;
     });
+    el.addEventListener('transitionend', () => (el.style.transition = ''), {
+      once: true,
+    });
   };
 
   const handleMouseMove = (raw: MouseEvent | TouchEvent) => {

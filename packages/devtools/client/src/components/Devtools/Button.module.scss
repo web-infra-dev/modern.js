@@ -1,0 +1,21 @@
+.container {
+  width: var(--space-5);
+  height: var(--space-5);
+  padding: var(--space-1);
+  color: var(--gray-12);
+  stroke: var(--gray-12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 200ms;
+  &[data-loading='true'] {
+    cursor: wait;
+    pointer-events: none;
+  }
+  &[data-type='default'] {
+    opacity: 0.4;
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
