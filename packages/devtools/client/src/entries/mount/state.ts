@@ -1,6 +1,8 @@
 import { MessagePortChannel } from '@modern-js/devtools-kit';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
+import createDeferred from 'p-defer';
+import { proxy } from 'valtio';
 import { activate, createBridge } from 'react-devtools-inline/backend';
 import {
   ClientFunctions,
@@ -34,6 +36,16 @@ export const $client = $clientChannel.then(channel => {
   return { remote, hooks };
 });
 
-$client.then(({ remote }) => {
+export const $inner = proxy({
+  loaded: false,
+});
+
+export const innerLoaded = createDeferred<void>();
+
+$client.then(({ remote, hooks }) => {
   wallAgent.bindRemote(remote, 'sendReactDevtoolsData');
+  hooks.hook('onFinishRender', async () => {
+    $inner.loaded = true;
+    innerLoaded.resolve();
+  });
 });

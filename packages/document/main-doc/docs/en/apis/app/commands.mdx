@@ -195,7 +195,7 @@ Options:
 
 ## modern inspect
 
-The `modern inspect` command is used to view the [Modern.js Builder config](https://modernjs.dev/builder/en/guide/basic/builder-config.html) and webpack config of the project.
+The `modern inspect` command is used to view the [Rsbuild config](https://rsbuild.dev/config/index) and webpack or Rspack config of the project.
 
 ```bash
 Usage: modern inspect [options]
@@ -210,16 +210,16 @@ Options:
 
 After executing the command `npx modern inspect` in the project root directory, the following files will be generated in the `dist` directory of the project:
 
-- `builder.config.js`: The Modern.js Builder config to use at build time.
-- `webpack.config.web.js`: The webpack config used by to use at build time.
+- `rsbuild.config.mjs`: The Rsbuild config to use at build time.
+- `webpack.config.web.mjs`: The webpack config used by to use at build time.
 
 ```bash
 ➜ npx modern inspect
 
 Inspect config succeed, open following files to view the content:
 
-  - Builder Config: /root/my-project/dist/builder.config.js
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
 ```
 
 ### Configuration Env
@@ -240,16 +240,16 @@ modern inspect --verbose
 
 ### SSR Configuration
 
-If the project has enabled SSR, an additional `webpack.config.node.js` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
+If the project has enabled SSR, an additional `webpack.config.node.mjs` file will be generated in the `dist/`, corresponding to the webpack configuration at SSR build time.
 
 ```bash
 ➜ npx modern inspect
 
 Inspect config succeed, open following files to view the content:
 
-  - Builder Config: /root/my-project/dist/builder.config.js
-  - Webpack Config (web): /root/my-project/dist/webpack.config.web.js
-  - Webpack Config (node): /root/my-project/dist/webpack.config.node.js
+  - Rsbuild Config: /root/my-project/dist/rsbuild.config.mjs
+  - Webpack Config (web): /root/my-project/dist/webpack.config.web.mjs
+  - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
 ```
 
 ## modern lint

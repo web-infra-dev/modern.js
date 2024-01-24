@@ -33,6 +33,7 @@ export default defineConfig<'rspack'>({
       'process.env.VERSION': packageMeta.version,
       'process.env.PKG_VERSION': packageMeta.version,
       'process.env.DEVTOOLS_MARK': nanoid(),
+      __REACT_DEVTOOLS_GLOBAL_HOOK__: { isDisabled: true },
     },
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
