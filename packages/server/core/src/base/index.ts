@@ -1,5 +1,10 @@
 import { ServerBase } from './serverBase';
-import { ServerNodeContext, ServerBaseOptions, Next } from './types';
+import {
+  ServerNodeContext,
+  ServerBaseOptions,
+  Next,
+  Middleware,
+} from './types';
 import { createNodeServer } from './adapters/node';
 import { httpCallBack2HonoMid, connectMid2HonoMid } from './adapters/hono';
 import { registerMockHandler } from './adapters/mock';
@@ -13,7 +18,7 @@ export {
 export * from './middlewares';
 
 export { httpCallBack2HonoMid, connectMid2HonoMid };
-export type { ServerNodeContext, ServerBaseOptions, Next };
+export type { ServerNodeContext, ServerBaseOptions, Next, Middleware };
 export { registerMockHandler };
 export { createNodeServer, ServerBase };
 

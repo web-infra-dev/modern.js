@@ -34,7 +34,7 @@ export type ModernServerOptions = {
   config: ServerOptions;
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
-  routes?: ModernRouteInterface[];
+  routes: ModernRouteInterface[];
   staticGenerate?: boolean;
   logger?: LocalLogger;
   metrics?: Metrics;
