@@ -37,7 +37,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rsbuild/plugin-swc": "0.3.4",
+    "@rsbuild/plugin-swc": "0.3.7",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },

@@ -39,7 +39,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "type": "asset",
         },
       ],
-      "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+      "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
     },
     {
       "oneOf": [
@@ -66,7 +66,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "type": "asset",
         },
       ],
-      "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+      "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
     },
     {
       "oneOf": [
