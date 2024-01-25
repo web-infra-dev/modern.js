@@ -108,7 +108,13 @@ export async function bindRenderHandler(
     // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-    const customServer = new CustomServer(runner, pwd, server.logger, metrics);
+    const customServer = new CustomServer(
+      runner,
+      server,
+      pwd,
+      server.logger,
+      metrics,
+    );
 
     // warn ssr bundles
     const ssrBundles = routes
@@ -138,7 +144,7 @@ export async function bindRenderHandler(
 
       const customServerHookMiddleware = customServer.getHookMiddleware(
         entryName || 'main',
-        route,
+        routes,
       );
 
       server.use(urlPath, customServerHookMiddleware);
