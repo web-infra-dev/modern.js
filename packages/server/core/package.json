@@ -56,7 +56,6 @@
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3",
     "@web-std/fetch": "^4.2.1",
@@ -65,7 +64,6 @@
     "merge-deep": "^3.0.3"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

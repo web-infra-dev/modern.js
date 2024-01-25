@@ -1,5 +1,4 @@
 import * as path from 'path';
-import type { NormalizedConfig } from '@modern-js/core';
 import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import mergeDeep from 'merge-deep';
 import { getServerConfigPath } from '../../src/base/libs/loadConfig';
@@ -27,10 +26,7 @@ describe('test loadConfig', () => {
       },
     };
 
-    const config = mergeDeep(
-      cliConfig as unknown as NormalizedConfig,
-      serverConfig,
-    );
+    const config = mergeDeep(cliConfig as any, serverConfig);
 
     expect(config).toEqual({
       bff: {
