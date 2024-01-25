@@ -138,6 +138,7 @@ export async function bindRenderHandler(
 
       const customServerHookMiddleware = customServer.getHookMiddleware(
         entryName || 'main',
+        route,
       );
 
       server.use(urlPath, customServerHookMiddleware);

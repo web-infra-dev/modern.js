@@ -1,8 +1,11 @@
+import { ServerRoute } from '@modern-js/types';
 import { Metrics, Middleware, ServerHookRunner, Logger } from '../types';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
   createCustomMiddlewaresCtx,
+  afterRenderInjectStream,
+  createAfterStreamingRenderContext,
 } from '../libs/customServer';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -45,7 +48,7 @@ export class CustomServer {
     );
   }
 
-  getHookMiddleware(entryName: string): Middleware {
+  getHookMiddleware(entryName: string, routeInfo: ServerRoute): Middleware {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
@@ -86,11 +89,50 @@ export class CustomServer {
 
       await next();
 
-      // afterRenderHook
-      const afterRenderCtx = createAfterRenderCtx(c, this.logger, this.metrics);
+      if (routeInfo.isStream) {
+        // run afterStreamingRender hook
+        const afterStreamingRenderContext = createAfterStreamingRenderContext(
+          c,
+          this.logger,
+          routeInfo,
+          this.metrics,
+        );
 
-      // TODO: repoteTiming
-      await this.runner.afterRender(afterRenderCtx, { onLast: noop });
+        const injectTransform = afterRenderInjectStream((chunk: string) => {
+          const context = afterStreamingRenderContext(chunk);
+          return this.runner.afterStreamingRender(context, {
+            onLast: ({ chunk }) => chunk,
+          });
+        });
+
+        c.res.body?.pipeThrough(injectTransform);
+
+        const { headers, status, statusText } = c.res;
+        c.res = c.body(injectTransform.readable, {
+          headers,
+          status,
+          statusText,
+        });
+      } else {
+        // run afterRenderHook hook
+        const afterRenderCtx = await createAfterRenderCtx(
+          c,
+          this.logger,
+          this.metrics,
+        );
+
+        // TODO: repoteTiming
+        await this.runner.afterRender(afterRenderCtx, { onLast: noop });
+
+        const newBody = afterRenderCtx.template.get();
+
+        const { headers, status, statusText } = c.res;
+        c.res = c.body(newBody, {
+          status,
+          headers,
+          statusText,
+        });
+      }
     };
   }
 
