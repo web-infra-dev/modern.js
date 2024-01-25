@@ -54,8 +54,7 @@ export async function createSSRHandler({
     const ssrContext: SSRServerContext = {
       request: {
         baseUrl: routeInfo.urlPath,
-        // FIXME: pass params from routes
-        params: {},
+        params: c.req.param() as Record<string, string>,
         pathname: req.path,
         host,
         query: req.query(),
@@ -69,8 +68,6 @@ export async function createSSRHandler({
         status(code) {
           c.status(code);
         },
-        // FIXME: get locals from somewhere
-        locals: {},
       },
       redirection: {},
       template: html,

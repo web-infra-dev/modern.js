@@ -7,6 +7,7 @@ import {
   createAfterStreamingRenderContext,
 } from '../libs/customServer';
 import { createInjectStream } from '../libs/utils';
+import { ServerBase } from '../serverBase';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -22,13 +23,18 @@ export class CustomServer {
     ServerHookRunner['prepareWebServer']
   >;
 
+  private serverBase: ServerBase;
+
   constructor(
     runner: ServerHookRunner,
+    serverBase: ServerBase,
     pwd: string,
     logger: Logger,
     metrics?: Metrics,
   ) {
     this.runner = runner;
+
+    this.serverBase = serverBase;
 
     this.metrics = metrics;
 
@@ -48,10 +54,11 @@ export class CustomServer {
     );
   }
 
-  getHookMiddleware(entryName: string, routeInfo: ServerRoute): Middleware {
+  getHookMiddleware(entryName: string, routes: ServerRoute[]): Middleware {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
+      const routeInfo = routes.find(route => route.entryName === entryName)!;
       const afterMatchCtx = createAfterMatchCtx(
         c,
         entryName,
@@ -72,15 +79,15 @@ export class CustomServer {
         return c.redirect(url, status);
       }
 
-      // TODO: how to rewrite to another entry
-      // if (entryName !== current) {
-      //   const matched = this.router.matchEntry(current);
-      //   if (!matched) {
-      //     this.render404(context);
-      //     return;
-      //   }
-      //   route = matched.generate(context.url);
-      // }
+      // rewrite to another entry
+      const { current } = afterMatchCtx.router;
+
+      if (current !== entryName) {
+        const rewriteRoute = routes.find(route => route.entryName === current);
+        if (rewriteRoute) {
+          return this.serverBase.request(rewriteRoute.urlPath);
+        }
+      }
 
       if (c.finalized) {
         // eslint-disable-next-line consistent-return
@@ -152,7 +159,6 @@ export class CustomServer {
 
       // TODO: add server timing report
       await serverMiddleware(customMiddlewareCtx);
-      // TODO: set locals to honoContext
 
       if (!c.finalized) {
         return next();
