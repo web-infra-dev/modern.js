@@ -5,9 +5,9 @@ import { fs } from '@modern-js/utils';
 import type { ServerBase } from '../serverBase';
 import type { ServerNodeMiddleware } from '../types';
 import { AGGRED_DIR } from '../libs/constants';
+import { connectMid2HonoMid } from './hono';
 
-type MockConfig = Record<
-  string,
+type MockHandler =
   | {
       data: any;
     }
@@ -15,8 +15,9 @@ type MockConfig = Record<
       req: IncomingMessage,
       res: ServerResponse,
       next: NextFunction,
-    ) => Promise<void>)
->;
+    ) => Promise<void> | void);
+
+type MockConfig = Record<string, MockHandler>;
 
 const parseKey = (key: string) => {
   const _blank = ' ';
@@ -37,7 +38,15 @@ const parseKey = (key: string) => {
   };
 };
 
-export const registerMockHandler = async ({
+const mockHandlerRegistry = new Map<
+  string,
+  {
+    isRegistered: boolean;
+    handler: MockHandler;
+  }
+>();
+
+export const registerMockHandlers = async ({
   pwd,
   server,
 }: {
@@ -46,21 +55,21 @@ export const registerMockHandler = async ({
   // eslint-disable-next-line consistent-return
 }) => {
   const exts = ['.ts', '.js'];
-  let filepath = '';
+  let mockFilePath = '';
 
   for (const ext of exts) {
     const maybeMatch = path.join(pwd, `${AGGRED_DIR.mock}/index${ext}`);
     if (await fs.pathExists(maybeMatch)) {
-      filepath = maybeMatch;
+      mockFilePath = maybeMatch;
       break;
     }
   }
 
-  if (!filepath) {
+  if (!mockFilePath) {
     return null;
   }
 
-  const { default: mockModule, config } = await import(filepath);
+  const { default: mockModule, config } = await import(mockFilePath);
 
   const enable = config?.enable as
     | boolean
@@ -73,17 +82,20 @@ export const registerMockHandler = async ({
   }
 
   if (!mockModule) {
-    throw new Error(`Mock file ${filepath} parsed failed!`);
+    throw new Error(`Mock file ${mockFilePath} parsed failed!`);
   }
 
   Object.entries(mockModule as MockConfig).forEach(([key, handler]) => {
     const { method, path } = parseKey(key);
-
     const methodName = method.toLowerCase() as keyof ServerBase;
+    const handlerId = `${methodName}-${path}`;
+    mockHandlerRegistry.set(handlerId, {
+      handler,
+      isRegistered: false,
+    });
     if (typeof server[methodName] === 'function') {
-      // @ts-expect-error
       // eslint-disable-next-line consistent-return
-      server[methodName](path, (async (c, next) => {
+      const mockHandler: ServerNodeMiddleware = async (c, next) => {
         if (typeof enable === 'function') {
           const isEnabled = enable(c.env.node!.req, c.env.node!.res);
           if (!isEnabled) {
@@ -91,12 +103,20 @@ export const registerMockHandler = async ({
           }
         }
 
+        const handler = mockHandlerRegistry.get(handlerId)?.handler;
         if (typeof handler === 'function') {
-          await handler(c.env.node!.req, c.env.node!.res, next);
+          await connectMid2HonoMid(handler)(c, next);
         } else {
           return c.json(handler as any);
         }
-      }) as ServerNodeMiddleware);
+      };
+
+      const handlerInfo = mockHandlerRegistry.get(handlerId);
+      if (handlerInfo && !handlerInfo?.isRegistered) {
+        // @ts-expect-error
+        server[methodName](path, mockHandler);
+        handlerInfo.isRegistered = true;
+      }
     }
   });
 };
