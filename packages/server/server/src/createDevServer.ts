@@ -3,22 +3,125 @@ import path from 'node:path';
 import {
   createServerBase,
   connectMid2HonoMid,
-  registerMockHandler,
   ServerBaseOptions,
+  registerMockHandlers,
   Middleware,
+  ServerBase,
 } from '@modern-js/server-core/base';
 
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
 import { ServerRoute } from '@modern-js/types';
 import { SSR, ServerHookRunner } from '@modern-js/server-core';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils';
+import {
+  API_DIR,
+  LOADABLE_STATS_FILE,
+  SERVER_BUNDLE_DIRECTORY,
+  SERVER_DIR,
+  SHARED_DIR,
+  WatchOptions,
+  logger,
+} from '@modern-js/utils';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import { AGGRED_DIR } from '@modern-js/prod-server';
 import {
   CreateProdServer,
   DevServerOptions,
   ModernDevServerConfig as ModernDevServerOptionsNew,
 } from './types';
 import { enableRegister } from './dev-tools/register';
+import Watcher, { WatchEvent, mergeWatchOptions } from './dev-tools/watcher';
+
+async function onServerChange({
+  pwd,
+  filepath,
+  event,
+  server,
+}: {
+  pwd: string;
+  filepath: string;
+  event: WatchEvent;
+  server: ServerBase;
+}) {
+  const { mock } = AGGRED_DIR;
+  const mockPath = path.normalize(path.join(pwd, mock));
+
+  const { runner } = server;
+  runner.reset();
+  if (filepath.startsWith(mockPath)) {
+    await registerMockHandlers({
+      pwd,
+      server,
+    });
+    logger.info('Finish registering the mock handlers');
+  } else {
+    try {
+      const success = runner.onApiChange([{ filename: filepath, event }]);
+
+      // onApiChange 钩子被调用，且返回 true，则表示无需重新编译
+      // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
+      // @ts-expect-error
+      if (success !== true) {
+        // TODO: support api handlers
+      }
+    } catch (e) {
+      logger.error(e as Error);
+    }
+  }
+}
+
+function startWatcher({
+  pwd,
+  distDir,
+  apiDir,
+  sharedDir,
+  watchOptions,
+  server,
+}: {
+  pwd: string;
+  distDir: string;
+  apiDir: string;
+  sharedDir: string;
+  watchOptions?: WatchOptions;
+  server: ServerBase;
+}) {
+  const { mock } = AGGRED_DIR;
+  const defaultWatched = [
+    `${mock}/**/*`,
+    `${SERVER_DIR}/**/*`,
+    `${apiDir}/**`,
+    `${sharedDir}/**/*`,
+    `${distDir}/${SERVER_BUNDLE_DIRECTORY}/*-server-loaders.js`,
+  ];
+
+  const mergedWatchOptions = mergeWatchOptions(watchOptions);
+
+  const defaultWatchedPaths = defaultWatched.map(p => {
+    const finalPath = path.isAbsolute(p) ? p : path.join(pwd, p);
+    return path.normalize(finalPath);
+  });
+
+  const watcher = new Watcher();
+  watcher.createDepTree();
+
+  watcher.listen(defaultWatchedPaths, mergedWatchOptions, (filepath, event) => {
+    // TODO: should delete this cache in onRepack
+    if (filepath.includes('-server-loaders.js')) {
+      delete require.cache[filepath];
+    } else {
+      watcher.updateDepTree();
+      watcher.cleanDepCache(filepath);
+    }
+
+    onServerChange({
+      pwd,
+      filepath,
+      event,
+      server,
+    });
+  });
+
+  return watcher;
+}
 
 const transformToRsbuildServerOptions = (
   dev: DevServerOptions,
@@ -129,12 +232,23 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptionsNew<O>,
   createProdServer: CreateProdServer<O>,
 ): Promise<NodeServer> => {
-  const { config, pwd, routes, getMiddlewares, dev, rsbuild } = options;
+  const {
+    config,
+    pwd,
+    routes = [],
+    getMiddlewares,
+    dev,
+    rsbuild,
+    appContext,
+  } = options;
+  const distDir = path.resolve(pwd, config.output.path || 'dist');
+  const apiDir = appContext?.apiDirectory || API_DIR;
+  const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
 
   const server = await createServerBase(options);
   const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
-  registerMockHandler({
+  registerMockHandlers({
     pwd,
     server,
   });
@@ -142,6 +256,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   let rsbuildMiddlewares;
   let close;
   let onUpgrade;
+  let watcher;
 
   if (getMiddlewares) {
     // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
@@ -172,15 +287,24 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done
     if (stats.toJson({ all: false }).name !== 'server') {
-      onRepack(
-        path.resolve(options.pwd, options.config.output.path || 'dist'),
-        server.runner,
-        routes || [],
-      );
+      onRepack(distDir, server.runner, routes);
     }
   });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
+
+  if (dev.watch) {
+    const { watchOptions } = config.server;
+    watcher = startWatcher({
+      pwd,
+      distDir,
+      apiDir,
+      sharedDir,
+      watchOptions,
+      server,
+    });
+    closeCb.push(watcher.close.bind(watcher));
+  }
 
   closeCb.length > 0 &&
     nodeServer.on('close', () => {
