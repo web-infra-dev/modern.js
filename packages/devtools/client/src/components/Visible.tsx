@@ -4,6 +4,7 @@ export interface VisibleProps {
   children: React.ReactNode;
   when?: boolean;
   keepAlive?: boolean;
+  load?: boolean;
 }
 
 const Visible: React.FC<VisibleProps> = props => {
@@ -14,7 +15,7 @@ const Visible: React.FC<VisibleProps> = props => {
   if (when) {
     opened.current = true;
   }
-  const load = keepAlive ? opened.current : when;
+  const load = props.load || (keepAlive ? opened.current : when);
   const visible = keepAlive ? when : true;
 
   return load ? (

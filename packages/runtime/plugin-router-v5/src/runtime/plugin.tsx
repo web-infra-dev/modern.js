@@ -12,6 +12,7 @@ import {
   RouteProps,
   useRouteMatch,
   useLocation,
+  useHistory,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
@@ -99,6 +100,7 @@ export const routerPlugin = ({
           context.router = {
             useRouteMatch,
             useLocation,
+            useHistory,
           };
 
           Object.defineProperty(context, 'routes', {

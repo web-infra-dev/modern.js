@@ -12,14 +12,15 @@ Through this chapter you can learn:
 
 ## Create an app
 
-Currently supports two routing modes
+The routing modes of the current project are divided into the following three types:
 
-- Self-controlled routing
-- Conventional routing
+- File-based routing (`router: true` and file-based)
+- Self-Controlled routing (`router: true` and create `BrowserRouter`)
+- Other (`router: false` and independent installation of `react-router-dom` in the project)
 
 First, clarify the routing mode of the main application [create a file-based routing main App](#file-based-routing-main-app) or [create a self-controlled main App](#self-controlled-main-app)
 
-In this experience we will create two sub-applications Table and Dashboard for the main application (Table is reduced routing, Dashboard is self-controlled routing)
+In this tutorial we will create two sub-applications Table and Dashboard for the main application (Table is reduced routing, Dashboard is self-controlled routing)
 
 ### File-based Routing Main App
 
@@ -138,6 +139,43 @@ Since it is a self-controlled route, we delete the `routes/` folder and add the 
 import CustomRouterMicroFrontend from '@site-docs-en/components/custom-router-micro-frontend';
 
 <CustomRouterMicroFrontend />
+
+### Other Main App
+
+Install and use `react-router-dom` independently in the project. The only difference from self-controlled routing is that after setting `router: false`, plugin-garfish cannot obtain `useLocation`, `useHref` and other hooks to assist in calculating basename and main and child applications. Route synchronization
+
+import { Tab, Tabs } from 'rspress/theme';
+
+<Tabs>
+<Tab label="react-router-dom@6">
+```tsx
+import { useLocation, useHref } from 'react-router-dom';
+const App = () => {
+  const { Table } = useModuleApps();
+  return <Table useLocation={useLocation} useHref={useHref} />;
+};
+```
+</Tab>
+<Tab label="react-router-dom@5">
+```tsx
+import { useLocation, useHistory } from 'react-router-dom';
+const App = () => {
+  const { Table } = useModuleApps();
+  return <Table useLocation={useLocation} useHistory={useHistory} />;
+};
+```
+</Tab>
+<Tab label="pass props.basename manually">
+```tsx
+import { useLocation, useHref } from 'react-router-dom';
+const App = () => {
+  const basename = useHref('/table');
+  const { Table } = useModuleApps();
+  return <Table useLocation={useLocation} basename={basename} />;
+};
+```
+</Tab>
+</Tabs>
 
 ### File-based sub-app
 

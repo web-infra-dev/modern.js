@@ -1,0 +1,25 @@
+.container {
+  width: var(--space-5);
+  height: var(--space-5);
+  padding: var(--space-1);
+  color: var(--gray-12);
+  stroke: var(--gray-12);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 200ms;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: wait;
+  }
+
+  &[data-type='default'] {
+    opacity: 0.4;
+    &:not(:disabled):hover {
+      opacity: 1;
+    }
+  }
+}

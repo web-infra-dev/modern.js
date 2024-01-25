@@ -170,7 +170,18 @@ export class ModernDevServer extends ModernServer {
 
     await this.applyDefaultMiddlewares();
 
-    this.addMiddlewareHandler(rsbuildMiddlewares);
+    rsbuildMiddlewares.forEach(middleware => {
+      if (Array.isArray(middleware)) {
+        this.addHandler((ctx, next) => {
+          if (ctx.path === middleware[0]) {
+            return middleware[1](ctx.req, ctx.res, next);
+          }
+          return next();
+        });
+      } else {
+        this.addMiddlewareHandler([middleware]);
+      }
+    });
 
     this.closeCb.push(close);
 

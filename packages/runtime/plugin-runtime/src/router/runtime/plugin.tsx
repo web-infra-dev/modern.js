@@ -7,6 +7,7 @@ import {
   useMatches,
   useLocation,
   RouteObject,
+  useHref,
 } from '@modern-js/runtime-utils/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
@@ -59,6 +60,7 @@ export const routerPlugin = ({
           context.router = {
             useMatches,
             useLocation,
+            useHref,
           };
 
           Object.defineProperty(context, 'routes', {
