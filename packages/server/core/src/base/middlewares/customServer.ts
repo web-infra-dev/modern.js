@@ -1,3 +1,4 @@
+import { ServerRoute } from '@modern-js/types';
 import { Metrics, Middleware, ServerHookRunner, Logger } from '../types';
 import {
   createAfterMatchCtx,
@@ -47,7 +48,7 @@ export class CustomServer {
     );
   }
 
-  getHookMiddleware(entryName: string, isStream: boolean): Middleware {
+  getHookMiddleware(entryName: string, routeInfo: ServerRoute): Middleware {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
@@ -88,14 +89,12 @@ export class CustomServer {
 
       await next();
 
-      if (isStream) {
+      if (routeInfo.isStream) {
         // run afterStreamingRender hook
         const afterStreamingRenderContext = createAfterStreamingRenderContext(
           c,
           this.logger,
-          // TODO: route
-          null as any,
-
+          routeInfo,
           this.metrics,
         );
 
