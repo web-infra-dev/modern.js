@@ -270,7 +270,8 @@ export class ServerBase {
       appDirectory,
       apiDirectory: appContext?.apiDirectory,
       lambdaDirectory: appContext?.lambdaDirectory,
-      sharedDirectory: path.resolve(appDirectory, SHARED_DIR),
+      sharedDirectory:
+        appContext?.sharedDirectory || path.resolve(appDirectory, SHARED_DIR),
       distDirectory: path.join(appDirectory, config.output.path || 'dist'),
       plugins: serverPlugins,
     };
