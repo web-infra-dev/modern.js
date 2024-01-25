@@ -23,7 +23,7 @@ import {
 } from '../core';
 import {
   ConfWithBFF,
-  HonoNodeEnv,
+  Middleware,
   ServerBaseOptions,
   ServerHookRunner,
 } from './types';
@@ -67,11 +67,13 @@ export class ServerBase {
 
   private distDir: string;
 
-  private app: Hono<HonoNodeEnv>;
+  private app: Hono;
 
   private serverConfig: ServerConfig = {};
 
   private conf: ServerOptions;
+
+  private apiHandler: Middleware | null = null;
 
   constructor(options: ServerBaseOptions) {
     // FIXME: createLogger only can run node runtime
@@ -79,7 +81,7 @@ export class ServerBase {
     this.options = options;
     this.logger = options.logger;
 
-    this.app = new Hono<HonoNodeEnv>();
+    this.app = new Hono();
     this.serverConfig = {};
     const { pwd, config } = options;
     this.distDir = path.resolve(pwd, config.output.path || 'dist');
@@ -137,10 +139,15 @@ export class ServerBase {
     return this;
   }
 
-  async prepareFrameHandler(options?: { onlyApi: boolean; onlyWeb: boolean }) {
+  // TODO: This function should be private
+  async prepareFrameHandler(options?: {
+    onlyApi?: boolean;
+    onlyWeb?: boolean;
+    shouldRegister?: boolean;
+  }) {
     const { runner } = this;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { onlyApi, onlyWeb } = options || {};
+    const { onlyApi, onlyWeb, shouldRegister } = options || {};
 
     // server hook, gather plugin inject
     const { getMiddlewares, ...collector } = createMiddlewareCollecter();
@@ -151,11 +158,14 @@ export class ServerBase {
 
     if (!onlyWeb) {
       const apiExtension = mergeExtension(pluginAPIExt);
-      await this.runPrepareApiServer(apiExtension);
+      await this.prepareApiHandler(apiExtension, shouldRegister);
     }
   }
 
-  private async runPrepareApiServer(extension: APIServerStartInput['config']) {
+  private async prepareApiHandler(
+    extension: APIServerStartInput['config'],
+    shouldRegister?: boolean,
+  ) {
     const runtimeEnv = getRuntimeEnv();
     if (runtimeEnv !== 'node') {
       return;
@@ -166,30 +176,36 @@ export class ServerBase {
     const prefix = bff?.prefix || '/api';
     const webOnly = await isWebOnly();
     if (webOnly && process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line consistent-return
-      return this.get(
-        `${prefix}/*`,
-        // TODO: need to refractor bff plugin
-        httpCallBack2HonoMid((req, res) => {
-          res.setHeader('Content-Type', 'text/plain');
-          res.end(JSON.stringify(''));
-        }),
+      this.apiHandler = httpCallBack2HonoMid((req, res) => {
+        res.setHeader('Content-Type', 'text/plain');
+        res.end(JSON.stringify(''));
+      });
+    } else {
+      const middleware = await runner.prepareApiServer(
+        {
+          pwd: workDir,
+          config: extension,
+          prefix: Array.isArray(prefix) ? prefix[0] : prefix,
+          httpMethodDecider: bff?.httpMethodDecider,
+          // render: this.render.bind(this),
+        },
+        { onLast: () => null as any },
       );
-    }
-    const middleware = await runner.prepareApiServer(
-      {
-        pwd: workDir,
-        config: extension,
-        prefix: Array.isArray(prefix) ? prefix[0] : prefix,
-        httpMethodDecider: bff?.httpMethodDecider,
-        // render: this.render.bind(this),
-      },
-      { onLast: () => null as any },
-    );
 
-    // TODO: need to refractor bff plugin
-    // eslint-disable-next-line consistent-return
-    return this.app.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
+      // TODO: need to refractor bff plugin
+      this.apiHandler = httpCallBack2HonoMid(middleware);
+    }
+
+    if (shouldRegister) {
+      // eslint-disable-next-line consistent-return
+      return this.all(`${prefix}/*`, async (c, next) => {
+        if (this.apiHandler) {
+          return this.apiHandler(c, next);
+        } else {
+          return next();
+        }
+      });
+    }
   }
 
   private async createHookRunner() {
@@ -327,6 +343,10 @@ export class ServerBase {
       req?.path,
       header,
     );
+  }
+
+  get all() {
+    return this.app.all;
   }
 
   get use() {
