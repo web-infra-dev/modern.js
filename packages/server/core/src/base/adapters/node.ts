@@ -99,7 +99,23 @@ const getRequestListener = (handler: RequestHandler) => {
           res,
         },
       });
-      if (!res.headersSent) {
+
+      /**
+       * When response.res exists, it means that the response is hono's context
+       * https://github.com/honojs/hono/blob/main/src/compose.ts#L60
+       * and the response is not yet finished after the middleware is executed
+       *
+       * One scenario is the code for mock:
+       * ```
+       *   'GET /api/addInfo': (req: any, res: any) => {
+       *      setTimeout(() => {
+       *        res.end('delay 2000ms');
+       *      }, 2000);
+       *    },
+       * ```
+       */
+
+      if (!res.headersSent && !(response as any).res) {
         await sendResponse(response, res);
       }
     } catch (error) {
@@ -136,15 +152,6 @@ async function afterCreateNodeServer(
 
   // TODO: 支持 onInit 的功能
   // await this.server.onInit(this.runner, this.app);
-
-  // TODO: afterServerInit
-  // {
-  //   const result = await this.runner.afterServerInit({
-  //     app: this.app,
-  //     server: this.server,
-  //   });
-  //   ({ app: this.app = this.app, server: this.server } = result);
-  // }
 
   await serverBase.prepareFrameHandler();
 }

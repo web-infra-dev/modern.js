@@ -69,6 +69,7 @@ export const dev = async (
     appContext: {
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
+      sharedDirectory: appContext.sharedDirectory,
     },
     routes: serverRoutes,
     pwd: appDirectory,
@@ -81,7 +82,7 @@ export const dev = async (
   if (apiOnly) {
     const app = await createDevServer(
       {
-        ...(serverOptions as any),
+        ...serverOptions,
         compiler: null,
       },
       createServer,
@@ -100,7 +101,7 @@ export const dev = async (
     );
   } else {
     const { server } = await appContext.builder!.startDevServer({
-      serverOptions: serverOptions as any,
+      serverOptions,
       createProdServer: createServer,
     });
     // TODO: set correct server
