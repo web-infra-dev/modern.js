@@ -8,7 +8,6 @@ import {
   AfterStreamingRenderContext,
   ServerRoute,
 } from '@modern-js/types';
-import { MaybeAsync } from '@modern-js/plugin';
 import { HonoContext, HonoNodeEnv } from '../types';
 import { createBaseHookContext } from './hook/base';
 import { RouterAPI } from './hook/routerApi';
@@ -62,26 +61,6 @@ export function createCustomMiddlewaresCtx(
       res: c.env.node?.res as ServerResponse,
     },
   };
-}
-
-// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-decoder
-const decoder: TextDecoder = new TextDecoder();
-
-// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-encoder
-const encoder: TextEncoder = new TextEncoder();
-
-export function afterRenderInjectStream(
-  fn: (content: string) => MaybeAsync<string>,
-) {
-  return new TransformStream({
-    async transform(chunk, controller) {
-      const content = decoder.decode(chunk);
-
-      const newContent = await fn(content);
-
-      controller.enqueue(encoder.encode(newContent));
-    },
-  });
 }
 
 export function createAfterStreamingRenderContext(

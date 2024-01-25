@@ -5,3 +5,14 @@ export const AGGRED_DIR = {
   shared: 'shared',
   lambda: 'lambda',
 };
+
+export const REPLACE_REG = {
+  before: {
+    head: '<head[^>]*>',
+    body: '<body[^>]*>',
+  },
+  after: {
+    head: '</head>',
+    body: '</body>',
+  },
+};

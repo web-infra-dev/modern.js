@@ -1,3 +1,4 @@
+import { MaybeAsync } from '@modern-js/plugin';
 import { HonoRequest } from '../types';
 
 export const getRuntimeEnv = () => {
@@ -91,3 +92,23 @@ export const getHost = (req: HonoRequest) => {
   // so we need assign host a no-empty value.
   return host;
 };
+
+// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-decoder
+const decoder: TextDecoder = new TextDecoder();
+
+// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-encoder
+const encoder: TextEncoder = new TextEncoder();
+
+export function createInjectStream(
+  fn: (content: string) => MaybeAsync<string>,
+) {
+  return new TransformStream({
+    async transform(chunk, controller) {
+      const content = decoder.decode(chunk);
+
+      const newContent = await fn(content);
+
+      controller.enqueue(encoder.encode(newContent));
+    },
+  });
+}

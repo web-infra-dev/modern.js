@@ -10,9 +10,10 @@ import { Logger, ServerRoute } from '@modern-js/types';
 import * as isbot from 'isbot';
 import { HonoNodeEnv, Middleware, SSRServerContext } from '../types';
 import { defaultReporter } from '../libs/default';
-import { getHost } from '../libs/utils';
+import { createInjectStream, getHost } from '../libs/utils';
 import { ServerTiming } from '../libs/serverTiming';
 import { createReadableStreamFromReadable } from '../adapters/stream';
+import { REPLACE_REG } from '../libs/constants';
 
 export interface SSRHandlerOptions {
   pwd: string;
@@ -101,10 +102,18 @@ export async function createSSRHandler({
       return c.redirect(redirection.url, redirection.status);
     }
 
-    const data =
+    const body =
       ssrResult instanceof Readable
         ? createReadableStreamFromReadable(ssrResult)
         : ssrResult;
+
+    const serverData = {
+      route: {
+        baseUrl: c.req.path,
+        params: c.req.param() as Record<string, any>,
+      },
+    };
+    const data = injectServerData(body, serverData);
 
     return c.body(data, {
       status: 200,
@@ -113,4 +122,29 @@ export async function createSSRHandler({
       },
     });
   };
+}
+
+function injectServerData(
+  body: string | ReadableStream,
+  serverData: Record<string, any>,
+): ReadableStream | string {
+  const { head } = REPLACE_REG.before;
+  const searchValue = new RegExp(head);
+
+  const replcaeCb = (beforeHead: string) =>
+    `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
+      serverData,
+    )}</script`;
+
+  if (typeof body === 'string') {
+    return body.replace(searchValue, replcaeCb);
+  } else {
+    const stream = createInjectStream(before => {
+      return before.replace(searchValue, replcaeCb);
+    });
+
+    body.pipeThrough(stream);
+
+    return stream.readable;
+  }
 }
