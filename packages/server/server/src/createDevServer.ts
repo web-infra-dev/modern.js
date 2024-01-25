@@ -232,8 +232,15 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptionsNew<O>,
   createProdServer: CreateProdServer<O>,
 ): Promise<NodeServer> => {
-  const { config, pwd, routes, getMiddlewares, dev, rsbuild, appContext } =
-    options;
+  const {
+    config,
+    pwd,
+    routes = [],
+    getMiddlewares,
+    dev,
+    rsbuild,
+    appContext,
+  } = options;
   const distDir = path.resolve(pwd, config.output.path || 'dist');
   const apiDir = appContext?.apiDirectory || API_DIR;
   const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
