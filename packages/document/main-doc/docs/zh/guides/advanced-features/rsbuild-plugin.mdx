@@ -22,8 +22,30 @@ Rsbuild 是 Modern.js 底层的构建工具，可通过添加 Rsbuild 插件修�
 Rsbuild 中大部分插件已内置在 Modern.js 中，如：需要注入 Node 模块的 Polyfill 时，可直接使用 [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html) 配置项。
 :::
 
-以下仅列出了未在 Modern.js 中内置的 Rsbuild 官方插件：
+### 未内置插件
+
+以下是未在 Modern.js 中内置的 Rsbuild 官方插件：
 
 - [Image Compress 插件](https://rsbuild.dev/zh/plugins/list/plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
 - [Stylus 插件](https://rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
 - [UMD 插件](https://rsbuild.dev/zh/plugins/list/plugin-umd)：用于构建 UMD 格式的产物。
+
+### 内置插件
+
+以下是已在 Modern.js 中内置的 Rsbuild 官方插件：
+
+| 插件                                                                                   | 介绍                                                                                     | Modern.js 链接                                                                                                                        |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| [React 插件](https://rsbuild.dev/zh/plugins/list/plugin-react)                         | 提供对 React 的支持                                                                      | [Modern.js 介绍](/guides/get-started/introduction.html#modernjs-框架)                                                                 |
+| [SVGR 插件](https://rsbuild.dev/zh/plugins/list/plugin-svgr)                           | 支持将 SVG 图片转换为一个 React 组件使用                                                 | [output.disableSvgr](/configure/app/output/disable-svgr)<br />[output.svgDefaultExport](/configure/app/output/svg-default-export)     |
+| [Styled Components 插件](https://rsbuild.dev/zh/plugins/list/plugin-styled-components) | 提供对 styled-components 的编译时支持                                                    | [tools.styledComponents](/configure/app/tools/styled-components.html)                                                                 |
+| [Assets Retry 插件](https://rsbuild.dev/zh/plugins/list/plugin-assets-retry)           | 用于在静态资源加载失败时自动发起重试请求                                                 | [output.assetsRetry](/configure/app/output/assets-retry.html)                                                                         |
+| [Type Check 插件](https://rsbuild.dev/zh/plugins/list/plugin-type-check)               | 用于在单独的进程中运行 TypeScript 类型检查                                               | [output.disableTsChecker](/configure/app/output/disable-ts-checker.html)<br />[tools.tsChecker](/configure/app/tools/ts-checker.html) |
+| [Node Polyfill 插件](https://rsbuild.dev/zh/plugins/list/plugin-node-polyfill)         | 用于注入 Node 核心模块在浏览器端的 polyfills                                             | [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html)                                                        |
+| [Source Build 插件](https://rsbuild.dev/zh/plugins/list/plugin-source-build)           | 用于 monorepo 场景，支持引用其他子目录的源代码，并完成构建和热更新                       | [experiments.sourceBuild](/configure/app/experiments/source-build.html)                                                               |
+| [Check Syntax 插件](https://rsbuild.dev/zh/plugins/list/plugin-check-syntax)           | 用于分析产物的语法兼容性，判断是否存在导致兼容性问题的高级语法                           | [security.checkSyntax](/configure/app/security/check-syntax.html)                                                                     |
+| [CSS Minimizer 插件](https://rsbuild.dev/zh/plugins/list/plugin-css-minimizer)         | 用于自定义 CSS 压缩工具，切换到 [cssnano](https://cssnano.co/) 或其他工具进行 CSS 压缩。 | [tools.minifyCss](/configure/app/tools/minify-css.html)                                                                               |
+| [Pug 插件](https://rsbuild.dev/zh/plugins/list/plugin-pug)                             | 提供对 Pug 模板引擎的支持                                                                | [tools.pug](/configure/app/tools/pug.html)                                                                                            |
+| [Rem 插件](https://rsbuild.dev/zh/plugins/list/plugin-rem)                             | 用于实现移动端页面的 rem 自适应布局                                                      | [output.convertToRem](/configure/app/output/convert-to-rem.html)                                                                      |
+| [YAML 插件](https://rsbuild.dev/zh/plugins/list/plugin-yaml)                           | 用于引用 YAML 文件，并将其转换为 JavaScript 对象                                         | [TOML 文件](/guides/basic-features/json-files.html#toml-文件)                                                                         |
+| [TOML 插件](https://rsbuild.dev/zh/plugins/list/plugin-toml)                           | 用于引用 TOML 文件，并将其转换为 JavaScript 对象                                         | [YAML 文件](/guides/basic-features/json-files.html#yaml-文件)                                                                         |
