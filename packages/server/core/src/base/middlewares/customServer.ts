@@ -4,9 +4,9 @@ import {
   createAfterMatchCtx,
   createAfterRenderCtx,
   createCustomMiddlewaresCtx,
-  afterRenderInjectStream,
   createAfterStreamingRenderContext,
 } from '../libs/customServer';
+import { createInjectStream } from '../libs/utils';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -98,17 +98,17 @@ export class CustomServer {
           this.metrics,
         );
 
-        const injectTransform = afterRenderInjectStream((chunk: string) => {
+        const injectStream = createInjectStream((chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
           return this.runner.afterStreamingRender(context, {
             onLast: ({ chunk }) => chunk,
           });
         });
 
-        c.res.body?.pipeThrough(injectTransform);
+        c.res.body?.pipeThrough(injectStream);
 
         const { headers, status, statusText } = c.res;
-        c.res = c.body(injectTransform.readable, {
+        c.res = c.body(injectStream.readable, {
           headers,
           status,
           statusText,

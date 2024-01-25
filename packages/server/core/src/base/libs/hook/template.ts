@@ -1,13 +1,4 @@
-const RegList = {
-  before: {
-    head: '<head[^>]*>',
-    body: '<body[^>]*>',
-  },
-  after: {
-    head: '</head>',
-    body: '</body>',
-  },
-};
+import { REPLACE_REG } from '../constants';
 
 export class TemplateApi {
   private body: string;
@@ -25,7 +16,7 @@ export class TemplateApi {
   }
 
   prependHead(fragment: string) {
-    const { head } = RegList.before;
+    const { head } = REPLACE_REG.before;
 
     this.replaceBody(
       new RegExp(head),
@@ -34,12 +25,12 @@ export class TemplateApi {
   }
 
   appendHead(fragment: string) {
-    const { head } = RegList.after;
+    const { head } = REPLACE_REG.after;
     this.replaceBody(head, () => `${fragment}${head}`);
   }
 
   prependBody(fragment: string) {
-    const { body } = RegList.before;
+    const { body } = REPLACE_REG.before;
 
     this.replaceBody(
       new RegExp(body),
@@ -48,7 +39,7 @@ export class TemplateApi {
   }
 
   appendBody(fragment: string) {
-    const { body } = RegList.after;
+    const { body } = REPLACE_REG.after;
     this.replaceBody(body, () => `${fragment}${body}`);
   }
 
