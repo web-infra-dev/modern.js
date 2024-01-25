@@ -1,0 +1,29 @@
+---
+sidebar_position: 21
+title: Using Rsbuild Plugin
+---
+
+# Using Rsbuild Plugin
+
+## Plugin Introduction
+
+Rsbuild is the build tool of Modern.js. You can modify the default build behavior and add various additional features by adding the Rsbuild plugin, including but not limited to:
+
+- Modifying Rspack configurations
+- Processing new file types
+- Modifying or compiling files
+- Deploying artifacts
+
+You can register the Rsbuild plugin through the `builderPlugins` option in `modern.config.ts`, see [builderPlugins](/configure/app/builder-plugins) for details.
+
+## Official Plugin
+
+:::tip
+Most plugins in Rsbuild have been built into Modern.js. For example, when you need to inject the Polyfill of the Node module, you can directly use the [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html) configuration.
+:::
+
+Only the official Rsbuild plugins that are not built into Modern.js are listed below:
+
+- [Image Compress Plugin](https://rsbuild.dev/plugins/list/plugin-image-compress): Compress the image resources used in the project.
+- [Stylus Plugin](https://rsbuild.dev/plugins/list/plugin-stylus): Use Stylus as the CSS preprocessor.
+- [UMD Plugin](https://rsbuild.dev/plugins/list/plugin-umd): Used to build outputs in UMD format.

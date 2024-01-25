@@ -1,0 +1,29 @@
+---
+sidebar_position: 21
+title: 使用 Rsbuild 插件
+---
+
+# 使用 Rsbuild 插件
+
+## 插件介绍
+
+Rsbuild 是 Modern.js 底层的构建工具，可通过添加 Rsbuild 插件修改默认的构建行为并添加各类额外功能，包括但不限于：
+
+- 修改 Rsbuild 配置
+- 处理新的文件类型
+- 修改或编译文件
+- 部署产物
+
+你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项来注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
+
+## 官方插件
+
+:::tip
+Rsbuild 中大部分插件已内置在 Modern.js 中，如：需要注入 Node 模块的 Polyfill 时，可直接使用 [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html) 配置项。
+:::
+
+以下仅列出了未在 Modern.js 中内置的 Rsbuild 官方插件：
+
+- [Image Compress 插件](https://rsbuild.dev/zh/plugins/list/plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
+- [Stylus 插件](https://rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
+- [UMD 插件](https://rsbuild.dev/zh/plugins/list/plugin-umd)：用于构建 UMD 格式的产物。
