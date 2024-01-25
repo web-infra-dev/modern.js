@@ -61,7 +61,9 @@ async function onServerChange({
       // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
       // @ts-expect-error
       if (success !== true) {
-        // TODO: support api handlers
+        await server.prepareFrameHandler({
+          shouldRegister: false,
+        });
       }
     } catch (e) {
       logger.error(e as Error);

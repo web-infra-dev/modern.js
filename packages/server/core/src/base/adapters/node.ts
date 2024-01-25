@@ -153,5 +153,7 @@ async function afterCreateNodeServer(
   // TODO: 支持 onInit 的功能
   // await this.server.onInit(this.runner, this.app);
 
-  await serverBase.prepareFrameHandler();
+  await serverBase.prepareFrameHandler({
+    shouldRegister: true,
+  });
 }
