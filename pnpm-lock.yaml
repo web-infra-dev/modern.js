@@ -3944,6 +3944,9 @@ importers:
       '@web-std/fetch':
         specifier: ^4.2.1
         version: 4.2.1
+      '@web-std/stream':
+        specifier: ^1.0.3
+        version: 1.0.3
       hono:
         specifier: ^3.12.2
         version: 3.12.6
