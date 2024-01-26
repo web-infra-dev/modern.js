@@ -1,7 +1,7 @@
 import path from 'path';
 import { createServerBase } from '../../src/base';
-import { registerMockHandler } from '../../src/base/adapters/mock';
-import { getDefaultConfig } from './helpers';
+import { registerMockHandlers } from '../../src/base/adapters/mock';
+import { getDefaultConfig, getDefaultAppContext } from './helpers';
 
 describe('should mock middleware work correctly', () => {
   const pwd = path.join(__dirname, './fixtures/mock');
@@ -9,9 +9,10 @@ describe('should mock middleware work correctly', () => {
   it('support cjs', async () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
+      appContext: getDefaultAppContext(),
       pwd: '',
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'cjs'),
     });
@@ -32,9 +33,10 @@ describe('should mock middleware work correctly', () => {
   it('should not handle if no config mock dir', async () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
+      appContext: getDefaultAppContext(),
       pwd: '',
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'empty'),
     });
@@ -45,9 +47,10 @@ describe('should mock middleware work correctly', () => {
   it('support post method', async () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
+      appContext: getDefaultAppContext(),
       pwd: '',
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'exist'),
     });
@@ -66,8 +69,9 @@ describe('should mock middleware work correctly', () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
       pwd: '',
+      appContext: getDefaultAppContext(),
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'exist'),
     });
@@ -79,8 +83,9 @@ describe('should mock middleware work correctly', () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
       pwd: '',
+      appContext: getDefaultAppContext(),
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'disable'),
     });
@@ -92,8 +97,9 @@ describe('should mock middleware work correctly', () => {
     const server = await createServerBase({
       config: getDefaultConfig(),
       pwd: '',
+      appContext: getDefaultAppContext(),
     });
-    await registerMockHandler({
+    await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'disable-runtime'),
     });
@@ -111,8 +117,9 @@ describe('should mock middleware work correctly', () => {
       const server = await createServerBase({
         config: getDefaultConfig(),
         pwd: '',
+        appContext: getDefaultAppContext(),
       });
-      await registerMockHandler({
+      await registerMockHandlers({
         server,
         pwd: path.join(pwd, 'module-error'),
       });
@@ -126,8 +133,9 @@ describe('should mock middleware work correctly', () => {
       const server = await createServerBase({
         config: getDefaultConfig(),
         pwd: '',
+        appContext: getDefaultAppContext(),
       });
-      await registerMockHandler({
+      await registerMockHandlers({
         server,
         pwd: path.join(pwd, 'type-error'),
       });

@@ -1,5 +1,5 @@
 import { createServerBase, favionFallbackMiddleware } from '../../src/base';
-import { getDefaultConfig } from './helpers';
+import { getDefaultAppContext, getDefaultConfig } from './helpers';
 
 describe('middleware', () => {
   describe('favionFallbackMiddleware', () => {
@@ -7,6 +7,7 @@ describe('middleware', () => {
       const server = await createServerBase({
         config: getDefaultConfig(),
         pwd: '',
+        appContext: getDefaultAppContext(),
       });
       server.get('*', favionFallbackMiddleware);
       const response = await server.request('/favicon.ico');
