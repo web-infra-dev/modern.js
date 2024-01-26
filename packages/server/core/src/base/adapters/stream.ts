@@ -10,6 +10,7 @@
  */
 import type { Readable, Writable } from 'node:stream';
 import { Stream } from 'node:stream';
+import { ReadableStream } from '@web-std/stream';
 
 export async function writeReadableStreamToWritable(
   stream: ReadableStream,

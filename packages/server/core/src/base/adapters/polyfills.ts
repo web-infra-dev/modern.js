@@ -3,6 +3,10 @@ import {
   Response as NodeResponse,
   Headers as NodeHeaders,
 } from '@web-std/fetch';
+import {
+  TransformStream as NodeTransformStream,
+  ReadableStream as NodeReadableStream,
+} from '@web-std/stream';
 
 export const installGlobals = () => {
   if (!global.Headers) {
@@ -15,5 +19,15 @@ export const installGlobals = () => {
 
   if (!global.Response) {
     global.Response = NodeResponse as unknown as typeof Response;
+  }
+
+  if (!global.TransformStream) {
+    global.TransformStream =
+      NodeTransformStream as unknown as typeof TransformStream;
+  }
+
+  if (!global.ReadableStream) {
+    global.ReadableStream =
+      NodeReadableStream as unknown as typeof ReadableStream;
   }
 };
