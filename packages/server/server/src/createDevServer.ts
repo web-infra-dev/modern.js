@@ -247,7 +247,10 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const apiDir = appContext?.apiDirectory || API_DIR;
   const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
 
-  const server = await createServerBase(options);
+  const server = await createServerBase({
+    ...options,
+    pwd: distDir, // server base pwd must distDir,
+  });
   const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
   registerMockHandlers({
@@ -288,7 +291,13 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   server.use('*', initFileReader());
 
-  const nodeServer = await createProdServer(options, server);
+  const nodeServer = await createProdServer(
+    {
+      ...options,
+      pwd: distDir, // server base pwd must distDir,
+    },
+    server,
+  );
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done

@@ -64,6 +64,7 @@ export async function startProdServer(
   const server = await prodServer({
     pwd: context.rootPath,
     config: getServerOptions(builderConfig),
+    routes: [],
   });
 
   await server.init();

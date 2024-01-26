@@ -131,7 +131,8 @@ export async function startDevServer(
         }),
       dev: devConfig,
       config,
-    },
+      // FIXME: type error
+    } as ModernDevServerOptionsNew,
     options.createProdServer,
   );
 

@@ -236,7 +236,6 @@ export const createHandler = (manifest: Manifest) => {
           entryName: page.entryName,
           logger,
           reporter: defaultReporter,
-          metrics,
           req: request,
           res: responseLike,
           serverTiming: {
