@@ -126,7 +126,7 @@ export async function createSSRHandler({
 
     const serverData = {
       router: {
-        baseUrl: c.req.path,
+        baseUrl: routeInfo.urlPath,
         params: c.req.param() as Record<string, any>,
       },
     };

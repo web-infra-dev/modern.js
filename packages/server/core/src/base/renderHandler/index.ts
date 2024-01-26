@@ -7,7 +7,7 @@ import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
-import { getRuntimeEnv } from '../libs/utils';
+import { checkIsProd, getRuntimeEnv } from '../libs/utils';
 import { createSSRHandler } from './ssrHandler';
 import { ssrCache } from './ssrCache';
 
@@ -124,7 +124,7 @@ export async function bindRenderHandler(
     warmup(ssrBundles);
 
     // load ssr cache mod
-    ssrCache.loadCacheMod(pwd);
+    ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
 
     const pageRoutes = routes
       .filter(route => !route.isApi)

@@ -8,6 +8,18 @@ export const getRuntimeEnv = () => {
   return 'other';
 };
 
+export const checkIsProd = () => {
+  const env = getRuntimeEnv();
+
+  switch (env) {
+    case 'node':
+      return process.env.NODE_ENV === 'production';
+
+    default:
+      return false;
+  }
+};
+
 export type CollectMiddlewaresResult = {
   web: any[];
   api: any[];
