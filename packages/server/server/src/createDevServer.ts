@@ -23,6 +23,7 @@ import {
 } from '@modern-js/utils';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { AGGRED_DIR } from '@modern-js/prod-server';
+import { merge } from '@modern-js/utils/lodash';
 import {
   CreateProdServer,
   DevServerOptions,
@@ -30,6 +31,7 @@ import {
 } from './types';
 import { enableRegister } from './dev-tools/register';
 import Watcher, { WatchEvent, mergeWatchOptions } from './dev-tools/watcher';
+import { getDefaultDevOptions } from './constants';
 
 async function onServerChange({
   pwd,
@@ -55,16 +57,8 @@ async function onServerChange({
     logger.info('Finish registering the mock handlers');
   } else {
     try {
-      const success = runner.onApiChange([{ filename: filepath, event }]);
-
-      // onApiChange 钩子被调用，且返回 true，则表示无需重新编译
-      // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
-      // @ts-expect-error
-      if (success !== true) {
-        await server.prepareFrameHandler({
-          shouldRegister: false,
-        });
-      }
+      await runner.onApiChange([{ filename: filepath, event }]);
+      logger.info('Finish reload server');
     } catch (e) {
       logger.error(e as Error);
     }
@@ -104,7 +98,6 @@ function startWatcher({
 
   const watcher = new Watcher();
   watcher.createDepTree();
-
   watcher.listen(defaultWatchedPaths, mergedWatchOptions, (filepath, event) => {
     // TODO: should delete this cache in onRepack
     if (filepath.includes('-server-loaders.js')) {
@@ -230,6 +223,12 @@ const onRepack = (
   runner.repack();
 };
 
+const getDevOptions = (options: ModernDevServerOptionsNew) => {
+  const devOptions = options.dev;
+  const defaultOptions = getDefaultDevOptions();
+  return merge(defaultOptions, devOptions);
+};
+
 export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptionsNew<O>,
   createProdServer: CreateProdServer<O>,
@@ -239,10 +238,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     pwd,
     routes = [],
     getMiddlewares,
-    dev,
     rsbuild,
     appContext,
   } = options;
+  const dev = getDevOptions(options);
+
   const distDir = path.resolve(pwd, config.output.path || 'dist');
   const apiDir = appContext?.apiDirectory || API_DIR;
   const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
@@ -278,7 +278,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
     closeCb.push(close);
     rsbuildMiddlewares.forEach(middleware => {
-      server.use('*', connectMid2HonoMid(middleware));
+      if (Array.isArray(middleware)) {
+        server.all(middleware[0], connectMid2HonoMid(middleware[1]));
+      } else {
+        server.all('*', connectMid2HonoMid(middleware));
+      }
     });
   }
 

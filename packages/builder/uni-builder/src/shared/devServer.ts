@@ -85,7 +85,7 @@ export type StartDevServerOptions = Omit<
   apiOnly?: boolean;
   defaultPort?: number;
   serverOptions?: ServerOptions;
-  createProdServer?: CreateProdServer;
+  createProdServer?: CreateProdServer<RsbuildStartDevServerOptions>;
 };
 
 export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {

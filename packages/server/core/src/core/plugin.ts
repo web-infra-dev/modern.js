@@ -91,7 +91,7 @@ type Change = {
 
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 
-const onApiChange = createWaterfall<Change[]>();
+const onApiChange = createAsyncWaterfall<Change[]>();
 
 const repack = createWaterfall();
 
