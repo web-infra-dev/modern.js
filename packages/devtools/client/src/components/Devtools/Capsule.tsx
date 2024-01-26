@@ -9,7 +9,7 @@ import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
 import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
-import { $client, bridge, wallAgent } from '@/entries/mount/state';
+import { $client, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
 import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 
@@ -39,11 +39,12 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   });
 
   useEffect(() => {
-    const handleStartInspecting = () => {
+    const handleBeforeWallReceive: ReactDevtoolsWallListener = e => {
+      if (e.event !== 'startInspectingNative') return;
       toggleDevtools(false);
       document.documentElement.style.setProperty('cursor', 'cell');
     };
-    bridge.addListener('startInspectingNative', handleStartInspecting);
+    wallAgent.hook('receive', handleBeforeWallReceive);
 
     const handleBeforeWallSend: ReactDevtoolsWallListener = e => {
       if (e.event !== 'stopInspectingNative') return;
@@ -53,7 +54,6 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
     wallAgent.hook('send', handleBeforeWallSend);
 
     return () => {
-      bridge.removeListener('startInspectingNative', handleStartInspecting);
       wallAgent.removeHook('send', handleBeforeWallSend);
     };
   }, []);
