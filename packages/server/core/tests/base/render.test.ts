@@ -1,12 +1,7 @@
 import path from 'path';
 import { createServerBase } from '../../src/base';
 import { bindRenderHandler } from '../../src/base/renderHandler';
-import { getDefaultConfig } from './helpers';
-
-// eslint-disable-next-line node/no-unsupported-features/node-builtins
-const { TextDecoder, TextEncoder } = require('util');
-
-Object.assign(global, { TextDecoder, TextEncoder });
+import { getDefaultAppContext, getDefaultConfig } from './helpers';
 
 describe('should render html correctly', () => {
   const pwd = path.join(__dirname, './fixtures/render');
@@ -18,12 +13,14 @@ describe('should render html correctly', () => {
     const server = await createServerBase({
       config,
       pwd: csrPwd,
+      appContext: getDefaultAppContext(),
     });
 
     await server.init();
 
-    await bindRenderHandler(server, csrPwd, {
+    await bindRenderHandler(server, {
       pwd: csrPwd,
+      appContext: getDefaultAppContext(),
       config,
       routes: require(path.resolve(csrPwd, 'route.json')),
     });

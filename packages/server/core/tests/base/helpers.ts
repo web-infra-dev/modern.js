@@ -9,3 +9,10 @@ export function getDefaultConfig() {
     bff: {},
   };
 }
+
+export function getDefaultAppContext() {
+  return {
+    apiDirectory: '',
+    lambdaDirectory: '',
+  };
+}

@@ -49,6 +49,10 @@ export type SSRServerContext = BaseSSRServerContext & {
   staticGenerate?: boolean;
 };
 
+export type ServerRender = (
+  ssrContext: SSRServerContext,
+) => Promise<string | Readable | ReadableStream>;
+
 export type RenderResult = {
   // eslint-disable-next-line node/prefer-global/buffer
   content: string | Buffer;
