@@ -143,29 +143,24 @@ export class ServerBase {
   async prepareFrameHandler(options?: {
     onlyApi?: boolean;
     onlyWeb?: boolean;
-    shouldRegister?: boolean;
   }) {
     const { runner } = this;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { onlyApi, onlyWeb, shouldRegister } = options || {};
+    const { onlyApi, onlyWeb } = options || {};
 
     // server hook, gather plugin inject
     const { getMiddlewares, ...collector } = createMiddlewareCollecter();
 
     await runner.gather(collector);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { api: pluginAPIExt, web: pluginWebExt } = getMiddlewares();
+    const { api: pluginAPIExt } = getMiddlewares();
 
     if (!onlyWeb) {
       const apiExtension = mergeExtension(pluginAPIExt);
-      await this.prepareApiHandler(apiExtension, shouldRegister);
+      await this.prepareApiHandler(apiExtension);
     }
   }
 
-  private async prepareApiHandler(
-    extension: APIServerStartInput['config'],
-    shouldRegister?: boolean,
-  ) {
+  private async prepareApiHandler(extension: APIServerStartInput['config']) {
     const runtimeEnv = getRuntimeEnv();
     if (runtimeEnv !== 'node') {
       return;
@@ -176,10 +171,14 @@ export class ServerBase {
     const prefix = bff?.prefix || '/api';
     const webOnly = await isWebOnly();
     if (webOnly && process.env.NODE_ENV === 'development') {
-      this.apiHandler = httpCallBack2HonoMid((req, res) => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.end(JSON.stringify(''));
-      });
+      // eslint-disable-next-line consistent-return
+      return this.all(
+        `${prefix}/*`,
+        httpCallBack2HonoMid((req, res) => {
+          res.setHeader('Content-Type', 'text/plain');
+          res.end(JSON.stringify(''));
+        }),
+      );
     } else {
       const middleware = await runner.prepareApiServer(
         {
@@ -192,19 +191,8 @@ export class ServerBase {
         { onLast: () => null as any },
       );
 
-      // TODO: need to refractor bff plugin
-      this.apiHandler = httpCallBack2HonoMid(middleware);
-    }
-
-    if (shouldRegister) {
       // eslint-disable-next-line consistent-return
-      return this.all(`${prefix}/*`, async (c, next) => {
-        if (this.apiHandler) {
-          return this.apiHandler(c, next);
-        } else {
-          return next();
-        }
-      });
+      return this.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
     }
   }
 

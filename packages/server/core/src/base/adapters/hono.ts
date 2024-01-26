@@ -7,6 +7,7 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
   return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
     const { req, res } = context.env.node!;
     handler(req, res);
+    context.finalized = true;
     await next();
   };
 };
