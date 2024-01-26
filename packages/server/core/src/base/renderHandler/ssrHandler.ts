@@ -125,7 +125,7 @@ export async function createSSRHandler({
         : ssrResult;
 
     const serverData = {
-      route: {
+      router: {
         baseUrl: c.req.path,
         params: c.req.param() as Record<string, any>,
       },
@@ -151,7 +151,7 @@ function injectServerData(
   const replcaeCb = (beforeHead: string) =>
     `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
       serverData,
-    )}</script`;
+    )}</script>`;
 
   if (typeof body === 'string') {
     return body.replace(searchValue, replcaeCb);
