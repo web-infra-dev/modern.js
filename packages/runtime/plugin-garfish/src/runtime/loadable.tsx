@@ -18,6 +18,11 @@ interface LoadableState {
 export interface MicroProps {
   setLoadingState: (state: { isLoading?: boolean; error?: unknown }) => void;
   [key: string]: any;
+
+  // just for type hint to users
+  useHref?: any;
+  useLocation?: any;
+  useHistory?: any;
 }
 
 const DEFAULT_LOADABLE = {
