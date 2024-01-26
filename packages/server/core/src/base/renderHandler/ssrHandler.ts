@@ -8,12 +8,18 @@ import {
 } from '@modern-js/utils';
 import { Logger, ServerRoute } from '@modern-js/types';
 import * as isbot from 'isbot';
-import { HonoNodeEnv, Middleware, SSRServerContext } from '../types';
+import {
+  HonoNodeEnv,
+  Middleware,
+  SSRServerContext,
+  ServerRender,
+} from '../types';
 import { defaultReporter } from '../libs/default';
-import { createInjectStream, getHost } from '../libs/utils';
+import { createTransformStream, getHost } from '../libs/utils';
 import { ServerTiming } from '../libs/serverTiming';
 import { createReadableStreamFromReadable } from '../adapters/stream';
 import { REPLACE_REG } from '../libs/constants';
+import { ssrCache } from './ssrCache';
 
 export interface SSRHandlerOptions {
   pwd: string;
@@ -87,14 +93,28 @@ export async function createSSRHandler({
 
     // TODO: ssr cache
     const jsBundle = await import(jsBundlePath);
-    const render = jsBundle[SERVER_RENDER_FUNCTION_NAME];
+    const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
 
     // FIXME: render should return string | ReadableStream
-    const ssrResult: string | ReadableStream | Readable = await render(
-      ssrContext,
-    );
+
+    const nodeReq = c.env.node?.req;
+    const cacheControl = await ssrCache.matchCacheControl(nodeReq);
+
+    let ssrResult: string | ReadableStream | Readable;
+
+    if (cacheControl) {
+      ssrResult = await ssrCache.getCache(
+        c.req,
+        cacheControl,
+        render,
+        ssrContext,
+      );
+    } else {
+      ssrResult = await render(ssrContext);
+    }
 
     const { redirection } = ssrContext;
+
     if (redirection.url) {
       return c.redirect(redirection.url, redirection.status);
     }
@@ -136,7 +156,7 @@ function injectServerData(
   if (typeof body === 'string') {
     return body.replace(searchValue, replcaeCb);
   } else {
-    const stream = createInjectStream(before => {
+    const stream = createTransformStream(before => {
       return before.replace(searchValue, replcaeCb);
     });
 

@@ -99,7 +99,7 @@ const decoder: TextDecoder = new TextDecoder();
 // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-encoder
 const encoder: TextEncoder = new TextEncoder();
 
-export function createInjectStream(
+export function createTransformStream(
   fn: (content: string) => MaybeAsync<string>,
 ) {
   return new TransformStream({

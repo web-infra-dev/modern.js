@@ -9,6 +9,7 @@ import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
 import { getRuntimeEnv } from '../libs/utils';
 import { createSSRHandler } from './ssrHandler';
+import { ssrCache } from './ssrCache';
 
 export interface CreateRenderHOptions {
   routeInfo: ServerRoute;
@@ -121,6 +122,9 @@ export async function bindRenderHandler(
       .filter(route => route.isSSR && route.bundle)
       .map(route => path.join(pwd, route.bundle!));
     warmup(ssrBundles);
+
+    // load ssr cache mod
+    ssrCache.loadCacheMod(pwd);
 
     const pageRoutes = routes
       .filter(route => !route.isApi)

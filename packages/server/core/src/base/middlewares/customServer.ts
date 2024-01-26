@@ -6,7 +6,7 @@ import {
   createCustomMiddlewaresCtx,
   createAfterStreamingRenderContext,
 } from '../libs/customServer';
-import { createInjectStream } from '../libs/utils';
+import { createTransformStream } from '../libs/utils';
 import { ServerBase } from '../serverBase';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -105,7 +105,7 @@ export class CustomServer {
           this.metrics,
         );
 
-        const injectStream = createInjectStream((chunk: string) => {
+        const injectStream = createTransformStream((chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
           return this.runner.afterStreamingRender(context, {
             onLast: ({ chunk }) => chunk,

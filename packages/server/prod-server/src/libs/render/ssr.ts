@@ -67,7 +67,6 @@ export const render = async (
       status: code => {
         ctx.res.statusCode = code;
       },
-      locals: ctx.res?.locals || {},
     },
     redirection: {},
     template,
