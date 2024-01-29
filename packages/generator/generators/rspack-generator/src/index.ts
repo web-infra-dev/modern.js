@@ -1,17 +1,12 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import {
-  chalk,
-  getModernConfigFile,
-  isTsProject,
-} from '@modern-js/generator-utils';
+import { isTsProject } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
   Language,
 } from '@modern-js/generator-common';
-import { i18n, localeKeys } from './locale';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -69,37 +64,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  if (!context.config.isSubGenerator) {
-    await appApi.runInstall(undefined, { ignoreScripts: true });
-    const appDir = context.materials.default.basePath;
-    const configFile = await getModernConfigFile(appDir);
-    const isTS = configFile.endsWith('ts');
-    console.info(
-      chalk.green(`\n[INFO]`),
-      `${i18n.t(localeKeys.success)}`,
-      chalk.yellow.bold(`${configFile}`),
-      ':',
-      '\n',
-    );
-    if (isTS) {
-      console.info(`
-export default defineConfig${chalk.yellow.bold("<'rspack'>")}({
-  ...,
-  plugins: [appTools(${chalk.yellow.bold(
-    `{ bundler: 'experimental-rspack' }`,
-  )}), ...],
-});
-`);
-    } else {
-      console.info(`
-module.exports = {
-  ...,
-  plugins: [appTools(${chalk.yellow.bold(
-    `{ bundler: 'experimental-rspack' }`,
-  )}), ...],
-};
-`);
-    }
-  }
   generator.logger.debug(`forge @modern-js/rspack-generator succeed `);
 };
