@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
+import { getPathWithoutExt } from '../utils/routes';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
 import { hasAction, replaceWithAlias } from './utils';
 
@@ -8,11 +9,6 @@ const conventionNames = Object.values(NESTED_ROUTE);
 
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
-};
-
-const getPathWithoutExt = (filename: string) => {
-  const extname = path.extname(filename);
-  return filename.slice(0, -extname.length);
 };
 
 export const getRouteId = (
@@ -165,10 +161,8 @@ export const walk = async (
 
   for (const item of items) {
     const itemPath = path.join(dirname, item);
-    const itemPathWithAlias = replaceWithAlias(
-      alias.basename,
-      itemPath,
-      alias.name,
+    const itemPathWithAlias = getPathWithoutExt(
+      replaceWithAlias(alias.basename, itemPath, alias.name),
     );
     const extname = path.extname(item);
     const itemWithoutExt = item.slice(0, -extname.length);
