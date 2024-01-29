@@ -1,7 +1,7 @@
 import path from 'path';
 import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 const commonConfig = {
   cwd: __dirname,
@@ -36,7 +36,7 @@ const noStyledConfig = {
 test('should allow to disable styled-components when use swc plugin', async () => {
   const builder = await build({
     ...noStyledConfig,
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
   });
   const files = await builder.unwrapOutputJSON();
 
@@ -53,7 +53,7 @@ test('should allow to disable styled-components when use swc plugin', async () =
 test('should transform styled-components by default when use swc plugin', async () => {
   const builder = await build({
     ...commonConfig,
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
   });
   const files = await builder.unwrapOutputJSON();
 

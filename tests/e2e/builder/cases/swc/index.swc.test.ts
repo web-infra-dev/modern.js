@@ -3,7 +3,7 @@ import * as path from 'path';
 import { readFileSync } from 'fs';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 test('should run SWC compilation correctly', async ({ page }) => {
   const builder = await build({
@@ -11,7 +11,7 @@ test('should run SWC compilation correctly', async ({ page }) => {
     entry: {
       index: path.resolve(__dirname, './src/main.ts'),
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     runServer: true,
   });
 
@@ -33,7 +33,7 @@ test('should optimize lodash bundle size', async ({ page }) => {
     entry: {
       index: path.resolve(__dirname, './src/main.ts'),
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     runServer: true,
     builderConfig: {
       output: {
@@ -65,7 +65,7 @@ test('should use define for class', async () => {
       index: path.resolve(__dirname, './src/main.ts'),
     },
     plugins: [
-      builderPluginSwc({
+      pluginSwc({
         overrides: [
           {
             test: /override.ts/,
@@ -111,7 +111,7 @@ test('core-js-entry', async () => {
       index: path.resolve(__dirname, './src/core-js-entry.ts'),
     },
     plugins: [
-      builderPluginSwc({
+      pluginSwc({
         env: {
           targets: 'ie 9',
           mode: 'entry',
@@ -136,7 +136,7 @@ test('core-js-usage', async () => {
       index: path.resolve(__dirname, './src/core-js-usage.ts'),
     },
     plugins: [
-      builderPluginSwc({
+      pluginSwc({
         env: {
           targets: 'ie 9',
           mode: 'usage',

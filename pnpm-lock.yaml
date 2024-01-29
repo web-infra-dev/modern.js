@@ -5986,9 +5986,6 @@ importers:
         specifier: ^3.3.4
         version: 3.3.4
     devDependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/builder/plugin-swc
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../../packages/toolkit/e2e
@@ -6001,6 +5998,9 @@ importers:
       '@playwright/test':
         specifier: 1.33.0
         version: 1.33.0
+      '@rsbuild/plugin-swc':
+        specifier: 0.3.7
+        version: 0.3.7(@rsbuild/core@0.3.7)
       '@rsbuild/shared':
         specifier: 0.3.7
         version: 0.3.7(@swc/helpers@0.5.3)
@@ -8027,9 +8027,6 @@ importers:
         specifier: ^5
         version: 5.3.3
     devDependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/builder/plugin-swc
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
         version: link:../../../packages/builder/builder-rspack-provider
