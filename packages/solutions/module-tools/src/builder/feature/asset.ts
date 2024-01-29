@@ -1,11 +1,12 @@
 import { basename, join, extname, relative, dirname, resolve } from 'path';
 import fs from 'fs';
+import _ from '@modern-js/utils/lodash';
 import type { Loader } from 'esbuild';
 import { createFilter } from '@rollup/pluginutils';
 import { transform } from '../../../compiled/@svgr/core';
 import svgo from '../../../compiled/@svgr/plugin-svgo';
 import jsx from '../../../compiled/@svgr/plugin-jsx';
-import { ICompiler } from '../../types';
+import type { ICompiler, SvgrOptions } from '../../types';
 import { assetExt } from '../../constants/file';
 import { normalizeSlashes, getHash } from '../../utils';
 
@@ -58,6 +59,25 @@ function encodeSVG(buffer: Buffer) {
   );
 }
 
+const getDefaultSVGRConfig = (): SvgrOptions => ({
+  svgo: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: 'preset-default',
+        params: {
+          overrides: {
+            // viewBox is required to resize SVGs with CSS.
+            // @see https://github.com/svg/svgo/issues/1128
+            removeViewBox: false,
+          },
+        },
+      },
+      'prefixIds',
+    ],
+  },
+});
+
 /**
  *
  * @param this Compiler
@@ -92,7 +112,10 @@ export async function getAssetContents(
   let contents: string | Buffer = normalizedPublicPath;
   let loader: Loader = 'text';
 
-  const config = typeof svgr === 'boolean' ? {} : svgr;
+  const defaultConfig = getDefaultSVGRConfig();
+  const config =
+    typeof svgr === 'boolean' ? defaultConfig : _.merge(defaultConfig, svgr);
+
   const filter = createFilter(config.include || SVG_REGEXP, config.exclude);
   if (svgr && filter(assetPath)) {
     // svgr jsx-loader
