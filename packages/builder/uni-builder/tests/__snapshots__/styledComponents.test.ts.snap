@@ -485,6 +485,12 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
             ],
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
           },
           "jsc": {
             "externalHelpers": true,

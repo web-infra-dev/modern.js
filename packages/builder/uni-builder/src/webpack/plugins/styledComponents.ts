@@ -1,4 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { PLUGIN_SWC_NAME } from '@rsbuild/core';
 import {
   isServerTarget,
   mergeChainedOptions,
@@ -11,6 +12,8 @@ export const pluginStyledComponents = (
   userConfig: ChainedConfig<PluginStyledComponentsOptions> = {},
 ): RsbuildPlugin => ({
   name: 'uni-builder:styled-components',
+
+  pre: [PLUGIN_SWC_NAME, 'uni-builder:babel'],
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd }) => {
