@@ -1282,7 +1282,9 @@ Set `inject` to `true` to enable this feature:
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    inject: true,
+    style: {
+      inject: true,
+    },
   },
 });
 ```
