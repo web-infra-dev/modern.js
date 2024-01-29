@@ -35,7 +35,6 @@ export const EN_LOCALE = {
       polyfill: 'Enable UA-based Polyfill Feature',
       proxy: 'Enable Global Proxy',
       swc: 'Enable SWC Compile',
-      rspack: 'Enable Rspack Build (experimental)',
       module_doc: 'Enable Module Doc',
     },
     element: {
