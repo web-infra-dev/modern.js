@@ -485,7 +485,6 @@ export default defineConfig({
 });
 ```
 
-
 ## dts.only
 
 是否在构建时只生成类型文件，不生成 JavaScript 产物文件。
@@ -1281,7 +1280,9 @@ export default defineConfig({
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    inject: true,
+    style: {
+      inject: true,
+    },
   },
 });
 ```
