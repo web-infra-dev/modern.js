@@ -1,12 +1,12 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'node:path';
 import {
-  createServerBase,
   connectMid2HonoMid,
   ServerBaseOptions,
   registerMockHandlers,
   Middleware,
   ServerBase,
+  createNodeServer,
 } from '@modern-js/server-core/base';
 
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
@@ -25,7 +25,7 @@ import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import { merge } from '@modern-js/utils/lodash';
 import {
-  CreateProdServer,
+  InitProdMiddlewares,
   DevServerOptions,
   ModernDevServerConfig as ModernDevServerOptionsNew,
 } from './types';
@@ -231,7 +231,7 @@ const getDevOptions = (options: ModernDevServerOptionsNew) => {
 
 export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptionsNew<O>,
-  createProdServer: CreateProdServer<O>,
+  initProdMiddlewares: InitProdMiddlewares<O>,
 ): Promise<NodeServer> => {
   const {
     config,
@@ -247,10 +247,13 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const apiDir = appContext?.apiDirectory || API_DIR;
   const sharedDir = appContext?.sharedDirectory || SHARED_DIR;
 
-  const server = await createServerBase({
+  const prodServerOptions = {
     ...options,
     pwd: distDir, // server base pwd must distDir,
-  });
+  };
+
+  const server = new ServerBase(prodServerOptions);
+
   const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
   registerMockHandlers({
@@ -290,14 +293,8 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   }
 
   server.use('*', initFileReader());
-
-  const nodeServer = await createProdServer(
-    {
-      ...options,
-      pwd: distDir, // server base pwd must distDir,
-    },
-    server,
-  );
+  await server.init();
+  const nodeServer = await createNodeServer(server.handle.bind(server), server);
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     // Reset only when client compile done
@@ -307,6 +304,8 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
+
+  await initProdMiddlewares(server, prodServerOptions);
 
   if (dev.watch) {
     const { watchOptions } = config.server;

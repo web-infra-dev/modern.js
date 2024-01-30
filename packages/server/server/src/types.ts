@@ -1,8 +1,4 @@
-import type {
-  IncomingMessage,
-  ServerResponse,
-  Server as NodeServer,
-} from 'http';
+import type { IncomingMessage, ServerResponse } from 'http';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
@@ -82,7 +78,7 @@ export type ModernDevServerConfig<
   O extends ServerBaseOptions = ServerBaseOptions,
 > = O & ExtraOptionsNew;
 
-export type CreateProdServer<O extends ServerBaseOptions> = (
+export type InitProdMiddlewares<O extends ServerBaseOptions> = (
+  server: ServerBase,
   options: O,
-  serverBase: ServerBase,
-) => Promise<NodeServer>;
+) => Promise<ServerBase>;
