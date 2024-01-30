@@ -94,7 +94,7 @@ export async function parseCommonConfig(
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
 
-  // deepClone will cause class instance error
+  // only deepClone sub config, deepClone all config will cause class instance method undefined
   const rsbuildConfig = (
     [
       'performance',

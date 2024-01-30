@@ -2,6 +2,6 @@
 '@modern-js/uni-builder': patch
 ---
 
-fix(uni-builder): validate error when add webpack plugin
+fix(uni-builder): deepmerge cause plugin apply undefined
 
-fix(uni-builder): 修改自定义 webpack 插件编译报错问题
+fix(uni-builder): deepmerge 导致 webpack apply 方法丢失
