@@ -1,4 +1,4 @@
-import { Server, ModernDevServerOptions } from '@modern-js/server';
+import { Server, ModernDevServerOptionsOld } from '@modern-js/server';
 import type { InternalPlugins } from '@modern-js/types';
 
 let server: Server | null = null;
@@ -16,7 +16,7 @@ export const closeServer = async () => {
   }
 };
 
-export const createServer = async (options: ModernDevServerOptions) => {
+export const createServer = async (options: ModernDevServerOptionsOld) => {
   if (server) {
     await server.close();
   }

@@ -30,7 +30,7 @@ import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
-import type { DevServerOptions, ModernDevServerOptionsNew } from '../types';
+import type { DevServerOptions, ModernDevServerOptionsOld } from '../types';
 import { workerSSRRender } from './workerSSRRender';
 
 const transformToRsbuildServerOptions = (
@@ -70,9 +70,9 @@ export class ModernDevServer extends ModernServer {
 
   private readonly useWorkerSSR: boolean;
 
-  private readonly appContext: ModernDevServerOptionsNew['appContext'];
+  private readonly appContext: ModernDevServerOptionsOld['appContext'];
 
-  private getMiddlewares: ModernDevServerOptionsNew['getMiddlewares'];
+  private getMiddlewares: ModernDevServerOptionsOld['getMiddlewares'];
 
   private rsbuild: RsbuildInstance;
 
@@ -80,7 +80,7 @@ export class ModernDevServer extends ModernServer {
 
   private closeCb: Array<() => Promise<void>> = [];
 
-  constructor(options: ModernDevServerOptionsNew) {
+  constructor(options: ModernDevServerOptionsOld) {
     super(options);
 
     this.appContext = options.appContext;
@@ -238,7 +238,7 @@ export class ModernDevServer extends ModernServer {
     }
   }
 
-  private getDevOptions(options: ModernDevServerOptionsNew) {
+  private getDevOptions(options: ModernDevServerOptionsOld) {
     const devOptions = options.dev;
     const defaultOptions = getDefaultDevOptions();
     return deepMerge(defaultOptions, devOptions);

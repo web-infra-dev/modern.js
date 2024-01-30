@@ -766,6 +766,9 @@ importers:
       '@modern-js/builder-plugin-node-polyfill':
         specifier: workspace:*
         version: link:../plugin-node-polyfill
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@rsbuild/plugin-swc':
         specifier: 0.3.7
         version: 0.3.7(@rsbuild/core@0.3.7)

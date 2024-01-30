@@ -22,9 +22,7 @@ export type { ServerNodeContext, ServerBaseOptions, Next, Middleware };
 export { registerMockHandlers };
 export { createNodeServer, ServerBase };
 
-export async function createServerBase(
-  options: Omit<ServerBaseOptions, 'app'>,
-) {
+export async function createServerBase(options: ServerBaseOptions) {
   if (options == null) {
     throw new Error('can not start server without options');
   }

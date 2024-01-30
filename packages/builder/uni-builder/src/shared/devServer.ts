@@ -8,15 +8,15 @@ import {
   mergeChainedOptions,
 } from '@rsbuild/shared';
 import type {
-  ModernDevServerOptionsNew,
+  ModernDevServerOptions,
   CreateProdServer,
 } from '@modern-js/server';
 import type { Server } from 'node:http';
 import { type ModernServerOptions } from '@modern-js/prod-server';
 import { UniBuilderConfig } from '../types';
 
-type ServerOptions = Partial<Omit<ModernDevServerOptionsNew, 'config'>> & {
-  config?: Partial<ModernDevServerOptionsNew['config']>;
+type ServerOptions = Partial<Omit<ModernDevServerOptions, 'config'>> & {
+  config?: Partial<ModernDevServerOptions['config']>;
 };
 
 const getServerOptions = (
@@ -50,8 +50,8 @@ const getDevServerOptions = async ({
   serverOptions: ServerOptions;
   port: number;
 }): Promise<{
-  config: ModernDevServerOptionsNew['config'];
-  devConfig: ModernDevServerOptionsNew['dev'];
+  config: ModernDevServerOptions['config'];
+  devConfig: ModernDevServerOptions['dev'];
 }> => {
   const defaultDevConfig = deepmerge(
     {
@@ -85,7 +85,7 @@ export type StartDevServerOptions = Omit<
   apiOnly?: boolean;
   defaultPort?: number;
   serverOptions?: ServerOptions;
-  createProdServer?: CreateProdServer<RsbuildStartDevServerOptions>;
+  createProdServer?: CreateProdServer;
 };
 
 export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
@@ -131,8 +131,7 @@ export async function startDevServer(
         }),
       dev: devConfig,
       config,
-      // FIXME: type error
-    } as ModernDevServerOptionsNew,
+    } as ModernDevServerOptions,
     options.createProdServer,
   );
 

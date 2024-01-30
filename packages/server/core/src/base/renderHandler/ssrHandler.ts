@@ -91,11 +91,9 @@ export async function createSSRHandler({
       nonce,
     };
 
-    // TODO: ssr cache
     const jsBundle = await import(jsBundlePath);
-    const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
-
     // FIXME: render should return string | ReadableStream
+    const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
 
     const nodeReq = c.env.node?.req;
     const cacheControl = await ssrCache.matchCacheControl(nodeReq);

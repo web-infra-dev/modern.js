@@ -31,7 +31,10 @@ import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
-import type { DevServerOptions, ModernDevServerOptions } from '../types';
+import type {
+  DevServerOptions,
+  ModernDevServerOptionsOld as ModernDevServerOptions,
+} from '../types';
 import DevMiddleware from '../dev-tools/dev-middleware';
 import { workerSSRRender } from './workerSSRRender';
 
@@ -64,7 +67,7 @@ export class ModernDevServer extends ModernServer {
     // create dev middleware instance
     this.devMiddleware = new DevMiddleware({
       dev: this.dev,
-      devMiddleware: options.devMiddleware,
+      devMiddleware: (options as any).devMiddleware,
     });
 
     enableRegister(this.pwd, this.conf);

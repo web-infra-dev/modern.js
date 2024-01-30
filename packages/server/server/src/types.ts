@@ -8,7 +8,7 @@ import type {
   DevServerHttpsOptions,
   NextFunction,
 } from '@modern-js/types';
-import type { ModernServerOptions } from '@modern-js/prod-server';
+import type { ModernServerOptions as ModernServerOptionsOld } from '@modern-js/prod-server';
 import type {
   RsbuildInstance,
   DevServerAPIs,
@@ -58,14 +58,6 @@ export type DevMiddlewareOptions = {
 export type DevMiddleware = (options: DevMiddlewareOptions) => DevMiddlewareAPI;
 
 export type ExtraOptions = {
-  dev: boolean | Partial<DevServerOptions>;
-  devMiddleware?: DevMiddleware;
-  useWorkerSSR?: boolean;
-};
-
-export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
-
-export type ExtraOptionsNew = {
   dev: Partial<DevServerOptions>;
   useWorkerSSR?: boolean;
   rsbuild?: RsbuildInstance;
@@ -74,15 +66,12 @@ export type ExtraOptionsNew = {
   ) => ReturnType<DevServerAPIs['getMiddlewares']>;
 };
 
-export type ModernDevServerOptionsNew = ModernDevServerOptions &
-  ExtraOptionsNew;
+export type ModernDevServerOptionsOld = ModernServerOptionsOld & ExtraOptions;
 
 // TODO: rename ModernDevServerOptions
-export type ModernDevServerConfig<
+export type ModernDevServerOptions<
   O extends ServerBaseOptions = ServerBaseOptions,
-> = O & ExtraOptionsNew;
+> = O & ExtraOptions;
 
-export type CreateProdServer<O extends ServerBaseOptions> = (
-  options: O,
-  serverBase: ServerBase,
-) => Promise<NodeServer>;
+export type CreateProdServer<O extends ServerBaseOptions = ServerBaseOptions> =
+  (options: O, serverBase: ServerBase) => Promise<NodeServer>;
