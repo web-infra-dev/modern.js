@@ -1,10 +1,9 @@
 import webpackDevMiddleware from '@modern-js/builder-shared/webpack-dev-middleware';
-import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 
 import type { Compiler, MultiCompiler } from '@rspack/core';
 
-type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
+type DevMiddlewareOptions = any;
 
 export function getHotRuntimeEntries(compiler: Compiler) {
   const hot = compiler.options.devServer?.hot ?? true;
@@ -39,7 +38,7 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
 
 export const getDevMiddleware: (
   compiler: Compiler | MultiCompiler,
-) => NonNullable<DevMiddlewareOptions> = compiler => options => {
+) => NonNullable<DevMiddlewareOptions> = compiler => (options: any) => {
   const { hmrClientPath, callbacks, ...restOptions } = options;
 
   if ((compiler as MultiCompiler).compilers) {

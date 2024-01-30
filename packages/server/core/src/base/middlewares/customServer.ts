@@ -1,5 +1,5 @@
 import { ServerRoute } from '@modern-js/types';
-import { Metrics, Middleware, ServerHookRunner, Logger } from '../types';
+import { Metrics, Middleware, ServerHookRunner, HonoNodeEnv } from '../types';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
@@ -15,8 +15,6 @@ const noop = () => {};
 export class CustomServer {
   private runner: ServerHookRunner;
 
-  private logger: Logger;
-
   private metrics?: Metrics;
 
   private serverMiddlewarePromise: ReturnType<
@@ -29,7 +27,6 @@ export class CustomServer {
     runner: ServerHookRunner,
     serverBase: ServerBase,
     pwd: string,
-    logger: Logger,
     metrics?: Metrics,
   ) {
     this.runner = runner;
@@ -37,8 +34,6 @@ export class CustomServer {
     this.serverBase = serverBase;
 
     this.metrics = metrics;
-
-    this.logger = logger;
 
     // The webExtension is deprecated, so we give a empty array to it.
     const webExtension: any[] = [];
@@ -54,15 +49,19 @@ export class CustomServer {
     );
   }
 
-  getHookMiddleware(entryName: string, routes: ServerRoute[]): Middleware {
+  getHookMiddleware(
+    entryName: string,
+    routes: ServerRoute[],
+  ): Middleware<HonoNodeEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
+      const logger = c.get('logger');
       const afterMatchCtx = createAfterMatchCtx(
         c,
         entryName,
-        this.logger,
+        logger,
         this.metrics,
       );
 
@@ -100,7 +99,7 @@ export class CustomServer {
         // run afterStreamingRender hook
         const afterStreamingRenderContext = createAfterStreamingRenderContext(
           c,
-          this.logger,
+          logger,
           routeInfo,
           this.metrics,
         );
@@ -124,7 +123,7 @@ export class CustomServer {
         // run afterRenderHook hook
         const afterRenderCtx = await createAfterRenderCtx(
           c,
-          this.logger,
+          logger,
           this.metrics,
         );
 
@@ -143,7 +142,7 @@ export class CustomServer {
     };
   }
 
-  getServerMiddleware(): Middleware {
+  getServerMiddleware(): Middleware<HonoNodeEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       const serverMiddleware = await this.serverMiddlewarePromise;
@@ -151,9 +150,11 @@ export class CustomServer {
         return next();
       }
 
+      const logger = c.get('logger');
+
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
         c,
-        this.logger,
+        logger,
         this.metrics,
       );
 

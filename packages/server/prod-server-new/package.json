@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@modern-js/eslint-config": "workspace:*",
-    "@modern-js/module-tools": "2.45.0",
+    "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/merge-deep": "^3.0.0",
