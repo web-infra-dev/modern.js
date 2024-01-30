@@ -7,12 +7,13 @@ import {
   deepmerge,
   mergeChainedOptions,
 } from '@rsbuild/shared';
-import type {
-  ModernDevServerOptions,
-  CreateProdServer,
-} from '@modern-js/server';
+
+import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
-import { type ModernServerOptions } from '@modern-js/prod-server';
+import {
+  InitProdMiddlewares,
+  ProdServerOptions as ModernServerOptions,
+} from '@modern-js/prod-server-new';
 import { UniBuilderConfig } from '../types';
 
 type ServerOptions = Partial<Omit<ModernDevServerOptions, 'config'>> & {
@@ -85,7 +86,7 @@ export type StartDevServerOptions = Omit<
   apiOnly?: boolean;
   defaultPort?: number;
   serverOptions?: ServerOptions;
-  createProdServer?: CreateProdServer;
+  initProdMiddlewares?: InitProdMiddlewares;
 };
 
 export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
@@ -99,8 +100,8 @@ export async function startDevServer(
 ) {
   debug('create dev server');
 
-  if (!options.createProdServer) {
-    throw new Error('Must pass function: createProdServer');
+  if (!options.initProdMiddlewares) {
+    throw new Error('Must pass function: initProdMiddlewares');
   }
 
   const { createDevServer } = await import('@modern-js/server');
@@ -132,7 +133,7 @@ export async function startDevServer(
       dev: devConfig,
       config,
     } as ModernDevServerOptions,
-    options.createProdServer,
+    options.initProdMiddlewares,
   );
 
   const {

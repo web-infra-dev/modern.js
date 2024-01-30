@@ -1,10 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import type { NestedRoute, ServerRoute } from '@modern-js/types';
-import {
-  installGlobals,
-  writeReadableStreamToWritable,
-  Response as NodeResponse,
-} from '@remix-run/node';
+import type {
+  Logger,
+  NestedRoute,
+  Reporter,
+  ServerRoute,
+} from '@modern-js/types';
+import { installGlobals, Response as NodeResponse } from '@remix-run/node';
 import {
   createStaticHandler,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
@@ -15,7 +15,6 @@ import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import { isPlainObject } from '@modern-js/utils/lodash';
 import {
   matchEntry,
-  ServerContext,
   createRequestContext,
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
@@ -59,81 +58,24 @@ function convertModernRedirectResponse(headers: Headers, basename: string) {
   });
 }
 
-const createLoaderHeaders = (
-  requestHeaders: IncomingMessage['headers'],
-): Headers => {
-  const headers = new Headers();
-
-  for (const [key, values] of Object.entries(requestHeaders)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
-};
-
-const createRequest = (context: ServerContext) => {
-  const origin = `${context.protocol}://${context.host}`;
-  // eslint-disable-next-line node/prefer-global/url
-  const url = new URL(context.url, origin);
-
-  const controller = new AbortController();
-
-  const init: {
-    [key: string]: unknown;
-  } = {
-    method: context.method,
-    headers: createLoaderHeaders(context.headers),
-    signal: controller.signal,
-  };
-
-  if (!['GET', 'HEAD'].includes(context.method.toUpperCase())) {
-    init.body = context.req;
-  }
-
-  const request = new Request(url.href, init);
-
-  return request;
-};
-
-const sendLoaderResponse = async (
-  res: ServerResponse,
-  nodeResponse: NodeResponse,
-) => {
-  res.statusMessage = nodeResponse.statusText;
-  res.statusCode = nodeResponse.status;
-
-  for (const [key, value] of nodeResponse.headers.entries()) {
-    res.setHeader(key, value);
-  }
-
-  if (nodeResponse.body) {
-    await writeReadableStreamToWritable(nodeResponse.body, res);
-  } else {
-    res.end();
-  }
-};
-
 export const handleRequest = async ({
-  context,
+  request,
   serverRoutes,
   routes: routesConfig,
+  context,
 }: {
-  context: ServerContext;
+  request: Request;
   serverRoutes: ServerRoute[];
   routes: NestedRoute[];
-}) => {
-  const { query } = context;
-  const routeId = query[LOADER_ID_PARAM] as string;
-  const entry = matchEntry(context.path, serverRoutes);
-
+  context: {
+    logger: Logger;
+    reporter: Reporter;
+  };
+}): Promise<Response | void> => {
+  // eslint-disable-next-line node/prefer-global/url
+  const url = new URL(request.url);
+  const routeId = url.searchParams.get(LOADER_ID_PARAM) as string;
+  const entry = matchEntry(url.pathname, serverRoutes);
   // LOADER_ID_PARAM is the indicator for CSR data loader request.
   if (!routeId || !entry) {
     return;
@@ -141,13 +83,12 @@ export const handleRequest = async ({
 
   const basename = entry.urlPath;
   const end = time();
-  const { res, logger, reporter } = context;
+  const { logger, reporter } = context;
   const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
-  const request = createRequest(context);
   const requestContext = createRequestContext();
   // initial requestContext
   // 1. inject reporter
@@ -211,5 +152,6 @@ export const handleRequest = async ({
 
   const cost = end();
   reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
-  await sendLoaderResponse(res, response);
+  // eslint-disable-next-line consistent-return
+  return response as unknown as Response;
 };

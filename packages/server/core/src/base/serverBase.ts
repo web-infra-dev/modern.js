@@ -3,16 +3,15 @@ import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
   SHARED_DIR,
-  createLogger,
   dotenv,
   dotenvExpand,
   ensureAbsolutePath,
   fs,
   isWebOnly,
 } from '@modern-js/utils';
-import { ISAppContext, Logger } from '@modern-js/types';
+import { ISAppContext } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
-import { Hono, HonoRequest } from 'hono';
+import { Hono } from 'hono';
 import {
   APIServerStartInput,
   AppContext,
@@ -23,7 +22,7 @@ import {
 } from '../core';
 import {
   ConfWithBFF,
-  Middleware,
+  HonoEnv,
   ServerBaseOptions,
   ServerHookRunner,
 } from './types';
@@ -35,7 +34,6 @@ import {
 } from './libs/loadConfig';
 import { httpCallBack2HonoMid } from './adapters/hono';
 import {
-  createErrorHtml,
   getRuntimeEnv,
   mergeExtension,
   createMiddlewareCollecter,
@@ -47,56 +45,30 @@ declare module '@modern-js/types' {
   }
 }
 
-export enum ErrorDigest {
-  ENOTF = 'Page could not be found',
-  EINTER = 'Internal server error',
-  // INIT: 'Server init error',
-  // WARMUP: 'SSR warmup failed',
-  // ERENDER: 'SSR render failed',
-  // EMICROINJ: 'Get micro-frontend info failed',
-}
-
-export class ServerBase {
+export class ServerBase<E extends HonoEnv = any> {
   public options: ServerBaseOptions;
 
   public runner!: ServerHookRunner;
-
-  public logger: Logger;
 
   private workDir: string;
 
   private distDir: string;
 
-  private app: Hono;
+  private app: Hono<E>;
 
   private serverConfig: ServerConfig = {};
 
   private conf: ServerOptions;
 
-  private apiHandler: Middleware | null = null;
-
   constructor(options: ServerBaseOptions) {
-    // FIXME: createLogger only can run node runtime
-    options.logger = options.logger || createLogger({ level: 'warn' });
     this.options = options;
-    this.logger = options.logger;
 
-    this.app = new Hono();
+    this.app = new Hono<E>();
     this.serverConfig = {};
     const { pwd, config } = options;
     this.distDir = path.resolve(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
-
-    this.app.notFound(c => {
-      this.onError(ErrorDigest.ENOTF, '404 not found', c.req);
-      return c.html(createErrorHtml(404), 404);
-    });
-
-    this.app.onError((err, c) => {
-      this.onError(ErrorDigest.EINTER, err, c.req);
-      return c.html(createErrorHtml(500), 500);
-    });
   }
 
   /**
@@ -313,26 +285,6 @@ export class ServerBase {
     });
   }
 
-  private onError(
-    digest: ErrorDigest,
-    error: Error | string,
-    req?: HonoRequest,
-  ) {
-    const header = req?.header();
-
-    // delete the cookie
-    delete header?.cookie;
-
-    this.logger.error(
-      req
-        ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
-        : `Server Error - ${digest}, error = %s`,
-      error instanceof Error ? error.stack || error.message : error,
-      req?.path,
-      header,
-    );
-  }
-
   get all() {
     return this.app.all;
   }
@@ -367,5 +319,13 @@ export class ServerBase {
 
   get request() {
     return this.app.request;
+  }
+
+  get notFound() {
+    return this.app.notFound;
+  }
+
+  get onError() {
+    return this.app.onError;
   }
 }

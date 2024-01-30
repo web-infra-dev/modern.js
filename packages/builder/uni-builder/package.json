@@ -33,7 +33,7 @@
     "@babel/types": "^7.23.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/server": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
+    "@modern-js/prod-server-new": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@rsbuild/babel-preset": "0.3.7",
     "@rsbuild/core": "0.3.7",
