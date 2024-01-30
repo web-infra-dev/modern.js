@@ -44,7 +44,7 @@ export async function createDevServer(
     dev: devConfig,
     config,
     routes: [],
-  });
+  } as any);
 
   debug('create dev server done');
 

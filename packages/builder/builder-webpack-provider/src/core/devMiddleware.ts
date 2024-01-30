@@ -1,10 +1,9 @@
 import webpackDevMiddleware from '@modern-js/builder-shared/webpack-dev-middleware';
 import type { Compiler, MultiCompiler } from 'webpack';
-import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 import { IncomingMessage, ServerResponse } from 'http';
 
-type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
+type DevMiddlewareOptions = any;
 
 const applyHMREntry = (
   compiler: Compiler | MultiCompiler,
@@ -48,7 +47,7 @@ const setupHooks = (
 
 export const getDevMiddleware: (
   compiler: Compiler | MultiCompiler,
-) => NonNullable<DevMiddlewareOptions> = compiler => options => {
+) => NonNullable<DevMiddlewareOptions> = compiler => (options: any) => {
   const { hmrClientPath, callbacks, ...restOptions } = options;
 
   hmrClientPath && applyHMREntry(compiler, hmrClientPath);

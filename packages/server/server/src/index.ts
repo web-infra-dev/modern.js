@@ -3,23 +3,16 @@ import {
   DevServerForRsbuild as ServerForRsbuild,
 } from './server';
 import type {
+  ModernDevServerOptionsOld,
   ModernDevServerOptions,
-  ModernDevServerOptionsNew,
-  CreateProdServer,
-  ModernDevServerConfig,
 } from './types';
 
 export { createDevServer } from './createDevServer';
 export { Server, ServerForRsbuild };
-export type {
-  ModernDevServerOptions,
-  ModernDevServerOptionsNew,
-  ModernDevServerConfig,
-  CreateProdServer,
-};
+export type { ModernDevServerOptions, ModernDevServerOptionsOld };
 
 // TODO: it seems not used in any pkgs?
-export default (options: ModernDevServerOptions): Promise<Server> => {
+export default (options: ModernDevServerOptionsOld): Promise<Server> => {
   if (options == null) {
     throw new Error('can not start server without options');
   }

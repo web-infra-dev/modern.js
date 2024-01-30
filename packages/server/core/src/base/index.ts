@@ -27,7 +27,7 @@ export { registerMockHandlers };
 export { createNodeServer, ServerBase };
 
 export async function createServerBase<E extends HonoEnv>(
-  options: Omit<ServerBaseOptions, 'app'>,
+  options: ServerBaseOptions,
 ) {
   if (options == null) {
     throw new Error('can not start server without options');

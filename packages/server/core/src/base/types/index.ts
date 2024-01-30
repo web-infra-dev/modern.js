@@ -42,7 +42,6 @@ export type ServerBaseOptions = {
     lambdaDirectory: string;
   };
   runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
-  logger: Logger;
 };
 
 export type SSRServerContext = BaseSSRServerContext & {

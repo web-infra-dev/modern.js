@@ -63,8 +63,8 @@
   },
   "devDependencies": {
     "@rsbuild/shared": "0.3.7",
-    "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/connect-history-api-fallback": "^1.3.5",
     "@types/jest": "^29",

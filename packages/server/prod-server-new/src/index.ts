@@ -16,7 +16,13 @@ import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
 
-export type ProdServerOptions = ServerBaseOptions & BindRenderHandleOptions;
+interface MonitoOptions {
+  logger?: Logger;
+}
+
+export type ProdServerOptions = ServerBaseOptions &
+  BindRenderHandleOptions &
+  MonitoOptions;
 
 type BaseEnv = {
   Variables: {

@@ -2,8 +2,13 @@ import path from 'path';
 import { existsSync } from 'fs';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
-import { ServerRoute, Logger, Metrics } from '@modern-js/types';
-import { HonoRequest, Middleware, ServerBaseOptions } from '../types';
+import { ServerRoute, Metrics } from '@modern-js/types';
+import {
+  HonoRequest,
+  Middleware,
+  ServerBaseOptions,
+  HonoNodeEnv,
+} from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
@@ -15,8 +20,6 @@ export interface CreateRenderHOptions {
   routeInfo: ServerRoute;
   pwd: string;
   metaName: string;
-  logger: Logger;
-
   // for use-loader api when ssg
   staticGenerate?: boolean;
   forceCSR?: boolean;
@@ -24,13 +27,12 @@ export interface CreateRenderHOptions {
 
 async function createRenderHandler(
   options: CreateRenderHOptions,
-): Promise<Middleware> {
+): Promise<Middleware<HonoNodeEnv>> {
   const {
     forceCSR,
     metaName,
     routeInfo,
     pwd,
-    logger,
     staticGenerate = false,
   } = options;
 
@@ -49,6 +51,7 @@ async function createRenderHandler(
       forceCSR,
     );
 
+    const logger = c.get('logger');
     const handler =
       renderMode === 'csr'
         ? createCSRHandler(html)
@@ -109,13 +112,7 @@ export async function bindRenderHandler(
     // TODO: get server config from server.ssr & server.ssrByEntries
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-    const customServer = new CustomServer(
-      runner,
-      server,
-      pwd,
-      server.logger,
-      metrics,
-    );
+    const customServer = new CustomServer(runner, server, pwd, metrics);
 
     // warn ssr bundles
     const ssrBundles = routes
@@ -143,7 +140,6 @@ export async function bindRenderHandler(
         staticGenerate: options.staticGenerate,
         forceCSR,
         metaName: options.metaName || 'modern-js',
-        logger: server.logger,
       });
 
       const customServerHookMiddleware = customServer.getHookMiddleware(

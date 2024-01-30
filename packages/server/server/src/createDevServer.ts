@@ -27,7 +27,7 @@ import { merge } from '@modern-js/utils/lodash';
 import {
   InitProdMiddlewares,
   DevServerOptions,
-  ModernDevServerConfig as ModernDevServerOptionsNew,
+  ModernDevServerOptions,
 } from './types';
 import { enableRegister } from './dev-tools/register';
 import Watcher, { WatchEvent, mergeWatchOptions } from './dev-tools/watcher';
@@ -151,7 +151,7 @@ const transformToRsbuildServerOptions = (
 const isUseStreamingSSR = (routes?: ServerRoute[]) =>
   routes?.some(r => r.isStream === true);
 
-const isUseSSRPreload = (conf: ModernDevServerOptionsNew['config']) => {
+const isUseSSRPreload = (conf: ModernDevServerOptions['config']) => {
   const {
     server: { ssr, ssrByEntries },
   } = conf;
@@ -223,14 +223,14 @@ const onRepack = (
   runner.repack();
 };
 
-const getDevOptions = (options: ModernDevServerOptionsNew) => {
+const getDevOptions = (options: ModernDevServerOptions) => {
   const devOptions = options.dev;
   const defaultOptions = getDefaultDevOptions();
   return merge(defaultOptions, devOptions);
 };
 
 export const createDevServer = async <O extends ServerBaseOptions>(
-  options: ModernDevServerOptionsNew<O>,
+  options: ModernDevServerOptions<O>,
   initProdMiddlewares: InitProdMiddlewares<O>,
 ): Promise<NodeServer> => {
   const {

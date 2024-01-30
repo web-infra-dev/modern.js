@@ -50,8 +50,6 @@ export function createCustomMiddlewaresCtx(
   return {
     ...baseContext,
     reporter: undefined,
-    // TODO: handle the locals
-    // TODO: need to confirm
     response: {
       ...baseContext.response,
       locals: {},

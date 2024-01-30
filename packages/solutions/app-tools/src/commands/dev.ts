@@ -1,6 +1,6 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
-import { createDevServer, ModernDevServerConfig } from '@modern-js/server';
+import { createDevServer, ModernDevServerOptions } from '@modern-js/server';
 import {
   initProdMiddlewares,
   ProdServerOptions,
@@ -61,7 +61,7 @@ export const dev = async (
   await generateRoutes(appContext);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
-  const serverOptions: ModernDevServerConfig<ProdServerOptions> = {
+  const serverOptions: ModernDevServerOptions<ProdServerOptions> = {
     metaName,
     dev: {
       port,
@@ -83,13 +83,7 @@ export const dev = async (
   };
 
   if (apiOnly) {
-    const app = await createDevServer(
-      {
-        ...serverOptions,
-        // compiler: null,
-      },
-      initProdMiddlewares,
-    );
+    const app = await createDevServer(serverOptions, initProdMiddlewares);
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
@@ -104,8 +98,7 @@ export const dev = async (
     );
   } else {
     const { server } = await appContext.builder!.startDevServer({
-      // FIX: type error
-      serverOptions: serverOptions as any,
+      serverOptions,
       initProdMiddlewares,
     });
     // TODO: set correct server

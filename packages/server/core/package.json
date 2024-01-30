@@ -31,7 +31,7 @@
       "default": "./dist/cjs/index.js"
     },
     "./base": {
-      "types": "./base/index.ts",
+      "types": "./dist/types/base/index.d.ts",
       "jsnext:source": "./src/base/index.ts",
       "default": "./dist/cjs/base/index.js"
     }
