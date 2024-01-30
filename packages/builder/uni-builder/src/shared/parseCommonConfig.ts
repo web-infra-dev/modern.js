@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable complexity */
 import {
   deepmerge,
@@ -92,8 +93,34 @@ export async function parseCommonConfig(
   rsbuildPlugins: RsbuildPlugin[];
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
-  const rsbuildConfig = deepmerge({}, uniBuilderConfig) as RsbuildConfig &
-    UniBuilderConfig;
+
+  // deepClone will cause class instance error
+  const rsbuildConfig = (
+    [
+      'performance',
+      'plugins',
+      'tools',
+      'dev',
+      'source',
+      'output',
+      'html',
+      'security',
+      'experiments',
+    ] as const
+  ).reduce<RsbuildConfig & UniBuilderConfig>((obj, key) => {
+    const value = uniBuilderConfig[key];
+    if (value) {
+      // @ts-expect-error
+      obj[key] = Array.isArray(value)
+        ? [...value]
+        : {
+            ...value,
+          };
+    }
+
+    return obj;
+  }, {});
+
   const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
 
   if (output.cssModuleLocalIdentName) {
