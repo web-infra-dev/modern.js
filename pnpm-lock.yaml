@@ -95,7 +95,7 @@ importers:
         version: 0.3.7(@swc/helpers@0.5.3)
       '@svgr/webpack':
         specifier: 8.1.0
-        version: 8.1.0(typescript@5.3.3)
+        version: 8.1.0
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -683,7 +683,7 @@ importers:
         version: 0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-svgr':
         specifier: 0.3.7
-        version: 0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)(typescript@5.3.3)
+        version: 0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-toml':
         specifier: 0.3.7
         version: 0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)
@@ -1660,7 +1660,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        version: 1.10.1(webpack@5.89.0)
 
   packages/document/main-doc:
     dependencies:
@@ -1700,7 +1700,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        version: 1.10.1(webpack@5.89.0)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@16.11.68)(typescript@5.3.3)
@@ -1724,7 +1724,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rspress:
         specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        version: 1.10.1(webpack@5.89.0)
 
   packages/generator/generator-cases:
     dependencies:
@@ -14562,20 +14562,19 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-svgr@0.3.1(typescript@5.3.3):
+  /@rsbuild/plugin-svgr@0.3.1:
     resolution: {integrity: sha512-uzlfrymQmIXMmZ8PL4OaY83V8TNDSohh+hfGElcbgVSLBZ11+lZ9weQUv/rQqX0sCjQgc9xIt+4w3DEnuus7Yg==}
     dependencies:
       '@rsbuild/shared': 0.3.1(@swc/helpers@0.5.3)
-      '@svgr/core': 8.1.0(typescript@5.3.3)
+      '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
-      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
+      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
     transitivePeerDependencies:
       - '@swc/helpers'
       - supports-color
-      - typescript
     dev: true
 
-  /@rsbuild/plugin-svgr@0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)(typescript@5.3.3):
+  /@rsbuild/plugin-svgr@0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3):
     resolution: {integrity: sha512-35jIEhV8uWRUmPEIsZn86fkjLrD3eCKniiij0ZpES8+1fC4zpXxz0b60S0S8zNhkVM+K3RtuFYYIyG6xv+hPCQ==}
     peerDependencies:
       '@rsbuild/core': ^0.3.7
@@ -14583,13 +14582,12 @@ packages:
       '@rsbuild/core': 0.3.7
       '@rsbuild/plugin-react': 0.3.7(@rsbuild/core@0.3.7)(@swc/helpers@0.5.3)
       '@rsbuild/shared': 0.3.7(@swc/helpers@0.5.3)
-      '@svgr/core': 8.1.0(typescript@5.3.3)
+      '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
-      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
+      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
     transitivePeerDependencies:
       - '@swc/helpers'
       - supports-color
-      - typescript
     dev: false
 
   /@rsbuild/plugin-swc@0.3.7(@rsbuild/core@0.3.7):
@@ -15084,7 +15082,7 @@ packages:
     dependencies:
       react-refresh: 0.14.0
 
-  /@rspress/core@1.10.1(typescript@5.3.3)(webpack@5.89.0):
+  /@rspress/core@1.10.1(webpack@5.89.0):
     resolution: {integrity: sha512-o45P7J4EDu0X3U0ai7RFYlJpYaUYmGSBxoP8K3KFmDRBugLuhfAmJ7wr7tTfG7nnH5Q8NaMI8/+FmGWYXA5qww==}
     engines: {node: '>=14.17.6'}
     dependencies:
@@ -15095,7 +15093,7 @@ packages:
       '@modern-js/utils': link:packages/toolkit/utils
       '@rsbuild/core': 0.3.1
       '@rsbuild/plugin-react': 0.3.1
-      '@rsbuild/plugin-svgr': 0.3.1(typescript@5.3.3)
+      '@rsbuild/plugin-svgr': 0.3.1
       '@rspress/mdx-rs': 0.4.3
       '@rspress/plugin-auto-nav-sidebar': 1.10.1
       '@rspress/plugin-container-syntax': 1.10.1
@@ -15142,7 +15140,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/helpers'
       - supports-color
-      - typescript
       - webpack
     dev: true
 
@@ -16121,19 +16118,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /@svgr/core@8.1.0(typescript@5.3.3):
-    resolution: {integrity: sha512-8QqtOQT5ACVlmsvKOJNEaWmRPmcojMOzCz4Hs2BGG/toAp/K38LcsMRyLp349glq5AzJbCEeimEoxaX6v/fLrA==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@babel/core': 7.23.6
-      '@svgr/babel-preset': 8.1.0(@babel/core@7.23.6)
-      camelcase: 6.3.0
-      cosmiconfig: 8.3.6(typescript@5.3.3)
-      snake-case: 3.0.4
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-
   /@svgr/hast-util-to-babel-ast@8.0.0:
     resolution: {integrity: sha512-EbDKwO9GpfWP4jN9sGdYwPBU0kdomaPIL2Eu4YwmgP+sJeXT+L7bMwJUBnhzfH8Q2qMBqZ4fJwpCyYsAN3mt2Q==}
     engines: {node: '>=14'}
@@ -16165,22 +16149,8 @@ packages:
       cosmiconfig: 8.1.3
       deepmerge: 4.3.1
       svgo: 3.0.2
-    dev: true
 
-  /@svgr/plugin-svgo@8.1.0(@svgr/core@8.1.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-Ywtl837OGO9pTLIN/onoWLmDQ4zFUycI1g76vuKGEz6evR/ZTJlJuz3G/fIkb6OVBJ2g0o6CGJzaEjfmEo3AHA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@svgr/core': '*'
-    dependencies:
-      '@svgr/core': 8.1.0(typescript@5.3.3)
-      cosmiconfig: 8.3.6(typescript@5.3.3)
-      deepmerge: 4.3.1
-      svgo: 3.0.2
-    transitivePeerDependencies:
-      - typescript
-
-  /@svgr/webpack@8.1.0(typescript@5.3.3):
+  /@svgr/webpack@8.1.0:
     resolution: {integrity: sha512-LnhVjMWyMQV9ZmeEy26maJk+8HTIbd59cH4F2MJ439k9DqejRisfFNGAPvRYlKETuh9LrImlS8aKsBgKjMA8WA==}
     engines: {node: '>=14'}
     dependencies:
@@ -16189,12 +16159,11 @@ packages:
       '@babel/preset-env': 7.23.5(@babel/core@7.23.6)
       '@babel/preset-react': 7.22.15(@babel/core@7.23.6)
       '@babel/preset-typescript': 7.23.2(@babel/core@7.23.6)
-      '@svgr/core': 8.1.0(typescript@5.3.3)
+      '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
-      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
+      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
     transitivePeerDependencies:
       - supports-color
-      - typescript
     dev: false
 
   /@swc/core-darwin-arm64@1.3.42:
@@ -19636,6 +19605,7 @@ packages:
       parse-json: 5.2.0
       path-type: 4.0.0
       typescript: 5.3.3
+    dev: false
 
   /covertable@2.2.5:
     resolution: {integrity: sha512-xwHZSOMBDp7s/4i4j9opnvIeU029Smwe2EKr8sDPGQ3ClkpN0O5gDpon/YylbMpJ2x1EeFZKJFLKAksaaIwHGQ==}
@@ -30269,12 +30239,12 @@ packages:
       fs-extra: 11.2.0
     dev: true
 
-  /rspress@1.10.1(typescript@5.3.3)(webpack@5.89.0):
+  /rspress@1.10.1(webpack@5.89.0):
     resolution: {integrity: sha512-gH4IXrSn2UfBANnumwa3XIL/pzL9C0rtnM6IJi/wTmsnpira301LwLRQ9uf9i7IyRA4p2uypfTGyyDryylJ2FQ==}
     hasBin: true
     dependencies:
       '@modern-js/node-bundle-require': link:packages/toolkit/node-bundle-require
-      '@rspress/core': 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+      '@rspress/core': 1.10.1(webpack@5.89.0)
       '@rspress/shared': 1.10.1
       cac: 6.7.14
       chalk: 5.3.0
@@ -30282,7 +30252,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/helpers'
       - supports-color
-      - typescript
       - webpack
     dev: true
 
