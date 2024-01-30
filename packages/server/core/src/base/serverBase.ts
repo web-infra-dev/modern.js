@@ -181,9 +181,13 @@ export class ServerBase<E extends HonoEnv = any> {
     } = options;
     const serverPlugins = this.serverConfig.plugins || [];
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(pwd, [...serverPlugins, ...plugins], {
-      internalPlugins,
-    });
+    const loadedPlugins = loadPlugins(
+      options.appContext.appDirectory || pwd,
+      [...serverPlugins, ...plugins],
+      {
+        internalPlugins,
+      },
+    );
 
     debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {

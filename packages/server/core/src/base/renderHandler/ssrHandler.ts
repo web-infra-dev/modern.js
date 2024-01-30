@@ -131,7 +131,6 @@ export async function createSSRHandler({
     const data = injectServerData(body, serverData);
 
     return c.body(data, {
-      status: 200,
       headers: {
         'content-type': 'text/html; charset=UTF-8',
       },

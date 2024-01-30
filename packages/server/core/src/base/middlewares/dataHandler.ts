@@ -36,7 +36,15 @@ export const createDataHandler = (
   buildModulePath: string,
 ): Middleware => {
   return async (context, next) => {
-    const buildModule = (await import(buildModulePath)) as ServerLoaderModule;
+    let buildModule: ServerLoaderModule;
+
+    try {
+      buildModule = await import(buildModulePath);
+    } catch (_) {
+      // we should call next(), if we import buildModule occur error,
+      next();
+      return;
+    }
     const { routes, handleRequest } = buildModule;
 
     const logger = context.get('logger');

@@ -35,8 +35,8 @@ export const createProdServer = async (
   options: ProdServerOptions,
 ): Promise<NodeServer> => {
   const server = new ServerBase(options);
-  await initProdMiddlewares(server, options);
   await server.init();
+  await initProdMiddlewares(server, options);
   const nodeServer = createNodeServer(server.handle.bind(server), server);
   return nodeServer;
 };
@@ -72,8 +72,6 @@ export const initProdMiddlewares = async (
 
   server.get('*', staticMiddleware);
   server.get('*', favionFallbackMiddleware);
-
-  await server.init();
 
   await bindDataHandlers(server, routes!, pwd);
 

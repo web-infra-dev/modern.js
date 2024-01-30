@@ -37,6 +37,8 @@ export type ServerBaseOptions = {
   plugins?: ServerPlugin[];
   internalPlugins?: InternalPlugins;
   appContext: {
+    // for dev mode
+    appDirectory?: string;
     sharedDirectory?: string;
     apiDirectory: string;
     lambdaDirectory: string;

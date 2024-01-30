@@ -70,6 +70,7 @@ export const dev = async (
       ...normalizedConfig.tools?.devServer,
     },
     appContext: {
+      appDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
