@@ -68,7 +68,6 @@ export type ExtraOptions = {
 
 export type ModernDevServerOptionsOld = ModernServerOptionsOld & ExtraOptions;
 
-// TODO: rename ModernDevServerOptions
 export type ModernDevServerOptions<
   O extends ServerBaseOptions = ServerBaseOptions,
 > = O & ExtraOptions;
