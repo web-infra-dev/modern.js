@@ -76,7 +76,6 @@
   },
   "devDependencies": {
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
     "@rsbuild/plugin-swc": "0.3.7",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",

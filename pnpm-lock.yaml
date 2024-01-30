@@ -766,9 +766,6 @@ importers:
       '@modern-js/builder-plugin-node-polyfill':
         specifier: workspace:*
         version: link:../plugin-node-polyfill
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@rsbuild/plugin-swc':
         specifier: 0.3.7
         version: 0.3.7(@rsbuild/core@0.3.7)
@@ -4523,6 +4520,9 @@ importers:
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
@@ -4557,9 +4557,6 @@ importers:
         specifier: ^8.13.0
         version: 8.13.0
     devDependencies:
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@rsbuild/shared':
         specifier: 0.3.7
         version: 0.3.7(@swc/helpers@0.5.3)
