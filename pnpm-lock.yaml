@@ -1494,6 +1494,9 @@ importers:
       birpc:
         specifier: 0.2.13
         version: 0.2.13
+      flatted:
+        specifier: ^3.2.9
+        version: 3.2.9
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -1579,6 +1582,9 @@ importers:
       birpc:
         specifier: 0.2.13
         version: 0.2.13
+      flatted:
+        specifier: ^3.2.9
+        version: 3.2.9
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -17370,7 +17376,7 @@ packages:
       '@vitest/utils': 0.33.0
       fast-glob: 3.3.1
       fflate: 0.8.0
-      flatted: 3.2.7
+      flatted: 3.2.9
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
@@ -22042,7 +22048,7 @@ packages:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flatted: 3.2.7
+      flatted: 3.2.9
       rimraf: 3.0.2
 
   /flat@5.0.2:
@@ -22050,8 +22056,8 @@ packages:
     hasBin: true
     dev: true
 
-  /flatted@3.2.7:
-    resolution: {integrity: sha512-5nqDSxl8nn5BSNxyR3n4I6eDmbolI6WT+QqR547RwxQapgjQBmtktdP+HTBb/a/zLsbzERTONyUB5pefh5TtjQ==}
+  /flatted@3.2.9:
+    resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
 
   /flexsearch@0.6.32:
     resolution: {integrity: sha512-EF1BWkhwoeLtbIlDbY/vDSLBen/E5l/f1Vg7iX5CDymQCamcx1vhlc3tIZxIDplPjgi0jhG37c67idFbjg+v+Q==}
