@@ -32,9 +32,14 @@
       "default": "./dist/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
-      "types": "./dist/runtime/index.d.ts",
-      "default": "./dist/runtime/index.js"
+      "jsnext:source": "./src/runtime.ts",
+      "types": "./dist/runtime.d.ts",
+      "default": "./dist/runtime.js"
+    },
+    "./node": {
+      "jsnext:source": "./src/node.ts",
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
     },
     "./package.json": {
       "default": "./package.json"
@@ -43,7 +48,10 @@
   "typesVersions": {
     "*": {
       "runtime": [
-        "./dist/runtime/index.d.ts"
+        "./dist/runtime.d.ts"
+      ],
+      "node": [
+        "./dist/node.d.ts"
       ]
     }
   },

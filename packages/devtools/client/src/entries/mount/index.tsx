@@ -1,7 +1,7 @@
 import './react-devtools-backend';
 import './state';
 import { createRoot } from 'react-dom/client';
-import { SetupClientParams } from '@modern-js/devtools-kit';
+import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
 import styles from './index.module.scss';
 import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
 

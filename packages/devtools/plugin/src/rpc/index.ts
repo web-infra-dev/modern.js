@@ -7,7 +7,7 @@ import {
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/node';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
 import createDeferPromise from 'p-defer';

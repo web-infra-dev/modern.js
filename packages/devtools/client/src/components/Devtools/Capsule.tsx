@@ -1,4 +1,4 @@
-import { SetupClientParams } from '@modern-js/devtools-kit';
+import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
 import { Flex, Theme } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 import { useEvent, useToggle } from 'react-use';

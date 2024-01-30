@@ -2,7 +2,7 @@ import {
   ClientDefinition,
   ROUTE_BASENAME,
   SetupClientParams,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/node';
 import type { RequiredDeep } from 'type-fest';
 
 export type DevtoolsPluginOptions = Partial<SetupClientParams>;
