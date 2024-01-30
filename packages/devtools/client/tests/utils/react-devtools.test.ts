@@ -3,7 +3,7 @@ import {
   MessagePortChannel,
   PostMessageListener,
   PostMessageTarget,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/runtime';
 import { WallAgent } from '../../src/utils/react-devtools';
 
 beforeAll(() => {

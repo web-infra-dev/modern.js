@@ -5,7 +5,7 @@ import { ProxyDetail } from '@modern-js/types';
 import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import {
   DevtoolsPluginOptions,
   DevtoolsPluginInlineOptions,

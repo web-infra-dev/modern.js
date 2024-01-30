@@ -3,7 +3,7 @@ import {
   ServerFunctions,
   ClientFunctions as ToServerFunctions,
   WebSocketChannel,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
 import {

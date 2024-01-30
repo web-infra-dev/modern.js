@@ -1,4 +1,4 @@
-import { MessagePortChannel } from '@modern-js/devtools-kit';
+import { MessagePortChannel } from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
 import createDeferred from 'p-defer';
