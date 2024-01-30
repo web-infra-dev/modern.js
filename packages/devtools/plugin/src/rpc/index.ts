@@ -10,6 +10,7 @@ import {
 } from '@modern-js/devtools-kit/node';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
+import * as flatted from 'flatted';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
 import type { RsbuildContext, RsbuildPlugin } from '@modern-js/uni-builder';
@@ -150,8 +151,8 @@ export const setupClientConnection = async (
     post: data =>
       onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
     on: cb => (handleMessage = cb),
-    serialize: v => JSON.stringify(v),
-    deserialize: v => JSON.parse(v.toString()),
+    serialize: v => flatted.stringify([v]),
+    deserialize: v => flatted.parse(v.toString())[0],
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
