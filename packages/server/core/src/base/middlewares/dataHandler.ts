@@ -42,7 +42,7 @@ export const createDataHandler = (
       buildModule = await import(buildModulePath);
     } catch (_) {
       // we should call next(), if we import buildModule occur error,
-      next();
+      await next();
       return;
     }
     const { routes, handleRequest } = buildModule;
