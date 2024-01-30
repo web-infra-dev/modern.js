@@ -1,9 +1,8 @@
 /* eslint-disable consistent-return */
 import path from 'path';
-import fs from 'fs';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { ServerRoute } from '@modern-js/types';
-import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
+import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY, fs } from '@modern-js/utils';
 import { matchEntry, ServerContext } from '@modern-js/runtime-utils/node';
 
 export default (): ServerPlugin => ({
@@ -29,7 +28,7 @@ export default (): ServerPlugin => ({
         );
 
         // legacy ssr does not contain server loaders
-        if (!fs.existsSync(routesPath)) {
+        if (!(await fs.pathExists(routesPath))) {
           return;
         }
 

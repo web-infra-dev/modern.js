@@ -636,9 +636,9 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
-      '@modern-js/prod-server':
+      '@modern-js/prod-server-new':
         specifier: workspace:*
-        version: link:../../server/prod-server
+        version: link:../../server/prod-server-new
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server

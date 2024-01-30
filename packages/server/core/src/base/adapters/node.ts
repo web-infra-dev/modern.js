@@ -130,7 +130,6 @@ export const createNodeServer = async (
 ): Promise<NodeServer> => {
   const requestListener = getRequestListener(handleRequest);
   const nodeServer = createServer(requestListener);
-
   await afterCreateNodeServer(nodeServer, serverBase);
   return Object.assign(nodeServer, {
     getRequestHandler: () => requestListener,

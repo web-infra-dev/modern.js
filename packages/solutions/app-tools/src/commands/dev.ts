@@ -1,7 +1,10 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { createDevServer, ModernDevServerConfig } from '@modern-js/server';
-import { createServer, ProdServerOptions } from '@modern-js/prod-server-new';
+import {
+  initProdMiddlewares,
+  ProdServerOptions,
+} from '@modern-js/prod-server-new';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
@@ -85,7 +88,7 @@ export const dev = async (
         ...serverOptions,
         // compiler: null,
       },
-      createServer,
+      initProdMiddlewares,
     );
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
@@ -103,7 +106,7 @@ export const dev = async (
     const { server } = await appContext.builder!.startDevServer({
       // FIX: type error
       serverOptions: serverOptions as any,
-      createProdServer: createServer as any,
+      initProdMiddlewares,
     });
     // TODO: set correct server
     setServer(server as any);
