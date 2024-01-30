@@ -43,7 +43,9 @@ export class CustomServer {
     this.serverMiddlewarePromise = runner.prepareWebServer(
       {
         pwd,
-        config: webExtension,
+        config: {
+          middleware: webExtension,
+        },
       },
       { onLast: () => null },
     );
@@ -130,14 +132,14 @@ export class CustomServer {
         // TODO: repoteTiming
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
 
+        if ((afterRenderCtx.response as any).private_overrided) {
+          // eslint-disable-next-line consistent-return
+          return;
+        }
+
         const newBody = afterRenderCtx.template.get();
 
-        const { headers, status, statusText } = c.res;
-        c.res = c.body(newBody, {
-          status,
-          headers,
-          statusText,
-        });
+        c.res = c.body(newBody);
       }
     };
   }

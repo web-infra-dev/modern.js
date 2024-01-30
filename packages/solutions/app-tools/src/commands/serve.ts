@@ -11,8 +11,14 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
 
-  const { appDirectory, port, serverConfigFile, metaName, serverRoutes } =
-    appContext;
+  const {
+    distDirectory,
+    appDirectory,
+    port,
+    serverConfigFile,
+    metaName,
+    serverRoutes,
+  } = appContext;
 
   logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
@@ -30,7 +36,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
 
   const app = await createProdServer({
     metaName,
-    pwd: appDirectory,
+    pwd: distDirectory,
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
@@ -41,6 +47,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     },
     routes: serverRoutes,
     appContext: {
+      appDirectory,
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,

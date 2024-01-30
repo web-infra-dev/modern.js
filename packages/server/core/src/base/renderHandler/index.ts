@@ -149,7 +149,10 @@ export async function bindRenderHandler(
 
       server.use(urlPath, customServerHookMiddleware);
 
-      const serverDir = path.join(pwd, SERVER_DIR);
+      const serverDir = path.join(
+        options.appContext.appDirectory || pwd,
+        SERVER_DIR,
+      );
 
       // TODO: onlyApi
       if (getRuntimeEnv() === 'node' && existsSync(serverDir)) {

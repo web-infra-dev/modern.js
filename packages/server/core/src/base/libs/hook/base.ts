@@ -68,6 +68,13 @@ class BaseHookRequest implements ModernRequest {
 }
 
 class BaseHookResponse implements ModernResponse {
+  /**
+   * Just for compat afterRender Hook action before.
+   *
+   * Don't use this attribute.
+   * */
+  private_overrided: boolean = false;
+
   private c: HonoContext;
 
   constructor(c: HonoContext) {
@@ -85,9 +92,11 @@ class BaseHookResponse implements ModernResponse {
   set(key: string, value: string | number) {
     // we should append, if the key is `set-cookie`
     if (['set-cookie', 'Set-Cookie'].includes(key)) {
-      this.c.res.headers.append(key, value.toString());
+      this.c.header(key, value.toString(), {
+        append: true,
+      });
     } else {
-      this.c.res.headers.set(key, value.toString());
+      this.c.header(key, value.toString());
     }
   }
 
@@ -97,11 +106,13 @@ class BaseHookResponse implements ModernResponse {
 
   get cookies() {
     const setCookie = (key: string, value: string) => {
-      this.c.res.headers.append(key, value);
+      this.c.header('set-cookie', `${key}=${value}`, {
+        append: true,
+      });
     };
 
     const clearCookie = () => {
-      this.c.res.headers.delete('set-cookie');
+      this.c.header('set-cookie', undefined);
     };
 
     return {
@@ -120,5 +131,6 @@ class BaseHookResponse implements ModernResponse {
       | undefined,
   ) {
     this.c.res = this.c.newResponse(body, options);
+    this.private_overrided = true;
   }
 }
