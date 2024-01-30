@@ -45,8 +45,17 @@ const sendResponse = async (response: Response, res: NodeResponse) => {
   res.statusMessage = response.statusText;
   res.statusCode = response.status;
 
+  const cookies: string[] = [];
   for (const [key, value] of response.headers.entries()) {
-    res.setHeader(key, value);
+    if (key === 'set-cookie') {
+      cookies.push(value);
+    } else {
+      res.setHeader(key, value);
+    }
+  }
+
+  if (cookies.length > 0) {
+    res.setHeader('set-cookie', cookies);
   }
 
   if (
