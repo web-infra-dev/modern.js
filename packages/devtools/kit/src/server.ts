@@ -9,11 +9,7 @@ import type {
   RspackConfig,
 } from '@modern-js/uni-builder';
 import { NormalizedConfig } from '@modern-js/core';
-import {
-  RouteLegacy,
-  NestedRouteForCli,
-  PageRoute,
-} from '@modern-js/types/cli';
+import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
 import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;

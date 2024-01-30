@@ -81,10 +81,22 @@
     "nanoid": "3.3.4",
     "react": "~18.2.0",
     "type-fest": "^4.1.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@rsdoctor/types": "^0.1.0",
+    "@rsdoctor/utils": "^0.1.0"
   },
   "peerDependencies": {
-    "react": "~18.2.0"
+    "react": "~18.2.0",
+    "@rsdoctor/types": "^0.1.0",
+    "@rsdoctor/utils": "^0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@rsdoctor/types": {
+      "optional": true
+    },
+    "@rsdoctor/utils": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {
