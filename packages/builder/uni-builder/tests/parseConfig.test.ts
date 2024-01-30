@@ -9,6 +9,34 @@ describe('parseCommonConfig', () => {
     process.env.NODE_ENV = env;
   });
 
+  test('merge config', async () => {
+    class A {
+      a: number = 1;
+
+      apply() {
+        return this.a;
+      }
+    }
+
+    const config = await parseCommonConfig(
+      {
+        tools: {
+          rspack: {
+            plugins: [new A()],
+          },
+        },
+      },
+      {
+        cwd: '',
+      },
+    );
+
+    // @ts-expect-error
+    const plugin = config.rsbuildConfig.tools!.rspack!.plugins![0];
+
+    expect(plugin instanceof A).toBeTruthy();
+  });
+
   test('output.cssModuleLocalIdentName', async () => {
     expect(
       (
