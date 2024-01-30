@@ -32,6 +32,8 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "host": "xxx.xxx",
     "https": {
@@ -40,6 +42,9 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     },
     "port": 8081,
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -79,8 +84,13 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -121,8 +131,13 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -166,8 +181,13 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -208,8 +228,13 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -253,8 +278,13 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -295,8 +325,13 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -344,8 +379,13 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -386,8 +426,13 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -431,8 +476,13 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -473,8 +523,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -520,8 +575,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -564,8 +624,13 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -608,8 +673,13 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -652,8 +722,13 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -680,7 +755,6 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "cssModules": {
       "auto": [Function],
     },
-    "disableCssModuleExtension": true,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -697,8 +771,13 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -739,8 +818,13 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -781,8 +865,13 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],

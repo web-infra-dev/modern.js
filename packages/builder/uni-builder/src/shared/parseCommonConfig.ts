@@ -10,6 +10,7 @@ import {
   OverrideBrowserslist,
   getBrowserslist,
   mergeChainedOptions,
+  type SourceConfig,
 } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
@@ -94,39 +95,63 @@ export async function parseCommonConfig(
 }> {
   const { cwd, frameworkConfigPath, entry, target } = options;
 
-  // only deepClone sub config, deepClone all config will cause class instance method undefined
-  const rsbuildConfig = (
-    [
-      'performance',
-      'plugins',
-      'tools',
-      'dev',
-      'source',
-      'output',
-      'html',
-      'security',
-      'experiments',
-    ] as const
-  ).reduce<RsbuildConfig & UniBuilderConfig>((obj, key) => {
-    const value = uniBuilderConfig[key];
-    if (value) {
-      // @ts-expect-error
-      obj[key] = Array.isArray(value)
-        ? [...value]
-        : {
-            ...value,
-          };
-    }
+  const {
+    plugins: [...plugins] = [],
+    performance: { ...performanceConfig } = {},
+    output: {
+      cssModuleLocalIdentName,
+      enableInlineScripts,
+      disableCssExtract,
+      enableInlineStyles,
+      disableCssModuleExtension,
+      disableTsChecker,
+      disableSvgr,
+      svgDefaultExport,
+      assetsRetry,
+      enableAssetFallback,
+      disableSourceMap,
+      convertToRem,
+      ...outputConfig
+    } = {},
+    html: {
+      disableHtmlFolder,
+      metaByEntries,
+      titleByEntries,
+      faviconByEntries,
+      injectByEntries,
+      templateByEntries,
+      templateParametersByEntries,
+      ...htmlConfig
+    } = {},
+    source: {
+      alias,
+      globalVars,
+      resolveMainFields,
+      resolveExtensionPrefix,
+      ...sourceConfig
+    } = {},
+    dev: { port, host, https, ...devConfig } = {},
+    tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
+  } = uniBuilderConfig;
 
-    return obj;
-  }, {});
+  const rsbuildConfig: RsbuildConfig = {
+    plugins,
+    output: outputConfig,
+    source: {
+      alias: alias as unknown as SourceConfig['alias'],
+      ...sourceConfig,
+    },
+    performance: performanceConfig,
+    html: htmlConfig,
+    tools: toolsConfig,
+    dev: devConfig,
+  };
 
-  const { dev = {}, html = {}, output = {}, tools = {} } = rsbuildConfig;
+  const { dev = {}, html = {}, output = {} } = rsbuildConfig;
 
-  if (output.cssModuleLocalIdentName) {
+  if (cssModuleLocalIdentName) {
     output.cssModules ||= {};
-    output.cssModules.localIdentName = output.cssModuleLocalIdentName;
-    delete output.cssModuleLocalIdentName;
+    output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
   output.distPath ??= {};
@@ -135,21 +160,18 @@ export async function parseCommonConfig(
 
   output.polyfill ??= 'entry';
 
-  if (output.disableCssModuleExtension) {
+  if (disableCssModuleExtension) {
     output.cssModules ||= {};
     // priority: output.cssModules.auto -> disableCssModuleExtension
     output.cssModules.auto ??= isLooseCssModules;
-    delete output.cssModuleLocalIdentName;
   }
 
-  if (uniBuilderConfig.output?.enableInlineScripts) {
-    output.inlineScripts = uniBuilderConfig.output?.enableInlineScripts;
-    delete output.enableInlineScripts;
+  if (enableInlineScripts) {
+    output.inlineScripts = enableInlineScripts;
   }
 
-  if (uniBuilderConfig.output?.disableCssExtract) {
-    output.injectStyles = uniBuilderConfig.output?.disableCssExtract;
-    delete output.disableCssExtract;
+  if (disableCssExtract) {
+    output.injectStyles = disableCssExtract;
   }
 
   const targets = Array.isArray(target) ? target : [target || 'web'];
@@ -168,53 +190,40 @@ export async function parseCommonConfig(
   }
   output.overrideBrowserslist = overrideBrowserslist;
 
-  if (uniBuilderConfig.output?.enableInlineStyles) {
-    output.inlineStyles = uniBuilderConfig.output?.enableInlineStyles;
-    delete output.enableInlineStyles;
+  if (enableInlineStyles) {
+    output.inlineStyles = enableInlineStyles;
   }
 
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
 
-  extraConfig.html.outputStructure = html.disableHtmlFolder ? 'flat' : 'nested';
-  delete html.disableHtmlFolder;
+  extraConfig.html.outputStructure = disableHtmlFolder ? 'flat' : 'nested';
 
-  if (uniBuilderConfig.html?.metaByEntries) {
-    extraConfig.html.meta = ({ entryName }) =>
-      uniBuilderConfig.html!.metaByEntries![entryName];
-    delete html.metaByEntries;
+  if (metaByEntries) {
+    extraConfig.html.meta = ({ entryName }) => metaByEntries[entryName];
   }
 
   html.title ??= '';
 
-  if (uniBuilderConfig.html?.titleByEntries) {
-    extraConfig.html.title = ({ entryName }) =>
-      uniBuilderConfig.html!.titleByEntries![entryName];
-    delete html.titleByEntries;
+  if (titleByEntries) {
+    extraConfig.html.title = ({ entryName }) => titleByEntries[entryName];
   }
 
-  if (uniBuilderConfig.html?.faviconByEntries) {
-    extraConfig.html.favicon = ({ entryName }) =>
-      uniBuilderConfig.html!.faviconByEntries![entryName];
-    delete html.faviconByEntries;
+  if (faviconByEntries) {
+    extraConfig.html.favicon = ({ entryName }) => faviconByEntries[entryName];
   }
 
-  if (uniBuilderConfig.html?.injectByEntries) {
-    extraConfig.html.inject = ({ entryName }) =>
-      uniBuilderConfig.html!.injectByEntries![entryName];
-    delete html.injectByEntries;
+  if (injectByEntries) {
+    extraConfig.html.inject = ({ entryName }) => injectByEntries[entryName];
   }
 
-  if (uniBuilderConfig.html?.templateByEntries) {
-    extraConfig.html.template = ({ entryName }) =>
-      uniBuilderConfig.html!.templateByEntries![entryName];
-    delete html.templateByEntries;
+  if (templateByEntries) {
+    extraConfig.html.template = ({ entryName }) => templateByEntries[entryName];
   }
 
-  if (uniBuilderConfig.html?.templateParametersByEntries) {
+  if (templateParametersByEntries) {
     extraConfig.html.templateParameters = (_, { entryName }) =>
-      uniBuilderConfig.html!.templateParametersByEntries![entryName];
-    delete html.templateParametersByEntries;
+      templateParametersByEntries[entryName];
   }
 
   extraConfig.tools ??= {};
@@ -242,7 +251,7 @@ export async function parseCommonConfig(
     dev.progressBar = true;
   }
 
-  const devServer = mergeChainedOptions({
+  const newDevServerConfig = mergeChainedOptions({
     defaults: {
       devMiddleware: {
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
@@ -253,17 +262,17 @@ export async function parseCommonConfig(
         path: '/webpack-hmr',
       },
     },
-    options: tools.devServer,
+    options: devServer,
     mergeFn: deepmerge,
   });
 
-  dev.writeToDisk = devServer.devMiddleware?.writeToDisk;
+  dev.writeToDisk = newDevServerConfig.devMiddleware?.writeToDisk;
 
-  dev.hmr = devServer.hot;
+  dev.hmr = newDevServerConfig.hot;
 
-  dev.client = devServer.client;
+  dev.client = newDevServerConfig.client;
 
-  dev.liveReload = devServer.liveReload;
+  dev.liveReload = newDevServerConfig.liveReload;
 
   const server: ServerConfig = isProd()
     ? {
@@ -271,15 +280,10 @@ export async function parseCommonConfig(
       }
     : {
         publicDir: false,
-        port: dev.port,
-        host: dev.host,
-        https: dev.https ? (dev.https as ServerConfig['https']) : undefined,
+        port,
+        host,
+        https: https ? (https as ServerConfig['https']) : undefined,
       };
-
-  delete tools.devServer;
-  delete dev.https;
-  delete dev.port;
-  delete dev.host;
 
   rsbuildConfig.server = removeUndefinedKey(server);
 
@@ -294,9 +298,9 @@ export async function parseCommonConfig(
 
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
-    pluginGlobalVars(uniBuilderConfig.source?.globalVars),
+    pluginGlobalVars(globalVars),
     pluginDevtool({
-      disableSourceMap: uniBuilderConfig.output?.disableSourceMap,
+      disableSourceMap,
     }),
     pluginEmitRouteFile(),
     pluginToml(),
@@ -314,37 +318,29 @@ export async function parseCommonConfig(
     );
   }
 
-  if (!uniBuilderConfig.output?.disableTsChecker) {
+  if (!disableTsChecker) {
     const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
-        forkTsCheckerOptions: uniBuilderConfig.tools?.tsChecker,
+        forkTsCheckerOptions: tsChecker,
       }),
     );
-
-    delete output.disableTsChecker;
-    delete tools.tsChecker;
   }
 
-  if (uniBuilderConfig.source?.resolveMainFields) {
+  if (resolveMainFields) {
     const { pluginMainFields } = await import('./plugins/mainFields');
-    rsbuildPlugins.push(
-      pluginMainFields(uniBuilderConfig.source?.resolveMainFields),
-    );
+    rsbuildPlugins.push(pluginMainFields(resolveMainFields));
   }
 
-  if (uniBuilderConfig.source?.resolveExtensionPrefix) {
+  if (resolveExtensionPrefix) {
     const { pluginExtensionPrefix } = await import('./plugins/extensionPrefix');
-    rsbuildPlugins.push(
-      pluginExtensionPrefix(uniBuilderConfig.source?.resolveExtensionPrefix),
-    );
+    rsbuildPlugins.push(pluginExtensionPrefix(resolveExtensionPrefix));
   }
 
-  const remOptions = uniBuilderConfig.output?.convertToRem;
-  if (remOptions) {
+  if (convertToRem) {
     const { pluginRem } = await import('@rsbuild/plugin-rem');
     rsbuildPlugins.push(
-      pluginRem(typeof remOptions === 'boolean' ? {} : remOptions),
+      pluginRem(typeof convertToRem === 'boolean' ? {} : convertToRem),
     );
   }
 
@@ -363,16 +359,13 @@ export async function parseCommonConfig(
 
   rsbuildPlugins.push(pluginReact());
 
-  if (!uniBuilderConfig.output?.disableSvgr) {
+  if (!disableSvgr) {
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: uniBuilderConfig.output?.svgDefaultExport || 'url',
+        svgDefaultExport: svgDefaultExport || 'url',
       }),
     );
-
-    delete output.disableSvgr;
-    delete output.svgDefaultExport;
   }
 
   const pugOptions = uniBuilderConfig.tools?.pug;
@@ -390,15 +383,13 @@ export async function parseCommonConfig(
   }
 
   // assetsRetry inject should be later
-  if (uniBuilderConfig.output?.assetsRetry) {
+  if (assetsRetry) {
     const { pluginAssetsRetry } = await import('@rsbuild/plugin-assets-retry');
-    rsbuildPlugins.push(
-      pluginAssetsRetry(uniBuilderConfig.output?.assetsRetry),
-    );
+    rsbuildPlugins.push(pluginAssetsRetry(assetsRetry));
   }
 
   // Note: fallback should be the last plugin
-  if (uniBuilderConfig.output?.enableAssetFallback) {
+  if (enableAssetFallback) {
     const { pluginFallback } = await import('./plugins/fallback');
     rsbuildPlugins.push(pluginFallback());
   }
@@ -409,7 +400,7 @@ export async function parseCommonConfig(
 
   rsbuildPlugins.push(
     pluginCssMinimizer({
-      pluginOptions: uniBuilderConfig.tools?.minifyCss,
+      pluginOptions: minifyCss,
     }),
   );
 
