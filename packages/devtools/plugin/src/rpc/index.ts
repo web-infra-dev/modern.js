@@ -13,7 +13,12 @@ import { createBirpc, BirpcOptions } from 'birpc';
 import * as flatted from 'flatted';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
-import type { RsbuildContext, RsbuildPlugin } from '@modern-js/uni-builder';
+import type {
+  RsbuildContext,
+  RsbuildPlugin,
+  WebpackConfig,
+  RspackConfig,
+} from '@modern-js/uni-builder';
 import { CliPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
 import { requireModule } from '../utils/module';
@@ -193,7 +198,7 @@ export const setupClientConnection = async (
           : api.modifyRspackConfig;
       const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
+      modifyBundlerConfig((config: WebpackConfig | RspackConfig) => {
         bundlerConfigs.push(config as JsonValue);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(
