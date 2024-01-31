@@ -7,7 +7,13 @@ sidebar_position: 7
 一个 npm 类型的模块项目发布流程包含了两个阶段：
 
 - 第一阶段是在开发期间，开发者需要提供变更文件，该文件记录了在发布期间需要的变更内容；
-- 第二阶段是在发布期间，Modern.js Module 会收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
+- 第二阶段是在发布期间，需要收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
+
+Modern.js Module 提供了一套版本管理与发布的方案，这适用于单包场景。对于 monorepo 里的 npm 包你需要遵循各类 monorepo 解决方案提供的策略。
+
+import PublishEMO from '@site-docs/components/publish-emo';
+
+<PublishEMO />
 
 ## 跟踪变更
 
