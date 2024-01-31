@@ -34,6 +34,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "host": "xxx.xxx",
     "https": {
@@ -86,6 +87,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -133,6 +135,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -183,6 +186,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -230,6 +234,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -280,6 +285,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -327,6 +333,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -381,6 +388,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -428,6 +436,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -478,6 +487,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -525,6 +535,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -577,6 +588,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -626,6 +638,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -675,6 +688,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -724,6 +738,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -773,6 +788,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -820,6 +836,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
@@ -867,6 +884,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   },
   "performance": {},
   "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
