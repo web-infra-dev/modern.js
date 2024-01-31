@@ -131,6 +131,7 @@ export async function parseCommonConfig(
       ...sourceConfig
     } = {},
     dev: { port, host, https, ...devConfig } = {},
+    security: { checkSyntax, sri, ...securityConfig } = {},
     tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
   } = uniBuilderConfig;
 
@@ -145,6 +146,7 @@ export async function parseCommonConfig(
     html: htmlConfig,
     tools: toolsConfig,
     dev: devConfig,
+    security: securityConfig,
   };
 
   const { dev = {}, html = {}, output = {} } = rsbuildConfig;
@@ -307,14 +309,10 @@ export async function parseCommonConfig(
     pluginYaml(),
   ];
 
-  const checkSyntaxOptions = uniBuilderConfig.security?.checkSyntax;
-
-  if (checkSyntaxOptions) {
+  if (checkSyntax) {
     const { pluginCheckSyntax } = await import('@rsbuild/plugin-check-syntax');
     rsbuildPlugins.push(
-      pluginCheckSyntax(
-        typeof checkSyntaxOptions === 'boolean' ? {} : checkSyntaxOptions,
-      ),
+      pluginCheckSyntax(typeof checkSyntax === 'boolean' ? {} : checkSyntax),
     );
   }
 
