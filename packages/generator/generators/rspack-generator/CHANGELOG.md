@@ -1,5 +1,15 @@
 # @modern-js/rspack-generator
 
+## 3.3.9
+
+### Patch Changes
+
+- 104ceab: chore: remove enable-rspack action in generator run new
+
+  chore: 在生成器 run new 中移除 ‘启用 Rspack’ 的功能
+
+  - @modern-js/utils@2.46.2
+
 ## 3.3.8
 
 ### Patch Changes

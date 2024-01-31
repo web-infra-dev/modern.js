@@ -1,5 +1,23 @@
 # @modern-js/uni-builder
 
+## 2.46.2
+
+### Patch Changes
+
+- 0448ebd: fix(uni-builder): deepmerge cause plugin apply undefined
+
+  fix(uni-builder): deepmerge 导致 webpack apply 方法丢失
+
+- b79abcf: fix(uni-builder): styled-components not works when use webpack swc-plugin
+
+  fix(uni-builder): 修复在使用 webpack swc 插件时 styled-components 不生效的问题
+
+- Updated dependencies [a9a3626]
+- Updated dependencies [01b75e6]
+  - @modern-js/prod-server@2.46.2
+  - @modern-js/server@2.46.2
+  - @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes
