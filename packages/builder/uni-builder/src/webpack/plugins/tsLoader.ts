@@ -44,81 +44,82 @@ export const pluginTsLoader = (
 
     pre: ['uni-builder:babel'],
 
-    post: ['uni-builder:react'],
-
     setup(api) {
-      api.modifyBundlerChain(async (chain, { target, CHAIN_ID }) => {
-        const config = api.getNormalizedConfig();
-        const { rootPath } = api.context;
-        const browserslist = await getBrowserslistWithDefault(
-          rootPath,
-          config,
-          target,
-        );
+      api.modifyBundlerChain({
+        order: 'pre',
+        handler: async (chain, { target, CHAIN_ID }) => {
+          const config = api.getNormalizedConfig();
+          const { rootPath } = api.context;
+          const browserslist = await getBrowserslistWithDefault(
+            rootPath,
+            config,
+            target,
+          );
 
-        const baseBabelConfig = getBabelConfigForWeb({
-          presetEnv: {
-            targets: browserslist,
-            useBuiltIns: getUseBuiltIns(config),
-          },
-        });
+          const baseBabelConfig = getBabelConfigForWeb({
+            presetEnv: {
+              targets: browserslist,
+              useBuiltIns: getUseBuiltIns(config),
+            },
+          });
 
-        const babelUtils = getBabelUtils(baseBabelConfig);
+          const babelUtils = getBabelUtils(baseBabelConfig);
 
-        const babelLoaderOptions = mergeChainedOptions({
-          defaults: baseBabelConfig,
-          options: babelOptions,
-          utils: babelUtils,
-        });
+          const babelLoaderOptions = mergeChainedOptions({
+            defaults: baseBabelConfig,
+            options: babelOptions,
+            utils: babelUtils,
+          });
 
-        const includes: Array<string | RegExp> = [];
-        const excludes: Array<string | RegExp> = [];
+          const includes: Array<string | RegExp> = [];
+          const excludes: Array<string | RegExp> = [];
 
-        const tsLoaderUtils = {
-          addIncludes(items: string | RegExp | (string | RegExp)[]) {
-            includes.push(...castArray(items));
-          },
-          addExcludes(items: string | RegExp | (string | RegExp)[]) {
-            excludes.push(...castArray(items));
-          },
-        };
-        const tsLoaderDefaultOptions = {
-          compilerOptions: {
-            target: 'esnext',
-            module: 'esnext',
-          },
-          transpileOnly: true,
-          allowTsInNodeModules: true,
-        };
+          const tsLoaderUtils = {
+            addIncludes(items: string | RegExp | (string | RegExp)[]) {
+              includes.push(...castArray(items));
+            },
+            addExcludes(items: string | RegExp | (string | RegExp)[]) {
+              excludes.push(...castArray(items));
+            },
+          };
+          const tsLoaderDefaultOptions = {
+            compilerOptions: {
+              target: 'esnext',
+              module: 'esnext',
+            },
+            transpileOnly: true,
+            allowTsInNodeModules: true,
+          };
 
-        const tsLoaderOptions = mergeChainedOptions({
-          defaults: tsLoaderDefaultOptions,
-          // @ts-expect-error ts-loader has incorrect types for compilerOptions
-          options,
-          utils: tsLoaderUtils,
-        });
-        const rule = chain.module.rule(CHAIN_ID.RULE.TS);
+          const tsLoaderOptions = mergeChainedOptions({
+            defaults: tsLoaderDefaultOptions,
+            // @ts-expect-error ts-loader has incorrect types for compilerOptions
+            options,
+            utils: tsLoaderUtils,
+          });
+          const rule = chain.module.rule(CHAIN_ID.RULE.TS);
 
-        applyScriptCondition({
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+          applyScriptCondition({
+            rule,
+            config,
+            context: api.context,
+            includes,
+            excludes,
+          });
 
-        // adjust babel rule to only handle JS files
-        chain.module.rule(CHAIN_ID.RULE.JS).test(JS_REGEX);
+          // adjust babel rule to only handle JS files
+          chain.module.rule(CHAIN_ID.RULE.JS).test(JS_REGEX);
 
-        rule
-          .test(TS_REGEX)
-          .use(CHAIN_ID.USE.BABEL)
-          .loader(require.resolve('babel-loader'))
-          .options(babelLoaderOptions)
-          .end()
-          .use(CHAIN_ID.USE.TS)
-          .loader(require.resolve('ts-loader'))
-          .options(tsLoaderOptions);
+          rule
+            .test(TS_REGEX)
+            .use(CHAIN_ID.USE.BABEL)
+            .loader(require.resolve('babel-loader'))
+            .options(babelLoaderOptions)
+            .end()
+            .use(CHAIN_ID.USE.TS)
+            .loader(require.resolve('ts-loader'))
+            .options(tsLoaderOptions);
+        },
       });
     },
   };

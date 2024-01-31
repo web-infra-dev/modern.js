@@ -18,11 +18,25 @@ import {
   type PluginBabelOptions,
 } from '@rsbuild/plugin-babel';
 
+/**
+ * Plugin order:
+ * rspack mode: rsbuild:swc -> rsbuild:babel
+ * webpack mode: uni-builder:babel -> uni-builder:ts-loader -> rsbuild-webpack:swc
+ */
 export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
   name: 'uni-builder:babel',
+
+  post: [
+    // will replace the babel rule
+    'rsbuild-webpack:swc',
+    // will replace the babel rule
+    'rsbuild-webpack:esbuild',
+  ],
+
   setup(api) {
-    api.modifyBundlerChain(
-      async (
+    api.modifyBundlerChain({
+      order: 'pre',
+      handler: async (
         chain,
         { CHAIN_ID, target, isProd, isServer, isServiceWorker },
       ) => {
@@ -167,7 +181,7 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           // Using cloned options to keep options separate from each other
           .options(lodash.cloneDeep(babelOptions));
       },
-    );
+    });
   },
 });
 
