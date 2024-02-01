@@ -7,6 +7,8 @@ import {
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
+  findManifest,
+  parseManifest,
 } from '@modern-js/devtools-kit/node';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
@@ -142,6 +144,19 @@ export const setupClientConnection = async (
       Object.assign(ret.assets, def.assets);
       Object.assign(ret.announcement, def.announcement);
       return ret;
+    },
+    async getDoctorOverview() {
+      const ctx = api.useAppContext();
+      const manifestPath = await findManifest(ctx.distDirectory);
+      const json = await parseManifest(require(manifestPath));
+      const data = {
+        numModules: json.data.moduleGraph.modules.length,
+        numChunks: json.data.chunkGraph.chunks.length,
+        numPackages: json.data.packageGraph.packages.length,
+        summary: json.data.summary,
+        errors: json.data.errors,
+      };
+      return data;
     },
     echo(content) {
       return content;
