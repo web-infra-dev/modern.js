@@ -11,6 +11,7 @@ import {
   injectReporter,
   injectLogger,
   createErrorHtml,
+  loadServerEnv,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
@@ -35,6 +36,10 @@ export const createProdServer = async (
   options: ProdServerOptions,
 ): Promise<NodeServer> => {
   const server = new ServerBase(options);
+
+  // load env file.
+  await loadServerEnv(options);
+
   await server.init();
   await initProdMiddlewares(server, options);
   const nodeServer = createNodeServer(server.handle.bind(server), server);
