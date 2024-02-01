@@ -1210,9 +1210,6 @@ importers:
       '@modern-js/prod-server-new':
         specifier: workspace:*
         version: link:../../server/prod-server-new
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
