@@ -56,7 +56,11 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
             },
           };
 
-          const decoratorConfig = config.source.decorators;
+          const decoratorConfig = {
+            version: config.output.enableLatestDecorators
+              ? '2018-09'
+              : 'legacy',
+          } as const;
 
           const baseBabelConfig =
             isServer || isServiceWorker
