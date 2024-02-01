@@ -12,6 +12,7 @@ import {
   HiOutlineCube,
   HiOutlineHome,
   HiOutlineRectangleGroup,
+  HiMagnifyingGlass,
 } from 'react-icons/hi2';
 import { RiReactjsLine } from 'react-icons/ri';
 import { stringifyParsedURL } from 'ufo';
@@ -133,6 +134,12 @@ export const $tabs = proxy<InternalTab[]>([
     title: 'Header Modifier',
     icon: ref(<HiOutlineAcademicCap />),
     view: { type: 'builtin', url: '/headers' },
+  },
+  {
+    name: 'doctor',
+    title: 'Doctor',
+    icon: ref(<HiMagnifyingGlass />),
+    view: { type: 'builtin', url: '/doctor' },
   },
 ]);
 

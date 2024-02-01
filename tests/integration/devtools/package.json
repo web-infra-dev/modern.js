@@ -15,10 +15,11 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-devtools": "workspace:*",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@rsdoctor/rspack-plugin": "^0.1.0",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
     "typescript": "^5"
   },
   "browserslist": {}
