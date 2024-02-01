@@ -28,6 +28,9 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -129,6 +132,9 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -180,6 +186,9 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -228,6 +237,9 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -279,6 +291,9 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -327,6 +342,9 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -382,6 +400,9 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -430,6 +451,9 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -481,6 +505,9 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -529,6 +556,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -582,6 +612,9 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -632,6 +665,9 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -682,6 +718,9 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -732,6 +771,9 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
@@ -782,6 +824,9 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
