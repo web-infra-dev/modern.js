@@ -17,7 +17,11 @@ import {
   type RsbuildPlugin,
   type RsbuildConfig,
 } from '@rsbuild/core';
-import type { CreateBuilderCommonOptions, UniBuilderConfig } from '../types';
+import type {
+  CreateBuilderCommonOptions,
+  UniBuilderConfig,
+  DisableSourceMapOption,
+} from '../types';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
 import { pluginReact } from '@rsbuild/plugin-react';
@@ -86,6 +90,20 @@ async function getBrowserslistWithDefault(
   return DEFAULT_BROWSERSLIST[target];
 }
 
+const isUseCssSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
+  if (typeof disableSourceMap === 'boolean') {
+    return !disableSourceMap;
+  }
+
+  // If the disableSourceMap.css option is not specified, we will enable it in development mode.
+  // We do not need CSS Source Map in production mode.
+  if (disableSourceMap.css === undefined) {
+    return process.env.NODE_ENV !== 'production';
+  }
+
+  return !disableSourceMap.css;
+};
+
 export async function parseCommonConfig(
   uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
@@ -99,6 +117,7 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
+      enableLatestDecorators,
       cssModuleLocalIdentName,
       enableInlineScripts,
       disableCssExtract,
@@ -149,11 +168,22 @@ export async function parseCommonConfig(
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {} } = rsbuildConfig;
+  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
+
+  if (enableLatestDecorators) {
+    source.decorators = {
+      version: '2022-03',
+    };
+  }
 
   if (cssModuleLocalIdentName) {
     output.cssModules ||= {};
     output.cssModules.localIdentName = cssModuleLocalIdentName;
+  }
+
+  if (isUseCssSourceMap(disableSourceMap)) {
+    output.sourceMap ||= {};
+    output.sourceMap.css = true;
   }
 
   output.distPath ??= {};

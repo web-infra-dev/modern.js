@@ -151,8 +151,9 @@ import { Tab, Tabs } from 'rspress/theme';
 ```tsx
 import { useLocation, useHref } from 'react-router-dom';
 const App = () => {
+  const basename = useHref('/table');
   const { Table } = useModuleApps();
-  return <Table useLocation={useLocation} useHref={useHref} />;
+  return <Table useLocation={useLocation} basename={basename} />;
 };
 ```
 </Tab>
@@ -160,16 +161,8 @@ const App = () => {
 ```tsx
 import { useLocation, useHistory } from 'react-router-dom';
 const App = () => {
-  const { Table } = useModuleApps();
-  return <Table useLocation={useLocation} useHistory={useHistory} />;
-};
-```
-</Tab>
-<Tab label="pass props.basename manually">
-```tsx
-import { useLocation, useHref } from 'react-router-dom';
-const App = () => {
-  const basename = useHref('/table');
+  const history = useHistory();
+  const basename = history.createHref({ pathname: '/table' });
   const { Table } = useModuleApps();
   return <Table useLocation={useLocation} basename={basename} />;
 };

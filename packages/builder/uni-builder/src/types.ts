@@ -152,6 +152,10 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
+     * @deprecated use `source.decorators` instead
+     */
+    enableLatestDecorators?: boolean;
+    /**
      * @deprecated use `output.cssModules.localIdentName` instead
      */
     cssModuleLocalIdentName?: string;
