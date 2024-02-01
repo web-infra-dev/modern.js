@@ -1,6 +1,5 @@
 import * as path from 'path';
 import {
-  ChainIdentifier,
   isHtmlDisabled,
   RsbuildPlugin,
   BundlerChain,
@@ -39,7 +38,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     api.modifyBundlerChain(
       async (
         chain,
-        { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+        { target, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
       ) => {
         const builderConfig = api.getNormalizedConfig();
         const { normalizedConfig } = options;
@@ -62,7 +61,6 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           applyAsyncChunkHtmlPlugin({
             chain,
             modernConfig: options.normalizedConfig,
-            CHAIN_ID,
             HtmlBundlerPlugin,
           });
         }
@@ -97,17 +95,15 @@ const isStreamingSSR = (userConfig: AppNormalizedConfig<'shared'>): boolean => {
 function applyAsyncChunkHtmlPlugin({
   chain,
   modernConfig,
-  CHAIN_ID,
   HtmlBundlerPlugin,
 }: {
   chain: BundlerChain;
   modernConfig: AppNormalizedConfig<'shared'>;
-  CHAIN_ID: ChainIdentifier;
   HtmlBundlerPlugin: any;
 }) {
   if (isStreamingSSR(modernConfig)) {
     chain
-      .plugin(CHAIN_ID.PLUGIN.HTML_ASYNC_CHUNK)
+      .plugin('html-async-chunk')
       .use(HtmlAsyncChunkPlugin, [HtmlBundlerPlugin]);
   }
 }
