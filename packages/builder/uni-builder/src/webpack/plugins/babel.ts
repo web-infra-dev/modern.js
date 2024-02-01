@@ -2,7 +2,7 @@ import lodash from 'lodash';
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
 import type { BabelConfig } from '@rsbuild/babel-preset';
-import { isBeyondReact17 } from '@rsbuild/plugin-react';
+import { isBeyondReact17 } from '@modern-js/utils';
 import {
   SCRIPT_REGEX,
   mergeChainedOptions,
@@ -46,7 +46,7 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           config,
           target,
         );
-        const isNewJsx = await isBeyondReact17(api.context.rootPath);
+        const isNewJsx = isBeyondReact17(api.context.rootPath);
 
         const getBabelOptions = (config: NormalizedConfig) => {
           // Create babel util function about include/exclude
