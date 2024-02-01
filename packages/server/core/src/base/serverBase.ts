@@ -3,10 +3,7 @@ import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
   SHARED_DIR,
-  dotenv,
-  dotenvExpand,
   ensureAbsolutePath,
-  fs,
   isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
@@ -92,8 +89,6 @@ export class ServerBase<E extends HonoEnv = any> {
     },
   ) {
     const { options } = this;
-
-    await this.loadServerEnv(options);
 
     this.initServerConfig(options);
 
@@ -212,22 +207,6 @@ export class ServerBase<E extends HonoEnv = any> {
     );
     const serverConfig = requireConfig(serverConfigPath);
     this.serverConfig = serverConfig;
-  }
-
-  private async loadServerEnv(options: ServerBaseOptions) {
-    const { pwd: appDirectory } = options;
-    const serverEnv = process.env.MODERN_ENV;
-    const defaultEnvPath = path.resolve(appDirectory, `.env`);
-    const serverEnvPath = path.resolve(appDirectory, `.env.${serverEnv}`);
-    for (const envPath of [serverEnvPath, defaultEnvPath]) {
-      if (
-        (await fs.pathExists(envPath)) &&
-        !(await fs.stat(envPath)).isDirectory()
-      ) {
-        const envConfig = dotenv.config({ path: envPath });
-        dotenvExpand(envConfig);
-      }
-    }
   }
 
   private async injectContext(options: ServerBaseOptions) {
