@@ -12,7 +12,6 @@ export const pluginBabelPost = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
-      const config = api.getNormalizedConfig();
       if (chain.module.rules.get(CHAIN_ID.RULE.JS)) {
         const babelLoaderOptions = chain.module
           .rule(CHAIN_ID.RULE.JS)
@@ -21,10 +20,7 @@ export const pluginBabelPost = (): RsbuildPlugin => ({
 
         if (
           babelLoaderOptions &&
-          lodash.isEqual(
-            getDefaultBabelOptions(config.source.decorators),
-            babelLoaderOptions,
-          )
+          lodash.isEqual(getDefaultBabelOptions(), babelLoaderOptions)
         ) {
           chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
         }

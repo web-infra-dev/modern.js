@@ -3,6 +3,12 @@
 exports[`plugin-babel (rspack mode) > should not set babel-loader when babel config not modified 1`] = `
 [
   {
+    "resolve": {
+      "fullySpecified": false,
+    },
+    "test": /\\\\\\.m\\?js/,
+  },
+  {
     "include": [
       {
         "and": [
@@ -42,7 +48,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
-                "development": false,
+                "development": true,
                 "refresh": true,
                 "runtime": "automatic",
               },
@@ -79,17 +85,17 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
       },
     ],
   },
+]
+`;
+
+exports[`plugin-babel (rspack mode) > should set babel-loader when babel config modified 1`] = `
+[
   {
     "resolve": {
       "fullySpecified": false,
     },
     "test": /\\\\\\.m\\?js/,
   },
-]
-`;
-
-exports[`plugin-babel (rspack mode) > should set babel-loader when babel config modified 1`] = `
-[
   {
     "include": [
       {
@@ -130,7 +136,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
-                "development": false,
+                "development": true,
                 "refresh": true,
                 "runtime": "automatic",
               },
@@ -173,12 +179,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
-              {
-                "version": "legacy",
-              },
-            ],
-            [
               "babel-plugin-import",
               {
                 "libraryDirectory": "es",
@@ -202,12 +202,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         },
       },
     ],
-  },
-  {
-    "resolve": {
-      "fullySpecified": false,
-    },
-    "test": /\\\\\\.m\\?js/,
   },
 ]
 `;
