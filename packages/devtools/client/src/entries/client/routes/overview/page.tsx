@@ -57,13 +57,7 @@ const Page: React.FC = () => {
       >
         <IndicateCard className={styles.primaryCard}>
           <Theme appearance="dark" hasBackground={false} asChild>
-            <Flex
-              gap="2"
-              height="100%"
-              justify="center"
-              direction="column"
-              align="start"
-            >
+            <IndicateCard.Column>
               <img src={srcHeading} style={{ width: '8rem' }} />
               <Flex gap="2">
                 <button type="button">v{VERSION}</button>
@@ -71,7 +65,7 @@ const Page: React.FC = () => {
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}
               </Text>
-            </Flex>
+            </IndicateCard.Column>
           </Theme>
         </IndicateCard>
         <IndicateCard className={styles.infoCard}>
