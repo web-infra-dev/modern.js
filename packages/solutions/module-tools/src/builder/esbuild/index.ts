@@ -9,6 +9,7 @@ import {
   ImportKind,
   formatMessages,
   Format,
+  BuildFailure,
 } from 'esbuild';
 import * as tapable from 'tapable';
 import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
@@ -292,6 +293,14 @@ export class EsbuildCompiler implements ICompiler {
         });
       }
     } catch (error: any) {
+      if ('errors' in error) {
+        // log error detail which may throw by own plugins
+        (error as BuildFailure)?.errors?.forEach(err => {
+          if (err?.detail) {
+            logger.error(err.detail.toString());
+          }
+        });
+      }
       if (watch) {
         this.instance?.cancel();
         logger.error(error);

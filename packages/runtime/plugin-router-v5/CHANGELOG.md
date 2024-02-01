@@ -1,5 +1,55 @@
 # @modern-js/plugin-router-v5
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.46.1
+- @modern-js/runtime-utils@2.46.1
+- @modern-js/types@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- e789e3f: fix(plugin-router-v5): move @modern-js/runtime-utils to dependencies
+  fix(plugin-router-v5): 移动 @modern-js/runtime-utils 到 dependencies
+- Updated dependencies [78e2722]
+- Updated dependencies [494b290]
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [19c8687]
+  - @modern-js/types@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/types@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/plugin@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [d959200]
+  - @modern-js/types@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

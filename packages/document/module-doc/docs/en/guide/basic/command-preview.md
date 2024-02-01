@@ -14,7 +14,7 @@ Usage: modern build [options]
 Build module command
 
 Options:
-  -w, --watch Build code in listening mode
+  -w, --watch Enable watch mode to listen for changes on the fs and automatically rebuild
   --tsconfig [tsconfig] Specify the path to the tsconfig.json file (default:
                          ". /tsconfig.json")
   --platform [platform] Build artifacts for all or specified platforms
@@ -24,18 +24,7 @@ Options:
   -h, --help Show information about the current command
 ```
 
-When you want to start a project build, you can execute the `modern build` command. When using this command, we can:
-
-- When wanting to start a build in watch mode, use the `--watch` option.
-- When you want to specify the path to the TypeScript configuration file read by the project build, use `-build --tsconfig . /path/config.json` option. This option overrides all [`buildConfig`](/api/config/build-config) configurations in [`dts.tsconfigPath`](/api/config/build-config).
-- The `-no-dts` option can be used when the DTS type file generation and type checking behavior of the project needs to be turned off. **Note: The generation of type files depends on the results of type checking. If type checking is turned off, then type files will not be generated either**.
-- The `--no-clear` option can be used when the automatic clearing of the output directory needs to be turned off.
-
-In addition to the above, Modern.js Module also support `platform` build mode, which can be used to perform build tasks for other tools. For example if you are using module doc plugin, it is currently officially supported to start a doc build task to generate html artifacts by executing the `modern build --platform` or `modern build --platform doc` commands after installing the `@modern-js/plugin-module-doc` plugin.
-
-:::tip
-When executing a doc build, if you need to read the build artifacts of the project. Then **don't forget to execute the `modern build` command to ensure the existence of the project's build artifacts before executing the `modern build --platform` command to start the doc build**.
-:::
+Modern.js Module supports the `platform` build mode, which can be used to execute build tasks of other tools. Currently, the official support includes [Rspress](https://rspress.dev/). For example, you can start the doc build task to generate doc products by executing the `modern build --platform` commands.
 
 ## `modern new`
 

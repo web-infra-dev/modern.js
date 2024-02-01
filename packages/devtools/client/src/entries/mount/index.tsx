@@ -1,32 +1,38 @@
+import './react-devtools-backend';
+import './state';
 import { createRoot } from 'react-dom/client';
-import { parseQuery } from 'ufo';
-import _ from 'lodash';
-import { SetupClientParams } from '@modern-js/devtools-kit';
-import { waitClientConnection } from './rpc';
+import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
 import styles from './index.module.scss';
-import { DevtoolsActionButton } from '@/components/Devtools/Action';
+import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
 
-// @ts-expect-error
-const { container, resourceQuery } = window._modern_js_devtools_app as {
-  container: HTMLDivElement;
-  resourceQuery: string;
-};
-container.classList.add(styles.container);
-const root = createRoot(container);
-const parsed = parseQuery(resourceQuery);
-if (
-  !_.isString(parsed.dataSource) ||
-  !_.isString(parsed.def) ||
-  !_.isString(parsed.endpoint)
-) {
-  throw new TypeError(
-    `Failed to parse client definitions of devtools: ${resourceQuery}`,
-  );
+declare global {
+  interface Window {
+    __MODERN_JS_DEVTOOLS_OPTIONS__: SetupClientParams;
+  }
 }
-const options: SetupClientParams = {
-  dataSource: parsed.dataSource,
-  endpoint: parsed.endpoint,
-  def: JSON.parse(parsed.def),
-};
-waitClientConnection();
-root.render(<DevtoolsActionButton {...options} />);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const outer = document.createElement('div');
+  outer.className = '_modern_js_devtools_container';
+  document.body.appendChild(outer);
+
+  const shadow = outer.attachShadow({ mode: 'closed' });
+
+  const template = document.getElementById('_modern_js_devtools_styles');
+  if (!(template instanceof HTMLTemplateElement)) {
+    throw new Error('template not found');
+  }
+  shadow.appendChild(template.content);
+
+  const container = document.createElement('div');
+  container.classList.add(
+    '_modern_js_devtools_mountpoint',
+    'theme-register',
+    styles.container,
+  );
+  shadow.appendChild(container);
+
+  const options = window.__MODERN_JS_DEVTOOLS_OPTIONS__;
+  const root = createRoot(container);
+  root.render(<DevtoolsCapsule {...options} />);
+});

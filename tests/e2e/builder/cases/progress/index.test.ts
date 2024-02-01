@@ -2,7 +2,7 @@ import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
-import { logger } from '@modern-js/utils';
+import { logger } from '@modern-js/uni-builder';
 
 webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   process.stdout.isTTY = false;
@@ -21,7 +21,6 @@ webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    useUniBuilder: false,
     builderConfig: {
       dev: {
         progressBar: true,

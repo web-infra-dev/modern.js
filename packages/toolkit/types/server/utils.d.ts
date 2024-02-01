@@ -4,23 +4,28 @@ import type {
   Filter as ProxyFilter,
 } from 'http-proxy-middleware';
 
-export type Metrics = {
-  emitCounter: (name: string, value: number, tags: Record<string, any>) => void;
-  emitTimer: (name: string, value: number, tags: Record<string, any>) => void;
-  gauges: () => void;
-};
+export interface Metrics {
+  emitCounter: (
+    name: string,
+    value: number,
+    prefix?: string,
+    tags?: Record<string, any>,
+  ) => void;
+  emitTimer: (
+    name: string,
+    value: number,
+    prefix?: string,
+    tags?: Record<string, any>,
+  ) => void;
+}
 
-type LoggerFunction = (
-  message?: number | string | Error,
-  ...args: any[]
-) => void;
-export type Logger = {
+type LoggerFunction = (message: string, ...args: any[]) => void;
+export interface Logger {
   error: LoggerFunction;
   info: LoggerFunction;
   warn: LoggerFunction;
   debug: LoggerFunction;
-  log: LoggerFunction;
-};
+}
 
 export interface ServerTiming {
   addServeTiming: (name: string, dur: number, decs?: string) => this;
@@ -108,13 +113,13 @@ export type CacheOption =
 
 export interface Container<K = string, V = string> {
   /**
-   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
+   * Returns a specified element from the container. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Container.
    * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
    */
   get: (key: K) => Promise<V | undefined>;
 
   /**
-   * Adds a new element with a specified key and value to the containter. If an element with the same key already exists, the element will be updated.
+   * Adds a new element with a specified key and value to the container. If an element with the same key already exists, the element will be updated.
    */
   set: (key: K, value: V, options?: { ttl?: number }) => Promise<this>;
 
@@ -124,9 +129,9 @@ export interface Container<K = string, V = string> {
   has: (key: K) => Promise<boolean>;
 
   /**
-   * @returns true if an element in the containter existed and has been removed, or false if the element does not exist.
+   * @returns true if an element in the container existed and has been removed, or false if the element does not exist.
    */
   delete: (key: K) => Promise<boolean>;
 
-  forEach?: (callbackFn: (v: V, k: K, containter: this) => void) => void;
+  forEach?: (callbackFn: (v: V, k: K, container: this) => void) => void;
 }

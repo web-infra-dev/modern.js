@@ -1,5 +1,45 @@
 # @modern-js/new-action
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/utils@2.46.1
+- @modern-js/generator-common@3.3.8
+- @modern-js/generator-utils@3.3.8
+
+## 2.46.0
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+- @modern-js/generator-common@3.3.7
+- @modern-js/generator-utils@3.3.7
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/utils@2.45.0
+- @modern-js/generator-common@3.3.6
+- @modern-js/generator-utils@3.3.6
+
+## 2.44.0
+
+### Patch Changes
+
+- @modern-js/utils@2.44.0
+- @modern-js/generator-common@3.3.5
+- @modern-js/generator-utils@3.3.5
+
+## 2.43.0
+
+### Patch Changes
+
+- @modern-js/utils@2.43.0
+- @modern-js/generator-common@3.3.4
+- @modern-js/generator-utils@3.3.4
+
 ## 2.42.2
 
 ### Patch Changes

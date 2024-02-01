@@ -3,6 +3,7 @@ import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import path from 'path';
 import {
   fs,
+  isProd,
   isPromise,
   isWebOnly,
   mime,
@@ -17,13 +18,13 @@ import {
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
+import { Logger } from '@modern-js/utils/logger';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
   NextFunction,
   ServerHookRunner,
   Metrics,
-  Logger,
   ConfWithBFF,
   ModernServerInterface,
   BuildOptions,
@@ -165,7 +166,7 @@ export class ModernServer implements ModernServerInterface {
     this.warmupSSRBundle();
 
     // warmup cacheMod
-    cacheMod.loadServerCacheMod(this.pwd);
+    cacheMod.loadServerCacheMod(isProd() ? distDir : this.pwd);
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);
@@ -700,7 +701,7 @@ export class ModernServer implements ModernServerInterface {
     try {
       context = this.createContext(req, res, { metaName: this.metaName });
     } catch (e) {
-      this.logger.error(e as Error);
+      this.logger.error(e);
       res.statusCode = 500;
       res.setHeader('content-type', mime.contentType('html') as string);
       return res.end(createErrorDocument(500, ERROR_PAGE_TEXT[500]));

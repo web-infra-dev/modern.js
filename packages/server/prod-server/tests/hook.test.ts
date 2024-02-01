@@ -6,6 +6,7 @@ import {
   createAfterMatchContext,
   createAfterRenderContext,
   createMiddlewareContext,
+  createAfterStreamingRenderContext,
 } from '../src/libs/hook-api';
 import { createContext } from '../src/libs/context';
 import { createDoc } from './helper';
@@ -104,6 +105,7 @@ describe('test hook api', () => {
       {},
       content,
     );
+    const initialTemplateContent = template.get();
 
     expect(template.get()).toMatch(content);
     template.appendBody('after body');
@@ -119,6 +121,23 @@ describe('test hook api', () => {
 
     template.set('<div>empty</div>');
     expect(template.get()).toBe('<div>empty</div>');
+
+    template.set(
+      initialTemplateContent
+        .replace('<head>', '<head tag="head">')
+        .replace('<body>', '<body tag="body">'),
+    );
+
+    template.appendBody('after body');
+    template.prependBody('before body');
+    template.appendHead('after head');
+    template.prependHead('before head');
+
+    const nextContent = template.get();
+    expect(nextContent).toMatch('<head tag="head">before head');
+    expect(nextContent).toMatch('<body tag="body">before body');
+    expect(nextContent).toMatch('after head</head>');
+    expect(nextContent).toMatch('after body</body>');
   });
 
   test('should middleware context worke correctly', () => {
@@ -143,5 +162,26 @@ describe('test hook api', () => {
 
     response.locals.foo = 'bar';
     expect((locals as any).foo).toBe('bar');
+  });
+
+  test('should after streaming render context work correctly', () => {
+    const content = createDoc();
+    const req = httpMocks.createRequest({
+      url: '/',
+      headers: {
+        host: 'modernjs.com',
+      },
+      eventEmitter: Readable,
+      method: 'GET',
+    });
+    const res = httpMocks.createResponse({ eventEmitter: EventEmitter });
+    const afterStreamingRenderContext = createAfterStreamingRenderContext(
+      createContext(req, res),
+      {},
+    );
+
+    const context = afterStreamingRenderContext(content);
+
+    expect(context.chunk).toMatch(content);
   });
 });

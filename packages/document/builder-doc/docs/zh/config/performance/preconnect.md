@@ -16,7 +16,7 @@ interface PreconnectOption {
 ```js
 export default {
   performance: {
-    preconnect: ['http://xxx.com'],
+    preconnect: ['http://example.com'],
   },
 };
 ```

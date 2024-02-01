@@ -41,7 +41,8 @@ describe('test basic usage', () => {
     expect(fs.readFileSync(mainEntry, 'utf-8')).toMatch(
       '<link rel="icon" href="/favicon.ico">',
     );
-    const mediaPath = path.join('static', 'image', 'icon.png');
+    const mediaPath = `static/image/icon.png`;
+
     expect(fs.readFileSync(mainEntry, 'utf-8')).toMatch(
       `<link rel="apple-touch-icon" sizes="180*180" href="/${mediaPath}">`,
     );

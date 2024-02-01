@@ -1,12 +1,11 @@
 import path from 'path';
-import { createRsbuild } from '@rsbuild/core';
-import { RspackCompiler } from '@modern-js/builder-rspack-provider';
+import { createRsbuild, type Rspack } from '@rsbuild/core';
 import { logger } from '@modern-js/utils/logger';
 import { version } from '../package.json';
 
 export class ServiceWorkerCompilerPlugin {
   name = 'ServiceWorkerCompilerPlugin';
-  apply(compiler: RspackCompiler) {
+  apply(compiler: Rspack.Compiler) {
     compiler.hooks.beforeCompile.tapPromise(this.name, async () => {
       const cwd = path.resolve(__dirname, '../');
 
@@ -23,6 +22,7 @@ export class ServiceWorkerCompilerPlugin {
               js: false,
               css: false,
             },
+            cleanDistPath: false,
             distPath: {
               root: './dist',
               worker: './public',
@@ -30,6 +30,7 @@ export class ServiceWorkerCompilerPlugin {
           },
           tools: {
             bundlerChain(chain) {
+              chain.output.uniqueName('modernjsDevtoolsSW');
               chain.output.delete('libraryTarget');
             },
           },

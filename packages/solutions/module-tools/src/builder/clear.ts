@@ -1,7 +1,10 @@
-import { fs, logger, chalk, execa } from '@modern-js/utils';
+import { basename, relative, resolve, dirname, join } from 'path';
+import { fs, logger, chalk } from '@modern-js/utils';
+
 import type { BaseBuildConfig } from '../types';
 import { i18n, localeKeys } from '../locale';
-import { getTscBinPath } from '../utils';
+import { getProjectTsconfig } from '../utils';
+import { debug } from '../debug';
 
 export const clearBuildConfigPaths = async (
   configs: BaseBuildConfig[],
@@ -14,22 +17,46 @@ export const clearBuildConfigPaths = async (
       await fs.remove(config.outDir);
     }
 
-    // tsc --build --clean
-    if (
-      config.buildType === 'bundleless' &&
-      config.dts &&
-      // keep it same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/build.ts#L37
-      (await fs.pathExists(config.tsconfig))
-    ) {
-      const tscBinFile = await getTscBinPath(projectAbsRootPath);
-      const childProgress = execa(tscBinFile, ['--build', '--clean'], {
-        stdio: 'pipe',
-        cwd: projectAbsRootPath,
-      });
-      try {
-        await childProgress;
-      } catch (e) {
-        logger.error(e);
+    // clear tsbuildInfo
+    if (config.buildType === 'bundleless' && config.dts) {
+      const { compilerOptions } = await getProjectTsconfig(config.tsconfig);
+      const {
+        composite,
+        incremental,
+        rootDir,
+        outDir,
+        tsBuildInfoFile = '.tsbuildinfo',
+      } = compilerOptions || {};
+      if (!composite && !incremental) {
+        // js project will return, too.
+        return;
+      }
+      const tsconfigDir = dirname(config.tsconfig);
+
+      // https://www.typescriptlang.org/tsconfig#tsBuildInfoFile
+      let tsbuildInfoFilePath = `${basename(
+        config.tsconfig,
+        '.json',
+      )}${tsBuildInfoFile}`;
+      if (outDir) {
+        if (rootDir) {
+          tsbuildInfoFilePath = join(
+            outDir,
+            relative(resolve(tsconfigDir, rootDir), tsconfigDir),
+            tsbuildInfoFilePath,
+          );
+        } else {
+          tsbuildInfoFilePath = join(outDir, tsbuildInfoFilePath);
+        }
+      }
+
+      const tsbuildInfoFileAbsPath = resolve(tsconfigDir, tsbuildInfoFilePath);
+
+      debug('clear tsbuildinfo');
+      if (await fs.pathExists(tsbuildInfoFileAbsPath)) {
+        await fs.remove(tsbuildInfoFileAbsPath);
+      } else {
+        debug(`${tsbuildInfoFileAbsPath} doesn't exist`);
       }
     }
   }

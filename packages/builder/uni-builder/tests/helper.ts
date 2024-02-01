@@ -1,8 +1,5 @@
-import type {
-  RsbuildInstance,
-  RspackConfig,
-  RspackRule,
-} from '@rsbuild/shared';
+import type { RspackConfig, RspackRule } from '@rsbuild/shared';
+import type { UniBuilderInstance } from '../src';
 
 export function matchRules({
   config,
@@ -28,7 +25,7 @@ export function matchRules({
   });
 }
 
-export const unwrapConfig = async (rsbuild: RsbuildInstance) => {
+export const unwrapConfig = async (rsbuild: UniBuilderInstance) => {
   const configs = await rsbuild.initConfigs();
   return configs[0];
 };

@@ -119,7 +119,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
+            bundlerChain(chain, { isServer, isServiceWorker }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -131,7 +131,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
-                  .plugin(CHAIN_ID.PLUGIN.LOADABLE)
+                  .plugin('loadable')
                   .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
@@ -203,19 +203,14 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           const config = api.useResolvedConfigContext();
           const { enableInlineScripts, enableInlineStyles } = config.output;
           const { crossorigin, scriptLoading } = config.html;
-          const disablePrerender =
-            typeof config.server?.ssr === 'object'
-              ? Boolean(config.server.ssr.disablePrerender)
-              : false;
 
           plugins.push({
             name: PLUGIN_IDENTIFIER,
             options: JSON.stringify({
+              scriptLoading,
               ...(ssrConfigMap.get(entrypoint.entryName) || {}),
               crossorigin,
-              scriptLoading,
               chunkLoadingGlobal,
-              disablePrerender,
               enableInlineScripts:
                 typeof enableInlineScripts === 'function'
                   ? undefined

@@ -30,6 +30,8 @@ When the value type is `Object`, the following properties can be configured:
 - `inlineScript`: `boolean = true`, by default, SSR data is injected into HTML as inline scripts and assigned directly to global variables. Configure `false` to distribute JSON instead of assigning to global variables.
 - `disablePrerender`: `boolean = fasle`, To ensure compatibility with the old data request method (`useLoader`), by default, Modern.js performs pre-rendering of components.
   However, if developers want to reduce one rendering when there is no use of the useLoader API in your project, you can set the configuration `disablePrerender=true`.
+- `unsafeHeaders`: `string[] = []`, For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected.
+- `scriptLoading`: `'defer' | 'blocking' | 'module' | 'async'`, The configuration is the same as [html.scriptLoading](/configure/app/html/script-loading), supporting SSR injected script set to `async` loading. The priority is `ssr.scriptLoading` > `html.scriptLoading`.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -38,6 +40,8 @@ export default defineConfig({
       forceCSR: true,
       mode: 'stream',
       inlineScript: false,
+      unsafeHeaders: ['User-Agent'],
+      scriptLoading: 'async',
     },
   },
 });

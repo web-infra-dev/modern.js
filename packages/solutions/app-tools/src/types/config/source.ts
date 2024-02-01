@@ -1,11 +1,4 @@
-import type { SharedSourceConfig as BuilderSharedSourceConfig } from '@modern-js/builder-shared';
-import type {
-  WebpackBuilderConfig,
-  RspackBuilderConfig,
-} from '../../builder/shared';
-
-export type BuilderSourceConfig = NonNullable<WebpackBuilderConfig['source']>;
-export type RsBuilderSourceConfig = NonNullable<RspackBuilderConfig['source']>;
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
 export type Entry =
   | string
@@ -26,7 +19,8 @@ export type Entry =
 
 export type Entries = Record<string, Entry>;
 
-export interface SharedSourceConfig extends BuilderSharedSourceConfig {
+export interface SourceUserConfig
+  extends NonNullable<UniBuilderConfig['source']> {
   /**
    * Used to configure custom page entries.
    */
@@ -67,7 +61,3 @@ export interface SharedSourceConfig extends BuilderSharedSourceConfig {
    */
   designSystem?: Record<string, any>;
 }
-
-export type SourceUserConfig = BuilderSourceConfig & SharedSourceConfig;
-
-export type RsSourceUserConfig = RsBuilderSourceConfig & SharedSourceConfig;

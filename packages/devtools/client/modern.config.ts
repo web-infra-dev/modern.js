@@ -1,7 +1,7 @@
 import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
@@ -33,6 +33,7 @@ export default defineConfig<'rspack'>({
       'process.env.VERSION': packageMeta.version,
       'process.env.PKG_VERSION': packageMeta.version,
       'process.env.DEVTOOLS_MARK': nanoid(),
+      __REACT_DEVTOOLS_GLOBAL_HOOK__: { isDisabled: true },
     },
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
@@ -50,6 +51,7 @@ export default defineConfig<'rspack'>({
       addPlugins(require('postcss-custom-media'));
     },
     bundlerChain(chain) {
+      chain.output.uniqueName('modernjsDevtools');
       chain.module
         .rule('RADIX_TOKEN')
         .test(require.resolve('@radix-ui/themes/styles.css'))

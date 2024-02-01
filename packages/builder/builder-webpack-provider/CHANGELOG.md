@@ -1,5 +1,68 @@
 # @modern-js/builder-webpack-provider
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.1
+- @modern-js/server@2.46.1
+- @modern-js/types@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 4699e22: chore: explicitly declare Node version of babel target
+
+  chore: 显式声明 babel 的目标 Node 版本
+
+- Updated dependencies [494b290]
+  - @modern-js/types@2.46.0
+  - @modern-js/builder-shared@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [19c8687]
+  - @modern-js/types@2.45.0
+  - @modern-js/builder-shared@2.45.0
+  - @modern-js/server@2.45.0
+  - @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- b32f60a: chore(deps): bump rspack to 0.4.5 and bump rsbuild to 0.2.11
+
+  chore(deps): 升级 rspack 到 0.4.5 & 升级 rsbuild 到 0.2.11
+
+- Updated dependencies [0ed968c]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+- Updated dependencies [35a9961]
+  - @modern-js/types@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+- Updated dependencies [acd3861]
+- Updated dependencies [5782aa3]
+  - @modern-js/server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

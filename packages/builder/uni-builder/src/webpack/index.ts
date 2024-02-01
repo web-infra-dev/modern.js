@@ -4,24 +4,28 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
+import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
-  UniBuilderWebpackConfig,
-  CreateWebpackBuilderOptions,
+  UniBuilderConfig,
+  CreateUniBuilderOptions,
   CreateBuilderCommonOptions,
+  OverridesUniBuilderInstance,
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
+import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
-  uniBuilderConfig: UniBuilderWebpackConfig,
+  uniBuilderConfig: UniBuilderConfig,
   options: CreateBuilderCommonOptions,
 ): Promise<{
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig<'webpack'>(
+  const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
     options,
   );
@@ -75,9 +79,15 @@ export async function parseConfig(
   };
 }
 
+export type UniBuilderWebpackInstance = Omit<
+  RsbuildInstance<RsbuildProvider<'webpack'>>,
+  keyof OverridesUniBuilderInstance
+> &
+  OverridesUniBuilderInstance;
+
 export async function createWebpackBuilder(
-  options: CreateWebpackBuilderOptions,
-): Promise<RsbuildInstance> {
+  options: CreateUniBuilderOptions,
+): Promise<UniBuilderWebpackInstance> {
   const { cwd = process.cwd(), config, ...rest } = options;
 
   const { rsbuildConfig, rsbuildPlugins } = await parseConfig(config, {
@@ -86,6 +96,13 @@ export async function createWebpackBuilder(
   });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
+  const { setHTMLPlugin } = await import('@rsbuild/core/provider');
+
+  const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
+
+  // Some third-party plug-ins depend on html-webpack-plugin, like sri
+  setHTMLPlugin(HtmlWebpackPlugin);
+
   rsbuildConfig.provider = webpackProvider;
 
   const rsbuild = await createRsbuild({
@@ -98,5 +115,18 @@ export async function createWebpackBuilder(
     pluginModuleScopes(options.config.source?.moduleScopes),
   ]);
 
-  return rsbuild;
+  return {
+    ...rsbuild,
+    addPlugins: (plugins, options) => {
+      const warpedPlugins = plugins.map(plugin => {
+        return compatLegacyPlugin(plugin, { cwd });
+      });
+      rsbuild.addPlugins(warpedPlugins, options);
+    },
+    startDevServer: async (options: StartDevServerOptions = {}) => {
+      const { startDevServer } = await import('../shared/devServer');
+
+      return startDevServer(rsbuild, options, config);
+    },
+  };
 }

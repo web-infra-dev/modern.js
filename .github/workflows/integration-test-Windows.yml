@@ -4,7 +4,7 @@ name: Integration Test(Windows)
 on:
   # Triggers the workflow on pull request events but only for the main branch
   push:
-    branches: [main, update-rspack-**]
+    branches: [main, feat-update-rsbuild-version]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -53,7 +53,7 @@ jobs:
         id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .nx-cache
+          path: .nx/cache
           key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
             nx-${{ github.ref_name }}-

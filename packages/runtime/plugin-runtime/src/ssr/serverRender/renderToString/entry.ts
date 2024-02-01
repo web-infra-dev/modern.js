@@ -11,6 +11,7 @@ import {
   ModernSSRReactComponent,
   SSRPluginConfig,
   SSRServerContext,
+  RenderResult,
 } from '../types';
 import prefetch from '../../prefetch';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
@@ -26,7 +27,6 @@ import {
   createReplaceHtml,
   createReplaceSSRDataScript,
 } from './buildHtml';
-import { RenderResult } from './type';
 
 type EntryOptions = {
   ctx: SSRServerContext;
@@ -39,11 +39,20 @@ const buildTemplateData = (
   data: Record<string, any>,
   renderLevel: RenderLevel,
   tracker: SSRTracker,
+  config: SSRPluginConfig,
 ) => {
-  const { request, enableUnsafeCtx } = context;
-  const unsafeContext = {
-    headers: request.headers,
-  };
+  const { request } = context;
+  const { unsafeHeaders } = config;
+
+  const headers = unsafeHeaders
+    ? Object.fromEntries(
+        Object.entries(request.headers).filter(([key, _]) => {
+          return unsafeHeaders
+            ?.map(header => header.toLowerCase())
+            ?.includes(key.toLowerCase());
+        }),
+      )
+    : undefined;
 
   return {
     data,
@@ -54,7 +63,7 @@ const buildTemplateData = (
         pathname: request.pathname,
         host: request.host,
         url: request.url,
-        ...(enableUnsafeCtx ? unsafeContext : {}),
+        headers,
       },
       reporter: {
         sessionId: tracker.sessionId,
@@ -68,8 +77,6 @@ export default class Entry {
   public entryName: string;
 
   public result: RenderResult;
-
-  public metrics: SSRServerContext['metrics'];
 
   public tracker: SSRTracker;
 
@@ -96,7 +103,6 @@ export default class Entry {
 
     this.routeManifest = ctx.routeManifest;
     this.tracker = ctx.tracker;
-    this.metrics = ctx.metrics;
     this.htmlModifiers = ctx.htmlModifiers;
     this.nonce = nonce;
 
@@ -142,6 +148,7 @@ export default class Entry {
       prefetchData,
       this.result.renderLevel,
       this.tracker,
+      this.pluginConfig,
     );
     const ssrDataScripts = this.getSSRDataScript(templateData, routerData);
 

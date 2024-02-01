@@ -1,5 +1,40 @@
 # @modern-js/types
 
+## 2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 494b290: feat: Waiting for all content to load for spiders in streaming ssr
+  feat: 在 streaming ssr 时，为爬虫等待所有内容加载完毕
+
+## 2.45.0
+
+### Patch Changes
+
+- 19c8687: fix: add missing babel types
+  fix: 添加缺失 babel 类型
+
+## 2.44.0
+
+### Minor Changes
+
+- 56d7f9a: feat: SSR server support afterStreamingRender
+  feat: SSR 服务端支持 afterStreamingRender
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
 ## 2.42.2
 
 ### Patch Changes

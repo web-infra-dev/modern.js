@@ -1,5 +1,46 @@
 # @modern-js/runtime-utils
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 78e2722: fix(runtime-utils): FileReader#reset didn't clear storage as expected
+  fix(runtime-utils): FileReader#reset 没有按预期清除缓存的问题。
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
+### Patch Changes
+
+- 9e749d8: fix: adapte webpack-dev-middleware disable write-to-disk
+  fix: 适配 webpack-dev-middleware 禁止写入磁盘
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

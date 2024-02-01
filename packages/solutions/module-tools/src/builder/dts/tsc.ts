@@ -63,6 +63,7 @@ const runTscBin = async (
     tsconfigPath,
     userTsconfig,
     distPath,
+    enableTscBuild,
   } = config;
 
   const tscBinFile = await getTscBinPath(appDirectory);
@@ -70,7 +71,7 @@ const runTscBin = async (
   const params: string[] = [];
 
   // avoid error TS6305
-  if (userTsconfig.references) {
+  if (enableTscBuild) {
     params.push('-b', tsconfigPath);
 
     const {
@@ -78,27 +79,33 @@ const runTscBin = async (
       outDir,
       emitDeclarationOnly,
       declaration,
+      declarationDir,
     } = userTsconfig.compilerOptions ?? {};
     const abosultBaseUrl = path.isAbsolute(baseUrl)
       ? baseUrl
       : path.join(path.dirname(tsconfigPath), baseUrl);
 
-    // can not set '--outDir' with '--build'.
-    if (!outDir || path.resolve(abosultBaseUrl, outDir) !== distPath) {
+    // can not set '--declartionDir' or '--ourDir' with '--build'.
+    if (
+      (!outDir || path.resolve(abosultBaseUrl, outDir) !== distPath) &&
+      (!declarationDir ||
+        path.resolve(abosultBaseUrl, declarationDir) !== distPath)
+    ) {
       const correctOutDir = path.relative(abosultBaseUrl, distPath);
-      throw new Error(
-        `Please set outDir: "${correctOutDir}" in ${chalk.underline(
+      const info = outDir && !declarationDir ? 'outDir' : 'declarationDir';
+      logger.error(
+        `Please set ${info}: "${correctOutDir}" in ${chalk.underline(
           tsconfigPath,
         )} to keep it same as buildConfig.`,
       );
     }
 
-    // can not set '--declaration' and '--emitDeclaration' with '--build' if ts is not v5.
+    // can not set '--declaration' and '--emitDeclarationOnly' with '--build' if ts is not v5.
     const tsVersion = await detectTSVersion(appDirectory);
     if (tsVersion !== 5) {
       if (!declaration || !emitDeclarationOnly) {
-        throw new Error(
-          `Please set declaration: true and emitDeclaration: true in ${chalk.underline(
+        logger.error(
+          `Please set declaration: true and emitDeclarationOnly: true in ${chalk.underline(
             tsconfigPath,
           )}`,
         );
@@ -111,7 +118,7 @@ const runTscBin = async (
       '-p',
       tsconfigPath,
       // Same as dts.distPath
-      '--outDir',
+      '--declarationDir',
       distPath,
       // Only emit d.ts files
       '--declaration',

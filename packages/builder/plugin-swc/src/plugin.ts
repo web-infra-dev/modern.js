@@ -16,6 +16,8 @@ import { SwcMinimizerPlugin } from './minizer';
 const PLUGIN_NAME = 'builder-plugin-swc';
 
 /**
+ * @deprecated Using \@rsbuild/plugin-swc instead.
+ *
  * In this plugin, we do:
  * - Remove Babel loader if exists
  * - Add our own swc loader
@@ -92,7 +94,7 @@ export const builderPluginSwc = (
         const { CheckPolyfillPlugin } = await import('./checkPolyfillPlugin');
 
         chain
-          .plugin(CHAIN_ID.PLUGIN.SWC_POLYFILL_CHECKER)
+          .plugin('swc-polyfill-checker-plugin')
           .use(new CheckPolyfillPlugin(mainConfig));
       }
 

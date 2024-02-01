@@ -7,13 +7,19 @@ import {
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/node';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
+import * as flatted from 'flatted';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
-import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
-import { CliPluginAPI, BuilderPluginAPI, InjectedHooks } from '../types';
+import type {
+  RsbuildContext,
+  RsbuildPlugin,
+  WebpackConfig,
+  RspackConfig,
+} from '@modern-js/uni-builder';
+import { CliPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
 import { requireModule } from '../utils/module';
 
@@ -49,7 +55,7 @@ export const setupClientConnection = async (
   const deferred = {
     prepare: createDeferPromise<void>(),
     builder: {
-      context: createDeferPromise<BuilderContext>(),
+      context: createDeferPromise<RsbuildContext>(),
       config: {
         resolved: createDeferPromise<BuilderConfig>(),
         transformed: createDeferPromise<NormalizedBuilderConfig>(),
@@ -112,12 +118,14 @@ export const setupClientConnection = async (
         webpack: [
           ctx.rootPath,
           '@modern-js/app-tools',
-          '@modern-js/builder-webpack-provider',
+          '@modern-js/uni-builder',
+          '@rsbuild/webpack',
           'webpack/package.json',
         ],
         '@rspack/core': [
           ctx.rootPath,
-          '@modern-js/builder-rspack-provider',
+          '@modern-js/uni-builder',
+          '@rsbuild/core',
           '@rspack/core/package.json',
         ],
       };
@@ -148,8 +156,8 @@ export const setupClientConnection = async (
     post: data =>
       onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
     on: cb => (handleMessage = cb),
-    serialize: v => JSON.stringify(v),
-    deserialize: v => JSON.parse(v.toString()),
+    serialize: v => flatted.stringify([v]),
+    deserialize: v => flatted.parse(v.toString())[0],
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
@@ -171,13 +179,13 @@ export const setupClientConnection = async (
     },
   };
 
-  const builderPlugin: BuilderPlugin<BuilderPluginAPI> = {
+  const builderPlugin: RsbuildPlugin = {
     name: 'builder-plugin-devtools',
     setup(api) {
       deferred.builder.context.resolve(_.cloneDeep(api.context));
       api.modifyBundlerChain(() => {
         deferred.builder.config.resolved.resolve(
-          _.cloneDeep(api.getBuilderConfig()),
+          _.cloneDeep(api.getRsbuildConfig()),
         );
         deferred.builder.config.transformed.resolve(
           _.cloneDeep(api.getNormalizedConfig()),
@@ -185,13 +193,13 @@ export const setupClientConnection = async (
       });
 
       const modifyBundlerConfig =
-        'modifyWebpackConfig' in api
+        api.context.bundlerType === 'webpack'
           ? api.modifyWebpackConfig
           : api.modifyRspackConfig;
-      const expectBundlerNum = _.castArray(api.context.target).length;
+      const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
-        bundlerConfigs.push(config as any);
+      modifyBundlerConfig((config: WebpackConfig | RspackConfig) => {
+        bundlerConfigs.push(config as JsonValue);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(
             _.cloneDeep(bundlerConfigs) as any,
@@ -201,7 +209,7 @@ export const setupClientConnection = async (
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
         deferred.bundler.config.transformed.resolve(
-          _.cloneDeep(bundlerConfigs) as any,
+          _.cloneDeep(bundlerConfigs),
         );
       });
 

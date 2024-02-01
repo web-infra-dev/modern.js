@@ -1,5 +1,48 @@
 # @modern-js/main-doc
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.46.1
+- @modern-js/sandpack-react@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [6bc042d]
+  - @modern-js/builder-doc@2.46.0
+  - @modern-js/sandpack-react@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.45.0
+- @modern-js/sandpack-react@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+  - @modern-js/sandpack-react@2.44.0
+  - @modern-js/builder-doc@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 13fc9cb: docs: fix server middleware type error in the docs
+  docs: 修复文档中 server 中间件的类型错误
+- df19d4d: feat: enhance plugin docs
+  feat: 优化插件文档
+- Updated dependencies [4b4d08a]
+  - @modern-js/builder-doc@2.43.0
+  - @modern-js/sandpack-react@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

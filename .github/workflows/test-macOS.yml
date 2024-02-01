@@ -19,7 +19,7 @@ on:
 jobs:
   ut-mac:
     # The type of runner that the job will run on
-    runs-on: macos-latest
+    runs-on: macos-14
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -47,6 +47,10 @@ jobs:
       - name: Install Dependencies
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm install --ignore-scripts
+
+      - name: Build Required Pkg
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
+        run: pnpm run build:required
 
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}

@@ -1,11 +1,11 @@
 import http from 'http';
 import path from 'path';
+import assert from 'assert';
 import { ProxyDetail } from '@modern-js/types';
 import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
-import { withQuery } from 'ufo';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import {
   DevtoolsPluginOptions,
   DevtoolsPluginInlineOptions,
@@ -58,24 +58,55 @@ export const devtoolsPlugin = (
         });
         logger.info(`${ctx.def.name.formalName} Devtools is enabled`);
 
-        const runtimeEntry = require.resolve(
-          '@modern-js/devtools-client/mount',
-        );
-
         const swProxyEntry = require.resolve(
           '@modern-js/devtools-client/sw-proxy',
         );
 
+        // Inject options to client.
+        const serializedOptions = JSON.stringify(ctx);
+        const tags: AppTools['normalizedConfig']['html']['tags'] = [
+          {
+            tag: 'script',
+            children: `window.__MODERN_JS_DEVTOOLS_OPTIONS__ = ${serializedOptions};`,
+            head: true,
+            append: false,
+          },
+        ];
+
+        const styles: string[] = [];
+        const manifest = require('@modern-js/devtools-client/manifest');
+        // Inject JavaScript chunks to client.
+        for (const src of manifest.routeAssets.mount.assets) {
+          assert(typeof src === 'string');
+          if (src.endsWith('.js')) {
+            tags.push({
+              tag: 'script',
+              attrs: { src },
+              head: true,
+              append: false,
+            });
+          } else if (src.endsWith('.css')) {
+            styles.push(src);
+          }
+        }
+        // Inject CSS chunks to client inside of template to avoid polluting global.
+        tags.push({
+          tag: 'template',
+          attrs: { id: '_modern_js_devtools_styles' },
+          append: true,
+          head: false,
+          children: styles
+            .map(src => `<link rel="stylesheet" href="${src}">`)
+            .join(''),
+        });
+
         return {
           builderPlugins: [rpc.builderPlugin],
-          source: {
-            preEntry: [withQuery(runtimeEntry, ctx)],
-            include: [runtimeEntry],
-          },
+          source: {},
           output: {
             copy: [{ from: swProxyEntry, to: 'public' }],
           },
-          html: {},
+          html: { tags },
           tools: {
             devServer: {
               proxy: {

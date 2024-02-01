@@ -15,7 +15,6 @@ export const render = ({
       App,
       config,
     });
-    entry.metrics.emitCounter('app.visit.count', 1);
 
     const html = await entry.renderToHtml(context);
 

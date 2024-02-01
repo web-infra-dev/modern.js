@@ -46,6 +46,13 @@ describe('dts build', () => {
       appDirectory: fixtureDir,
       enableDts,
     });
+
+    const compositeDistPath = path.join(
+      fixtureDir,
+      '../dts-composite/dist/index.d.ts',
+    );
+    expect(fs.existsSync(compositeDistPath)).toBeTruthy();
+
     const distMapPath = path.join(
       fixtureDir,
       './dist/bundleless/types/index.d.ts.map',
@@ -58,13 +65,12 @@ describe('dts build', () => {
         path.resolve(fixtureDir, 'src/index.ts'),
     ).toBeTruthy();
 
-    /// / fix jest bug
-    // const content = await fs.readFile(distPath, 'utf8');
-    // const distPath = path.join(
-    //   fixtureDir,
-    //   './dist/bundleless/types/index.d.ts',
-    // );
-    // expect(content.includes('./b')).toBeTruthy();
+    const distPath = path.join(
+      fixtureDir,
+      './dist/bundleless/types/index.d.ts',
+    );
+    const content = await fs.readFile(distPath, 'utf8');
+    expect(content.includes('./b')).toBeTruthy();
   });
 });
 

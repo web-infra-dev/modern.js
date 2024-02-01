@@ -1,5 +1,47 @@
 # @modern-js/builder
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.0
+- @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.45.0
+- @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- 6df8c9f: chore(module-tools): bump SVGR to v8.1.0
+
+  chore(module-tools): 升级 SVGR 到 v8.1.0
+
+- 35a9961: fix(transform-import): remove SharedTransformImport config
+  fix(transform-import): 移除 SharedTransformImport 配置
+- Updated dependencies [35a9961]
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.43.0
+- @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

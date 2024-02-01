@@ -1,10 +1,20 @@
-- **类型：** `Array<string | RegExp>`
-- **默认值：** `[]`
-- **打包工具：** `仅支持 webpack`
+- **类型：** [RuleSetCondition[]](https://rspack.dev/zh/config/module#condition)
+- **默认值：**
 
-出于编译性能的考虑，默认情况下，Builder 不会编译 node_modules 下的 JavaScript/TypeScript 文件，也不会编译当前工程目录外部的 JavaScript/TypeScript 文件。
+```ts
+const defaultInclude = [
+  {
+    and: [rootPath, { not: /[\\/]node_modules[\\/]/ }],
+  },
+  /\.(?:ts|tsx|jsx|mts|cts)$/,
+];
+```
 
-通过 `source.include` 配置项，可以指定需要 Builder 额外进行编译的目录或模块。`source.include` 的用法与 webpack 中的 [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) 一致，支持传入字符串或正则表达式来匹配模块的路径。
+`source.include` 用于指定额外需要编译的 JavaScript 文件。
+
+为了避免二次编译，默认情况下，Rsbuild 只会编译当前目录下的 JavaScript 文件，以及所有目录下的 TypeScript 和 JSX 文件，不会编译 node_modules 下的 JavaScript 文件。
+
+通过 `source.include` 配置项，可以指定需要 Rsbuild 额外进行编译的目录或模块。`source.include` 的用法与 Rspack 中的 [Rule.include](https://rspack.dev/zh/config/module#ruleinclude) 一致，支持传入字符串、正则表达式来匹配模块的路径。
 
 比如:
 
@@ -17,10 +27,6 @@ export default {
   },
 };
 ```
-
-:::tip
-在使用 Rspack 作为打包工具时，默认**所有文件**都会经过编译，同时，不支持通过 `source.exclude` 排除。
-:::
 
 ### 编译 npm 包
 

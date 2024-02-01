@@ -10,6 +10,8 @@ import type {
   DevConfig,
   RequestHandler,
   RsbuildEntry,
+  PromiseOrNot,
+  RsbuildPluginAPI,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -23,28 +25,25 @@ import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { AliasOption } from '@modern-js/utils';
+import type {
+  StartDevServerOptions,
+  UniBuilderStartServerResult,
+} from './shared/devServer';
+import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
   frameworkConfigPath?: string;
   target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
-  cwd?: string;
+  cwd: string;
 };
 
-export type CreateWebpackBuilderOptions = {
-  bundlerType: 'webpack';
-  config: UniBuilderWebpackConfig;
-} & CreateBuilderCommonOptions;
-
-export type CreateRspackBuilderOptions = {
-  bundlerType: 'rspack';
-  config: UniBuilderRspackConfig;
-} & CreateBuilderCommonOptions;
-
-export type CreateUniBuilderOptions =
-  | CreateWebpackBuilderOptions
-  | CreateRspackBuilderOptions;
+export type CreateUniBuilderOptions = {
+  bundlerType: 'rspack' | 'webpack';
+  config: UniBuilderConfig;
+} & Partial<CreateBuilderCommonOptions>;
 
 export type GlobalVars = Record<string, any>;
 
@@ -72,21 +71,22 @@ export type DisableSourceMapOption =
 export type UniBuilderExtraConfig = {
   tools?: {
     styledComponents?: false | PluginStyledComponentsOptions;
-    devServer?: {
+    devServer?: ChainedConfig<{
       before?: RequestHandler[];
       after?: RequestHandler[];
       client?: DevConfig['client'];
       compress?: ServerConfig['compress'];
       devMiddleware?: {
-        writeToDisk: DevConfig['writeToDisk'];
+        writeToDisk?: DevConfig['writeToDisk'];
       };
+      liveReload?: boolean;
       headers?: ServerConfig['headers'];
       historyApiFallback?: ServerConfig['historyApiFallback'];
       hot?: boolean;
       https?: DevServerHttpsOptions;
       setupMiddlewares?: DevConfig['setupMiddlewares'];
       proxy?: ServerConfig['proxy'];
-    };
+    }>;
     /**
      * Configure the [Pug](https://pugjs.org/) template engine.
      */
@@ -106,6 +106,13 @@ export type UniBuilderExtraConfig = {
      * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
      */
     babel?: PluginBabelOptions['babelLoaderOptions'];
+    /**
+     * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
+     * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
+     *
+     * Tips: this configuration is not yet supported in rspack
+     */
+    tsLoader?: PluginTsLoaderOptions;
   };
   dev?: {
     /**
@@ -122,6 +129,8 @@ export type UniBuilderExtraConfig = {
     port?: number;
   };
   source?: {
+    // TODO: need to support rsbuild alias type in server/utils
+    alias?: AliasOption;
     /**
      * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
      */
@@ -142,6 +151,10 @@ export type UniBuilderExtraConfig = {
     resolveExtensionPrefix?: string | Partial<Record<RsbuildTarget, string>>;
   };
   output?: {
+    /**
+     * @deprecated use `source.decorators` instead
+     */
+    enableLatestDecorators?: boolean;
     /**
      * @deprecated use `output.cssModules.localIdentName` instead
      */
@@ -214,6 +227,8 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `html.title` instead
      */
     titleByEntries?: Record<string, string>;
+    // TODO: need support rsbuild favicon type in server/utils
+    favicon?: string;
     /**
      * @deprecated use `html.favicon` instead
      */
@@ -233,15 +248,28 @@ export type UniBuilderExtraConfig = {
   };
   security?: {
     /**
+     * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
+     * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
+     *
+     * Tips: this configuration is not yet supported in rspack
+     */
+    sri?: SriOptions | boolean;
+    /**
      * Analyze the build artifacts to identify advanced syntax that is incompatible with the current browser scope.
      */
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
     /**
+     * Tips: this configuration is not yet supported in rspack
+     */
+    lazyCompilation?: LazyCompilationOptions;
+    /**
      * Enable the ability for source code building
      */
-    sourceBuild?: boolean;
+    sourceBuild?:
+      | boolean
+      | Pick<PluginSourceBuildOptions, 'sourceField' | 'resolvePriority'>;
   };
 };
 
@@ -251,29 +279,75 @@ export type SriOptions = {
   hashLoading?: 'eager' | 'lazy';
 };
 
-export type UniBuilderWebpackConfig = RsbuildConfig &
-  UniBuilderExtraConfig & {
-    security?: {
-      /**
-       * Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to
-       * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
-       */
-      sri?: SriOptions | boolean;
-    };
-    experiments?: {
-      lazyCompilation?: LazyCompilationOptions;
-    };
-    tools?: {
-      /**
-       * Modify the options of [ts-loader](https://github.com/TypeStrong/ts-loader).
-       * When `tools.tsLoader` is not undefined, Rsbuild will use ts-loader instead of babel-loader to compile TypeScript code.
-       */
-      tsLoader?: PluginTsLoaderOptions;
-    };
-  };
+export type OverridesUniBuilderInstance = {
+  addPlugins: (
+    plugins: UniBuilderPlugin[],
+    options?: {
+      before?: string;
+    },
+  ) => void;
+  /**
+   * should be used in conjunction with the upper-layer framework:
+   *
+   * missing route.json (required in modern server)
+   */
+  startDevServer: (
+    options: StartDevServerOptions,
+  ) => Promise<UniBuilderStartServerResult>;
+};
 
-export type UniBuilderRspackConfig = RsbuildConfig & UniBuilderExtraConfig;
+export type UniBuilderContext = RsbuildPluginAPI['context'] & {
+  target: RsbuildPluginAPI['context']['targets'];
+  framework: string;
+  srcPath: string;
+  entry: Record<string, string | string[]>;
+};
 
-export type BuilderConfig<B = 'rspack'> = B extends 'rspack'
-  ? UniBuilderRspackConfig
-  : UniBuilderWebpackConfig;
+/**
+ * make the plugins type looser to avoid type mismatch
+ */
+export type UniBuilderPluginAPI = {
+  [key in keyof RsbuildPluginAPI]: any;
+} & {
+  /** The following APIs only type incompatibility */
+  onBeforeCreateCompiler: (fn: any) => void;
+  onAfterCreateCompiler: (fn: any) => void;
+  onBeforeBuild: (fn: any) => void;
+  modifyBundlerChain: (fn: any) => void;
+  getNormalizedConfig: () => any;
+
+  /** The following APIs need to be compatible */
+  context: UniBuilderContext;
+  getBuilderConfig: () => Readonly<any>;
+  modifyBuilderConfig: (
+    fn: (
+      config: any,
+      utils: {
+        mergeBuilderConfig: <T>(...configs: T[]) => T;
+      },
+    ) => PromiseOrNot<any | void>,
+  ) => void;
+};
+
+/**
+ * compat legacy modern.js builder plugin
+ */
+export type UniBuilderPlugin = {
+  name: string;
+  setup: (api: UniBuilderPluginAPI) => PromiseOrNot<void>;
+  pre?: string[];
+  post?: string[];
+  remove?: string[];
+};
+
+export type UniBuilderConfig = {
+  dev?: RsbuildConfig['dev'];
+  html?: RsbuildConfig['html'];
+  output?: RsbuildConfig['output'];
+  performance?: RsbuildConfig['performance'];
+  security?: RsbuildConfig['security'];
+  tools?: RsbuildConfig['tools'];
+  source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
+  // plugins is a new field, should avoid adding modern plugin by mistake
+  plugins?: RsbuildConfig['plugins'];
+} & UniBuilderExtraConfig;

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
 import { Box } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
-import { LoaderIcon } from '../LoadingIcon';
+import React from 'react';
+import { HiMiniXMark } from 'react-icons/hi2';
+import { useSnapshot } from 'valtio';
+import { Loading } from '../Loading';
 import styles from './FrameBox.module.scss';
-import { ReactComponent as XMarkIcon } from './xmark.svg';
+import { $inner } from '@/entries/mount/state';
 
 export interface FrameBoxProps
   extends BoxProps,
@@ -17,21 +19,14 @@ export const FrameBox: React.FC<FrameBoxProps> = ({
   onClose,
   ...props
 }) => {
-  const [showFrame, setShowFrame] = useState(false);
-
+  const { loaded } = useSnapshot($inner);
+  const display = loaded ? 'none' : undefined;
   return (
     <Box className={styles.container} {...props}>
-      <iframe
-        className={styles.frame}
-        onLoad={() => setShowFrame(true)}
-        src={src}
-      ></iframe>
-      <XMarkIcon className={styles.closeButton} onClick={() => onClose?.()} />
-      <div
-        className={styles.backdrop}
-        style={{ display: showFrame ? 'none' : undefined }}
-      >
-        <LoaderIcon className={styles.loading} />
+      <iframe className={styles.frame} src={src}></iframe>
+      <HiMiniXMark className={styles.closeButton} onClick={onClose} />
+      <div className={styles.backdrop} style={{ display }}>
+        <Loading />
       </div>
     </Box>
   );

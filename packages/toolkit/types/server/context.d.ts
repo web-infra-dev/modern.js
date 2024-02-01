@@ -109,6 +109,8 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   res: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
 
   mode?: SSRMode; // ssr type
+
+  isSpider?: boolean; // Check if it's spider request
 };
 
 export interface ServerInitHookContext {

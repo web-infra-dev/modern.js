@@ -1,5 +1,114 @@
 # @modern-js/module-tools
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/core@2.46.1
+- @modern-js/plugin-changeset@2.46.1
+- @modern-js/plugin-i18n@2.46.1
+- @modern-js/plugin-lint@2.46.1
+- @modern-js/new-action@2.46.1
+- @modern-js/plugin@2.46.1
+- @modern-js/types@2.46.1
+- @modern-js/upgrade@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 985d1f2: perf(module-tools): skip build js and d.ts when input is empty
+  perf(module-tools): 当没有入口时跳过构建 js 和 d.ts 文件
+- ac03491: chore(module-tools): upgrade rollup and rollup-plugin-dts version
+  chore(module-tools): 更新 rollup 和 rollup-plugin-dts 版本
+- 516cc1d: perf(module-tools): log error detail which may throw by own plugin and complete error stack
+  perf(module-tools): 补齐错误栈并且打印错误细节，因为这错误可能并不是 esbuild 抛出的，而是我们自己的插件抛出的
+- 0b2a379: chore(module-tools): prebundle svgr to reduce install size
+  chore(module-tools): 预打包 svgr 以减小安装体积
+- 737738c: fix(module-tools): remove function type in transformImport
+  fix(module-tools): 移除 transformImport 配置里的函数类型
+- d6fa948: chore(module-tools): add babel dep, because @svgr/plugin-jsx depended after prebundle
+  chore(module-tools): 新增 babel 依赖，因为预打包后的 @svgr/plugin-jsx 需要这些依赖
+- 969455d: chore(module-tools): upgrade ast-grep 0.16.0 to support win32-arm64
+- Updated dependencies [494b290]
+- Updated dependencies [40ee539]
+  - @modern-js/types@2.46.0
+  - @modern-js/core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin-changeset@2.46.0
+  - @modern-js/plugin-lint@2.46.0
+  - @modern-js/plugin-i18n@2.46.0
+  - @modern-js/new-action@2.46.0
+  - @modern-js/plugin@2.46.0
+  - @modern-js/upgrade@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [19c8687]
+  - @modern-js/types@2.45.0
+  - @modern-js/core@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin-changeset@2.45.0
+  - @modern-js/plugin-i18n@2.45.0
+  - @modern-js/plugin-lint@2.45.0
+  - @modern-js/new-action@2.45.0
+  - @modern-js/plugin@2.45.0
+  - @modern-js/upgrade@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- c6a1b97: fix(module-tools): When dealing with dts file alias, explicitly declare the extension when calling matchPath to avoid the problem of not being able to find the module.
+  fix(module-tools): 处理类型描述文件别名过程中，在调用 matchPath 时显式声明后缀名，避免无法找到模块的问题
+- 52e707b: feat(module-tools): add enableTscBuild option, only log error about config and prefer to use declarationDir over outDir when tsc build.
+  feat(module-tools): 新增 enableTscBuild option, 并且在 tsc build 时对于配置错误仅进行控制台输出，同时优先于 outDir 使用 declarationDir
+- 6df8c9f: chore(module-tools): bump SVGR to v8.1.0
+
+  chore(module-tools): 升级 SVGR 到 v8.1.0
+
+- bf498d8: feat(module-tools): support svgr with url-loader
+  feat(module-tools): 支持 svgr 与 url-loader 一起使用
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/types@2.44.0
+  - @modern-js/core@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/plugin-changeset@2.44.0
+  - @modern-js/plugin-i18n@2.44.0
+  - @modern-js/plugin-lint@2.44.0
+  - @modern-js/new-action@2.44.0
+  - @modern-js/plugin@2.44.0
+  - @modern-js/upgrade@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 83415e3: fix(module-tools): add sourcemap output and remove the useless declaration file when autoExtension takes effect
+  fix(module-tools): autoExtension 生效时，添加 sourcemap 输出并移除无用的类型描述文件
+- 96f2884: chore: bump swc
+  chore: 升级 swc
+- a7c6bd8: fix(module-tools): fix logic error in remove dts task
+  fix(module-tools): 修复删除 dts 任务的错误逻辑
+- 0696cdd: chore(module-tools): simplify logic in rewrite css url
+  chore(module-tools): 简化更新 css url 的逻辑
+- 11ad678: fix(module-tools): clear .tsbuildinfo before build instead of tsc --clean
+  fix(module-tools): 构建前清除 .tsbuildinfo 文件而不是调用 tsc --clean
+- Updated dependencies [d959200]
+  - @modern-js/types@2.43.0
+  - @modern-js/core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin-changeset@2.43.0
+  - @modern-js/plugin-i18n@2.43.0
+  - @modern-js/plugin-lint@2.43.0
+  - @modern-js/new-action@2.43.0
+  - @modern-js/plugin@2.43.0
+  - @modern-js/upgrade@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

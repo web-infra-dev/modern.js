@@ -165,6 +165,17 @@ Start Storybook,[detail](https://storybook.js.org/docs/react/api/cli-options#dev
 
 Build Storybook for production,[detail](https://storybook.js.org/docs/react/api/cli-options#build)
 
+## Migrate from V6 to V7
+
+Our support methods for the two versions are different, so if you are migrating from V6 to V7,
+we hope you will also use V7 in the same way, while making the following adjustments:
+
+- Configuration file: Migrate any custom configurations (if any) in the original `root/config/storybook/main.(j|t)s` to the new `root/.storybook/main.(j|t)s`.
+- Dependencies: Upgrade `@storybook/addon-*` series dependencies (if any) to version 7 and delete `@modern-js/plugin-storybook` dependencies.
+- Commands: Delete the original `edenx dev storybook` and `edenx build --platform` commands.
+  If you are used to the original `pnpm run dev` usage, you can replace it with `storybook dev -p 6006` and `storybook build`.
+- modern.config.(j|t)s : Remove the registration of `@modern-js/plugin-storybook` plugin.
+
 ## V6 (legacy)
 
 Starting from `MAJOR_VERSION.40.0` version, `@modern-js/plugin-storybook` will stop iterating. It is recommended to use the V7 version.

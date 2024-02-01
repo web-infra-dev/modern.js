@@ -1,5 +1,53 @@
 # @modern-js/server-plugin
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+- @modern-js/plugin@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- f50ad3e: fix: adjust logger code
+  fix: 调整 logger 冗余代码
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
+## 2.44.0
+
+### Minor Changes
+
+- 56d7f9a: feat: SSR server support afterStreamingRender
+  feat: SSR 服务端支持 afterStreamingRender
+
+### Patch Changes
+
+- @modern-js/utils@2.44.0
+- @modern-js/plugin@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- ae22b74: feat: support ssr pass more context
+  feat: 支持传递更多的 ssr context
+- 5782aa3: chore(server): remove useless server plugin hooks (beforeDevServer & afterDevServer)
+
+  chore(server): 移除无用的 server 插件钩子 (beforeDevServer 和 afterDevServer)
+
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

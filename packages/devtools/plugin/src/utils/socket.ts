@@ -18,10 +18,10 @@ export class SocketServer<
   T extends typeof WebSocket.WebSocket = typeof WebSocket.WebSocket,
   U extends typeof IncomingMessage = typeof IncomingMessage,
 > extends WebSocket.Server<T, U> {
-  constructor(options?: ServerOptions<T, U>, callback?: () => void) {
-    super(options, callback);
-    this.handleHeartbeat();
-  }
+  // constructor(options?: ServerOptions<T, U>, callback?: () => void) {
+  //   super(options, callback);
+  //   this.handleHeartbeat();
+  // }
 
   handleHeartbeat(timeout = 30000) {
     const aliveMapping = new WeakMap<WebSocket, boolean>();

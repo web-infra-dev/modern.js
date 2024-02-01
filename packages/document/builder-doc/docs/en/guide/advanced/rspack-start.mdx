@@ -115,7 +115,6 @@ Unsupported configurations and capabilities include:
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
-- [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：use [tools.rspack](/api/config-tools#toolsrspack) instead.
@@ -161,7 +160,7 @@ Before modify the Rspack configuration object, you may should know [the config d
 ```diff
 export default {
   tools: {
--   webppack: (config, { env }) => {
+-   webpack: (config, { env }) => {
 +   rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';

@@ -12,9 +12,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
   },
   "context": "",
-  "devServer": {
-    "hot": true,
-  },
   "devtool": "cheap-module-source-map",
   "entry": {
     "index": [
@@ -36,6 +33,156 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     },
     "rules": [
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
       {
         "resolve": {
           "fullySpecified": false,
@@ -67,7 +214,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
       },
       {
         "oneOf": [
@@ -94,7 +241,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
       },
       {
         "oneOf": [
@@ -121,7 +268,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -174,7 +321,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -219,7 +366,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -270,7 +417,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -280,7 +427,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -325,7 +472,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -335,7 +482,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -386,7 +533,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -445,7 +592,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -465,167 +612,14 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
         ],
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
-      },
-      {
-        "include": [
-          {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
-          },
-          /\\\\\\.\\(ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-        ],
-        "test": /\\\\\\.\\(js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "builtin:swc-loader",
-            "options": {
-              "env": {
-                "coreJs": "3.32",
-                "mode": "entry",
-                "targets": [
-                  "> 0.01%",
-                  "not dead",
-                  "not op_mini all",
-                ],
-              },
-              "exclude": [],
-              "inlineSourcesContent": true,
-              "isModule": "unknown",
-              "jsc": {
-                "externalHelpers": true,
-                "parser": {
-                  "decorators": true,
-                  "syntax": "typescript",
-                  "tsx": true,
-                },
-                "preserveAllComments": true,
-                "transform": {
-                  "decoratorMetadata": true,
-                  "legacyDecorator": true,
-                  "react": {
-                    "development": true,
-                    "refresh": true,
-                    "runtime": "automatic",
-                  },
-                },
-              },
-              "minify": false,
-              "rspackExperiments": {
-                "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
-              },
-              "sourceMaps": true,
-            },
-          },
-        ],
-      },
-      {
-        "mimetype": {
-          "or": [
-            "text/javascript",
-            "application/javascript",
-          ],
-        },
-        "use": [
-          {
-            "loader": "builtin:swc-loader",
-            "options": {
-              "env": {
-                "coreJs": "3.32",
-                "mode": "entry",
-                "targets": [
-                  "> 0.01%",
-                  "not dead",
-                  "not op_mini all",
-                ],
-              },
-              "exclude": [],
-              "inlineSourcesContent": true,
-              "isModule": "unknown",
-              "jsc": {
-                "externalHelpers": true,
-                "parser": {
-                  "decorators": true,
-                  "syntax": "typescript",
-                  "tsx": true,
-                },
-                "preserveAllComments": true,
-                "transform": {
-                  "decoratorMetadata": true,
-                  "legacyDecorator": true,
-                  "react": {
-                    "development": true,
-                    "refresh": true,
-                    "runtime": "automatic",
-                  },
-                },
-              },
-              "minify": false,
-              "rspackExperiments": {
-                "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
-              },
-              "sourceMaps": true,
-            },
-          },
-        ],
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
       },
       {
         "test": /\\\\\\.toml\\$/,
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -634,7 +628,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -646,8 +640,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
@@ -656,8 +650,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "resourceQuery": /inline/,
@@ -669,8 +663,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "parser": {
@@ -695,7 +689,67 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.32",
+                    "mode": "entry",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": true,
+                        "refresh": true,
+                        "runtime": "automatic",
+                      },
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                    "styledComponents": {
+                      "displayName": true,
+                      "pure": false,
+                      "ssr": false,
+                      "transpileTemplateLiterals": true,
+                    },
+                  },
+                  "sourceMaps": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
                   "svgo": true,
                   "svgoConfig": {
@@ -714,7 +768,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/url-loader/dist/cjs.js",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -769,13 +823,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\\\/plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -798,6 +852,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    HotModuleReplacementPlugin {
+      "name": "HotModuleReplacementPlugin",
+    },
     HtmlWebpackPlugin {
       "userOptions": {
         "chunks": [
@@ -816,6 +873,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -832,16 +890,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"development\\"",
       },
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
-    },
-    RemoveCssSourcemapPlugin {
-      "name": "RemoveCssSourcemapPlugin",
     },
     ProgressPlugin {
       "_options": {
         "prefix": "Client",
         "profile": false,
       },
+      "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
     ForkTsCheckerWebpackPlugin {
@@ -872,13 +929,16 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     ReactRefreshRspackPlugin {
       "options": {
         "exclude": /node_modules/i,
+        "forceEnable": false,
         "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
       },
     },
   ],
   "resolve": {
     "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+      "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
     "extensions": [
       ".ts",
@@ -897,6 +957,55 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 }
 `;
 
+exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
+[
+  "rsbuild:transition",
+  "rsbuild:basic",
+  "rsbuild:entry",
+  "rsbuild:target",
+  "rsbuild:output",
+  "rsbuild:resolve",
+  "rsbuild:file-size",
+  "rsbuild:clean-output",
+  "rsbuild:asset",
+  "rsbuild:html",
+  "rsbuild:wasm",
+  "rsbuild:moment",
+  "rsbuild:node-addons",
+  "rsbuild:define",
+  "rsbuild:css",
+  "rsbuild:less",
+  "rsbuild:sass",
+  "rsbuild:minimize",
+  "rsbuild:progress",
+  "rsbuild:swc",
+  "rsbuild:externals",
+  "rsbuild:split-chunks",
+  "rsbuild:start-url",
+  "rsbuild:inline-chunk",
+  "rsbuild:bundle-analyzer",
+  "rsbuild:rsdoctor",
+  "plugin-network-performance",
+  "plugin-preload-or-prefetch",
+  "rsbuild:performance",
+  "rsbuild:server",
+  "rsbuild:rspack-profile",
+  "uni-builder:split-chunks",
+  "uni-builder:global-vars",
+  "uni-builder:devtool",
+  "uni-builder:emit-route-file",
+  "rsbuild:toml",
+  "rsbuild:yaml",
+  "rsbuild:type-check",
+  "uni-builder:runtime-chunk",
+  "rsbuild:react",
+  "rsbuild:svgr",
+  "rsbuild:css-minimizer",
+  "uni-builder:postcss-plugins",
+  "rsbuild:styled-components",
+]
+`;
+
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
 {
   "builtins": {
@@ -909,9 +1018,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     },
   },
   "context": "",
-  "devServer": {
-    "hot": false,
-  },
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
@@ -933,6 +1039,156 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     },
     "rules": [
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": true,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
+              "sourceMaps": false,
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": true,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
+              "sourceMaps": false,
+            },
+          },
+        ],
+      },
       {
         "resolve": {
           "fullySpecified": false,
@@ -964,7 +1220,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
       },
       {
         "oneOf": [
@@ -991,7 +1247,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1018,7 +1274,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -1362,167 +1618,14 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
         ],
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
-      },
-      {
-        "include": [
-          {
-            "and": [
-              "",
-              {
-                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-              },
-            ],
-          },
-          /\\\\\\.\\(ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-        ],
-        "test": /\\\\\\.\\(js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "builtin:swc-loader",
-            "options": {
-              "env": {
-                "coreJs": "3.32",
-                "mode": "entry",
-                "targets": [
-                  "> 0.01%",
-                  "not dead",
-                  "not op_mini all",
-                ],
-              },
-              "exclude": [],
-              "inlineSourcesContent": true,
-              "isModule": "unknown",
-              "jsc": {
-                "externalHelpers": true,
-                "parser": {
-                  "decorators": true,
-                  "syntax": "typescript",
-                  "tsx": true,
-                },
-                "preserveAllComments": true,
-                "transform": {
-                  "decoratorMetadata": true,
-                  "legacyDecorator": true,
-                  "react": {
-                    "development": false,
-                    "refresh": false,
-                    "runtime": "automatic",
-                  },
-                },
-              },
-              "minify": false,
-              "rspackExperiments": {
-                "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
-              },
-              "sourceMaps": false,
-            },
-          },
-        ],
-      },
-      {
-        "mimetype": {
-          "or": [
-            "text/javascript",
-            "application/javascript",
-          ],
-        },
-        "use": [
-          {
-            "loader": "builtin:swc-loader",
-            "options": {
-              "env": {
-                "coreJs": "3.32",
-                "mode": "entry",
-                "targets": [
-                  "> 0.01%",
-                  "not dead",
-                  "not op_mini all",
-                ],
-              },
-              "exclude": [],
-              "inlineSourcesContent": true,
-              "isModule": "unknown",
-              "jsc": {
-                "externalHelpers": true,
-                "parser": {
-                  "decorators": true,
-                  "syntax": "typescript",
-                  "tsx": true,
-                },
-                "preserveAllComments": true,
-                "transform": {
-                  "decoratorMetadata": true,
-                  "legacyDecorator": true,
-                  "react": {
-                    "development": false,
-                    "refresh": false,
-                    "runtime": "automatic",
-                  },
-                },
-              },
-              "minify": false,
-              "rspackExperiments": {
-                "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "es",
-                    "libraryName": "@arco-design/web-react",
-                    "style": true,
-                  },
-                  {
-                    "camelToDashComponentName": false,
-                    "libraryDirectory": "react-icon",
-                    "libraryName": "@arco-design/web-react/icon",
-                  },
-                ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
-              },
-              "sourceMaps": false,
-            },
-          },
-        ],
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
       },
       {
         "test": /\\\\\\.toml\\$/,
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -1531,7 +1634,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -1543,8 +1646,8 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
@@ -1553,8 +1656,8 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "resourceQuery": /inline/,
@@ -1566,8 +1669,8 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
             "issuer": {
               "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
             "parser": {
@@ -1592,7 +1695,67 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.32",
+                    "mode": "entry",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                    "styledComponents": {
+                      "displayName": true,
+                      "pure": true,
+                      "ssr": false,
+                      "transpileTemplateLiterals": true,
+                    },
+                  },
+                  "sourceMaps": false,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
                   "svgo": true,
                   "svgoConfig": {
@@ -1611,7 +1774,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/url-loader/dist/cjs.js",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -1626,20 +1789,22 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "name": "Client",
   "optimization": {
-    "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
         "_options": {
           "compress": "{\\"passes\\":1,\\"pure_funcs\\":[],\\"drop_console\\":false}",
           "exclude": undefined,
-          "extractComments": "true",
+          "extractComments": {
+            "condition": "@preserve|@lic|@cc_on|^/**!",
+          },
           "format": "{\\"comments\\":false,\\"asciiOnly\\":true}",
           "include": undefined,
           "mangle": "{\\"keep_classnames\\":false,\\"keep_fnames\\":false}",
           "module": undefined,
           "test": undefined,
         },
+        "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
       CssMinimizerPlugin {
@@ -1708,7 +1873,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -1767,6 +1932,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -1783,6 +1949,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "process.env.ASSET_PREFIX": "\\"\\"",
         "process.env.NODE_ENV": "\\"production\\"",
       },
+      "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     RemoveCssSourcemapPlugin {
@@ -1793,6 +1960,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "prefix": "Client",
         "profile": false,
       },
+      "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
     InlineChunkHtmlPlugin {
@@ -1835,6 +2003,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   ],
   "resolve": {
     "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
     },
     "extensions": [
@@ -1922,7 +2091,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1949,7 +2118,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
       },
       {
         "oneOf": [
@@ -1976,7 +2145,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -2005,7 +2174,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2041,7 +2210,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -2051,7 +2220,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "preferRelative": true,
         },
         "sideEffects": true,
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
@@ -2065,7 +2234,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2101,7 +2270,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2139,7 +2308,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2175,7 +2344,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2185,7 +2354,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "lessOptions": {
                 "javascriptEnabled": true,
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -2195,7 +2364,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -2204,96 +2373,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "oneOf": [
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset/resource",
-          },
-          {
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "resourceQuery": /inline/,
-            "type": "asset/inline",
-          },
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
-            "resourceQuery": /inline/,
-            "type": "asset/inline",
-          },
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "resourceQuery": /url/,
-            "type": "asset/resource",
-          },
-          {
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
-                "options": {
-                  "svgo": true,
-                  "svgoConfig": {
-                    "plugins": [
-                      {
-                        "name": "preset-default",
-                        "params": {
-                          "overrides": {
-                            "removeViewBox": false,
-                          },
-                        },
-                      },
-                      "prefixIds",
-                    ],
-                  },
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/url-loader/dist/cjs.js",
-                "options": {
-                  "limit": 10000,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.svg\\$/,
       },
       {
         "include": [
@@ -2305,9 +2387,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               },
             ],
           },
-          /\\\\\\.\\(ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
-        "test": /\\\\\\.\\(js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -2555,6 +2637,198 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
         ],
       },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /url/,
+            "type": "asset/resource",
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+                "options": {
+                  "babelrc": false,
+                  "compact": false,
+                  "configFile": false,
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                      {
+                        "version": "legacy",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                      {
+                        "proposal": "minimal",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                      {
+                        "useESModules": true,
+                        "version": "7.23.2",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      "antd",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      "@arco-design/web-react",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                      "@arco-design/web-react/icon",
+                    ],
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
+                  ],
+                  "presets": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                      {
+                        "bugfixes": true,
+                        "corejs": {
+                          "proposals": true,
+                          "version": "3.32",
+                        },
+                        "exclude": [
+                          "transform-typeof-symbol",
+                        ],
+                        "modules": false,
+                        "targets": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "useBuiltIns": "entry",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                      {
+                        "allExtensions": true,
+                        "allowDeclareFields": true,
+                        "allowNamespaces": true,
+                        "isTSX": true,
+                        "optimizeConstEnums": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                      {
+                        "development": true,
+                        "runtime": "classic",
+                        "useBuiltIns": true,
+                        "useSpread": false,
+                      },
+                    ],
+                  ],
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
     ],
   },
   "name": "Client",
@@ -2599,13 +2873,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\\\/plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -2626,6 +2900,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    HotModuleReplacementPlugin {
+      "options": {},
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -2640,9 +2917,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "insert": undefined,
         "linkType": "text/css",
       },
-    },
-    HotModuleReplacementPlugin {
-      "options": {},
     },
     HtmlWebpackPlugin {
       "userOptions": {
@@ -2662,6 +2936,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },
@@ -2838,7 +3113,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2865,7 +3140,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
       },
       {
         "oneOf": [
@@ -2892,7 +3167,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset",
           },
         ],
-        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
       },
       {
         "dependency": "url",
@@ -2967,7 +3242,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "preferRelative": true,
         },
         "sideEffects": true,
-        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
@@ -3111,7 +3386,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -3120,96 +3395,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "oneOf": [
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset/resource",
-          },
-          {
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "resourceQuery": /inline/,
-            "type": "asset/inline",
-          },
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
-                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
-            "resourceQuery": /inline/,
-            "type": "asset/inline",
-          },
-          {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "resourceQuery": /url/,
-            "type": "asset/resource",
-          },
-          {
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
-                "options": {
-                  "svgo": true,
-                  "svgoConfig": {
-                    "plugins": [
-                      {
-                        "name": "preset-default",
-                        "params": {
-                          "overrides": {
-                            "removeViewBox": false,
-                          },
-                        },
-                      },
-                      "prefixIds",
-                    ],
-                  },
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/url-loader/dist/cjs.js",
-                "options": {
-                  "limit": 10000,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.svg\\$/,
       },
       {
         "include": [
@@ -3221,9 +3409,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               },
             ],
           },
-          /\\\\\\.\\(ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
-        "test": /\\\\\\.\\(js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -3477,6 +3665,213 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           },
         ],
       },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /url/,
+            "type": "asset/resource",
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+                "options": {
+                  "babelrc": false,
+                  "compact": true,
+                  "configFile": false,
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                      {
+                        "version": "legacy",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                      {
+                        "proposal": "minimal",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                      {
+                        "useESModules": true,
+                        "version": "7.23.2",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      "antd",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      "@arco-design/web-react",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                      "@arco-design/web-react/icon",
+                    ],
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
+                      {
+                        "removeImport": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                  "presets": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                      {
+                        "bugfixes": true,
+                        "corejs": {
+                          "proposals": true,
+                          "version": "3.32",
+                        },
+                        "exclude": [
+                          "transform-typeof-symbol",
+                        ],
+                        "modules": false,
+                        "targets": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "useBuiltIns": "entry",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                      {
+                        "allExtensions": true,
+                        "allowDeclareFields": true,
+                        "allowNamespaces": true,
+                        "isTSX": true,
+                        "optimizeConstEnums": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                      {
+                        "development": false,
+                        "runtime": "classic",
+                        "useBuiltIns": true,
+                        "useSpread": false,
+                      },
+                    ],
+                  ],
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
     ],
   },
   "name": "Client",
@@ -3569,7 +3964,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "name": "lib-router",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -3641,6 +4036,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
+        "title": "",
       },
       "version": 5,
     },

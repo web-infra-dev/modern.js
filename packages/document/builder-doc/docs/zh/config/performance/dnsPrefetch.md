@@ -13,7 +13,7 @@
 ```js
 export default {
   performance: {
-    dnsPrefetch: ['http://xxx.com'],
+    dnsPrefetch: ['http://example.com'],
   },
 };
 ```

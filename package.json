@@ -25,8 +25,9 @@
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./scripts/fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare-build": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/* --maxParallel=100",
+    "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --maxParallel=100",
     "prepare": "npm run prepare-build && husky install",
+    "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/uni-builder",
     "lint": "npm run fast-lint",
     "change": "modern change",
     "clear": "modern clear",
@@ -42,8 +43,7 @@
     "check-dependencies": "check-dependency-version-consistency .",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
-    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
-    "update-nx-cache": "cross-env NX_DAEMON=false nx reset && npm run prepare-build"
+    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start"
   },
   "engines": {
     "node": ">=14.17.6",
@@ -86,14 +86,19 @@
     "eslint": "^8.28.0",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
-    "nx": "16.5.1",
-    "nx-cloud": "^16.5.2",
+    "nx": "^17.0.1",
     "vitest": "0.33.0"
   },
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "@modern-js/builder-rspack-provider>@rspack/core": "0.4.5",
+      "@modern-js/builder-rspack-provider>@rspack/plugin-react-refresh": "0.4.5",
+      "@modern-js/builder-rspack-provider>@rspack/plugin-html": "0.4.5",
+      "@modern-js/storybook-builder>@rspack/plugin-react-refresh": "0.4.5",
+      "@rspack/core@0.4.5>@rspack/binding": "0.4.5",
+      "@rspack/binding@0.4.5>@rspack/binding-linux-x64-gnu": "0.4.5"
     },
     "peerDependencyRules": {
       "allowedVersions": {
@@ -131,7 +136,6 @@
       "source-map-url": "0.4.1",
       "urix": "0.1.0",
       "resolve-url": "0.2.1",
-      "devcert": "1.0.0",
       "superagent": "6.1.0",
       "@types/sass": "1.45.0",
       "trim": "0.0.1"

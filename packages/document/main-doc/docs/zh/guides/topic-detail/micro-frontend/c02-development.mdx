@@ -12,14 +12,13 @@ title: 体验微前端
 
 ## 创建应用
 
-目前支持两种路由模式
+目前项目的路由模式分为以下三种
 
-- 自控式路由
-- 约定式路由
+- 约定式路由 (设置 `router: true` 并使用文件路由)
+- 自控式路由 (设置 `router: true` 并自己创建 `BrowserRouter` 等)
+- 其他 (设置 `router: false` 项目内自己安装和使用 `react-router-dom`)
 
-首先明确主应用的路由模式 [创建约定式路由主应用](#创建约定式路由主应用) 或 [创建自控式路由主应用](#创建自控式路由主应用)
-
-在本次体验中我们会为主应用创建两个子应用 Table 和 Dashboard (Table 为约定式路由，Dashboard 为自控式路由)
+在本教程中我们会为主应用创建两个子应用 Table 和 Dashboard (Table 为约定式路由，Dashboard 为自控式路由)
 
 ### 创建约定式路由主应用
 
@@ -144,6 +143,36 @@ npx @modern-js/create@latest
 import CustomRouterMicroFrontend from '@site-docs/components/custom-router-micro-frontend';
 
 <CustomRouterMicroFrontend />
+
+### 创建其他主应用
+
+项目内自己安装和使用 `react-router-dom` , 与自控式路由唯一的区别是, 设置 `router: false` 后 plugin-garfish 无法获得 `useLocation` `useHref` 等 hook 来辅助计算 basename 和主子应用路由同步
+
+import { Tab, Tabs } from 'rspress/theme';
+
+<Tabs>
+<Tab label="react-router-dom@6">
+```tsx
+import { useLocation, useHref } from 'react-router-dom';
+const App = () => {
+  const basename = useHref('/table');
+  const { Table } = useModuleApps();
+  return <Table useLocation={useLocation} basename={basename} />;
+};
+```
+</Tab>
+<Tab label="react-router-dom@5">
+```tsx
+import { useLocation, useHistory } from 'react-router-dom';
+const App = () => {
+  const history = useHistory();
+  const basename = history.createHref({ pathname: '/table' });
+  const { Table } = useModuleApps();
+  return <Table useLocation={useLocation} basename={basename} />;
+};
+```
+</Tab>
+</Tabs>
 
 ### 创建约定式路由子应用
 

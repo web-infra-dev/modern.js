@@ -82,11 +82,10 @@ export default defineConfig({
 
 [SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 Rust 语言编写的，而该插件是基于 SWC，移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持了一致。
 
-一些配置可以传入函数，例如 `customName`，`customStyleName` 等，这些 JavaScript 函数会由 Rust 通过 Node-API 调用，这种调用会造成一些性能劣化。
+一些配置可以传入函数，例如 `customName`，`customStyleName` 等， 但在 Modern.js Module 里，我们不建议在此配置项里使用函数。
+因为我们会在 esbuild 的插件里调用 SWC，然后再当 Rust 通过 Node-API 调用这些配置函数时，会出现死锁现象。
 
-简单的函数逻辑其实可以通过模版语言来代替，因此 `customName`，`customStyleName` 等这些配置除了可以传入函数，也可以传入字符串作为模版来代替函数，提高性能。
-
-我们以这段代码作为示例：
+简单的函数逻辑其实可以通过模版语言来代替，下面是一个 `customName` 使用模板的示例：
 
 ```ts
 import { MyButton as Btn } from 'foo';
@@ -111,7 +110,7 @@ modulePluginImport({
 import Btn from 'foo/es/MyButton';
 ```
 
-可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  `` ，但是不会有 Node-API 的调用开销。
+可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  `` 。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 

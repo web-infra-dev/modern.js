@@ -3,9 +3,13 @@
 exports[`parseCommonConfig > dev.xxx 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/aaaa",
+    },
     "hmr": false,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -14,6 +18,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -23,16 +28,17 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
-    "compress": false,
-    "headers": {
-      "X-Custom-Foo": "bar",
-    },
-    "historyApiFallback": true,
     "host": "xxx.xxx",
     "https": {
       "cert": "xxx",
@@ -41,15 +47,25 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "port": 8081,
     "publicDir": false,
   },
-  "tools": {},
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
 exports[`parseCommonConfig > dev.xxx 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -58,6 +74,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -71,18 +88,31 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
   },
-  "tools": {},
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
+  },
 }
 `;
 
 exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "favicon": [Function],
@@ -92,6 +122,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -101,12 +132,24 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -114,8 +157,13 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "favicon": [
@@ -128,6 +176,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -137,12 +186,24 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -150,8 +211,13 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "inject": [Function],
@@ -161,6 +227,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -170,12 +237,24 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -183,8 +262,13 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "inject": [
@@ -197,6 +281,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -206,12 +291,24 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -219,8 +316,13 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 exports[`parseCommonConfig > html.metaByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "meta": [Function],
@@ -230,6 +332,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -239,12 +342,24 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -252,8 +367,13 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
 exports[`parseCommonConfig > html.metaByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "meta": [
@@ -270,6 +390,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -279,12 +400,24 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -292,8 +425,13 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
 exports[`parseCommonConfig > html.templateByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -303,6 +441,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -312,12 +451,24 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -325,8 +476,13 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
 exports[`parseCommonConfig > html.templateByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -339,6 +495,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -348,12 +505,24 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -361,8 +530,13 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
 exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -372,6 +546,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -381,12 +556,24 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -394,8 +581,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -410,6 +602,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -419,12 +612,24 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -432,8 +637,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 exports[`parseCommonConfig > html.titleByEntries 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -445,6 +655,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -454,12 +665,24 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -467,8 +690,13 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
 exports[`parseCommonConfig > html.titleByEntries 2`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -480,6 +708,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -489,12 +718,24 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -502,8 +743,13 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
 exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -515,6 +761,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     },
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -524,12 +771,24 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -537,8 +796,13 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -548,9 +812,9 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "cssModules": {
       "auto": [Function],
     },
-    "disableCssModuleExtension": true,
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "overrideBrowserslist": {
       "web": [
@@ -560,12 +824,24 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
       ],
     },
     "polyfill": "entry",
+    "sourceMap": {
+      "css": true,
+    },
     "targets": [
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -573,8 +849,13 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -583,6 +864,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "inlineScripts": true,
     "overrideBrowserslist": {
@@ -597,8 +879,17 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;
@@ -606,8 +897,13 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
 {
   "dev": {
+    "client": {
+      "path": "/webpack-hmr",
+    },
+    "hmr": true,
+    "liveReload": true,
     "progressBar": true,
-    "writeToDisk": true,
+    "writeToDisk": [Function],
   },
   "html": {
     "outputStructure": "nested",
@@ -616,6 +912,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   "output": {
     "distPath": {
       "html": "html",
+      "server": "bundles",
     },
     "inlineStyles": true,
     "overrideBrowserslist": {
@@ -630,8 +927,17 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
       "web",
     ],
   },
+  "performance": {},
+  "plugins": [],
+  "security": {},
   "server": {
     "publicDir": false,
+  },
+  "source": {
+    "alias": undefined,
+  },
+  "tools": {
+    "htmlPlugin": [Function],
   },
 }
 `;

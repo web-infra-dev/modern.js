@@ -1,5 +1,56 @@
 # @modern-js/plugin-bff
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.46.1
+- @modern-js/create-request@2.46.1
+- @modern-js/server-utils@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [00b4639]
+- Updated dependencies [4699e22]
+  - @modern-js/create-request@2.46.0
+  - @modern-js/server-utils@2.46.0
+  - @modern-js/bff-core@2.46.0
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.45.0
+- @modern-js/bff-core@2.45.0
+- @modern-js/create-request@2.45.0
+- @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- @modern-js/create-request@2.44.0
+- @modern-js/bff-core@2.44.0
+- @modern-js/utils@2.44.0
+- @modern-js/server-utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
+  - @modern-js/create-request@2.43.0
+  - @modern-js/bff-core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/server-utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

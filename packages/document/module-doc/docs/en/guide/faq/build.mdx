@@ -1,5 +1,10 @@
 # Build FAQ
 
+Here only some common problems and bad cases are recorded.
+
+**If the build products do not meet expectations, especially when [buildPreset](/api/config/build-preset) is configured,
+please first understand what configuration items buildPreset represents, and then check each configuration item based on all configuration items.**
+
 ## Product FAQ
 
 import BuildProductFAQ from '@site-docs-en/components/faq-build-product';
@@ -91,6 +96,12 @@ export const libs = {
 ```
 
 In this case `babel-plugin-import` may also cause `Comps` to become `undefined`. So you need to remove the corresponding `babel-plugin-import` as well.
+
+### Cannot find module http
+
+If the output reports an error like `Cannot find module 'http'` at browser runtime, it means that your output has bundled node modules.
+This may occur if some of your dependencies support both browser and node, such as `axios`, in which case you only need to set the [platform](/api/config/build-config.html/#platform) to `browser`.
+If some third-party packages don't support the browser, you may need to manually inject [node polyfill](/plugins/official-list/plugin-node-polyfill).
 
 ## Exceptions FAQ
 
@@ -193,20 +204,29 @@ module.exports = {
                 return options;
               });
           },
-        }
-      }
-    }
+        },
+      },
+    },
   },
 };
 ```
 
+### Bundleless DTS failed
+
+In the bundleless scenario, it's `tsc` that generates the type declaration file directly. You can find the problem file by printing the error message in the terminal.
+For source code files, it is recommended to fix the type problem, which can better enable reuse of your package. However. if you encounter a type checking problem with a thrid-party package:
+
+1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
+2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check,
+   so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
+
 ### Bundle DTS failed
 
-Normally, the type file output with `tsc` is loose. Modern.js Module not only supports outputting loose type file artifacts, but also supports packing type files, which allows you to package these loose type files and third-party dependent type files into one file.
+The Modern.js Module directly uses [rollup-plugin-dts](https://github.com/Swatinem/rollup-plugin-dts) to package your type description files.
+**It may not be able to handle the type files of some third-party dependencies**
 
-However, there is a risk in packaging the type files of third-party dependencies, **because there are cases where the type files of third-party dependencies cannot be packaged**.
-
-So when you encounter a `Bundle DTS failed` error message during the Modern.js Module build, you can observe that the error message comes from a third-party dependency. Try setting [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) to `false` to disable the behavior of packing type files of third-party dependencies.
+If you encounter an error message titled "Bundle DTS failed" during the build process of the Modern.js Module, you can observe that the error message is from a third-party dependency.
+Try setting [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) to `false` to turn off the behavior of packaging type files of third-party dependencies.
 
 ### Error reported for `defineConfig` function type: `If there is no reference to "..." then the inferred type of "default" cannot be named`
 
@@ -218,18 +238,41 @@ Check if the [`include`](https://www.typescriptlang.org/tsconfig#include) config
 }
 ```
 
-### Bundleless DTS failed
-
-In the bundleless scenario, it's `tsc` that generates the type declaration file directly. You can find the problem file by printing the error message in the terminal. For source code files, it is recommended to fix the type problem, which can better enable reuse of your package. However. if you encounter a type checking problem with a thrid-party package:
-
-1. enable [skipLibCheck](https://www.typescriptlang.org/tsconfig#skipLibCheck) to skip the d.ts check of the thrid-party package.
-2. If the package exports ts files directly, skipLibCheck will not work because it can only skip the d.ts check, so you can only turn off [dts.abortOnError](/api/config/build-config.html#dtsabortonerror) to ignore these errors.
-
 ## Other FAQ
 
 import BuildOtherFAQ from '@site-docs-en/components/faq-build-other';
 
 <BuildOtherFAQ />
+
+### How to skip the pre-processing of less/scss files with bundleless
+
+Bundleless is a single-file compilation method. You just need to remove your less/scss files from the entry and copy them to the output.
+Note that we will also rewrite the moduleId of js referencing less/scss, turn it off through the [redirect](/api/config/build-config#redirect) plugin.
+
+Below is an example of skipping less file processing. You will find that all less files in src are copied to dist and the relative path is preserved.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/**/*.less'],
+    redirect: {
+      style: false,
+    },
+    copy: {
+      patterns: [
+        {
+          from: './**/*.less',
+          to: './',
+        },
+      ],
+      options: {
+        enableCopySync: true,
+      },
+    },
+  },
+});
+```
 
 ### Add additional compilation feature
 

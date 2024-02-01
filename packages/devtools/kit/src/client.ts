@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { Entrypoint } from '@modern-js/types/cli';
+import type { Entrypoint } from '@modern-js/types';
 import logo from './logo';
 import { FileSystemRoutes } from './server';
 

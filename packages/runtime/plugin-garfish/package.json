@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.42.2",
+  "version": "2.46.1",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -81,7 +81,7 @@
     "@swc/helpers": "0.5.3"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.42.2",
+    "@modern-js/runtime": "workspace:^2.46.1",
     "react": ">=17",
     "react-dom": ">=17"
   },
@@ -97,6 +97,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "jest-location-mock": "2.0.0",
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/testing-library__jest-dom": "^5.14.3",

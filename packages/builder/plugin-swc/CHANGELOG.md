@@ -1,5 +1,47 @@
 # @modern-js/builder-plugin-swc
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.46.0
+- @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.45.0
+- @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- Updated dependencies [35a9961]
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 96f2884: chore: bump swc
+  chore: 升级 swc
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

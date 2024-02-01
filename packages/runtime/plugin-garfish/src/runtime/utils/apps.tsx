@@ -48,11 +48,59 @@ function getAppInstance(
       React.ComponentType<any> | undefined
     >();
     const context = useContext(RuntimeReactContext);
-    const match = context?.router?.useRouteMatch?.();
-    const matchs = context?.router?.useMatches?.();
-    const location = context?.router?.useLocation?.();
+    const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
+    const useMatches = props.useMatches ?? context?.router?.useMatches;
+    const useLocation = props.useLocation ?? context?.router?.useLocation;
+    const useHistory = props.useHistory ?? context?.router?.useHistory;
+    const useHref = props.useHistory ?? context?.router?.useHref;
+
+    const match = useRouteMatch?.();
+    const matchs = useMatches?.();
+
+    if (!useLocation) {
+      console.warn(
+        `[@modern-js/plugin-garfish] Detected that the 'router: false' mode is used. In this case, the basename and popStateEvent cannot be correctly passed to the sub-app.
+You can manually pass 'useLocation' and 'useHref' props to assist plugin-garfish in calculating the "basename" and sync popStateEvent:
+if you are using react-router-V6:
+<Component useLocation={useLocation} useHref={useHref} />
+
+else react-router-V5:
+<Component useLocation={useLocation} useHistory={useHistory} />
+
+or directly pass the "basename":
+<Component basename={basename} useLocation={useLocation} />`,
+      );
+    }
+
+    const location = useLocation();
+
+    /**
+     * main-app basename:  /main-basename
+     * sub-app basename: /main-basename/sub-active-path
+     */
+
+    // 1. handle the main-app basename
+    /**
+     * `options?.basename` comes from
+     *  masterApp: {
+     *    basename: '/main-app-basename'
+     *  },
+     */
     let basename = options?.basename || '/';
-    if (matchs && matchs.length > 0) {
+    if (useHistory /* react-router@5 */) {
+      // there is no dynamic switching of the router version in the project
+      // so hooks can be used in conditional judgment
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const history = useHistory?.();
+      // To be compatible to history@4.10.1 and @5.3.0 we cannot write like this `history.createHref(pathname)`
+      basename = history?.createHref?.({ pathname: '/' });
+    } else if (useHref /* react-router@6 */) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      basename = useHref?.('/');
+    }
+
+    // 2. handle the subActivePath and `pathJoin(mainBasename, subActivePath)`
+    if (matchs && matchs.length > 0 /* react-router@6 */) {
       const matchItem = {
         ...matchs[matchs.length - 1],
       };
@@ -63,10 +111,18 @@ function getAppInstance(
         );
       }
       basename = pathJoin(basename, matchItem.pathname || '/');
-    } else if (match) {
+    } else if (match /* react-router@5 */) {
       basename = pathJoin(basename, match?.path || '/');
     }
 
+    // 3. props.basename has the highest priority
+    // e.g: <Component basename={basename} useLocation={useLocation} />
+    if (props.basename && typeof props.basename === 'string') {
+      // eslint-disable-next-line prefer-destructuring
+      basename = props.basename;
+    }
+
+    // useLocation is NECESSARY in syncPopStateEvent
     useEffect(() => {
       if (location && locationHref !== location.pathname && !Garfish.running) {
         locationHref = location.pathname;
@@ -81,14 +137,14 @@ function getAppInstance(
       const { setLoadingState, ...userProps } = props;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
-        ...appInfo,
+        cache: true,
         insulationVariable: [
           ...(appInfo.insulationVariable || []),
           '_SERVER_DATA',
         ],
         domGetter: `#${domId}`,
+        ...appInfo,
         basename,
-        cache: true,
         props: {
           ...appInfo.props,
           ...userProps,

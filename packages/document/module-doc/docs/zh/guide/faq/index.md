@@ -2,6 +2,7 @@
 
 这里是 Modern.js Module 常见问题分类列表：
 
-- [代码构建相关的问题](./build.mdx)
-- [测试相关的问题](./test.mdx)
-- [Storybook 相关的问题](./storybook.mdx)
+- [通用类问题](./basic.mdx)
+- [构建相关问题](./build.mdx)
+- [Storybook 相关问题](./storybook.mdx)
+- [测试相关问题](./test.mdx)

@@ -1,5 +1,27 @@
 # @modern-js/builder-doc
 
+## 2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 6bc042d: chore: remove tools.inspector api, please use rsdoctor instead
+
+  chore: 移除 tools.inspector api, 可使用 rsdoctor 代替
+
+## 2.45.0
+
+## 2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
 ## 2.42.2
 
 ## 2.42.1

@@ -21,3 +21,30 @@ export const useStoreMap = <T extends object, P extends keyof T>(
   });
   return pairs;
 };
+
+const _thrownPromiseMap = new WeakMap<Promise<any>, any>();
+
+export const useThrowable = <T>(value: T): Awaited<T> => {
+  if (value instanceof Promise) {
+    if (_thrownPromiseMap.has(value)) {
+      const _value = _thrownPromiseMap.get(value);
+      if (_value instanceof Error) {
+        throw _value;
+      } else {
+        return _value;
+      }
+    } else {
+      value
+        .then(v => _thrownPromiseMap.set(value, v))
+        .catch(e => _thrownPromiseMap.set(value, e));
+      throw value;
+    }
+  } else {
+    return value as any;
+  }
+};
+
+export const useStore = <T extends object>(proxy: T) => {
+  const _proxy = useThrowable(proxy);
+  return [useSnapshot(_proxy), _proxy] as const;
+};

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 test('should optimize lodash bundle size when using SWC plugin', async () => {
   const builder = await build({
@@ -21,7 +21,7 @@ test('should optimize lodash bundle size when using SWC plugin', async () => {
         },
       },
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     runServer: false,
   });
 
@@ -49,7 +49,7 @@ test('should not optimize lodash bundle size when transformLodash is false and u
         },
       },
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     runServer: false,
   });
 

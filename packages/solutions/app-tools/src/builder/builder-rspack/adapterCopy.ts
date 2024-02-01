@@ -1,13 +1,12 @@
 import path from 'path';
-import { BuilderPlugin } from '@modern-js/builder-shared';
-import { BuilderPluginAPI } from '@modern-js/builder-rspack-provider';
+import { RsbuildPlugin } from '@modern-js/uni-builder';
 import fs from '@modern-js/utils/fs-extra';
 import { logger, removeTailSlash } from '@modern-js/utils';
 import { BuilderOptions, createCopyInfo } from '../shared';
 
 export const builderPluginAdpaterCopy = (
   options: BuilderOptions<'rspack'>,
-): BuilderPlugin<BuilderPluginAPI> => ({
+): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-rspack-copy',
   setup(api) {
     let publicPath: string | undefined;

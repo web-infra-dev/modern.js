@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Badge, Flex, ScrollArea } from '@radix-ui/themes';
 import { ServerRoute } from '@modern-js/types';
 import { BaseRoute } from '../Base';
@@ -17,7 +17,9 @@ export const EntryRoute: React.FC<EntryRouteProps> = ({ route }) => {
           <EntryStats route={route} />
         </ScrollArea>
         <ScrollArea scrollbars="horizontal">
-          <ClientRouteStats route={route} />
+          <Suspense>
+            <ClientRouteStats route={route} />
+          </Suspense>
         </ScrollArea>
       </Flex>
     </BaseRoute>

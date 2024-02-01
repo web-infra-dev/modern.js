@@ -5,9 +5,9 @@ export class Storage<V = unknown> {
 
   private container: Container<string, V>;
 
-  constructor(namespace: string, containter: Container<string, V>) {
+  constructor(namespace: string, container: Container<string, V>) {
     this.namespace = namespace;
-    this.container = containter;
+    this.container = container;
   }
 
   async keys?(): Promise<string[]> {
@@ -27,7 +27,7 @@ export class Storage<V = unknown> {
   }
 
   /**
-   * Returns a specified element from the containter. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Containter.
+   * Returns a specified element from the container. If the value that is associated to the provided key is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the Container.
    * @returns Returns the element associated with the specified key. If no element is associated with the specified key, undefined is returned.
    */
   get(key: string): Promise<V | undefined> {
@@ -63,7 +63,7 @@ export class Storage<V = unknown> {
     const keys = await this.keys?.();
     await Promise.all(
       keys?.map(async key => {
-        return this.delete(key);
+        return this.container.delete(key);
       }) || [],
     );
   }

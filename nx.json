@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
+      "cache": true,
       "dependsOn": [
         "^build"
       ],
@@ -12,18 +13,6 @@
         "{projectRoot}/modern.config.*",
         "{projectRoot}/scripts/**/*"
       ]
-    }
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build"
-        ],
-        "cacheDirectory": ".nx-cache",
-        "accessToken": "MGQ1ZmJlYmItNDg2YS00YzhjLTllOWMtYTgxYTVjN2M5NjdhfHJlYWQtd3JpdGU="
-      }
     }
   },
   "affected": {

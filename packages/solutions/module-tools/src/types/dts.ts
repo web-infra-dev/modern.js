@@ -15,6 +15,7 @@ export interface GeneratorDtsConfig {
   respectExternal: boolean;
   dtsExtension: string;
   userTsconfig: ITsconfig;
+  enableTscBuild: boolean;
 }
 
 export interface GeneratedDtsInfo {
@@ -53,6 +54,9 @@ export interface ITsconfig {
         paths?: Record<string, string[]>;
         target?: TsTarget;
         useDefineForClassFields?: boolean;
+        composite?: boolean;
+        incremental?: boolean;
+        tsBuildInfoFile?: string;
       }
     | undefined;
   include?: string[];

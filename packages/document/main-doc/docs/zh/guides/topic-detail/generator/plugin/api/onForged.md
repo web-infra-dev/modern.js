@@ -40,7 +40,7 @@ export interface IPluginContext {
 
 ### 文件类型
 
-生成器插件将文件类型分为撕四类：
+生成器插件将文件类型分为四类：
 
 - 文本文件
 

@@ -1,5 +1,163 @@
 # @modern-js/app-tools
 
+## 2.46.1
+
+### Patch Changes
+
+- Updated dependencies [26cdc77]
+- Updated dependencies [875d5dd]
+- Updated dependencies [1e81b5a]
+  - @modern-js/uni-builder@2.46.1
+  - @modern-js/core@2.46.1
+  - @modern-js/plugin-data-loader@2.46.1
+  - @modern-js/plugin-i18n@2.46.1
+  - @modern-js/plugin-lint@2.46.1
+  - @modern-js/new-action@2.46.1
+  - @modern-js/server-core@2.46.1
+  - @modern-js/prod-server@2.46.1
+  - @modern-js/server@2.46.1
+  - @modern-js/server-utils@2.46.1
+  - @modern-js/node-bundle-require@2.46.1
+  - @modern-js/plugin@2.46.1
+  - @modern-js/types@2.46.1
+  - @modern-js/upgrade@2.46.1
+  - @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [494b290]
+- Updated dependencies [40ee539]
+- Updated dependencies [4699e22]
+- Updated dependencies [f6b0e59]
+- Updated dependencies [cac5e16]
+- Updated dependencies [4699e22]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/core@2.46.0
+  - @modern-js/uni-builder@2.46.0
+  - @modern-js/server-utils@2.46.0
+  - @modern-js/server@2.46.0
+  - @modern-js/plugin-data-loader@2.46.0
+  - @modern-js/server-core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin-lint@2.46.0
+  - @modern-js/plugin-i18n@2.46.0
+  - @modern-js/new-action@2.46.0
+  - @modern-js/node-bundle-require@2.46.0
+  - @modern-js/plugin@2.46.0
+  - @modern-js/upgrade@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- efe7340: fix: when splitRouteChunks is false, dont use loadable to load components
+  fix: 当 splitRouteChunks 为 false，不使用 loadable 加载组件
+- Updated dependencies [f50ad3e]
+- Updated dependencies [19c8687]
+  - @modern-js/prod-server@2.45.0
+  - @modern-js/server-core@2.45.0
+  - @modern-js/types@2.45.0
+  - @modern-js/builder-shared@2.45.0
+  - @modern-js/server@2.45.0
+  - @modern-js/plugin-data-loader@2.45.0
+  - @modern-js/server-utils@2.45.0
+  - @modern-js/builder-rspack-provider@2.45.0
+  - @modern-js/builder-webpack-provider@2.45.0
+  - @modern-js/core@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/builder@2.45.0
+  - @modern-js/builder-plugin-esbuild@2.45.0
+  - @modern-js/builder-plugin-node-polyfill@2.45.0
+  - @modern-js/plugin-i18n@2.45.0
+  - @modern-js/plugin-lint@2.45.0
+  - @modern-js/new-action@2.45.0
+  - @modern-js/node-bundle-require@2.45.0
+  - @modern-js/plugin@2.45.0
+  - @modern-js/upgrade@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- c56146b: fix: server dir compile only server/cache exsits
+  fix: 只有存在 server/cache 才默认编译
+- Updated dependencies [0ed968c]
+- Updated dependencies [6df8c9f]
+- Updated dependencies [b32f60a]
+- Updated dependencies [2b41e70]
+- Updated dependencies [56d7f9a]
+- Updated dependencies [35a9961]
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/builder@2.44.0
+  - @modern-js/builder-webpack-provider@2.44.0
+  - @modern-js/builder-rspack-provider@2.44.0
+  - @modern-js/server@2.44.0
+  - @modern-js/server-core@2.44.0
+  - @modern-js/builder-shared@2.44.0
+  - @modern-js/plugin-data-loader@2.44.0
+  - @modern-js/core@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/builder-plugin-esbuild@2.44.0
+  - @modern-js/builder-plugin-node-polyfill@2.44.0
+  - @modern-js/server-utils@2.44.0
+  - @modern-js/plugin-i18n@2.44.0
+  - @modern-js/plugin-lint@2.44.0
+  - @modern-js/new-action@2.44.0
+  - @modern-js/node-bundle-require@2.44.0
+  - @modern-js/plugin@2.44.0
+  - @modern-js/upgrade@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- bb75155: fix: whether it is react18 should not rely on internalDirectory
+  fix: 判断是不是 react18 不应该依赖内部目录
+- 4b4d08a: chore: remove Rsbuild unsupported CHAIN_ID
+
+  chore: 移除在 Rsbuild 中不支持的 CHAIN_ID
+
+- Updated dependencies [40678b1]
+- Updated dependencies [9e749d8]
+- Updated dependencies [2d2cf71]
+- Updated dependencies [d959200]
+- Updated dependencies [acd3861]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5782aa3]
+  - @modern-js/builder-rspack-provider@2.43.0
+  - @modern-js/server@2.43.0
+  - @modern-js/prod-server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/server-core@2.43.0
+  - @modern-js/builder@2.43.0
+  - @modern-js/builder-plugin-node-polyfill@2.43.0
+  - @modern-js/plugin-data-loader@2.43.0
+  - @modern-js/builder-shared@2.43.0
+  - @modern-js/builder-webpack-provider@2.43.0
+  - @modern-js/core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/server-utils@2.43.0
+  - @modern-js/builder-plugin-esbuild@2.43.0
+  - @modern-js/plugin-i18n@2.43.0
+  - @modern-js/plugin-lint@2.43.0
+  - @modern-js/new-action@2.43.0
+  - @modern-js/node-bundle-require@2.43.0
+  - @modern-js/plugin@2.43.0
+  - @modern-js/upgrade@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

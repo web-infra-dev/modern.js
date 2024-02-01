@@ -1,10 +1,20 @@
-- **Type:** `Array<string | RegExp>`
-- **Default:** `[]`
-- **Bundler:** `only support webpack`
+- **Type:** [RuleSetCondition[]](https://rspack.dev/config/module#condition)
+- **Default:**
 
-In order to maintain faster compilation speed, Builder will not compile JavaScript/TypeScript files under node_modules through `babel-loader` or `ts-loader` by default, as will as the JavaScript/TypeScript files outside the current project directory.
+```ts
+const defaultInclude = [
+  {
+    and: [rootPath, { not: /[\\/]node_modules[\\/]/ }],
+  },
+  /\.(?:ts|tsx|jsx|mts|cts)$/,
+];
+```
 
-Through the `source.include` config, you can specify directories or modules that need to be compiled by Builder. The usage of `source.include` is consistent with [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) in webpack, which supports passing in strings or regular expressions to match the module path.
+The `source.include` is used to specify additional JavaScript files that need to be compiled.
+
+To avoid redundant compilation, by default, Rsbuild only compiles JavaScript files in the current directory and TypeScript and JSX files in all directories. It does not compile JavaScript files under node_modules.
+
+Through the `source.include` config, you can specify directories or modules that need to be compiled by Rsbuild. The usage of `source.include` is consistent with [Rule.include](https://rspack.dev/config/module#ruleinclude) in Rspack, which supports passing in strings or regular expressions to match the module path.
 
 For example:
 
@@ -18,9 +28,6 @@ export default {
 };
 ```
 
-:::tip
-When using Rspack as the bundler, **all files** will be compiled by default, and at the same time, exclusion through `source.exclude` is not supported.
-:::
 
 ### Compile Npm Packages
 

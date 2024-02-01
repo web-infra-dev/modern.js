@@ -132,23 +132,19 @@ import Logo from './logo.svg';
 export default () => <Logo />;
 ```
 
-:::warning
-The following usage is not currently supported:
-
-```js title="index.ts"
-import { ReactComponent } from './logo.svg';
-```
-
 :::
 
-When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
+When enabled, the type of svg used can be modified by initing a new declaration file and adding to the `modern-app-env.d.ts`:
 
-```ts title="modern-app-env.d.ts"
+```ts title="your-app-env.d.ts"
 declare module '*.svg' {
   const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   export default src;
 }
+```
 
+```ts title="modern-app-env.d.ts"
+/// <reference path='./your-app-env.d.ts' />
 /// <reference types='@modern-js/module-tools/types' />
 ```
 
@@ -165,6 +161,21 @@ Set unmatched svg files
 
 - **Type**: `string | RegExp | (string | RegExp)[]`
 - **Default**: `undefined`
+
+## asset.svgr.exportType
+
+Used to configure the SVG export type when using SVGR.
+
+- **Type**: `'named' | 'default'`
+- **Default**: `default`
+
+when it is 'named', use the following syntax:
+
+```js title="index.ts"
+import { ReactComponent } from './logo.svg';
+```
+
+The named export defaults to `ReactComponent`, and can be customized with the `asset.svgr.namedExport`.
 
 ## autoExtension
 
@@ -264,7 +275,7 @@ Let's say you want to add copyright information to JS and CSS files.
 import { moduleTools, defineConfig } from '@edenx/module-tools';
 
 const copyRight = `/*
- © Copyright 2020 xxx.com or one of its affiliates.
+ © Copyright 2020 example.com or one of its affiliates.
  * Some Sample Copyright Text Line
  * Some Sample Copyright Text Line
 */`;
@@ -448,6 +459,33 @@ export default defineConfig({
   buildConfig: {
     dts: {
       distPath: './types',
+    },
+  },
+});
+```
+
+## dts.enableTscBuild
+
+Enable the tsc '--build' option. When using project reference,
+you can use the '--build' option to achieve cooperation between projects and speed up the build speed.
+
+This option requires version > MAJOR_VERSION.43.0,In fact,
+we experimentally enabled this option in the MAJOR_VERSION.42.0 version, but the many problems it brought forced us to enable it dynamically.
+
+```warning
+When this option is enabled, to meet the build requirements, you must explicitly set 'declarationDir' or 'outDir' in tsconfig.json,
+If you are not using TS >= 5.0 version, you also need to explicitly set 'declaration' and 'emitDeclarationOnly'.
+```
+
+- **Type**: `boolean`
+- **Default**: `false`
+- **Version**: `>MAJOR_VERSION.43.0`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      enableTscBuild: true,
     },
   },
 });
@@ -1244,7 +1282,9 @@ Set `inject` to `true` to enable this feature:
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    inject: true,
+    style: {
+      inject: true,
+    },
   },
 });
 ```
@@ -1335,10 +1375,7 @@ Used to modify the configuration of [Tailwind CSS](https://tailwindcss.com/docs/
 
 ```js title="modern.config.ts"
 const tailwind = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}', './config/html/**/*.{html,ejs,hbs}'],
 };
 ```
 

@@ -1,5 +1,31 @@
 # @modern-js/devtools-client
 
+## 2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 3c01b68: refactor: dataflow of devtools client
+  refactor: 重构 devtools 客户端数据流
+
+## 2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- eaf723b: fix(devtools): failed to resolve react-devtools-inline
+  fix(devtools): react-devtools-inline 包不存在导致报错
+
+## 2.43.0
+
+### Patch Changes
+
+- 3067256: chore: bump rsbuild to 0.2.7
+
+  chore: 升级 rsbuild 到 0.2.7
+
 ## 2.42.2
 
 ### Patch Changes

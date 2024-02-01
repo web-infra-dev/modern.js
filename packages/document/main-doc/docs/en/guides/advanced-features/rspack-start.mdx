@@ -25,27 +25,18 @@ After the project is created, you can experience the project by running `pnpm ru
 :::tip
 When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
 
-- Storybook Devtool
 - The usage of [useLoader](/guides/basic-features/data/data-fetch.html) in Client Side Rendering
 
 :::
 
 ## Enable Rspack build
 
-You can enable Rspack build by running `pnpm run new`:
-
-```bash
-$ pnpm run new
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Rspack Build
-```
-
-After executing the command, enable the Rspack build in `modern.config.ts`:
+Since Modern.js MAJOR_VERSION.46.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
 
-+ export default defineConfig<'rspack'>({
+export default defineConfig({
   plugins: [
     appTools({
 +     bundler: 'experimental-rspack',
@@ -54,13 +45,69 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 });
 ```
 
+:::tip
+If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
+:::
+
 import RspackPrecautions from '@modern-js/builder-doc/docs/en/shared/rspackPrecautions.md';
 
 <RspackPrecautions />
 
 ## Migrating configuration
 
-After enabling Rspack building capability, further configuration migration is needed by referring to the [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
+In Modern.js, the [tools.webpack](/configure/app/tools/webpack) and [tools.webpackChain](/configure/app/tools/webpack-chain) configurations only take effect in webpack mode, after turning on the Rspack build, you can modify it to [tools.rspack](/configure/app/tools/rspack) and [tools.bundlerChain](/configure/app/tools/bundler-chain).
+
+```diff
+export default {
+  tools: {
+-   webpack: (config, { env }) => {
++   rspack: (config, { env }) => {
+      if (env === 'development') {
+        config.devtool = 'cheap-module-eval-source-map';
+      }
+      return config;
+    },
+-   webpackChain: (chain, { env }) => {
++   bundlerChain: (chain, { env }) => {
+      if (env === 'development') {
+        chain.devtool('cheap-module-eval-source-map');
+      }
+    },
+  },
+};
+```
+
+:::tip
+After turning on the Rspack build capability, there are currently a small number of configurations that are not supported in Rspack, such as [source.moduleScopes](/configure/app/source/module-scopes), [security.sri](/configure/app/security/sri) etc.
+
+For unsupported configurations, we have marked `Bundler: only support webpack` or `Bundler: only support Rspack` in the document. Please refer to the specific configuration introduction.
+:::
+
+## Modify transpile configuration
+
+Modern.js uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader.html) for code translation in Rspack mode.
+
+Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import). If you have custom configuration requirements for `builtin:swc-loader`, you can refer to the following code:
+
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
+
+:::tip
+When Rspack build is enabled, `babel-loader` is not enabled by default. If you need to add some babel plugins, you can configure it through [tools.babel](/configure/app/tools/babel). This will generate additional compilation overhead and slow down the Rspack build speed to a certain extent.
+:::
 
 ## The relationship between Rspack and Modern.js versions
 
@@ -68,9 +115,9 @@ Usually, the latest version of Rspack will be integrated into Modern.js. You can
 
 However, Modern.js uses a locked version dependency method (non-automatic upgrade) for Rspack. Due to differences in release cycles, the version of Rspack integrated into Modern.js may be behind the latest version of Rspack.
 
-When Rspack is enabled for building through dev / build, the current version of Rspack used in the framework will be printed automatically:
+When Rspack is enabled for building through dev / build, the current version of Rspack used in the framework will be printed automatically when [debugging mode](https://rsbuild.dev/guide/debug/debug-mode) is turned on:
 
-![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_dfcf051f-21db-4741-a108-d9f7a82c3abg.png)
+![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/20240110-155444.png)
 
 ### Override the Built-in Rspack Version
 
@@ -84,7 +131,6 @@ For example, if you are using pnpm, you can update the Rspack version with `over
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/plugin-react-refresh": "nightly",
-      "@rspack/plugin-html": "nightly"
     }
   }
 }

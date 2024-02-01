@@ -4,16 +4,15 @@ import { useSnapshot } from 'valtio';
 import type { ServerRoute } from '@modern-js/types';
 import { Box, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './Stats.module.scss';
-import { useStore } from '@/entries/client/stores';
+import { $framework } from '@/entries/client/routes/state';
 
 export interface EntryStatsProps {
   route: ServerRoute;
 }
 
 export const EntryStats: React.FC<EntryStatsProps> = ({ route }) => {
-  const $store = useStore();
-  const store = useSnapshot($store);
-  const { entrypoints } = store.framework.context;
+  const framework = useSnapshot($framework);
+  const { entrypoints } = framework.context;
   const entrypoint =
     route.entryName && _.find(entrypoints, { entryName: route.entryName });
 

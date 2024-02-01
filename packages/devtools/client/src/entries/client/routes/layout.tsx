@@ -10,14 +10,13 @@ import {
   updateThemeAppearanceClass,
 } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
+import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
-import {
-  StoreContextProvider,
-  useStoreSnapshot,
-} from '@/entries/client/stores';
+import { $tabs } from './state';
 import { Theme } from '@/components/Theme';
 import { InternalTab } from '@/entries/client/types';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
+import { DevtoolsPuller } from '@/components/Devtools/Puller';
 
 const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
   let to = '';
@@ -77,7 +76,7 @@ const AppearanceButton = () => {
 };
 
 const Navigator: React.FC = () => {
-  const { tabs } = useStoreSnapshot();
+  const tabs = useSnapshot($tabs);
 
   return (
     <Flex direction="column" shrink="0" className={styles.navigator}>
@@ -91,30 +90,24 @@ const Navigator: React.FC = () => {
 };
 
 export default function Layout() {
+  const display = process.env.NODE_ENV === 'development' ? undefined : 'none';
   return (
-    <StoreContextProvider>
-      <Theme
-        className={styles.wrapper}
-        accentColor="blue"
-        panelBackground="solid"
-      >
-        <Box className={styles.inner}>
-          <Box className={styles.innerRight}>
-            <Box className={styles.container}>
-              <Outlet />
-            </Box>
+    <Theme
+      className={styles.wrapper}
+      accentColor="blue"
+      panelBackground="solid"
+    >
+      <Box className={styles.inner}>
+        <Box className={styles.innerRight}>
+          <Box className={styles.container}>
+            <Outlet />
           </Box>
         </Box>
-        <ThemePanel
-          defaultOpen={false}
-          style={{
-            display:
-              process.env.NODE_ENV === 'development' ? undefined : 'none',
-          }}
-        />
-        <Navigator />
-        <Breadcrumbs className={styles.breadcrumbs} />
-      </Theme>
-    </StoreContextProvider>
+      </Box>
+      <ThemePanel defaultOpen={false} style={{ display }} />
+      <Navigator />
+      <Breadcrumbs className={styles.breadcrumbs} />
+      <DevtoolsPuller />
+    </Theme>
   );
 }

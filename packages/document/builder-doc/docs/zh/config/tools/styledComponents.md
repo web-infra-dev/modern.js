@@ -12,8 +12,6 @@
 }
 ```
 
-- **打包工具：** `仅支持 webpack`
-
 对应 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 或使用 SWC 时 [@swc/plugin-styled-components](https://github.com/swc-project/plugins/tree/main/packages/styled-components) 的配置。 值为 `Object` 类型时，利用 Object.assign 函数与默认配置合并。比如:
 
 ```js

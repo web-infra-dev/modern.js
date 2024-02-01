@@ -98,8 +98,6 @@ export const html = (partials: {
 <!DOCTYPE html>
 <html>
 <head>
-  <%= meta %>
-  <title><%= title %></title>
 
   ${partials.top.join('\n')}
 
@@ -353,13 +351,12 @@ export const fileSystemRoutes = async ({
             lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
             component = `lazy(${lazyImport})`;
           }
+        } else if (ssrMode === 'string') {
+          components.push(route._component);
+          component = `component_${components.length - 1}`;
         } else {
           lazyImport = `() => import(/* webpackMode: "eager" */  '${route._component}').then(routeModule => handleRouteModule(routeModule, "${route.id}")).catch(handleRouteModuleError) `;
-          if (ssrMode === 'string') {
-            component = `loadable(${lazyImport})`;
-          } else {
-            component = `lazy(${lazyImport})`;
-          }
+          component = `lazy(${lazyImport})`;
         }
       }
     } else if (route._component) {

@@ -1,13 +1,13 @@
 import * as path from 'path';
 import {
+  ChainIdentifier,
   isHtmlDisabled,
-  BuilderPlugin,
+  RsbuildPlugin,
   BundlerChain,
-  mergeBuilderConfig,
-} from '@modern-js/builder-shared';
+  mergeRsbuildConfig,
+} from '@rsbuild/shared';
 import { isSSR, fs } from '@modern-js/utils';
-import { ChainIdentifier } from '@modern-js/utils/chain-id';
-import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -15,19 +15,19 @@ import type {
   SSGMultiEntryOptions,
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
-import type { BuilderOptions, BuilderPluginAPI } from '../types';
+import type { BuilderOptions } from '../types';
 import { getServerCombinedModueFile } from '../../../analyze/utils';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
-): BuilderPlugin<BuilderPluginAPI> => ({
+): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-ssr',
 
   setup(api) {
     const { normalizedConfig } = options;
-    api.modifyBuilderConfig(config => {
+    api.modifyRsbuildConfig(config => {
       if (isStreamingSSR(normalizedConfig)) {
-        return mergeBuilderConfig(config, {
+        return mergeRsbuildConfig(config, {
           html: {
             inject: 'body',
           },
@@ -44,12 +44,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         const builderConfig = api.getNormalizedConfig();
         const { normalizedConfig } = options;
 
-        applyRouterPlugin(
-          chain,
-          CHAIN_ID.PLUGIN.ROUTER_MANIFEST,
-          options,
-          HtmlBundlerPlugin,
-        );
+        applyRouterPlugin(chain, 'route-plugin', options, HtmlBundlerPlugin);
         if (isSSR(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
           applySSRDataLoader(chain, options);
@@ -143,7 +138,7 @@ function applyRouterPlugin<B extends Bundler>(
     chain.plugin(pluginName).use(RouterPlugin, [
       {
         HtmlBundlerPlugin,
-        enableInlineRouteManifests: inlineRouteManifests,
+        enableInlineRouteManifests: inlineRouteManifests!,
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
         scriptLoading: normalizedConfig.html?.scriptLoading,

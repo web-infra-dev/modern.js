@@ -1,5 +1,51 @@
 # @modern-js/plugin-garfish
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [494b290]
+  - @modern-js/runtime@2.46.0
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [f50ad3e]
+- Updated dependencies [10d8203]
+  - @modern-js/runtime@2.45.0
+  - @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- Updated dependencies [e25a5e3]
+  - @modern-js/runtime@2.44.0
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [2006851]
+- Updated dependencies [563c286]
+- Updated dependencies [d959200]
+- Updated dependencies [bb75155]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5e9a6a9]
+- Updated dependencies [4b4d08a]
+  - @modern-js/runtime@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

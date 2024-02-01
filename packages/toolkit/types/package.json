@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.42.2",
+  "version": "2.46.1",
   "types": "./index.d.ts",
   "exports": {
     ".": {

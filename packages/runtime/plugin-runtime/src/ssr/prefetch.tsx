@@ -73,8 +73,7 @@ const prefetch = async (
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
       if (data._error) {
-        ssrContext!.logger.error('App Prefetch Loader', data._error);
-        ssrContext!.metrics.emitCounter('app.prefetch.loader.error', 1);
+        ssrContext!.logger.error('App Load use-loader', data._error);
         delete data._error;
       }
     });

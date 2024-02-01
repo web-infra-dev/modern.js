@@ -68,6 +68,16 @@ export type AfterRenderContext = HookContext & {
   };
 };
 
+export type AfterStreamingRenderContext = HookContext & {
+  route?: Partial<
+    Pick<
+      ServerRoute,
+      'entryName' | 'bundle' | 'isSPA' | 'isSSR' | 'urlPath' | 'entryPath'
+    >
+  >;
+  chunk: string;
+};
+
 export type MiddlewareContext<T extends 'worker' | 'node' = 'node'> =
   HookContext & {
     reporter?: Reporter;

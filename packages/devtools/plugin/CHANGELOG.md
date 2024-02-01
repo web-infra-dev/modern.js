@@ -1,5 +1,72 @@
 # @modern-js/plugin-devtools
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/devtools-kit@2.46.1
+- @modern-js/devtools-client@2.46.1
+- @modern-js/runtime@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- 3c01b68: refactor: dataflow of devtools client
+  refactor: 重构 devtools 客户端数据流
+- Updated dependencies [3c01b68]
+- Updated dependencies [494b290]
+  - @modern-js/devtools-client@2.46.0
+  - @modern-js/devtools-kit@2.46.0
+  - @modern-js/runtime@2.46.0
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [f50ad3e]
+- Updated dependencies [10d8203]
+  - @modern-js/runtime@2.45.0
+  - @modern-js/devtools-client@2.45.0
+  - @modern-js/devtools-kit@2.45.0
+  - @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- Updated dependencies [e25a5e3]
+- Updated dependencies [eaf723b]
+  - @modern-js/runtime@2.44.0
+  - @modern-js/devtools-client@2.44.0
+  - @modern-js/devtools-kit@2.44.0
+  - @modern-js/utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- Updated dependencies [3067256]
+- Updated dependencies [2006851]
+- Updated dependencies [563c286]
+- Updated dependencies [d959200]
+- Updated dependencies [bb75155]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5e9a6a9]
+- Updated dependencies [4b4d08a]
+  - @modern-js/devtools-client@2.43.0
+  - @modern-js/runtime@2.43.0
+  - @modern-js/devtools-kit@2.43.0
+  - @modern-js/utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

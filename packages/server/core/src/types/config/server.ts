@@ -41,6 +41,8 @@ export type SSR =
       preload?: boolean | SSRPreload;
       inlineScript?: boolean;
       disablePrerender?: boolean;
+      unsafeHeaders?: string[];
+      scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
     };
 
 export type SSRByEntries = Record<string, SSR>;
@@ -52,8 +54,6 @@ export interface ServerUserConfig {
   ssrByEntries?: SSRByEntries;
   baseUrl?: string | string[];
   port?: number;
-  logger?: boolean | Record<string, any>;
-  metrics?: boolean | Record<string, any>;
   enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';

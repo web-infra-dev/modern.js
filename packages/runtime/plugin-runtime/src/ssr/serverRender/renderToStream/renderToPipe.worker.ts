@@ -3,7 +3,7 @@ import type {
   ReactDOMServerReadableStream,
   RenderToReadableStreamOptions,
 } from 'react-dom/server';
-import { RenderLevel, RuntimeContext } from '../types';
+import { RenderLevel, RuntimeContext, SSRPluginConfig } from '../types';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { SSRErrors } from '../tracker';
 import { getTemplates } from './template';
@@ -18,6 +18,7 @@ enum ShellChunkStatus {
 function renderToPipe(
   rootElement: React.ReactElement,
   context: RuntimeContext,
+  pluginConfig: SSRPluginConfig,
   options?: RenderToReadableStreamOptions,
 ) {
   let shellChunkStatus = ShellChunkStatus.START;
@@ -30,9 +31,10 @@ function renderToPipe(
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       ({ renderToReadableStream } = require('react-dom/server'));
     } catch (e) {}
-    const { shellAfter, shellBefore } = getTemplates(
+    const { shellAfter, shellBefore } = await getTemplates(
       context,
       RenderLevel.SERVER_RENDER,
+      pluginConfig,
     );
     try {
       const readableOriginal: ReactDOMServerReadableStream =
@@ -43,7 +45,15 @@ function renderToPipe(
             options?.onError?.(error);
           },
         });
+
+      if (context.ssrContext?.isSpider) {
+        // However, when a crawler visits your page, or if you’re generating the pages at the build time,
+        // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
+        // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
+        await readableOriginal.allReady;
+      }
       const reader: ReadableStreamDefaultReader = readableOriginal.getReader();
+
       const injectableStream = new ReadableStream({
         start(controller) {
           async function push() {
@@ -84,9 +94,10 @@ function renderToPipe(
     } catch (err) {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
       ssrContext?.tracker.trackError(SSRErrors.RENDER_SHELL, err as Error);
-      const { shellAfter, shellBefore } = getTemplates(
+      const { shellAfter, shellBefore } = await getTemplates(
         context,
         RenderLevel.CLIENT_RENDER,
+        pluginConfig,
       );
       const fallbackHtml = `${shellBefore}${shellAfter}`;
       return fallbackHtml;

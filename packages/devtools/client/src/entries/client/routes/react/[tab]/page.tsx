@@ -1,27 +1,29 @@
+import { useParams } from '@modern-js/runtime/router';
 import { Box, useThemeContext } from '@radix-ui/themes';
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
+  initialize,
   createBridge,
   createStore,
-  initialize,
 } from 'react-devtools-inline/frontend';
-import { useAsync } from 'react-use';
-import { useParams } from '@modern-js/runtime/router';
-import { setupMountPointConnection } from '@/entries/client/rpc';
-
-const connTask = setupMountPointConnection();
+import { $mountPoint } from '../../state';
+import { wallAgent } from '../state';
+import { useThrowable } from '@/utils';
 
 const Page: React.FC = () => {
   const params = useParams();
   const ctx = useThemeContext();
   const browserTheme = ctx.appearance === 'light' ? 'light' : 'dark';
 
-  const { value: InnerView } = useAsync(async () => {
-    const { mountPoint, wall } = await connTask;
-    const bridge = createBridge(window.parent, wall);
+  const mountPoint = useThrowable($mountPoint);
+  useEffect(() => {
+    mountPoint.remote.activateReactDevtools();
+  }, []);
+
+  const InnerView = useMemo(() => {
+    const bridge = createBridge(window.parent, wallAgent);
     const store = createStore(bridge);
     const ret = initialize(window.parent, { bridge, store });
-    mountPoint.activateReactDevtools();
     return ret;
   }, []);
 

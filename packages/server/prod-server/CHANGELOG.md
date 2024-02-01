@@ -1,5 +1,80 @@
 # @modern-js/prod-server
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.46.1
+- @modern-js/plugin@2.46.1
+- @modern-js/runtime-utils@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- 091c7c2: fix(prod-server): ssr cache can't work in `serve` command
+  fix(prod-server): ssr 缓存不能在 `serve` 指令中正常工作
+- d833015: feat: server template support <head xxx=''> edge case
+  feat: 服务端模版方法支持 <head xxx=''> 的边界 case
+- 46e6d56: fix(prod-server): isBot@4.x need nodev18, so we downgrade it to 3.x
+  fix(prod-server): isBot@4.x 需要 nodev18, 所以我们降级到 3.x
+- 494b290: feat: Waiting for all content to load for spiders in streaming ssr
+  feat: 在 streaming ssr 时，为爬虫等待所有内容加载完毕
+- Updated dependencies [78e2722]
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/server-core@2.46.0
+  - @modern-js/utils@2.46.0
+  - @modern-js/plugin@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- f50ad3e: fix: adjust logger code
+  fix: 调整 logger 冗余代码
+- Updated dependencies [f50ad3e]
+  - @modern-js/server-core@2.45.0
+  - @modern-js/runtime-utils@2.45.0
+  - @modern-js/utils@2.45.0
+  - @modern-js/plugin@2.45.0
+
+## 2.44.0
+
+### Minor Changes
+
+- 56d7f9a: feat: SSR server support afterStreamingRender
+  feat: SSR 服务端支持 afterStreamingRender
+
+### Patch Changes
+
+- 0ed968c: fix: SSR cache container spell
+  fix: SSR 缓存相关 container 拼写修正
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/runtime-utils@2.44.0
+  - @modern-js/server-core@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/plugin@2.44.0
+
+## 2.43.0
+
+### Minor Changes
+
+- d959200: feat: support ssr cache, and global storer
+  feat: 支持 ssr 缓存, 以及全局存储器
+
+### Patch Changes
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+- Updated dependencies [ae22b74]
+- Updated dependencies [5782aa3]
+  - @modern-js/runtime-utils@2.43.0
+  - @modern-js/server-core@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

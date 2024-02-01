@@ -1,7 +1,7 @@
 import path from 'path';
 import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 import { findEntry, copyPkgToNodeModules, cases, shareTest } from './helper';
 
 /* webpack can receive Function type configuration */
@@ -34,7 +34,7 @@ test('should import with function customName', async () => {
 
   const builder = await build({
     ...setupConfig,
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     builderConfig: {
       source: {
         transformImport: [
@@ -63,7 +63,7 @@ test('should import with template config with SWC', async () => {
   const setupConfig = {
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
   };
 
   {
@@ -110,6 +110,6 @@ cases.forEach(c => {
   shareTest(`${name}-webpack`, entry, config);
 
   shareTest(`${name}-webpack-swc`, entry, config, {
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
   });
 });

@@ -1,5 +1,37 @@
 # @modern-js/monorepo-generator
 
+## 3.3.8
+
+### Patch Changes
+
+- @modern-js/utils@2.46.1
+
+## 3.3.7
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+
+## 3.3.6
+
+### Patch Changes
+
+- @modern-js/utils@2.45.0
+
+## 3.3.5
+
+### Patch Changes
+
+- 991e14e: chore(generator): update vscode settings template
+  chore(generator): 更新项目里 vscode 设置的模板
+  - @modern-js/utils@2.44.0
+
+## 3.3.4
+
+### Patch Changes
+
+- @modern-js/utils@2.43.0
+
 ## 3.3.3
 
 ### Patch Changes

@@ -12,6 +12,10 @@ export const pluginFrameworkConfig = (configPath: string): RsbuildPlugin => ({
 
       const cache = chain.get('cache');
 
+      if (!cache) {
+        return;
+      }
+
       cache.buildDependencies = {
         ...cache.buildDependencies,
         frameworkConfig: [configPath],

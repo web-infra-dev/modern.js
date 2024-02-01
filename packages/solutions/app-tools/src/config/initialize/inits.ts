@@ -5,7 +5,7 @@ import { AppNormalizedConfig, IAppContext } from '../../types';
 export function initHtmlConfig(
   config: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
-) {
+): AppNormalizedConfig<'shared'>['html'] {
   const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
   config.html.appIcon = createBuilderAppIcon(config, appContext);
   config.html.favicon = createBuilderFavicon(config, appContext);
@@ -56,8 +56,7 @@ export function initSourceConfig(
   config.source.include = createBuilderInclude(config, appContext);
 
   if (bundler === 'webpack') {
-    (config as AppNormalizedConfig).source.moduleScopes =
-      createBuilderModuleScope(config as AppNormalizedConfig);
+    config.source.moduleScopes = createBuilderModuleScope(config);
   }
 }
 
@@ -68,7 +67,7 @@ function createBuilderInclude(
   const { include } = config.source;
   const defaultInclude = [appContext.internalDirectory];
   const transformInclude = (include || [])
-    .map((include: string | RegExp) => {
+    .map(include => {
       if (typeof include === 'string') {
         if (isAbsolute(include)) {
           return include;

@@ -1,5 +1,51 @@
 # @modern-js/core
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.46.1
+- @modern-js/plugin@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Minor Changes
+
+- 40ee539: feat: use rsbuild(uni-builder) instead of modern.js builder
+
+  feat: 将应用工程的构建工具从 modern.js builder 切换为 rsbuild(uni-builder)
+
+### Patch Changes
+
+- @modern-js/utils@2.46.0
+- @modern-js/node-bundle-require@2.46.0
+- @modern-js/plugin@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- @modern-js/utils@2.45.0
+- @modern-js/node-bundle-require@2.45.0
+- @modern-js/plugin@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- @modern-js/utils@2.44.0
+- @modern-js/node-bundle-require@2.44.0
+- @modern-js/plugin@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- @modern-js/utils@2.43.0
+- @modern-js/node-bundle-require@2.43.0
+- @modern-js/plugin@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

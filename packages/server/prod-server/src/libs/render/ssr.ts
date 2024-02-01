@@ -7,36 +7,39 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
+import * as isbot from 'isbot';
 import { RenderResult, ServerHookRunner } from '../../type';
+import { createAfterStreamingRenderContext } from '../hook-api';
+import { afterRenderInjectableStream } from '../hook-api/afterRenderForStream';
+import type { ModernRoute } from '../route';
 import { RenderFunction, SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
 import { injectServerDataStream, injectServerData } from './utils';
 import { ssrCache } from './ssrCache';
 
+export type SSRRenderOptions = {
+  distDir: string;
+  template: string;
+  route: ModernRoute;
+  staticGenerate: boolean;
+  enableUnsafeCtx?: boolean;
+  nonce?: string;
+};
+
 export const render = async (
   ctx: ModernServerContext,
-  renderOptions: {
-    distDir: string;
-    bundle: string;
-    urlPath: string;
-    template: string;
-    entryName: string;
-    staticGenerate: boolean;
-    enableUnsafeCtx?: boolean;
-    nonce?: string;
-  },
+  renderOptions: SSRRenderOptions,
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
   const {
-    urlPath,
-    bundle,
     distDir,
+    route,
     template,
-    entryName,
     staticGenerate,
     enableUnsafeCtx = false,
     nonce,
   } = renderOptions;
+  const { urlPath, bundle, entryName } = route;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
   const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
@@ -44,6 +47,8 @@ export const render = async (
   const routeManifest = fs.existsSync(routesManifestUri)
     ? require(routesManifestUri)
     : undefined;
+
+  const isSpider = isbot.default(ctx.headers['user-agent'] || null);
 
   const context: SSRServerContext = {
     request: {
@@ -77,6 +82,7 @@ export const render = async (
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,
+    isSpider,
     nonce,
   };
   context.logger = createLogger(context, ctx.logger);
@@ -106,9 +112,23 @@ export const render = async (
       contentType: mime.contentType('html') as string,
     };
   } else {
+    let contentStream = injectServerDataStream(content, ctx);
+    const afterStreamingRenderContext = createAfterStreamingRenderContext(
+      ctx,
+      route,
+    );
+    contentStream = contentStream.pipe(
+      afterRenderInjectableStream((chunk: string) => {
+        const context = afterStreamingRenderContext(chunk);
+        return runner.afterStreamingRender(context, {
+          onLast: ({ chunk }) => chunk,
+        });
+      }),
+    );
+
     return {
       content: '',
-      contentStream: injectServerDataStream(content, ctx),
+      contentStream,
       contentType: mime.contentType('html') as string,
     };
   }

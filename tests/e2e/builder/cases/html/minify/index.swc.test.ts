@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 const fixtures = __dirname;
 
@@ -14,7 +14,7 @@ test('should minify template js & css correctly when use swc-plugin', async ({
       main: join(fixtures, 'src/index.ts'),
     },
     runServer: true,
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     builderConfig: {
       html: {
         template: './static/index.html',

@@ -9,10 +9,10 @@ interface CacheStruct {
 }
 
 export class CacheManager {
-  private containter: Container<string, string>;
+  private container: Container<string, string>;
 
-  constructor(containter: Container<string, string>) {
-    this.containter = containter;
+  constructor(container: Container<string, string>) {
+    this.container = container;
   }
 
   async getCacheResult(
@@ -23,7 +23,7 @@ export class CacheManager {
   ): Promise<string | Readable> {
     const key = this.computedKey(req, cacheControl);
 
-    const value = await this.containter.get(key);
+    const value = await this.container.get(key);
     const { maxAge, staleWhileRevalidate } = cacheControl;
     const ttl = maxAge + staleWhileRevalidate;
 
@@ -59,16 +59,18 @@ export class CacheManager {
   ) {
     const renderResult = await render(ssrContext);
 
-    if (typeof renderResult === 'string') {
+    if (!renderResult) {
+      return '';
+    } else if (typeof renderResult === 'string') {
       const current = Date.now();
       const cache: CacheStruct = {
         val: renderResult,
         cursor: current,
       };
-      await this.containter.set(key, JSON.stringify(cache), { ttl });
+      await this.container.set(key, JSON.stringify(cache), { ttl });
       return renderResult;
     } else {
-      let html: string;
+      let html = '';
       const stream = new Transform({
         write(chunk, _, callback) {
           html += chunk.toString();
@@ -83,7 +85,7 @@ export class CacheManager {
           val: html,
           cursor: current,
         };
-        this.containter.set(key, JSON.stringify(cache), { ttl });
+        this.container.set(key, JSON.stringify(cache), { ttl });
       });
 
       return renderResult(stream);

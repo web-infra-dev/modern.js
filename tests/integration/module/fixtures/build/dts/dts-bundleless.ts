@@ -6,6 +6,7 @@ export default defineConfig({
     dts: {
       distPath: './types',
       only: true,
+      enableTscBuild: true,
     },
     outDir: './dist/bundleless',
   },

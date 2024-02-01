@@ -1,5 +1,79 @@
 # @modern-js/server
 
+## 2.46.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.46.1
+- @modern-js/server-utils@2.46.1
+- @modern-js/runtime-utils@2.46.1
+- @modern-js/types@2.46.1
+- @modern-js/utils@2.46.1
+
+## 2.46.0
+
+### Patch Changes
+
+- Updated dependencies [091c7c2]
+- Updated dependencies [d833015]
+- Updated dependencies [46e6d56]
+- Updated dependencies [78e2722]
+- Updated dependencies [494b290]
+- Updated dependencies [4699e22]
+  - @modern-js/prod-server@2.46.0
+  - @modern-js/runtime-utils@2.46.0
+  - @modern-js/types@2.46.0
+  - @modern-js/server-utils@2.46.0
+  - @modern-js/utils@2.46.0
+
+## 2.45.0
+
+### Patch Changes
+
+- Updated dependencies [f50ad3e]
+- Updated dependencies [19c8687]
+  - @modern-js/prod-server@2.45.0
+  - @modern-js/types@2.45.0
+  - @modern-js/server-utils@2.45.0
+  - @modern-js/runtime-utils@2.45.0
+  - @modern-js/utils@2.45.0
+
+## 2.44.0
+
+### Patch Changes
+
+- 2b41e70: fix(hmr-client): make hmr-client isomorphic
+  fix(hmr-client): hmr-client 支持跨环境
+- Updated dependencies [0ed968c]
+- Updated dependencies [56d7f9a]
+  - @modern-js/runtime-utils@2.44.0
+  - @modern-js/prod-server@2.44.0
+  - @modern-js/types@2.44.0
+  - @modern-js/utils@2.44.0
+  - @modern-js/server-utils@2.44.0
+
+## 2.43.0
+
+### Patch Changes
+
+- 9e749d8: fix: adapte webpack-dev-middleware disable write-to-disk
+  fix: 适配 webpack-dev-middleware 禁止写入磁盘
+- acd3861: feat(server): Integrate Rsbuild Server capabilities into Modern.js Server
+
+  feat(server): 集成 Rsbuild Server 能力到 Modern.js Server 中
+
+- 5782aa3: chore(server): remove useless server plugin hooks (beforeDevServer & afterDevServer)
+
+  chore(server): 移除无用的 server 插件钩子 (beforeDevServer 和 afterDevServer)
+
+- Updated dependencies [9e749d8]
+- Updated dependencies [d959200]
+  - @modern-js/runtime-utils@2.43.0
+  - @modern-js/prod-server@2.43.0
+  - @modern-js/types@2.43.0
+  - @modern-js/utils@2.43.0
+  - @modern-js/server-utils@2.43.0
+
 ## 2.42.2
 
 ### Patch Changes

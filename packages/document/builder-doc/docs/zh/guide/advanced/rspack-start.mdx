@@ -115,7 +115,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
-- [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：使用 [tools.rspack](/api/config-tools#toolsrspack) 代替。
@@ -161,7 +160,7 @@ BundlerChain 只支持修改 Rspack & webpack 交集部分，更多 Rspack 独�
 ```diff
 export default {
   tools: {
--   webppack: (config, { env }) => {
+-   webpack: (config, { env }) => {
 +   rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';

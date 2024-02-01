@@ -81,11 +81,10 @@ export default defineConfig({
 
 [SWC](https://swc.rs/) (Speedy Web Compiler) is written in Rust, and this plugin is based on SWC and ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import). The configuration options remain consistent.
 
-Some configurations can accept functions, such as `customName`, `customStyleName`, etc. These JavaScript functions are called by Rust through Node-API, which can cause some performance degradation.
+Some configurations can be passed in as functions, such as `customName`, `customStyleName`, etc., but in Modern.js Module, we do not recommend using functions in these configuration items.
+Because we will call SWC in the esbuild plugin, and then when Rust calls these configuration functions through Node-API, a deadlock will occur.
 
-Simple function logic can be replaced by template language. Therefore, for configurations such as `customName`, `customStyleName`, etc., instead of passing functions, you can also pass a string as a template to replace the function, improving performance.
-
-We will use the following code as example:
+Simple function logic can actually be replaced by template language. Below is an example of using a template with `customName`:
 
 ```ts
 import { MyButton as Btn } from 'foo';

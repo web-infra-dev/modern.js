@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.42.2",
+  "version": "2.46.1",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -20,6 +20,9 @@
     "webpack": "^5.89.0"
   },
   "devDependencies": {
+    "@svgr/core": "8.1.0",
+    "@svgr/plugin-jsx": "8.1.0",
+    "@svgr/plugin-svgo": "8.1.0",
     "@rollup/plugin-json": "6.0.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "9.0.13",
@@ -103,8 +106,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-is": "^18",
-    "rollup": "3.23.0",
-    "rollup-plugin-dts": "5.3.0",
+    "rollup": "^3.29.4",
+    "rollup-plugin-dts": "6.1.0",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "schema-utils3": "npm:schema-utils@3.1.1",
