@@ -111,6 +111,7 @@ export default (): ServerPlugin => ({
         return storage.hooks.afterMatch(context, next);
       },
       afterRender(context, next) {
+        console.log('storage.hooks.afterRender', storage.hooks.afterRender);
         if (!storage.hooks.afterRender) {
           return next();
         }

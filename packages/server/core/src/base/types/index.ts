@@ -30,6 +30,7 @@ declare module 'http' {
 }
 
 export type ServerBaseOptions = {
+  /** server working directory, and then also dist directory */
   pwd: string;
   config: ServerOptions;
   serverConfigFile?: string;

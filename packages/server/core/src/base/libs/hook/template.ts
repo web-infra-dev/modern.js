@@ -31,6 +31,7 @@ export class TemplateApi {
 
   prependBody(fragment: string) {
     const { body } = REPLACE_REG.before;
+    console.log('body', fragment);
 
     this.replaceBody(
       new RegExp(body),

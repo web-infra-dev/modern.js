@@ -97,12 +97,15 @@ export class ServerBase<E extends HonoEnv = any> {
 
     this.initServerConfig(options);
 
+    await this.injectContext(options);
+
     // initialize server runner
     this.runner = await this.createHookRunner();
 
     // init config and execute config hook
     await this.initConfig(this.runner, options);
 
+    // FIXME: injectContext fn not need call twice.
     await this.injectContext(options);
 
     // eslint-disable-next-line @typescript-eslint/await-thenable
@@ -235,24 +238,25 @@ export class ServerBase<E extends HonoEnv = any> {
     AppContext.set({
       ...appContext,
       serverBase: this,
-      distDirectory: path.join(pwd, config.output.path || 'dist'),
+      distDirectory: pwd,
     });
   }
 
   private initAppContext(): ISAppContext {
     const { options } = this;
-    const { pwd: appDirectory, plugins = [], config, appContext } = options;
+    const { pwd, plugins = [], appContext } = options;
     const serverPlugins = plugins.map(p => ({
       server: p,
     }));
 
     return {
-      appDirectory,
+      appDirectory: appContext?.appDirectory || '',
       apiDirectory: appContext?.apiDirectory,
       lambdaDirectory: appContext?.lambdaDirectory,
       sharedDirectory:
-        appContext?.sharedDirectory || path.resolve(appDirectory, SHARED_DIR),
-      distDirectory: path.join(appDirectory, config.output.path || 'dist'),
+        appContext?.sharedDirectory ||
+        path.resolve(appContext.appDirectory || '', SHARED_DIR),
+      distDirectory: pwd,
       plugins: serverPlugins,
     };
   }
