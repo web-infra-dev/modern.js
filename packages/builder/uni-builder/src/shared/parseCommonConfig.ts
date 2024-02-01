@@ -33,6 +33,8 @@ import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginPostcssLegacy } from './plugins/postcssLegacy';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
+import { pluginAntd } from './plugins/antd';
+import { pluginArco } from './plugins/arco';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -337,6 +339,8 @@ export async function parseCommonConfig(
     pluginEmitRouteFile(),
     pluginToml(),
     pluginYaml(),
+    pluginAntd(),
+    pluginArco(),
   ];
 
   if (checkSyntax) {
