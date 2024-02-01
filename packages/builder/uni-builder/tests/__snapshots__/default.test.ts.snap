@@ -321,7 +321,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -366,7 +366,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -417,7 +417,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -427,7 +427,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -472,7 +472,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -482,7 +482,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "lessOptions": {
                     "javascriptEnabled": true,
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
             ],
@@ -533,7 +533,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -592,7 +592,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       [Function],
                     ],
                   },
-                  "sourceMap": false,
+                  "sourceMap": true,
                 },
               },
               {
@@ -892,9 +892,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
-    },
-    RemoveCssSourcemapPlugin {
-      "name": "RemoveCssSourcemapPlugin",
     },
     ProgressPlugin {
       "_options": {
@@ -2177,7 +2174,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2213,7 +2210,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -2237,7 +2234,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2273,7 +2270,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2311,7 +2308,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2347,7 +2344,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   [Function],
                 ],
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
           {
@@ -2357,7 +2354,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "lessOptions": {
                 "javascriptEnabled": true,
               },
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
