@@ -187,20 +187,25 @@ export const setupClientConnection = async (
         );
       });
 
-      const modifyBundlerConfig =
-        api.context.bundlerType === 'webpack'
-          ? api.modifyWebpackConfig
-          : api.modifyRspackConfig;
       const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
-        bundlerConfigs.push(config as JsonValue);
+      const handleBundlerConfig = (config: JsonValue) => {
+        bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(
             _.cloneDeep(bundlerConfigs) as any,
           );
         }
-      });
+      };
+      if (api.context.bundlerType === 'webpack') {
+        api.modifyWebpackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      } else {
+        api.modifyRspackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      }
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
         deferred.bundler.config.transformed.resolve(
