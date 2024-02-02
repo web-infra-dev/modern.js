@@ -22,7 +22,7 @@ const Page: FC = () => {
     .sortBy(['startAt', 'name', 'costs'])
     .sortedUniqBy('name')
     .cloneDeep();
-  console.log('costs: ', costs);
+
   for (const cost of costs) {
     if (cost.name === 'bootstrap->beforeCompile') {
       cost.name = 'prepare';
