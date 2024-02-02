@@ -2,7 +2,7 @@ import lodash from 'lodash';
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
 import type { BabelConfig } from '@rsbuild/babel-preset';
-import { isBeyondReact17 } from '@rsbuild/plugin-react';
+import { isBeyondReact17 } from '@modern-js/utils';
 import {
   SCRIPT_REGEX,
   mergeChainedOptions,
@@ -18,6 +18,20 @@ import {
   type PluginBabelOptions,
 } from '@rsbuild/plugin-babel';
 
+export const getPresetReact = (rootPath: string, isProd: boolean) => {
+  const isNewJsx = isBeyondReact17(rootPath);
+
+  const presetReactOptions = {
+    development: !isProd,
+    // Will use the native built-in instead of trying to polyfill
+    useBuiltIns: true,
+    useSpread: false,
+    runtime: isNewJsx ? 'automatic' : 'classic',
+  };
+
+  return [require.resolve('@babel/preset-react'), presetReactOptions];
+};
+
 export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
   name: 'uni-builder:babel',
   setup(api) {
@@ -32,7 +46,6 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           config,
           target,
         );
-        const isNewJsx = await isBeyondReact17(api.context.rootPath);
 
         const getBabelOptions = (config: NormalizedConfig) => {
           // Create babel util function about include/exclude
@@ -84,18 +97,9 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
             config.performance.transformLodash,
           );
 
-          const presetReactOptions = {
-            development: !isProd,
-            // Will use the native built-in instead of trying to polyfill
-            useBuiltIns: true,
-            useSpread: false,
-            runtime: isNewJsx ? 'automatic' : 'classic',
-          };
-
-          baseBabelConfig.presets?.push([
-            require.resolve('@babel/preset-react'),
-            presetReactOptions,
-          ]);
+          baseBabelConfig.presets?.push(
+            getPresetReact(api.context.rootPath, isProd),
+          );
 
           if (isProd) {
             baseBabelConfig.plugins?.push([
