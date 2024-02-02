@@ -10,15 +10,6 @@
   }
 }
 
-.indicate-card {
-  border-radius: var(--radius-6);
-  box-shadow: var(--shadow-4);
-  padding: var(--space-5);
-  :global(.dark) & {
-    background-color: var(--gray-1);
-  }
-}
-
 .primary-card {
   flex: 4;
   min-width: max-content;

@@ -7,6 +7,8 @@ import {
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
+  findManifest,
+  parseManifest,
 } from '@modern-js/devtools-kit/node';
 import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
@@ -143,6 +145,19 @@ export const setupClientConnection = async (
       Object.assign(ret.announcement, def.announcement);
       return ret;
     },
+    async getDoctorOverview() {
+      const ctx = api.useAppContext();
+      const manifestPath = await findManifest(ctx.distDirectory);
+      const json = await parseManifest(require(manifestPath));
+      const data = {
+        numModules: json.data.moduleGraph.modules.length,
+        numChunks: json.data.chunkGraph.chunks.length,
+        numPackages: json.data.packageGraph.packages.length,
+        summary: json.data.summary,
+        errors: json.data.errors,
+      };
+      return data;
+    },
     echo(content) {
       return content;
     },
@@ -187,20 +202,25 @@ export const setupClientConnection = async (
         );
       });
 
-      const modifyBundlerConfig =
-        api.context.bundlerType === 'webpack'
-          ? api.modifyWebpackConfig
-          : api.modifyRspackConfig;
       const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
-        bundlerConfigs.push(config as JsonValue);
+      const handleBundlerConfig = (config: JsonValue) => {
+        bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(
             _.cloneDeep(bundlerConfigs) as any,
           );
         }
-      });
+      };
+      if (api.context.bundlerType === 'webpack') {
+        api.modifyWebpackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      } else {
+        api.modifyRspackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      }
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
         deferred.bundler.config.transformed.resolve(

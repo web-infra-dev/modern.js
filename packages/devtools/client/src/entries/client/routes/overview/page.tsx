@@ -1,6 +1,4 @@
 import { Box, Flex, Kbd, Link, Text, Theme } from '@radix-ui/themes';
-import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
-import { clsx } from 'clsx';
 import React from 'react';
 import {
   HiOutlineDocumentText,
@@ -19,22 +17,14 @@ import {
   VERSION,
 } from '../state';
 import srcHeading from './heading.svg';
+import '@/components/Card/Indicate.module.scss';
 import styles from './page.module.scss';
+import { IndicateCard } from '@/components/Card';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
   rspack: '@rspack/core',
 } as const;
-
-const IndicateCard: React.FC<
-  BoxProps & React.RefAttributes<HTMLDivElement>
-> = ({ children, className, ...props }) => {
-  return (
-    <Box {...props} className={clsx(styles.indicateCard, className)}>
-      {children}
-    </Box>
-  );
-};
 
 const Page: React.FC = () => {
   const framework = useSnapshot($framework);
@@ -67,13 +57,7 @@ const Page: React.FC = () => {
       >
         <IndicateCard className={styles.primaryCard}>
           <Theme appearance="dark" hasBackground={false} asChild>
-            <Flex
-              gap="2"
-              height="100%"
-              justify="center"
-              direction="column"
-              align="start"
-            >
+            <IndicateCard.Column>
               <img src={srcHeading} style={{ width: '8rem' }} />
               <Flex gap="2">
                 <button type="button">v{VERSION}</button>
@@ -81,7 +65,7 @@ const Page: React.FC = () => {
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}
               </Text>
-            </Flex>
+            </IndicateCard.Column>
           </Theme>
         </IndicateCard>
         <IndicateCard className={styles.infoCard}>

@@ -1,5 +1,8 @@
 import { devtoolsPlugin } from '@modern-js/plugin-devtools';
 import { defineConfig, appTools } from '@modern-js/app-tools';
+import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
+
+const disableClientServer = !process.env.DOCTOR_SERVER;
 
 export default defineConfig({
   runtime: {
@@ -19,6 +22,9 @@ export default defineConfig({
   },
   tools: {
     devServer: {},
+    rspack(config, { appendPlugins }) {
+      appendPlugins(new RsdoctorRspackPlugin({ disableClientServer }));
+    },
   },
-  plugins: [appTools(), devtoolsPlugin()],
+  plugins: [appTools({ bundler: 'experimental-rspack' }), devtoolsPlugin()],
 });
