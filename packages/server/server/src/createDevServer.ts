@@ -294,10 +294,9 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   server.use('*', initFileReader());
   await server.init();
-  const nodeServer = await createNodeServer(server.handle.bind(server), server);
+  const nodeServer = createNodeServer(server.handle.bind(server));
 
   rsbuild?.onDevCompileDone(({ stats }) => {
-    // Reset only when client compile done
     if (stats.toJson({ all: false }).name !== 'server') {
       onRepack(distDir, server.runner, routes);
     }

@@ -8,6 +8,7 @@ import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire } from '@modern-js/utils';
 import type { ServerPlugin } from '@modern-js/server-core';
+import { httpCallBack2HonoMid } from '@modern-js/server-core/base';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
@@ -88,7 +89,6 @@ const createApp = async ({
     if (middlewares && middlewares.length > 0) {
       initMiddlewares(middlewares, app);
     }
-
     app.use(run);
     registerRoutes(router, apiHandlerInfos);
   } else {
@@ -134,7 +134,7 @@ export default (): ServerPlugin => {
       async prepareApiServer({ pwd, render }) {
         const appContext = api.useAppContext();
         const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-        const apiDirectory = appContext.apiDirectory as string;
+        const { apiDirectory } = appContext;
         const userConfig = api.useConfigContext();
         const middlewares = appContext.apiMiddlewares as Middleware[];
         mode = appContext.apiMode as 'function' | 'framework';
@@ -150,9 +150,11 @@ export default (): ServerPlugin => {
           render: renderHtml,
         });
 
-        return (req, res) => {
+        const callback = (req: IncomingMessage, res: ServerResponse) => {
           return Promise.resolve(app.callback()(req, res));
         };
+
+        return httpCallBack2HonoMid(callback);
       },
     }),
   };
