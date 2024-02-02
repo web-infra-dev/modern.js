@@ -27,6 +27,7 @@ import type {
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
+import type { ServerNodeMiddleware } from '../base/types';
 import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
 
 // collect all middleware register in server plugins
@@ -89,7 +90,10 @@ type Change = {
   event: 'add' | 'change' | 'unlink';
 };
 
-const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
+const prepareApiServer = createAsyncPipeline<
+  APIServerStartInput,
+  ServerNodeMiddleware
+>();
 
 const onApiChange = createAsyncWaterfall<Change[]>();
 

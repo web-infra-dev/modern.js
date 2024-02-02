@@ -12,6 +12,7 @@ import {
   injectLogger,
   createErrorHtml,
   loadServerEnv,
+  bindBFFHandler,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
@@ -41,8 +42,11 @@ export const createProdServer = async (
   await loadServerEnv(options);
 
   await server.init();
+  const nodeServer = createNodeServer(server.handle.bind(server));
+  await server.runner.beforeServerInit({
+    app: nodeServer,
+  });
   await initProdMiddlewares(server, options);
-  const nodeServer = createNodeServer(server.handle.bind(server), server);
   return nodeServer;
 };
 
@@ -78,8 +82,12 @@ export const initProdMiddlewares = async (
   server.get('*', staticMiddleware);
   server.get('*', favionFallbackMiddleware);
 
+  await bindBFFHandler(server, {
+    prefix: options.config.bff.prefix,
+    pwd: options.pwd,
+    httpMethodDecider: options.config.bff.httpMethodDecider,
+  });
   await bindDataHandlers(server, routes!, pwd);
-
   await bindRenderHandler(server, options);
 
   return server;

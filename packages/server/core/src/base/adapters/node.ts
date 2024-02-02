@@ -1,7 +1,6 @@
 import { Server as NodeServer, createServer, ServerResponse } from 'node:http';
 import { NodeRequest, NodeResponse } from '@core/plugin';
 import { RequestHandler } from '../types';
-import { ServerBase } from '../serverBase';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,
@@ -133,33 +132,10 @@ const getRequestListener = (handler: RequestHandler) => {
   };
 };
 
-export const createNodeServer = async (
-  handleRequest: RequestHandler,
-  serverBase: ServerBase,
-): Promise<NodeServer> => {
+export const createNodeServer = (handleRequest: RequestHandler): NodeServer => {
   const requestListener = getRequestListener(handleRequest);
   const nodeServer = createServer(requestListener);
-  await afterCreateNodeServer(nodeServer, serverBase);
   return Object.assign(nodeServer, {
     getRequestHandler: () => requestListener,
   });
 };
-
-async function afterCreateNodeServer(
-  nodeServer: NodeServer,
-  serverBase: ServerBase,
-) {
-  await serverBase.runner.beforeServerInit({
-    app: nodeServer,
-  });
-
-  // TODO: need to support
-  // if (!disableHttpServer) {
-  //   this.app = await this.server.createHTTPServer(this.getRequestHandler());
-  // }
-
-  // TODO: 支持 onInit 的功能
-  // await this.server.onInit(this.runner, this.app);
-
-  await serverBase.prepareFrameHandler();
-}

@@ -4,37 +4,24 @@ import {
   OUTPUT_CONFIG_FILE,
   SHARED_DIR,
   ensureAbsolutePath,
-  isWebOnly,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
 import { Hono } from 'hono';
 import {
-  APIServerStartInput,
   AppContext,
   ConfigContext,
   ServerConfig,
   loadPlugins,
   serverManager,
 } from '../core';
-import {
-  ConfWithBFF,
-  HonoEnv,
-  ServerBaseOptions,
-  ServerHookRunner,
-} from './types';
+import { HonoEnv, ServerBaseOptions, ServerHookRunner } from './types';
 import { debug } from './utils';
 import {
   getServerConfigPath,
   loadConfig,
   requireConfig,
 } from './libs/loadConfig';
-import { httpCallBack2HonoMid } from './adapters/hono';
-import {
-  getRuntimeEnv,
-  mergeExtension,
-  createMiddlewareCollecter,
-} from './libs/utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -107,63 +94,6 @@ export class ServerBase<E extends HonoEnv = any> {
     await this.runner.prepare();
 
     return this;
-  }
-
-  // TODO: This function should be private
-  async prepareFrameHandler(options?: {
-    onlyApi?: boolean;
-    onlyWeb?: boolean;
-  }) {
-    const { runner } = this;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { onlyApi, onlyWeb } = options || {};
-
-    // server hook, gather plugin inject
-    const { getMiddlewares, ...collector } = createMiddlewareCollecter();
-
-    await runner.gather(collector);
-    const { api: pluginAPIExt } = getMiddlewares();
-
-    if (!onlyWeb) {
-      const apiExtension = mergeExtension(pluginAPIExt);
-      await this.prepareApiHandler(apiExtension);
-    }
-  }
-
-  private async prepareApiHandler(extension: APIServerStartInput['config']) {
-    const runtimeEnv = getRuntimeEnv();
-    if (runtimeEnv !== 'node') {
-      return;
-    }
-
-    const { workDir, runner, conf } = this;
-    const { bff } = conf as ConfWithBFF;
-    const prefix = bff?.prefix || '/api';
-    const webOnly = await isWebOnly();
-    if (webOnly && process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line consistent-return
-      return this.all(
-        `${prefix}/*`,
-        httpCallBack2HonoMid((req, res) => {
-          res.setHeader('Content-Type', 'text/plain');
-          res.end(JSON.stringify(''));
-        }),
-      );
-    } else {
-      const middleware = await runner.prepareApiServer(
-        {
-          pwd: workDir,
-          config: extension,
-          prefix: Array.isArray(prefix) ? prefix[0] : prefix,
-          httpMethodDecider: bff?.httpMethodDecider,
-          // render: this.render.bind(this),
-        },
-        { onLast: () => null as any },
-      );
-
-      // eslint-disable-next-line consistent-return
-      return this.all(`${prefix}/*`, httpCallBack2HonoMid(middleware));
-    }
   }
 
   private async createHookRunner() {

@@ -21,6 +21,7 @@ export {
 } from './renderHandler';
 export { injectReporter, injectLogger } from './adapters/monitor';
 export * from './middlewares';
+export { bindBFFHandler } from './adapters/bff';
 
 export { httpCallBack2HonoMid, connectMid2HonoMid };
 export type { ServerNodeContext, ServerBaseOptions, Next, Middleware };
