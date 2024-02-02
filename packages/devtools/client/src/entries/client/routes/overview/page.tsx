@@ -1,4 +1,4 @@
-import { Box, Flex, Kbd, Link, Text, Theme } from '@radix-ui/themes';
+import { Box, Flex, Kbd, Link, Text, Theme, Heading } from '@radix-ui/themes';
 import React from 'react';
 import {
   HiOutlineDocumentText,
@@ -16,7 +16,6 @@ import {
   $perf,
   VERSION,
 } from '../state';
-import srcHeading from './heading.svg';
 import '@/components/Card/Indicate.module.scss';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
@@ -58,7 +57,9 @@ const Page: React.FC = () => {
         <IndicateCard className={styles.primaryCard}>
           <Theme appearance="dark" hasBackground={false} asChild>
             <IndicateCard.Column>
-              <img src={srcHeading} style={{ width: '8rem' }} />
+              <Heading as="h1" className={styles.heading}>
+                DevTools
+              </Heading>
               <Flex gap="2">
                 <button type="button">v{VERSION}</button>
               </Flex>
