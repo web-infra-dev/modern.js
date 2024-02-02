@@ -90,12 +90,18 @@ export class CustomServer {
         }
       }
 
+      // TODO: reduce the number of calls
       if (c.finalized) {
         // eslint-disable-next-line consistent-return
         return;
       }
 
       await next();
+
+      if (c.finalized) {
+        // eslint-disable-next-line consistent-return
+        return;
+      }
 
       if (routeInfo.isStream) {
         // run afterStreamingRender hook
