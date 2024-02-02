@@ -15,6 +15,8 @@ const Card: FC<IndicateCardProps> = ({ children, className, ...props }) => {
   );
 };
 
+Card.displayName = 'IndicateCard';
+
 const Column: FC<FlexProps> = props => (
   <Flex
     gap="2"
@@ -25,6 +27,8 @@ const Column: FC<FlexProps> = props => (
     {...props}
   />
 );
+
+Column.displayName = 'IndicateCard.Column';
 
 export const IndicateCard = Object.assign(Card, {
   Column,
