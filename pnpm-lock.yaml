@@ -1647,8 +1647,8 @@ importers:
         specifier: workspace:*
         version: link:../../review/tsconfig
       '@rspress/shared':
-        specifier: 1.10.1
-        version: 1.10.1
+        specifier: 1.11.1
+        version: 1.11.1
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -1659,8 +1659,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        specifier: 1.11.1
+        version: 1.11.1(typescript@5.3.3)(webpack@5.89.0)
 
   packages/document/main-doc:
     dependencies:
@@ -1675,8 +1675,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 1.10.1
-        version: 1.10.1
+        specifier: 1.11.1
+        version: 1.11.1
       '@types/fs-extra':
         specifier: 9.0.13
         version: 9.0.13
@@ -1699,8 +1699,8 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        specifier: 1.11.1
+        version: 1.11.1(typescript@5.3.3)(webpack@5.89.0)
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@16.11.68)(typescript@5.3.3)
@@ -1714,8 +1714,8 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-auto-sidebar
       '@rspress/shared':
-        specifier: 1.10.1
-        version: 1.10.1
+        specifier: 1.11.1
+        version: 1.11.1
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1723,8 +1723,8 @@ importers:
         specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       rspress:
-        specifier: 1.10.1
-        version: 1.10.1(typescript@5.3.3)(webpack@5.89.0)
+        specifier: 1.11.1
+        version: 1.11.1(typescript@5.3.3)(webpack@5.89.0)
 
   packages/generator/generator-cases:
     dependencies:
@@ -1760,8 +1760,8 @@ importers:
   packages/generator/generator-common:
     dependencies:
       '@modern-js/codesmith-formily':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -1770,11 +1770,11 @@ importers:
         version: 0.5.3
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -1800,20 +1800,20 @@ importers:
   packages/generator/generator-plugin:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-git':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-npm':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-formily':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -1880,8 +1880,8 @@ importers:
         version: 0.5.3
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1908,11 +1908,11 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1945,14 +1945,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1988,11 +1988,11 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2022,14 +2022,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2065,14 +2065,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-handlebars':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2108,14 +2108,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2154,14 +2154,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2206,11 +2206,11 @@ importers:
         specifier: workspace:*
         version: link:../changeset-generator
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2252,14 +2252,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2304,14 +2304,14 @@ importers:
         specifier: workspace:*
         version: link:../changeset-generator
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2353,11 +2353,11 @@ importers:
         specifier: workspace:*
         version: link:../base-generator
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2376,9 +2376,6 @@ importers:
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../../cli/plugin-i18n
-      '@modern-js/rspack-generator':
-        specifier: workspace:*
-        version: link:../rspack-generator
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -2405,14 +2402,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2448,11 +2445,11 @@ importers:
         specifier: workspace:*
         version: link:../base-generator
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2497,54 +2494,11 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
-      '@modern-js/dependence-generator':
-        specifier: workspace:*
-        version: link:../dependence-generator
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2)
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  packages/generator/generators/rspack-generator:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../../toolkit/utils
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
-      '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2583,14 +2537,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2626,11 +2580,11 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2669,14 +2623,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2711,14 +2665,14 @@ importers:
   packages/generator/generators/storybook-next-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2757,11 +2711,11 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2797,14 +2751,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2843,14 +2797,14 @@ importers:
         version: link:../../../toolkit/utils
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-api-app':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2882,11 +2836,11 @@ importers:
   packages/generator/new-action:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/codesmith-formily':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -2971,8 +2925,8 @@ importers:
         specifier: workspace:*
         version: link:../generators/base-generator
       '@modern-js/codesmith-api-handlebars':
-        specifier: 2.3.3
-        version: 2.3.3(@modern-js/codesmith@2.3.3)
+        specifier: 2.3.4
+        version: 2.3.4(@modern-js/codesmith@2.3.4)
       '@modern-js/entry-generator':
         specifier: workspace:*
         version: link:../generators/entry-generator
@@ -5059,8 +5013,8 @@ importers:
   packages/toolkit/create:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/generator-plugin-plugin':
         specifier: workspace:*
         version: link:../../generator/plugins/generator-plugin
@@ -5282,8 +5236,8 @@ importers:
   packages/toolkit/upgrade:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 2.3.3
-        version: 2.3.3
+        specifier: 2.3.4
+        version: 2.3.4
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -12144,18 +12098,18 @@ packages:
       redux: 4.2.0
     dev: false
 
-  /@modern-js/codesmith-api-app@2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-x6N8PA9RvJE8+bx6lKyNh4bjWqqqcrHAkBcJVrCiA4wj0Lzf8fuLuGuALEyiSVCX7KURNQuEIO++dR84SAQgCg==}
+  /@modern-js/codesmith-api-app@2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-q9PNdrzYgpDZaiQx0anIf5j2vB8afRhd8h4bnutuZ2E/efUszYsHYJG9SU4xAxEs8pgIZXg2CZ35ecKZkjhZ3A==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
-      '@modern-js/codesmith': 2.3.3
-      '@modern-js/codesmith-api-ejs': 2.3.3(@modern-js/codesmith@2.3.3)
-      '@modern-js/codesmith-api-fs': 2.3.3(@modern-js/codesmith@2.3.3)
-      '@modern-js/codesmith-api-git': 2.3.3(@modern-js/codesmith@2.3.3)
-      '@modern-js/codesmith-api-handlebars': 2.3.3(@modern-js/codesmith@2.3.3)
-      '@modern-js/codesmith-api-npm': 2.3.3
-      '@modern-js/codesmith-formily': 2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3)
+      '@modern-js/codesmith': 2.3.4
+      '@modern-js/codesmith-api-ejs': 2.3.4(@modern-js/codesmith@2.3.4)
+      '@modern-js/codesmith-api-fs': 2.3.4(@modern-js/codesmith@2.3.4)
+      '@modern-js/codesmith-api-git': 2.3.4(@modern-js/codesmith@2.3.4)
+      '@modern-js/codesmith-api-handlebars': 2.3.4(@modern-js/codesmith@2.3.4)
+      '@modern-js/codesmith-api-npm': 2.3.4
+      '@modern-js/codesmith-formily': 2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3)
       '@modern-js/plugin-i18n': 2.37.2
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
@@ -12167,48 +12121,49 @@ packages:
       - typescript
     dev: true
 
-  /@modern-js/codesmith-api-ejs@2.3.3(@modern-js/codesmith@2.3.3):
-    resolution: {integrity: sha512-91JTGDUD81979VJf9jUgb5I3clyvrhk2Ugn1UqCSCtlHZrYQX85Vb3AdUK1O2bKYBZCfDcAKgZqsRtp8SBqRrw==}
+  /@modern-js/codesmith-api-ejs@2.3.4(@modern-js/codesmith@2.3.4):
+    resolution: {integrity: sha512-vgxxq3bCq7wfOMkZscp+Xo8h4uUhoz7RljmoM6xWAygOOupSXNgi8lbcuhxgGhMvEmQpiiZDvq98ALCpseKnfQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@swc/helpers': 0.5.1
       ejs: 3.1.9
     dev: true
 
-  /@modern-js/codesmith-api-fs@2.3.3(@modern-js/codesmith@2.3.3):
-    resolution: {integrity: sha512-Oy2igTHgtLq4hH3TjJcWpqshRCfTrYn1Ugs6ocXIY5kTBbWZM2ZYd4GUjYNcsroAjQjWDaOeBN3j6qtLj7Gg5A==}
+  /@modern-js/codesmith-api-fs@2.3.4(@modern-js/codesmith@2.3.4):
+    resolution: {integrity: sha512-zKNfuo0Fi7t1wFjskUrtrJvFaysMEk9dgwUXxOWMiaaWZM3RFIgtQm4WcjFRDkYjTailA68WWD6OM8LDWJHLnQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
+      '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
     dev: true
 
-  /@modern-js/codesmith-api-git@2.3.3(@modern-js/codesmith@2.3.3):
-    resolution: {integrity: sha512-MJN0qYldf3rSaxwewRYt0Jdum4/SCWQzndynm9zQy0Y8LarFbdjvCN+k3oWhd91gEWn0zpzN008oI7kpz71hog==}
+  /@modern-js/codesmith-api-git@2.3.4(@modern-js/codesmith@2.3.4):
+    resolution: {integrity: sha512-Tc33L3IfMvfBhi3Ry5B2kWooaRAssenPqzc1q2H4VgZo8WJ0OJ/1uN9ymXmld3F9N/UMYxYRB3iHeurcSPlvjQ==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
 
-  /@modern-js/codesmith-api-handlebars@2.3.3(@modern-js/codesmith@2.3.3):
-    resolution: {integrity: sha512-l4lNRkOIummCk4pDrUovrIIWELvaMZGRLw337UbwvLxJ5sJZOIccvebfRImjVxWJpjmtbJxnU7+JRx/yjo0nzQ==}
+  /@modern-js/codesmith-api-handlebars@2.3.4(@modern-js/codesmith@2.3.4):
+    resolution: {integrity: sha512-+hGx0rI9sgR6JqbT97snBA1/5SSwxnL4w2y0p+DMQxJ9fY+XDIWgthvC8pxztXHJWobpHVhNMwcckTUPadRe9w==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@swc/helpers': 0.5.1
       handlebars: 4.7.7
     dev: true
 
-  /@modern-js/codesmith-api-json@2.3.3:
-    resolution: {integrity: sha512-DoaMOME5WX9ur11HGBklKIB8YH+A8tKjiQJf6CJODcipZES61cT9nBIir7NSz0qiRmcrNBHQVGDbssHTLS/mjA==}
+  /@modern-js/codesmith-api-json@2.3.4:
+    resolution: {integrity: sha512-9YooblI8Qs5QLhP7/WppwysnuvJzTo+fCZnaSUU2DyoVvp44oQu4BjPykh7xfprLbtURfKD3zkml3V9abdQHMA==}
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@swc/helpers': 0.5.1
       comment-json: 4.2.3
       declaration-update: 0.0.2
@@ -12216,35 +12171,35 @@ packages:
       - debug
       - supports-color
 
-  /@modern-js/codesmith-api-npm@2.3.3:
-    resolution: {integrity: sha512-5DN/mcTt89YNKdi55tzkiNFYagn7Vei2/DEyB4Ub8mnSlJ+5mUxo/9P+VKMKdflVMzrnxfxxkRG5p3kKOXMhAA==}
+  /@modern-js/codesmith-api-npm@2.3.4:
+    resolution: {integrity: sha512-57OlOLSLU9o9EICsBLG5odqjms3XohOHtWQb74dWHEv1KP/P0pkfh5SysfWiMVPbXSJYM93cFpujl3JJRq93Lg==}
     dependencies:
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
     transitivePeerDependencies:
       - debug
 
-  /@modern-js/codesmith-formily@2.3.3(@modern-js/codesmith@2.3.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-SIJRGYgr0i5PXSK7ZaoAZmAmoKrF+LYB3vV4ijKaESnl8pJRUqwPuxLOvQGIiFb/s6E7VTCrGpiQ7TUlUljS1g==}
+  /@modern-js/codesmith-formily@2.3.4(@modern-js/codesmith@2.3.4)(typescript@5.3.3):
+    resolution: {integrity: sha512-Zkf7JVac6uk+/2loPU7XAj8uRW9Du2oFCpWAzXcvdkbrz5+8h2co0GLtIOB1STHNoHUsDktz8ues9cTi4FgNJA==}
     peerDependencies:
-      '@modern-js/codesmith': ^2.3.3
+      '@modern-js/codesmith': ^2.3.4
     dependencies:
       '@formily/json-schema': 2.2.24(typescript@5.3.3)
       '@formily/validator': 2.2.24
-      '@modern-js/codesmith': 2.3.3
+      '@modern-js/codesmith': 2.3.4
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
       inquirer: 8.2.5
     transitivePeerDependencies:
       - typescript
 
-  /@modern-js/codesmith@2.3.3:
-    resolution: {integrity: sha512-KBmkO05++5UB73DvNsoR9EhGMH1Z9jO9bq4nlDREwonc4XE3dJv6ojQlw9B9JRauG+FzNfp+i2cdqn4AWNPBbA==}
+  /@modern-js/codesmith@2.3.4:
+    resolution: {integrity: sha512-f3khksoM+Lg73iDZzleRXZHftAqTboRxCLHltDvUSsFTVL3Wb6OY7QQWvgjoNkNpQWJmTJo5NkyTfvJJhDPlxA==}
     dependencies:
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
-      axios: 1.6.0
+      axios: 1.6.7
       tar: 6.2.0
     transitivePeerDependencies:
       - debug
@@ -15189,8 +15144,8 @@ packages:
     dependencies:
       react-refresh: 0.14.0
 
-  /@rspress/core@1.10.1(typescript@5.3.3)(webpack@5.89.0):
-    resolution: {integrity: sha512-o45P7J4EDu0X3U0ai7RFYlJpYaUYmGSBxoP8K3KFmDRBugLuhfAmJ7wr7tTfG7nnH5Q8NaMI8/+FmGWYXA5qww==}
+  /@rspress/core@1.11.1(typescript@5.3.3)(webpack@5.89.0):
+    resolution: {integrity: sha512-1lY7q1fHonJYgU4LNSJfiCOZbrIGOIjdbRLgCcn1zNDAMa+LOHPqptu5SQutO+WLCuXIeb7jM8gI9MOuxTdunA==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@loadable/component': 5.15.2(react@18.2.0)
@@ -15202,13 +15157,13 @@ packages:
       '@rsbuild/plugin-react': 0.3.1
       '@rsbuild/plugin-svgr': 0.3.1(typescript@5.3.3)
       '@rspress/mdx-rs': 0.4.3
-      '@rspress/plugin-auto-nav-sidebar': 1.10.1
-      '@rspress/plugin-container-syntax': 1.10.1
-      '@rspress/plugin-last-updated': 1.10.1
-      '@rspress/plugin-medium-zoom': 1.10.1(@rspress/runtime@1.10.1)
-      '@rspress/runtime': 1.10.1
-      '@rspress/shared': 1.10.1
-      '@rspress/theme-default': 1.10.1(webpack@5.89.0)
+      '@rspress/plugin-auto-nav-sidebar': 1.11.1
+      '@rspress/plugin-container-syntax': 1.11.1
+      '@rspress/plugin-last-updated': 1.11.1
+      '@rspress/plugin-medium-zoom': 1.11.1(@rspress/runtime@1.11.1)
+      '@rspress/runtime': 1.11.1
+      '@rspress/shared': 1.11.1
+      '@rspress/theme-default': 1.11.1(webpack@5.89.0)
       body-scroll-lock: 4.0.0-beta.0
       copy-to-clipboard: 3.3.3
       enhanced-resolve: 5.12.0
@@ -15347,50 +15302,50 @@ packages:
       '@rspress/mdx-rs-win32-x64-msvc': 0.4.3
     dev: true
 
-  /@rspress/plugin-auto-nav-sidebar@1.10.1:
-    resolution: {integrity: sha512-mpw2J0qsA2qnUshoT5wd2mV7yx0QiDiQOEqIE8am7g5xxblr4zEoi64xKMBGf8p2RyHd0vNxCXewTSW/PXIREg==}
+  /@rspress/plugin-auto-nav-sidebar@1.11.1:
+    resolution: {integrity: sha512-6XMPbhz19sNHi7UGZbV2xeLaN9lXM65IEI6ScqVBhnU9nbSuIexe2eme1TB7L48Msr8d3Q3du9wHgopR6IyvsQ==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.10.1
+      '@rspress/shared': 1.11.1
     dev: true
 
-  /@rspress/plugin-container-syntax@1.10.1:
-    resolution: {integrity: sha512-Hsnu9FnFOAfpiy+oNTjeaWlUsRdbZg5n7BEzxZpNB3XAIu/49iPKcdR94E5R9jCNzxdkbP9s5z/eiGFoM8gKcQ==}
+  /@rspress/plugin-container-syntax@1.11.1:
+    resolution: {integrity: sha512-n4k2Xtojn3hHpWbAEUmy0n6Ph8Cn55BbZu+2DgA5XrhozDlRZLXE2QWkrcGpdvI0Ux3uixHTTFB8hrp3AaKKBQ==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.10.1
+      '@rspress/shared': 1.11.1
     dev: true
 
-  /@rspress/plugin-last-updated@1.10.1:
-    resolution: {integrity: sha512-nKx0X28QKJTL9VyP2cNw2fHTGHBnx5sFGaTFIoz8d02KPP5dQ4ffg45q2jB0Ndwbod/Wqr4CqTwe0TIlcpN6MA==}
+  /@rspress/plugin-last-updated@1.11.1:
+    resolution: {integrity: sha512-AxtWdCd1+7Dw05gB9f48SyopQLg2MUOZLAN01LdQ85hJMMxbFnJJQRlIEMxWAY3U8x7i7xNw5Km1Jycpoy7Sig==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.10.1
+      '@rspress/shared': 1.11.1
     dev: true
 
-  /@rspress/plugin-medium-zoom@1.10.1(@rspress/runtime@1.10.1):
-    resolution: {integrity: sha512-nGvmdp4LpgTdGOc2S6DfajKpJFFpzmq2rYzcfWl3nB5nvuHnSZ0rOLBfWhjNijTCf/BmAKNtZ1cOQfbkemjUGQ==}
+  /@rspress/plugin-medium-zoom@1.11.1(@rspress/runtime@1.11.1):
+    resolution: {integrity: sha512-IF4BZE78oppsr+jV6x1xWrj8F7bQTd3NzOPRXVSp2EZivdDmTONUJdH4sgd5e32zw7uk9g4P6bM1mN5HKrTqtA==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
       '@rspress/runtime': ^1.0.2
     dependencies:
-      '@rspress/runtime': 1.10.1
+      '@rspress/runtime': 1.11.1
       medium-zoom: 1.0.8
     dev: true
 
-  /@rspress/runtime@1.10.1:
-    resolution: {integrity: sha512-Lg/nIXIxRGKWtgBn92UWKyvqa2jazPZr1PXvEWU82HsK84pfDsdTzgAKUrMOUTvdvExVTsn1kFi/lskIO3/Scg==}
+  /@rspress/runtime@1.11.1:
+    resolution: {integrity: sha512-cSYAbdJTUF7cQ1qk0zvDXYcEtev0ztTSlNVL6lX9GMsYbTk5B+/dwlUbfXDO8e+bnecG5aadWC+FDKKVrGOAqg==}
     engines: {node: '>=14.17.6'}
     dependencies:
-      '@rspress/shared': 1.10.1
+      '@rspress/shared': 1.11.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
       react-router-dom: 6.17.0(react-dom@18.2.0)(react@18.2.0)
     dev: true
 
-  /@rspress/shared@1.10.1:
-    resolution: {integrity: sha512-vXaNOLD+sVHqV8e7T5zxxm6cGX2sO5aRAQ9Ym8llSrvviJu3V+7B9NYdVklF77l1NDmxzEzNBzDK3vwOOgGhMQ==}
+  /@rspress/shared@1.11.1:
+    resolution: {integrity: sha512-kl48IDNRIDwE4aJDvf8kk6VAzGRpn+WsPpEldTYN9Ov5MkwVHL/ejZr0G2AVXR2hvbp6JgsvmLVloAWWFwpi5Q==}
     dependencies:
       '@rsbuild/core': 0.3.1
       chalk: 4.1.2
@@ -15400,13 +15355,13 @@ packages:
       unified: 10.1.2
     dev: true
 
-  /@rspress/theme-default@1.10.1(webpack@5.89.0):
-    resolution: {integrity: sha512-ZpzRoRnzEspnHsdM6lN5xiNrWe4wMVJ5W01+vWYUaZL8H+U6h6At2Xl4AHsboo2E2fxLiT/a6dqSpSPTL3GBsg==}
+  /@rspress/theme-default@1.11.1(webpack@5.89.0):
+    resolution: {integrity: sha512-L4PXzIPxltwlmhdEu3HArxtBz+5NBxU/DfwfFRwVZk7V4MHBljGauhNbORszN0jEaeVYu1mU2DphMyZVAQ+ztw==}
     engines: {node: '>=14.17.6'}
     dependencies:
       '@mdx-js/react': 2.2.1(react@18.2.0)
-      '@rspress/runtime': 1.10.1
-      '@rspress/shared': 1.10.1
+      '@rspress/runtime': 1.11.1
+      '@rspress/shared': 1.11.1
       body-scroll-lock: 4.0.0-beta.0
       copy-to-clipboard: 3.3.3
       flexsearch: 0.6.32
@@ -18362,7 +18317,7 @@ packages:
   /axios@0.27.2:
     resolution: {integrity: sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==}
     dependencies:
-      follow-redirects: 1.15.1
+      follow-redirects: 1.15.5
       form-data: 4.0.0
     transitivePeerDependencies:
       - debug
@@ -18385,7 +18340,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /b-tween@0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
@@ -22288,7 +22242,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: true
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -30468,13 +30421,13 @@ packages:
       fs-extra: 11.2.0
     dev: true
 
-  /rspress@1.10.1(typescript@5.3.3)(webpack@5.89.0):
-    resolution: {integrity: sha512-gH4IXrSn2UfBANnumwa3XIL/pzL9C0rtnM6IJi/wTmsnpira301LwLRQ9uf9i7IyRA4p2uypfTGyyDryylJ2FQ==}
+  /rspress@1.11.1(typescript@5.3.3)(webpack@5.89.0):
+    resolution: {integrity: sha512-DqljMUuCGsdJBoPPknInPgYDQIrRQJnNeJdM9kansOl1oWjAPhYfGDKcHqDFEMBDRSqm3UW5EMsVTi6Ta6kKgQ==}
     hasBin: true
     dependencies:
       '@modern-js/node-bundle-require': link:packages/toolkit/node-bundle-require
-      '@rspress/core': 1.10.1(typescript@5.3.3)(webpack@5.89.0)
-      '@rspress/shared': 1.10.1
+      '@rspress/core': 1.11.1(typescript@5.3.3)(webpack@5.89.0)
+      '@rspress/shared': 1.11.1
       cac: 6.7.14
       chalk: 5.3.0
       chokidar: 3.5.3
