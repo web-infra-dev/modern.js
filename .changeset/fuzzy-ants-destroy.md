@@ -1,5 +1,4 @@
 ---
-'@modern-js/rspack-generator': patch
 '@modern-js/generator-common': patch
 ---
 
