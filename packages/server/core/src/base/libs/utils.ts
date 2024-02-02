@@ -1,5 +1,4 @@
 import { MaybeAsync } from '@modern-js/plugin';
-import { HonoRequest } from '../types';
 
 export const getRuntimeEnv = () => {
   if (global?.process?.release?.name === 'node') {
@@ -93,10 +92,11 @@ export const createErrorHtml = (status: number) => {
   `;
 };
 
-export const getHost = (req: HonoRequest) => {
-  let host = req.header('X-Forwarded-Host');
+export const getHost = (req: Request) => {
+  const { headers } = req;
+  let host = headers.get('X-Forwarded-Host');
   if (!host) {
-    host = req.header('Host');
+    host = headers.get('Host');
   }
   host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
   // the host = '',if we can't cat Host or X-Forwarded-Host header

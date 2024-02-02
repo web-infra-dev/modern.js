@@ -37,7 +37,7 @@ class BaseHookRequest implements ModernRequest {
   }
 
   get host(): string {
-    return getHost(this.req);
+    return getHost(this.req.raw);
   }
 
   get pathname(): string {

@@ -1,23 +1,17 @@
 import path from 'path';
 import { existsSync } from 'fs';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import { SERVER_DIR, cutNameByHyphen } from '@modern-js/utils';
+import { SERVER_DIR } from '@modern-js/utils';
 import { ServerRoute, Metrics } from '@modern-js/types';
-import {
-  HonoRequest,
-  Middleware,
-  ServerBaseOptions,
-  HonoNodeEnv,
-} from '../types';
+import { Middleware, ServerBaseOptions, HonoNodeEnv } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
 import { checkIsProd, getRuntimeEnv } from '../libs/utils';
-import { createSSRHandler } from './ssrHandler';
 import { ssrCache } from './ssrCache';
+import { createRender } from './render';
 
 export interface CreateRenderHOptions {
-  routeInfo: ServerRoute;
+  routes: ServerRoute[];
   pwd: string;
   metaName: string;
   // for use-loader api when ssg
@@ -28,71 +22,24 @@ export interface CreateRenderHOptions {
 async function createRenderHandler(
   options: CreateRenderHOptions,
 ): Promise<Middleware<HonoNodeEnv>> {
-  const {
-    forceCSR,
-    metaName,
-    routeInfo,
+  const { forceCSR, metaName, routes, pwd, staticGenerate = false } = options;
+
+  const render = createRender({
+    routes,
     pwd,
-    staticGenerate = false,
-  } = options;
+    staticGenerate,
+    metaName,
+    forceCSR,
+  });
 
   return async (c, _) => {
-    const htmlPath = path.join(pwd, routeInfo.entryPath);
-    const html = (await fileReader.readFile(htmlPath))?.toString();
-
-    if (!html) {
-      throw new Error(`Can't found html in the path: ${htmlPath}`);
-    }
-
-    const renderMode = getRenderMode(
-      c.req,
-      metaName,
-      routeInfo.isSSR,
-      forceCSR,
-    );
-
     const logger = c.get('logger');
-    const handler =
-      renderMode === 'csr'
-        ? createCSRHandler(html)
-        : await createSSRHandler({
-            pwd,
-            html,
-            staticGenerate,
-            mode: routeInfo.isStream ? 'stream' : 'string',
-            routeInfo,
-            metaName,
-            logger,
-          });
+    const response = c.req.raw;
+    response.$logger = logger;
 
-    return handler(c, _);
+    const res = await render(c.req.raw);
+    return res;
   };
-}
-
-function createCSRHandler(html: string): Middleware {
-  return async c => {
-    return c.html(html);
-  };
-}
-
-function getRenderMode(
-  req: HonoRequest,
-  framework: string,
-  isSSR?: boolean,
-  forceCSR?: boolean,
-): 'ssr' | 'csr' {
-  if (isSSR) {
-    if (
-      forceCSR &&
-      (req.query('csr') ||
-        req.header(`x-${cutNameByHyphen(framework)}-ssr-fallback`))
-    ) {
-      return 'csr';
-    }
-    return 'ssr';
-  } else {
-    return 'csr';
-  }
 }
 
 export type BindRenderHandleOptions = {
@@ -134,14 +81,6 @@ export async function bindRenderHandler(
         ? `${originUrlPath}*`
         : `${originUrlPath}/*`;
 
-      const handler = await createRenderHandler({
-        pwd,
-        routeInfo: route,
-        staticGenerate: options.staticGenerate,
-        forceCSR,
-        metaName: options.metaName || 'modern-js',
-      });
-
       const customServerHookMiddleware = customServer.getHookMiddleware(
         entryName || 'main',
         routes,
@@ -159,7 +98,16 @@ export async function bindRenderHandler(
         const customServerMiddleware = customServer.getServerMiddleware();
         server.use(urlPath, customServerMiddleware);
       }
-      server.get(urlPath, handler);
     }
+
+    const renderHandler = await createRenderHandler({
+      pwd,
+      routes: pageRoutes,
+      staticGenerate: options.staticGenerate,
+      forceCSR,
+      metaName: options.metaName || 'modern-js',
+    });
+
+    server.get('*', renderHandler);
   }
 }

@@ -1,16 +1,15 @@
 import { ServerTiming as ServerTimingInterafce } from '@modern-js/types';
-import { HonoContext } from '../types';
 
 const SERVER_TIMING = 'Server-Timing';
 
 export class ServerTiming implements ServerTimingInterafce {
-  c: HonoContext;
+  private headers: Headers;
 
-  meta: string;
+  private meta: string;
 
-  constructor(c: HonoContext, meta: string) {
+  constructor(headers: Headers, meta: string) {
     this.meta = meta;
-    this.c = c;
+    this.headers = headers;
   }
 
   addServeTiming(name: string, dur: number, desc?: string) {
@@ -19,7 +18,7 @@ export class ServerTiming implements ServerTimingInterafce {
 
     const value = `${_name};${desc ? `decs="${desc}";` : ''} dur=${dur}`;
 
-    this.c.header(SERVER_TIMING, value);
+    this.headers.append(SERVER_TIMING, value);
     return this;
   }
 }
