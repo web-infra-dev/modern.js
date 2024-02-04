@@ -1,5 +1,6 @@
 import { ServerRoute } from '@modern-js/types';
-import { Metrics, Middleware, ServerHookRunner, HonoNodeEnv } from '../types';
+import { ServerHookRunner } from '@core/plugin';
+import { Metrics, Middleware, HonoNodeEnv } from '../types';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,

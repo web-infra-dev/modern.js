@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-lines */
 import { IncomingMessage, ServerResponse, Server, createServer } from 'http';
 import path from 'path';
@@ -332,8 +333,8 @@ export class ModernServer implements ModernServerInterface {
     }
 
     if (!onlyWeb) {
-      const apiExtension = mergeExtension(pluginAPIExt);
-      this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
+      // const apiExtension = mergeExtension(pluginAPIExt);
+      // this.frameAPIHandler = await this.prepareAPIHandler(apiExtension);
     }
   }
 
@@ -353,28 +354,28 @@ export class ModernServer implements ModernServerInterface {
     return handler;
   }
 
-  protected async prepareAPIHandler(extension: APIServerStartInput['config']) {
-    const { workDir, runner, conf } = this;
-    const { bff } = conf as ConfWithBFF;
-    const prefix = bff?.prefix || '/api';
-    const webOnly = await isWebOnly();
-    if (webOnly && process.env.NODE_ENV === 'development') {
-      return (req: NodeRequest, res: NodeResponse) => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.end(JSON.stringify(''));
-      };
-    }
-    return runner.prepareApiServer(
-      {
-        pwd: workDir,
-        config: extension,
-        prefix: Array.isArray(prefix) ? prefix[0] : prefix,
-        httpMethodDecider: bff?.httpMethodDecider,
-        render: this.render.bind(this),
-      },
-      { onLast: () => null as any },
-    );
-  }
+  // protected async prepareAPIHandler(extension: APIServerStartInput['config']) {
+  //   const { workDir, runner, conf } = this;
+  //   const { bff } = conf as ConfWithBFF;
+  //   const prefix = bff?.prefix || '/api';
+  //   const webOnly = await isWebOnly();
+  //   if (webOnly && process.env.NODE_ENV === 'development') {
+  //     return (req: NodeRequest, res: NodeResponse) => {
+  //       res.setHeader('Content-Type', 'text/plain');
+  //       res.end(JSON.stringify(''));
+  //     };
+  //   }
+  //   return runner.prepareApiServer(
+  //     {
+  //       pwd: workDir,
+  //       config: extension,
+  //       prefix: Array.isArray(prefix) ? prefix[0] : prefix,
+  //       httpMethodDecider: bff?.httpMethodDecider,
+  //       render: this.render.bind(this),
+  //     },
+  //     { onLast: () => null as any },
+  //   );
+  // }
 
   protected filterRoutes(routes: ModernRouteInterface[]) {
     return routes;

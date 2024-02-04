@@ -12,19 +12,19 @@ export type {
 } from 'hono';
 
 // TODO: should in adapter
-type Bindings = {
-  node?: {
+type NodeBindings = {
+  node: {
     req: NodeRequest;
     res: NodeResponse;
   };
 };
 
-type Variables = {
+type NodeVariables = {
   reporter: Reporter;
   logger: Logger;
 };
 
 export type HonoNodeEnv = {
-  Bindings: Bindings;
-  Variables: Variables;
+  Bindings: NodeBindings;
+  Variables: NodeVariables;
 };
