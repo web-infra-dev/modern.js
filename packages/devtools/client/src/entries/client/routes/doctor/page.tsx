@@ -46,7 +46,9 @@ const Page: FC = () => {
       >
         <IndicateCard className={styles.primaryCard}>
           <IndicateCard.Column>
-            <Text>Rsdoctor</Text>
+            <Heading as="h1" className={styles.heading}>
+              Rsdoctor
+            </Heading>
             <Flex gap="2">
               <button type="button">v1.2.0</button>
             </Flex>
