@@ -1,6 +1,6 @@
 import path from 'path';
 import { Readable } from 'stream';
-import { ServerRoute } from '@modern-js/types';
+import { Logger, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
@@ -14,6 +14,7 @@ import { REPLACE_REG } from '../libs/constants';
 import { createReadableStreamFromReadable } from '../adapters/stream';
 import { parseHeaders, parseQuery } from '../libs/request';
 import { ServerTiming } from '../libs/serverTiming';
+import { ssrCache } from './ssrCache';
 
 interface SSRRenderOptions {
   pwd: string;
@@ -26,7 +27,7 @@ interface SSRRenderOptions {
 }
 
 export async function ssrRender(
-  req: Request,
+  request: Request,
   { routeInfo, pwd, html, staticGenerate, nonce, metaName }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -49,12 +50,12 @@ export async function ssrRender(
     // ignore error
   }
 
-  const host = getHost(req);
-  const isSpider = isbot.default(req.headers.get('user-agent'));
+  const host = getHost(request);
+  const isSpider = isbot.default(request.headers.get('user-agent'));
   const responseProxy = new ResponseProxy();
 
-  const query = parseQuery(req.url);
-  const headers = parseHeaders(req.headers);
+  const query = parseQuery(request);
+  const headers = parseHeaders(request);
 
   const ssrContext: SSRServerContext = {
     request: {
@@ -62,10 +63,10 @@ export async function ssrRender(
       // TODO: pasre params
       params: {} as Record<string, string>,
       // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
-      pathname: new URL(req.url).pathname,
+      pathname: new URL(request.url).pathname,
       host,
       query,
-      url: req.url,
+      url: request.url,
       headers,
     },
     response: {
@@ -82,7 +83,7 @@ export async function ssrRender(
     routeManifest, // for streaming ssr
     entryName: entryName!,
     staticGenerate,
-    logger: req.$logger,
+    logger: request.$logger,
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: defaultReporter,
     /** @deprecated node req */
@@ -95,9 +96,23 @@ export async function ssrRender(
 
   const jsBundle = await import(jsBundlePath);
 
-  const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
+  const incomingMessage = request.$incomingMessage
+    ? request.$incomingMessage
+    : new IncomingMessgeProxy(request);
+  const cacheControl = await ssrCache.matchCacheControl(incomingMessage as any);
 
-  const ssrResult = await render(ssrContext);
+  let ssrResult: Awaited<ReturnType<ServerRender>>;
+  const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
+  if (cacheControl) {
+    ssrResult = await ssrCache.getCache(
+      request,
+      cacheControl,
+      render,
+      ssrContext,
+    );
+  } else {
+    ssrResult = await render(ssrContext);
+  }
 
   const { redirection } = ssrContext;
 
@@ -164,5 +179,28 @@ class ResponseProxy {
 
   constructor() {
     this.headers.set('content-type', 'text/html; charset=UTF-8');
+  }
+}
+
+class IncomingMessgeProxy {
+  logger: Logger;
+
+  headers: Record<string, string | undefined> = {};
+
+  readonly method: string | undefined;
+
+  readonly url: string | undefined;
+
+  constructor(req: Request) {
+    this.logger = req.$logger;
+
+    req.headers.forEach((value, key) => {
+      this.headers[key] = value;
+    });
+
+    this.method = req.method;
+
+    // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+    this.url = new URL(req.url).pathname;
   }
 }

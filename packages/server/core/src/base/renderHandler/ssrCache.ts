@@ -9,9 +9,10 @@ import type {
   Container,
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
-import { HonoRequest, SSRServerContext, ServerRender } from '../types';
+import type { SSRServerContext, ServerRender } from '../types';
 import { createReadableStreamFromReadable } from '../adapters/stream';
 import { createTransformStream } from '../libs/utils';
+import { getPathname } from '../libs/request';
 
 interface CacheStruct {
   val: string;
@@ -26,7 +27,7 @@ class CacheManager {
   }
 
   async getCacheResult(
-    req: HonoRequest,
+    req: Request,
     cacheControl: CacheControl,
     render: ServerRender,
     ssrContext: SSRServerContext,
@@ -106,8 +107,8 @@ class CacheManager {
     }
   }
 
-  private computedKey(req: HonoRequest, cacheControl: CacheControl): string {
-    const pathname = req.path;
+  private computedKey(req: Request, cacheControl: CacheControl): string {
+    const pathname = getPathname(req);
     const { customKey } = cacheControl;
 
     // we use `pathname.replace(/\/+$/, '')` to remove the '/' with end.
@@ -200,7 +201,7 @@ class ServerCache {
   }
 
   getCache(
-    req: HonoRequest,
+    req: Request,
     cacheControl: CacheControl,
     render: ServerRender,
     ssrContext: SSRServerContext,

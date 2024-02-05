@@ -1,37 +1,16 @@
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
-import { ServerRoute, Metrics } from '@modern-js/types';
+import { Metrics } from '@modern-js/types';
 import { Middleware, ServerBaseOptions, HonoNodeEnv } from '../types';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
 import { checkIsProd, getRuntimeEnv } from '../libs/utils';
 import { ssrCache } from './ssrCache';
-import { createRender } from './render';
+import { Render, createRender } from './render';
 
-export interface CreateRenderHOptions {
-  routes: ServerRoute[];
-  pwd: string;
-  metaName: string;
-  // for use-loader api when ssg
-  staticGenerate?: boolean;
-  forceCSR?: boolean;
-}
-
-async function createRenderHandler(
-  options: CreateRenderHOptions,
-): Promise<Middleware<HonoNodeEnv>> {
-  const { forceCSR, metaName, routes, pwd, staticGenerate = false } = options;
-
-  const render = createRender({
-    routes,
-    pwd,
-    staticGenerate,
-    metaName,
-    forceCSR,
-  });
-
+function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {
     const logger = c.get('logger');
     const response = c.req.raw;
@@ -100,14 +79,14 @@ export async function bindRenderHandler(
       }
     }
 
-    const renderHandler = await createRenderHandler({
+    const render = createRender({
+      routes,
       pwd,
-      routes: pageRoutes,
       staticGenerate: options.staticGenerate,
-      forceCSR,
       metaName: options.metaName || 'modern-js',
+      forceCSR,
     });
 
-    server.get('*', renderHandler);
+    server.get('*', createRenderHandler(render));
   }
 }

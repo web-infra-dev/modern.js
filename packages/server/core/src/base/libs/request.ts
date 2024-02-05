@@ -1,4 +1,5 @@
-export function parseQuery(url: string) {
+export function parseQuery(request: Request) {
+  const { url } = request;
   const q = url.split('?')[1];
 
   const query: Record<string, string> = {};
@@ -13,11 +14,18 @@ export function parseQuery(url: string) {
   return query;
 }
 
-export function parseHeaders(headers: Headers) {
+export function parseHeaders(request: Request) {
   const headersData: Record<string, string | undefined> = {};
-  headers.forEach((value, key) => {
+  request.headers.forEach((value, key) => {
     headersData[key] = value;
   });
 
   return headersData;
+}
+
+// fork from hono
+export function getPathname(request: Request): string {
+  // Optimized: RegExp is faster than indexOf() + slice()
+  const match = request.url.match(/^https?:\/\/[^/]+(\/[^?]*)/);
+  return match ? match[1] : '/';
 }

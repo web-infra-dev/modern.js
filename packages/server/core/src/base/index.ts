@@ -14,7 +14,6 @@ import { registerMockHandlers } from './adapters/mock';
 export { createErrorHtml } from './libs/utils';
 
 export { createStaticMiddleware } from './adapters/serverStatic';
-export type { CreateRenderHOptions } from './renderHandler';
 export {
   bindRenderHandler,
   type BindRenderHandleOptions,

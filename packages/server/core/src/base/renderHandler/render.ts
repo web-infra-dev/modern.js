@@ -1,4 +1,5 @@
 import path from 'path';
+import { IncomingMessage } from 'http';
 import { Logger, ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
@@ -9,10 +10,11 @@ import { ssrRender } from './ssrRender';
 declare global {
   interface Request {
     $logger: Logger;
+    $incomingMessage?: IncomingMessage;
   }
 }
 
-type Render = (request: Request) => Promise<Response>;
+export type Render = (request: Request) => Promise<Response>;
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
@@ -90,7 +92,7 @@ function getRenderMode(
   isSSR?: boolean,
   forceCSR?: boolean,
 ): 'ssr' | 'csr' {
-  const query = parseQuery(req.url);
+  const query = parseQuery(req);
 
   if (isSSR) {
     if (
