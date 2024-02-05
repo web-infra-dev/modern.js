@@ -1,6 +1,14 @@
 import { FC } from 'react';
 import { useSnapshot } from 'valtio';
-import { Box, Flex, Heading, Link, Text, Theme } from '@radix-ui/themes';
+import {
+  Box,
+  Flex,
+  Heading,
+  HoverCard,
+  Link,
+  Text,
+  Theme,
+} from '@radix-ui/themes';
 import {
   HiChartBar,
   HiLink,
@@ -17,22 +25,67 @@ import { $doctor } from './state';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
 
+interface SummaryCostsData {
+  title: string;
+  name: string;
+  startAt: number;
+  costs: number;
+}
+
+const WEBPACK_HOOKS_PREFIX = 'https://webpack.js.org/api/compiler-hooks';
+
+const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
+  const [leftHook, rightHook] = cost.name.split('->');
+  const [leftHref, rightHref] = [leftHook, rightHook].map(hook =>
+    ['bootstrap', 'done'].includes(hook)
+      ? undefined
+      : `${WEBPACK_HOOKS_PREFIX}#${hook.toLowerCase()}`,
+  );
+  return (
+    <HoverCard.Root>
+      <HoverCard.Trigger>
+        <Box className={styles.costBox} style={{ flex: cost.costs }}>
+          <Text
+            size="1"
+            color="gray"
+            className={clsx(styles.textTruncation, styles.costLabel)}
+          >
+            {_.startCase(cost.title)}({cost.costs}ms)
+          </Text>
+          <Box className={styles.costBar} />
+        </Box>
+      </HoverCard.Trigger>
+      <HoverCard.Content size="1">
+        <Text size="1" color="gray">
+          <Link target="_blank" href={leftHref}>
+            {leftHook}
+          </Link>
+          <Text> ···{cost.costs}ms··· </Text>
+          <Link target="_blank" href={rightHref}>
+            {rightHook}
+          </Link>
+        </Text>
+      </HoverCard.Content>
+    </HoverCard.Root>
+  );
+};
+
 const Page: FC = () => {
   const doctor = useSnapshot($doctor);
-  const costs = _(doctor.summary.costs)
+  const costs: SummaryCostsData[] = _(doctor.summary.costs)
     .sortBy(['startAt', 'name', 'costs'])
     .sortedUniqBy('name')
-    .cloneDeep();
-
-  for (const cost of costs) {
-    if (cost.name === 'bootstrap->beforeCompile') {
-      cost.name = 'prepare';
-    } else if (cost.name === 'beforeCompile->afterCompile') {
-      cost.name = 'compile';
-    } else if (cost.name === 'afterCompile->done') {
-      cost.name = 'optimize';
-    }
-  }
+    .cloneDeep()
+    .map(cost => {
+      if (cost.name === 'bootstrap->beforeCompile') {
+        return { ...cost, title: 'prepare' };
+      } else if (cost.name === 'beforeCompile->afterCompile') {
+        return { ...cost, title: 'compile' };
+      } else if (cost.name === 'afterCompile->done') {
+        return { ...cost, title: 'optimize' };
+      }
+      return { ...cost, title: 'unknown' };
+    });
 
   const errors = _.groupBy(doctor.errors, 'description');
 
@@ -104,20 +157,7 @@ const Page: FC = () => {
             </Flex>
             <Flex width="100%" gap="1">
               {costs.map(cost => (
-                <Box
-                  key={cost.name}
-                  className={styles.costBox}
-                  style={{ flex: cost.costs }}
-                >
-                  <Text
-                    size="1"
-                    color="gray"
-                    className={clsx(styles.textTruncation, styles.costLabel)}
-                  >
-                    {_.startCase(cost.name)} ({cost.costs}ms)
-                  </Text>
-                  <Box className={styles.costBar} />
-                </Box>
+                <GraphBar key={cost.name} cost={cost} />
               ))}
             </Flex>
           </IndicateCard.Column>
