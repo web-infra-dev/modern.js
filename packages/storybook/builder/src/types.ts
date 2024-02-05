@@ -1,12 +1,8 @@
-import type { BuilderConfig as WebpackBuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
-import { BuilderPlugin } from '@modern-js/builder-shared';
+import type { RsbuildPlugin, RsbuildConfig } from '@rsbuild/shared';
 
 export type BundlerType = 'webpack' | 'rspack';
 
-export type { WebpackBuilderConfig, RspackBuilderConfig };
-
-export type AllBuilderConfig = WebpackBuilderConfig | RspackBuilderConfig;
+export type AllBuilderConfig = RsbuildConfig;
 
 export type BuilderOptions = {
   bundler?: BundlerType;
@@ -15,7 +11,8 @@ export type BuilderOptions = {
 };
 
 export type BuilderConfig = AllBuilderConfig & {
-  builderPlugins?: BuilderPlugin[];
+  builderPlugins?: RsbuildPlugin[];
 };
 
-export { defineConfig } from '@modern-js/builder/cli';
+// TODO
+export { defineConfig } from '@rsbuild/core';

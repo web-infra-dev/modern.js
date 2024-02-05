@@ -1,8 +1,8 @@
 import { join, resolve } from 'path';
 import type { Options } from '@storybook/types';
+import { UniBuilderConfig } from '@modern-js/uni-builder';
 import { getConfig } from './build';
 import { STORYBOOK_CONFIG_ENTRY } from './utils';
-import { BuilderConfig } from './types';
 
 export const previewMainTemplate = () => {
   return require.resolve('@modern-js/storybook-builder/templates/preview.ejs');
@@ -38,10 +38,9 @@ export const entries = async (_: unknown, options: Options) => {
 };
 
 export const modern = (
-  builderConfig: BuilderConfig,
+  builderConfig: UniBuilderConfig,
   options: Options,
-): BuilderConfig => {
-  // @ts-expect-error
+): UniBuilderConfig => {
   return {
     ...builderConfig,
 
