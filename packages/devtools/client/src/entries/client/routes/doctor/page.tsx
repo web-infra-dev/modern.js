@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { useSnapshot } from 'valtio';
-import { Box, Flex, Heading, Link, Text } from '@radix-ui/themes';
+import { Box, Flex, Heading, Link, Text, Theme } from '@radix-ui/themes';
 import {
+  HiChartBar,
   HiLink,
   HiMiniArchiveBox,
   HiMiniExclamationCircle,
@@ -45,20 +46,22 @@ const Page: FC = () => {
         className={styles.container}
       >
         <IndicateCard className={styles.primaryCard}>
-          <IndicateCard.Column>
-            <Heading as="h1" className={styles.heading}>
-              Rsdoctor
-            </Heading>
-            <Flex gap="2">
-              <button type="button">v1.2.0</button>
-            </Flex>
-            <Text as="p" size="1">
-              Click to open panel with complete features.
-            </Text>
-          </IndicateCard.Column>
+          <Theme appearance="light" hasBackground={false} asChild>
+            <IndicateCard.Column>
+              <Heading as="h1" color="gray" className={styles.heading}>
+                Rsdoctor
+              </Heading>
+              <Flex gap="2">
+                <button type="button">v1.2.0</button>
+              </Flex>
+              <Text as="p" color="gray" size="1">
+                Click to open panel with complete features.
+              </Text>
+            </IndicateCard.Column>
+          </Theme>
         </IndicateCard>
         <IndicateCard className={styles.infoCard}>
-          <Flex align="center" height="100%" gap="2">
+          <Flex justify="between" gap="2" align="center" height="100%">
             <Box>
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
@@ -93,7 +96,12 @@ const Page: FC = () => {
         </IndicateCard>
         <IndicateCard className={styles.compileCostCard}>
           <IndicateCard.Column>
-            <Heading>Compile Overall</Heading>
+            <Flex asChild align="center" gap="1">
+              <Heading as="h3" size="2" color="gray">
+                <HiChartBar />
+                Compile Overall
+              </Heading>
+            </Flex>
             <Flex width="100%" gap="1">
               {costs.map(cost => (
                 <Box
@@ -103,6 +111,7 @@ const Page: FC = () => {
                 >
                   <Text
                     size="1"
+                    color="gray"
                     className={clsx(styles.textTruncation, styles.costLabel)}
                   >
                     {_.startCase(cost.name)} ({cost.costs}ms)
@@ -115,7 +124,7 @@ const Page: FC = () => {
         </IndicateCard>
         <IndicateCard width="100%">
           <IndicateCard.Column>
-            <Text weight="bold" size="1">
+            <Text weight="bold" size="1" color="gray">
               Found {_.size(errors)} {_.size(errors) > 1 ? 'errors' : 'error'}
             </Text>
             {Object.entries(errors).map(([desc, errs]) => (

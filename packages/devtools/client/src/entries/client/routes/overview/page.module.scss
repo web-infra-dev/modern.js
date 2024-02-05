@@ -1,5 +1,6 @@
 .container {
   max-width: 40rem;
+  width: 100%;
 }
 
 .bottom-tip {
@@ -13,10 +14,7 @@
 .primary-card {
   flex: 4;
   min-width: max-content;
-  background-color: var(--blue-9);
-  :global(.dark) & {
-    background-color: var(--blue-10);
-  }
+  background-color: var(--blue-10);
   button {
     border: none;
     border-radius: var(--radius-thumb);
