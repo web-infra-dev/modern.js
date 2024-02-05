@@ -119,7 +119,12 @@ export const pluginTsLoader = (
           .test(TS_REGEX)
           .use(CHAIN_ID.USE.BABEL)
           .loader(require.resolve('babel-loader'))
-          .options(babelLoaderOptions)
+          .options({
+            ...babelLoaderOptions,
+            // fix repeatedly insert babel plugin in some boundary cases
+            plugins: [...(babelLoaderOptions.plugins || [])],
+            presets: [...(babelLoaderOptions.presets || [])],
+          })
           .end()
           .use(CHAIN_ID.USE.TS)
           .loader(require.resolve('ts-loader'))
