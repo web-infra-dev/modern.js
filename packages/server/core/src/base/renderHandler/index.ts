@@ -13,10 +13,10 @@ import { Render, createRender } from './render';
 function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {
     const logger = c.get('logger');
-    const response = c.req.raw;
-    response.$logger = logger;
+    const request = c.req.raw;
+    const nodeReq = c.env.node?.req;
 
-    const res = await render(c.req.raw);
+    const res = await render(request, { logger, nodeReq });
     return res;
   };
 }

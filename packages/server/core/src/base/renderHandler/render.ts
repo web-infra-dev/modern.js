@@ -7,14 +7,15 @@ import { parseQuery } from '../libs/request';
 import { createErrorHtml } from '../libs/utils';
 import { ssrRender } from './ssrRender';
 
-declare global {
-  interface Request {
-    $logger: Logger;
-    $incomingMessage?: IncomingMessage;
-  }
+export interface RenderOptions {
+  logger: Logger;
+  nodeReq?: IncomingMessage;
 }
 
-export type Render = (request: Request) => Promise<Response>;
+export type Render = (
+  request: Request,
+  options: RenderOptions,
+) => Promise<Response>;
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
@@ -33,7 +34,7 @@ export function createRender({
   forceCSR,
   nonce,
 }: CreateRenderOptions): Render {
-  return async req => {
+  return async (req, { logger, nodeReq }) => {
     const routeInfo = matchRoute(req, routes);
 
     if (!routeInfo) {
@@ -70,6 +71,8 @@ export function createRender({
           staticGenerate: staticGenerate || false,
           metaName: metaName || 'modern-js',
           nonce,
+          logger,
+          nodeReq,
         });
   };
 }

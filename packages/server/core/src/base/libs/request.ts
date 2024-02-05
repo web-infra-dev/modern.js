@@ -23,7 +23,14 @@ export function parseHeaders(request: Request) {
   return headersData;
 }
 
-// fork from hono
+/**
+ * The function is modified based on
+ * https://github.com/honojs/hono/blob/main/src/utils/url.ts
+ *
+ * MIT Licensed
+ * https://github.com/honojs/hono/blob/main/LICENSE
+ *
+ */
 export function getPathname(request: Request): string {
   // Optimized: RegExp is faster than indexOf() + slice()
   const match = request.url.match(/^https?:\/\/[^/]+(\/[^?]*)/);

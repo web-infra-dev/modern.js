@@ -1,5 +1,6 @@
 import path from 'path';
 import { Readable } from 'stream';
+import type { IncomingMessage } from 'http';
 import { Logger, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
@@ -23,12 +24,23 @@ interface SSRRenderOptions {
   routeInfo: ServerRoute;
   staticGenerate: boolean;
   metaName: string;
+  logger: Logger;
+  nodeReq?: IncomingMessage;
   nonce?: string;
 }
 
 export async function ssrRender(
   request: Request,
-  { routeInfo, pwd, html, staticGenerate, nonce, metaName }: SSRRenderOptions,
+  {
+    routeInfo,
+    pwd,
+    html,
+    staticGenerate,
+    nonce,
+    metaName,
+    logger,
+    nodeReq,
+  }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
   const jsBundlePath = path.join(pwd, routeInfo.bundle!);
@@ -83,7 +95,7 @@ export async function ssrRender(
     routeManifest, // for streaming ssr
     entryName: entryName!,
     staticGenerate,
-    logger: request.$logger,
+    logger,
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: defaultReporter,
     /** @deprecated node req */
@@ -96,9 +108,7 @@ export async function ssrRender(
 
   const jsBundle = await import(jsBundlePath);
 
-  const incomingMessage = request.$incomingMessage
-    ? request.$incomingMessage
-    : new IncomingMessgeProxy(request);
+  const incomingMessage = nodeReq ? nodeReq : new IncomingMessgeProxy(request);
   const cacheControl = await ssrCache.matchCacheControl(incomingMessage as any);
 
   let ssrResult: Awaited<ReturnType<ServerRender>>;
@@ -183,8 +193,6 @@ class ResponseProxy {
 }
 
 class IncomingMessgeProxy {
-  logger: Logger;
-
   headers: Record<string, string | undefined> = {};
 
   readonly method: string | undefined;
@@ -192,8 +200,6 @@ class IncomingMessgeProxy {
   readonly url: string | undefined;
 
   constructor(req: Request) {
-    this.logger = req.$logger;
-
     req.headers.forEach((value, key) => {
       this.headers[key] = value;
     });
