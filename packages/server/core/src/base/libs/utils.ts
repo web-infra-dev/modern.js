@@ -1,5 +1,4 @@
 import { MaybeAsync } from '@modern-js/plugin';
-import { HonoRequest } from '../types';
 
 export const getRuntimeEnv = () => {
   if (global?.process?.release?.name === 'node') {
@@ -91,18 +90,6 @@ export const createErrorHtml = (status: number) => {
   </body>
   </html>
   `;
-};
-
-export const getHost = (req: HonoRequest) => {
-  let host = req.header('X-Forwarded-Host');
-  if (!host) {
-    host = req.header('Host');
-  }
-  host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
-  // the host = '',if we can't cat Host or X-Forwarded-Host header
-  // but the this.href would assign a invalid value:`http[s]://${pathname}`
-  // so we need assign host a no-empty value.
-  return host;
 };
 
 // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-decoder
