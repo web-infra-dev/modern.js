@@ -85,6 +85,7 @@ export async function bindRenderHandler(
       staticGenerate: options.staticGenerate,
       metaName: options.metaName || 'modern-js',
       forceCSR,
+      nonce: options.config.security?.nonce,
     });
 
     server.get('*', createRenderHandler(render));

@@ -22,6 +22,7 @@ interface CreateRenderOptions {
   staticGenerate?: boolean;
   metaName?: string;
   forceCSR?: boolean;
+  nonce?: string;
 }
 
 export function createRender({
@@ -30,6 +31,7 @@ export function createRender({
   metaName,
   staticGenerate,
   forceCSR,
+  nonce,
 }: CreateRenderOptions): Render {
   return async req => {
     const routeInfo = matchRoute(req, routes);
@@ -67,6 +69,7 @@ export function createRender({
           routeInfo,
           staticGenerate: staticGenerate || false,
           metaName: metaName || 'modern-js',
+          nonce,
         });
   };
 }
