@@ -78,6 +78,15 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
                 "optimizeConstEnums": true,
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+              {
+                "development": true,
+                "runtime": "automatic",
+                "useBuiltIns": true,
+                "useSpread": false,
+              },
+            ],
           ],
         },
       },
@@ -169,6 +178,15 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
                 "allowNamespaces": true,
                 "isTSX": true,
                 "optimizeConstEnums": true,
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+              {
+                "development": true,
+                "runtime": "automatic",
+                "useBuiltIns": true,
+                "useSpread": false,
               },
             ],
           ],

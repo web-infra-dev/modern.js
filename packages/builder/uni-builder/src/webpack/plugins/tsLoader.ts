@@ -16,6 +16,7 @@ import {
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
+import { getPresetReact } from './babel';
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 
@@ -47,7 +48,7 @@ export const pluginTsLoader = (
     post: ['uni-builder:react'],
 
     setup(api) {
-      api.modifyBundlerChain(async (chain, { target, CHAIN_ID }) => {
+      api.modifyBundlerChain(async (chain, { isProd, target, CHAIN_ID }) => {
         const config = api.getNormalizedConfig();
         const { rootPath } = api.context;
         const browserslist = await getBrowserslistWithDefault(
@@ -62,6 +63,10 @@ export const pluginTsLoader = (
             useBuiltIns: getUseBuiltIns(config),
           },
         });
+
+        baseBabelConfig.presets?.push(
+          getPresetReact(api.context.rootPath, isProd),
+        );
 
         const babelUtils = getBabelUtils(baseBabelConfig);
 

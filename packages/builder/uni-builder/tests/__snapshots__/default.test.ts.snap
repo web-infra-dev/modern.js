@@ -2496,7 +2496,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -2620,7 +2620,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -2783,7 +2783,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                       {
                         "development": true,
-                        "runtime": "classic",
+                        "runtime": "automatic",
                         "useBuiltIns": true,
                         "useSpread": false,
                       },
@@ -3518,7 +3518,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -3648,7 +3648,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -3826,7 +3826,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                       {
                         "development": false,
-                        "runtime": "classic",
+                        "runtime": "automatic",
                         "useBuiltIns": true,
                         "useSpread": false,
                       },
