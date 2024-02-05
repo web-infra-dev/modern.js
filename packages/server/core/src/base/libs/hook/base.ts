@@ -7,7 +7,7 @@ import {
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
 import { HonoContext, HonoRequest, Logger } from '../../types';
-import { getHost } from '../utils';
+import { getHost } from '../request';
 
 export function createBaseHookContext(
   c: HonoContext,

@@ -92,19 +92,6 @@ export const createErrorHtml = (status: number) => {
   `;
 };
 
-export const getHost = (req: Request) => {
-  const { headers } = req;
-  let host = headers.get('X-Forwarded-Host');
-  if (!host) {
-    host = headers.get('Host');
-  }
-  host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
-  // the host = '',if we can't cat Host or X-Forwarded-Host header
-  // but the this.href would assign a invalid value:`http[s]://${pathname}`
-  // so we need assign host a no-empty value.
-  return host;
-};
-
 // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-decoder
 const decoder: TextDecoder = new TextDecoder();
 // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-encoder

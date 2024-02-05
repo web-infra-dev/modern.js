@@ -7,12 +7,12 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import * as isbot from 'isbot';
-import { createTransformStream, getHost } from '../libs/utils';
+import { createTransformStream } from '../libs/utils';
 import { defaultReporter } from '../libs/default';
 import { SSRServerContext, ServerRender } from '../types';
 import { REPLACE_REG } from '../libs/constants';
 import { createReadableStreamFromReadable } from '../adapters/stream';
-import { parseHeaders, parseQuery } from '../libs/request';
+import { parseHeaders, parseQuery, getHost } from '../libs/request';
 import { ServerTiming } from '../libs/serverTiming';
 import { ssrCache } from './ssrCache';
 

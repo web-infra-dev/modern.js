@@ -29,3 +29,16 @@ export function getPathname(request: Request): string {
   const match = request.url.match(/^https?:\/\/[^/]+(\/[^?]*)/);
   return match ? match[1] : '/';
 }
+
+export function getHost(request: Request): string {
+  const { headers } = request;
+  let host = headers.get('X-Forwarded-Host');
+  if (!host) {
+    host = headers.get('Host');
+  }
+  host = host?.split(/\s*,\s*/, 1)[0] || 'undefined';
+  // the host = '',if we can't cat Host or X-Forwarded-Host header
+  // but the this.href would assign a invalid value:`http[s]://${pathname}`
+  // so we need assign host a no-empty value.
+  return host;
+}
