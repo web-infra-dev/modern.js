@@ -27,7 +27,8 @@ import type {
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
-import type { ServerNodeMiddleware } from '../base/types';
+// TODO: should not import hono
+import type { MiddlewareHandler } from 'hono';
 import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
 
 // collect all middleware register in server plugins
@@ -92,7 +93,7 @@ type Change = {
 
 const prepareApiServer = createAsyncPipeline<
   APIServerStartInput,
-  ServerNodeMiddleware
+  MiddlewareHandler
 >();
 
 const onApiChange = createAsyncWaterfall<Change[]>();

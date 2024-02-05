@@ -97,7 +97,7 @@ export const registerMockHandlers = async ({
       // eslint-disable-next-line consistent-return
       const mockHandler: ServerNodeMiddleware = async (c, next) => {
         if (typeof enable === 'function') {
-          const isEnabled = enable(c.env.node!.req, c.env.node!.res);
+          const isEnabled = enable(c.env.node.req, c.env.node.res);
           if (!isEnabled) {
             return next();
           }

@@ -11,7 +11,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
-import { ServerPlugin, serverManager } from '@core/plugin';
+import { ServerHookRunner, ServerPlugin } from '@core/plugin';
 import { MiddlewareHandler } from 'hono';
 import { HonoContext, HonoEnv, HonoNodeEnv } from './hono';
 
@@ -71,8 +71,6 @@ export type ConfWithBFF = {
 };
 
 export type Then<T> = T extends PromiseLike<infer U> ? U : T;
-
-export type ServerHookRunner = Then<ReturnType<typeof serverManager.init>>;
 
 export type { Metrics, Logger, NextFunction };
 
