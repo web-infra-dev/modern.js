@@ -1,9 +1,9 @@
-import { Box, Flex, Kbd, Link, Text, Theme, Heading } from '@radix-ui/themes';
+import { Box, Flex, Heading, Kbd, Link, Text, Theme } from '@radix-ui/themes';
 import React from 'react';
 import {
-  HiOutlineDocumentText,
   HiLink,
   HiOutlineClock,
+  HiOutlineDocumentText,
   HiOutlinePuzzlePiece,
 } from 'react-icons/hi2';
 import { parseURL } from 'ufo';
