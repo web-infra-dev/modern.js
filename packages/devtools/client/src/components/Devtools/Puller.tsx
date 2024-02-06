@@ -16,9 +16,7 @@ export const Puller: React.FC = () => {
   const mountPoint = useThrowable($mountPoint);
   useEffect(() => {
     _intendPullUp && navigate(_intendPullUp);
-    console.log('_intendPullUp: ', _intendPullUp);
     mountPoint.hooks.hook('pullUp', async target => {
-      console.log('target: ', target);
       navigate(target);
     });
   }, []);
