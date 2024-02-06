@@ -1,5 +1,5 @@
 import { createUniBuilder } from '@modern-js/uni-builder';
-import { mergeRsbuildConfig, RsbuildConfig } from '@rsbuild/shared';
+import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/shared';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@rsbuild/shared/webpack-dev-middleware';
@@ -32,7 +32,7 @@ export async function getCompiler(
     builderOptions.builderConfig
       ? mergeRsbuildConfig(
           finalConfig as RsbuildConfig,
-          builderOptions.builderConfig,
+          builderOptions.builderConfig as RsbuildConfig,
         )
       : finalConfig || {}
   ) as BuilderConfig;
