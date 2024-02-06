@@ -1,9 +1,9 @@
-import { Box, Flex, Kbd, Link, Text, Theme, Heading } from '@radix-ui/themes';
+import { Box, Flex, Heading, Kbd, Link, Text, Theme } from '@radix-ui/themes';
 import React from 'react';
 import {
-  HiOutlineDocumentText,
   HiLink,
   HiOutlineClock,
+  HiOutlineDocumentText,
   HiOutlinePuzzlePiece,
 } from 'react-icons/hi2';
 import { parseURL } from 'ufo';
@@ -16,9 +16,9 @@ import {
   $perf,
   VERSION,
 } from '../state';
-import '@/components/Card/Indicate.module.scss';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
+import '@/components/Card/Indicate.module.scss';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',

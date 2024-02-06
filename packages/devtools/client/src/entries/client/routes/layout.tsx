@@ -16,7 +16,7 @@ import { $tabs } from './state';
 import { Theme } from '@/components/Theme';
 import { InternalTab } from '@/entries/client/types';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
-import { DevtoolsPuller } from '@/components/Devtools/Puller';
+import { Puller } from '@/components/Devtools/Puller';
 
 const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
   let to = '';
@@ -107,7 +107,7 @@ export default function Layout() {
       <ThemePanel defaultOpen={false} style={{ display }} />
       <Navigator />
       <Breadcrumbs className={styles.breadcrumbs} />
-      <DevtoolsPuller />
+      <Puller />
     </Theme>
   );
 }

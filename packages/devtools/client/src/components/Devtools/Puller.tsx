@@ -2,32 +2,25 @@ import React, { useEffect } from 'react';
 import { useNavigate } from '@modern-js/runtime/router';
 import { useThrowable } from '@/utils';
 import { $mountPoint } from '@/entries/client/routes/state';
-import { wallAgent } from '@/entries/client/routes/react/state';
 
-let _intendPullUp = false;
+let _intendPullUp = '';
 
 $mountPoint.then(({ hooks }) => {
-  hooks.hookOnce('pullUpReactInspector', async () => {
-    _intendPullUp = true;
+  hooks.hookOnce('pullUp', async target => {
+    _intendPullUp = target;
   });
 });
 
-export const DevtoolsPuller: React.FC = () => {
+export const Puller: React.FC = () => {
   const navigate = useNavigate();
   const mountPoint = useThrowable($mountPoint);
-  const handlePullUp = async () => {
-    navigate('/react');
-    if (wallAgent.status === 'active') {
-      wallAgent.send('startInspectingNative', null);
-    } else {
-      wallAgent.hookOnce('active', () => {
-        wallAgent.send('startInspectingNative', null);
-      });
-    }
-  };
   useEffect(() => {
-    _intendPullUp && handlePullUp();
-    mountPoint.hooks.hook('pullUpReactInspector', handlePullUp);
+    _intendPullUp && navigate(_intendPullUp);
+    console.log('_intendPullUp: ', _intendPullUp);
+    mountPoint.hooks.hook('pullUp', async target => {
+      console.log('target: ', target);
+      navigate(target);
+    });
   }, []);
   return null;
 };

@@ -37,8 +37,8 @@ export const $mountPointChannel = MessagePortChannel.link(
 export const $mountPoint = $mountPointChannel.then(async channel => {
   const hooks = createHooks<ToMountPointFunctions>();
   const definitions: ToMountPointFunctions = {
-    async pullUpReactInspector() {
-      await hooks.callHook('pullUpReactInspector');
+    async pullUp(target) {
+      await hooks.callHook('pullUp', target);
     },
   };
   const remote = createBirpc<MountPointFunctions, ToMountPointFunctions>(
