@@ -4955,8 +4955,8 @@ importers:
         version: 7.6.3
     devDependencies:
       '@storybook/types':
-        specifier: ~7.6.1
-        version: 7.6.3
+        specifier: ~7.6.12
+        version: 7.6.12
       '@types/node':
         specifier: ^20.5.6
         version: 20.8.8
