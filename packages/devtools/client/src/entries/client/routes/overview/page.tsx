@@ -16,9 +16,9 @@ import {
   $perf,
   VERSION,
 } from '../state';
+import '@/components/Card/Indicate.module.scss';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
-import '@/components/Card/Indicate.module.scss';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
