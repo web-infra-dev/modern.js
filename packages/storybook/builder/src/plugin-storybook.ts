@@ -36,7 +36,7 @@ import {
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
-import { AllBuilderConfig, BuilderOptions } from './types';
+import { BuilderConfig, BuilderOptions } from './types';
 import {
   toImportFn,
   virtualModule,
@@ -202,7 +202,7 @@ async function prepareStorybookModules(
   }
 }
 
-async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
+async function applyDefines(builderConfig: RsbuildConfig, options: Options) {
   const { presets } = options;
   const envs = await presets.apply<Record<string, string>>('env');
 
@@ -215,7 +215,7 @@ async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
   };
 }
 
-async function applyHTML(builderConfig: AllBuilderConfig, options: Options) {
+async function applyHTML(builderConfig: RsbuildConfig, options: Options) {
   const {
     presets,
     packageJson,
@@ -334,7 +334,7 @@ async function applyMdxLoader(
   );
 }
 
-function applyExternals(builderConfig: AllBuilderConfig) {
+function applyExternals(builderConfig: RsbuildConfig) {
   const config = mergeRsbuildConfig(
     {
       output: {
@@ -418,7 +418,7 @@ async function createStoriesEntry(cwd: string, storyPatterns: string[]) {
   return await toImportFn(cwd, stories);
 }
 
-async function applyReact(config: AllBuilderConfig, options: Options) {
+async function applyReact(config: RsbuildConfig, options: Options) {
   let version = '18.0.0';
   try {
     // @ts-expect-error
@@ -498,7 +498,7 @@ function addonAdapter(api: RsbuildPluginAPI, options: Options) {
 }
 
 export async function addonBabelAdapter(
-  finalConfig: UniBuilderConfig,
+  finalConfig: BuilderConfig,
   options: Options,
 ) {
   const { presets } = options;

@@ -1,18 +1,18 @@
 import type { RsbuildPlugin, RsbuildConfig } from '@rsbuild/shared';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
 export type BundlerType = 'webpack' | 'rspack';
 
-export type AllBuilderConfig = RsbuildConfig;
-
 export type BuilderOptions = {
   bundler?: BundlerType;
-  builderConfig?: AllBuilderConfig;
+  builderConfig?: RsbuildConfig;
   configPath?: string;
 };
 
-export type BuilderConfig = AllBuilderConfig & {
+export type BuilderConfig = UniBuilderConfig & {
   builderPlugins?: RsbuildPlugin[];
 };
 
-// TODO
-export { defineConfig } from '@rsbuild/core';
+export function defineConfig(config: UniBuilderConfig) {
+  return config;
+}

@@ -1,9 +1,9 @@
-import { createUniBuilder, UniBuilderConfig } from '@modern-js/uni-builder';
+import { createUniBuilder } from '@modern-js/uni-builder';
 import { mergeRsbuildConfig, RsbuildConfig } from '@rsbuild/shared';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@rsbuild/shared/webpack-dev-middleware';
-import type { BuilderOptions } from './types';
+import type { BuilderOptions, BuilderConfig } from './types';
 import { getConfigFileName, runWithErrorMsg } from './utils';
 import { pluginStorybook, addonBabelAdapter } from './plugin-storybook';
 
@@ -22,10 +22,10 @@ export async function getCompiler(
     () => loadConfig(cwd, builderOptions.configPath || getConfigFileName()),
     'Failed to load config',
   );
-  const loadedConfig = (res ? res.config : {}) as UniBuilderConfig;
+  const loadedConfig = (res ? res.config : {}) as BuilderConfig;
 
   const finalConfig =
-    (await presets.apply<UniBuilderConfig | void>('modern', loadedConfig)) ||
+    (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
     loadedConfig;
 
   const uniBuilderConfig = (
@@ -35,7 +35,7 @@ export async function getCompiler(
           builderOptions.builderConfig,
         )
       : finalConfig || {}
-  ) as UniBuilderConfig;
+  ) as BuilderConfig;
 
   const bundlerType = bundler || 'webpack';
 
@@ -54,8 +54,6 @@ export async function getCompiler(
 
   builder.addPlugins([
     pluginStorybook(cwd, options),
-    // TODO
-    // @ts-expect-error
     ...(finalConfig.builderPlugins || []),
   ]);
 
