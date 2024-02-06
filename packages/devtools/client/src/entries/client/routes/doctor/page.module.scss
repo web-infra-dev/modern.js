@@ -1,10 +1,29 @@
 .container {
   max-width: 40rem;
+  width: 100%;
 }
 
 .primary-card {
   flex: 4;
   min-width: max-content;
+  background-color: var(--amber-9);
+  :global(.dark) & {
+    background-color: var(--amber-9);
+  }
+  button {
+    border: none;
+    border-radius: var(--radius-thumb);
+    color: var(--black-a8);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-regular);
+    padding: var(--space-1) var(--space-2);
+    overflow: hidden;
+    background-color: var(--black-a2);
+    &:hover,
+    &:active {
+      background-color: var(--black-a1);
+    }
+  }
 }
 
 .info-card {
@@ -14,7 +33,7 @@
 
 .count-card {
   flex: 1;
-  width: max-content;
+  min-width: max-content;
 }
 
 .compile-cost-card {
