@@ -31,7 +31,7 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
-        handleSSRFallabck: () => {
+        handleSSRFallback: () => {
           // empty
         },
       } as any,
@@ -124,7 +124,7 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
-        handleSSRFallabck: () => {
+        handleSSRFallback: () => {
           // empty
         },
       } as any,
@@ -172,7 +172,7 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
-        handleSSRFallabck: () => {
+        handleSSRFallback: () => {
           // empty
         },
       } as any,
@@ -218,7 +218,7 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
-        handleSSRFallabck: () => {
+        handleSSRFallback: () => {
           // empty
         },
       } as any,
