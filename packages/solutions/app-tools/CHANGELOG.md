@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 2.46.2
+
+### Patch Changes
+
+- 5eca714: fix(ts-checker): remove default include glob
+- b9425b1: fix: route component should support the `.node` convention
+  fix: 路由组件应该支持 `.node` 约定
+- Updated dependencies [0448ebd]
+- Updated dependencies [eec5792]
+- Updated dependencies [b79abcf]
+- Updated dependencies [a9a3626]
+- Updated dependencies [244745f]
+- Updated dependencies [01b75e6]
+- Updated dependencies [ed13533]
+  - @modern-js/uni-builder@2.46.2
+  - @modern-js/prod-server@2.46.2
+  - @modern-js/core@2.46.2
+  - @modern-js/new-action@2.46.2
+  - @modern-js/server@2.46.2
+  - @modern-js/plugin-data-loader@2.46.2
+  - @modern-js/plugin-i18n@2.46.2
+  - @modern-js/plugin-lint@2.46.2
+  - @modern-js/server-core@2.46.2
+  - @modern-js/server-utils@2.46.2
+  - @modern-js/node-bundle-require@2.46.2
+  - @modern-js/plugin@2.46.2
+  - @modern-js/types@2.46.2
+  - @modern-js/upgrade@2.46.2
+  - @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/plugin-server
 
+## 2.46.2
+
+### Patch Changes
+
+- @modern-js/server-utils@2.46.2
+- @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes

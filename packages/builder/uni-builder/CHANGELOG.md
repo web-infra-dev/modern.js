@@ -1,5 +1,35 @@
 # @modern-js/uni-builder
 
+## 2.46.2
+
+### Patch Changes
+
+- 0448ebd: fix(uni-builder): deepmerge cause plugin apply undefined
+
+  fix(uni-builder): deepmerge 导致 webpack apply 方法丢失
+
+- eec5792: fix(uni-builder): apply babel preset-react when using ts-loader
+
+  fix(uni-builder): 使用 ts-loader 时开启 babel preset-react
+
+- b79abcf: fix(uni-builder): styled-components not works when use webpack swc-plugin
+
+  fix(uni-builder): 修复在使用 webpack swc 插件时 styled-components 不生效的问题
+
+- 244745f: fix(uni-builder): repeatedly insert babel plugin when using tsLoader in some edge case
+
+  fix(uni-builder): 修复在一些边界场景下使用 tsLoader 时会重复添加 babel plugin 的问题
+
+- ed13533: fix(uni-builder): missing css sourcemap when dev
+
+  fix(uni-builder): dev 构建时缺失 css sourcemap
+
+- Updated dependencies [a9a3626]
+- Updated dependencies [01b75e6]
+  - @modern-js/prod-server@2.46.2
+  - @modern-js/server@2.46.2
+  - @modern-js/utils@2.46.2
+
 ## 2.46.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 3.3.9
+
+### Patch Changes
+
+- 987d33e: feat(generator): remove rspack generator, you can enable it by one line configration
+  feat(generator): 移除 rspack 生成器, 现在只需要一行配置即可开启
+  - @modern-js/utils@2.46.2
+
 ## 3.3.8
 
 ### Patch Changes
