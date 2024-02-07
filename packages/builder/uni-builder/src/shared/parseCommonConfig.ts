@@ -119,6 +119,8 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
+      disableFilenameHash,
+      enableLatestDecorators,
       cssModuleLocalIdentName,
       enableInlineScripts,
       disableCssExtract,
@@ -169,7 +171,13 @@ export async function parseCommonConfig(
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {} } = rsbuildConfig;
+  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
+
+  if (enableLatestDecorators) {
+    source.decorators = {
+      version: '2022-03',
+    };
+  }
 
   if (cssModuleLocalIdentName) {
     output.cssModules ||= {};
@@ -219,6 +227,10 @@ export async function parseCommonConfig(
 
   if (enableInlineStyles) {
     output.inlineStyles = enableInlineStyles;
+  }
+
+  if (disableFilenameHash !== undefined) {
+    output.filenameHash = !disableFilenameHash;
   }
 
   const extraConfig: RsbuildConfig = {};
