@@ -62,6 +62,7 @@
     "html-webpack-plugin": "5.5.3",
     "lodash": "^4.17.21",
     "postcss-custom-properties": "13.1.5",
+    "postcss-flexbugs-fixes": "5.0.2",
     "postcss-font-variant": "5.0.0",
     "postcss-initial": "4.0.1",
     "postcss-media-minmax": "5.0.0",
