@@ -1,4 +1,3 @@
-import type { IncomingMessage, ServerResponse } from 'http';
 import {
   AfterMatchContext,
   AfterRenderContext,
@@ -55,8 +54,8 @@ export function createCustomMiddlewaresCtx(
       locals: {},
     },
     source: {
-      req: c.env.node?.req as IncomingMessage,
-      res: c.env.node?.res as ServerResponse,
+      req: c.env.node?.req,
+      res: c.env.node?.res,
     },
   };
 }
