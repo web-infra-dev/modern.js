@@ -134,7 +134,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },

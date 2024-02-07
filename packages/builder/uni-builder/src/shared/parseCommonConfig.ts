@@ -119,7 +119,6 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
-      enableLatestDecorators,
       cssModuleLocalIdentName,
       enableInlineScripts,
       disableCssExtract,
@@ -170,13 +169,7 @@ export async function parseCommonConfig(
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
-
-  if (enableLatestDecorators) {
-    source.decorators = {
-      version: '2022-03',
-    };
-  }
+  const { dev = {}, html = {}, output = {} } = rsbuildConfig;
 
   if (cssModuleLocalIdentName) {
     output.cssModules ||= {};

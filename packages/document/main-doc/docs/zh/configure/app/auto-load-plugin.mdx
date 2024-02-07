@@ -39,14 +39,14 @@ Modern.js 将通过以下几个步骤帮你自动注册插件
 1. Modern.js 在内部维护一份官方插件列表。
 
 ```js
-const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-i18n', ...];
+const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-tailwindcss', ...];
 ```
 
 2. Modern.js 将读取你的 `package.json` 文件，收集依赖信息。
 
 ```json title="package.json"
 "dependencies": {
-  "@modern-js/plugin-i18n": "x.x.x"
+  "@modern-js/plugin-tailwindcss": "x.x.x"
   ...
 },
 "devDependencies": {
@@ -55,7 +55,7 @@ const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-i18n', ...];
 }
 ```
 
-3. Modern.js 观察到你安装了 `@modern-js/plugin-i18n` 和 `@modern-js/app-tools` 等依赖后，将会引入插件自动注册。
+3. Modern.js 观察到你安装了 `@modern-js/plugin-tailwindcss` 和 `@modern-js/app-tools` 等依赖后，将会引入插件自动注册。
 
 可以注意到这种方式相对黑盒，你甚至对加载插件的过程是无感知的。我们希望更多的细节暴露给开发者，能让开发者去控制这一过程。
 

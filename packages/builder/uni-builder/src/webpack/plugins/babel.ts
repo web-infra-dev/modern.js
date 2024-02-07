@@ -23,6 +23,20 @@ import {
  * rspack mode: rsbuild:swc -> rsbuild:babel
  * webpack mode: uni-builder:babel -> uni-builder:ts-loader -> rsbuild-webpack:swc
  */
+export const getPresetReact = (rootPath: string, isProd: boolean) => {
+  const isNewJsx = isBeyondReact17(rootPath);
+
+  const presetReactOptions = {
+    development: !isProd,
+    // Will use the native built-in instead of trying to polyfill
+    useBuiltIns: true,
+    useSpread: false,
+    runtime: isNewJsx ? 'automatic' : 'classic',
+  };
+
+  return [require.resolve('@babel/preset-react'), presetReactOptions];
+};
+
 export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
   name: 'uni-builder:babel',
 
@@ -46,7 +60,6 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           config,
           target,
         );
-        const isNewJsx = isBeyondReact17(api.context.rootPath);
 
         const getBabelOptions = (config: NormalizedConfig) => {
           // Create babel util function about include/exclude
@@ -70,7 +83,11 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
             },
           };
 
-          const decoratorConfig = config.source.decorators;
+          const decoratorConfig = {
+            version: config.output.enableLatestDecorators
+              ? '2018-09'
+              : 'legacy',
+          } as const;
 
           const baseBabelConfig =
             isServer || isServiceWorker
@@ -94,18 +111,9 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
             config.performance.transformLodash,
           );
 
-          const presetReactOptions = {
-            development: !isProd,
-            // Will use the native built-in instead of trying to polyfill
-            useBuiltIns: true,
-            useSpread: false,
-            runtime: isNewJsx ? 'automatic' : 'classic',
-          };
-
-          baseBabelConfig.presets?.push([
-            require.resolve('@babel/preset-react'),
-            presetReactOptions,
-          ]);
+          baseBabelConfig.presets?.push(
+            getPresetReact(api.context.rootPath, isProd),
+          );
 
           if (isProd) {
             baseBabelConfig.plugins?.push([

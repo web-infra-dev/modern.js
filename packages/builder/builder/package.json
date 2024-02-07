@@ -62,7 +62,7 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/monorepo-utils": "0.3.11",
+    "@rsbuild/monorepo-utils": "0.3.7",
     "@svgr/webpack": "8.1.0",
     "@swc/helpers": "0.5.3",
     "deepmerge": "^4.3.1",
