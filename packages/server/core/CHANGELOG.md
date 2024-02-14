@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 2.47.0
+
+### Minor Changes
+
+- b68c12a: feat: add server SSR fallback hook
+  feat: 新增 server SSR 降级 hook 实现
+
+### Patch Changes
+
+- @modern-js/plugin@2.47.0
+- @modern-js/utils@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

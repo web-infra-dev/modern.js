@@ -1,5 +1,13 @@
 # @modern-js/devtools-client
 
+## 2.47.0
+
+### Patch Changes
+
+- e643a0b: fix(devtools): unwrap suspense proxy as object
+- 10d4a57: feat(devtools): pull up react devtools element inspector from capsule
+- b7109a7: refactor(devtools): mounting logic and inject options to client
+
 ## 2.46.1
 
 ## 2.46.0

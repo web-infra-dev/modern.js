@@ -1,5 +1,7 @@
 # @modern-js-app/eslint-config
 
+## 2.47.0
+
 ## 2.46.1
 
 ## 2.46.0

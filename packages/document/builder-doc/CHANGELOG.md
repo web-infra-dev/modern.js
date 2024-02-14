@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.47.0
+
+### Patch Changes
+
+- 42cc427: chore(builder-cli): builder-cli is no longer maintained, please use rsbuild instead
+
+  chore(builder-cli): builder-cli 不再维护, 可使用 rsbuild 代替
+
+- 52185fc: chore(plugin-vue): builder vue & vue2 plugin is no longer maintained,, please use rsbuild instead
+
+  chore(plugin-vue): builder vue & vue2 插件不再维护, 请使用 rsbuild 代替
+
 ## 2.46.1
 
 ## 2.46.0
