@@ -501,6 +501,8 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
             },
             "preserveAllComments": true,
             "transform": {
+              "decoratorMetadata": true,
+              "legacyDecorator": true,
               "react": {
                 "refresh": true,
                 "runtime": "classic",

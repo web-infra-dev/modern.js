@@ -15,6 +15,152 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
       "test": /\\\\\\.m\\?js/,
     },
     {
+      "include": [
+        {
+          "and": [
+            "",
+            {
+              "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+            },
+          ],
+        },
+        /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      ],
+      "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+      "type": "javascript/auto",
+      "use": [
+        {
+          "loader": "builtin:swc-loader",
+          "options": {
+            "env": {
+              "coreJs": "3.32",
+              "mode": "entry",
+              "targets": [
+                "chrome >= 87",
+              ],
+            },
+            "isModule": "unknown",
+            "jsc": {
+              "externalHelpers": true,
+              "parser": {
+                "decorators": true,
+                "syntax": "typescript",
+                "tsx": true,
+              },
+              "preserveAllComments": true,
+              "transform": {
+                "decoratorMetadata": true,
+                "legacyDecorator": true,
+                "react": {
+                  "development": false,
+                  "refresh": true,
+                  "runtime": "automatic",
+                },
+              },
+            },
+            "rspackExperiments": {
+              "import": [
+                {
+                  "libraryDirectory": "es",
+                  "libraryName": "antd",
+                  "style": true,
+                },
+                {
+                  "camelToDashComponentName": false,
+                  "libraryDirectory": "es",
+                  "libraryName": "@arco-design/web-react",
+                  "style": true,
+                },
+                {
+                  "camelToDashComponentName": false,
+                  "libraryDirectory": "react-icon",
+                  "libraryName": "@arco-design/web-react/icon",
+                },
+              ],
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
+            "sourceMaps": true,
+          },
+        },
+      ],
+    },
+    {
+      "mimetype": {
+        "or": [
+          "text/javascript",
+          "application/javascript",
+        ],
+      },
+      "resolve": {
+        "fullySpecified": false,
+      },
+      "use": [
+        {
+          "loader": "builtin:swc-loader",
+          "options": {
+            "env": {
+              "coreJs": "3.32",
+              "mode": "entry",
+              "targets": [
+                "chrome >= 87",
+              ],
+            },
+            "isModule": "unknown",
+            "jsc": {
+              "externalHelpers": true,
+              "parser": {
+                "decorators": true,
+                "syntax": "typescript",
+                "tsx": true,
+              },
+              "preserveAllComments": true,
+              "transform": {
+                "decoratorMetadata": true,
+                "legacyDecorator": true,
+                "react": {
+                  "development": false,
+                  "refresh": true,
+                  "runtime": "automatic",
+                },
+              },
+            },
+            "rspackExperiments": {
+              "import": [
+                {
+                  "libraryDirectory": "es",
+                  "libraryName": "antd",
+                  "style": true,
+                },
+                {
+                  "camelToDashComponentName": false,
+                  "libraryDirectory": "es",
+                  "libraryName": "@arco-design/web-react",
+                  "style": true,
+                },
+                {
+                  "camelToDashComponentName": false,
+                  "libraryDirectory": "react-icon",
+                  "libraryName": "@arco-design/web-react/icon",
+                },
+              ],
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
+            "sourceMaps": true,
+          },
+        },
+      ],
+    },
+    {
       "oneOf": [
         {
           "generator": {
@@ -119,7 +265,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -134,6 +279,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
+                    [Function],
                     [Function],
                     [Function],
                   ],
@@ -156,7 +302,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -171,6 +316,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
+                    [Function],
                     [Function],
                     [Function],
                   ],
@@ -199,7 +345,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -216,6 +361,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                     },
                     [Function],
                     [Function],
+                    [Function],
                   ],
                 },
                 "sourceMap": true,
@@ -227,6 +373,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
                 "lessOptions": {
                   "javascriptEnabled": true,
+                  "paths": [
+                    "node_modules",
+                  ],
                 },
                 "sourceMap": true,
               },
@@ -246,7 +395,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -263,6 +411,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                     },
                     [Function],
                     [Function],
+                    [Function],
                   ],
                 },
                 "sourceMap": true,
@@ -274,6 +423,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
                 "lessOptions": {
                   "javascriptEnabled": true,
+                  "paths": [
+                    "node_modules",
+                  ],
                 },
                 "sourceMap": true,
               },
@@ -299,7 +451,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -314,6 +465,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
+                    [Function],
                     [Function],
                     [Function],
                   ],
@@ -350,7 +502,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
-                    [Function],
                     {
                       "browsers": [
                         "chrome >= 87",
@@ -365,6 +516,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
+                    [Function],
                     [Function],
                     [Function],
                   ],
@@ -390,149 +542,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         },
       ],
       "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-    },
-    {
-      "include": [
-        {
-          "and": [
-            "",
-            {
-              "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
-            },
-          ],
-        },
-        /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      ],
-      "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-      "type": "javascript/auto",
-      "use": [
-        {
-          "loader": "builtin:swc-loader",
-          "options": {
-            "env": {
-              "coreJs": "3.32",
-              "mode": "entry",
-              "targets": [
-                "chrome >= 87",
-              ],
-            },
-            "isModule": "unknown",
-            "jsc": {
-              "externalHelpers": true,
-              "parser": {
-                "decorators": true,
-                "syntax": "typescript",
-                "tsx": true,
-              },
-              "preserveAllComments": true,
-              "transform": {
-                "decoratorMetadata": true,
-                "legacyDecorator": true,
-                "react": {
-                  "development": true,
-                  "refresh": true,
-                  "runtime": "automatic",
-                },
-              },
-            },
-            "rspackExperiments": {
-              "import": [
-                {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
-                {
-                  "camelToDashComponentName": false,
-                  "libraryDirectory": "es",
-                  "libraryName": "@arco-design/web-react",
-                  "style": true,
-                },
-                {
-                  "camelToDashComponentName": false,
-                  "libraryDirectory": "react-icon",
-                  "libraryName": "@arco-design/web-react/icon",
-                },
-              ],
-              "styledComponents": {
-                "displayName": true,
-                "pure": false,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-            },
-            "sourceMaps": true,
-          },
-        },
-      ],
-    },
-    {
-      "mimetype": {
-        "or": [
-          "text/javascript",
-          "application/javascript",
-        ],
-      },
-      "use": [
-        {
-          "loader": "builtin:swc-loader",
-          "options": {
-            "env": {
-              "coreJs": "3.32",
-              "mode": "entry",
-              "targets": [
-                "chrome >= 87",
-              ],
-            },
-            "isModule": "unknown",
-            "jsc": {
-              "externalHelpers": true,
-              "parser": {
-                "decorators": true,
-                "syntax": "typescript",
-                "tsx": true,
-              },
-              "preserveAllComments": true,
-              "transform": {
-                "decoratorMetadata": true,
-                "legacyDecorator": true,
-                "react": {
-                  "development": true,
-                  "refresh": true,
-                  "runtime": "automatic",
-                },
-              },
-            },
-            "rspackExperiments": {
-              "import": [
-                {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
-                {
-                  "camelToDashComponentName": false,
-                  "libraryDirectory": "es",
-                  "libraryName": "@arco-design/web-react",
-                  "style": true,
-                },
-                {
-                  "camelToDashComponentName": false,
-                  "libraryDirectory": "react-icon",
-                  "libraryName": "@arco-design/web-react/icon",
-                },
-              ],
-              "styledComponents": {
-                "displayName": true,
-                "pure": false,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-            },
-            "sourceMaps": true,
-          },
-        },
-      ],
     },
     {
       "test": /\\\\\\.toml\\$/,
@@ -631,7 +640,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
                     "react": {
-                      "development": true,
+                      "development": false,
                       "refresh": true,
                       "runtime": "automatic",
                     },
