@@ -1,9 +1,5 @@
-import {
-  isPlainObject,
-  isPackageInstalled,
-  createCacheGroups,
-  type SplitChunks,
-} from '@rsbuild/shared';
+import { createCacheGroups, type SplitChunks } from '@rsbuild/shared';
+import { isPlainObject, isPackageInstalled } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
 export const pluginSplitChunks = (): RsbuildPlugin => ({

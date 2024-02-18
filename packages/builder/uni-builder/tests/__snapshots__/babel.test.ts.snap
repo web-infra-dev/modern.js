@@ -48,7 +48,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
-                "development": true,
+                "development": false,
                 "refresh": true,
                 "runtime": "automatic",
               },
@@ -136,7 +136,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
-                "development": true,
+                "development": false,
                 "refresh": true,
                 "runtime": "automatic",
               },
@@ -178,6 +178,12 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           "compact": false,
           "configFile": false,
           "plugins": [
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
+            ],
             [
               "babel-plugin-import",
               {
@@ -893,6 +899,9 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
         "application/javascript",
       ],
     },
+    "resolve": {
+      "fullySpecified": false,
+    },
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1129,6 +1138,9 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
         "text/javascript",
         "application/javascript",
       ],
+    },
+    "resolve": {
+      "fullySpecified": false,
     },
     "use": [
       {
@@ -1845,6 +1857,9 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
         "text/javascript",
         "application/javascript",
       ],
+    },
+    "resolve": {
+      "fullySpecified": false,
     },
     "use": [
       {

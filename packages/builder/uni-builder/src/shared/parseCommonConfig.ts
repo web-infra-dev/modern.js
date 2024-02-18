@@ -33,6 +33,8 @@ import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
 import { pluginPostcssLegacy } from './plugins/postcssLegacy';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
+import { pluginAntd } from './plugins/antd';
+import { pluginArco } from './plugins/arco';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -117,6 +119,8 @@ export async function parseCommonConfig(
     plugins: [...plugins] = [],
     performance: { ...performanceConfig } = {},
     output: {
+      disableFilenameHash,
+      enableLatestDecorators,
       cssModuleLocalIdentName,
       enableInlineScripts,
       disableCssExtract,
@@ -167,7 +171,13 @@ export async function parseCommonConfig(
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {} } = rsbuildConfig;
+  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
+
+  if (enableLatestDecorators) {
+    source.decorators = {
+      version: '2022-03',
+    };
+  }
 
   if (cssModuleLocalIdentName) {
     output.cssModules ||= {};
@@ -217,6 +227,10 @@ export async function parseCommonConfig(
 
   if (enableInlineStyles) {
     output.inlineStyles = enableInlineStyles;
+  }
+
+  if (disableFilenameHash !== undefined) {
+    output.filenameHash = !disableFilenameHash;
   }
 
   const extraConfig: RsbuildConfig = {};
@@ -330,6 +344,8 @@ export async function parseCommonConfig(
     pluginEmitRouteFile(),
     pluginToml(),
     pluginYaml(),
+    pluginAntd(),
+    pluginArco(),
   ];
 
   if (checkSyntax) {

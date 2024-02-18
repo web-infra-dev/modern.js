@@ -8,23 +8,29 @@ import { getDefaultBabelOptions } from '@rsbuild/plugin-babel';
 export const pluginBabelPost = (): RsbuildPlugin => ({
   name: 'uni-builder:babel-post',
 
-  pre: ['rsbuild:babel'],
-
   setup(api) {
-    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
-      if (chain.module.rules.get(CHAIN_ID.RULE.JS)) {
-        const babelLoaderOptions = chain.module
-          .rule(CHAIN_ID.RULE.JS)
-          .use(CHAIN_ID.USE.BABEL)
-          .get('options');
+    api.modifyBundlerChain({
+      handler: async (chain, { CHAIN_ID }) => {
+        if (chain.module.rules.get(CHAIN_ID.RULE.JS)) {
+          const babelLoaderOptions = chain.module
+            .rule(CHAIN_ID.RULE.JS)
+            .use(CHAIN_ID.USE.BABEL)
+            .get('options');
+          const config = api.getNormalizedConfig();
 
-        if (
-          babelLoaderOptions &&
-          lodash.isEqual(getDefaultBabelOptions(), babelLoaderOptions)
-        ) {
-          chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
+          if (
+            babelLoaderOptions &&
+            lodash.isEqual(
+              getDefaultBabelOptions(config.source.decorators),
+              babelLoaderOptions,
+            )
+          ) {
+            chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
+          }
         }
-      }
+      },
+      // other plugins can modify babel config in modifyBundlerChain 'default order'
+      order: 'post',
     });
   },
 });

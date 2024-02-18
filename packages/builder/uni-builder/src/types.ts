@@ -152,6 +152,14 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
+     * @deprecated use `output.filenameHash` instead
+     */
+    disableFilenameHash?: boolean;
+    /**
+     * @deprecated use `source.decorators` instead
+     */
+    enableLatestDecorators?: boolean;
+    /**
      * @deprecated use `output.cssModules.localIdentName` instead
      */
     cssModuleLocalIdentName?: string;
@@ -241,6 +249,15 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `html.templateParameters` instead
      */
     templateParametersByEntries?: Record<string, Record<string, unknown>>;
+  };
+  performance?: {
+    /**
+     * Specifies whether to modularize the import of [lodash](https://npmjs.com/package/lodash)
+     * and remove unused lodash modules to reduce the code size of lodash.
+     *
+     * Tips: this configuration is not yet supported in rspack
+     */
+    transformLodash?: boolean;
   };
   security?: {
     /**

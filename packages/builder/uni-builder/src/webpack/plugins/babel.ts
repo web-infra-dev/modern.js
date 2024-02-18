@@ -18,6 +18,11 @@ import {
   type PluginBabelOptions,
 } from '@rsbuild/plugin-babel';
 
+/**
+ * Plugin order:
+ * rspack mode: rsbuild:swc -> rsbuild:babel
+ * webpack mode: uni-builder:babel -> uni-builder:ts-loader -> rsbuild-webpack:swc
+ */
 export const getPresetReact = (rootPath: string, isProd: boolean) => {
   const isNewJsx = isBeyondReact17(rootPath);
 
@@ -32,11 +37,25 @@ export const getPresetReact = (rootPath: string, isProd: boolean) => {
   return [require.resolve('@babel/preset-react'), presetReactOptions];
 };
 
-export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
+export const pluginBabel = (
+  options: PluginBabelOptions,
+  extraOptions: {
+    transformLodash: boolean;
+  },
+): RsbuildPlugin => ({
   name: 'uni-builder:babel',
+
+  post: [
+    // will replace the babel rule
+    'rsbuild-webpack:swc',
+    // will replace the babel rule
+    'rsbuild-webpack:esbuild',
+  ],
+
   setup(api) {
-    api.modifyBundlerChain(
-      async (
+    api.modifyBundlerChain({
+      order: 'pre',
+      handler: async (
         chain,
         { CHAIN_ID, target, isProd, isServer, isServiceWorker },
       ) => {
@@ -69,11 +88,7 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
             },
           };
 
-          const decoratorConfig = {
-            version: config.output.enableLatestDecorators
-              ? '2018-09'
-              : 'legacy',
-          } as const;
+          const decoratorConfig = config.source.decorators;
 
           const baseBabelConfig =
             isServer || isServiceWorker
@@ -92,10 +107,7 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
                 });
 
           applyPluginImport(baseBabelConfig, config.source.transformImport);
-          applyPluginLodash(
-            baseBabelConfig,
-            config.performance.transformLodash,
-          );
+          applyPluginLodash(baseBabelConfig, extraOptions.transformLodash);
 
           baseBabelConfig.presets?.push(
             getPresetReact(api.context.rootPath, isProd),
@@ -166,12 +178,16 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
           .mimetype({
             or: ['text/javascript', 'application/javascript'],
           })
+          // compatible with legacy packages with type="module"
+          // https://github.com/webpack/webpack/issues/11467
+          .resolve.set('fullySpecified', false)
+          .end()
           .use(CHAIN_ID.USE.BABEL)
           .loader(require.resolve('babel-loader'))
           // Using cloned options to keep options separate from each other
           .options(lodash.cloneDeep(babelOptions));
       },
-    );
+    });
   },
 });
 
