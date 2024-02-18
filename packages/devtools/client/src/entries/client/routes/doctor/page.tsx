@@ -18,6 +18,7 @@ import {
   HiMiniRectangleStack,
 } from 'react-icons/hi2';
 import _ from 'lodash';
+import { parseURL } from 'ufo';
 import clsx from 'clsx';
 import { $dependencies } from '../state';
 import logo from './rsdoctor-large.png';
@@ -78,7 +79,16 @@ const Page: FC = () => {
   const doctor = useSnapshot($doctor);
 
   const dependencies = useSnapshot($dependencies);
+  const isWebDoctor = Object.keys(dependencies).find(key =>
+    key.startsWith('@web-doctor/'),
+  );
+  const implementation = isWebDoctor ? 'Web Doctor' : 'Rsdoctor';
+  const website = 'https://rsdoctor.dev';
   const version =
+    dependencies['@web-doctor/webpack-plugin(builder)'] ??
+    dependencies['@web-doctor/rspack-plugin(builder)'] ??
+    dependencies['@web-doctor/webpack-plugin'] ??
+    dependencies['@web-doctor/rspack-plugin'] ??
     dependencies['@rsdoctor/rspack-plugin'] ??
     dependencies['@rsdoctor/webpack-plugin'] ??
     dependencies['@rsdoctor/core'];
@@ -113,7 +123,7 @@ const Page: FC = () => {
           <Theme appearance="light" hasBackground={false} asChild>
             <IndicateCard.Column>
               <Heading as="h1" color="gray" className={styles.heading}>
-                Rsdoctor
+                {implementation}
               </Heading>
               <Flex gap="2">
                 <button type="button">
@@ -131,13 +141,9 @@ const Page: FC = () => {
             <Box>
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
-                <Link
-                  href="https://rsdoctor.dev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link href={website} target="_blank" rel="noopener noreferrer">
                   <HiLink />
-                  <Text>rsdoctor.dev</Text>
+                  <Text>{parseURL(website).host}</Text>
                 </Link>
               </Flex>
             </Box>

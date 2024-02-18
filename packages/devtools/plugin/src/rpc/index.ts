@@ -133,6 +133,24 @@ export const setupClientConnection = async (
           ctx.rootPath,
           '@rsdoctor/webpack-plugin/package.json',
         ],
+        '@web-doctor/webpack-plugin': [
+          ctx.rootPath,
+          '@web-doctor/webpack-plugin/package.json',
+        ],
+        '@web-doctor/rspack-plugin': [
+          ctx.rootPath,
+          '@web-doctor/rspack-plugin/package.json',
+        ],
+        '@web-doctor/webpack-plugin(builder)': [
+          ctx.rootPath,
+          '@edenx/builder-plugin-web-doctor',
+          '@web-doctor/webpack-plugin/package.json',
+        ],
+        '@web-doctor/rspack-plugin(builder)': [
+          ctx.rootPath,
+          '@edenx/builder-plugin-web-doctor',
+          '@web-doctor/rspack-plugin/package.json',
+        ],
         '@rsdoctor/core': [ctx.rootPath, '@rsdoctor/core/package.json'],
       };
 
