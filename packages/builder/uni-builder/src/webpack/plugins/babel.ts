@@ -40,7 +40,7 @@ export const getPresetReact = (rootPath: string, isProd: boolean) => {
 export const pluginBabel = (
   options: PluginBabelOptions,
   extraOptions: {
-    transformLodash?: boolean;
+    transformLodash: boolean;
   },
 ): RsbuildPlugin => ({
   name: 'uni-builder:babel',

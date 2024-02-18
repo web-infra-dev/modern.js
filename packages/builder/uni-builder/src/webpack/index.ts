@@ -36,7 +36,7 @@ export async function parseConfig(
         babelLoaderOptions: uniBuilderConfig.tools?.babel,
       },
       {
-        transformLodash: uniBuilderConfig.performance?.transformLodash,
+        transformLodash: uniBuilderConfig.performance?.transformLodash ?? true,
       },
     ),
   );
