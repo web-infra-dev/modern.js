@@ -1,9 +1,9 @@
-function newDecorator() {
+function newDecorator(value) {
   console.log('foo decorator');
 }
 
 class Foo {
-  @newDecorator()
+  @newDecorator
   foo() {
     console.log('foo');
   }
