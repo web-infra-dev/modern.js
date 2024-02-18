@@ -30,7 +30,12 @@ export function factory(
           isSSR(config),
         );
 
-        context.builder.addPlugins([pluginSwc(finalConfig)]);
+        context.builder.addPlugins([
+          pluginSwc({
+            ...finalConfig,
+            transformLodash: config.performance.transformLodash ?? true,
+          }),
+        ]);
       },
     }),
   });
