@@ -30,8 +30,7 @@ test('should optimize lodash bundle size when using SWC plugin', async () => {
   expect(size < 10).toBeTruthy();
 });
 
-// TODO: fixed in rsbuild next version, see https://github.com/web-infra-dev/rsbuild/pull/1572
-test.skip('should not optimize lodash bundle size when transformLodash is false and using SWC plugin', async () => {
+test('should not optimize lodash bundle size when transformLodash is false and using SWC plugin', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: {
