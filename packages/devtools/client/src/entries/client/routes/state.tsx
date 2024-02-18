@@ -156,7 +156,13 @@ export const $definition = proxy({
   announcement: _definitionTask.then(def => def.announcement),
 });
 
+export const _dependenciesTask = $server.then(({ remote }) =>
+  remote.getDependencies(),
+);
+
 export const $dependencies = proxy<Record<string, string>>({});
+
+_dependenciesTask.then(def => Object.assign($dependencies, def));
 
 export const $perf = proxy({
   compileDuration: $server.then(({ remote }) => remote.getCompileTimeCost()),

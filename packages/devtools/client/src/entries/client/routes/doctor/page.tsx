@@ -16,10 +16,11 @@ import {
   HiMiniExclamationCircle,
   HiMiniInboxStack,
   HiMiniRectangleStack,
-  HiMiniScale,
 } from 'react-icons/hi2';
 import _ from 'lodash';
+import { parseURL } from 'ufo';
 import clsx from 'clsx';
+import { $dependencies } from '../state';
 import logo from './rsdoctor-large.png';
 import { $doctor } from './state';
 import styles from './page.module.scss';
@@ -41,6 +42,10 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
       ? undefined
       : `${WEBPACK_HOOKS_PREFIX}#${hook.toLowerCase()}`,
   );
+  const formattedCost =
+    cost.costs > 1_000
+      ? `${(cost.costs / 1_000).toFixed(2)}s`
+      : `${cost.costs}ms`;
   return (
     <HoverCard.Root>
       <HoverCard.Trigger>
@@ -50,7 +55,7 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
             color="gray"
             className={clsx(styles.textTruncation, styles.costLabel)}
           >
-            {_.startCase(cost.title)}({cost.costs}ms)
+            {_.startCase(cost.title)}({formattedCost})
           </Text>
           <Box className={styles.costBar} />
         </Box>
@@ -60,7 +65,7 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
           <Link target="_blank" href={leftHref}>
             {leftHook}
           </Link>
-          <Text> ···{cost.costs}ms··· </Text>
+          <Text> ···{formattedCost}··· </Text>
           <Link target="_blank" href={rightHref}>
             {rightHook}
           </Link>
@@ -72,6 +77,22 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 
 const Page: FC = () => {
   const doctor = useSnapshot($doctor);
+
+  const dependencies = useSnapshot($dependencies);
+  const isWebDoctor = Object.keys(dependencies).find(key =>
+    key.startsWith('@web-doctor/'),
+  );
+  const implementation = isWebDoctor ? 'Web Doctor' : 'Rsdoctor';
+  const website = 'https://rsdoctor.dev';
+  const version =
+    dependencies['@web-doctor/webpack-plugin(builder)'] ??
+    dependencies['@web-doctor/rspack-plugin(builder)'] ??
+    dependencies['@web-doctor/webpack-plugin'] ??
+    dependencies['@web-doctor/rspack-plugin'] ??
+    dependencies['@rsdoctor/rspack-plugin'] ??
+    dependencies['@rsdoctor/webpack-plugin'] ??
+    dependencies['@rsdoctor/core'];
+
   const costs: SummaryCostsData[] = _(doctor.summary.costs)
     .sortBy(['startAt', 'name', 'costs'])
     .sortedUniqBy('name')
@@ -102,10 +123,12 @@ const Page: FC = () => {
           <Theme appearance="light" hasBackground={false} asChild>
             <IndicateCard.Column>
               <Heading as="h1" color="gray" className={styles.heading}>
-                Rsdoctor
+                {implementation}
               </Heading>
               <Flex gap="2">
-                <button type="button">v1.2.0</button>
+                <button type="button">
+                  {version ? `v${version}` : 'Unknown'}
+                </button>
               </Flex>
               <Text as="p" color="gray" size="1">
                 Click to open panel with complete features.
@@ -118,13 +141,9 @@ const Page: FC = () => {
             <Box>
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
-                <Link
-                  href="https://rsdoctor.dev"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link href={website} target="_blank" rel="noopener noreferrer">
                   <HiLink />
-                  <Text>rsdoctor.dev</Text>
+                  <Text>{parseURL(website).host}</Text>
                 </Link>
               </Flex>
             </Box>
@@ -133,9 +152,6 @@ const Page: FC = () => {
         </IndicateCard>
         <IndicateCard className={styles.countCard}>
           <IndicateCard.Column>
-            <Text className={styles.countText} size="1">
-              <HiMiniScale /> 114 MB
-            </Text>
             <Text className={styles.countText} size="1">
               <HiMiniRectangleStack /> {doctor.numModules} modules
             </Text>
