@@ -31,9 +31,14 @@ export async function parseConfig(
   );
 
   rsbuildPlugins.push(
-    pluginBabel({
-      babelLoaderOptions: uniBuilderConfig.tools?.babel,
-    }),
+    pluginBabel(
+      {
+        babelLoaderOptions: uniBuilderConfig.tools?.babel,
+      },
+      {
+        transformLodash: uniBuilderConfig.performance?.transformLodash ?? true,
+      },
+    ),
   );
   rsbuildPlugins.push(pluginReact());
 

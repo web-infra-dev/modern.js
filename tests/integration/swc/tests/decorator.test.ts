@@ -6,7 +6,7 @@ const fixtures = path.resolve(__dirname, '../fixtures');
 
 const getJsFiles = (appDir: string) =>
   readdirSync(path.resolve(appDir, 'dist/static/js'))
-    .filter(filepath => /\.js$/.test(filepath))
+    .filter(filepath => /\.js.map$/.test(filepath))
     .map(filePath =>
       readFileSync(path.join(appDir, 'dist/static/js', filePath)),
     );
@@ -19,7 +19,9 @@ describe('swc use new decorator', () => {
 
     const jsFiles = getJsFiles(appDir);
     expect(
-      jsFiles.some(item => item.includes('@swc/helpers/esm/_decorate.js')),
+      jsFiles.some(item =>
+        item.includes('@swc/helpers/esm/_apply_decs_2203_r.js'),
+      ),
     ).toBeTruthy();
   });
 

@@ -862,6 +862,36 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "name": "HotModuleReplacementPlugin",
     },
     HtmlWebpackPlugin {
+      "options": {
+        "base": false,
+        "cache": true,
+        "chunks": [
+          "index",
+        ],
+        "chunksSortMode": "auto",
+        "compile": true,
+        "entryName": "index",
+        "excludeChunks": [],
+        "favicon": false,
+        "filename": "html/index/index.html",
+        "hash": false,
+        "inject": "head",
+        "meta": {
+          "charset": {
+            "charset": "UTF-8",
+          },
+          "viewport": "width=device-width, initial-scale=1.0",
+        },
+        "minify": false,
+        "publicPath": "auto",
+        "scriptLoading": "defer",
+        "showErrors": true,
+        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "templateContent": false,
+        "templateParameters": [Function],
+        "title": "",
+        "xhtml": false,
+      },
       "userOptions": {
         "chunks": [
           "index",
@@ -936,7 +966,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "options": {
         "exclude": /node_modules/i,
         "forceEnable": false,
-        "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
+        "include": [
+          /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        ],
       },
     },
   ],
@@ -1911,6 +1943,55 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "plugins": [
     HtmlWebpackPlugin {
+      "options": {
+        "base": false,
+        "cache": true,
+        "chunks": [
+          "index",
+        ],
+        "chunksSortMode": "auto",
+        "compile": true,
+        "entryName": "index",
+        "excludeChunks": [],
+        "favicon": false,
+        "filename": "html/index/index.html",
+        "hash": false,
+        "inject": "head",
+        "meta": {
+          "charset": {
+            "charset": "UTF-8",
+          },
+          "viewport": "width=device-width, initial-scale=1.0",
+        },
+        "minify": {
+          "collapseWhitespace": true,
+          "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
+          "removeComments": false,
+          "removeEmptyAttributes": true,
+          "removeRedundantAttributes": true,
+          "removeScriptTypeAttributes": true,
+          "removeStyleLinkTypeAttributes": true,
+          "useShortDoctype": true,
+        },
+        "publicPath": "auto",
+        "scriptLoading": "defer",
+        "showErrors": true,
+        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "templateContent": false,
+        "templateParameters": [Function],
+        "title": "",
+        "xhtml": false,
+      },
       "userOptions": {
         "chunks": [
           "index",
