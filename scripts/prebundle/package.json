@@ -111,7 +111,7 @@
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "schema-utils3": "npm:schema-utils@3.1.1",
-    "semver": "7.3.7",
+    "semver": "7.6.0",
     "serialize-javascript": "^6.0.0",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",
