@@ -37,7 +37,12 @@ export const getPresetReact = (rootPath: string, isProd: boolean) => {
   return [require.resolve('@babel/preset-react'), presetReactOptions];
 };
 
-export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
+export const pluginBabel = (
+  options: PluginBabelOptions,
+  extraOptions: {
+    transformLodash?: boolean;
+  },
+): RsbuildPlugin => ({
   name: 'uni-builder:babel',
 
   post: [
@@ -102,10 +107,7 @@ export const pluginBabel = (options?: PluginBabelOptions): RsbuildPlugin => ({
                 });
 
           applyPluginImport(baseBabelConfig, config.source.transformImport);
-          applyPluginLodash(
-            baseBabelConfig,
-            config.performance.transformLodash,
-          );
+          applyPluginLodash(baseBabelConfig, extraOptions.transformLodash);
 
           baseBabelConfig.presets?.push(
             getPresetReact(api.context.rootPath, isProd),
