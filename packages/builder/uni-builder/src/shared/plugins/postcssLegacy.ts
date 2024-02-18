@@ -19,6 +19,7 @@ export const pluginPostcssLegacy = (
       const enableCssMinify = !enableExtractCSS && isProd;
 
       const plugins = [
+        require('postcss-flexbugs-fixes'),
         !cssSupport.customProperties && require('postcss-custom-properties'),
         !cssSupport.initial && require('postcss-initial'),
         !cssSupport.pageBreak && require('postcss-page-break'),

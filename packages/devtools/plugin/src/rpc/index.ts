@@ -193,7 +193,7 @@ export const setupClientConnection = async (
           : api.modifyRspackConfig;
       const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
+      modifyBundlerConfig((config: any) => {
         bundlerConfigs.push(config as JsonValue);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(

@@ -125,6 +125,11 @@ const extendContext = createAsyncPipeline<
 
 const handleError = createParallelWorkflow<{ error: Error }>();
 
+const handleSSRFallback = createParallelWorkflow<{
+  ctx: ModernServerContext;
+  type: 'query' | 'error' | 'header';
+}>();
+
 export type RequestResult = { isfinish: boolean };
 const beforeMatch = createAsyncPipeline<
   { context: ModernServerContext },
@@ -212,6 +217,7 @@ const serverHooks = {
   extendSSRContext,
   extendContext,
   handleError,
+  handleSSRFallback,
   beforeMatch,
   afterMatch,
   prefetch,

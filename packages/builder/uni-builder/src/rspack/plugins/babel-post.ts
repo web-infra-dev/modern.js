@@ -17,10 +17,14 @@ export const pluginBabelPost = (): RsbuildPlugin => ({
           .rule(CHAIN_ID.RULE.JS)
           .use(CHAIN_ID.USE.BABEL)
           .get('options');
+        const config = api.getNormalizedConfig();
 
         if (
           babelLoaderOptions &&
-          lodash.isEqual(getDefaultBabelOptions(), babelLoaderOptions)
+          lodash.isEqual(
+            getDefaultBabelOptions(config.source.decorators),
+            babelLoaderOptions,
+          )
         ) {
           chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
         }
