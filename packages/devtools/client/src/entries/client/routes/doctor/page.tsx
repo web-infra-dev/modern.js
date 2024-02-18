@@ -16,7 +16,6 @@ import {
   HiMiniExclamationCircle,
   HiMiniInboxStack,
   HiMiniRectangleStack,
-  HiMiniScale,
 } from 'react-icons/hi2';
 import _ from 'lodash';
 import clsx from 'clsx';
@@ -143,9 +142,6 @@ const Page: FC = () => {
         </IndicateCard>
         <IndicateCard className={styles.countCard}>
           <IndicateCard.Column>
-            <Text className={styles.countText} size="1">
-              <HiMiniScale /> 114 MB
-            </Text>
             <Text className={styles.countText} size="1">
               <HiMiniRectangleStack /> {doctor.numModules} modules
             </Text>
