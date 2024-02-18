@@ -152,6 +152,14 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
+     * @deprecated use `output.filenameHash` instead
+     */
+    disableFilenameHash?: boolean;
+    /**
+     * @deprecated use `source.decorators` instead
+     */
+    enableLatestDecorators?: boolean;
+    /**
      * @deprecated use `output.cssModules.localIdentName` instead
      */
     cssModuleLocalIdentName?: string;

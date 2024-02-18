@@ -113,7 +113,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },
@@ -260,7 +260,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },
@@ -407,7 +407,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },
@@ -501,6 +501,8 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
             },
             "preserveAllComments": true,
             "transform": {
+              "decoratorMetadata": true,
+              "legacyDecorator": true,
               "react": {
                 "refresh": true,
                 "runtime": "classic",
