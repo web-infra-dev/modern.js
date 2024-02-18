@@ -192,6 +192,7 @@ async function prepareStorybookModules(
       ...mappingsAlias,
     },
     builderConfig.source.alias,
+    { target: 'web' },
   );
 
   if (isDev()) {
@@ -439,6 +440,7 @@ async function applyReact(config: RsbuildConfig, options: Options) {
         '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
       },
       config.source.alias,
+      { target: 'web' },
     );
   }
 }
