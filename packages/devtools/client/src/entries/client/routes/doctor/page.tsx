@@ -41,6 +41,10 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
       ? undefined
       : `${WEBPACK_HOOKS_PREFIX}#${hook.toLowerCase()}`,
   );
+  const formattedCost =
+    cost.costs > 1_000
+      ? `${(cost.costs / 1_000).toFixed(2)}s`
+      : `${cost.costs}ms`;
   return (
     <HoverCard.Root>
       <HoverCard.Trigger>
@@ -50,7 +54,7 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
             color="gray"
             className={clsx(styles.textTruncation, styles.costLabel)}
           >
-            {_.startCase(cost.title)}({cost.costs}ms)
+            {_.startCase(cost.title)}({formattedCost})
           </Text>
           <Box className={styles.costBar} />
         </Box>
@@ -60,7 +64,7 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
           <Link target="_blank" href={leftHref}>
             {leftHook}
           </Link>
-          <Text> ···{cost.costs}ms··· </Text>
+          <Text> ···{formattedCost}··· </Text>
           <Link target="_blank" href={rightHref}>
             {rightHook}
           </Link>
