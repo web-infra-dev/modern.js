@@ -28,14 +28,12 @@ export async function getCompiler(
     (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
     loadedConfig;
 
-  const uniBuilderConfig = (
-    builderOptions.builderConfig
-      ? mergeRsbuildConfig(
-          finalConfig as RsbuildConfig,
-          builderOptions.builderConfig as RsbuildConfig,
-        )
-      : finalConfig || {}
-  ) as BuilderConfig;
+  const uniBuilderConfig = builderOptions.builderConfig
+    ? (mergeRsbuildConfig(
+        finalConfig as RsbuildConfig,
+        builderOptions.builderConfig as RsbuildConfig,
+      ) as BuilderConfig)
+    : finalConfig || {};
 
   const bundlerType = bundler || 'webpack';
 
@@ -43,6 +41,7 @@ export async function getCompiler(
     bundlerType,
     cwd,
     target: 'web',
+    frameworkConfigPath: res?.path ? res?.path : undefined,
     config:
       bundlerType === 'webpack'
         ? await addonBabelAdapter(uniBuilderConfig, options)

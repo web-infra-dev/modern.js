@@ -43,6 +43,8 @@ export const modern = (
 ): UniBuilderConfig => {
   return {
     ...builderConfig,
+    // modern plugin can't be used as Rsbuild plugin
+    plugins: [],
 
     output: {
       ...builderConfig.output,
