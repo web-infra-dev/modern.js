@@ -20,6 +20,7 @@ import {
 } from 'react-icons/hi2';
 import _ from 'lodash';
 import clsx from 'clsx';
+import { $dependencies } from '../state';
 import logo from './rsdoctor-large.png';
 import { $doctor } from './state';
 import styles from './page.module.scss';
@@ -72,6 +73,13 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 
 const Page: FC = () => {
   const doctor = useSnapshot($doctor);
+
+  const dependencies = useSnapshot($dependencies);
+  const version =
+    dependencies['@rsdoctor/rspack-plugin'] ??
+    dependencies['@rsdoctor/webpack-plugin'] ??
+    dependencies['@rsdoctor/core'];
+
   const costs: SummaryCostsData[] = _(doctor.summary.costs)
     .sortBy(['startAt', 'name', 'costs'])
     .sortedUniqBy('name')
@@ -105,7 +113,9 @@ const Page: FC = () => {
                 Rsdoctor
               </Heading>
               <Flex gap="2">
-                <button type="button">v1.2.0</button>
+                <button type="button">
+                  {version ? `v${version}` : 'Unknown'}
+                </button>
               </Flex>
               <Text as="p" color="gray" size="1">
                 Click to open panel with complete features.

@@ -125,6 +125,15 @@ export const setupClientConnection = async (
           '@rsbuild/core',
           '@rspack/core/package.json',
         ],
+        '@rsdoctor/rspack-plugin': [
+          ctx.rootPath,
+          '@rsdoctor/rspack-plugin/package.json',
+        ],
+        '@rsdoctor/webpack-plugin': [
+          ctx.rootPath,
+          '@rsdoctor/webpack-plugin/package.json',
+        ],
+        '@rsdoctor/core': [ctx.rootPath, '@rsdoctor/core/package.json'],
       };
 
       for (const [name, expr] of Object.entries(resolveExprs)) {
