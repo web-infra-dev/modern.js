@@ -6,6 +6,7 @@ import {
   httpCallBack2HonoMid,
   connectMid2HonoMid,
   ServerNodeContext,
+  sendResponse,
 } from './adapters/node';
 import { registerMockHandlers } from './adapters/node/middlewares/mock';
 
@@ -19,8 +20,7 @@ export {
 export { injectReporter, injectLogger } from './middlewares/monitor';
 export * from './middlewares';
 export { bindBFFHandler } from './adapters/node/bff';
-
-export { httpCallBack2HonoMid, connectMid2HonoMid };
+export { httpCallBack2HonoMid, connectMid2HonoMid, sendResponse };
 export type { ServerNodeContext, ServerBaseOptions, Next, Middleware };
 export { registerMockHandlers, loadServerEnv };
 export { createNodeServer, ServerBase };

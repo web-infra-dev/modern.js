@@ -40,7 +40,7 @@ export const createWebRequest = (
   return request;
 };
 
-const sendResponse = async (response: Response, res: NodeResponse) => {
+export const sendResponse = async (response: Response, res: NodeResponse) => {
   res.statusMessage = response.statusText;
   res.statusCode = response.status;
 

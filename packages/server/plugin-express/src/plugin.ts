@@ -1,24 +1,30 @@
 import * as path from 'path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { Readable } from 'node:stream';
 import express, { RequestHandler, Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import { APIHandlerInfo } from '@modern-js/bff-core';
-import { fs, compatRequire } from '@modern-js/utils';
+import { fs, compatRequire, logger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
-import type { ServerPlugin } from '@modern-js/server-core';
-import { httpCallBack2HonoMid } from '@modern-js/server-core/base';
+import type { Render, ServerPlugin } from '@modern-js/server-core';
+import {
+  httpCallBack2HonoMid,
+  sendResponse,
+} from '@modern-js/server-core/base';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
-type Middleware = RequestHandler | string;
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Express {
+    interface Request {
+      // eslint-disable-next-line node/no-unsupported-features/es-builtins
+      __honoRequest: globalThis.Request;
+    }
+  }
+}
 
-type Render = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  url?: string,
-) => Promise<string | Readable | null>;
+type Middleware = RequestHandler | string;
 
 type Hooks = {
   afterLambdaRegisted?: (app: Express) => void;
@@ -107,10 +113,14 @@ const createApp = async ({
   }
 
   if (render) {
+    // eslint-disable-next-line consistent-return
     app.use(async (req, res, next) => {
-      const html = await render(req, res);
-      if (html) {
-        res.end(html);
+      const response = await render(req.__honoRequest, {
+        logger,
+        nodeReq: req,
+      });
+      if (response) {
+        return sendResponse(response, res).then(next);
       }
       next();
     });

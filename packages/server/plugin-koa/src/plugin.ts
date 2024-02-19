@@ -1,22 +1,24 @@
 import * as path from 'path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { Readable } from 'node:stream';
 import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
-import { fs, compatRequire } from '@modern-js/utils';
-import type { ServerPlugin } from '@modern-js/server-core';
-import { httpCallBack2HonoMid } from '@modern-js/server-core/base';
+import { fs, compatRequire, logger } from '@modern-js/utils';
+import type { Render, ServerPlugin } from '@modern-js/server-core';
+import {
+  httpCallBack2HonoMid,
+  sendResponse,
+} from '@modern-js/server-core/base';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
-type Render = (
-  req: IncomingMessage,
-  res: ServerResponse,
-  url?: string,
-) => Promise<string | Readable | null>;
+declare module 'http' {
+  interface IncomingMessage {
+    __honoRequest: Request;
+  }
+}
 
 const findAppModule = async (apiDir: string) => {
   const exts = ['.ts', '.js'];
@@ -96,11 +98,16 @@ const createApp = async ({
   }
 
   app.use(router.routes());
+
   if (render) {
     app.use(async (ctx, next) => {
-      const html = await render(ctx.req, ctx.res);
-      if (html) {
-        ctx.body = html;
+      const response = await render(ctx.req.__honoRequest, {
+        logger,
+        nodeReq: ctx.req,
+      });
+
+      if (response) {
+        await sendResponse(response, ctx.res);
       }
       await next();
     });
