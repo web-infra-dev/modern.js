@@ -1,11 +1,18 @@
 import { NodeRequest, NodeResponse } from '@core/plugin';
 import { Reporter } from '@modern-js/types/server';
 import { Logger } from '@modern-js/types';
-import { HonoContext, Middleware, Next } from '../../../core/server';
+import {
+  HonoContext,
+  HonoRequest,
+  Middleware,
+  Next,
+} from '../../../core/server';
 
 type NodeBindings = {
   node: {
-    req: NodeRequest;
+    req: NodeRequest & {
+      __honoRequest: HonoRequest;
+    };
     res: NodeResponse;
   };
 };
@@ -23,14 +30,19 @@ export type HonoNodeEnv = {
 export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;
 export type ServerNodeContext = HonoContext<HonoNodeEnv>;
 
-type Handler = (req: NodeRequest, res: NodeResponse) => void;
+type Handler = (req: NodeRequest, res: NodeResponse) => void | Promise<void>;
 
 export const httpCallBack2HonoMid = (handler: Handler) => {
   return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
     const { req, res } = context.env.node;
-    handler(req, res);
-    context.finalized = true;
-    await next();
+    // for bff.enableHandleWeb
+    req.__honoRequest = context.req;
+    await handler(req, res);
+    if (res.headersSent) {
+      context.finalized = true;
+    } else {
+      await next();
+    }
   };
 };
 
