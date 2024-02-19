@@ -1,5 +1,6 @@
 import { ServerRoute } from '@modern-js/types';
 import { ServerHookRunner } from '@core/plugin';
+import { time } from '@modern-js/runtime-utils/time';
 import { Metrics, Middleware, HonoNodeEnv } from '../types';
 import {
   createAfterMatchCtx,
@@ -9,6 +10,7 @@ import {
 } from '../libs/customServer';
 import { createTransformStream } from '../libs/utils';
 import { ServerBase } from '../serverBase';
+import { ServerReportTimings } from '../libs/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -61,6 +63,7 @@ export class CustomServer {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
       const logger = c.get('logger');
+      const reporter = c.get('reporter');
       const afterMatchCtx = createAfterMatchCtx(
         c,
         entryName,
@@ -68,8 +71,14 @@ export class CustomServer {
         this.metrics,
       );
 
-      // TODO: reportTiming
+      const getCost = time();
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
+      const cost = getCost();
+      cost &&
+        reporter.reportTiming(
+          ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
+          cost,
+        );
 
       const {
         // current,
@@ -93,15 +102,14 @@ export class CustomServer {
 
       // TODO: reduce the number of calls
       if (c.finalized) {
-        // eslint-disable-next-line consistent-return
-        return;
+        return undefined;
       }
 
       await next();
 
-      if (c.finalized) {
-        // eslint-disable-next-line consistent-return
-        return;
+      if (c.finalized && !c.res.body) {
+        // We shouldn't handle response.body, if response body == null
+        return undefined;
       }
 
       if (routeInfo.isStream) {
@@ -136,12 +144,17 @@ export class CustomServer {
           this.metrics,
         );
 
-        // TODO: repoteTiming
+        const getCost = time();
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
+        const cost = getCost();
+        cost &&
+          reporter.reportTiming(
+            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
+            cost,
+          );
 
         if ((afterRenderCtx.response as any).private_overrided) {
-          // eslint-disable-next-line consistent-return
-          return;
+          return undefined;
         }
 
         const newBody = afterRenderCtx.template.get();
@@ -159,6 +172,7 @@ export class CustomServer {
         return next();
       }
 
+      const reporter = c.get('reporter');
       const logger = c.get('logger');
 
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
@@ -167,8 +181,11 @@ export class CustomServer {
         this.metrics,
       );
 
-      // TODO: add server timing report
+      const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
+      const cost = getCost();
+      cost &&
+        reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
 
       if (!c.finalized) {
         return next();

@@ -7,6 +7,7 @@ import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
 import { checkIsProd, getRuntimeEnv } from '../libs/utils';
+import { initReporter } from '../adapters/monitor';
 import { ssrCache } from './ssrCache';
 import { Render, createRender } from './render';
 
@@ -64,6 +65,9 @@ export async function bindRenderHandler(
         entryName || 'main',
         routes,
       );
+
+      // init reporter.client when every request call
+      server.use(urlPath, initReporter(entryName!));
 
       server.use(urlPath, customServerHookMiddleware);
 

@@ -514,7 +514,7 @@ export class ModernServer implements ModernServerInterface {
 
     // TODO: move suitable location
     // initial for every route handle
-    await reporter.init({ match: matched });
+    await reporter.init({ entryName: matched.spec.entryName! });
 
     const end = time();
 
