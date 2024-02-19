@@ -1,5 +1,5 @@
 import { Reporter } from '@modern-js/types';
-import { Logger, Metrics } from '../types';
+import { Logger, Metrics } from '../../core/server';
 
 export const defaultMetrics: Metrics = {
   emitCounter() {

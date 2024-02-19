@@ -1,11 +1,33 @@
 import { NodeRequest, NodeResponse } from '@core/plugin';
-import { HonoContext, HonoNodeEnv, Middleware, Next } from '../types';
+import { Reporter } from '@modern-js/types/server';
+import { Logger } from '@modern-js/types';
+import { HonoContext, Middleware, Next } from '../../../core/server';
+
+type NodeBindings = {
+  node: {
+    req: NodeRequest;
+    res: NodeResponse;
+  };
+};
+
+type NodeVariables = {
+  reporter: Reporter;
+  logger: Logger;
+};
+
+export type HonoNodeEnv = {
+  Bindings: NodeBindings;
+  Variables: NodeVariables;
+};
+
+export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;
+export type ServerNodeContext = HonoContext<HonoNodeEnv>;
 
 type Handler = (req: NodeRequest, res: NodeResponse) => void;
 
 export const httpCallBack2HonoMid = (handler: Handler) => {
   return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
-    const { req, res } = context.env.node!;
+    const { req, res } = context.env.node;
     handler(req, res);
     context.finalized = true;
     await next();
@@ -26,7 +48,7 @@ const noop = () => {};
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
   return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
     return new Promise((resolve, reject) => {
-      const { req, res } = context.env.node!;
+      const { req, res } = context.env.node;
       if (handler.length < 3) {
         resolve(handler(req, res, noop));
       } else {

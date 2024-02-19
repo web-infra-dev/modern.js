@@ -13,7 +13,7 @@ import type {
 import { ServerOptions } from '@config/index';
 import { ServerHookRunner, ServerPlugin } from '@core/plugin';
 import { MiddlewareHandler } from 'hono';
-import { HonoContext, HonoEnv, HonoNodeEnv } from './hono';
+import { HonoEnv } from './hono';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -121,8 +121,5 @@ export type RequestHandler = (
   request: Request,
   ...args: any[]
 ) => Response | Promise<Response>;
-
-export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;
-export type ServerNodeContext = HonoContext<HonoNodeEnv>;
 
 export * from './hono';
