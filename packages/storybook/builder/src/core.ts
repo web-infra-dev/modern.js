@@ -41,7 +41,7 @@ export async function getCompiler(
     bundlerType,
     cwd,
     target: 'web',
-    frameworkConfigPath: res?.path ? res?.path : undefined,
+    frameworkConfigPath: res?.path ? res.path : undefined,
     config:
       bundlerType === 'webpack'
         ? await addonBabelAdapter(uniBuilderConfig, options)
