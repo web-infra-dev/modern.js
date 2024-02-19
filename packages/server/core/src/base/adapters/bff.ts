@@ -2,7 +2,7 @@ import { isWebOnly } from '@modern-js/utils';
 import { HttpMethodDecider } from '@modern-js/types';
 import { createMiddlewareCollecter, getRuntimeEnv } from '../libs/utils';
 import { ServerBase } from '../serverBase';
-import { ServerNodeMiddleware } from './node';
+import { ServerNodeMiddleware } from '../types';
 
 type BFFOptions = {
   pwd: string;

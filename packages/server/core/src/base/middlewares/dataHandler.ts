@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { ServerRoute, NestedRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
-import { Middleware } from '../../core/server';
+import { Middleware } from '../types';
 import type { ServerBase } from '../serverBase';
 
 type ServerLoaderModule = {
