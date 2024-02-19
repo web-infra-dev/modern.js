@@ -2,6 +2,7 @@ import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
 import { Metrics } from '@modern-js/types';
+import { Render } from '@core/render';
 import { Middleware, ServerBaseOptions } from '../../core/server';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
@@ -10,7 +11,7 @@ import { checkIsProd, getRuntimeEnv } from '../libs/utils';
 import { HonoNodeEnv } from '../adapters/node';
 import { initReporter } from '../middlewares/monitor';
 import { ssrCache } from './ssrCache';
-import { Render, createRender } from './render';
+import { createRender } from './render';
 
 function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {

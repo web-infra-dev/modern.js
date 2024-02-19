@@ -28,6 +28,7 @@ import type {
 
 import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
 import { HonoMiddleware } from './hono';
+import { Render } from './render';
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{
@@ -77,7 +78,7 @@ export type APIServerStartInput = {
   config?: {
     middleware?: Array<any>;
   };
-  render?: HonoMiddleware | null;
+  render?: Render | null;
 };
 
 type Change = {

@@ -1,21 +1,11 @@
 import path from 'path';
-import { IncomingMessage } from 'http';
-import { Logger, ServerRoute } from '@modern-js/types';
+import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
+import { Render } from '@core/render';
 import { parseQuery } from '../libs/request';
 import { createErrorHtml } from '../libs/utils';
 import { ssrRender } from './ssrRender';
-
-export interface RenderOptions {
-  logger: Logger;
-  nodeReq?: IncomingMessage;
-}
-
-export type Render = (
-  request: Request,
-  options: RenderOptions,
-) => Promise<Response>;
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
@@ -102,9 +92,8 @@ function getRenderMode(
 
   if (isSSR) {
     if (
-      forceCSR &&
-      (query.csr ||
-        req.headers.get(`x-${cutNameByHyphen(framework)}-ssr-fallback`))
+      (forceCSR && query.csr) ||
+      req.headers.get(`x-${cutNameByHyphen(framework)}-ssr-fallback`)
     ) {
       return 'csr';
     }
