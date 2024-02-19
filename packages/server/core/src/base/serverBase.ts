@@ -6,7 +6,6 @@ import {
   ensureAbsolutePath,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
-import { ServerOptions } from '@config/index';
 import { Hono } from 'hono';
 import {
   AppContext,
@@ -35,30 +34,18 @@ export class ServerBase<E extends HonoEnv = any> {
 
   public runner!: ServerHookRunner;
 
-  private workDir: string;
-
-  private distDir: string;
-
   private app: Hono<E>;
 
   private serverConfig: ServerConfig = {};
-
-  private conf: ServerOptions;
 
   constructor(options: ServerBaseOptions) {
     this.options = options;
 
     this.app = new Hono<E>();
-    this.serverConfig = {};
-    const { pwd, config } = options;
-    this.distDir = path.resolve(pwd, config.output.path || 'dist');
-    this.workDir = this.distDir;
-    this.conf = config;
   }
 
   /**
    * 初始化顺序
-   * - 读取 .env.{process.env.MODERN_ENV} 文件，加载环境变量
    * - 获取 server runtime config
    * - 设置 context
    * - 创建 hooksRunner
@@ -66,16 +53,9 @@ export class ServerBase<E extends HonoEnv = any> {
    * - 执行 config hook
    * - 获取最终的配置
    * - 设置配置到 context
-   * - 初始化 server
    * - 执行 prepare hook
-   * - 执行 server init
    */
-  async init(
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    { disableHttpServer = false }: { disableHttpServer?: boolean } = {
-      disableHttpServer: false,
-    },
-  ) {
+  async init() {
     const { options } = this;
 
     this.initServerConfig(options);
