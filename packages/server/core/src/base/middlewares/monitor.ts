@@ -1,8 +1,9 @@
-import { Next } from 'hono';
+import type { Next } from 'hono';
 import { Logger, Reporter } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { HonoContext, HonoNodeEnv } from '../types';
 import { ServerReportTimings } from '../libs/constants';
+import { HonoContext } from '../../core/server';
+import { HonoNodeEnv } from '../adapters/node';
 
 const defaultReporter: Reporter = {
   init() {

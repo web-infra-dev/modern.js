@@ -1,4 +1,3 @@
-import { Readable } from 'stream';
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { Component } from 'react';
 import {
@@ -27,9 +26,8 @@ import type {
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
-// TODO: should not import hono
-import type { MiddlewareHandler } from 'hono';
 import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
+import { HonoMiddleware } from './hono';
 
 // collect all middleware register in server plugins
 const gather = createParallelWorkflow<{
@@ -79,11 +77,7 @@ export type APIServerStartInput = {
   config?: {
     middleware?: Array<any>;
   };
-  render?: (
-    req: IncomingMessage,
-    res: ServerResponse,
-    url?: string,
-  ) => Promise<string | Readable | null>;
+  render?: HonoMiddleware | null;
 };
 
 type Change = {
@@ -93,7 +87,7 @@ type Change = {
 
 const prepareApiServer = createAsyncPipeline<
   APIServerStartInput,
-  MiddlewareHandler
+  HonoMiddleware
 >();
 
 const onApiChange = createAsyncWaterfall<Change[]>();

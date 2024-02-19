@@ -16,7 +16,7 @@ import {
   loadPlugins,
   serverManager,
 } from '../core';
-import { HonoEnv, ServerBaseOptions } from './types';
+import { HonoEnv, ServerBaseOptions } from '../core/server';
 import { debug } from './utils';
 import {
   getServerConfigPath,
@@ -91,6 +91,7 @@ export class ServerBase<E extends HonoEnv = any> {
     // FIXME: injectContext fn not need call twice.
     await this.injectContext(options);
 
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await this.runner.prepare();
 
     return this;

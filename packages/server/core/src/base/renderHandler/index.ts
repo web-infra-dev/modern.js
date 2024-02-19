@@ -2,12 +2,13 @@ import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
 import { Metrics } from '@modern-js/types';
-import { Middleware, ServerBaseOptions, HonoNodeEnv } from '../types';
+import { Middleware, ServerBaseOptions } from '../../core/server';
 import { ServerBase } from '../serverBase';
 import { CustomServer } from '../middlewares';
 import { warmup } from '../libs/warmup';
 import { checkIsProd, getRuntimeEnv } from '../libs/utils';
-import { initReporter } from '../adapters/monitor';
+import { HonoNodeEnv } from '../adapters/node';
+import { initReporter } from '../middlewares/monitor';
 import { ssrCache } from './ssrCache';
 import { Render, createRender } from './render';
 
@@ -28,17 +29,34 @@ export type BindRenderHandleOptions = {
   staticGenerate?: boolean;
 };
 
+export function getRenderHandler(
+  options: ServerBaseOptions & BindRenderHandleOptions,
+) {
+  const { routes, pwd, config } = options;
+  if (routes && routes.length > 0) {
+    const ssrConfig = config.server?.ssr;
+    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+    const render = createRender({
+      routes,
+      pwd,
+      staticGenerate: options.staticGenerate,
+      metaName: options.metaName || 'modern-js',
+      forceCSR,
+      nonce: options.config.security?.nonce,
+    });
+    return createRenderHandler(render);
+  }
+  return null;
+}
+
 export async function bindRenderHandler(
   server: ServerBase,
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { config, routes, pwd, metrics } = options;
+  const { routes, pwd, metrics } = options;
 
   const { runner } = server;
   if (routes && routes.length > 0) {
-    // TODO: get server config from server.ssr & server.ssrByEntries
-    const ssrConfig = config.server?.ssr;
-    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
     const customServer = new CustomServer(runner, server, pwd, metrics);
 
     // warn ssr bundles
@@ -83,15 +101,8 @@ export async function bindRenderHandler(
       }
     }
 
-    const render = createRender({
-      routes,
-      pwd,
-      staticGenerate: options.staticGenerate,
-      metaName: options.metaName || 'modern-js',
-      forceCSR,
-      nonce: options.config.security?.nonce,
-    });
+    const render = getRenderHandler(options);
 
-    server.get('*', createRenderHandler(render));
+    render && server.get('*', render);
   }
 }
