@@ -12,7 +12,7 @@ describe('autoExtension', () => {
       appDirectory: fixtureDir,
       enableDts: true,
     });
-    const cwd = path.join(fixtureDir, 'dist');
+    const cwd = path.join(fixtureDir, 'dist/cjs');
     const outputDeclarationFile = await globby('*.d.cts', {
       cwd,
     });
@@ -31,6 +31,12 @@ describe('autoExtension', () => {
     expect(
       content.includes('./common.cjs') &&
         content.includes('//# sourceMappingURL=index.cjs.map'),
+    ).toBeTruthy();
+
+    const esmContent = await fs.readFile(
+      path.join(fixtureDir, 'dist/esm', 'index.js'),
+      'utf-8',
     );
+    expect(esmContent.includes('./common.js')).toBeTruthy();
   });
 });
