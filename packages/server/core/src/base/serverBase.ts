@@ -131,11 +131,9 @@ export class ServerBase<E extends HonoEnv = any> {
 
   private initServerConfig(options: ServerBaseOptions) {
     const { pwd, serverConfigFile } = options;
-    const distDirectory = [pwd, options.config.output.path || 'dist'].join('/');
-    const serverConfigPath = getServerConfigPath(
-      distDirectory,
-      serverConfigFile,
-    );
+
+    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
+
     const serverConfig = requireConfig(serverConfigPath);
     this.serverConfig = serverConfig;
   }
