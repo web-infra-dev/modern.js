@@ -1,20 +1,19 @@
 import { isWebOnly } from '@modern-js/utils';
-import { HttpMethodDecider } from '@modern-js/types';
-import { createMiddlewareCollecter, getRuntimeEnv } from '../libs/utils';
-import { ServerBase } from '../serverBase';
-import { ServerNodeMiddleware } from './node';
-
-type BFFOptions = {
-  pwd: string;
-  prefix?: string;
-  httpMethodDecider?: HttpMethodDecider;
-};
+import {
+  BindRenderHandleOptions,
+  getRenderHandler,
+} from '../../../base/renderHandler';
+import { ServerBaseOptions } from '../../../base';
+import { createMiddlewareCollecter, getRuntimeEnv } from '../../libs/utils';
+import { ServerBase } from '../../serverBase';
+import { ServerNodeMiddleware } from './hono';
 
 export const bindBFFHandler = async (
   server: ServerBase,
-  options: BFFOptions,
+  options: ServerBaseOptions & BindRenderHandleOptions,
 ) => {
-  const prefix = options?.prefix || '/api';
+  const prefix = options.config.bff.prefix || '/api';
+  const { httpMethodDecider } = options.config.bff;
   const runtimeEnv = getRuntimeEnv();
   if (runtimeEnv !== 'node') {
     return;
@@ -25,6 +24,7 @@ export const bindBFFHandler = async (
 
   const webOnly = await isWebOnly();
   let handler: ServerNodeMiddleware;
+  const renderHandler = getRenderHandler(options);
   if (webOnly) {
     handler = async (c, next) => {
       c.body('');
@@ -35,7 +35,8 @@ export const bindBFFHandler = async (
       {
         pwd: options.pwd,
         prefix,
-        httpMethodDecider: options.httpMethodDecider,
+        render: renderHandler,
+        httpMethodDecider,
       },
       { onLast: () => null as any },
     );

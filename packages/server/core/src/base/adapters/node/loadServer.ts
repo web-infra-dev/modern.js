@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, dotenv, dotenvExpand } from '@modern-js/utils';
-import { ServerBaseOptions } from '../types';
+import { ServerBaseOptions } from '../../../core/server';
 
 export async function loadServerEnv(options: ServerBaseOptions) {
   const { pwd } = options;
