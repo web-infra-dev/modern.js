@@ -123,7 +123,7 @@ export const pluginStorybook: (
         api.modifyWebpackChain(async chain => {
           await applyDocgenWebpack(chain, options);
         });
-      } else if ('modifyRspackConfig' in api) {
+      } else {
         api.modifyRspackConfig(async config => {
           await modifyConfig(config);
           await applyDocgenRspack(config, options);
