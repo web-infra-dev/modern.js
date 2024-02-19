@@ -44,7 +44,7 @@ export function getRenderHandler(
       forceCSR,
       nonce: options.config.security?.nonce,
     });
-    return createRenderHandler(render);
+    return render;
   }
   return null;
 }
@@ -103,6 +103,6 @@ export async function bindRenderHandler(
 
     const render = getRenderHandler(options);
 
-    render && server.get('*', render);
+    render && server.get('*', createRenderHandler(render));
   }
 }
