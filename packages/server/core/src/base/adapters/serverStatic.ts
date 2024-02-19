@@ -4,8 +4,8 @@ import { readFile } from 'fs/promises';
 import { getMimeType } from 'hono/utils/mime';
 import { OutputNormalizedConfig } from '@config/output';
 import { HtmlNormalizedConfig } from '@config/html';
-import { Middleware } from '../../../../core/server';
-import { createErrorHtml } from '../../../libs/utils';
+import { Middleware } from '../types';
+import { createErrorHtml } from '../libs/utils';
 
 interface ServerStaticOptions {
   pwd: string;

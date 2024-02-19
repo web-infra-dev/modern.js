@@ -1,11 +1,11 @@
 import { Server as NodeServer, createServer, ServerResponse } from 'node:http';
 import { NodeRequest, NodeResponse } from '@core/plugin';
-import { RequestHandler } from '../../../core/server';
+import { RequestHandler } from '../types';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,
-} from './polyfills/stream';
-import { installGlobals } from './polyfills/install';
+} from './stream';
+import { installGlobals } from './polyfills';
 
 installGlobals();
 

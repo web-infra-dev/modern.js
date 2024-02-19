@@ -10,11 +10,11 @@ import {
 import * as isbot from 'isbot';
 import { createTransformStream } from '../libs/utils';
 import { defaultReporter } from '../libs/default';
-import { SSRServerContext, ServerRender } from '../../core/server';
+import { SSRServerContext, ServerRender } from '../types';
 import { REPLACE_REG } from '../libs/constants';
+import { createReadableStreamFromReadable } from '../adapters/stream';
 import { parseHeaders, parseQuery, getHost } from '../libs/request';
 import { ServerTiming } from '../libs/serverTiming';
-import { createReadableStreamFromReadable } from '../adapters/node/polyfills/stream';
 import { ssrCache } from './ssrCache';
 
 interface SSRRenderOptions {
