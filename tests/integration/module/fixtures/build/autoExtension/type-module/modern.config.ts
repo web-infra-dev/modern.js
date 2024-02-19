@@ -8,13 +8,21 @@ export default defineConfig({
       autoExtension: true,
       format: 'cjs',
       sourceMap: true,
+      outDir: 'dist/cjs',
     },
-
     {
       buildType: 'bundleless',
       autoExtension: true,
       format: 'cjs',
       sourceMap: true,
+      outDir: 'dist/cjs',
+    },
+    {
+      buildType: 'bundleless',
+      autoExtension: true,
+      format: 'esm',
+      sourceMap: true,
+      outDir: 'dist/esm',
     },
   ],
 });

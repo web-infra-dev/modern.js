@@ -2,13 +2,6 @@
 import path, { dirname, join } from 'path';
 import { createRequire } from 'node:module';
 import { fs, logger } from '@modern-js/utils';
-import { BuilderWebpackProvider } from '@modern-js/builder-webpack-provider';
-import { BuilderRspackProvider } from '@modern-js/builder-rspack-provider';
-import {
-  AllBuilderConfig,
-  RspackBuilderConfig,
-  WebpackBuilderConfig,
-} from './types';
 
 export const VIRTUAL_MODULE_BASE = '.MODERN_STORYBOOK';
 
@@ -19,35 +12,6 @@ export const requireResolve = (importer: string, path: string) => {
   const require = createRequire(importer);
   require.resolve(path);
 };
-
-export async function getProvider(
-  bundler: 'webpack' | 'rspack' | undefined,
-  builderConfig: AllBuilderConfig,
-): Promise<BuilderWebpackProvider | BuilderRspackProvider | undefined> {
-  try {
-    if (bundler === 'webpack') {
-      const { builderWebpackProvider } = await import(
-        '@modern-js/builder-webpack-provider'
-      );
-      return builderWebpackProvider({
-        builderConfig: builderConfig as WebpackBuilderConfig,
-      });
-    } else if (bundler === 'rspack') {
-      const { builderRspackProvider } = await import(
-        '@modern-js/builder-rspack-provider'
-      );
-      return builderRspackProvider({
-        builderConfig: builderConfig as RspackBuilderConfig,
-      });
-    } else {
-      // auto detect
-      return (
-        (await getProvider('webpack', builderConfig)) ||
-        (await getProvider('rspack', builderConfig))
-      );
-    }
-  } catch (e) {}
-}
 
 // use this instead of virtualModuleWebpackPlugin for rspack compatibility
 export async function virtualModule(

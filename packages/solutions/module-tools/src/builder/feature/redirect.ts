@@ -46,6 +46,7 @@ async function redirectImport(
   filePath: string,
   outputDir: string,
   jsExtension: string,
+  isModule?: boolean,
   matchPath?: MatchPath,
 ): Promise<MagicString> {
   const str: MagicString = new MagicString(code);
@@ -94,7 +95,11 @@ async function redirectImport(
       }
 
       if (redirect.autoExtension) {
-        if (ext === '' && jsExtension !== '.js' && name.startsWith('.')) {
+        if (
+          ext === '' &&
+          name.startsWith('.') &&
+          (jsExtension !== '.js' || isModule)
+        ) {
           // add extension for relative path, no check if it's a directory.
           str.overwrite(start, end, `${name}${jsExtension}`);
           return;
@@ -267,7 +272,7 @@ export const redirect = {
       if (!matchModule.length) {
         return args;
       }
-      const { jsExtension } = getDefaultOutExtension({
+      const { jsExtension, isModule } = getDefaultOutExtension({
         format,
         root,
         autoExtension,
@@ -281,6 +286,7 @@ export const redirect = {
         id,
         dirname(outputPath),
         jsExtension,
+        isModule,
         matchPath,
       );
       return {

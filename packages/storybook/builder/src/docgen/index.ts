@@ -1,7 +1,6 @@
 import type { Options } from '@storybook/types';
 import { CHAIN_ID, logger } from '@modern-js/utils';
-import { RspackConfig } from '@modern-js/builder-rspack-provider';
-import { WebpackChain } from '@modern-js/builder-webpack-provider';
+import type { RspackConfig, WebpackChain } from '@rsbuild/shared';
 
 export type DocgenOptions = {
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
