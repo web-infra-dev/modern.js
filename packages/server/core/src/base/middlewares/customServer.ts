@@ -181,7 +181,6 @@ export class CustomServer {
         this.metrics,
       );
 
-      // TODO: add server timing report
       const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
       const cost = getCost();

@@ -22,7 +22,6 @@ describe('ssg', () => {
   test('should nested-routes ssg access / work correctly', async () => {
     const htmlPath = path.join(distDir, 'html/main/index.html');
     const html = (await fs.readFile(htmlPath)).toString();
-    console.log('html', html);
     expect(html.includes('Hello, Home')).toBe(true);
   });
 
