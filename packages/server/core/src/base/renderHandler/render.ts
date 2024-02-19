@@ -92,8 +92,9 @@ function getRenderMode(
 
   if (isSSR) {
     if (
-      (forceCSR && query.csr) ||
-      req.headers.get(`x-${cutNameByHyphen(framework)}-ssr-fallback`)
+      forceCSR &&
+      (query.csr ||
+        req.headers.get(`x-${cutNameByHyphen(framework)}-ssr-fallback`))
     ) {
       return 'csr';
     }
