@@ -13,6 +13,7 @@ import {
   createErrorHtml,
   loadServerEnv,
   bindBFFHandler,
+  createServerBase,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
@@ -36,7 +37,7 @@ type BaseEnv = {
 export const createProdServer = async (
   options: ProdServerOptions,
 ): Promise<NodeServer> => {
-  const server = new ServerBase(options);
+  const server = createServerBase<BaseEnv>(options);
 
   // load env file.
   await loadServerEnv(options);
@@ -83,7 +84,7 @@ export const initProdMiddlewares = async (
   server.get('*', favionFallbackMiddleware);
 
   await bindBFFHandler(server, options);
-  await bindDataHandlers(server, routes!, pwd);
+  routes && bindDataHandlers(server, routes, pwd);
   await bindRenderHandler(server, options);
 
   return server;

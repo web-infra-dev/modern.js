@@ -19,6 +19,11 @@ interface CacheStruct {
   cursor: number;
 }
 
+interface CacheMod {
+  customContainer?: Container;
+  cacheOption?: CacheOption;
+}
+
 class CacheManager {
   private container: Container<string, string>;
 
@@ -130,10 +135,6 @@ class CacheManager {
 }
 
 const CACHE_FILENAME = 'cache';
-type CacheMod = {
-  customContainer?: Container;
-  cacheOption?: CacheOption;
-};
 
 class ServerCache {
   customContainer?: Container;
