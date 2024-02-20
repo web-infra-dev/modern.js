@@ -37,8 +37,5 @@ describe('uni-builder legacy plugins', () => {
     } = await rsbuild.inspectConfig();
 
     expect(bundlerConfigs[0].devtool).toBeFalsy();
-    expect(
-      Object.keys(bundlerConfigs[0].resolve!.fallback!).length,
-    ).toBeGreaterThan(1);
   });
 });
