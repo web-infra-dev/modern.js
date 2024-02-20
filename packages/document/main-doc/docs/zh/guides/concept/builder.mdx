@@ -4,19 +4,24 @@ sidebar_position: 2
 
 # 构建工具
 
-Modern.js Builder 指的是 Modern.js 的构建层，它的目标是为 Modern.js 用户提供开箱即用的构建能力，并支持在 webpack 和 Rspack 间无缝切换。
+Modern.js 内部基于 [Rsbuild](https://rsbuild.dev/) 封装了自身的构建工具（Modern.js Builder），并支持在 Webpack 和 Rspack 两种打包工具间无缝切换。
 
-Modern.js Builder 基于 [Rsbuild](https://rsbuild.dev/) 封装。Rsbuild 是一个基于 Rspack 的 Web 构建工具，可以脱离 Modern.js 被独立使用。
+:::tip 什么是 Rsbuild
+Rsbuild 是基于 Rspack 的构建工具，是一个增强版的 Rspack CLI，更易用、开箱即用。
+:::
 
 ## 构建架构
 
 从构建的角度看，Modern.js 分为三层架构，从上到下依次是：
 
-- 上层研发框架：Modern.js。
-- 通用构建工具：Modern.js Builder。
-- 底层打包工具：webpack 和 Rspack。
+- 研发框架：Modern.js（开源）和 EdenX（内部）。
+- 构建工具：Rsbuild。
+- 打包工具：Webpack 和 Rspack。
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-0824.png" style={{ width: '100%', maxWidth: '540px' }} />
+<img
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/build-layers-02193.png"
+  style={{ width: '100%', maxWidth: '540px' }}
+/>
 
 ## 构建文档
 
@@ -25,6 +30,13 @@ Rsbuild 的文档地址为：https://rsbuild.dev/
 在该文档中，你可以了解到 Rsbuild 的详细介绍，同时也可以找到各个构建能力的完整使用指南。
 
 如果你想要了解某些构建配置的使用，建议你优先阅读 Modern.js 文档，因为 Modern.js 中的构建配置和默认值与 Rsbuild 并不完全相同。
+
+## 构建插件
+
+在 Modern.js 中，你可以注册 Webpack 插件、Rspack 插件或 Rsbuild 插件：
+
+- Webpack / Rspack 插件：通过 [tools.bundlerChain](/configure/app/tools/bundler-chain) 配置。
+- Rsbuild 插件：通过 [builderPlugins](/configure/app/builder-plugins) 配置。
 
 ## 构建能力
 

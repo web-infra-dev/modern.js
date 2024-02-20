@@ -70,21 +70,13 @@ export function createDefaultConfig(
     port: 8080,
   };
 
-  const tools = {
-    tsChecker: {
-      issue: {
-        include: [{ file: '**/src/**/*' }],
-      },
-    },
-  };
-
   return {
     source,
     output,
     server,
     dev,
     html,
-    tools,
+    tools: {},
     plugins: [],
     builderPlugins: [],
     runtime: {},

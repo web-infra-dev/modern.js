@@ -11,6 +11,13 @@ test('should run top level await correctly when using SWC', async ({
     entry: {
       index: path.resolve(__dirname, './src/index.ts'),
     },
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-swc',
+        },
+      },
+    },
     plugins: [pluginSwc()],
     runServer: true,
   });

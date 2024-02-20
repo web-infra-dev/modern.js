@@ -56,7 +56,7 @@ The sidebars corresponding in turn to the above file paths and routing paths are
 ### Configure sidebar
 
 As shown in the figure above, the module documentation has automatically generated sidebars for file system routing, where the text of each column of the sidebar is determined by the file's first level title or directory name.
-If you need to customize the sidebar, please use [_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) or configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) directly.
+If you need to customize the sidebar, please use [\_meta.json](https://rspress.dev/guide/basic/auto-nav-sidebar.html) or configure [sidebar](https://rspress.dev/api/config/config-theme.html#sidebar) directly.
 
 :::info
 If your document directory structure complies with internationalization, for example:
@@ -146,9 +146,9 @@ export default defineConfig({
     modulePluginDoc({
       /**
        * Select the preview method
-       * @default web
+       * @default internal
        */
-      previewMode: 'mobile',
+      previewMode: 'iframe',
       /**
        * Select iframe position
        * @default 'follow'
@@ -167,12 +167,12 @@ If you only want to change the way a particular `jsx` and `tsx` block is preview
 // The content here will not be rendered
 ```
 
-```jsx web
-// Used to render desktop components
+```jsx internal
+// Used to render components in documentation
 ```
 
-```jsx mobile
-// Used to render mobile components
+```jsx iframe
+// Used to render components in iframe
 ```
 ````
 
@@ -184,6 +184,12 @@ If our demo is very complex, then it is recommended to write the demo separately
 
 ```mdx
 <code src="/path/demo.tsx"></code>
+```
+
+This also supports setting the preview method for each individual code block, for example:
+
+```mdx
+<code src="/path/demo.tsx" previewMode="iframe"></code>
 ```
 
 ## Using built-in components
@@ -398,10 +404,10 @@ type ParseToolOptions = {
 
 ### previewMode
 
-- Type:`'mobile' | 'web'`
-- Default: `'web'`
+- Type:`'iframe' | 'internal'`
+- Default: `'internal'`
 
-In case of `web`, the component will be rendered directly in the page, otherwise it will be loaded through an iframe.
+In case of `internal`, the component will be rendered directly in the page, otherwise it will be loaded through an iframe.
 
 ### deprecated: languages
 
@@ -417,6 +423,7 @@ or directly configure [sidebar](https://rspress.dev/api/config/config-theme.html
 :::
 
 ## Scripts
+
 - `modern dev`: Start dev server for doc site.
 - `modern build --platform`: Build doc site in production, by default output directories is `doc_build`.
 

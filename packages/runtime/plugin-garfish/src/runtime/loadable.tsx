@@ -20,9 +20,11 @@ export interface MicroProps {
   [key: string]: any;
 
   // just for type hint to users
-  useHref?: any;
   useLocation?: any;
+  useHref?: any;
   useHistory?: any;
+  useRouteMatch?: any;
+  useMatches?: any;
 }
 
 const DEFAULT_LOADABLE = {

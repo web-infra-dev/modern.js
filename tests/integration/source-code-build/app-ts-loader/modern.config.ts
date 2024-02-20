@@ -9,10 +9,8 @@ export default defineConfig({
   },
   plugins: [
     appTools({
-      bundler:
-        process.env.PROVIDE_TYPE === 'rspack'
-          ? 'experimental-rspack'
-          : 'webpack',
+      // ts-loader only supports webpack
+      bundler: 'webpack',
     }),
   ],
   tools: {

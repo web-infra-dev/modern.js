@@ -1,10 +1,11 @@
-import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
+import { createUniBuilder } from '@modern-js/uni-builder';
+import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/shared';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
-import type { Compiler } from '@modern-js/builder-shared/webpack-dev-middleware';
-import type { BuilderConfig, BuilderOptions } from './types';
-import { getConfigFileName, getProvider, runWithErrorMsg } from './utils';
-import { pluginStorybook } from './plugin-storybook';
+import type { Compiler } from '@rsbuild/shared/webpack-dev-middleware';
+import type { BuilderOptions, BuilderConfig } from './types';
+import { getConfigFileName, runWithErrorMsg } from './utils';
+import { pluginStorybook, addonBabelAdapter } from './plugin-storybook';
 
 export async function getCompiler(
   cwd: string,
@@ -27,27 +28,24 @@ export async function getCompiler(
     (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
     loadedConfig;
 
-  const provider = await getProvider(
-    bundler,
-    mergeBuilderConfig(finalConfig, builderOptions.builderConfig) || {},
-  );
+  const uniBuilderConfig = builderOptions.builderConfig
+    ? (mergeRsbuildConfig(
+        finalConfig as RsbuildConfig,
+        builderOptions.builderConfig as RsbuildConfig,
+      ) as BuilderConfig)
+    : finalConfig || {};
 
-  if (!provider) {
-    if (bundler) {
-      throw new Error(
-        `You choose to use ${bundler}, but @modern-js/builder-${bundler}-provider not found in your project, please install it`,
-      );
-    } else {
-      throw new Error(
-        `Please install one provider first, try install @modern-js/builder-rspack-provider or @modern-js/builder-webpack-provider first`,
-      );
-    }
-  }
+  const bundlerType = bundler || 'webpack';
 
-  const builder = await createBuilder(provider, {
+  const builder = await createUniBuilder({
+    bundlerType,
     cwd,
     target: 'web',
-    framework: 'modern.js storybook',
+    frameworkConfigPath: res?.path ? res.path : undefined,
+    config:
+      bundlerType === 'webpack'
+        ? await addonBabelAdapter(uniBuilderConfig, options)
+        : uniBuilderConfig,
     entry: {
       main: entries,
     },
@@ -58,5 +56,5 @@ export async function getCompiler(
     ...(finalConfig.builderPlugins || []),
   ]);
 
-  return builder.createCompiler() as Promise<Compiler>;
+  return builder.createCompiler();
 }

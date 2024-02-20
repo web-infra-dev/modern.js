@@ -14,6 +14,7 @@ import {
   useHistory,
   BrowserRouter,
   MemoryRouter,
+  useRouteMatch,
 } from '@modern-js/plugin-router-v5/runtime';
 import garfishPlugin from '../src/runtime';
 import { useModuleApps } from '../src';
@@ -185,7 +186,7 @@ describe('plugin-garfish', () => {
     unmount();
   });
 
-  test('useModuleApps hook should set basename for sub-app automatically by createHref', async () => {
+  test('useModuleApps hook should set basename for sub-app by props.basename', async () => {
     const basenameTest = {
       name: 'BasenameTest',
       activeWhen: '/basename-test',
@@ -240,7 +241,7 @@ describe('plugin-garfish', () => {
               <Route path="/basename-test">
                 <BasenameTest
                   useLocation={useLocation}
-                  useHistory={useHistory}
+                  basename="/main-app/basename-props-has-highest-priority"
                 />
               </Route>
             </Switch>
@@ -258,17 +259,14 @@ describe('plugin-garfish', () => {
       render(<AppWrapper />, {});
     });
 
-    // expect(screen.getByTestId('home-title')).not.toBeInTheDocument();
-
     expect(
-      await screen.findByText('sub-app basename: /main-app/basename-test'),
+      await screen.findByText('sub-app basename: /main-app/basename-props-has-highest-priority'),
     ).toBeInTheDocument();
   });
 
-  test('useModuleApps sub-app basename can be set by user defineConfig masterApp.apps options', async () => {
+  test('useModuleApps should set basename for sub-app based on last RouterMatch when no activeWhen', async () => {
     const basenameTest = {
       name: 'BasenameTest',
-      activeWhen: '/basename-appInfo-options',
       entry: basenameTestPath,
 
       // Each test does not affect with each other.
@@ -286,7 +284,7 @@ describe('plugin-garfish', () => {
       },
       basename: '/main-app',
     };
-    window.location.assign('/main-app/basename-appInfo-options/some-test');
+    window.location.assign('/main-app/no-active-when/some-test');
 
     const App = () => {
       const { BasenameTest } = useModuleApps();
@@ -297,7 +295,14 @@ describe('plugin-garfish', () => {
 
       return (
         <BrowserRouter basename="/main-app" forceRefresh>
-          <BasenameTest useLocation={useLocation} />
+          <Switch>
+            <Route path="/no-active-when">
+              <BasenameTest
+                useLocation={useLocation}
+                useRouteMatch={useRouteMatch}
+              />
+            </Route>
+          </Switch>
           <LocationDisplay />
         </BrowserRouter>
       );
@@ -311,9 +316,7 @@ describe('plugin-garfish', () => {
     });
 
     expect(
-      await screen.findByText(
-        'sub-app basename: /main-app/basename-appInfo-options',
-      ),
+      await screen.findByText('sub-app basename: /main-app/no-active-when'),
     ).toBeInTheDocument();
   });
 });

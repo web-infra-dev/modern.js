@@ -1,7 +1,6 @@
 import type { Options } from '@storybook/types';
 import { CHAIN_ID, logger } from '@modern-js/utils';
-import { RspackConfig } from '@modern-js/builder-rspack-provider';
-import { WebpackChain } from '@modern-js/builder-webpack-provider';
+import type { RspackConfig, WebpackChain } from '@rsbuild/shared';
 
 export type DocgenOptions = {
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
@@ -12,10 +11,10 @@ export async function applyDocgenWebpack(
   chain: WebpackChain,
   options: Options,
 ) {
-  const typescriptOptions: DocgenOptions = await options.presets.apply(
+  const typescriptOptions = (await options.presets.apply(
     'typescript',
     {},
-  );
+  )) as DocgenOptions;
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
@@ -70,8 +69,9 @@ export async function applyDocgenRspack(
   config: RspackConfig,
   options: Options,
 ) {
-  const typescriptOptions: { reactDocgen?: 'react-docgen' } =
-    await options.presets.apply('typescript', {});
+  const typescriptOptions = (await options.presets.apply('typescript', {})) as {
+    reactDocgen?: 'react-docgen';
+  };
 
   const { reactDocgen } = typescriptOptions || {};
 
