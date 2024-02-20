@@ -1,7 +1,0 @@
-{
-  "extensions": {
-    "reactUtils": {
-      "autoImportReact": true
-    }
-  }
-}
