@@ -33,7 +33,7 @@ export function createStaticMiddleware(
   );
 
   /**
-   * The middleware is modified based on
+   * The function is modified based on
    * https://github.com/honojs/node-server/blob/main/src/serve-static.ts
    *
    * MIT Licensed
