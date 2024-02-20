@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from '@modern-js/utils/commander';
 
 import { MWANewAction } from './mwa';
@@ -19,7 +21,6 @@ const main = async () => {
       if (rootPath) {
         config.cwd = rootPath;
       }
-      console.log('config', config);
       switch (solution) {
         case 'mwa':
           MWANewAction(config);

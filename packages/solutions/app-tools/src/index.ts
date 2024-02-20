@@ -245,14 +245,25 @@ export const appTools = (
             i18n.t(localeKeys.command.shared.noNeedInstall),
           )
           .action(async (options: any) => {
-            execa('npx', [
-              `@modern-js/new@${process.env.MODERN_JS_VERSION ?? 'latest'}`,
-              `--config=${JSON.parse({
-                ...options,
-                locale: options.lang || locale,
-              })}`,
-              '--solution=mwa',
-            ]);
+            await execa(
+              'npx',
+              [
+                '--yes',
+                `@modern-js/new-action@${
+                  process.env.MODERN_JS_VERSION ?? 'latest'
+                }`,
+                `--config=${JSON.stringify({
+                  ...options,
+                  locale: options.lang || locale,
+                })}`,
+                '--solution=mwa',
+              ],
+              {
+                stderr: 'inherit',
+                stdout: 'inherit',
+                stdin: 'inherit',
+              },
+            );
           });
 
         program
@@ -278,12 +289,26 @@ export const appTools = (
             inspect(api, options);
           });
 
-        program.command('upgrade').action(() => {
-          execa('npx', [
-            `@modern-js/upgrade@${process.env.MODERN_JS_VERSION ?? 'latest'}`,
-            ...process.argv.slice(2),
-          ]);
-        });
+        program
+          .command('upgrade')
+          .allowUnknownOption()
+          .action(async () => {
+            await execa(
+              'npx',
+              [
+                '--yes',
+                `@modern-js/upgrade@${
+                  process.env.MODERN_JS_VERSION ?? 'latest'
+                }`,
+                ...process.argv.slice(2),
+              ],
+              {
+                stdin: 'inherit',
+                stdout: 'inherit',
+                stderr: 'inherit',
+              },
+            );
+          });
       },
 
       async prepare() {
