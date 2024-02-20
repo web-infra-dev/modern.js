@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
 import { createUniBuilder } from '../src';
 
 describe('uni-builder legacy plugins', () => {
@@ -11,8 +10,6 @@ describe('uni-builder legacy plugins', () => {
     });
 
     rsbuild.addPlugins([
-      // plugin type check should passed
-      builderPluginNodePolyfill(),
       {
         name: 'builder-plugin-test',
         setup: api => {

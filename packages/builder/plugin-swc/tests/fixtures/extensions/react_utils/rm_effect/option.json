@@ -1,7 +1,0 @@
-{
-  "extensions": {
-    "reactUtils": {
-      "removeEffect": true
-    }
-  }
-}
