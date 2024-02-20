@@ -70,6 +70,7 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
+    "@rsbuild/shared": "0.4.3",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",

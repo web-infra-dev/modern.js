@@ -207,6 +207,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rsbuild/shared':
+        specifier: 0.4.3
+        version: 0.4.3(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2821,6 +2824,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rsbuild/shared':
+        specifier: 0.4.3
+        version: 0.4.3(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
