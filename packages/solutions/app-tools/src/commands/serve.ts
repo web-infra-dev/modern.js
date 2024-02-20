@@ -3,7 +3,6 @@ import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server-new';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
-import { injectDataLoaderPlugin } from '../utils/createServer';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
@@ -65,7 +64,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       ),
     },
     serverConfigFile,
-    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
+    internalPlugins: serverInternalPlugins,
     runMode,
   });
 
