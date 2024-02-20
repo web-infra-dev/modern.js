@@ -20,8 +20,12 @@
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
-    "create": "./bin/run.js"
+    "run": "./bin/run.js"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "exports": {
     ".": {
       "node": {
