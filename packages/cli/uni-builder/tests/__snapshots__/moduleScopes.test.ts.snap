@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-module-scopes > should set entry correctly 1`] = `
+{
+  "extensions": [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".mjs",
+    ".json",
+  ],
+  "plugins": [
+    TsconfigPathsPlugin {
+      "absoluteBaseUrl": "<ROOT>",
+      "baseUrl": "./",
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".json",
+      ],
+      "log": {
+        "log": [Function],
+        "logError": [Function],
+        "logInfo": [Function],
+        "logWarning": [Function],
+      },
+      "matchPath": [Function],
+      "referenceMatchMap": {},
+      "source": "described-resolve",
+      "target": "resolve",
+    },
+    ModuleScopePlugin {
+      "allowedDirs": [
+        "<ROOT>/src/foo.ts",
+        "<ROOT>/src/bar.ts",
+      ],
+      "allowedFiles": Set {
+        "<ROOT>/package.json",
+      },
+      "allowedPatterns": [],
+      "cache": Map {},
+      "relativeAllowedDirs": [
+        "foo.ts/",
+        "bar.ts/",
+      ],
+      "scopes": [
+        "<ROOT>/src/foo.ts",
+        "<ROOT>/src/bar.ts",
+      ],
+    },
+  ],
+}
+`;
