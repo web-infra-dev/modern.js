@@ -26,7 +26,11 @@ export const bindDataHandlers = (
         SERVER_BUNDLE_DIRECTORY,
         `${route.entryName || MAIN_ENTRY_NAME}-server-loaders.js`,
       );
-      server.all(`${route.urlPath}/*`, createDataHandler(routes, bundlePath));
+
+      server.all(
+        `${route.urlPath === '/' ? '*' : `${route.urlPath}/*`}`,
+        createDataHandler(routes, bundlePath),
+      );
     }),
   );
 };

@@ -6,7 +6,7 @@ import {
   ProdServerOptions,
 } from '@modern-js/prod-server-new';
 import { printInstructions } from '../utils/printInstructions';
-import { setServer, injectDataLoaderPlugin } from '../utils/createServer';
+import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
@@ -79,7 +79,7 @@ export const dev = async (
     pwd: appDirectory,
     config: normalizedConfig as any,
     serverConfigFile,
-    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
+    internalPlugins: serverInternalPlugins,
     ...devServerOptions,
   };
 

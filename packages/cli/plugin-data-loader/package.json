@@ -29,11 +29,6 @@
       "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
-    "./server": {
-      "types": "./dist/types/server/index.d.ts",
-      "jsnext:source": "./src/server/index.ts",
-      "default": "./dist/cjs/server/index.js"
-    },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
@@ -44,9 +39,6 @@
     "*": {
       "loader": [
         "./dist/types/cli/loader.d.ts"
-      ],
-      "server": [
-        "./dist/types/server/index.d.ts"
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
