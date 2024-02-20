@@ -1,14 +1,8 @@
 import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { ModernServerOptions } from '@modern-js/prod-server';
-import {
-  fs,
-  getAliasConfig,
-  createDebugger,
-  readTsConfigByFile,
-} from '@modern-js/utils';
-
-const debug = createDebugger('server');
+import { fs, getAliasConfig, readTsConfigByFile } from '@modern-js/utils';
+import { debug } from '../../utils';
 
 const checkDep = (depName: string, paths: string[]) => {
   let packagePath = '';

@@ -24,6 +24,7 @@ import {
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import { merge } from '@modern-js/utils/lodash';
+import { debug } from './utils';
 import {
   InitProdMiddlewares,
   DevServerOptions,
@@ -58,7 +59,7 @@ async function onServerChange({
   } else {
     try {
       await runner.onApiChange([{ filename: filepath, event }]);
-      logger.info('Finish reload server');
+      debug(`Finish reload server, trigger by ${filepath} ${event}`);
     } catch (e) {
       logger.error(e as Error);
     }
@@ -303,6 +304,10 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
+
+  await server.runner.beforeServerInit({
+    app: nodeServer,
+  });
 
   await initProdMiddlewares(server, prodServerOptions);
 
