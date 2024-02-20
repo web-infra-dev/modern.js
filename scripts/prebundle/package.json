@@ -90,7 +90,6 @@
     "tsconfig-paths": "4.1.1",
     "upath": "2.0.1",
     "url-join": "4.0.1",
-    "v8-compile-cache": "2.3.0",
     "webpack-chain": "npm:webpack-5-chain@8.0.1"
   }
 }
