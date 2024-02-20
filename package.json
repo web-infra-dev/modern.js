@@ -92,13 +92,7 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18",
-      "@modern-js/builder-rspack-provider>@rspack/core": "0.4.5",
-      "@modern-js/builder-rspack-provider>@rspack/plugin-react-refresh": "0.4.5",
-      "@modern-js/builder-rspack-provider>@rspack/plugin-html": "0.4.5",
-      "@modern-js/storybook-builder>@rspack/plugin-react-refresh": "0.4.5",
-      "@rspack/core@0.4.5>@rspack/binding": "0.4.5",
-      "@rspack/binding@0.4.5>@rspack/binding-linux-x64-gnu": "0.4.5"
+      "@types/react-dom": "^18"
     },
     "peerDependencyRules": {
       "allowedVersions": {

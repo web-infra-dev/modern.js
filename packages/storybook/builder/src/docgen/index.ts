@@ -11,10 +11,10 @@ export async function applyDocgenWebpack(
   chain: WebpackChain,
   options: Options,
 ) {
-  const typescriptOptions: DocgenOptions = await options.presets.apply(
+  const typescriptOptions = (await options.presets.apply(
     'typescript',
     {},
-  );
+  )) as DocgenOptions;
 
   const { reactDocgen, reactDocgenTypescriptOptions } = typescriptOptions || {};
 
@@ -69,8 +69,9 @@ export async function applyDocgenRspack(
   config: RspackConfig,
   options: Options,
 ) {
-  const typescriptOptions: { reactDocgen?: 'react-docgen' } =
-    await options.presets.apply('typescript', {});
+  const typescriptOptions = (await options.presets.apply('typescript', {})) as {
+    reactDocgen?: 'react-docgen';
+  };
 
   const { reactDocgen } = typescriptOptions || {};
 
