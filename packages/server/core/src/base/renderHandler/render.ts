@@ -74,6 +74,7 @@ function matchRoute(
   // TODO: adpater params
   for (const route of routes) {
     const reg = new RegExp(route.urlPath);
+
     if (reg.test(req.url)) {
       return route;
     }

@@ -19,20 +19,18 @@ export const bindDataHandlers = (
   routes: ServerRoute[],
   distDir: string,
 ) => {
-  return Promise.all(
-    routes.map(async route => {
-      const bundlePath = path.join(
-        distDir,
-        SERVER_BUNDLE_DIRECTORY,
-        `${route.entryName || MAIN_ENTRY_NAME}-server-loaders.js`,
-      );
+  routes.forEach(route => {
+    const bundlePath = path.join(
+      distDir,
+      SERVER_BUNDLE_DIRECTORY,
+      `${route.entryName || MAIN_ENTRY_NAME}-server-loaders.js`,
+    );
 
-      server.all(
-        `${route.urlPath === '/' ? '*' : `${route.urlPath}/*`}`,
-        createDataHandler(routes, bundlePath),
-      );
-    }),
-  );
+    server.all(
+      `${route.urlPath === '/' ? '*' : `${route.urlPath}/*`}`,
+      createDataHandler(routes, bundlePath),
+    );
+  });
 };
 
 export const createDataHandler = (

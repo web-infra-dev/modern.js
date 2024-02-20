@@ -7,6 +7,7 @@ import {
   Middleware,
   ServerBase,
   createNodeServer,
+  createServerBase,
 } from '@modern-js/server-core/base';
 
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
@@ -253,7 +254,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     pwd: distDir, // server base pwd must distDir,
   };
 
-  const server = new ServerBase(prodServerOptions);
+  const server = createServerBase(prodServerOptions);
 
   const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
