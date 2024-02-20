@@ -31,7 +31,6 @@ export const modern = (
   config: BuilderConfig,
   _options: Options,
 ): BuilderConfig => {
-  // @ts-expect-error
   return {
     ...config,
     source: {

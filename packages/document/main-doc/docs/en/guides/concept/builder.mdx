@@ -4,21 +4,26 @@ sidebar_position: 2
 
 # Build Engine
 
-Modern.js Builder refers to the build layer of Modern.js. Its goal is to provide Modern.js users with out-of-the-box build capabilities and support seamless switching between webpack and Rspack.
+Modern.js internally encapsulates its own build tool (Modern.js Builder) based on [Rsbuild](https://rsbuild.dev/), and supports seamless switching between Webpack and Rspack bundlers.
 
-Modern.js Builder is based on [Rsbuild](https://rsbuild.dev/). Rsbuild is a build tool for web development scenarios that can be used independently of Modern.js.
+::: tip What is Rsbuild?
+Rsbuild is a build tool based on Rspack. It is an enhanced Rspack CLI, easy-to-use, and ready-to-use out of the box.
+:::
 
 ## Build Architecture
 
-From a building perspective, Modern.js is divided into three layers, from top to bottom:
+From the building perspective, Modern.js can be divided into three-layers, from top to bottom:
 
-- Upper-level development framework: Modern.js.
-- Common build tool: Modern.js Builder.
-- Low-level bundler: webpack and Rspack.
+- Upper-level framework: Modern.js (open source) and EdenX (internal).
+- Build tool: Rsbuild.
+- Bundler: Webpack and Rspack.
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-0824.png" style={{ width: '100%', maxWidth: '540px' }} />
+<img
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/build-layers-02193.png"
+  style={{ width: '100%', maxWidth: '540px' }}
+/>
 
-## Builder Documentation
+## Build Documentation
 
 The documentation address of Rsbuild is: https://rsbuild.dev/
 
@@ -26,7 +31,14 @@ In this documentation, you can learn about the detailed introduction of Rsbuild,
 
 If you want to understand the use of build configurations, it is recommended that you read the Modern.js documentation first, because the build configurations and defaults in Modern.js are not exactly the same as Rsbuild.
 
-## Builder Capabilities
+## Build Plugins
+
+In Modern.js, you can register Webpack plugins, Rspack plugins, or Rsbuild plugins:
+
+- Webpack / Rspack plugins: Configured through [tools.bundlerChain](/configure/app/tools/bundler-chain).
+- Rsbuild plugins: Configured through [builderPlugins](/configure/app/builder-plugins).
+
+## Build Capabilities
 
 Rsbuild provides rich build capabilities, including JavaScript compilation, CSS compilation, static assets processing, code hot update, code compression, TS type checking, and dozens of other capabilities.
 
