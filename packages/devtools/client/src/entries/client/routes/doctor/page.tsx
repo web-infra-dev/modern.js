@@ -20,7 +20,7 @@ import {
 import _ from 'lodash';
 import { parseURL } from 'ufo';
 import clsx from 'clsx';
-import { $dependencies } from '../state';
+import { $definition, $dependencies } from '../state';
 import logo from './rsdoctor-large.png';
 import { $doctor } from './state';
 import styles from './page.module.scss';
@@ -79,11 +79,12 @@ const Page: FC = () => {
   const doctor = useSnapshot($doctor);
 
   const dependencies = useSnapshot($dependencies);
+  const def = useSnapshot($definition);
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),
   );
   const implementation = isWebDoctor ? 'Web Doctor' : 'Rsdoctor';
-  const website = 'https://rsdoctor.dev';
+  const { website } = def.doctor;
   const version =
     dependencies['@web-doctor/webpack-plugin(builder)'] ??
     dependencies['@web-doctor/rspack-plugin(builder)'] ??

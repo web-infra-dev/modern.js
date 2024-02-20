@@ -154,6 +154,7 @@ export const $definition = proxy({
   packages: _definitionTask.then(def => def.packages),
   assets: _definitionTask.then(def => def.assets),
   announcement: _definitionTask.then(def => def.announcement),
+  doctor: _definitionTask.then(def => def.doctor),
 });
 
 export const _dependenciesTask = $server.then(({ remote }) =>
