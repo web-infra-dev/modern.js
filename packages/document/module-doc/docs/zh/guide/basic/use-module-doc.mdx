@@ -239,8 +239,20 @@ export type ButtonProps = {
 export const Button = (props?: ButtonProps) => {};
 ```
 
-上面是一个标准写法，其中 `ButtonProps` 将被提取至表格中， `Button` 作为表格的标题。
-如果使用默认导出，文件名将作为表格标题。生成的内容如下：
+上面是一个标准写法，其中 `ButtonProps` 将被提取至表格中， `Button` 作为表格的标题。如果使用默认导出，文件名将作为表格标题。
+
+需要注意的是，export 导出事先定义的特性将不会被解析。
+
+```tsx
+const A = () => {};
+
+export { A }; // wrong
+export default A; // wrong
+export const B = () => {}; // right
+export default () => {}; // right
+```
+
+生成的内容如下：
 
 ```mdx
 ### ButtonTest
@@ -260,6 +272,12 @@ export const Button = (props?: ButtonProps) => {};
     "types": ["react"]
   }
 }
+```
+
+更好的方式是直接引用类型，例如
+
+```tsx
+import { FC } from 'react';
 ```
 
 :::

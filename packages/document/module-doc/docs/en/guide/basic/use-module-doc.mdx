@@ -245,7 +245,20 @@ export const Button = (props?: ButtonProps) => {};
 ```
 
 The above is a standard writeup where `ButtonProps` will be extracted into the table and `Button` will be the title of the table.
-If you use the default export, the filename will be used as the form title. The generated content is as follows:
+If you use the default export, the filename will be used as the form title.
+
+Notice that export features declared elsewhere are not available.
+
+```tsx
+const A = () => {};
+
+export { A }; // wrong
+export default A; // wrong
+export const B = () => {}; // right
+export default () => {}; // right
+```
+
+The generated content is as follows:
 
 ```mdx
 ### ButtonTest
@@ -265,6 +278,12 @@ If React types are used in Props, you need to add the types in tsconfig.json, ot
     "types": ["react"]
   }
 }
+```
+
+The best way is that you import the type directly:
+
+```tsx
+import { FC } from 'react';
 ```
 
 :::
