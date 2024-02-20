@@ -10,7 +10,7 @@ import {
   findManifest,
   parseManifest,
 } from '@modern-js/devtools-kit/node';
-import type { JsonValue, PartialDeep } from 'type-fest';
+import type { JsonValue } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
 import * as flatted from 'flatted';
 import createDeferPromise from 'p-defer';
@@ -23,16 +23,13 @@ import { requireModule } from '../utils/module';
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
   server: SocketServer;
+  def: ClientDefinition;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api, server } = options;
-  let def: PartialDeep<ClientDefinition> = {};
-  const setDefinition = (definition: PartialDeep<ClientDefinition>) => {
-    def = definition;
-  };
+  const { api, server, def } = options;
 
   const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
@@ -165,12 +162,7 @@ export const setupClientConnection = async (
       return deferred.compileTimeCost.promise;
     },
     async getClientDefinition() {
-      const ret = new ClientDefinition();
-      Object.assign(ret.name, def.name);
-      Object.assign(ret.packages, def.packages);
-      Object.assign(ret.assets, def.assets);
-      Object.assign(ret.announcement, def.announcement);
-      return ret;
+      return def;
     },
     async getDoctorOverview() {
       const ctx = api.useAppContext();
@@ -268,5 +260,5 @@ export const setupClientConnection = async (
     },
   };
 
-  return { client: clientConn, hooks, builderPlugin, setDefinition };
+  return { client: clientConn, hooks, builderPlugin };
 };

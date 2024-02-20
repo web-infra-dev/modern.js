@@ -24,7 +24,7 @@ export const devtoolsPlugin = (
     name: '@modern-js/plugin-devtools',
     usePlugins: [],
     setClientDefinition(def) {
-      ctx.def = def;
+      Object.assign(ctx.def, def);
     },
     async setup(api) {
       if (!ctx.enable) return {};
@@ -34,7 +34,11 @@ export const devtoolsPlugin = (
         server: httpServer.instance,
         path: '/rpc',
       });
-      const rpc = await setupClientConnection({ api, server: socketServer });
+      const rpc = await setupClientConnection({
+        api,
+        server: socketServer,
+        def: ctx.def,
+      });
 
       return {
         prepare: rpc.hooks.prepare,
