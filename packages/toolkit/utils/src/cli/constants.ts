@@ -174,5 +174,3 @@ export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
   [SERVER_PLUGIN_SERVER]: '@modern-js/plugin-server/server',
   [SERVER_PLUGIN_POLYFILL]: '@modern-js/plugin-polyfill/server',
 };
-
-export * from './chainId';

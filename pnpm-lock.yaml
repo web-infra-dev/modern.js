@@ -207,6 +207,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rsbuild/shared':
+        specifier: 0.4.3
+        version: 0.4.3(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2821,6 +2824,9 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
+      '@rsbuild/shared':
+        specifier: 0.4.3
+        version: 0.4.3(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -5081,9 +5087,6 @@ importers:
       url-join:
         specifier: 4.0.1
         version: 4.0.1
-      v8-compile-cache:
-        specifier: 2.3.0
-        version: 2.3.0
       webpack-chain:
         specifier: npm:webpack-5-chain@8.0.1
         version: /webpack-5-chain@8.0.1
@@ -31606,10 +31609,6 @@ packages:
 
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
-
-  /v8-compile-cache@2.3.0:
-    resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}
-    dev: true
 
   /v8-to-istanbul@9.1.0:
     resolution: {integrity: sha512-6z3GW9x8G1gd+JIIgQQQxXuiJtCXeAjp6RaPEPLv62mH3iPHPxV6W3robxtCzNErRo6ZwTmzWhsbNvjyEBKzKA==}
