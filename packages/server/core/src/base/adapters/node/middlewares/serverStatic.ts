@@ -32,6 +32,13 @@ export function createStaticMiddleware(
     `^${regPrefix}(${[...staticReg, ...iconReg].join('|')})`,
   );
 
+  /**
+   * The function is modified based on
+   * https://github.com/honojs/node-server/blob/main/src/serve-static.ts
+   *
+   * MIT Licensed
+   * https://github.com/honojs/node-server/tree/8cea466fd05e6d2e99c28011fc0e2c2d3f3397c9?tab=readme-ov-file#license
+   * */
   return async (c, next) => {
     // exist is path
     const pathname = c.req.path;
@@ -55,8 +62,9 @@ export function createStaticMiddleware(
       const { size } = stat;
       const chunk = await readFile(filepath);
 
+      // TODO: handle http range
       c.header('Content-Length', String(size));
-      return c.body(chunk, 206);
+      return c.body(chunk, 200);
     } else {
       return next();
     }
