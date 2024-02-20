@@ -10,6 +10,7 @@ import {
   NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
+import execa from '@modern-js/utils/execa';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import analyzePlugin from './analyze';
@@ -244,8 +245,14 @@ export const appTools = (
             i18n.t(localeKeys.command.shared.noNeedInstall),
           )
           .action(async (options: any) => {
-            const { MWANewAction } = await import('@modern-js/new-action');
-            await MWANewAction({ ...options, locale: options.lang || locale });
+            execa('npx', [
+              `@modern-js/new@${process.env.MODERN_JS_VERSION ?? 'latest'}`,
+              `--config=${JSON.parse({
+                ...options,
+                locale: options.lang || locale,
+              })}`,
+              '--solution=mwa',
+            ]);
           });
 
         program
@@ -271,19 +278,12 @@ export const appTools = (
             inspect(api, options);
           });
 
-        const { defineCommand } = await import('@modern-js/upgrade');
-        defineCommand(
-          program
-            .command('upgrade')
-            .option(
-              '-c --config <config>',
-              i18n.t(localeKeys.command.shared.config),
-            )
-            .option(
-              '--no-need-install',
-              i18n.t(localeKeys.command.shared.noNeedInstall),
-            ),
-        );
+        program.command('upgrade').action(() => {
+          execa('npx', [
+            `@modern-js/upgrade@${process.env.MODERN_JS_VERSION ?? 'latest'}`,
+            ...process.argv.slice(2),
+          ]);
+        });
       },
 
       async prepare() {

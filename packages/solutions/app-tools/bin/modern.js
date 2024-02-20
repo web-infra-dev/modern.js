@@ -5,11 +5,15 @@ const {
   INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
 } = require('@modern-js/utils');
 
+const { version } = require('../package.json');
+
+process.env.MODERN_JS_VERSION = version;
+
 require('@modern-js/core/runBin').run({
   internalPlugins: {
     cli: INTERNAL_APP_TOOLS_PLUGINS,
     server: INTERNAL_SERVER_PLUGINS,
     autoLoad: INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
   },
-  initialLog: `Modern.js Framework v${require('../package.json').version}`,
+  initialLog: `Modern.js Framework v${version}`,
 });

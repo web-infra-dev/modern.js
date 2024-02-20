@@ -10,6 +10,7 @@ export function defineCommand(program: Command) {
   i18n.changeLanguage({ locale });
   program
     .description(i18n.t(localeKeys.command.describe))
+    .option('-c --config <config>', i18n.t(localeKeys.command.config))
     .option('--dist-tag <distTag>', i18n.t(localeKeys.command.distTag), '')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
