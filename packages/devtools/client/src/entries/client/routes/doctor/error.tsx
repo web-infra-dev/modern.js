@@ -16,9 +16,13 @@ const Handler: FC<ErrorFallbackProps> = () => {
   const isStateError =
     error && typeof error === 'object' && Object.keys(error).length === 0;
   if (isStateError) {
-    const websiteDisplay = parseURL(def.doctor.website).host;
+    const websiteDisplay = parseURL(def.doctor.quickStart).host;
     const websiteLink = (
-      <Link href={def.doctor.website} target="_blank" rel="noopener noreferrer">
+      <Link
+        href={def.doctor.quickStart}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         🔗{websiteDisplay}
       </Link>
     );

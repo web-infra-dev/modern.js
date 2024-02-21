@@ -12,9 +12,8 @@ import {
   HiOutlineCube,
   HiOutlineHome,
   HiOutlineRectangleGroup,
-  HiMagnifyingGlass,
 } from 'react-icons/hi2';
-import { RiReactjsLine } from 'react-icons/ri';
+import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { stringifyParsedURL } from 'ufo';
 import { proxy, ref } from 'valtio';
 import { InternalTab } from '../types';
@@ -138,7 +137,7 @@ export const $tabs = proxy<InternalTab[]>([
   {
     name: 'doctor',
     title: 'Doctor',
-    icon: ref(<HiMagnifyingGlass />),
+    icon: ref(<RiShieldCrossLine />),
     view: { type: 'builtin', url: '/doctor' },
   },
 ]);
