@@ -5,7 +5,7 @@ import { createDefaultServer } from '../helpers';
 describe('test middlewares dataHandler', () => {
   const pwd = path.join(__dirname, '../fixtures/data');
 
-  it("Shouldn't handle by data", async () => {
+  it("shouldn't handle by data", async () => {
     const server = createDefaultServer();
 
     bindDataHandlers(
@@ -31,7 +31,7 @@ describe('test middlewares dataHandler', () => {
     expect(text).toBe('render');
   });
 
-  it('Should handle by data', async () => {
+  it('should handle by data', async () => {
     const server = createDefaultServer();
 
     bindDataHandlers(

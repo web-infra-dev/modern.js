@@ -1,7 +1,7 @@
 import { parseHeaders, parseQuery, getPathname, getHost } from '@base/utils';
 
 describe('test utils.request', () => {
-  it('Should parse query correctly', () => {
+  it('should parse query correctly', () => {
     const request = {
       url: 'http://localhost:8080/?q=q1&word=hello',
     };
@@ -32,7 +32,7 @@ describe('test utils.request', () => {
     expect(query3).toEqual({});
   });
 
-  it('Should parse header correctly', () => {
+  it('should parse header correctly', () => {
     const headers = parseHeaders({
       headers: new Headers({
         foo: 'bar',
@@ -44,7 +44,7 @@ describe('test utils.request', () => {
     });
   });
 
-  it('Should get pathname correctly', () => {
+  it('should get pathname correctly', () => {
     expect(getPathname({ url: 'http://localhost:8080/abc' } as Request)).toBe(
       '/abc',
     );
@@ -58,7 +58,7 @@ describe('test utils.request', () => {
     );
   });
 
-  it('Should get host correctly', () => {
+  it('should get host correctly', () => {
     expect(getHost({ headers: new Headers({}) } as Request)).toBe('undefined');
 
     expect(
