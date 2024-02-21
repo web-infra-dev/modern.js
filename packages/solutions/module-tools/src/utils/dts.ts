@@ -3,6 +3,7 @@ import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
 import { ts } from '@ast-grep/napi';
+import deepMerge from '../../compiled/deepmerge';
 import type {
   ITsconfig,
   GeneratorDtsConfig,
@@ -24,7 +25,27 @@ export const getProjectTsconfig = async (
     return {};
   }
 
-  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  const tsConfig: ITsconfig = await json5.parse(
+    fs.readFileSync(tsconfigPath, 'utf-8'),
+  );
+
+  if (!tsConfig.extends) {
+    return tsConfig;
+  }
+
+  // recursively resolve extended tsconfig
+  let parentTsconfigPath: string;
+  try {
+    // likely extending from a npm package, use require.resolve to resolve it.
+    parentTsconfigPath = require.resolve(tsConfig.extends);
+  } catch {
+    // resolve file from current tsconfig's path
+    parentTsconfigPath = resolve(dirname(tsconfigPath), tsConfig.extends);
+  }
+
+  const parentTsconfig = await getProjectTsconfig(parentTsconfigPath);
+
+  return deepMerge(parentTsconfig, tsConfig);
 };
 
 export async function detectTSVersion(appDirectory?: string) {
