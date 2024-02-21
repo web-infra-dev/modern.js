@@ -1,8 +1,9 @@
 import { IncomingMessage } from 'node:http';
-import { Logger } from '@modern-js/types';
+import { Logger, Reporter } from '@modern-js/types';
 
 export interface RenderOptions {
   logger: Logger;
+  reporter?: Reporter;
   nodeReq?: IncomingMessage;
 }
 

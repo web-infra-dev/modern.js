@@ -2,8 +2,8 @@ import { isWebOnly } from '@modern-js/utils';
 import {
   BindRenderHandleOptions,
   getRenderHandler,
-} from '../../../base/renderHandler';
-import { ServerBaseOptions } from '../../../base';
+} from '@base/middlewares/renderHandler';
+import type { ServerBaseOptions } from '@core/server';
 import { createMiddlewareCollecter, getRuntimeEnv } from '../../libs/utils';
 import { ServerBase } from '../../serverBase';
 import { ServerNodeMiddleware } from './hono';

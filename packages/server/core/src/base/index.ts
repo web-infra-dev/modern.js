@@ -18,11 +18,6 @@ export {
   registerMockHandlers,
 } from './adapters/node';
 
-export {
-  bindRenderHandler,
-  type BindRenderHandleOptions,
-} from './renderHandler';
-
 export * from './middlewares';
 
 export function createServerBase<E extends HonoEnv>(

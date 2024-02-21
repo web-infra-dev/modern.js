@@ -1,4 +1,4 @@
-import { REPLACE_REG } from '../constants';
+import { REPLACE_REG } from '../../libs/constants';
 
 export class TemplateApi {
   private body: string;

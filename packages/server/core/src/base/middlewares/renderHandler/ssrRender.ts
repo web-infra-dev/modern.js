@@ -1,21 +1,38 @@
 import path from 'path';
 import { Readable } from 'stream';
 import type { IncomingMessage } from 'http';
-import { Logger, ServerRoute } from '@modern-js/types';
+import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import * as isbot from 'isbot';
-import { createTransformStream } from '../libs/utils';
-import { defaultReporter } from '../libs/default';
-import { SSRServerContext, ServerRender } from '../../core/server';
-import { REPLACE_REG } from '../libs/constants';
-import { parseHeaders, parseQuery, getHost } from '../libs/request';
-import { ServerTiming } from '../libs/serverTiming';
-import { createReadableStreamFromReadable } from '../adapters/node/polyfills/stream';
+import { createTransformStream } from '../../libs/utils';
+import { SSRServerContext, ServerRender } from '../../../core/server';
+import { REPLACE_REG } from '../../libs/constants';
+import { parseHeaders, parseQuery, getHost } from '../../libs/request';
+import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
+import { ServerTiming } from './serverTiming';
 import { ssrCache } from './ssrCache';
+
+const defaultReporter: Reporter = {
+  init() {
+    // noImpl
+  },
+  reportError() {
+    // noImpl
+  },
+  reportTiming() {
+    // noImpl
+  },
+  reportInfo() {
+    // noImpl
+  },
+  reportWarn() {
+    // noImpl
+  },
+};
 
 interface SSRRenderOptions {
   pwd: string;
@@ -25,6 +42,7 @@ interface SSRRenderOptions {
   staticGenerate: boolean;
   metaName: string;
   logger: Logger;
+  reporter?: Reporter;
   nodeReq?: IncomingMessage;
   nonce?: string;
 }
@@ -38,6 +56,7 @@ export async function ssrRender(
     staticGenerate,
     nonce,
     metaName,
+    reporter,
     logger,
     nodeReq,
   }: SSRRenderOptions,
@@ -97,7 +116,7 @@ export async function ssrRender(
     staticGenerate,
     logger,
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
-    reporter: defaultReporter,
+    reporter: reporter || defaultReporter,
     /** @deprecated node req */
     req: undefined,
     /** @deprecated node res  */

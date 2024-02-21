@@ -1,31 +1,30 @@
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
-import { Metrics } from '@modern-js/types';
 import { Render } from '@core/render';
-import { Middleware, ServerBaseOptions } from '../../core/server';
-import { ServerBase } from '../serverBase';
-import { CustomServer } from '../middlewares';
-import { checkIsProd, getRuntimeEnv, warmup } from '../libs/utils';
-import { HonoNodeEnv } from '../adapters/node';
-import { initReporter } from '../middlewares/monitor';
+import { Middleware, ServerBaseOptions } from '@core/server';
+import { ServerBase } from '../../serverBase';
+import { checkIsProd, getRuntimeEnv, warmup } from '../../libs/utils';
+import { HonoNodeEnv } from '../../adapters/node';
+import { initReporter } from '../monitor';
+import { CustomServer } from '../customServer';
 import { ssrCache } from './ssrCache';
 import { createRender } from './render';
 
 function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {
     const logger = c.get('logger');
+    const reporter = c.get('reporter');
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
 
-    const res = await render(request, { logger, nodeReq });
+    const res = await render(request, { logger, nodeReq, reporter });
     return res;
   };
 }
 
 export type BindRenderHandleOptions = {
   metaName?: string;
-  metrics?: Metrics;
   staticGenerate?: boolean;
 };
 
@@ -53,11 +52,11 @@ export async function bindRenderHandler(
   server: ServerBase,
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { routes, pwd, metrics } = options;
+  const { routes, pwd } = options;
 
   const { runner } = server;
   if (routes && routes.length > 0) {
-    const customServer = new CustomServer(runner, server, pwd, metrics);
+    const customServer = new CustomServer(runner, server, pwd);
 
     // warn ssr bundles
     const ssrBundles = routes

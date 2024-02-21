@@ -8,7 +8,8 @@
     "isolatedModules": true,
     "paths": {
       "@core/*": ["./src/core/*"],
-      "@config/*": ["./src/types/config/*"]
+      "@config/*": ["./src/types/config/*"],
+      "@base/*": ["./src/base/*"]
     },
     "types": ["node", "jest"]
   },
