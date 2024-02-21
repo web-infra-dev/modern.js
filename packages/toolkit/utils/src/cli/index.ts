@@ -18,3 +18,4 @@ export * from './require';
 export * from './runtimeExports';
 export * from './watch';
 export * from './config';
+export * from './action';

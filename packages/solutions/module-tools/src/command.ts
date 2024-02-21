@@ -1,4 +1,5 @@
 import type { Command } from '@modern-js/utils';
+import { newAction, upgradeAction } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleTools } from './types';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
@@ -90,26 +91,25 @@ export const newCommand = async (program: Command) => {
       i18n.t(localeKeys.command.shared.noNeedInstall),
     )
     .action(async options => {
-      const { ModuleNewAction } = await import('@modern-js/new-action');
       const { getLocaleLanguage } = await import(
         '@modern-js/plugin-i18n/language-detector'
       );
-
       const locale = getLocaleLanguage();
-
-      await ModuleNewAction({ ...options, locale: options.lang || locale });
+      await newAction(
+        {
+          ...options,
+          locale: options.lang || locale,
+        },
+        'module',
+      );
     });
 };
 
 export const upgradeCommand = async (program: Command) => {
-  const { defineCommand } = await import('@modern-js/upgrade');
-  defineCommand(
-    program
-      .command('upgrade')
-      .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
-      .option(
-        '--no-need-install',
-        i18n.t(localeKeys.command.shared.noNeedInstall),
-      ),
-  );
+  program
+    .command('upgrade')
+    .allowUnknownOption()
+    .action(async () => {
+      await upgradeAction();
+    });
 };

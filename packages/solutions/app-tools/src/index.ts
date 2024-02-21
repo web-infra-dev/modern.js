@@ -8,9 +8,10 @@ import {
   getArgv,
   fs,
   NESTED_ROUTE_SPEC_FILE,
+  newAction,
+  upgradeAction,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
-import execa from '@modern-js/utils/execa';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import analyzePlugin from './analyze';
@@ -245,24 +246,12 @@ export const appTools = (
             i18n.t(localeKeys.command.shared.noNeedInstall),
           )
           .action(async (options: any) => {
-            await execa(
-              'npx',
-              [
-                '--yes',
-                `@modern-js/new-action@${
-                  process.env.MODERN_JS_VERSION ?? 'latest'
-                }`,
-                `--config=${JSON.stringify({
-                  ...options,
-                  locale: options.lang || locale,
-                })}`,
-                '--solution=mwa',
-              ],
+            await newAction(
               {
-                stderr: 'inherit',
-                stdout: 'inherit',
-                stdin: 'inherit',
+                ...options,
+                locale: options.lang || locale,
               },
+              'mwa',
             );
           });
 
@@ -293,21 +282,7 @@ export const appTools = (
           .command('upgrade')
           .allowUnknownOption()
           .action(async () => {
-            await execa(
-              'npx',
-              [
-                '--yes',
-                `@modern-js/upgrade@${
-                  process.env.MODERN_JS_VERSION ?? 'latest'
-                }`,
-                ...process.argv.slice(2),
-              ],
-              {
-                stdin: 'inherit',
-                stdout: 'inherit',
-                stderr: 'inherit',
-              },
-            );
+            await upgradeAction();
           });
       },
 

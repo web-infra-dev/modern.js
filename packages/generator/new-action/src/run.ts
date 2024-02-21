@@ -13,7 +13,6 @@ const main = async () => {
     .option('--config <config>', 'config', '')
     .option('--root-path <rootPath>', 'project root path', '')
     .action(async params => {
-      console.log('params', params);
       const { solution, config: configStr, rootPath } = params;
       const config = JSON.parse(configStr);
 
