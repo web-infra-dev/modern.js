@@ -12,8 +12,6 @@
   },
   "devDependencies": {
     "@storybook/addon-essentials": "~7.6.1",
-    "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/storybook": "workspace:*",
     "@types/react": "^18",
     "@types/react-dom": "^18",
