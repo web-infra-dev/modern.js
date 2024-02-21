@@ -10,6 +10,5 @@
     "paths": {
       "@base/*": ["../src/base/*"]
     }
-  },
-  "exclude": ["./base/fixtures/**/*"]
+  }
 }
