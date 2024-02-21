@@ -5,6 +5,11 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "types": ["node", "jest"]
-  }
+    "types": ["node", "jest"],
+    "outDir": "./dist",
+    "paths": {
+      "@base/*": ["../src/base/*"]
+    }
+  },
+  "exclude": ["./base/fixtures/**/*"]
 }

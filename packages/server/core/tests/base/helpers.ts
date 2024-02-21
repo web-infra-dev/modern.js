@@ -1,3 +1,5 @@
+import { createServerBase } from '@base/index';
+
 export function getDefaultConfig() {
   return {
     html: {},
@@ -15,4 +17,14 @@ export function getDefaultAppContext() {
     apiDirectory: '',
     lambdaDirectory: '',
   };
+}
+
+export function createDefaultServer() {
+  const server = createServerBase({
+    config: getDefaultConfig(),
+    appContext: getDefaultAppContext(),
+    pwd: '',
+  });
+
+  return server;
 }

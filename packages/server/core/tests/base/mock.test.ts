@@ -1,13 +1,13 @@
 import path from 'path';
-import { createServerBase } from '../../src/base';
-import { registerMockHandlers } from '../../src/base/adapters/mock';
+import { registerMockHandlers } from '@base/adapters/node/middlewares/mock';
+import { createServerBase } from '@base/index';
 import { getDefaultConfig, getDefaultAppContext } from './helpers';
 
 describe('should mock middleware work correctly', () => {
   const pwd = path.join(__dirname, './fixtures/mock');
 
   it('support cjs', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       appContext: getDefaultAppContext(),
       pwd: '',
@@ -31,7 +31,7 @@ describe('should mock middleware work correctly', () => {
   });
 
   it('should not handle if no config mock dir', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       appContext: getDefaultAppContext(),
       pwd: '',
@@ -45,7 +45,7 @@ describe('should mock middleware work correctly', () => {
   });
 
   it('support post method', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       appContext: getDefaultAppContext(),
       pwd: '',
@@ -66,7 +66,7 @@ describe('should mock middleware work correctly', () => {
   });
 
   it('should return 404 if mock api not exist', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       pwd: '',
       appContext: getDefaultAppContext(),
@@ -80,7 +80,7 @@ describe('should mock middleware work correctly', () => {
   });
 
   it('should not return 404 if mock disable', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       pwd: '',
       appContext: getDefaultAppContext(),
@@ -94,7 +94,7 @@ describe('should mock middleware work correctly', () => {
   });
 
   it('should not return 404 if enable is a function', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       pwd: '',
       appContext: getDefaultAppContext(),
@@ -114,7 +114,7 @@ describe('should mock middleware work correctly', () => {
 
   it('should throw error if get mock file fail', async () => {
     try {
-      const server = await createServerBase({
+      const server = createServerBase({
         config: getDefaultConfig(),
         pwd: '',
         appContext: getDefaultAppContext(),
@@ -130,7 +130,7 @@ describe('should mock middleware work correctly', () => {
 
   it('should throw error if get mock api has wrong type', async () => {
     try {
-      const server = await createServerBase({
+      const server = createServerBase({
         config: getDefaultConfig(),
         pwd: '',
         appContext: getDefaultAppContext(),
