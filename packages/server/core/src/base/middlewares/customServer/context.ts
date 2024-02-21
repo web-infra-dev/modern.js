@@ -7,11 +7,11 @@ import {
   AfterStreamingRenderContext,
   ServerRoute,
 } from '@modern-js/types';
-import { HonoContext } from '../../core/server';
-import { HonoNodeEnv } from '../adapters/node';
-import { createBaseHookContext } from './hook/base';
-import { RouterAPI } from './hook/routerApi';
-import { TemplateApi } from './hook/template';
+import { HonoContext } from '@core/server';
+import type { HonoNodeEnv } from '../../adapters/node';
+import { RouterAPI } from './routerApi';
+import { TemplateApi } from './template';
+import { createBaseHookContext } from './base';
 
 export function createAfterMatchCtx(
   c: HonoContext,
@@ -47,9 +47,11 @@ export function createCustomMiddlewaresCtx(
 ): MiddlewareContext {
   const baseContext = createBaseHookContext(c, logger, metrics);
 
+  const reporter = c.get('reporter');
+
   return {
     ...baseContext,
-    reporter: undefined,
+    reporter,
     response: {
       ...baseContext.response,
       locals: {},

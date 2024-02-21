@@ -1,17 +1,17 @@
 import { ServerRoute } from '@modern-js/types';
 import { ServerHookRunner } from '@core/plugin';
 import { time } from '@modern-js/runtime-utils/time';
-import { Metrics, Middleware } from '../../core/server';
+import { Middleware } from '@core/server';
+import { ServerBase } from '@base/serverBase';
+import { createTransformStream } from '../../libs/utils';
+import { ServerReportTimings } from '../../libs/constants';
+import { HonoNodeEnv } from '../../adapters/node';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
   createCustomMiddlewaresCtx,
   createAfterStreamingRenderContext,
-} from '../libs/customServer';
-import { createTransformStream } from '../libs/utils';
-import { ServerBase } from '../serverBase';
-import { ServerReportTimings } from '../libs/constants';
-import { HonoNodeEnv } from '../adapters/node';
+} from './context';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -19,25 +19,16 @@ const noop = () => {};
 export class CustomServer {
   private runner: ServerHookRunner;
 
-  private metrics?: Metrics;
-
   private serverMiddlewarePromise: ReturnType<
     ServerHookRunner['prepareWebServer']
   >;
 
   private serverBase: ServerBase;
 
-  constructor(
-    runner: ServerHookRunner,
-    serverBase: ServerBase,
-    pwd: string,
-    metrics?: Metrics,
-  ) {
+  constructor(runner: ServerHookRunner, serverBase: ServerBase, pwd: string) {
     this.runner = runner;
 
     this.serverBase = serverBase;
-
-    this.metrics = metrics;
 
     // The webExtension is deprecated, so we give a empty array to it.
     const webExtension: any[] = [];
@@ -65,12 +56,8 @@ export class CustomServer {
       const routeInfo = routes.find(route => route.entryName === entryName)!;
       const logger = c.get('logger');
       const reporter = c.get('reporter');
-      const afterMatchCtx = createAfterMatchCtx(
-        c,
-        entryName,
-        logger,
-        this.metrics,
-      );
+      const metrics = c.get('metrics');
+      const afterMatchCtx = createAfterMatchCtx(c, entryName, logger, metrics);
 
       const getCost = time();
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
@@ -119,7 +106,7 @@ export class CustomServer {
           c,
           logger,
           routeInfo,
-          this.metrics,
+          metrics,
         );
 
         const injectStream = createTransformStream((chunk: string) => {
@@ -139,11 +126,7 @@ export class CustomServer {
         });
       } else {
         // run afterRenderHook hook
-        const afterRenderCtx = await createAfterRenderCtx(
-          c,
-          logger,
-          this.metrics,
-        );
+        const afterRenderCtx = await createAfterRenderCtx(c, logger, metrics);
 
         const getCost = time();
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
@@ -175,11 +158,12 @@ export class CustomServer {
 
       const reporter = c.get('reporter');
       const logger = c.get('logger');
+      const metrics = c.get('metrics');
 
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
         c,
         logger,
-        this.metrics,
+        metrics,
       );
 
       const getCost = time();

@@ -44,8 +44,7 @@ export const createDataHandler = (
       buildModule = await import(buildModulePath);
     } catch (_) {
       // we should call next(), if we import buildModule occur error,
-      await next();
-      return;
+      return next();
     }
     const { routes, handleRequest } = buildModule;
 
@@ -61,10 +60,6 @@ export const createDataHandler = (
       routes,
     })) as Response | void;
 
-    if (typeof response !== 'undefined') {
-      context.res = response;
-    }
-
-    await next();
+    return response ? response : next();
   };
 };

@@ -1,5 +1,5 @@
 import { NodeRequest, NodeResponse } from '@core/plugin';
-import { Reporter } from '@modern-js/types/server';
+import { Metrics, Reporter } from '@modern-js/types/server';
 import { Logger } from '@modern-js/types';
 import {
   HonoContext,
@@ -20,6 +20,7 @@ type NodeBindings = {
 type NodeVariables = {
   reporter: Reporter;
   logger: Logger;
+  metrics?: Metrics;
 };
 
 export type HonoNodeEnv = {

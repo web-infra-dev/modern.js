@@ -3,8 +3,8 @@ import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '@core/render';
-import { parseQuery } from '../libs/request';
-import { createErrorHtml } from '../libs/utils';
+import { parseQuery } from '../../libs/request';
+import { createErrorHtml } from '../../libs/utils';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -24,7 +24,7 @@ export function createRender({
   forceCSR,
   nonce,
 }: CreateRenderOptions): Render {
-  return async (req, { logger, nodeReq }) => {
+  return async (req, { logger, nodeReq, reporter }) => {
     const routeInfo = matchRoute(req, routes);
 
     if (!routeInfo) {
@@ -63,6 +63,7 @@ export function createRender({
           nonce,
           logger,
           nodeReq,
+          reporter,
         });
   };
 }
