@@ -9,7 +9,9 @@ export function defineCommand(program: Command) {
   const locale = getLocaleLanguage();
   i18n.changeLanguage({ locale });
   program
+    .alias('upgrade')
     .description(i18n.t(localeKeys.command.describe))
+    .usage('npx @modern-js/upgrade [options]')
     .option('-c --config <config>', i18n.t(localeKeys.command.config))
     .option('--dist-tag <distTag>', i18n.t(localeKeys.command.distTag), '')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
