@@ -6,6 +6,8 @@ import { MWANewAction } from './mwa';
 import { ModuleNewAction } from './module';
 import { MonorepoNewAction } from './monorepo';
 
+import { getSolutionByDependance } from './utils';
+
 const main = async () => {
   const program = new Command();
   program
@@ -13,6 +15,10 @@ const main = async () => {
     .option('--config <config>', 'config', '{}')
     .option('--root-path <rootPath>', 'project root path', '')
     .action(async params => {
+      if (!params.solution) {
+        params.solution = getSolutionByDependance();
+      }
+
       const { solution, config: configStr, rootPath } = params;
       const config = JSON.parse(configStr);
 

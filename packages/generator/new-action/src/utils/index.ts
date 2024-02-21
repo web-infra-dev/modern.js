@@ -8,6 +8,15 @@ import {
 } from '@modern-js/generator-common';
 import { fs, getModernPluginVersion } from '@modern-js/generator-utils';
 
+const swap = (obj: Record<string, string>) => {
+  return Object.keys(obj).reduce<Record<string, string>>((acc, key) => {
+    acc[obj[key]] = key;
+    return acc;
+  }, {});
+};
+
+const dependenceToSolution = swap(SolutionToolsMap);
+
 export function alreadyRepo(cwd = process.cwd()) {
   try {
     return fs.existsSync(path.resolve(cwd, 'package.json'));
@@ -75,3 +84,28 @@ export async function usePluginNameExport(
   }
   return true;
 }
+
+export const getSolutionByDependance = (
+  jsonPath?: string,
+): string | undefined => {
+  const packageJsonPath =
+    jsonPath ?? path.normalize(`${process.cwd()}/package.json`);
+  const packageJson = readJson(packageJsonPath);
+
+  const solutions = Object.keys(dependenceToSolution)
+    .map((i: string) => {
+      if (packageJson.dependencies?.[i] || packageJson.devDependencies?.[i]) {
+        return dependenceToSolution[i];
+      }
+      return '';
+    })
+    .filter(Boolean);
+
+  if (solutions.length === 0) {
+    throw new Error('No solution found. Please check your package.json.');
+  } else if (solutions.length > 1) {
+    throw new Error(`Multiple solutions found: ${solutions.join(',')}`);
+  }
+
+  return solutions[0];
+};
