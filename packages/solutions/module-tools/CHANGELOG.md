@@ -1,5 +1,31 @@
 # @modern-js/module-tools
 
+## 2.47.0
+
+### Patch Changes
+
+- f2e3162: fix(module-tools): add js extension when pkg type is module
+  fix(module-tools): 当包类型为 module 时，给产物里的相对路径补全文件后缀
+- 48e52e3: fix(module-tools): should not remove SVG viewBox attribute
+
+  fix(module-tools): 避免移除 SVG viewBox 属性
+
+- 02da481: feat(module-tools): improve svg typing for SVGR
+
+  feat(module-tools): 优化 svg 类型定义
+
+- Updated dependencies [a5386ab]
+- Updated dependencies [3d1effc]
+  - @modern-js/utils@2.47.0
+  - @modern-js/plugin-lint@2.47.0
+  - @modern-js/core@2.47.0
+  - @modern-js/new-action@2.47.0
+  - @modern-js/plugin-changeset@2.47.0
+  - @modern-js/plugin-i18n@2.47.0
+  - @modern-js/plugin@2.47.0
+  - @modern-js/upgrade@2.47.0
+  - @modern-js/types@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

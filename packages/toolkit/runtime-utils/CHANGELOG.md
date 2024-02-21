@@ -1,5 +1,14 @@
 # @modern-js/runtime-utils
 
+## 2.47.0
+
+### Patch Changes
+
+- 9464c9c: chore: upgrade react-router and export all react-router APIs
+  chore: 升级 react-router 相关依赖，并导出所有 react-router API
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

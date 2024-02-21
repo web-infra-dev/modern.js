@@ -1,5 +1,12 @@
 # @modern-js/plugin
 
+## 2.47.0
+
+### Patch Changes
+
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes
