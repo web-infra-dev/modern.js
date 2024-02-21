@@ -86,7 +86,7 @@
     "tsconfig-paths-webpack-plugin": "4.1.0"
   },
   "devDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@rsbuild/core": "0.4.4",
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",

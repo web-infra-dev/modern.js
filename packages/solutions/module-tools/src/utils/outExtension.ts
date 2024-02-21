@@ -41,5 +41,6 @@ export const getDefaultOutExtension = (options: {
   return {
     jsExtension,
     dtsExtension,
+    isModule,
   };
 };

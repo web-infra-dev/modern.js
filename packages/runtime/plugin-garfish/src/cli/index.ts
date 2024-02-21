@@ -143,7 +143,7 @@ export const garfishPlugin = ({
               // add comments avoid sourcemap abnormal
               if (bundler.BannerPlugin) {
                 chain
-                  .plugin(CHAIN_ID.PLUGIN.BANNER)
+                  .plugin('garfish-banner')
                   .use(bundler.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
               // eslint-disable-next-line react-hooks/rules-of-hooks
