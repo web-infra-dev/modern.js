@@ -8,10 +8,10 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import * as isbot from 'isbot';
-import { createTransformStream } from '../../libs/utils';
+import { createTransformStream } from '../../utils';
 import { SSRServerContext, ServerRender } from '../../../core/server';
-import { REPLACE_REG } from '../../libs/constants';
-import { parseHeaders, parseQuery, getHost } from '../../libs/request';
+import { REPLACE_REG } from '../../constants';
+import { parseHeaders, parseQuery, getHost } from '../../utils/request';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
 import { ServerTiming } from './serverTiming';
 import { ssrCache } from './ssrCache';

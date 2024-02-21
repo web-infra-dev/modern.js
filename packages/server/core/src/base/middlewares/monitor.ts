@@ -1,7 +1,7 @@
 import type { Next } from 'hono';
 import { Logger, Reporter } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { ServerReportTimings } from '../libs/constants';
+import { ServerReportTimings } from '../constants';
 import { HonoContext } from '../../core/server';
 import { HonoNodeEnv } from '../adapters/node';
 
