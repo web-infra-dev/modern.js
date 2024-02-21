@@ -108,8 +108,8 @@ function getRenderMode(
 function csrRender(html: string): Response {
   return new Response(html, {
     status: 200,
-    headers: {
+    headers: new Headers({
       'content-type': 'text/html; charset=UTF-8',
-    },
+    }),
   });
 }
