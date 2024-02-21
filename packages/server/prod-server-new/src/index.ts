@@ -84,7 +84,7 @@ export const initProdMiddlewares = async (
   server.get('*', favionFallbackMiddleware);
 
   await bindBFFHandler(server, options);
-  routes && bindDataHandlers(server, routes, pwd);
+  routes && bindDataHandlers(server, routes || [], pwd);
   await bindRenderHandler(server, options);
 
   return server;

@@ -8,6 +8,24 @@ import {
   ReadableStream as NodeReadableStream,
 } from '@web-std/stream';
 
+/**
+ * In the Response of @web-std/fetch, headers will be created
+ * so we use defineProperty to add new properties，Instead of extend Headers in @web-std/fetch
+ */
+Object.defineProperty(NodeHeaders.prototype, 'getSetCookie', {
+  value: function getSetCookie() {
+    const cookies: string[] = [];
+
+    this.forEach((value: any, name: string) => {
+      if (name.toLowerCase() === 'set-cookie') {
+        cookies.push(value);
+      }
+    });
+
+    return cookies;
+  },
+});
+
 export const installGlobals = () => {
   if (!global.Headers) {
     global.Headers = NodeHeaders as unknown as typeof Headers;
