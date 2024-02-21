@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import mergeDeep from 'merge-deep';
-import { getServerConfigPath } from '../../src/base/libs/loadConfig';
+import { getServerConfigPath } from '@base/utils';
 
 describe('test loadConfig', () => {
   test('should merge CliConfig and ServerConfig correctly', () => {

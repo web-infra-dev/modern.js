@@ -10,4 +10,7 @@ module.exports = {
     TextEncoder,
     TextDecoder,
   },
+  moduleNameMapper: {
+    '^@base/(.*)$': '<rootDir>/src/base/$1',
+  },
 };
