@@ -10,7 +10,7 @@ export const newAction = async (
       '--yes',
       `@modern-js/new-action@${process.env.MODERN_JS_VERSION ?? 'latest'}`,
       `--config=${JSON.stringify(config)}`,
-      `--solution=mwa${solution}`,
+      `--solution=${solution}`,
     ],
     {
       stderr: 'inherit',
