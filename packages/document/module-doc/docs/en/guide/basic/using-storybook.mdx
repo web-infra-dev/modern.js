@@ -100,8 +100,6 @@ export default config;
 
 Note that in the above configuration, the reactDocgen configuration has been changed because Rspack currently does not support @storybook/react-docgen-typescript-plugin.
 
-Before starting, make sure that you have installed the @modern-js/builder-rspack-provider package.
-
 ### Configurations
 
 There are some separate configurations in `.storybook/main.js`.
@@ -111,7 +109,7 @@ There are some separate configurations in `.storybook/main.js`.
 - **Type**: `'webpack' | 'rspack'`
 - **Default**: `webpack`
 
-Specify the underlying build tool to use either Webpack or Rspack. Please make sure to install the corresponding provider. To use Webpack, install @modern-js/builder-webpack-provider. To use Rspack, install @modern-js/builder-rspack-provider.
+Specify the underlying bundler to use either Webpack or Rspack.
 
 Example:
 
@@ -133,7 +131,7 @@ export default config;
 - **Type**: `BuilderConfig`
 - **Default**: `undefined`
 
-To modify the configuration of the builder.
+The Storybook build capability of Modern.js is provided by [Rsbuild](https://rsbuild.dev/), and the Rsbuild configuration can be modified through builderConfig.
 
 ```javascript filename='.storybook/main.js'
 const config = {
@@ -155,7 +153,7 @@ export default config;
 
 ### Command
 
-@modern-js/storybook 代理了部分 storybook cli 的命令
+@modern-js/storybook proxies some storybook cli commands
 
 #### storybook dev
 
