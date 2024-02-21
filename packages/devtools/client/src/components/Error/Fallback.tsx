@@ -21,14 +21,12 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = props => {
       <Heading as="h4" mb="4">
         <Text as="span">{title}</Text>
       </Heading>
-      <TextArea disabled style={{ height: '50vh' }}>
-        {description}
-      </TextArea>
+      <TextArea disabled style={{ height: '50vh' }} value={description} />
     </Box>
   );
 };
 
-export const ErrorRouteHandler: React.FC<ErrorFallbackProps> = props => {
+export const ErrorRouteHandler: React.FC = () => {
   const error = useRouteError();
-  return <ErrorFallback {...props} error={error} />;
+  return <ErrorFallback resetErrorBoundary={() => null} error={error} />;
 };

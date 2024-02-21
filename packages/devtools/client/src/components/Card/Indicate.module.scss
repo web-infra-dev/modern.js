@@ -1,0 +1,8 @@
+.indicate-card {
+  border-radius: var(--radius-5);
+  box-shadow: var(--shadow-4);
+  padding: var(--space-5);
+  :global(.dark) & {
+    background-color: var(--gray-1);
+  }
+}

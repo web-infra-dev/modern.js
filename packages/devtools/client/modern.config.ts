@@ -46,6 +46,22 @@ export default defineConfig<'rspack'>({
     disableInlineRuntimeChunk: true,
     disableSourceMap: process.env.NODE_ENV === 'production',
   },
+  performance: {
+    chunkSplit: {
+      strategy: 'split-by-experience',
+      override: {
+        cacheGroups: {
+          components: {
+            test: /\/src\/components\/.*\.(scss|css)$/,
+            chunks: 'all',
+            name: 'components',
+            enforce: true,
+            priority: 9999,
+          },
+        },
+      },
+    },
+  },
   tools: {
     postcss: (config, { addPlugins }) => {
       addPlugins(require('postcss-custom-media'));

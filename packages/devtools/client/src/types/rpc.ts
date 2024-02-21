@@ -1,5 +1,5 @@
 export interface ClientFunctions {
-  pullUpReactInspector: () => Promise<void>;
+  pullUp: (target: string) => Promise<void>;
 }
 
 export interface MountPointFunctions {

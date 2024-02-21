@@ -1,3 +1,3 @@
-import { ErrorRouteHandler } from '@/components/ErrorFallback/ErrorFallback';
+import { ErrorRouteHandler } from '@/components/Error/Fallback';
 
 export default ErrorRouteHandler;

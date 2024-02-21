@@ -4,3 +4,4 @@ export * from './mount-point';
 export * from './utils';
 export * from './constants';
 export * from './channel';
+export * from './rsdoctor';

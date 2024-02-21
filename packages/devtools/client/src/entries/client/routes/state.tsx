@@ -13,7 +13,7 @@ import {
   HiOutlineHome,
   HiOutlineRectangleGroup,
 } from 'react-icons/hi2';
-import { RiReactjsLine } from 'react-icons/ri';
+import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { stringifyParsedURL } from 'ufo';
 import { proxy, ref } from 'valtio';
 import { InternalTab } from '../types';
@@ -36,8 +36,8 @@ export const $mountPointChannel = MessagePortChannel.link(
 export const $mountPoint = $mountPointChannel.then(async channel => {
   const hooks = createHooks<ToMountPointFunctions>();
   const definitions: ToMountPointFunctions = {
-    async pullUpReactInspector() {
-      await hooks.callHook('pullUpReactInspector');
+    async pullUp(target) {
+      await hooks.callHook('pullUp', target);
     },
   };
   const remote = createBirpc<MountPointFunctions, ToMountPointFunctions>(
@@ -134,6 +134,12 @@ export const $tabs = proxy<InternalTab[]>([
     icon: ref(<HiOutlineAcademicCap />),
     view: { type: 'builtin', url: '/headers' },
   },
+  {
+    name: 'doctor',
+    title: 'Doctor',
+    icon: ref(<RiShieldCrossLine />),
+    view: { type: 'builtin', url: '/doctor' },
+  },
 ]);
 
 export const VERSION = process.env.PKG_VERSION;
@@ -147,9 +153,16 @@ export const $definition = proxy({
   packages: _definitionTask.then(def => def.packages),
   assets: _definitionTask.then(def => def.assets),
   announcement: _definitionTask.then(def => def.announcement),
+  doctor: _definitionTask.then(def => def.doctor),
 });
 
+export const _dependenciesTask = $server.then(({ remote }) =>
+  remote.getDependencies(),
+);
+
 export const $dependencies = proxy<Record<string, string>>({});
+
+_dependenciesTask.then(def => Object.assign($dependencies, def));
 
 export const $perf = proxy({
   compileDuration: $server.then(({ remote }) => remote.getCompileTimeCost()),

@@ -1,0 +1,101 @@
+.container {
+  max-width: 40rem;
+  width: 100%;
+}
+
+.primary-card {
+  flex: 4;
+  min-width: max-content;
+  background-color: var(--amber-9);
+  :global(.dark) & {
+    background-color: var(--amber-9);
+  }
+  button {
+    border: none;
+    border-radius: var(--radius-thumb);
+    color: var(--black-a8);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-regular);
+    padding: var(--space-1) var(--space-2);
+    overflow: hidden;
+    background-color: var(--black-a2);
+    &:hover,
+    &:active {
+      background-color: var(--black-a1);
+    }
+  }
+}
+
+.info-card {
+  flex: 2;
+  min-width: max-content;
+}
+
+.count-card {
+  flex: 1;
+  min-width: max-content;
+}
+
+.compile-cost-card {
+  flex: 4;
+}
+
+.logo {
+  width: var(--space-8);
+  opacity: 0.5;
+}
+
+.count-text {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.error-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-1);
+  color: var(--gray-11);
+}
+
+.text-truncation {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cost-box {
+  min-width: var(--space-2);
+
+  .cost-bar {
+    height: var(--space-1);
+    width: 100%;
+    border-radius: var(--radius-thumb);
+  }
+
+  &:nth-child(odd) {
+    .cost-bar {
+      background-color: var(--red-9);
+    }
+  }
+
+  &:nth-child(even) {
+    .cost-bar {
+      background-color: var(--orange-9);
+    }
+  }
+
+  .cost-label {
+    word-break: keep-all;
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+}
+
+.heading {
+  font-family: 'NotoSans';
+  font-weight: 900;
+  font-size: var(--font-size-7);
+}

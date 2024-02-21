@@ -1,5 +1,6 @@
 .container {
   max-width: 40rem;
+  width: 100%;
 }
 
 .bottom-tip {
@@ -10,19 +11,10 @@
   }
 }
 
-.indicate-card {
-  border-radius: var(--radius-6);
-  box-shadow: var(--shadow-4);
-  padding: var(--space-5);
-  :global(.dark) & {
-    background-color: var(--gray-1);
-  }
-}
-
 .primary-card {
   flex: 4;
   min-width: max-content;
-  background-color: var(--blue-9);
+  background-color: var(--blue-10);
   :global(.dark) & {
     background-color: var(--blue-10);
   }
@@ -76,4 +68,10 @@
   &:nth-child(even)::before {
     background-color: var(--red-9);
   }
+}
+
+.heading {
+  font-family: 'NotoSans';
+  font-weight: 900;
+  font-size: var(--font-size-7);
 }
