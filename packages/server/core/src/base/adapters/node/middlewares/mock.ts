@@ -2,8 +2,8 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 import { NextFunction } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
-import type { ServerBase } from '../../../serverBase';
-import { AGGRED_DIR } from '../../../libs/constants';
+import { AGGRED_DIR } from '@base/constants';
+import type { ServerBase } from '@base/serverBase';
 import { ServerNodeMiddleware, connectMid2HonoMid } from '../hono';
 
 type MockHandler =

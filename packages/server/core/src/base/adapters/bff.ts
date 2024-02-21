@@ -1,6 +1,6 @@
 import { isWebOnly } from '@modern-js/utils';
 import { HttpMethodDecider } from '@modern-js/types';
-import { createMiddlewareCollecter, getRuntimeEnv } from '../libs/utils';
+import { createMiddlewareCollecter, getRuntimeEnv } from '../utils';
 import { ServerBase } from '../serverBase';
 import { ServerNodeMiddleware } from './node';
 

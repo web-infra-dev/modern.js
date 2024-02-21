@@ -6,7 +6,7 @@ import type {
 } from '../core/server';
 import { ServerBase } from './serverBase';
 
-export { createErrorHtml } from './libs/utils';
+export { createErrorHtml } from './utils';
 export {
   httpCallBack2HonoMid,
   createNodeServer,

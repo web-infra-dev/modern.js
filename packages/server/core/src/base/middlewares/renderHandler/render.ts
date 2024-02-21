@@ -3,8 +3,8 @@ import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '@core/render';
-import { parseQuery } from '../../libs/request';
-import { createErrorHtml } from '../../libs/utils';
+import { parseQuery } from '../../utils/request';
+import { createErrorHtml } from '../../utils';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {

@@ -4,7 +4,7 @@ import {
   getRenderHandler,
 } from '@base/middlewares/renderHandler';
 import type { ServerBaseOptions } from '@core/server';
-import { createMiddlewareCollecter, getRuntimeEnv } from '../../libs/utils';
+import { createMiddlewareCollecter, getRuntimeEnv } from '../../utils';
 import { ServerBase } from '../../serverBase';
 import { ServerNodeMiddleware } from './hono';
 

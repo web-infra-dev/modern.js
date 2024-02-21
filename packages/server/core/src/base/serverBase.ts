@@ -16,12 +16,7 @@ import {
   serverManager,
 } from '../core';
 import { HonoEnv, ServerBaseOptions } from '../core/server';
-import { debug } from './utils';
-import {
-  getServerConfigPath,
-  loadConfig,
-  requireConfig,
-} from './libs/loadConfig';
+import { debug, getServerConfigPath, loadConfig, requireConfig } from './utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {

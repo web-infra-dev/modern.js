@@ -6,8 +6,8 @@ import {
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import { HonoContext, HonoRequest, Logger } from '../../../core/server';
-import { getHost } from '../../libs/request';
+import { HonoContext, HonoRequest, Logger } from '@core/server';
+import { getHost } from '../../utils';
 
 export function createBaseHookContext(
   c: HonoContext,
