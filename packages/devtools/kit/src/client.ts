@@ -40,7 +40,9 @@ export class AnnouncementDefinition {
 }
 
 export class DoctorDefinition {
-  website: string = 'https://rsdoctor.dev';
+  home: string = 'https://rsdoctor.dev';
+
+  quickStart: string = 'https://rsdoctor.dev/guide/start/quick-start';
 }
 
 export class ClientDefinition {

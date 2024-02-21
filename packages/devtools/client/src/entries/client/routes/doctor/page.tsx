@@ -84,7 +84,6 @@ const Page: FC = () => {
     key.startsWith('@web-doctor/'),
   );
   const implementation = isWebDoctor ? 'Web Doctor' : 'Rsdoctor';
-  const { website } = def.doctor;
   const version =
     dependencies['@web-doctor/webpack-plugin(builder)'] ??
     dependencies['@web-doctor/rspack-plugin(builder)'] ??
@@ -131,9 +130,16 @@ const Page: FC = () => {
                   {version ? `v${version}` : 'Unknown'}
                 </button>
               </Flex>
-              <Text as="p" color="gray" size="1">
-                Click to open panel with complete features.
-              </Text>
+              <Link
+                href={def.doctor.quickStart}
+                color="gray"
+                size="1"
+                underline="always"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Launch {implementation} with complete features.
+              </Link>
             </IndicateCard.Column>
           </Theme>
         </IndicateCard>
@@ -142,9 +148,13 @@ const Page: FC = () => {
             <Box>
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
-                <Link href={website} target="_blank" rel="noopener noreferrer">
+                <Link
+                  href={def.doctor.home}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <HiLink />
-                  <Text>{parseURL(website).host}</Text>
+                  <Text>{parseURL(def.doctor.home).host}</Text>
                 </Link>
               </Flex>
             </Box>
