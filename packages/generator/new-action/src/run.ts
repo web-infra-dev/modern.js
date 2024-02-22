@@ -11,7 +11,7 @@ import { getSolutionByDependance } from './utils';
 const main = async () => {
   const program = new Command();
   program
-    .option('--solution <solution>', 'solution', 'mwa')
+    .option('--solution <solution>', 'solution', '')
     .option('--config <config>', 'config', '{}')
     .option('--root-path <rootPath>', 'project root path', '')
     .action(async params => {
