@@ -106,6 +106,10 @@ export interface SvgrOptions extends Config {
 }
 
 export interface Asset {
+  /**
+   * @default [name].[hash].[ext]
+   */
+  name?: string | ((assetPath: string) => string);
   path?: string;
   limit?: number;
   publicPath?: string | ((filePath: string) => string);
