@@ -1,7 +1,7 @@
 import path from 'node:path';
 import type { ServerRoute, NestedRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
-import { sortRoutes } from '@base/utils';
+import { sortRoutes } from '../utils';
 import { Middleware } from '../../core/server';
 import type { ServerBase } from '../serverBase';
 
@@ -21,7 +21,6 @@ export const bindDataHandlers = (
   distDir: string,
 ) => {
   routes.sort(sortRoutes).forEach(route => {
-    // console.log('urlPath1111111', route.urlPath);
     const bundlePath = path.join(
       distDir,
       SERVER_BUNDLE_DIRECTORY,

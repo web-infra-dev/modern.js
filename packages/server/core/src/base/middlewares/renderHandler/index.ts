@@ -1,8 +1,8 @@
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
-import { Render } from '@core/render';
-import { Middleware, ServerBaseOptions } from '@core/server';
+import { Render } from '../../../core/render';
+import { Middleware, ServerBaseOptions } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
 import { warmup, checkIsProd, getRuntimeEnv, sortRoutes } from '../../utils';
 import { HonoNodeEnv } from '../../adapters/node';

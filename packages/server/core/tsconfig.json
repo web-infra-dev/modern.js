@@ -7,9 +7,7 @@
     "baseUrl": "./",
     "isolatedModules": true,
     "paths": {
-      "@core/*": ["./src/core/*"],
-      "@config/*": ["./src/types/config/*"],
-      "@base/*": ["./src/base/*"]
+      "@config/*": ["./src/types/config/*"]
     },
     "types": ["node", "jest"]
   },

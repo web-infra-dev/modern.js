@@ -1,5 +1,5 @@
 import { Server as NodeServer, createServer, ServerResponse } from 'node:http';
-import { NodeRequest, NodeResponse } from '@core/plugin';
+import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import { RequestHandler } from '../../../core/server';
 import {
   createReadableStreamFromReadable,
@@ -132,10 +132,18 @@ const getRequestListener = (handler: RequestHandler) => {
   };
 };
 
-export const createNodeServer = (handleRequest: RequestHandler): NodeServer => {
+type NodeServerWrapper = NodeServer & {
+  getRequestHandler: () => ReturnType<typeof getRequestListener>;
+};
+
+export const createNodeServer = (
+  handleRequest: RequestHandler,
+): NodeServerWrapper => {
   const requestListener = getRequestListener(handleRequest);
-  const nodeServer = createServer(requestListener);
-  return Object.assign(nodeServer, {
-    getRequestHandler: () => requestListener,
-  });
+  const nodeServer = createServer(requestListener) as NodeServerWrapper;
+
+  // 直接在 nodeServer 实例上添加 getRequestHandler 方法
+  nodeServer.getRequestHandler = () => requestListener;
+
+  return nodeServer;
 };

@@ -1,4 +1,3 @@
-import { Server as NodeServer } from 'node:http';
 import {
   ServerBase,
   ServerBaseOptions,
@@ -34,9 +33,7 @@ type BaseEnv = {
   };
 };
 
-export const createProdServer = async (
-  options: ProdServerOptions,
-): Promise<NodeServer> => {
+export const createProdServer = async (options: ProdServerOptions) => {
   const server = createServerBase<BaseEnv>(options);
 
   // load env file.

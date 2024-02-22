@@ -126,7 +126,7 @@
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
+    "@modern-js/prod-server-new": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@rsbuild/babel-preset": "0.3.7",
     "@testing-library/jest-dom": "^5.16.1",

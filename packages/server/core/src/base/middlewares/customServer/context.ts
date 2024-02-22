@@ -7,7 +7,7 @@ import {
   AfterStreamingRenderContext,
   ServerRoute,
 } from '@modern-js/types';
-import { HonoContext } from '@core/server';
+import { HonoContext } from '../../../core/server';
 import type { HonoNodeEnv } from '../../adapters/node';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
