@@ -6,3 +6,4 @@ export * from './transformStream';
 export * from './middlewareCollector';
 export * from './error';
 export * from './warmup';
+export * from './entry';

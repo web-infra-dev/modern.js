@@ -18,7 +18,13 @@ export {
   registerMockHandlers,
 } from './adapters/node';
 
-export * from './middlewares';
+export {
+  favionFallbackMiddleware,
+  bindDataHandlers,
+  injectReporter,
+  getRenderHandler,
+  bindRenderHandler,
+} from './middlewares';
 
 export function createServerBase<E extends HonoEnv>(
   options: ServerBaseOptions,

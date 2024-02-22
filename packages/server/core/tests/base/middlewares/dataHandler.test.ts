@@ -47,8 +47,7 @@ describe('test middlewares dataHandler', () => {
           entryName: 'user',
           entryPath: '/user',
         },
-        // TODO: remove sort
-      ].sort((a, b) => b.urlPath.length - a.urlPath.length),
+      ],
       pwd,
     );
 
