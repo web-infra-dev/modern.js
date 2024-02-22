@@ -1,0 +1,6 @@
+{
+  "extends": "tsconfig.bar.json",
+  "compilerOptions": {
+    "declaration": true
+  }
+}
