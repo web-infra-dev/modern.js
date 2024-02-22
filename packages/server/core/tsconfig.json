@@ -6,9 +6,6 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {
-      "@config/*": ["./src/types/config/*"]
-    },
     "types": ["node", "jest"]
   },
   "include": ["src"]

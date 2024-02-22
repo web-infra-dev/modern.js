@@ -1,3 +1,3 @@
-import { installGlobals } from '@base/adapters/node';
+import { installGlobals } from '../src/base/adapters/node';
 
 installGlobals();

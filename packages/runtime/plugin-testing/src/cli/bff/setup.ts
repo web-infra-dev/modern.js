@@ -45,7 +45,6 @@ const setup = () => {
     // The mockAPI function is in the beforeAll hook, so developers can mock bff api (such as useContext), because jest.mock will be executed before this file in the test file
     // The ideal execution sequence is: mock in test case -> mock in this file -> import in test case, so import lambda file should be in the test function
     mockAPI(apiInfosByFile);
-    console.log('bff_info', bff_info);
 
     if (!app) {
       app = await createApp(

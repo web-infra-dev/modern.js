@@ -1,5 +1,5 @@
 import path from 'path';
-import { bindDataHandlers } from '@base/middlewares/dataHandler';
+import { bindDataHandlers } from '../../../src/base/middlewares/dataHandler';
 import { createDefaultServer } from '../helpers';
 
 describe('test middlewares dataHandler', () => {

@@ -1,4 +1,4 @@
-import { createServerBase, favionFallbackMiddleware } from '@base/index';
+import { createServerBase, favionFallbackMiddleware } from '../../../src/base';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 describe('favionFallbackMiddleware', () => {
