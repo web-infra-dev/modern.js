@@ -1,0 +1,32 @@
+[
+  {
+    "urlPath": "/user",
+    "entryName": "user",
+    "entryPath": "user.html",
+    "isSPA": true,
+    "isStream": false,
+    "isSSR": true,
+    "bundle": "bundles/user.js",
+    "redirect": "",
+    "responseHeader": [],
+    "extra": {
+      "entryName": "main"
+    },
+    "specialHeader": []
+  },
+  {
+    "urlPath": "/",
+    "entryName": "main",
+    "entryPath": "index.html",
+    "isSPA": true,
+    "isStream": false,
+    "isSSR": true,
+    "bundle": "bundles/main.js",
+    "redirect": "",
+    "responseHeader": [],
+    "extra": {
+      "entryName": "main"
+    },
+    "specialHeader": []
+  }
+]

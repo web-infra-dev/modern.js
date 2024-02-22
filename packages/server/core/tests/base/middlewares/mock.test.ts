@@ -1,10 +1,10 @@
 import path from 'path';
 import { registerMockHandlers } from '@base/adapters/node/middlewares/mock';
 import { createServerBase } from '@base/index';
-import { getDefaultConfig, getDefaultAppContext } from './helpers';
+import { getDefaultConfig, getDefaultAppContext } from '../helpers';
 
 describe('should mock middleware work correctly', () => {
-  const pwd = path.join(__dirname, './fixtures/mock');
+  const pwd = path.join(__dirname, '../fixtures/mock');
 
   it('support cjs', async () => {
     const server = createServerBase({
