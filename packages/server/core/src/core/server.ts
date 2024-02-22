@@ -10,8 +10,8 @@ import type {
   BaseSSRServerContext,
   ServerRoute,
 } from '@modern-js/types';
-import { ServerOptions } from '@config/index';
 import { MiddlewareHandler } from 'hono';
+import { ServerOptions } from '../types/config/index';
 import { ServerHookRunner, ServerPlugin } from './plugin';
 import { HonoEnv } from './hono';
 
