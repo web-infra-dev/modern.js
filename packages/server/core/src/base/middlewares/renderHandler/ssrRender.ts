@@ -36,6 +36,7 @@ const defaultReporter: Reporter = {
 
 interface SSRRenderOptions {
   pwd: string;
+  // FIXME: remove mode.
   mode: 'string' | 'stream';
   html: string;
   routeInfo: ServerRoute;

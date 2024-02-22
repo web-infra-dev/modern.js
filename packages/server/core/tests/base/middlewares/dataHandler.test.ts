@@ -31,7 +31,7 @@ describe('test middlewares dataHandler', () => {
     expect(text).toBe('render');
   });
 
-  it('should handle by data', async () => {
+  it('should handle by data correctly', async () => {
     const server = createDefaultServer();
 
     bindDataHandlers(
@@ -42,7 +42,13 @@ describe('test middlewares dataHandler', () => {
           entryName: 'main',
           entryPath: '/',
         },
-      ],
+        {
+          urlPath: '/user',
+          entryName: 'user',
+          entryPath: '/user',
+        },
+        // TODO: remove sort
+      ].sort((a, b) => b.urlPath.length - a.urlPath.length),
       pwd,
     );
 
@@ -51,9 +57,11 @@ describe('test middlewares dataHandler', () => {
     });
 
     const response = await server.request('/');
-
     const text = await response.text();
+    expect(text).toBe('handle main');
 
-    expect(text).toBe('handle data');
+    const response1 = await server.request('/user/page');
+    const text1 = await response1.text();
+    expect(text1).toBe('handle user');
   });
 });
