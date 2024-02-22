@@ -72,8 +72,9 @@ function matchRoute(
   req: Request,
   routes: ServerRoute[],
 ): ServerRoute | undefined {
-  // TODO: adpater params
-  for (const route of routes) {
+  // TODO: sort routes
+  const sorted = routes.sort((a, b) => b.urlPath.length - a.urlPath.length);
+  for (const route of sorted) {
     const reg = new RegExp(route.urlPath);
 
     if (reg.test(req.url)) {
