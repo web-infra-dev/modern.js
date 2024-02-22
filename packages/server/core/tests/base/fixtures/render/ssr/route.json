@@ -1,12 +1,12 @@
 [
   {
-    "urlPath": "/user",
-    "entryName": "user",
-    "entryPath": "user.html",
+    "urlPath": "/",
+    "entryName": "main",
+    "entryPath": "index.html",
     "isSPA": true,
     "isStream": false,
     "isSSR": true,
-    "bundle": "bundles/user.js",
+    "bundle": "bundles/main.js",
     "redirect": "",
     "responseHeader": [],
     "extra": {
@@ -15,13 +15,13 @@
     "specialHeader": []
   },
   {
-    "urlPath": "/",
-    "entryName": "main",
-    "entryPath": "index.html",
+    "urlPath": "/user",
+    "entryName": "user",
+    "entryPath": "user.html",
     "isSPA": true,
     "isStream": false,
     "isSSR": true,
-    "bundle": "bundles/main.js",
+    "bundle": "bundles/user.js",
     "redirect": "",
     "responseHeader": [],
     "extra": {
