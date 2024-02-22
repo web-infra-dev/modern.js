@@ -19,15 +19,6 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var __decorateClass = (decorators, target, key, kind) => {
-  var result = kind > 1 ? void 0 : kind ? __getOwnPropDesc(target, key) : target;
-  for (var i = decorators.length - 1, decorator; i >= 0; i--)
-    if (decorator = decorators[i])
-      result = (kind ? decorator(target, key, result) : decorator(result)) || result;
-  if (kind && result)
-    __defProp(target, key, result);
-  return result;
-};
 
 // src/index.ts
 var src_exports = {};
@@ -35,6 +26,20 @@ __export(src_exports, {
   Person: () => Person
 });
 module.exports = __toCommonJS(src_exports);
+function _ts_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function _ts_metadata(k, v) {
+  if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
+    return Reflect.metadata(k, v);
+}
 function enhancer(name) {
   return function enhancer2(target) {
     target.prototype.name = name;
@@ -45,8 +50,10 @@ var Person = class {
     this.version = "1.0.0";
   }
 };
-Person = __decorateClass([
-  enhancer("module-tools")
+Person = _ts_decorate([
+  enhancer("module-tools"),
+  _ts_metadata("design:type", Function),
+  _ts_metadata("design:paramtypes", [])
 ], Person);
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
