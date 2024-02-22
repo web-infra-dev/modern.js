@@ -78,6 +78,28 @@ export default ({
             serverRoutes: routes,
           };
           api.setAppContext(appContext);
+
+          if (checkIsBuildCommands()) {
+            const normalizedConfig = api.useResolvedConfigContext();
+            const createBuilderForModern = await createBuilderGenerator(
+              bundler,
+            );
+            const builder = await createBuilderForModern({
+              normalizedConfig,
+              appContext,
+            });
+
+            appContext = {
+              ...api.useAppContext(),
+              builder,
+            };
+            api.setAppContext(appContext);
+
+            builder.onAfterStartDevServer(async () => {
+              const hookRunners = api.useHookRunners();
+              printInstructions(hookRunners, appContext, normalizedConfig);
+            });
+          }
           return;
         }
 

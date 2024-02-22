@@ -1,11 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST } from '@modern-js/utils';
-import { printInstructions } from '../utils/printInstructions';
-import {
-  setServer,
-  createServer,
-  injectDataLoaderPlugin,
-} from '../utils/createServer';
+import { setServer, injectDataLoaderPlugin } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
@@ -50,7 +44,7 @@ export const dev = async (
 
   await hookRunners.beforeDev();
 
-  if (!appContext.builder && !apiOnly) {
+  if (!appContext.builder) {
     throw new Error(
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
     );
@@ -80,30 +74,10 @@ export const dev = async (
     ...devServerOptions,
   };
 
-  if (apiOnly) {
-    const app = await createServer({
-      ...(serverOptions as any),
-      compiler: null,
-    });
+  const { server } = await appContext.builder.startDevServer({
+    serverOptions: serverOptions as any,
+    apiOnly,
+  });
 
-    const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
-
-    app.listen(
-      {
-        port,
-        host,
-      },
-      async (err: Error) => {
-        if (err) {
-          throw err;
-        }
-        printInstructions(hookRunners, appContext, normalizedConfig);
-      },
-    );
-  } else {
-    const { server } = await appContext.builder!.startDevServer({
-      serverOptions: serverOptions as any,
-    });
-    setServer(server);
-  }
+  setServer(server);
 };

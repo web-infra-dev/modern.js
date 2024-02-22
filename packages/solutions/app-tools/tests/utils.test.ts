@@ -1,10 +1,4 @@
-import { Server } from '@modern-js/server';
 import { chalk } from '@modern-js/utils';
-import {
-  closeServer,
-  createServer,
-  getServer,
-} from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
 import { safeReplacer } from '../src/utils/config';
 
@@ -58,24 +52,6 @@ describe('test app-tools utils', () => {
       );
       resolve();
     });
-  });
-
-  it('should create and close server correctly', async () => {
-    const app = await createServer({
-      dev: false,
-      pwd: __dirname,
-      config: {
-        output: {
-          path: 'dist',
-        },
-      },
-    } as any);
-
-    expect(app instanceof Server).toBe(true);
-    expect(getServer()).toBe(app);
-
-    await closeServer();
-    expect(getServer()).toBeNull();
   });
 
   it('safeReplacer should handle circular object', () => {
