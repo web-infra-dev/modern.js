@@ -1,5 +1,14 @@
 # @modern-js/plugin-module-import
 
+## 2.47.0
+
+### Patch Changes
+
+- Updated dependencies [f2e3162]
+- Updated dependencies [48e52e3]
+- Updated dependencies [02da481]
+  - @modern-js/module-tools@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

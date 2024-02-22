@@ -1,5 +1,26 @@
 # @modern-js/prod-server
 
+## 2.47.0
+
+### Minor Changes
+
+- b68c12a: feat: add server SSR fallback hook
+  feat: 新增 server SSR 降级 hook 实现
+
+### Patch Changes
+
+- a9a3626: fix(prod-server): ssr renderResult maybe is a undefined, when use react-router redirect
+  fix(prod-server): 当使用 react-router redirect, ssr 渲染结果可能是个 undefined
+- 01b75e6: fix(prod-server): ssr cache would return error result when use stream ssr
+  fix(prod-server): 使用 stream ssr 时， ssr 缓存将会返回错误结果
+- Updated dependencies [b68c12a]
+- Updated dependencies [a5386ab]
+- Updated dependencies [9464c9c]
+  - @modern-js/server-core@2.47.0
+  - @modern-js/utils@2.47.0
+  - @modern-js/runtime-utils@2.47.0
+  - @modern-js/plugin@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes
