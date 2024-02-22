@@ -6,6 +6,6 @@ export default defineConfig({
     input: {
       main: './src/index.ts',
     },
-    tsconfig: '../../../tsconfig.json',
+    tsconfig: './tsconfig.json',
   },
 });
