@@ -20,10 +20,18 @@ type MatchModule = {
 
 export const getProjectTsconfig = async (
   tsconfigPath: string,
+  resolutionContext: Record<string, boolean> = {},
 ): Promise<ITsconfig> => {
   if (!fs.existsSync(tsconfigPath)) {
     return {};
   }
+
+  // circular dependency
+  const absolutePath = resolve(tsconfigPath);
+  if (resolutionContext[absolutePath]) {
+    return {};
+  }
+  resolutionContext[absolutePath] = true;
 
   const tsConfig: ITsconfig = await json5.parse(
     fs.readFileSync(tsconfigPath, 'utf-8'),
@@ -34,18 +42,27 @@ export const getProjectTsconfig = async (
   }
 
   // recursively resolve extended tsconfig
-  let parentTsconfigPath: string;
-  try {
-    // likely extending from a npm package, use require.resolve to resolve it.
-    parentTsconfigPath = require.resolve(tsConfig.extends);
-  } catch {
-    // resolve file from current tsconfig's path
-    parentTsconfigPath = resolve(dirname(tsconfigPath), tsConfig.extends);
-  }
+  // "extends" may be a string or string array (extending many tsconfigs)
+  const extendsResolutionTarget =
+    tsConfig.extends instanceof Array ? tsConfig.extends : [tsConfig.extends];
 
-  const parentTsconfig = await getProjectTsconfig(parentTsconfigPath);
+  const resolveParentTsConfigPromises = extendsResolutionTarget.map(
+    async target => {
+      let parentTsconfigPath: string;
+      try {
+        // likely extending from a npm package, use require.resolve to resolve it.
+        parentTsconfigPath = require.resolve(target);
+      } catch {
+        // resolve file from current tsconfig's path
+        parentTsconfigPath = resolve(dirname(tsconfigPath), target);
+      }
+      return await getProjectTsconfig(parentTsconfigPath, resolutionContext);
+    },
+  );
 
-  return deepMerge(parentTsconfig, tsConfig);
+  const parentTsConfigs = await Promise.all(resolveParentTsConfigPromises);
+
+  return deepMerge(...parentTsConfigs, tsConfig);
 };
 
 export async function detectTSVersion(appDirectory?: string) {

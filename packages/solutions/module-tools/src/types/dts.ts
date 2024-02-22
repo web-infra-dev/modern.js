@@ -61,6 +61,6 @@ export interface ITsconfig {
     | undefined;
   include?: string[];
   exclude?: string[];
-  extends?: string;
+  extends?: string | string[];
   references?: { path?: string }[];
 }
