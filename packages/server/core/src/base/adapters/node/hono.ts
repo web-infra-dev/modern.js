@@ -1,6 +1,6 @@
-import { NodeRequest, NodeResponse } from '@core/plugin';
 import { Metrics, Reporter } from '@modern-js/types/server';
 import { Logger } from '@modern-js/types';
+import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import {
   HonoContext,
   HonoRequest,

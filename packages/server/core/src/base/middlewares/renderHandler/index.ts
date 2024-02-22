@@ -1,10 +1,10 @@
 import path from 'path';
 import { existsSync } from 'fs';
 import { SERVER_DIR } from '@modern-js/utils';
-import { Render } from '@core/render';
-import { Middleware, ServerBaseOptions } from '@core/server';
+import { Render } from '../../../core/render';
+import { Middleware, ServerBaseOptions } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
-import { warmup, checkIsProd, getRuntimeEnv } from '../../utils';
+import { warmup, checkIsProd, getRuntimeEnv, sortRoutes } from '../../utils';
 import { HonoNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
@@ -70,7 +70,7 @@ export async function bindRenderHandler(
     const pageRoutes = routes
       .filter(route => !route.isApi)
       // ensure route.urlPath.length diminishing
-      .sort((a, b) => b.urlPath.length - a.urlPath.length);
+      .sort(sortRoutes);
 
     for (const route of pageRoutes) {
       const { urlPath: originUrlPath, entryName } = route;

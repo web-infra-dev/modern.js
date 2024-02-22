@@ -1,6 +1,6 @@
 import path from 'path';
-import { registerMockHandlers } from '@base/adapters/node/middlewares/mock';
-import { createServerBase } from '@base/index';
+import { registerMockHandlers } from '../../../src/base/adapters/node/middlewares/mock';
+import { createServerBase } from '../../../src/base';
 import { getDefaultConfig, getDefaultAppContext } from '../helpers';
 
 describe('should mock middleware work correctly', () => {

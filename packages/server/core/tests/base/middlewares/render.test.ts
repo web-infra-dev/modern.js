@@ -3,7 +3,7 @@ import {
   bindRenderHandler,
   createServerBase,
   injectReporter,
-} from '@base/index';
+} from '../../../src/base';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../../src/types/config';
 

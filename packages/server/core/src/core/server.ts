@@ -11,8 +11,8 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import { ServerOptions } from '@config/index';
-import { ServerHookRunner, ServerPlugin } from '@core/plugin';
 import { MiddlewareHandler } from 'hono';
+import { ServerHookRunner, ServerPlugin } from './plugin';
 import { HonoEnv } from './hono';
 
 declare module 'http' {

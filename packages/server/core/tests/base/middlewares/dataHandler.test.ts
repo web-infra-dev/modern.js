@@ -1,5 +1,5 @@
 import path from 'path';
-import { bindDataHandlers } from '@base/middlewares/dataHandler';
+import { bindDataHandlers } from '../../../src/base/middlewares/dataHandler';
 import { createDefaultServer } from '../helpers';
 
 describe('test middlewares dataHandler', () => {
@@ -47,8 +47,7 @@ describe('test middlewares dataHandler', () => {
           entryName: 'user',
           entryPath: '/user',
         },
-        // TODO: remove sort
-      ].sort((a, b) => b.urlPath.length - a.urlPath.length),
+      ],
       pwd,
     );
 

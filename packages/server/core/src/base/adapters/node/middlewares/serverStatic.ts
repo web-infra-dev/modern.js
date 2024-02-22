@@ -2,9 +2,11 @@ import path from 'path';
 import { existsSync, lstatSync } from 'fs';
 import { readFile } from 'fs/promises';
 import { getMimeType } from 'hono/utils/mime';
-import { OutputNormalizedConfig } from '@config/output';
-import { HtmlNormalizedConfig } from '@config/html';
-import { createErrorHtml } from '@base/utils';
+import type {
+  OutputNormalizedConfig,
+  HtmlNormalizedConfig,
+} from '../../../../types/config';
+import { createErrorHtml } from '../../../utils';
 import { Middleware } from '../../../../core/server';
 
 interface ServerStaticOptions {

@@ -1,8 +1,8 @@
 import { ServerRoute } from '@modern-js/types';
-import { ServerHookRunner } from '@core/plugin';
 import { time } from '@modern-js/runtime-utils/time';
-import { Middleware } from '@core/server';
-import { ServerBase } from '@base/serverBase';
+import { ServerBase } from '../../serverBase';
+import { ServerHookRunner } from '../../../core/plugin';
+import { Middleware } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import { HonoNodeEnv } from '../../adapters/node';
