@@ -11,7 +11,7 @@ import Watcher, { WatchEvent, mergeWatchOptions } from '../dev-tools/watcher';
 import { debug } from '../utils';
 
 export * from './repack';
-export * from './options';
+export * from './devOptions';
 export * from './fileReader';
 
 async function onServerChange({

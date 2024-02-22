@@ -4,7 +4,7 @@ import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '../../../core/render';
 import { parseQuery } from '../../utils/request';
-import { createErrorHtml } from '../../utils';
+import { createErrorHtml, sortRoutes } from '../../utils';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -72,8 +72,7 @@ function matchRoute(
   req: Request,
   routes: ServerRoute[],
 ): ServerRoute | undefined {
-  // TODO: sort routes
-  const sorted = routes.sort((a, b) => b.urlPath.length - a.urlPath.length);
+  const sorted = routes.sort(sortRoutes);
   for (const route of sorted) {
     const reg = new RegExp(route.urlPath);
 

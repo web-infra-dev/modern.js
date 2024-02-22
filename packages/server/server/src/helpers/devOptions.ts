@@ -1,8 +1,28 @@
 import { DevServerOptions } from '@modern-js/types';
 import { merge } from '@modern-js/utils/compiled/lodash';
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
-import { getDefaultDevOptions } from 'src/constants';
-import { ModernDevServerOptions } from 'src/types';
+import { HMR_SOCK_PATH } from '@modern-js/utils/universal/constants';
+import { ModernDevServerOptions } from '../types';
+
+const getDefaultDevOptions = (): DevServerOptions => {
+  return {
+    client: {
+      path: HMR_SOCK_PATH,
+      // By default it is set to the port number of the dev server
+      port: '',
+      // By default it is set to "location.hostname"
+      host: '',
+      // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
+      protocol: '',
+    },
+    https: false,
+    devMiddleware: { writeToDisk: true },
+    watch: true,
+    hot: true,
+    compress: true,
+    liveReload: true,
+  };
+};
 
 export const getDevOptions = (options: ModernDevServerOptions) => {
   const devOptions = options.dev;
