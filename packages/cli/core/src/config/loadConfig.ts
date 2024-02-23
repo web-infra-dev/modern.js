@@ -22,7 +22,7 @@ export const LOCAL_CONFIG_FILE_NAME = 'modern.config.local';
 export const PACKAGE_JSON_CONFIG_NAME = 'modernConfig';
 
 /**
- * Get user config from package.json.
+ * Get user config from package.json. If package.json do not exist, function will return `undefined`
  * @param appDirectory - App root directory.
  * @returns modernConfig or undefined
  */
@@ -30,9 +30,13 @@ export const getPackageConfig = <T>(
   appDirectory: string,
   packageJsonConfig?: string,
 ) => {
-  const json = JSON.parse(
-    fs.readFileSync(path.resolve(appDirectory, './package.json'), 'utf8'),
-  );
+  const pkgJsonFilePath = path.resolve(appDirectory, './package.json');
+
+  if (!fs.pathExistsSync(pkgJsonFilePath)) {
+    return undefined;
+  }
+
+  const json = JSON.parse(fs.readFileSync(pkgJsonFilePath, 'utf8'));
 
   return json[packageJsonConfig ?? PACKAGE_JSON_CONFIG_NAME] as T | undefined;
 };
