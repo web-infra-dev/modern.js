@@ -1,5 +1,4 @@
-import path from 'path';
-import { IncomingMessage } from 'http';
+import type { IncomingMessage } from 'http';
 import { Readable } from 'stream';
 import { SERVER_DIR, requireExistModule } from '@modern-js/utils';
 import type {
@@ -11,7 +10,7 @@ import type {
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import type { SSRServerContext, ServerRender } from '../../../core/server';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
-import { createTransformStream, getPathname } from '../../utils';
+import { createTransformStream, getPathModule, getPathname } from '../../utils';
 
 interface CacheStruct {
   val: string;
@@ -86,6 +85,7 @@ class CacheManager {
       return renderResult;
     } else {
       const body =
+        // TODO: remove node:stream, move it to ssr entry.
         renderResult instanceof Readable
           ? createReadableStreamFromReadable(renderResult)
           : renderResult;
@@ -142,7 +142,9 @@ class ServerCache {
 
   private cacheManger?: CacheManager;
 
-  loadCacheMod(pwd: string = process.cwd()) {
+  async loadCacheMod(pwd: string = process.cwd()) {
+    const path = await getPathModule();
+    // TODO: unify server config file.
     const serverCacheFilepath = path.resolve(pwd, SERVER_DIR, CACHE_FILENAME);
     const mod: CacheMod | undefined = requireExistModule(serverCacheFilepath, {
       interop: false,

@@ -1,4 +1,3 @@
-import path from 'path';
 import { Readable } from 'stream';
 import type { IncomingMessage } from 'http';
 import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
@@ -8,7 +7,7 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import * as isbot from 'isbot';
-import { createTransformStream } from '../../utils';
+import { createTransformStream, getPathModule } from '../../utils';
 import { SSRServerContext, ServerRender } from '../../../core/server';
 import { REPLACE_REG } from '../../constants';
 import { parseHeaders, parseQuery, getHost } from '../../utils/request';
@@ -63,6 +62,7 @@ export async function ssrRender(
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
+  const path = await getPathModule();
   const jsBundlePath = path.join(pwd, routeInfo.bundle!);
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
@@ -92,7 +92,6 @@ export async function ssrRender(
   const ssrContext: SSRServerContext = {
     request: {
       baseUrl: routeInfo.urlPath,
-      // TODO: pasre params
       params: {} as Record<string, string>,
       // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
       pathname: new URL(request.url).pathname,

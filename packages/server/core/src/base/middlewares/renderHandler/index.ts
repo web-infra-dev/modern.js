@@ -1,10 +1,7 @@
-import path from 'path';
-import { existsSync } from 'fs';
-import { SERVER_DIR } from '@modern-js/utils';
 import { Render } from '../../../core/render';
 import { Middleware, ServerBaseOptions } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
-import { warmup, checkIsProd, getRuntimeEnv, sortRoutes } from '../../utils';
+import { warmup, checkIsProd, sortRoutes, getPathModule } from '../../utils';
 import { HonoNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
@@ -53,6 +50,7 @@ export async function bindRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
   const { routes, pwd } = options;
+  const path = await getPathModule();
 
   const { runner } = server;
   if (routes && routes.length > 0) {
@@ -65,7 +63,7 @@ export async function bindRenderHandler(
     warmup(ssrBundles);
 
     // load ssr cache mod
-    ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
+    await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
 
     const pageRoutes = routes
       .filter(route => !route.isApi)
@@ -88,16 +86,8 @@ export async function bindRenderHandler(
 
       server.use(urlPath, customServerHookMiddleware);
 
-      const serverDir = path.join(
-        options.appContext.appDirectory || pwd,
-        SERVER_DIR,
-      );
-
-      // TODO: onlyApi
-      if (getRuntimeEnv() === 'node' && existsSync(serverDir)) {
-        const customServerMiddleware = customServer.getServerMiddleware();
-        server.use(urlPath, customServerMiddleware);
-      }
+      const customServerMiddleware = customServer.getServerMiddleware();
+      server.use(urlPath, customServerMiddleware);
     }
 
     const render = getRenderHandler(options);
