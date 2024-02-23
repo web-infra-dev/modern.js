@@ -50,7 +50,7 @@ export const createCli = () => {
 
     initOptions = mergedOptions;
 
-    const appDirectory = await initAppDir(options?.cwd);
+    const appDirectory = await initAppDir(options?.cwd, options?.global);
 
     initCommandsMap();
     setProgramVersion(options?.version);
@@ -63,6 +63,7 @@ export const createCli = () => {
       mergedOptions?.configFile,
       mergedOptions?.packageJsonConfig,
       mergedOptions?.loadedConfig,
+      initOptions.global,
     );
 
     const plugins = await loadPlugins(appDirectory, loaded.config, {
@@ -86,6 +87,7 @@ export const createCli = () => {
       serverConfigFile: mergedOptions?.serverConfigFile,
       serverInternalPlugins:
         mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
+      inGlobalEnv: initOptions.global,
     });
 
     ConfigContext.set(loaded.config);
@@ -144,7 +146,9 @@ export const createCli = () => {
 
     await hooksRunner.commands({ program });
 
-    await createFileWatcher(appContext, hooksRunner);
+    if (!options?.global) {
+      await createFileWatcher(appContext, hooksRunner);
+    }
 
     program.parse(process.argv);
 
@@ -168,7 +172,9 @@ export const createCli = () => {
     process.env.MODERN_ARGV = argv.join(' ');
     const { appContext } = await init(options);
     await hooksRunner.commands({ program });
-    await createFileWatcher(appContext, hooksRunner);
+    if (!options?.global) {
+      await createFileWatcher(appContext, hooksRunner);
+    }
     program.parse(argv);
   }
 

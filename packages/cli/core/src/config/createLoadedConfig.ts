@@ -86,6 +86,7 @@ export async function createLoadedConfig(
   filePath?: string,
   packageJsonConfig?: string,
   loadedConfig?: UserConfig,
+  global?: boolean,
   // eslint-disable-next-line @typescript-eslint/ban-types
 ): Promise<LoadedConfig<{}>> {
   const configFile = getConfigFilePath(appDirectory, filePath);
@@ -97,7 +98,7 @@ export async function createLoadedConfig(
     loadedConfig,
   );
 
-  if (!loaded.config && !loaded.pkgConfig) {
+  if (!loaded.config && !loaded.pkgConfig && !global) {
     logger.warn(
       `Can not find any config file in the current project, please check if you have a correct config file.`,
     );

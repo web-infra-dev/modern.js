@@ -49,6 +49,7 @@ export const initAppContext = ({
   options,
   serverConfigFile,
   serverInternalPlugins,
+  inGlobalEnv = false,
 }: {
   appDirectory: string;
   plugins: CliPlugin[];
@@ -62,6 +63,8 @@ export const initAppContext = ({
   };
   serverConfigFile: string;
   serverInternalPlugins: InternalPlugins;
+  /* In global environment, some configuration files do not exist, so the `require` function can`t be used */
+  inGlobalEnv?: boolean;
 }): IAppContext => {
   const {
     metaName = 'modern-js',
@@ -78,7 +81,9 @@ export const initAppContext = ({
     serverInternalPlugins,
     ip: address.ip(),
     port: 0,
-    packageName: require(path.resolve(appDirectory, './package.json')).name,
+    packageName: inGlobalEnv
+      ? ''
+      : require(path.resolve(appDirectory, './package.json')).name,
     srcDirectory: path.resolve(appDirectory, srcDir),
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
