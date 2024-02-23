@@ -1,14 +1,14 @@
 import { ServerRoute } from '@modern-js/types';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '../../../core/render';
 import { parseQuery } from '../../utils/request';
-import { createErrorHtml, getPathModule, sortRoutes } from '../../utils';
+import { createErrorHtml, sortRoutes } from '../../utils';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
   pwd: string;
+  templates: Record<string, string>;
   staticGenerate?: boolean;
   metaName?: string;
   forceCSR?: boolean;
@@ -22,10 +22,10 @@ export function createRender({
   staticGenerate,
   forceCSR,
   nonce,
+  templates,
 }: CreateRenderOptions): Render {
   return async (req, { logger, nodeReq, reporter }) => {
     const routeInfo = matchRoute(req, routes);
-    const path = await getPathModule();
 
     if (!routeInfo) {
       return new Response(createErrorHtml(404), {
@@ -36,13 +36,10 @@ export function createRender({
       });
     }
 
-    const htmlPath = path.join(pwd, routeInfo.entryPath);
-
-    // FIXME: remove fs readFile
-    const html = (await fileReader.readFile(htmlPath))?.toString();
+    const html = templates[routeInfo.entryName!];
 
     if (!html) {
-      throw new Error(`Can't found html in the path: ${htmlPath}`);
+      throw new Error(`Can't found entry ${routeInfo.entryName!} html `);
     }
 
     const renderMode = getRenderMode(
