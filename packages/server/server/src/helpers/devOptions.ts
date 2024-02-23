@@ -1,5 +1,5 @@
 import { DevServerOptions } from '@modern-js/types';
-import { merge } from '@modern-js/utils/compiled/lodash';
+import { merge } from '@modern-js/utils/lodash';
 import { DevMiddlewaresConfig } from '@rsbuild/shared';
 import { getDefaultDevOptions } from '../constants';
 import { ModernDevServerOptions } from '../types';
