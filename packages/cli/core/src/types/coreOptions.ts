@@ -28,4 +28,7 @@ export interface CoreOptions {
 
   /** config for Node API */
   loadedConfig?: UserConfig;
+
+  /* enable global cli */
+  global?: boolean;
 }
