@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   ServerBase,
   ServerBaseOptions,
@@ -14,7 +15,7 @@ import {
   bindBFFHandler,
   createServerBase,
 } from '@modern-js/server-core/base';
-import { createLogger } from '@modern-js/utils';
+import { createLogger, fs } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
 
@@ -23,7 +24,7 @@ interface MonitoOptions {
 }
 
 export type ProdServerOptions = ServerBaseOptions &
-  BindRenderHandleOptions &
+  Omit<BindRenderHandleOptions, 'templates'> &
   MonitoOptions;
 
 type BaseEnv = {
@@ -55,6 +56,22 @@ export const initProdMiddlewares = async (
   options: ProdServerOptions,
 ) => {
   const { config, pwd, routes, logger: inputLogger } = options;
+
+  const htmls = await Promise.all(
+    options.routes?.map(async route => {
+      let html: string | undefined;
+      try {
+        const htmlPath = path.join(pwd, route.entryPath);
+        html = await fs.readFile(htmlPath, 'utf-8');
+      } catch (e) {
+        // ignore error, then give a warning
+      }
+      return [route.entryName!, html];
+    }) || [],
+  );
+
+  const templates: Record<string, string> = Object.fromEntries(htmls);
+
   const logger = inputLogger || createLogger({ level: 'warn' });
   const staticMiddleware = createStaticMiddleware({
     pwd,
@@ -80,9 +97,15 @@ export const initProdMiddlewares = async (
   server.get('*', staticMiddleware);
   server.get('*', favionFallbackMiddleware);
 
-  await bindBFFHandler(server, options);
+  await bindBFFHandler(server, {
+    ...options,
+    templates,
+  });
   await bindDataHandlers(server, routes || [], pwd);
-  await bindRenderHandler(server, options);
+  await bindRenderHandler(server, {
+    ...options,
+    templates,
+  });
 
   return server;
 };

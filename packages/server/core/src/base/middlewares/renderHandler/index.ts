@@ -21,6 +21,7 @@ function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
 }
 
 export type BindRenderHandleOptions = {
+  templates: Record<string, string>;
   metaName?: string;
   staticGenerate?: boolean;
 };
@@ -28,7 +29,7 @@ export type BindRenderHandleOptions = {
 export function getRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { routes, pwd, config } = options;
+  const { routes, pwd, config, templates } = options;
   if (routes && routes.length > 0) {
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
@@ -36,6 +37,7 @@ export function getRenderHandler(
       routes,
       pwd,
       staticGenerate: options.staticGenerate,
+      templates,
       metaName: options.metaName || 'modern-js',
       forceCSR,
       nonce: options.config.security?.nonce,
