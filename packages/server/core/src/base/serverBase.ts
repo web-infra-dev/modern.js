@@ -1,4 +1,3 @@
-import path from 'node:path';
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
@@ -16,7 +15,13 @@ import {
   serverManager,
 } from '../core';
 import { HonoEnv, ServerBaseOptions } from '../core/server';
-import { debug, getServerConfigPath, loadConfig, requireConfig } from './utils';
+import {
+  debug,
+  getPathModule,
+  getServerConfigPath,
+  loadConfig,
+  requireConfig,
+} from './utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -53,7 +58,7 @@ export class ServerBase<E extends HonoEnv = any> {
   async init() {
     const { options } = this;
 
-    this.initServerConfig(options);
+    await this.initServerConfig(options);
 
     await this.injectContext(options);
 
@@ -104,17 +109,17 @@ export class ServerBase<E extends HonoEnv = any> {
     return hooksRunner;
   }
 
-  private initServerConfig(options: ServerBaseOptions) {
+  private async initServerConfig(options: ServerBaseOptions) {
     const { pwd, serverConfigFile } = options;
 
-    const serverConfigPath = getServerConfigPath(pwd, serverConfigFile);
+    const serverConfigPath = await getServerConfigPath(pwd, serverConfigFile);
 
     const serverConfig = requireConfig(serverConfigPath);
     this.serverConfig = serverConfig;
   }
 
   private async injectContext(options: ServerBaseOptions) {
-    const appContext = this.initAppContext();
+    const appContext = await this.initAppContext();
     const { config, pwd } = options;
 
     ConfigContext.set(config);
@@ -125,7 +130,8 @@ export class ServerBase<E extends HonoEnv = any> {
     });
   }
 
-  private initAppContext(): ISAppContext {
+  private async initAppContext(): Promise<ISAppContext> {
+    const path = await getPathModule();
     const { options } = this;
     const { pwd, plugins = [], appContext } = options;
     const serverPlugins = plugins.map(p => ({
@@ -158,6 +164,7 @@ export class ServerBase<E extends HonoEnv = any> {
     runner: ServerHookRunner,
     options: ServerBaseOptions,
   ) {
+    const path = await getPathModule();
     const { pwd, config } = options;
 
     const { serverConfig } = this;

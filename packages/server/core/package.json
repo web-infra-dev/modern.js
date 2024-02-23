@@ -58,6 +58,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3",
+    "path-browserify": "1.0.1",
     "@web-std/fetch": "^4.2.1",
     "@web-std/stream": "^1.0.3",
     "hono": "^3.12.2",

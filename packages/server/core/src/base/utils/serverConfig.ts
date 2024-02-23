@@ -1,13 +1,14 @@
-import * as path from 'path';
 import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import mergeDeep from 'merge-deep';
 import { ServerConfig } from '../../core/plugin';
 import { ServerOptions } from '../../types/config';
+import { getPathModule } from './path';
 
-export const getServerConfigPath = (
+export const getServerConfigPath = async (
   distDirectory: string,
   serverConfigFile: string = DEFAULT_SERVER_CONFIG,
 ) => {
+  const path = await getPathModule();
   const serverConfigPath = path.join(distDirectory, serverConfigFile);
   return `${serverConfigPath}.js`;
 };

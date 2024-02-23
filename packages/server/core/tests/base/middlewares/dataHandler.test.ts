@@ -8,7 +8,7 @@ describe('test middlewares dataHandler', () => {
   it("shouldn't handle by data", async () => {
     const server = createDefaultServer();
 
-    bindDataHandlers(
+    await bindDataHandlers(
       server,
       [
         {
@@ -34,7 +34,7 @@ describe('test middlewares dataHandler', () => {
   it('should handle by data correctly', async () => {
     const server = createDefaultServer();
 
-    bindDataHandlers(
+    await bindDataHandlers(
       server,
       [
         {

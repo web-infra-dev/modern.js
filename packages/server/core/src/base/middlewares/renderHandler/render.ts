@@ -1,10 +1,9 @@
-import path from 'path';
 import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '../../../core/render';
 import { parseQuery } from '../../utils/request';
-import { createErrorHtml, sortRoutes } from '../../utils';
+import { createErrorHtml, getPathModule, sortRoutes } from '../../utils';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -26,6 +25,7 @@ export function createRender({
 }: CreateRenderOptions): Render {
   return async (req, { logger, nodeReq, reporter }) => {
     const routeInfo = matchRoute(req, routes);
+    const path = await getPathModule();
 
     if (!routeInfo) {
       return new Response(createErrorHtml(404), {
@@ -38,6 +38,7 @@ export function createRender({
 
     const htmlPath = path.join(pwd, routeInfo.entryPath);
 
+    // FIXME: remove fs readFile
     const html = (await fileReader.readFile(htmlPath))?.toString();
 
     if (!html) {

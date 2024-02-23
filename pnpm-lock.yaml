@@ -3959,6 +3959,9 @@ importers:
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
+      path-browserify:
+        specifier: 1.0.1
+        version: 1.0.1
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
