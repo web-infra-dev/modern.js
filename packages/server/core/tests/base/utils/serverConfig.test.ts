@@ -45,7 +45,7 @@ describe('test loadConfig', () => {
     });
   });
 
-  test('should get server config path correctly', () => {
+  test('should get server config path correctly', async () => {
     const distDirectory = path.normalize(
       '/Users/user/project/local-test-project/dist',
     );
@@ -54,8 +54,11 @@ describe('test loadConfig', () => {
       `/Users/user/project/local-test-project/dist/${DEFAULT_SERVER_CONFIG}.js`,
     );
 
-    expect(getServerConfigPath(distDirectory, serverConfigFile)).toEqual(
-      serverConfigPath,
+    const serverConf = await getServerConfigPath(
+      distDirectory,
+      serverConfigFile,
     );
+
+    expect(serverConf).toEqual(serverConfigPath);
   });
 });
