@@ -24,7 +24,6 @@ export default defineConfig({
   server: {
     ssr: {
       mode: 'stream',
-      inlineScript: false,
     },
     ssrByEntries: {
       one: false,
