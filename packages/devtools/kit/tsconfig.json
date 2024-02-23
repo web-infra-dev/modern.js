@@ -3,11 +3,13 @@
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
     "target": "ES2019",
+    "module": "ES2020",
     "declaration": true,
     "outDir": "./dist",
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
+    "moduleResolution": "bundler",
     "paths": {},
     "skipLibCheck": true
   },

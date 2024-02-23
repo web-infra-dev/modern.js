@@ -20,7 +20,6 @@ export const MWAActionTypes = [
 ];
 
 export const MWAActionFunctions = [
-  ActionFunction.Rspack,
   ActionFunction.TailwindCSS,
   ActionFunction.BFF,
   ActionFunction.SSG,
@@ -186,7 +185,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
     [ActionFunction.SWC]: '@modern-js/dependence-generator',
-    [ActionFunction.Rspack]: '@modern-js/rspack-generator',
   },
   [ActionType.Refactor]: {
     [ActionRefactor.ReactRouter5]: '@modern-js/router-v5-generator',

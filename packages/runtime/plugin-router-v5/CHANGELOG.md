@@ -1,5 +1,18 @@
 # @modern-js/plugin-router-v5
 
+## 2.47.0
+
+### Patch Changes
+
+- 2ed7a8c: chore: add useHistory to context.router
+- 2ed7a8c: fix(plugin-garfish): refactor the basename calculation
+- Updated dependencies [a5386ab]
+- Updated dependencies [9464c9c]
+  - @modern-js/utils@2.47.0
+  - @modern-js/runtime-utils@2.47.0
+  - @modern-js/plugin@2.47.0
+  - @modern-js/types@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

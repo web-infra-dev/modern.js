@@ -8,6 +8,6 @@ describe('new action test', () => {
     expect(ActionFunctionText[ActionFunction.Proxy]()).toBe('启用「全局代理」');
   });
   it('mwa', () => {
-    expect(MWAActionFunctions.length).toBe(11);
+    expect(MWAActionFunctions.length).toBe(10);
   });
 });

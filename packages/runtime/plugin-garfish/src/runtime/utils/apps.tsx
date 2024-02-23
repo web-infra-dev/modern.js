@@ -48,11 +48,14 @@ function getAppInstance(
       React.ComponentType<any> | undefined
     >();
     const context = useContext(RuntimeReactContext);
-
+    const useRouteMatch = props.useRouteMatch ?? context?.router?.useRouteMatch;
+    const useMatches = props.useMatches ?? context?.router?.useMatches;
     const useLocation = props.useLocation ?? context?.router?.useLocation;
-    const useHref = props.useHref ?? context?.router?.useHref;
     const useHistory = props.useHistory ?? context?.router?.useHistory;
-    const isRouterV5 = Boolean(useHistory);
+    const useHref = props.useHistory ?? context?.router?.useHref;
+
+    const match = useRouteMatch?.();
+    const matchs = useMatches?.();
 
     if (!useLocation) {
       console.warn(
@@ -68,37 +71,51 @@ or directly pass the "basename":
 <Component basename={basename} useLocation={useLocation} />`,
       );
     }
+
     const location = useLocation();
 
-    let basename = '';
-    const activeWhen = appInfo.activeWhen as string;
-
-    // 1. options.basename in edenx.config.ts
     /**
-     * e.g:
-    masterApp: {
-      basename: '/main-app-basename'
-    },
+     * main-app basename:  /main-basename
+     * sub-app basename: /main-basename/sub-active-path
      */
-    if (options?.basename && typeof options.basename === 'string') {
-      basename = pathJoin(options.basename, activeWhen);
-    }
 
-    // 2. use hooks to calculate the basename automatically
-    if (isRouterV5) {
+    // 1. handle the main-app basename
+    /**
+     * `options?.basename` comes from
+     *  masterApp: {
+     *    basename: '/main-app-basename'
+     *  },
+     */
+    let basename = options?.basename || '/';
+    if (useHistory /* react-router@5 */) {
       // there is no dynamic switching of the router version in the project
       // so hooks can be used in conditional judgment
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const history = useHistory?.();
       // To be compatible to history@4.10.1 and @5.3.0 we cannot write like this `history.createHref(pathname)`
-      basename = history?.createHref?.({ pathname: activeWhen });
-    } else if (useHref) {
+      basename = history?.createHref?.({ pathname: '/' });
+    } else if (useHref /* react-router@6 */) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
-      basename = useHref?.(activeWhen);
+      basename = useHref?.('/');
     }
 
-    // 3. props.basename
-    // props.basename has the highest priority
+    // 2. handle the subActivePath and `pathJoin(mainBasename, subActivePath)`
+    if (matchs && matchs.length > 0 /* react-router@6 */) {
+      const matchItem = {
+        ...matchs[matchs.length - 1],
+      };
+      for (const key in matchItem.params) {
+        matchItem.pathname = matchItem.pathname.replace(
+          new RegExp(`/${matchItem.params[key]}$`),
+          '',
+        );
+      }
+      basename = pathJoin(basename, matchItem.pathname || '/');
+    } else if (match /* react-router@5 */) {
+      basename = pathJoin(basename, match?.path || '/');
+    }
+
+    // 3. props.basename has the highest priority
     // e.g: <Component basename={basename} useLocation={useLocation} />
     if (props.basename && typeof props.basename === 'string') {
       // eslint-disable-next-line prefer-destructuring

@@ -3,7 +3,7 @@ import type {
   CustomTabView,
   NameDefinition,
   PackageDefinition,
-} from '@modern-js/devtools-kit';
+} from '@modern-js/devtools-kit/runtime';
 import { ReactElement, ReactNode } from 'react';
 
 export interface BreadcrumbItem {

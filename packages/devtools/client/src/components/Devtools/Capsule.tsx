@@ -1,7 +1,7 @@
-import { SetupClientParams } from '@modern-js/devtools-kit';
+import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
 import { Flex, Theme } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
-import { useEvent, useToggle } from 'react-use';
+import { useAsync, useEvent, useToggle } from 'react-use';
 import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
 import { withQuery } from 'ufo';
 import Visible from '../Visible';
@@ -9,13 +9,25 @@ import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
 import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
-import { $client, bridge, wallAgent } from '@/entries/mount/state';
+import { $client, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
 import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 
+const parseDeepLink = (url = window.location) => {
+  // Expected: #/__devtools/doctor
+  const { hash } = url;
+  // Parse pathname from hash.
+  const pathname = hash.match(/^#\/__devtools(.*)/)?.[1];
+  // Check if match the expected pattern.
+  if (typeof pathname !== 'string') return null;
+  if (pathname === '') return '/';
+  return pathname;
+};
+
 export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   const logoSrc = props.def.assets.logo;
-  const [showDevtools, toggleDevtools] = useToggle(false);
+  const deepLink = parseDeepLink();
+  const [showDevtools, toggleDevtools] = useToggle(Boolean(deepLink));
   const [loadDevtools, setLoadDevtools] = useState(false);
 
   const src = withQuery(props.endpoint, { src: props.dataSource });
@@ -39,11 +51,12 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   });
 
   useEffect(() => {
-    const handleStartInspecting = () => {
+    const handleBeforeWallReceive: ReactDevtoolsWallListener = e => {
+      if (e.event !== 'startInspectingNative') return;
       toggleDevtools(false);
       document.documentElement.style.setProperty('cursor', 'cell');
     };
-    bridge.addListener('startInspectingNative', handleStartInspecting);
+    wallAgent.hook('receive', handleBeforeWallReceive);
 
     const handleBeforeWallSend: ReactDevtoolsWallListener = e => {
       if (e.event !== 'stopInspectingNative') return;
@@ -53,7 +66,6 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
     wallAgent.hook('send', handleBeforeWallSend);
 
     return () => {
-      bridge.removeListener('startInspectingNative', handleStartInspecting);
       wallAgent.removeHook('send', handleBeforeWallSend);
     };
   }, []);
@@ -64,12 +76,18 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
     setLoadDevtools(true);
     try {
       const client = await pTimeout($client, 10_000);
-      client.remote.pullUpReactInspector();
+      client.remote.pullUp('/react/components#inspecting');
     } catch (e) {
       console.error(e);
       document.documentElement.style.removeProperty('cursor');
     }
   };
+
+  useAsync(async () => {
+    if (!deepLink) return;
+    const client = await pTimeout($client, 10_000);
+    client.remote.pullUp(deepLink);
+  }, []);
 
   return (
     <Theme appearance={appearance} className={appearance}>

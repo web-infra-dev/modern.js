@@ -12,13 +12,13 @@
     "lodash": "^4.17.21",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "6.17.0",
+    "react-router-dom": "6.22.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.3.7",
+    "@rsbuild/plugin-swc": "0.4.4",
+    "@rsbuild/shared": "0.4.4",
     "@modern-js/uni-builder": "workspace:*",
-    "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/node": "^14",

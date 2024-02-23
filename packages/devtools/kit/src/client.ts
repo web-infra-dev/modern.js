@@ -1,5 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import { Entrypoint } from '@modern-js/types/cli';
+import type { Entrypoint } from '@modern-js/types';
 import logo from './logo';
 import { FileSystemRoutes } from './server';
 
@@ -39,12 +39,20 @@ export class AnnouncementDefinition {
   fallback: string = 'https://modernjs.dev/';
 }
 
+export class DoctorDefinition {
+  home: string = 'https://rsdoctor.dev';
+
+  quickStart: string = 'https://rsdoctor.dev/guide/start/quick-start';
+}
+
 export class ClientDefinition {
   name: NameDefinition = new NameDefinition();
 
   packages: PackageDefinition = new PackageDefinition();
 
   assets: AssetDefinition = new AssetDefinition();
+
+  doctor: DoctorDefinition = new DoctorDefinition();
 
   announcement: AnnouncementDefinition = new AnnouncementDefinition();
 }

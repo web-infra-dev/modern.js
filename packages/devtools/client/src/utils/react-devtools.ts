@@ -13,16 +13,46 @@ export type ReactDevtoolsWallListener = (
   ...rest: unknown[]
 ) => void;
 
-export type WallAgentHooks = Record<
-  'send' | 'receive',
-  ReactDevtoolsWallListener
->;
+export interface WallAgentHooks {
+  send: ReactDevtoolsWallListener;
+  receive: ReactDevtoolsWallListener;
+  open: () => void;
+  close: () => void;
+  active: () => void;
+}
 
 export type BirpcReturnLike = Record<string, (...args: any[]) => void> & {
   $functions: Record<string, (...args: any[]) => void>;
 };
 
+export type WallAgentStatus = 'open' | 'close' | 'active';
+
 export class WallAgent extends Hookable<WallAgentHooks> implements Wall {
+  status: WallAgentStatus = 'close';
+
+  constructor() {
+    super();
+    const intendChangeStatus = (status: WallAgentStatus) => {
+      if (this.status === status) return;
+      this.status = status;
+      this.callHook(status);
+    };
+    this.hook('send', e => {
+      if (e.event === 'shutdown') {
+        intendChangeStatus('close');
+      }
+    });
+    this.hook('receive', e => {
+      if (e.event === 'shutdown') {
+        intendChangeStatus('close');
+      } else if (e.event === 'operations') {
+        intendChangeStatus('active');
+      } else {
+        intendChangeStatus('open');
+      }
+    });
+  }
+
   listen(fn: AnyFn): AnyFn {
     this.hook('receive', fn);
     return fn;

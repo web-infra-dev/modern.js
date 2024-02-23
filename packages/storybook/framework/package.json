@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook",
-  "version": "2.46.1",
+  "version": "2.47.0",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -68,7 +68,7 @@
     "storybook": "~7.6.1"
   },
   "devDependencies": {
-    "@storybook/types": "~7.6.1",
+    "@storybook/types": "~7.6.12",
     "typescript": "^5.2.2",
     "@types/node": "^20.5.6"
   },

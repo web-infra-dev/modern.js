@@ -76,8 +76,9 @@ export const createRenderHandler: CreateRenderHandler = ({
     }
 
     // handles ssr first
-    const useCSR =
-      forceCSR && (ctx.query.csr || ctx.headers[calcFallback(metaName)]);
+    const queryCSR = ctx.query.csr;
+    const headerFallback = ctx.headers[calcFallback(metaName)];
+    const useCSR = forceCSR && (queryCSR || headerFallback);
     if (route.isSSR && !useCSR) {
       try {
         const userAgent = ctx.getReqHeader('User-Agent') as string | undefined;
@@ -118,7 +119,11 @@ export const createRenderHandler: CreateRenderHandler = ({
           (err as Error).stack || (err as Error).message,
         );
         ctx.res.set(calcFallback(metaName), '1');
+        await runner.handleSSRFallback({ ctx, type: 'error' });
       }
+    } else if (route.isSSR && useCSR) {
+      const fallbackType: 'query' | 'header' = queryCSR ? 'query' : 'header';
+      await runner.handleSSRFallback({ ctx, type: fallbackType });
     }
 
     return {

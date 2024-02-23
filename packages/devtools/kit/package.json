@@ -21,7 +21,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.46.1",
+  "version": "2.47.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -32,9 +32,14 @@
       "default": "./dist/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
-      "types": "./dist/runtime/index.d.ts",
-      "default": "./dist/runtime/index.js"
+      "jsnext:source": "./src/runtime.ts",
+      "types": "./dist/runtime.d.ts",
+      "default": "./dist/runtime.js"
+    },
+    "./node": {
+      "jsnext:source": "./src/node.ts",
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
     },
     "./package.json": {
       "default": "./package.json"
@@ -43,7 +48,10 @@
   "typesVersions": {
     "*": {
       "runtime": [
-        "./dist/runtime/index.d.ts"
+        "./dist/runtime.d.ts"
+      ],
+      "node": [
+        "./dist/node.d.ts"
       ]
     }
   },
@@ -60,7 +68,10 @@
     "birpc": "0.2.13",
     "hookable": "^5.5.3",
     "ufo": "^1.3.0",
-    "ws": "^8.13.0"
+    "flatted": "^3.2.9",
+    "ws": "^8.13.0",
+    "@rsdoctor/types": "^0.1.3",
+    "@rsdoctor/utils": "^0.1.3"
   },
   "devDependencies": {
     "@babel/core": "^7.23.2",

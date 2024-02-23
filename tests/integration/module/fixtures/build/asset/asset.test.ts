@@ -54,6 +54,8 @@ describe('asset.svgr', () => {
     const distFilePath = path.join(fixtureDir, './dist/bundle/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(content.includes(`jsx("svg"`)).toBeTruthy();
+    // should not remove SVG viewBox attribute
+    expect(content.includes('viewBox: "0 0 841.9 595.3"')).toBeTruthy();
   });
   it('bundleless', async () => {
     const configFile = 'bundleless.config.ts';

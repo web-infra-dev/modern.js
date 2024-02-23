@@ -1,4 +1,4 @@
-import { FileSystemRoutes } from '@modern-js/devtools-kit';
+import { FileSystemRoutes } from '@modern-js/devtools-kit/runtime';
 import type { RouteLegacy, ServerRoute } from '@modern-js/types';
 import _ from 'lodash';
 import React, { Suspense } from 'react';

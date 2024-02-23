@@ -1,4 +1,3 @@
-/** @type {import('@modern-js/builder-webpack-provider/stub').StubBuilderOptions} */
 module.exports = {
   builderConfig: {
     dev: {

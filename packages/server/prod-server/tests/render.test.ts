@@ -31,6 +31,9 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
+        handleSSRFallback: () => {
+          // empty
+        },
       } as any,
     );
 
@@ -121,6 +124,9 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
+        handleSSRFallback: () => {
+          // empty
+        },
       } as any,
     });
     expect(renderResult!.content).toMatch('Modern.js');
@@ -166,6 +172,9 @@ describe('test render function', () => {
         extendSSRContext: () => {
           // empty
         },
+        handleSSRFallback: () => {
+          // empty
+        },
       } as any,
     });
     expect(renderResult!.content.toString()).toMatch('csr');
@@ -207,6 +216,9 @@ describe('test render function', () => {
       } as any,
       runner: {
         extendSSRContext: () => {
+          // empty
+        },
+        handleSSRFallback: () => {
           // empty
         },
       } as any,

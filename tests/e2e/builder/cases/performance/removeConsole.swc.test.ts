@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 const cwd = join(__dirname, 'removeConsole');
 
@@ -26,7 +26,7 @@ test('should remove specified console correctly when using SWC plugin', async ()
     entry: {
       main: join(cwd, 'src/index.js'),
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     builderConfig: {
       performance: {
         removeConsole: ['log', 'warn'],
@@ -48,7 +48,7 @@ test('should remove all console correctly when using SWC plugin', async () => {
     entry: {
       main: join(cwd, 'src/index.js'),
     },
-    plugins: [builderPluginSwc()],
+    plugins: [pluginSwc()],
     builderConfig: {
       performance: {
         removeConsole: true,

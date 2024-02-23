@@ -7,9 +7,12 @@ import {
   type FileSystemRoutes,
   type NormalizedBuilderConfig,
   type ServerFunctions,
-} from '@modern-js/devtools-kit';
-import type { JsonValue, PartialDeep } from 'type-fest';
+  findManifest,
+  parseManifest,
+} from '@modern-js/devtools-kit/node';
+import type { JsonValue } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
+import * as flatted from 'flatted';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
 import type { RsbuildContext, RsbuildPlugin } from '@modern-js/uni-builder';
@@ -20,16 +23,13 @@ import { requireModule } from '../utils/module';
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
   server: SocketServer;
+  def: ClientDefinition;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api, server } = options;
-  let def: PartialDeep<ClientDefinition> = {};
-  const setDefinition = (definition: PartialDeep<ClientDefinition>) => {
-    def = definition;
-  };
+  const { api, server, def } = options;
 
   const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
@@ -122,6 +122,33 @@ export const setupClientConnection = async (
           '@rsbuild/core',
           '@rspack/core/package.json',
         ],
+        '@rsdoctor/rspack-plugin': [
+          ctx.rootPath,
+          '@rsdoctor/rspack-plugin/package.json',
+        ],
+        '@rsdoctor/webpack-plugin': [
+          ctx.rootPath,
+          '@rsdoctor/webpack-plugin/package.json',
+        ],
+        '@web-doctor/webpack-plugin': [
+          ctx.rootPath,
+          '@web-doctor/webpack-plugin/package.json',
+        ],
+        '@web-doctor/rspack-plugin': [
+          ctx.rootPath,
+          '@web-doctor/rspack-plugin/package.json',
+        ],
+        '@web-doctor/webpack-plugin(builder)': [
+          ctx.rootPath,
+          '@edenx/builder-plugin-web-doctor',
+          '@web-doctor/webpack-plugin/package.json',
+        ],
+        '@web-doctor/rspack-plugin(builder)': [
+          ctx.rootPath,
+          '@edenx/builder-plugin-web-doctor',
+          '@web-doctor/rspack-plugin/package.json',
+        ],
+        '@rsdoctor/core': [ctx.rootPath, '@rsdoctor/core/package.json'],
       };
 
       for (const [name, expr] of Object.entries(resolveExprs)) {
@@ -135,12 +162,20 @@ export const setupClientConnection = async (
       return deferred.compileTimeCost.promise;
     },
     async getClientDefinition() {
-      const ret = new ClientDefinition();
-      Object.assign(ret.name, def.name);
-      Object.assign(ret.packages, def.packages);
-      Object.assign(ret.assets, def.assets);
-      Object.assign(ret.announcement, def.announcement);
-      return ret;
+      return def;
+    },
+    async getDoctorOverview() {
+      const ctx = api.useAppContext();
+      const manifestPath = await findManifest(ctx.distDirectory);
+      const json = await parseManifest(require(manifestPath));
+      const data = {
+        numModules: json.data.moduleGraph.modules.length,
+        numChunks: json.data.chunkGraph.chunks.length,
+        numPackages: json.data.packageGraph.packages.length,
+        summary: json.data.summary,
+        errors: json.data.errors,
+      };
+      return data;
     },
     echo(content) {
       return content;
@@ -150,8 +185,8 @@ export const setupClientConnection = async (
     post: data =>
       onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
     on: cb => (handleMessage = cb),
-    serialize: v => JSON.stringify(v),
-    deserialize: v => JSON.parse(v.toString()),
+    serialize: v => flatted.stringify([v]),
+    deserialize: v => flatted.parse(v.toString())[0],
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
@@ -186,20 +221,25 @@ export const setupClientConnection = async (
         );
       });
 
-      const modifyBundlerConfig =
-        api.context.bundlerType === 'webpack'
-          ? api.modifyWebpackConfig
-          : api.modifyRspackConfig;
       const expectBundlerNum = _.castArray(api.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
-      modifyBundlerConfig(config => {
-        bundlerConfigs.push(config as JsonValue);
+      const handleBundlerConfig = (config: JsonValue) => {
+        bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
           deferred.bundler.config.resolved.resolve(
             _.cloneDeep(bundlerConfigs) as any,
           );
         }
-      });
+      };
+      if (api.context.bundlerType === 'webpack') {
+        api.modifyWebpackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      } else {
+        api.modifyRspackConfig(config => {
+          handleBundlerConfig(config as JsonValue);
+        });
+      }
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
         deferred.bundler.config.transformed.resolve(
@@ -220,5 +260,5 @@ export const setupClientConnection = async (
     },
   };
 
-  return { client: clientConn, hooks, builderPlugin, setDefinition };
+  return { client: clientConn, hooks, builderPlugin };
 };

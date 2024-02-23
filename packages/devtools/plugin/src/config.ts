@@ -1,25 +1,18 @@
-import {
-  ClientDefinition,
-  ROUTE_BASENAME,
-  SetupClientParams,
-} from '@modern-js/devtools-kit';
+import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import type { RequiredDeep } from 'type-fest';
 
-export type DevtoolsPluginOptions = Partial<SetupClientParams>;
-
-export interface DevtoolsPluginInlineOptions extends DevtoolsPluginOptions {
+export interface DevtoolsPluginOptions {
   enable?: boolean;
+  endpoint?: string;
+  dataSource?: string;
 }
 
-export type DevtoolsContext = RequiredDeep<DevtoolsPluginInlineOptions>;
-
-export const getDefaultOptions = () =>
-  ({
-    def: new ClientDefinition(),
-  } satisfies DevtoolsPluginOptions);
+export interface DevtoolsContext extends RequiredDeep<DevtoolsPluginOptions> {
+  def: ClientDefinition;
+}
 
 export const resolveContext = (
-  ...sources: DevtoolsPluginInlineOptions[]
+  ...sources: Partial<DevtoolsContext>[]
 ): DevtoolsContext => {
   const ret: DevtoolsContext = {
     enable: process.env.NODE_ENV === 'development',
@@ -27,24 +20,15 @@ export const resolveContext = (
     endpoint: ROUTE_BASENAME,
     def: new ClientDefinition(),
   };
+
+  // Keep resource query always existing.
+  Object.assign(ret, { __keep: true });
+
   for (const opts of sources) {
     ret.enable = opts.enable ?? ret.enable;
     ret.dataSource = opts.dataSource ?? ret.dataSource;
     ret.endpoint = opts.endpoint ?? ret.endpoint;
-    if (opts.def) {
-      if (opts.def.announcement) {
-        Object.assign(ret.def.announcement, opts.def.announcement);
-      }
-      if (opts.def.assets) {
-        Object.assign(ret.def.assets, opts.def.assets);
-      }
-      if (opts.def.name) {
-        Object.assign(ret.def.name, opts.def.name);
-      }
-      if (opts.def.packages) {
-        Object.assign(ret.def.packages, opts.def.packages);
-      }
-    }
+    ret.def = opts.def ?? ret.def;
   }
   return ret;
 };

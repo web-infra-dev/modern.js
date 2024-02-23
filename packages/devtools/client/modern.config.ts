@@ -1,7 +1,7 @@
 import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
@@ -45,6 +45,22 @@ export default defineConfig<'rspack'>({
     assetPrefix: ROUTE_BASENAME,
     disableInlineRuntimeChunk: true,
     disableSourceMap: process.env.NODE_ENV === 'production',
+  },
+  performance: {
+    chunkSplit: {
+      strategy: 'split-by-experience',
+      override: {
+        cacheGroups: {
+          components: {
+            test: /\/src\/components\/.*\.(scss|css)$/,
+            chunks: 'all',
+            name: 'components',
+            enforce: true,
+            priority: 9999,
+          },
+        },
+      },
+    },
   },
   tools: {
     postcss: (config, { addPlugins }) => {

@@ -9,11 +9,8 @@ import type {
   RspackConfig,
 } from '@modern-js/uni-builder';
 import { NormalizedConfig } from '@modern-js/core';
-import {
-  RouteLegacy,
-  NestedRouteForCli,
-  PageRoute,
-} from '@modern-js/types/cli';
+import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
+import type { Manifest } from '@rsdoctor/types';
 import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;
@@ -44,6 +41,14 @@ export type FileSystemRoutes =
   | RouteLegacy[]
   | (NestedRouteForCli | PageRoute)[];
 
+export interface DoctorManifestOverview {
+  numModules: number;
+  numChunks: number;
+  numPackages: number;
+  summary: Manifest.RsdoctorManifest['data']['summary'];
+  errors: Manifest.RsdoctorManifest['data']['errors'];
+}
+
 export interface ServerFunctions {
   getFrameworkConfig: () => Promise<FrameworkConfig>;
   getTransformedFrameworkConfig: () => Promise<TransformedFrameworkConfig>;
@@ -57,5 +62,6 @@ export interface ServerFunctions {
   getDependencies: () => Promise<Record<string, string>>;
   getCompileTimeCost: () => Promise<number>;
   getClientDefinition: () => Promise<ClientDefinition>;
+  getDoctorOverview: () => Promise<DoctorManifestOverview>;
   echo: (content: string) => string;
 }

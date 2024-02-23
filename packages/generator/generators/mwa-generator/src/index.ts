@@ -10,7 +10,6 @@ import {
   EntryGenerator,
   PackagesGenerator,
   BuildTools,
-  RspackGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -117,6 +116,12 @@ export const handleTemplateFile = async (
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
   const { packageName, packagePath, language, packageManager } = ans;
+  const { packagesInfo, buildTools } = context.config;
+
+  const bundler =
+    buildTools === BuildTools.Rspack
+      ? `'experimental-rspack',`
+      : `'webpack', // Set to 'experimental-rspack' to enable rspack ⚡️🦀`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -155,6 +160,9 @@ export const handleTemplateFile = async (
         resourceKey
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
+      {
+        bundler,
+      },
     );
   } else {
     await appApi.forgeTemplate(
@@ -164,6 +172,9 @@ export const handleTemplateFile = async (
         resourceKey
           .replace('templates/js-template/', projectPath)
           .replace('.handlebars', ''),
+      {
+        bundler,
+      },
     );
   }
 
@@ -181,21 +192,6 @@ export const handleTemplateFile = async (
       name: packagePath as string,
       path: projectPath,
     });
-  }
-
-  const { packagesInfo, buildTools } = context.config;
-
-  if (buildTools === BuildTools.Rspack) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(RspackGenerator, context.config.distTag),
-      undefined,
-      {
-        ...context.config,
-        isNewProject: true,
-        isSubGenerator: true,
-        modernVersion,
-      },
-    );
   }
 
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {

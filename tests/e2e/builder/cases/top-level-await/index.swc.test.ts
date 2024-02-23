@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 
 test('should run top level await correctly when using SWC', async ({
   page,
@@ -11,7 +11,14 @@ test('should run top level await correctly when using SWC', async ({
     entry: {
       index: path.resolve(__dirname, './src/index.ts'),
     },
-    plugins: [builderPluginSwc()],
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-swc',
+        },
+      },
+    },
+    plugins: [pluginSwc()],
     runServer: true,
   });
 

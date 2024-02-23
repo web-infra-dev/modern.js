@@ -26,6 +26,11 @@ test('should remove specified console correctly', async () => {
       main: join(cwd, 'src/index.js'),
     },
     builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-1',
+        },
+      },
       performance: {
         removeConsole: ['log', 'warn'],
       },
@@ -47,6 +52,11 @@ test('should remove all console correctly', async () => {
       main: join(cwd, 'src/index.js'),
     },
     builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-2',
+        },
+      },
       performance: {
         removeConsole: true,
       },

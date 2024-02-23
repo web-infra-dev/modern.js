@@ -8,4 +8,9 @@ const generateRoutes = async (appContext: IAppContext) => {
   await fs.outputFile(path.join(distDirectory, ROUTE_SPEC_FILE), output);
 };
 
-export { generateRoutes };
+const getPathWithoutExt = (filename: string) => {
+  const extname = path.extname(filename);
+  return filename.slice(0, -extname.length);
+};
+
+export { generateRoutes, getPathWithoutExt };
