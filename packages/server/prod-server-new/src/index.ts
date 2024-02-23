@@ -64,7 +64,7 @@ export const initProdMiddlewares = async (
         const htmlPath = path.join(pwd, route.entryPath);
         html = await fs.readFile(htmlPath, 'utf-8');
       } catch (e) {
-        // ignore error, then give a warning
+        // ignore error
       }
       return [route.entryName!, html];
     }) || [],
