@@ -1,7 +1,7 @@
 import path from 'path';
 import { compatRequire, fs } from '@modern-js/utils';
 import type { ModernServerContext, NextFunction } from '@modern-js/types';
-import { AGGRED_DIR } from '@modern-js/prod-server';
+import { AGGRED_DIR } from '@modern-js/server-core/base';
 import getMockData, { getMatched } from './getMockData';
 
 export const createMockHandler = ({ pwd }: { pwd: string }) => {

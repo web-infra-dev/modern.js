@@ -1,4 +1,4 @@
-import { Server } from '@modern-js/server';
+import { Server } from 'http';
 import { chalk } from '@modern-js/utils';
 import {
   closeServer,
@@ -62,14 +62,20 @@ describe('test app-tools utils', () => {
 
   it('should create and close server correctly', async () => {
     const app = await createServer({
-      dev: false,
       pwd: __dirname,
       config: {
+        html: {},
         output: {
           path: 'dist',
         },
+        source: {},
+        tools: {},
+        server: {},
+        runtime: {},
+        bff: {},
       },
-    } as any);
+      appContext: {},
+    });
 
     expect(app instanceof Server).toBe(true);
     expect(getServer()).toBe(app);

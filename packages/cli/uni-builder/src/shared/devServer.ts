@@ -13,7 +13,7 @@ import type { Server } from 'node:http';
 import {
   InitProdMiddlewares,
   ProdServerOptions as ModernServerOptions,
-} from '@modern-js/prod-server-new';
+} from '@modern-js/prod-server';
 import { UniBuilderConfig } from '../types';
 
 type ServerOptions = Partial<Omit<ModernDevServerOptions, 'config'>> & {

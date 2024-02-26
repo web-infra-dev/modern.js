@@ -1,4 +1,6 @@
 import path from 'path';
+import { fs } from '@modern-js/utils';
+import { ServerRoute } from '@modern-js/types';
 import {
   bindRenderHandler,
   createServerBase,
@@ -6,6 +8,23 @@ import {
 } from '../../../src/base';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../../src/types/config';
+
+async function getHtmlsForRoutes(routes: ServerRoute[], pwd: string) {
+  const htmls = await Promise.all(
+    routes.map(async route => {
+      let html: string | undefined;
+      try {
+        const htmlPath = path.join(pwd, route.entryPath);
+
+        html = await fs.readFile(htmlPath, 'utf-8');
+      } catch (e) {
+        // ignore error
+      }
+      return [route.entryName!, html];
+    }),
+  );
+  return htmls;
+}
 
 async function createSSRServer(
   pwd: string,
@@ -25,11 +44,15 @@ async function createSSRServer(
 
   await server.init();
 
+  const routes: ServerRoute[] = require(path.resolve(pwd, 'route.json'));
+
   await bindRenderHandler(server, {
     pwd,
     appContext: getDefaultAppContext(),
     config,
-    routes: require(path.resolve(pwd, 'route.json')),
+    routes,
+    // eslint-disable-next-line node/no-unsupported-features/es-builtins
+    templates: Object.fromEntries(await getHtmlsForRoutes(routes, pwd)),
   });
 
   return server;
@@ -52,11 +75,15 @@ describe('should render html correctly', () => {
 
     await server.init();
 
+    const routes = require(path.resolve(csrPwd, 'route.json'));
+
     await bindRenderHandler(server, {
       pwd: csrPwd,
       appContext: getDefaultAppContext(),
       config,
-      routes: require(path.resolve(csrPwd, 'route.json')),
+      routes,
+      // eslint-disable-next-line node/no-unsupported-features/es-builtins
+      templates: Object.fromEntries(await getHtmlsForRoutes(routes, csrPwd)),
     });
 
     const response = await server.request('/', {}, {});

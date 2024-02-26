@@ -17,7 +17,9 @@ import {
   transformToRsbuildServerOptions,
   initFileReader,
 } from './helpers';
-import { isUseStreamingSSR, isUseSSRPreload } from './utils';
+import { isUseStreamingSSR, isUseSSRPreload } from './helpers/utils';
+
+export type { ModernDevServerOptions, InitProdMiddlewares } from './types';
 
 export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptions<O>,
@@ -79,14 +81,16 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   await server.init();
   const nodeServer = createNodeServer(server.handle.bind(server));
 
-  await new Promise(resolve => {
-    rsbuild?.onDevCompileDone(({ stats }) => {
-      if (stats.toJson({ all: false }).name !== 'server') {
-        onRepack(distDir, server.runner, routes);
-      }
-      resolve(null);
+  if (rsbuild) {
+    await new Promise(resolve => {
+      rsbuild.onDevCompileDone(({ stats }) => {
+        if (stats.toJson({ all: false }).name !== 'server') {
+          onRepack(distDir, server.runner, routes);
+        }
+        resolve(null);
+      });
     });
-  });
+  }
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
 

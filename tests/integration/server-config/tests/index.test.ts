@@ -40,11 +40,13 @@ describe('server config in dev', () => {
     });
   });
 
-  test('plugins should works', () =>
-    supportServerPlugins({
+  test('plugins should works', async () => {
+    // await new Promise(resolve => setTimeout(resolve, 1000));
+    await supportServerPlugins({
       host,
       port,
-    }));
+    });
+  });
 
   afterAll(async () => {
     await killApp(app);

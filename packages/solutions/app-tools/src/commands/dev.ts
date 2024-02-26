@@ -1,10 +1,7 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { createDevServer, ModernDevServerOptions } from '@modern-js/server';
-import {
-  initProdMiddlewares,
-  ProdServerOptions,
-} from '@modern-js/prod-server-new';
+import { initProdMiddlewares, ProdServerOptions } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
