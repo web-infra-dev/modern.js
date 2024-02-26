@@ -7,7 +7,9 @@ const {
 
 const { version } = require('../package.json');
 
-process.env.MODERN_JS_VERSION = version;
+if (!process.env.MODERN_JS_VERSION) {
+  process.env.MODERN_JS_VERSION = version;
+}
 
 require('@modern-js/core/runBin').run({
   internalPlugins: {
