@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   ServerBase,
   ServerBaseOptions,
@@ -14,7 +15,7 @@ import {
   bindBFFHandler,
   createServerBase,
 } from '@modern-js/server-core/base';
-import { createLogger } from '@modern-js/utils';
+import { createLogger, fs } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
 
@@ -24,6 +25,7 @@ interface MonitoOptions {
 
 export type ProdServerOptions = ServerBaseOptions &
   BindRenderHandleOptions &
+  Omit<BindRenderHandleOptions, 'templates'> &
   MonitoOptions;
 
 type BaseEnv = {
@@ -32,13 +34,10 @@ type BaseEnv = {
     reporter: Reporter;
   };
 };
-
 export const createProdServer = async (options: ProdServerOptions) => {
   const server = createServerBase<BaseEnv>(options);
-
   // load env file.
   await loadServerEnv(options);
-
   await server.init();
   const nodeServer = createNodeServer(server.handle.bind(server));
   await server.runner.beforeServerInit({
@@ -47,14 +46,28 @@ export const createProdServer = async (options: ProdServerOptions) => {
   await initProdMiddlewares(server, options);
   return nodeServer;
 };
-
 export type InitProdMiddlewares = typeof initProdMiddlewares;
-
 export const initProdMiddlewares = async (
   server: ServerBase<BaseEnv>,
   options: ProdServerOptions,
 ) => {
   const { config, pwd, routes, logger: inputLogger } = options;
+
+  const htmls = await Promise.all(
+    options.routes?.map(async route => {
+      let html: string | undefined;
+      try {
+        const htmlPath = path.join(pwd, route.entryPath);
+        html = await fs.readFile(htmlPath, 'utf-8');
+      } catch (e) {
+        // ignore error
+      }
+      return [route.entryName!, html];
+    }) || [],
+  );
+
+  const templates: Record<string, string> = Object.fromEntries(htmls);
+
   const logger = inputLogger || createLogger({ level: 'warn' });
   const staticMiddleware = createStaticMiddleware({
     pwd,
@@ -81,8 +94,16 @@ export const initProdMiddlewares = async (
   server.get('*', favionFallbackMiddleware);
 
   await bindBFFHandler(server, options);
+  await bindBFFHandler(server, {
+    ...options,
+    templates,
+  });
   await bindDataHandlers(server, routes || [], pwd);
   await bindRenderHandler(server, options);
+  await bindRenderHandler(server, {
+    ...options,
+    templates,
+  });
 
   return server;
 };

@@ -1,7 +1,7 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import { createDevServer, ModernDevServerOptions } from '@modern-js/server';
 import { initProdMiddlewares, ProdServerOptions } from '@modern-js/prod-server';
-import { ModernDevServerOptions } from '@modern-js/server';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
@@ -81,8 +81,7 @@ export const dev = async (
   };
 
   if (apiOnly) {
-    const { createServer } = await import('../utils/createServer');
-    const app = await createServer(serverOptions);
+    const app = await createDevServer(serverOptions, initProdMiddlewares);
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
