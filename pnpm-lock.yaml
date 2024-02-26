@@ -3736,6 +3736,9 @@ importers:
 
   packages/server/prod-server:
     dependencies:
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core

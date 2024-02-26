@@ -15,7 +15,8 @@ import {
   bindBFFHandler,
   createServerBase,
 } from '@modern-js/server-core/base';
-import { createLogger, fs } from '@modern-js/utils';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
 
@@ -24,7 +25,6 @@ interface MonitoOptions {
 }
 
 export type ProdServerOptions = ServerBaseOptions &
-  BindRenderHandleOptions &
   Omit<BindRenderHandleOptions, 'templates'> &
   MonitoOptions;
 
@@ -58,14 +58,13 @@ export const initProdMiddlewares = async (
       let html: string | undefined;
       try {
         const htmlPath = path.join(pwd, route.entryPath);
-        html = await fs.readFile(htmlPath, 'utf-8');
+        html = (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
       } catch (e) {
         // ignore error
       }
       return [route.entryName!, html];
     }) || [],
   );
-
   const templates: Record<string, string> = Object.fromEntries(htmls);
 
   const logger = inputLogger || createLogger({ level: 'warn' });
@@ -93,13 +92,12 @@ export const initProdMiddlewares = async (
   server.get('*', staticMiddleware);
   server.get('*', favionFallbackMiddleware);
 
-  await bindBFFHandler(server, options);
   await bindBFFHandler(server, {
     ...options,
     templates,
   });
   await bindDataHandlers(server, routes || [], pwd);
-  await bindRenderHandler(server, options);
+
   await bindRenderHandler(server, {
     ...options,
     templates,
