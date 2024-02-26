@@ -7,6 +7,7 @@ import type {
 import { ServerBase } from './serverBase';
 
 export { createErrorHtml } from './utils';
+export { AGGRED_DIR } from './constants';
 export {
   httpCallBack2HonoMid,
   createNodeServer,

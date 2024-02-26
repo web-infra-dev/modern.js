@@ -1,20 +1,88 @@
-import { ModernServerOptions } from './type';
-import { Server } from './server';
+import {
+  ServerBase,
+  ServerBaseOptions,
+  BindRenderHandleOptions,
+  createNodeServer,
+  createStaticMiddleware,
+  bindRenderHandler,
+  favionFallbackMiddleware,
+  bindDataHandlers,
+  injectReporter,
+  injectLogger,
+  createErrorHtml,
+  loadServerEnv,
+  bindBFFHandler,
+  createServerBase,
+} from '@modern-js/server-core/base';
+import { createLogger } from '@modern-js/utils';
+import { Logger, Reporter } from '@modern-js/types';
+import { ErrorDigest, onError } from './error';
 
-export { Server };
-export type { ServerConfig } from '@modern-js/server-core';
-export { ModernServer } from './server/modernServer';
-export { createProxyHandler } from './libs/proxy';
-export * from './type';
-export * from './constants';
-export { createRenderHandler } from './libs/render';
+interface MonitoOptions {
+  logger?: Logger;
+}
 
-export default (options: ModernServerOptions): Promise<Server> => {
-  if (options == null) {
-    throw new Error('can not start mserver without options');
-  }
+export type ProdServerOptions = ServerBaseOptions &
+  BindRenderHandleOptions &
+  MonitoOptions;
 
-  const server = new Server(options);
+type BaseEnv = {
+  Variables: {
+    logger: Logger;
+    reporter: Reporter;
+  };
+};
 
-  return server.init();
+export const createProdServer = async (options: ProdServerOptions) => {
+  const server = createServerBase<BaseEnv>(options);
+
+  // load env file.
+  await loadServerEnv(options);
+
+  await server.init();
+  const nodeServer = createNodeServer(server.handle.bind(server));
+  await server.runner.beforeServerInit({
+    app: nodeServer,
+  });
+  await initProdMiddlewares(server, options);
+  return nodeServer;
+};
+
+export type InitProdMiddlewares = typeof initProdMiddlewares;
+
+export const initProdMiddlewares = async (
+  server: ServerBase<BaseEnv>,
+  options: ProdServerOptions,
+) => {
+  const { config, pwd, routes, logger: inputLogger } = options;
+  const logger = inputLogger || createLogger({ level: 'warn' });
+  const staticMiddleware = createStaticMiddleware({
+    pwd,
+    output: config?.output || {},
+    html: config?.html || {},
+  });
+
+  server.all('*', injectReporter());
+  server.all('*', injectLogger(logger));
+
+  server.notFound(c => {
+    const logger = c.get('logger');
+    onError(logger, ErrorDigest.ENOTF, '404 not found', c.req.raw);
+    return c.html(createErrorHtml(404), 404);
+  });
+
+  server.onError((err, c) => {
+    const logger = c.get('logger');
+    onError(logger, ErrorDigest.EINTER, err, c.req.raw);
+    return c.html(createErrorHtml(500), 500);
+  });
+
+  server.get('*', staticMiddleware);
+  server.get('*', favionFallbackMiddleware);
+
+  await bindBFFHandler(server, options);
+  await bindDataHandlers(server, routes || [], pwd);
+  await bindRenderHandler(server, options);
+
+  return server;
 };

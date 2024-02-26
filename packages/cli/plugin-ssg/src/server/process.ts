@@ -2,10 +2,7 @@ import { Server, request } from 'http';
 import { InternalPlugins, ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
-import {
-  ProdServerOptions,
-  createProdServer,
-} from '@modern-js/prod-server-new';
+import { ProdServerOptions, createProdServer } from '@modern-js/prod-server';
 import { CLOSE_SIGN } from './consts';
 
 process.on('message', async (chunk: string) => {

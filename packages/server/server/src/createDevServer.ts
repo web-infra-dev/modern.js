@@ -17,7 +17,9 @@ import {
   transformToRsbuildServerOptions,
   initFileReader,
 } from './helpers';
-import { isUseStreamingSSR, isUseSSRPreload } from './utils';
+import { isUseStreamingSSR, isUseSSRPreload } from './helpers/utils';
+
+export type { ModernDevServerOptions, InitProdMiddlewares } from './types';
 
 export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptions<O>,

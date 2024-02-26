@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import path from 'node:path';
-import { createProdServer } from '@modern-js/prod-server-new';
+import { createProdServer } from '@modern-js/prod-server';
 import { InternalPlugins } from '@modern-js/types';
 
 const store = new AsyncLocalStorage();

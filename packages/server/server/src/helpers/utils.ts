@@ -1,7 +1,7 @@
 import { SSR } from '@modern-js/server-core';
 import { ServerRoute } from '@modern-js/types';
 import { createDebugger } from '@modern-js/utils';
-import { ModernDevServerOptions } from './types';
+import { ModernDevServerOptions } from '../types';
 
 export const debug = createDebugger('server');
 

@@ -1,6 +1,6 @@
 import { logger, isApiOnly, getTargetDir } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import { createProdServer } from '@modern-js/prod-server-new';
+import { createProdServer } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';

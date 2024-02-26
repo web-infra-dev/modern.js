@@ -1,4 +1,6 @@
-import { Server, ModernDevServerOptionsOld } from '@modern-js/server';
+import type { Server } from 'node:http';
+import { ModernDevServerOptions, createDevServer } from '@modern-js/server';
+import { initProdMiddlewares } from '@modern-js/prod-server';
 
 let server: Server | null = null;
 
@@ -10,18 +12,18 @@ export const setServer = (newServer: Server) => {
 
 export const closeServer = async () => {
   if (server) {
-    await server.close();
+    server.close();
     server = null;
   }
 };
 
-export const createServer = async (options: ModernDevServerOptionsOld) => {
+export const createServer = async (
+  options: ModernDevServerOptions,
+): Promise<Server> => {
   if (server) {
-    await server.close();
+    server.close();
   }
-  server = new Server(options);
+  server = await createDevServer(options, initProdMiddlewares);
 
-  const app = await server.init();
-
-  return app;
+  return server;
 };
