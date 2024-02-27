@@ -21,7 +21,7 @@ export const pluginBabelPost = (): RsbuildPlugin => ({
           if (
             babelLoaderOptions &&
             lodash.isEqual(
-              getDefaultBabelOptions(config.source.decorators),
+              getDefaultBabelOptions(config, api.context),
               babelLoaderOptions,
             )
           ) {
