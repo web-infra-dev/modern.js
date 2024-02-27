@@ -10,7 +10,7 @@ import type { SideEffects, ICompiler } from '../../types';
 import { writeFile } from './write-file';
 
 /**
- * esbuld's external will keep import statement as import|require statement, which
+ * esbuild's external will keep import statement as import|require statement, which
  * is ok for node environment but will cause problem for browser environment(lack of commonjs runtime supports)
  * so we need to support features like rollup's globals, which will convert an module id to global variable
  * @example
