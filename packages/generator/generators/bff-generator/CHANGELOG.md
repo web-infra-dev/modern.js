@@ -1,5 +1,11 @@
 # @modern-js/bff-generator
 
+## 3.3.10
+
+### Patch Changes
+
+- @modern-js/utils@2.47.1
+
 ## 3.3.9
 
 ### Patch Changes

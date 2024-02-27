@@ -1,5 +1,15 @@
 # @modern-js/plugin-devtools
 
+## 2.47.1
+
+### Patch Changes
+
+- Updated dependencies [cee9184]
+  - @modern-js/runtime@2.47.1
+  - @modern-js/devtools-client@2.47.1
+  - @modern-js/devtools-kit@2.47.1
+  - @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Minor Changes

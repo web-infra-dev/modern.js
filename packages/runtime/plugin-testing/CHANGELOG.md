@@ -1,5 +1,18 @@
 # @modern-js/plugin-testing
 
+## 2.47.1
+
+### Patch Changes
+
+- Updated dependencies [cee9184]
+  - @modern-js/runtime@2.47.1
+  - @modern-js/bff-core@2.47.1
+  - @modern-js/prod-server@2.47.1
+  - @modern-js/babel-compiler@2.47.1
+  - @modern-js/plugin@2.47.1
+  - @modern-js/types@2.47.1
+  - @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes
