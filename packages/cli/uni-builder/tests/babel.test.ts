@@ -11,6 +11,9 @@ describe('plugin-babel (rspack mode)', () => {
         output: {
           polyfill: 'entry',
         },
+        performance: {
+          buildCache: false,
+        },
         tools: {
           babel: {},
         },
@@ -34,6 +37,9 @@ describe('plugin-babel (rspack mode)', () => {
       config: {
         output: {
           polyfill: 'entry',
+        },
+        performance: {
+          buildCache: false,
         },
         tools: {
           babel(config) {
