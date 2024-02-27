@@ -121,7 +121,7 @@ export default {
 };
 ```
 
-#### CHAIN_ID
+### CHAIN_ID
 
 Some common Chain IDs are predefined in the Builder, and you can use these IDs to locate the built-in Rule or Plugin.
 
@@ -133,17 +133,22 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 
 ##### CHAIN_ID.RULE
 
-| ID            | Description       |
-| ------------- | ----------------- |
-| `RULE.MJS`    | Rule for `mjs`    |
-| `RULE.CSS`    | Rule for `css`    |
-| `RULE.LESS`   | Rule for `less`   |
-| `RULE.SASS`   | Rule for `sass`   |
-| `RULE.STYLUS` | Rule for `stylus` |
-| `RULE.TOML`   | Rule for `toml`   |
-| `RULE.YAML`   | Rule for `yaml`   |
-| `RULE.WASM`   | Rule for `WASM`   |
-| `RULE.NODE`   | Rule for `node`   |
+| ID            | Description                                                                                  |
+| ------------- | -------------------------------------------------------------------------------------------- |
+| `RULE.JS`     | Rule for `js` and `ts`                                                                       |
+| `RULE.SVG`    | Rule for `svg`                                                                               |
+| `RULE.CSS`    | Rule for `css`                                                                               |
+| `RULE.LESS`   | Rule for `less`                                                                              |
+| `RULE.SASS`   | Rule for `sass`                                                                              |
+| `RULE.YAML`   | Rule for `yaml`                                                                              |
+| `RULE.WASM`   | Rule for `WASM`                                                                              |
+| `RULE.NODE`   | Rule for `node`                                                                              |
+| `RULE.FONT`   | Rule for `font`                                                                              |
+| `RULE.IMAGE`  | Rule for `image`                                                                             |
+| `RULE.MEDIA`  | Rule for `media`                                                                             |
+| `RULE.PUG`    | Rule for `pug`                                                                               |
+| `RULE.TOML`   | Rule for `toml`                                                                              |
+| `RULE.STYLUS` | Rule for `stylus` (requires [Stylus plugin](https://rsbuild.dev/plugins/list/plugin-stylus)) |
 
 ### CHAIN_ID.ONE_OF
 
@@ -160,18 +165,20 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 
 `USE.XXX` can match a certain loader.
 
-| ID                                | Description                        |
-| --------------------------------- | ---------------------------------- |
-| `USE.LESS`                        | correspond to `less-loader`        |
-| `USE.SASS`                        | correspond to `sass-loader`        |
-| `USE.STYLUS`                      | correspond to `stylus-loader`      |
-| `USE.VUE`                         | correspond to `vue-loader`         |
-| `USE.TOML`                        | correspond to `toml-loader`        |
-| `USE.YAML`                        | correspond to `yaml-loader`        |
-| `USE.NODE`                        | correspond to `node-loader`        |
-| `USE.SVGR`                        | correspond to `@svgr/webpack`      |
-| `USE.POSTCSS`                     | correspond to `postcss-loader`     |
-| `USE.RESOLVE_URL_LOADER_FOR_SASS` | correspond to `resolve-url-loader` |
+| ID                | Description                        |
+| ----------------- | ---------------------------------- |
+| `USE.SWC`         | correspond to `swc-loader`         |
+| `USE.LESS`        | correspond to `less-loader`        |
+| `USE.SASS`        | correspond to `sass-loader`        |
+| `USE.YAML`        | correspond to `yaml-loader`        |
+| `USE.NODE`        | correspond to `node-loader`        |
+| `USE.STYLE`       | correspond to `style-loader`       |
+| `USE.POSTCSS`     | correspond to `postcss-loader`     |
+| `USE.RESOLVE_URL` | correspond to `resolve-url-loader` |
+| `USE.SVGR`        | correspond to `svgr-loader`        |
+| `USE.TOML`        | correspond to `toml-loader`        |
+| `USE.BABEL`       | correspond to `babel-loader`       |
+| `USE.STYLUS`      | correspond to `stylus-loader`      |
 
 ### CHAIN_ID.PLUGIN
 
@@ -179,12 +186,12 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 
 | ID                          | Description                                                                                             |
 | --------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `PLUGIN.HTML`               | correspond to `HtmlPlugin`, you need to splice the entry name when using: `${PLUGIN.HTML}-${entryName}` |
+| `PLUGIN.HTML`               | correspond to `HtmlPlugin`, you need to concat the entry name when using: `${PLUGIN.HTML}-${entryName}` |
 | `PLUGIN.APP_ICON`           | correspond to `AppIconPlugin`                                                                           |
 | `PLUGIN.INLINE_HTML`        | correspond to `InlineChunkHtmlPlugin`                                                                   |
+| `PLUGIN.ASSETS_RETRY`       | correspond to `AssetsRetryPlugin`                                                                       |
 | `PLUGIN.BUNDLE_ANALYZER`    | correspond to `WebpackBundleAnalyzer`                                                                   |
-| `PLUGIN.VUE_LOADER_PLUGIN`  | correspond to `VueLoaderPlugin`                                                                         |
-| `PLUGIN.AUTO_SET_ROOT_SIZE` | correspond to automatically set root font size plugin in Builder                                        |
+| `PLUGIN.AUTO_SET_ROOT_SIZE` | correspond to `AutoSetRootSizePlugin`                                                                   |
 
 ### CHAIN_ID.MINIMIZER
 
