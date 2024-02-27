@@ -3,7 +3,6 @@ import {
   JS_REGEX,
   TS_REGEX,
   HTML_REGEX,
-  JSON_REGEX,
   getDistPath,
   getFilename,
   type Rspack,
@@ -57,7 +56,7 @@ const resourceRuleFallback = (
       TS_REGEX,
       // exclude `html` and `json`, they get processed by webpack internal loaders.
       HTML_REGEX,
-      JSON_REGEX,
+      /\.json$/,
     ],
     type: 'asset/resource',
   };

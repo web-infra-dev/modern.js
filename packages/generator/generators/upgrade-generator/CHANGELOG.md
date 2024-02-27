@@ -1,5 +1,13 @@
 # @modern-js/upgrade-generator
 
+## 3.3.10
+
+### Patch Changes
+
+- e4d9cac: fix(@modern-js/upgrade-generator): ignore @modern-js/builder-rspack-provider version change
+  fix(@modern-js/upgrade-generator): 忽略 @modern-js/builder-rspack-provider 版本升级
+  - @modern-js/utils@2.47.1
+
 ## 3.3.9
 
 ### Patch Changes
