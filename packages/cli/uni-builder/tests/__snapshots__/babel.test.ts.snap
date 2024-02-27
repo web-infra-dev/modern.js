@@ -52,6 +52,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
                 "refresh": true,
                 "runtime": "automatic",
               },
+              "useDefineForClassFields": false,
             },
           },
           "rspackExperiments": {
@@ -140,6 +141,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
                 "refresh": true,
                 "runtime": "automatic",
               },
+              "useDefineForClassFields": false,
             },
           },
           "rspackExperiments": {

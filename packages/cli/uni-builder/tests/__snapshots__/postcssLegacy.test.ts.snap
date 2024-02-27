@@ -56,6 +56,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                   "refresh": true,
                   "runtime": "automatic",
                 },
+                "useDefineForClassFields": false,
               },
             },
             "rspackExperiments": {
@@ -127,6 +128,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                   "refresh": true,
                   "runtime": "automatic",
                 },
+                "useDefineForClassFields": false,
               },
             },
             "rspackExperiments": {
@@ -567,22 +569,10 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "generator": {
             "filename": "static/svg/[name].[contenthash:8].svg",
           },
-          "issuer": {
-            "not": [
-              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
-            ],
-          },
           "resourceQuery": /\\(__inline=false\\|url\\)/,
           "type": "asset/resource",
         },
         {
-          "issuer": {
-            "not": [
-              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
-            ],
-          },
           "resourceQuery": /inline/,
           "type": "asset/inline",
         },
@@ -592,8 +582,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           },
           "issuer": {
             "not": [
-              /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
-              /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
             ],
           },
           "parser": {
@@ -602,17 +591,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             },
           },
           "type": "asset",
-        },
-        {
-          "resourceQuery": /inline/,
-          "type": "asset/inline",
-        },
-        {
-          "generator": {
-            "filename": "static/svg/[name].[contenthash:8].svg",
-          },
-          "resourceQuery": /url/,
-          "type": "asset/resource",
         },
         {
           "type": "javascript/auto",
@@ -644,6 +622,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                       "refresh": true,
                       "runtime": "automatic",
                     },
+                    "useDefineForClassFields": false,
                   },
                 },
                 "rspackExperiments": {
