@@ -27,8 +27,11 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
     const mockResp = mockResponse();
 
     if (config.inlineScript === false) {
-      window._SSR_DATA = parsedJSONFromElement(SSR_DATA_JSON_ID);
-      window._ROUTER_DATA = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+      const ssrData = parsedJSONFromElement(SSR_DATA_JSON_ID);
+      window._SSR_DATA = ssrData || window._SSR_DATA;
+
+      const routeData = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+      window._ROUTER_DATA = routeData || window._ROUTER_DATA;
     }
 
     return {

@@ -1,5 +1,12 @@
 # @modern-js/packages-generator
 
+## 3.3.9
+
+### Patch Changes
+
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+
 ## 3.3.8
 
 ### Patch Changes
