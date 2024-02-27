@@ -1,0 +1,12 @@
+{
+  "name": "global-cli",
+  "main": "./src/index.ts",
+  "version": "2.9.0",
+  "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "global-cli": "workspace:*",
+    "tsm": "2.3.0",
+    "@types/jest": "^29",
+    "@types/node": "^14"
+  }
+}
