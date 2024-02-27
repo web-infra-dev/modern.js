@@ -34,6 +34,9 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --ignore-scripts --no-frozen-lockfile
 
+      - name: Update Rsbuild Snapshot
+        run: cd packages/cli/uni-builder && pnpm test -- -u
+
       - name: Create commits
         run: |
           git config user.name 'github-actions[bot]'
