@@ -1,5 +1,13 @@
 # @modern-js-app/eslint-config
 
+## 2.47.0
+
+### Patch Changes
+
+- 9a7e17a: fix(deps): missing @rsbuild/core peer dependency
+
+  fix(deps): 缺少 @rsbuild/core peer dependency
+
 ## 2.46.1
 
 ## 2.46.0

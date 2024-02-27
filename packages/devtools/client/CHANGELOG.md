@@ -1,5 +1,18 @@
 # @modern-js/devtools-client
 
+## 2.47.0
+
+### Minor Changes
+
+- 8c9956a: feat(devtools): add new doctor tab to show overview of rsdoctor
+  feat(devtools): 新增 doctor 页面展示 Rsdoctor 概览信息
+
+### Patch Changes
+
+- e643a0b: fix(devtools): unwrap suspense proxy as object
+- 10d4a57: feat(devtools): pull up react devtools element inspector from capsule
+- b7109a7: refactor(devtools): mounting logic and inject options to client
+
 ## 2.46.1
 
 ## 2.46.0

@@ -35,7 +35,7 @@ module.exports = {
     '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
   ],
   modulePathIgnorePatterns: [
-    '<rootDir>/packages/builder/',
+    '<rootDir>/packages/cli/uni-builder/',
     '<rootDir>/packages/toolkit/e2e/',
     '<rootDir>/packages/solutions/module-tools/compiled/',
     '<rootDir>/packages/toolkit/utils/compiled/',
@@ -43,7 +43,7 @@ module.exports = {
     '<rootDir>/.nx',
   ],
   testPathIgnorePatterns: [
-    '<rootDir>/packages/builder/',
+    '<rootDir>/packages/uni-builder/',
     '<rootDir>/packages/toolkit/e2e/',
   ],
 };
