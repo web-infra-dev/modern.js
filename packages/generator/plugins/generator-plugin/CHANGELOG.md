@@ -1,5 +1,7 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.3.10
+
 ## 3.3.9
 
 ## 3.3.8

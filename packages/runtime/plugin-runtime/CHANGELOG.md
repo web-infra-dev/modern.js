@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 2.47.1
+
+### Patch Changes
+
+- cee9184: fix: `ssr.inlineScript` shouldn't works in streaming ssr
+  fix: `ssr.inlineScript` 不应该在 streaming ssr 模式下工作
+  - @modern-js/plugin@2.47.1
+  - @modern-js/runtime-utils@2.47.1
+  - @modern-js/types@2.47.1
+  - @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes
