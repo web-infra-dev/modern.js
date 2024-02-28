@@ -81,16 +81,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   await server.init();
   const nodeServer = createNodeServer(server.handle.bind(server));
 
-  if (rsbuild) {
-    await new Promise(resolve => {
-      rsbuild.onDevCompileDone(({ stats }) => {
-        if (stats.toJson({ all: false }).name !== 'server') {
-          onRepack(distDir, server.runner, routes);
-        }
-        resolve(null);
-      });
-    });
-  }
+  rsbuild?.onDevCompileDone(({ stats }) => {
+    if (stats.toJson({ all: false }).name !== 'server') {
+      onRepack(distDir, server.runner, routes);
+    }
+  });
 
   onUpgrade && nodeServer.on('upgrade', onUpgrade);
 
