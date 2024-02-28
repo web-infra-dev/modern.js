@@ -41,7 +41,7 @@ Modern.js 生态提供了以下解决方案和底层库：
 
 ## Benchmark
 
-我们通过 [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
+我们通过 [Modern.js Benchmark](https://web-infra-qos.netlify.app/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
 
 ## Roadmap
 
