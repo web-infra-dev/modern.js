@@ -123,7 +123,7 @@ export const handleTemplateFile = async (
 
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
-      getGeneratorPath(BaseGenerator, context.config.distTag),
+      getGeneratorPath(BaseGenerator, context.config.distTag, [__dirname]),
       undefined,
       { ...context.config, hasPlugin: false },
     );
@@ -169,7 +169,7 @@ export const handleTemplateFile = async (
 
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
-      getGeneratorPath(ChangesetGenerator, context.config.distTag),
+      getGeneratorPath(ChangesetGenerator, context.config.distTag, [__dirname]),
     );
   }
 
@@ -183,7 +183,7 @@ export const handleTemplateFile = async (
   const { packagesInfo } = context.config;
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {
     await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      getGeneratorPath(PackagesGenerator, context.config.distTag, [__dirname]),
       undefined,
       context.config,
     );
