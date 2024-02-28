@@ -138,7 +138,6 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/module-tools',
     dependencies: [
       '@rollup/plugin-json',
-      'deepmerge',
       'normalize-path',
       'signal-exit',
       'p-map',
