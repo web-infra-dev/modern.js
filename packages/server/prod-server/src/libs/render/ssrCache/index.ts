@@ -1,5 +1,5 @@
 import { IncomingMessage } from 'http';
-import { Transform, type Readable } from 'stream';
+import { Transform } from 'stream';
 import {
   CacheControl,
   CacheOption,
@@ -8,7 +8,7 @@ import {
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import { RenderFunction, SSRServerContext } from '../type';
 import { cacheMod } from './cacheMod';
-import { CacheManager } from './manager';
+import { CacheManager, CacheResult } from './manager';
 
 const cacheStorage = createMemoryStorage<string>('__ssr__cache');
 
@@ -16,7 +16,7 @@ export async function ssrCache(
   req: IncomingMessage,
   render: RenderFunction,
   ssrContext: SSRServerContext,
-): Promise<string | Readable> {
+): Promise<CacheResult> {
   const { customContainer, cacheOption } = cacheMod;
   const cacheControl = await matchCacheControl(req, cacheOption);
   const cacheManager = new CacheManager(
@@ -28,9 +28,13 @@ export async function ssrCache(
   } else {
     const renderResult = await render(ssrContext);
     if (!renderResult) {
-      return '';
+      return {
+        data: '',
+      };
     } else if (typeof renderResult === 'string') {
-      return renderResult;
+      return {
+        data: renderResult,
+      };
     } else {
       const stream = new Transform({
         write(chunk, _, callback) {
@@ -38,7 +42,10 @@ export async function ssrCache(
           callback();
         },
       });
-      return renderResult(stream);
+      const data = await renderResult(stream);
+      return {
+        data,
+      };
     }
   }
 }

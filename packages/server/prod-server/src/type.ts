@@ -58,6 +58,7 @@ export type RenderResult = {
   contentType: string;
   contentStream?: Readable;
   statusCode?: number;
+  headers?: Record<string, string>;
   redirect?: boolean;
 };
 

@@ -93,7 +93,11 @@ export const render = async (
   const serverRender: RenderFunction =
     bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
 
-  const content = await ssrCache(ctx.req, serverRender, context);
+  const { data: content, status: cacheStatus } = await ssrCache(
+    ctx.req,
+    serverRender,
+    context,
+  );
 
   const { url, status = 302 } = context.redirection;
 
@@ -106,10 +110,14 @@ export const render = async (
     };
   }
 
+  const headers: Record<string, string> = {};
+  cacheStatus && (headers['x-render-cache'] = cacheStatus);
+
   if (typeof content === 'string') {
     return {
       content: injectServerData(content, ctx),
       contentType: mime.contentType('html') as string,
+      headers,
     };
   } else {
     let contentStream = injectServerDataStream(content, ctx);
@@ -130,6 +138,7 @@ export const render = async (
       content: '',
       contentStream,
       contentType: mime.contentType('html') as string,
+      headers,
     };
   }
 };
