@@ -8,6 +8,8 @@ import {
   getArgv,
   fs,
   NESTED_ROUTE_SPEC_FILE,
+  newAction,
+  upgradeAction,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
@@ -244,8 +246,13 @@ export const appTools = (
             i18n.t(localeKeys.command.shared.noNeedInstall),
           )
           .action(async (options: any) => {
-            const { MWANewAction } = await import('@modern-js/new-action');
-            await MWANewAction({ ...options, locale: options.lang || locale });
+            await newAction(
+              {
+                ...options,
+                locale: options.lang || locale,
+              },
+              'mwa',
+            );
           });
 
         program
@@ -271,19 +278,13 @@ export const appTools = (
             inspect(api, options);
           });
 
-        const { defineCommand } = await import('@modern-js/upgrade');
-        defineCommand(
-          program
-            .command('upgrade')
-            .option(
-              '-c --config <config>',
-              i18n.t(localeKeys.command.shared.config),
-            )
-            .option(
-              '--no-need-install',
-              i18n.t(localeKeys.command.shared.noNeedInstall),
-            ),
-        );
+        program
+          .command('upgrade')
+          .allowUnknownOption()
+          .option('-h --help', 'Show help') // In order to upgrade help work.
+          .action(async () => {
+            await upgradeAction();
+          });
       },
 
       async prepare() {

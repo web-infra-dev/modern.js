@@ -44,8 +44,6 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/new-action": "workspace:*",
-    "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
