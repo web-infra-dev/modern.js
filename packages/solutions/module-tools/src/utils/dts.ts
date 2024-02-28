@@ -50,8 +50,21 @@ export const getProjectTsconfig = async (
     async target => {
       let parentTsconfigPath: string;
       try {
-        // likely extending from a npm package, use require.resolve to resolve it.
+        // Likely extending from a npm package, use require.resolve to resolve it.
+        // If `require.resolve` resolved a path that is not a JSON file,
+        // we infer that the requested "target" may be a npm package name,
+        // thus we try to resolve target/tsconfig.json.
+        //
+        // for example:
+        //   "extends": "@modern-js/module-tools" may resolved to src/index.ts
+        // but actually we should resolve: "@modern-js/module-tools/tsconfig.json"
+        //
+        // Note: This only works with packages that has no "export" field
+        // defined in package.json.
         parentTsconfigPath = require.resolve(target);
+        if (!parentTsconfigPath.endsWith('.json')) {
+          parentTsconfigPath = require.resolve(`${target}/tsconfig.json`);
+        }
       } catch {
         // resolve file from current tsconfig's path
         parentTsconfigPath = resolve(dirname(tsconfigPath), target);
