@@ -2246,10 +2246,6 @@ importers:
 
   packages/generator/generators/upgrade-generator:
     dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../../toolkit/utils
-    devDependencies:
       '@modern-js/codesmith':
         specifier: 2.3.5
         version: 2.3.5
@@ -2268,6 +2264,10 @@ importers:
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../../cli/plugin-i18n
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../../toolkit/utils
+    devDependencies:
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../../scripts/build
@@ -2323,6 +2323,9 @@ importers:
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2)
+      ts-node:
+        specifier: ^10.9.1
+        version: 10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3)
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -4031,9 +4034,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/new-action':
-        specifier: workspace:*
-        version: link:../../generator/new-action
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
@@ -4067,9 +4067,6 @@ importers:
       '@modern-js/uni-builder':
         specifier: workspace:*
         version: link:../../cli/uni-builder
-      '@modern-js/upgrade':
-        specifier: workspace:*
-        version: link:../../toolkit/upgrade
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -4140,9 +4137,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/new-action':
-        specifier: workspace:*
-        version: link:../../generator/new-action
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
@@ -4161,9 +4155,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@modern-js/upgrade':
-        specifier: workspace:*
-        version: link:../../toolkit/upgrade
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -4240,9 +4231,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/new-action':
-        specifier: workspace:*
-        version: link:../../generator/new-action
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
@@ -4255,9 +4243,6 @@ importers:
       '@modern-js/plugin-lint':
         specifier: workspace:*
         version: link:../../cli/plugin-lint
-      '@modern-js/upgrade':
-        specifier: workspace:*
-        version: link:../../toolkit/upgrade
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -11422,7 +11407,6 @@ packages:
     transitivePeerDependencies:
       - debug
       - typescript
-    dev: true
 
   /@modern-js/codesmith-api-ejs@2.3.5(@modern-js/codesmith@2.3.5):
     resolution: {integrity: sha512-vs4E4f0ZY54crbqg1TvpRJh6q2pk9EnQcIlPdFC3nTi/7+ghExAvh/XTC59piIYK2Dj7XxKylK9PMa+DQ86y/A==}
@@ -11432,7 +11416,6 @@ packages:
       '@modern-js/codesmith': 2.3.5
       '@swc/helpers': 0.5.1
       ejs: 3.1.9
-    dev: true
 
   /@modern-js/codesmith-api-fs@2.3.5(@modern-js/codesmith@2.3.5):
     resolution: {integrity: sha512-7JFvA8PXzJf1GXLfrGWxjWrPA6Z5E96suwYvfvsOKIck3tYYAOrnUPwumeQebVv6ehMYr/HURphQCsIuH0oyww==}
@@ -11442,7 +11425,6 @@ packages:
       '@modern-js/codesmith': 2.3.5
       '@modern-js/utils': 2.39.2
       '@swc/helpers': 0.5.1
-    dev: true
 
   /@modern-js/codesmith-api-git@2.3.5(@modern-js/codesmith@2.3.5):
     resolution: {integrity: sha512-AyKLYg9cKcNIStZEVy9dg3DavVzE/Xn3s4KvMjHDNlNa53qkfle/0ebDqsNSn9ReWDd8HUcRnbTRPiulWcPlDg==}
@@ -11461,7 +11443,6 @@ packages:
       '@modern-js/codesmith': 2.3.5
       '@swc/helpers': 0.5.1
       handlebars: 4.7.7
-    dev: true
 
   /@modern-js/codesmith-api-json@2.3.5:
     resolution: {integrity: sha512-ZStn/sjf3UvZmopfNLoSXA3Pnm+6MNHZ4ULQ5as+qRXCLCMQcVxs3NiAi3VagX+l35cMXhP1YgCu+6MWGZ/nQg==}
@@ -11512,7 +11493,6 @@ packages:
     dependencies:
       '@modern-js/utils': 2.37.2
       '@swc/helpers': 0.5.1
-    dev: true
 
   /@modern-js/polyfill-lib@1.0.2:
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -11653,7 +11633,6 @@ packages:
       caniuse-lite: 1.0.30001588
       lodash: 4.17.21
       rslog: 1.2.1
-    dev: true
 
   /@modern-js/utils@2.39.2:
     resolution: {integrity: sha512-51Uv2oueWru4BvoE7VHai03wT0VZ1VFNPrDXR3Rd3DanRdM5BDBs28mB6+pz68SFQPjK7/f2ZgqRr0FjGWhUvg==}
@@ -21050,7 +21029,6 @@ packages:
 
   /extra@0.2.1:
     resolution: {integrity: sha512-PWEUSjpFNAFk6W3wAcyPR8SW48wKGvtZUz/OP4eUZUbrFPakU4YYRUKTxMAKZDndlnAjBUuLV1L67IpmlkJbBg==}
-    dev: true
 
   /extract-zip@1.7.0:
     resolution: {integrity: sha512-xoh5G1W/PB0/27lXgMQyIhP5DSY/LhoCsOyZgb+6iMmRtCwVBo55uKaMoEYrDCKQhWvqEip5ZPKAc6eFNyf/MA==}
@@ -22730,7 +22708,6 @@ packages:
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
-    dev: true
 
   /inquirer@8.2.2:
     resolution: {integrity: sha512-pG7I/si6K/0X7p1qU+rfWnpTE1UIkTONN1wxtzh0d+dHXtT/JG6qBgLxoyHVsQa8cFABxAPh0pD6uUUHiAoaow==}
