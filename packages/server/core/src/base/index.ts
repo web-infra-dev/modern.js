@@ -17,6 +17,7 @@ export {
   createStaticMiddleware,
   bindBFFHandler,
   registerMockHandlers,
+  createInjectHtml,
 } from './adapters/node';
 
 export {

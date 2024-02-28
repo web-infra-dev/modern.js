@@ -20,6 +20,7 @@ type NodeBindings = {
 type NodeVariables = {
   reporter: Reporter;
   logger: Logger;
+  templates?: Record<string, string>;
   metrics?: Metrics;
 };
 

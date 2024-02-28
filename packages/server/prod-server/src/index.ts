@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   ServerBase,
   ServerBaseOptions,
@@ -14,8 +13,8 @@ import {
   loadServerEnv,
   bindBFFHandler,
   createServerBase,
+  createInjectHtml,
 } from '@modern-js/server-core/base';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { createLogger } from '@modern-js/utils';
 import { Logger, Reporter } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
@@ -53,20 +52,6 @@ export const initProdMiddlewares = async (
 ) => {
   const { config, pwd, routes, logger: inputLogger } = options;
 
-  const htmls = await Promise.all(
-    options.routes?.map(async route => {
-      let html: string | undefined;
-      try {
-        const htmlPath = path.join(pwd, route.entryPath);
-        html = (await fileReader.readFile(htmlPath, 'utf-8'))?.toString();
-      } catch (e) {
-        // ignore error
-      }
-      return [route.entryName!, html];
-    }) || [],
-  );
-  const templates: Record<string, string> = Object.fromEntries(htmls);
-
   const logger = inputLogger || createLogger({ level: 'warn' });
   const staticMiddleware = createStaticMiddleware({
     pwd,
@@ -76,6 +61,8 @@ export const initProdMiddlewares = async (
 
   server.all('*', injectReporter());
   server.all('*', injectLogger(logger));
+  // inject html templates
+  server.all('*', createInjectHtml(pwd, routes));
 
   server.notFound(c => {
     const logger = c.get('logger');
@@ -92,16 +79,10 @@ export const initProdMiddlewares = async (
   server.get('*', staticMiddleware);
   server.get('*', favionFallbackMiddleware);
 
-  await bindBFFHandler(server, {
-    ...options,
-    templates,
-  });
+  await bindBFFHandler(server, options);
   await bindDataHandlers(server, routes || [], pwd);
 
-  await bindRenderHandler(server, {
-    ...options,
-    templates,
-  });
+  await bindRenderHandler(server, options);
 
   return server;
 };
