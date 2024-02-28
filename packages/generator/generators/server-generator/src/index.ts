@@ -4,6 +4,7 @@ import {
   getModernPluginVersion,
   isTsProject,
   readTsConfigByFile,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -14,15 +15,6 @@ import {
   Language,
   Solution,
 } from '@modern-js/generator-common';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 function isEmptyServerDir(serverDir: string) {
   const files = fs.readdirSync(serverDir);

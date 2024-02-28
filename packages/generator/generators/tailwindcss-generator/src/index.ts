@@ -1,4 +1,3 @@
-import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
@@ -6,16 +5,7 @@ import {
   Language,
   DependenceGenerator,
 } from '@modern-js/generator-common';
-import { isTsProject } from '@modern-js/generator-utils';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
+import { isTsProject, getGeneratorPath } from '@modern-js/generator-utils';
 
 export const handleTemplateFile = async (
   context: GeneratorContext,

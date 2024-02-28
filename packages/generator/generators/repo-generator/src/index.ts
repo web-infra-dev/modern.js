@@ -1,4 +1,3 @@
-import path from 'path';
 import { merge } from '@modern-js/utils/lodash';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -15,16 +14,8 @@ import {
   MonorepoNewActionConfig,
   getScenesSchema,
 } from '@modern-js/generator-common';
+import { getGeneratorPath } from '@modern-js/generator-utils';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const mergeDefaultConfig = (context: GeneratorContext) => {
   const { defaultSolution } = context.config;
