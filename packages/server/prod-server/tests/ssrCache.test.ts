@@ -14,21 +14,21 @@ function sleep(timeout: number) {
 class MyContainer implements Container {
   cache: Map<string, string> = new Map();
 
-  get(key: string): string | undefined {
+  async get(key: string) {
     return this.cache.get(key);
   }
 
-  set(key: string, value: string) {
+  async set(key: string, value: string) {
     this.cache.set(key, value);
 
     return this;
   }
 
-  has(key: string) {
+  async has(key: string) {
     return this.cache.has(key);
   }
 
-  delete(key: string): boolean {
+  async delete(key: string) {
     return this.cache.delete(key);
   }
 }
@@ -62,7 +62,7 @@ describe('test cacheManager', () => {
       ssrContext,
     );
 
-    expect(result1).toEqual(`Hello_0`);
+    expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(50);
     const result2 = await cacheManager.getCacheResult(
@@ -71,7 +71,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result2).toEqual(`Hello_0`);
+    expect(result2.data).toEqual(`Hello_0`);
 
     await sleep(100);
     const result3 = await cacheManager.getCacheResult(
@@ -80,7 +80,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result3).toEqual(`Hello_0`);
+    expect(result3.data).toEqual(`Hello_0`);
   });
 
   it('should revalidate the cache', async () => {
@@ -104,7 +104,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result1).toEqual(`Hello_0`);
+    expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(150);
     const result2 = await cacheManager.getCacheResult(
@@ -113,7 +113,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result2).toEqual(`Hello_0`);
+    expect(result2.data).toEqual(`Hello_0`);
 
     await sleep(50);
     const result3 = await cacheManager.getCacheResult(
@@ -122,7 +122,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result3).toEqual(`Hello_1`);
+    expect(result3.data).toEqual(`Hello_1`);
   });
 
   it('should invalidate the ssr, then render on next req', async () => {
@@ -146,7 +146,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result1).toEqual(`Hello_0`);
+    expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(600);
     const result2 = await cacheManager.getCacheResult(
@@ -155,7 +155,7 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result2).toEqual(`Hello_1`);
+    expect(result2.data).toEqual(`Hello_1`);
 
     await sleep(600);
     const result3 = await cacheManager.getCacheResult(
@@ -164,6 +164,6 @@ describe('test cacheManager', () => {
       render,
       ssrContext,
     );
-    expect(result3).toEqual(`Hello_2`);
+    expect(result3.data).toEqual(`Hello_2`);
   });
 });
