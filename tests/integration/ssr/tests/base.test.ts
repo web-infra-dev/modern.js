@@ -2,6 +2,7 @@ import dns from 'node:dns';
 import path, { join } from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
 import { fs } from '@modern-js/utils';
+import axios from 'axios';
 import {
   launchApp,
   getPort,
@@ -123,5 +124,12 @@ describe('Traditional SSR', () => {
     });
     const content1 = await page.content();
     expect(content1).toMatch(result);
+  });
+
+  test('x-render-cache http header', async () => {
+    const response = await axios.get(`http://localhost:${appPort}`);
+
+    const { headers } = response;
+    expect(Boolean(headers['x-render-cache'])).toBeTruthy();
   });
 });

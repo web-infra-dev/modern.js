@@ -3,6 +3,12 @@ import { Readable, Transform } from 'stream';
 import { CacheControl, Container } from '@modern-js/types';
 import { RenderFunction, SSRServerContext } from '../type';
 
+type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
+export type CacheResult = {
+  data: string | Readable;
+  status?: CacheStatus;
+};
+
 interface CacheStruct {
   val: string;
   cursor: number;
@@ -20,7 +26,7 @@ export class CacheManager {
     cacheControl: CacheControl,
     render: RenderFunction,
     ssrContext: SSRServerContext,
-  ): Promise<string | Readable> {
+  ): Promise<CacheResult> {
     const key = this.computedKey(req, cacheControl);
 
     const value = await this.container.get(key);
@@ -34,20 +40,20 @@ export class CacheManager {
 
       if (interval <= maxAge) {
         // the cache is validate
-        return cache.val;
+        return { data: cache.val, status: 'hit' };
       } else if (interval <= staleWhileRevalidate + maxAge) {
         // the cache is stale while revalidate
 
         // we shouldn't await this promise.
         this.processCache(key, render, ssrContext, ttl);
 
-        return cache.val;
+        return { data: cache.val, status: 'stale' };
       } else {
         // the cache is invalidate
-        return this.processCache(key, render, ssrContext, ttl);
+        return this.processCache(key, render, ssrContext, ttl, 'expired');
       }
     } else {
-      return this.processCache(key, render, ssrContext, ttl);
+      return this.processCache(key, render, ssrContext, ttl, 'miss');
     }
   }
 
@@ -56,11 +62,12 @@ export class CacheManager {
     render: RenderFunction,
     ssrContext: SSRServerContext,
     ttl: number,
+    status?: CacheStatus,
   ) {
     const renderResult = await render(ssrContext);
 
     if (!renderResult) {
-      return '';
+      return { data: '' };
     } else if (typeof renderResult === 'string') {
       const current = Date.now();
       const cache: CacheStruct = {
@@ -68,7 +75,7 @@ export class CacheManager {
         cursor: current,
       };
       await this.container.set(key, JSON.stringify(cache), { ttl });
-      return renderResult;
+      return { data: renderResult, status };
     } else {
       let html = '';
       const stream = new Transform({
@@ -88,7 +95,12 @@ export class CacheManager {
         this.container.set(key, JSON.stringify(cache), { ttl });
       });
 
-      return renderResult(stream);
+      const readable = await renderResult(stream);
+
+      return {
+        data: readable,
+        status,
+      };
     }
   }
 

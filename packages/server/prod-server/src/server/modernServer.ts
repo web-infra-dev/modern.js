@@ -590,7 +590,15 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    const { contentStream: responseStream } = renderResult;
+    const { contentStream: responseStream, headers } = renderResult;
+
+    if (headers) {
+      for (const name in headers) {
+        const value = headers[name];
+        res.setHeader(name, value);
+      }
+    }
+
     let { content: response } = renderResult;
     if (route.entryName && responseStream) {
       responseStream.pipe(res);
