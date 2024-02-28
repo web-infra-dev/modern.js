@@ -6402,6 +6402,12 @@ importers:
         specifier: ^17
         version: 17.0.2
 
+  tests/integration/module/fixtures/build/asset/name:
+    dependencies:
+      react:
+        specifier: ^17
+        version: 17.0.2
+
   tests/integration/module/fixtures/build/asset/path:
     dependencies:
       react:
