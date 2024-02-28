@@ -13,6 +13,7 @@ export const bindBFFHandler = async (
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) => {
   const prefix = options.config.bff.prefix || '/api';
+  const { enableHandleWeb } = options.config.bff;
   const { httpMethodDecider } = options.config.bff;
   const runtimeEnv = getRuntimeEnv();
   if (runtimeEnv !== 'node') {
@@ -42,5 +43,12 @@ export const bindBFFHandler = async (
     );
   }
 
-  server.all(`${prefix}/*`, handler);
+  // In order to support bff.enableHandleWeb, this should be a global middleware
+  server.all(`*`, (c, next) => {
+    if (!c.req.path.startsWith(prefix) && !enableHandleWeb) {
+      return next();
+    } else {
+      return handler(c, next);
+    }
+  });
 };

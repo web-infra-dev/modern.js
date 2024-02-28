@@ -5,7 +5,6 @@ import koa from '@modern-js/plugin-koa';
 // https://modernjs.dev/docs/apis/app/config
 export default defineConfig({
   bff: {
-    prefix: '/',
     enableHandleWeb: true,
   },
   runtime: {
