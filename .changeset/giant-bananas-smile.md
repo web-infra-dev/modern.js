@@ -2,4 +2,5 @@
 '@modern-js/module-tools': patch
 ---
 
-支持解析 tsconfig extends
+fix(module-tools): support tsconfig extends.
+fix(module-tools): 支持解析 tsconfig extends.
