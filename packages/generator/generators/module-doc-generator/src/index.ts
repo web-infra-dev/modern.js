@@ -41,7 +41,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   await handleTemplateFile(context, appApi, generator);
 
   await appApi.runSubGenerator(
-    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,
     context.config,
   );

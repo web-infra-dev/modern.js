@@ -92,7 +92,7 @@ const handleTemplateFile = async (
   }
 
   await appApi.runSubGenerator(
-    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,
     {
       ...context.config,

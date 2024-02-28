@@ -123,7 +123,7 @@ export const handleTemplateFile = async (
   const dirname = path.basename(generator.outputPath);
 
   await appApi.runSubGenerator(
-    getGeneratorPath(BaseGenerator, context.config.distTag),
+    getGeneratorPath(BaseGenerator, context.config.distTag, [__dirname]),
     undefined,
     { ...context.config, hasPlugin: false },
   );
@@ -171,7 +171,7 @@ export const handleTemplateFile = async (
   }
 
   await appApi.runSubGenerator(
-    getGeneratorPath(EntryGenerator, context.config.distTag),
+    getGeneratorPath(EntryGenerator, context.config.distTag, [__dirname]),
     `./${projectPath}`,
     {
       ...context.config,
@@ -188,7 +188,7 @@ export const handleTemplateFile = async (
 
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {
     await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      getGeneratorPath(PackagesGenerator, context.config.distTag, [__dirname]),
       undefined,
       context.config,
     );
