@@ -223,80 +223,82 @@ export const redirect = {
         {},
       );
 
-      let matchModule: MatchModule = [];
       try {
         const sgNode = js.parse(code).root();
-        const funcPattern = [`require($MATCH)`, `import($MATCH)`];
-        // `export $VAR from` is invalid, so we need `{$$$VAR}`, `*` and `* as $VAR`
-        // But `import $VAR from` is valid.
-        const staticPattern = [
-          `import $VAR from '$MATCH'`,
-          `import $VAR from "$MATCH"`,
-          `export {$$$VAR} from '$MATCH'`,
-          `export {$$$VAR} from "$MATCH"`,
-          `export * from '$MATCH'`,
-          `export * from "$MATCH"`,
-          `export * as $VAR from '$MATCH'`,
-          `export * as $VAR from "$MATCH"`,
-          `import '$MATCH'`,
-          `import "$MATCH"`,
-        ];
-        const funcMatchModule = funcPattern
-          .map(p => {
-            return sgNode.findAll(p);
-          })
-          .flat()
-          .map(node => {
-            const matchNode = node.getMatch('MATCH')!;
-            return {
-              name: matchNode.text().slice(1, -1),
-              start: matchNode.range().start.index + 1,
-              end: matchNode.range().end.index - 1,
-            };
+        const matcher = {
+          rule: {
+            kind: 'string_fragment',
+            any: [
+              {
+                inside: {
+                  stopBy: 'end',
+                  kind: 'import_statement',
+                  field: 'source',
+                },
+              },
+              {
+                inside: {
+                  stopBy: 'end',
+                  kind: 'export_statement',
+                  field: 'source',
+                },
+              },
+              {
+                inside: {
+                  kind: 'string',
+                  inside: {
+                    kind: 'arguments',
+                    inside: {
+                      kind: 'call_expression',
+                      has: {
+                        field: 'function',
+                        regex: '^(import|require)$',
+                      },
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        };
+        const matchModule = sgNode.findAll(matcher).map(matchNode => {
+          return {
+            name: matchNode.text(),
+            start: matchNode.range().start.index,
+            end: matchNode.range().end.index,
+          };
+        });
+        if (matchModule.length > 0) {
+          const { jsExtension, isModule } = getDefaultOutExtension({
+            format,
+            root,
+            autoExtension,
           });
-        const staticMatchModule = staticPattern
-          .map(p => sgNode.findAll(p))
-          .flat()
-          .map(node => {
-            const matchNode = node.getMatch('MATCH')!;
-            return {
-              name: matchNode.text(),
-              start: matchNode.range().start.index,
-              end: matchNode.range().end.index,
-            };
-          });
-        matchModule = [...funcMatchModule, ...staticMatchModule];
+          const outputPath = resolve(outDir, relative(sourceDir, id));
+          const str = await redirectImport(
+            compiler,
+            code,
+            matchModule,
+            absoluteAlias,
+            id,
+            dirname(outputPath),
+            jsExtension,
+            isModule,
+            matchPath,
+          );
+          return {
+            ...args,
+            code: str.toString(),
+            map: str.generateMap({
+              hires: true,
+              includeContent: true,
+            }),
+          };
+        }
       } catch (e) {
         logger.error('[parse error]', e);
       }
-      if (!matchModule.length) {
-        return args;
-      }
-      const { jsExtension, isModule } = getDefaultOutExtension({
-        format,
-        root,
-        autoExtension,
-      });
-      const outputPath = resolve(outDir, relative(sourceDir, id));
-      const str = await redirectImport(
-        compiler,
-        code,
-        matchModule,
-        absoluteAlias,
-        id,
-        dirname(outputPath),
-        jsExtension,
-        isModule,
-        matchPath,
-      );
-      return {
-        ...args,
-        code: str.toString(),
-        map: str.generateMap({
-          hires: true,
-          includeContent: true,
-        }),
-      };
+      return args;
     });
   },
 };
