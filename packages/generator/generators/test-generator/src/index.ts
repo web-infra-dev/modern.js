@@ -1,8 +1,8 @@
-import path from 'path';
 import {
   isTsProject,
   getPackageManager,
   getPackageManagerText,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
@@ -13,15 +13,6 @@ import {
   Language,
 } from '@modern-js/generator-common';
 import { localeKeys, i18n } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const handleTemplateFile = async (
   context: GeneratorContext,
