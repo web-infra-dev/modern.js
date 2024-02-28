@@ -1,9 +1,9 @@
 import { join, dirname, relative, resolve } from 'path';
 import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
+import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
 import { ts } from '@ast-grep/napi';
-import deepMerge from '../../compiled/deepmerge';
 import type {
   ITsconfig,
   GeneratorDtsConfig,
@@ -62,7 +62,8 @@ export const getProjectTsconfig = async (
 
   const parentTsConfigs = await Promise.all(resolveParentTsConfigPromises);
 
-  return deepMerge(...parentTsConfigs, tsConfig);
+  // current tsconfig has the highest priority
+  return deepMerge({}, ...parentTsConfigs, tsConfig);
 };
 
 export async function detectTSVersion(appDirectory?: string) {
