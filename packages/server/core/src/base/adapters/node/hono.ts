@@ -12,6 +12,7 @@ type NodeBindings = {
   node: {
     req: NodeRequest & {
       __honoRequest: HonoRequest;
+      __templates: Record<string, string>;
     };
     res: NodeResponse;
   };
@@ -39,6 +40,7 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     const { req, res } = context.env.node;
     // for bff.enableHandleWeb
     req.__honoRequest = context.req;
+    req.__templates = context.get('templates') || {};
     await handler(req, res);
     if (res.headersSent) {
       context.finalized = true;

@@ -17,6 +17,7 @@ import registerRoutes from './registerRoutes';
 declare module 'http' {
   interface IncomingMessage {
     __honoRequest: Request;
+    __templates: Record<string, string>;
   }
 }
 
@@ -104,6 +105,7 @@ const createApp = async ({
       const response = await render(ctx.req.__honoRequest, {
         logger,
         nodeReq: ctx.req,
+        tpls: ctx.req.__templates,
       });
 
       if (response) {
