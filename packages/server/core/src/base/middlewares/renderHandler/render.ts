@@ -8,7 +8,6 @@ import { ssrRender } from './ssrRender';
 interface CreateRenderOptions {
   routes: ServerRoute[];
   pwd: string;
-  templates: Record<string, string>;
   staticGenerate?: boolean;
   metaName?: string;
   forceCSR?: boolean;
@@ -22,9 +21,8 @@ export function createRender({
   staticGenerate,
   forceCSR,
   nonce,
-  templates,
 }: CreateRenderOptions): Render {
-  return async (req, { logger, nodeReq, reporter }) => {
+  return async (req, { logger, nodeReq, reporter, tpls }) => {
     const routeInfo = matchRoute(req, routes);
 
     if (!routeInfo) {
@@ -36,7 +34,7 @@ export function createRender({
       });
     }
 
-    const html = templates[routeInfo.entryName!];
+    const html = tpls[routeInfo.entryName!];
 
     if (!html) {
       throw new Error(`Can't found entry ${routeInfo.entryName!} html `);

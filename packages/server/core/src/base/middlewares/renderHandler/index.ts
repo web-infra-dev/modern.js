@@ -14,14 +14,19 @@ function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
     const reporter = c.get('reporter');
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
+    const templates = c.get('templates');
 
-    const res = await render(request, { logger, nodeReq, reporter });
+    const res = await render(request, {
+      logger,
+      nodeReq,
+      reporter,
+      tpls: templates || {},
+    });
     return res;
   };
 }
 
 export type BindRenderHandleOptions = {
-  templates: Record<string, string>;
   metaName?: string;
   staticGenerate?: boolean;
 };
@@ -29,7 +34,7 @@ export type BindRenderHandleOptions = {
 export function getRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { routes, pwd, config, templates } = options;
+  const { routes, pwd, config } = options;
   if (routes && routes.length > 0) {
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
@@ -37,7 +42,6 @@ export function getRenderHandler(
       routes,
       pwd,
       staticGenerate: options.staticGenerate,
-      templates,
       metaName: options.metaName || 'modern-js',
       forceCSR,
       nonce: options.config.security?.nonce,

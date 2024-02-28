@@ -20,6 +20,7 @@ declare global {
     interface Request {
       // eslint-disable-next-line node/no-unsupported-features/es-builtins
       __honoRequest: globalThis.Request;
+      __templates: Record<string, string>;
     }
   }
 }
@@ -118,6 +119,7 @@ const createApp = async ({
       const response = await render(req.__honoRequest, {
         logger,
         nodeReq: req,
+        tpls: req.__templates,
       });
       if (response) {
         return sendResponse(response, res).then(next);
