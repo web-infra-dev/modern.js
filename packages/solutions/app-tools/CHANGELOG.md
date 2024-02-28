@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.48.0
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+- Updated dependencies [ecaf916]
+- Updated dependencies [0b44ddb]
+- Updated dependencies [c323a23]
+  - @modern-js/uni-builder@2.48.0
+  - @modern-js/prod-server@2.48.0
+  - @modern-js/utils@2.48.0
+  - @modern-js/core@2.48.0
+  - @modern-js/server@2.48.0
+  - @modern-js/plugin-data-loader@2.48.0
+  - @modern-js/plugin-i18n@2.48.0
+  - @modern-js/plugin-lint@2.48.0
+  - @modern-js/server-core@2.48.0
+  - @modern-js/server-utils@2.48.0
+  - @modern-js/node-bundle-require@2.48.0
+  - @modern-js/plugin@2.48.0
+  - @modern-js/types@2.48.0
+
 ## 2.47.1
 
 ### Patch Changes

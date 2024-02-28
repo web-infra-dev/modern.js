@@ -1,5 +1,14 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [d109126]
+- Updated dependencies [c323a23]
+  - @modern-js/module-tools@2.48.0
+  - @modern-js/plugin-module-babel@2.48.0
+
 ## 2.47.1
 
 ### Patch Changes
