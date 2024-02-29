@@ -1,5 +1,14 @@
 # @modern-js/router-v5-generator
 
+## 3.3.11
+
+### Patch Changes
+
+- c246812: chore(generator): extract getGeneratorPath function to generator-utils
+  fechoreat(generator): 提取 getGeneratorPath 方法到 generator-utils 公共包
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+
 ## 3.3.10
 
 ### Patch Changes
