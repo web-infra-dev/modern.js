@@ -35,8 +35,6 @@ const defaultReporter: Reporter = {
 
 interface SSRRenderOptions {
   pwd: string;
-  // FIXME: remove mode.
-  mode: 'string' | 'stream';
   html: string;
   routeInfo: ServerRoute;
   staticGenerate: boolean;
@@ -118,7 +116,7 @@ export async function ssrRender(
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: reporter || defaultReporter,
     /** @deprecated node req */
-    req: undefined,
+    req: nodeReq,
     /** @deprecated node res  */
     res: undefined,
     isSpider,

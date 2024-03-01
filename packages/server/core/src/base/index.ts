@@ -18,6 +18,8 @@ export {
   bindBFFHandler,
   registerMockHandlers,
   createInjectHtml,
+  type ServerNodeContext,
+  type ServerNodeMiddleware,
 } from './adapters/node';
 
 export {
