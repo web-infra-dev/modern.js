@@ -80,7 +80,6 @@
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "6.1.0",
     "sass": "1.54.4",
-    "schema-utils3": "npm:schema-utils@3.1.1",
     "semver": "7.6.0",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",
