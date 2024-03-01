@@ -92,7 +92,9 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "rspress": "0.0.0-next-20240301060745",
+      "@rspress/shared": "0.0.0-next-20240301060745"
     },
     "peerDependencyRules": {
       "allowedVersions": {
