@@ -51,7 +51,6 @@ export function createRender({
       ? csrRender(html)
       : ssrRender(req, {
           pwd,
-          mode: 'string',
           html,
           routeInfo,
           staticGenerate: staticGenerate || false,
