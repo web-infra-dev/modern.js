@@ -1,15 +1,9 @@
 import './react-devtools-backend';
 import './state';
 import { createRoot } from 'react-dom/client';
-import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
+import { globals } from '@modern-js/devtools-kit/runtime';
 import styles from './index.module.scss';
 import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
-
-declare global {
-  interface Window {
-    __MODERN_JS_DEVTOOLS_OPTIONS__: SetupClientParams;
-  }
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   const outer = document.createElement('div');
@@ -32,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   );
   shadow.appendChild(container);
 
-  const options = window.__MODERN_JS_DEVTOOLS_OPTIONS__;
   const root = createRoot(container);
-  root.render(<DevtoolsCapsule {...options} />);
+  root.render(<DevtoolsCapsule {...globals.options} />);
 });
