@@ -24,7 +24,6 @@ export {
 
 export {
   favionFallbackMiddleware,
-  bindDataHandlers,
   injectReporter,
   getRenderHandler,
   injectLogger,

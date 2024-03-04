@@ -25,13 +25,15 @@ export const bindBFFHandler = async (
 
   const webOnly = await isWebOnly();
   let handler: ServerNodeMiddleware;
-  const renderHandler = getRenderHandler(options);
   if (webOnly) {
     handler = async (c, next) => {
       c.body('');
       await next();
     };
   } else {
+    const renderHandler = enableHandleWeb
+      ? await getRenderHandler(options)
+      : null;
     handler = await server.runner.prepareApiServer(
       {
         pwd: options.pwd,
@@ -43,12 +45,14 @@ export const bindBFFHandler = async (
     );
   }
 
-  // In order to support bff.enableHandleWeb, this should be a global middleware
-  server.all(`*`, (c, next) => {
-    if (!c.req.path.startsWith(prefix) && !enableHandleWeb) {
-      return next();
-    } else {
-      return handler(c, next);
-    }
-  });
+  if (handler) {
+    // In order to support bff.enableHandleWeb, this should be a global middleware
+    server.all(`*`, (c, next) => {
+      if (!c.req.path.startsWith(prefix) && !enableHandleWeb) {
+        return next();
+      } else {
+        return handler(c, next);
+      }
+    });
+  }
 };

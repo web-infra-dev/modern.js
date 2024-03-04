@@ -22,6 +22,7 @@ function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
       reporter,
       tpls: templates || {},
     });
+
     return res;
   };
 }
@@ -31,7 +32,7 @@ export type BindRenderHandleOptions = {
   staticGenerate?: boolean;
 };
 
-export function getRenderHandler(
+export async function getRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
   const { routes, pwd, config } = options;
@@ -96,8 +97,8 @@ export async function bindRenderHandler(
       server.use(urlPath, customServerMiddleware);
     }
 
-    const render = getRenderHandler(options);
+    const render = await getRenderHandler(options);
 
-    render && server.get('*', createRenderHandler(render));
+    render && server.all('*', createRenderHandler(render));
   }
 }

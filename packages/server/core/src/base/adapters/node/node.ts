@@ -29,7 +29,11 @@ export const createWebRequest = (
   };
   res.on('close', () => controller.abort());
 
-  if (!(method === 'GET' || method === 'HEAD')) {
+  // TODO: Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here now.
+  if (
+    !(method === 'GET' || method === 'HEAD') &&
+    req.url?.includes('__loader')
+  ) {
     init.body = createReadableStreamFromReadable(req);
     (init as { duplex: 'half' }).duplex = 'half';
   }

@@ -123,4 +123,19 @@ describe('should render html correctly', () => {
     ).then(res => res.text());
     expect(html3).toMatch(/Hello Modern/);
   });
+
+  it('support serve data', async () => {
+    const ssrPwd = path.join(pwd, 'ssr');
+
+    const server = await createSSRServer(ssrPwd);
+
+    const response = await server.request('/?__loader=page', {}, {});
+    const text = await response.text();
+
+    expect(text).toBe('handle main');
+
+    const response2 = await server.request('/user?__loader=layout', {}, {});
+    const text2 = await response2.text();
+    expect(text2).toBe('handle user');
+  });
 });

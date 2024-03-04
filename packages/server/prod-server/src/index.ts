@@ -6,7 +6,6 @@ import {
   createStaticMiddleware,
   bindRenderHandler,
   favionFallbackMiddleware,
-  bindDataHandlers,
   injectReporter,
   injectLogger,
   createErrorHtml,
@@ -80,7 +79,6 @@ export const initProdMiddlewares = async (
   server.get('*', favionFallbackMiddleware);
 
   await bindBFFHandler(server, options);
-  await bindDataHandlers(server, routes || [], pwd);
 
   await bindRenderHandler(server, options);
 

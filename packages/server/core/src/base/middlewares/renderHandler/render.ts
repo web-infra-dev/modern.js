@@ -3,6 +3,7 @@ import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '../../../core/render';
 import { parseQuery } from '../../utils/request';
 import { createErrorHtml, sortRoutes } from '../../utils';
+import { dataHandler } from './dataHandler';
 import { ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -14,14 +15,14 @@ interface CreateRenderOptions {
   nonce?: string;
 }
 
-export function createRender({
+export async function createRender({
   routes,
   pwd,
   metaName,
   staticGenerate,
   forceCSR,
   nonce,
-}: CreateRenderOptions): Render {
+}: CreateRenderOptions): Promise<Render> {
   return async (req, { logger, nodeReq, reporter, tpls }) => {
     const routeInfo = matchRoute(req, routes);
 
@@ -47,19 +48,36 @@ export function createRender({
       forceCSR,
     );
 
-    return renderMode === 'csr'
-      ? csrRender(html)
-      : ssrRender(req, {
-          pwd,
-          html,
-          routeInfo,
-          staticGenerate: staticGenerate || false,
-          metaName: metaName || 'modern-js',
-          nonce,
-          logger,
-          nodeReq,
-          reporter,
-        });
+    const renderOptions = {
+      pwd,
+      mode: 'string',
+      html,
+      routeInfo,
+      staticGenerate: staticGenerate || false,
+      metaName: metaName || 'modern-js',
+      nonce,
+      logger,
+      nodeReq,
+      reporter,
+      serverRoutes: routes,
+    };
+
+    switch (renderMode) {
+      case 'data':
+        // eslint-disable-next-line no-case-declarations
+        let response = await dataHandler(req, renderOptions);
+        if (!response) {
+          response = await ssrRender(req, renderOptions);
+        }
+
+        return response;
+      case 'ssr':
+        return ssrRender(req, renderOptions);
+      case 'csr':
+        return csrRender(html);
+      default:
+        throw new Error(`Unknown render mode: ${renderMode}`);
+    }
   };
 }
 
@@ -84,10 +102,13 @@ function getRenderMode(
   framework: string,
   isSSR?: boolean,
   forceCSR?: boolean,
-): 'ssr' | 'csr' {
+): 'ssr' | 'csr' | 'data' {
   const query = parseQuery(req);
 
   if (isSSR) {
+    if (query.__loader) {
+      return 'data';
+    }
     if (
       forceCSR &&
       (query.csr ||
