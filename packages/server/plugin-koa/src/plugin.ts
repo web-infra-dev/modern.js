@@ -49,6 +49,19 @@ const initMiddlewares = (
   });
 };
 
+const defaultErrorHandler: Middleware = async (ctx, next) => {
+  ctx.onerror = err => {
+    if (err === null) {
+      return;
+    }
+    ctx.app.emit('error', err, ctx);
+    if (!ctx.res.headersSent) {
+      throw err;
+    }
+  };
+  await next();
+};
+
 const createApp = async ({
   apiDir,
   middlewares,
@@ -69,6 +82,7 @@ const createApp = async ({
     app = await findAppModule(apiDir);
     if (!(app instanceof Koa)) {
       app = new Koa();
+      app.use(defaultErrorHandler);
       app.use(
         koaBody({
           multipart: true,
@@ -84,6 +98,7 @@ const createApp = async ({
     registerRoutes(router, apiHandlerInfos);
   } else if (mode === 'function') {
     app = new Koa();
+    app.use(defaultErrorHandler);
     app.use(
       koaBody({
         multipart: true,
@@ -159,8 +174,8 @@ export default (): ServerPlugin => {
           render: renderHtml,
         });
 
-        const callback = (req: IncomingMessage, res: ServerResponse) => {
-          return Promise.resolve(app.callback()(req, res));
+        const callback = async (req: IncomingMessage, res: ServerResponse) => {
+          return app.callback()(req, res);
         };
 
         return httpCallBack2HonoMid(callback);

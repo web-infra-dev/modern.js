@@ -16,6 +16,11 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
+const isHtmlResponse = (response: Response) => {
+  const contentType = response.headers.get('content-type');
+  return contentType?.includes('text/html');
+};
+
 export class CustomServer {
   private runner: ServerHookRunner;
 
@@ -95,7 +100,7 @@ export class CustomServer {
 
       await next();
 
-      if (c.finalized && !c.res.body) {
+      if (c.finalized && (!c.res.body || !isHtmlResponse(c.res))) {
         // We shouldn't handle response.body, if response body == null
         return undefined;
       }

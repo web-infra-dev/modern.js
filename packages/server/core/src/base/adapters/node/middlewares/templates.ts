@@ -29,7 +29,6 @@ export function createInjectHtml(
   return async (c, next) => {
     if (!c.get('templates') && routes) {
       const templates = await getHtmlTemplates(pwd, routes);
-
       c.set('templates', templates);
     }
 

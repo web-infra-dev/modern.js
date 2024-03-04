@@ -33,7 +33,7 @@ const defaultReporter: Reporter = {
   },
 };
 
-interface SSRRenderOptions {
+export interface SSRRenderOptions {
   pwd: string;
   html: string;
   routeInfo: ServerRoute;

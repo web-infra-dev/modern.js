@@ -69,7 +69,7 @@ export const handleRequest = async ({
   routes: NestedRoute[];
   context: {
     logger: Logger;
-    reporter: Reporter;
+    reporter?: Reporter;
   };
 }): Promise<Response | void> => {
   // eslint-disable-next-line node/prefer-global/url
@@ -134,6 +134,8 @@ export const handleRequest = async ({
             },
           });
     }
+    const cost = end();
+    reporter?.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
     const message = isRouteErrorResponse(error) ? error.data : String(error);
     if (error instanceof Error) {
@@ -150,8 +152,6 @@ export const handleRequest = async ({
     });
   }
 
-  const cost = end();
-  reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
   // eslint-disable-next-line consistent-return
   return response as unknown as Response;
 };
