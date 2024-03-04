@@ -73,7 +73,7 @@
     "enhanced-resolve": "5.12.0",
     "esbuild": "0.19.2",
     "magic-string": "0.30.5",
-    "postcss": "8.4.31",
+    "postcss": "^8.4.35",
     "postcss-modules": "4.3.0",
     "safe-identifier": "0.4.2",
     "source-map": "0.7.4",
