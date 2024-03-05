@@ -28,7 +28,6 @@ export const MWAActionFunctions = [
   ActionFunction.Test,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
-  ActionFunction.Storybook,
   ActionFunction.StorybookV7,
 ];
 
@@ -88,10 +87,7 @@ export const getMWANewActionSchema = (
         title: ActionTypeQuestionText[ActionType.Function](),
         enum: funcs.map(func => ({
           value: func,
-          label:
-            func === ActionFunction.Storybook
-              ? i18n.t(localeKeys.action.function.mwa_storybook)
-              : ActionFunctionText[func](),
+          label: ActionFunctionText[func](),
         })),
         'x-reactions': [
           {
@@ -131,7 +127,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
-  [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
   [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -179,7 +174,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
-    [ActionFunction.Storybook]: '@modern-js/dependence-generator',
     [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
@@ -203,7 +197,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
     [ActionFunction.Test]: 'testingPlugin',
-    [ActionFunction.Storybook]: 'storybookPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
     [ActionFunction.Proxy]: 'proxyPlugin',
@@ -226,7 +219,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.BFF]: '@modern-js/plugin-bff',
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
     [ActionFunction.Test]: '@modern-js/plugin-testing',
-    [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',

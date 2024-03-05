@@ -66,7 +66,6 @@ sidebar_position: 3
 
 - 启用「全局代理」 -- proxy
 
-- 启用「Visual Testing (Storybook)」模式 -- mwa_storybook
 
 ### bffType
 
