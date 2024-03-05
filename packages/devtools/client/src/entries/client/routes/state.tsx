@@ -7,16 +7,8 @@ import {
 } from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
-import {
-  HiOutlineAcademicCap,
-  HiOutlineAdjustmentsHorizontal,
-  HiOutlineCube,
-  HiOutlineHome,
-  HiOutlineRectangleGroup,
-} from 'react-icons/hi2';
-import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { stringifyParsedURL } from 'ufo';
-import { proxy, ref } from 'valtio';
+import { proxy } from 'valtio';
 import {
   MountPointFunctions,
   ClientFunctions as ToMountPointFunctions,
@@ -97,56 +89,7 @@ export const $bundler = proxy({
   },
 });
 
-export const $tabs = proxy<Tab[]>([
-  {
-    name: 'overview',
-    title: 'Overview',
-    icon: ref(<HiOutlineHome />),
-    view: { type: 'builtin', src: '/overview' },
-  },
-  {
-    name: 'config',
-    title: 'Config',
-    icon: ref(<HiOutlineAdjustmentsHorizontal />),
-    view: { type: 'builtin', src: '/config' },
-  },
-  {
-    name: 'pages',
-    title: 'Pages',
-    icon: ref(<HiOutlineRectangleGroup />),
-    view: { type: 'builtin', src: '/pages' },
-  },
-  {
-    name: 'react',
-    title: 'React',
-    icon: ref(<RiReactjsLine />),
-    view: { type: 'builtin', src: '/react' },
-  },
-  {
-    name: 'context',
-    title: 'Context',
-    icon: ref(<HiOutlineCube />),
-    view: { type: 'builtin', src: '/context' },
-  },
-  {
-    name: 'headers',
-    title: 'Header Modifier',
-    icon: ref(<HiOutlineAcademicCap />),
-    view: { type: 'builtin', src: '/headers' },
-  },
-  {
-    name: 'doctor',
-    title: 'Doctor',
-    icon: ref(<RiShieldCrossLine />),
-    view: { type: 'builtin', src: '/doctor' },
-  },
-  {
-    name: 'foo',
-    title: 'Foo',
-    icon: ref(<RiShieldCrossLine />),
-    view: { type: 'external', component: () => <div>hello</div> },
-  },
-]);
+export const $tabs = proxy<Tab[]>([]);
 
 export const VERSION = process.env.PKG_VERSION;
 
@@ -160,6 +103,7 @@ export const $definition = proxy({
   assets: _definitionTask.then(def => def.assets),
   announcement: _definitionTask.then(def => def.announcement),
   doctor: _definitionTask.then(def => def.doctor),
+  plugins: _definitionTask.then(def => def.plugins),
 });
 
 export const _dependenciesTask = $server.then(({ remote }) =>
