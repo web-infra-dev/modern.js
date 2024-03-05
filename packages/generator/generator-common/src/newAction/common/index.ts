@@ -18,7 +18,6 @@ export enum ActionFunction {
   I18n = 'i18n',
   Test = 'test',
   E2ETest = 'e2e_test',
-  Storybook = 'storybook',
   StorybookV7 = 'storybookV7',
   RuntimeApi = 'runtimeApi',
   SSG = 'ssg',
@@ -58,8 +57,6 @@ export const ActionFunctionText: Record<ActionFunction, () => string> = {
   [ActionFunction.I18n]: () => i18n.t(localeKeys.action.function.i18n),
   [ActionFunction.Test]: () => i18n.t(localeKeys.action.function.test),
   [ActionFunction.E2ETest]: () => i18n.t(localeKeys.action.function.e2e_test),
-  [ActionFunction.Storybook]: () =>
-    i18n.t(localeKeys.action.function.storybook),
   [ActionFunction.StorybookV7]: () =>
     i18n.t(localeKeys.action.function.storybookV7),
   [ActionFunction.RuntimeApi]: () =>

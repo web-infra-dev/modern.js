@@ -66,8 +66,6 @@ Options:
 
 - Enable Global Proxy -- proxy
 
-- Enable Visual Testing (Storybook) -- mwa_storybook
-
 ### bffType
 
 Question: Please select the BFF type
