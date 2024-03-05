@@ -6,7 +6,7 @@ import type {
 } from '../core/server';
 import { ServerBase } from './serverBase';
 
-export { createErrorHtml } from './utils';
+export { createErrorHtml, getHtmlTemplates } from './utils';
 export { AGGRED_DIR } from './constants';
 export {
   httpCallBack2HonoMid,
@@ -18,6 +18,7 @@ export {
   bindBFFHandler,
   registerMockHandlers,
   createInjectHtml,
+  createWebRequest,
   type ServerNodeContext,
   type ServerNodeMiddleware,
 } from './adapters/node';
