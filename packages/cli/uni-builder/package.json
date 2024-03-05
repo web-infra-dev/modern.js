@@ -33,7 +33,6 @@
     "@babel/types": "^7.23.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/server": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@rsbuild/babel-preset": "0.4.11",
     "@rsbuild/core": "0.4.11",
@@ -78,6 +77,7 @@
   },
   "devDependencies": {
     "@rsbuild/plugin-swc": "0.4.11",
+    "@modern-js/prod-server": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/lodash": "^4.14.202",

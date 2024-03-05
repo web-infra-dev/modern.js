@@ -261,8 +261,10 @@ export async function parseCommonConfig(
   }
 
   if (templateParametersByEntries) {
-    extraConfig.html.templateParameters = (_, { entryName }) =>
-      templateParametersByEntries[entryName];
+    extraConfig.html.templateParameters = (defaultValue, { entryName }) => ({
+      ...defaultValue,
+      ...(templateParametersByEntries[entryName] || {}),
+    });
   }
 
   extraConfig.tools ??= {};

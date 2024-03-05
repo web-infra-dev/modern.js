@@ -38,6 +38,7 @@
     "@modern-js/utils": "workspace:*",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.1.13",
+    "type-fest": "2.15.0",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
@@ -50,7 +51,6 @@
     "jest": "^29",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
-    "type-fest": "2.15.0",
     "typescript": "^5",
     "zod": "^3.22.3"
   },

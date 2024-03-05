@@ -637,9 +637,6 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../server/prod-server
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
@@ -770,6 +767,9 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(html-webpack-plugin@5.5.3)(webpack@5.89.0)
     devDependencies:
+      '@modern-js/prod-server':
+        specifier: workspace:*
+        version: link:../../server/prod-server
       '@rsbuild/plugin-swc':
         specifier: 0.4.11
         version: 0.4.11(@rsbuild/core@0.4.11)
@@ -3286,6 +3286,9 @@ importers:
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.13
+      type-fest:
+        specifier: 2.15.0
+        version: 2.15.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -3314,9 +3317,6 @@ importers:
       tsconfig-paths:
         specifier: ^4.1.2
         version: 4.1.2
-      type-fest:
-        specifier: 2.15.0
-        version: 2.15.0
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -31394,7 +31394,6 @@ packages:
   /type-fest@2.15.0:
     resolution: {integrity: sha512-hpsXfQZrAiusX8KMY5HXSEV7xqGAGxFQoNDT+iW0yJE/bdYG0uMlRaUG0kNAUbF5p6Cq5Kuf69lm4M569QtRGw==}
     engines: {node: '>=12.20'}
-    dev: true
 
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
