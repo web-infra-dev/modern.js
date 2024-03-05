@@ -57,6 +57,7 @@ describe('test build', () => {
     await curSequence.waitUntil('dev');
     port = await getPort();
 
+    process.env.DEBUG = 'rsbuild';
     buildRes = await modernBuild(appDir);
 
     app = await modernServe(appDir, port, {
@@ -66,12 +67,20 @@ describe('test build', () => {
 
   afterAll(async () => {
     await killApp(app);
+    delete process.env.DEBUG;
   });
 
   test(`should get right alias build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/main/index.html')).toBe(true);
+  });
+
+  test(`should not use babel-loader`, async () => {
+    const configPath = path.join(appDir, 'dist', 'rspack.config.web.mjs');
+    const configContent = fs.readFileSync(configPath, { encoding: 'utf-8' });
+
+    expect(configContent.includes('babel-loader')).toBeFalsy();
   });
 
   test('should support enableInlineScripts', async () => {
