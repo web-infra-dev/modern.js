@@ -56,6 +56,8 @@ export class ClientDefinition {
   doctor: DoctorDefinition = new DoctorDefinition();
 
   announcement: AnnouncementDefinition = new AnnouncementDefinition();
+
+  plugins: string[] = [];
 }
 
 export interface IframeTabView {

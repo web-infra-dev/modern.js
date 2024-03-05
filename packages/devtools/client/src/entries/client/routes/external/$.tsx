@@ -1,6 +1,6 @@
 import { ExternalTabView, Tab } from '@modern-js/devtools-kit/runtime';
 import { Route, Routes } from '@modern-js/runtime/router';
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useSnapshot } from 'valtio';
 import { $tabs } from '../state';
 
@@ -15,12 +15,7 @@ const Page: FC = () => {
   return (
     <Routes>
       {externalTabs.map(tab => (
-        <Route
-          key={tab.name}
-          path={tab.name}
-          handle={{ breadcrumb: { title: tab.title } }}
-          element={React.createElement(tab.view.component)}
-        />
+        <Route key={tab.name} path={tab.name} Component={tab.view.component} />
       ))}
     </Routes>
   );

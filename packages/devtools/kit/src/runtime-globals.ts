@@ -1,5 +1,4 @@
 import { Hookable } from 'hookable';
-import { ReactNode } from 'react';
 import { Tab } from './node';
 
 declare global {
@@ -11,7 +10,6 @@ declare global {
 export const RUNTIME_GLOBALS = '__modern_js_global';
 
 export interface GlobalHooks {
-  'tab:render': () => ReactNode;
   'tab:list': (tabs: Tab[]) => void;
 }
 
