@@ -30,8 +30,8 @@ import {
   type RsbuildConfig,
   type WebpackConfig,
   type RspackConfig,
-  mergeRsbuildConfig,
 } from '@rsbuild/shared';
+import { mergeRsbuildConfig } from '@rsbuild/core';
 
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';

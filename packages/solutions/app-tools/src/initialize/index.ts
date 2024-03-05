@@ -44,9 +44,11 @@ export default ({
         bundlerType: bundler,
       });
 
-      return checkIsLegacyConfig(userConfig)
-        ? (createLegacyDefaultConfig(appContext) as unknown as AppUserConfig)
-        : createDefaultConfig(appContext);
+      return (checkIsLegacyConfig(userConfig)
+        ? createLegacyDefaultConfig(appContext)
+        : createDefaultConfig(
+            appContext,
+          )) as unknown as AppUserConfig<'shared'>;
     };
 
     return {

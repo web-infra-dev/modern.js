@@ -1,10 +1,6 @@
 import * as path from 'path';
-import {
-  isHtmlDisabled,
-  RsbuildPlugin,
-  BundlerChain,
-  mergeRsbuildConfig,
-} from '@rsbuild/shared';
+import { isHtmlDisabled, RsbuildPlugin, BundlerChain } from '@rsbuild/shared';
+import { mergeRsbuildConfig } from '@rsbuild/core';
 import { isSSR, fs } from '@modern-js/utils';
 import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import type {
