@@ -10,7 +10,7 @@ declare global {
 export const RUNTIME_GLOBALS = '__modern_js_global';
 
 export interface GlobalHooks {
-  'tab:list': (tabs: Tab[]) => Promise<Tab[]>;
+  'tab:list': (tabs: Tab[]) => void;
 }
 
 export type RuntimeGlobals = Hookable<GlobalHooks>;
