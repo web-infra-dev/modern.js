@@ -1,5 +1,20 @@
 # @modern-js/prod-server
 
+## 2.48.0
+
+### Minor Changes
+
+- 0b44ddb: feat: support `x-render-cache` response headers when open ssr cache
+  feat: 当开启 ssr 缓存时，支持 `x-render-cache` 响应头
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/server-core@2.48.0
+  - @modern-js/plugin@2.48.0
+  - @modern-js/runtime-utils@2.48.0
+
 ## 2.47.1
 
 ### Patch Changes

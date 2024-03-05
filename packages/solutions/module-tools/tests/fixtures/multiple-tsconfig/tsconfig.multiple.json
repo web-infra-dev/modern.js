@@ -1,0 +1,3 @@
+{
+  "extends": ["./inner/tsconfig.base.json", "./inner/tsconfig.build.json"]
+}

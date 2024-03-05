@@ -1,5 +1,6 @@
 import { join, dirname, relative, resolve } from 'path';
 import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
+import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
 import { ts } from '@ast-grep/napi';
@@ -19,12 +20,63 @@ type MatchModule = {
 
 export const getProjectTsconfig = async (
   tsconfigPath: string,
+  resolutionContext: Record<string, boolean> = {},
 ): Promise<ITsconfig> => {
   if (!fs.existsSync(tsconfigPath)) {
     return {};
   }
 
-  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+  // circular dependency
+  const absolutePath = resolve(tsconfigPath);
+  if (resolutionContext[absolutePath]) {
+    return {};
+  }
+  resolutionContext[absolutePath] = true;
+
+  const tsConfig: ITsconfig = await json5.parse(
+    fs.readFileSync(tsconfigPath, 'utf-8'),
+  );
+
+  if (!tsConfig.extends) {
+    return tsConfig;
+  }
+
+  // recursively resolve extended tsconfig
+  // "extends" may be a string or string array (extending many tsconfigs)
+  const extendsResolutionTarget =
+    tsConfig.extends instanceof Array ? tsConfig.extends : [tsConfig.extends];
+
+  const resolveParentTsConfigPromises = extendsResolutionTarget.map(
+    async target => {
+      let parentTsconfigPath: string;
+      try {
+        // Likely extending from a npm package, use require.resolve to resolve it.
+        // If `require.resolve` resolved a path that is not a JSON file,
+        // we infer that the requested "target" may be a npm package name,
+        // thus we try to resolve target/tsconfig.json.
+        //
+        // for example:
+        //   "extends": "@modern-js/module-tools" may resolved to src/index.ts
+        // but actually we should resolve: "@modern-js/module-tools/tsconfig.json"
+        //
+        // Note: This only works with packages that has no "export" field
+        // defined in package.json.
+        parentTsconfigPath = require.resolve(target);
+        if (!parentTsconfigPath.endsWith('.json')) {
+          parentTsconfigPath = require.resolve(`${target}/tsconfig.json`);
+        }
+      } catch {
+        // resolve file from current tsconfig's path
+        parentTsconfigPath = resolve(dirname(tsconfigPath), target);
+      }
+      return await getProjectTsconfig(parentTsconfigPath, resolutionContext);
+    },
+  );
+
+  const parentTsConfigs = await Promise.all(resolveParentTsConfigPromises);
+
+  // current tsconfig has the highest priority
+  return deepMerge({}, ...parentTsConfigs, tsConfig);
 };
 
 export async function detectTSVersion(appDirectory?: string) {

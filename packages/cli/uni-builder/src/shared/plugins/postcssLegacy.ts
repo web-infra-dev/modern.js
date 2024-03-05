@@ -41,13 +41,17 @@ export const pluginPostcssLegacy = (
           : false,
       ].filter(Boolean);
 
-      return mergeRsbuildConfig(config, {
-        tools: {
-          postcss: opts => {
-            opts.postcssOptions!.plugins!.push(...plugins);
+      return mergeRsbuildConfig(
+        {
+          tools: {
+            postcss: opts => {
+              opts.postcssOptions!.plugins!.push(...plugins);
+            },
           },
         },
-      });
+        // user config has higher priority than builtin config
+        config,
+      );
     });
   },
 });

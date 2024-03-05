@@ -184,3 +184,29 @@ export const cacheOption: CacheOption = {
   staleWhileRevalidate: 1000, // ms
 };
 ```
+
+## Cache Identification
+
+When the rendering cache is activated, Modern.js will identify the cache status of the current request through the response header `x-render-cache`.
+
+The following is an example of a response.
+
+```bash
+< HTTP/1.1 200 OK
+< Access-Control-Allow-Origin: *
+< content-type: text/html; charset=utf-8
+< x-render-cache: hit
+< Date: Thu, 29 Feb 2024 02:46:49 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Content-Length: 2937
+```
+
+The `x-render-cache` may have the following values.
+
+| Name    | Description                                                                |
+| ------- | -------------------------------------------------------------------------- |
+| hit     | Cache hit, returns cached content                                          |
+| stale   | Cache hit, but data is stale, returns cached content while rendering again |
+| expired | Cache hit, returns rendering result after re-rendering                     |
+| miss    | Cache miss                                                                 |

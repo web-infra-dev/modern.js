@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/uni-builder",
-  "version": "2.47.1",
+  "version": "2.48.0",
   "description": "Unified builder for Modern.js",
   "repository": {
     "type": "git",
@@ -61,6 +61,7 @@
     "glob": "^9.3.5",
     "html-webpack-plugin": "5.5.3",
     "lodash": "^4.17.21",
+    "postcss": "^8.4.35",
     "postcss-custom-properties": "13.1.5",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-font-variant": "5.0.0",

@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.48.0
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+
 ## 2.47.1
 
 ## 2.47.0
