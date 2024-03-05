@@ -10,7 +10,7 @@ export type Tailwindcss =
 
 type BuilderToolsConfig = UnwrapBuilderConfig<UniBuilderConfig, 'tools'>;
 
-export interface ToolsUserConfig<B extends Bundler>
+export interface ToolsUserConfig<B extends Bundler = 'webpack'>
   extends Omit<BuilderToolsConfig, 'swc'> {
   /**
    * Used to custom Tailwind CSS configurations.
