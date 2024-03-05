@@ -55,4 +55,4 @@ export default {
 };
 ```
 
-详细用法可参考 [Rsbuild#html.templateParameters](https://rsbuild.dev/zh/config/html/template-parameters)。
+详细用法可参考 [Rsbuild - html.templateParameters](https://rsbuild.dev/zh/config/html/template-parameters)。
