@@ -4306,6 +4306,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/core':
+        specifier: 0.4.11
+        version: 0.4.11(webpack@5.89.0)
       '@rsbuild/shared':
         specifier: 0.4.11
         version: 0.4.11(@swc/helpers@0.5.3)
