@@ -1,15 +1,11 @@
-import assert from 'assert';
 import http from 'http';
 import path from 'path';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import {
-  ClientDefinition,
-  ROUTE_BASENAME,
-  RUNTIME_GLOBALS,
-} from '@modern-js/devtools-kit/node';
+import assert from 'assert';
 import { ProxyDetail } from '@modern-js/types';
 import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import { DevtoolsPluginOptions, resolveContext } from './config';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
@@ -72,14 +68,10 @@ export const devtoolsPlugin = (
 
           // Inject options to client.
           const serializedOptions = JSON.stringify(ctx);
-          const _global = `window[${JSON.stringify(RUNTIME_GLOBALS)}]`;
           const tags: AppTools['normalizedConfig']['html']['tags'] = [
             {
               tag: 'script',
-              children: [
-                `${_global} = ${_global} || ${serializedOptions};`,
-                `${_global}.options = ${serializedOptions};`,
-              ].join(''),
+              children: `window.__MODERN_JS_DEVTOOLS_OPTIONS__ = ${serializedOptions};`,
               head: true,
               append: false,
             },

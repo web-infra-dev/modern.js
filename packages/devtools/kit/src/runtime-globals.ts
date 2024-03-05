@@ -1,10 +1,6 @@
-import type { SetupClientParams } from './mount-point';
-
-export const RUNTIME_GLOBALS = '__modern_js_global';
-
-export interface RuntimeGlobals {
-  options?: SetupClientParams;
-}
+import { Hookable } from 'hookable';
+import { ReactNode } from 'react';
+import { Tab } from './node';
 
 declare global {
   interface Window {
@@ -12,19 +8,19 @@ declare global {
   }
 }
 
-export const globals = {
-  get options() {
-    window[RUNTIME_GLOBALS] ||= {};
-    const { options } = window[RUNTIME_GLOBALS];
-    if (!options || typeof options !== 'object') {
-      throw new TypeError(
-        `Unexpected type of window.${RUNTIME_GLOBALS}.options.`,
-      );
-    }
-    return options;
-  },
-  set options(value: SetupClientParams) {
-    window[RUNTIME_GLOBALS] ||= {};
-    window[RUNTIME_GLOBALS].options = value;
-  },
+export const RUNTIME_GLOBALS = '__modern_js_global';
+
+export interface GlobalHooks {
+  'tab:render': () => ReactNode;
+  'tab:list': (tabs: Tab[]) => void;
+}
+
+export type RuntimeGlobals = Hookable<GlobalHooks>;
+
+export const getRuntimeGlobals = () => {
+  const globals = window[RUNTIME_GLOBALS];
+  if (!globals || typeof globals !== 'object') {
+    throw TypeError('RuntimeGlobals is not initialized');
+  }
+  return globals;
 };
