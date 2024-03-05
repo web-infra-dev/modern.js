@@ -22,7 +22,7 @@ export type DevServerOptions = {
     path?: string;
     port?: string;
     host?: string;
-    protocol?: string;
+    protocol?: 'ws' | 'wss';
   };
   /** Whether to enable gzip compression */
   compress?: boolean;

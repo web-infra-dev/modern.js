@@ -15,17 +15,35 @@ import SWC from '@modern-js/builder-doc/docs/zh/shared/swc.md';
 
 :::tip
 在使用 Rspack 作为打包工具时，默认会使用 SWC 进行转译和压缩，因此你不需要再安装和配置 SWC 插件。
-
-如果你使用 Rspack 时配置了当前的 SWC 插件，它将不会产生任何效果。
 :::
 
-## 安装
+## 在 Rspack 模式下使用
+
+通过 `tools.swc` 可以设置 Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader) 的选项。
+
+```
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  tools: {
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
+    },
+  },
+});
+```
+
+更多用法可参考 [Rsbuild#tools.swc](https://rsbuild.dev/zh/config/tools/swc)。
+
+## 在 Webpack 模式下使用
 
 import EnableSWC from '@modern-js/builder-doc/docs/zh/shared/enableSwc.md';
 
 <EnableSWC />
 
-## 配置项
+### 配置项
 
 你可以通过 `tools.swc` 配置项来设置 SWC 编译行为。
 

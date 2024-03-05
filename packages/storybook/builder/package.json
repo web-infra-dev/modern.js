@@ -56,7 +56,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/shared": "0.4.8",
+    "@rsbuild/shared": "0.4.11",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
