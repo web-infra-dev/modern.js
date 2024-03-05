@@ -12,10 +12,11 @@ export const pluginBabelPost = (): RsbuildPlugin => ({
     api.modifyBundlerChain({
       handler: async (chain, { CHAIN_ID }) => {
         if (chain.module.rules.get(CHAIN_ID.RULE.JS)) {
-          const babelLoaderOptions = chain.module
+          const { cacheIdentifier, ...babelLoaderOptions } = chain.module
             .rule(CHAIN_ID.RULE.JS)
             .use(CHAIN_ID.USE.BABEL)
             .get('options');
+
           const config = api.getNormalizedConfig();
 
           if (
