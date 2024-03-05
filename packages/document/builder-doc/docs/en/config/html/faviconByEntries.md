@@ -7,6 +7,10 @@ The usage is same as `favicon`, and you can use the "entry name" as the key to s
 
 `faviconByEntries` will overrides the value set in `favicon`.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the function usage of `favicon` instead.
+:::
+
 ### Example
 
 ```js

@@ -7,6 +7,10 @@
 
 `faviconByEntries` 的优先级高于 `favicon`，因此会覆盖 `favicon` 中设置的值。
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 `favicon` 的函数用法代替。
+:::
+
 ### 示例
 
 ```js

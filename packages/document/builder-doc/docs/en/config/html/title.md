@@ -1,4 +1,4 @@
-- **Type:** `string`
+- **Type:** `string ｜ Function`
 - **Default:** `undefined`
 
 Set the title tag of the HTML page, for example:
@@ -10,3 +10,5 @@ export default {
   },
 };
 ```
+
+For detailed usage, please refer to [Rsbuild - html.title](https://rsbuild.dev/config/html/title).

@@ -1,4 +1,4 @@
-- **类型：** `string`
+- **类型：** `string | Function`
 - **默认值：** `undefined`
 
 配置 HTML 页面的 title 标签，例如：
@@ -10,3 +10,5 @@ export default {
   },
 };
 ```
+
+详细用法可参考 [Rsbuild - html.title](https://rsbuild.dev/zh/config/html/title)。
