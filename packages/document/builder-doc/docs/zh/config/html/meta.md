@@ -1,9 +1,9 @@
-- **类型：** `Record<string, false | string | Record<string, string | boolean>>`
+- **类型：** `Object | Function`
 - **默认值：** `undefined`
 
 配置 HTML 页面的 `<meta>` 标签。
 
-### String 类型
+### 示例
 
 当 `meta` 对象的 `value` 为字符串时，会自动将对象的 `key` 映射为 `name`，`value` 映射为 `content`。
 
@@ -25,45 +25,4 @@ export default {
 <meta name="description" content="a description of the page" />
 ```
 
-### Object 类型
-
-当 `meta` 对象的 `value` 为对象时，会将该对象的 `key: value` 映射为 `meta` 标签的属性。
-
-这种情况下默认不会设置 `name` 和 `content` 属性。
-
-比如设置 `http-equiv`：
-
-```js
-export default {
-  html: {
-    meta: {
-      'http-equiv': {
-        'http-equiv': 'x-ua-compatible',
-        content: 'ie=edge',
-      },
-    },
-  },
-};
-```
-
-最终在 HTML 中生成的 `meta` 标签为：
-
-```html
-<meta http-equiv="x-ua-compatible" content="ie=edge" />
-```
-
-### 移除默认值
-
-将 `meta` 对象的 `value` 设置为 `false`，则表示不生成对应的 meta 标签。
-
-比如移除框架预设的 `imagemode`：
-
-```ts
-export default {
-  html: {
-    meta: {
-      imagemode: false,
-    },
-  },
-};
-```
+详细用法可参考 [Rsbuild - html.meta](https://rsbuild.dev/zh/config/html/meta)。

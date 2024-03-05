@@ -1,4 +1,4 @@
-- **类型：** `'head' | 'body'| 'true' | false`
+- **类型：** `'head' | 'body' | boolean | Function`
 - **默认值：** `'head'`
 
 修改构建产物中 `<script>` 标签在 HTML 中的插入位置。
@@ -55,3 +55,5 @@ export default {
   </body>
 </html>
 ```
+
+详细用法可参考 [Rsbuild - html.inject](https://rsbuild.dev/zh/config/html/inject)。

@@ -1,4 +1,4 @@
-- **Type:** `string`
+- **Type:** `string ｜ Function`
 - **Default:** `undefined`
 
 Set the favicon icon path for all pages, can be set as:
@@ -50,3 +50,5 @@ After recompiling, the following tags are automatically generated in the HTML:
 ```html
 <link rel="icon" href="/favicon.ico" />
 ```
+
+For detailed usage, please refer to [Rsbuild - html.favicon](https://rsbuild.dev/config/html/favicon).

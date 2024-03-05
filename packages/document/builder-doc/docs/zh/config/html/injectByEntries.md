@@ -7,6 +7,10 @@
 
 `injectByEntries` 的优先级高于 `inject`，因此会覆盖 `inject` 中设置的值。
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 `inject` 的函数用法代替。
+:::
+
 ### 示例
 
 ```js

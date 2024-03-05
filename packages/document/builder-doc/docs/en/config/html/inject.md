@@ -1,4 +1,4 @@
-- **Type:** `'head' | 'body' | 'true' | false`
+- **Type:** `'head' | 'body' | boolean | Function`
 - **Default:** `'head'`
 
 Set the inject position of the `<script>` tag.
@@ -55,3 +55,5 @@ You will see that the script tag is generated at the end of the body tag:
   </body>
 </html>
 ```
+
+For detailed usage, please refer to [Rsbuild - html.inject](https://rsbuild.dev/config/html/inject).
