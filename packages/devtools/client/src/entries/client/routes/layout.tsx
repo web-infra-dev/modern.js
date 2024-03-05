@@ -10,20 +10,22 @@ import {
   updateThemeAppearanceClass,
 } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
+import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
 import { $tabs } from './state';
 import { Theme } from '@/components/Theme';
-import { InternalTab } from '@/entries/client/types';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
 
-const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
+const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
   let to = '';
   if (tab.view.type === 'builtin') {
-    to = tab.view.url;
+    to = tab.view.src;
   } else if (tab.view.type === 'iframe') {
-    to = `/external/${tab.view.src}`;
+    to = `/iframe/${tab.view.src}`;
+  } else if (tab.view.type === 'external') {
+    to = `/external/${tab.name}`;
   } else {
     throw new Error(`Invalid tab view of "${tab.name}".`);
   }
@@ -81,7 +83,8 @@ const Navigator: React.FC = () => {
   return (
     <Flex direction="column" shrink="0" className={styles.navigator}>
       {tabs.map(tab => (
-        <NavigateButton key={tab.name} tab={tab as any} />
+        // @ts-expect-error
+        <NavigateButton key={tab.name} tab={tab} />
       ))}
       <Box grow="1" />
       <AppearanceButton />

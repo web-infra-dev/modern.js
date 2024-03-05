@@ -1,6 +1,7 @@
 import {
   MessagePortChannel,
   ServerFunctions,
+  Tab,
   ClientFunctions as ToServerFunctions,
   WebSocketChannel,
 } from '@modern-js/devtools-kit/runtime';
@@ -16,7 +17,6 @@ import {
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { stringifyParsedURL } from 'ufo';
 import { proxy, ref } from 'valtio';
-import { InternalTab } from '../types';
 import {
   MountPointFunctions,
   ClientFunctions as ToMountPointFunctions,
@@ -97,48 +97,54 @@ export const $bundler = proxy({
   },
 });
 
-export const $tabs = proxy<InternalTab[]>([
+export const $tabs = proxy<Tab[]>([
   {
     name: 'overview',
     title: 'Overview',
     icon: ref(<HiOutlineHome />),
-    view: { type: 'builtin', url: '/overview' },
+    view: { type: 'builtin', src: '/overview' },
   },
   {
     name: 'config',
     title: 'Config',
     icon: ref(<HiOutlineAdjustmentsHorizontal />),
-    view: { type: 'builtin', url: '/config' },
+    view: { type: 'builtin', src: '/config' },
   },
   {
     name: 'pages',
     title: 'Pages',
     icon: ref(<HiOutlineRectangleGroup />),
-    view: { type: 'builtin', url: '/pages' },
+    view: { type: 'builtin', src: '/pages' },
   },
   {
     name: 'react',
     title: 'React',
     icon: ref(<RiReactjsLine />),
-    view: { type: 'builtin', url: '/react' },
+    view: { type: 'builtin', src: '/react' },
   },
   {
     name: 'context',
     title: 'Context',
     icon: ref(<HiOutlineCube />),
-    view: { type: 'builtin', url: '/context' },
+    view: { type: 'builtin', src: '/context' },
   },
   {
     name: 'headers',
     title: 'Header Modifier',
     icon: ref(<HiOutlineAcademicCap />),
-    view: { type: 'builtin', url: '/headers' },
+    view: { type: 'builtin', src: '/headers' },
   },
   {
     name: 'doctor',
     title: 'Doctor',
     icon: ref(<RiShieldCrossLine />),
-    view: { type: 'builtin', url: '/doctor' },
+    view: { type: 'builtin', src: '/doctor' },
+  },
+  {
+    name: 'foo',
+    title: 'Foo',
+    icon: ref(<RiShieldCrossLine />),
+    view: { type: 'external', component: () => <div>hello</div> },
   },
 ]);
 
