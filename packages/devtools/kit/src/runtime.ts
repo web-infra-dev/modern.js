@@ -5,3 +5,4 @@ export * from './utils';
 export * from './constants';
 export * from './channel';
 export type * from './rsdoctor';
+export * from './runtime-globals';
