@@ -2070,52 +2070,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/generator/generators/storybook-generator:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../../toolkit/utils
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.3.5
-        version: 2.3.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.3.5
-        version: 2.3.5(@modern-js/codesmith@2.3.5)(typescript@5.3.3)
-      '@modern-js/codesmith-api-json':
-        specifier: 2.3.5
-        version: 2.3.5
-      '@modern-js/dependence-generator':
-        specifier: workspace:*
-        version: link:../dependence-generator
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2)
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
   packages/generator/generators/storybook-next-generator:
     devDependencies:
       '@modern-js/codesmith':
