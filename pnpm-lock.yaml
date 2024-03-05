@@ -3286,6 +3286,9 @@ importers:
       reflect-metadata:
         specifier: ^0.1.13
         version: 0.1.13
+      type-fest:
+        specifier: 2.15.0
+        version: 2.15.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -3314,9 +3317,6 @@ importers:
       tsconfig-paths:
         specifier: ^4.1.2
         version: 4.1.2
-      type-fest:
-        specifier: 2.15.0
-        version: 2.15.0
       typescript:
         specifier: ^5
         version: 5.3.3
@@ -4308,7 +4308,7 @@ importers:
         version: link:../../toolkit/utils
       '@rsbuild/shared':
         specifier: 0.4.8
-        version: 0.4.8
+        version: 0.4.8(@swc/helpers@0.5.3)
       '@rspack/plugin-react-refresh':
         specifier: 0.4.5
         version: 0.4.5
@@ -13759,16 +13759,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: true
-
-  /@rsbuild/shared@0.4.8:
-    resolution: {integrity: sha512-UYYCP5WmbgsNa06O5HOj8CZBD3lYU0EzoFvEtbtyjktaVO4jhQvuWYGA1RyEOyat6o8QkQU9i6RJlDh2yrS2Bg==}
-    dependencies:
-      '@rspack/core': 0.5.5(@swc/helpers@0.5.3)
-      caniuse-lite: 1.0.30001588
-      postcss: 8.4.35
-    transitivePeerDependencies:
-      - '@swc/helpers'
-    dev: false
 
   /@rsbuild/shared@0.4.8(@swc/helpers@0.5.3):
     resolution: {integrity: sha512-UYYCP5WmbgsNa06O5HOj8CZBD3lYU0EzoFvEtbtyjktaVO4jhQvuWYGA1RyEOyat6o8QkQU9i6RJlDh2yrS2Bg==}
@@ -31394,7 +31384,6 @@ packages:
   /type-fest@2.15.0:
     resolution: {integrity: sha512-hpsXfQZrAiusX8KMY5HXSEV7xqGAGxFQoNDT+iW0yJE/bdYG0uMlRaUG0kNAUbF5p6Cq5Kuf69lm4M569QtRGw==}
     engines: {node: '>=12.20'}
-    dev: true
 
   /type-fest@2.19.0:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
