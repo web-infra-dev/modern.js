@@ -637,9 +637,6 @@ importers:
       '@babel/types':
         specifier: ^7.23.0
         version: 7.23.6
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../server/prod-server
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
@@ -770,6 +767,9 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(html-webpack-plugin@5.5.3)(webpack@5.89.0)
     devDependencies:
+      '@modern-js/prod-server':
+        specifier: workspace:*
+        version: link:../../server/prod-server
       '@rsbuild/plugin-swc':
         specifier: 0.4.8
         version: 0.4.8(@rsbuild/core@0.4.8)
