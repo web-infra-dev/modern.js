@@ -1,4 +1,5 @@
 /* eslint-disable max-classes-per-file */
+import type { ComponentType, ReactElement } from 'react';
 import type { Entrypoint } from '@modern-js/types';
 import logo from './logo';
 import { FileSystemRoutes } from './server';
@@ -55,6 +56,8 @@ export class ClientDefinition {
   doctor: DoctorDefinition = new DoctorDefinition();
 
   announcement: AnnouncementDefinition = new AnnouncementDefinition();
+
+  plugins: string[] = [];
 }
 
 export interface IframeTabView {
@@ -62,11 +65,19 @@ export interface IframeTabView {
   src: string;
 }
 
-export type CustomTabView = IframeTabView;
+export interface BuiltinTabView {
+  type: 'builtin';
+  src: string;
+}
 
-export interface CustomTab {
+export interface ExternalTabView {
+  type: 'external';
+  component: ComponentType;
+}
+
+export interface Tab {
   name: string;
   title: string;
-  view: CustomTabView;
-  icon?: string;
+  view: BuiltinTabView | ExternalTabView | IframeTabView;
+  icon?: string | ReactElement;
 }
