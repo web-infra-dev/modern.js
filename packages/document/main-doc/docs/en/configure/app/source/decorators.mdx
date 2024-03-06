@@ -1,0 +1,41 @@
+---
+sidebar_label: decorators
+---
+
+# source.decorators
+
+- **Type:**
+```
+type Decorators = {
+  version?: 'legacy' | '2022-03';
+};
+```
+
+- **Default:**
+
+```
+type Decorators = {
+  version: 'legacy',
+};
+```
+
+Used to configure the decorators syntax.
+
+### Example
+
+Modern.js uses `legacy` syntax by default (Stage 1 proposal), equivalent to TypeScript's `experimentalDecorators: true`.
+
+You can adjust the decorator syntax to the Stage 3 decorator proposal by setting `decorators.version` to `2022-03`.
+
+```js
+export default {
+  source: {
+    decorators: {
+      version: '2022-03',
+    },
+  },
+};
+```
+
+For detailed usage, please refer to [Rsbuild - source.decorators](https://rsbuild.dev/config/source/decorators).
+

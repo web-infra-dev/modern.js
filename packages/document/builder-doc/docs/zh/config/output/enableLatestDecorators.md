@@ -7,6 +7,10 @@
 
 将 `output.enableLatestDecorators` 设置为 `true` 时，Builder 会采用新版 decorator 提案 (2018-09 版本) 进行编译。
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 `source.decorators` 配置项代替。
+:::
+
 ```ts
 export default {
   output: {
