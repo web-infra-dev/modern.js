@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 2.48.1
+
+### Patch Changes
+
+- 8942b90: perf(utils): remove unused schema-utils3 package
+
+  perf(utils): 移除 schema-utils3 包
+
 ## 2.48.0
 
 ### Patch Changes
