@@ -41,6 +41,22 @@ describe('asset.path', () => {
   });
 });
 
+describe('asset.name', () => {
+  const fixtureDir = path.join(__dirname, 'name');
+  it('name without hash', async () => {
+    const configFile = 'name.config.ts';
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    const a = path.join(fixtureDir, 'dist/assets/a.png');
+    expect(fs.existsSync(a)).toBeTruthy();
+    const b = path.join(fixtureDir, 'dist/assets/b.png');
+    expect(fs.existsSync(b)).toBeTruthy();
+  });
+});
+
 describe('asset.svgr', () => {
   const fixtureDir = path.join(__dirname, 'svgr');
   it('bundle', async () => {

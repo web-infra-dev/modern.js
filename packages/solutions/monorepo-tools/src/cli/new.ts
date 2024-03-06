@@ -1,5 +1,5 @@
 import type { Command } from '@modern-js/utils';
-import { MonorepoNewAction } from '@modern-js/new-action';
+import { newAction } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
 
 export const newCli = (program: Command, locale?: string) => {
@@ -30,6 +30,12 @@ export const newCli = (program: Command, locale?: string) => {
       i18n.t(localeKeys.command.shared.noNeedInstall),
     )
     .action(async options => {
-      await MonorepoNewAction({ ...options, locale: options.lang || locale });
+      await newAction(
+        {
+          ...options,
+          locale: options.lang || locale,
+        },
+        'monorepo',
+      );
     });
 };

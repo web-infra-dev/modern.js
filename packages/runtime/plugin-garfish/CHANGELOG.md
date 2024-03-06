@@ -1,5 +1,37 @@
 # @modern-js/plugin-garfish
 
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/runtime@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- Updated dependencies [cee9184]
+  - @modern-js/runtime@2.47.1
+  - @modern-js/utils@2.47.1
+
+## 2.47.0
+
+### Patch Changes
+
+- 29e297f: fix(plugin-garfish): basename calculation polish
+- 9464c9c: chore: upgrade react-router and export all react-router APIs
+  chore: 升级 react-router 相关依赖，并导出所有 react-router API
+- 2ed7a8c: fix(plugin-garfish): refactor the basename calculation
+- Updated dependencies [2ed7a8c]
+- Updated dependencies [a5386ab]
+- Updated dependencies [9464c9c]
+- Updated dependencies [19ee61f]
+- Updated dependencies [2ed7a8c]
+  - @modern-js/runtime@2.47.0
+  - @modern-js/utils@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

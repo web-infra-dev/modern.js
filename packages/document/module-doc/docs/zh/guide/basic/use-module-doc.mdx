@@ -55,10 +55,11 @@ docs
 ### 配置侧边栏
 
 如上图所示，模块文档已经为文件系统路由自动生成了侧边栏，其中侧边栏每一栏的文本是由文件的一级标题或者目录名决定。
-如果你需要自定义侧边栏，请使用 [_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html) 或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
+如果你需要自定义侧边栏，请使用 [\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html) 或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar)。
 
 :::info
 如果你的文档目录结构是符合国际化的，例如：
+
 ```bash
 docs
 ├── en
@@ -68,6 +69,7 @@ docs
     ├── button.mdx
     ├── index.mdx
 ```
+
 你需要按照[国际化](https://rspress.dev/zh/guide/default-theme/i18n.html)章节，同时配置 `lang` 和 `locales`，否则模块自动生成的侧边栏不会处理 `zh` 和 `en` 这两个目录。
 :::
 
@@ -139,9 +141,9 @@ export default defineConfig({
     modulePluginDoc({
       /**
        * 选择预览方式
-       * @default web
+       * @default internal
        */
-      previewMode: 'mobile',
+      previewMode: 'iframe',
       /**
        * 设置 iframe 的位置
        * @default 'follow'
@@ -160,12 +162,12 @@ export default defineConfig({
 // 这里的内容不会被渲染
 ```
 
-```jsx web
-// 用来渲染桌面端组件
+```jsx internal
+// 内置在文档内容里渲染
 ```
 
-```jsx mobile
-// 用来渲染移动端组件
+```jsx iframe
+// 使用 iframe 渲染
 ```
 ````
 
@@ -177,6 +179,12 @@ export default defineConfig({
 
 ```mdx
 <code src="/path/demo.tsx"></code>
+```
+
+这同样支持单独设置代码块的预览方式，例如：
+
+```mdx
+<code src="/path/demo.tsx" previewMode="iframe"></code>
 ```
 
 ## 使用内置组件
@@ -231,8 +239,20 @@ export type ButtonProps = {
 export const Button = (props?: ButtonProps) => {};
 ```
 
-上面是一个标准写法，其中 `ButtonProps` 将被提取至表格中， `Button` 作为表格的标题。
-如果使用默认导出，文件名将作为表格标题。生成的内容如下：
+上面是一个标准写法，其中 `ButtonProps` 将被提取至表格中， `Button` 作为表格的标题。如果使用默认导出，文件名将作为表格标题。
+
+需要注意的是，export 导出事先定义的特性将不会被解析。
+
+```tsx
+const A = () => {};
+
+export { A }; // wrong
+export default A; // wrong
+export const B = () => {}; // right
+export default () => {}; // right
+```
+
+生成的内容如下：
 
 ```mdx
 ### ButtonTest
@@ -245,15 +265,22 @@ export const Button = (props?: ButtonProps) => {};
 
 :::warning
 如果 Props 里使用了 React 的类型，你需要在 tsconfig.json 里添加 types ，否则会解析不到 React 命名空间下的类型。
+
 ```json
 {
   "compilerOptions": {
-    "types": ["react"],
-  },
+    "types": ["react"]
+  }
 }
 ```
-:::
 
+更好的方式是直接引用类型，例如
+
+```tsx
+import { FC } from 'react';
+```
+
+:::
 
 - `documentation`适用于工具库场景，用来解析 JSDoc 注释。
 
@@ -394,10 +421,10 @@ type ParseToolOptions = {
 
 代码块预览方式。
 
-- 类型：`'mobile' | 'web'`
-- 默认值: `'web'`
+- 类型：`'internal' | 'iframe'`
+- 默认值: `'internal'`
 
-`web`时，代码块内容将会直接渲染在页面中，反之将会通过 iframe 加载。
+`internal`时，代码块内容将会直接渲染在页面中，反之将会通过 iframe 加载。
 
 ### deprecated: languages
 
@@ -408,11 +435,12 @@ type ParseToolOptions = {
 ### deprecated: useModuleSidebar
 
 :::warning
-从 MAJOR_VERSION.44.0 版本开始，内部实现了嗅探机制，请直接使用 [_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)
+从 MAJOR_VERSION.44.0 版本开始，内部实现了嗅探机制，请直接使用 [\_meta.json](https://rspress.dev/zh/guide/basic/auto-nav-sidebar.html)
 或者直接配置 [sidebar](https://rspress.dev/zh/api/config/config-theme.html#sidebar) 来实现自定义侧边栏。
 :::
 
 ## 命令行
+
 - `modern dev`: 启动文档站本地开发。
 - `modern build --platform`: 构建生产环境产物。
 

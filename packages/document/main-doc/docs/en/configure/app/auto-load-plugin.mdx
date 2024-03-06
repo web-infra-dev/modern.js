@@ -39,14 +39,14 @@ Modern.js will help you automatically register the plugin by following these ste
 1. Modern.js maintains an official list of plugins internally.
 
 ```js
-const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-i18n', ...];
+const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-tailwindcss', ...];
 ```
 
 2. Modern.js will read your `package.json` and collect the dependency information.
 
 ```json title="package.json"
 "dependencies": {
-  "@modern-js/plugin-i18n": "x.x.x"
+  "@modern-js/plugin-tailwindcss": "x.x.x"
   ...
 },
 "devDependencies": {
@@ -55,7 +55,7 @@ const InternalPlugins = ['@modern-js/app-tools', '@modern-js/plugin-i18n', ...];
 }
 ```
 
-3. Modern.js observes that when you install dependencies such as `@modern-js/plugin-i18n` and `@modern-js/app-tools`, automatic plugin registration will be imported.
+3. Modern.js observes that when you install dependencies such as `@modern-js/plugin-tailwindcss` and `@modern-js/app-tools`, automatic plugin registration will be imported.
 
 You can notice that this approach is relatively black-box and you are not even aware of the process of loading the plugin. We want to expose more details to the developer and be able to let the developer control the process.
 

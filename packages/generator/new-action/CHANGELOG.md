@@ -1,5 +1,36 @@
 # @modern-js/new-action
 
+## 2.48.0
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+- Updated dependencies [c246812]
+- Updated dependencies [c323a23]
+  - @modern-js/generator-utils@3.3.11
+  - @modern-js/utils@2.48.0
+  - @modern-js/generator-common@3.3.11
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/generator-common@3.3.10
+- @modern-js/generator-utils@3.3.10
+- @modern-js/utils@2.47.1
+
+## 2.47.0
+
+### Patch Changes
+
+- Updated dependencies [104ceab]
+- Updated dependencies [a5386ab]
+- Updated dependencies [987d33e]
+  - @modern-js/generator-common@3.3.9
+  - @modern-js/utils@2.47.0
+  - @modern-js/generator-utils@3.3.9
+
 ## 2.46.1
 
 ### Patch Changes

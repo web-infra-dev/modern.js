@@ -19,17 +19,9 @@ import {
   getModuleProjectPath,
   getPackageManagerText,
   getModernVersion,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -131,7 +123,7 @@ export const handleTemplateFile = async (
 
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
-      getGeneratorPath(BaseGenerator, context.config.distTag),
+      getGeneratorPath(BaseGenerator, context.config.distTag, [__dirname]),
       undefined,
       { ...context.config, hasPlugin: false },
     );
@@ -177,7 +169,7 @@ export const handleTemplateFile = async (
 
   if (!isMonorepoSubProject) {
     await appApi.runSubGenerator(
-      getGeneratorPath(ChangesetGenerator, context.config.distTag),
+      getGeneratorPath(ChangesetGenerator, context.config.distTag, [__dirname]),
     );
   }
 
@@ -191,7 +183,7 @@ export const handleTemplateFile = async (
   const { packagesInfo } = context.config;
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {
     await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      getGeneratorPath(PackagesGenerator, context.config.distTag, [__dirname]),
       undefined,
       context.config,
     );

@@ -1,5 +1,6 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
 import type { UniBuilderPlugin } from '@modern-js/uni-builder';
+import type { Bundler } from '../utils';
 import type { OutputUserConfig } from './output';
 import type { SourceUserConfig } from './source';
 import type { TestingUserConfig } from './testing';
@@ -20,7 +21,7 @@ export interface RuntimeByEntriesUserConfig {
   [name: string]: RuntimeUserConfig;
 }
 
-export interface AppToolsUserConfig {
+export interface AppToolsUserConfig<B extends Bundler> {
   server?: ServerUserConfig;
   source?: SourceUserConfig;
   output?: OutputUserConfig;
@@ -36,7 +37,7 @@ export interface AppToolsUserConfig {
   runtime?: RuntimeUserConfig;
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: HtmlUserConfig;
-  tools?: ToolsUserConfig;
+  tools?: ToolsUserConfig<B>;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
   builderPlugins?: UniBuilderPlugin[];
@@ -49,5 +50,5 @@ interface SharedNormalizedConfig<RawConfig> {
   _raw: RawConfig;
 }
 
-export type AppToolsNormalizedConfig<Config = AppToolsUserConfig> =
+export type AppToolsNormalizedConfig<Config = AppToolsUserConfig<'shared'>> =
   Required<Config> & SharedNormalizedConfig<Config>;

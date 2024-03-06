@@ -3,8 +3,6 @@
 
 ```ts
 type DefaultParameters = {
-  meta: string; // 对应 html.meta 配置
-  title: string; // 对应 html.title 配置
   mountId: string; // 对应 html.mountId 配置
   entryName: string; // 入口名称
   assetPrefix: string; // 对应 output.assetPrefix 配置
@@ -39,53 +37,22 @@ export default {
 ```ts
 export default {
   html: {
-    templateParameters: defaultParameters => {
-      console.log(defaultParameters.compilation);
-      console.log(defaultParameters.title);
-      return {
-        title: 'My App',
+    templateParameters(defaultValue, { entryName }) {
+      const params = {
+        foo: {
+          ...defaultValue,
+          type: 'Foo',
+        },
+        bar: {
+          ...defaultValue,
+          type: 'Bar',
+          hello: 'world',
+        },
       };
+      return params[entryName] || defaultValue;
     },
   },
 };
 ```
 
-### 示例
-
-如果需要在 HTML 模板中使用 `foo` 参数，可以添加如下设置：
-
-```js
-export default {
-  html: {
-    templateParameters: {
-      foo: 'bar',
-    },
-  },
-};
-```
-
-或者使用函数配置：
-
-```js
-export default {
-  html: {
-    templateParameters: defaultParameters => {
-      return {
-        foo: 'bar',
-      };
-    },
-  },
-};
-```
-
-接下来，你可以在 HTML 模板中，通过 `<%= foo %>` 来读取参数：
-
-```js
-<script>window.foo = '<%= foo %>'</script>
-```
-
-经过编译后的最终 HTML 代码如下：
-
-```js
-<script>window.foo = 'bar'</script>
-```
+详细用法可参考 [Rsbuild - html.templateParameters](https://rsbuild.dev/zh/config/html/template-parameters)。

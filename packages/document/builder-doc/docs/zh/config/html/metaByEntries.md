@@ -7,6 +7,10 @@
 
 `metaByEntries` 的优先级高于 `meta`，因此会覆盖 `meta` 中设置的值。
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 `meta` 的函数用法代替。
+:::
+
 ### 示例
 
 ```js

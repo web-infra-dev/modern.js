@@ -20,11 +20,9 @@ async function addNewActionDevDependence(repoCwd: string) {
     '@modern-js/test-generator': 'workspace:*',
     '@modern-js/repo-generator': 'workspace:*',
     '@modern-js/tailwindcss-generator': 'workspace:*',
-    '@modern-js/storybook-generator': 'workspace:*',
     '@modern-js/storybook-next-generator': 'workspace:*',
     '@modern-js/ssg-generator': 'workspace:*',
     '@modern-js/module-test-generator': 'workspace:*',
-    '@modern-js/rspack-generator': 'workspace:*',
     '@modern-js/module-doc-generator': 'workspace:*',
   };
   await fs.writeFile(

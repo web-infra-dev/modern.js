@@ -7,6 +7,10 @@ The usage is same as `meta`, and you can use the "entry name" as the key to set 
 
 `metaByEntries` will overrides the value set in `meta`.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the function usage of `meta` instead.
+:::
+
 ### Example
 
 ```js

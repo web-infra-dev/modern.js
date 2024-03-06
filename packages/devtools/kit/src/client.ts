@@ -39,12 +39,20 @@ export class AnnouncementDefinition {
   fallback: string = 'https://modernjs.dev/';
 }
 
+export class DoctorDefinition {
+  home: string = 'https://rsdoctor.dev';
+
+  quickStart: string = 'https://rsdoctor.dev/guide/start/quick-start';
+}
+
 export class ClientDefinition {
   name: NameDefinition = new NameDefinition();
 
   packages: PackageDefinition = new PackageDefinition();
 
   assets: AssetDefinition = new AssetDefinition();
+
+  doctor: DoctorDefinition = new DoctorDefinition();
 
   announcement: AnnouncementDefinition = new AnnouncementDefinition();
 }

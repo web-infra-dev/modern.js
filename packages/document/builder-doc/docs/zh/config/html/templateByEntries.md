@@ -7,6 +7,10 @@
 
 `templateByEntries` 的优先级高于 `template`，因此会覆盖 `template` 设置的值。
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 `template` 的函数用法代替。
+:::
+
 ### 示例
 
 ```js

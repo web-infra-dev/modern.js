@@ -1,21 +1,17 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { fs, chalk, getModernConfigFile } from '@modern-js/generator-utils';
+import {
+  fs,
+  chalk,
+  getModernConfigFile,
+  getGeneratorPath,
+} from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const ReactRouter6Type = `/// <reference types='@modern-js/runtime/types/router' />`;
 
@@ -50,7 +46,7 @@ const handleTemplateFile = async (
   }
 
   await appApi.runSubGenerator(
-    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,
     {
       ...context.config,

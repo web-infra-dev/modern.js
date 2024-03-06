@@ -1,5 +1,33 @@
 # @modern-js/upgrade-generator
 
+## 3.3.11
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+- Updated dependencies [c246812]
+- Updated dependencies [c323a23]
+  - @modern-js/generator-utils@3.3.11
+  - @modern-js/utils@2.48.0
+  - @modern-js/plugin-i18n@2.48.0
+  - @modern-js/generator-common@3.3.11
+
+## 3.3.10
+
+### Patch Changes
+
+- e4d9cac: fix(@modern-js/upgrade-generator): ignore @modern-js/builder-rspack-provider version change
+  fix(@modern-js/upgrade-generator): 忽略 @modern-js/builder-rspack-provider 版本升级
+  - @modern-js/utils@2.47.1
+
+## 3.3.9
+
+### Patch Changes
+
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+
 ## 3.3.8
 
 ### Patch Changes

@@ -2,14 +2,16 @@ import type { JestConfig } from '@modern-js/types';
 import type { PluginSwcOptions } from '@rsbuild/plugin-swc';
 import type { PluginEsbuildOptions } from '@rsbuild/plugin-esbuild';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
-import type { UnwrapBuilderConfig } from '../utils';
+import type { UnwrapBuilderConfig, Bundler } from '../utils';
 
 export type Tailwindcss =
   | Record<string, any>
   | ((options: Record<string, any>) => Record<string, any> | void);
 
-export interface ToolsUserConfig
-  extends UnwrapBuilderConfig<UniBuilderConfig, 'tools'> {
+type BuilderToolsConfig = UnwrapBuilderConfig<UniBuilderConfig, 'tools'>;
+
+export interface ToolsUserConfig<B extends Bundler = 'webpack'>
+  extends Omit<BuilderToolsConfig, 'swc'> {
   /**
    * Used to custom Tailwind CSS configurations.
    * @requires `tailwindcss` plugin.
@@ -32,7 +34,11 @@ export interface ToolsUserConfig
    * The configuration of `swc` is provided by `swc` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
    */
-  swc?: PluginSwcOptions<'outer'>;
+  swc?: B extends 'shared'
+    ? undefined
+    : B extends 'webpack'
+    ? PluginSwcOptions<'outer'>
+    : BuilderToolsConfig['swc'];
 
   /**
    * Used to custom Esbuild configurations.

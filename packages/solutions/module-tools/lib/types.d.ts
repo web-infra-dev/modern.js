@@ -34,8 +34,18 @@ declare module '*.webp' {
 }
 
 declare module '*.svg' {
-  const src: string;
-  export default src;
+  import * as React from 'react';
+
+  export const ReactComponent: React.FunctionComponent<
+    React.SVGProps<SVGSVGElement>
+  >;
+
+  /**
+   * The default export type depends on the asset.svgr.exportType config,
+   * it can be a string or a ReactComponent
+   * */
+  const content: any;
+  export default content;
 }
 
 declare module '*.css' {

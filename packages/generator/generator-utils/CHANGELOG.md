@@ -1,5 +1,35 @@
 # @modern-js/generator-utils
 
+## 3.3.11
+
+### Patch Changes
+
+- c246812: chore(generator): extract getGeneratorPath function to generator-utils
+  fechoreat(generator): 提取 getGeneratorPath 方法到 generator-utils 公共包
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/plugin-i18n@2.48.0
+  - @modern-js/generator-common@3.3.11
+
+## 3.3.10
+
+### Patch Changes
+
+- @modern-js/generator-common@3.3.10
+- @modern-js/plugin-i18n@2.47.1
+- @modern-js/utils@2.47.1
+
+## 3.3.9
+
+### Patch Changes
+
+- Updated dependencies [104ceab]
+- Updated dependencies [a5386ab]
+- Updated dependencies [987d33e]
+  - @modern-js/generator-common@3.3.9
+  - @modern-js/utils@2.47.0
+  - @modern-js/plugin-i18n@2.47.0
+
 ## 3.3.8
 
 ### Patch Changes

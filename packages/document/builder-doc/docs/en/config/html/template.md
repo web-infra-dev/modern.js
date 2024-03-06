@@ -1,4 +1,4 @@
-- **Type:** `string`
+- **Type:** `string | Function`
 - **Default:**
 
 Define the path to the HTML template, corresponding to the `template` config of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
@@ -14,3 +14,5 @@ export default {
   },
 };
 ```
+
+For detailed usage, please refer to [Rsbuild - html.template](https://rsbuild.dev/config/html/template).

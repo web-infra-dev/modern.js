@@ -10,7 +10,6 @@ import {
   EntryGenerator,
   PackagesGenerator,
   BuildTools,
-  RspackGenerator,
 } from '@modern-js/generator-common';
 import {
   getMWAProjectPath,
@@ -20,17 +19,9 @@ import {
   validatePackagePath,
   getPackageManagerText,
   getModernVersion,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -117,6 +108,12 @@ export const handleTemplateFile = async (
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
   const { packageName, packagePath, language, packageManager } = ans;
+  const { packagesInfo, buildTools } = context.config;
+
+  const bundler =
+    buildTools === BuildTools.Rspack
+      ? `'experimental-rspack',`
+      : `'webpack', // Set to 'experimental-rspack' to enable rspack ⚡️🦀`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -126,7 +123,7 @@ export const handleTemplateFile = async (
   const dirname = path.basename(generator.outputPath);
 
   await appApi.runSubGenerator(
-    getGeneratorPath(BaseGenerator, context.config.distTag),
+    getGeneratorPath(BaseGenerator, context.config.distTag, [__dirname]),
     undefined,
     { ...context.config, hasPlugin: false },
   );
@@ -155,6 +152,9 @@ export const handleTemplateFile = async (
         resourceKey
           .replace('templates/ts-template/', projectPath)
           .replace('.handlebars', ''),
+      {
+        bundler,
+      },
     );
   } else {
     await appApi.forgeTemplate(
@@ -164,11 +164,14 @@ export const handleTemplateFile = async (
         resourceKey
           .replace('templates/js-template/', projectPath)
           .replace('.handlebars', ''),
+      {
+        bundler,
+      },
     );
   }
 
   await appApi.runSubGenerator(
-    getGeneratorPath(EntryGenerator, context.config.distTag),
+    getGeneratorPath(EntryGenerator, context.config.distTag, [__dirname]),
     `./${projectPath}`,
     {
       ...context.config,
@@ -183,24 +186,9 @@ export const handleTemplateFile = async (
     });
   }
 
-  const { packagesInfo, buildTools } = context.config;
-
-  if (buildTools === BuildTools.Rspack) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(RspackGenerator, context.config.distTag),
-      undefined,
-      {
-        ...context.config,
-        isNewProject: true,
-        isSubGenerator: true,
-        modernVersion,
-      },
-    );
-  }
-
   if (packagesInfo && Object.keys(packagesInfo).length > 0) {
     await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      getGeneratorPath(PackagesGenerator, context.config.distTag, [__dirname]),
       undefined,
       context.config,
     );

@@ -1,5 +1,27 @@
 # @modern-js/plugin-ssg
 
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/utils@2.47.1
+
+## 2.47.0
+
+### Patch Changes
+
+- 9464c9c: chore: upgrade react-router and export all react-router APIs
+  chore: 升级 react-router 相关依赖，并导出所有 react-router API
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

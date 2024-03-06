@@ -7,12 +7,6 @@ import {
   applyOptionsChain,
   logger,
 } from '@modern-js/utils';
-import {
-  BuilderPlugin,
-  SharedBuilderConfig,
-  ToolsBabelConfig,
-  mergeBuilderConfig,
-} from '@modern-js/builder-shared';
 import { CompileOptions } from '@storybook/mdx2-csf';
 import type {
   CoreConfig,
@@ -30,17 +24,19 @@ import {
 } from '@storybook/core-common';
 import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type { PluginItem } from '@babel/core';
-import type {
-  BuilderPluginAPI as WebpackAPI,
-  WebpackConfig,
-} from '@modern-js/builder-webpack-provider';
-import type {
-  BuilderPluginAPI as RspackAPI,
-  RspackConfig,
-} from '@modern-js/builder-rspack-provider';
+import {
+  type RsbuildPlugin,
+  type RsbuildPluginAPI,
+  type RsbuildConfig,
+  type WebpackConfig,
+  type RspackConfig,
+} from '@rsbuild/shared';
+import { mergeRsbuildConfig } from '@rsbuild/core';
+
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
-import { AllBuilderConfig, BuilderOptions } from './types';
+import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import { BuilderConfig, BuilderOptions } from './types';
 import {
   toImportFn,
   virtualModule,
@@ -64,7 +60,7 @@ export async function finalize() {
 export const pluginStorybook: (
   cwd: string,
   options: Options,
-) => BuilderPlugin<WebpackAPI | RspackAPI> = (cwd, options) => {
+) => RsbuildPlugin = (cwd, options) => {
   return {
     name: 'builder-plugin-storybook',
 
@@ -89,7 +85,7 @@ export const pluginStorybook: (
         return absolutePattern;
       });
 
-      api.modifyBuilderConfig(async builderConfig => {
+      api.modifyRsbuildConfig(async builderConfig => {
         // storybook needs a virtual entry,
         // when new stories get created, the
         // entry needs to be recauculated
@@ -120,14 +116,14 @@ export const pluginStorybook: (
         await applyCsfPlugin(config, options);
       };
 
-      if ('modifyWebpackConfig' in api) {
+      if (api.context.bundlerType === 'webpack') {
         addonAdapter(api, options);
 
         api.modifyWebpackConfig(modifyConfig);
         api.modifyWebpackChain(async chain => {
           await applyDocgenWebpack(chain, options);
         });
-      } else if ('modifyRspackConfig' in api) {
+      } else {
         api.modifyRspackConfig(async config => {
           await modifyConfig(config);
           await applyDocgenRspack(config, options);
@@ -168,7 +164,7 @@ async function prepareStorybookModules(
   tempDir: string,
   cwd: string,
   options: Options,
-  builderConfig: SharedBuilderConfig,
+  builderConfig: RsbuildConfig,
   storyPatterns: string[],
 ) {
   const mappings = await createStorybookModules(cwd, options, storyPatterns);
@@ -196,6 +192,7 @@ async function prepareStorybookModules(
       ...mappingsAlias,
     },
     builderConfig.source.alias,
+    { target: 'web' },
   );
 
   if (isDev()) {
@@ -206,7 +203,7 @@ async function prepareStorybookModules(
   }
 }
 
-async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
+async function applyDefines(builderConfig: RsbuildConfig, options: Options) {
   const { presets } = options;
   const envs = await presets.apply<Record<string, string>>('env');
 
@@ -219,7 +216,7 @@ async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
   };
 }
 
-async function applyHTML(builderConfig: AllBuilderConfig, options: Options) {
+async function applyHTML(builderConfig: RsbuildConfig, options: Options) {
   const {
     presets,
     packageJson,
@@ -338,8 +335,8 @@ async function applyMdxLoader(
   );
 }
 
-function applyExternals(builderConfig: AllBuilderConfig) {
-  const config = mergeBuilderConfig(
+function applyExternals(builderConfig: RsbuildConfig) {
+  const config = mergeRsbuildConfig(
     {
       output: {
         ...builderConfig.output,
@@ -422,7 +419,7 @@ async function createStoriesEntry(cwd: string, storyPatterns: string[]) {
   return await toImportFn(cwd, stories);
 }
 
-async function applyReact(config: AllBuilderConfig, options: Options) {
+async function applyReact(config: RsbuildConfig, options: Options) {
   let version = '18.0.0';
   try {
     // @ts-expect-error
@@ -443,6 +440,7 @@ async function applyReact(config: AllBuilderConfig, options: Options) {
         '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
       },
       config.source.alias,
+      { target: 'web' },
     );
   }
 }
@@ -488,63 +486,10 @@ async function watchStories(
 /**
  * Some addons expose babel plugins and presets, or modify webpack
  */
-function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
+function addonAdapter(api: RsbuildPluginAPI, options: Options) {
   const { presets } = options;
 
-  api.modifyBuilderConfig(async finalConfig => {
-    const babelOptions = await presets.apply('babel', {}, { ...options });
-    finalConfig.tools ??= {};
-    const userConfig = finalConfig.tools.babel;
-    finalConfig.tools.babel = (config, utils) => {
-      const getPluginName = (plugin: PluginItem) =>
-        Array.isArray(plugin) ? plugin[0] : plugin;
-      const getOptions = (plugin: PluginItem) =>
-        Array.isArray(plugin) ? plugin[1] : null;
-
-      const replaceOrInsert = (plugin: PluginItem, plugins: PluginItem[]) => {
-        const pluginName = getPluginName(plugin);
-
-        for (let i = 0; i < plugins.length; i++) {
-          if (getPluginName(plugins[i]) === pluginName) {
-            if (getOptions(plugin)) {
-              logger.info(
-                `Detected duplicated babel plugin or presets: ${pluginName}, overrides with the new one`,
-              );
-              plugins[i] = plugin;
-            }
-            return;
-          }
-        }
-
-        plugins.push(plugin);
-      };
-
-      const currentPlugins = config.plugins || [];
-      const currentPresets = config.presets || [];
-
-      // O(n * n) but the number of plugins should be small
-      for (const plugin of babelOptions.plugins || []) {
-        replaceOrInsert(plugin, currentPlugins);
-      }
-      for (const preset of babelOptions.presets || []) {
-        replaceOrInsert(preset, currentPresets);
-      }
-
-      const finalConfig: ToolsBabelConfig = {
-        ...babelOptions,
-        plugins: currentPlugins,
-        presets: currentPresets,
-      };
-
-      if (userConfig) {
-        return applyOptionsChain(finalConfig, userConfig, utils);
-      } else {
-        return finalConfig;
-      }
-    };
-  });
-
-  (api as WebpackAPI).modifyWebpackConfig(async config => {
+  api.modifyWebpackConfig(async config => {
     const finalDefaultConfig = await presets.apply(
       'webpackFinal',
       config,
@@ -552,4 +497,64 @@ function addonAdapter(api: WebpackAPI | RspackAPI, options: Options) {
     );
     return finalDefaultConfig;
   });
+}
+
+export async function addonBabelAdapter(
+  finalConfig: BuilderConfig,
+  options: Options,
+) {
+  const { presets } = options;
+
+  const babelOptions = await presets.apply('babel', {}, { ...options });
+  finalConfig.tools ??= {};
+  const userConfig = finalConfig.tools.babel;
+  finalConfig.tools.babel = (config, utils) => {
+    const getPluginName = (plugin: PluginItem) =>
+      Array.isArray(plugin) ? plugin[0] : plugin;
+    const getOptions = (plugin: PluginItem) =>
+      Array.isArray(plugin) ? plugin[1] : null;
+
+    const replaceOrInsert = (plugin: PluginItem, plugins: PluginItem[]) => {
+      const pluginName = getPluginName(plugin);
+
+      for (let i = 0; i < plugins.length; i++) {
+        if (getPluginName(plugins[i]) === pluginName) {
+          if (getOptions(plugin)) {
+            logger.info(
+              `Detected duplicated babel plugin or presets: ${pluginName}, overrides with the new one`,
+            );
+            plugins[i] = plugin;
+          }
+          return;
+        }
+      }
+
+      plugins.push(plugin);
+    };
+
+    const currentPlugins = config.plugins || [];
+    const currentPresets = config.presets || [];
+
+    // O(n * n) but the number of plugins should be small
+    for (const plugin of babelOptions.plugins || []) {
+      replaceOrInsert(plugin, currentPlugins);
+    }
+    for (const preset of babelOptions.presets || []) {
+      replaceOrInsert(preset, currentPresets);
+    }
+
+    const finalConfig: NonNullable<UniBuilderConfig['tools']>['babel'] = {
+      ...babelOptions,
+      plugins: currentPlugins,
+      presets: currentPresets,
+    };
+
+    if (userConfig) {
+      return applyOptionsChain(finalConfig, userConfig, utils);
+    } else {
+      return finalConfig;
+    }
+  };
+
+  return finalConfig;
 }

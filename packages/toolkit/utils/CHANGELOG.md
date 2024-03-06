@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 2.48.0
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+
+## 2.47.1
+
+## 2.47.0
+
+### Patch Changes
+
+- a5386ab: fix(deps): bump semver to v7.6.0
+
+  fix(deps): 升级 semver 到 v7.6.0
+
 ## 2.46.1
 
 ## 2.46.0

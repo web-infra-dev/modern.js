@@ -38,7 +38,6 @@ test('should not optimize lodash bundle size when transformLodash is false and u
     },
     builderConfig: {
       performance: {
-        transformLodash: false,
         chunkSplit: {
           strategy: 'all-in-one',
         },
@@ -49,7 +48,11 @@ test('should not optimize lodash bundle size when transformLodash is false and u
         },
       },
     },
-    plugins: [pluginSwc()],
+    plugins: [
+      pluginSwc({
+        transformLodash: false,
+      }),
+    ],
     runServer: false,
   });
 

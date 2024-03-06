@@ -1,8 +1,0 @@
-{
-  "extensions": {
-    "lockCorejsVersion": {
-      "corejs": "/path/to/corejs",
-      "swcHelpers": "/path/to/helper"
-    }
-  }
-}

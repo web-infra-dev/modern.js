@@ -2,11 +2,7 @@
 sidebar_position: 15
 ---
 
-# Using StorybookV6
-
-:::warning
-This document is for users of the old version Storybook V6 and will be deprecated in the future. If you want to upgrade from an older version or if you are a new user who wants to try new storybook, please refer to the [new documentation here](https://modernjs.dev/builder/guide/advanced/storybook.html).
-:::
+# Using Storybook
 
 [Storybook](https://storybook.js.org/) is a tool dedicated to component debugging, providing around component development.
 
@@ -16,33 +12,219 @@ This document is for users of the old version Storybook V6 and will be deprecate
 - Share how the UI actually works
 - Automate UI workflows
 
-## Enable Storybook debugging
+:::tip
+This tutorial is suitable for Storybook V7 users. If you are using an old version of Storybook V6 (using the @modern-js/plugin-storybook plugin), you can refer to the [Migration Guide](#migration-guide) to upgrade.
+:::
 
-The Modern.js framework integrates the Builder's Node Polyfill plugin by default.
+## Quick Start
 
-If you want to debug the component, you can enable Storybook debugging through `pnpm run new`.
+Modern.js integrates Storybook debugging capabilities by default. You can directly enable the Storybook feature by using the following command:
 
 ```bash
 $ npx modern new
 ? Please select the operation you want: Enable features
-? Please select the feature name: Enable Visual Testing (Storybook)
+? Please select the feature name: Enable「Storybook」V7
 ```
 
-After the execution is complete, you only need to register the Modern.js Storybook plugin in the `modern.config.ts` file to enable Storybook debugging capabilities.
+This command will create a template for Storybook, including:
 
-```ts title="modern.config.ts"
-import { appTools, defineConfig } from '@modern-js/app-tools';
-import { storybookPlugin } from '@modern-js/plugin-storybook';
+- Creating a configuration folder .storybook and a default configuration file .storybook/main.ts.
+- Creating example story components.
+- Updating package.json to add dependencies @storybook/addon-essentials and @modern-js/storybook, as well as creating Storybook-related scripts.
 
-export default defineConfig({
-  plugins: [appTools(), storybookPlugin()],
-});
+To start, run `npm run storybook`.
+
+## Enable Rspack build
+
+Rspack is known for its fast build speed. To use Rspack as a build tool in Modern.js, you only need to configure it as follows:
+
+```diff filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+-      bundler: 'webpack'
++      bundler: 'rspack'
+    },
+  },
+  typescript: {
+-    reactDocgen: 'react-docgen-typescript'
++    reactDocgen: 'react-docgen'
+  }
+};
+
+export default config;
 ```
 
-## Debugging code
+Note that in the above configuration, the reactDocgen configuration has been changed because Rspack currently does not support @storybook/react-docgen-typescript-plugin.
 
-Modern.js recognizes files in the format of [\*.stories.(js|jsx|ts|tsx|mdx)](/apis/app/hooks/src/stories.html) under the project source code directory (src/) by default as Storybook debugging files.
+## Configurations
 
-## Configure Storybook
+There are some configurations in `.storybook/main.js`.
 
-In Modern.js, Storybook configuration files can be added to the [`config/storybook`](/apis/app/hooks/config/storybook.html) directory of the project.
+### configPath
+
+- **Type**: `string`
+- **Default**: `modern.config.(j|t)s`
+
+Specify the path of Modern.js configuration.
+
+Example:
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      configPath: 'modern.storybook.config.ts',
+    },
+  },
+};
+
+export default config;
+```
+
+### bundler
+
+- **Type**: `'webpack' | 'rspack'`
+- **Default**: `webpack`
+
+Specify the underlying build tool to use either Webpack or Rspack.
+
+Example:
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      bundler: 'rspack',
+    },
+  },
+};
+
+export default config;
+```
+
+### builderConfig
+
+- **Type**: `BuilderConfig`
+- **Default**: `undefined`
+
+To modify the configuration of build, which has a higher priority than the configuration file, you can specify the build configuration directly here if you do not want to use the configuration file.
+
+Example:
+
+```javascript filename='.storybook/main.js'
+const config = {
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      builderConfig: {
+        alias: {
+          react: require.resolve('react'),
+          'react-dom': require.resolve('react-dom'),
+        },
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+## Command Line Interface
+
+@modern-js/storybook proxies some of the storybook cli commands.
+
+### storybook dev
+
+Start Storybook, more details at [storybook#dev](https://storybook.js.org/docs/react/api/cli-options#dev).
+
+### storybook build
+
+Build Storybook for production, more details at [storybook#build](https://storybook.js.org/docs/react/api/cli-options#build).
+
+## Storybook addon compatibility
+
+Due to the current version of Storybook in the document being version 7, please select the addon for Storybook V7.
+
+When an addon does not require additional Babel or Webpack configurations, it can be used directly, such as @storybook/addon-essentials.
+
+For some addons that require dependencies on Babel plugins and Webpack configurations, such as @storybook/addon-coverage, only @modern-js/builder-webpack-provider supports them.
+
+## Benefits
+
+Using @modern-js/storybook can bring you lightning-fast builds with Rspack, without the need for tedious configuration. It comes with many best practices for web development out-of-the-box, such as code splitting strategies, built-in support for CSS modules and postcss, TypeScript support, and commonly used Babel plugins.
+
+The powerful build capabilities of Modern.js can be directly used in Storybook projects.
+
+## Trouble Shooting
+
+1. Modern.js won't load your other configurations like `babel.config.json`, babel config needs to be set in Modern.js config, [tools.babel](/configure/app/tools/babel).
+   Webpack configuration can be written in either [tools.webpack](/configure/app/tools/webpack) or [tools.webpackChain](/configure/app/tools/webpack-chain).
+
+2. If you find that the build performance is not good, please check if the Storybook automatic documentation generation feature is enabled. For optimal performance, configure it to use `react-docgen`. The difference between `react-docgen` and `react-docgen-typescript` is that the former is implemented based on Babel, while the latter is implemented based on TypeScript. The former has better performance but weaker type inference capabilities. If you are using Rspack for the build, only `react-docgen` is supported.
+
+```javascript filename='.storybook/main.js'
+const config = {
+  typescript: {
+    reactDocgen: 'react-docgen',
+  },
+};
+
+export default config;
+```
+
+## Migration Guide
+
+### Migrate from @modern-js/plugin-storybook
+
+If you are a user migrating from V6 to V7, you can use V7 through [the above method](#quick-start) and make the following adjustments:
+
+##### Modify configuration file
+
+If you have made some custom configurations to Storybook in the older version, you need to move the configuration file `root/config/storybook/main.(j|t)s` to `root/.storybook/main.(j|t)s`.
+
+And then add the following lines in `root/.storybook/main.(j|t)s`, specify framework as `@modern-js/storybook`.
+
+```diff
+const config = {
++  framework: {
++    name: '@modern-js/storybook'
++  }
+};
+
+export default config;
+```
+
+##### Update Dependencies
+
+Update dependencies like @storybook/addon-\* to major version 7.
+
+##### Remove @modern-js/plugin-storybook
+
+在 modern.config.(j|t)s 中删除 @modern-js/plugin-storybook 插件的注册。
+
+##### Modify Storybook Syntax
+
+Follow the official Storybook documentation to make the necessary updates for some breaking changes, such as changes in story writing and MDX syntax. You can refer to the migration guide at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
+
+### Native Storybook users
+
+Modern.js only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
+
+```diff filename='.storybook/main.js'
+const config = {
+-  framework: '@storybook/react-webapck5',
++  framework: {
++    name: '@modern-js/storybook'
++  },
+};
+
+export default config;
+```
+
+The default config file path is `modern.config.(j|t)s`, for the detail config, see [modern.js config](/configure/app/usage).
+
+If the original project includes configurations for Babel, they need to be written in the modern configuration. Most Babel configurations have already been included in Modern.js.

@@ -174,24 +174,23 @@ For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is regist
 
 #### CHAIN_ID.RULE
 
-| ID            | Description       |
-| ------------- | ----------------- |
-| `RULE.MJS`    | Rule for `mjs`    |
-| `RULE.JS`     | Rule for `js`     |
-| `RULE.TS`     | Rule for `ts`     |
-| `RULE.CSS`    | Rule for `css`    |
-| `RULE.LESS`   | Rule for `less`   |
-| `RULE.SASS`   | Rule for `sass`   |
-| `RULE.STYLUS` | Rule for `stylus` |
-| `RULE.PUG`    | Rule for `pug`    |
-| `RULE.VUE`    | Rule for `vue`    |
-| `RULE.TOML`   | Rule for `toml`   |
-| `RULE.YAML`   | Rule for `yaml`   |
-| `RULE.WASM`   | Rule for `WASM`   |
-| `RULE.NODE`   | Rule for `node`   |
-| `RULE.FONT`   | Rule for `font`   |
-| `RULE.IMAGE`  | Rule for `image`  |
-| `RULE.MEDIA`  | Rule for `media`  |
+| ID            | Description                                                                                 |
+| ------------- | ------------------------------------------------------------------------------------------- |
+| `RULE.JS`     | Rule for `js`                                                                               |
+| `RULE.TS`     | Rule for `ts`                                                                               |
+| `RULE.CSS`    | Rule for `css`                                                                              |
+| `RULE.LESS`   | Rule for `less`                                                                             |
+| `RULE.SASS`   | Rule for `sass`                                                                             |
+| `RULE.STYLUS` | Rule for `stylus`(requires [Stylus plugin](https://rsbuild.dev/plugins/list/plugin-stylus)) |
+| `RULE.SVG`    | Rule for `svg`                                                                              |
+| `RULE.PUG`    | Rule for `pug`                                                                              |
+| `RULE.TOML`   | Rule for `toml`                                                                             |
+| `RULE.YAML`   | Rule for `yaml`                                                                             |
+| `RULE.WASM`   | Rule for `WASM`                                                                             |
+| `RULE.NODE`   | Rule for `node`                                                                             |
+| `RULE.FONT`   | Rule for `font`                                                                             |
+| `RULE.IMAGE`  | Rule for `image`                                                                            |
+| `RULE.MEDIA`  | Rule for `media`                                                                            |
 
 #### CHAIN_ID.ONE_OF
 

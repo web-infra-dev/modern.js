@@ -15,17 +15,9 @@ import {
   validatePackagePath,
   validatePackageName,
   getModuleProjectPath,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const handleTemplateFile = async (
   context: GeneratorContext,

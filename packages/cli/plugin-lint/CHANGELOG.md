@@ -1,5 +1,29 @@
 # @modern-js/plugin-lint
 
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/tsconfig@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.47.1
+- @modern-js/utils@2.47.1
+
+## 2.47.0
+
+### Patch Changes
+
+- 3d1effc: feat(plugin-lint): mark eslint as optional peer dep
+- Updated dependencies [a5386ab]
+  - @modern-js/utils@2.47.0
+  - @modern-js/tsconfig@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

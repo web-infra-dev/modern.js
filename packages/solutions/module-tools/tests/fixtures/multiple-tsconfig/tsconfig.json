@@ -1,0 +1,6 @@
+{
+  "extends": "./inner/tsconfig.build.json",
+  "compilerOptions": {
+    "target": "ESNext"
+  }
+}

@@ -1,5 +1,50 @@
 # @modern-js/prod-server
 
+## 2.48.0
+
+### Minor Changes
+
+- 0b44ddb: feat: support `x-render-cache` response headers when open ssr cache
+  feat: 当开启 ssr 缓存时，支持 `x-render-cache` 响应头
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/server-core@2.48.0
+  - @modern-js/plugin@2.48.0
+  - @modern-js/runtime-utils@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.47.1
+- @modern-js/plugin@2.47.1
+- @modern-js/runtime-utils@2.47.1
+- @modern-js/utils@2.47.1
+
+## 2.47.0
+
+### Minor Changes
+
+- b68c12a: feat: add server SSR fallback hook
+  feat: 新增 server SSR 降级 hook 实现
+
+### Patch Changes
+
+- a9a3626: fix(prod-server): ssr renderResult maybe is a undefined, when use react-router redirect
+  fix(prod-server): 当使用 react-router redirect, ssr 渲染结果可能是个 undefined
+- 01b75e6: fix(prod-server): ssr cache would return error result when use stream ssr
+  fix(prod-server): 使用 stream ssr 时， ssr 缓存将会返回错误结果
+- Updated dependencies [b68c12a]
+- Updated dependencies [a5386ab]
+- Updated dependencies [9464c9c]
+  - @modern-js/server-core@2.47.0
+  - @modern-js/utils@2.47.0
+  - @modern-js/runtime-utils@2.47.0
+  - @modern-js/plugin@2.47.0
+
 ## 2.46.1
 
 ### Patch Changes

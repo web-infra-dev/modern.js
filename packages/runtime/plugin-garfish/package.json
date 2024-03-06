@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.46.1",
+  "version": "2.48.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -81,11 +81,12 @@
     "@swc/helpers": "0.5.3"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.46.1",
+    "@modern-js/runtime": "workspace:^2.48.0",
     "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
+    "@rsbuild/shared": "0.4.11",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",
@@ -105,7 +106,7 @@
     "jest-fetch-mock": "^3.0.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-router-dom": "6.17.0",
+    "react-router-dom": "6.22.0",
     "typescript": "^5"
   },
   "sideEffects": false,

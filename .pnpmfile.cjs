@@ -14,11 +14,7 @@ function readPackage(pkg, _context) {
 
   // Some packages still depend on esbuild < 0.17, so we upgrade it manually.
   // ref: https://github.com/lukeed/tsm/issues/48
-  if (
-    pkg.name === 'tsm' ||
-    pkg.name === 'vite' ||
-    pkg.name === 'esbuild-loader'
-  ) {
+  if (pkg.name === 'tsm' || pkg.name === 'vite') {
     pkg.dependencies.esbuild = '0.17.19';
   }
 
@@ -38,17 +34,13 @@ function readPackage(pkg, _context) {
     }
   }
 
-  const outsideModernPkgList = ['@modern-js/mdx-rs-binding'];
-
   if (
     (pkg.name?.startsWith('@rspress/') || pkg.name?.startsWith('rspress')) &&
     pkg.dependencies
   ) {
     pkg.dependencies = Object.fromEntries(
       Object.entries(pkg.dependencies).map(([key, value]) =>
-        key.startsWith('@modern-js/') && !outsideModernPkgList.includes(key)
-          ? [key, 'workspace:*']
-          : [key, value],
+        key.startsWith('@modern-js/') ? [key, 'workspace:*'] : [key, value],
       ),
     );
   }
