@@ -144,6 +144,9 @@ export const createNodeServer = (
   handleRequest: RequestHandler,
 ): NodeServerWrapper => {
   const requestListener = getRequestListener(handleRequest);
+
+  // serverContext
+
   const nodeServer = createServer(requestListener) as NodeServerWrapper;
 
   // 直接在 nodeServer 实例上添加 getRequestHandler 方法
