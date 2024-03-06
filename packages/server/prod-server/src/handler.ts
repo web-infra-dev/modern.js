@@ -15,7 +15,7 @@ import { createLogger } from '@modern-js/utils';
 import { ErrorDigest, onError } from './error';
 import { ProdServerOptions, BaseEnv } from './types';
 
-export type * from './types';
+export type { ProdServerOptions, BaseEnv } from './types';
 
 export async function createRequestHandler(
   options: ProdServerOptions,

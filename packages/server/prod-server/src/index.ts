@@ -4,7 +4,7 @@ import { ProdServerOptions } from './types';
 
 export { initProdMiddlewares, type InitProdMiddlewares } from './handler';
 
-export type * from './types';
+export type { ProdServerOptions, BaseEnv } from './types';
 
 export const createProdServer = async (options: ProdServerOptions) => {
   const server = await createWebServer(options);
