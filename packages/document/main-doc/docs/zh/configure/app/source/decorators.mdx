@@ -1,0 +1,40 @@
+---
+sidebar_label: decorators
+---
+
+# source.decorators
+
+- **类型：**
+```
+type Decorators = {
+  version?: 'legacy' | '2022-03';
+};
+```
+
+- **默认值：**
+
+```
+type Decorators = {
+  version: 'legacy',
+};
+```
+
+用于配置装饰器语法。
+
+### 示例
+
+Modern.js 默认使用 `legacy` 语法（Stage 1 提案），等价于 TypeScript 的 `experimentalDecorators: true`。
+
+如果希望将装饰器语法调整成 Stage 3 提案，可以将 decorators.version 设置成 `2022-03`：
+
+```js
+export default {
+  source: {
+    decorators: {
+      version: '2022-03',
+    },
+  },
+};
+```
+
+详细用法可参考 [Rsbuild - source.decorators](https://rsbuild.dev/zh/config/source/decorators)。

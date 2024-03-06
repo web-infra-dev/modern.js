@@ -1,0 +1,38 @@
+---
+sidebar_label: filenameHash
+---
+
+# output.filenameHash
+
+- **类型：** `boolean | string`
+- **默认值：** `true`
+
+在生产环境构建后，是否在产物的文件名中添加 hash 值。
+
+### 示例
+
+默认情况下，构建后的产物名称会包含 hash 值：
+
+```bash
+dist/static/css/index.7879e19d.css
+dist/static/js/index.18a568e5.js
+```
+
+你可以将 `output.filenameHash` 设置为 false 来禁用这个行为：
+
+```js
+export default {
+  output: {
+    filenameHash: false,
+  },
+};
+```
+
+重新构建，产物的名称变为：
+
+```bash
+dist/static/css/index.css
+dist/static/js/index.js
+```
+
+详细用法可参考 [Rsbuild - output.filenameHash](https://rsbuild.dev/zh/config/output/filename-hash)。
