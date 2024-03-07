@@ -125,7 +125,8 @@ export default (): ServerPlugin => ({
             source: { res },
           } = ctx;
           return new Promise<void>((resolve, reject) => {
-            res.on('finish', (err: Error) => {
+            // res is not exist in other js runtime.
+            res?.on('finish', (err: Error) => {
               if (err) {
                 return reject(err);
               }
