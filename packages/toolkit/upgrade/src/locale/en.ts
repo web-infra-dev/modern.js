@@ -9,4 +9,8 @@ export const EN_LOCALE = {
     config:
       'specify the configuration file, which can be a relative or absolute path',
   },
+  info: {
+    isLatest: 'The current version is already the latest.',
+    success: 'Upgrade success!',
+  },
 };

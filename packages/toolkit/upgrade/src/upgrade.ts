@@ -1,4 +1,27 @@
-import { CodeSmith } from '@modern-js/codesmith';
+import path from 'path';
+
+import {
+  getSolutionFromDependance,
+  getPackageManager,
+} from '@modern-js/generator-utils';
+import {
+  Solution,
+  SolutionToolsMap,
+  PackageManager,
+} from '@modern-js/generator-common';
+import { fs, logger } from '@modern-js/utils';
+
+import {
+  getVersion,
+  getModernDeps,
+  validateDepsVerison,
+  updateModernVersion,
+  handleNpmrc,
+  handleHuskyV8,
+  updateMonorepoDeps,
+} from './utils';
+
+import { i18n, localeKeys } from './locale';
 
 export interface Options {
   cwd?: string;
@@ -8,49 +31,51 @@ export interface Options {
   needInstall?: boolean;
 }
 
-const UPGRADE_GENERATOR = '@modern-js/upgrade-generator';
+export const upgradeAction = async ({ cwd }: Options): Promise<void> => {
+  const rootPath = cwd ?? process.cwd();
+  const pkgJsonPath = path.join(rootPath, 'package.json');
+  const pkgJson: Record<string, any> = fs.readJSONSync(pkgJsonPath, 'utf-8');
 
-export async function upgradeAction(options: Options) {
-  const {
-    cwd = process.cwd(),
-    debug = false,
-    distTag,
-    registry,
-    needInstall,
-  } = options;
-  const projectDir = cwd;
+  // get solution from package.json
+  const solution: Solution = getSolutionFromDependance(pkgJsonPath);
+  const solutionDepName: string = SolutionToolsMap[solution];
+  //
+  const modernLatestVersion = await getVersion(solutionDepName);
+  // modern deps should be upgraded
+  const modernDeps = getModernDeps(pkgJson);
 
-  const smith = new CodeSmith({
-    debug,
-  });
-
-  smith.logger.debug('@modern-js/upgrade', projectDir || '', options);
-
-  let generator = UPGRADE_GENERATOR;
-
-  if (process.env.CODESMITH_ENV === 'development') {
-    generator = require.resolve(UPGRADE_GENERATOR);
-  } else if (distTag) {
-    generator = `${UPGRADE_GENERATOR}@${distTag}`;
+  // check if need upgrade
+  if (validateDepsVerison(modernDeps, modernLatestVersion)) {
+    // current is latest verion
+    logger.info(i18n.t(localeKeys.info.isLatest));
+    return;
   }
 
-  try {
-    await smith.forge({
-      tasks: [
-        {
-          generator,
-          config: {
-            debug,
-            distTag,
-            registry,
-            noNeedInstall: !needInstall,
-          },
-        },
-      ],
-      pwd: cwd,
-    });
-  } catch (e) {
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+  const packageManager = await getPackageManager();
+
+  // pnpm
+  if (packageManager === PackageManager.Pnpm) {
+    // .npmrc
+    await handleNpmrc(rootPath);
+    // monorepo
+    if (solution === Solution.Monorepo) {
+      await updateMonorepoDeps();
+      return;
+    }
   }
-}
+
+  // update modern version to latest
+  // special deps update to their latest ?
+  updateModernVersion(pkgJson, modernLatestVersion);
+
+  // husky
+  handleHuskyV8(rootPath, pkgJson);
+
+  // write pacakge.json
+  fs.writeJSONSync(pkgJsonPath, pkgJson, { spaces: 2 });
+
+  // show success
+  logger.success(i18n.t(localeKeys.info.success));
+
+  // install ?
+};

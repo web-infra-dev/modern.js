@@ -1,5 +1,5 @@
 import path from 'path';
-import { SolutionToolsMap } from '@modern-js/generator-common';
+import { SolutionToolsMap, Solution } from '@modern-js/generator-common';
 
 import { readJsonSync } from '@modern-js/utils/fs-extra';
 
@@ -12,9 +12,7 @@ const swap = (obj: Record<string, string>) => {
 
 const dependenceToSolution = swap(SolutionToolsMap);
 
-export const getSolutionFromDependance = (
-  jsonPath?: string,
-): string | undefined => {
+export const getSolutionFromDependance = (jsonPath?: string): Solution => {
   const packageJsonPath =
     jsonPath ?? path.normalize(`${process.cwd()}/package.json`);
   const packageJson = readJsonSync(packageJsonPath);
@@ -34,5 +32,5 @@ export const getSolutionFromDependance = (
     throw new Error(`Multiple solutions found: ${solutions.join(',')}`);
   }
 
-  return solutions[0];
+  return solutions[0] as Solution;
 };

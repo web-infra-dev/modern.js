@@ -46,6 +46,8 @@
     "@modern-js/codesmith": "2.3.5",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/generator-utils": "workspace:*",
+    "@modern-js/generator-common": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
