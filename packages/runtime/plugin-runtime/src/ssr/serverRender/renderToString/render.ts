@@ -1,6 +1,6 @@
 import ReactDomServer from 'react-dom/server';
 import type { ReactElement } from 'react';
-import ReactHelmet, { HelmetData } from 'react-helmet';
+import ReactHelmet from 'react-helmet';
 import { RenderResult } from '../types';
 
 export interface Collector {
@@ -35,7 +35,7 @@ class Render {
     // react render to string
     const html = ReactDomServer.renderToString(App);
 
-    const helmetData: HelmetData = ReactHelmet.renderStatic();
+    const helmetData = ReactHelmet.renderStatic();
 
     this.renderResult.helmet = helmetData;
 

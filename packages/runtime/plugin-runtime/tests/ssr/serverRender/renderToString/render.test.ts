@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { createElement } from 'react';
 import { createRender } from '../../../../src/ssr/serverRender/renderToString/render';
 import { createStyledCollector } from '../../../../src/ssr/serverRender/renderToString/styledComponent';
@@ -13,7 +16,8 @@ describe('test render', () => {
       renderLevel: 2,
     };
     const Apps = createElement(App);
-    const html = await createRender(Apps)
+
+    const html = await createRender(Apps, result)
       .addCollector(createStyledCollector(result))
       .finish();
 
