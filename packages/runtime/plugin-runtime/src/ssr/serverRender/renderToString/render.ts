@@ -1,5 +1,7 @@
 import ReactDomServer from 'react-dom/server';
 import type { ReactElement } from 'react';
+import ReactHelmet, { HelmetData } from 'react-helmet';
+import { RenderResult } from '../types';
 
 export interface Collector {
   collect: (comopnent: ReactElement) => ReactElement;
@@ -9,10 +11,13 @@ export interface Collector {
 class Render {
   private App: ReactElement;
 
+  private renderResult: RenderResult;
+
   private collectors: Collector[] = [];
 
-  constructor(App: ReactElement) {
+  constructor(App: ReactElement, result: RenderResult) {
     this.App = App;
+    this.renderResult = result;
   }
 
   addCollector(collector: Collector): this {
@@ -30,6 +35,10 @@ class Render {
     // react render to string
     const html = ReactDomServer.renderToString(App);
 
+    const helmetData: HelmetData = ReactHelmet.renderStatic();
+
+    this.renderResult.helmet = helmetData;
+
     // collectors do effect
     await Promise.all(this.collectors.map(component => component.effect()));
 
@@ -37,6 +46,6 @@ class Render {
   }
 }
 
-export function createRender(App: ReactElement) {
-  return new Render(App);
+export function createRender(App: ReactElement, result: RenderResult) {
+  return new Render(App, result);
 }
