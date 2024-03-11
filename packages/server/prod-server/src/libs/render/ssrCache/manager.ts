@@ -1,6 +1,7 @@
 import { IncomingMessage } from 'http';
 import { Readable, Transform } from 'stream';
 import { CacheControl, Container } from '@modern-js/types';
+import { normalizePathname } from '@modern-js/runtime-utils/url';
 import { RenderFunction, SSRServerContext } from '../type';
 
 type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
@@ -109,14 +110,11 @@ export class CacheManager {
     cacheControl: CacheControl,
   ): string {
     const { url } = req;
+
     const [pathname] = url!.split('?');
     const { customKey } = cacheControl;
 
-    // we use `pathname.replace(/\/+$/, '')` to remove the '/' with end.
-    // examples:
-    // pathname1: '/api', pathname2: '/api/'
-    // pathname1 as same as pathname2
-    const defaultKey = pathname.replace(/.+\/+$/, '');
+    const defaultKey = normalizePathname(pathname);
 
     if (customKey) {
       if (typeof customKey === 'string') {
@@ -129,3 +127,15 @@ export class CacheManager {
     }
   }
 }
+
+// // we use `pathname.replace(/\/+$/, '')` to remove the '/' with end.
+// // examples:
+// // pathname1: '/api', pathname2: '/api/'
+// // pathname1 as same as pathname2
+// export function getPath(pathname: string) {
+//   if (pathname === '/') {
+//     return pathname;
+//   } else {
+//     return pathname.replace(/\/+$/, '');
+//   }
+// }
