@@ -17,6 +17,7 @@ async function getServerManifest(
   routes: ServerRoute[],
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
+  const renderBundles: Record<string, any> = {};
 
   await Promise.all([
     routes.map(async route => {
@@ -28,28 +29,26 @@ async function getServerManifest(
         `${entryName}-server-loaders.js`,
       );
 
-      const loaderBundle = await import(loaderBundlePath).catch(_ => undefined);
+      const renderBundlePath = path.join(pwd, route.bundle || '');
 
-      loaderBundles[entryName] = loaderBundle;
+      // eslint-disable-next-line node/no-unsupported-features/es-builtins
+      await Promise.allSettled([
+        import(loaderBundlePath),
+        import(renderBundlePath),
+      ]).then(results => {
+        const { status: loaderStatus } = results[0];
+
+        if (loaderStatus === 'fulfilled') {
+          loaderBundles[entryName] = results[0].value;
+        }
+
+        const { status: renderStatus } = results[1];
+
+        if (renderStatus === 'fulfilled') {
+          renderBundles[entryName] = results[1].value;
+        }
+      });
     }),
-  ]);
-
-  const renderBundles: Record<string, any> = {};
-
-  await Promise.all([
-    routes
-      .filter(route => Boolean(route.bundle))
-      .map(async route => {
-        const entryName = route.entryName || MAIN_ENTRY_NAME;
-
-        const renderBundlePath = path.join(pwd, route.bundle || '');
-
-        const renderBundle = await import(renderBundlePath).catch(
-          _ => undefined,
-        );
-
-        renderBundles[entryName] = renderBundle;
-      }),
   ]);
 
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
