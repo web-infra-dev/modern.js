@@ -6,6 +6,7 @@ initBeforeTest();
 
 describe('target usage', () => {
   const fixtureDir = __dirname;
+
   it('target is es5', async () => {
     const configFile = 'es5.config.ts';
     await runCli({
@@ -14,6 +15,18 @@ describe('target usage', () => {
       appDirectory: fixtureDir,
     });
     const distFilePath = path.join(fixtureDir, './dist/index.js');
+    const content = await fs.readFile(distFilePath, 'utf-8');
+    expect(content.includes(`function(`)).toBeTruthy();
+  });
+
+  it('target is es5 and use mjs extension', async () => {
+    const configFile = 'es5-mjs.config.ts';
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    const distFilePath = path.join(fixtureDir, './dist/index.mjs');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(content.includes(`function(`)).toBeTruthy();
   });
