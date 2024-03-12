@@ -25,10 +25,10 @@ export {
 } from './adapters/node';
 
 export {
-  // favionFallbackMiddleware,
-  // injectReporter,
+  favionFallbackMiddleware,
+  injectReporter,
   getRenderHandler,
-  // injectLogger,
+  injectLogger,
   bindRenderHandler,
 } from './middlewares';
 
