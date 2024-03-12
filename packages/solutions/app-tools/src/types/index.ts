@@ -30,8 +30,8 @@ export type {
 
 export type AppTools<B extends Bundler = 'webpack'> = {
   hooks: AppToolsHooks<B>;
-  userConfig: AppToolsUserConfig;
-  normalizedConfig: AppToolsNormalizedConfig<AppToolsUserConfig>;
+  userConfig: AppToolsUserConfig<B>;
+  normalizedConfig: AppToolsNormalizedConfig<AppToolsUserConfig<'shared'>>;
 };
 
 export type LegacyAppTools = {

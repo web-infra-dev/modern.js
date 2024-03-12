@@ -7,6 +7,10 @@ The usage is same as `inject`, and you can use the "entry name" as the key to se
 
 `injectByEntries` will overrides the value set in `inject`.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the function usage of `inject` instead.
+:::
+
 ### Example
 
 ```js

@@ -1,4 +1,4 @@
-- **类型：** `string`
+- **类型：** `string ｜ Function`
 - **默认值：** `undefined`
 
 设置页面的 favicon 图标，可以设置为：
@@ -50,3 +50,5 @@ export default {
 ```html
 <link rel="icon" href="/favicon.ico" />
 ```
+
+详细用法可参考 [Rsbuild - html.favicon](https://rsbuild.dev/zh/config/html/favicon)。

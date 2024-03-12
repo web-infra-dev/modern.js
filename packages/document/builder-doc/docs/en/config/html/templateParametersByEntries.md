@@ -7,6 +7,10 @@ The usage is same as `templateParameters`, and you can use the "entry name" as t
 
 `templateParametersByEntries` will overrides the value set in `templateParameters`.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the function usage of `templateParameters` instead.
+:::
+
 ### Example
 
 ```js

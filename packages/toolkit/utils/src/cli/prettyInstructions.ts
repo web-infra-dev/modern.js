@@ -1,4 +1,5 @@
 import os from 'os';
+import { isIPv6 } from 'node:net';
 import { chalk } from '../compiled';
 import { isDev, isSingleEntry } from './is';
 import { DEFAULT_DEV_HOST } from './constants';
@@ -35,6 +36,13 @@ const getIpv4Interfaces = () => {
 
 export type AddressUrl = { label: string; url: string };
 
+const getHostInUrl = (host: string) => {
+  if (isIPv6(host)) {
+    return host === '::' ? '[::1]' : `[${host}]`;
+  }
+  return host;
+};
+
 export const getAddressUrls = (
   protocol = 'http',
   port: number,
@@ -48,7 +56,7 @@ export const getAddressUrls = (
     return [
       {
         label: isLocalhost(host) ? LOCAL_LABEL : NETWORK_LABEL,
-        url: `${protocol}://${host}:${port}`,
+        url: `${protocol}://${getHostInUrl(host)}:${port}`,
       },
     ];
   }

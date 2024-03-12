@@ -55,7 +55,7 @@ export function transformNormalizedConfig(
 }
 
 export function checkIsLegacyConfig(
-  config: AppLegacyUserConfig | AppUserConfig,
+  config: AppLegacyUserConfig | AppUserConfig<'shared'>,
 ): config is AppLegacyUserConfig {
   return Boolean((config as AppLegacyUserConfig).legacy);
 }

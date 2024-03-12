@@ -20,7 +20,6 @@ import { i18n, localeKeys } from './locale';
 import { getMajorVersion } from './utils';
 
 const ADDON_ESSENTIAL = '@storybook/addon-essentials';
-const BUILDER_WEBPACK = '@modern-js/builder-webpack-provider';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -98,9 +97,6 @@ const handleTemplateFile = async (
     [ADDON_ESSENTIAL]: availableVersion,
   };
 
-  const { isModuleProject } = context.config;
-  const builderWebapckVersion = await getPackageVersion(BUILDER_WEBPACK);
-
   const jsonAPI = new JsonAPI(generator);
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, './package.json')),
@@ -128,9 +124,6 @@ const handleTemplateFile = async (
         ...addReactDomDependence,
         ...addReactDependence,
         ...addStorybookDependence,
-        ...(isModuleProject
-          ? { [BUILDER_WEBPACK]: builderWebapckVersion }
-          : {}),
       },
     },
   );
