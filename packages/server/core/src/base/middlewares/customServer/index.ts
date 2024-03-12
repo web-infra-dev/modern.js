@@ -2,10 +2,10 @@ import { ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner } from '../../../core/plugin';
-import { Middleware } from '../../../core/server';
+import { Middleware, ServerEnv } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
-import { HonoNodeEnv } from '../../adapters/node';
+import { ServerNodeEnv } from '../../adapters/node';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
@@ -54,7 +54,7 @@ export class CustomServer {
   getHookMiddleware(
     entryName: string,
     routes: ServerRoute[],
-  ): Middleware<HonoNodeEnv> {
+  ): Middleware<ServerEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
@@ -153,7 +153,7 @@ export class CustomServer {
     };
   }
 
-  getServerMiddleware(): Middleware<HonoNodeEnv> {
+  getServerMiddleware(): Middleware<ServerNodeEnv & ServerEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       const serverMiddleware = await this.serverMiddlewarePromise;
@@ -161,8 +161,8 @@ export class CustomServer {
         return next();
       }
 
-      const reporter = c.get('reporter');
       const logger = c.get('logger');
+      const reporter = c.get('reporter');
       const metrics = c.get('metrics');
 
       const customMiddlewareCtx = createCustomMiddlewaresCtx(

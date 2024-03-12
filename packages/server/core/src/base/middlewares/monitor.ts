@@ -1,9 +1,7 @@
-import type { Next } from 'hono';
-import { Logger, Reporter } from '@modern-js/types';
+import type { Logger, Metrics, Reporter } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerReportTimings } from '../constants';
-import { HonoContext } from '../../core/server';
-import { HonoNodeEnv } from '../adapters/node';
+import type { HonoContext, Next, ServerEnv } from '../../core/server';
 
 const defaultReporter: Reporter = {
   init() {
@@ -25,7 +23,7 @@ const defaultReporter: Reporter = {
 
 // TODO: unify
 export function injectReporter() {
-  return async (c: HonoContext<HonoNodeEnv>, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const reporter = c.get('reporter');
     if (!reporter) {
       c.set('reporter', defaultReporter);
@@ -35,8 +33,13 @@ export function injectReporter() {
 }
 
 export function initReporter(entryName: string) {
-  return async (c: HonoContext<HonoNodeEnv>, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const reporter = c.get('reporter');
+
+    if (!reporter) {
+      await next();
+      return;
+    }
 
     await reporter.init({ entryName });
 
@@ -51,11 +54,23 @@ export function initReporter(entryName: string) {
 }
 
 export function injectLogger(inputLogger: Logger) {
-  return async (c: HonoContext<HonoNodeEnv>, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const logger = c.get('logger');
     if (!logger && inputLogger) {
       c.set('logger', inputLogger);
     }
+    await next();
+  };
+}
+
+export function injectMetrics(inputMetrics: Metrics) {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
+    const metrics = c.get('metrics');
+
+    if (!metrics) {
+      c.set('metrics', inputMetrics);
+    }
+
     await next();
   };
 }

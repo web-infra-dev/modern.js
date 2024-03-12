@@ -1,11 +1,13 @@
 import path from 'path';
 import { ServerRoute } from '@modern-js/types';
+import { createLogger } from '@modern-js/utils';
 import {
   bindRenderHandler,
-  createInjectHtml,
   createServerBase,
+  injectLogger,
   injectReporter,
 } from '../../../src/base';
+import { injectTemplates } from '../../../src/base/adapters/node';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../../src/types/config';
 
@@ -24,12 +26,13 @@ async function createSSRServer(
   });
 
   server.all('*', injectReporter());
+  server.all('*', injectLogger(createLogger()));
 
   await server.init();
 
   const routes: ServerRoute[] = require(path.resolve(pwd, 'route.json'));
 
-  server.all('*', createInjectHtml(pwd, routes));
+  server.all('*', injectTemplates(pwd, routes));
 
   await bindRenderHandler(server, {
     pwd,
@@ -60,7 +63,8 @@ describe('should render html correctly', () => {
 
     const routes = require(path.resolve(csrPwd, 'route.json'));
 
-    server.all('*', createInjectHtml(csrPwd, routes));
+    server.all('*', injectTemplates(csrPwd, routes));
+    server.all('*', injectLogger(createLogger()));
 
     await bindRenderHandler(server, {
       pwd: csrPwd,

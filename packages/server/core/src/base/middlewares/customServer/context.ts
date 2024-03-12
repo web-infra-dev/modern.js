@@ -7,8 +7,8 @@ import {
   AfterStreamingRenderContext,
   ServerRoute,
 } from '@modern-js/types';
-import { HonoContext } from '../../../core/server';
-import type { HonoNodeEnv } from '../../adapters/node';
+import { HonoContext, ServerEnv } from '../../../core/server';
+import type { ServerNodeEnv } from '../../adapters/node';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
 import { createBaseHookContext } from './base';
@@ -41,7 +41,7 @@ export async function createAfterRenderCtx(
 }
 
 export function createCustomMiddlewaresCtx(
-  c: HonoContext<HonoNodeEnv>,
+  c: HonoContext<ServerNodeEnv & ServerEnv>,
   logger: Logger,
   metrics?: Metrics,
 ): MiddlewareContext {
