@@ -9,6 +9,7 @@ import type {
   Reporter,
   BaseSSRServerContext,
   ServerRoute,
+  NestedRoute,
 } from '@modern-js/types';
 import { MiddlewareHandler } from 'hono';
 import { ServerOptions } from '../types/config/index';
@@ -121,9 +122,31 @@ export type RequestHandler = (
   ...args: any[]
 ) => Response | Promise<Response>;
 
+type ServerLoaderBundle = {
+  routes: NestedRoute[];
+  handleRequest: (options: {
+    request: Request;
+    serverRoutes: ServerRoute[];
+    context: any;
+    routes: NestedRoute[];
+  }) => Promise<any>;
+};
+
+type ServerRenderBundle = {
+  serverRender: () => any;
+};
+
+export type ServerManifest = {
+  loaderBundles?: Record<string, ServerLoaderBundle>;
+  renderBundles?: Record<string, ServerRenderBundle>;
+  loadableStats?: Record<string, any>;
+  routeManifest?: Record<string, any>;
+};
+
 type ServerVariables = {
   logger: Logger;
   reporter: Reporter;
+  serverManifest?: ServerManifest;
   metrics?: Metrics;
   templates?: Record<string, string>;
 };

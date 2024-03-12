@@ -1,14 +1,14 @@
 import { Readable } from 'stream';
 import type { IncomingMessage } from 'http';
 import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
-import {
-  LOADABLE_STATS_FILE,
-  ROUTE_MANIFEST_FILE,
-  SERVER_RENDER_FUNCTION_NAME,
-} from '@modern-js/utils';
+import { SERVER_RENDER_FUNCTION_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import * as isbot from 'isbot';
-import { createTransformStream, getPathModule } from '../../utils';
-import { SSRServerContext, ServerRender } from '../../../core/server';
+import { createTransformStream } from '../../utils';
+import {
+  SSRServerContext,
+  ServerManifest,
+  ServerRender,
+} from '../../../core/server';
 import { REPLACE_REG } from '../../constants';
 import { parseHeaders, parseQuery, getHost } from '../../utils/request';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
@@ -40,6 +40,7 @@ export interface SSRRenderOptions {
   staticGenerate: boolean;
   metaName: string;
   logger: Logger;
+  serverManifest: ServerManifest;
   reporter?: Reporter;
   nodeReq?: IncomingMessage;
   nonce?: string;
@@ -49,7 +50,6 @@ export async function ssrRender(
   request: Request,
   {
     routeInfo,
-    pwd,
     html,
     staticGenerate,
     nonce,
@@ -57,28 +57,12 @@ export async function ssrRender(
     reporter,
     logger,
     nodeReq,
+    serverManifest,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
-  const path = await getPathModule();
-  const jsBundlePath = path.join(pwd, routeInfo.bundle!);
-  const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
-
-  let loadableStats = {};
-  try {
-    loadableStats = await import(loadableUri);
-  } catch (_) {
-    // ignore error
-  }
-
-  const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
-  let routeManifest;
-
-  try {
-    routeManifest = await import(routesManifestUri);
-  } catch (_) {
-    // ignore error
-  }
+  const loadableStats = serverManifest.loadableStats || {};
+  const routeManifest = serverManifest.routeManifest || {};
 
   const host = getHost(request);
   const isSpider = isbot.default(request.headers.get('user-agent'));
@@ -123,13 +107,18 @@ export async function ssrRender(
     nonce,
   };
 
-  const jsBundle = await import(jsBundlePath);
+  const renderBundle =
+    serverManifest.renderBundles?.[entryName || MAIN_ENTRY_NAME];
+
+  if (!renderBundle) {
+    throw new Error(`Can't found renderBundle ${entryName || MAIN_ENTRY_NAME}`);
+  }
 
   const incomingMessage = nodeReq ? nodeReq : new IncomingMessgeProxy(request);
   const cacheControl = await ssrCache.matchCacheControl(incomingMessage as any);
 
   let ssrResult: Awaited<ReturnType<ServerRender>>;
-  const render: ServerRender = jsBundle[SERVER_RENDER_FUNCTION_NAME];
+  const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
   if (cacheControl) {
     ssrResult = await ssrCache.getCache(
       request,

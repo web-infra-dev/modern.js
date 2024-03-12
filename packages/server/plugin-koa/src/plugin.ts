@@ -18,6 +18,7 @@ declare module 'http' {
   interface IncomingMessage {
     __honoRequest: Request;
     __templates: Record<string, string>;
+    __serverManifest: any;
   }
 }
 
@@ -120,7 +121,8 @@ const createApp = async ({
       const response = await render(ctx.req.__honoRequest, {
         logger,
         nodeReq: ctx.req,
-        tpls: ctx.req.__templates,
+        templates: ctx.req.__templates,
+        serverManifest: ctx.req.__serverManifest,
       });
 
       if (response) {

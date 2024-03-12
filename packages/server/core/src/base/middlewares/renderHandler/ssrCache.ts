@@ -10,7 +10,7 @@ import type {
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import type { SSRServerContext, ServerRender } from '../../../core/server';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
-import { createTransformStream, getPathModule, getPathname } from '../../utils';
+import { createTransformStream, getPathname } from '../../utils';
 
 interface CacheStruct {
   val: string;
@@ -143,7 +143,10 @@ class ServerCache {
   private cacheManger?: CacheManager;
 
   async loadCacheMod(pwd: string = process.cwd()) {
-    const path = await getPathModule();
+    // only support node
+    const path = await import('path').catch(() => {
+      return {} as any;
+    });
     // TODO: unify server config file.
     const serverCacheFilepath = path.resolve(pwd, SERVER_DIR, CACHE_FILENAME);
     const mod: CacheMod | undefined = requireExistModule(serverCacheFilepath, {
