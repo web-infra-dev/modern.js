@@ -1,24 +1,25 @@
 import { InternalPlugins } from '@modern-js/types';
 
-/**
- * route specification file
- */
-export const ROUTE_SPEC_FILE = 'route.json';
-
-/**
- * Front-end routing metadata
- */
-export const NESTED_ROUTE_SPEC_FILE = 'nestedRoutes.json';
-
-/**
- * main entry name
- */
-export const MAIN_ENTRY_NAME = 'main';
-
-/**
- * server side bundles directory, which relative to dist.
- */
-export const SERVER_BUNDLE_DIRECTORY = 'bundles';
+export {
+  ROUTE_SPEC_FILE,
+  MAIN_ENTRY_NAME,
+  SERVER_BUNDLE_DIRECTORY,
+  LOADABLE_STATS_FILE,
+  SERVER_RENDER_FUNCTION_NAME,
+  NESTED_ROUTE_SPEC_FILE,
+  API_DIR,
+  SERVER_DIR,
+  SHARED_DIR,
+  ROUTE_MANIFEST_FILE,
+  OUTPUT_CONFIG_FILE,
+  DEFAULT_SERVER_CONFIG,
+  SERVER_PLUGIN_BFF,
+  SERVER_PLUGIN_EXPRESS,
+  SERVER_PLUGIN_KOA,
+  SERVER_PLUGIN_SERVER,
+  SERVER_PLUGIN_POLYFILL,
+  INTERNAL_SERVER_PLUGINS,
+} from '../universal/constants';
 
 /**
  * server side bundles directory, which relative to dist.
@@ -31,45 +32,11 @@ export const SERVER_WORKER_BUNDLE_DIRECTORY = 'worker';
 export const ENTRY_NAME_PATTERN = '^[a-zA-Z0-9_-]+$';
 
 /**
- * SSR server render function name
- */
-export const SERVER_RENDER_FUNCTION_NAME = 'serverRender';
-
-/**
- * loadbale manifest json file
- */
-export const LOADABLE_STATS_FILE = 'loadable-stats.json';
-
-/**
- * internal specified folder
- */
-export const API_DIR = 'api';
-
-export const SERVER_DIR = 'server';
-
-export const SHARED_DIR = 'shared';
-
-/**
  * Modern.config.ts cached dir
  */
 export const CONFIG_CACHE_DIR = './node_modules/.cache/bundle-require';
 
 export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.mjs'];
-
-/**
- * Serialized config path
- */
-export const OUTPUT_CONFIG_FILE = 'modern.config.json';
-
-/**
- * Default server config basename
- */
-export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
-
-/**
- * Routes manifest filename
- */
-export const ROUTE_MANIFEST_FILE = 'routes-manifest.json';
 
 /**
  * directory name for loader routes
@@ -158,19 +125,4 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
   // legacy router (inner react-router-dom v5)
   '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
-};
-
-export const SERVER_PLUGIN_BFF = '@modern-js/plugin-bff';
-export const SERVER_PLUGIN_EXPRESS = '@modern-js/plugin-express';
-export const SERVER_PLUGIN_KOA = '@modern-js/plugin-koa';
-export const SERVER_PLUGIN_SERVER = '@modern-js/plugin-server';
-export const SERVER_PLUGIN_POLYFILL = '@modern-js/plugin-polyfill';
-
-// Todo remove it.
-export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
-  [SERVER_PLUGIN_BFF]: '@modern-js/plugin-bff/server',
-  [SERVER_PLUGIN_EXPRESS]: '@modern-js/plugin-express/server',
-  [SERVER_PLUGIN_KOA]: '@modern-js/plugin-koa/server',
-  [SERVER_PLUGIN_SERVER]: '@modern-js/plugin-server/server',
-  [SERVER_PLUGIN_POLYFILL]: '@modern-js/plugin-polyfill/server',
 };

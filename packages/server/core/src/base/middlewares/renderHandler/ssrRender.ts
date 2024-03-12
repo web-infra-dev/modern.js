@@ -1,17 +1,16 @@
-import { Readable } from 'stream';
 import type { IncomingMessage } from 'http';
 import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
-import {
-  LOADABLE_STATS_FILE,
-  ROUTE_MANIFEST_FILE,
-  SERVER_RENDER_FUNCTION_NAME,
-} from '@modern-js/utils';
+import { SERVER_RENDER_FUNCTION_NAME } from '@modern-js/utils/universal/constants';
 import * as isbot from 'isbot';
-import { createTransformStream, getPathModule } from '../../utils';
-import { SSRServerContext, ServerRender } from '../../../core/server';
+import {
+  createTransformStream,
+  parseHeaders,
+  parseQuery,
+  getHost,
+} from '../../utils';
+import type { SSRServerContext, ServerRender } from '../../../core/server';
 import { REPLACE_REG } from '../../constants';
-import { parseHeaders, parseQuery, getHost } from '../../utils/request';
-import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
+import type { ServerManifest } from '../../../core/render';
 import { ServerTiming } from './serverTiming';
 import { ssrCache } from './ssrCache';
 
@@ -43,13 +42,13 @@ export interface SSRRenderOptions {
   reporter?: Reporter;
   nodeReq?: IncomingMessage;
   nonce?: string;
+  serverManifest?: ServerManifest;
 }
 
 export async function ssrRender(
   request: Request,
   {
     routeInfo,
-    pwd,
     html,
     staticGenerate,
     nonce,
@@ -57,28 +56,13 @@ export async function ssrRender(
     reporter,
     logger,
     nodeReq,
+    serverManifest,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
-  const path = await getPathModule();
-  const jsBundlePath = path.join(pwd, routeInfo.bundle!);
-  const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
-  let loadableStats = {};
-  try {
-    loadableStats = await import(loadableUri);
-  } catch (_) {
-    // ignore error
-  }
-
-  const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
-  let routeManifest;
-
-  try {
-    routeManifest = await import(routesManifestUri);
-  } catch (_) {
-    // ignore error
-  }
+  const loadableStats = serverManifest?.loadableStats || {};
+  const routeManifest = serverManifest?.routeManifest || {};
 
   const host = getHost(request);
   const isSpider = isbot.default(request.headers.get('user-agent'));
@@ -123,7 +107,7 @@ export async function ssrRender(
     nonce,
   };
 
-  const jsBundle = await import(jsBundlePath);
+  const jsBundle = serverManifest?.jsBundles?.[entryName!] || {};
 
   const incomingMessage = nodeReq ? nodeReq : new IncomingMessgeProxy(request);
   const cacheControl = await ssrCache.matchCacheControl(incomingMessage as any);
@@ -161,10 +145,29 @@ export async function ssrRender(
       params: {} as Record<string, any>,
     },
   };
-  const data =
-    ssrResult instanceof Readable
-      ? createReadableStreamFromReadable(ssrResult)
-      : ssrResult;
+
+  // const Readable: any | undefined = await import('stream').catch(
+  //   _ => undefined,
+  // );
+  // const { createReadableStreamFromReadable } =
+  // let Readable;
+  // let createReadableStreamFromReadable;
+
+  try {
+    // const stream = await import('stream');
+    // ({ Readable } = stream);
+    // ({ createReadableStreamFromReadable } = await import(
+    //   '../../adapters/node/polyfills/stream'
+    // ));
+  } catch (_) {
+    // ignore error
+  }
+
+  const data = ssrResult as unknown as string | ReadableStream;
+
+  // const data = (Readable && ssrResult instanceof Readable
+  //   ? createReadableStreamFromReadable?.(ssrResult)
+  //   : ssrResult) as unknown as string | ReadableStream;
 
   const body = injectServerData(data, serverData);
 

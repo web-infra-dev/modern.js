@@ -1,3 +1,5 @@
+// import path from 'path';
+import path from 'path';
 import {
   ServerBase,
   createStaticMiddleware,
@@ -11,7 +13,12 @@ import {
   createServerBase,
   loadServerEnv,
 } from '@modern-js/server-core/base';
-import { createLogger } from '@modern-js/utils';
+import {
+  LOADABLE_STATS_FILE,
+  ROUTE_MANIFEST_FILE,
+  createLogger,
+} from '@modern-js/utils';
+import { ServerRoute } from '@modern-js/types';
 import { ErrorDigest, onError } from './error';
 import { ProdServerOptions, BaseEnv } from './types';
 
@@ -27,6 +34,7 @@ export async function createRequestHandler(
 
 export async function createWebServer(options: ProdServerOptions) {
   const server = createServerBase<BaseEnv>(options);
+
   // load env file.
   await loadServerEnv(options);
   await server.init();
@@ -71,7 +79,62 @@ export const initProdMiddlewares = async (
 
   await bindBFFHandler(server, options);
 
+  server.get('*', async (c, next) => {
+    if (!c.get('serverManifest')) {
+      const serverManifest = await getServerManifest(pwd, options.routes);
+      c.set('serverManifest', serverManifest);
+    }
+
+    return next();
+  });
+
   await bindRenderHandler(server, options);
 
   return server;
 };
+
+async function getServerManifest(pwd: string, routes?: ServerRoute[]) {
+  if (routes) {
+    const _jsBundles = await Promise.all(
+      routes
+        .filter(route => Boolean(route.bundle))
+        .map(async route => {
+          const bundle = route.bundle!;
+          const jsBundlePath = path.join(pwd, bundle);
+          let jsBundle;
+          try {
+            jsBundle = await import(jsBundlePath);
+          } catch (_) {
+            // ignore
+          }
+
+          return [route.entryName!, jsBundle];
+        }),
+    );
+    const jsBundles = Object.fromEntries(_jsBundles);
+
+    const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
+
+    let loadableStats = {};
+    try {
+      loadableStats = await import(loadableUri);
+    } catch (_) {
+      // ignore error
+    }
+
+    const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
+    let routeManifest = {};
+    try {
+      routeManifest = await import(routesManifestUri);
+    } catch (_) {
+      // ignore error
+    }
+
+    return {
+      jsBundles,
+      loadableStats,
+      routeManifest,
+    };
+  }
+  return {};
+}

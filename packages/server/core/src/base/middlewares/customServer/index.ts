@@ -1,11 +1,11 @@
-import { ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { ServerBase } from '../../serverBase';
-import { ServerHookRunner } from '../../../core/plugin';
-import { Middleware } from '../../../core/server';
+import type { HonoNodeEnv } from '../../adapters/node';
+import type { ServerBase } from '../../serverBase';
+import type { ServerHookRunner } from '../../../core/plugin';
+import type { Middleware } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
-import { HonoNodeEnv } from '../../adapters/node';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,

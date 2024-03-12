@@ -1,4 +1,4 @@
-import {
+import type {
   CookieAPI,
   HookContext,
   Metrics,
@@ -6,7 +6,7 @@ import {
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import { HonoContext, HonoRequest, Logger } from '../../../core/server';
+import type { HonoContext, HonoRequest, Logger } from '../../../core/server';
 import { getHost } from '../../utils';
 
 export function createBaseHookContext(

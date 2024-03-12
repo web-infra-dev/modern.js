@@ -1,5 +1,8 @@
 export const getRuntimeEnv = () => {
-  if (global?.process?.release?.name === 'node') {
+  if (
+    typeof global !== 'undefined' &&
+    global?.process?.release?.name === 'node'
+  ) {
     return 'node';
   }
   return 'other';
@@ -13,6 +16,6 @@ export const checkIsProd = () => {
       return process.env.NODE_ENV === 'production';
 
     default:
-      return false;
+      return true;
   }
 };

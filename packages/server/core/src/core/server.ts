@@ -1,5 +1,5 @@
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
-import { Readable } from 'node:stream';
+import type { Readable } from 'node:stream';
 import type {
   Metrics,
   Logger,

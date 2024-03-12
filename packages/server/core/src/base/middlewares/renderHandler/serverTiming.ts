@@ -1,4 +1,4 @@
-import { ServerTiming as ServerTimingInterafce } from '@modern-js/types';
+import type { ServerTiming as ServerTimingInterafce } from '@modern-js/types';
 
 const SERVER_TIMING = 'Server-Timing';
 

@@ -1,8 +1,8 @@
-import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
-import mergeDeep from 'merge-deep';
+import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils/universal/constants';
 import { ServerConfig } from '../../core/plugin';
-import { ServerOptions } from '../../types/config';
+import type { ServerOptions } from '../../types/config';
 import { getPathModule } from './path';
+import { checkIsProd } from './env';
 
 export const getServerConfigPath = async (
   distDirectory: string,
@@ -14,11 +14,7 @@ export const getServerConfigPath = async (
 };
 
 export const requireConfig = (serverConfigPath: string) => {
-  if (fs.pathExistsSync(serverConfigPath)) {
-    return compatRequire(serverConfigPath);
-  }
-
-  return {};
+  return import(serverConfigPath).catch(_ => ({}));
 };
 
 /**
@@ -29,32 +25,46 @@ export const requireConfig = (serverConfigPath: string) => {
 export const loadConfig = ({
   cliConfig,
   serverConfig,
-  resolvedConfigPath,
-}: {
+}: // resolvedConfigPath,
+{
   cliConfig: ServerOptions;
   serverConfig: ServerConfig;
   resolvedConfigPath: string;
 }) => {
-  let config = null;
-  if (process.env.NODE_ENV === 'production') {
-    const resolvedConfig = requireConfig(resolvedConfigPath);
+  const config = {} as any;
+
+  if (checkIsProd()) {
+    // const resolvedConfig = requireConfig(resolvedConfigPath);
     // cli config has a higher priority,because it's an argument passed in.
-    config = mergeDeep(
-      {
-        ...resolvedConfig,
-        plugins: [], // filter cli plugins
-      },
-      serverConfig,
-      cliConfig,
-    );
+
+    return {
+      // ...resolvedConfig,
+      plugins: [],
+      ...serverConfig,
+      ...cliConfig,
+    };
+
+    // config = mergeDeep(
+    //   {
+    //     ...resolvedConfig,
+    //     plugins: [], // filter cli plugins
+    //   },
+    //   serverConfig,
+    //   cliConfig,
+    // );
   } else {
-    config = mergeDeep(
-      {
-        ...cliConfig,
-        plugins: [],
-      },
-      serverConfig,
-    );
+    return {
+      ...cliConfig,
+      plugins: [],
+      ...serverConfig,
+    };
+    // config = mergeDeep(
+    //   {
+    //     ...cliConfig,
+    //     plugins: [],
+    //   },
+    //   serverConfig,
+    // );
   }
   return config;
 };

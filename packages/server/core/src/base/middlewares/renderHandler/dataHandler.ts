@@ -1,5 +1,8 @@
 import type { ServerRoute, NestedRoute } from '@modern-js/types';
-import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
+import {
+  MAIN_ENTRY_NAME,
+  SERVER_BUNDLE_DIRECTORY,
+} from '@modern-js/utils/universal/constants';
 import { getPathModule } from '../../utils';
 import { SSRRenderOptions } from './ssrRender';
 

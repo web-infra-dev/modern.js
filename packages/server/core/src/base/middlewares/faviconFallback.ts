@@ -1,4 +1,4 @@
-import { Middleware } from '../../core/server';
+import type { Middleware } from '../../core/server';
 
 export const favionFallbackMiddleware: Middleware = async (c, next) => {
   if (c.req.path === '/favicon.ico') {

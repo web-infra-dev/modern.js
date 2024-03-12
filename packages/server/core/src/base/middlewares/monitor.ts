@@ -2,8 +2,8 @@ import type { Next } from 'hono';
 import { Logger, Reporter } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerReportTimings } from '../constants';
-import { HonoContext } from '../../core/server';
-import { HonoNodeEnv } from '../adapters/node';
+import type { HonoContext } from '../../core/server';
+import type { HonoNodeEnv } from '../adapters/node';
 
 const defaultReporter: Reporter = {
   init() {
@@ -38,7 +38,7 @@ export function initReporter(entryName: string) {
   return async (c: HonoContext<HonoNodeEnv>, next: Next) => {
     const reporter = c.get('reporter');
 
-    await reporter.init({ entryName });
+    await reporter?.init({ entryName });
 
     // reporter global timeing
     const getCost = time();
@@ -46,7 +46,7 @@ export function initReporter(entryName: string) {
     await next();
 
     const cost = getCost();
-    reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
+    reporter?.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
   };
 }
 

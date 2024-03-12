@@ -1,11 +1,13 @@
 export * from './env';
 export * from './request';
-export * from './serverConfig';
-export * from './debug';
 export * from './transformStream';
 export * from './middlewareCollector';
 export * from './error';
 export * from './warmup';
 export * from './entry';
 export * from './path';
-export * from './templates';
+export * from './serverConfig';
+
+export const cutNameByHyphen = (s: string) => {
+  return s.split(/[-_]/)[0];
+};

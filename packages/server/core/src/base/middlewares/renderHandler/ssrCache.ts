@@ -1,6 +1,5 @@
 import type { IncomingMessage } from 'http';
-import { Readable } from 'stream';
-import { SERVER_DIR, requireExistModule } from '@modern-js/utils';
+import { SERVER_DIR } from '@modern-js/utils/universal/constants';
 import type {
   CacheControl,
   CacheOption,
@@ -9,7 +8,6 @@ import type {
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import type { SSRServerContext, ServerRender } from '../../../core/server';
-import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
 import { createTransformStream, getPathModule, getPathname } from '../../utils';
 
 interface CacheStruct {
@@ -84,11 +82,27 @@ class CacheManager {
       await this.container.set(key, JSON.stringify(cache), { ttl });
       return renderResult;
     } else {
-      const body =
-        // TODO: remove node:stream, move it to ssr entry.
-        renderResult instanceof Readable
-          ? createReadableStreamFromReadable(renderResult)
-          : renderResult;
+      // let Readable;
+      // let createReadableStreamFromReadable;
+
+      // try {
+      //   const stream = await import('stream');
+      //   ({ Readable } = stream);
+
+      //   // ({ createReadableStreamFromReadable } = await import(
+      //   //   '../../adapters/node/polyfills/stream'
+      //   // ));
+      // } catch (_) {
+      //   // ignore error
+      // }
+
+      // const body =
+      //   // TODO: remove node:stream, move it to ssr entry.
+      //   (Readable && renderResult instanceof Readable
+      //     ? createReadableStreamFromReadable?.(renderResult)
+      //     : renderResult) as unknown as ReadableStream;
+
+      const body = renderResult as unknown as ReadableStream;
 
       let html = '';
       const stream = createTransformStream(chunk => {
@@ -146,9 +160,9 @@ class ServerCache {
     const path = await getPathModule();
     // TODO: unify server config file.
     const serverCacheFilepath = path.resolve(pwd, SERVER_DIR, CACHE_FILENAME);
-    const mod: CacheMod | undefined = requireExistModule(serverCacheFilepath, {
-      interop: false,
-    });
+    const mod: CacheMod | undefined = await import(serverCacheFilepath).catch(
+      _ => undefined,
+    );
 
     this.cacheOption = mod?.cacheOption;
     if (this.cacheOption && !mod?.customContainer) {

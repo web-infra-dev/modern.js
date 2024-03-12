@@ -1,12 +1,18 @@
-import { Render } from '../../../core/render';
-import { Middleware, ServerBaseOptions } from '../../../core/server';
-import { ServerBase } from '../../serverBase';
+import type { Render, ServerManifest } from '../../../core/render';
+import type { Middleware, ServerBaseOptions } from '../../../core/server';
+import type { ServerBase } from '../../serverBase';
+import type { HonoNodeEnv } from '../../adapters/node';
 import { warmup, checkIsProd, sortRoutes, getPathModule } from '../../utils';
-import { HonoNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
 import { ssrCache } from './ssrCache';
 import { createRender } from './render';
+
+declare module 'hono' {
+  interface ContextVariableMap {
+    serverManifest: ServerManifest;
+  }
+}
 
 function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {
@@ -15,12 +21,14 @@ function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
     const templates = c.get('templates');
+    const serverManifest = c.get('serverManifest');
 
     const res = await render(request, {
       logger,
       nodeReq,
       reporter,
       tpls: templates || {},
+      serverManifest,
     });
 
     return res;

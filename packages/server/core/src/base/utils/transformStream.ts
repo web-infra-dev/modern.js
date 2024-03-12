@@ -1,4 +1,4 @@
-import { MaybeAsync } from '@modern-js/plugin';
+import type { MaybeAsync } from '@modern-js/plugin';
 
 export function createTransformStream(
   fn: (content: string) => MaybeAsync<string>,

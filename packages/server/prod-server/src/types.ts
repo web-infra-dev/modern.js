@@ -10,7 +10,7 @@ interface MonitorOptions {
 }
 
 export type ProdServerOptions = ServerBaseOptions &
-  Omit<BindRenderHandleOptions, 'templates'> &
+  Omit<BindRenderHandleOptions, 'templates' | 'serverManifest'> &
   MonitorOptions;
 
 export type BaseEnv = {

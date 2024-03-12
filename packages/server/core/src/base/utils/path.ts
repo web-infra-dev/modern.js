@@ -11,3 +11,9 @@ export async function getPathModule() {
 
   return path;
 }
+
+export async function ensureAbsolutePath(base: string, filePath: string) {
+  const path = await getPathModule();
+
+  return path.isAbsolute(filePath) ? filePath : path.resolve(base, filePath);
+}

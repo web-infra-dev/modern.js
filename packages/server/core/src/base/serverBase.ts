@@ -1,11 +1,10 @@
+import type { ISAppContext } from '@modern-js/types';
+import { Hono } from 'hono';
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
   SHARED_DIR,
-  ensureAbsolutePath,
-} from '@modern-js/utils';
-import { ISAppContext } from '@modern-js/types';
-import { Hono } from 'hono';
+} from '@modern-js/utils/universal/constants';
 import {
   AppContext,
   ConfigContext,
@@ -14,13 +13,14 @@ import {
   loadPlugins,
   serverManager,
 } from '../core';
-import { HonoEnv, ServerBaseOptions } from '../core/server';
+import type { HonoEnv, ServerBaseOptions } from '../core/server';
 import {
-  debug,
+  // debug,
   getPathModule,
   getServerConfigPath,
   loadConfig,
   requireConfig,
+  ensureAbsolutePath,
 } from './utils';
 
 declare module '@modern-js/types' {
@@ -90,7 +90,7 @@ export class ServerBase<E extends HonoEnv = any> {
     } = options;
     const serverPlugins = this.serverConfig.plugins || [];
     // server app context for serve plugin
-    const loadedPlugins = loadPlugins(
+    const loadedPlugins = await loadPlugins(
       options.appContext.appDirectory || pwd,
       [...serverPlugins, ...plugins],
       {
@@ -98,7 +98,9 @@ export class ServerBase<E extends HonoEnv = any> {
       },
     );
 
-    debug('plugins', loadedPlugins);
+    console.log('loadedPlugins', loadedPlugins);
+
+    // debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
@@ -114,7 +116,7 @@ export class ServerBase<E extends HonoEnv = any> {
 
     const serverConfigPath = await getServerConfigPath(pwd, serverConfigFile);
 
-    const serverConfig = requireConfig(serverConfigPath);
+    const serverConfig = await requireConfig(serverConfigPath);
     this.serverConfig = serverConfig;
   }
 
@@ -171,7 +173,7 @@ export class ServerBase<E extends HonoEnv = any> {
 
     const finalServerConfig = this.runConfigHook(runner, serverConfig);
 
-    const resolvedConfigPath = ensureAbsolutePath(
+    const resolvedConfigPath = await ensureAbsolutePath(
       pwd,
       path.join(config.output.path || 'dist', OUTPUT_CONFIG_FILE),
     );

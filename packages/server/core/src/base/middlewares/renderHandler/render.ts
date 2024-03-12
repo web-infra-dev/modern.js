@@ -1,8 +1,11 @@
-import { ServerRoute } from '@modern-js/types';
-import { cutNameByHyphen } from '@modern-js/utils';
+import type { ServerRoute } from '@modern-js/types';
 import { Render } from '../../../core/render';
-import { parseQuery } from '../../utils/request';
-import { createErrorHtml, sortRoutes } from '../../utils';
+import {
+  createErrorHtml,
+  sortRoutes,
+  cutNameByHyphen,
+  parseQuery,
+} from '../../utils';
 import { dataHandler } from './dataHandler';
 import { ssrRender } from './ssrRender';
 
@@ -23,7 +26,7 @@ export async function createRender({
   forceCSR,
   nonce,
 }: CreateRenderOptions): Promise<Render> {
-  return async (req, { logger, nodeReq, reporter, tpls }) => {
+  return async (req, { logger, nodeReq, reporter, tpls, serverManifest }) => {
     const routeInfo = matchRoute(req, routes);
 
     if (!routeInfo) {
@@ -60,6 +63,7 @@ export async function createRender({
       nodeReq,
       reporter,
       serverRoutes: routes,
+      serverManifest,
     };
 
     switch (renderMode) {

@@ -7,12 +7,14 @@ import {
   Middleware,
   Next,
 } from '../../../core/server';
+import { ServerManifest } from '../../../core/render';
 
 type NodeBindings = {
   node: {
     req: NodeRequest & {
       __honoRequest: HonoRequest;
       __templates: Record<string, string>;
+      __serverManifest: ServerManifest;
     };
     res: NodeResponse;
   };
@@ -41,6 +43,7 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     // for bff.enableHandleWeb
     req.__honoRequest = context.req;
     req.__templates = context.get('templates') || {};
+    req.__serverManifest = context.get('serverManifest');
     await handler(req, res);
     if (res.headersSent) {
       context.finalized = true;
