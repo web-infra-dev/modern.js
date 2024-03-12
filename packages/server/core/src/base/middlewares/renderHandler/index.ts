@@ -1,7 +1,7 @@
 import { Render } from '../../../core/render';
 import { Middleware, ServerBaseOptions, ServerEnv } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
-import { warmup, checkIsProd, sortRoutes, getPathModule } from '../../utils';
+import { checkIsProd, sortRoutes } from '../../utils';
 import { ServerNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
@@ -14,7 +14,8 @@ function createRenderHandler(
   return async (c, _) => {
     const logger = c.get('logger');
     const reporter = c.get('reporter');
-    const templates = c.get('templates');
+    const templates = c.get('templates') || {};
+    const serverManifest = c.get('serverManifest') || {};
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
@@ -23,7 +24,8 @@ function createRenderHandler(
       logger,
       nodeReq,
       reporter,
-      tpls: templates || {},
+      templates,
+      serverManifest,
     });
 
     return res;
@@ -60,17 +62,15 @@ export async function bindRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
   const { routes, pwd } = options;
-  const path = await getPathModule();
-
   const { runner } = server;
   if (routes && routes.length > 0) {
     const customServer = new CustomServer(runner, server, pwd);
 
-    // warn ssr bundles
-    const ssrBundles = routes
-      .filter(route => route.isSSR && route.bundle)
-      .map(route => path.join(pwd, route.bundle!));
-    warmup(ssrBundles);
+    // FIXME: support warn ssr bundles in node bundles
+    // const ssrBundles = routes
+    //   .filter(route => route.isSSR && route.bundle)
+    //   .map(route => path.join(pwd, route.bundle!));
+    // warmup(ssrBundles);
 
     // load ssr cache mod
     await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);

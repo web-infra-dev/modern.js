@@ -19,6 +19,7 @@ export {
   registerMockHandlers,
   createWebRequest,
   injectTemplates,
+  injectServerManifest,
   type ServerNodeContext,
   type ServerNodeMiddleware,
 } from './adapters/node';

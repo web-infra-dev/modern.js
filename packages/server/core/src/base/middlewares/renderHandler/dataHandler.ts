@@ -1,41 +1,23 @@
-import type { ServerRoute, NestedRoute } from '@modern-js/types';
-import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
-import { getPathModule } from '../../utils';
+import type { ServerRoute } from '@modern-js/types';
+import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { SSRRenderOptions } from './ssrRender';
-
-type ServerLoaderModule = {
-  routes: NestedRoute[];
-  handleRequest: (options: {
-    request: Request;
-    serverRoutes: ServerRoute[];
-    context: any;
-    routes: NestedRoute[];
-  }) => Promise<any>;
-};
 
 export const dataHandler = async (
   request: Request,
   {
     routeInfo,
     serverRoutes,
-    pwd,
     reporter,
     logger,
+    serverManifest,
   }: SSRRenderOptions & {
     serverRoutes: ServerRoute[];
   },
 ): Promise<Response | void> => {
-  const path = await getPathModule();
-  const serverLoaderBundlePath = path.join(
-    pwd,
-    SERVER_BUNDLE_DIRECTORY,
-    `${routeInfo.entryName || MAIN_ENTRY_NAME}-server-loaders.js`,
-  );
+  const serverLoaderModule =
+    serverManifest?.loaderBundles?.[routeInfo.entryName || MAIN_ENTRY_NAME];
 
-  let serverLoaderModule: ServerLoaderModule;
-  try {
-    serverLoaderModule = await import(serverLoaderBundlePath);
-  } catch (_) {
+  if (!serverLoaderModule) {
     return;
   }
 

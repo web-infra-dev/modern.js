@@ -23,7 +23,10 @@ export async function createRender({
   forceCSR,
   nonce,
 }: CreateRenderOptions): Promise<Render> {
-  return async (req, { logger, nodeReq, reporter, tpls }) => {
+  return async (
+    req,
+    { logger, nodeReq, reporter, templates, serverManifest },
+  ) => {
     const routeInfo = matchRoute(req, routes);
 
     if (!routeInfo) {
@@ -35,7 +38,7 @@ export async function createRender({
       });
     }
 
-    const html = tpls[routeInfo.entryName!];
+    const html = templates[routeInfo.entryName!];
 
     if (!html) {
       throw new Error(`Can't found entry ${routeInfo.entryName!} html `);
@@ -60,6 +63,7 @@ export async function createRender({
       nodeReq,
       reporter,
       serverRoutes: routes,
+      serverManifest,
     };
 
     switch (renderMode) {

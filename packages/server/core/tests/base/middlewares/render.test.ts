@@ -7,7 +7,10 @@ import {
   injectLogger,
   injectReporter,
 } from '../../../src/base';
-import { injectTemplates } from '../../../src/base/adapters/node';
+import {
+  injectTemplates,
+  injectServerManifest,
+} from '../../../src/base/adapters/node';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../../src/types/config';
 
@@ -32,6 +35,7 @@ async function createSSRServer(
 
   const routes: ServerRoute[] = require(path.resolve(pwd, 'route.json'));
 
+  server.all('*', injectServerManifest(pwd, routes));
   server.all('*', injectTemplates(pwd, routes));
 
   await bindRenderHandler(server, {

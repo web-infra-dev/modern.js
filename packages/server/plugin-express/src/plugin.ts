@@ -21,6 +21,7 @@ declare global {
       // eslint-disable-next-line node/no-unsupported-features/es-builtins
       __honoRequest: globalThis.Request;
       __templates: Record<string, string>;
+      __serverManifest: any;
     }
   }
 }
@@ -119,7 +120,8 @@ const createApp = async ({
       const response = await render(req.__honoRequest, {
         logger,
         nodeReq: req,
-        tpls: req.__templates,
+        templates: req.__templates,
+        serverManifest: req.__serverManifest,
       });
       if (response) {
         return sendResponse(response, res).then(next);

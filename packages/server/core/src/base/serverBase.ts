@@ -1,7 +1,7 @@
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
-  SHARED_DIR,
+  // SHARED_DIR,
   ensureAbsolutePath,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
@@ -15,13 +15,7 @@ import {
   serverManager,
 } from '../core';
 import { HonoEnv, ServerBaseOptions } from '../core/server';
-import {
-  debug,
-  getPathModule,
-  getServerConfigPath,
-  loadConfig,
-  requireConfig,
-} from './utils';
+import { debug, getServerConfigPath, loadConfig, requireConfig } from './utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -131,7 +125,6 @@ export class ServerBase<E extends HonoEnv = any> {
   }
 
   private async initAppContext(): Promise<ISAppContext> {
-    const path = await getPathModule();
     const { options } = this;
     const { pwd, plugins = [], appContext } = options;
     const serverPlugins = plugins.map(p => ({
@@ -142,9 +135,7 @@ export class ServerBase<E extends HonoEnv = any> {
       appDirectory: appContext?.appDirectory || '',
       apiDirectory: appContext?.apiDirectory,
       lambdaDirectory: appContext?.lambdaDirectory,
-      sharedDirectory:
-        appContext?.sharedDirectory ||
-        path.resolve(appContext.appDirectory || '', SHARED_DIR),
+      sharedDirectory: appContext.sharedDirectory || '',
       distDirectory: pwd,
       plugins: serverPlugins,
     };
@@ -164,7 +155,10 @@ export class ServerBase<E extends HonoEnv = any> {
     runner: ServerHookRunner,
     options: ServerBaseOptions,
   ) {
-    const path = await getPathModule();
+    // Only support node.js
+    const path = await import('path').catch(_ => {
+      return {} as any;
+    });
     const { pwd, config } = options;
 
     const { serverConfig } = this;
