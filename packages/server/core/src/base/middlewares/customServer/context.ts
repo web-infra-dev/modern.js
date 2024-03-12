@@ -9,6 +9,7 @@ import {
 } from '@modern-js/types';
 import { HonoContext } from '../../../core/server';
 import type { HonoNodeEnv } from '../../adapters/node';
+import { getReporter } from '../monitor';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
 import { createBaseHookContext } from './base';
@@ -47,7 +48,7 @@ export function createCustomMiddlewaresCtx(
 ): MiddlewareContext {
   const baseContext = createBaseHookContext(c, logger, metrics);
 
-  const reporter = c.get('reporter');
+  const reporter = getReporter(c);
 
   return {
     ...baseContext,

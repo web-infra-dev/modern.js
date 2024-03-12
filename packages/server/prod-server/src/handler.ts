@@ -6,10 +6,10 @@ import {
   injectReporter,
   injectLogger,
   createErrorHtml,
-  bindBFFHandler,
-  createInjectHtml,
   createServerBase,
   loadServerEnv,
+  injectTemplates,
+  bindBFFHandler,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import { ErrorDigest, onError } from './error';
@@ -52,7 +52,7 @@ export const initProdMiddlewares = async (
   server.all('*', injectReporter());
   server.all('*', injectLogger(logger));
   // inject html templates
-  server.all('*', createInjectHtml(pwd, routes));
+  server.all('*', injectTemplates(pwd, routes));
 
   server.notFound(c => {
     const logger = c.get('logger');

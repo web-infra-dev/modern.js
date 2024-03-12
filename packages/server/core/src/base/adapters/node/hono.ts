@@ -1,5 +1,3 @@
-import { Metrics, Reporter } from '@modern-js/types/server';
-import { Logger } from '@modern-js/types';
 import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import {
   HonoContext,
@@ -18,16 +16,8 @@ type NodeBindings = {
   };
 };
 
-type NodeVariables = {
-  reporter: Reporter;
-  logger: Logger;
-  templates?: Record<string, string>;
-  metrics?: Metrics;
-};
-
 export type HonoNodeEnv = {
   Bindings: NodeBindings;
-  Variables: NodeVariables;
 };
 
 export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;

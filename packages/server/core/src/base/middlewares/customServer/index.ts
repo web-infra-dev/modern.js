@@ -6,6 +6,7 @@ import { Middleware } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import { HonoNodeEnv } from '../../adapters/node';
+import { getLogger, getReporter, getMetrics } from '../monitor';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
@@ -59,9 +60,9 @@ export class CustomServer {
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
-      const logger = c.get('logger');
-      const reporter = c.get('reporter');
-      const metrics = c.get('metrics');
+      const logger = getLogger(c);
+      const reporter = getReporter(c);
+      const metrics = getMetrics(c);
       const afterMatchCtx = createAfterMatchCtx(c, entryName, logger, metrics);
 
       const getCost = time();
@@ -161,9 +162,9 @@ export class CustomServer {
         return next();
       }
 
-      const reporter = c.get('reporter');
-      const logger = c.get('logger');
-      const metrics = c.get('metrics');
+      const reporter = getReporter(c);
+      const logger = getLogger(c);
+      const metrics = getMetrics(c);
 
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
         c,

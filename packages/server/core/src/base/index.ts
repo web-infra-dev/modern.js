@@ -6,7 +6,7 @@ import type {
 } from '../core/server';
 import { ServerBase } from './serverBase';
 
-export { createErrorHtml, getHtmlTemplates } from './utils';
+export { createErrorHtml } from './utils';
 export { AGGRED_DIR } from './constants';
 export {
   httpCallBack2HonoMid,
@@ -17,8 +17,8 @@ export {
   createStaticMiddleware,
   bindBFFHandler,
   registerMockHandlers,
-  createInjectHtml,
   createWebRequest,
+  injectTemplates,
   type ServerNodeContext,
   type ServerNodeMiddleware,
 } from './adapters/node';
@@ -26,8 +26,8 @@ export {
 export {
   favionFallbackMiddleware,
   injectReporter,
-  getRenderHandler,
   injectLogger,
+  getRenderHandler,
   bindRenderHandler,
 } from './middlewares';
 

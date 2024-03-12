@@ -1,20 +1,26 @@
 import { Render } from '../../../core/render';
 import { Middleware, ServerBaseOptions } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
-import { warmup, checkIsProd, sortRoutes, getPathModule } from '../../utils';
+import {
+  warmup,
+  checkIsProd,
+  sortRoutes,
+  getPathModule,
+  getHtmlTemplates,
+} from '../../utils';
 import { HonoNodeEnv } from '../../adapters/node';
-import { initReporter } from '../monitor';
+import { initReporter, getReporter, getLogger } from '../monitor';
 import { CustomServer } from '../customServer';
 import { ssrCache } from './ssrCache';
 import { createRender } from './render';
 
 function createRenderHandler(render: Render): Middleware<HonoNodeEnv> {
   return async (c, _) => {
-    const logger = c.get('logger');
-    const reporter = c.get('reporter');
+    const logger = getLogger(c);
+    const reporter = getReporter(c);
+    const templates = getHtmlTemplates(c);
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
-    const templates = c.get('templates');
 
     const res = await render(request, {
       logger,
