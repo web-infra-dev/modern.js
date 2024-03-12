@@ -1,7 +1,6 @@
 import {
   INTERNAL_SERVER_PLUGINS,
   OUTPUT_CONFIG_FILE,
-  // SHARED_DIR,
   ensureAbsolutePath,
 } from '@modern-js/utils';
 import { ISAppContext } from '@modern-js/types';
