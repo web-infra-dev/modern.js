@@ -1,10 +1,9 @@
 import path from 'path';
 import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import { ServerNodeMiddleware } from '../hono';
-import { setHtmlTemplates, getHtmlTemplates } from '../../../utils';
+import { HonoMiddleware, ServerEnv } from '../../../../core/server';
 
-async function readHtmlTemplates(pwd: string, routes: ServerRoute[]) {
+async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   const htmls = await Promise.all(
     routes.map(async route => {
       let html: string | undefined;
@@ -26,11 +25,11 @@ async function readHtmlTemplates(pwd: string, routes: ServerRoute[]) {
 export function injectTemplates(
   pwd: string,
   routes?: ServerRoute[],
-): ServerNodeMiddleware {
+): HonoMiddleware<ServerEnv> {
   return async (c, next) => {
-    if (!getHtmlTemplates(c) && routes) {
-      const templates = await readHtmlTemplates(pwd, routes);
-      setHtmlTemplates(c, templates);
+    if (routes && !c.get('templates')) {
+      const templates = await getHtmlTemplates(pwd, routes);
+      c.set('templates', templates);
     }
 
     await next();

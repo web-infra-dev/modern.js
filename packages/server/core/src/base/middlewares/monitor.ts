@@ -1,15 +1,7 @@
 import type { Logger, Metrics, Reporter } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerReportTimings } from '../constants';
-import type { HonoContext, Next } from '../../core/server';
-
-declare module 'hono' {
-  interface ContextVariableMap {
-    logger: Logger;
-    reporter: Reporter;
-    metrics?: Metrics;
-  }
-}
+import type { HonoContext, Next, ServerEnv } from '../../core/server';
 
 const defaultReporter: Reporter = {
   init() {
@@ -31,7 +23,7 @@ const defaultReporter: Reporter = {
 
 // TODO: unify
 export function injectReporter() {
-  return async (c: HonoContext, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const reporter = c.get('reporter');
     if (!reporter) {
       c.set('reporter', defaultReporter);
@@ -40,20 +32,8 @@ export function injectReporter() {
   };
 }
 
-export function getReporter(c: HonoContext) {
-  const reporter = c.get('reporter');
-
-  if (!reporter) {
-    console.warn(
-      'Reporter is not initialzed! Please inject reporter by using InjectReporter middleware',
-    );
-  }
-
-  return reporter;
-}
-
 export function initReporter(entryName: string) {
-  return async (c: HonoContext, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const reporter = c.get('reporter');
 
     if (!reporter) {
@@ -74,7 +54,7 @@ export function initReporter(entryName: string) {
 }
 
 export function injectLogger(inputLogger: Logger) {
-  return async (c: HonoContext, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const logger = c.get('logger');
     if (!logger && inputLogger) {
       c.set('logger', inputLogger);
@@ -83,20 +63,8 @@ export function injectLogger(inputLogger: Logger) {
   };
 }
 
-export function getLogger(c: HonoContext) {
-  const logger = c.get('logger');
-
-  if (!logger) {
-    console.warn(
-      'Logger is not initialzed! Please inject logger by using injectLogger Middleware',
-    );
-  }
-
-  return logger;
-}
-
 export function injectMetrics(inputMetrics: Metrics) {
-  return async (c: HonoContext, next: Next) => {
+  return async (c: HonoContext<ServerEnv>, next: Next) => {
     const metrics = c.get('metrics');
 
     if (!metrics) {
@@ -105,8 +73,4 @@ export function injectMetrics(inputMetrics: Metrics) {
 
     await next();
   };
-}
-
-export function getMetrics(c: HonoContext) {
-  return c.get('metrics');
 }

@@ -2,11 +2,10 @@ import { ServerRoute } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner } from '../../../core/plugin';
-import { Middleware } from '../../../core/server';
+import { Middleware, ServerEnv } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
-import { HonoNodeEnv } from '../../adapters/node';
-import { getLogger, getReporter, getMetrics } from '../monitor';
+import { ServerNodeEnv } from '../../adapters/node';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,
@@ -55,14 +54,14 @@ export class CustomServer {
   getHookMiddleware(
     entryName: string,
     routes: ServerRoute[],
-  ): Middleware<HonoNodeEnv> {
+  ): Middleware<ServerEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
-      const logger = getLogger(c);
-      const reporter = getReporter(c);
-      const metrics = getMetrics(c);
+      const logger = c.get('logger');
+      const reporter = c.get('reporter');
+      const metrics = c.get('metrics');
       const afterMatchCtx = createAfterMatchCtx(c, entryName, logger, metrics);
 
       const getCost = time();
@@ -154,7 +153,7 @@ export class CustomServer {
     };
   }
 
-  getServerMiddleware(): Middleware<HonoNodeEnv> {
+  getServerMiddleware(): Middleware<ServerNodeEnv & ServerEnv> {
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
       const serverMiddleware = await this.serverMiddlewarePromise;
@@ -162,9 +161,9 @@ export class CustomServer {
         return next();
       }
 
-      const reporter = getReporter(c);
-      const logger = getLogger(c);
-      const metrics = getMetrics(c);
+      const logger = c.get('logger');
+      const reporter = c.get('reporter');
+      const metrics = c.get('metrics');
 
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
         c,

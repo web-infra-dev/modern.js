@@ -2,6 +2,7 @@ import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import {
   HonoContext,
   HonoRequest,
+  ServerEnv,
   Middleware,
   Next,
 } from '../../../core/server';
@@ -16,17 +17,20 @@ type NodeBindings = {
   };
 };
 
-export type HonoNodeEnv = {
+export type ServerNodeEnv = {
   Bindings: NodeBindings;
 };
 
-export type ServerNodeMiddleware = Middleware<HonoNodeEnv>;
-export type ServerNodeContext = HonoContext<HonoNodeEnv>;
+export type ServerNodeMiddleware = Middleware<ServerNodeEnv>;
+export type ServerNodeContext = HonoContext<ServerNodeEnv>;
 
 type Handler = (req: NodeRequest, res: NodeResponse) => void | Promise<void>;
 
 export const httpCallBack2HonoMid = (handler: Handler) => {
-  return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
+  return async (
+    context: HonoContext<ServerNodeEnv & ServerEnv>,
+    next: Next,
+  ) => {
     const { req, res } = context.env.node;
     // for bff.enableHandleWeb
     req.__honoRequest = context.req;
@@ -52,7 +56,7 @@ type ConnectMiddleware =
 const noop = () => {};
 
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
-  return async (context: HonoContext<HonoNodeEnv>, next: Next) => {
+  return async (context: HonoContext<ServerNodeEnv>, next: Next) => {
     return new Promise((resolve, reject) => {
       const { req, res } = context.env.node;
       if (handler.length < 3) {

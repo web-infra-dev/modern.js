@@ -1,5 +1,5 @@
 import type { IncomingMessage, Server, ServerResponse } from 'node:http';
-import { Readable } from 'node:stream';
+import type { Readable } from 'node:stream';
 import type {
   Metrics,
   Logger,
@@ -120,5 +120,16 @@ export type RequestHandler = (
   request: Request,
   ...args: any[]
 ) => Response | Promise<Response>;
+
+type ServerVariables = {
+  logger: Logger;
+  reporter: Reporter;
+  metrics?: Metrics;
+  templates?: Record<string, string>;
+};
+
+export type ServerEnv = {
+  Variables: ServerVariables;
+};
 
 export * from './hono';
