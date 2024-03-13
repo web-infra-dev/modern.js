@@ -55,14 +55,14 @@ export type DevMiddleware = (options: DevMiddlewareOptions) => DevMiddlewareAPI;
 export type ExtraOptions = {
   dev: boolean | Partial<DevServerOptions>;
   devMiddleware?: DevMiddleware;
-  useWorkerSSR?: boolean;
+  useSSRWorker?: boolean;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 
 export type ExtraOptionsNew = {
   dev: Partial<DevServerOptions>;
-  useWorkerSSR?: boolean;
+  useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares: (
     overrides?: DevMiddlewaresConfig,
