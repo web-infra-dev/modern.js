@@ -31,7 +31,8 @@ export const getModernDeps = (pkgJson: Record<string, any>) => {
   const modernDeps = Object.keys(deps)
     .filter(
       dep =>
-        dep.startsWith('@modern-js/') && excludes.every(i => !dep.includes(i)),
+        (dep.startsWith('@modern-js/') || dep.startsWith('@modern-js-app/')) &&
+        excludes.every(i => !dep.includes(i)),
     )
     .reduce<Record<string, any>>((acc, name) => {
       acc[name] = deps[name];

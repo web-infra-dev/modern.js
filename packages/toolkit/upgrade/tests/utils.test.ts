@@ -20,18 +20,25 @@ describe('upgarde utils', () => {
       devDependencies: {
         '@modern-js/plugin-storybook': '1.0.0',
         '@modern-js/app-tools': '1.1.0',
-        '@modern-js/plugin-aaa': '1.1.0',
         '@modern-js-reduck/core': '1.0.0',
         '@modern-js/electron': '1.0.0',
         '@modern-js/codesmith': '1.0.0',
         '@modern-js/codesmith-api': '1.0.0',
+        '@modern-js-app/xxx': '1.2.3',
         react: '18',
+      },
+      dependencies: {
+        '@modern-js/plugin-aaa': '1.1.0',
       },
     });
     expect(res).toEqual({
       '@modern-js/app-tools': '1.1.0',
       '@modern-js/plugin-aaa': '1.1.0',
+      '@modern-js-app/xxx': '1.2.3',
     });
+
+    // none
+    expect(getModernDeps({})).toEqual({});
   });
 
   it('validateDepsVerison', () => {
