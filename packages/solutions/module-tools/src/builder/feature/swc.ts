@@ -138,13 +138,15 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
   },
 });
 
+const JS_REGEX = /\.(?:js|mjs|cjs)$/;
+
 export const swcRenderChunk = {
   name: 'swc:renderChunk',
   apply(compiler: ICompiler) {
     compiler.hooks.renderChunk.tapPromise(
       { name: 'swc:renderChunk' },
       async chunk => {
-        if (chunk.fileName.endsWith('.js') && chunk.type === 'chunk') {
+        if (JS_REGEX.test(chunk.fileName) && chunk.type === 'chunk') {
           const { umdModuleName, format } = compiler.config;
           const name =
             typeof umdModuleName === 'function'
