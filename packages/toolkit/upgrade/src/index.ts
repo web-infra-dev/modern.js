@@ -20,12 +20,13 @@ export function defineCommand(program: Command) {
     .option('--cwd <cwd>', i18n.t(localeKeys.command.cwd), '')
     .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
     .action(async params => {
-      return upgradeAction(params);
+      await upgradeAction(params);
     });
 }
 
 export default () => {
   const program = new Command();
   defineCommand(program);
+
   program.parse(process.argv);
 };
