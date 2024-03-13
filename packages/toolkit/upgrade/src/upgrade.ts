@@ -24,7 +24,7 @@ export interface Options {
   debug?: boolean;
   distTag?: string;
   registry?: string;
-  needInstall?: boolean;
+  noNeedInstall?: boolean;
 }
 
 export const upgradeAction = async ({

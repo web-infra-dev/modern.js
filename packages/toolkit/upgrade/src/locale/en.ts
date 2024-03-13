@@ -11,6 +11,7 @@ export const EN_LOCALE = {
   },
   info: {
     isLatest: 'The current version is already the latest.',
-    success: 'Upgrade success!',
+    success:
+      '🎉 The version has been updated, please reinstall the dependencies.',
   },
 };

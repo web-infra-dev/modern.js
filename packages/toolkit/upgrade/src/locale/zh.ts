@@ -10,6 +10,6 @@ export const ZH_LOCALE = {
   },
   info: {
     isLatest: '当前版本为最新版本',
-    success: '升级成功',
+    success: '🎉 版本已更新，请重新安装依赖 ~',
   },
 };
