@@ -40,11 +40,16 @@ export const upgradeAction = async ({
   const { solution, dependence: solutionDepName } =
     getSolutionFromDependance(pkgJsonPath);
 
+  logger.info(`👉 Project Type: ${solution} (${solutionDepName})`);
+
   const modernLatestVersion = await getVersion(
     solutionDepName,
     distTag,
     registry,
   );
+
+  logger.info(`👉 Latest version: ${modernLatestVersion}`);
+
   // modern deps should be upgraded
   const modernDeps = getModernDeps(pkgJson);
 
@@ -80,6 +85,7 @@ export const upgradeAction = async ({
 
   // show success
   logger.success(i18n.t(localeKeys.info.success));
+  logger.warn(i18n.t(localeKeys.info.reInstallTip));
 
   // install ?
 };
