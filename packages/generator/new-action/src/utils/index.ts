@@ -1,6 +1,6 @@
 import path from 'path';
 import { semver } from '@modern-js/utils';
-import { readJsonSync } from '@modern-js/utils/compiled/fs-extra';
+import { readJsonSync } from '@modern-js/utils/fs-extra';
 import {
   ActionFunction,
   ActionRefactor,
