@@ -40,7 +40,7 @@ export class ModernDevServer extends ModernServer {
 
   private readonly dev: DevServerOptions;
 
-  private readonly useWorkerSSR: boolean;
+  private readonly useSSRWorker: boolean;
 
   private readonly appContext: ModernDevServerOptions['appContext'];
 
@@ -56,7 +56,7 @@ export class ModernDevServer extends ModernServer {
     // dev server should work in pwd
     this.workDir = this.pwd;
 
-    this.useWorkerSSR = Boolean(options.useWorkerSSR);
+    this.useSSRWorker = Boolean(options.useSSRWorker);
 
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
@@ -142,7 +142,7 @@ export class ModernDevServer extends ModernServer {
 
   // override the ModernServer renderHandler logic
   public getRenderHandler(): RenderHandler {
-    if (this.useWorkerSSR) {
+    if (this.useSSRWorker) {
       const { distDir, staticGenerate, conf, metaName } = this;
       const ssrConfig = this.conf.server?.ssr;
       const forceCSR =
