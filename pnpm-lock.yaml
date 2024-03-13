@@ -4640,6 +4640,12 @@ importers:
       '@modern-js/codesmith':
         specifier: 2.3.5
         version: 2.3.5
+      '@modern-js/generator-common':
+        specifier: workspace:*
+        version: link:../../generator/generator-common
+      '@modern-js/generator-utils':
+        specifier: workspace:*
+        version: link:../../generator/generator-utils
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
