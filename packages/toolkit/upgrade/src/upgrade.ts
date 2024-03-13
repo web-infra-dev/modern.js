@@ -4,11 +4,7 @@ import {
   getSolutionFromDependance,
   getPackageManager,
 } from '@modern-js/generator-utils';
-import {
-  Solution,
-  SolutionToolsMap,
-  PackageManager,
-} from '@modern-js/generator-common';
+import { Solution, PackageManager } from '@modern-js/generator-common';
 import { fs, logger } from '@modern-js/utils';
 
 import {
@@ -31,16 +27,24 @@ export interface Options {
   needInstall?: boolean;
 }
 
-export const upgradeAction = async ({ cwd }: Options): Promise<void> => {
+export const upgradeAction = async ({
+  cwd,
+  distTag,
+  registry,
+}: Options): Promise<void> => {
   const rootPath = cwd ?? process.cwd();
   const pkgJsonPath = path.join(rootPath, 'package.json');
   const pkgJson: Record<string, any> = fs.readJSONSync(pkgJsonPath, 'utf-8');
 
   // get solution from package.json
-  const solution: Solution = getSolutionFromDependance(pkgJsonPath);
-  const solutionDepName: string = SolutionToolsMap[solution];
-  //
-  const modernLatestVersion = await getVersion(solutionDepName);
+  const { solution, dependence: solutionDepName } =
+    getSolutionFromDependance(pkgJsonPath);
+
+  const modernLatestVersion = await getVersion(
+    solutionDepName,
+    distTag,
+    registry,
+  );
   // modern deps should be upgraded
   const modernDeps = getModernDeps(pkgJson);
 

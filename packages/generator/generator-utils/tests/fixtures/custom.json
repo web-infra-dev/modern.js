@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "@aaa/bbb": "2",
+    "@ccc/ddd": "2"
+  }
+}

@@ -34,6 +34,22 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./upgrade": {
+      "node": {
+        "jsnext:source": "./src/upgrade.ts",
+        "import": "./dist/upgrade.js",
+        "require": "./dist/upgrade.js"
+      },
+      "default": "./dist/upgrade.js"
+    },
+    "./utils": {
+      "node": {
+        "jsnext:source": "./src/utils/index.ts",
+        "import": "./dist/utils/index.js",
+        "require": "./dist/utils/index.js"
+      },
+      "default": "./dist/utils/index.js"
     }
   },
   "scripts": {

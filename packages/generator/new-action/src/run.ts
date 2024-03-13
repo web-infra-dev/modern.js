@@ -15,7 +15,8 @@ const main = async () => {
     .option('--root-path <rootPath>', 'project root path', '')
     .action(async params => {
       if (!params.solution) {
-        params.solution = getSolutionFromDependance();
+        const { solution } = getSolutionFromDependance();
+        params.solution = solution;
       }
 
       const { solution, config: configStr, rootPath } = params;
