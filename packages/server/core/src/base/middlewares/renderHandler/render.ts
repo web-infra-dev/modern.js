@@ -1,8 +1,11 @@
 import { ServerRoute } from '@modern-js/types';
-import { cutNameByHyphen } from '@modern-js/utils';
 import { Render } from '../../../core/render';
-import { parseQuery } from '../../utils/request';
-import { createErrorHtml, sortRoutes } from '../../utils';
+import {
+  createErrorHtml,
+  sortRoutes,
+  cutNameByHyphen,
+  parseQuery,
+} from '../../utils';
 import { dataHandler } from './dataHandler';
 import { ssrRender } from './ssrRender';
 

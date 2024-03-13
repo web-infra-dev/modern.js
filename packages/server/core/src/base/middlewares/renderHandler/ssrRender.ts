@@ -1,19 +1,24 @@
-import { Readable } from 'stream';
 import type { IncomingMessage } from 'http';
 import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
-import { SERVER_RENDER_FUNCTION_NAME, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import {
+  SERVER_RENDER_FUNCTION_NAME,
+  MAIN_ENTRY_NAME,
+} from '@modern-js/utils/universal/constants';
 import * as isbot from 'isbot';
-import { createTransformStream } from '../../utils';
+import {
+  createTransformStream,
+  getRuntimeEnv,
+  parseHeaders,
+  parseQuery,
+  getHost,
+} from '../../utils';
 import {
   SSRServerContext,
   ServerManifest,
   ServerRender,
 } from '../../../core/server';
 import { REPLACE_REG } from '../../constants';
-import { parseHeaders, parseQuery, getHost } from '../../utils/request';
-import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
 import { ServerTiming } from './serverTiming';
-import { ssrCache } from './ssrCache';
 
 const defaultReporter: Reporter = {
   init() {
@@ -114,18 +119,31 @@ export async function ssrRender(
     throw new Error(`Can't found renderBundle ${entryName || MAIN_ENTRY_NAME}`);
   }
 
-  const incomingMessage = nodeReq ? nodeReq : new IncomingMessgeProxy(request);
-  const cacheControl = await ssrCache.matchCacheControl(incomingMessage as any);
+  const runtimeEnv = getRuntimeEnv();
 
   let ssrResult: Awaited<ReturnType<ServerRender>>;
   const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
-  if (cacheControl) {
-    ssrResult = await ssrCache.getCache(
-      request,
-      cacheControl,
-      render,
-      ssrContext,
+
+  if (runtimeEnv === 'node') {
+    const cacheModuleName = './ssrCache';
+    const { ssrCache } = await import(cacheModuleName);
+    const incomingMessage = nodeReq
+      ? nodeReq
+      : new IncomingMessgeProxy(request);
+    const cacheControl = await ssrCache.matchCacheControl(
+      incomingMessage as any,
     );
+
+    if (cacheControl) {
+      ssrResult = await ssrCache.getCache(
+        request,
+        cacheControl,
+        render,
+        ssrContext,
+      );
+    } else {
+      ssrResult = await render(ssrContext);
+    }
   } else {
     ssrResult = await render(ssrContext);
   }
@@ -150,10 +168,23 @@ export async function ssrRender(
       params: {} as Record<string, any>,
     },
   };
+
+  const { Readable } = await import('stream').catch(_ => ({
+    Readable: undefined,
+  }));
+
+  const streamModule = '../../adapters/node/polyfills/stream';
+  const { createReadableStreamFromReadable } =
+    runtimeEnv === 'node'
+      ? await import(streamModule).catch(_ => ({
+          createReadableStreamFromReadable: undefined,
+        }))
+      : { createReadableStreamFromReadable: undefined };
+
   const data =
-    ssrResult instanceof Readable
-      ? createReadableStreamFromReadable(ssrResult)
-      : ssrResult;
+    Readable && ssrResult instanceof Readable
+      ? createReadableStreamFromReadable?.(ssrResult) || ''
+      : (ssrResult as unknown as string | ReadableStream);
 
   const body = injectServerData(data, serverData);
 

@@ -24,18 +24,11 @@ const resolvePlugin = (p: string | ServerPlugin, appDirectory: string) => {
 
 export const loadPlugins = (
   appDirectory: string,
-  // server plugin in config must be new syntax
-  configPlugins: ServerPlugin[],
-  options: {
-    internalPlugins?: InternalPlugins;
-  },
+  internalPlugins: InternalPlugins,
 ): ReturnType<typeof createPlugin>[] => {
-  const loadedPlugins = getInternalPlugins(
-    appDirectory,
-    options.internalPlugins,
-  );
+  const loadedPlugins = getInternalPlugins(appDirectory, internalPlugins);
 
-  return [...loadedPlugins, ...configPlugins].map(plugin => {
+  return loadedPlugins.map(plugin => {
     const { module } = resolvePlugin(plugin, appDirectory);
     return module;
   });
