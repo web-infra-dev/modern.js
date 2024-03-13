@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 2.48.1
+
+### Patch Changes
+
+- b46c84e: fix(module-tools): support tsconfig extends.
+  fix(module-tools): 支持解析 tsconfig extends.
+- 1129519: fix(module-tools): target es5 not work for mjs chunk
+- 4833040: fix(module-tools): new matcher to match alias when exist comment in dynamic import
+  fix(module-tools): 新的匹配器以匹配别名即使动态引用里存在注释
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+  - @modern-js/core@2.48.1
+  - @modern-js/plugin-changeset@2.48.1
+  - @modern-js/plugin-i18n@2.48.1
+  - @modern-js/plugin-lint@2.48.1
+  - @modern-js/plugin@2.48.1
+  - @modern-js/types@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes
