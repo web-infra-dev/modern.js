@@ -85,6 +85,7 @@ export class ServerBase<E extends HonoEnv = any> {
     const externalPlugins = this.loadExternalPlugins();
     const loadedPlugins = [...internalPlugins, ...externalPlugins];
 
+    // TODO: support import('debug').browser
     // debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);

@@ -6,6 +6,7 @@ import { ServerNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
 import { createRender } from './render';
+import type * as ssrCacheModule from './ssrCache';
 
 function createRenderHandler(
   render: Render,
@@ -74,7 +75,9 @@ export async function bindRenderHandler(
     // load ssr cache mod
     if (getRuntimeEnv() === 'node') {
       const cacheModuleName = './ssrCache';
-      const { ssrCache } = await import(cacheModuleName);
+      const { ssrCache } = (await import(
+        cacheModuleName
+      )) as typeof ssrCacheModule;
       await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
     }
 
