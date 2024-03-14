@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 2.48.1
+
+### Patch Changes
+
+- 24b2ec1: fix(worker): worker can run correctly when dev & prod
+  fix(worker): 在开发模式和线上模式 worker 能够正常运行
+- Updated dependencies [8942b90]
+- Updated dependencies [24b2ec1]
+- Updated dependencies [ce426f7]
+- Updated dependencies [74749ae]
+  - @modern-js/utils@2.48.1
+  - @modern-js/prod-server@2.48.1
+  - @modern-js/runtime-utils@2.48.1
+  - @modern-js/server-utils@2.48.1
+  - @modern-js/types@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes

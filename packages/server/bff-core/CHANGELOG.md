@@ -1,5 +1,15 @@
 # @modern-js/bff-core
 
+## 2.48.1
+
+### Patch Changes
+
+- 488ec21: fix: type-fest shouldn't be a devDependency
+  fix: type-fest 不应该是 devDependency
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes
