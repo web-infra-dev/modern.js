@@ -957,6 +957,9 @@ importers:
       birpc:
         specifier: 0.2.13
         version: 0.2.13
+      cookie-es:
+        specifier: ^1.0.0
+        version: 1.0.0
       flatted:
         specifier: ^3.2.9
         version: 3.2.9

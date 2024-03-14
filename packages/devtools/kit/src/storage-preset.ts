@@ -28,3 +28,7 @@ export interface StoragePresetOptions {
   name: string;
   items: StoragePreset[];
 }
+
+export interface StoragePresetContext extends StoragePresetOptions {
+  filename: string;
+}
