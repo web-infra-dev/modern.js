@@ -18,6 +18,8 @@ import {
   ServerRender,
 } from '../../../core/server';
 import { REPLACE_REG } from '../../constants';
+import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
+import type * as ssrCaheModule from './ssrCache';
 import { ServerTiming } from './serverTiming';
 
 const defaultReporter: Reporter = {
@@ -126,7 +128,9 @@ export async function ssrRender(
 
   if (runtimeEnv === 'node') {
     const cacheModuleName = './ssrCache';
-    const { ssrCache } = await import(cacheModuleName);
+    const { ssrCache } = (await import(
+      cacheModuleName
+    )) as typeof ssrCaheModule;
     const incomingMessage = nodeReq
       ? nodeReq
       : new IncomingMessgeProxy(request);
@@ -176,9 +180,9 @@ export async function ssrRender(
   const streamModule = '../../adapters/node/polyfills/stream';
   const { createReadableStreamFromReadable } =
     runtimeEnv === 'node'
-      ? await import(streamModule).catch(_ => ({
+      ? ((await import(streamModule).catch(_ => ({
           createReadableStreamFromReadable: undefined,
-        }))
+        }))) as typeof streamPolyfills)
       : { createReadableStreamFromReadable: undefined };
 
   const data =

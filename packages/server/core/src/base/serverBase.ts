@@ -1,6 +1,8 @@
 import { INTERNAL_SERVER_PLUGINS } from '@modern-js/utils/universal/constants';
 import { ISAppContext } from '@modern-js/types';
 import { Hono } from 'hono';
+import type * as modernUtilsModule from '@modern-js/utils';
+import type * as loadPluginModule from '../core/loadPlugins';
 import {
   AppContext,
   ConfigContext,
@@ -10,6 +12,7 @@ import {
   createPlugin,
 } from '../core';
 import type { HonoEnv, ServerBaseOptions } from '../core/server';
+import type * as serverConfigModule from './utils/serverConfig';
 import { getRuntimeEnv } from './utils';
 
 declare module '@modern-js/types' {
@@ -102,7 +105,9 @@ export class ServerBase<E extends HonoEnv = any> {
     } = this.options;
 
     const loadPluginsModule = '../core/loadPlugins';
-    const { loadPlugins } = await import(loadPluginsModule);
+    const { loadPlugins } = (await import(
+      loadPluginsModule
+    )) as typeof loadPluginModule;
     const internalPlugins = loadPlugins(
       appContext.appDirectory || pwd,
       plugins,
@@ -124,9 +129,9 @@ export class ServerBase<E extends HonoEnv = any> {
     const { pwd, serverConfigFile } = options;
 
     const utilsModuleName = './utils/serverConfig';
-    const { getServerConfigPath, requireConfig } = await import(
+    const { getServerConfigPath, requireConfig } = (await import(
       utilsModuleName
-    );
+    )) as typeof serverConfigModule;
 
     const serverConfigPath = await getServerConfigPath(pwd, serverConfigFile);
 
@@ -184,12 +189,14 @@ export class ServerBase<E extends HonoEnv = any> {
 
     // TODO: need to confirm.
     const utilsModuleName = '@modern-js/utils';
-    const { ensureAbsolutePath, OUTPUT_CONFIG_FILE } = await import(
+    const { ensureAbsolutePath, OUTPUT_CONFIG_FILE } = (await import(
       utilsModuleName
-    );
+    )) as typeof modernUtilsModule;
 
     const configModuleName = './utils/serverConfig';
-    const { loadConfig } = await import(configModuleName);
+    const { loadConfig } = (await import(
+      configModuleName
+    )) as typeof serverConfigModule;
     const { pwd, config } = options;
 
     const { serverConfig } = this;
