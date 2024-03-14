@@ -64,11 +64,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             "rspackExperiments": {
               "import": [
                 {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
-                {
                   "camelToDashComponentName": false,
                   "libraryDirectory": "es",
                   "libraryName": "@arco-design/web-react",
@@ -137,11 +132,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             },
             "rspackExperiments": {
               "import": [
-                {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
                 {
                   "camelToDashComponentName": false,
                   "libraryDirectory": "es",
@@ -511,11 +501,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 "rspackExperiments": {
                   "import": [
                     {
-                      "libraryDirectory": "es",
-                      "libraryName": "antd",
-                      "style": true,
-                    },
-                    {
                       "camelToDashComponentName": false,
                       "libraryDirectory": "es",
                       "libraryName": "@arco-design/web-react",
@@ -612,11 +597,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
                 },
                 "rspackExperiments": {
                   "import": [
-                    {
-                      "libraryDirectory": "es",
-                      "libraryName": "antd",
-                      "style": true,
-                    },
                     {
                       "camelToDashComponentName": false,
                       "libraryDirectory": "es",
@@ -737,11 +717,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             "rspackExperiments": {
               "import": [
                 {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
-                {
                   "camelToDashComponentName": false,
                   "libraryDirectory": "es",
                   "libraryName": "@arco-design/web-react",
@@ -808,11 +783,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             },
             "rspackExperiments": {
               "import": [
-                {
-                  "libraryDirectory": "es",
-                  "libraryName": "antd",
-                  "style": true,
-                },
                 {
                   "camelToDashComponentName": false,
                   "libraryDirectory": "es",
@@ -1288,11 +1258,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 "rspackExperiments": {
                   "import": [
                     {
-                      "libraryDirectory": "es",
-                      "libraryName": "antd",
-                      "style": true,
-                    },
-                    {
                       "camelToDashComponentName": false,
                       "libraryDirectory": "es",
                       "libraryName": "@arco-design/web-react",
@@ -1387,11 +1352,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
                 },
                 "rspackExperiments": {
                   "import": [
-                    {
-                      "libraryDirectory": "es",
-                      "libraryName": "antd",
-                      "style": true,
-                    },
                     {
                       "camelToDashComponentName": false,
                       "libraryDirectory": "es",

@@ -89,11 +89,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "rspackExperiments": {
                 "import": [
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -162,11 +157,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
                   {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
@@ -692,11 +682,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "rspackExperiments": {
                     "import": [
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -793,11 +778,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "import": [
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
                       {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
@@ -1203,11 +1183,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "rspackExperiments": {
                 "import": [
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -1276,11 +1251,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "rspackExperiments": {
                 "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
                   {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
@@ -1806,11 +1776,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "rspackExperiments": {
                     "import": [
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -1907,11 +1872,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "rspackExperiments": {
                     "import": [
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
                       {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
@@ -2342,15 +2302,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
                     "camel2DashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -2472,15 +2423,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2922,15 +2864,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
                         "camel2DashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -3065,15 +2998,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -3478,15 +3402,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
                     "camel2DashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -3608,15 +3523,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4064,15 +3970,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
                         "camel2DashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -4222,15 +4119,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
