@@ -1,14 +1,20 @@
 import http from 'http';
 import path from 'path';
 import assert from 'assert';
+import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
 import { getPort, logger } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
-import { DevtoolsPluginOptions, resolveContext } from './config';
+import {
+  DevtoolsPluginOptions,
+  resolveContext,
+  updateContext,
+} from './options';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
+import { loadConfigFiles } from './utils/config';
 
 export type { DevtoolsPluginOptions };
 
@@ -57,9 +63,12 @@ export const devtoolsPlugin = (
           });
           return { routes };
         },
-        config() {
-          const config = api.useConfigContext().devtools ?? {};
-          Object.assign(ctx, resolveContext(ctx, config));
+        async config() {
+          const appConfig = api.useConfigContext();
+          const appCtx = api.useAppContext();
+          const { devtools: options = {} } = appConfig;
+          updateContext(ctx, options);
+          updateContext(ctx, ...(await loadConfigFiles(appCtx.appDirectory)));
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
 
           const swProxyEntry = require.resolve(
@@ -67,7 +76,10 @@ export const devtoolsPlugin = (
           );
 
           // Inject options to client.
-          const serializedOptions = JSON.stringify(ctx);
+          const clientOptions = _.pick(ctx, ['def', 'endpoint', 'dataSource']);
+          // Keep resource query always existing.
+          Object.assign(clientOptions, { __keep: true });
+          const serializedOptions = JSON.stringify(clientOptions);
           const tags: AppTools['normalizedConfig']['html']['tags'] = [
             {
               tag: 'script',
