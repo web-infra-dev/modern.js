@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 2.48.1
+
+### Patch Changes
+
+- 9835dbf: feat(uni-builder): bump rsbuild 0.4.11 and support modify rspack builtin:swc-loadder config by tools.swc
+
+  feat(uni-builder): rsbuild 版本升级到 0.4.11，并支持通过 tools.swc 修改 rspack builtin:swc-loadder 配置
+
+- c86735b: fix: adpater modern worker, worker bundle need export serverRender fn
+  fix: 适配 modern worker, worker bundle 需要导出 serverRender 函数
+- Updated dependencies [8942b90]
+- Updated dependencies [24b2ec1]
+- Updated dependencies [ce426f7]
+- Updated dependencies [9835dbf]
+- Updated dependencies [77209fe]
+- Updated dependencies [fc93013]
+- Updated dependencies [74749ae]
+- Updated dependencies [788b3be]
+- Updated dependencies [0d0a886]
+- Updated dependencies [02060c5]
+  - @modern-js/utils@2.48.1
+  - @modern-js/prod-server@2.48.1
+  - @modern-js/server@2.48.1
+  - @modern-js/uni-builder@2.48.1
+  - @modern-js/core@2.48.1
+  - @modern-js/plugin-data-loader@2.48.1
+  - @modern-js/plugin-i18n@2.48.1
+  - @modern-js/plugin-lint@2.48.1
+  - @modern-js/server-core@2.48.1
+  - @modern-js/server-utils@2.48.1
+  - @modern-js/node-bundle-require@2.48.1
+  - @modern-js/plugin@2.48.1
+  - @modern-js/types@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes

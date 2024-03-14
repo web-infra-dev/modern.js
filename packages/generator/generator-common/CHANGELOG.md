@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.3.12
+
+### Patch Changes
+
+- a873989: chore(generator): remove legacy storybook generator
+
+  chore(generator): 移除老的 storybook v6 生成器
+
+  - @modern-js/plugin-i18n@2.48.1
+
 ## 3.3.11
 
 ### Patch Changes

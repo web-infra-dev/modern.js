@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 2.48.1
+
+### Patch Changes
+
+- 8942b90: perf(utils): remove unused schema-utils3 package
+
+  perf(utils): 移除 schema-utils3 包
+
+- ce426f7: fix(server): print ipv6 url correctly
+
+  fix(server): 正确打印 ipv6 url
+
 ## 2.48.0
 
 ### Patch Changes

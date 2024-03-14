@@ -17,7 +17,9 @@ export async function workerSSRRender(
 ) {
   const { headers, params } = ctx;
   const { urlPath } = renderOptions.route;
-  const url = `http://0.0.0.0:${PORT}/${urlPath}`;
+  const url = urlPath.startsWith('/')
+    ? `http://0.0.0.0:${PORT}${urlPath}`
+    : `http://0.0.0.0:${PORT}/${urlPath}`;
   const resposne = await axios.get(url, {
     timeout: 5000,
     responseType: 'text',

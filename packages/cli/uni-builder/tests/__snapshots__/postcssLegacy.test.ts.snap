@@ -33,7 +33,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "loader": "builtin:swc-loader",
           "options": {
             "env": {
-              "coreJs": "3.32",
+              "coreJs": "3.36",
               "mode": "entry",
               "targets": [
                 "> 0.01%",
@@ -107,7 +107,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "loader": "builtin:swc-loader",
           "options": {
             "env": {
-              "coreJs": "3.32",
+              "coreJs": "3.36",
               "mode": "entry",
               "targets": [
                 "> 0.01%",
@@ -473,29 +473,14 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "type": "asset/inline",
         },
         {
-          "generator": {
-            "filename": "static/svg/[name].[contenthash:8].svg",
-          },
-          "issuer": {
-            "not": [
-              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-            ],
-          },
-          "parser": {
-            "dataUrlCondition": {
-              "maxSize": 10000,
-            },
-          },
-          "type": "asset",
-        },
-        {
+          "resourceQuery": /react/,
           "type": "javascript/auto",
           "use": [
             {
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.32",
+                  "coreJs": "3.36",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -555,6 +540,109 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
               "options": {
+                "exportType": "default",
+                "svgo": true,
+                "svgoConfig": {
+                  "plugins": [
+                    {
+                      "name": "preset-default",
+                      "params": {
+                        "overrides": {
+                          "removeViewBox": false,
+                        },
+                      },
+                    },
+                    "prefixIds",
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          "generator": {
+            "filename": "static/svg/[name].[contenthash:8].svg",
+          },
+          "issuer": {
+            "not": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+            ],
+          },
+          "parser": {
+            "dataUrlCondition": {
+              "maxSize": 10000,
+            },
+          },
+          "type": "asset",
+        },
+        {
+          "type": "javascript/auto",
+          "use": [
+            {
+              "loader": "builtin:swc-loader",
+              "options": {
+                "env": {
+                  "coreJs": "3.36",
+                  "mode": "entry",
+                  "targets": [
+                    "> 0.01%",
+                    "not dead",
+                    "not op_mini all",
+                  ],
+                },
+                "isModule": "unknown",
+                "jsc": {
+                  "externalHelpers": true,
+                  "parser": {
+                    "decorators": true,
+                    "syntax": "typescript",
+                    "tsx": true,
+                  },
+                  "preserveAllComments": true,
+                  "transform": {
+                    "decoratorMetadata": true,
+                    "legacyDecorator": true,
+                    "react": {
+                      "development": false,
+                      "refresh": true,
+                      "runtime": "automatic",
+                    },
+                    "useDefineForClassFields": false,
+                  },
+                },
+                "rspackExperiments": {
+                  "import": [
+                    {
+                      "libraryDirectory": "es",
+                      "libraryName": "antd",
+                      "style": true,
+                    },
+                    {
+                      "camelToDashComponentName": false,
+                      "libraryDirectory": "es",
+                      "libraryName": "@arco-design/web-react",
+                      "style": true,
+                    },
+                    {
+                      "camelToDashComponentName": false,
+                      "libraryDirectory": "react-icon",
+                      "libraryName": "@arco-design/web-react/icon",
+                    },
+                  ],
+                  "styledComponents": {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                },
+                "sourceMaps": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+              "options": {
+                "exportType": "named",
                 "svgo": true,
                 "svgoConfig": {
                   "plugins": [
@@ -620,7 +708,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "loader": "builtin:swc-loader",
           "options": {
             "env": {
-              "coreJs": "3.32",
+              "coreJs": "3.36",
               "mode": "entry",
               "targets": [
                 "chrome >= 87",
@@ -692,7 +780,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "loader": "builtin:swc-loader",
           "options": {
             "env": {
-              "coreJs": "3.32",
+              "coreJs": "3.36",
               "mode": "entry",
               "targets": [
                 "chrome >= 87",
@@ -1164,29 +1252,14 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "type": "asset/inline",
         },
         {
-          "generator": {
-            "filename": "static/svg/[name].[contenthash:8].svg",
-          },
-          "issuer": {
-            "not": [
-              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-            ],
-          },
-          "parser": {
-            "dataUrlCondition": {
-              "maxSize": 10000,
-            },
-          },
-          "type": "asset",
-        },
-        {
+          "resourceQuery": /react/,
           "type": "javascript/auto",
           "use": [
             {
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.32",
+                  "coreJs": "3.36",
                   "mode": "entry",
                   "targets": [
                     "chrome >= 87",
@@ -1244,6 +1317,107 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
               "options": {
+                "exportType": "default",
+                "svgo": true,
+                "svgoConfig": {
+                  "plugins": [
+                    {
+                      "name": "preset-default",
+                      "params": {
+                        "overrides": {
+                          "removeViewBox": false,
+                        },
+                      },
+                    },
+                    "prefixIds",
+                  ],
+                },
+              },
+            },
+          ],
+        },
+        {
+          "generator": {
+            "filename": "static/svg/[name].[contenthash:8].svg",
+          },
+          "issuer": {
+            "not": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+            ],
+          },
+          "parser": {
+            "dataUrlCondition": {
+              "maxSize": 10000,
+            },
+          },
+          "type": "asset",
+        },
+        {
+          "type": "javascript/auto",
+          "use": [
+            {
+              "loader": "builtin:swc-loader",
+              "options": {
+                "env": {
+                  "coreJs": "3.36",
+                  "mode": "entry",
+                  "targets": [
+                    "chrome >= 87",
+                  ],
+                },
+                "isModule": "unknown",
+                "jsc": {
+                  "externalHelpers": true,
+                  "parser": {
+                    "decorators": true,
+                    "syntax": "typescript",
+                    "tsx": true,
+                  },
+                  "preserveAllComments": true,
+                  "transform": {
+                    "decoratorMetadata": true,
+                    "legacyDecorator": true,
+                    "react": {
+                      "development": false,
+                      "refresh": true,
+                      "runtime": "automatic",
+                    },
+                    "useDefineForClassFields": false,
+                  },
+                },
+                "rspackExperiments": {
+                  "import": [
+                    {
+                      "libraryDirectory": "es",
+                      "libraryName": "antd",
+                      "style": true,
+                    },
+                    {
+                      "camelToDashComponentName": false,
+                      "libraryDirectory": "es",
+                      "libraryName": "@arco-design/web-react",
+                      "style": true,
+                    },
+                    {
+                      "camelToDashComponentName": false,
+                      "libraryDirectory": "react-icon",
+                      "libraryName": "@arco-design/web-react/icon",
+                    },
+                  ],
+                  "styledComponents": {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                },
+                "sourceMaps": true,
+              },
+            },
+            {
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+              "options": {
+                "exportType": "named",
                 "svgo": true,
                 "svgoConfig": {
                   "plugins": [

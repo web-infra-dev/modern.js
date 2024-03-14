@@ -27,7 +27,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.32",
+            "coreJs": "3.36",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -116,7 +116,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.32",
+            "coreJs": "3.36",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -320,7 +320,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -596,7 +596,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -743,7 +743,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -856,7 +856,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -955,7 +955,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1096,7 +1096,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1223,7 +1223,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1370,7 +1370,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1515,7 +1515,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1666,7 +1666,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1815,7 +1815,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1950,7 +1950,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

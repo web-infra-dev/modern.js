@@ -1,5 +1,15 @@
 # @modern-js/runtime-utils
 
+## 2.48.1
+
+### Patch Changes
+
+- 74749ae: fix: sometime the url '/a/' shoud be equal '/a'
+  fix: 有时 url '/a/' 应该等于 '/a'
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes

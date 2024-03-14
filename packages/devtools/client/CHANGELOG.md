@@ -1,5 +1,12 @@
 # @modern-js/devtools-client
 
+## 2.48.1
+
+### Patch Changes
+
+- 63fe6c8: feat(devtools): support runtime plugins
+  feat(devtools): 支持 Runtime 插件
+
 ## 2.48.0
 
 ## 2.47.1
