@@ -1,10 +1,14 @@
 import { isServerTarget, type RsbuildPlugin } from '@rsbuild/shared';
 
 const getAntdMajorVersion = (appDirectory: string) => {
+  console.log('appDirectory', appDirectory);
+
   try {
     const pkgJsonPath = require.resolve('antd/package.json', {
       paths: [appDirectory],
     });
+    console.log('pkgJsonPath', pkgJsonPath);
+
     const { version } = require(pkgJsonPath);
     return Number(version.split('.')[0]);
   } catch (err) {
