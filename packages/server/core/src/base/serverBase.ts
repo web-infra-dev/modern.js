@@ -1,20 +1,19 @@
-import {
-  INTERNAL_SERVER_PLUGINS,
-  OUTPUT_CONFIG_FILE,
-  ensureAbsolutePath,
-} from '@modern-js/utils';
+import { INTERNAL_SERVER_PLUGINS } from '@modern-js/utils/universal/constants';
 import { ISAppContext } from '@modern-js/types';
 import { Hono } from 'hono';
+import type * as modernUtilsModule from '@modern-js/utils';
+import type * as loadPluginModule from '../core/loadPlugins';
 import {
   AppContext,
   ConfigContext,
   ServerConfig,
   ServerHookRunner,
-  loadPlugins,
   serverManager,
+  createPlugin,
 } from '../core';
-import { HonoEnv, ServerBaseOptions } from '../core/server';
-import { debug, getServerConfigPath, loadConfig, requireConfig } from './utils';
+import type { HonoEnv, ServerBaseOptions } from '../core/server';
+import type * as serverConfigModule from './utils/serverConfig';
+import { getRuntimeEnv } from './utils';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -51,7 +50,10 @@ export class ServerBase<E extends HonoEnv = any> {
   async init() {
     const { options } = this;
 
-    await this.initServerConfig(options);
+    const runtimeEnv = getRuntimeEnv();
+
+    // TODO: support  in other js runtime
+    runtimeEnv === 'node' && (await this.initServerConfig(options));
 
     await this.injectContext(options);
 
@@ -59,7 +61,8 @@ export class ServerBase<E extends HonoEnv = any> {
     this.runner = await this.createHookRunner();
 
     // init config and execute config hook
-    await this.initConfig(this.runner, options);
+    // TODO: only load serverConfig in other js runtime
+    runtimeEnv === 'node' && (await this.initConfig(this.runner, options));
 
     // FIXME: injectContext fn not need call twice.
     await this.injectContext(options);
@@ -74,24 +77,16 @@ export class ServerBase<E extends HonoEnv = any> {
     // clear server manager every create time
     serverManager.clear();
 
-    const { options } = this;
-    // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
-    const {
-      internalPlugins = INTERNAL_SERVER_PLUGINS,
-      pwd,
-      plugins = [],
-    } = options;
-    const serverPlugins = this.serverConfig.plugins || [];
-    // server app context for serve plugin
-    const loadedPlugins = loadPlugins(
-      options.appContext.appDirectory || pwd,
-      [...serverPlugins, ...plugins],
-      {
-        internalPlugins,
-      },
-    );
+    const runtimeEnv = getRuntimeEnv();
 
-    debug('plugins', loadedPlugins);
+    // TODO: support loadPlugins in other js runtime
+    const internalPlugins =
+      runtimeEnv === 'node' ? await this.loadInternalPlugins() : [];
+    const externalPlugins = this.loadExternalPlugins();
+    const loadedPlugins = [...internalPlugins, ...externalPlugins];
+
+    // TODO: support import('debug').browser
+    // debug('plugins', loadedPlugins);
     loadedPlugins.forEach(p => {
       serverManager.usePlugin(p);
     });
@@ -102,8 +97,42 @@ export class ServerBase<E extends HonoEnv = any> {
     return hooksRunner;
   }
 
+  private async loadInternalPlugins() {
+    // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
+    const {
+      internalPlugins: plugins = INTERNAL_SERVER_PLUGINS,
+      appContext,
+      pwd,
+    } = this.options;
+
+    const loadPluginsModule = '../core/loadPlugins';
+    const { loadPlugins } = (await import(
+      loadPluginsModule
+    )) as typeof loadPluginModule;
+    const internalPlugins = loadPlugins(
+      appContext.appDirectory || pwd,
+      plugins,
+    );
+
+    return internalPlugins;
+  }
+
+  private loadExternalPlugins() {
+    const { plugins = [] } = this.options;
+    const configPlugins = this.serverConfig.plugins || [];
+
+    const externalPlugins = [...plugins, ...configPlugins];
+
+    return externalPlugins.map(plugin => createPlugin(plugin.setup, plugin));
+  }
+
   private async initServerConfig(options: ServerBaseOptions) {
     const { pwd, serverConfigFile } = options;
+
+    const utilsModuleName = './utils/serverConfig';
+    const { getServerConfigPath, requireConfig } = (await import(
+      utilsModuleName
+    )) as typeof serverConfigModule;
 
     const serverConfigPath = await getServerConfigPath(pwd, serverConfigFile);
 
@@ -158,6 +187,17 @@ export class ServerBase<E extends HonoEnv = any> {
     const path = await import('path').catch(_ => {
       return {} as any;
     });
+
+    // TODO: need to confirm.
+    const utilsModuleName = '@modern-js/utils';
+    const { ensureAbsolutePath, OUTPUT_CONFIG_FILE } = (await import(
+      utilsModuleName
+    )) as typeof modernUtilsModule;
+
+    const configModuleName = './utils/serverConfig';
+    const { loadConfig } = (await import(
+      configModuleName
+    )) as typeof serverConfigModule;
     const { pwd, config } = options;
 
     const { serverConfig } = this;

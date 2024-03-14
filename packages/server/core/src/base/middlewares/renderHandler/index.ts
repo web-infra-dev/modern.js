@@ -1,12 +1,12 @@
 import { Render } from '../../../core/render';
 import { Middleware, ServerBaseOptions, ServerEnv } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
-import { checkIsProd, sortRoutes } from '../../utils';
+import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import { ServerNodeEnv } from '../../adapters/node';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
-import { ssrCache } from './ssrCache';
 import { createRender } from './render';
+import type * as ssrCacheModule from './ssrCache';
 
 function createRenderHandler(
   render: Render,
@@ -73,7 +73,13 @@ export async function bindRenderHandler(
     // warmup(ssrBundles);
 
     // load ssr cache mod
-    await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
+    if (getRuntimeEnv() === 'node') {
+      const cacheModuleName = './ssrCache';
+      const { ssrCache } = (await import(
+        cacheModuleName
+      )) as typeof ssrCacheModule;
+      await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
+    }
 
     const pageRoutes = routes
       .filter(route => !route.isApi)

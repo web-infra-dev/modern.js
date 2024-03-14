@@ -34,6 +34,17 @@
       "types": "./dist/types/base/index.d.ts",
       "jsnext:source": "./src/base/index.ts",
       "default": "./dist/cjs/base/index.js"
+    },
+    "./base/browserify": {
+      "types": "./dist/types/base/serverBase.d.ts",
+      "jsnext:source": "./src/base/serverBase.ts",
+      "default": "./dist/esm-node/base/serverBase.js"
+    },
+    "./middlewares": {
+      "types": "./dist/types/base/middlewares/index.d.ts",
+      "jsnext:source": "./src/base/middlewares/index.ts",
+      "require": "./dist/cjs/base/middlewares/index.js",
+      "default": "./dist/esm-node/base/middlewares/index.js"
     }
   },
   "typesVersions": {
@@ -43,6 +54,12 @@
       ],
       "base": [
         "./dist/types/base/index.d.ts"
+      ],
+      "base/browserify": [
+        "./dist/types/base/serverBase.d.ts"
+      ],
+      "middlewares": [
+        "./dist/types/base/middlewares/index.d.ts"
       ]
     }
   },
@@ -96,6 +113,17 @@
         "types": "./dist/types/base/index.d.ts",
         "jsnext:source": "./src/base/index.ts",
         "default": "./dist/cjs/base/index.js"
+      },
+      "./base/browserify": {
+        "types": "./dist/types/base/serverBase.d.ts",
+        "jsnext:source": "./src/base/serverBase.ts",
+        "default": "./dist/esm-node/base/serverBase.js"
+      },
+      "./middlewares": {
+        "types": "./dist/types/base/middlewares/index.d.ts",
+        "jsnext:source": "./src/base/middlewares/index.ts",
+        "require": "./dist/cjs/base/middlewares/index.js",
+        "default": "./dist/esm-node/base/middlewares/index.js"
       }
     }
   }
