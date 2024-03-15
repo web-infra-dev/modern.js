@@ -1,5 +1,12 @@
 # @modern-js/upgrade
 
+## 2.48.2
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.48.2
+- @modern-js/utils@2.48.2
+
 ## 2.48.1
 
 ### Patch Changes

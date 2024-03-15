@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.48.2
+
+### Patch Changes
+
+- 9e7115f: feat(server): support modify Rsbuild server config in Rsbuild modifyRsbuildConfig hook
+
+  feat(server): 支持在 Rsbuild modifyRsbuildConfig hook 中修改 Rsbuild server 相关配置
+
+- Updated dependencies [9e7115f]
+  - @modern-js/server@2.48.2
+  - @modern-js/utils@2.48.2
+
 ## 2.48.1
 
 ### Patch Changes
