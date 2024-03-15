@@ -145,7 +145,7 @@ export type ServerManifest = {
 
 type ServerVariables = {
   logger: Logger;
-  reporter: Reporter;
+  reporter?: Reporter;
   serverManifest?: ServerManifest;
   metrics?: Metrics;
   templates?: Record<string, string>;
@@ -155,4 +155,10 @@ export type ServerEnv = {
   Variables: ServerVariables;
 };
 
-export * from './hono';
+export type {
+  HonoContext,
+  HonoEnv,
+  HonoRequest,
+  Next,
+  HonoMiddleware,
+} from './hono';

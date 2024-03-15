@@ -33,18 +33,16 @@
     "./base": {
       "types": "./dist/types/base/index.d.ts",
       "jsnext:source": "./src/base/index.ts",
-      "default": "./dist/cjs/base/index.js"
+      "node": {
+        "require": "./dist/cjs/base/index.js",
+        "import": "./dist/esm/base/index.js"
+      },
+      "default": "./dist/esm-node/base/index.js"
     },
-    "./base/browserify": {
-      "types": "./dist/types/base/serverBase.d.ts",
-      "jsnext:source": "./src/base/serverBase.ts",
-      "default": "./dist/esm-node/base/serverBase.js"
-    },
-    "./middlewares": {
-      "types": "./dist/types/base/middlewares/index.d.ts",
-      "jsnext:source": "./src/base/middlewares/index.ts",
-      "require": "./dist/cjs/base/middlewares/index.js",
-      "default": "./dist/esm-node/base/middlewares/index.js"
+    "./base/node": {
+      "types": "./dist/types/base/adapters/node/index.d.ts",
+      "import": "./dist/esm/base/adapters/node/index.js",
+      "default": "./dist/cjs/base/adapters/node/index.js"
     }
   },
   "typesVersions": {
@@ -55,11 +53,8 @@
       "base": [
         "./dist/types/base/index.d.ts"
       ],
-      "base/browserify": [
-        "./dist/types/base/serverBase.d.ts"
-      ],
-      "middlewares": [
-        "./dist/types/base/middlewares/index.d.ts"
+      "base/node": [
+        "./dist/types/base/adapters/node/index.d.ts"
       ]
     }
   },
@@ -112,18 +107,16 @@
       "./base": {
         "types": "./dist/types/base/index.d.ts",
         "jsnext:source": "./src/base/index.ts",
-        "default": "./dist/cjs/base/index.js"
+        "node": {
+          "require": "./dist/cjs/base/index.js",
+          "import": "./dist/esm/base/index.js"
+        },
+        "default": "./dist/esm-node/base/index.js"
       },
-      "./base/browserify": {
-        "types": "./dist/types/base/serverBase.d.ts",
-        "jsnext:source": "./src/base/serverBase.ts",
-        "default": "./dist/esm-node/base/serverBase.js"
-      },
-      "./middlewares": {
-        "types": "./dist/types/base/middlewares/index.d.ts",
-        "jsnext:source": "./src/base/middlewares/index.ts",
-        "require": "./dist/cjs/base/middlewares/index.js",
-        "default": "./dist/esm-node/base/middlewares/index.js"
+      "./base/node": {
+        "types": "./dist/types/base/adapters/node/index.d.ts",
+        "import": "./dist/esm/base/adapters/node/index.js",
+        "default": "./dist/cjs/base/adapters/node/index.js"
       }
     }
   }

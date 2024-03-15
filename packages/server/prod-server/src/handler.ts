@@ -1,18 +1,20 @@
 import {
   ServerBase,
-  createStaticMiddleware,
   bindRenderHandler,
   favionFallbackMiddleware,
   injectReporter,
   injectLogger,
   createErrorHtml,
   createServerBase,
+} from '@modern-js/server-core/base';
+import { createLogger } from '@modern-js/utils';
+import {
   loadServerEnv,
   injectTemplates,
   bindBFFHandler,
   injectServerManifest,
-} from '@modern-js/server-core/base';
-import { createLogger } from '@modern-js/utils';
+  createStaticMiddleware,
+} from '@modern-js/server-core/base/node';
 import { ErrorDigest, onError } from './error';
 import { ProdServerOptions, BaseEnv } from './types';
 

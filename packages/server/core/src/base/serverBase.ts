@@ -260,3 +260,15 @@ export class ServerBase<E extends HonoEnv = any> {
     return this.app.onError;
   }
 }
+
+export function createServerBase<E extends HonoEnv>(
+  options: ServerBaseOptions,
+) {
+  if (options == null) {
+    throw new Error('can not start server without options');
+  }
+
+  const server = new ServerBase<E>(options);
+
+  return server;
+}

@@ -10,7 +10,7 @@ import type { Render, ServerPlugin } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,
-} from '@modern-js/server-core/base';
+} from '@modern-js/server-core/base/node';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 

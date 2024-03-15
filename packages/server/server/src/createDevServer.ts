@@ -1,12 +1,14 @@
 import { Server as NodeServer } from 'node:http';
 import path from 'node:path';
 import {
-  connectMid2HonoMid,
   ServerBaseOptions,
-  registerMockHandlers,
-  createNodeServer,
   createServerBase,
 } from '@modern-js/server-core/base';
+import {
+  registerMockHandlers,
+  createNodeServer,
+  connectMid2HonoMid,
+} from '@modern-js/server-core/base/node';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import { InitProdMiddlewares, ModernDevServerOptions } from './types';
 import { enableRegister } from './dev-tools/register';
