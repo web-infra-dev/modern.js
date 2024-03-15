@@ -45,9 +45,9 @@ function getHeadTemplate(
   context: RuntimeContext,
   pluginConfig: SSRPluginConfig,
 ) {
+  const helmetData: HelmetData = ReactHelmet.renderStatic();
   const callbacks: BuildTemplateCb[] = [
     headTemplate => {
-      const helmetData: HelmetData = ReactHelmet.renderStatic();
       return helmetData
         ? helmetReplace(headTemplate, helmetData)
         : headTemplate;

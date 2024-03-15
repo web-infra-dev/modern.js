@@ -1,5 +1,6 @@
 import { ServerUserConfig } from '@modern-js/app-tools';
 import type { BaseSSRServerContext } from '@modern-js/types';
+import type { HelmetData } from 'react-helmet';
 import type { RuntimeContext } from '../../core';
 import type { BuildHtmlCb } from './renderToString/buildHtml';
 import type { SSRTracker } from './tracker';
@@ -13,6 +14,7 @@ export enum RenderLevel {
 export type RenderResult = {
   renderLevel: RenderLevel;
   html?: string;
+  helmet?: HelmetData;
   chunksMap: {
     js: string;
     css: string;
