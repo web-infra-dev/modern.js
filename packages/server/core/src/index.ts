@@ -9,3 +9,4 @@ export type {
 export * from '@modern-js/plugin';
 export * from './core/loadPlugins';
 export * from './types/config';
+export type { ServerEnv, ServerManifest } from './core/server';

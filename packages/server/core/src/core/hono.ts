@@ -1,5 +1,4 @@
 export type {
-  NotFoundHandler,
   Context as HonoContext,
   Env as HonoEnv,
   HonoRequest,

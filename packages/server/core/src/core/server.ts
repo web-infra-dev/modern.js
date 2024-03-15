@@ -155,4 +155,10 @@ export type ServerEnv = {
   Variables: ServerVariables;
 };
 
-export * from './hono';
+export type {
+  HonoContext,
+  HonoEnv,
+  HonoRequest,
+  Next,
+  HonoMiddleware,
+} from './hono';
