@@ -184,7 +184,10 @@ export const createHandler = (manifest: Manifest) => {
       entryName,
     );
     // apply afterMatch
-    page?.serverHooks?.afterMatch?.(afterMatchHookContext, () => undefined);
+    await page?.serverHooks?.afterMatch?.(
+      afterMatchHookContext,
+      () => undefined,
+    );
     if (checkIsSent(hookContext)) {
       return new ReturnResponse(
         hookContext.res.body || 'Unkown body',
@@ -255,7 +258,7 @@ export const createHandler = (manifest: Manifest) => {
           route,
           body,
         );
-        page.serverHooks?.afterRender?.(
+        await page.serverHooks?.afterRender?.(
           afterRenderHookContext,
           () => undefined,
         );
@@ -345,7 +348,7 @@ function createWorkerHookContext(
 
 let appliedMiddlewares = false;
 
-function applyMiddlewares(
+async function applyMiddlewares(
   ctx: MiddlewareContext<'worker'>,
   middleware?: Middleware[] | Middleware,
 ) {
@@ -365,6 +368,6 @@ function applyMiddlewares(
       });
       appliedMiddlewares = true;
     }
-    middlewarePipeline.run(ctx, { onLast: () => undefined });
+    await middlewarePipeline.run(ctx, { onLast: () => undefined });
   }
 }

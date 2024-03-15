@@ -58,7 +58,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.32",
+                "coreJs": "3.36",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -132,7 +132,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.32",
+                "coreJs": "3.36",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -654,29 +654,14 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "type": "asset/inline",
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "resourceQuery": /react/,
             "type": "javascript/auto",
             "use": [
               {
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.32",
+                    "coreJs": "3.36",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -736,6 +721,109 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.36",
+                    "mode": "entry",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": true,
+                        "refresh": true,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                    "styledComponents": {
+                      "displayName": true,
+                      "pure": false,
+                      "ssr": false,
+                      "transpileTemplateLiterals": true,
+                    },
+                  },
+                  "sourceMaps": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "exportType": "named",
                   "svgo": true,
                   "svgoConfig": {
                     "plugins": [
@@ -1084,7 +1172,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.32",
+                "coreJs": "3.36",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1158,7 +1246,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.32",
+                "coreJs": "3.36",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1680,29 +1768,14 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "type": "asset/inline",
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "resourceQuery": /react/,
             "type": "javascript/auto",
             "use": [
               {
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.32",
+                    "coreJs": "3.36",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1762,6 +1835,109 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.36",
+                    "mode": "entry",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                    "styledComponents": {
+                      "displayName": true,
+                      "pure": true,
+                      "ssr": false,
+                      "transpileTemplateLiterals": true,
+                    },
+                  },
+                  "sourceMaps": false,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "exportType": "named",
                   "svgo": true,
                   "svgoConfig": {
                     "plugins": [
@@ -2218,7 +2394,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.32",
+                      "version": "3.36",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2345,7 +2521,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.32",
+                      "version": "3.36",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2711,6 +2887,137 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "type": "asset/inline",
           },
           {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+                "options": {
+                  "babelrc": false,
+                  "compact": false,
+                  "configFile": false,
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                      {
+                        "version": "legacy",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                      {
+                        "proposal": "minimal",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                      {
+                        "useESModules": true,
+                        "version": "7.23.2",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      "antd",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      "@arco-design/web-react",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                      "@arco-design/web-react/icon",
+                    ],
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
+                  ],
+                  "presets": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                      {
+                        "bugfixes": true,
+                        "corejs": {
+                          "proposals": true,
+                          "version": "3.36",
+                        },
+                        "exclude": [
+                          "transform-typeof-symbol",
+                        ],
+                        "modules": false,
+                        "targets": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "useBuiltIns": "entry",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                      {
+                        "allExtensions": true,
+                        "allowDeclareFields": true,
+                        "allowNamespaces": true,
+                        "isTSX": true,
+                        "optimizeConstEnums": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                      {
+                        "development": true,
+                        "runtime": "automatic",
+                        "useBuiltIns": true,
+                        "useSpread": false,
+                      },
+                    ],
+                  ],
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
@@ -2798,7 +3105,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.32",
+                          "version": "3.36",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -2837,6 +3144,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
+                  "exportType": "named",
                   "svgo": true,
                   "svgoConfig": {
                     "plugins": [
@@ -3222,7 +3530,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.32",
+                      "version": "3.36",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3355,7 +3663,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.32",
+                      "version": "3.36",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3721,6 +4029,152 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "type": "asset/inline",
           },
           {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
+                "options": {
+                  "babelrc": false,
+                  "compact": true,
+                  "configFile": false,
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                      {
+                        "version": "legacy",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                      {
+                        "proposal": "minimal",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                      {
+                        "useESModules": true,
+                        "version": "7.23.2",
+                      },
+                    ],
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "libraryDirectory": "es",
+                        "libraryName": "antd",
+                        "style": true,
+                      },
+                      "antd",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "es",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      "@arco-design/web-react",
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+                      {
+                        "camel2DashComponentName": false,
+                        "libraryDirectory": "react-icon",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                      "@arco-design/web-react/icon",
+                    ],
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
+                      {
+                        "removeImport": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                  "presets": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                      {
+                        "bugfixes": true,
+                        "corejs": {
+                          "proposals": true,
+                          "version": "3.36",
+                        },
+                        "exclude": [
+                          "transform-typeof-symbol",
+                        ],
+                        "modules": false,
+                        "targets": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "useBuiltIns": "entry",
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                      {
+                        "allExtensions": true,
+                        "allowDeclareFields": true,
+                        "allowNamespaces": true,
+                        "isTSX": true,
+                        "optimizeConstEnums": true,
+                      },
+                    ],
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                      {
+                        "development": false,
+                        "runtime": "automatic",
+                        "useBuiltIns": true,
+                        "useSpread": false,
+                      },
+                    ],
+                  ],
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
@@ -3823,7 +4277,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.32",
+                          "version": "3.36",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -3862,6 +4316,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               {
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
                 "options": {
+                  "exportType": "named",
                   "svgo": true,
                   "svgoConfig": {
                     "plugins": [

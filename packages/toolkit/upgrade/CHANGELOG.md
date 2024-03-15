@@ -1,5 +1,14 @@
 # @modern-js/upgrade
 
+## 2.48.1
+
+### Patch Changes
+
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+  - @modern-js/plugin-i18n@2.48.1
+
 ## 2.48.0
 
 ### Patch Changes
