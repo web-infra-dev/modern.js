@@ -24,49 +24,19 @@ import type {
 import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
-import type { DevMiddlewaresConfig, RsbuildInstance } from '@rsbuild/shared';
+import type { RsbuildInstance } from '@rsbuild/shared';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
-import type { DevServerOptions, ModernDevServerOptionsNew } from '../types';
+import type { ModernDevServerOptionsNew } from '../types';
 import { workerSSRRender } from './workerSSRRender';
-
-const transformToRsbuildServerOptions = (
-  dev: DevServerOptions,
-): DevMiddlewaresConfig => {
-  const rsbuildOptions: DevMiddlewaresConfig = {
-    hmr: Boolean(dev.hot),
-    client: dev.client,
-    writeToDisk: dev.devMiddleware?.writeToDisk,
-    compress: dev.compress,
-    headers: dev.headers,
-    historyApiFallback: dev.historyApiFallback,
-    proxy: dev.proxy,
-    publicDir: false,
-  };
-  if (dev.before?.length || dev.after?.length) {
-    rsbuildOptions.setupMiddlewares = [
-      ...(dev.setupMiddlewares || []),
-      middlewares => {
-        // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
-        middlewares.unshift(...(dev.before || []));
-
-        middlewares.push(...(dev.after || []));
-      },
-    ];
-  } else if (dev.setupMiddlewares) {
-    rsbuildOptions.setupMiddlewares = dev.setupMiddlewares;
-  }
-
-  return rsbuildOptions;
-};
 
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
-  private readonly dev: DevServerOptions;
+  private readonly dev: ModernDevServerOptionsNew['dev'];
 
   private readonly useSSRWorker: boolean;
 
@@ -142,13 +112,11 @@ export class ModernDevServer extends ModernServer {
     const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
       // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
       await this.getMiddlewares({
-        ...transformToRsbuildServerOptions(this.dev),
+        // TODO: move to uni-builder
         compress:
           !isUseStreamingSSR(this.getRoutes()) &&
           !isUseSSRPreload() &&
           dev.compress,
-        htmlFallback: false,
-        publicDir: false,
       });
 
     app.on('upgrade', onUpgrade);

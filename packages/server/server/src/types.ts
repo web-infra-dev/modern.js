@@ -61,7 +61,7 @@ export type ExtraOptions = {
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
 
 export type ExtraOptionsNew = {
-  dev: Partial<DevServerOptions>;
+  dev: Pick<DevServerOptions, 'watch' | 'https' | 'compress' | 'devMiddleware'>;
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares: (
