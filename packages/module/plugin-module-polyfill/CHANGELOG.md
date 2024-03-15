@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.48.2
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.48.2
+- @modern-js/module-tools@2.48.2
+
 ## 2.48.1
 
 ### Patch Changes
