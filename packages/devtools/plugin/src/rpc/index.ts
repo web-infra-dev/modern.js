@@ -1,6 +1,5 @@
 import _ from '@modern-js/utils/lodash';
 import {
-  ClientDefinition,
   type BuilderConfig,
   type BundlerConfig,
   type ClientFunctions,
@@ -19,17 +18,18 @@ import type { RsbuildContext, RsbuildPlugin } from '@modern-js/uni-builder';
 import { CliPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
 import { requireModule } from '../utils/module';
+import { DevtoolsContext } from '../options';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
   server: SocketServer;
-  def: ClientDefinition;
+  ctx: DevtoolsContext;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api, server, def } = options;
+  const { api, server, ctx } = options;
 
   const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
@@ -88,67 +88,70 @@ export const setupClientConnection = async (
     },
     async getAppContext() {
       await deferred.prepare.promise;
-      const ctx = { ...api.useAppContext() };
-      return _.omit(ctx, ['builder', 'serverInternalPlugins']);
+      const appCtx = { ...api.useAppContext() };
+      return _.omit(appCtx, ['builder', 'serverInternalPlugins']);
     },
     async getFileSystemRoutes(entryName) {
       return _fileSystemRoutesMap[entryName] ?? [];
     },
     async getBuilderContext() {
-      const ctx = await deferred.builder.context.promise;
-      return ctx;
+      const builderCtx = await deferred.builder.context.promise;
+      return builderCtx;
     },
     async getDependencies() {
-      const ctx = await deferred.builder.context.promise;
+      const builderCtx = await deferred.builder.context.promise;
       const ret: Record<string, string> = {};
 
       const resolveExprs = {
-        react: [ctx.rootPath, 'react/package.json'],
+        react: [builderCtx.rootPath, 'react/package.json'],
         '@modern-js/app-tools': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@modern-js/app-tools/package.json',
         ],
-        '@edenx/app-tools': [ctx.rootPath, '@edenx/app-tools/package.json'],
+        '@edenx/app-tools': [
+          builderCtx.rootPath,
+          '@edenx/app-tools/package.json',
+        ],
         webpack: [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@modern-js/app-tools',
           '@modern-js/uni-builder',
           '@rsbuild/webpack',
           'webpack/package.json',
         ],
         '@rspack/core': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@modern-js/uni-builder',
           '@rsbuild/core',
           '@rspack/core/package.json',
         ],
         '@rsdoctor/rspack-plugin': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@rsdoctor/rspack-plugin/package.json',
         ],
         '@rsdoctor/webpack-plugin': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@rsdoctor/webpack-plugin/package.json',
         ],
         '@web-doctor/webpack-plugin': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@web-doctor/webpack-plugin/package.json',
         ],
         '@web-doctor/rspack-plugin': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@web-doctor/rspack-plugin/package.json',
         ],
         '@web-doctor/webpack-plugin(builder)': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@edenx/builder-plugin-web-doctor',
           '@web-doctor/webpack-plugin/package.json',
         ],
         '@web-doctor/rspack-plugin(builder)': [
-          ctx.rootPath,
+          builderCtx.rootPath,
           '@edenx/builder-plugin-web-doctor',
           '@web-doctor/rspack-plugin/package.json',
         ],
-        '@rsdoctor/core': [ctx.rootPath, '@rsdoctor/core/package.json'],
+        '@rsdoctor/core': [builderCtx.rootPath, '@rsdoctor/core/package.json'],
       };
 
       for (const [name, expr] of Object.entries(resolveExprs)) {
@@ -162,11 +165,11 @@ export const setupClientConnection = async (
       return deferred.compileTimeCost.promise;
     },
     async getClientDefinition() {
-      return def;
+      return ctx.def;
     },
     async getDoctorOverview() {
-      const ctx = api.useAppContext();
-      const manifestPath = await findManifest(ctx.distDirectory);
+      const appCtx = api.useAppContext();
+      const manifestPath = await findManifest(appCtx.distDirectory);
       const json = await parseManifest(require(manifestPath));
       const data = {
         numModules: json.data.moduleGraph.modules.length,
@@ -176,6 +179,9 @@ export const setupClientConnection = async (
         errors: json.data.errors,
       };
       return data;
+    },
+    async getStoragePresets() {
+      return ctx.storagePresets;
     },
     echo(content) {
       return content;

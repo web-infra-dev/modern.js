@@ -62,6 +62,12 @@ export const loader = async () => {
       icon: <RiShieldCrossLine />,
       view: { type: 'builtin', src: '/doctor' },
     },
+    {
+      name: 'storage',
+      title: 'Storage',
+      icon: <RiShieldCrossLine />,
+      view: { type: 'builtin', src: '/storage/preset' },
+    },
   ];
   await globals.callHook('tab:list', tabs);
   for (const tab of tabs) {

@@ -1,5 +1,8 @@
-import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
-import { StoragePresetContext } from './types';
+import {
+  ClientDefinition,
+  ROUTE_BASENAME,
+  StoragePresetContext,
+} from '@modern-js/devtools-kit/node';
 
 export interface DevtoolsPluginOptions {
   enable?: boolean;

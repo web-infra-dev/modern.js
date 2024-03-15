@@ -1,0 +1,18 @@
+{
+  "storagePresets": [
+    {
+      "name": "用户asdasd",
+      "items": [
+        {
+          "type": "cookie",
+          "key": "x-tt-jwt",
+          "value": "eC10dC1qd3Q=",
+          "httpOnly": true,
+          "secure": true
+        },
+        { "type": "cookie", "key": "lang", "value": "zh" },
+        { "type": "local-storage", "key": "__cache_first_1161", "value": "1" }
+      ]
+    }
+  ]
+}

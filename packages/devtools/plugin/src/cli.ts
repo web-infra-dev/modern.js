@@ -42,8 +42,8 @@ export const devtoolsPlugin = (
       });
       const rpc = await setupClientConnection({
         api,
+        ctx,
         server: socketServer,
-        def: ctx.def,
       });
 
       return {

@@ -12,6 +12,7 @@ import { NormalizedConfig } from '@modern-js/core';
 import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
 import type { Manifest } from '@rsdoctor/types';
 import type { ClientDefinition } from './client';
+import type { StoragePresetContext } from './storage-preset';
 
 export type BuilderContext = RsbuildContext;
 
@@ -63,5 +64,6 @@ export interface ServerFunctions {
   getCompileTimeCost: () => Promise<number>;
   getClientDefinition: () => Promise<ClientDefinition>;
   getDoctorOverview: () => Promise<DoctorManifestOverview>;
+  getStoragePresets: () => Promise<StoragePresetContext[]>;
   echo: (content: string) => string;
 }
