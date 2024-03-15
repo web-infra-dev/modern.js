@@ -566,7 +566,7 @@ Less 中除法的写法也可以通过配置项来修改，详见 [Less - Math](
 
 从 MAJOR_VERSION.47.0 版本开始，Modern.js 优化了 Type Checker 的检查范围。在之前的版本中，Type Checker 只输出 src 目录的类型错误，导致其他目录的类型错误无法被正确输出。
 
-在新版本中，Modern.js 的 Type Checker 对齐了原生 tsc 的类型检查范围，能够完整输出项目中的类型错误，你也可以通过 tsconfig.json 的 `include` 和 `exclude` 字段来配置类型检查范围。
+在新版本中，Modern.js 的 Type Checker 对齐了原生 tsc 的类型检查范围（即 tsconfig.json 的 `include` 和 `exclude` 字段定义的范围），能够完整输出项目中的类型错误。
 
 如果你希望保持之前的行为，只输出 src 目录的类型错误，可以添加以下配置：
 

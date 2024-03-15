@@ -562,7 +562,7 @@ The writing of division in Less can also be modified through configuration optio
 
 Starting from the MAJOR_VERSION.47.0 version, Modern.js has improved the checking range of Type Checker. In previous versions, the Type Checker only outputs type errors in the src directory, resulting in type errors in other directories not being correctly noticed.
 
-In the new version, Modern.js Type Checker has aligned with the native tsc checking range, which can fully output the type errors in the project. You can also configure the checking range through the `include` and `exclude` fields of tsconfig.json.
+In the new version, Modern.js's Type Checker aligns with the type check range of native tsc (i.e., the range defined by the `include` and `exclude` fields in `tsconfig.json`), and can fully output the type errors in the project.
 
 If you want to maintain the previous behavior and only output type errors in the src directory, you can add the following configuration:
 
