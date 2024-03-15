@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import { DevtoolsConfig } from '../types';
+import { StoragePresetContext } from '@modern-js/devtools-kit';
 
 const CONFIG_FILENAME = 'modern.devtools.json';
 
@@ -37,17 +37,14 @@ export async function resolveConfigFiles(
   return files;
 }
 
-export async function loadConfigFile(dir = process.cwd()) {
-  const filename = await resolveConfigFile(dir);
-  if (!filename) {
-    return null;
-  }
-  const raw = await fs.readJson(filename);
-  return raw as DevtoolsConfig;
+export async function loadConfigFile(filename: string) {
+  const raw = await fs.readJSON(filename);
+  const ret: StoragePresetContext = { ...raw, filename };
+  return ret;
 }
 
 export async function loadConfigFiles(dir = process.cwd()) {
   const filenames = await resolveConfigFiles(dir);
-  const configs = await Promise.all(filenames.map(loadConfigFile));
-  return configs.filter(Boolean) as DevtoolsConfig[];
+  const ret = await Promise.all(filenames.map(loadConfigFile));
+  return ret;
 }

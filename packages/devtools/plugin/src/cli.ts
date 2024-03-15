@@ -42,8 +42,8 @@ export const devtoolsPlugin = (
       });
       const rpc = await setupClientConnection({
         api,
+        ctx,
         server: socketServer,
-        def: ctx.def,
       });
 
       return {
@@ -68,7 +68,8 @@ export const devtoolsPlugin = (
           const appCtx = api.useAppContext();
           const { devtools: options = {} } = appConfig;
           updateContext(ctx, options);
-          updateContext(ctx, ...(await loadConfigFiles(appCtx.appDirectory)));
+          const storagePresets = await loadConfigFiles(appCtx.appDirectory);
+          ctx.storagePresets.push(...storagePresets);
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
 
           const swProxyEntry = require.resolve(

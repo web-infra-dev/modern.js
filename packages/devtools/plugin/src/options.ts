@@ -1,7 +1,10 @@
-import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
-import { DevtoolsConfig } from './types';
+import {
+  ClientDefinition,
+  ROUTE_BASENAME,
+  StoragePresetContext,
+} from '@modern-js/devtools-kit/node';
 
-export interface DevtoolsPluginOptions extends DevtoolsConfig {
+export interface DevtoolsPluginOptions {
   enable?: boolean;
   endpoint?: string;
   dataSource?: string;
@@ -9,6 +12,7 @@ export interface DevtoolsPluginOptions extends DevtoolsConfig {
 
 export interface DevtoolsContext extends Required<DevtoolsPluginOptions> {
   def: ClientDefinition;
+  storagePresets: StoragePresetContext[];
 }
 
 export const resolveContext = (

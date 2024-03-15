@@ -957,6 +957,9 @@ importers:
       birpc:
         specifier: 0.2.13
         version: 0.2.13
+      cookie-es:
+        specifier: ^1.0.0
+        version: 1.0.0
       flatted:
         specifier: ^3.2.9
         version: 3.2.9
@@ -1045,6 +1048,9 @@ importers:
       flatted:
         specifier: ^3.2.9
         version: 3.2.9
+      hono:
+        specifier: ^4.1.0
+        version: 4.1.0
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -22260,6 +22266,11 @@ packages:
     dependencies:
       parse-passwd: 1.0.0
     dev: true
+
+  /hono@4.1.0:
+    resolution: {integrity: sha512-9no6DCHb4ijB1tWdFXU6JnrnFgzwVZ1cnIcS1BjAFnMcjbtBTOMsQrDrPH3GXbkNEEEkj8kWqcYBy8Qc0bBkJQ==}
+    engines: {node: '>=16.0.0'}
+    dev: false
 
   /hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
