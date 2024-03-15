@@ -5,11 +5,8 @@ import {
   WatchOptions,
   logger,
 } from '@modern-js/utils';
-import {
-  AGGRED_DIR,
-  ServerBase,
-  registerMockHandlers,
-} from '@modern-js/server-core/base';
+import { AGGRED_DIR, ServerBase } from '@modern-js/server-core/base';
+import { registerMockHandlers } from '@modern-js/server-core/base/node';
 import Watcher, { WatchEvent, mergeWatchOptions } from '../dev-tools/watcher';
 import { debug } from './utils';
 

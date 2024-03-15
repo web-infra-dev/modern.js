@@ -2,7 +2,7 @@ import { Render } from '../../../core/render';
 import { Middleware, ServerBaseOptions, ServerEnv } from '../../../core/server';
 import { ServerBase } from '../../serverBase';
 import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
-import { ServerNodeEnv } from '../../adapters/node';
+import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
 import { createRender } from './render';

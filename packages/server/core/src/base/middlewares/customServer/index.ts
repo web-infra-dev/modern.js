@@ -5,7 +5,7 @@ import { ServerHookRunner } from '../../../core/plugin';
 import { Middleware, ServerEnv } from '../../../core/server';
 import { createTransformStream } from '../../utils';
 import { ServerReportTimings } from '../../constants';
-import { ServerNodeEnv } from '../../adapters/node';
+import type { ServerNodeEnv } from '../../adapters/node/hono';
 import {
   createAfterMatchCtx,
   createAfterRenderCtx,

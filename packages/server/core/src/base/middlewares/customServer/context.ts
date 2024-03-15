@@ -8,7 +8,7 @@ import {
   ServerRoute,
 } from '@modern-js/types';
 import { HonoContext, ServerEnv } from '../../../core/server';
-import type { ServerNodeEnv } from '../../adapters/node';
+import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
 import { createBaseHookContext } from './base';

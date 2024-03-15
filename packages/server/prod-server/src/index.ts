@@ -1,4 +1,4 @@
-import { createNodeServer } from '@modern-js/server-core/base';
+import { createNodeServer } from '@modern-js/server-core/base/node';
 import { createWebServer } from './handler';
 import { ProdServerOptions } from './types';
 
