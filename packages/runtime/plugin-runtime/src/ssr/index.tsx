@@ -1,6 +1,7 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type { Plugin, RuntimeContext } from '../core';
 import {
   RenderLevel,
@@ -27,8 +28,11 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
     const mockResp = mockResponse();
 
     if (config.inlineScript === false) {
-      window._SSR_DATA = parsedJSONFromElement(SSR_DATA_JSON_ID);
-      window._ROUTER_DATA = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+      const ssrData = parsedJSONFromElement(SSR_DATA_JSON_ID);
+      window._SSR_DATA = ssrData || window._SSR_DATA;
+
+      const routeData = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+      window._ROUTER_DATA = routeData || window._ROUTER_DATA;
     }
 
     return {
@@ -41,8 +45,8 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
           _hydration: true,
         };
         const { ssrContext } = hydrateContext;
-        const { pathname: initialPathname } = ssrContext!.request;
-        const currentPathname = window.location.pathname;
+        const currentPathname = normalizePathname(window.location.pathname);
+        const initialPathname = normalizePathname(ssrContext!.request.pathname);
         if (initialPathname !== currentPathname) {
           const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
           console.error(errorMsg);

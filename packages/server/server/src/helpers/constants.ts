@@ -10,7 +10,7 @@ export const getDefaultDevOptions = (): DevServerOptions => {
       // By default it is set to "location.hostname"
       host: '',
       // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
-      protocol: '',
+      protocol: undefined,
     },
     https: false,
     devMiddleware: { writeToDisk: true },

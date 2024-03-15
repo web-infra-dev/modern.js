@@ -1,24 +1,15 @@
-import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   getPackageManager,
   getPackageManagerText,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
 import { localeKeys, i18n } from './locale';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.BYTED_CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -50,7 +41,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   await handleTemplateFile(context, appApi, generator);
 
   await appApi.runSubGenerator(
-    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,
     context.config,
   );

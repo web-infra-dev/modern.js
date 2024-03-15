@@ -1,5 +1,45 @@
 # @modern-js/plugin-express
 
+## 2.48.2
+
+### Patch Changes
+
+- @modern-js/bff-core@2.48.2
+- @modern-js/bff-runtime@2.48.2
+- @modern-js/types@2.48.2
+- @modern-js/utils@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- Updated dependencies [8942b90]
+- Updated dependencies [488ec21]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+  - @modern-js/bff-core@2.48.1
+  - @modern-js/bff-runtime@2.48.1
+  - @modern-js/types@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/bff-core@2.48.0
+  - @modern-js/bff-runtime@2.48.0
+  - @modern-js/types@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.47.1
+- @modern-js/bff-runtime@2.47.1
+- @modern-js/types@2.47.1
+- @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

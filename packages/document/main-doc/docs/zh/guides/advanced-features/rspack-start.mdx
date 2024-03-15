@@ -88,22 +88,20 @@ export default {
 
 Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://www.rspack.dev/zh/guide/builtin-swc-loader.html) 进行代码转译。
 
-Modern.js 已对 `builtin:swc-loader` 的常见配置提供了更方便的配置方式，如：通过 [source.transformImport](/configure/app/source/transform-import) 配置组件库按需引入。如果对 `builtin:swc-loader` 有自定义配置的需求，可参考以下代码：
+Modern.js 已对 `builtin:swc-loader` 的常见配置提供了更方便的配置方式，如：通过 [source.transformImport](/configure/app/source/transform-import) 配置组件库按需引入。如果对 `builtin:swc-loader` 有自定义配置的需求，可通过 [tools.swc](/configure/app/tools/swc) 进行配置：
 
 ```ts
-export default {
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.SWC)
-        .tap(options => {
-          options.xxx = '';
-          return options;
-        });
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
     },
-  }
-};
+  },
+});
 ```
 
 :::tip

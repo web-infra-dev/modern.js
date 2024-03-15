@@ -67,12 +67,28 @@ export default defineConfig({
 
 包含静态资源相关的配置。
 
-## asset.path
+## asset.name
 
-静态资源输出路径，会基于 [outDir](/api/config/build-config#outDir) 进行输出。
+静态资源输出文件名。
 
-- 类型： `string`
-- 默认值： `assets`
+- 类型： `string | ((assetPath) => name)`
+- 默认值： `[name].[hash].[ext]`
+
+当 asset.name 为 string 类型时，会自动对 [name]、[ext]、[hash] 进行替换，分别替换为文件名、拓展名、文件 hash。
+如果想要更高的自由度，可以把 asset.name 作为方法使用，返回值即为文件名。此时，该方法接收一个参数 assetPath，对应资源路径。
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    asset: {
+      // no hash
+      name: [name].[ext],
+      // any logic
+      // name: (assetPath) => 'any.png',
+    },
+  },
+});
+```
 
 ## asset.limit
 
@@ -96,6 +112,13 @@ export default defineConfig({
   },
 });
 ```
+
+## asset.path
+
+静态资源输出路径，会基于 [outDir](/api/config/build-config#outDir) 进行输出。
+
+- 类型： `string`
+- 默认值： `assets`
 
 ## asset.publicPath
 

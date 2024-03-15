@@ -9,6 +9,7 @@ import {
   isReact18,
   getPackageVersion,
   getPackageManagerText,
+  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
@@ -19,16 +20,6 @@ import { i18n, localeKeys } from './locale';
 import { getMajorVersion } from './utils';
 
 const ADDON_ESSENTIAL = '@storybook/addon-essentials';
-const BUILDER_WEBPACK = '@modern-js/builder-webpack-provider';
-
-const getGeneratorPath = (generator: string, distTag: string) => {
-  if (process.env.CODESMITH_ENV === 'development') {
-    return path.dirname(require.resolve(generator));
-  } else if (distTag) {
-    return `${generator}@${distTag}`;
-  }
-  return generator;
-};
 
 const handleTemplateFile = async (
   context: GeneratorContext,
@@ -106,9 +97,6 @@ const handleTemplateFile = async (
     [ADDON_ESSENTIAL]: availableVersion,
   };
 
-  const { isModuleProject } = context.config;
-  const builderWebapckVersion = await getPackageVersion(BUILDER_WEBPACK);
-
   const jsonAPI = new JsonAPI(generator);
   await jsonAPI.update(
     context.materials.default.get(path.join(appDir, './package.json')),
@@ -127,7 +115,7 @@ const handleTemplateFile = async (
   );
 
   await appApi.runSubGenerator(
-    getGeneratorPath(DependenceGenerator, context.config.distTag),
+    getGeneratorPath(DependenceGenerator, context.config.distTag, [__dirname]),
     undefined,
     {
       ...context.config,
@@ -136,9 +124,6 @@ const handleTemplateFile = async (
         ...addReactDomDependence,
         ...addReactDependence,
         ...addStorybookDependence,
-        ...(isModuleProject
-          ? { [BUILDER_WEBPACK]: builderWebapckVersion }
-          : {}),
       },
     },
   );

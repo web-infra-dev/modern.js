@@ -74,10 +74,6 @@ export const TASKS: TaskConfig[] = [
           minimist: '../minimist',
         },
       },
-      {
-        name: 'schema-utils3',
-        ignoreDts: true,
-      },
       // some dependencies
       'glob',
       'chalk',

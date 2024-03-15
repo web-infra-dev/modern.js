@@ -15,13 +15,17 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.47.0",
+  "version": "2.48.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
-    "create": "./bin/run.js"
+    "run": "./bin/run.js"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "exports": {
     ".": {
       "node": {
@@ -39,7 +43,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/codesmith": "2.3.4",
+    "@modern-js/codesmith": "2.3.5",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"

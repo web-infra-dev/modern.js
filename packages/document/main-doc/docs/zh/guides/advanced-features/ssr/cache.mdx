@@ -187,3 +187,29 @@ export const cacheOption: CacheOption = {
   staleWhileRevalidate: 1000, // ms
 };
 ```
+
+## 缓存标识
+
+当开启渲染缓存后，Modern.js 将通过响应头 `x-render-cache` 来标识当前请求的缓存状态。
+
+下列是一个响应示例
+
+```bash
+< HTTP/1.1 200 OK
+< Access-Control-Allow-Origin: *
+< content-type: text/html; charset=utf-8
+< x-render-cache: hit
+< Date: Thu, 29 Feb 2024 02:46:49 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+< Content-Length: 2937
+```
+
+`x-render-cache` 可能会有以下几种值
+
+| 名称    | 说明                                               |
+| ------- | -------------------------------------------------- |
+| hit     | 缓存命中，返回缓存内容                             |
+| stale   | 缓存命中，但数据陈旧，返回缓存内容的同时做重新渲染 |
+| expired | 缓存命中，重新渲染后返回渲染结果                   |
+| miss    | 缓存未命中                                         |

@@ -1,5 +1,32 @@
 # @modern-js/entry-generator
 
+## 3.3.13
+
+### Patch Changes
+
+- @modern-js/utils@2.48.2
+
+## 3.3.12
+
+### Patch Changes
+
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+
+## 3.3.11
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+
+## 3.3.10
+
+### Patch Changes
+
+- @modern-js/utils@2.47.1
+
 ## 3.3.9
 
 ### Patch Changes

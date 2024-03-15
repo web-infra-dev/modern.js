@@ -1,10 +1,9 @@
 import type {
   AssetDefinition,
-  CustomTabView,
   NameDefinition,
   PackageDefinition,
 } from '@modern-js/devtools-kit/runtime';
-import { ReactElement, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export interface BreadcrumbItem {
   title: ReactNode;
@@ -23,18 +22,4 @@ export interface StoreContextValue {
     src: string;
     fallback: string;
   }>;
-}
-
-export interface BuiltinTabView {
-  type: 'builtin';
-  url: string;
-}
-
-export type InternalTabView = CustomTabView | BuiltinTabView;
-
-export interface InternalTab {
-  name: string;
-  title: string;
-  view: InternalTabView;
-  icon?: ReactElement;
 }

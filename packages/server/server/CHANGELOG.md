@@ -1,5 +1,57 @@
 # @modern-js/server
 
+## 2.48.2
+
+### Patch Changes
+
+- 9e7115f: feat(server): support modify Rsbuild server config in Rsbuild modifyRsbuildConfig hook
+
+  feat(server): 支持在 Rsbuild modifyRsbuildConfig hook 中修改 Rsbuild server 相关配置
+
+  - @modern-js/prod-server@2.48.2
+  - @modern-js/server-utils@2.48.2
+  - @modern-js/runtime-utils@2.48.2
+  - @modern-js/types@2.48.2
+  - @modern-js/utils@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- 24b2ec1: fix(worker): worker can run correctly when dev & prod
+  fix(worker): 在开发模式和线上模式 worker 能够正常运行
+- Updated dependencies [8942b90]
+- Updated dependencies [24b2ec1]
+- Updated dependencies [ce426f7]
+- Updated dependencies [74749ae]
+  - @modern-js/utils@2.48.1
+  - @modern-js/prod-server@2.48.1
+  - @modern-js/runtime-utils@2.48.1
+  - @modern-js/server-utils@2.48.1
+  - @modern-js/types@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [0b44ddb]
+- Updated dependencies [c323a23]
+  - @modern-js/prod-server@2.48.0
+  - @modern-js/utils@2.48.0
+  - @modern-js/server-utils@2.48.0
+  - @modern-js/runtime-utils@2.48.0
+  - @modern-js/types@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.47.1
+- @modern-js/server-utils@2.47.1
+- @modern-js/runtime-utils@2.47.1
+- @modern-js/types@2.47.1
+- @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

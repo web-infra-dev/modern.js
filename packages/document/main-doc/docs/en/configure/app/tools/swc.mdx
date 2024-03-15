@@ -15,17 +15,35 @@ import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
 
 :::tip
 When using Rspack as the bundler, SWC will be used for transpiling and compression by default, so you don't need to install or configure the SWC plugin.
-
-If you have configured the current SWC plugin when using Rspack, it will not have any effect.
 :::
 
-## Install
+## Used in Rspack mode
+
+You can set the options of [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader) through `tools.swc`.
+
+```
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  tools: {
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
+    },
+  },
+});
+```
+
+For more usage, please refer to [Rsbuild - tools.swc](https://rsbuild.dev/config/tools/swc).
+
+## Used in Webpack mode
 
 import EnableSWC from '@modern-js/builder-doc/docs/en/shared/enableSwc.md';
 
 <EnableSWC />
 
-## Config
+### Config
 
 You can set the SWC compilation behavior through the `tools.swc` config.
 

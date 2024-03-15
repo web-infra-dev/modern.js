@@ -1,5 +1,5 @@
 import { createUniBuilder } from '@modern-js/uni-builder';
-import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/shared';
+import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/core';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@rsbuild/shared/webpack-dev-middleware';

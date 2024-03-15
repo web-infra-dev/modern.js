@@ -8,6 +8,7 @@ export const getDefaultBuildConfig = () => {
       path: 'assets',
       publicPath: '',
       svgr: false,
+      name: '[name].[hash].[ext]',
     },
     autoExternal: true,
     banner: {},

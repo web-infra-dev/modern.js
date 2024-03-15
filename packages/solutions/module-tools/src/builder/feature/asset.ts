@@ -6,7 +6,7 @@ import { createFilter } from '@rollup/pluginutils';
 import { transform } from '../../../compiled/@svgr/core';
 import svgo from '../../../compiled/@svgr/plugin-svgo';
 import jsx from '../../../compiled/@svgr/plugin-jsx';
-import type { ICompiler, SvgrOptions } from '../../types';
+import type { ICompiler, SvgrOptions, Asset } from '../../types';
 import { assetExt } from '../../constants/file';
 import { normalizeSlashes, getHash } from '../../utils';
 
@@ -94,10 +94,9 @@ export async function getAssetContents(
 ) {
   const fileContent = await fs.promises.readFile(assetPath);
   const { buildType, format, outDir } = this.config;
-  const { limit, path, publicPath, svgr } = this.config.asset;
+  const { limit, path, publicPath, svgr, name } = this.config.asset;
   const hash = getHash(fileContent, null).slice(0, 8);
-
-  const outputFileName = basename(assetPath).split('.').join(`.${hash}.`);
+  const outputFileName = getOutputFileName(assetPath, name, hash);
   const outputFilePath = resolve(outDir, path, outputFileName);
   const relativePath = relative(rebaseFrom, outputFilePath);
   const normalizedRelativePath = normalizeSlashes(
@@ -176,4 +175,33 @@ export async function getAssetContents(
     contents,
     loader,
   };
+}
+
+function getOutputFileName(
+  filePath: string,
+  assetName: Required<Asset['name']>,
+  hash: string,
+) {
+  const format =
+    typeof assetName === 'function' ? assetName(filePath) : assetName;
+  const fileBaseNameArray = basename(filePath).split('.');
+  const extname = fileBaseNameArray.pop() ?? '';
+  const fileBaseName = fileBaseNameArray.join('.');
+  const outputFileName = format.replace(
+    /(\[[^\]]*\])/g,
+    (str: string, match: string): string => {
+      if (match === '[name]') {
+        return fileBaseName;
+      }
+      if (match === '[ext]') {
+        return extname;
+      }
+      if (match === '[hash]') {
+        return hash;
+      }
+      return match;
+    },
+  );
+
+  return outputFileName;
 }

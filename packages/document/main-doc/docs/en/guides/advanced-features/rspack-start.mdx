@@ -87,22 +87,22 @@ For unsupported configurations, we have marked `Bundler: only support webpack` o
 
 Modern.js uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader.html) for code translation in Rspack mode.
 
-Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import). If you have custom configuration requirements for `builtin:swc-loader`, you can refer to the following code:
+Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import).
+
+If you have custom configuration requirements for `builtin:swc-loader`, you can set the options of builtin:swc-loader through [tools.swc](/configure/app/tools/swc):
 
 ```ts
-export default {
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
   tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.SWC)
-        .tap(options => {
-          options.xxx = '';
-          return options;
-        });
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
     },
-  }
-};
+  },
+});
 ```
 
 :::tip

@@ -1,5 +1,34 @@
 # @modern-js/main-doc
 
+## 2.48.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.48.2
+- @modern-js/sandpack-react@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- 2f049e1: fix syntax
+  - @modern-js/sandpack-react@2.48.1
+  - @modern-js/builder-doc@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.48.0
+- @modern-js/builder-doc@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.47.1
+- @modern-js/sandpack-react@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

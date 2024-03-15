@@ -1,5 +1,53 @@
 # @modern-js/runtime
 
+## 2.48.2
+
+### Patch Changes
+
+- 8eccb3b: fix: helmet.renderStatic must be sync action
+  fix: helmet.renderStatic 必须是同步的行为
+- 08e062f: fix: ssr reload infinite
+  fix: ssr 无限刷新问题
+  - @modern-js/plugin@2.48.2
+  - @modern-js/runtime-utils@2.48.2
+  - @modern-js/types@2.48.2
+  - @modern-js/utils@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- 74749ae: fix: sometime the url '/a/' shoud be equal '/a'
+  fix: 有时 url '/a/' 应该等于 '/a'
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+- Updated dependencies [74749ae]
+  - @modern-js/utils@2.48.1
+  - @modern-js/runtime-utils@2.48.1
+  - @modern-js/plugin@2.48.1
+  - @modern-js/types@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/plugin@2.48.0
+  - @modern-js/runtime-utils@2.48.0
+  - @modern-js/types@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- cee9184: fix: `ssr.inlineScript` shouldn't works in streaming ssr
+  fix: `ssr.inlineScript` 不应该在 streaming ssr 模式下工作
+  - @modern-js/plugin@2.47.1
+  - @modern-js/runtime-utils@2.47.1
+  - @modern-js/types@2.47.1
+  - @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

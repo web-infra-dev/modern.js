@@ -68,25 +68,27 @@ export type DisableSourceMapOption =
       css?: boolean;
     };
 
+export type ToolsDevServerConfig = ChainedConfig<{
+  before?: RequestHandler[];
+  after?: RequestHandler[];
+  client?: DevConfig['client'];
+  compress?: ServerConfig['compress'];
+  devMiddleware?: {
+    writeToDisk?: DevConfig['writeToDisk'];
+  };
+  liveReload?: boolean;
+  headers?: ServerConfig['headers'];
+  historyApiFallback?: ServerConfig['historyApiFallback'];
+  hot?: boolean;
+  https?: DevServerHttpsOptions;
+  setupMiddlewares?: DevConfig['setupMiddlewares'];
+  proxy?: ServerConfig['proxy'];
+}>;
+
 export type UniBuilderExtraConfig = {
   tools?: {
     styledComponents?: false | PluginStyledComponentsOptions;
-    devServer?: ChainedConfig<{
-      before?: RequestHandler[];
-      after?: RequestHandler[];
-      client?: DevConfig['client'];
-      compress?: ServerConfig['compress'];
-      devMiddleware?: {
-        writeToDisk?: DevConfig['writeToDisk'];
-      };
-      liveReload?: boolean;
-      headers?: ServerConfig['headers'];
-      historyApiFallback?: ServerConfig['historyApiFallback'];
-      hot?: boolean;
-      https?: DevServerHttpsOptions;
-      setupMiddlewares?: DevConfig['setupMiddlewares'];
-      proxy?: ServerConfig['proxy'];
-    }>;
+    devServer?: ToolsDevServerConfig;
     /**
      * Configure the [Pug](https://pugjs.org/) template engine.
      */

@@ -67,12 +67,29 @@ export default {
 
 Contains configuration related to static assets.
 
-## asset.path
+## asset.name
 
-Static resource output path, will be based on [outDir](/api/config/build-config#outDir)
+Static resource output file name.
 
-- **Type**: `string`
-- **Default**: `assets`
+- **Type**: `string | ((assetPath) => name)`
+- **Default**: `[name].[hash].[ext]`
+
+When asset.name is a string, it will automatically replace [name], [ext], and [hash], respectively replaced by the file name, extension, and file hash.
+
+Also you can use asset.name as a function, and the return is output asset name. At this time, this function receives a parameter assetPath, which corresponds to the resource path.
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    asset: {
+      // no hash
+      name: [name].[ext],
+      // any logic
+      // name: (assetPath) => 'any.png',
+    },
+  },
+});
+```
 
 ## asset.limit
 
@@ -96,6 +113,13 @@ export default defineConfig({
   },
 });
 ```
+
+## asset.path
+
+Static resource output path, will be based on [outDir](/api/config/build-config#outDir)
+
+- **Type**: `string`
+- **Default**: `assets`
 
 ## asset.publicPath
 
@@ -510,7 +534,7 @@ export default defineConfig({
 
 ## dts.tsconfigPath
 
-**deprecated**，use [tsconfig](#tsconfig) instead.
+**deprecated**,use [tsconfig](#tsconfig) instead.
 
 Specifies the path to the tsconfig file used to generate the type file.
 
@@ -1083,7 +1107,7 @@ Sets the format of the source code. By default, the source code will be treated 
 ## splitting
 
 Whether to enable code splitting.
-Only support [format: 'esm'](#format-esm) and [format: 'cjs'](#format-cjs)，see [esbuild.splitting](https://esbuild.github.io/api/#splitting) learn more.
+Only support [format: 'esm'](#format-esm) and [format: 'cjs'](#format-cjs),see [esbuild.splitting](https://esbuild.github.io/api/#splitting) learn more.
 
 - **Type**: `boolean`
 - **Default**: `false`

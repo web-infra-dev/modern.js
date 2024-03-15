@@ -1,5 +1,56 @@
 # @modern-js/monorepo-tools
 
+## 2.48.2
+
+### Patch Changes
+
+- @modern-js/core@2.48.2
+- @modern-js/plugin-changeset@2.48.2
+- @modern-js/plugin-i18n@2.48.2
+- @modern-js/plugin-lint@2.48.2
+- @modern-js/plugin@2.48.2
+- @modern-js/utils@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- Updated dependencies [8942b90]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+  - @modern-js/core@2.48.1
+  - @modern-js/plugin-changeset@2.48.1
+  - @modern-js/plugin-i18n@2.48.1
+  - @modern-js/plugin-lint@2.48.1
+  - @modern-js/plugin@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- c323a23: feat: separate new & upgrade action from solutions
+  feat: 从工程方案中分离 new & upgrade 命令
+- Updated dependencies [c323a23]
+  - @modern-js/utils@2.48.0
+  - @modern-js/core@2.48.0
+  - @modern-js/plugin-changeset@2.48.0
+  - @modern-js/plugin-i18n@2.48.0
+  - @modern-js/plugin-lint@2.48.0
+  - @modern-js/plugin@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/upgrade@2.47.1
+- @modern-js/core@2.47.1
+- @modern-js/plugin-changeset@2.47.1
+- @modern-js/plugin-i18n@2.47.1
+- @modern-js/plugin-lint@2.47.1
+- @modern-js/new-action@2.47.1
+- @modern-js/plugin@2.47.1
+- @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

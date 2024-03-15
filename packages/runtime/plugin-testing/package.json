@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.47.0",
+  "version": "2.48.2",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -128,7 +128,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/babel-preset": "0.4.4",
+    "@rsbuild/babel-preset": "0.4.15",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.4.0",
     "@types/testing-library__jest-dom": "^5.14.3",
@@ -148,7 +148,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.47.0"
+    "@modern-js/runtime": "workspace:^2.48.2"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

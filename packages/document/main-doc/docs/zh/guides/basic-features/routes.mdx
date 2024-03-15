@@ -357,7 +357,7 @@ Modern.js 建议必须有根 Layout 和根 Loading。
 ```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
 
-export const loader () => {
+export const loader = () => {
   const user = await getUser();
   if (!user) {
     return redirect('/login');

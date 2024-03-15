@@ -1,5 +1,73 @@
 # @modern-js/uni-builder
 
+## 2.48.2
+
+### Patch Changes
+
+- 9e7115f: feat(server): support modify Rsbuild server config in Rsbuild modifyRsbuildConfig hook
+
+  feat(server): 支持在 Rsbuild modifyRsbuildConfig hook 中修改 Rsbuild server 相关配置
+
+- Updated dependencies [9e7115f]
+  - @modern-js/server@2.48.2
+  - @modern-js/utils@2.48.2
+
+## 2.48.1
+
+### Patch Changes
+
+- 9835dbf: feat(uni-builder): bump rsbuild 0.4.11 and support modify rspack builtin:swc-loadder config by tools.swc
+
+  feat(uni-builder): rsbuild 版本升级到 0.4.11，并支持通过 tools.swc 修改 rspack builtin:swc-loadder 配置
+
+- 77209fe: fix(uni-builder): allow tools.postcss to override the plugins
+
+  fix(uni-builder): 允许通过 tools.postcss 覆盖内置 plugins
+
+- fc93013: fix(uni-builder): missing postcss peer dependency
+
+  fix(uni-builder): 缺少 postcss peer dependency
+
+- 788b3be: fix(uni-builder): should not apply babel-loader in modern.js basic app when use rspack build
+
+  fix(uni-builder): 在 modern.js 基础 demo 中使用 rspack 构建时不应该用到 babel-loader
+
+- 0d0a886: fix(uni-builder): html.templateParametersByEntries should merge with default value
+
+  fix(uni-builder): html.templateParametersByEntries 返回值应与默认值合并
+
+- 02060c5: fix(uni-builder): splitChunks.overrides not effective for inner cacheGroups
+
+  fix(uni-builder): splitChunks.overrides 配置项对内置 cacheGroups 无效
+
+- Updated dependencies [8942b90]
+- Updated dependencies [24b2ec1]
+- Updated dependencies [ce426f7]
+  - @modern-js/utils@2.48.1
+  - @modern-js/server@2.48.1
+
+## 2.48.0
+
+### Patch Changes
+
+- ecaf916: feat(deps): bump Rsbuild v0.4.8
+
+  feat(deps): 升级 Rsbuild v0.4.8
+
+- Updated dependencies [0b44ddb]
+- Updated dependencies [c323a23]
+  - @modern-js/prod-server@2.48.0
+  - @modern-js/utils@2.48.0
+  - @modern-js/server@2.48.0
+
+## 2.47.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.47.1
+- @modern-js/server@2.47.1
+- @modern-js/utils@2.47.1
+
 ## 2.47.0
 
 ### Patch Changes

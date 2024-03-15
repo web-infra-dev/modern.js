@@ -1,15 +1,11 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
 import {
-  deepmerge,
   NODE_MODULES_REGEX,
   CSS_MODULES_REGEX,
-  isProd,
-  ServerConfig,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
-  mergeChainedOptions,
   type SourceConfig,
 } from '@rsbuild/shared';
 import {
@@ -35,6 +31,7 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { transformToRsbuildServerOptions } from './devServer';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -152,7 +149,7 @@ export async function parseCommonConfig(
       resolveExtensionPrefix,
       ...sourceConfig
     } = {},
-    dev: { port, host, https, ...devConfig } = {},
+    dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
   } = uniBuilderConfig;
@@ -167,11 +164,10 @@ export async function parseCommonConfig(
     performance: performanceConfig,
     html: htmlConfig,
     tools: toolsConfig,
-    dev: devConfig,
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
+  const { html = {}, output = {}, source = {} } = rsbuildConfig;
 
   if (enableLatestDecorators) {
     source.decorators = {
@@ -261,8 +257,10 @@ export async function parseCommonConfig(
   }
 
   if (templateParametersByEntries) {
-    extraConfig.html.templateParameters = (_, { entryName }) =>
-      templateParametersByEntries[entryName];
+    extraConfig.html.templateParameters = (defaultValue, { entryName }) => ({
+      ...defaultValue,
+      ...(templateParametersByEntries[entryName] || {}),
+    });
   }
 
   extraConfig.tools ??= {};
@@ -283,50 +281,14 @@ export async function parseCommonConfig(
     }
   };
 
-  // more dev & server config will compat in modern-js/server
-
-  // enable progress bar by default
-  if (dev.progressBar === undefined) {
-    dev.progressBar = true;
-  }
-
-  const newDevServerConfig = mergeChainedOptions({
-    defaults: {
-      devMiddleware: {
-        writeToDisk: (file: string) => !file.includes('.hot-update.'),
-      },
-      hot: dev?.hmr ?? true,
-      liveReload: true,
-      client: {
-        path: '/webpack-hmr',
-      },
-    },
-    options: devServer,
-    mergeFn: deepmerge,
-  });
-
-  dev.writeToDisk = newDevServerConfig.devMiddleware?.writeToDisk;
-
-  dev.hmr = newDevServerConfig.hot;
-
-  dev.client = newDevServerConfig.client;
-
-  dev.liveReload = newDevServerConfig.liveReload;
-
-  const server: ServerConfig = isProd()
-    ? {
-        publicDir: false,
-      }
-    : {
-        publicDir: false,
-        port,
-        host,
-        https: https ? (https as ServerConfig['https']) : undefined,
-      };
+  const { dev: RsbuildDev, server } = transformToRsbuildServerOptions(
+    dev || {},
+    devServer || {},
+  );
 
   rsbuildConfig.server = removeUndefinedKey(server);
 
-  rsbuildConfig.dev = removeUndefinedKey(dev);
+  rsbuildConfig.dev = removeUndefinedKey(RsbuildDev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 

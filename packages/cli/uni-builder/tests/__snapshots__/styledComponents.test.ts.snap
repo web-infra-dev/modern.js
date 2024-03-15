@@ -47,15 +47,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "lib",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "lib",
                 "libraryName": "@arco-design/web-react",
@@ -180,15 +171,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "lib",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "lib",
                 "libraryName": "@arco-design/web-react",
@@ -232,7 +214,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -327,15 +309,6 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -379,7 +352,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -447,7 +420,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
         "options": {
           "cwd": "",
           "env": {
-            "coreJs": "3.32",
+            "coreJs": "3.36",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -468,11 +441,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               ],
             },
             "pluginImport": [
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
               {
                 "camelToDashComponentName": false,
                 "libraryDirectory": "es",
@@ -507,6 +475,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
                 "refresh": true,
                 "runtime": "classic",
               },
+              "useDefineForClassFields": false,
             },
           },
           "sourceMaps": true,

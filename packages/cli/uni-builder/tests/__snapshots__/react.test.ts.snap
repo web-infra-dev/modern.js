@@ -54,15 +54,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -106,7 +97,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.32",
+                  "version": "3.36",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

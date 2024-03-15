@@ -5,6 +5,10 @@ Remove the hash from the name of static files after production build.
 
 After the production build, there will be a hash in the middle of the filename by default. You can disable this behavior through the `output.disableFilenameHash` config.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the boolean usage of `output.filenameHash` instead.
+:::
+
 ### Example
 
 By default, the filename is:
