@@ -145,7 +145,7 @@ export type ServerManifest = {
 
 type ServerVariables = {
   logger: Logger;
-  reporter: Reporter;
+  reporter?: Reporter;
   serverManifest?: ServerManifest;
   metrics?: Metrics;
   templates?: Record<string, string>;

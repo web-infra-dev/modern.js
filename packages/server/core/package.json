@@ -43,7 +43,11 @@
     "./middlewares": {
       "types": "./dist/types/base/middlewares/index.d.ts",
       "jsnext:source": "./src/base/middlewares/index.ts",
-      "require": "./dist/cjs/base/middlewares/index.js",
+      "node": {
+        "jsnext:source": "./src/base/middlewares/index.ts",
+        "require": "./dist/cjs/base/middlewares/index.js",
+        "import": "./dist/esm-node/base/middlewares/index.js"
+      },
       "default": "./dist/esm-node/base/middlewares/index.js"
     }
   },

@@ -68,7 +68,7 @@ export class CustomServer {
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
       const cost = getCost();
       cost &&
-        reporter.reportTiming(
+        reporter?.reportTiming(
           ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
           cost,
         );
@@ -137,7 +137,7 @@ export class CustomServer {
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
         const cost = getCost();
         cost &&
-          reporter.reportTiming(
+          reporter?.reportTiming(
             ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
             cost,
           );
@@ -175,7 +175,7 @@ export class CustomServer {
       await serverMiddleware(customMiddlewareCtx);
       const cost = getCost();
       cost &&
-        reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
+        reporter?.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
 
       if (!c.finalized) {
         return next();
