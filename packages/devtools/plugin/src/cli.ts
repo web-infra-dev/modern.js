@@ -3,8 +3,10 @@ import path from 'path';
 import assert from 'assert';
 import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
-import { getPort, logger } from '@modern-js/utils';
-import createServeMiddleware from 'serve-static';
+import { fs, getPort, logger } from '@modern-js/utils';
+import { Context, Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import {
@@ -128,7 +130,7 @@ export const devtoolsPlugin = (
               devServer: {
                 proxy: {
                   [ROUTE_BASENAME]: {
-                    target: `http://localhost:${httpServer.port}`,
+                    target: `http://127.0.0.1:${httpServer.port}`,
                     pathRewrite: {
                       [`^${ROUTE_BASENAME}`]: '',
                     },
@@ -147,27 +149,55 @@ export const devtoolsPlugin = (
 export default devtoolsPlugin;
 
 const setupHttpServer = async () => {
+  const app = new Hono();
   const port = await getPort(8782, { slient: true });
   const clientServeDir = path.resolve(
     require.resolve('@modern-js/devtools-client/package.json'),
     '../dist',
   );
-  const serveMiddleware = createServeMiddleware(clientServeDir);
-  const instance = http.createServer((req, res) => {
-    const usePageNotFound = () => {
-      res.write('404');
-      res.statusCode = 404;
-      res.end();
-    };
-    const useMainRoute = () => {
-      req.url = '/html/client/index.html';
-      serveMiddleware(req, res, usePageNotFound);
-    };
-    serveMiddleware(req, res, useMainRoute);
-  });
-  instance.listen(port);
-  return {
-    instance,
-    port,
+
+  const handleCookieApi = async (c: Context) => {
+    const raw = c.req.header('Cookie');
+    const { parse } = await import('cookie-es');
+    const cookies = raw ? parse(raw) : {};
+    const body: Record<string, any> | null = await c.req
+      .json()
+      .catch(() => null);
+    if (body?.setCookies) {
+      const { setCookies } = body;
+      assert(typeof setCookies === 'object', 'setCookies should be object');
+      for (const [k, v] of Object.entries(setCookies)) {
+        assert(typeof v === 'string');
+        // Expires for 30 days.
+        const expires = new Date(
+          Date.now() + 30 * 24 * 3_600_000,
+        ).toUTCString();
+        cookies[k] = v;
+        c.header('Set-Cookie', `${k}=${v}; Expires=${expires}`, {
+          append: true,
+        });
+      }
+    }
+    return c.json({ cookies });
   };
+  app.get('/api/cookies', handleCookieApi);
+  app.post('/api/cookies', handleCookieApi);
+  app.use(
+    '/static/*',
+    // Workaround for https://github.com/honojs/node-server/blob/dd0e0cd160b0b8f18abbcb28c5f5c39b72105d98/src/serve-static.ts#L56
+    serveStatic({ root: path.relative(process.cwd(), clientServeDir) }),
+  );
+  app.get('*', async c => {
+    const filename = path.resolve(clientServeDir, 'html/client/index.html');
+    const content = await fs.readFile(filename, 'utf-8');
+    return c.html(content);
+  });
+
+  const instance = serve({
+    fetch: app.fetch,
+    port,
+    hostname: '127.0.0.1', // https://stackoverflow.com/questions/77142563/nodejs-18-breaks-dns-resolution-of-localhost-from-127-0-0-1-to-1
+  });
+  assert(instance instanceof http.Server, 'instance should be http.Server');
+  return { instance, port };
 };
