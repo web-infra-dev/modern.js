@@ -12,4 +12,5 @@ export {
   registerMockHandlers,
   injectServerManifest,
   injectTemplates,
+  getHtmlTemplates,
 } from './middlewares';

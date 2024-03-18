@@ -17,7 +17,7 @@ import {
   ServerManifest,
   ServerRender,
 } from '../../../core/server';
-import { REPLACE_REG } from '../../constants';
+import { REPLACE_REG, X_RENDER_CACHE } from '../../constants';
 import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
 import type * as ssrCaheModule from './ssrCache';
 import { ServerTiming } from './serverTiming';
@@ -124,6 +124,7 @@ export async function ssrRender(
   const runtimeEnv = getRuntimeEnv();
 
   let ssrResult: Awaited<ReturnType<ServerRender>>;
+  let cacheStatus: ssrCaheModule.CacheStatus | undefined;
   const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
 
   if (runtimeEnv === 'node') {
@@ -139,12 +140,15 @@ export async function ssrRender(
     );
 
     if (cacheControl) {
-      ssrResult = await ssrCache.getCache(
+      const { data, status } = await ssrCache.getCache(
         request,
         cacheControl,
         render,
         ssrContext,
       );
+
+      ssrResult = data;
+      cacheStatus = status;
     } else {
       ssrResult = await render(ssrContext);
     }
@@ -153,6 +157,11 @@ export async function ssrRender(
   }
 
   const { redirection } = ssrContext;
+
+  // set ssr cacheStatus
+  if (cacheStatus) {
+    responseProxy.headers.set(X_RENDER_CACHE, cacheStatus);
+  }
 
   if (redirection.url) {
     const { headers } = responseProxy;

@@ -3,7 +3,7 @@ import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import { HonoMiddleware, ServerEnv } from '../../../../core/server';
 
-async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
+export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   const htmls = await Promise.all(
     routes.map(async route => {
       let html: string | undefined;
