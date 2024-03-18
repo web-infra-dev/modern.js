@@ -95,10 +95,12 @@ export const transformToRsbuildServerOptions = (
     ? {
         publicDir: false,
         htmlFallback: false,
+        printUrls: false,
       }
     : {
         publicDir: false,
         htmlFallback: false,
+        printUrls: false,
         compress: newDevServerConfig.compress,
         headers: newDevServerConfig.headers,
         historyApiFallback: newDevServerConfig.historyApiFallback,
@@ -171,11 +173,9 @@ export async function startDevServer(
     pwd: rsbuild.context.rootPath,
     ...serverOptions,
     rsbuild,
-    getMiddlewares: config =>
+    getMiddlewares: () =>
       rsbuildServer.getMiddlewares({
         compileMiddlewareAPI,
-        // TODO: To be removed. should update all rsbuild config in parseCommonConfig stage
-        overrides: config,
       }),
     dev: {
       watch: serverOptions.dev?.watch ?? true,
