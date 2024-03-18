@@ -23,3 +23,5 @@ export enum ServerReportTimings {
   SERVER_HOOK_AFTER_RENDER = 'server-hook-after-render',
   SERVER_HOOK_AFTER_MATCH = 'server-hook-after-match',
 }
+
+export const X_RENDER_CACHE = 'x-render-cache';

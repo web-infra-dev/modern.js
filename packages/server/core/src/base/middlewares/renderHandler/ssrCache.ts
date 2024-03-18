@@ -22,7 +22,13 @@ interface CacheMod {
   cacheOption?: CacheOption;
 }
 
-class CacheManager {
+export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
+export type CacheResult = {
+  data: string | Readable | ReadableStream;
+  status?: CacheStatus;
+};
+
+export class CacheManager {
   private container: Container<string, string>;
 
   constructor(container: Container<string, string>) {
@@ -34,7 +40,7 @@ class CacheManager {
     cacheControl: CacheControl,
     render: ServerRender,
     ssrContext: SSRServerContext,
-  ): Promise<string | ReadableStream> {
+  ): Promise<CacheResult> {
     const key = this.computedKey(req, cacheControl);
 
     const value = await this.container.get(key);
@@ -48,20 +54,23 @@ class CacheManager {
 
       if (interval <= maxAge) {
         // the cache is validate
-        return cache.val;
+        return {
+          data: cache.val,
+          status: 'hit',
+        };
       } else if (interval <= staleWhileRevalidate + maxAge) {
         // the cache is stale while revalidate
 
         // we shouldn't await this promise.
         this.processCache(key, render, ssrContext, ttl);
 
-        return cache.val;
+        return { data: cache.val, status: 'stale' };
       } else {
         // the cache is invalidate
-        return this.processCache(key, render, ssrContext, ttl);
+        return this.processCache(key, render, ssrContext, ttl, 'expired');
       }
     } else {
-      return this.processCache(key, render, ssrContext, ttl);
+      return this.processCache(key, render, ssrContext, ttl, 'miss');
     }
   }
 
@@ -70,11 +79,12 @@ class CacheManager {
     render: ServerRender,
     ssrContext: SSRServerContext,
     ttl: number,
+    status?: CacheStatus,
   ) {
     const renderResult = await render(ssrContext);
 
     if (!renderResult) {
-      return '';
+      return { data: '' };
     } else if (typeof renderResult === 'string') {
       const current = Date.now();
       const cache: CacheStruct = {
@@ -82,7 +92,7 @@ class CacheManager {
         cursor: current,
       };
       await this.container.set(key, JSON.stringify(cache), { ttl });
-      return renderResult;
+      return { data: renderResult, status };
     } else {
       const body =
         // TODO: remove node:stream, move it to ssr entry.
@@ -107,7 +117,10 @@ class CacheManager {
 
       body.pipeThrough(stream);
 
-      return stream.readable;
+      return {
+        data: stream.readable,
+        status,
+      };
     }
   }
 
@@ -205,12 +218,12 @@ class ServerCache {
     }
   }
 
-  getCache(
+  async getCache(
     req: Request,
     cacheControl: CacheControl,
     render: ServerRender,
     ssrContext: SSRServerContext,
-  ) {
+  ): Promise<CacheResult> {
     if (this.cacheManger) {
       return this.cacheManger.getCacheResult(
         req,
@@ -219,7 +232,10 @@ class ServerCache {
         ssrContext,
       );
     } else {
-      return render(ssrContext);
+      const renderResult = await render(ssrContext);
+      return {
+        data: renderResult,
+      };
     }
   }
 }
