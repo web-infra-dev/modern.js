@@ -16,12 +16,7 @@ import {
   BuildOptions,
   createRenderHandler,
 } from '@modern-js/prod-server';
-import type {
-  ModernServerContext,
-  RequestHandler,
-  ServerRoute,
-} from '@modern-js/types';
-import type { SSR } from '@modern-js/server-core';
+import type { ModernServerContext, RequestHandler } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import type { RsbuildInstance } from '@rsbuild/shared';
@@ -88,36 +83,11 @@ export class ModernDevServer extends ModernServer {
   // Complete the preparation of services
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
-    const { dev, conf } = this;
-
-    // the http-compression can't handler stream http.
-    // so we disable compress when user use stream ssr temporarily.
-    const isUseStreamingSSR = (routes?: ServerRoute[]) =>
-      routes?.some(r => r.isStream === true);
-
-    const isUseSSRPreload = () => {
-      const {
-        server: { ssr, ssrByEntries },
-      } = conf;
-
-      const checkUsePreload = (ssr?: SSR) =>
-        typeof ssr === 'object' && Boolean(ssr.preload);
-
-      return (
-        checkUsePreload(ssr) ||
-        Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
-      );
-    };
+    const { dev } = this;
 
     const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
       // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-      await this.getMiddlewares({
-        // TODO: move to uni-builder
-        compress:
-          !isUseStreamingSSR(this.getRoutes()) &&
-          !isUseSSRPreload() &&
-          dev.compress,
-      });
+      await this.getMiddlewares();
 
     app.on('upgrade', onUpgrade);
 
