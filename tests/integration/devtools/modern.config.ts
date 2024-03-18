@@ -8,9 +8,6 @@ export default defineConfig({
   runtime: {
     router: true,
   },
-  dev: {
-    hmr: false,
-  },
   source: {
     mainEntryName: 'main',
     preEntry: ['./src/prelude.css'],

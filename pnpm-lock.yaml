@@ -1030,6 +1030,9 @@ importers:
 
   packages/devtools/plugin:
     dependencies:
+      '@hono/node-server':
+        specifier: ^1.8.2
+        version: 1.8.2
       '@modern-js/devtools-client':
         specifier: workspace:*
         version: link:../client
@@ -1054,9 +1057,6 @@ importers:
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
-      serve-static:
-        specifier: ^1.14.1
-        version: 1.15.0
       ufo:
         specifier: ^1.3.0
         version: 1.3.0
@@ -1094,9 +1094,6 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      '@types/serve-static':
-        specifier: ^1.13.10
-        version: 1.13.10
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.5
@@ -10779,6 +10776,11 @@ packages:
     dependencies:
       '@hapi/hoek': 9.3.0
     dev: true
+
+  /@hono/node-server@1.8.2:
+    resolution: {integrity: sha512-h8l2TBLCPHZBUrrkosZ6L5CpBLj6zdESyF4B+zngiCDF7aZFQJ0alVbLx7jn8PCVi9EyoFf8a4hOZFi1tD95EA==}
+    engines: {node: '>=18.14.1'}
+    dev: false
 
   /@humanwhocodes/config-array@0.11.7:
     resolution: {integrity: sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw==}
