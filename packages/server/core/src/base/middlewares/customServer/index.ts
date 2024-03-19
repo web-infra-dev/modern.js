@@ -3,7 +3,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner } from '../../../core/plugin';
 import { Middleware, ServerEnv } from '../../../core/server';
-import { createTransformStream } from '../../utils';
+import { transformResponse } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import {
@@ -114,20 +114,11 @@ export class CustomServer {
           metrics,
         );
 
-        const injectStream = createTransformStream((chunk: string) => {
+        c.res = transformResponse(c.res, (chunk: string) => {
           const context = afterStreamingRenderContext(chunk);
           return this.runner.afterStreamingRender(context, {
             onLast: ({ chunk }) => chunk,
           });
-        });
-
-        c.res.body?.pipeThrough(injectStream);
-
-        const { headers, status, statusText } = c.res;
-        c.res = c.body(injectStream.readable, {
-          headers,
-          status,
-          statusText,
         });
       } else {
         // run afterRenderHook hook

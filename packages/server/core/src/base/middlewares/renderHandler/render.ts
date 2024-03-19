@@ -6,7 +6,7 @@ import {
   sortRoutes,
   cutNameByHyphen,
   parseQuery,
-  createTransformStream,
+  transformResponse,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
 import { SSRRenderOptions, ssrRender } from './ssrRender';
@@ -105,7 +105,7 @@ async function renderHandler(
     ? ssrRender(request, options)
     : csrRender(options.html));
 
-  return injectServerData(response, serverData);
+  return transformResponse(response, [injectServerData(serverData)]);
 }
 
 function matchRoute(
@@ -158,10 +158,7 @@ function csrRender(html: string): Response {
   });
 }
 
-function injectServerData(
-  response: Response,
-  serverData: Record<string, any>,
-): Response {
+function injectServerData(serverData: Record<string, any>) {
   const { head } = REPLACE_REG.before;
   const searchValue = new RegExp(head);
 
@@ -170,21 +167,5 @@ function injectServerData(
       serverData,
     )}</script>`;
 
-  let readable: ReadableStream | null = null;
-  if (response.body) {
-    const stream = createTransformStream(before => {
-      return before.replace(searchValue, replcaeCb);
-    });
-
-    response.body.pipeThrough(stream);
-
-    // eslint-disable-next-line prefer-destructuring
-    readable = stream.readable;
-  }
-
-  return new Response(readable, {
-    status: response.status,
-    headers: response.headers,
-    statusText: response.statusText,
-  });
+  return (template: string) => template.replace(searchValue, replcaeCb);
 }
