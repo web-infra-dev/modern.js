@@ -367,7 +367,10 @@ export async function parseCommonConfig(
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: svgDefaultExport || 'url',
+        mixedImport: true,
+        svgrOptions: {
+          exportType: svgDefaultExport === 'component' ? 'default' : 'named',
+        },
       }),
     );
   }

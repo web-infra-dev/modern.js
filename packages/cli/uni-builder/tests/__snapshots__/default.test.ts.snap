@@ -726,22 +726,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -828,6 +816,17 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
             ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
         "test": /\\\\\\.svg\\$/,
@@ -963,9 +962,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -988,12 +985,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -1115,6 +1107,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "rspackFuture": {
+      "newTreeshaking": true,
+    },
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1820,22 +1815,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -1922,6 +1905,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
             ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
         "test": /\\\\\\.svg\\$/,
@@ -2129,9 +2123,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -2169,12 +2161,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -2951,22 +2938,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -3094,6 +3069,17 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               },
             ],
           },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
         ],
         "test": /\\\\\\.svg\\$/,
       },
@@ -3211,9 +3197,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -3241,12 +3225,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -4072,22 +4051,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -4230,6 +4197,17 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               },
             ],
           },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
         ],
         "test": /\\\\\\.svg\\$/,
       },
@@ -4239,26 +4217,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "optimization": {
     "minimize": true,
     "minimizer": [
-      TerserPlugin {
-        "options": {
-          "exclude": undefined,
-          "extractComments": true,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "format": {
-                "ascii_only": true,
-              },
-              "mangle": {
-                "safari10": true,
-              },
-            },
-          },
-          "parallel": true,
-          "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-        },
-      },
       CssMinimizerPlugin {
         "options": {
           "exclude": undefined,
@@ -4277,6 +4235,26 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "parallel": true,
           "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
           "warningsFilter": [Function],
+        },
+      },
+      TerserPlugin {
+        "options": {
+          "exclude": undefined,
+          "extractComments": true,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "format": {
+                "ascii_only": true,
+              },
+              "mangle": {
+                "safari10": true,
+              },
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
         },
       },
     ],
@@ -4404,9 +4382,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -4446,12 +4422,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
