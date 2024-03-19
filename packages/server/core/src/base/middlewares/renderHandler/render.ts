@@ -1,13 +1,15 @@
 import { ServerRoute } from '@modern-js/types';
+import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
   createErrorHtml,
   sortRoutes,
   cutNameByHyphen,
   parseQuery,
+  createTransformStream,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
-import { ssrRender } from './ssrRender';
+import { SSRRenderOptions, ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
@@ -56,7 +58,6 @@ export async function createRender({
 
     const renderOptions = {
       pwd,
-      mode: 'string',
       html,
       routeInfo,
       staticGenerate: staticGenerate || false,
@@ -79,13 +80,32 @@ export async function createRender({
 
         return response;
       case 'ssr':
-        return ssrRender(req, renderOptions);
       case 'csr':
-        return csrRender(html);
+        return renderHandler(req, renderOptions, renderMode);
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
   };
+}
+
+async function renderHandler(
+  request: Request,
+  options: SSRRenderOptions,
+  mode: 'ssr' | 'csr',
+) {
+  // inject server.baseUrl message
+  const serverData = {
+    router: {
+      baseUrl: options.routeInfo.urlPath,
+      params: {} as Record<string, any>,
+    },
+  };
+
+  const response = await (mode === 'ssr'
+    ? ssrRender(request, options)
+    : csrRender(options.html));
+
+  return injectServerData(response, serverData);
 }
 
 function matchRoute(
@@ -135,5 +155,36 @@ function csrRender(html: string): Response {
     headers: new Headers({
       'content-type': 'text/html; charset=UTF-8',
     }),
+  });
+}
+
+function injectServerData(
+  response: Response,
+  serverData: Record<string, any>,
+): Response {
+  const { head } = REPLACE_REG.before;
+  const searchValue = new RegExp(head);
+
+  const replcaeCb = (beforeHead: string) =>
+    `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
+      serverData,
+    )}</script>`;
+
+  let readable: ReadableStream | null = null;
+  if (response.body) {
+    const stream = createTransformStream(before => {
+      return before.replace(searchValue, replcaeCb);
+    });
+
+    response.body.pipeThrough(stream);
+
+    // eslint-disable-next-line prefer-destructuring
+    readable = stream.readable;
+  }
+
+  return new Response(readable, {
+    status: response.status,
+    headers: response.headers,
+    statusText: response.statusText,
   });
 }

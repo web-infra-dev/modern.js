@@ -5,19 +5,13 @@ import {
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils/universal/constants';
 import * as isbot from 'isbot';
-import {
-  createTransformStream,
-  getRuntimeEnv,
-  parseHeaders,
-  parseQuery,
-  getHost,
-} from '../../utils';
+import { getRuntimeEnv, parseHeaders, parseQuery, getHost } from '../../utils';
 import {
   SSRServerContext,
   ServerManifest,
   ServerRender,
 } from '../../../core/server';
-import { REPLACE_REG, X_RENDER_CACHE } from '../../constants';
+import { X_RENDER_CACHE } from '../../constants';
 import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
 import type * as ssrCaheModule from './ssrCache';
 import { ServerTiming } from './serverTiming';
@@ -174,14 +168,6 @@ export async function ssrRender(
     });
   }
 
-  const serverData = {
-    router: {
-      baseUrl: routeInfo.urlPath,
-      // TODO: parse
-      params: {} as Record<string, any>,
-    },
-  };
-
   const { Readable } = await import('stream').catch(_ => ({
     Readable: undefined,
   }));
@@ -199,37 +185,10 @@ export async function ssrRender(
       ? createReadableStreamFromReadable?.(ssrResult) || ''
       : (ssrResult as unknown as string | ReadableStream);
 
-  const body = injectServerData(data, serverData);
-
-  return new Response(body, {
+  return new Response(data, {
     status: responseProxy.status,
     headers: responseProxy.headers,
   });
-}
-
-function injectServerData(
-  data: string | ReadableStream,
-  serverData: Record<string, any>,
-): ReadableStream | string {
-  const { head } = REPLACE_REG.before;
-  const searchValue = new RegExp(head);
-
-  const replcaeCb = (beforeHead: string) =>
-    `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
-      serverData,
-    )}</script>`;
-
-  if (typeof data === 'string') {
-    return data.replace(searchValue, replcaeCb);
-  } else {
-    const stream = createTransformStream(before => {
-      return before.replace(searchValue, replcaeCb);
-    });
-
-    data.pipeThrough(stream);
-
-    return stream.readable;
-  }
 }
 
 class ResponseProxy {
