@@ -1,24 +1,27 @@
 import path from 'path';
 import { existsSync, lstatSync } from 'fs';
-import { readFile } from 'fs/promises';
 import { getMimeType } from 'hono/utils/mime';
+import { ServerRoute } from '@modern-js/types';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type {
   OutputNormalizedConfig,
   HtmlNormalizedConfig,
 } from '../../../../types/config';
 import { createErrorHtml } from '../../../utils';
 import { Middleware } from '../../../../core/server';
+import { createPublicMiddleware } from './serverPublic';
 
 interface ServerStaticOptions {
   pwd: string;
   output: OutputNormalizedConfig;
   html: HtmlNormalizedConfig;
+  routes?: ServerRoute[];
 }
 
 export function createStaticMiddleware(
   options: ServerStaticOptions,
 ): Middleware {
-  const { pwd } = options;
+  const { pwd, routes } = options;
   const prefix = options.output.assetPrefix || '/';
 
   const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
@@ -62,13 +65,13 @@ export function createStaticMiddleware(
       }
       const stat = lstatSync(filepath);
       const { size } = stat;
-      const chunk = await readFile(filepath);
+      const chunk = await fileReader.readFile(filepath, 'buffer');
 
       // TODO: handle http range
       c.header('Content-Length', String(size));
       return c.body(chunk, 200);
     } else {
-      return next();
+      return createPublicMiddleware({ pwd, routes: routes || [] })(c, next);
     }
   };
 }

@@ -50,6 +50,7 @@ export const initProdMiddlewares = async (
     pwd,
     output: config?.output || {},
     html: config?.html || {},
+    routes,
   });
 
   server.all('*', injectReporter());
