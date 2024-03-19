@@ -5,7 +5,7 @@ import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
 import { fs, getPort, logger } from '@modern-js/utils';
 import { Context, Hono } from 'hono';
-import { serve } from '@hono/node-server';
+import { serve, HttpBindings } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
@@ -135,6 +135,15 @@ export const devtoolsPlugin = (
                       [`^${ROUTE_BASENAME}`]: '',
                     },
                     ws: true,
+                    onProxyReq(proxyReq, req) {
+                      const addrInfo = req.socket.address();
+                      if ('address' in addrInfo) {
+                        const { address } = addrInfo;
+                        proxyReq.setHeader('X-Forwarded-For', address);
+                      } else {
+                        proxyReq.removeHeader('X-Forwarded-For');
+                      }
+                    },
                   },
                 } as Record<string, ProxyDetail>,
               },
@@ -149,7 +158,7 @@ export const devtoolsPlugin = (
 export default devtoolsPlugin;
 
 const setupHttpServer = async () => {
-  const app = new Hono();
+  const app = new Hono<{ Bindings: HttpBindings }>();
   const port = await getPort(8782, { slient: true });
   const clientServeDir = path.resolve(
     require.resolve('@modern-js/devtools-client/package.json'),
