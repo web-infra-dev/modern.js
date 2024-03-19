@@ -31,6 +31,7 @@ import type {
   UniBuilderStartServerResult,
 } from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
+import type TerserPlugin from 'terser-webpack-plugin';
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
@@ -85,6 +86,11 @@ export type ToolsDevServerConfig = ChainedConfig<{
   proxy?: ServerConfig['proxy'];
 }>;
 
+export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
+  TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
+
+export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
+
 export type UniBuilderExtraConfig = {
   tools?: {
     styledComponents?: false | PluginStyledComponentsOptions;
@@ -115,6 +121,11 @@ export type UniBuilderExtraConfig = {
      * Tips: this configuration is not yet supported in rspack
      */
     tsLoader?: PluginTsLoaderOptions;
+    /**
+     * Modify the options of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin).
+     * @requires webpack
+     */
+    terser?: ToolsTerserConfig;
   };
   dev?: {
     /**
@@ -153,6 +164,11 @@ export type UniBuilderExtraConfig = {
     resolveExtensionPrefix?: string | Partial<Record<RsbuildTarget, string>>;
   };
   output?: {
+    /**
+     * Whether to disable code minification in production build.
+     */
+    // TODO: support output.minify configuration
+    disableMinimize?: boolean;
     /**
      * @deprecated use `output.filenameHash` instead
      */

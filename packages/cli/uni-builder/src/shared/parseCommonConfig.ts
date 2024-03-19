@@ -130,6 +130,7 @@ export async function parseCommonConfig(
       enableAssetFallback,
       disableSourceMap,
       convertToRem,
+      disableMinimize,
       ...outputConfig
     } = {},
     html: {
@@ -173,6 +174,10 @@ export async function parseCommonConfig(
     source.decorators = {
       version: '2022-03',
     };
+  }
+
+  if (disableMinimize) {
+    output.minify ||= false;
   }
 
   if (cssModuleLocalIdentName) {
