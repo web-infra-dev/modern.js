@@ -4,7 +4,6 @@ import type {
   Reporter,
   ServerRoute,
 } from '@modern-js/types';
-import { installGlobals, Response as NodeResponse } from '@remix-run/node';
 import {
   createStaticHandler,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
@@ -23,15 +22,12 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
-// Polyfill Web Fetch API
-installGlobals();
-
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
 export function isRedirectResponse(status: number): boolean {
   return redirectStatusCodes.has(status);
 }
 
-export function isResponse(value: any): value is NodeResponse {
+export function isResponse(value: any): value is Response {
   return (
     value != null &&
     typeof value.status === 'number' &&
@@ -52,7 +48,7 @@ function convertModernRedirectResponse(headers: Headers, basename: string) {
   newHeaders.set('X-Modernjs-Redirect', redirectUrl);
   newHeaders.delete('Location');
 
-  return new NodeResponse(null, {
+  return new Response(null, {
     status: 204,
     headers: newHeaders,
   });
@@ -123,12 +119,12 @@ export const handleRequest = async ({
         const headers = new Headers(init.headers);
         headers.set('Content-Type', `${CONTENT_TYPE_DEFERRED}; charset=UTF-8`);
         init.headers = headers;
-        response = new NodeResponse(body, init);
+        response = new Response(body, init);
       }
     } else {
       response = isResponse(response)
         ? response
-        : new NodeResponse(JSON.stringify(response), {
+        : new Response(JSON.stringify(response), {
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
             },
@@ -144,7 +140,7 @@ export const handleRequest = async ({
       logger?.error(message);
     }
 
-    response = new NodeResponse(message, {
+    response = new Response(message, {
       status: 500,
       headers: {
         'Content-Type': 'text/plain',

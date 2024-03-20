@@ -1,13 +1,15 @@
 import { ServerRoute } from '@modern-js/types';
+import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
   createErrorHtml,
   sortRoutes,
   cutNameByHyphen,
   parseQuery,
+  transformResponse,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
-import { ssrRender } from './ssrRender';
+import { SSRRenderOptions, ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
@@ -56,7 +58,6 @@ export async function createRender({
 
     const renderOptions = {
       pwd,
-      mode: 'string',
       html,
       routeInfo,
       staticGenerate: staticGenerate || false,
@@ -74,18 +75,37 @@ export async function createRender({
         // eslint-disable-next-line no-case-declarations
         let response = await dataHandler(req, renderOptions);
         if (!response) {
-          response = await ssrRender(req, renderOptions);
+          response = await renderHandler(req, renderOptions, 'ssr');
         }
 
         return response;
       case 'ssr':
-        return ssrRender(req, renderOptions);
       case 'csr':
-        return csrRender(html);
+        return renderHandler(req, renderOptions, renderMode);
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
   };
+}
+
+async function renderHandler(
+  request: Request,
+  options: SSRRenderOptions,
+  mode: 'ssr' | 'csr',
+) {
+  // inject server.baseUrl message
+  const serverData = {
+    router: {
+      baseUrl: options.routeInfo.urlPath,
+      params: {} as Record<string, any>,
+    },
+  };
+
+  const response = await (mode === 'ssr'
+    ? ssrRender(request, options)
+    : csrRender(options.html));
+
+  return transformResponse(response, injectServerData(serverData));
 }
 
 function matchRoute(
@@ -136,4 +156,16 @@ function csrRender(html: string): Response {
       'content-type': 'text/html; charset=UTF-8',
     }),
   });
+}
+
+function injectServerData(serverData: Record<string, any>) {
+  const { head } = REPLACE_REG.before;
+  const searchValue = new RegExp(head);
+
+  const replcaeCb = (beforeHead: string) =>
+    `${beforeHead}<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
+      serverData,
+    )}</script>`;
+
+  return (template: string) => template.replace(searchValue, replcaeCb);
 }
