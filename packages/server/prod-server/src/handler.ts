@@ -24,7 +24,7 @@ export async function createRequestHandler(
   options: ProdServerOptions,
 ): Promise<ReturnType<typeof createServerBase>['handle']> {
   const server = await createWebServer(options);
-
+  await initProdMiddlewares(server, options);
   return server.handle.bind(server);
 }
 
@@ -33,7 +33,6 @@ export async function createWebServer(options: ProdServerOptions) {
   // load env file.
   await loadServerEnv(options);
   await server.init();
-  await initProdMiddlewares(server, options);
 
   return server;
 }
