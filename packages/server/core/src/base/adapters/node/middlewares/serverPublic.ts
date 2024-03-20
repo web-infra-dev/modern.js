@@ -38,13 +38,11 @@ export function createPublicMiddleware({
 
 function matchRoute(req: HonoRequest, routes: ServerRoute[]) {
   for (const route of routes.sort(sortRoutes)) {
-    const reg = new RegExp(route.urlPath);
-
     if (
       !route.isSSR &&
       !route.isApi &&
       route.entryPath.startsWith('public') &&
-      reg.test(req.path)
+      req.path.startsWith(route.urlPath)
     ) {
       return route;
     }
