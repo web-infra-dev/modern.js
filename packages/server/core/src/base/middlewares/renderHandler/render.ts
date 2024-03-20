@@ -75,7 +75,7 @@ export async function createRender({
         // eslint-disable-next-line no-case-declarations
         let response = await dataHandler(req, renderOptions);
         if (!response) {
-          response = await ssrRender(req, renderOptions);
+          response = await renderHandler(req, renderOptions, 'ssr');
         }
 
         return response;
@@ -105,7 +105,7 @@ async function renderHandler(
     ? ssrRender(request, options)
     : csrRender(options.html));
 
-  return transformResponse(response, [injectServerData(serverData)]);
+  return transformResponse(response, injectServerData(serverData));
 }
 
 function matchRoute(

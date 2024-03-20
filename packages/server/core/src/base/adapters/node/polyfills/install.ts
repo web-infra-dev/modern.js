@@ -2,11 +2,14 @@ import {
   Request as NodeRequest,
   Response as NodeResponse,
   Headers as NodeHeaders,
+  FormData as NodeFormData,
 } from '@web-std/fetch';
 import {
   TransformStream as NodeTransformStream,
   ReadableStream as NodeReadableStream,
+  WritableStream as NodeWritableStream,
 } from '@web-std/stream';
+import { File as NodeFile, Blob as NodeBlob } from '@web-std/file';
 
 /**
  * In the Response of @web-std/fetch, headers will be created
@@ -28,7 +31,7 @@ Object.defineProperty(NodeHeaders.prototype, 'getSetCookie', {
 
 export const installGlobals = () => {
   if (!global.Headers) {
-    global.Headers = NodeHeaders as unknown as typeof Headers;
+    global.Headers = NodeHeaders as typeof Headers;
   }
 
   if (!global.Request) {
@@ -36,16 +39,30 @@ export const installGlobals = () => {
   }
 
   if (!global.Response) {
-    global.Response = NodeResponse as unknown as typeof Response;
+    global.Response = NodeResponse as typeof Response;
+  }
+
+  if (!global.FormData) {
+    global.FormData = NodeFormData;
   }
 
   if (!global.TransformStream) {
-    global.TransformStream =
-      NodeTransformStream as unknown as typeof TransformStream;
+    global.TransformStream = NodeTransformStream;
   }
 
   if (!global.ReadableStream) {
-    global.ReadableStream =
-      NodeReadableStream as unknown as typeof ReadableStream;
+    global.ReadableStream = NodeReadableStream;
+  }
+
+  if (!global.WritableStream) {
+    global.WritableStream = NodeWritableStream;
+  }
+
+  if (!global.File) {
+    global.File = NodeFile;
+  }
+
+  if (!global.Blob) {
+    global.Blob = NodeBlob;
   }
 };
