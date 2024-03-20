@@ -1062,8 +1062,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
-  "plugin-network-performance",
-  "plugin-preload-or-prefetch",
+  "rsbuild:network-performance",
+  "rsbuild:preload-prefetch",
   "rsbuild:performance",
   "rsbuild:server",
   "rsbuild:module-federation",
@@ -1107,9 +1107,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "rspackFuture": {
-      "newTreeshaking": true,
-    },
   },
   "infrastructureLogging": {
     "level": "error",

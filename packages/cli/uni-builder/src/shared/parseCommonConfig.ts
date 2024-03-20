@@ -6,6 +6,9 @@ import {
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
+  castArray,
+  isFunction,
+  type HtmlTagHandler,
   type SourceConfig,
 } from '@rsbuild/shared';
 import {
@@ -141,6 +144,7 @@ export async function parseCommonConfig(
       injectByEntries,
       templateByEntries,
       templateParametersByEntries,
+      tagsByEntries,
       ...htmlConfig
     } = {},
     source: {
@@ -266,6 +270,30 @@ export async function parseCommonConfig(
       ...defaultValue,
       ...(templateParametersByEntries[entryName] || {}),
     });
+  }
+
+  if (tagsByEntries) {
+    extraConfig.html.tags = [
+      (tags, utils) => {
+        const entryTags = castArray(tagsByEntries[utils.entryName]);
+
+        const handlers: HtmlTagHandler[] = [];
+
+        for (const tag of entryTags) {
+          if (isFunction(tag)) {
+            // The function will be executed at the end of the HTML processing flow
+            handlers.push(tag);
+          } else {
+            tags.push(tag);
+          }
+        }
+
+        return handlers.reduce(
+          (currentTags, handler) => handler(currentTags, utils) || currentTags,
+          tags,
+        );
+      },
+    ];
   }
 
   extraConfig.tools ??= {};

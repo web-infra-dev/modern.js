@@ -12,6 +12,8 @@ import type {
   RsbuildEntry,
   PromiseOrNot,
   RsbuildPluginAPI,
+  ArrayOrNot,
+  HtmlTagDescriptor,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -241,6 +243,10 @@ export type UniBuilderExtraConfig = {
      * When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
      */
     disableHtmlFolder?: boolean;
+    /**
+     *  @deprecated use `html.tags` instead
+     */
+    tagsByEntries?: Record<string, ArrayOrNot<HtmlTagDescriptor>>;
     /**
      * @deprecated use `html.meta` instead
      */
