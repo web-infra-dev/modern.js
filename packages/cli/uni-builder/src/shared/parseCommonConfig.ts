@@ -145,6 +145,7 @@ export async function parseCommonConfig(
       templateByEntries,
       templateParametersByEntries,
       tagsByEntries,
+      tags,
       ...htmlConfig
     } = {},
     source: {
@@ -270,6 +271,15 @@ export async function parseCommonConfig(
       ...defaultValue,
       ...(templateParametersByEntries[entryName] || {}),
     });
+  }
+
+  if (tags) {
+    // The function will be executed at the end of the HTML processing flow
+    html.tags = Array.isArray(tags)
+      ? tags
+          .filter(t => typeof t !== 'function')
+          .concat(tags.filter(t => typeof t === 'function'))
+      : tags;
   }
 
   if (tagsByEntries) {

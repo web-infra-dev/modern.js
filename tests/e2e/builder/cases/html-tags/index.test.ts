@@ -41,8 +41,16 @@ test('should inject tags by tagsByEntries', async () => {
     builderConfig: {
       html: {
         tags: [
+          tags => {
+            // should get foo tag info
+            if (tags.find(tag => tag.attrs?.src === 'foo.js')) {
+              tags.push({
+                tag: 'script',
+                attrs: { src: 'https://www.cdn.com/foo.js' },
+              });
+            }
+          },
           { tag: 'script', attrs: { src: 'foo.js' } },
-          { tag: 'script', attrs: { src: 'https://www.cdn.com/foo.js' } },
         ],
         tagsByEntries: {
           index: [
