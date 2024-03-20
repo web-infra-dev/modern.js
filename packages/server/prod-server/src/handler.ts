@@ -33,7 +33,6 @@ export async function createWebServer(options: ProdServerOptions) {
   // load env file.
   await loadServerEnv(options);
   await server.init();
-  await initProdMiddlewares(server, options);
 
   return server;
 }
