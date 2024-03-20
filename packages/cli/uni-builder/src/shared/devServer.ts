@@ -12,7 +12,11 @@ import {
 } from '@rsbuild/shared';
 import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
 import { type ModernServerOptions } from '@modern-js/prod-server';
-import type { UniBuilderConfig, ToolsDevServerConfig } from '../types';
+import type {
+  UniBuilderConfig,
+  ToolsDevServerConfig,
+  DevServerHttpsOptions,
+} from '../types';
 
 type ServerOptions = Partial<Omit<ModernDevServerOptionsNew, 'config'>> & {
   config?: Partial<ModernDevServerOptionsNew['config']>;
@@ -130,11 +134,7 @@ const getDevServerOptions = async ({
   return { config };
 };
 
-export type StartDevServerOptions = Omit<
-  RsbuildStartDevServerOptions,
-  // printURLs is not used in modern.js
-  'printURLs'
-> & {
+export type StartDevServerOptions = RsbuildStartDevServerOptions & {
   apiOnly?: boolean;
   serverOptions?: ServerOptions;
 };
@@ -148,11 +148,12 @@ export async function startDevServer(
   options: StartDevServerOptions = {},
   builderConfig: UniBuilderConfig,
 ) {
-  debug('create dev server');
-
   const { ServerForRsbuild } = await import('@modern-js/server');
 
-  const rsbuildServer = await rsbuild.getServerAPIs(options);
+  const rsbuildServer = await rsbuild.createDevServer({
+    ...options,
+    runCompile: !options.apiOnly,
+  });
 
   const { serverOptions = {} } = options;
 
@@ -161,40 +162,32 @@ export async function startDevServer(
     serverOptions,
   });
 
-  const compileMiddlewareAPI = options.apiOnly
-    ? undefined
-    : await rsbuildServer.startCompile();
+  const rsbuildConfig = rsbuild.getNormalizedConfig();
 
-  const rsbuildConfig = rsbuild.getRsbuildConfig();
+  const https = serverOptions.dev?.https ?? rsbuildConfig.server.https;
 
-  const https = serverOptions.dev?.https ?? rsbuildServer.config.https;
+  const { port } = rsbuildServer;
+  const {
+    server: { host },
+    dev: { writeToDisk },
+  } = rsbuildConfig;
 
   const server = new ServerForRsbuild({
     pwd: rsbuild.context.rootPath,
     ...serverOptions,
     rsbuild,
-    getMiddlewares: () =>
-      rsbuildServer.getMiddlewares({
-        compileMiddlewareAPI,
-      }),
+    getMiddlewares: () => ({
+      middlewares: rsbuildServer.middlewares,
+      close: rsbuildServer.close,
+      onHTTPUpgrade: rsbuildServer.onHTTPUpgrade,
+    }),
     dev: {
       watch: serverOptions.dev?.watch ?? true,
-      compress: rsbuildConfig.server?.compress,
-      https,
-      devMiddleware: {
-        writeToDisk: rsbuildConfig.dev?.writeToDisk,
-      },
+      https: https as DevServerHttpsOptions,
+      writeToDisk,
     },
     config,
   });
-
-  const {
-    config: { port, host },
-  } = rsbuildServer;
-
-  debug('create dev server done');
-
-  await rsbuildServer.beforeStart();
 
   const protocol = https ? 'https' : 'http';
   const urls = getAddressUrls({ protocol, port, host });
@@ -216,15 +209,7 @@ export async function startDevServer(
 
         debug('listen dev server done');
 
-        await rsbuildServer.afterStart({
-          port,
-          routes: [
-            {
-              pathname: '/',
-              entryName: 'index',
-            },
-          ],
-        });
+        await rsbuildServer.afterListen();
 
         resolve({
           port,

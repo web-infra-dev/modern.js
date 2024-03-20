@@ -16,7 +16,7 @@ import {
   BuildOptions,
   createRenderHandler,
 } from '@modern-js/prod-server';
-import type { ModernServerContext, RequestHandler } from '@modern-js/types';
+import type { ModernServerContext } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import type { RsbuildInstance } from '@rsbuild/shared';
@@ -71,25 +71,18 @@ export class ModernDevServer extends ModernServer {
     return deepMerge(defaultOptions, devOptions);
   }
 
-  private addMiddlewareHandler(handlers: RequestHandler[]) {
-    handlers.forEach(handler => {
-      this.addHandler((ctx, next) => {
-        const { req, res } = ctx;
-        return handler(req, res, next);
-      });
-    });
-  }
-
   // Complete the preparation of services
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
     const { dev } = this;
 
-    const { middlewares: rsbuildMiddlewares, close, onUpgrade } =
-      // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-      await this.getMiddlewares();
+    const {
+      middlewares: rsbuildMiddlewares,
+      close,
+      onHTTPUpgrade,
+    } = this.getMiddlewares();
 
-    app.on('upgrade', onUpgrade);
+    app.on('upgrade', onHTTPUpgrade);
 
     this.rsbuild.onDevCompileDone(({ stats }) => {
       // Reset only when client compile done
@@ -100,18 +93,7 @@ export class ModernDevServer extends ModernServer {
 
     await this.applyDefaultMiddlewares();
 
-    rsbuildMiddlewares.forEach(middleware => {
-      if (Array.isArray(middleware)) {
-        this.addHandler((ctx, next) => {
-          if (ctx.path === middleware[0]) {
-            return middleware[1](ctx.req, ctx.res, next);
-          }
-          return next();
-        });
-      } else {
-        this.addMiddlewareHandler([middleware]);
-      }
-    });
+    this.addHandler((ctx, next) => rsbuildMiddlewares(ctx.req, ctx.res, next));
 
     this.closeCb.push(close);
 
@@ -131,7 +113,7 @@ export class ModernDevServer extends ModernServer {
   private initFileReader() {
     let isInit = false;
 
-    if (this.dev?.devMiddleware?.writeToDisk === false) {
+    if (this.dev?.writeToDisk === false) {
       this.addHandler((ctx, next) => {
         if (isInit) {
           return next();

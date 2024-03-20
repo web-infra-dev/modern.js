@@ -7,6 +7,10 @@ The usage is the same as `tags`, and you can use the "entry name" as the key to 
 
 `tagsByEntries` will override the value set in `tags`.
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use the function usage of `tags` instead.
+:::
+
 ### Example
 
 ```js

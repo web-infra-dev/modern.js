@@ -6,6 +6,9 @@ import {
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
+  castArray,
+  isFunction,
+  type HtmlTagHandler,
   type SourceConfig,
 } from '@rsbuild/shared';
 import {
@@ -130,6 +133,7 @@ export async function parseCommonConfig(
       enableAssetFallback,
       disableSourceMap,
       convertToRem,
+      disableMinimize,
       ...outputConfig
     } = {},
     html: {
@@ -140,6 +144,8 @@ export async function parseCommonConfig(
       injectByEntries,
       templateByEntries,
       templateParametersByEntries,
+      tagsByEntries,
+      tags,
       ...htmlConfig
     } = {},
     source: {
@@ -173,6 +179,10 @@ export async function parseCommonConfig(
     source.decorators = {
       version: '2022-03',
     };
+  }
+
+  if (disableMinimize) {
+    output.minify ||= false;
   }
 
   if (cssModuleLocalIdentName) {
@@ -261,6 +271,39 @@ export async function parseCommonConfig(
       ...defaultValue,
       ...(templateParametersByEntries[entryName] || {}),
     });
+  }
+
+  if (tags) {
+    // The function will be executed at the end of the HTML processing flow
+    html.tags = Array.isArray(tags)
+      ? tags
+          .filter(t => typeof t !== 'function')
+          .concat(tags.filter(t => typeof t === 'function'))
+      : tags;
+  }
+
+  if (tagsByEntries) {
+    extraConfig.html.tags = [
+      (tags, utils) => {
+        const entryTags = castArray(tagsByEntries[utils.entryName]);
+
+        const handlers: HtmlTagHandler[] = [];
+
+        for (const tag of entryTags) {
+          if (isFunction(tag)) {
+            // The function will be executed at the end of the HTML processing flow
+            handlers.push(tag);
+          } else {
+            tags.push(tag);
+          }
+        }
+
+        return handlers.reduce(
+          (currentTags, handler) => handler(currentTags, utils) || currentTags,
+          tags,
+        );
+      },
+    ];
   }
 
   extraConfig.tools ??= {};
@@ -362,7 +405,10 @@ export async function parseCommonConfig(
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: svgDefaultExport || 'url',
+        mixedImport: true,
+        svgrOptions: {
+          exportType: svgDefaultExport === 'component' ? 'default' : 'named',
+        },
       }),
     );
   }
