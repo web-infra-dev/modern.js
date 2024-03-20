@@ -7,6 +7,7 @@ import {
   cutNameByHyphen,
   parseQuery,
   transformResponse,
+  getPathname,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
 import { SSRRenderOptions, ssrRender } from './ssrRender';
@@ -114,9 +115,9 @@ function matchRoute(
 ): ServerRoute | undefined {
   const sorted = routes.sort(sortRoutes);
   for (const route of sorted) {
-    const reg = new RegExp(route.urlPath);
+    const pathname = getPathname(req);
 
-    if (reg.test(req.url)) {
+    if (pathname.startsWith(route.urlPath)) {
       return route;
     }
   }
