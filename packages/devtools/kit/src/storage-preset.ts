@@ -1,14 +1,10 @@
-export interface StorageRecord {
-  type: 'local-storage' | 'session-storage' | 'cookie';
-  key: string;
-  value: string | object | number;
-}
-
-export interface StoragePresetOptions {
+export interface StoragePresetConfig {
   name: string;
-  items: StorageRecord[];
+  cookie?: Record<string, string>;
+  localStorage?: Record<string, string>;
+  sessionStorage?: Record<string, string>;
 }
 
-export interface StoragePresetContext extends StoragePresetOptions {
+export interface StoragePresetContext extends StoragePresetConfig {
   filename: string;
 }

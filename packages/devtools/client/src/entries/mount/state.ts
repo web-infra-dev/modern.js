@@ -30,7 +30,7 @@ export const $client = $clientChannel.then(channel => {
       await hooks.callHook('onFinishRender');
     },
     async cookies(items) {
-      const cookiesReq = await fetch('/api/cookies', {
+      const cookiesReq = await fetch('/__devtools/api/cookies', {
         method: 'POST',
         body: JSON.stringify(items),
       });

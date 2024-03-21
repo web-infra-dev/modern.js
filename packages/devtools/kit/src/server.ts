@@ -50,6 +50,10 @@ export interface DoctorManifestOverview {
   errors: Manifest.RsdoctorManifest['data']['errors'];
 }
 
+export interface DevtoolsConfig {
+  storagePresets?: StoragePresetContext[];
+}
+
 export interface ServerFunctions {
   getFrameworkConfig: () => Promise<FrameworkConfig>;
   getTransformedFrameworkConfig: () => Promise<TransformedFrameworkConfig>;
@@ -64,6 +68,6 @@ export interface ServerFunctions {
   getCompileTimeCost: () => Promise<number>;
   getClientDefinition: () => Promise<ClientDefinition>;
   getDoctorOverview: () => Promise<DoctorManifestOverview>;
-  getStoragePresets: () => Promise<StoragePresetContext[]>;
+  getDevtoolsConfig: () => Promise<DevtoolsConfig>;
   echo: (content: string) => string;
 }

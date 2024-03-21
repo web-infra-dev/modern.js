@@ -70,8 +70,8 @@ export const devtoolsPlugin = (
           const appCtx = api.useAppContext();
           const { devtools: options = {} } = appConfig;
           updateContext(ctx, options);
-          const storagePresets = await loadConfigFiles(appCtx.appDirectory);
-          ctx.storagePresets.push(...storagePresets);
+          const configs = await loadConfigFiles(appCtx.appDirectory);
+          updateContext(ctx, ...configs);
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
 
           const swProxyEntry = require.resolve(
