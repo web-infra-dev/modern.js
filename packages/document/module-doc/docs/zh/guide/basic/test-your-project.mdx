@@ -104,11 +104,9 @@ npm run test
 - 首先是组件的代码：
 
 ```tsx title="./src/index.tsx"
-export const default () {
-  return (
-    <div>This is a UI Component</div>
-  );
-}
+export default () => {
+  return <div>This is a UI Component</div>;
+};
 ```
 
 - 然后在测试文件中，我们可以按以下方式引用，其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。

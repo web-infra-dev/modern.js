@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.1",
+  "version": "2.48.2",
   "jsnext:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -49,7 +49,7 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/index.d.ts"
+        "./dist/types/browser.d.ts"
       ],
       "client": [
         "./dist/types/browser.d.ts"
@@ -92,6 +92,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/browser.d.ts"
   }
 }

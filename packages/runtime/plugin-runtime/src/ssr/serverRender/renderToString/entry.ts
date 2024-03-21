@@ -1,6 +1,5 @@
 import React from 'react';
 import { serializeJson } from '@modern-js/runtime-utils/node';
-import ReactHelmet, { HelmetData } from 'react-helmet';
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { time } from '@modern-js/runtime-utils/time';
 import { serializeErrors } from '../../../router/runtime/utils';
@@ -159,8 +158,7 @@ export default class Entry {
       createReplaceHtml(this.result.html || ''),
       ...this.htmlModifiers,
     ]);
-    const helmetData: HelmetData = ReactHelmet.renderStatic();
-
+    const helmetData = this.result.helmet;
     return helmetData ? helmetReplace(html, helmetData) : html;
   }
 
@@ -186,13 +184,12 @@ export default class Entry {
     let html = '';
     const end = time();
     const { ssrContext } = context;
-
     try {
       const App = React.createElement(this.App, {
         context: Object.assign(context, { ssr: true }),
       });
 
-      html = await createRender(App)
+      html = await createRender(App, this.result)
         .addCollector(createStyledCollector(this.result))
         .addCollector(
           createLoadableCollector({

@@ -10,6 +10,44 @@ data-styled.g1[id="sc-bczRLJ"]{content:"dgihId,"}/*!sc*/
 </style>",
     "js": "",
   },
+  "helmet": {
+    "base": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "bodyAttributes": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "htmlAttributes": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "link": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "meta": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "noscript": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "script": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "style": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+    "title": {
+      "toComponent": [Function],
+      "toString": [Function],
+    },
+  },
   "renderLevel": 2,
 }
 `;

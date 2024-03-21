@@ -5,6 +5,7 @@ const getAntdMajorVersion = (appDirectory: string) => {
     const pkgJsonPath = require.resolve('antd/package.json', {
       paths: [appDirectory],
     });
+
     const { version } = require(pkgJsonPath);
     return Number(version.split('.')[0]);
   } catch (err) {

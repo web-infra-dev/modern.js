@@ -58,11 +58,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           "rspackExperiments": {
             "import": [
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              {
                 "camelToDashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -146,11 +141,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           },
           "rspackExperiments": {
             "import": [
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
               {
                 "camelToDashComponentName": false,
                 "libraryDirectory": "es",
@@ -265,15 +255,6 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -408,15 +389,6 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "lib",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "lib",
                 "libraryName": "@arco-design/web-react",
@@ -541,15 +513,6 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -688,15 +651,6 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1044,15 +998,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -1174,15 +1119,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1315,15 +1251,6 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1460,15 +1387,6 @@ exports[`plugin-babel > should set babel-loader 1`] = `
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1614,15 +1532,6 @@ exports[`plugin-babel > should set include/exclude 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -1763,15 +1672,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -1900,15 +1800,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "libraryName": "foo",
               },
               "foo",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",

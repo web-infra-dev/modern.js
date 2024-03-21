@@ -1,15 +1,14 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
 import {
-  deepmerge,
   NODE_MODULES_REGEX,
   CSS_MODULES_REGEX,
-  isProd,
-  ServerConfig,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
-  mergeChainedOptions,
+  castArray,
+  isFunction,
+  type HtmlTagHandler,
   type SourceConfig,
 } from '@rsbuild/shared';
 import {
@@ -35,6 +34,7 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { transformToRsbuildServerOptions } from './devServer';
 
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
@@ -133,6 +133,7 @@ export async function parseCommonConfig(
       enableAssetFallback,
       disableSourceMap,
       convertToRem,
+      disableMinimize,
       ...outputConfig
     } = {},
     html: {
@@ -143,6 +144,8 @@ export async function parseCommonConfig(
       injectByEntries,
       templateByEntries,
       templateParametersByEntries,
+      tagsByEntries,
+      tags,
       ...htmlConfig
     } = {},
     source: {
@@ -152,7 +155,7 @@ export async function parseCommonConfig(
       resolveExtensionPrefix,
       ...sourceConfig
     } = {},
-    dev: { port, host, https, ...devConfig } = {},
+    dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
   } = uniBuilderConfig;
@@ -167,16 +170,19 @@ export async function parseCommonConfig(
     performance: performanceConfig,
     html: htmlConfig,
     tools: toolsConfig,
-    dev: devConfig,
     security: securityConfig,
   };
 
-  const { dev = {}, html = {}, output = {}, source = {} } = rsbuildConfig;
+  const { html = {}, output = {}, source = {} } = rsbuildConfig;
 
   if (enableLatestDecorators) {
     source.decorators = {
       version: '2022-03',
     };
+  }
+
+  if (disableMinimize) {
+    output.minify ||= false;
   }
 
   if (cssModuleLocalIdentName) {
@@ -267,6 +273,39 @@ export async function parseCommonConfig(
     });
   }
 
+  if (tags) {
+    // The function will be executed at the end of the HTML processing flow
+    html.tags = Array.isArray(tags)
+      ? tags
+          .filter(t => typeof t !== 'function')
+          .concat(tags.filter(t => typeof t === 'function'))
+      : tags;
+  }
+
+  if (tagsByEntries) {
+    extraConfig.html.tags = [
+      (tags, utils) => {
+        const entryTags = castArray(tagsByEntries[utils.entryName]);
+
+        const handlers: HtmlTagHandler[] = [];
+
+        for (const tag of entryTags) {
+          if (isFunction(tag)) {
+            // The function will be executed at the end of the HTML processing flow
+            handlers.push(tag);
+          } else {
+            tags.push(tag);
+          }
+        }
+
+        return handlers.reduce(
+          (currentTags, handler) => handler(currentTags, utils) || currentTags,
+          tags,
+        );
+      },
+    ];
+  }
+
   extraConfig.tools ??= {};
 
   // compat template title and meta params
@@ -285,50 +324,14 @@ export async function parseCommonConfig(
     }
   };
 
-  // more dev & server config will compat in modern-js/server
-
-  // enable progress bar by default
-  if (dev.progressBar === undefined) {
-    dev.progressBar = true;
-  }
-
-  const newDevServerConfig = mergeChainedOptions({
-    defaults: {
-      devMiddleware: {
-        writeToDisk: (file: string) => !file.includes('.hot-update.'),
-      },
-      hot: dev?.hmr ?? true,
-      liveReload: true,
-      client: {
-        path: '/webpack-hmr',
-      },
-    },
-    options: devServer,
-    mergeFn: deepmerge,
-  });
-
-  dev.writeToDisk = newDevServerConfig.devMiddleware?.writeToDisk;
-
-  dev.hmr = newDevServerConfig.hot;
-
-  dev.client = newDevServerConfig.client;
-
-  dev.liveReload = newDevServerConfig.liveReload;
-
-  const server: ServerConfig = isProd()
-    ? {
-        publicDir: false,
-      }
-    : {
-        publicDir: false,
-        port,
-        host,
-        https: https ? (https as ServerConfig['https']) : undefined,
-      };
+  const { dev: RsbuildDev, server } = transformToRsbuildServerOptions(
+    dev || {},
+    devServer || {},
+  );
 
   rsbuildConfig.server = removeUndefinedKey(server);
 
-  rsbuildConfig.dev = removeUndefinedKey(dev);
+  rsbuildConfig.dev = removeUndefinedKey(RsbuildDev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 
@@ -402,7 +405,10 @@ export async function parseCommonConfig(
     const { pluginSvgr } = await import('@rsbuild/plugin-svgr');
     rsbuildPlugins.push(
       pluginSvgr({
-        svgDefaultExport: svgDefaultExport || 'url',
+        mixedImport: true,
+        svgrOptions: {
+          exportType: svgDefaultExport === 'component' ? 'default' : 'named',
+        },
       }),
     );
   }

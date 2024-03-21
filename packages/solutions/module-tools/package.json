@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.48.1",
+  "version": "2.48.2",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -84,7 +84,7 @@
     "tsconfig-paths-webpack-plugin": "4.1.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "0.4.15",
+    "@rsbuild/core": "0.5.1",
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",

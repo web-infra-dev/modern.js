@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.48.2
+
+### Patch Changes
+
+- 8eccb3b: fix: helmet.renderStatic must be sync action
+  fix: helmet.renderStatic 必须是同步的行为
+- 08e062f: fix: ssr reload infinite
+  fix: ssr 无限刷新问题
+  - @modern-js/plugin@2.48.2
+  - @modern-js/runtime-utils@2.48.2
+  - @modern-js/types@2.48.2
+  - @modern-js/utils@2.48.2
+
 ## 2.48.1
 
 ### Patch Changes

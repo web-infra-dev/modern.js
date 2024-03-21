@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.48.1",
+  "version": "2.48.2",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
@@ -42,7 +42,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/themes": "^2.0.0",
-    "@rsbuild/core": "0.4.15",
+    "@rsbuild/core": "0.5.1",
     "@types/jest": "^29",
     "@types/lodash": "^4.14.202",
     "@types/node": "~16.11.7",
