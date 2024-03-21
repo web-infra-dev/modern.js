@@ -12,20 +12,36 @@ SVG stands for Scalable Vector Graphics. It is a type of image format that uses 
 
 ## Import SVG in JS file
 
-When import an SVG in a JS file, if you import `ReactComponent`, Modern.js will call [SVGR](https://react-svgr.com/) to convert the SVG into a React component.
+### Default Import
 
-```tsx title="src/component/Logo.tsx"
-import { ReactComponent as Logo } from './static/logo.svg';
-
-export default () => <Logo />;
-```
-
-If you use the default import, then the SVG will be treated as a normal static asset and you will get a URL:
+If you use the default import to reference SVG, it will be treated as a static asset and you will get a URL string:
 
 ```tsx title="src/component/Logo.tsx"
 import logoURL from './static/logo.svg';
 
 console.log(logoURL); // => "/static/logo.6c12aba3.png"
+```
+
+### Transform to React Component
+
+When referencing SVG assets in JS files, if the import path includes the `?react` suffix, Modern.js will call SVGR to transform the SVG image into a React component:
+
+```tsx title="src/component/Logo.tsx"
+import Logo from './logo.svg?react';
+
+export default () => <Logo />;
+```
+
+:::tip
+Modern.js >= MAJOR_VERSION.48.3 version supports the above usage.
+:::
+
+Modern.js also supports the following usage, transforming SVG into a React component by named import `ReactComponent`:
+
+```tsx title="src/component/Logo.tsx"
+import { ReactComponent as Logo } from './static/logo.svg';
+
+export default () => <Logo />;
 ```
 
 ## Modify the Default Export
@@ -94,6 +110,11 @@ declare module '*.svg' {
 
   const content: string;
   export default content;
+}
+
+declare module '*.svg?react' {
+  const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
 }
 ```
 
