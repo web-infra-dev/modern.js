@@ -15,7 +15,6 @@ export const createProdServer = async (options: ProdServerOptions) => {
   // load env file.
   await loadServerEnv(options);
   await server.init();
-  await initProdMiddlewares(server, options);
 
   const nodeServer = createNodeServer(server.handle.bind(server));
   await server.runner.beforeServerInit({
