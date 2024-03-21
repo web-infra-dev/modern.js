@@ -1,7 +1,11 @@
 import { useLoaderData } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import _ from 'lodash';
+import { HiPlus } from 'react-icons/hi2';
 import { StoragePresetContext } from '@modern-js/devtools-kit/runtime';
+import { FC } from 'react';
+import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
+import styles from './page.module.scss';
 import type { Data } from './page.data';
 
 const unwindRecord = <T extends string | void>(
@@ -48,6 +52,49 @@ interface UnwindPreset {
   items: UnwindStorageRecord[];
 }
 
+const PresetCard: FC<{ preset: UnwindPreset }> = props => {
+  const { preset } = props;
+  const isSaved = !preset.filename.match(/[/\\]node_modules[/\\]/);
+
+  return (
+    <Box className={styles.presetCard}>
+      <Text size="1" weight="bold" as="p" mb="2">
+        {preset.name}{' '}
+        {isSaved || (
+          <Text size="1" color="gray">
+            *
+          </Text>
+        )}
+      </Text>
+      <Flex align={'center'}>
+        <Flex className={styles.previewBadgeList}>
+          {preset.items.map(item => (
+            <Badge
+              key={`${item.type}//${item.key}`}
+              color={STORAGE_TYPE_PALETTE[item.type]}
+            >
+              {item.key}: {item.value}
+            </Badge>
+          ))}
+        </Flex>
+      </Flex>
+    </Box>
+  );
+};
+
+const CreatePresetButton: FC<FlexProps> = props => {
+  return (
+    <Flex
+      className={styles.btnCreatePreset}
+      justify="center"
+      align="center"
+      {...props}
+    >
+      <HiPlus />
+    </Flex>
+  );
+};
+
 export default () => {
   const data = useLoaderData() as Data;
   const freq = {
@@ -74,25 +121,17 @@ export default () => {
   }));
 
   return (
-    <Flex wrap="wrap">
-      <Box width={{ initial: '100%', xs: '9' }}>
+    <Box className={styles.container}>
+      <Flex direction="column" gap="2" className={styles.sidePanel}>
         {presets.map(preset => (
-          <Box key={`${preset.name}@${preset.filename}`}>
-            <Text as="p">{preset.name}</Text>
-            <Flex gap="1">
-              {preset.items.map(item => (
-                <Badge
-                  key={`${item.type}//${item.key}`}
-                  color={STORAGE_TYPE_PALETTE[item.type]}
-                >
-                  {item.key}: {item.value}
-                </Badge>
-              ))}
-            </Flex>
-          </Box>
+          <PresetCard
+            key={`${preset.name}@${preset.filename}`}
+            preset={preset}
+          />
         ))}
-      </Box>
+        <CreatePresetButton />
+      </Flex>
       <Box grow={'1'} />
-    </Flex>
+    </Box>
   );
 };
