@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  padding: var(--space-2);
+  @media screen and (min-width: 520px) {
+    flex-direction: row;
+  }
+}
+
+.side-panel {
+  width: 15rem;
+  overflow: hidden;
+}
+
+.overflow-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--gray-1);
+  box-shadow: 0 0 15px var(--gray-1);
+  line-height: 0;
+}
+
+.preset-card,
+.btn-create-preset {
+  --bg: var(--gray-1);
+  border: solid 1px var(--gray-4);
+  border-radius: var(--radius-4);
+  padding: var(--space-3);
+  background-color: var(--bg);
+  cursor: pointer;
+  & * {
+    cursor: pointer;
+  }
+  &:active {
+    --bg: var(--gray-3);
+  }
+  .preview-badge-list {
+    display: flex;
+    flex: 1;
+    gap: var(--space-1);
+    position: relative;
+    overflow: hidden;
+    padding-right: var(--space-4);
+    &::after {
+      content: '';
+      width: var(--space-4);
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: linear-gradient(to right, transparent, var(--bg));
+    }
+  }
+}
+
+.btn-create-preset {
+  color: var(--gray-7);
+}

@@ -791,6 +791,10 @@ importers:
         version: 5.3.3
 
   packages/devtools/client:
+    dependencies:
+      cookie-es:
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       '@modern-js-app/eslint-config':
         specifier: workspace:*

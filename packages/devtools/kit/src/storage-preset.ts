@@ -1,34 +1,10 @@
-import type { CookieSerializeOptions } from 'cookie-es';
-
-export interface LocalStoragePresetItem {
-  type: 'local-storage';
-  key: string;
-  value: string | object | number;
-}
-
-export interface SessionStoragePresetItem {
-  type: 'session-storage';
-  key: string;
-  value: string | object | number;
-}
-
-export interface CookiePresetItem
-  extends Omit<CookieSerializeOptions, 'encode'> {
-  type: 'cookie';
-  key: string;
-  value: string | object | number;
-}
-
-export type StoragePreset =
-  | LocalStoragePresetItem
-  | SessionStoragePresetItem
-  | CookiePresetItem;
-
-export interface StoragePresetOptions {
+export interface StoragePresetConfig {
   name: string;
-  items: StoragePreset[];
+  cookie?: Record<string, string>;
+  localStorage?: Record<string, string>;
+  sessionStorage?: Record<string, string>;
 }
 
-export interface StoragePresetContext extends StoragePresetOptions {
+export interface StoragePresetContext extends StoragePresetConfig {
   filename: string;
 }

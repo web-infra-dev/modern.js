@@ -180,8 +180,8 @@ export const setupClientConnection = async (
       };
       return data;
     },
-    async getStoragePresets() {
-      return ctx.storagePresets;
+    async getDevtoolsConfig() {
+      return _.pick(ctx, 'storagePresets');
     },
     echo(content) {
       return content;

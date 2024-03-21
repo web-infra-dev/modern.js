@@ -2,17 +2,28 @@
   "storagePresets": [
     {
       "name": "用户asdasd",
-      "items": [
-        {
-          "type": "cookie",
-          "key": "x-tt-jwt",
-          "value": "eC10dC1qd3Q=",
-          "httpOnly": true,
-          "secure": true
-        },
-        { "type": "cookie", "key": "lang", "value": "zh" },
-        { "type": "local-storage", "key": "__cache_first_1161", "value": "1" }
-      ]
+      "cookie": {
+        "lang": "zh",
+        "x-tt-jwt": "eC10dC1qd3Q="
+      },
+      "localStorage": {
+        "__cache_first_1161": "1"
+      }
+    },
+    {
+      "name": "商家运营",
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a626L+Q6JCl"
+      }
+    },
+    {
+      "name": "商家管理员",
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a62566h55CG5ZGY"
+      }
     }
   ]
 }
