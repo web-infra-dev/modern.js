@@ -16,7 +16,6 @@ import {
   startWatcher,
   onRepack,
   getDevOptions,
-  transformToRsbuildServerOptions,
   initFileReader,
 } from './helpers';
 import { isUseStreamingSSR, isUseSSRPreload } from './helpers/utils';
@@ -61,13 +60,10 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     close,
     onUpgrade,
   } = (await getMiddlewares?.({
-    ...transformToRsbuildServerOptions(dev),
     compress:
       !isUseStreamingSSR(routes) &&
       !isUseSSRPreload(options.config) &&
       dev.compress,
-    htmlFallback: false,
-    publicDir: false,
   })) || {};
 
   close && closeCb.push(close);
