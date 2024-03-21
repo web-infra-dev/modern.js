@@ -5,11 +5,9 @@ import {
   injectReporter,
   injectLogger,
   createErrorHtml,
-  createServerBase,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import {
-  loadServerEnv,
   injectTemplates,
   bindBFFHandler,
   injectServerManifest,
@@ -18,26 +16,8 @@ import {
 import { ErrorDigest, onError } from './error';
 import { ProdServerOptions, BaseEnv } from './types';
 
-export type { ProdServerOptions, BaseEnv } from './types';
-
-export async function createRequestHandler(
-  options: ProdServerOptions,
-): Promise<ReturnType<typeof createServerBase>['handle']> {
-  const server = await createWebServer(options);
-  await initProdMiddlewares(server, options);
-  return server.handle.bind(server);
-}
-
-export async function createWebServer(options: ProdServerOptions) {
-  const server = createServerBase<BaseEnv>(options);
-  // load env file.
-  await loadServerEnv(options);
-  await server.init();
-
-  return server;
-}
-
 export type InitProdMiddlewares = typeof initProdMiddlewares;
+
 export const initProdMiddlewares = async (
   server: ServerBase<BaseEnv>,
   options: ProdServerOptions,

@@ -137,16 +137,18 @@ const getRequestListener = (handler: RequestHandler) => {
 };
 
 type NodeServerWrapper = NodeServer & {
-  getRequestHandler: () => ReturnType<typeof getRequestListener>;
+  getRequestListener: () => ReturnType<typeof getRequestListener>;
+  getRequestHandler: () => RequestHandler;
 };
 
 export const createNodeServer = (
-  handleRequest: RequestHandler,
+  requestHandler: RequestHandler,
 ): NodeServerWrapper => {
-  const requestListener = getRequestListener(handleRequest);
+  const requestListener = getRequestListener(requestHandler);
   const nodeServer = createServer(requestListener) as NodeServerWrapper;
 
-  nodeServer.getRequestHandler = () => requestListener;
+  nodeServer.getRequestListener = () => requestListener;
+  nodeServer.getRequestHandler = () => requestHandler;
 
   return nodeServer;
 };
