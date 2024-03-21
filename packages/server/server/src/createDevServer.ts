@@ -18,7 +18,6 @@ import {
   getDevOptions,
   initFileReader,
 } from './helpers';
-import { isUseStreamingSSR, isUseSSRPreload } from './helpers/utils';
 
 export type { ModernDevServerOptions, InitProdMiddlewares } from './types';
 
@@ -58,22 +57,12 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const {
     middlewares: rsbuildMiddlewares,
     close,
-    onUpgrade,
-  } = (await getMiddlewares?.({
-    compress:
-      !isUseStreamingSSR(routes) &&
-      !isUseSSRPreload(options.config) &&
-      dev.compress,
-  })) || {};
+    onHTTPUpgrade,
+  } = getMiddlewares?.() || {};
 
   close && closeCb.push(close);
-  rsbuildMiddlewares?.forEach(middleware => {
-    if (Array.isArray(middleware)) {
-      server.all(middleware[0], connectMid2HonoMid(middleware[1]));
-    } else {
-      server.all('*', connectMid2HonoMid(middleware));
-    }
-  });
+
+  rsbuildMiddlewares && server.all('*', connectMid2HonoMid(rsbuildMiddlewares));
 
   server.use('*', initFileReader());
   await server.init();
@@ -85,7 +74,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     }
   });
 
-  onUpgrade && nodeServer.on('upgrade', onUpgrade);
+  onHTTPUpgrade && nodeServer.on('upgrade', onHTTPUpgrade);
 
   await server.runner.beforeServerInit({
     app: nodeServer,

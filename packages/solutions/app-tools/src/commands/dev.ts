@@ -1,7 +1,7 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
-import { createDevServer, ModernDevServerOptions } from '@modern-js/server';
-import { initProdMiddlewares, ProdServerOptions } from '@modern-js/prod-server';
+import { createDevServer } from '@modern-js/server';
+import { initProdMiddlewares } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
@@ -58,7 +58,7 @@ export const dev = async (
   await generateRoutes(appContext);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
-  const serverOptions: ModernDevServerOptions<ProdServerOptions> = {
+  const serverOptions = {
     metaName,
     dev: {
       port,
@@ -81,7 +81,10 @@ export const dev = async (
   };
 
   if (apiOnly) {
-    const app = await createDevServer(serverOptions, initProdMiddlewares);
+    const app = await createDevServer(
+      serverOptions as any,
+      initProdMiddlewares,
+    );
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 

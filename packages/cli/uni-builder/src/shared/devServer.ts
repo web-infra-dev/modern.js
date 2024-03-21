@@ -210,6 +210,7 @@ export async function startDevServer(
     {
       pwd: rsbuild.context.rootPath,
       ...serverOptions,
+      appContext: serverOptions.appContext || {},
       rsbuild,
       getMiddlewares: () => ({
         middlewares: rsbuildServer.middlewares,

@@ -55,7 +55,7 @@ export type ExtraOptions = {
   };
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
-  getMiddlewares: () => Pick<
+  getMiddlewares?: () => Pick<
     RsbuildDevServer,
     'middlewares' | 'onHTTPUpgrade' | 'close'
   >;
