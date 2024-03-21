@@ -29,7 +29,8 @@ const createApp = async (
     });
   }
 
-  const app = server.getRequestHandler();
+  const app = server.getRequestListener();
+
   return app;
 };
 
@@ -37,7 +38,7 @@ const getApp = () => {
   if (!server) {
     throw new Error('please createApp first');
   }
-  return server.getRequestHandler();
+  return server.getRequestListener();
 };
 
 const closeServer = async () => {

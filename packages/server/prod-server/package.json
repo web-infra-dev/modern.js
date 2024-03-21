@@ -32,20 +32,12 @@
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
-    },
-    "./handler": {
-      "types": "./dist/types/handler.d.ts",
-      "jsnext:source": "./src/handler.ts",
-      "default": "./dist/cjs/handler.js"
     }
   },
   "typesVersions": {
     "*": {
       ".": [
         "./dist/types/index.d.ts"
-      ],
-      "handler": [
-        "./dist/types/handler.d.ts"
       ]
     }
   },
@@ -81,11 +73,6 @@
         "types": "./dist/types/index.d.ts",
         "jsnext:source": "./src/index.ts",
         "default": "./dist/cjs/index.js"
-      },
-      "./handler": {
-        "types": "./dist/types/handler.d.ts",
-        "jsnext:source": "./src/handler.ts",
-        "default": "./dist/cjs/handler.js"
       }
     }
   }
