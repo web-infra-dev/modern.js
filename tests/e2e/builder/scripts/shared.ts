@@ -3,7 +3,7 @@ import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import type {
-  BuilderConfig as UniBuilderConfig,
+  UniBuilderConfig,
   CreateUniBuilderOptions,
   StartDevServerOptions,
 } from '@modern-js/uni-builder';

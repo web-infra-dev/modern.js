@@ -61,6 +61,11 @@ declare module '*.svg' {
   export default content;
 }
 
+declare module '*.svg?react' {
+  const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default ReactComponent;
+}
+
 declare module '*.bmp?inline' {
   const src: string;
   export default src;

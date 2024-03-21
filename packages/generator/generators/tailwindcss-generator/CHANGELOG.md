@@ -1,5 +1,13 @@
 # @modern-js/tailwindcss-generator
 
+## 3.3.14
+
+### Patch Changes
+
+- cd1003a: fix(generator): tailwindcss config file type
+  fix(generator): tailwindcss 配置文件类型
+  - @modern-js/utils@2.48.3
+
 ## 3.3.13
 
 ### Patch Changes

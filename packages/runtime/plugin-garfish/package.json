@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.2",
+  "version": "2.48.3",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -81,12 +81,12 @@
     "@swc/helpers": "0.5.3"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.48.2",
+    "@modern-js/runtime": "workspace:^2.48.3",
     "react": ">=17",
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.4.15",
+    "@rsbuild/shared": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",
