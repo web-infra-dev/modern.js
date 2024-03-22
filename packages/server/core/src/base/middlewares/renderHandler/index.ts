@@ -16,6 +16,7 @@ function createRenderHandler(
     const reporter = c.get('reporter');
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
+    const locals = c.get('locals');
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
@@ -26,6 +27,7 @@ function createRenderHandler(
       reporter,
       templates,
       serverManifest,
+      locals,
     });
 
     return res;

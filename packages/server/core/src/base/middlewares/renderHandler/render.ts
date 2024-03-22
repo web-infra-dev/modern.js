@@ -31,7 +31,7 @@ export async function createRender({
 }: CreateRenderOptions): Promise<Render> {
   return async (
     req,
-    { logger, nodeReq, reporter, templates, serverManifest },
+    { logger, nodeReq, reporter, templates, serverManifest, locals },
   ) => {
     const routeInfo = matchRoute(req, routes);
 
@@ -68,6 +68,7 @@ export async function createRender({
       nodeReq,
       reporter,
       serverRoutes: routes,
+      locals,
       serverManifest,
     };
 

@@ -156,9 +156,12 @@ export class CustomServer {
       const reporter = c.get('reporter');
       const metrics = c.get('metrics');
 
+      const locals: Record<string, any> = {};
+
       const customMiddlewareCtx = createCustomMiddlewaresCtx(
         c,
         logger,
+        locals,
         metrics,
       );
 
@@ -167,6 +170,8 @@ export class CustomServer {
       const cost = getCost();
       cost &&
         reporter?.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
+
+      c.set('locals', locals);
 
       if (!c.finalized) {
         return next();
