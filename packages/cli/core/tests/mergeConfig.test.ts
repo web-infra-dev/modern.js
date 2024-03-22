@@ -87,6 +87,24 @@ describe('merge config', () => {
     ).toEqual({
       source: { envVars: ['a', 'b'] },
     });
+
+    expect(
+      mergeConfig([
+        { server: { baseUrl: ['/'] } },
+        { server: { baseUrl: ['/a', '/b'] } },
+      ]),
+    ).toEqual({
+      server: { baseUrl: ['/a', '/b'] },
+    });
+
+    expect(
+      mergeConfig([
+        { server: { baseUrl: '/' } },
+        { server: { baseUrl: ['/a', '/b'] } },
+      ]),
+    ).toEqual({
+      server: { baseUrl: ['/a', '/b'] },
+    });
   });
 
   test(`should keep single function value`, () => {
