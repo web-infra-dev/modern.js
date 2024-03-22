@@ -5,11 +5,18 @@ import {
   StartServerResult,
   RsbuildInstance,
   deepmerge,
+  DevConfig,
+  ServerConfig,
   mergeChainedOptions,
+  isProd,
 } from '@rsbuild/shared';
 import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
 import { type ModernServerOptions } from '@modern-js/prod-server';
-import { UniBuilderConfig } from '../types';
+import type {
+  UniBuilderConfig,
+  ToolsDevServerConfig,
+  DevServerHttpsOptions,
+} from '../types';
 
 type ServerOptions = Partial<Omit<ModernDevServerOptionsNew, 'config'>> & {
   config?: Partial<ModernDevServerOptionsNew['config']>;
@@ -37,49 +44,98 @@ const getServerOptions = (
   };
 };
 
-const getDevServerOptions = async ({
-  builderConfig,
-  serverOptions,
-  port,
-}: {
-  builderConfig: UniBuilderConfig;
-  serverOptions: ServerOptions;
-  port: number;
-}): Promise<{
-  config: ModernDevServerOptionsNew['config'];
-  devConfig: ModernDevServerOptionsNew['dev'];
-}> => {
-  const defaultDevConfig = deepmerge(
-    {
-      watch: true,
-      port,
-      https: builderConfig.dev?.https,
-    },
-    // merge devServerOptions from serverOptions
-    serverOptions.dev || {},
-  );
+export const transformToRsbuildServerOptions = (
+  dev: NonNullable<UniBuilderConfig['dev']>,
+  devServer: ToolsDevServerConfig,
+): {
+  dev: DevConfig;
+  server: ServerConfig;
+} => {
+  const { port, host, https, ...devConfig } = dev;
 
-  const devConfig = mergeChainedOptions({
-    defaults: defaultDevConfig,
-    options: builderConfig.tools?.devServer,
+  const newDevServerConfig = mergeChainedOptions({
+    defaults: {
+      devMiddleware: {
+        writeToDisk: (file: string) => !file.includes('.hot-update.'),
+      },
+      hot: dev?.hmr ?? true,
+      liveReload: true,
+      client: {
+        path: '/webpack-hmr',
+      },
+    },
+    options: devServer,
     mergeFn: deepmerge,
   });
 
+  const rsbuildDev: DevConfig = {
+    ...devConfig,
+    writeToDisk: newDevServerConfig.devMiddleware?.writeToDisk,
+    hmr: newDevServerConfig.hot,
+    client: newDevServerConfig.client,
+    liveReload: newDevServerConfig.liveReload,
+  };
+
+  // enable progress bar by default
+  if (dev.progressBar === undefined) {
+    rsbuildDev.progressBar = true;
+  }
+
+  if (newDevServerConfig.before?.length || newDevServerConfig.after?.length) {
+    rsbuildDev.setupMiddlewares = [
+      ...(newDevServerConfig.setupMiddlewares || []),
+      middlewares => {
+        // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
+        middlewares.unshift(...(newDevServerConfig.before || []));
+
+        middlewares.push(...(newDevServerConfig.after || []));
+      },
+    ];
+  } else if (newDevServerConfig.setupMiddlewares) {
+    rsbuildDev.setupMiddlewares = newDevServerConfig.setupMiddlewares;
+  }
+
+  const server: ServerConfig = isProd()
+    ? {
+        publicDir: false,
+        htmlFallback: false,
+        printUrls: false,
+      }
+    : {
+        publicDir: false,
+        htmlFallback: false,
+        printUrls: false,
+        compress: newDevServerConfig.compress,
+        headers: newDevServerConfig.headers,
+        historyApiFallback: newDevServerConfig.historyApiFallback,
+        proxy: newDevServerConfig.proxy,
+        port,
+        host,
+        https: https ? (https as ServerConfig['https']) : undefined,
+      };
+
+  return { dev: rsbuildDev, server };
+};
+
+const getDevServerOptions = async ({
+  builderConfig,
+  serverOptions,
+}: {
+  builderConfig: UniBuilderConfig;
+  serverOptions: ServerOptions;
+}): Promise<{
+  config: ModernDevServerOptionsNew['config'];
+}> => {
   const defaultConfig = getServerOptions(builderConfig);
   const config = serverOptions.config
     ? deepmerge(defaultConfig, serverOptions.config)
     : defaultConfig;
 
-  return { config, devConfig };
+  return { config };
 };
 
-export type StartDevServerOptions = Omit<
-  RsbuildStartDevServerOptions,
-  // printURLs is not used in modern.js
-  'printURLs'
-> & {
+export type StartDevServerOptions = RsbuildStartDevServerOptions & {
   apiOnly?: boolean;
-  defaultPort?: number;
   serverOptions?: ServerOptions;
 };
 
@@ -92,46 +148,48 @@ export async function startDevServer(
   options: StartDevServerOptions = {},
   builderConfig: UniBuilderConfig,
 ) {
-  debug('create dev server');
-
   const { ServerForRsbuild } = await import('@modern-js/server');
 
-  const rsbuildServer = await rsbuild.getServerAPIs(options);
+  const rsbuildServer = await rsbuild.createDevServer({
+    ...options,
+    runCompile: !options.apiOnly,
+  });
 
   const { serverOptions = {} } = options;
 
-  const { config, devConfig } = await getDevServerOptions({
+  const { config } = await getDevServerOptions({
     builderConfig,
     serverOptions,
-    port: rsbuildServer.config.port,
   });
 
-  const compileMiddlewareAPI = options.apiOnly
-    ? undefined
-    : await rsbuildServer.startCompile();
+  const rsbuildConfig = rsbuild.getNormalizedConfig();
+
+  const https = serverOptions.dev?.https ?? rsbuildConfig.server.https;
+
+  const { port } = rsbuildServer;
+  const {
+    server: { host },
+    dev: { writeToDisk },
+  } = rsbuildConfig;
 
   const server = new ServerForRsbuild({
     pwd: rsbuild.context.rootPath,
     ...serverOptions,
     rsbuild,
-    getMiddlewares: config =>
-      rsbuildServer.getMiddlewares({
-        compileMiddlewareAPI,
-        overrides: config,
-      }),
-    dev: devConfig,
+    getMiddlewares: () => ({
+      middlewares: rsbuildServer.middlewares,
+      close: rsbuildServer.close,
+      onHTTPUpgrade: rsbuildServer.onHTTPUpgrade,
+    }),
+    dev: {
+      watch: serverOptions.dev?.watch ?? true,
+      https: https as DevServerHttpsOptions,
+      writeToDisk,
+    },
     config,
   });
 
-  const {
-    config: { port, host },
-  } = rsbuildServer;
-
-  debug('create dev server done');
-
-  await rsbuildServer.beforeStart();
-
-  const protocol = devConfig.https ? 'https' : 'http';
+  const protocol = https ? 'https' : 'http';
   const urls = getAddressUrls({ protocol, port, host });
 
   debug('listen dev server');
@@ -151,15 +209,7 @@ export async function startDevServer(
 
         debug('listen dev server done');
 
-        await rsbuildServer.afterStart({
-          port,
-          routes: [
-            {
-              pathname: '/',
-              entryName: 'index',
-            },
-          ],
-        });
+        await rsbuildServer.afterListen();
 
         resolve({
           port,

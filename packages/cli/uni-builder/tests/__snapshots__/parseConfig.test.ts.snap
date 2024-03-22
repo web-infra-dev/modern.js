@@ -39,12 +39,19 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "compress": false,
+    "headers": {
+      "X-Custom-Foo": "bar",
+    },
+    "historyApiFallback": true,
     "host": "xxx.xxx",
+    "htmlFallback": false,
     "https": {
       "cert": "xxx",
       "key": "xxxx",
     },
     "port": 8081,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -92,6 +99,8 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -143,6 +152,8 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -197,6 +208,8 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -248,6 +261,8 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -302,6 +317,8 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -353,6 +370,8 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -411,6 +430,8 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -462,6 +483,8 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -516,6 +539,8 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -567,6 +592,8 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -623,6 +650,8 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -676,6 +705,8 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -729,6 +760,8 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -782,6 +815,8 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -835,6 +870,8 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -883,6 +920,8 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {
@@ -931,6 +970,8 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   "plugins": [],
   "security": {},
   "server": {
+    "htmlFallback": false,
+    "printUrls": false,
     "publicDir": false,
   },
   "source": {

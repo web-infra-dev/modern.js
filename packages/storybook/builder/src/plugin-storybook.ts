@@ -245,14 +245,20 @@ async function applyHTML(builderConfig: RsbuildConfig, options: Options) {
   ]);
 
   builderConfig.tools ??= {};
+
+  const htmlPluginConfig =
+    typeof builderConfig.tools.htmlPlugin === 'boolean'
+      ? {}
+      : builderConfig.tools.htmlPlugin;
+
   builderConfig.tools.htmlPlugin = {
-    ...builderConfig.tools.htmlPlugin,
+    ...htmlPluginConfig,
     template,
     filename: 'iframe.html',
     templateParameters: {
-      ...(builderConfig.tools.htmlPlugin
+      ...(htmlPluginConfig
         ? // @ts-expect-error
-          builderConfig.tools.htmlPlugin.templateParameters || {}
+          htmlPluginConfig.templateParameters || {}
         : {}),
       version: packageJson.version || '',
       globals: {

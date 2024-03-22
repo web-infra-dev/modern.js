@@ -1,5 +1,33 @@
 # @modern-js/uni-builder
 
+## 2.48.3
+
+### Patch Changes
+
+- 879f90b: chore(deps): bump rsbuild 0.5.x
+
+  chore(deps): 升级 rsbuild 到 0.5.x
+
+- 18e6249: chore(server): set devServer.compress config value in app-tools
+
+  chore(server): 在 app-tools 中设置 ssr 场景下 devServer compress 配置的值
+
+- Updated dependencies [18e6249]
+  - @modern-js/server@2.48.3
+  - @modern-js/utils@2.48.3
+
+## 2.48.2
+
+### Patch Changes
+
+- 9e7115f: feat(server): support modify Rsbuild server config in Rsbuild modifyRsbuildConfig hook
+
+  feat(server): 支持在 Rsbuild modifyRsbuildConfig hook 中修改 Rsbuild server 相关配置
+
+- Updated dependencies [9e7115f]
+  - @modern-js/server@2.48.2
+  - @modern-js/utils@2.48.2
+
 ## 2.48.1
 
 ### Patch Changes

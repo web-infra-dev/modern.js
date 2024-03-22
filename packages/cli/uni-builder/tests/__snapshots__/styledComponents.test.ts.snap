@@ -47,15 +47,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "lib",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "lib",
                 "libraryName": "@arco-design/web-react",
@@ -177,15 +168,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "libraryDirectory": "lib",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -327,15 +309,6 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
-              "antd",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -468,11 +441,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               ],
             },
             "pluginImport": [
-              {
-                "libraryDirectory": "es",
-                "libraryName": "antd",
-                "style": true,
-              },
               {
                 "camelToDashComponentName": false,
                 "libraryDirectory": "es",

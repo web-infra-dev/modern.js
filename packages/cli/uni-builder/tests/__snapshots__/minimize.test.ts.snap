@@ -1,0 +1,63 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
+[
+  SwcMinimizerPlugin {
+    "minifyOptions": {
+      "cssMinify": {},
+      "jsMinify": {
+        "format": {
+          "asciiOnly": true,
+        },
+        "mangle": true,
+      },
+    },
+    "name": "swc-minimizer-plugin",
+  },
+]
+`;
+
+exports[`plugin-minimize > should apply minimizer in production 1`] = `
+[
+  CssMinimizerPlugin {
+    "options": {
+      "exclude": undefined,
+      "include": undefined,
+      "minimizer": {
+        "implementation": [Function],
+        "options": {
+          "preset": [
+            "default",
+            {
+              "mergeLonghand": false,
+            },
+          ],
+        },
+      },
+      "parallel": true,
+      "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+      "warningsFilter": [Function],
+    },
+  },
+  TerserPlugin {
+    "options": {
+      "exclude": undefined,
+      "extractComments": true,
+      "include": undefined,
+      "minimizer": {
+        "implementation": [Function],
+        "options": {
+          "format": {
+            "ascii_only": true,
+          },
+          "mangle": {
+            "safari10": true,
+          },
+        },
+      },
+      "parallel": true,
+      "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+    },
+  },
+]
+`;

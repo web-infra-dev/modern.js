@@ -1,5 +1,13 @@
 # @modern-js/module-tools-docs
 
+## 2.48.3
+
+### Patch Changes
+
+- a71d379: docs(module): fix test example
+
+## 2.48.2
+
 ## 2.48.1
 
 ## 2.48.0

@@ -89,11 +89,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "rspackExperiments": {
                 "import": [
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -162,11 +157,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "rspackExperiments": {
                 "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
                   {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
@@ -692,11 +682,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "rspackExperiments": {
                     "import": [
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -741,22 +726,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -793,11 +766,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "rspackExperiments": {
                     "import": [
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
                       {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
@@ -848,6 +816,17 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
             ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
         "test": /\\\\\\.svg\\$/,
@@ -983,9 +962,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -1008,12 +985,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -1090,8 +1062,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
-  "plugin-network-performance",
-  "plugin-preload-or-prefetch",
+  "rsbuild:network-performance",
+  "rsbuild:preload-prefetch",
   "rsbuild:performance",
   "rsbuild:server",
   "rsbuild:module-federation",
@@ -1203,11 +1175,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "rspackExperiments": {
                 "import": [
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -1276,11 +1243,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "rspackExperiments": {
                 "import": [
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
                   {
                     "camelToDashComponentName": false,
                     "libraryDirectory": "es",
@@ -1806,11 +1768,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "rspackExperiments": {
                     "import": [
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -1855,22 +1812,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -1907,11 +1852,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "rspackExperiments": {
                     "import": [
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
                       {
                         "camelToDashComponentName": false,
                         "libraryDirectory": "es",
@@ -1962,6 +1902,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
             ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
         "test": /\\\\\\.svg\\$/,
@@ -2169,9 +2120,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -2209,12 +2158,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -2342,15 +2286,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
                     "camel2DashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -2472,15 +2407,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2922,15 +2848,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
                         "camel2DashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -3018,22 +2935,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -3065,15 +2970,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -3169,6 +3065,17 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
             ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
           },
         ],
         "test": /\\\\\\.svg\\$/,
@@ -3287,9 +3194,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -3317,12 +3222,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
@@ -3478,15 +3378,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
                     "camel2DashComponentName": false,
                     "libraryDirectory": "es",
                     "libraryName": "@arco-design/web-react",
@@ -3608,15 +3499,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "antd",
-                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4064,15 +3946,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
                         "camel2DashComponentName": false,
                         "libraryDirectory": "es",
                         "libraryName": "@arco-design/web-react",
@@ -4175,22 +4048,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           {
-            "generator": {
-              "filename": "static/svg/[name].[contenthash:8].svg",
-            },
-            "issuer": {
-              "not": [
-                /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
-              ],
-            },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 10000,
-              },
-            },
-            "type": "asset",
-          },
-          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
             "type": "javascript/auto",
             "use": [
               {
@@ -4222,15 +4083,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
-                    [
-                      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-                      {
-                        "libraryDirectory": "es",
-                        "libraryName": "antd",
-                        "style": true,
-                      },
-                      "antd",
-                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4342,6 +4194,17 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               },
             ],
           },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
         ],
         "test": /\\\\\\.svg\\$/,
       },
@@ -4351,26 +4214,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "optimization": {
     "minimize": true,
     "minimizer": [
-      TerserPlugin {
-        "options": {
-          "exclude": undefined,
-          "extractComments": true,
-          "include": undefined,
-          "minimizer": {
-            "implementation": [Function],
-            "options": {
-              "format": {
-                "ascii_only": true,
-              },
-              "mangle": {
-                "safari10": true,
-              },
-            },
-          },
-          "parallel": true,
-          "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
-        },
-      },
       CssMinimizerPlugin {
         "options": {
           "exclude": undefined,
@@ -4389,6 +4232,26 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "parallel": true,
           "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
           "warningsFilter": [Function],
+        },
+      },
+      TerserPlugin {
+        "options": {
+          "exclude": undefined,
+          "extractComments": true,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "format": {
+                "ascii_only": true,
+              },
+              "mangle": {
+                "safari10": true,
+              },
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.\\[cm\\]\\?js\\(\\\\\\?\\.\\*\\)\\?\\$/i,
         },
       },
     ],
@@ -4516,9 +4379,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     HtmlBasicPlugin {
       "name": "HtmlBasicPlugin",
       "options": {
-        "info": {
-          "index": {},
-        },
+        "index": {},
       },
     },
     DefinePlugin {
@@ -4558,12 +4419,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "options": {
         "issue": {
           "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
+            [Function],
           ],
         },
         "logger": {
