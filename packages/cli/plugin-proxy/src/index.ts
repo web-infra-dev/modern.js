@@ -22,7 +22,7 @@ export const proxyPlugin = (): CliPlugin => {
         if (!proxyServer) {
           proxyServer = new WhistleProxy({ port: 8899, rule });
           logger.warn(
-            '[deprecated] @modern-js/plugin-proxy will no longer be maintained. Please consider migrating to other proxy tools.',
+            '[Deprecated] @modern-js/plugin-proxy is no longer maintained. Please consider migrating to other proxy tools, such as whistle.',
           );
           await proxyServer.start();
         }
