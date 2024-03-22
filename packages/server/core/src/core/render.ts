@@ -4,8 +4,12 @@ import type { ServerManifest } from './server';
 
 export interface RenderOptions {
   logger: Logger;
+
   /** ssr render html templates */
   templates: Record<string, string>;
+
+  /** Communicating with custom server hook & modern ssr runtime. */
+  locals?: Record<string, any>;
   serverManifest: ServerManifest;
   reporter?: Reporter;
   nodeReq?: IncomingMessage;

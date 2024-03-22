@@ -147,6 +147,13 @@ type ServerVariables = {
   logger: Logger;
   reporter?: Reporter;
   serverManifest?: ServerManifest;
+  /**
+   * Communicating with custom server hook & modern ssrContext.
+   *
+   * Produce by custom server.
+   * Custom by ssrRuntime.
+   */
+  locals?: Record<string, any>;
   metrics?: Metrics;
   templates?: Record<string, string>;
 };

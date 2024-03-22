@@ -42,6 +42,9 @@ export interface SSRRenderOptions {
   metaName: string;
   logger: Logger;
   serverManifest: ServerManifest;
+
+  /** Produce by custom server hook */
+  locals?: Record<string, any>;
   reporter?: Reporter;
   nodeReq?: IncomingMessage;
   nonce?: string;
@@ -59,6 +62,7 @@ export async function ssrRender(
     logger,
     nodeReq,
     serverManifest,
+    locals,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -90,8 +94,10 @@ export async function ssrRender(
       status(code) {
         responseProxy.status = code;
       },
+      locals: locals || {},
     },
     redirection: {},
+
     template: html,
     loadableStats,
     routeManifest, // for streaming ssr

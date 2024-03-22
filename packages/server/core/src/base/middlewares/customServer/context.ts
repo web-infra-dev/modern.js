@@ -43,6 +43,7 @@ export async function createAfterRenderCtx(
 export function createCustomMiddlewaresCtx(
   c: HonoContext<ServerNodeEnv & ServerEnv>,
   logger: Logger,
+  locals: Record<string, any>,
   metrics?: Metrics,
 ): MiddlewareContext {
   const baseContext = createBaseHookContext(c, logger, metrics);
@@ -54,7 +55,7 @@ export function createCustomMiddlewaresCtx(
     reporter,
     response: {
       ...baseContext.response,
-      locals: {},
+      locals,
     },
     source: {
       req: c.env.node?.req,
