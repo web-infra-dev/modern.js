@@ -196,6 +196,13 @@ const setupHttpServer = async () => {
     // Workaround for https://github.com/honojs/node-server/blob/dd0e0cd160b0b8f18abbcb28c5f5c39b72105d98/src/serve-static.ts#L56
     serveStatic({ root: path.relative(process.cwd(), clientServeDir) }),
   );
+  app.get('/:filename{.+\\.hot-update\\.\\w+$}', async c => {
+    const filename = c.req.param('filename');
+    const target = `http://127.0.0.1:8780/__devtools/${filename}`;
+    const resp = await fetch(target);
+    const newResponse = new Response(resp.body, resp);
+    return newResponse;
+  });
   app.get('*', async c => {
     const filename = path.resolve(clientServeDir, 'html/client/index.html');
     const content = await fs.readFile(filename, 'utf-8');
