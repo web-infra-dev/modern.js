@@ -1,4 +1,5 @@
 import type { CliPlugin } from '@modern-js/core';
+import { logger } from '@modern-js/utils';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
 
@@ -20,6 +21,9 @@ export const proxyPlugin = (): CliPlugin => {
         const rule = createProxyRule(internalDirectory, dev.proxy);
         if (!proxyServer) {
           proxyServer = new WhistleProxy({ port: 8899, rule });
+          logger.warn(
+            '[Deprecated] @modern-js/plugin-proxy is no longer maintained. Please consider migrating to other proxy tools, such as whistle.',
+          );
           await proxyServer.start();
         }
       },
