@@ -47,7 +47,7 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
         const { ssrContext } = hydrateContext;
         const currentPathname = normalizePathname(window.location.pathname);
         const initialPathname = normalizePathname(ssrContext!.request.pathname);
-        if (initialPathname !== currentPathname) {
+        if (initialPathname !== currentPathname && context.router) {
           const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
           console.error(errorMsg);
           window.location.reload();
