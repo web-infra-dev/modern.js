@@ -89,8 +89,6 @@ class BaseHookRequest implements ModernRequest {
     // ignore
   }
 
-  // TODO: remove next major version
-
   get cookies(): Pick<CookieAPI, 'get'> {
     return {
       // FIXME: ModernRequest Type Error
