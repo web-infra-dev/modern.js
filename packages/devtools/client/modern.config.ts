@@ -29,11 +29,16 @@ export default defineConfig<'rspack'>({
       require.resolve('modern-normalize/modern-normalize.css'),
       require.resolve('@radix-ui/themes/styles.css'),
     ],
-    globalVars: {
-      'process.env.VERSION': packageMeta.version,
-      'process.env.PKG_VERSION': packageMeta.version,
-      'process.env.DEVTOOLS_MARK': nanoid(),
-      __REACT_DEVTOOLS_GLOBAL_HOOK__: { isDisabled: true },
+    globalVars() {
+      const vars: Record<string, any> = {
+        'process.env.VERSION': packageMeta.version,
+        'process.env.PKG_VERSION': packageMeta.version,
+        'process.env.DEVTOOLS_MARK': nanoid(),
+      };
+      if (process.env.NODE_ENV === 'production') {
+        vars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+      }
+      return vars;
     },
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
