@@ -82,14 +82,22 @@ export async function ssrRender(
   const query = parseQuery(request);
   const headers = parseHeaders(request);
 
+  if (nodeReq) {
+    for (const key in nodeReq.headers) {
+      if (!headers[key]) {
+        headers[key] = nodeReq.headers[key] as string;
+      }
+    }
+  }
+
   const ssrContext: SSRServerContext = {
     request: {
       baseUrl: routeInfo.urlPath,
       params: {} as Record<string, string>,
-      pathname: getPathname(request),
+      pathname: nodeReq?.url || getPathname(request),
       host,
       query,
-      url: request.url,
+      url: nodeReq ? getHrefFromNodeReq(nodeReq) : request.url,
       headers,
     },
     response: {
@@ -228,4 +236,32 @@ class IncomingMessgeProxy {
 
     this.url = getPathname(req);
   }
+}
+
+function getHrefFromNodeReq(nodeReq: IncomingMessage) {
+  function getProtocal() {
+    if ((nodeReq.socket as any).encrypted) {
+      return 'https';
+    }
+
+    const proto = nodeReq.headers['x-forwarded-proto'];
+    return proto ? (proto as string).split(/\s*,\s*/, 1)[0] : 'http';
+  }
+
+  function getHost() {
+    let host = nodeReq.headers['x-forwarded-host'];
+    if (!host) {
+      // eslint-disable-next-line prefer-destructuring
+      host = nodeReq.headers.host;
+    }
+
+    host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+    // the host = '',if we can't cat Host or X-Forwarded-Host header
+    // but the this.href would assign a invalid value:`http[s]://${pathname}`
+    // so we need assign host a no-empty value.
+    return host;
+  }
+
+  const href = `${getProtocal()}://${getHost()}${nodeReq.url || ''}`;
+  return href;
 }

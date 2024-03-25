@@ -1,3 +1,4 @@
+import type { IncomingMessage } from 'http';
 import { ServerRoute } from '@modern-js/types';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
@@ -55,6 +56,7 @@ export async function createRender({
       metaName || 'modern-js',
       routeInfo.isSSR,
       forceCSR,
+      nodeReq,
     );
 
     const renderOptions = {
@@ -131,8 +133,11 @@ function getRenderMode(
   framework: string,
   isSSR?: boolean,
   forceCSR?: boolean,
+  nodeReq?: IncomingMessage,
 ): 'ssr' | 'csr' | 'data' {
   const query = parseQuery(req);
+
+  const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
 
   if (isSSR) {
     if (query.__loader) {
@@ -141,7 +146,8 @@ function getRenderMode(
     if (
       forceCSR &&
       (query.csr ||
-        req.headers.get(`x-${cutNameByHyphen(framework)}-ssr-fallback`))
+        req.headers.get(fallbackHeader) ||
+        nodeReq?.headers[fallbackHeader])
     ) {
       return 'csr';
     }
