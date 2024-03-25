@@ -5,7 +5,13 @@ import {
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils/universal/constants';
 import * as isbot from 'isbot';
-import { getRuntimeEnv, parseHeaders, parseQuery, getHost } from '../../utils';
+import {
+  getRuntimeEnv,
+  parseHeaders,
+  parseQuery,
+  getHost,
+  getPathname,
+} from '../../utils';
 import {
   SSRServerContext,
   ServerManifest,
@@ -80,8 +86,7 @@ export async function ssrRender(
     request: {
       baseUrl: routeInfo.urlPath,
       params: {} as Record<string, string>,
-      // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
-      pathname: new URL(request.url).pathname,
+      pathname: getPathname(request),
       host,
       query,
       url: request.url,
@@ -221,7 +226,6 @@ class IncomingMessgeProxy {
 
     this.method = req.method;
 
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
-    this.url = new URL(req.url).pathname;
+    this.url = getPathname(req);
   }
 }
