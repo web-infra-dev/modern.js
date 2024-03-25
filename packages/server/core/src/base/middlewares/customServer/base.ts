@@ -27,17 +27,27 @@ class BaseHookRequest implements ModernRequest {
 
   private c: HonoContext;
 
-  #headers: Headers;
+  private headersData: Record<string, string | undefined> = {};
+
+  #headers: Record<string, string | undefined>;
 
   constructor(c: HonoContext) {
     this.c = c;
     this.req = c.req;
-    this.#headers = new Proxy(this.req.raw.headers, {
+
+    const rawHeaders = this.req.raw.headers;
+
+    rawHeaders.forEach((value, key) => {
+      this.headersData[key] = value;
+    });
+
+    this.#headers = new Proxy(this.headersData, {
       get(target, p) {
-        return target.get(p as string);
+        return target[p as string];
       },
       set(target, p, newValue) {
-        target.set(p as string, newValue);
+        target[p as string] = newValue;
+        rawHeaders.set(p as string, newValue);
         return true;
       },
     });
