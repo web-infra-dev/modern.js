@@ -1,6 +1,7 @@
 import http from 'http';
 import path from 'path';
 import assert from 'assert';
+import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
 import { fs, getPort, logger } from '@modern-js/utils';
@@ -191,19 +192,33 @@ const setupHttpServer = async () => {
   };
   app.get('/api/cookies', handleCookieApi);
   app.post('/api/cookies', handleCookieApi);
+
   app.use(
     '/static/*',
     // Workaround for https://github.com/honojs/node-server/blob/dd0e0cd160b0b8f18abbcb28c5f5c39b72105d98/src/serve-static.ts#L56
     serveStatic({ root: path.relative(process.cwd(), clientServeDir) }),
   );
-  app.get('/:filename{.+\\.hot-update\\.\\w+$}', async c => {
+
+  app.get(':filename{.+\\.hot-update\\.\\w+$}', async c => {
+    if (process.env.NODE_ENV !== 'development') {
+      return c.text('Not found', 404);
+    }
+
+    // Only proxy hot-update files in development mode.
     const filename = c.req.param('filename');
-    const target = `http://127.0.0.1:8780/__devtools/${filename}`;
-    const resp = await fetch(target);
-    c.header('Content-Type', resp.headers.get('Content-Type') ?? '');
-    c.status(resp.status as any);
-    return c.body(await resp.arrayBuffer());
+    const target = new URL(filename, 'http://127.0.0.1:8780');
+    const { body, headers, status } = await fetch(target.href);
+
+    // Remove content-encoding header to avoid decompressing twice.
+    // Copy headers to avoid modifying the original headers (which is immutable).
+    const newResp = c.newResponse(body, { headers, status });
+    if (newResp.headers.get('content-encoding') === 'gzip') {
+      newResp.headers.delete('content-encoding');
+    }
+
+    return newResp;
   });
+
   app.get('*', async c => {
     const filename = path.resolve(clientServeDir, 'html/client/index.html');
     const content = await fs.readFile(filename, 'utf-8');
@@ -214,7 +229,11 @@ const setupHttpServer = async () => {
     fetch: app.fetch,
     port,
     hostname: '127.0.0.1', // https://stackoverflow.com/questions/77142563/nodejs-18-breaks-dns-resolution-of-localhost-from-127-0-0-1-to-1
+    serverOptions: {
+      allowHTTP1: true,
+    },
   });
   assert(instance instanceof http.Server, 'instance should be http.Server');
+
   return { instance, port };
 };

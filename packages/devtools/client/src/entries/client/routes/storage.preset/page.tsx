@@ -66,7 +66,7 @@ const PresetCard: FC<{ preset: UnwindPreset }> = props => {
   return (
     <Box className={styles.presetCard}>
       <Text size="1" weight="bold" as="p" mb="2">
-        {preset.name}asdasdasdsa{' '}
+        {preset.name}{' '}
         {isSaved || (
           <Text size="1" color="gray">
             *
