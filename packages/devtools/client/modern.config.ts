@@ -5,6 +5,16 @@ import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
+const globalVars: Record<string, any> = {
+  'process.env.VERSION': packageMeta.version,
+  'process.env.PKG_VERSION': packageMeta.version,
+  'process.env.DEVTOOLS_MARK': nanoid(),
+};
+
+if (process.env.NODE_ENV === 'production') {
+  globalVars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+}
+
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
@@ -29,17 +39,7 @@ export default defineConfig<'rspack'>({
       require.resolve('modern-normalize/modern-normalize.css'),
       require.resolve('@radix-ui/themes/styles.css'),
     ],
-    globalVars() {
-      const vars: Record<string, any> = {
-        'process.env.VERSION': packageMeta.version,
-        'process.env.PKG_VERSION': packageMeta.version,
-        'process.env.DEVTOOLS_MARK': nanoid(),
-      };
-      if (process.env.NODE_ENV === 'production') {
-        vars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
-      }
-      return vars;
-    },
+    globalVars,
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
       react: path.resolve('./node_modules/react-exp'),
