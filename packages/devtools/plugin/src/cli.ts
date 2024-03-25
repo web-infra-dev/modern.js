@@ -200,8 +200,9 @@ const setupHttpServer = async () => {
     const filename = c.req.param('filename');
     const target = `http://127.0.0.1:8780/__devtools/${filename}`;
     const resp = await fetch(target);
-    const newResponse = new Response(resp.body, resp);
-    return newResponse;
+    c.header('Content-Type', resp.headers.get('Content-Type') ?? '');
+    c.status(resp.status as any);
+    return c.body(await resp.arrayBuffer());
   });
   app.get('*', async c => {
     const filename = path.resolve(clientServeDir, 'html/client/index.html');
