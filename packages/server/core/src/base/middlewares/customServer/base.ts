@@ -27,9 +27,20 @@ class BaseHookRequest implements ModernRequest {
 
   private c: HonoContext;
 
+  #headers: Headers;
+
   constructor(c: HonoContext) {
     this.c = c;
     this.req = c.req;
+    this.#headers = new Proxy(this.req.raw.headers, {
+      get(target, p) {
+        return target.get(p as string);
+      },
+      set(target, p, newValue) {
+        target.set(p as string, newValue);
+        return true;
+      },
+    });
   }
 
   get url(): string {
@@ -37,21 +48,48 @@ class BaseHookRequest implements ModernRequest {
     return this.req.path;
   }
 
+  // TODO: remove next major version
+  set url(_u: string) {
+    // ignore
+  }
+
   get host(): string {
     return getHost(this.req.raw);
+  }
+
+  // TODO: remove next major version
+  set host(_h: string) {
+    // ignore
   }
 
   get pathname(): string {
     return this.req.path;
   }
 
+  // TODO: remove next major version
+  set pathname(_p: string) {
+    // ignore
+  }
+
   get query(): Record<string, any> {
     return this.req.query();
   }
 
-  get headers(): Record<string, any> {
-    return this.req.header();
+  // TODO: remove next major version
+  set query(_q: Record<string, any>) {
+    // ignore
   }
+
+  get headers(): Record<string, any> {
+    return this.#headers;
+  }
+
+  // TODO: remove next major version
+  set headers(_h: Record<string, any>) {
+    // ignore
+  }
+
+  // TODO: remove next major version
 
   get cookies(): Pick<CookieAPI, 'get'> {
     return {
@@ -65,6 +103,11 @@ class BaseHookRequest implements ModernRequest {
   get cookie(): string {
     // FIXME: ModernRequest Type Error
     return this.req.header('cookie') as string;
+  }
+
+  // TODO: remove next major version
+  set cookie(_c: string) {
+    // ignore
   }
 }
 
