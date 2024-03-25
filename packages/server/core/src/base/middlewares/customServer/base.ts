@@ -33,7 +33,8 @@ class BaseHookRequest implements ModernRequest {
   }
 
   get url(): string {
-    return this.req.url;
+    // compat old middlwares,
+    return this.req.path;
   }
 
   get host(): string {
