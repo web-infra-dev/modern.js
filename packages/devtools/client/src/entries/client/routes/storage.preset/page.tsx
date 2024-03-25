@@ -1,3 +1,4 @@
+import { useLoaderData } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import _ from 'lodash';
 import { HiPlus } from 'react-icons/hi2';
@@ -5,15 +6,7 @@ import { StoragePresetContext } from '@modern-js/devtools-kit/runtime';
 import { FC } from 'react';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import styles from './page.module.scss';
-
-interface Data {
-  presets: StoragePresetContext[];
-  storage: {
-    cookie: { client: Record<string, string>; server: Record<string, string> };
-    localStorage: Record<string, string>;
-    sessionStorage: Record<string, string>;
-  };
-}
+import type { Data } from './page.data';
 
 const unwindRecord = <T extends string | void>(
   record: Record<string, string>,
@@ -66,7 +59,7 @@ const PresetCard: FC<{ preset: UnwindPreset }> = props => {
   return (
     <Box className={styles.presetCard}>
       <Text size="1" weight="bold" as="p" mb="2">
-        {preset.name}{' '}
+        {preset.name}aa{' '}
         {isSaved || (
           <Text size="1" color="gray">
             *
@@ -103,53 +96,7 @@ const CreatePresetButton: FC<FlexProps> = props => {
 };
 
 const Page: FC = () => {
-  const data: Data = {
-    presets: [
-      {
-        name: '用户asdasd',
-        filename: '',
-        cookie: {
-          lang: 'zh',
-          'x-tt-jwt': 'eC10dC1qd3Q=',
-        },
-        localStorage: {
-          __cache_first_1161: '1',
-        },
-      },
-      {
-        name: '商家运营',
-        filename: '',
-        cookie: {
-          'x-tt-jwt': '5ZWG5a626L+Q6JCl',
-        },
-      },
-      {
-        name: '商家管理员',
-        filename: '',
-        localStorage: {
-          __cache_first_1161: '1',
-        },
-        cookie: {
-          'x-tt-jwt': '5ZWG5a62566h55CG5ZGY',
-        },
-      },
-    ],
-    storage: {
-      cookie: {
-        client: {
-          lang: 'zh',
-        },
-        server: {
-          'x-tt-jwt': 'eC10dC1qd3Q=',
-        },
-      },
-      localStorage: {
-        __cache_first_1161: '1',
-      },
-      sessionStorage: {},
-    },
-  };
-
+  const data = useLoaderData() as Data;
   const freq = {
     cookie: _(data.presets)
       .flatMap(preset => _.keys(preset.cookie))
