@@ -92,7 +92,7 @@ const Navigator: React.FC = () => {
   );
 };
 
-export default function Layout() {
+const Layout = () => {
   const display = process.env.NODE_ENV === 'development' ? undefined : 'none';
   return (
     <Theme
@@ -113,4 +113,6 @@ export default function Layout() {
       <Puller />
     </Theme>
   );
-}
+};
+
+export default Layout;

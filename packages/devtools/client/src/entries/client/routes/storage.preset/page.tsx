@@ -95,7 +95,7 @@ const CreatePresetButton: FC<FlexProps> = props => {
   );
 };
 
-export default () => {
+const Page: FC = () => {
   const data = useLoaderData() as Data;
   const freq = {
     cookie: _(data.presets)
@@ -135,3 +135,5 @@ export default () => {
     </Box>
   );
 };
+
+export default Page;
