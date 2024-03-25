@@ -2,7 +2,7 @@ import { useUnmount } from 'react-use';
 import { $mountPoint } from './state';
 import { Loading } from '@/components/Loading';
 
-const Foo = () => {
+const GlobalLoading = () => {
   useUnmount(async () => {
     const mountPoint = await $mountPoint;
     mountPoint.remote.onFinishRender();
@@ -16,4 +16,4 @@ const Foo = () => {
   );
 };
 
-export default Foo;
+export default GlobalLoading;
