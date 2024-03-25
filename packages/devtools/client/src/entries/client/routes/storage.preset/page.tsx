@@ -102,7 +102,7 @@ const CreatePresetButton: FC<FlexProps> = props => {
   );
 };
 
-export default () => {
+const Page: FC = () => {
   const data: Data = {
     presets: [
       {
@@ -188,3 +188,5 @@ export default () => {
     </Box>
   );
 };
+
+export default Page;
