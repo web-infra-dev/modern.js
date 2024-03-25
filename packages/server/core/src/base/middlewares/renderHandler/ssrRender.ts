@@ -94,7 +94,9 @@ export async function ssrRender(
     request: {
       baseUrl: routeInfo.urlPath,
       params: {} as Record<string, string>,
-      pathname: nodeReq?.url || getPathname(request),
+      pathname: nodeReq
+        ? getPathnameFromNodeReq(nodeReq)
+        : getPathname(request),
       host,
       query,
       url: nodeReq ? getHrefFromNodeReq(nodeReq) : request.url,
@@ -264,4 +266,19 @@ function getHrefFromNodeReq(nodeReq: IncomingMessage) {
 
   const href = `${getProtocal()}://${getHost()}${nodeReq.url || ''}`;
   return href;
+}
+
+export function getPathnameFromNodeReq(nodeReq: IncomingMessage) {
+  const { url } = nodeReq;
+  if (!url) {
+    return '/';
+  }
+  const match = url.match(/\/[^?]*/);
+  let pathname = match ? match[0] : '/';
+
+  if (pathname !== '/' && pathname.endsWith('/')) {
+    pathname = pathname.slice(0, -1);
+  }
+
+  return pathname;
 }

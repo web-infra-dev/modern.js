@@ -7,6 +7,7 @@ import {
   injectLogger,
   injectReporter,
 } from '../../../src/base';
+import { getPathnameFromNodeReq } from '../../../src/base/middlewares/renderHandler/ssrRender';
 import {
   injectTemplates,
   injectServerManifest,
@@ -145,5 +146,39 @@ describe('should render html correctly', () => {
     const response2 = await server.request('/user?__loader=layout', {}, {});
     const text2 = await response2.text();
     expect(text2).toBe('handle user');
+  });
+});
+
+describe('should get attributes from node req correctly', () => {
+  it('should get pathname from node req correctly', () => {
+    expect(
+      getPathnameFromNodeReq({
+        url: '/main/',
+      } as any),
+    ).toBe('/main');
+
+    expect(
+      getPathnameFromNodeReq({
+        url: '/',
+      } as any),
+    ).toBe('/');
+
+    expect(
+      getPathnameFromNodeReq({
+        url: '/main?name=123',
+      } as any),
+    ).toBe('/main');
+
+    expect(
+      getPathnameFromNodeReq({
+        url: '/main/a/b/c/?name=123',
+      } as any),
+    ).toBe('/main/a/b/c');
+
+    expect(
+      getPathnameFromNodeReq({
+        url: '/main/1?name=123',
+      } as any),
+    ).toBe('/main/1');
   });
 });
