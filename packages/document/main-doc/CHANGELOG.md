@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.48.4
+
+### Patch Changes
+
+- 8b4ea42: add deprecated warning for @modern-js/plugin-proxy
+  - @modern-js/sandpack-react@2.48.4
+  - @modern-js/builder-doc@2.48.4
+
 ## 2.48.3
 
 ### Patch Changes
