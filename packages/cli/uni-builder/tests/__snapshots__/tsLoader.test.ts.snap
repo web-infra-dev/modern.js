@@ -62,6 +62,9 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
+                "include": [
+                  "@babel/plugin-transform-class-properties",
+                ],
                 "modules": false,
                 "targets": [
                   "> 0.01%",
@@ -225,7 +228,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.23.2",
+                "version": "7.24.1",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -327,7 +330,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.23.2",
+                "version": "7.24.1",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
