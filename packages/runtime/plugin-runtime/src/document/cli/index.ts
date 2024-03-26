@@ -224,17 +224,19 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           htmlWebpackPlugin.tags.headTags
             .filter(
               (item: any) =>
-                item.tagName !== 'script' && item.tagName !== 'link',
+                item.tagName !== 'script' &&
+                item.tagName !== 'link' &&
+                item.tagName !== 'title',
             )
             .join(''),
         ].join('');
 
-        const titles = [
-          templateParameters.title,
+        const titles =
           htmlWebpackPlugin.tags.headTags
             .filter((item: any) => item.tagName === 'title')
-            .join(''),
-        ].join('');
+            .join('')
+            .replace('<title>', '')
+            .replace('</title>', '') || templateParameters.title;
 
         // if the Document.tsx has a functional script, replace to convert it
         if (
