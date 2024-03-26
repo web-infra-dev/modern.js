@@ -9,6 +9,16 @@ import { Link } from './Link';
 
 export type BreadcrumbProps = FlexProps & React.RefAttributes<HTMLDivElement>;
 
+export interface BreadcrumbOptions {
+  title: ReactNode;
+  pathname?: string;
+}
+
+export type BreadcrumbUserOptions =
+  | BreadcrumbOptions
+  | BreadcrumbOptions[]
+  | ((arg: { location: Location }) => BreadcrumbOptions | BreadcrumbOptions[]);
+
 export interface BreadcrumbItem {
   id: string;
   title: ReactNode;
@@ -23,21 +33,29 @@ export interface BreadcrumbRouteMatch {
 }
 
 const normalizeBreadcrumb = (match: BreadcrumbRouteMatch) => {
-  const { location } = match;
-  let breadcrumb = _.get(match, 'handle.breadcrumb') as unknown;
-  if (_.isFunction(breadcrumb)) {
-    breadcrumb = breadcrumb({ location });
+  const { location, handle } = match;
+  if (!_.isObject(handle) && _.isNil(handle)) return [];
+  const { breadcrumb: opts } = handle as any;
+  const raw: object[] = [];
+  if (_.isFunction(opts)) {
+    raw.push(..._.castArray(opts({ location })));
+  } else {
+    raw.push(..._.castArray(opts));
   }
-  if (!_.isObject(breadcrumb) || _.isNull(breadcrumb)) return null;
-  if (!('title' in breadcrumb)) return null;
-  if (!breadcrumb.title) return null;
-  const ret: BreadcrumbItem = {
-    id: match.id,
-    title: breadcrumb.title as any,
-    pathname: match.pathname,
-  };
-  if ('pathname' in breadcrumb && _.isString(breadcrumb.pathname)) {
-    ret.pathname = breadcrumb.pathname;
+
+  const ret: BreadcrumbItem[] = [];
+  for (const item of raw) {
+    if (!_.isObject(item) || _.isNull(item)) continue;
+    if (!('title' in item)) continue;
+    const breadcrumb: BreadcrumbItem = {
+      id: match.id,
+      title: item.title as any,
+      pathname: match.pathname,
+    };
+    if ('pathname' in item && _.isString(item.pathname)) {
+      breadcrumb.pathname = item.pathname;
+    }
+    ret.push(breadcrumb);
   }
   return ret;
 };
@@ -49,21 +67,24 @@ export const Breadcrumbs: React.FC<BreadcrumbProps> = props => {
   const location = useLocation();
   const items: BreadcrumbItem[] = [];
   for (const match of matches) {
-    const item = normalizeBreadcrumb({
-      ...match,
-      location,
-    });
-    item && items.push(item);
+    items.push(
+      ...normalizeBreadcrumb({
+        ...match,
+        location,
+      }),
+    );
   }
   if (location.state && 'breadcrumb' in location.state) {
-    const item = normalizeBreadcrumb({
-      handle: location.state.breadcrumb,
-      pathname: location.pathname,
-      id: `external/${location.pathname}`,
-      location,
-    });
-    item && items.push(item);
+    items.push(
+      ...normalizeBreadcrumb({
+        handle: location.state.breadcrumb,
+        pathname: location.pathname,
+        id: `external/${location.pathname}`,
+        location,
+      }),
+    );
   }
+  console.log('items: ', items);
 
   for (const [i, item] of Object.entries(items)) {
     const keyParts = [item.id, item.pathname, i];
