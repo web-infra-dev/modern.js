@@ -1,11 +1,10 @@
 import {
   AfterMatchContext,
   AfterRenderContext,
-  Metrics,
   MiddlewareContext,
-  Logger,
   AfterStreamingRenderContext,
   ServerRoute,
+  HookContext,
 } from '@modern-js/types';
 import { HonoContext, ServerEnv } from '../../../core/server';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
@@ -13,40 +12,38 @@ import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
 import { createBaseHookContext } from './base';
 
-export function createAfterMatchCtx(
-  c: HonoContext,
+export function getAfterMatchCtx(
   entryName: string,
-  logger: Logger,
-  metrics?: Metrics,
+  baseHookCtx: HookContext,
 ): AfterMatchContext {
-  const baseContext = createBaseHookContext(c, logger, metrics);
+  const afterMatchCtx = baseHookCtx as unknown as AfterMatchContext;
 
-  return {
-    ...baseContext,
-    router: new RouterAPI(entryName),
-  };
+  afterMatchCtx.router = new RouterAPI(entryName);
+
+  return afterMatchCtx;
 }
 
-export async function createAfterRenderCtx(
+export async function getAfterRenderCtx(
   c: HonoContext,
-  logger: Logger,
-  metrics?: Metrics,
+  baseHookCtx: HookContext,
+  route: Partial<ServerRoute>,
 ): Promise<AfterRenderContext> {
-  const baseContext = createBaseHookContext(c, logger, metrics);
+  const afterRenderCtx = baseHookCtx as unknown as AfterRenderContext;
+
   const resBody = await c.res.text();
-  return {
-    ...baseContext,
-    template: new TemplateApi(resBody),
-  };
+  afterRenderCtx.template = new TemplateApi(resBody);
+  afterRenderCtx.route = route;
+
+  return afterRenderCtx;
 }
 
 export function createCustomMiddlewaresCtx(
   c: HonoContext<ServerNodeEnv & ServerEnv>,
-  logger: Logger,
   locals: Record<string, any>,
-  metrics?: Metrics,
 ): MiddlewareContext {
-  const baseContext = createBaseHookContext(c, logger, metrics);
+  const baseContext = createBaseHookContext(
+    c as unknown as HonoContext<ServerEnv>,
+  );
 
   const reporter = c.get('reporter');
 
@@ -65,17 +62,15 @@ export function createCustomMiddlewaresCtx(
 }
 
 export function createAfterStreamingRenderContext(
-  c: HonoContext,
-  logger: Logger,
+  baseHookCtx: HookContext,
   route: Partial<ServerRoute>,
-  metrics?: Metrics,
 ): (chunk: string) => AfterStreamingRenderContext {
-  const baseContext = createBaseHookContext(c, logger, metrics);
+  const streamingRenderCtx =
+    baseHookCtx as unknown as AfterStreamingRenderContext;
+
+  streamingRenderCtx.route = route;
   return (chunk: string) => {
-    return {
-      ...baseContext,
-      route,
-      chunk,
-    };
+    streamingRenderCtx.chunk = chunk;
+    return streamingRenderCtx;
   };
 }

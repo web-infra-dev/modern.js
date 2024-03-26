@@ -1,19 +1,17 @@
 import {
   CookieAPI,
   HookContext,
-  Metrics,
   ModernRequest,
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import { HonoContext, HonoRequest, Logger } from '../../../core/server';
+import type { HonoContext, HonoRequest, ServerEnv } from '../../../core/server';
 import { getHost } from '../../utils';
 
-export function createBaseHookContext(
-  c: HonoContext,
-  logger: Logger,
-  metrics?: Metrics,
-): HookContext {
+export function createBaseHookContext(c: HonoContext<ServerEnv>): HookContext {
+  const logger = c.get('logger');
+  const metrics = c.get('metrics');
+
   return {
     request: new BaseHookRequest(c),
     response: new BaseHookResponse(c),
