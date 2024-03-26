@@ -62,7 +62,7 @@
     "axios": "^1.6.0"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.5.2",
+    "@rsbuild/shared": "0.5.3",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -76,7 +76,7 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "4.1.1",
     "typescript": "^5",
-    "webpack": "^5.89.0",
+    "webpack": "^5.91.0",
     "websocket": "^1"
   },
   "peerDependencies": {
