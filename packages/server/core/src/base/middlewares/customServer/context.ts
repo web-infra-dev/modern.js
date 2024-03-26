@@ -65,11 +65,12 @@ export function createAfterStreamingRenderContext(
   baseHookCtx: HookContext,
   route: Partial<ServerRoute>,
 ): (chunk: string) => AfterStreamingRenderContext {
+  const streamingRenderCtx =
+    baseHookCtx as unknown as AfterStreamingRenderContext;
+
+  streamingRenderCtx.route = route;
   return (chunk: string) => {
-    return {
-      ...baseHookCtx,
-      route,
-      chunk,
-    };
+    streamingRenderCtx.chunk = chunk;
+    return streamingRenderCtx;
   };
 }
