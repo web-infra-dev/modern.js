@@ -29,43 +29,39 @@ const Page: React.FC = () => {
   };
 
   return (
-    <MatchUrlContext.Provider value={matchContext}>
+    <>
       <Flex
-        position="relative"
+        className={styles.list}
         direction="column"
         gap="2"
         align="stretch"
         justify="between"
-        pt="8"
+        mx="auto"
       >
-        {serverRoutes.map(route => (
-          <ServerRoute key={route.entryPath} route={route} />
-        ))}
-        <Box mb="2" className={styles.input}>
-          <Box
-            style={{
-              maxWidth: '40rem',
-              margin: '0 auto',
-              padding: '0 var(--space-4)',
-            }}
-          >
-            <TextField.Root>
-              <TextField.Slot>
-                <HiOutlineArrowsRightLeft />
-              </TextField.Slot>
-              <TextField.Input
-                placeholder="/foo?bar#baz"
-                onChange={e => handleUrlInput(e.target.value)}
-                type="url"
-                autoComplete="false"
-                autoCapitalize="false"
-                autoCorrect="false"
-              />
-            </TextField.Root>
-          </Box>
-        </Box>
+        <MatchUrlContext.Provider value={matchContext}>
+          {serverRoutes.map(route => (
+            <ServerRoute key={route.entryPath} route={route} />
+          ))}
+        </MatchUrlContext.Provider>
       </Flex>
-    </MatchUrlContext.Provider>
+      <Box className={styles.input}>
+        <Box mx="auto" style={{ maxWidth: '40rem' }}>
+          <TextField.Root>
+            <TextField.Slot>
+              <HiOutlineArrowsRightLeft />
+            </TextField.Slot>
+            <TextField.Input
+              placeholder="/foo?bar#baz"
+              onChange={e => handleUrlInput(e.target.value)}
+              type="url"
+              autoComplete="false"
+              autoCapitalize="false"
+              autoCorrect="false"
+            />
+          </TextField.Root>
+        </Box>
+      </Box>
+    </>
   );
 };
 

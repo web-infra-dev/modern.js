@@ -24,6 +24,31 @@
       "cookie": {
         "x-tt-jwt": "5ZWG5a62566h55CG5ZGY"
       }
+    },
+    {
+      "name": "用户assdfs",
+      "cookie": {
+        "lang": "zh",
+        "x-tt-jwt": "eC10dC1q3e109d3Q="
+      },
+      "localStorage": {
+        "__cache_first_1161": "1"
+      }
+    },
+    {
+      "name": "商家运营B",
+      "cookie": {
+        "x-tt-jwt": "5ZWG5F13626L+Q6JCl"
+      }
+    },
+    {
+      "name": "商家管理员2",
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a625asd66h55CG5ZGY"
+      }
     }
   ]
 }

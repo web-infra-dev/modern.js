@@ -2,7 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  padding: var(--space-2);
+  width: 100%;
+  height: 100%;
   @media screen and (min-width: 520px) {
     flex-direction: row;
   }
@@ -10,7 +11,12 @@
 
 .side-panel {
   width: 15rem;
-  overflow: hidden;
+  height: 100%;
+}
+
+.preset-list {
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .overflow-badge {
@@ -22,9 +28,9 @@
   line-height: 0;
 }
 
-.preset-card,
-.btn-create-preset {
+.smallCard {
   --bg: var(--gray-1);
+  user-select: none;
   border: solid 1px var(--gray-4);
   border-radius: var(--radius-4);
   padding: var(--space-3);
@@ -57,4 +63,8 @@
 
 .btn-create-preset {
   color: var(--gray-7);
+}
+
+.divider {
+  border-top: solid 1px var(--gray-4);
 }
