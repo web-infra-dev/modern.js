@@ -84,7 +84,6 @@ export const Breadcrumbs: React.FC<BreadcrumbProps> = props => {
       }),
     );
   }
-  console.log('items: ', items);
 
   for (const [i, item] of Object.entries(items)) {
     const keyParts = [item.id, item.pathname, i];

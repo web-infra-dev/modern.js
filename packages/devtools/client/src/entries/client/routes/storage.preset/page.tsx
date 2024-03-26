@@ -1,10 +1,11 @@
 import { useLoaderData } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import _ from 'lodash';
-import { HiPlus } from 'react-icons/hi2';
+import { HiPlus, HiMiniFlag } from 'react-icons/hi2';
 import { StoragePresetContext } from '@modern-js/devtools-kit/runtime';
 import { FC } from 'react';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
+import clsx from 'clsx';
 import styles from './page.module.scss';
 import type { Data } from './page.data';
 
@@ -52,12 +53,16 @@ interface UnwindPreset {
   items: UnwindStorageRecord[];
 }
 
+const CardButton: FC<FlexProps> = ({ className, ...props }) => {
+  return <Flex className={clsx(styles.smallCard, className)} {...props} />;
+};
+
 const PresetCard: FC<{ preset: UnwindPreset }> = props => {
   const { preset } = props;
   const isSaved = !preset.filename.match(/[/\\]node_modules[/\\]/);
 
   return (
-    <Box className={styles.presetCard}>
+    <CardButton direction="column">
       <Text size="1" weight="bold" as="p" mb="2">
         {preset.name}{' '}
         {isSaved || (
@@ -78,20 +83,7 @@ const PresetCard: FC<{ preset: UnwindPreset }> = props => {
           ))}
         </Flex>
       </Flex>
-    </Box>
-  );
-};
-
-const CreatePresetButton: FC<FlexProps> = props => {
-  return (
-    <Flex
-      className={styles.btnCreatePreset}
-      justify="center"
-      align="center"
-      {...props}
-    >
-      <HiPlus />
-    </Flex>
+    </CardButton>
   );
 };
 
@@ -122,14 +114,31 @@ const Page: FC = () => {
 
   return (
     <Box className={styles.container}>
-      <Flex direction="column" gap="2" className={styles.sidePanel}>
-        {presets.map(preset => (
-          <PresetCard
-            key={`${preset.name}@${preset.filename}`}
-            preset={preset}
-          />
-        ))}
-        <CreatePresetButton />
+      <Flex direction="column" p="2" pb="0" className={styles.sidePanel}>
+        <CardButton align="center" gap="1">
+          <Text size="1" weight="bold">
+            Current Storage
+          </Text>
+          <Text size="1" color="red" asChild>
+            <HiMiniFlag />
+          </Text>
+        </CardButton>
+        <Box mt="2" className={styles.divider} />
+        <Flex direction="column" py="2" gap="2" className={styles.presetList}>
+          {presets.map(preset => (
+            <PresetCard
+              key={`${preset.name}@${preset.filename}`}
+              preset={preset}
+            />
+          ))}
+          <CardButton
+            justify="center"
+            align="center"
+            className={styles.btnCreatePreset}
+          >
+            <HiPlus />
+          </CardButton>
+        </Flex>
       </Flex>
       <Box grow={'1'} />
     </Box>
