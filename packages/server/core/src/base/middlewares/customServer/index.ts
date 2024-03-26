@@ -7,11 +7,12 @@ import { transformResponse } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import {
-  createAfterMatchCtx,
-  createAfterRenderCtx,
+  getAfterMatchCtx,
+  getAfterRenderCtx,
   createCustomMiddlewaresCtx,
   createAfterStreamingRenderContext,
 } from './context';
+import { createBaseHookContext } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -59,10 +60,10 @@ export class CustomServer {
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
-      const logger = c.get('logger');
       const reporter = c.get('reporter');
-      const metrics = c.get('metrics');
-      const afterMatchCtx = createAfterMatchCtx(c, entryName, logger, metrics);
+
+      const baseHookCtx = createBaseHookContext(c);
+      const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
 
       const getCost = time();
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
@@ -108,10 +109,8 @@ export class CustomServer {
       if (routeInfo.isStream) {
         // run afterStreamingRender hook
         const afterStreamingRenderContext = createAfterStreamingRenderContext(
-          c,
-          logger,
+          baseHookCtx,
           routeInfo,
-          metrics,
         );
 
         c.res = transformResponse(c.res, (chunk: string) => {
@@ -122,7 +121,11 @@ export class CustomServer {
         });
       } else {
         // run afterRenderHook hook
-        const afterRenderCtx = await createAfterRenderCtx(c, logger, metrics);
+        const afterRenderCtx = await getAfterRenderCtx(
+          c,
+          baseHookCtx,
+          routeInfo,
+        );
 
         const getCost = time();
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
@@ -152,18 +155,11 @@ export class CustomServer {
         return next();
       }
 
-      const logger = c.get('logger');
       const reporter = c.get('reporter');
-      const metrics = c.get('metrics');
 
       const locals: Record<string, any> = {};
 
-      const customMiddlewareCtx = createCustomMiddlewaresCtx(
-        c,
-        logger,
-        locals,
-        metrics,
-      );
+      const customMiddlewareCtx = createCustomMiddlewaresCtx(c, locals);
 
       const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
