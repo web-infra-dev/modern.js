@@ -108,7 +108,7 @@ export async function bindRenderHandler(
       const customServerMiddleware = customServer.getServerMiddleware();
       server.use(urlPath, customServerMiddleware);
 
-      render && server.use(urlPath, createRenderHandler(render));
+      render && server.all(urlPath, createRenderHandler(render));
     }
   }
 }
