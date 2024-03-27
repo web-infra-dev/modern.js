@@ -1,5 +1,4 @@
 import path from 'path';
-// import { existsSync, lstatSync } from 'fs';
 import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
 import { ServerRoute } from '@modern-js/types';
