@@ -47,6 +47,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/yaml-front-matter": "^4.1.0",
+    "@rspress/shared": "1.16.0",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
     "prettier": "^2.8.1",
