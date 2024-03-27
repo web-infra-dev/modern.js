@@ -4,7 +4,7 @@
 Create aliases to import or require certain modules, same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack and Rspack.
 
 :::tip
-For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in the `tsconfig.json` file. The Builder will automatically recognize it, so there is no need to configure the `source.alias` option separately. For more details, please refer to [Path Aliases](https://modernjs.dev/guides/basic-features/alias.html).
+For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in the `tsconfig.json` file. The Builder will automatically recognize it, so there is no need to configure the `source.alias` option separately. For more details, please refer to [Path Aliases](https://modernjs.dev/en/guides/basic-features/alias.html).
 :::
 
 ### Object Type
