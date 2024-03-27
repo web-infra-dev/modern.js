@@ -1,11 +1,18 @@
 import { useLoaderData } from '@modern-js/runtime/router';
-import { Badge, Box, Flex, Text } from '@radix-ui/themes';
+import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
 import _ from 'lodash';
-import { HiPlus, HiMiniFlag } from 'react-icons/hi2';
+import {
+  HiPlus,
+  HiMiniFlag,
+  HiMiniClipboard,
+  HiMiniFolderOpen,
+  HiMiniFire,
+} from 'react-icons/hi2';
 import { StoragePresetContext } from '@modern-js/devtools-kit/runtime';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import clsx from 'clsx';
+import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import styles from './page.module.scss';
 import type { Data } from './page.data';
 
@@ -53,16 +60,39 @@ interface UnwindPreset {
   items: UnwindStorageRecord[];
 }
 
-const CardButton: FC<FlexProps> = ({ className, ...props }) => {
-  return <Flex className={clsx(styles.smallCard, className)} {...props} />;
+interface CardButtonProps extends FlexProps {
+  selected?: boolean;
+}
+
+const CardButton: FC<CardButtonProps> = props => {
+  const { className, selected = false, ...rest } = props;
+  return (
+    <Flex
+      data-selected={selected}
+      p="3"
+      className={clsx(styles.smallCard, className)}
+      {...rest}
+    />
+  );
 };
 
-const PresetCard: FC<{ preset: UnwindPreset }> = props => {
-  const { preset } = props;
+type CardProps = FlexProps;
+
+const Card = (props: CardProps) => {
+  const { className, ...rest } = props;
+  return <Flex p="3" className={clsx(styles.card, className)} {...rest} />;
+};
+
+interface PresetCardProps extends CardButtonProps {
+  preset: UnwindPreset;
+}
+
+const PresetCard: FC<PresetCardProps> = props => {
+  const { preset, ...rest } = props;
   const isSaved = !preset.filename.match(/[/\\]node_modules[/\\]/);
 
   return (
-    <CardButton direction="column">
+    <CardButton direction="column" {...rest}>
       <Text size="1" weight="bold" as="p" mb="2">
         {preset.name}{' '}
         {isSaved || (
@@ -111,11 +141,24 @@ const Page: FC = () => {
       .reverse()
       .value(),
   }));
+  const [selected, setSelected] = useState<UnwindPreset | null>();
+  const matchSelected = (preset: UnwindPreset) =>
+    Boolean(
+      selected &&
+        preset.filename === selected.filename &&
+        preset.name === selected.name,
+    );
 
   return (
-    <Box className={styles.container}>
-      <Flex direction="column" p="2" pb="0" className={styles.sidePanel}>
-        <CardButton align="center" gap="1">
+    <Flex width="100%" className={styles.container}>
+      <Flex direction="column" className={styles.sidePanel}>
+        <CardButton
+          m="2"
+          align="center"
+          gap="1"
+          selected={!selected}
+          onClick={() => setSelected(null)}
+        >
           <Text size="1" weight="bold">
             Current Storage
           </Text>
@@ -123,11 +166,13 @@ const Page: FC = () => {
             <HiMiniFlag />
           </Text>
         </CardButton>
-        <Box mt="2" className={styles.divider} />
-        <Flex direction="column" py="2" gap="2" className={styles.presetList}>
+        <Box mx="2" className={styles.divider} />
+        <Flex p="2" direction="column" gap="2" className={styles.presetList}>
           {presets.map(preset => (
             <PresetCard
               key={`${preset.name}@${preset.filename}`}
+              selected={matchSelected(preset)}
+              onClick={() => setSelected(preset)}
               preset={preset}
             />
           ))}
@@ -140,9 +185,111 @@ const Page: FC = () => {
           </CardButton>
         </Flex>
       </Flex>
-      <Box grow={'1'} />
-    </Box>
+      <Flex width="0" grow="1" shrink="1" direction="column" pt="2" gap="2">
+        {selected && (
+          <Flex
+            grow="0"
+            px="2"
+            gap="2"
+            justify="between"
+            align="center"
+            width="100%"
+          >
+            <Box shrink="0" className={styles.textEllipsis}>
+              <Text size="1" weight="bold" color="gray">
+                {selected.name}
+              </Text>
+            </Box>
+            <PresetToolbar shrink="0" grow="0" px="2" justify="end" />
+          </Flex>
+        )}
+        <Box grow="1" pb="2" pr="2" style={{ overflowY: 'scroll' }}>
+          {selected && <PresetDetails preset={selected} />}
+        </Box>
+      </Flex>
+    </Flex>
   );
 };
 
 export default Page;
+
+interface PresetRecordsCardProps {
+  title: string;
+  records: UnwindStorageRecord[];
+  color: BadgeProps['color'];
+}
+
+const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
+  const { title, records, color, ...rest } = props;
+  return (
+    <Card direction="column" gap="2" {...rest}>
+      <Text size="1" weight="bold">
+        {title}
+      </Text>
+      <Flex width="100%" wrap="wrap" align="start" gap="2">
+        {records.length === 0 && <Badge color="gray">Empty</Badge>}
+        {records.map(record => (
+          <Badge key={`${record.type}//${record.key}`} color={color}>
+            {record.key}: {record.value}
+          </Badge>
+        ))}
+      </Flex>
+    </Card>
+  );
+};
+
+interface PresetDetailsProps {
+  preset: UnwindPreset;
+}
+
+const PresetDetails: FC<PresetDetailsProps> = props => {
+  const { preset } = props;
+  return (
+    <Flex direction="column" gap="2">
+      <PresetRecordsCard
+        title="Cookie"
+        records={preset.items.filter(item => item.type === 'cookie')}
+        color="yellow"
+      />
+      <PresetRecordsCard
+        title="Local Storage"
+        records={preset.items.filter(item => item.type === 'localStorage')}
+        color="green"
+      />
+      <PresetRecordsCard
+        title="Session Storage"
+        records={preset.items.filter(item => item.type === 'sessionStorage')}
+        color="blue"
+      />
+    </Flex>
+  );
+};
+
+interface PresetToolbarProps extends FlexProps {
+  onCopyAction?: () => void;
+  onOpenAction?: () => void;
+  onApplyAction?: () => void;
+}
+
+const PresetToolbar: FC<PresetToolbarProps> = props => {
+  const { onCopyAction, onOpenAction, onApplyAction, ...rest } = props;
+  return (
+    <Flex position="relative" gap="3" height="5" align="center" {...rest}>
+      <Tooltip content="Open File">
+        <IconButton onClick={onOpenAction} variant="ghost" color="gray">
+          <HiMiniFolderOpen />
+        </IconButton>
+      </Tooltip>
+      <Tooltip content="Copy as Data URI">
+        <IconButton onClick={onCopyAction} variant="ghost" color="gray">
+          <HiMiniClipboard />
+        </IconButton>
+      </Tooltip>
+      <Tooltip content="Apply Preset">
+        <IconButton onClick={onApplyAction} variant="ghost" color="gray">
+          <HiMiniFire />
+        </IconButton>
+      </Tooltip>
+    </Flex>
+  );
+};

@@ -4,6 +4,7 @@ import {
   HiOutlineCube,
   HiOutlineHome,
   HiOutlineRectangleGroup,
+  HiMiniCircleStack,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { Tab } from '@modern-js/devtools-kit/runtime';
@@ -65,7 +66,7 @@ export const loader = async () => {
     {
       name: 'storage',
       title: 'Storage',
-      icon: <RiShieldCrossLine />,
+      icon: <HiMiniCircleStack />,
       view: { type: 'builtin', src: '/storage/preset' },
     },
   ];
