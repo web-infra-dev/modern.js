@@ -16,11 +16,13 @@ Rsbuild is the build tool of Modern.js. You can modify the default build behavio
 
 You can register the Rsbuild plugin through the `builderPlugins` option in `modern.config.ts`, see [builderPlugins](/configure/app/builder-plugins) for details.
 
-## Official Plugins
-
 :::tip
-Most plugins in Rsbuild have been built into Modern.js. For example, when you need to inject the Polyfill of the Node module, you can directly use the [output.disableNodePolyfill](/configure/app/output/disable-node-polyfill.html) configuration.
+Modern.js has upgraded the build tool to [Rsbuild](https://rsbuild.dev/) starting from `MAJOR_VERSION.46.0`.
+
+If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
 :::
+
+## Official Plugins
 
 ### Builtin Plugins
 
