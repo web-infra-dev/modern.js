@@ -2,6 +2,7 @@ import path, { dirname } from 'path';
 import { sync } from '@modern-js/utils/globby';
 import { readJSON, readFile, writeFile } from '@modern-js/utils/fs-extra';
 import { loadFront } from 'yaml-front-matter';
+import { type RspressPlugin } from '@rspress/shared';
 
 const DEFAULT_COLLAPSED = true;
 
@@ -55,23 +56,6 @@ interface SidebarItem {
 }
 
 type Sidebar = Record<string, (SidebarGroup | SidebarItem)[]>;
-
-interface LocaleConfig {
-  sidebar?: Sidebar;
-  lang: string;
-  label: string;
-}
-
-interface DocConfig {
-  lang?: string;
-  base?: string;
-  themeConfig?: {
-    locales?: LocaleConfig[];
-  };
-  route?: {
-    exclude?: string[];
-  };
-}
 
 const addLeadingSlash = (str: string) =>
   str.startsWith('/') ? str : `/${str}`;
@@ -226,7 +210,7 @@ export function getRootCategories(
 /**
  * The plugin is used to generate sidebar automatically.
  */
-export function pluginAutoSidebar(options: Options) {
+export function pluginAutoSidebar(options: Options): RspressPlugin {
   const {
     root: userRoot,
     categories: rootCategories,
@@ -260,7 +244,7 @@ export function pluginAutoSidebar(options: Options) {
 
   return {
     name: '@modern-js/doc-plugin-auto',
-    async config(docConfig: DocConfig) {
+    async config(docConfig) {
       const ignoreList = docConfig.route?.exclude || [];
       const paths = sync('**/*.{md,mdx,json}', {
         cwd: userRoot,
@@ -282,7 +266,7 @@ export function pluginAutoSidebar(options: Options) {
         categories,
         files,
       );
-      docConfig.themeConfig.locales?.forEach((locale: LocaleConfig) => {
+      docConfig.themeConfig.locales?.forEach(locale => {
         const { lang } = locale;
         const isDefaultLang = lang === defaultLang;
         const sidebar: Sidebar = {};
