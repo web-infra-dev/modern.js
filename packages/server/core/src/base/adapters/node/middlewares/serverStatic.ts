@@ -1,5 +1,5 @@
 import path from 'path';
-import { existsSync, lstatSync } from 'fs';
+import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
 import { ServerRoute } from '@modern-js/types';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
@@ -51,11 +51,11 @@ export function createStaticMiddleware(
     const hit = staticPathRegExp.test(pathname);
 
     if (hit) {
-      const filepath = path.resolve(
+      const filepath = path.join(
         pwd,
         pathname.replace(prefix, () => ''),
       );
-      if (!existsSync(filepath)) {
+      if (!(await fs.pathExists(filepath))) {
         // we shoud return a response with status is 404, if we can't found static asset
         return c.html(createErrorHtml(404), 404);
       }
@@ -63,7 +63,7 @@ export function createStaticMiddleware(
       if (mimeType) {
         c.header('Content-Type', mimeType);
       }
-      const stat = lstatSync(filepath);
+      const stat = await fs.lstat(filepath);
       const { size } = stat;
       const chunk = await fileReader.readFile(filepath, 'buffer');
 
