@@ -88,6 +88,7 @@ export async function bindRenderHandler(
       // ensure route.urlPath.length diminishing
       .sort(sortRoutes);
 
+    const render = await getRenderHandler(options);
     for (const route of pageRoutes) {
       const { urlPath: originUrlPath, entryName } = route;
       const urlPath = originUrlPath.endsWith('/')
@@ -106,10 +107,8 @@ export async function bindRenderHandler(
 
       const customServerMiddleware = customServer.getServerMiddleware();
       server.use(urlPath, customServerMiddleware);
+
+      render && server.use(urlPath, createRenderHandler(render));
     }
-
-    const render = await getRenderHandler(options);
-
-    render && server.all('*', createRenderHandler(render));
   }
 }
