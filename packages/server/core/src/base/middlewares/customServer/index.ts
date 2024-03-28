@@ -169,6 +169,10 @@ export class CustomServer {
 
       c.set('locals', locals);
 
+      if (c.env?.node.res.headersSent) {
+        return undefined;
+      }
+
       if (!c.finalized) {
         return next();
       }
