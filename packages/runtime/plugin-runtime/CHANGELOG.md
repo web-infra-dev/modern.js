@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.48.4
+
+### Patch Changes
+
+- d3e028b: fix: should not be more than one title tag
+
+  fix: 只能出现一个 title 标签
+
+- 78b889f: fix: when router does't exist, no pathname detection
+  fix: 当 router 不存在时，不再做 pathname 检测
+- Updated dependencies [7d2d433]
+  - @modern-js/utils@2.48.4
+  - @modern-js/plugin@2.48.4
+  - @modern-js/runtime-utils@2.48.4
+  - @modern-js/types@2.48.4
+
 ## 2.48.3
 
 ### Patch Changes

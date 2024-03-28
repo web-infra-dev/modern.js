@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.3",
+  "version": "2.48.4",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -62,7 +62,7 @@
     "axios": "^1.6.0"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.5.3",
+    "@rsbuild/shared": "0.5.4",
     "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

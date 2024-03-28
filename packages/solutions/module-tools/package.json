@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.48.3",
+  "version": "2.48.4",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -24,6 +24,10 @@
     "./defineConfig": {
       "jsnext:source": "./src/config/defineConfig.ts",
       "default": "./dist/config/defineConfig.js"
+    },
+    "./utils": {
+      "jsnext:source": "./src/utils/index.ts",
+      "default": "./dist/utils/assert.js"
     }
   },
   "main": "./src/index.ts",
@@ -38,6 +42,9 @@
       ],
       "defineConfig": [
         "./src/config/defineConfig.ts"
+      ],
+      "utils": [
+        "./dist/utils/assert.d.ts"
       ]
     }
   },
@@ -84,7 +91,7 @@
     "tsconfig-paths-webpack-plugin": "4.1.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "0.5.3",
+    "@rsbuild/core": "0.5.4",
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",

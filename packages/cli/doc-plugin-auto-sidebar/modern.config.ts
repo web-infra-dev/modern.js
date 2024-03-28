@@ -11,5 +11,6 @@ export default {
     format: 'cjs',
     sourceMap: true,
     dts: dtsConfig,
+    externals: ['@rspress/shared'],
   },
 };

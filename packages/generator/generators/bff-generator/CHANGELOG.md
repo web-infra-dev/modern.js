@@ -1,5 +1,12 @@
 # @modern-js/bff-generator
 
+## 3.3.15
+
+### Patch Changes
+
+- Updated dependencies [7d2d433]
+  - @modern-js/utils@2.48.4
+
 ## 3.3.14
 
 ### Patch Changes
