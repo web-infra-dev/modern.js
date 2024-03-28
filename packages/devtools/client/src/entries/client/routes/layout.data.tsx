@@ -4,6 +4,7 @@ import {
   HiOutlineCube,
   HiOutlineHome,
   HiOutlineRectangleGroup,
+  HiMiniCircleStack,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { Tab } from '@modern-js/devtools-kit/runtime';
@@ -61,6 +62,12 @@ export const loader = async () => {
       title: 'Doctor',
       icon: <RiShieldCrossLine />,
       view: { type: 'builtin', src: '/doctor' },
+    },
+    {
+      name: 'storage',
+      title: 'Storage',
+      icon: <HiMiniCircleStack />,
+      view: { type: 'builtin', src: '/storage/preset' },
     },
   ];
   await globals.callHook('tab:list', tabs);

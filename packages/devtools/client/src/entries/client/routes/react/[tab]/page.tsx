@@ -45,15 +45,7 @@ const Page: React.FC = () => {
   }, []);
 
   return (
-    <Box
-      style={{
-        position: 'fixed',
-        left: 'var(--navigator-width)',
-        top: 'var(--breadcrumb-height)',
-        bottom: 0,
-        right: 0,
-      }}
-    >
+    <Box width="100%" height="100%" pt="5">
       {InnerView && (
         <InnerView
           browserTheme={browserTheme}

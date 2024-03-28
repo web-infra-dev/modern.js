@@ -46,7 +46,7 @@ const Page: React.FC = () => {
   // const numFrameworkPlugin = store.framework.config.transformed.plugins.length;
 
   return (
-    <Flex direction="column" align="center" p="4">
+    <Flex direction="column" align="center">
       <Flex
         wrap="wrap"
         gap="4"

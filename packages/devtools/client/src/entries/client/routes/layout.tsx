@@ -92,7 +92,7 @@ const Navigator: React.FC = () => {
   );
 };
 
-export default function Layout() {
+const Layout = () => {
   const display = process.env.NODE_ENV === 'development' ? undefined : 'none';
   return (
     <Theme
@@ -100,17 +100,24 @@ export default function Layout() {
       accentColor="blue"
       panelBackground="solid"
     >
-      <Box className={styles.inner}>
-        <Box className={styles.innerRight}>
-          <Box className={styles.container}>
-            <Outlet />
-          </Box>
+      <Navigator />
+      <Box width="100%" position="relative" pt="4">
+        <Box width="100%" height="100%" position="relative">
+          <Outlet />
         </Box>
+        <Breadcrumbs
+          className={styles.breadcrumbs}
+          height="7"
+          position="absolute"
+          top="0"
+          left="0"
+          right="0"
+        />
       </Box>
       <ThemePanel defaultOpen={false} style={{ display }} />
-      <Navigator />
-      <Breadcrumbs className={styles.breadcrumbs} />
       <Puller />
     </Theme>
   );
-}
+};
+
+export default Layout;
