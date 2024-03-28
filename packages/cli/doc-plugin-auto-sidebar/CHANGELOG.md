@@ -1,5 +1,14 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.48.4
+
+### Patch Changes
+
+- 26657b9: fix: add type to auto sidebar plugin
+  fix: 给自动生成侧边栏插件添加类型
+- Updated dependencies [7d2d433]
+  - @modern-js/utils@2.48.4
+
 ## 2.48.3
 
 ### Patch Changes

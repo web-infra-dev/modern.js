@@ -1,5 +1,12 @@
 # @modern-js/devtools-client
 
+## 2.48.4
+
+### Patch Changes
+
+- 2833449: fix(devtools): failed to render breadcrumb
+  fix(devtools): 渲染面包屑导航失败
+
 ## 2.48.3
 
 ## 2.48.2

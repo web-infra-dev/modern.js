@@ -1,5 +1,16 @@
 # @modern-js/core
 
+## 2.48.4
+
+### Patch Changes
+
+- 7d2d433: fix: we should override server.baseUrl when merge it
+  fix: 在合并 server.baseUrl 时，我们应该覆盖他
+- Updated dependencies [7d2d433]
+  - @modern-js/utils@2.48.4
+  - @modern-js/node-bundle-require@2.48.4
+  - @modern-js/plugin@2.48.4
+
 ## 2.48.3
 
 ### Patch Changes
