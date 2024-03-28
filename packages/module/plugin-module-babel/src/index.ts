@@ -1,11 +1,10 @@
 import type { TransformOptions as BabelTransformOptions } from '@babel/core';
-import {
+import type {
   CliPlugin,
   ICompiler,
   ModuleTools,
-  isJsExt,
-  isJsLoader,
 } from '@modern-js/module-tools';
+import { isJsExt, isJsLoader } from '@modern-js/module-tools/utils';
 
 const name = 'babel';
 

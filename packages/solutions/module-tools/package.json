@@ -24,6 +24,10 @@
     "./defineConfig": {
       "jsnext:source": "./src/config/defineConfig.ts",
       "default": "./dist/config/defineConfig.js"
+    },
+    "./utils": {
+      "jsnext:source": "./src/utils/index.ts",
+      "default": "./dist/utils/assert.js"
     }
   },
   "main": "./src/index.ts",
@@ -38,6 +42,9 @@
       ],
       "defineConfig": [
         "./src/config/defineConfig.ts"
+      ],
+      "utils": [
+        "./dist/utils/assert.d.ts"
       ]
     }
   },
