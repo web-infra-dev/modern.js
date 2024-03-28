@@ -3,7 +3,7 @@ import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
 import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
-import { ts } from '@ast-grep/napi';
+import { js } from '@ast-grep/napi';
 import type {
   ITsconfig,
   GeneratorDtsConfig,
@@ -11,12 +11,6 @@ import type {
   TsTarget,
 } from '../types';
 import { normalizeSlashes } from './builder';
-
-type MatchModule = {
-  name?: string;
-  start: number;
-  end: number;
-}[];
 
 export const getProjectTsconfig = async (
   tsconfigPath: string,
@@ -142,76 +136,90 @@ export const processDtsFilesAfterTsc = async (config: GeneratorDtsConfig) => {
     addMatchAll,
   );
 
-  /**
-   * `export $VAR from` is invalid, so we need `{$$$VAR}`, `*` and `* as $VAR`
-   * But `import $VAR from` is valid.
-   */
-  const Pattern = [
-    `import $VAR from '$MATCH'`,
-    `import $VAR from "$MATCH"`,
-    `export {$$$VAR} from '$MATCH'`,
-    `export {$$$VAR} from "$MATCH"`,
-    `export * from '$MATCH'`,
-    `export * from "$MATCH"`,
-    `export * as $VAR from '$MATCH'`,
-    `export * as $VAR from "$MATCH"`,
-    `import('$MATCH')`,
-    `import("$MATCH")`,
-  ];
-
   await Promise.all(
     dtsFilesPath
       .map(filePath => {
         const code = fs.readFileSync(filePath, 'utf8');
-        let matchModule: MatchModule = [];
-        try {
-          const sgNode = ts.parse(code).root();
-          matchModule = Pattern.map(p => sgNode.findAll(p))
-            .flat()
-            .map(node => {
-              const matchNode = node.getMatch('MATCH')!;
-              return {
-                name: matchNode.text(),
-                start: matchNode.range().start.index,
-                end: matchNode.range().end.index,
-              };
-            });
-        } catch (e) {
-          logger.error('[parse error]', e);
-        }
         const str: MagicString = new MagicString(code);
-
         const originalFilePath = resolve(
           absoluteBaseUrl,
           userTsconfig?.compilerOptions?.rootDir || 'src',
           relative(distPath, filePath),
         );
-
-        matchModule.forEach(module => {
-          if (!module.name) {
-            return;
-          }
-          const { start, end, name } = module;
-          // same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/feature/redirect.ts#L52
-          const absoluteImportPath = matchPath(name, undefined, undefined, [
-            '.jsx',
-            '.tsx',
-            '.js',
-            '.ts',
-          ]);
-          if (absoluteImportPath) {
-            const relativePath = relative(
-              dirname(originalFilePath),
-              absoluteImportPath,
-            );
-            const relativeImportPath = normalizeSlashes(
-              relativePath.startsWith('..')
-                ? relativePath
-                : `./${relativePath}`,
-            );
-            str.overwrite(start, end, relativeImportPath);
-          }
-        });
+        try {
+          // js can override more case than ts
+          const sgNode = js.parse(code).root();
+          const matcher = {
+            rule: {
+              kind: 'string_fragment',
+              any: [
+                {
+                  inside: {
+                    stopBy: 'end',
+                    kind: 'import_statement',
+                    field: 'source',
+                  },
+                },
+                {
+                  inside: {
+                    stopBy: 'end',
+                    kind: 'export_statement',
+                    field: 'source',
+                  },
+                },
+                {
+                  inside: {
+                    kind: 'string',
+                    inside: {
+                      kind: 'arguments',
+                      inside: {
+                        kind: 'call_expression',
+                        has: {
+                          field: 'function',
+                          regex: '^(import|require)$',
+                        },
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+          };
+          const matchModule = sgNode.findAll(matcher).map(matchNode => {
+            return {
+              name: matchNode.text(),
+              start: matchNode.range().start.index,
+              end: matchNode.range().end.index,
+            };
+          });
+          matchModule.forEach(module => {
+            if (!module.name) {
+              return;
+            }
+            const { start, end, name } = module;
+            // same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/feature/redirect.ts#L52
+            const absoluteImportPath = matchPath(name, undefined, undefined, [
+              '.jsx',
+              '.tsx',
+              '.js',
+              '.ts',
+            ]);
+            if (absoluteImportPath) {
+              const relativePath = relative(
+                dirname(originalFilePath),
+                absoluteImportPath,
+              );
+              const relativeImportPath = normalizeSlashes(
+                relativePath.startsWith('..')
+                  ? relativePath
+                  : `./${relativePath}`,
+              );
+              str.overwrite(start, end, relativeImportPath);
+            }
+          });
+        } catch (e) {
+          logger.error('[parse error]', e);
+        }
 
         // add banner and footer
         banner && str.prepend(`${banner}\n`);
