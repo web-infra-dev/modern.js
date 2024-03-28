@@ -37,6 +37,7 @@ function createRenderHandler(
 export type BindRenderHandleOptions = {
   metaName?: string;
   staticGenerate?: boolean;
+  disableCustomHook?: boolean;
 };
 
 export async function getRenderHandler(
@@ -63,7 +64,8 @@ export async function bindRenderHandler(
   server: ServerBase,
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) {
-  const { routes, pwd } = options;
+  const { routes, pwd, disableCustomHook } = options;
+
   const { runner } = server;
   if (routes && routes.length > 0) {
     const customServer = new CustomServer(runner, server, pwd);
@@ -103,7 +105,7 @@ export async function bindRenderHandler(
       // init reporter.client when every request call
       server.use(urlPath, initReporter(entryName!));
 
-      server.use(urlPath, customServerHookMiddleware);
+      !disableCustomHook && server.use(urlPath, customServerHookMiddleware);
 
       const customServerMiddleware = customServer.getServerMiddleware();
       server.use(urlPath, customServerMiddleware);
