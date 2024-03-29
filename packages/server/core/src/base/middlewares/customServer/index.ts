@@ -74,11 +74,7 @@ export class CustomServer {
           cost,
         );
 
-      const {
-        // current,
-        url,
-        status,
-      } = afterMatchCtx.router;
+      const { url, status } = afterMatchCtx.router;
 
       if (url) {
         return c.redirect(url, status);
