@@ -23,7 +23,6 @@ export default async function loader(
   }
   if (
     target === 'webworker' ||
-    Array.isArray(target) ||
     (Array.isArray(target) && target.includes('webworker'))
   ) {
     return source;
