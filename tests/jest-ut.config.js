@@ -31,7 +31,7 @@ module.exports = {
         '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
       ],
       modulePathIgnorePatterns: [
-        '<rootDir>/packages/builder/',
+        '<rootDir>/packages/cli/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',
@@ -39,14 +39,16 @@ module.exports = {
         '<rootDir>/.nx',
       ],
       testPathIgnorePatterns: [
-        '<rootDir>/packages/builder/',
+        '<rootDir>/packages/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',
+        '<rootDir>/packages/(server|solutions)/',
+        '<rootDir>/packages/(server|solutions)/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',
       testMatch: [
-        '<rootDir>/packages/(?!(server|solutions)/)**/src/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/(?!(server|solutions)/)**/tests/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/**/src/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/**/tests/**/*.test.[jt]s?(x)',
       ],
     },
     {
@@ -80,7 +82,7 @@ module.exports = {
         '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
       ],
       modulePathIgnorePatterns: [
-        '<rootDir>/packages/builder/',
+        '<rootDir>/packages/cli/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',
@@ -88,7 +90,7 @@ module.exports = {
         '<rootDir>/.nx',
       ],
       testPathIgnorePatterns: [
-        '<rootDir>/packages/builder/',
+        '<rootDir>/packages/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',
       ],
       rootDir: path.join(__dirname, '../'),
