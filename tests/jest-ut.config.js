@@ -96,8 +96,10 @@ module.exports = {
       rootDir: path.join(__dirname, '../'),
       testEnvironment: 'node',
       testMatch: [
-        '<rootDir>/packages/(server|solutions)/**/src/**/*.test.[jt]s?(x)',
-        '<rootDir>/packages/(server|solutions)/**/tests/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/server/**/src/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/solutions/**/src/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/server/**/tests/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/solutions/**/tests/**/*.test.[jt]s?(x)',
       ],
     },
   ],
