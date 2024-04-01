@@ -151,6 +151,18 @@ const extendUniversalBuildConfig = extendConfig => {
   });
 };
 
+const bundleConfig = {
+  buildType: 'bundle',
+  format: 'cjs',
+  target: 'es2019',
+  outDir: './dist',
+  dts: skipDts
+    ? false
+    : {
+        respectExternal: false,
+      },
+};
+
 const tscLikeBuildConfig = [
   {
     buildType: 'bundleless',
@@ -180,6 +192,7 @@ const generatorBuildConfig = {
 
 module.exports = {
   skipDts,
+  bundleConfig,
   dtsConfig,
   nodeBuildConfig,
   tscLikeBuildConfig,

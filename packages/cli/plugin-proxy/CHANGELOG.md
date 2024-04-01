@@ -1,5 +1,13 @@
 # @modern-js/plugin-proxy
 
+## 2.48.4
+
+### Patch Changes
+
+- 8b4ea42: add deprecated warning for @modern-js/plugin-proxy
+- Updated dependencies [7d2d433]
+  - @modern-js/utils@2.48.4
+
 ## 2.48.3
 
 ### Patch Changes

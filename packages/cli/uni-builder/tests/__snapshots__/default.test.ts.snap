@@ -2279,7 +2279,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.23.2",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2333,6 +2333,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     },
                     "exclude": [
                       "transform-typeof-symbol",
+                    ],
+                    "include": [
+                      "@babel/plugin-transform-class-properties",
                     ],
                     "modules": false,
                     "targets": [
@@ -2403,7 +2406,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.23.2",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2451,6 +2454,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     },
                     "exclude": [
                       "transform-typeof-symbol",
+                    ],
+                    "include": [
+                      "@babel/plugin-transform-class-properties",
                     ],
                     "modules": false,
                     "targets": [
@@ -2841,7 +2847,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.23.2",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2880,6 +2886,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         },
                         "exclude": [
                           "transform-typeof-symbol",
+                        ],
+                        "include": [
+                          "@babel/plugin-transform-class-properties",
                         ],
                         "modules": false,
                         "targets": [
@@ -2966,7 +2975,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.23.2",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3005,6 +3014,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         },
                         "exclude": [
                           "transform-typeof-symbol",
+                        ],
+                        "include": [
+                          "@babel/plugin-transform-class-properties",
                         ],
                         "modules": false,
                         "targets": [
@@ -3371,7 +3383,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.23.2",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3425,6 +3437,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     },
                     "exclude": [
                       "transform-typeof-symbol",
+                    ],
+                    "include": [
+                      "@babel/plugin-transform-class-properties",
                     ],
                     "modules": false,
                     "targets": [
@@ -3495,7 +3510,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.23.2",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3549,6 +3564,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     },
                     "exclude": [
                       "transform-typeof-symbol",
+                    ],
+                    "include": [
+                      "@babel/plugin-transform-class-properties",
                     ],
                     "modules": false,
                     "targets": [
@@ -3939,7 +3957,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.23.2",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3993,6 +4011,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         },
                         "exclude": [
                           "transform-typeof-symbol",
+                        ],
+                        "include": [
+                          "@babel/plugin-transform-class-properties",
                         ],
                         "modules": false,
                         "targets": [
@@ -4079,7 +4100,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.23.2",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -4133,6 +4154,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         },
                         "exclude": [
                           "transform-typeof-symbol",
+                        ],
+                        "include": [
+                          "@babel/plugin-transform-class-properties",
                         ],
                         "modules": false,
                         "targets": [

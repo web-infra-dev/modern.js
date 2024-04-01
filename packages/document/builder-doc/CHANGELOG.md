@@ -1,5 +1,11 @@
 # @modern-js/builder-doc
 
+## 2.48.4
+
+### Patch Changes
+
+- f11abf7: docs: fix dead link in source.alias
+
 ## 2.48.3
 
 ## 2.48.2

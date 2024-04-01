@@ -56,6 +56,9 @@ exports[`babel resolveBabelConfig 1`] = `
         "exclude": [
           "transform-typeof-symbol",
         ],
+        "include": [
+          "@babel/plugin-transform-class-properties",
+        ],
         "loose": true,
         "modules": "commonjs",
         "targets": [

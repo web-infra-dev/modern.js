@@ -84,6 +84,9 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
+                "include": [
+                  "@babel/plugin-transform-class-properties",
+                ],
                 "modules": "commonjs",
                 "targets": [
                   "node >= 14",
@@ -164,7 +167,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.23.2",
+                "version": "7.24.1",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -218,6 +221,9 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 },
                 "exclude": [
                   "transform-typeof-symbol",
+                ],
+                "include": [
+                  "@babel/plugin-transform-class-properties",
                 ],
                 "modules": "commonjs",
                 "targets": [
@@ -302,7 +308,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.23.2",
+                "version": "7.24.1",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -356,6 +362,9 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 },
                 "exclude": [
                   "transform-typeof-symbol",
+                ],
+                "include": [
+                  "@babel/plugin-transform-class-properties",
                 ],
                 "modules": "commonjs",
                 "targets": [

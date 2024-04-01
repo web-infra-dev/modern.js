@@ -1,5 +1,11 @@
-const { tscLikeBuildConfig } = require('@scripts/build');
+const { bundleConfig } = require('@scripts/build');
 
 module.exports = {
-  buildConfig: tscLikeBuildConfig,
+  buildConfig: {
+    ...bundleConfig,
+    autoExternal: {
+      dependencies: true,
+      peerDependencies: false,
+    },
+  },
 };

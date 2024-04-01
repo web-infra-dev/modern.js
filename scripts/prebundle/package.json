@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.48.3",
+  "version": "2.48.4",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -17,7 +17,7 @@
     "dts-packer": "0.0.3",
     "postcss": "^8.4.35",
     "typescript": "^5",
-    "webpack": "^5.89.0"
+    "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@svgr/core": "8.1.0",
