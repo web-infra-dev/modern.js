@@ -1,3 +1,5 @@
+// The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
+// license at https://github.com/honojs/hono/blob/main/LICENSE
 import { Middleware } from '../../core/server';
 import { getPathname } from '../utils';
 
@@ -57,8 +59,6 @@ function log(
   fn(out);
 }
 
-// fork from https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
-// license at https://github.com/honojs/hono/blob/main/LICENSE
 export function logHandler(): Middleware {
   return async function logger(c, next) {
     const { method } = c.req;

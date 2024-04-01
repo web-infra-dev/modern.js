@@ -15,19 +15,21 @@ import { File as NodeFile, Blob as NodeBlob } from '@web-std/file';
  * In the Response of @web-std/fetch, headers will be created
  * so we use defineProperty to add new properties，Instead of extend Headers in @web-std/fetch
  */
-Object.defineProperty(NodeHeaders.prototype, 'getSetCookie', {
-  value: function getSetCookie() {
-    const cookies: string[] = [];
+if (!Object.getOwnPropertyDescriptor(NodeHeaders.prototype, 'getSetCookie')) {
+  Object.defineProperty(NodeHeaders.prototype, 'getSetCookie', {
+    value: function getSetCookie() {
+      const cookies: string[] = [];
 
-    this.forEach((value: any, name: string) => {
-      if (name.toLowerCase() === 'set-cookie') {
-        cookies.push(value);
-      }
-    });
+      this.forEach((value: any, name: string) => {
+        if (name.toLowerCase() === 'set-cookie') {
+          cookies.push(value);
+        }
+      });
 
-    return cookies;
-  },
-});
+      return cookies;
+    },
+  });
+}
 
 export const installGlobals = () => {
   if (!global.Headers) {
