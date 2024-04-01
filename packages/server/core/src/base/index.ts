@@ -8,6 +8,7 @@ export {
   injectLogger,
   getRenderHandler,
   bindRenderHandler,
+  logHandler,
 } from './middlewares';
 export type { BindRenderHandleOptions } from './middlewares';
 

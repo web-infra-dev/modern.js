@@ -5,6 +5,7 @@ import {
   injectReporter,
   injectLogger,
   createErrorHtml,
+  logHandler,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import {
@@ -18,13 +19,20 @@ import { ProdServerOptions, BaseEnv } from './types';
 
 export type InitProdMiddlewares = typeof initProdMiddlewares;
 
+function getLogger() {
+  if (process.env.DEBUG || process.env.NODE_ENV === 'production') {
+    return createLogger();
+  } else {
+    return createLogger({ level: 'warn' });
+  }
+}
+
 export const initProdMiddlewares = async (
   server: ServerBase<BaseEnv>,
   options: ProdServerOptions,
 ) => {
   const { config, pwd, routes, logger: inputLogger } = options;
-
-  const logger = inputLogger || createLogger({ level: 'warn' });
+  const logger = inputLogger || getLogger();
   const staticMiddleware = createStaticMiddleware({
     pwd,
     output: config?.output || {},
@@ -34,6 +42,7 @@ export const initProdMiddlewares = async (
 
   server.all('*', injectReporter());
   server.all('*', injectLogger(logger));
+  server.all('*', logHandler());
 
   server.all('*', injectServerManifest(pwd, routes));
   // inject html templates
