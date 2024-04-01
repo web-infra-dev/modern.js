@@ -116,7 +116,7 @@ export async function getAssetContents(
     typeof svgr === 'boolean' ? defaultConfig : _.merge(defaultConfig, svgr);
 
   const filter = createFilter(config.include || SVG_REGEXP, config.exclude);
-  if (svgr && filter(assetPath)) {
+  if (svgr && filter(assetPath) && calledOnLoad) {
     // svgr jsx-loader
 
     // HACK: only support public path, the same as url-loader of webpack and rollup,
