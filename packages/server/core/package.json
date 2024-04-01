@@ -65,6 +65,9 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
+  "engines": {
+    "node": ">=16.2.0"
+  },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",

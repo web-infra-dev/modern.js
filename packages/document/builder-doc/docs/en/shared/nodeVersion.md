@@ -1,4 +1,4 @@
-Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 14.17.6. **We recommend using the LTS version of Node.js 18.**
+Before getting started, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 16.2.0. **We recommend using the LTS version of Node.js 18.**
 
 You can check the currently used Node.js version with the following command:
 
@@ -6,7 +6,7 @@ You can check the currently used Node.js version with the following command:
 node -v
 ```
 
-If you do not have Node.js installed in your current environment, or the installed version is lower than 14.17.6, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
+If you do not have Node.js installed in your current environment, or the installed version is lower than 16.2.0, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
 
 Here is an example of how to install the Node.js 18 LTS version via nvm:
 
