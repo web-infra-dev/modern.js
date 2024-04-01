@@ -1,5 +1,5 @@
 import os from 'os';
-import { isIPv6 } from 'node:net';
+import { isIPv6 } from 'net';
 import { chalk } from '../compiled';
 import { isDev, isSingleEntry } from './is';
 import { DEFAULT_DEV_HOST } from './constants';
