@@ -48,7 +48,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   const closeCb: Array<(...args: []) => any> = [];
   enableRegister(pwd, config);
-  registerMockHandlers({
+  await registerMockHandlers({
     pwd,
     server,
   });
