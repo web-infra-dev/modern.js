@@ -4,7 +4,7 @@
 
 import fs from 'fs';
 import path from 'path';
-import { Transform } from 'stream';
+import { Readable, Transform } from 'stream';
 import App from '../../fixtures/streaming-ssr/App';
 import ShellError from '../../fixtures/streaming-ssr/ShellError';
 import { render } from '../../../../src/ssr/serverRender/renderToStream';
@@ -73,7 +73,7 @@ afterEach(() => {
 
 describe('renderToStream', () => {
   test('basic usage', async () => {
-    const pipe = await render({ App, context, config });
+    const readable = (await render({ App, context, config })) as Readable;
 
     await new Promise(resolve => {
       mockStream.on('close', () => {
@@ -83,7 +83,8 @@ describe('renderToStream', () => {
       mockStream.on('finish', () => {
         resolve(1);
       });
-      pipe(mockStream);
+
+      readable.pipe(mockStream);
     });
 
     // FIXME: windows snapshot has no title tag
@@ -95,19 +96,15 @@ describe('renderToStream', () => {
   });
 
   test('fallback when error throws during shell rendering', async () => {
-    const pipe = await render({ App: ShellError, context, config });
-
-    await new Promise(resolve => {
-      pipe(mockStream).then(data => {
-        htmlForStream = data as string;
-        resolve(data);
-      });
-    });
+    const html = (await render({
+      App: ShellError,
+      context,
+      config,
+    })) as string;
 
     // FIXME: windows snapshot has no title tag
-    // expect(htmlForStream).toMatchSnapshot();
-    expect(htmlForStream).toMatch(/<div id="root"><\/div>/);
-    expect(htmlForStream).toMatch(/"renderLevel":0/);
+    expect(html).toMatch(/<div id="root"><\/div>/);
+    expect(html).toMatch(/"renderLevel":0/);
     expect(errorLogger).toHaveBeenCalledTimes(1);
     expect(reportError).toHaveBeenCalledTimes(1);
   });
