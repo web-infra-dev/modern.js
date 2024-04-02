@@ -55,7 +55,12 @@ describe('tracker', () => {
     tracker.trackError(SSRErrors.PRERENDER, error);
 
     expect(reporter.errors).toEqual([['SSR Error - App Prerender', error]]);
-    expect(logger.errors).toEqual([['App Prerender', error]]);
+    expect(logger.errors).toEqual([
+      [
+        'SSR Error - App Prerender, error = %s, req.url = %s, req.headers = %o',
+        error.stack,
+      ],
+    ]);
   });
 
   it('track ssr timing', () => {
