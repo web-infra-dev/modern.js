@@ -19,6 +19,7 @@ const ssrServerContext = {
     ...console,
     error: errorLogger,
   },
+  request: new Request('http://127.0.0.1'),
   reporter: {
     reportError,
     reportTiming() {
