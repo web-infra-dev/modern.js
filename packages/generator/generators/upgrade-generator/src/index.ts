@@ -28,6 +28,14 @@ const SpecialModernDeps = [
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
 ];
 
+const DeprecatedModernBuilderDeps = [
+  '@modern-js/builder-plugin-image-compress',
+  '@modern-js/builder-plugin-swc',
+  '@modern-js/builder-plugin-esbuild',
+  '@modern-js/builder-plugin-node-polyfill',
+  '@modern-js/builder-plugin-stylus',
+];
+
 const handleSpecialModernDeps = async (dep: string, modernVersion: string) => {
   const version = await getAvailableVersion(dep, modernVersion);
   if (!(await isPackageExist(`${dep}@${version}`))) {
@@ -146,6 +154,10 @@ export const handleTemplateFile = async (
           dep,
           modernVersion,
         );
+      } else if (DeprecatedModernBuilderDeps.includes(dep)) {
+        generator.logger.warn(
+          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
+        );
       } else {
         updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
           dep,
@@ -161,6 +173,10 @@ export const handleTemplateFile = async (
         updateInfo[`devDependencies.${dep}`] = await handleSpecialModernDeps(
           dep,
           modernVersion,
+        );
+      } else if (DeprecatedModernBuilderDeps.includes(dep)) {
+        generator.logger.warn(
+          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
         );
       } else {
         updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
