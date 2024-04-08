@@ -83,7 +83,6 @@ const createApp = async ({
     const hooks: Hooks = appModule[1];
 
     if (!app?.use) {
-      // console.warn('There is not api/app.ts.');
       app = express();
     }
     initApp(app);
@@ -190,8 +189,8 @@ export default (): ServerPlugin => {
                 return reject(err);
               }
               // finalhanlder will trigger 'finish' event
-              return finalhandler(req, res, {})(null);
-              // return resolve();
+              finalhandler(req, res, {})(null);
+              return resolve();
             };
 
             res.on('finish', (err: Error) => {

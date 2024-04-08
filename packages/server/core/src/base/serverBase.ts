@@ -98,7 +98,6 @@ export class ServerBase<E extends HonoEnv = any> {
   }
 
   private async loadInternalPlugins() {
-    // TODO: 确认下这里是不是可以不从 options 中取插件，而是从 config 中取和过滤
     const {
       internalPlugins: plugins = INTERNAL_SERVER_PLUGINS,
       appContext,
