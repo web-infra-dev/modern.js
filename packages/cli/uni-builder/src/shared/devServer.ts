@@ -49,28 +49,6 @@ const getServerOptions = (
   };
 };
 
-// const getDevServerOptions = async ({
-//   builderConfig,
-//   serverOptions,
-//   port,
-// }: {
-//   builderConfig: UniBuilderConfig;
-//   serverOptions: ServerOptions;
-//   port: number;
-// }): Promise<{
-//   config: ModernDevServerOptions['config'];
-//   devConfig: ModernDevServerOptions['dev'];
-// }> => {
-//   const defaultDevConfig = deepmerge(
-//     {
-//       watch: true,
-//       port,
-//       https: builderConfig.dev?.https,
-//     },
-//     // merge devServerOptions from serverOptions
-//     serverOptions.dev || {},
-//   );
-// }
 export const transformToRsbuildServerOptions = (
   dev: NonNullable<UniBuilderConfig['dev']>,
   devServer: ToolsDevServerConfig,

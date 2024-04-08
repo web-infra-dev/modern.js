@@ -45,7 +45,6 @@ async function applyJSMinimizer(
     .use(TerserPlugin, [
       // Due to terser-webpack-plugin has changed the type of class, which using a generic type in
       // constructor, leading auto inference of parameters of plugin constructor is not possible, using any instead
-
       mergedOptions as any,
     ])
     .end();
