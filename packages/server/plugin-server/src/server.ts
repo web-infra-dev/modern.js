@@ -99,11 +99,6 @@ export default (): ServerPlugin => ({
         storage.reset();
         loadMod();
       },
-      // gather({ addWebMiddleware }) {
-      //   storage.middlewares.forEach(mid => {
-      //     addWebMiddleware(mid);
-      //   });
-      // },
       afterMatch(context, next) {
         if (!storage.hooks.afterMatch) {
           return next();
