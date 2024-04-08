@@ -6,6 +6,7 @@ import {
   injectLogger,
   createErrorHtml,
   logHandler,
+  processedBy,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import {
@@ -40,6 +41,7 @@ export const initProdMiddlewares = async (
     routes,
   });
 
+  server.all('*', processedBy);
   server.all('*', injectReporter());
   server.all('*', injectLogger(logger));
   server.all('*', logHandler());
