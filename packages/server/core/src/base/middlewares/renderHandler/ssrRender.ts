@@ -122,7 +122,7 @@ export async function ssrRender(
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: reporter || defaultReporter,
     /** @deprecated node req */
-    req: nodeReq,
+    req: nodeReq || (request as any),
     /** @deprecated node res  */
     res: undefined,
     isSpider,

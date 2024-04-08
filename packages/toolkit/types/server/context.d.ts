@@ -82,19 +82,26 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   logger: Logger;
   serverTiming: ServerTiming;
   reporter?: Reporter;
+
+  // TODO: remove it
+  /** @deprecated */
   cacheConfig?: any;
 
   enableUnsafeCtx?: boolean;
 
   nonce?: string;
 
+  /** @deprecated source req */
   req?: T extends 'worker' ? Request : ModernServerContext['req'];
 
+  /** @deprecated source res */
   res?: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
 
-  mode?: SSRMode; // ssr type
+  /** SSR type  */
+  mode?: SSRMode;
 
-  isSpider?: boolean; // Check if it's spider request
+  /** Check if it's spider request */
+  isSpider?: boolean;
 };
 
 export interface ServerInitHookContext {
