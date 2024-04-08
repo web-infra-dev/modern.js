@@ -77,11 +77,13 @@ export function createStaticMiddleware(
 }
 
 const prepareFavicons = (
-  favicon: string | undefined,
+  favicon?: string | ((o: { entryName: string; value: string }) => string),
   faviconByEntries?: Record<string, string | undefined>,
 ) => {
   const faviconNames = [];
-  if (favicon) {
+
+  // TODO: handle favicon as function.
+  if (favicon && typeof favicon === 'string') {
     faviconNames.push(favicon.substring(favicon.lastIndexOf('/') + 1));
   }
   if (faviconByEntries) {
