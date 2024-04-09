@@ -1,5 +1,4 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import type { Component } from 'react';
 import {
   CommonAPI,
   ToThreads,
@@ -15,18 +14,16 @@ import {
 } from '@modern-js/plugin';
 import type {
   ModernServerContext,
-  BaseSSRServerContext,
   AfterMatchContext,
   AfterRenderContext,
   MiddlewareContext,
   ISAppContext,
-  ServerRoute,
   HttpMethodDecider,
   ServerInitHookContext,
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
-import type { BffUserConfig, ServerOptions, UserConfig } from '../types/config';
+import type { BffUserConfig, UserConfig } from '../types/config';
 import { HonoMiddleware } from './hono';
 import { Render } from './render';
 
@@ -57,14 +54,6 @@ export type WebServerStartInput = {
 };
 
 export type LoaderHandler = (context: ModernServerContext) => Promise<void>;
-
-const prepareLoaderHandler = createAsyncPipeline<
-  {
-    serverRoutes: ServerRoute[];
-    distDir: string;
-  },
-  LoaderHandler
->();
 
 const prepareWebServer = createAsyncPipeline<
   WebServerStartInput,
@@ -100,69 +89,18 @@ const repack = createWaterfall();
  */
 const beforeServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
-const setupCompiler = createParallelWorkflow<Record<string, unknown>, any[]>();
-
 // TODO FIXME
 export type Route = Record<string, unknown>;
-const beforeRouteSet = createAsyncPipeline<Route[], Route[]>();
-
-const afterRouteSet = createAsyncPipeline();
-
-const beforeProdServer = createParallelWorkflow<ServerOptions, any>();
-
-const afterProdServer = createParallelWorkflow<ServerOptions, any>();
-
-const listen = createParallelWorkflow<
-  {
-    ip: string;
-    port: number;
-  },
-  any[]
->();
-
-const beforeServerReset = createParallelWorkflow();
-
-const afterServerReset = createParallelWorkflow();
-
-const extendSSRContext = createAsyncWaterfall<BaseSSRServerContext>();
-
-const extendContext = createAsyncPipeline<
-  ModernServerContext,
-  ModernServerContext
->();
-
-const handleError = createParallelWorkflow<{ error: Error }>();
-
-const handleSSRFallback = createParallelWorkflow<{
-  ctx: ModernServerContext;
-  type: 'query' | 'error' | 'header';
-}>();
 
 export type RequestResult = { isfinish: boolean };
-const beforeMatch = createAsyncPipeline<
-  { context: ModernServerContext },
-  any
->();
 
 const afterMatch = createAsyncPipeline<AfterMatchContext, any>();
 
 // TODO FIXME
 export type SSRServerContext = Record<string, unknown>;
-const prefetch = createParallelWorkflow<{
-  context: SSRServerContext;
-}>();
 
 // TODO FIXME
 export type RenderContext = Record<string, unknown>;
-const renderToString = createAsyncPipeline<
-  { App: Component; context: RenderContext },
-  string
->();
-
-const beforeRender = createAsyncPipeline<
-  { context: ModernServerContext },
-  any
->();
 
 const afterRender = createAsyncPipeline<AfterRenderContext, any>();
 
@@ -170,12 +108,6 @@ const afterStreamingRender = createAsyncPipeline<
   AfterStreamingRenderContext,
   string
 >();
-
-const beforeSend = createAsyncPipeline<ModernServerContext, RequestResult>();
-
-const afterSend = createParallelWorkflow<{
-  context: ModernServerContext;
-}>();
 
 const reset = createParallelWorkflow();
 
@@ -206,34 +138,14 @@ const serverHooks = {
   gather,
   config,
   prepare,
-  prepareLoaderHandler,
   prepareWebServer,
   prepareApiServer,
   repack,
   onApiChange,
   beforeServerInit,
-  setupCompiler,
-  beforeRouteSet,
-  afterRouteSet,
-  beforeProdServer,
-  afterProdServer,
-  listen,
-  beforeServerReset,
-  afterServerReset,
-  // request hook
-  extendSSRContext,
-  extendContext,
-  handleError,
-  handleSSRFallback,
-  beforeMatch,
   afterMatch,
-  prefetch,
-  renderToString,
-  beforeRender,
   afterRender,
   afterStreamingRender,
-  beforeSend,
-  afterSend,
   reset,
 };
 

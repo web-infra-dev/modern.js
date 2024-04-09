@@ -28,6 +28,8 @@ export type ServerNodeContext = HonoContext<ServerNodeEnv>;
 
 type Handler = (req: NodeRequest, res: NodeResponse) => void | Promise<void>;
 
+// when using the node.js http callback as hono middleware,
+// it needs to be the last middleware, because it's possible to send res directly in the http callback.
 export const httpCallBack2HonoMid = (handler: Handler) => {
   return async (
     context: HonoContext<ServerNodeEnv & ServerEnv>,

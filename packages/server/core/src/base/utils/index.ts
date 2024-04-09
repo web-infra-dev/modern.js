@@ -5,7 +5,3 @@ export * from './middlewareCollector';
 export * from './error';
 export * from './warmup';
 export * from './entry';
-
-export const cutNameByHyphen = (s: string) => {
-  return s.split(/[-_]/)[0];
-};

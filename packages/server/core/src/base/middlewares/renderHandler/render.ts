@@ -1,11 +1,11 @@
 import type { IncomingMessage } from 'http';
 import { ServerRoute } from '@modern-js/types';
+import { cutNameByHyphen } from '@modern-js/utils';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
   createErrorHtml,
   sortRoutes,
-  cutNameByHyphen,
   parseQuery,
   transformResponse,
   getPathname,
