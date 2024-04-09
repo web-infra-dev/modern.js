@@ -9,6 +9,7 @@ export {
   getRenderHandler,
   bindRenderHandler,
   logHandler,
+  processedBy,
 } from './middlewares';
 export type { BindRenderHandleOptions } from './middlewares';
 
