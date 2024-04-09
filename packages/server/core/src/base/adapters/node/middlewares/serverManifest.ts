@@ -1,5 +1,5 @@
 import path from 'path';
-import type { ServerRoute } from '@modern-js/types';
+import type { Logger, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
@@ -15,6 +15,7 @@ import {
 async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
+  logger: Logger,
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -31,7 +32,6 @@ async function getServerManifest(
 
       const renderBundlePath = path.join(pwd, route.bundle || '');
 
-      // eslint-disable-next-line node/no-unsupported-features/es-builtins
       await Promise.allSettled([
         import(loaderBundlePath),
         import(renderBundlePath),
@@ -57,7 +57,9 @@ async function getServerManifest(
 
   const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
 
-  const routeManifest = await import(routesManifestUri).catch(_ => ({}));
+  const routeManifest = await import(routesManifestUri).catch(_ => {
+    logger.warn('Cannot found route.json file');
+  });
 
   return {
     loaderBundles,
@@ -73,7 +75,8 @@ export function injectServerManifest(
 ): HonoMiddleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
-      const serverManifest = await getServerManifest(pwd, routes);
+      const logger = c.get('logger');
+      const serverManifest = await getServerManifest(pwd, routes, logger);
 
       c.set('serverManifest', serverManifest);
     }
