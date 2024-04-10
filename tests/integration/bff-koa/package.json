@@ -22,7 +22,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "express": "^4.17.2",
+    "express": "^4.19.2",
     "react": "^18",
     "react-dom": "^18",
     "ts-node": "^10.9.1",
