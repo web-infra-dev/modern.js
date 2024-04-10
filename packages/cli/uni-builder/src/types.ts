@@ -10,7 +10,7 @@ import type {
   DevConfig,
   RequestHandler,
   RsbuildEntry,
-  MaybePromise,
+  PromiseOrNot,
   RsbuildPluginAPI,
   ArrayOrNot,
   HtmlTagDescriptor,
@@ -362,7 +362,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => MaybePromise<any | void>,
+    ) => PromiseOrNot<any | void>,
   ) => void;
 };
 
@@ -371,7 +371,7 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
+  setup: (api: UniBuilderPluginAPI) => PromiseOrNot<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];

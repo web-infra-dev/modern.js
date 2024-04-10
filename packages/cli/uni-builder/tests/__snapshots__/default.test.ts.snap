@@ -2,6 +2,15 @@
 
 exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 {
+  "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[path][name]__[local]-[hash:6]",
+        "localsConvention": "camelCase",
+      },
+    },
+  },
   "context": "",
   "devtool": "cheap-module-source-map",
   "entry": {
@@ -18,17 +27,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "mode": "development",
   "module": {
-    "generator": {
-      "css/module": {
-        "exportsConvention": "camel-case",
-        "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]-[hash:6]",
-      },
-    },
     "parser": {
-      "css/module": {
-        "namedExports": false,
-      },
       "javascript": {
         "exportsPresence": "error",
       },
@@ -615,12 +614,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
       {
         "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
-            "options": {
-              "id": "rsbuild-transform-0",
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -984,7 +981,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1092,6 +1088,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
 
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
 {
+  "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[local]-[hash:6]",
+        "localsConvention": "camelCase",
+      },
+    },
+  },
   "context": "",
   "devtool": "hidden-source-map",
   "entry": {
@@ -1108,17 +1113,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "mode": "production",
   "module": {
-    "generator": {
-      "css/module": {
-        "exportsConvention": "camel-case",
-        "exportsOnly": false,
-        "localIdentName": "[local]-[hash:6]",
-      },
-    },
     "parser": {
-      "css/module": {
-        "namedExports": false,
-      },
       "javascript": {
         "exportsPresence": "error",
       },
@@ -1705,12 +1700,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       {
         "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
-            "options": {
-              "id": "rsbuild-transform-0",
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -2161,7 +2154,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       ],
       "styleTests": [],
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2287,7 +2279,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2414,7 +2406,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2797,12 +2789,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       },
       {
         "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
-            "options": {
-              "id": "rsbuild-transform-0",
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -2857,7 +2847,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2985,7 +2975,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3240,7 +3230,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3394,7 +3383,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3521,7 +3510,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.1",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3910,12 +3899,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       {
         "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
-            "options": {
-              "id": "rsbuild-transform-0",
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
           },
         ],
       },
@@ -3970,7 +3957,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -4113,7 +4100,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.1",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -4452,7 +4439,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       ],
       "styleTests": [],
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
