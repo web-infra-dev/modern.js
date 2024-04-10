@@ -6,11 +6,7 @@ import {
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import {
-  HonoMiddleware,
-  ServerEnv,
-  ServerManifest,
-} from '../../../../core/server';
+import { Middleware, ServerEnv, ServerManifest } from '../../../../core/server';
 
 async function getServerManifest(
   pwd: string,
@@ -69,7 +65,7 @@ async function getServerManifest(
 export function injectServerManifest(
   pwd: string,
   routes?: ServerRoute[],
-): HonoMiddleware<ServerEnv> {
+): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
       const serverManifest = await getServerManifest(pwd, routes);

@@ -1,6 +1,6 @@
 import { Render } from '../../../core/render';
-import { Middleware, ServerBaseOptions, ServerEnv } from '../../../core/server';
-import { ServerBase } from '../../serverBase';
+import { Middleware, ServerEnv } from '../../../core/server';
+import { ServerBase, type ServerBaseOptions } from '../../serverBase';
 import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';

@@ -6,7 +6,7 @@ import {
   ServerRoute,
   HookContext,
 } from '@modern-js/types';
-import { HonoContext, ServerEnv } from '../../../core/server';
+import { Context, ServerEnv } from '../../../core/server';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
@@ -24,7 +24,7 @@ export function getAfterMatchCtx(
 }
 
 export async function getAfterRenderCtx(
-  c: HonoContext,
+  c: Context,
   baseHookCtx: HookContext,
   route: Partial<ServerRoute>,
 ): Promise<AfterRenderContext> {
@@ -38,12 +38,10 @@ export async function getAfterRenderCtx(
 }
 
 export function createCustomMiddlewaresCtx(
-  c: HonoContext<ServerNodeEnv & ServerEnv>,
+  c: Context<ServerNodeEnv & ServerEnv>,
   locals: Record<string, any>,
 ): MiddlewareContext {
-  const baseContext = createBaseHookContext(
-    c as unknown as HonoContext<ServerEnv>,
-  );
+  const baseContext = createBaseHookContext(c as unknown as Context<ServerEnv>);
 
   const reporter = c.get('reporter');
 

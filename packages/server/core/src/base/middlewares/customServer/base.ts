@@ -5,10 +5,10 @@ import {
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import type { HonoContext, HonoRequest, ServerEnv } from '../../../core/server';
+import type { Context, HonoRequest, ServerEnv } from '../../../core/server';
 import { getHost } from '../../utils';
 
-export function createBaseHookContext(c: HonoContext<ServerEnv>): HookContext {
+export function createBaseHookContext(c: Context<ServerEnv>): HookContext {
   const logger = c.get('logger');
   const metrics = c.get('metrics');
 
@@ -23,13 +23,13 @@ export function createBaseHookContext(c: HonoContext<ServerEnv>): HookContext {
 class BaseHookRequest implements ModernRequest {
   private req: HonoRequest;
 
-  private c: HonoContext;
+  private c: Context;
 
   private headersData: Record<string, string | undefined> = {};
 
   #headers: Record<string, string | undefined>;
 
-  constructor(c: HonoContext) {
+  constructor(c: Context) {
     this.c = c;
     this.req = c.req;
 
@@ -125,9 +125,9 @@ class BaseHookResponse implements ModernResponse {
    * */
   private_overrided: boolean = false;
 
-  private c: HonoContext;
+  private c: Context;
 
-  constructor(c: HonoContext) {
+  constructor(c: Context) {
     this.c = c;
   }
 

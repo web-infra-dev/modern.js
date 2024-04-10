@@ -23,8 +23,8 @@ import type {
   AfterStreamingRenderContext,
 } from '@modern-js/types';
 
+import { MiddlewareHandler as Middleware } from 'hono';
 import type { BffUserConfig, UserConfig } from '../types/config';
-import { HonoMiddleware } from './hono';
 import { Render } from './render';
 
 // collect all middleware register in server plugins
@@ -75,10 +75,7 @@ type Change = {
   event: 'add' | 'change' | 'unlink';
 };
 
-const prepareApiServer = createAsyncPipeline<
-  APIServerStartInput,
-  HonoMiddleware
->();
+const prepareApiServer = createAsyncPipeline<APIServerStartInput, Middleware>();
 
 const onApiChange = createAsyncWaterfall<Change[]>();
 

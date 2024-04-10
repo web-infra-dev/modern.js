@@ -1,11 +1,10 @@
 import { isWebOnly } from '@modern-js/utils';
-import type { ServerBaseOptions } from '../../../core/server';
 import {
   BindRenderHandleOptions,
   getRenderHandler,
 } from '../../../base/middlewares';
 import { createMiddlewareCollecter, getRuntimeEnv } from '../../utils';
-import { ServerBase } from '../../serverBase';
+import { ServerBase, type ServerBaseOptions } from '../../serverBase';
 import { ServerNodeMiddleware } from './hono';
 
 export const bindBFFHandler = async (
