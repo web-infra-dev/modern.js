@@ -69,7 +69,7 @@ export default defineConfig({
 });
 ```
 
-The `patterns.to` parameter is used to specify the output path for the copied files. By default, its value corresponds to [buildConfig.outDir](/api/config/build-config#outDir). Therefore, we can copy `src/index.html` to the `dist` directory as follows:
+The `patterns.to` parameter is used to specify the output path for the copied files. By default, its value corresponds to [buildConfig.outDir](/api/config/build-config#outdir). Therefore, we can copy `src/index.html` to the `dist` directory as follows:
 
 ```ts
 export default defineConfig({
