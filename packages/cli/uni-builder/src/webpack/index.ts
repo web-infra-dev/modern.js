@@ -106,7 +106,7 @@ export async function createWebpackBuilder(
   });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
-  const { setHTMLPlugin } = await import('@rsbuild/core/internal');
+  const { setHTMLPlugin } = await import('@rsbuild/core/provider');
 
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
 
