@@ -14,7 +14,9 @@ export type { webpack, Rspack } from '@modern-js/uni-builder';
 export type { Bundler } from './utils';
 export type {
   ServerUserConfig,
+  ServerNormalizedConfig,
   BffUserConfig,
+  BffNormalizedConfig,
   SSR,
   SSRByEntries,
 } from '@modern-js/server-core';
