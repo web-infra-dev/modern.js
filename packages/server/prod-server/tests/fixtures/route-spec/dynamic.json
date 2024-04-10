@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "urlPath": "/entry/:id",
+      "entryName": "entry",
+      "entryPath": "html/entry/index.html",
+      "isSPA": true,
+      "isSSR": true,
+      "bundle": "bundles/entry.js"
+    }
+  ]
+}

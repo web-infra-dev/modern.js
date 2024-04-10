@@ -1,9 +1,15 @@
-import { Server, request } from 'http';
+import server from '@modern-js/prod-server';
 import { InternalPlugins, ServerRoute as ModernRoute } from '@modern-js/types';
 import portfinder from 'portfinder';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
-import { ProdServerOptions, createProdServer } from '@modern-js/prod-server';
+import { makeRender } from '../libs/make';
+import { SsgRoute } from '../types';
+import { compile as createRender } from './prerender';
 import { CLOSE_SIGN } from './consts';
+
+type Then<T> = T extends PromiseLike<infer U> ? U : T;
+
+type ModernServer = Then<ReturnType<typeof server>>;
 
 process.on('message', async (chunk: string) => {
   if (chunk === CLOSE_SIGN) {
@@ -16,94 +22,63 @@ process.on('message', async (chunk: string) => {
     routes,
     renderRoutes,
     options,
-    appContext,
+    appDirectory,
     plugins,
-    distDirectory,
   }: {
     routes: ModernRoute[];
     renderRoutes: ModernRoute[];
     options: AppNormalizedConfig;
-    distDirectory: string;
-    appContext: {
-      appDirectory?: string;
-      /** Directory for API modules */
-      apiDirectory: string;
-      /** Directory for lambda modules */
-      lambdaDirectory: string;
-    };
+    appDirectory: string;
     plugins: InternalPlugins;
   } = context;
 
-  let nodeServer: Server | null = null;
+  let modernServer: ModernServer | null = null;
   try {
-    const { server: serverConfig } = options;
+    const { server: serverOptions } = options;
 
     // start server in default port
-    const defaultPort = Number(process.env.PORT) || serverConfig.port;
+    const defaultPort = Number(process.env.PORT) || serverOptions.port;
     portfinder.basePort = defaultPort!;
     const port = await portfinder.getPortPromise();
 
-    const serverOptions: ProdServerOptions = {
-      pwd: distDirectory,
+    modernServer = await server({
+      pwd: appDirectory,
       config: options as any,
-      appContext,
       routes,
       staticGenerate: true,
       internalPlugins: plugins,
-    };
+    });
 
-    nodeServer = await createProdServer(serverOptions);
+    // listen just for bff request in ssr page
+    modernServer.listen(port, async (err: Error) => {
+      if (err) {
+        throw err;
+      }
 
-    nodeServer.listen(port, async () => {
-      if (!nodeServer) {
+      if (!modernServer) {
         return;
       }
 
-      const htmlAry = await Promise.all(
-        renderRoutes.map(route => {
-          const url = `http://localhost:${port}${route.urlPath}`;
-
-          return getHtml(url, port);
-        }),
+      // get server handler, render to ssr
+      const render = createRender(modernServer.getRequestHandler());
+      const renderPromiseAry = makeRender(
+        renderRoutes as SsgRoute[],
+        render,
+        port,
       );
 
-      htmlAry.forEach(html => {
+      // eslint-disable-next-line promise/no-promise-in-callback
+      const htmlAry = await Promise.all(renderPromiseAry);
+      htmlAry.forEach((html: string) => {
         process.send!(html);
         process.send!(null);
       });
-      nodeServer.close();
+
+      modernServer.close();
     });
   } catch (e) {
-    nodeServer?.close();
+    modernServer?.close();
     // throw error will lost the origin error and stack
     process.stderr.write(e instanceof Error ? e.stack : (e as any).toString());
   }
 });
-
-function getHtml(url: string, port: number): Promise<string> {
-  const headers = { host: `localhost:${port}` };
-
-  return new Promise((resolve, reject) => {
-    request(
-      url,
-      {
-        headers,
-      },
-      res => {
-        let html = '';
-
-        res.on('error', error => {
-          reject(error);
-        });
-
-        res.on('data', chunk => {
-          html += chunk.toString();
-        });
-
-        res.on('end', () => {
-          resolve(html);
-        });
-      },
-    ).end();
-  });
-}

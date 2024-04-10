@@ -10,21 +10,16 @@ import {
   mergeChainedOptions,
   isProd,
 } from '@rsbuild/shared';
-
-import type { ModernDevServerOptions } from '@modern-js/server';
-import type { Server } from 'node:http';
-import {
-  InitProdMiddlewares,
-  type ProdServerOptions as ModernServerOptions,
-} from '@modern-js/prod-server';
+import type { Server, ModernDevServerOptionsNew } from '@modern-js/server';
+import { type ModernServerOptions } from '@modern-js/prod-server';
 import type {
   UniBuilderConfig,
   ToolsDevServerConfig,
   DevServerHttpsOptions,
 } from '../types';
 
-type ServerOptions = Partial<Omit<ModernDevServerOptions, 'config'>> & {
-  config?: Partial<ModernDevServerOptions['config']>;
+type ServerOptions = Partial<Omit<ModernDevServerOptionsNew, 'config'>> & {
+  config?: Partial<ModernDevServerOptionsNew['config']>;
 };
 
 const getServerOptions = (
@@ -129,7 +124,7 @@ const getDevServerOptions = async ({
   builderConfig: UniBuilderConfig;
   serverOptions: ServerOptions;
 }): Promise<{
-  config: ModernDevServerOptions['config'];
+  config: ModernDevServerOptionsNew['config'];
 }> => {
   const defaultConfig = getServerOptions(builderConfig);
   const config = serverOptions.config
@@ -142,7 +137,6 @@ const getDevServerOptions = async ({
 export type StartDevServerOptions = RsbuildStartDevServerOptions & {
   apiOnly?: boolean;
   serverOptions?: ServerOptions;
-  initProdMiddlewares?: InitProdMiddlewares;
 };
 
 export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
@@ -154,13 +148,7 @@ export async function startDevServer(
   options: StartDevServerOptions = {},
   builderConfig: UniBuilderConfig,
 ) {
-  debug('create dev server');
-
-  if (!options.initProdMiddlewares) {
-    throw new Error('Must pass function: initProdMiddlewares');
-  }
-
-  const { createDevServer } = await import('@modern-js/server');
+  const { ServerForRsbuild } = await import('@modern-js/server');
 
   const rsbuildServer = await rsbuild.createDevServer({
     ...options,
@@ -184,31 +172,29 @@ export async function startDevServer(
     dev: { writeToDisk },
   } = rsbuildConfig;
 
-  const server = await createDevServer(
-    {
-      pwd: rsbuild.context.rootPath,
-      ...serverOptions,
-      appContext: serverOptions.appContext || {},
-      rsbuild,
-      getMiddlewares: () => ({
-        middlewares: rsbuildServer.middlewares,
-        close: rsbuildServer.close,
-        onHTTPUpgrade: rsbuildServer.onHTTPUpgrade,
-      }),
-      dev: {
-        watch: serverOptions.dev?.watch ?? true,
-        https: https as DevServerHttpsOptions,
-        writeToDisk,
-      },
-      config,
+  const server = new ServerForRsbuild({
+    pwd: rsbuild.context.rootPath,
+    ...serverOptions,
+    rsbuild,
+    getMiddlewares: () => ({
+      middlewares: rsbuildServer.middlewares,
+      close: rsbuildServer.close,
+      onHTTPUpgrade: rsbuildServer.onHTTPUpgrade,
+    }),
+    dev: {
+      watch: serverOptions.dev?.watch ?? true,
+      https: https as DevServerHttpsOptions,
+      writeToDisk,
     },
-    options.initProdMiddlewares,
-  );
+    config,
+  });
 
   const protocol = https ? 'https' : 'http';
   const urls = getAddressUrls({ protocol, port, host });
 
   debug('listen dev server');
+
+  await server.init();
 
   return new Promise<UniBuilderStartServerResult>(resolve => {
     server.listen(

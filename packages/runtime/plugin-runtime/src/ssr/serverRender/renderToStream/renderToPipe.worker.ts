@@ -19,11 +19,7 @@ function renderToPipe(
   rootElement: React.ReactElement,
   context: RuntimeContext,
   pluginConfig: SSRPluginConfig,
-  options?: RenderToReadableStreamOptions & {
-    onShellReady?: () => void;
-    onAllReady?: () => void;
-    onShellError?: (e: unknown) => void;
-  },
+  options?: RenderToReadableStreamOptions,
 ) {
   let shellChunkStatus = ShellChunkStatus.START;
   const chunkVec: string[] = [];
@@ -35,7 +31,6 @@ function renderToPipe(
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       ({ renderToReadableStream } = require('react-dom/server'));
     } catch (e) {}
-
     const { shellAfter, shellBefore } = await getTemplates(
       context,
       RenderLevel.SERVER_RENDER,
@@ -50,15 +45,6 @@ function renderToPipe(
             options?.onError?.(error);
           },
         });
-
-      // If rendering the shell is successful, that Promise will resolve.
-      options?.onShellReady?.();
-
-      // A Promise that resolves when all rendering is complete
-      // call onAllready, when allReady is resolve.
-      readableOriginal.allReady.then(() => {
-        options?.onAllReady?.();
-      });
 
       if (context.ssrContext?.isSpider) {
         // However, when a crawler visits your page, or if you’re generating the pages at the build time,

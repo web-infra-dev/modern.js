@@ -18,13 +18,10 @@ export default async function loader(
 ) {
   this.cacheable();
   const target = this._compiler?.options.target;
-  if (target === 'node' || (Array.isArray(target) && target.includes('node'))) {
+  if (target === 'node') {
     return source;
   }
-  if (
-    target === 'webworker' ||
-    (Array.isArray(target) && target.includes('webworker'))
-  ) {
+  if (target === 'webworker') {
     return source;
   }
 

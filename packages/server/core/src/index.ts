@@ -1,5 +1,4 @@
-export * from './core/plugin';
-export * from './core/render';
+export * from './plugin';
 export * from '@modern-js/plugin';
-export * from './core/loadPlugins';
+export * from './loadPlugins';
 export * from './types/config';

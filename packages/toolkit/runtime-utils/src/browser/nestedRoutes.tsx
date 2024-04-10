@@ -16,7 +16,7 @@ import { time } from '../time';
 
 export const transformNestedRoutes = (
   routes: NestedRoute[],
-  reporter?: Reporter,
+  reporter: Reporter,
 ) => {
   const routeElements = [];
   for (const route of routes) {

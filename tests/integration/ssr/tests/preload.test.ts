@@ -35,9 +35,7 @@ async function request(
   });
 }
 
-// we would remove ssr preload features.
-// so skip the test here
-describe.skip('SSR preload', () => {
+describe('SSR preload', () => {
   let app: any;
   let appPort: number;
   const appDir = path.join(fixtureDir, 'preload');

@@ -1,1 +1,0 @@
-export { cutNameByHyphen } from './path';

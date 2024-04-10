@@ -1,25 +1,16 @@
 import * as path from 'path';
-import type { IncomingMessage, ServerResponse } from 'node:http';
 import Koa, { Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
-import { fs, compatRequire, logger } from '@modern-js/utils';
-import type { Render, ServerPlugin } from '@modern-js/server-core';
-import {
-  httpCallBack2HonoMid,
-  sendResponse,
-} from '@modern-js/server-core/base/node';
+import { fs, compatRequire } from '@modern-js/utils';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
-declare module 'http' {
-  interface IncomingMessage {
-    __honoRequest: Request;
-    __templates: Record<string, string>;
-    __serverManifest: any;
-  }
+interface FrameConfig {
+  middleware: (Middleware | string)[];
 }
 
 const findAppModule = async (apiDir: string) => {
@@ -50,138 +41,109 @@ const initMiddlewares = (
   });
 };
 
-const defaultErrorHandler: Middleware = async (ctx, next) => {
-  ctx.onerror = err => {
-    if (err === null) {
-      return;
-    }
-    ctx.app.emit('error', err, ctx);
-    if (!ctx.res.headersSent) {
-      throw err;
-    }
-  };
-  await next();
-};
+export default (): ServerPlugin => ({
+  name: '@modern-js/plugin-koa',
+  pre: ['@modern-js/plugin-bff'],
+  post: ['@modern-js/plugin-server'],
+  setup: api => ({
+    async prepareApiServer({ pwd, config, render }) {
+      let app: Application;
+      const router = new Router();
+      const apiDir = path.join(pwd, './api');
+      const appContext = api.useAppContext();
+      const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
+      const mode = appContext.apiMode;
+      const userConfig = api.useConfigContext();
 
-const createApp = async ({
-  apiDir,
-  middlewares,
-  mode,
-  apiHandlerInfos,
-  render,
-}: {
-  apiDir: string;
-  middlewares: Middleware[];
-  mode: 'function' | 'framework';
-  apiHandlerInfos: APIHandlerInfo[];
-  render?: Render;
-}) => {
-  let app: Application;
-  const router = new Router();
+      if (mode === 'framework') {
+        app = await findAppModule(apiDir);
+        if (!(app instanceof Koa)) {
+          app = new Koa();
+          app.use(
+            koaBody({
+              multipart: true,
+            }),
+          );
+        }
 
-  if (mode === 'framework') {
-    app = await findAppModule(apiDir);
-    if (!(app instanceof Koa)) {
-      app = new Koa();
-      app.use(defaultErrorHandler);
-      app.use(
-        koaBody({
-          multipart: true,
-        }),
-      );
-    }
+        if (config) {
+          const { middleware } = config as FrameConfig;
+          initMiddlewares(middleware, app);
+        }
 
-    if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
-    }
+        app.use(run);
+        registerRoutes(router, apiHandlerInfos);
+      } else if (mode === 'function') {
+        app = new Koa();
+        app.use(
+          koaBody({
+            multipart: true,
+          }),
+        );
+        if (config) {
+          const { middleware } = config as FrameConfig;
+          initMiddlewares(middleware, app);
+        }
 
-    app.use(run);
-    registerRoutes(router, apiHandlerInfos);
-  } else if (mode === 'function') {
-    app = new Koa();
-    app.use(defaultErrorHandler);
-    app.use(
-      koaBody({
-        multipart: true,
-      }),
-    );
-    if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
-    }
-    app.use(run);
-    registerRoutes(router, apiHandlerInfos);
-  } else {
-    throw new Error(`mode must be function or framework`);
-  }
+        app.use(run);
+        registerRoutes(router, apiHandlerInfos);
+      } else {
+        throw new Error(`mode must be function or framework`);
+      }
 
-  app.use(router.routes());
+      app.use(router.routes());
+      if (userConfig.bff?.enableHandleWeb && render) {
+        app.use(async (ctx, next) => {
+          const html = await render(ctx.req, ctx.res);
+          if (html) {
+            ctx.body = html;
+          }
+          await next();
+        });
+      }
 
-  if (render) {
-    app.use(async (ctx, next) => {
-      const response = await render(ctx.req.__honoRequest, {
-        logger,
-        nodeReq: ctx.req,
-        templates: ctx.req.__templates,
-        serverManifest: ctx.req.__serverManifest,
+      return (req, res) => {
+        return Promise.resolve(app.callback()(req, res));
+      };
+    },
+    prepareWebServer({ config }, next) {
+      const userConfig = api.useConfigContext();
+      if (!userConfig?.server?.enableFrameworkExt) {
+        return next();
+      }
+      const app: Application = new Koa();
+
+      app.use(async (ctx, next) => {
+        await next();
+        if (!ctx.body) {
+          // restore statusCode
+          if (
+            ctx.res.statusCode === 404 &&
+            !(ctx.response as any)._explicitStatus
+          ) {
+            ctx.res.statusCode = 200;
+          }
+          ctx.respond = false;
+        }
       });
 
-      if (response) {
-        await sendResponse(response, ctx.res);
+      app.use(koaBody());
+      if (config) {
+        const { middleware } = config as FrameConfig;
+        initMiddlewares(middleware, app);
       }
-      await next();
-    });
-  }
-  return app;
-};
 
-export default (): ServerPlugin => {
-  let app: Application;
-  let apiDir: string;
-  let mode: 'function' | 'framework';
-  let renderHtml: Render | undefined;
-  return {
-    name: '@modern-js/plugin-koa',
-    pre: ['@modern-js/plugin-bff'],
-    post: ['@modern-js/plugin-server'],
-    setup: api => ({
-      async onApiChange(changes) {
-        const appContext = api.useAppContext();
-        const middlewares = appContext.apiMiddlewares as Middleware[];
-        const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-        app = await createApp({
-          apiDir,
-          middlewares,
-          mode,
-          apiHandlerInfos,
-          render: renderHtml,
+      return ctx => {
+        const {
+          source: { req, res },
+        } = ctx;
+        app.on('error', err => {
+          if (err) {
+            throw err;
+          }
         });
-        return changes;
-      },
-      async prepareApiServer({ pwd, render }) {
-        const appContext = api.useAppContext();
-        const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-        const { apiDirectory } = appContext;
-        const userConfig = api.useConfigContext();
-        const middlewares = appContext.apiMiddlewares as Middleware[];
-        mode = appContext.apiMode as 'function' | 'framework';
-        renderHtml =
-          userConfig.bff?.enableHandleWeb && render ? render : undefined;
-        apiDir = apiDirectory || path.join(pwd, './api');
-
-        app = await createApp({
-          apiDir,
-          middlewares,
-          mode,
-          apiHandlerInfos,
-          render: renderHtml,
-        });
-
-        const callback = async (req: IncomingMessage, res: ServerResponse) => {
-          return app.callback()(req, res);
-        };
-
-        return httpCallBack2HonoMid(callback);
-      },
-    }),
-  };
-};
+        return Promise.resolve(app.callback()(req, res));
+      };
+    },
+  }),
+});

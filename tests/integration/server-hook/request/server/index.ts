@@ -7,7 +7,7 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
     name: query.name,
     host,
     headers,
-    age: `${cookies.get?.('age')}yearold`,
+    age: `${cookies.get('age')}yearold`,
   };
 
   ctx.template.appendBody(`<div id='append'>${JSON.stringify(result)}</div>`);

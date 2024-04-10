@@ -1,4 +1,5 @@
-/* eslint-disable no-undef */
+const { Response } = require('@remix-run/node');
+
 const loader0 = async () => {
   return {
     message: 'loader0',

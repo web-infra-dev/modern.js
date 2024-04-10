@@ -49,23 +49,4 @@ describe('Traditional SSR', () => {
   test(`basic usage`, async () => {
     await basicUsage(page, appPort);
   });
-
-  test(`usage with custom middlware`, async () => {
-    const response = await page.goto(
-      `http://localhost:${appPort}/?fallback=true`,
-      {
-        waitUntil: ['networkidle0'],
-      },
-    );
-    const text = await response!.text();
-    expect(text).toMatch('<!--<?- html ?>-->');
-  });
-
-  test(`usage with custom middlware`, async () => {
-    const response = await page.goto(`http://localhost:${appPort}/?csr=true`, {
-      waitUntil: ['networkidle0'],
-    });
-    const text = await response!.text();
-    expect(text).toMatch('<!--<?- html ?>-->');
-  });
 });

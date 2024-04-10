@@ -23,7 +23,7 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
 
     const { tracker } = ssrContext;
 
-    const stream = renderToPipe(rootElement, context, config, {
+    const pipe = renderToPipe(rootElement, context, config, {
       onShellReady() {
         const cost = end();
         tracker.trackTiming(SSRTimings.RENDER_SHELL, cost);
@@ -41,6 +41,6 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
         tracker.trackError(SSRErrors.RENDER_STREAM, error as Error);
       },
     });
-    return stream;
+    return pipe;
   });
 };

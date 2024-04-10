@@ -42,13 +42,8 @@ export const createServer = (
         options,
         renderRoutes: ssgRoutes,
         routes: total,
-        appContext: {
-          apiDirectory: appContext.apiDirectory,
-          lambdaDirectory: appContext.lambdaDirectory,
-          appDirectory: appContext.appDirectory,
-        },
+        appDirectory,
         plugins,
-        distDirectory: appContext.distDirectory,
       }),
     );
 
