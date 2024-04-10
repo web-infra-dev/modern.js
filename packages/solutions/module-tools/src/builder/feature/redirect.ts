@@ -161,7 +161,8 @@ async function redirectImport(
           // asset
           const absPath = resolve(dirname(filePath), name);
           const { contents: relativeImportPath, loader } =
-            await getAssetContents.apply(compiler, [absPath, outputDir]);
+            // HACK: set callOnLoad true to invoke svgr
+            await getAssetContents.apply(compiler, [absPath, outputDir, true]);
           if (loader === 'jsx') {
             // svgr
             const ext = extname(name);

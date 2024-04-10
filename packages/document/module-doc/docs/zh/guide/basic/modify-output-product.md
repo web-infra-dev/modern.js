@@ -61,7 +61,7 @@ Modern.js Module 主要内置了两套构建预设,包括:
 - 产物类型文件如何处理，对应的 API 是 [`buildConfig.dts`](/api/config/build-config#dts)。
 - 产物的 sourceMap 如何处理：对应的 API 是 [`buildConfig.sourceMap`](/api/config/build-config#sourcemap)。
 - 产物对应的输入（或者是源文件）：对应的 API 是 [`buildConfig.input`](/api/config/build-config#input)。
-- 产物输出的目录：对应的 API 是 [`buildConfig.outDir`](/api/config/build-config#outDir)。
+- 产物输出的目录：对应的 API 是 [`buildConfig.outDir`](/api/config/build-config#outdir)。
 - 构建的源码目录：对应的 API 是 [`buildConfig.sourceDir`](/api/config/build-config#sourcedir)。
 
 **构建产物所需的常用功能包括：**
