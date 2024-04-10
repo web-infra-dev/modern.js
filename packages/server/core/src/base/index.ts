@@ -13,17 +13,14 @@ export {
 } from './middlewares';
 export type { BindRenderHandleOptions } from './middlewares';
 
-export type { ServerBase } from './serverBase';
+export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
 
 export type {
-  ServerBaseOptions,
-  Next,
   Middleware,
+  Context,
+  Next,
+  HonoRequest,
   ServerEnv,
   ServerManifest,
-  HonoContext,
-  HonoEnv,
-  HonoMiddleware,
-  HonoRequest,
 } from '../core/server';

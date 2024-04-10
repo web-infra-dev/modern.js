@@ -1,6 +1,6 @@
 import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import {
-  HonoContext,
+  Context,
   HonoRequest,
   ServerEnv,
   Middleware,
@@ -24,17 +24,14 @@ export type ServerNodeEnv = {
 };
 
 export type ServerNodeMiddleware = Middleware<ServerNodeEnv>;
-export type ServerNodeContext = HonoContext<ServerNodeEnv>;
+export type ServerNodeContext = Context<ServerNodeEnv>;
 
 type Handler = (req: NodeRequest, res: NodeResponse) => void | Promise<void>;
 
 // when using the node.js http callback as hono middleware,
 // it needs to be the last middleware, because it's possible to send res directly in the http callback.
 export const httpCallBack2HonoMid = (handler: Handler) => {
-  return async (
-    context: HonoContext<ServerNodeEnv & ServerEnv>,
-    next: Next,
-  ) => {
+  return async (context: Context<ServerNodeEnv & ServerEnv>, next: Next) => {
     const { req, res } = context.env.node;
     // for bff.enableHandleWeb
     req.__honoRequest = context.req;
@@ -61,7 +58,7 @@ type ConnectMiddleware =
 const noop = () => {};
 
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {
-  return async (context: HonoContext<ServerNodeEnv>, next: Next) => {
+  return async (context: Context<ServerNodeEnv>, next: Next) => {
     return new Promise((resolve, reject) => {
       const { req, res } = context.env.node;
       if (handler.length < 3) {

@@ -1,5 +1,5 @@
 import { INTERNAL_SERVER_PLUGINS } from '@modern-js/utils/universal/constants';
-import { ISAppContext } from '@modern-js/types';
+import { ISAppContext, InternalPlugins, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
 import type * as modernUtilsModule from '@modern-js/utils';
 import type * as loadPluginModule from '../core/loadPlugins';
@@ -10,8 +10,10 @@ import {
   ServerHookRunner,
   serverManager,
   createPlugin,
+  ServerPlugin,
 } from '../core';
-import type { HonoEnv, ServerBaseOptions } from '../core/server';
+import type { Env } from '../core/server';
+import type { ServerOptions } from '../types/config';
 import type * as serverConfigModule from './utils/serverConfig';
 import { getRuntimeEnv } from './utils';
 
@@ -21,7 +23,24 @@ declare module '@modern-js/types' {
   }
 }
 
-export class ServerBase<E extends HonoEnv = any> {
+export type ServerBaseOptions = {
+  /** server working directory, and then also dist directory */
+  pwd: string;
+  config: ServerOptions;
+  serverConfigFile?: string;
+  routes?: ServerRoute[];
+  plugins?: ServerPlugin[];
+  internalPlugins?: InternalPlugins;
+  appContext: {
+    appDirectory?: string;
+    sharedDirectory?: string;
+    apiDirectory?: string;
+    lambdaDirectory?: string;
+  };
+  runMode?: 'apiOnly' | 'ssrOnly' | 'webOnly';
+};
+
+export class ServerBase<E extends Env = any> {
   public options: ServerBaseOptions;
 
   public runner!: ServerHookRunner;
@@ -260,9 +279,7 @@ export class ServerBase<E extends HonoEnv = any> {
   }
 }
 
-export function createServerBase<E extends HonoEnv>(
-  options: ServerBaseOptions,
-) {
+export function createServerBase<E extends Env>(options: ServerBaseOptions) {
   if (options == null) {
     throw new Error('can not start server without options');
   }
