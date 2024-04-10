@@ -60,7 +60,7 @@ In addition, we can also fully customize the build configuration:
 - How the output type file is handled: the corresponding API is [`buildConfig.dts`](/api/config/build-config#dts).
 - How the sourceMap of the artifact is handled: the corresponding API is [`buildConfig.sourceMap`](/api/config/build-config#sourcemap).
 - The input (or source file) corresponding to the output: the corresponding API is [`buildConfig.input`](/api/config/build-config#input).
-- The directory of the output of the artifact: the corresponding API is [`buildConfig.outDir`](/api/config/build-config#outDir).
+- The directory of the output of the artifact: the corresponding API is [`buildConfig.outDir`](/api/config/build-config#outdir).
 - Build source directory: the corresponding API is [`buildConfig.sourceDir`](/api/config/build-config#sourcedir).
 
 **Common functions required for build artifacts include:**
