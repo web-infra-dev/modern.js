@@ -14,7 +14,8 @@ import {
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
 import {
-  InitProdMiddlewares,
+  initProdMiddlewares,
+  type InitProdMiddlewares,
   type ProdServerOptions as ModernServerOptions,
 } from '@modern-js/prod-server';
 import type {
@@ -157,7 +158,7 @@ export async function startDevServer(
   debug('create dev server');
 
   if (!options.initProdMiddlewares) {
-    throw new Error('Must pass function: initProdMiddlewares');
+    options.initProdMiddlewares = initProdMiddlewares;
   }
 
   const { createDevServer } = await import('@modern-js/server');
