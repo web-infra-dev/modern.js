@@ -60,6 +60,8 @@ export type AfterRenderContext = HookContext & {
   >;
   template: {
     set: (content: string) => void;
+    // FIXME: break change
+    // get: () => Promise<string>;
     get: () => string;
     prependHead: (fragment: string) => void;
     appendHead: (fragment: string) => void;
