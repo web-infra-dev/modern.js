@@ -216,47 +216,47 @@ export class ServerBase<E extends HonoEnv = any> {
   }
 
   get all() {
-    return this.app.all.bind(this);
+    return this.app.all.bind(this.app);
   }
 
   get use() {
-    return this.app.use.bind(this);
+    return this.app.use.bind(this.app);
   }
 
   get get() {
-    return this.app.get.bind(this);
+    return this.app.get.bind(this.app);
   }
 
   get post() {
-    return this.app.post.bind(this);
+    return this.app.post.bind(this.app);
   }
 
   get put() {
-    return this.app.put.bind(this);
+    return this.app.put.bind(this.app);
   }
 
   get delete() {
-    return this.app.delete.bind(this);
+    return this.app.delete.bind(this.app);
   }
 
   get patch() {
-    return this.app.patch.bind(this);
+    return this.app.patch.bind(this.app);
   }
 
   get handle() {
-    return this.app.fetch.bind(this);
+    return this.app.fetch.bind(this.app);
   }
 
   get request() {
-    return this.app.request.bind(this);
+    return this.app.request.bind(this.app);
   }
 
   get notFound() {
-    return this.app.notFound.bind(this);
+    return this.app.notFound.bind(this.app);
   }
 
   get onError() {
-    return this.app.onError.bind(this);
+    return this.app.onError.bind(this.app);
   }
 }
 
