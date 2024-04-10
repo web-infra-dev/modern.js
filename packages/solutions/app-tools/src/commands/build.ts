@@ -4,6 +4,7 @@ import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
+import { registerCompiler } from '../utils/register';
 
 export const build = async (
   api: PluginAPI<AppTools<'shared'>>,
@@ -17,6 +18,13 @@ export const build = async (
   let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
+
+  await registerCompiler(
+    appContext.appDirectory,
+    appContext.distDirectory,
+    resolvedConfig.source.alias,
+  );
+
   const { apiOnly } = appContext;
 
   if (apiOnly) {
