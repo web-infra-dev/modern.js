@@ -21,25 +21,25 @@ export function createBaseHookContext(c: Context<ServerEnv>): HookContext {
 }
 
 class BaseHookRequest implements ModernRequest {
-  private req: HonoRequest;
+  #req: HonoRequest;
 
-  private c: Context;
+  #c: Context;
 
-  private headersData: Record<string, string | undefined> = {};
+  #headersData: Record<string, string | undefined> = {};
 
   #headers: Record<string, string | undefined>;
 
   constructor(c: Context) {
-    this.c = c;
-    this.req = c.req;
+    this.#c = c;
+    this.#req = c.req;
 
-    const rawHeaders = this.req.raw.headers;
+    const rawHeaders = this.#req.raw.headers;
 
     rawHeaders.forEach((value, key) => {
-      this.headersData[key] = value;
+      this.#headersData[key] = value;
     });
 
-    this.#headers = new Proxy(this.headersData, {
+    this.#headers = new Proxy(this.#headersData, {
       get(target, p) {
         return target[p as string];
       },
@@ -53,7 +53,7 @@ class BaseHookRequest implements ModernRequest {
 
   get url(): string {
     // compat old middlwares,
-    return this.req.path;
+    return this.#req.path;
   }
 
   // TODO: remove next major version
@@ -62,7 +62,7 @@ class BaseHookRequest implements ModernRequest {
   }
 
   get host(): string {
-    return getHost(this.req.raw);
+    return getHost(this.#req.raw);
   }
 
   // TODO: remove next major version
@@ -71,7 +71,7 @@ class BaseHookRequest implements ModernRequest {
   }
 
   get pathname(): string {
-    return this.req.path;
+    return this.#req.path;
   }
 
   // TODO: remove next major version
@@ -80,7 +80,7 @@ class BaseHookRequest implements ModernRequest {
   }
 
   get query(): Record<string, any> {
-    return this.req.query();
+    return this.#req.query();
   }
 
   // TODO: remove next major version
@@ -101,14 +101,14 @@ class BaseHookRequest implements ModernRequest {
     return {
       // FIXME: ModernRequest Type Error
       get: (key: string) => {
-        return getCookie(this.c, key) as string;
+        return getCookie(this.#c, key) as string;
       },
     };
   }
 
   get cookie(): string {
     // FIXME: ModernRequest Type Error
-    return this.req.header('cookie') as string;
+    return this.#req.header('cookie') as string;
   }
 
   // TODO: remove next major version
@@ -125,14 +125,14 @@ class BaseHookResponse implements ModernResponse {
    * */
   private_overrided: boolean = false;
 
-  private c: Context;
+  #c: Context;
 
   constructor(c: Context) {
-    this.c = c;
+    this.#c = c;
   }
 
   get(key: string) {
-    return this.c.res.headers.get(key) as
+    return this.#c.res.headers.get(key) as
       | string
       | number
       | string[]
@@ -142,27 +142,27 @@ class BaseHookResponse implements ModernResponse {
   set(key: string, value: string | number) {
     // we should append, if the key is `set-cookie`
     if (['set-cookie', 'Set-Cookie'].includes(key)) {
-      this.c.header(key, value.toString(), {
+      this.#c.header(key, value.toString(), {
         append: true,
       });
     } else {
-      this.c.header(key, value.toString());
+      this.#c.header(key, value.toString());
     }
   }
 
   status(code: number) {
-    this.c.status(code);
+    this.#c.status(code);
   }
 
   get cookies() {
     const setCookie = (key: string, value: string) => {
-      this.c.header('set-cookie', `${key}=${value}`, {
+      this.#c.header('set-cookie', `${key}=${value}`, {
         append: true,
       });
     };
 
     const clearCookie = () => {
-      this.c.header('set-cookie', undefined);
+      this.#c.header('set-cookie', undefined);
     };
 
     return {
@@ -180,7 +180,7 @@ class BaseHookResponse implements ModernResponse {
         }
       | undefined,
   ) {
-    this.c.res = this.c.newResponse(body, options);
+    this.#c.res = this.#c.newResponse(body, options);
     this.private_overrided = true;
   }
 }
