@@ -51,7 +51,7 @@ export const transformToRsbuildServerOptions = (
   dev: DevConfig;
   server: ServerConfig;
 } => {
-  const { port, host, https, ...devConfig } = dev;
+  const { port = 8080, host, https, ...devConfig } = dev;
 
   const newDevServerConfig = mergeChainedOptions({
     defaults: {
@@ -62,6 +62,7 @@ export const transformToRsbuildServerOptions = (
       liveReload: true,
       client: {
         path: '/webpack-hmr',
+        overlay: false,
       },
     },
     options: devServer,
