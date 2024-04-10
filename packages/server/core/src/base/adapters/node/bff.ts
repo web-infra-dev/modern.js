@@ -11,7 +11,7 @@ export const bindBFFHandler = async (
   server: ServerBase,
   options: ServerBaseOptions & BindRenderHandleOptions,
 ) => {
-  const prefix = options.config.bff.prefix || '/api';
+  const prefix = options?.config?.bff?.prefix || '/api';
   const { enableHandleWeb } = options.config.bff;
   const { httpMethodDecider } = options.config.bff;
   const runtimeEnv = getRuntimeEnv();
