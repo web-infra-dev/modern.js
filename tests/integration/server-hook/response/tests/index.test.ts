@@ -69,11 +69,4 @@ describe('test status code page', () => {
     expect(headers['x-modern-name']).toBe('hello-modern');
     expect(response!.status()).toBe(201);
   });
-
-  test('should pass payload correctly', async () => {
-    const response = await page.goto(`http://localhost:${port}/payload`);
-
-    const text = await response!.text();
-    expect(text).toBe('modern_payload');
-  });
 });

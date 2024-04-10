@@ -1,0 +1,65 @@
+---
+sidebar_label: proxy
+---
+
+# bff.proxy
+
+- **Type:** `Record<string, string>`
+- **Default:** `{}`
+
+import EnableBFFCaution from "@site-docs-en/components/enable-bff-caution";
+
+<EnableBFFCaution />
+
+With simple configuration, Modern.js can automatically proxy requests sent to the BFF server to the specified service.
+
+Add the following configuration to `modern.server-runtime.config.js` to enable proxy:
+
+```ts title="modern.server-runtime.config.ts"
+import { defineConfig } from '@modern-js/app-tools/server';
+export default defineConfig({
+  bff: {
+    proxy: {
+      '/api': 'https://cnodejs.org',
+    },
+  },
+});
+```
+
+Assuming the address of Modern.js BFF server is `localhost:8080`, all requests starting with `api` will be proxied to `https://cnodejs.org`, for example, the request to `localhost:8080/api/v1/topics` will be proxied to `https://cnodejs.org/api/v1/topics`.
+
+import BFFProxyPathRewrite from "@site-docs-en/components/bff-proxy-path-rewrite";
+
+<BFFProxyPathRewrite />
+
+Unlike [dev.proxy](/configure/app/dev/proxy), the proxy here only applies to requests entering the BFF/API service; at the same time, this configuration can not only be used in the development environment, but also proxies corresponding requests in the production environment.
+
+import BFFProxyPrinciple from "@site-docs-en/components/bff-proxy-principle";
+
+<BFFProxyPrinciple />
+
+## Common Usage
+
+### Solving Cross-Domain Issues for APIs
+
+During project development, cross-domain issues are often encountered because web pages and API services are not deployed under the same domain name.
+There are many ways to solve cross-domain issues, and here we can easily solve them using `bff.proxy`.
+
+:::info
+Under BFF proxy mode, if you don't need to write BFF code, the API directory can be deleted; BFF proxy will still be enabled.
+
+:::
+
+As shown below, the following configuration in `modern.server-runtime.config.ts` will proxy all web page requests starting with `/api` to a service on another domain with the same domain.
+
+```ts title="modern.server-runtime.config.ts"
+export default defineServerConfig({
+  bff: {
+    proxy: {
+      '/api': 'https://cnodejs.org',
+    },
+  },
+};
+```
+
+

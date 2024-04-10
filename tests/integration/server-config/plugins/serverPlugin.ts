@@ -41,12 +41,11 @@ export default (): ServerPlugin => ({
       },
 
       async prepareApiServer() {
-        return async c => {
-          const pathname = c.req.path;
-          if (pathname === '/api/foo') {
-            return c.text('foo');
+        return (req, res) => {
+          if (req.url === '/api/foo') {
+            res.end('foo');
           } else {
-            return c.text('Hello Modernjs');
+            res.end('Hello Modernjs');
           }
         };
       },

@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import * as path from 'path';
 import { isBFFProject } from '../../src/cli/bff/utils';
 import mockAPI from '../../src/cli/bff/mockAPI';

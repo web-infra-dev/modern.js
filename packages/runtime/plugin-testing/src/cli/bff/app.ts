@@ -1,13 +1,11 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import path from 'node:path';
-import { createProdServer } from '@modern-js/prod-server';
+import { Server } from '@modern-js/prod-server';
 import { InternalPlugins } from '@modern-js/types';
 
 const store = new AsyncLocalStorage();
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
 
 export const isInHandler = () => Boolean(store.getStore());
-let server: UnwrapPromise<ReturnType<typeof createProdServer>>;
+let server: Server | null = null;
 
 const createApp = async (
   pwd: string,
@@ -17,20 +15,18 @@ const createApp = async (
 ) => {
   if (!server) {
     config.output.path = './';
-    server = await createProdServer({
+    server = new Server({
+      apiOnly: true,
       pwd,
       config,
       internalPlugins: plugins,
       routes,
-      appContext: {
-        apiDirectory: path.join(pwd, 'api'),
-        lambdaDirectory: path.join(pwd, 'api', 'lambda'),
-      },
     });
+
+    await server.init();
   }
 
-  const app = server.getRequestListener();
-
+  const app = server.getRequestHandler();
   return app;
 };
 
@@ -38,14 +34,14 @@ const getApp = () => {
   if (!server) {
     throw new Error('please createApp first');
   }
-  return server.getRequestListener();
+  return server.getRequestHandler();
 };
 
 const closeServer = async () => {
   if (!server) {
     throw new Error('please createApp first');
   }
-  server.close();
+  await server.close();
 };
 
 export { createApp, getApp, closeServer };

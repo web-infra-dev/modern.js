@@ -33,9 +33,8 @@ describe('test nonce', () => {
   });
 
   test('should inject nonce correctly', async () => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
     await page.goto(`http://localhost:${port}`);
+
     const scriptArr = await page.$$eval('head > script', scripts =>
       scripts
         .filter(script => script.type !== 'application/json')

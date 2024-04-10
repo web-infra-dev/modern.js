@@ -4,9 +4,8 @@ import type {
   DevServerHttpsOptions,
   NextFunction,
 } from '@modern-js/types';
+import type { ModernServerOptions } from '@modern-js/prod-server';
 import type { RsbuildInstance, RsbuildDevServer } from '@rsbuild/shared';
-
-import { ServerBase, ServerBaseOptions } from '@modern-js/server-core/base';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -50,21 +49,23 @@ export type DevMiddlewareOptions = {
 export type DevMiddleware = (options: DevMiddlewareOptions) => DevMiddlewareAPI;
 
 export type ExtraOptions = {
+  dev: boolean | Partial<DevServerOptions>;
+  devMiddleware?: DevMiddleware;
+  useSSRWorker?: boolean;
+};
+
+export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;
+
+export type ExtraOptionsNew = {
   dev: Pick<DevServerOptions, 'watch' | 'https'> & {
     writeToDisk?: boolean | ((filename: string) => boolean);
   };
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
-  getMiddlewares?: () => Pick<
+  getMiddlewares: () => Pick<
     RsbuildDevServer,
     'middlewares' | 'onHTTPUpgrade' | 'close'
   >;
 };
 
-export type ModernDevServerOptions<
-  O extends ServerBaseOptions = ServerBaseOptions,
-> = O & ExtraOptions;
-
-export type InitProdMiddlewares<
-  O extends ServerBaseOptions = ServerBaseOptions,
-> = (server: ServerBase, options: O) => Promise<ServerBase>;
+export type ModernDevServerOptionsNew = ModernServerOptions & ExtraOptionsNew;

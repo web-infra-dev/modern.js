@@ -60,7 +60,6 @@
     },
     "./fileReader": {
       "jsnext:source": "./src/node/fileReader.ts",
-      "types": "./dist/types/node/fileReader.d.ts",
       "require": "./dist/cjs/node/fileReader.js",
       "default": "./dist/esm/node/fileReader.js"
     },

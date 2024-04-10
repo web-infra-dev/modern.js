@@ -26,19 +26,9 @@ describe('support Api function', () => {
       prefix,
       render: async req => {
         if (req.url === '/render-page') {
-          return new Response('Hello Modern Render', {
-            status: 200,
-            headers: new Headers({
-              'content-type': 'text/html; charset=UTF-8',
-            }),
-          });
+          return 'Hello Modern Render';
         } else {
-          return new Response(null, {
-            status: 200,
-            headers: new Headers({
-              'content-type': 'text/html; charset=UTF-8',
-            }),
-          });
+          return null;
         }
       },
     });

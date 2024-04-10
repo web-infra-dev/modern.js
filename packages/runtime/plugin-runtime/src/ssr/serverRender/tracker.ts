@@ -74,40 +74,22 @@ const timings: Record<
   },
 };
 
-function getHeadersWithoutCookie(headers: Record<string, any>) {
-  const _headers = {
-    ...headers,
-    cookie: undefined,
-  };
-  delete _headers.cookie;
-
-  return _headers;
-}
-
 export function createSSRTracker({
   reporter,
   serverTiming,
   logger,
-  request,
 }: BaseSSRServerContext) {
   const tracker = {
     get sessionId() {
-      return reporter?.sessionId;
+      return reporter.sessionId;
     },
     trackError(key: SSRErrors, e: Error) {
       const { reporter: reporterContent, logger: loggerContent } = errors[key];
 
       // unit add `SSR Error - `prefix
       reporterContent &&
-        reporter?.reportError(`SSR Error - ${reporterContent}`, e);
-
-      loggerContent &&
-        logger.error(
-          `SSR Error - ${loggerContent}, error = %s, req.url = %s, req.headers = %o`,
-          e instanceof Error ? e.stack || e.message : e,
-          request.pathname,
-          getHeadersWithoutCookie(request.headers),
-        );
+        reporter.reportError(`SSR Error - ${reporterContent}`, e);
+      loggerContent && logger.error(loggerContent, e);
     },
     trackTiming(key: SSRTimings, cost: number) {
       const {
@@ -116,14 +98,9 @@ export function createSSRTracker({
         logger: loggerName,
       } = timings[key];
 
-      reporterName && reporter?.reportTiming(reporterName, cost);
+      reporterName && reporter.reportTiming(reporterName, cost);
       serverTimingName && serverTiming.addServeTiming(serverTimingName, cost);
-      loggerName &&
-        logger.debug(
-          `SSR Debug - ${loggerName}, req.url = %s`,
-          cost,
-          request.pathname,
-        );
+      loggerName && logger.debug(loggerName, cost);
     },
   };
   return tracker;

@@ -15,10 +15,8 @@ export const APIPlugin = createPlugin(api => ({
     });
     const apiMode = apiRouter.getApiMode();
     const apiHandlerInfos = apiRouter.getApiHandlers();
-    const middleware = props.config?.middleware;
     api.setAppContext({
       ...appContext,
-      apiMiddlewares: middleware,
       apiRouter,
       apiHandlerInfos,
       apiMode,

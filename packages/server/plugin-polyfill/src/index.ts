@@ -1,4 +1,5 @@
 import type { ServerPlugin } from '@modern-js/server-core';
+import { NextFunction, ModernServerContext } from '@modern-js/types';
 import { getPolyfillString } from '@modern-js/polyfill-lib';
 import { mime } from '@modern-js/utils';
 import Parser from 'ua-parser-js';
@@ -8,8 +9,8 @@ import PolyfillCache, { generateCacheKey } from './libs/cache';
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-polyfill',
 
-  setup: api => ({
-    prepare() {
+  setup: () => ({
+    beforeProdServer() {
       const cache = new PolyfillCache();
       const route = defaultPolyfill;
       const features = getDefaultFeatures();
@@ -23,13 +24,13 @@ export default (): ServerPlugin => ({
           return `${name}-${flagStr}`;
         })
         .join(',');
-      const { serverBase } = api.useAppContext();
-      serverBase?.get('*', async (context, next) => {
-        if (context.req.path !== route) {
+
+      return async (context: ModernServerContext, next: NextFunction) => {
+        if (context.url !== route) {
           return next();
         }
 
-        const parsedUA = Parser(context.req.header('user-agent'));
+        const parsedUA = Parser(context.headers['user-agent']);
         const { name = '', version = '' } = parsedUA.browser;
 
         const cacheKey = generateCacheKey({
@@ -40,26 +41,24 @@ export default (): ServerPlugin => ({
         });
         const matched = cache.get(cacheKey);
         if (matched) {
-          context.res.headers.set(
+          context.res.setHeader(
             'content-type',
             mime.contentType('js') as string,
           );
-          return context.body(matched);
+          return context.res.end(matched);
         }
 
         const polyfill = await getPolyfillString({
-          uaString: context.req.header('user-agent') as string,
+          uaString: context.headers['user-agent'] as string,
           minify,
           features,
         });
 
         cache.set(cacheKey, polyfill);
-        context.res.headers.set(
-          'content-type',
-          mime.contentType('js') as string,
-        );
-        return context.body(polyfill);
-      });
+
+        context.res.setHeader('content-type', mime.contentType('js') as string);
+        return context.res.end(polyfill);
+      };
     },
   }),
 });
