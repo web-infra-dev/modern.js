@@ -1,7 +1,6 @@
-import path, { join } from 'path';
+import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { dev } from '@scripts/shared';
-import { fse } from '@rsbuild/shared';
 
 const cwd = join(__dirname, 'history-api-fallback');
 
@@ -12,7 +11,14 @@ test('should provide history api fallback correctly', async ({ page }) => {
       main: join(cwd, 'src/index.tsx'),
     },
     serverOptions: {
-      routes: (await fse.readJSON(path.join(cwd, 'dist', 'route.json'))).routes,
+      routes: [
+        {
+          urlPath: '/',
+          entryName: 'main',
+          entryPath: 'html/main/index.html',
+          isSPA: true,
+        },
+      ],
     },
     builderConfig: {
       tools: {
