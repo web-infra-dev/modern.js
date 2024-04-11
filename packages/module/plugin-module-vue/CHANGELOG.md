@@ -1,5 +1,15 @@
 # @modern-js/plugin-module-vue
 
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [6e15311]
+- Updated dependencies [f8c9361]
+- Updated dependencies [5d135ea]
+  - @modern-js/module-tools@2.48.5
+  - @modern-js/plugin-module-babel@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

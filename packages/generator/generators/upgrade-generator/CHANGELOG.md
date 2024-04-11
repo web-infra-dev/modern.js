@@ -1,5 +1,19 @@
 # @modern-js/upgrade-generator
 
+## 3.3.16
+
+### Patch Changes
+
+- 8465a9e: chore(deps): should not bump builder deps when use upgrade command
+
+  chore(deps): 使用 upgrade 命令时不升级 builder 依赖并添加 builder 插件废弃提示
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/plugin-i18n@2.48.5
+  - @modern-js/generator-common@3.3.16
+  - @modern-js/generator-utils@3.3.16
+
 ## 3.3.15
 
 ### Patch Changes
