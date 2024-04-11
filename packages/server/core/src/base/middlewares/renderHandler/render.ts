@@ -48,7 +48,12 @@ export async function createRender({
     const html = templates[routeInfo.entryName!];
 
     if (!html) {
-      throw new Error(`Can't found entry ${routeInfo.entryName!} html `);
+      return new Response(createErrorHtml(404), {
+        status: 404,
+        headers: {
+          'content-type': 'text/html; charset=UTF-8',
+        },
+      });
     }
 
     const renderMode = getRenderMode(
