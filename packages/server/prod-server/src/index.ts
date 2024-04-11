@@ -1,20 +1,26 @@
-import { ModernServerOptions } from './type';
-import { Server } from './server';
+import {
+  createNodeServer,
+  loadServerEnv,
+} from '@modern-js/server-core/base/node';
+import { createServerBase } from '@modern-js/server-core/base';
+import { initProdMiddlewares } from './init';
+import { BaseEnv, ProdServerOptions } from './types';
 
-export { Server };
-export type { ServerConfig } from '@modern-js/server-core';
-export { ModernServer } from './server/modernServer';
-export { createProxyHandler } from './libs/proxy';
-export * from './type';
-export * from './constants';
-export { createRenderHandler } from './libs/render';
+export { initProdMiddlewares, type InitProdMiddlewares } from './init';
 
-export default (options: ModernServerOptions): Promise<Server> => {
-  if (options == null) {
-    throw new Error('can not start mserver without options');
-  }
+export type { ProdServerOptions, BaseEnv } from './types';
 
-  const server = new Server(options);
+export const createProdServer = async (options: ProdServerOptions) => {
+  const server = createServerBase<BaseEnv>(options);
+  // load env file.
+  await loadServerEnv(options);
+  await server.init();
 
-  return server.init();
+  const nodeServer = createNodeServer(server.handle.bind(server));
+  await server.runner.beforeServerInit({
+    app: nodeServer,
+  });
+  // initProdMiddlewares should run after beforeServerInit, because some hooks are currently executed in initProdMIddlewares
+  await initProdMiddlewares(server, options);
+  return nodeServer;
 };

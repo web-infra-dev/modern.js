@@ -1,14 +1,8 @@
 import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
-import { ModernServerOptions } from '@modern-js/prod-server';
-import {
-  fs,
-  getAliasConfig,
-  createDebugger,
-  readTsConfigByFile,
-} from '@modern-js/utils';
-
-const debug = createDebugger('server');
+import { ServerBaseOptions } from '@modern-js/server-core/base';
+import { fs, getAliasConfig, readTsConfigByFile } from '@modern-js/utils';
+import { debug } from '../../helpers/utils';
 
 const checkDep = (depName: string, paths: string[]) => {
   let packagePath = '';
@@ -22,7 +16,7 @@ const checkDep = (depName: string, paths: string[]) => {
 
 export const enableRegister = (
   projectRoot: string,
-  config: ModernServerOptions['config'],
+  config: ServerBaseOptions['config'],
   // eslint-disable-next-line consistent-return
 ) => {
   const registerDirs = ['./api', './server', './config/mock', './shared'];

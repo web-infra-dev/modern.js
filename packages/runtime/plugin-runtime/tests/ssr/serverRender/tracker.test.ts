@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import {
   SSRErrors,
   SSRTimings,
@@ -42,6 +45,7 @@ describe('tracker', () => {
       reporter,
       serverTiming,
       logger,
+      request: new Request('http://127.0.0.1'),
     } as any;
     tracker = createSSRTracker(ssrContext);
   });
@@ -51,7 +55,12 @@ describe('tracker', () => {
     tracker.trackError(SSRErrors.PRERENDER, error);
 
     expect(reporter.errors).toEqual([['SSR Error - App Prerender', error]]);
-    expect(logger.errors).toEqual([['App Prerender', error]]);
+    expect(logger.errors).toEqual([
+      [
+        'SSR Error - App Prerender, error = %s, req.url = %s, req.headers = %o',
+        error.stack,
+      ],
+    ]);
   });
 
   it('track ssr timing', () => {
@@ -59,7 +68,9 @@ describe('tracker', () => {
     tracker.trackTiming(SSRTimings.RENDER_HTML, cost);
 
     expect(serverTiming.serverTimings).toEqual([['ssr-render-html', cost]]);
-    expect(logger.timings).toEqual([['App Render To HTML cost = %d ms', cost]]);
+    expect(logger.timings).toEqual([
+      ['SSR Debug - App Render To HTML cost = %d ms, req.url = %s', cost],
+    ]);
     expect(reporter.timings).toEqual([['ssr-render-html', cost]]);
   });
 });

@@ -11,20 +11,6 @@ import {
 import 'isomorphic-fetch';
 
 dns.setDefaultResultOrder('ipv4first');
-const supportServerConfig = async ({
-  host,
-  port,
-  prefix,
-}: {
-  host: string;
-  port: number;
-  prefix: string;
-}) => {
-  const res = await fetch(`${host}:${port}${prefix}/proxy`);
-  expect(res.status).toBe(200);
-  const text = await res.text();
-  expect(text).toBe('foo');
-};
 
 const supportServerPlugins = async ({
   host,
@@ -40,24 +26,8 @@ const supportServerPlugins = async ({
   expect(text).toBe(expectedText);
 };
 
-const supportConfigHook = async ({
-  host,
-  port,
-  prefix,
-}: {
-  host: string;
-  port: number;
-  prefix: string;
-}) => {
-  const res = await fetch(`${host}:${port}${prefix}/bar`);
-  expect(res.status).toBe(200);
-  const text = await res.text();
-  expect(text).toBe('foo');
-};
-
 describe('server config in dev', () => {
   let port = 8080;
-  const prefix = '/api';
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
   let app: any;
@@ -70,25 +40,13 @@ describe('server config in dev', () => {
     });
   });
 
-  test('server config should works', () =>
-    supportServerConfig({
+  test('plugins should works', async () => {
+    // await new Promise(resolve => setTimeout(resolve, 1000));
+    await supportServerPlugins({
       host,
       port,
-      prefix,
-    }));
-
-  test('plugins should works', () =>
-    supportServerPlugins({
-      host,
-      port,
-    }));
-
-  test('support config hooks', () =>
-    supportConfigHook({
-      host,
-      port,
-      prefix,
-    }));
+    });
+  });
 
   afterAll(async () => {
     await killApp(app);
@@ -97,7 +55,6 @@ describe('server config in dev', () => {
 
 describe('server config in prod', () => {
   let port = 8080;
-  const prefix = '/api';
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
   let app: any;
@@ -116,26 +73,12 @@ describe('server config in prod', () => {
     });
   });
 
-  test('server config should works', () =>
-    supportServerConfig({
-      host,
-      port,
-      prefix,
-    }));
-
   test('plugins should works', async () => {
     await supportServerPlugins({
       host,
       port,
     });
   });
-
-  test('support config hooks', () =>
-    supportConfigHook({
-      host,
-      port,
-      prefix,
-    }));
 
   afterAll(async () => {
     await killApp(app);

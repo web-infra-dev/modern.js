@@ -17,11 +17,7 @@ import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouteManifest, RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
-import { installGlobals } from './fetch';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
-
-// Polyfill Web Fetch API
-installGlobals();
 
 // TODO: polish
 function createFetchRequest(req: SSRServerContext['request']): Request {
@@ -123,7 +119,7 @@ export const routerPlugin = ({
             requestContext,
           });
           const cost = end();
-          reporter.reportTiming(LOADER_REPORTER_NAME, cost);
+          reporter?.reportTiming(LOADER_REPORTER_NAME, cost);
           serverTiming.addServeTiming(LOADER_REPORTER_NAME, cost);
 
           if (routerContext instanceof Response) {

@@ -1,4 +1,4 @@
-import { cutNameByHyphen } from '@modern-js/utils';
+import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { IAppContext } from '../types';
 
 export function getAutoInjectEnv(appContext: IAppContext) {

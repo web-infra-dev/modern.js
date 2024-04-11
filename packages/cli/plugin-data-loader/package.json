@@ -17,7 +17,7 @@
   ],
   "version": "2.48.5",
   "engines": {
-    "node": ">=14.17.6"
+    "node": ">=16.2.0"
   },
   "jsnext:source": "./src/runtime/index.ts",
   "types": "./src/runtime/index.ts",
@@ -29,11 +29,6 @@
       "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
-    "./server": {
-      "types": "./dist/types/server/index.d.ts",
-      "jsnext:source": "./src/server/index.ts",
-      "default": "./dist/cjs/server/index.js"
-    },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
@@ -44,9 +39,6 @@
     "*": {
       "loader": [
         "./dist/types/cli/loader.d.ts"
-      ],
-      "server": [
-        "./dist/types/server/index.d.ts"
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
@@ -64,7 +56,6 @@
     "@babel/core": "^7.23.2",
     "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "@remix-run/node": "^1.12.0",
     "path-to-regexp": "^6.2.0",
     "@swc/helpers": "0.5.3"
   },
