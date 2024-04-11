@@ -1,3 +1,4 @@
+import { serverPlugin } from '@modern-js/plugin-server';
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default applyBaseConfig({
@@ -9,6 +10,7 @@ export default applyBaseConfig({
       forceCSR: true,
     },
   },
+  plugins: [serverPlugin()],
   tools: {
     bundlerChain(chain) {
       chain.output.chunkLoadingGlobal('hello xxx');

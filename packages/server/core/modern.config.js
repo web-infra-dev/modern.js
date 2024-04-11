@@ -1,5 +1,5 @@
-const { nodeBuildConfig } = require('@scripts/build');
+const { universalBuildConfig } = require('@scripts/build');
 
 module.exports = {
-  buildConfig: nodeBuildConfig,
+  buildConfig: universalBuildConfig,
 };

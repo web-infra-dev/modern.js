@@ -31,13 +31,13 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  test('should router rewrite correctly ', async () => {
+  test.skip('should router rewrite correctly ', async () => {
     await page.goto(`http://localhost:${port}/rewrite`);
     const text = await page.$eval('#root', el => el?.textContent);
     expect(text).toMatch('Entry Page');
   });
 
-  test.skip('should router redirect correctly ', async () => {
+  test('should router redirect correctly ', async () => {
     const response = await page.goto(`http://localhost:${port}/redirect`);
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');

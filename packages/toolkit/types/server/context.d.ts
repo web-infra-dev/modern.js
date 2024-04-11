@@ -79,47 +79,39 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   routeManifest?: Record<string, any>;
   template: string;
   entryName: string;
-  logger: {
-    error: (message: string, e: Error | string) => void;
-    debug: (message: string, ...args: any[]) => void;
-    info: (message: string, ...args: any[]) => void;
-  };
-  metrics: {
-    emitTimer: (
-      name: string,
-      cost: number,
-      tags: Record<string, unknown> = {},
-    ) => void;
-    emitCounter: (
-      name: string,
-      counter: number,
-      tags: Record<string, unknown> = {},
-    ) => void;
-  };
-  reporter: Reporter;
+  logger: Logger;
   serverTiming: ServerTiming;
+  reporter?: Reporter;
+
+  // TODO: remove it
+  /** @deprecated */
   cacheConfig?: any;
 
   enableUnsafeCtx?: boolean;
 
   nonce?: string;
 
-  req: T extends 'worker' ? Request : ModernServerContext['req'];
+  /** @deprecated source req */
+  req?: T extends 'worker' ? Request : ModernServerContext['req'];
 
-  res: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
+  /** @deprecated source res */
+  res?: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
 
-  mode?: SSRMode; // ssr type
+  /** SSR type  */
+  mode?: SSRMode;
 
-  isSpider?: boolean; // Check if it's spider request
+  /** Check if it's spider request */
+  isSpider?: boolean;
 };
 
 export interface ServerInitHookContext {
   app?: HttpServer;
-  server: ModernServerInterface;
 }
 
 export interface ISAppContext {
   appDirectory: string;
+  apiDirectory?: string;
+  lambdaDirectory?: string;
   distDirectory: string;
   sharedDirectory: string;
   plugins: {

@@ -19,49 +19,7 @@
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "exports": {
-    ".": {
-      "types": "./dist/types/index.d.ts",
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm-node/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
-    },
-    "./worker": {
-      "types": "./dist/types/workerServer.d.ts",
-      "node": {
-        "jsnext:source": "./src/workerServer.ts",
-        "import": "./dist/esm-node/workerServer.js",
-        "require": "./dist/cjs/workerServer.js"
-      },
-      "default": "./dist/esm/workerServer.js"
-    },
-    "./renderHtml": {
-      "types": "./dist/types/renderHtml.d.ts",
-      "node": {
-        "jsnext:source": "./src/renderHtml.ts",
-        "import": "./dist/esm-node/renderHtml.js",
-        "require": "./dist/cjs/renderHtml.js"
-      },
-      "default": "./dist/esm/renderHtml.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types/index.d.ts"
-      ],
-      "worker": [
-        "./dist/types/workerServer.d.ts"
-      ],
-      "renderHtml": [
-        "./dist/types/renderHtml.d.ts"
-      ]
-    }
-  },
+  "module": "./dist/es/index.js",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
@@ -69,48 +27,56 @@
     "dev": "modern-lib build --watch",
     "test": "jest"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/cjs/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ]
+    }
+  },
   "dependencies": {
-    "@modern-js/plugin": "workspace:*",
     "@modern-js/server-core": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "isbot": "^3.8.0",
-    "@swc/helpers": "0.5.3",
-    "cookie": "0.5.0",
-    "etag": "^1.8.1",
-    "fresh": "^0.5.2",
-    "http-proxy-middleware": "^2.0.4",
-    "ignore-styles": "^5.0.1",
-    "merge-deep": "^3.0.3",
-    "node-html-parser": "^6.1.5",
-    "path-to-regexp": "^6.2.0",
-    "serve-static": "^1.14.1"
+    "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/types": "workspace:*",
+    "@modern-js/eslint-config": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@scripts/jest-config": "workspace:*",
-    "@types/cookie": "0.5.1",
-    "@types/etag": "^1.8.1",
-    "@types/fresh": "^0.5.0",
-    "@types/jest": "^29",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@types/merge-deep": "^3.0.0",
-    "@types/node": "^14",
-    "@types/serve-static": "^1.13.10",
-    "@types/ws": "^8.5.5",
-    "axios": "^1.6.0",
+    "@types/node": "~16.11.7",
+    "husky": "^8.0.0",
     "jest": "^29",
-    "memfs": "^3.5.1",
-    "node-mocks-http": "^1.11.0",
-    "portfinder": "^1.0.28",
-    "typescript": "^5",
-    "ws": "^8.13.0"
+    "@scripts/jest-config": "workspace:*",
+    "lint-staged": "~13.1.0",
+    "prettier": "^2.8.1",
+    "rimraf": "^3.0.2",
+    "tsx": "^3.12.7",
+    "@types/jest": "^29",
+    "typescript": "~5.0.4"
   },
-  "sideEffects": false,
+  "sideEffects": [],
+  "engines": {
+    "node": ">=16.2.0"
+  },
   "publishConfig": {
     "access": "public",
-    "provenance": true,
     "registry": "https://registry.npmjs.org/",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "jsnext:source": "./src/index.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    }
   }
 }
