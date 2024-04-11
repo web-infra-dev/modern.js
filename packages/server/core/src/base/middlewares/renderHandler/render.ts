@@ -47,7 +47,6 @@ export async function createRender({
 
     const html = templates[routeInfo.entryName!];
 
-    // TODO: maybe it should be 404 and warning
     if (!html) {
       throw new Error(`Can't found entry ${routeInfo.entryName!} html `);
     }
