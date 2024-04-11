@@ -97,7 +97,12 @@ export class CustomServer {
 
       await next();
 
-      if (c.finalized && (!c.res.body || !isHtmlResponse(c.res))) {
+      if (
+        c.finalized &&
+        (!c.res.body ||
+          !isHtmlResponse(c.res) ||
+          [404, 500].includes(c.res.status))
+      ) {
         // We shouldn't handle response.body, if response body == null
         return undefined;
       }
