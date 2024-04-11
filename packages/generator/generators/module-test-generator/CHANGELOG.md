@@ -1,5 +1,12 @@
 # @modern-js/module-test-generator
 
+## 3.3.16
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+
 ## 3.3.15
 
 ### Patch Changes

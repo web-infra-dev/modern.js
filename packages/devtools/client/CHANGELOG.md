@@ -1,5 +1,7 @@
 # @modern-js/devtools-client
 
+## 2.48.5
+
 ## 2.48.4
 
 ### Patch Changes
