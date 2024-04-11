@@ -41,7 +41,11 @@
     },
     "./base/node": {
       "types": "./dist/types/base/adapters/node/index.d.ts",
-      "import": "./dist/esm/base/adapters/node/index.js",
+      "jsnext:source": "./src/base/adapters/node/index.ts",
+      "node": {
+        "require": "./dist/cjs/base/adapters/node/index.js",
+        "import": "./dist/esm/base/adapters/node/index.js"
+      },
       "default": "./dist/cjs/base/adapters/node/index.js"
     }
   },
