@@ -14,9 +14,7 @@ export const registerCompiler = async (
 ) => {
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
-
   const isTsProject = await fs.pathExists(tsconfigPath);
-
   const aliasConfig = getAliasConfig(alias, {
     appDirectory: appDir,
     tsconfigPath,
@@ -37,48 +35,42 @@ export const registerCompiler = async (
     };
   }, {});
 
-  let tsNode = null;
-  try {
-    tsNode = await import('ts-node');
-  } catch (error) {}
+  let tsConfig: Record<string, any> = {};
+  if (isTsProject) {
+    tsConfig = readTsConfigByFile(tsconfigPath);
+  }
 
-  if (isTsProject && tsNode) {
-    const tsConfig = readTsConfigByFile(tsconfigPath);
+  try {
+    const tsNode = await import('ts-node');
     const tsNodeOptions = tsConfig['ts-node'];
-    tsNode.register({
-      project: tsconfigPath,
-      scope: true,
-      // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-      files: true,
-      transpileOnly: true,
-      ignore: ['(?:^|/)node_modules/', `(?:^|/)${distDir}/`],
-      ...tsNodeOptions,
-    });
-  } else {
-    const esbuildRegister = await import('esbuild-register/dist/node');
     if (isTsProject) {
-      const tsConfig = readTsConfigByFile(tsconfigPath);
-      esbuildRegister.register({
-        tsconfigRaw: tsConfig,
-        hookIgnoreNodeModules: true,
-        hookMatcher(fileName) {
-          if (fileName.startsWith(distDir)) {
-            return false;
-          }
-          return true;
-        },
+      tsNode.register({
+        project: tsconfigPath,
+        scope: true,
+        // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
+        files: true,
+        transpileOnly: true,
+        ignore: ['(?:^|/)node_modules/', `(?:^|/)${distDir}/`],
+        ...tsNodeOptions,
       });
-    } else {
-      esbuildRegister.register();
     }
+  } catch (error) {
+    const esbuildRegister = await import('esbuild-register/dist/node');
+    esbuildRegister.register({
+      tsconfigRaw: isTsProject ? tsConfig : undefined,
+      hookIgnoreNodeModules: true,
+      hookMatcher: fileName => !fileName.startsWith(distDir),
+    });
   }
 
   const tsConfigPaths = await import('@modern-js/utils/tsconfig-paths');
-  const loaderRes = tsConfigPaths.loadConfig(appDir);
-  if (loaderRes.resultType === 'success') {
-    tsConfigPaths.register({
-      baseUrl: absoluteBaseUrl || './',
-      paths: tsPaths,
-    });
+  if (await fs.pathExists(appDir)) {
+    const loaderRes = tsConfigPaths.loadConfig(appDir);
+    if (loaderRes.resultType === 'success') {
+      tsConfigPaths.register({
+        baseUrl: absoluteBaseUrl || './',
+        paths: tsPaths,
+      });
+    }
   }
 };

@@ -22,7 +22,7 @@ export const build = async (
   await registerCompiler(
     appContext.appDirectory,
     appContext.distDirectory,
-    resolvedConfig.source.alias,
+    resolvedConfig?.source?.alias,
   );
 
   const { apiOnly } = appContext;

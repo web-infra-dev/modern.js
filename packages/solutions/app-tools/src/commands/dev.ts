@@ -31,7 +31,7 @@ export const dev = async (
   await registerCompiler(
     appContext.appDirectory,
     appContext.distDirectory,
-    normalizedConfig.source.alias,
+    normalizedConfig?.source?.alias,
   );
 
   normalizedConfig = { ...normalizedConfig, cliOptions: options };
