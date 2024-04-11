@@ -1,5 +1,15 @@
 # @modern-js/plugin-module-babel
 
+## 2.48.5
+
+### Patch Changes
+
+- f8c9361: fix: bundle utils which in module tools to avoid not found error
+  fix: 打包模块工程里的工具函数以避免找不到的错误
+- Updated dependencies [6e15311]
+- Updated dependencies [5d135ea]
+  - @modern-js/module-tools@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

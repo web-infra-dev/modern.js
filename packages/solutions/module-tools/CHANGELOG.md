@@ -1,5 +1,22 @@
 # @modern-js/module-tools
 
+## 2.48.5
+
+### Patch Changes
+
+- 6e15311: fix(module-tools): new matcher to match alias in dts
+  fix(module-tools): 新的 matcher 规则以匹配 dts 别名
+- 5d135ea: fix: only invoke svgr in load hook
+  fix: 只在 load hook 里调用 svgr 逻辑
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/core@2.48.5
+  - @modern-js/plugin-changeset@2.48.5
+  - @modern-js/plugin-i18n@2.48.5
+  - @modern-js/plugin-lint@2.48.5
+  - @modern-js/plugin@2.48.5
+  - @modern-js/types@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

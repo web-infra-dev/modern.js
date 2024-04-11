@@ -1,5 +1,6 @@
-import { Server, ModernDevServerOptions } from '@modern-js/server';
-import type { InternalPlugins } from '@modern-js/types';
+import type { Server } from 'node:http';
+import { ModernDevServerOptions, createDevServer } from '@modern-js/server';
+import { initProdMiddlewares } from '@modern-js/prod-server';
 
 let server: Server | null = null;
 
@@ -11,31 +12,18 @@ export const setServer = (newServer: Server) => {
 
 export const closeServer = async () => {
   if (server) {
-    await server.close();
+    server.close();
     server = null;
   }
 };
 
-export const createServer = async (options: ModernDevServerOptions) => {
+export const createServer = async (
+  options: ModernDevServerOptions,
+): Promise<Server> => {
   if (server) {
-    await server.close();
+    server.close();
   }
-  server = new Server(options);
+  server = await createDevServer(options, initProdMiddlewares);
 
-  const app = await server.init();
-
-  return app;
-};
-
-export const injectDataLoaderPlugin = (internalPlugins: InternalPlugins) => {
-  const DataLoaderPlugin = require.resolve(
-    '@modern-js/plugin-data-loader/server',
-  );
-  return {
-    ...internalPlugins,
-    '@modern-js/plugin-data-loader': {
-      path: DataLoaderPlugin,
-      forced: true,
-    },
-  };
+  return server;
 };

@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.48.5
+
+### Patch Changes
+
+- 4ca9f4c: fix: remove `node:` prefix
+  fix: 移除 `node:` 前缀
+
 ## 2.48.4
 
 ### Patch Changes

@@ -1,26 +1,30 @@
-<p align="center">
-  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
-</p>
+# Modern.js Package
 
-<h1 align="center">Modern.js</h1>
+## Get Started
 
-<p align="center">
-  A Progressive React Framework for modern web development.
-</p>
+Run and debug the module:
 
-## Getting Started
+```bash
+pnpm run dev
+```
 
-Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
+Run test cases:
 
-## Documentation
+```bash
+pnpm run test
+```
 
-- [English Documentation](https://modernjs.dev/en/)
-- [中文文档](https://modernjs.dev)
+Build the module for production:
 
-## Contributing
+```bash
+pnpm run build
+```
 
-Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
+Enable optional features:
 
-## License
+```bash
+pnpm run new
+```
 
-Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+For more information, see the [Modern.js Module documentation](https://modernjs.dev/module-tools/en).
