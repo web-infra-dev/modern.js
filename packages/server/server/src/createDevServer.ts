@@ -11,7 +11,6 @@ import {
 } from '@modern-js/server-core/base/node';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import { InitProdMiddlewares, ModernDevServerOptions } from './types';
-import { enableRegister } from './dev-tools/register';
 import {
   startWatcher,
   onRepack,
@@ -47,7 +46,6 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const server = createServerBase(prodServerOptions);
 
   const closeCb: Array<(...args: []) => any> = [];
-  enableRegister(pwd, config);
   await registerMockHandlers({
     pwd,
     server,
