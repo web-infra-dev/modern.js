@@ -22,9 +22,9 @@ export type InitProdMiddlewares = typeof initProdMiddlewares;
 
 function getLogger() {
   if (process.env.DEBUG || process.env.NODE_ENV === 'production') {
-    return createLogger();
+    return createLogger({ level: 'verbose' });
   } else {
-    return createLogger({ level: 'warn' });
+    return createLogger();
   }
 }
 
