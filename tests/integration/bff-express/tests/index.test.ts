@@ -35,7 +35,9 @@ describe('bff express in dev', () => {
   });
 
   test('basic usage', async () => {
-    await page.goto(`${host}:${port}/${BASE_PAGE}`);
+    await page.goto(`${host}:${port}/${BASE_PAGE}`, {
+      timeout: 50000,
+    });
     // Reduce the probability of timeout on windows CI
     await new Promise(resolve => setTimeout(resolve, 3000));
     const text = await page.$eval('.hello', el => el?.textContent);
