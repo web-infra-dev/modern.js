@@ -1,6 +1,6 @@
 // The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
 // license at https://github.com/honojs/hono/blob/main/LICENSE
-import { Middleware } from '../../core/server';
+import type { Middleware, ServerEnv } from '../../core/server';
 import { getPathname } from '../utils';
 
 enum LogPrefix {
@@ -59,12 +59,12 @@ function log(
   fn(out);
 }
 
-export function logHandler(): Middleware {
+export function logHandler(): Middleware<ServerEnv> {
   return async function logger(c, next) {
     const { method } = c.req;
     const logger = c.get('logger');
     const path = getPathname(c.req.raw);
-    const logFn = logger.info;
+    const logFn = logger.debug;
     log(logFn, LogPrefix.Incoming, method, path);
     const start = Date.now();
     await next();
