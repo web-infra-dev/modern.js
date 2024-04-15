@@ -134,6 +134,7 @@ export async function parseCommonConfig(
       disableSourceMap,
       convertToRem,
       disableMinimize,
+      polyfill,
       ...outputConfig
     } = {},
     html: {
@@ -162,7 +163,10 @@ export async function parseCommonConfig(
 
   const rsbuildConfig: RsbuildConfig = {
     plugins,
-    output: outputConfig,
+    output: {
+      polyfill: polyfill === 'ua' ? 'off' : polyfill,
+      ...outputConfig,
+    },
     source: {
       alias: alias as unknown as SourceConfig['alias'],
       ...sourceConfig,

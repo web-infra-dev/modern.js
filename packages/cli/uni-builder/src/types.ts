@@ -14,6 +14,7 @@ import type {
   RsbuildPluginAPI,
   ArrayOrNot,
   HtmlTagDescriptor,
+  Polyfill,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -380,7 +381,9 @@ export type UniBuilderPlugin = {
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: RsbuildConfig['output'];
+  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+    polyfill?: Polyfill | 'ua';
+  };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
   tools?: RsbuildConfig['tools'];
