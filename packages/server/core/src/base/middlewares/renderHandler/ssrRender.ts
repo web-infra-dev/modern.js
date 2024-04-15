@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'http';
-import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
+import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import {
   SERVER_RENDER_FUNCTION_NAME,
   MAIN_ENTRY_NAME,
@@ -52,6 +52,7 @@ export interface SSRRenderOptions {
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   reporter?: Reporter;
+  metrics?: Metrics;
   nodeReq?: IncomingMessage;
   nonce?: string;
 }
@@ -69,6 +70,7 @@ export async function ssrRender(
     nodeReq,
     serverManifest,
     locals,
+    metrics,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -119,6 +121,7 @@ export async function ssrRender(
     entryName: entryName!,
     staticGenerate,
     logger,
+    metrics,
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: reporter || defaultReporter,
     /** @deprecated node req */

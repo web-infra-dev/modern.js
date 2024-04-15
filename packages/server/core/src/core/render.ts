@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'node:http';
-import type { Logger, Reporter } from '@modern-js/types';
+import type { Logger, Metrics, Reporter } from '@modern-js/types';
 import type { ServerManifest } from './server';
 
 export interface RenderOptions {
@@ -10,6 +10,10 @@ export interface RenderOptions {
 
   /** Communicating with custom server hook & modern ssr runtime. */
   locals?: Record<string, any>;
+
+  /** Metrics */
+  metrics?: Metrics;
+
   serverManifest: ServerManifest;
   reporter?: Reporter;
   nodeReq?: IncomingMessage;
