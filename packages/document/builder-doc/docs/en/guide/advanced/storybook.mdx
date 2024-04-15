@@ -65,7 +65,7 @@ Addon some scripts in your package.json
 {
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build"
   }
 }
 ```
@@ -76,7 +76,7 @@ To Start, run `npm run storybook`
 
 Modern.js Builder only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
 -  framework: '@storybook/react-webapck5',
 +  framework: {
@@ -95,7 +95,7 @@ If the original project includes configurations for Babel, they need to be writt
 
 Rspack is known for its fast build speed. To use Rspack as a build tool in Modern.js, you only need to configure it as follows:
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -119,7 +119,7 @@ Before starting, make sure that you have installed the @modern-js/builder-rspack
 
 ## Configurations
 
-There are some configurations in `.storybook/main.js`.
+There are some configurations in `.storybook/main.ts`.
 
 ### configPath
 
@@ -130,14 +130,14 @@ Specify the path of Modern.js Builder configuration.
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
     options: {
-      configPath: 'modern.storybook.config.ts'
-    }
-  }
+      configPath: 'modern.storybook.config.ts',
+    },
+  },
 };
 
 export default config;
@@ -152,14 +152,14 @@ Specify the underlying build tool to use either Webpack or Rspack. Please make s
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
     options: {
-      bundler: 'rspack'
-    }
-  }
+      bundler: 'rspack',
+    },
+  },
 };
 
 export default config;
@@ -174,7 +174,7 @@ To modify the configuration of the builder, which has a higher priority than the
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -183,10 +183,10 @@ const config = {
         alias: {
           react: require.resolve('react'),
           'react-dom': require.resolve('react-dom'),
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 };
 
 export default config;
@@ -213,7 +213,7 @@ import { defineConfig } from '@modern-js/storybook';
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 const config = defineConfig({
-  builderPlugins: [builderPluginSwc()]
+  builderPlugins: [builderPluginSwc()],
 });
 
 export default config;
@@ -236,16 +236,16 @@ The powerful capabilities of Modern.js builder can be directly used in Storybook
 ## Trouble Shooting
 
 1. Modern.js builder won't load your other configurations like `babel.config.json`, babel config needs to be set in Modern.js config, [tools.babel](/api/config-tools.html#toolsbabel).
-Webpack configuration can be written in either [tools.webpack](/api/config-tools.html#toolswebpack) or [tools.webpackChain](/api/config-tools.html#toolswebpackchain).
+   Webpack configuration can be written in either [tools.webpack](/api/config-tools.html#toolswebpack) or [tools.webpackChain](/api/config-tools.html#toolswebpackchain).
 
 2. If you find that the build performance is not good, please check if the Storybook automatic documentation generation feature is enabled. For optimal performance, configure it to use `react-docgen`. The difference between `react-docgen` and `react-docgen-typescript` is that the former is implemented based on Babel, while the latter is implemented based on TypeScript. The former has better performance but weaker type inference capabilities. If you are using Rspack for the build, only `react-docgen` is supported.
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   typescript: {
-    reactDocgen: 'react-docgen'
-  }
-}
+    reactDocgen: 'react-docgen',
+  },
+};
 
-export default config
+export default config;
 ```
