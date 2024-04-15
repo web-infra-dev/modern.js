@@ -107,6 +107,14 @@ export class CustomServer {
         return undefined;
       }
 
+      // TODO: fix by hono
+      // c.res must sync with c.#status
+      // but hono not do it,
+      // so we sync it manually
+      if (c.res) {
+        c.status(c.res.status);
+      }
+
       if (routeInfo.isStream) {
         // run afterStreamingRender hook
         const afterStreamingRenderContext = createAfterStreamingRenderContext(
@@ -143,10 +151,7 @@ export class CustomServer {
 
         const newBody = afterRenderCtx.template.get();
 
-        c.res = c.body(newBody, {
-          status: c.res.status,
-          headers: c.res.headers,
-        });
+        c.res = c.body(newBody);
       }
     };
   }
