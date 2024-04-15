@@ -36,7 +36,7 @@ export type Reporter<C = any> = {
   userId?: string;
   client?: C;
 
-  init: (payload: { match: any }) => void | Promise<void>;
+  init: (payload: { entryName: string }) => void | Promise<void>;
 
   reportError: (
     content: string,

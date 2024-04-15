@@ -10,6 +10,16 @@ test('should provide history api fallback correctly', async ({ page }) => {
     entry: {
       main: join(cwd, 'src/index.tsx'),
     },
+    serverOptions: {
+      routes: [
+        {
+          urlPath: '/',
+          entryName: 'main',
+          entryPath: 'html/main/index.html',
+          isSPA: true,
+        },
+      ],
+    },
     builderConfig: {
       tools: {
         devServer: {

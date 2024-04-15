@@ -99,11 +99,6 @@ export default (): ServerPlugin => ({
         storage.reset();
         loadMod();
       },
-      gather({ addWebMiddleware }) {
-        storage.middlewares.forEach(mid => {
-          addWebMiddleware(mid);
-        });
-      },
       afterMatch(context, next) {
         if (!storage.hooks.afterMatch) {
           return next();
@@ -116,16 +111,17 @@ export default (): ServerPlugin => ({
         }
         return storage.hooks.afterRender(context, next);
       },
-      prepareWebServer({ config }) {
-        const { middleware } = config;
-        const factory = compose(middleware);
+      prepareWebServer() {
+        const { middlewares } = storage;
+        const factory = compose(middlewares);
 
         return ctx => {
           const {
             source: { res },
           } = ctx;
           return new Promise<void>((resolve, reject) => {
-            res.on('finish', (err: Error) => {
+            // res is not exist in other js runtime.
+            res?.on('finish', (err: Error) => {
               if (err) {
                 return reject(err);
               }

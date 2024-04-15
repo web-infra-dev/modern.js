@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import path from 'path';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import request from 'supertest';

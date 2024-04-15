@@ -36,25 +36,3 @@ For more detail, see [http-proxy-middleware](https://github.com/chimurai/http-pr
 import GlobalProxy from "@site-docs-en/components/global-proxy"
 
 <GlobalProxy />
-
-## BFF Proxy
-
-By configuring [`bff.proxy`](/configure/app/bff/proxy), BFF API requests can be proxied to a specified service. Unlike the other proxy methods above, it can be used in the production environment:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  bff: {
-    proxy: {
-      '/api/v1': 'https://cnodejs.org',
-    },
-  },
-});
-```
-
-For example, when using BFF function in the code, the final request `http://localhost:8080/api/v1/topics` will be automatically proxied to `https://cnodejs.org/api/v1/topics`:
-
-```js
-import getTopics from '@api/v1/topics';
-
-getTopics();
-```

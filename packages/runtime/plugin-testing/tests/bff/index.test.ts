@@ -1,6 +1,6 @@
 import path from 'path';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
-import { InternalPlugins } from '@modern-js/core';
+import { IAppContext, InternalPlugins } from '@modern-js/core';
 import { testingBffPlugin, setJestConfigForBFF } from '../../src/cli/bff';
 
 initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
@@ -32,6 +32,11 @@ describe('testing-plugin-bff', () => {
       plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
+      appContext: {
+        appDirectory: appDir,
+        apiDirectory: path.resolve(appDir, 'api'),
+        lambdaDirectory: path.resolve(appDir, 'api/lambda'),
+      } as IAppContext,
     });
 
     expect(mockUtils.jestConfig).toMatchSnapshot();
@@ -47,6 +52,11 @@ describe('testing-plugin-bff', () => {
       plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
+      appContext: {
+        appDirectory: appDir,
+        apiDirectory: path.resolve(appDir, 'api'),
+        lambdaDirectory: path.resolve(appDir, 'api/lambda'),
+      } as IAppContext,
     });
 
     expect(mockUtils.jestConfig).toMatchSnapshot();

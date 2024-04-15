@@ -1,5 +1,7 @@
 # @modern-js/module-tools-docs
 
+## 2.48.5
+
 ## 2.48.4
 
 ## 2.48.3

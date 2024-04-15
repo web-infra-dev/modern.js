@@ -1,0 +1,17 @@
+[
+  {
+    "urlPath": "/",
+    "entryName": "main",
+    "entryPath": "index.html",
+    "isSPA": true,
+    "isStream": false,
+    "isSSR": false,
+    "bundle": "bundles/main.js",
+    "redirect": "",
+    "responseHeader": [],
+    "extra": {
+      "entryName": "main"
+    },
+    "specialHeader": []
+  }
+]

@@ -22,6 +22,7 @@ module.exports = {
   transformIgnorePatterns: [
     '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
   ],
+  coveragePathIgnorePatterns: ['<rootDir>/tests/'],
   moduleNameMapper: {},
   globals: {},
   testEnvironment: require.resolve('../../tests/jest.env.js'),

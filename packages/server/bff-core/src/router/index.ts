@@ -70,34 +70,6 @@ export class ApiRouter {
     debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
   }
 
-  private enableRegister() {
-    // eslint-disable-next-line node/no-deprecated-api
-    const existTsLoader = Boolean(require.extensions['.ts']);
-    if (!existTsLoader) {
-      try {
-        const projectSearchDir = this.appDir || this.apiDir;
-        const tsNode: typeof import('ts-node') = require('ts-node');
-        tsNode.register({
-          projectSearchDir,
-          compilerOptions: {
-            allowJs: false,
-          },
-          scope: true,
-          transpileOnly: true,
-          ignore: ['(?:^|/)node_modules/'],
-        });
-        const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
-        const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
-        if (loaderRes.resultType === 'success') {
-          tsConfigPaths.register({
-            baseUrl: loaderRes.absoluteBaseUrl,
-            paths: loaderRes.paths,
-          });
-        }
-      } catch (error) {}
-    }
-  }
-
   public isExistLambda() {
     return this.existLambdaDir;
   }
@@ -309,7 +281,6 @@ export class ApiRouter {
   }
 
   private getModuleInfo(filename: string) {
-    this.enableRegister();
     try {
       const module = requireHandlerModule(filename);
       return {

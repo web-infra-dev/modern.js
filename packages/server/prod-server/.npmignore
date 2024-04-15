@@ -4,13 +4,16 @@
 .pnp.js
 .env.local
 .env.*.local
+.history
 *.log*
 
 node_modules/
+.yarn-integrity
 *.tsbuildinfo
 .eslintcache
 
 coverage/
+release/
 output/
 output_resource/
 tests/
@@ -29,3 +32,4 @@ jest.config.js
 tsconfig.json
 CHANGELOG.md
 
+**/*/api/typings/auto-generated

@@ -17,13 +17,7 @@ const setup = () => {
   const prefix = bff_info?.modernUserConfig?.bff?.prefix;
   const httpMethodDecider = bff_info?.modernUserConfig?.bff?.httpMethodDecider;
 
-  let app:
-    | ((
-        req: IncomingMessage,
-        res: ServerResponse,
-        next?: (() => void) | undefined,
-      ) => void)
-    | null = null;
+  let app: ((req: IncomingMessage, res: ServerResponse) => void) | null = null;
 
   beforeAll(async () => {
     const apiRouter = new ApiRouter({
@@ -51,6 +45,7 @@ const setup = () => {
     // The mockAPI function is in the beforeAll hook, so developers can mock bff api (such as useContext), because jest.mock will be executed before this file in the test file
     // The ideal execution sequence is: mock in test case -> mock in this file -> import in test case, so import lambda file should be in the test function
     mockAPI(apiInfosByFile);
+
     if (!app) {
       app = await createApp(
         bff_info.appDir,

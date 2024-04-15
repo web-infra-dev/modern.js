@@ -1,4 +1,10 @@
-import { AfterRenderHook } from '@modern-js/runtime/server';
+import { AfterRenderHook, AfterMatchHook } from '@modern-js/runtime/server';
+
+export const afterMatch: AfterMatchHook = (c, next) => {
+  (c as any).payload = 'modern_payload';
+
+  next();
+};
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   const { response, request } = ctx;
@@ -27,7 +33,10 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
       },
       status: 201,
     });
-
-    next();
+  } else if (pathname === '/payload') {
+    response.raw((ctx as any).payload || '', {
+      status: 200,
+    });
   }
+  next();
 };

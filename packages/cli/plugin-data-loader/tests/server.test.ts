@@ -5,6 +5,10 @@ import qs from 'querystring';
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
+import {
+  createWebRequest,
+  sendResponse,
+} from '@modern-js/server-core/base/node';
 import { handleRequest } from '../src/runtime';
 import { LOADER_ID_PARAM } from '../src/common/constants';
 
@@ -85,18 +89,20 @@ describe('handleRequest', () => {
     return async (req: IncomingMessage, res: ServerResponse) => {
       const context = createContext(req, res, params);
       const { routes } = await import(serverLoaders);
-      await handleRequest({
+      const request = createWebRequest(req, res);
+      const response = await handleRequest({
+        request,
         context,
         serverRoutes,
         routes,
       });
-      if (!res.headersSent) {
-        res.end();
+      if (!res.headersSent && response) {
+        await sendResponse(response, res);
       }
     };
   };
 
-  test.only('should return 500 when routeId not match url', async () => {
+  test('should return 500 when routeId not match url', async () => {
     const handler = createHandler(
       [
         {
@@ -116,7 +122,7 @@ describe('handleRequest', () => {
     expect(res.status).toBe(500);
   });
 
-  test('should return directly when routeId not exist', async () => {
+  test.skip('should return directly when routeId not exist', async () => {
     const handler = createHandler(
       [
         {

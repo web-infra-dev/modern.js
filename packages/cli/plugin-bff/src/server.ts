@@ -1,7 +1,7 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
 import { API_DIR, isProd, requireExistModule } from '@modern-js/utils';
-import type { ServerPlugin } from '@modern-js/server-core';
+import { type ServerPlugin } from '@modern-js/server-core';
 import { API_APP_NAME } from './constants';
 
 type SF = (args: any) => void;
@@ -25,9 +25,11 @@ export default (): ServerPlugin => ({
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
     let apiAppPath = '';
+    let apiRouter: ApiRouter;
     return {
       prepare() {
-        const { appDirectory, distDirectory } = api.useAppContext();
+        const appContext = api.useAppContext();
+        const { appDirectory, distDirectory } = appContext;
         const root = isProd() ? distDirectory : appDirectory;
         const apiPath = path.resolve(root || process.cwd(), API_DIR);
         apiAppPath = path.resolve(apiPath, API_APP_NAME);
@@ -36,25 +38,42 @@ export default (): ServerPlugin => ({
         if (apiMod && typeof apiMod === 'function') {
           apiMod(transformAPI);
         }
+
+        const { middlewares } = storage;
+        api.setAppContext({
+          ...appContext,
+          apiMiddlewares: middlewares,
+        });
       },
       reset() {
         storage.reset();
+        const appContext = api.useAppContext();
         const newApiModule = requireExistModule(apiAppPath);
         if (newApiModule && typeof newApiModule === 'function') {
           newApiModule(transformAPI);
         }
-      },
-      gather({ addAPIMiddleware }) {
-        storage.middlewares.forEach(mid => {
-          addAPIMiddleware(mid);
+
+        const { middlewares } = storage;
+        api.setAppContext({
+          ...appContext,
+          apiMiddlewares: middlewares,
         });
+      },
+      onApiChange(changes) {
+        const apiHandlerInfos = apiRouter.getApiHandlers();
+        const appContext = api.useAppContext();
+        api.setAppContext({
+          ...appContext,
+          apiHandlerInfos,
+        });
+        return changes;
       },
       prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
         const { apiDirectory, lambdaDirectory } = appContext;
-        const apiRouter = new ApiRouter({
+        apiRouter = new ApiRouter({
           appDir: pwd,
           apiDir: (apiDirectory as string) || apiDir,
           lambdaDir: lambdaDirectory as string,

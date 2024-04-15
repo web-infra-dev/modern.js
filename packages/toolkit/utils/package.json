@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.4",
+  "version": "2.48.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -34,6 +34,11 @@
     "./chain-id": {
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
+    },
+    "./universal": {
+      "jsnext:source": "./src/universal/index.ts",
+      "import": "./dist/esm/universal/index.js",
+      "default": "./dist/cjs/universal/index.js"
     },
     "./universal/constants": {
       "jsnext:source": "./src/universal/constants.ts",
@@ -86,6 +91,11 @@
         "types": "./dist/types/cli/constants/chainId.d.ts",
         "default": "./dist/cjs/cli/constants/chainId.js"
       },
+      "./universal": {
+        "types": "./dist/types/universal/index.d.ts",
+        "import": "./dist/esm/universal/index.js",
+        "default": "./dist/cjs/universal/index.js"
+      },
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
         "import": "./dist/esm/universal/constants.js",
@@ -127,6 +137,9 @@
       ],
       "chain-id": [
         "./dist/types/cli/constants/chainId.d.ts"
+      ],
+      "universal": [
+        "./dist/types/universal/index.d.ts"
       ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"

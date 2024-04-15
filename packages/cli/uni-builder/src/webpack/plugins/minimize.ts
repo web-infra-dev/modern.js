@@ -1,6 +1,5 @@
 import {
   CHAIN_ID,
-  getTerserMinifyOptions,
   type BundlerChain,
   type RsbuildPlugin,
   type NormalizedConfig,
@@ -8,6 +7,32 @@ import {
   mergeChainedOptions,
 } from '@rsbuild/shared';
 import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
+
+function applyRemoveConsole(
+  options: TerserPluginOptions,
+  config: NormalizedConfig,
+) {
+  const { removeConsole } = config.performance;
+  const compressOptions =
+    typeof options.terserOptions!.compress === 'boolean'
+      ? {}
+      : options.terserOptions!.compress || {};
+
+  if (removeConsole === true) {
+    options.terserOptions!.compress = {
+      ...compressOptions,
+      drop_console: true,
+    };
+  } else if (Array.isArray(removeConsole)) {
+    const pureFuncs = removeConsole.map(method => `console.${method}`);
+    options.terserOptions!.compress = {
+      ...compressOptions,
+      pure_funcs: pureFuncs,
+    };
+  }
+
+  return options;
+}
 
 async function applyJSMinimizer(
   chain: BundlerChain,
@@ -17,8 +42,17 @@ async function applyJSMinimizer(
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
   const DEFAULT_OPTIONS: TerserPluginOptions = {
-    terserOptions: getTerserMinifyOptions(config),
+    terserOptions: {
+      mangle: {
+        safari10: true,
+      },
+      format: {
+        ascii_only: config.output.charset === 'ascii',
+      },
+    },
   };
+
+  applyRemoveConsole(DEFAULT_OPTIONS, config);
 
   switch (config.output.legalComments) {
     case 'inline':

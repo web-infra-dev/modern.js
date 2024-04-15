@@ -27,7 +27,7 @@ const copyFiles = async (
     const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
-        !['.ts'].includes(path.extname(src)) && src !== tsconfigPath,
+        !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
     });
   }
 };

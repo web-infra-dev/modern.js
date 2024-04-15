@@ -1,6 +1,7 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",

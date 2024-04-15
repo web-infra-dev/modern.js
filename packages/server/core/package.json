@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.4",
+  "version": "2.48.5",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -29,6 +29,37 @@
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/cjs/index.js"
+    },
+    "./base": {
+      "types": "./dist/types/base/index.d.ts",
+      "jsnext:source": "./src/base/index.ts",
+      "node": {
+        "require": "./dist/cjs/base/index.js",
+        "import": "./dist/esm/base/index.js"
+      },
+      "default": "./dist/esm-node/base/index.js"
+    },
+    "./base/node": {
+      "types": "./dist/types/base/adapters/node/index.d.ts",
+      "jsnext:source": "./src/base/adapters/node/index.ts",
+      "node": {
+        "require": "./dist/cjs/base/adapters/node/index.js",
+        "import": "./dist/esm/base/adapters/node/index.js"
+      },
+      "default": "./dist/cjs/base/adapters/node/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "base": [
+        "./dist/types/base/index.d.ts"
+      ],
+      "base/node": [
+        "./dist/types/base/adapters/node/index.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -38,16 +69,27 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
+  "engines": {
+    "node": ">=16.2.0"
+  },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.3",
+    "@web-std/fetch": "^4.2.1",
+    "@web-std/stream": "^1.0.3",
+    "@web-std/file": "^3.0.3",
+    "hono": "^3.12.2",
+    "isbot": "3.8.0",
+    "merge-deep": "^3.0.3"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
+    "@types/merge-deep": "^3.0.0",
     "@types/node": "^14",
     "http-proxy-middleware": "^2.0.4",
     "jest": "^29",
@@ -59,6 +101,31 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/types/index.d.ts",
+        "node": {
+          "jsnext:source": "./src/index.ts",
+          "import": "./dist/esm/index.js",
+          "require": "./dist/cjs/index.js"
+        },
+        "default": "./dist/cjs/index.js"
+      },
+      "./base": {
+        "types": "./dist/types/base/index.d.ts",
+        "jsnext:source": "./src/base/index.ts",
+        "node": {
+          "require": "./dist/cjs/base/index.js",
+          "import": "./dist/esm/base/index.js"
+        },
+        "default": "./dist/esm-node/base/index.js"
+      },
+      "./base/node": {
+        "types": "./dist/types/base/adapters/node/index.d.ts",
+        "import": "./dist/esm/base/adapters/node/index.js",
+        "default": "./dist/cjs/base/adapters/node/index.js"
+      }
+    }
   }
 }
