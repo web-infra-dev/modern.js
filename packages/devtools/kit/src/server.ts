@@ -11,7 +11,6 @@ import type {
 import { NormalizedConfig } from '@modern-js/core';
 import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
 import type { Manifest } from '@rsdoctor/types';
-import type { ClientDefinition } from './client';
 import type { StoragePresetContext } from './storage-preset';
 
 export type BuilderContext = RsbuildContext;
@@ -55,19 +54,5 @@ export interface DevtoolsConfig {
 }
 
 export interface ServerFunctions {
-  getFrameworkConfig: () => Promise<FrameworkConfig>;
-  getTransformedFrameworkConfig: () => Promise<TransformedFrameworkConfig>;
-  getBuilderConfig: () => Promise<BuilderConfig>;
-  getTransformedBuilderConfig: () => Promise<NormalizedBuilderConfig>;
-  getBundlerConfigs: () => Promise<BundlerConfig[]>;
-  getTransformedBundlerConfigs: () => Promise<BundlerConfig[]>;
-  getAppContext: () => Promise<AppContext>;
-  getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
-  getBuilderContext: () => Promise<RsbuildContext>;
-  getDependencies: () => Promise<Record<string, string>>;
-  getCompileTimeCost: () => Promise<number>;
-  getClientDefinition: () => Promise<ClientDefinition>;
-  getDoctorOverview: () => Promise<DoctorManifestOverview>;
-  getDevtoolsConfig: () => Promise<DevtoolsConfig>;
   echo: (content: string) => string;
 }

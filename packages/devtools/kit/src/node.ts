@@ -9,3 +9,4 @@ export * from './runtime-globals';
 export * from './promise';
 export * from './valtio';
 export type * from './storage-preset';
+export * from './state';

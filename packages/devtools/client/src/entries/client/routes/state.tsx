@@ -10,6 +10,10 @@ import { createHooks } from 'hookable';
 import { stringifyParsedURL } from 'ufo';
 import { proxy } from 'valtio';
 import {
+  ServerExportedState,
+  applyOperation,
+} from '@modern-js/devtools-kit/node';
+import {
   MountPointFunctions,
   ClientFunctions as ToMountPointFunctions,
 } from '@/types/rpc';
@@ -43,14 +47,21 @@ export const $socket = new window.WebSocket(DATA_SOURCE);
 
 export const $serverChannel = WebSocketChannel.link($socket);
 
+export const $serverExported = proxy(new ServerExportedState());
+
 export const $server = $serverChannel.then(async channel => {
   const hooks = createHooks<ToServerFunctions>();
   const definitions: ToServerFunctions = {
     async refresh() {
       location.reload();
     },
-    async updateFileSystemRoutes(e) {
-      await hooks.callHook('updateFileSystemRoutes', e);
+    async applyStateOperations(ops) {
+      for (const op of ops) {
+        applyOperation($serverExported, op);
+      }
+    },
+    async updateState(state) {
+      Object.assign($serverExported, state);
     },
   };
   const remote = createBirpc<ServerFunctions, ToServerFunctions>(
@@ -60,60 +71,6 @@ export const $server = $serverChannel.then(async channel => {
   return { remote, hooks };
 });
 
-export const $framework = proxy({
-  context: $server.then(({ remote }) => remote.getAppContext()),
-  config: {
-    resolved: $server.then(({ remote }) => remote.getFrameworkConfig()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedFrameworkConfig(),
-    ),
-  },
-});
-
-export const $builder = proxy({
-  context: $server.then(({ remote }) => remote.getBuilderContext()),
-  config: {
-    resolved: $server.then(({ remote }) => remote.getBuilderConfig()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedBuilderConfig(),
-    ),
-  },
-});
-
-export const $bundler = proxy({
-  config: {
-    resolved: $server.then(({ remote }) => remote.getBundlerConfigs()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedBundlerConfigs(),
-    ),
-  },
-});
-
 export const $tabs = proxy<Tab[]>([]);
 
 export const VERSION = process.env.PKG_VERSION;
-
-const _definitionTask = $server.then(({ remote }) =>
-  remote.getClientDefinition(),
-);
-
-export const $definition = proxy({
-  name: _definitionTask.then(def => def.name),
-  packages: _definitionTask.then(def => def.packages),
-  assets: _definitionTask.then(def => def.assets),
-  announcement: _definitionTask.then(def => def.announcement),
-  doctor: _definitionTask.then(def => def.doctor),
-  plugins: _definitionTask.then(def => def.plugins),
-});
-
-export const _dependenciesTask = $server.then(({ remote }) =>
-  remote.getDependencies(),
-);
-
-export const $dependencies = proxy<Record<string, string>>({});
-
-_dependenciesTask.then(def => Object.assign($dependencies, def));
-
-export const $perf = proxy({
-  compileDuration: $server.then(({ remote }) => remote.getCompileTimeCost()),
-});
