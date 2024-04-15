@@ -143,7 +143,10 @@ export class CustomServer {
 
         const newBody = afterRenderCtx.template.get();
 
-        c.res = c.body(newBody);
+        c.res = c.body(newBody, {
+          status: c.res.status,
+          headers: c.res.headers,
+        });
       }
     };
   }
