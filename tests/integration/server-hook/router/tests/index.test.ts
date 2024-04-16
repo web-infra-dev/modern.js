@@ -38,7 +38,9 @@ describe('test status code page', () => {
   });
 
   test('should router redirect correctly ', async () => {
-    const response = await page.goto(`http://localhost:${port}/redirect`);
+    const response = await page.goto(`http://localhost:${port}/redirect`, {
+      waitUntil: 'networkidle0',
+    });
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');
   });
