@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.48.6
+
+### Patch Changes
+
+- 06ed962: chore(deps): bump rsbuild to [0.6.1](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.1)
+
+  chore(deps): 升级 rsbuild 到 [0.6.1](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.1)
+
+  - @modern-js/server@2.48.6
+  - @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes
