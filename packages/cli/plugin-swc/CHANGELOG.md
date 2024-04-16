@@ -1,5 +1,11 @@
 # @modern-js/core
 
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

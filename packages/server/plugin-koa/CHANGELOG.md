@@ -1,5 +1,14 @@
 # @modern-js/plugin-koa
 
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/bff-core@2.48.6
+- @modern-js/bff-runtime@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes
