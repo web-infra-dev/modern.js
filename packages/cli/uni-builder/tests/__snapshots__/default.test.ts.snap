@@ -963,6 +963,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -1066,8 +1067,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
-  "rsbuild:network-performance",
-  "rsbuild:preload-prefetch",
+  "rsbuild:resource-hints",
   "rsbuild:performance",
   "rsbuild:server",
   "rsbuild:module-federation",
@@ -2124,7 +2124,20 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -2148,18 +2161,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
-    },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
     },
     RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
@@ -3214,6 +3215,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -4413,7 +4415,20 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -4439,18 +4454,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-    },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
     },
     RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
