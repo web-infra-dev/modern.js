@@ -82,6 +82,7 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   logger: Logger;
   serverTiming: ServerTiming;
   reporter?: Reporter;
+  metrics?: Metrics;
 
   // TODO: remove it
   /** @deprecated */

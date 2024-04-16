@@ -3,9 +3,9 @@ import { MaybeAsync } from '@modern-js/plugin';
 type TransformCb = (tempalte: string) => MaybeAsync<string>;
 
 export function createTransformStream(fn: TransformCb) {
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-decoder
+  // eslint-disable-next-line node/prefer-global/text-decoder
   const decoder: TextDecoder = new TextDecoder();
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/text-encoder
+  // eslint-disable-next-line node/prefer-global/text-encoder
   const encoder: TextEncoder = new TextEncoder();
   return new TransformStream({
     async transform(chunk, controller) {

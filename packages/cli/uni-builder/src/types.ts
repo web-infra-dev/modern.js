@@ -10,10 +10,11 @@ import type {
   DevConfig,
   RequestHandler,
   RsbuildEntry,
-  PromiseOrNot,
+  MaybePromise,
   RsbuildPluginAPI,
   ArrayOrNot,
   HtmlTagDescriptor,
+  Polyfill,
 } from '@rsbuild/shared';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
@@ -362,7 +363,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => PromiseOrNot<any | void>,
+    ) => MaybePromise<any | void>,
   ) => void;
 };
 
@@ -371,7 +372,7 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => PromiseOrNot<void>;
+  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];
@@ -380,7 +381,9 @@ export type UniBuilderPlugin = {
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: RsbuildConfig['output'];
+  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+    polyfill?: Polyfill | 'ua';
+  };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
   tools?: RsbuildConfig['tools'];

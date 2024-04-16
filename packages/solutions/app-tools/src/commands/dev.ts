@@ -2,6 +2,7 @@ import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { initProdMiddlewares } from '@modern-js/prod-server';
+import { registerCompiler } from '../utils/register';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
@@ -26,6 +27,12 @@ export const dev = async (
   let normalizedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
+
+  await registerCompiler(
+    appContext.appDirectory,
+    appContext.distDirectory,
+    normalizedConfig?.source?.alias,
+  );
 
   normalizedConfig = { ...normalizedConfig, cliOptions: options };
   ResolvedConfigContext.set(normalizedConfig);
