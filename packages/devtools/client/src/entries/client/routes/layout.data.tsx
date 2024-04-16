@@ -9,7 +9,7 @@ import {
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { ref } from 'valtio';
-import { $definition, $tabs } from './state';
+import { $serverExported, $tabs } from './state';
 import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
 
 let _executed = false;
@@ -17,9 +17,9 @@ let _executed = false;
 export const loader = async () => {
   if (_executed) return null;
   _executed = true;
-  const scripts = await Promise.resolve($definition.plugins);
+  const runtimePlugins = (await $serverExported.definition).plugins;
   const globals = PluginGlobals.use();
-  await setupPlugins(scripts);
+  await setupPlugins(runtimePlugins);
   const tabs: Tab[] = [
     {
       name: 'overview',

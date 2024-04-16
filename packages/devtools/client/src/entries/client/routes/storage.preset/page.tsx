@@ -1,4 +1,3 @@
-import { useLoaderData } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
 import _ from 'lodash';
 import {
@@ -13,8 +12,9 @@ import { FC, useState } from 'react';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import clsx from 'clsx';
 import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import { useSnapshot } from 'valtio';
+import { $serverExported } from '../state';
 import styles from './page.module.scss';
-import type { Data } from './page.data';
 
 const unwindRecord = <T extends string | void>(
   record: Record<string, string>,
@@ -118,22 +118,22 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const data = useLoaderData() as Data;
+  const { storagePresets = [] } = useSnapshot($serverExported).devtoolsConfig;
   const freq = {
-    cookie: _(data.presets)
+    cookie: _(storagePresets)
       .flatMap(preset => _.keys(preset.cookie))
       .countBy()
       .value(),
-    localStorage: _(data.presets)
+    localStorage: _(storagePresets)
       .flatMap(preset => _.keys(preset.localStorage))
       .countBy()
       .value(),
-    sessionStorage: _(data.presets)
+    sessionStorage: _(storagePresets)
       .flatMap(preset => _.keys(preset.sessionStorage))
       .countBy()
       .value(),
   };
-  const presets: UnwindPreset[] = data.presets.map(preset => ({
+  const unwindPresets: UnwindPreset[] = storagePresets.map(preset => ({
     name: preset.name,
     filename: preset.filename,
     items: _(unwindPreset(preset))
@@ -168,7 +168,7 @@ const Page: FC = () => {
         </CardButton>
         <Box mx="2" className={styles.divider} />
         <Flex p="2" direction="column" gap="2" className={styles.presetList}>
-          {presets.map(preset => (
+          {unwindPresets.map(preset => (
             <PresetCard
               key={`${preset.name}@${preset.filename}`}
               selected={matchSelected(preset)}

@@ -5,7 +5,6 @@ import type { Op } from './valtio';
 
 export interface ClientFunctions {
   refresh: () => void;
-  updateState: (state: Record<string, any>) => Promise<void>;
   applyStateOperations: (ops: Op[]) => Promise<void>;
 }
 

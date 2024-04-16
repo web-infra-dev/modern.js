@@ -72,10 +72,18 @@ export const traversePromises = (
   obj: any,
   path: Path = [],
 ): [PromiseLike<unknown>, Path][] => {
-  const promises: [PromiseLike<unknown>, Path][] = [];
+  const promises = new Set<[PromiseLike<unknown>, Path]>();
+  const memo = new WeakSet();
   const traverse = (value: any, currentPath: Path) => {
+    if (typeof value === 'object') {
+      if (memo.has(value)) {
+        return;
+      } else {
+        memo.add(value);
+      }
+    }
     if (isPromiseLike(value)) {
-      promises.push([value, currentPath]);
+      promises.add([value, currentPath]);
     } else if (typeof value === 'object' && value !== null) {
       for (const [k, v] of Object.entries(value)) {
         traverse(v, [...currentPath, k]);
@@ -83,7 +91,7 @@ export const traversePromises = (
     }
   };
   traverse(obj, path);
-  return promises;
+  return Array.from(promises.values());
 };
 
 export const applySettled = <T = unknown>(promise: PromiseLike<T>) => {
@@ -105,4 +113,38 @@ export const applySettled = <T = unknown>(promise: PromiseLike<T>) => {
       resolve(settled.resolved);
     }
   });
+};
+
+export interface PromiseResolvers<T> {
+  resolve: PromiseResolve<T>;
+  reject: PromiseReject;
+  promise: Promise<T>;
+}
+
+type Primitive = string | number | boolean | null | undefined | symbol | bigint;
+type DeepToResolversIgnore =
+  | Date
+  | Map<any, any>
+  | Set<any>
+  | WeakMap<any, any>
+  | WeakSet<any>
+  | Error
+  | RegExp
+  | ((...args: any[]) => any)
+  | Primitive;
+export type DeepToResolvers<T> = T extends DeepToResolversIgnore
+  ? T
+  : T extends Promise<unknown>
+  ? PromiseResolvers<Awaited<T>>
+  : T extends object
+  ? { [K in keyof T]: DeepToResolvers<T[K]> }
+  : T;
+
+export const withResolvers = <T>() => {
+  const resolvers = {} as PromiseResolvers<T>;
+  resolvers.promise = new Promise((resolve, reject) => {
+    resolvers.resolve = resolve;
+    resolvers.reject = reject;
+  });
+  return resolvers;
 };

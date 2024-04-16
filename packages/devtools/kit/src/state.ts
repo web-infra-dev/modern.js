@@ -1,5 +1,5 @@
-import { ClientDefinition } from './client';
-import {
+import type { ClientDefinition } from './client';
+import type {
   AppContext,
   BuilderConfig,
   BuilderContext,
@@ -11,48 +11,100 @@ import {
   NormalizedBuilderConfig,
   TransformedFrameworkConfig,
 } from './server';
+import { PromiseStub, type DeepToResolvers } from './promise';
 
-export class ServerExportedState {
+export interface ServerExportedState {
   framework: {
-    context?: AppContext;
+    context: Promise<AppContext>;
     config: {
-      resolved?: FrameworkConfig;
-      transformed?: TransformedFrameworkConfig;
+      resolved: Promise<FrameworkConfig>;
+      transformed: Promise<TransformedFrameworkConfig>;
     };
   };
-
   builder: {
-    context?: BuilderContext;
+    context: Promise<BuilderContext>;
     config: {
-      resolved?: BuilderConfig;
-      transformed?: NormalizedBuilderConfig;
+      resolved: Promise<BuilderConfig>;
+      transformed: Promise<NormalizedBuilderConfig>;
     };
   };
-
   bundler: {
     configs: {
-      resolved?: BundlerConfig[];
-      transformed?: BundlerConfig[];
+      resolved: Promise<BundlerConfig[]>;
+      transformed: Promise<BundlerConfig[]>;
     };
   };
-
-  definition?: ClientDefinition;
-
-  doctor?: DoctorManifestOverview;
-
-  devtoolsConfig?: DevtoolsConfig;
-
-  compileDuration?: number;
-
+  definition: Promise<ClientDefinition>;
+  doctor: Promise<DoctorManifestOverview | void>;
+  devtoolsConfig: Promise<DevtoolsConfig>;
+  performance: Promise<{ compileDuration: number }>;
   dependencies: Record<string, string>;
-
   fileSystemRoutes: Record<string, FileSystemRoutes>;
-
-  constructor() {
-    this.framework = { config: {} };
-    this.builder = { config: {} };
-    this.bundler = { configs: {} };
-    this.dependencies = {};
-    this.fileSystemRoutes = {};
-  }
 }
+
+export type ServerExportedStateResolvers = DeepToResolvers<ServerExportedState>;
+
+export interface ServerExportedStateResult {
+  resolvers: ServerExportedStateResolvers;
+  state: ServerExportedState;
+}
+
+export const createServerExportedState = (): ServerExportedStateResult => {
+  const resolvers: ServerExportedStateResolvers = {
+    framework: {
+      context: PromiseStub.create(),
+      config: {
+        resolved: PromiseStub.create(),
+        transformed: PromiseStub.create(),
+      },
+    },
+    builder: {
+      context: PromiseStub.create(),
+      config: {
+        resolved: PromiseStub.create(),
+        transformed: PromiseStub.create(),
+      },
+    },
+    bundler: {
+      configs: {
+        resolved: PromiseStub.create(),
+        transformed: PromiseStub.create(),
+      },
+    },
+    definition: PromiseStub.create(),
+    doctor: PromiseStub.create(),
+    devtoolsConfig: PromiseStub.create(),
+    performance: PromiseStub.create(),
+    dependencies: {},
+    fileSystemRoutes: {},
+  };
+  const state: ServerExportedState = {
+    framework: {
+      context: resolvers.framework.context.promise,
+      config: {
+        resolved: resolvers.framework.config.resolved.promise,
+        transformed: resolvers.framework.config.transformed.promise,
+      },
+    },
+    builder: {
+      context: resolvers.builder.context.promise,
+      config: {
+        resolved: resolvers.builder.config.resolved.promise,
+        transformed: resolvers.builder.config.transformed.promise,
+      },
+    },
+    bundler: {
+      configs: {
+        resolved: resolvers.bundler.configs.resolved.promise,
+        transformed: resolvers.bundler.configs.transformed.promise,
+      },
+    },
+    definition: resolvers.definition.promise,
+    doctor: resolvers.doctor.promise,
+    devtoolsConfig: resolvers.devtoolsConfig.promise,
+    performance: resolvers.performance.promise,
+    dependencies: resolvers.dependencies as any,
+    fileSystemRoutes: resolvers.fileSystemRoutes as any,
+  };
+  return { resolvers, state };
+};

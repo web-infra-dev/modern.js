@@ -1,23 +1,26 @@
 import {
   findManifest,
   parseManifest,
-  ServerExportedState,
   type AppContext,
   type DoctorManifestOverview,
   type ClientFunctions,
   type ServerFunctions,
+  extractSettledOperations,
+  replacer,
+  reviver,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
 import { BirpcOptions, createBirpc } from 'birpc';
 import * as flatted from 'flatted';
 import type { JsonValue } from 'type-fest';
-import { proxy } from 'valtio';
+import { subscribe } from 'valtio';
 import { RawData } from 'ws';
 import { DevtoolsContext } from '../options';
 import { CliPluginAPI, InjectedHooks } from '../types';
 import { requireModule } from '../utils/module';
 import { SocketServer } from '../utils/socket';
+import { $resolvers, $state } from '../state';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
@@ -110,22 +113,35 @@ export const setupClientConnection = async (
     });
   });
 
-  const state = proxy(new ServerExportedState());
-  state.definition = ctx.def;
-  state.devtoolsConfig = { storagePresets: ctx.storagePresets };
+  $resolvers.definition.resolve(ctx.def);
+  $resolvers.devtoolsConfig.resolve({
+    storagePresets: ctx.storagePresets,
+  });
+  subscribe($state, ops => {
+    clientConn.applyStateOperations.asEvent(ops);
+  });
 
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
     echo(content) {
       return content;
     },
+    async pullExportedState() {
+      extractSettledOperations($state).then(ops => {
+        clientConn.applyStateOperations.asEvent(ops);
+      });
+      return $state;
+    },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {
     post: data =>
       onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
     on: cb => (handleMessage = cb),
-    serialize: v => flatted.stringify([v]),
-    deserialize: v => flatted.parse(v.toString())[0],
+    serialize: v => flatted.stringify([v], replacer),
+    deserialize: v => {
+      const msg = flatted.parse(v.toString(), reviver)[0];
+      return msg;
+    },
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
@@ -135,17 +151,22 @@ export const setupClientConnection = async (
 
   const hooks: InjectedHooks = {
     prepare() {
-      state.framework.context = { ...api.useAppContext() };
-      delete (state.framework.context as any).builder;
-      delete (state.framework.context as any).serverInternalPlugins;
-      state.framework.config.resolved = api.useConfigContext();
-      state.framework.config.transformed = api.useResolvedConfigContext();
-      getDoctorOverview(state.framework.context).then(doctor => {
-        state.doctor = doctor;
-      });
+      const frameworkContext = {
+        ...api.useAppContext(),
+        builder: null,
+        serverInternalPlugins: null,
+      };
+      $resolvers.framework.context.resolve(frameworkContext);
+      $resolvers.framework.config.resolved.resolve(api.useConfigContext());
+      $resolvers.framework.config.transformed.resolve(
+        api.useResolvedConfigContext(),
+      );
+      getDoctorOverview(frameworkContext)
+        .then(doctor => $resolvers.doctor.resolve(doctor))
+        .catch(() => $resolvers.doctor.resolve(undefined));
     },
     modifyFileSystemRoutes({ entrypoint, routes }) {
-      state.fileSystemRoutes[entrypoint.entryName] = _.cloneDeep(routes);
+      $state.fileSystemRoutes[entrypoint.entryName] = _.cloneDeep(routes);
       return { entrypoint, routes };
     },
   };
@@ -153,15 +174,17 @@ export const setupClientConnection = async (
   const builderPlugin: RsbuildPlugin = {
     name: 'builder-plugin-devtools',
     setup(api) {
-      state.builder.context = api.context;
+      $resolvers.builder.context.resolve(api.context);
       resolveDependencies(api.context.rootPath).then(deps => {
-        state.dependencies = deps;
+        $state.dependencies = deps;
       });
 
       api.modifyBundlerChain(() => {
-        state.builder.config.resolved = _.cloneDeep(api.getRsbuildConfig());
-        state.builder.config.transformed = _.cloneDeep(
-          api.getNormalizedConfig(),
+        $resolvers.builder.config.resolved.resolve(
+          _.cloneDeep(api.getRsbuildConfig()),
+        );
+        $resolvers.builder.config.transformed.resolve(
+          _.cloneDeep(api.getNormalizedConfig()),
         );
       });
 
@@ -170,7 +193,7 @@ export const setupClientConnection = async (
       const handleBundlerConfig = (config: JsonValue) => {
         bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
-          state.bundler.configs.resolved = _.cloneDeep(bundlerConfigs) as any;
+          $state.bundler.configs.resolved = _.cloneDeep(bundlerConfigs) as any;
         }
       };
       if (api.context.bundlerType === 'webpack') {
@@ -184,7 +207,9 @@ export const setupClientConnection = async (
       }
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-        state.bundler.configs.transformed = _.cloneDeep(bundlerConfigs);
+        $resolvers.bundler.configs.transformed.resolve(
+          _.cloneDeep(bundlerConfigs),
+        );
       });
 
       let buildStartedAt = NaN;
@@ -192,10 +217,14 @@ export const setupClientConnection = async (
         buildStartedAt = Date.now();
       });
       api.onDevCompileDone(() => {
-        state.compileDuration = Date.now() - buildStartedAt;
+        $resolvers.performance.resolve({
+          compileDuration: Date.now() - buildStartedAt,
+        });
       });
       api.onAfterBuild(() => {
-        state.compileDuration = Date.now() - buildStartedAt;
+        $resolvers.performance.resolve({
+          compileDuration: Date.now() - buildStartedAt,
+        });
       });
     },
   };

@@ -34,7 +34,7 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
     }
   }, [remixRoutes, matchedServerRoute, url]);
 
-  if (!remixRoutes.length) return null;
+  if (!remixRoutes?.length) return null;
 
   return (
     <MatchRemixRouteContext.Provider value={matchedRoutes}>

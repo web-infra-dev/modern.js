@@ -10,3 +10,4 @@ export type * from './storage-preset';
 export * from './promise';
 export * from './valtio';
 export * from './state';
+export * from './serializer';

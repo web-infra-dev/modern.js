@@ -12,6 +12,7 @@ import { NormalizedConfig } from '@modern-js/core';
 import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
 import type { Manifest } from '@rsdoctor/types';
 import type { StoragePresetContext } from './storage-preset';
+import type { ServerExportedState } from './state';
 
 export type BuilderContext = RsbuildContext;
 
@@ -55,4 +56,5 @@ export interface DevtoolsConfig {
 
 export interface ServerFunctions {
   echo: (content: string) => string;
+  pullExportedState: () => Promise<ServerExportedState>;
 }
