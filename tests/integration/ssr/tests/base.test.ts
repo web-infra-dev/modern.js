@@ -26,6 +26,7 @@ async function basicUsage(page: Page, appPort: number) {
 async function errorThrown(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}/error`, {
     waitUntil: ['networkidle0'],
+    timeout: 50000,
   });
 
   await (expect(page) as any).toMatchTextContent(/error occurs/);

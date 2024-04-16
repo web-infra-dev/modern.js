@@ -86,7 +86,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.6.1",
+    "@rsbuild/shared": "0.6.2",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",

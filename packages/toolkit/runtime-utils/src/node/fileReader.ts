@@ -13,7 +13,12 @@ export class FileReader {
     this.storage = storage;
   }
 
-  async readFile(path: string, encoding: 'utf-8' | 'buffer' = 'utf-8') {
+  async readFile(path: string, encoding?: 'utf-8'): Promise<string | null>;
+  async readFile(path: string, encoding?: 'buffer'): Promise<Buffer | null>;
+  async readFile(
+    path: string,
+    encoding: 'utf-8' | 'buffer' = 'utf-8',
+  ): Promise<string | Buffer | null> {
     const { fs } = this;
     const cache = await this.storage.get(path);
     if (cache === null) {

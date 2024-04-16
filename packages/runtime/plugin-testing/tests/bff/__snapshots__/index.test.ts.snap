@@ -6,6 +6,11 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
     {
       "globals": {
         "modern_bff_info": {
+          "appContext": {
+            "apiDirectory": "<ROOT>/tests/bff/fixtures/bff1/api",
+            "appDirectory": "<ROOT>/tests/bff/fixtures/bff1",
+            "lambdaDirectory": "<ROOT>/tests/bff/fixtures/bff1/api/lambda",
+          },
           "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
           "plugins": {},
@@ -46,6 +51,11 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
     {
       "globals": {
         "modern_bff_info": {
+          "appContext": {
+            "apiDirectory": "<ROOT>/tests/bff/fixtures/bff1/api",
+            "appDirectory": "<ROOT>/tests/bff/fixtures/bff1",
+            "lambdaDirectory": "<ROOT>/tests/bff/fixtures/bff1/api/lambda",
+          },
           "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
           "plugins": {},

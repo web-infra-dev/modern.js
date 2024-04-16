@@ -5,7 +5,10 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {},
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "outDir": "./dist",
+    "paths": {
+      "@base/*": ["../src/base/*"]
+    }
   }
 }

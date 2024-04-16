@@ -53,7 +53,7 @@ describe('bff koa in dev', () => {
   });
 });
 
-describe('bff express in prod', () => {
+describe('bff koa in prod', () => {
   let port = 8080;
   const host = `http://localhost`;
   let app: any;

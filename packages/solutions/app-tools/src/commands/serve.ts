@@ -1,9 +1,8 @@
 import { logger, isApiOnly, getTargetDir } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import server from '@modern-js/prod-server';
+import { createProdServer } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
-import { injectDataLoaderPlugin } from '../utils/createServer';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
@@ -11,7 +10,14 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
 
-  const { appDirectory, port, serverConfigFile, metaName } = appContext;
+  const {
+    distDirectory,
+    appDirectory,
+    port,
+    serverConfigFile,
+    metaName,
+    serverRoutes,
+  } = appContext;
 
   logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
@@ -19,10 +25,17 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     userConfig?.source?.entriesDir,
     appContext.apiDirectory,
   );
+
+  let runMode: 'apiOnly' | undefined;
+  if (apiOnly) {
+    runMode = 'apiOnly';
+  }
+
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
-  const app = await server({
-    pwd: appDirectory,
+  const app = await createProdServer({
+    metaName,
+    pwd: distDirectory,
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
@@ -31,8 +44,9 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         ...(userConfig.output || {}),
       },
     },
+    routes: serverRoutes,
     appContext: {
-      metaName,
+      appDirectory,
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,
@@ -50,14 +64,11 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       ),
     },
     serverConfigFile,
-    internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
-    apiOnly,
+    internalPlugins: serverInternalPlugins,
+    runMode,
   });
 
-  app.listen(port, async (err: Error) => {
-    if (err) {
-      throw err;
-    }
+  app.listen(port, async () => {
     await printInstructions(hookRunners, appContext, userConfig);
   });
 };
