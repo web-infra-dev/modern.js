@@ -1,5 +1,24 @@
 # @modern-js/uni-builder
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- e891617: fix(uni-builder): modernjs should extend "ua" type in output.polyfill
+- 772d1f6: chore(deps): bump rsbuild to [0.6.x](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.0)
+
+  chore(deps): 升级 rsbuild 到 [0.6.x](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.0)
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [805e021]
+  - @modern-js/server@2.49.0
+  - @modern-js/utils@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes

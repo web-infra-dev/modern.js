@@ -1,5 +1,31 @@
 # @modern-js/server-plugin
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- fa7949a: fix: adjust rslog level so that user can print log in middleware
+  fix: 调整 rslog 等级保证用户能够在中间件等地方打印日志
+- d7c883b: fix: server hook need save the res status and headers
+  fix: server hook 需要保留 res 的 status 和 headers
+- 768d2e0: fix: streaming ssr should add transfer-enconding: chunked
+  fix: streaming ssr 应该添加头 transfer-enconding: chunked
+- 6a543df: fix: ssrContext add metrics
+  fix: ssrContext 添加 metrics
+- f6c632f: fix: server middleware ctx status should be set when return response
+  fix: server 中间件的 ctx.status 应该被设置当返回 response 时
+- 259a175: fix(server-core): new server should return 404 when can't found html template & 404,500 response shouldn't run afterRenderHook
+  fix(server-core): 新 server 在找不到 html 模版时应该返回 404, 且 404，500 响应不应该被 afterRenderHook 处理
+- Updated dependencies [e8c8c5d]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/plugin@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes

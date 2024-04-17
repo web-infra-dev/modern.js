@@ -1,5 +1,26 @@
 # @modern-js/prod-server
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- fa7949a: fix: adjust rslog level so that user can print log in middleware
+  fix: 调整 rslog 等级保证用户能够在中间件等地方打印日志
+- Updated dependencies [fa7949a]
+- Updated dependencies [d7c883b]
+- Updated dependencies [768d2e0]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [f6c632f]
+- Updated dependencies [259a175]
+  - @modern-js/server-core@2.49.0
+  - @modern-js/runtime-utils@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes
