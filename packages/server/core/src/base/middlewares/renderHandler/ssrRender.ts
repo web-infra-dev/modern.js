@@ -209,6 +209,11 @@ export async function ssrRender(
       ? createReadableStreamFromReadable?.(ssrResult) || ''
       : (ssrResult as unknown as string | ReadableStream);
 
+  if (typeof data !== 'string') {
+    // for streaming http
+    responseProxy.headers.set('transfer-encoding', 'chunked');
+  }
+
   return new Response(data, {
     status: responseProxy.status,
     headers: responseProxy.headers,
