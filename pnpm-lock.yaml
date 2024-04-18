@@ -3837,6 +3837,9 @@ importers:
       '@modern-js/runtime-utils':
         specifier: workspace:*
         version: link:../../toolkit/runtime-utils
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
@@ -3871,9 +3874,6 @@ importers:
         specifier: ^8.13.0
         version: 8.13.0
     devDependencies:
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@rsbuild/shared':
         specifier: 0.6.3
         version: 0.6.3(@swc/helpers@0.5.3)
