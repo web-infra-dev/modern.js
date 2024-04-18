@@ -1,5 +1,26 @@
 # @modern-js/plugin-testing
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [fa7949a]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [805e021]
+  - @modern-js/prod-server@2.49.0
+  - @modern-js/runtime@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/bff-core@2.49.0
+  - @modern-js/babel-compiler@2.49.0
+  - @modern-js/plugin@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes

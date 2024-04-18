@@ -1,5 +1,40 @@
 # @modern-js/app-tools
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- 805e021: fix: unify register in app-tools
+  fix: 在 app-tools 中统一注册 register
+- Updated dependencies [fa7949a]
+- Updated dependencies [d7c883b]
+- Updated dependencies [768d2e0]
+- Updated dependencies [e891617]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [f6c632f]
+- Updated dependencies [259a175]
+- Updated dependencies [772d1f6]
+- Updated dependencies [805e021]
+  - @modern-js/prod-server@2.49.0
+  - @modern-js/server-core@2.49.0
+  - @modern-js/uni-builder@2.49.0
+  - @modern-js/plugin-data-loader@2.49.0
+  - @modern-js/server@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+  - @modern-js/core@2.49.0
+  - @modern-js/plugin-i18n@2.49.0
+  - @modern-js/plugin-lint@2.49.0
+  - @modern-js/node-bundle-require@2.49.0
+  - @modern-js/plugin@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes

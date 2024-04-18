@@ -1,5 +1,19 @@
 # @modern-js/plugin-server
 
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [805e021]
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+
 ## 2.48.6
 
 ### Patch Changes
