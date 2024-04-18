@@ -1,5 +1,5 @@
-const { universalBuildConfig } = require('@scripts/build');
+const { tscLikeBuildConfig } = require('@scripts/build');
 
 module.exports = {
-  buildConfig: universalBuildConfig,
+  buildConfig: tscLikeBuildConfig,
 };
