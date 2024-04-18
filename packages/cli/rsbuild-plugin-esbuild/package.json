@@ -1,0 +1,45 @@
+{
+  "name": "@modern-js/rsbuild-plugin-esbuild",
+  "version": "0.6.3",
+  "description": "Esbuild Rsbuild plugin and Modern.js",
+  "homepage": "https://modernjs.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/rsbuild-plugin-esbuild"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/esm-node/index.js"
+    }
+  },
+  "main": "./dist/cjs/index.js",
+  "types": "./dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "scripts": {
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build"
+  },
+  "dependencies": {
+    "@swc/helpers": "0.5.3",
+    "@rsbuild/shared": "0.6.3",
+    "esbuild": "0.17.19",
+    "webpack": "^5.91.0"
+  },
+  "devDependencies": {
+    "@scripts/build": "workspace:*",
+    "@rsbuild/core": "0.6.3",
+    "@rsbuild/webpack": "0.6.3",
+    "typescript": "^5.4.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  }
+}

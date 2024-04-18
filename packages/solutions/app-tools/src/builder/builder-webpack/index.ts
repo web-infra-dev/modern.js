@@ -11,7 +11,7 @@ export async function createWebpackBuilderForModern(
 
   if (normalizedConfig.tools.esbuild) {
     const { esbuild: esbuildOptions } = normalizedConfig.tools;
-    const { pluginEsbuild } = await import('@rsbuild/plugin-esbuild');
+    const { pluginEsbuild } = await import('@modern-js/rsbuild-plugin-esbuild');
 
     builder.addPlugins([pluginEsbuild(esbuildOptions)]);
   }
