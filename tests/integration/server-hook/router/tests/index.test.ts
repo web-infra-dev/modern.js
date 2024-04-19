@@ -19,7 +19,11 @@ describe('test status code page', () => {
     port = await getPort();
 
     app = await launchApp(appPath, port);
-    browser = await puppeteer.launch(launchOptions as any);
+
+    browser = await puppeteer.launch({
+      ...launchOptions,
+      ignoreHTTPSErrors: true, // https://github.com/puppeteer/puppeteer/issues/1137
+    } as any);
     page = await browser.newPage();
   });
 
