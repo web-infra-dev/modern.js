@@ -8,8 +8,6 @@ sidebar_position: 1
 
 在这里，你可以了解到 Modern.js 的最新进展和技术分享。
 
----
-
 ## AIGC 如何影响下一代文档搜索方案？
 
 > 发表于 2023.05.11
@@ -17,8 +15,6 @@ sidebar_position: 1
 对于一个文档站点来说，搜索是一个很重要的功能，它可以帮助用户在繁杂的文档中快速找到自己想要的内容。而随着 AIGC(人工智能生成内容)技术的发展，文档搜索领域也正在悄然发生变化。借助 AI 强大的自然语言处理能力和上下文理解能力，我们可以把文档搜索做得更加智能化。本文将会介绍 AIGC 在文档中应用的技术原理，并分析一些业界已有的 AI 搜索产品。
 
 [了解更多 →](https://mp.weixin.qq.com/s/OGuixAbvbIYr2viQrOrPXg)
-
----
 
 ## Modern.js v2 发布：支持 Rspack 构建
 
@@ -32,8 +28,6 @@ Modern.js 是字节跳动 Web Infra 团队开源的一套 Web 工程体系。在
 
 [了解更多 →](/community/blog/v2-release-note)
 
----
-
 ## React Streaming SSR 原理解析
 
 > 发表于 2022.12.16
@@ -45,8 +39,6 @@ React 18 提供了一种新的 SSR 渲染模式： Streaming SSR。通过 Stream
 
 [了解更多 →](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g)
 
----
-
 ## React Server Component 介绍
 
 > 发表于 2022.12.01
@@ -56,8 +48,6 @@ React 官方对 Server Component 是这样介绍的: **zero-bundle-size React Se
 这是一种实验性探索，但相信该探索是个未来 React 发展的方向，与 React Server Component 相关的周边生态正在积极的建设当中。
 
 [了解更多 →](https://mp.weixin.qq.com/s/B-XLvW00vl5RE1Ur3EW4ow)
-
----
 
 ## 2022 年 9 ~ 10 月更新内容
 
@@ -69,8 +59,6 @@ Modern.js 9 ~ 10 月的最新版本为 v1.21.0，本双月的主要更新有：
 - **服务端增加 Typescript 作为 ts 文件编译器**。
 
 [了解更多 →](/community/blog/2022-0910-updates)
-
----
 
 ## 2022 年 7 ~ 8 月更新内容
 
