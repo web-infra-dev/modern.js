@@ -21,6 +21,8 @@ export function createDefaultConfig(
       server: 'bundles',
       worker: 'worker',
     },
+    // no need to emit assets for SSR bundles
+    emitAssets: ({ target }) => target !== 'node',
     cleanDistPath: true,
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,
