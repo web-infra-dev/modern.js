@@ -15,7 +15,7 @@ async function getServerManifest(
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
 
-  await Promise.all([
+  await Promise.all(
     routes.map(async route => {
       const entryName = route.entryName || MAIN_ENTRY_NAME;
 
@@ -44,7 +44,7 @@ async function getServerManifest(
         }
       });
     }),
-  ]);
+  );
 
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
