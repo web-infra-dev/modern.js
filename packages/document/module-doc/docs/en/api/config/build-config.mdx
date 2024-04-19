@@ -376,16 +376,23 @@ Define global variables that will be injected into the code
 - **Type**: `Record<string, string>`
 - **Default**: `{}`
 
-Since the `define` function is implemented by global text replacement, you need to ensure that the global variable values are strings. A safer approach is to convert the value of each global variable to a string, using `JSON.stringify`, as follows.
+Since the `define` function is implemented by global text replacement, you need to ensure that the global variable values are strings. A safer approach is to convert the value of each global variable to a string, as follows.
+
+:::info
+Modern.js automatically performs JSON serialization handling internally, so manual serialization is not required.
+
+If automatic serialization is not needed, you can define [`alias`](https://esbuild.github.io/api/#alias) using [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) configuration.
+
+:::
 
 ```js title="modern.config.ts"
-export default {
+export default defineConfig({
   buildConfig: {
     define: {
-      VERSION: JSON.stringify('1.0'),
+      VERSION: require('./package.json').version || '0.0.0',
     },
   },
-};
+});
 ```
 
 If the project is a TypeScript project, then you may need to add the following to the `.d.ts` file in the project source directory.
@@ -403,7 +410,7 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
     define: {
-      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0'),
+      'process.env.VERSION': process.env.VERSION || '0.0.0',
     },
   },
 });
