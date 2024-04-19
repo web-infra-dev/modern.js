@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "react": "^17"
-  }
+  },
+  "private": true
 }
