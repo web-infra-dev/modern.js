@@ -6,8 +6,6 @@ sidebar_position: 3
 
 感谢你有兴趣为 Modern.js 做贡献！在开始你的贡献之前，请花几分钟时间阅读以下指南。
 
----
-
 ## 设置开发环境
 
 ### Fork 仓库
@@ -80,8 +78,6 @@ git config --global user.email "SOME_EMAIL@example.com"
 git config user.email "SOME_EMAIL@example.com"
 ```
 
----
-
 ## 代码变更和构建
 
 当你在 fork 的仓库中设置完本地开发环境后，我们就可以开始开发了。
@@ -122,8 +118,6 @@ pnpm run prepare
 pnpm run reset
 ```
 
----
-
 ## 测试
 
 ### 添加新测试
@@ -163,8 +157,6 @@ pnpm run test:e2e
 npx jest copy-assets
 ```
 
----
-
 ## Linting
 
 为了帮助保持代码风格的一致性和可读性，我们使用 ESLint 对代码进行校验。
@@ -175,8 +167,6 @@ npx jest copy-assets
 pnpm run lint
 ```
 
----
-
 ## Benchmarking
 
 你可以在 PR 的评论区中输入 `!bench-framework` 或 `!bench-module` 分别对 `@modern-js/app-tools` 和 `@modern-js/module-tools` 做性能测试（这需要你具有 Collaborator 及以上的权限）。
@@ -184,8 +174,6 @@ pnpm run lint
 你可以根据评论输出的对比表格，重点关注构建时间和产物体积相关的指标，辅助进行相关性能判断与决策。
 
 依赖安装相关指标由于需要前置的发包流程，因此数据相对有滞后性，仅供参考。
-
----
 
 ## 文档
 
@@ -205,8 +193,6 @@ root
 文档站使用 Rspress 构建，文档内容可以使用 markdown 或 mdx 语法编写。详细使用方法可以参考 [Rspress 文档](https://rspress.dev/)。
 
 Rspress 的源代码可以在 [这个仓库](https://github.com/web-infra-dev/rspress) 中找到。
-
----
 
 ## 提交变更
 
@@ -237,8 +223,6 @@ feat(plugin-swc): 添加 `xxx` 配置项
 | |_______ 范围
 |____________ 类型
 ```
-
----
 
 ## 发布
 
