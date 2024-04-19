@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "dependencies": {
     "@swc/helpers": "0.5.3"
-  }
+  },
+  "private": true
 }
