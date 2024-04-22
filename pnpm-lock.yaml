@@ -792,9 +792,6 @@ importers:
       webpack:
         specifier: ^5.91.0
         version: 5.91.0(esbuild@0.17.19)
-      webpack-manifest-plugin:
-        specifier: 5.0.0
-        version: 5.0.0(webpack@5.91.0)
       webpack-subresource-integrity:
         specifier: 5.1.0
         version: 5.1.0(html-webpack-plugin@5.5.3)(webpack@5.91.0)
@@ -34823,17 +34820,6 @@ packages:
       ansi-html-community: 0.0.8
       html-entities: 2.3.3
       strip-ansi: 6.0.1
-    dev: false
-
-  /webpack-manifest-plugin@5.0.0(webpack@5.91.0):
-    resolution: {integrity: sha512-8RQfMAdc5Uw3QbCQ/CBV/AXqOR8mt03B6GJmRbhWopE8GzRfEpn+k0ZuWywxW+5QZsffhmFDY1J6ohqJo+eMuw==}
-    engines: {node: '>=12.22.0'}
-    peerDependencies:
-      webpack: ^5.47.0
-    dependencies:
-      tapable: 2.2.1
-      webpack: 5.91.0(esbuild@0.17.19)
-      webpack-sources: 2.3.1
     dev: false
 
   /webpack-sources@2.3.1:

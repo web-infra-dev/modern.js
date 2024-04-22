@@ -73,7 +73,6 @@
     "terser-webpack-plugin": "5.3.10",
     "ts-loader": "9.4.4",
     "webpack": "^5.91.0",
-    "webpack-manifest-plugin": "5.0.0",
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
