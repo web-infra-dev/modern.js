@@ -131,6 +131,7 @@ export async function parseCommonConfig(
       svgDefaultExport,
       assetsRetry,
       enableAssetFallback,
+      enableAssetManifest,
       disableSourceMap,
       convertToRem,
       disableMinimize,
@@ -455,6 +456,11 @@ export async function parseCommonConfig(
 
   targets.includes('web') &&
     rsbuildPlugins.push(pluginPostcssLegacy(overrideBrowserslist.web!));
+
+  if (enableAssetManifest) {
+    const { pluginManifest } = await import('./plugins/manifest');
+    rsbuildPlugins.push(pluginManifest());
+  }
 
   return {
     rsbuildConfig: mergeRsbuildConfig(rsbuildConfig, extraConfig),

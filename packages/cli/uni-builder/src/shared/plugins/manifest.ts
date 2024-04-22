@@ -1,5 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { generateManifest } from '../../shared/manifest';
+import { generateManifest } from '../manifest';
 
 export const pluginManifest = (): RsbuildPlugin => ({
   name: 'uni-builder:manifest',

@@ -52,11 +52,6 @@ export async function parseConfig(
     );
   }
 
-  if (uniBuilderConfig.output?.enableAssetManifest) {
-    const { pluginManifest } = await import('./plugins/manifest');
-    rsbuildPlugins.push(pluginManifest());
-  }
-
   if (!uniBuilderConfig.output?.disableMinimize) {
     const { pluginMinimize } = await import('./plugins/minimize');
     rsbuildPlugins.push(pluginMinimize(uniBuilderConfig.tools?.terser));

@@ -26,11 +26,6 @@ export async function parseConfig(
     options,
   );
 
-  if (uniBuilderConfig.output?.enableAssetManifest) {
-    const { pluginManifest } = await import('./plugins/manifest');
-    rsbuildPlugins.push(pluginManifest());
-  }
-
   if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
