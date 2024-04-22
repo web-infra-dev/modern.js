@@ -15,7 +15,7 @@ async function getServerManifest(
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
 
-  await Promise.all([
+  await Promise.all(
     routes.map(async route => {
       const entryName = route.entryName || MAIN_ENTRY_NAME;
 
@@ -26,10 +26,15 @@ async function getServerManifest(
       );
 
       const renderBundlePath = path.join(pwd, route.bundle || '');
-
+      const dynamicImport = (filePath: string) => {
+        if (typeof require !== 'undefined') {
+          return Promise.resolve(require(filePath));
+        }
+        return import(filePath);
+      };
       await Promise.allSettled([
-        import(loaderBundlePath),
-        import(renderBundlePath),
+        dynamicImport(loaderBundlePath),
+        dynamicImport(renderBundlePath),
       ]).then(results => {
         const { status: loaderStatus } = results[0];
 
@@ -44,7 +49,7 @@ async function getServerManifest(
         }
       });
     }),
-  ]);
+  );
 
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
