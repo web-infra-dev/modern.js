@@ -27,10 +27,12 @@ async function getServerManifest(
 
       const renderBundlePath = path.join(pwd, route.bundle || '');
       const dynamicImport = (filePath: string) => {
-        if (typeof require !== 'undefined') {
-          return Promise.resolve(require(filePath));
+        try {
+          const module = require(filePath);
+          return Promise.resolve(module);
+        } catch (e) {
+          return Promise.reject(e);
         }
-        return import(filePath);
       };
       await Promise.allSettled([
         dynamicImport(loaderBundlePath),
