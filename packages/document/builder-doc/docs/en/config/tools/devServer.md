@@ -76,6 +76,10 @@ export default {
 
 #### client
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use `dev.client` instead.
+:::
+
 - **Type:**
 
 ```ts
