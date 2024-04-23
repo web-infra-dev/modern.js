@@ -1,5 +1,14 @@
 # @modern-js/plugin-worker
 
+## 2.49.1
+
+### Patch Changes
+
+- Updated dependencies [0766ae2]
+  - @modern-js/prod-server@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Patch Changes
