@@ -69,6 +69,7 @@ export const transformToRsbuildServerOptions = (
       client: {
         path: '/webpack-hmr',
         overlay: false,
+        ...(devConfig.client || {}),
       },
     },
     options: devServer,
