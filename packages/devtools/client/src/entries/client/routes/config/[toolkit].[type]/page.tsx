@@ -1,14 +1,14 @@
 import React from 'react';
-import { useSnapshot } from 'valtio';
 import { useParams } from '@modern-js/runtime/router';
-import { $builder, $bundler, $framework } from '../../state';
+import { useSnapshot } from 'valtio';
+import { $serverExported } from '../../state';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
   const configSet = {
-    framework: useSnapshot($framework).config,
-    builder: useSnapshot($builder).config,
-    bundler: useSnapshot($bundler).config,
+    framework: useSnapshot($serverExported.framework.config),
+    builder: useSnapshot($serverExported.builder.config),
+    bundler: useSnapshot($serverExported.bundler.configs),
   } as const;
   const { toolkit, type } = useParams() as {
     toolkit: 'framework' | 'builder' | 'bundler';

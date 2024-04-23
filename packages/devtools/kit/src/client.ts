@@ -1,15 +1,11 @@
 /* eslint-disable max-classes-per-file */
 import type { ComponentType, ReactElement } from 'react';
-import type { Entrypoint } from '@modern-js/types';
 import logo from './logo';
-import { FileSystemRoutes } from './server';
+import type { Op } from './valtio';
 
 export interface ClientFunctions {
   refresh: () => void;
-  updateFileSystemRoutes: (param: {
-    entrypoint: Entrypoint;
-    routes: FileSystemRoutes;
-  }) => void;
+  applyStateOperations: (ops: Op[]) => Promise<void>;
 }
 
 export class NameDefinition {

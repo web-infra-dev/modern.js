@@ -8,14 +8,7 @@ import {
 } from 'react-icons/hi2';
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
-import {
-  $builder,
-  $definition,
-  $dependencies,
-  $framework,
-  $perf,
-  VERSION,
-} from '../state';
+import { $serverExported, VERSION } from '../state';
 import '@/components/Card/Indicate.module.scss';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
@@ -26,20 +19,20 @@ const BUNDLER_PACKAGE_NAMES = {
 } as const;
 
 const Page: React.FC = () => {
-  const framework = useSnapshot($framework);
-  const def = useSnapshot($definition);
-  const dependencies = useSnapshot($dependencies);
-  const builder = useSnapshot($builder);
-  const perf = useSnapshot($perf);
+  const frameworkContext = useSnapshot($serverExported.framework).context;
+  const def = useSnapshot($serverExported).definition;
+  const dependencies = useSnapshot($serverExported.dependencies);
+  const builderContext = useSnapshot($serverExported.builder).context;
+  const { compileDuration } = useSnapshot($serverExported).performance;
   const isMacOS = window.navigator.userAgent.includes('Mac OS');
-  const { toolsType } = framework.context;
+  const { toolsType } = frameworkContext;
   if (toolsType !== 'app-tools') {
     throw Error();
   }
   const toolsPackage = def.packages.appTools;
   const toolsPackageVer = dependencies[toolsPackage]!;
 
-  const { bundlerType } = builder.context;
+  const { bundlerType } = builderContext;
   const bundlerPackage = BUNDLER_PACKAGE_NAMES[bundlerType];
   const bundlerPackageVer = dependencies[bundlerPackage];
 
@@ -99,7 +92,7 @@ const Page: React.FC = () => {
                 style={{ color: 'var(--gray-11)' }}
                 mb="2"
               >
-                {framework.context.plugins.length}
+                {frameworkContext.plugins.length}
               </Text>
               <Text as="p" size="1" color="gray">
                 Framework Plugins
@@ -117,7 +110,7 @@ const Page: React.FC = () => {
                 weight="bold"
                 style={{ color: 'var(--gray-11)' }}
               >
-                {(perf.compileDuration / 1000).toFixed(2)}s
+                {(compileDuration / 1000).toFixed(2)}s
               </Text>
               <Text as="p" size="1" color="gray">
                 Compiled in {bundlerPackage}@{bundlerPackageVer}

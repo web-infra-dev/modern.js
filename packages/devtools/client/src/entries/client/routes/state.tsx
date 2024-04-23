@@ -1,9 +1,12 @@
 import {
   MessagePortChannel,
+  PromiseStub,
   ServerFunctions,
   Tab,
   ClientFunctions as ToServerFunctions,
   WebSocketChannel,
+  applyOperation,
+  createServerExportedState,
 } from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
@@ -43,77 +46,42 @@ export const $socket = new window.WebSocket(DATA_SOURCE);
 
 export const $serverChannel = WebSocketChannel.link($socket);
 
+export const $serverExported = proxy(createServerExportedState().state);
+
 export const $server = $serverChannel.then(async channel => {
   const hooks = createHooks<ToServerFunctions>();
   const definitions: ToServerFunctions = {
     async refresh() {
       location.reload();
     },
-    async updateFileSystemRoutes(e) {
-      await hooks.callHook('updateFileSystemRoutes', e);
+    async applyStateOperations(ops) {
+      for (const op of ops) {
+        applyOperation($serverExported, op);
+      }
     },
   };
-  const remote = createBirpc<ServerFunctions, ToServerFunctions>(
-    definitions,
-    channel,
-  );
+  const remote = createBirpc<ServerFunctions, ToServerFunctions>(definitions, {
+    ...channel.handlers,
+    timeout: 5000,
+  });
+
+  remote.pullExportedState().then(state => {
+    for (const [key, newVal] of Object.entries(state)) {
+      type Key = keyof typeof $serverExported;
+      const val = $serverExported[key as Key];
+      if (val instanceof Promise && newVal instanceof Promise) {
+        continue;
+      }
+      if (val instanceof Promise) {
+        PromiseStub.get<any>(val).resolve(newVal);
+      }
+      $serverExported[key as Key] = newVal;
+    }
+  });
+
   return { remote, hooks };
-});
-
-export const $framework = proxy({
-  context: $server.then(({ remote }) => remote.getAppContext()),
-  config: {
-    resolved: $server.then(({ remote }) => remote.getFrameworkConfig()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedFrameworkConfig(),
-    ),
-  },
-});
-
-export const $builder = proxy({
-  context: $server.then(({ remote }) => remote.getBuilderContext()),
-  config: {
-    resolved: $server.then(({ remote }) => remote.getBuilderConfig()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedBuilderConfig(),
-    ),
-  },
-});
-
-export const $bundler = proxy({
-  config: {
-    resolved: $server.then(({ remote }) => remote.getBundlerConfigs()),
-    transformed: $server.then(({ remote }) =>
-      remote.getTransformedBundlerConfigs(),
-    ),
-  },
 });
 
 export const $tabs = proxy<Tab[]>([]);
 
 export const VERSION = process.env.PKG_VERSION;
-
-const _definitionTask = $server.then(({ remote }) =>
-  remote.getClientDefinition(),
-);
-
-export const $definition = proxy({
-  name: _definitionTask.then(def => def.name),
-  packages: _definitionTask.then(def => def.packages),
-  assets: _definitionTask.then(def => def.assets),
-  announcement: _definitionTask.then(def => def.announcement),
-  doctor: _definitionTask.then(def => def.doctor),
-  plugins: _definitionTask.then(def => def.plugins),
-});
-
-export const _dependenciesTask = $server.then(({ remote }) =>
-  remote.getDependencies(),
-);
-
-export const $dependencies = proxy<Record<string, string>>({});
-
-_dependenciesTask.then(def => Object.assign($dependencies, def));
-
-export const $perf = proxy({
-  compileDuration: $server.then(({ remote }) => remote.getCompileTimeCost()),
-});

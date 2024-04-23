@@ -1,24 +1,26 @@
-import _ from '@modern-js/utils/lodash';
 import {
-  type BuilderConfig,
-  type BundlerConfig,
-  type ClientFunctions,
-  type FileSystemRoutes,
-  type NormalizedBuilderConfig,
-  type ServerFunctions,
   findManifest,
   parseManifest,
+  type AppContext,
+  type DoctorManifestOverview,
+  type ClientFunctions,
+  type ServerFunctions,
+  extractSettledOperations,
+  replacer,
+  reviver,
 } from '@modern-js/devtools-kit/node';
-import type { JsonValue } from 'type-fest';
-import { createBirpc, BirpcOptions } from 'birpc';
+import type { RsbuildPlugin } from '@modern-js/uni-builder';
+import _ from '@modern-js/utils/lodash';
+import { BirpcOptions, createBirpc } from 'birpc';
 import * as flatted from 'flatted';
-import createDeferPromise from 'p-defer';
+import type { JsonValue } from 'type-fest';
+import { subscribe } from 'valtio';
 import { RawData } from 'ws';
-import type { RsbuildContext, RsbuildPlugin } from '@modern-js/uni-builder';
-import { CliPluginAPI, InjectedHooks } from '../types';
-import { SocketServer } from '../utils/socket';
-import { requireModule } from '../utils/module';
 import { DevtoolsContext } from '../options';
+import { CliPluginAPI, InjectedHooks } from '../types';
+import { requireModule } from '../utils/module';
+import { SocketServer } from '../utils/socket';
+import { $resolvers, $state } from '../state';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
@@ -26,12 +28,81 @@ export interface SetupClientConnectionOptions {
   ctx: DevtoolsContext;
 }
 
+const resolveDependencies = async (rootPath: string) => {
+  const ret: Record<string, string> = {};
+
+  const resolveExprs = {
+    react: [rootPath, 'react/package.json'],
+    '@modern-js/app-tools': [rootPath, '@modern-js/app-tools/package.json'],
+    '@edenx/app-tools': [rootPath, '@edenx/app-tools/package.json'],
+    webpack: [
+      rootPath,
+      '@modern-js/app-tools',
+      '@modern-js/uni-builder',
+      '@rsbuild/webpack',
+      'webpack/package.json',
+    ],
+    '@rspack/core': [
+      rootPath,
+      '@modern-js/uni-builder',
+      '@rsbuild/core',
+      '@rspack/core/package.json',
+    ],
+    '@rsdoctor/rspack-plugin': [
+      rootPath,
+      '@rsdoctor/rspack-plugin/package.json',
+    ],
+    '@rsdoctor/webpack-plugin': [
+      rootPath,
+      '@rsdoctor/webpack-plugin/package.json',
+    ],
+    '@web-doctor/webpack-plugin': [
+      rootPath,
+      '@web-doctor/webpack-plugin/package.json',
+    ],
+    '@web-doctor/rspack-plugin': [
+      rootPath,
+      '@web-doctor/rspack-plugin/package.json',
+    ],
+    '@web-doctor/webpack-plugin(builder)': [
+      rootPath,
+      '@edenx/builder-plugin-web-doctor',
+      '@web-doctor/webpack-plugin/package.json',
+    ],
+    '@web-doctor/rspack-plugin(builder)': [
+      rootPath,
+      '@edenx/builder-plugin-web-doctor',
+      '@web-doctor/rspack-plugin/package.json',
+    ],
+    '@rsdoctor/core': [rootPath, '@rsdoctor/core/package.json'],
+  };
+
+  for (const [name, expr] of Object.entries(resolveExprs)) {
+    try {
+      ret[name] = requireModule(expr).version;
+    } catch {}
+  }
+  return ret;
+};
+
+const getDoctorOverview = async (
+  ctx: AppContext,
+): Promise<DoctorManifestOverview> => {
+  const manifestPath = await findManifest(ctx.distDirectory);
+  const json = await parseManifest(require(manifestPath));
+  return {
+    numModules: json.data.moduleGraph.modules.length,
+    numChunks: json.data.chunkGraph.chunks.length,
+    numPackages: json.data.packageGraph.packages.length,
+    summary: json.data.summary,
+    errors: json.data.errors,
+  };
+};
+
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
   const { api, server, ctx } = options;
-
-  const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
   // register events.
   let handleMessage: null | ((data: RawData, isBinary: boolean) => void) = null;
@@ -42,157 +113,35 @@ export const setupClientConnection = async (
     });
   });
 
-  /**
-   * Define deferred promises.
-   * NOTICE: Each promise can only be resolved for once.
-   */
-  const deferred = {
-    prepare: createDeferPromise<void>(),
-    builder: {
-      context: createDeferPromise<RsbuildContext>(),
-      config: {
-        resolved: createDeferPromise<BuilderConfig>(),
-        transformed: createDeferPromise<NormalizedBuilderConfig>(),
-      },
-    },
-    bundler: {
-      config: {
-        resolved: createDeferPromise<BundlerConfig[]>(),
-        transformed: createDeferPromise<BundlerConfig[]>(),
-      },
-    },
-    compileTimeCost: createDeferPromise<number>(),
-  } as const;
+  $resolvers.definition.resolve(ctx.def);
+  $resolvers.devtoolsConfig.resolve({
+    storagePresets: ctx.storagePresets,
+  });
+  subscribe($state, ops => {
+    clientConn.applyStateOperations.asEvent(ops);
+  });
 
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
-    async getFrameworkConfig() {
-      await deferred.prepare.promise;
-      return api.useConfigContext();
-    },
-    async getTransformedFrameworkConfig() {
-      await deferred.prepare.promise;
-      return api.useResolvedConfigContext();
-    },
-    async getBuilderConfig() {
-      return deferred.builder.config.resolved.promise;
-    },
-    async getTransformedBuilderConfig() {
-      return deferred.builder.config.transformed.promise;
-    },
-    async getBundlerConfigs() {
-      return deferred.bundler.config.resolved.promise;
-    },
-    async getTransformedBundlerConfigs() {
-      return deferred.bundler.config.transformed.promise;
-    },
-    async getAppContext() {
-      await deferred.prepare.promise;
-      const appCtx = { ...api.useAppContext() };
-      return _.omit(appCtx, ['builder', 'serverInternalPlugins']);
-    },
-    async getFileSystemRoutes(entryName) {
-      return _fileSystemRoutesMap[entryName] ?? [];
-    },
-    async getBuilderContext() {
-      const builderCtx = await deferred.builder.context.promise;
-      return builderCtx;
-    },
-    async getDependencies() {
-      const builderCtx = await deferred.builder.context.promise;
-      const ret: Record<string, string> = {};
-
-      const resolveExprs = {
-        react: [builderCtx.rootPath, 'react/package.json'],
-        '@modern-js/app-tools': [
-          builderCtx.rootPath,
-          '@modern-js/app-tools/package.json',
-        ],
-        '@edenx/app-tools': [
-          builderCtx.rootPath,
-          '@edenx/app-tools/package.json',
-        ],
-        webpack: [
-          builderCtx.rootPath,
-          '@modern-js/app-tools',
-          '@modern-js/uni-builder',
-          '@rsbuild/webpack',
-          'webpack/package.json',
-        ],
-        '@rspack/core': [
-          builderCtx.rootPath,
-          '@modern-js/uni-builder',
-          '@rsbuild/core',
-          '@rspack/core/package.json',
-        ],
-        '@rsdoctor/rspack-plugin': [
-          builderCtx.rootPath,
-          '@rsdoctor/rspack-plugin/package.json',
-        ],
-        '@rsdoctor/webpack-plugin': [
-          builderCtx.rootPath,
-          '@rsdoctor/webpack-plugin/package.json',
-        ],
-        '@web-doctor/webpack-plugin': [
-          builderCtx.rootPath,
-          '@web-doctor/webpack-plugin/package.json',
-        ],
-        '@web-doctor/rspack-plugin': [
-          builderCtx.rootPath,
-          '@web-doctor/rspack-plugin/package.json',
-        ],
-        '@web-doctor/webpack-plugin(builder)': [
-          builderCtx.rootPath,
-          '@edenx/builder-plugin-web-doctor',
-          '@web-doctor/webpack-plugin/package.json',
-        ],
-        '@web-doctor/rspack-plugin(builder)': [
-          builderCtx.rootPath,
-          '@edenx/builder-plugin-web-doctor',
-          '@web-doctor/rspack-plugin/package.json',
-        ],
-        '@rsdoctor/core': [builderCtx.rootPath, '@rsdoctor/core/package.json'],
-      };
-
-      for (const [name, expr] of Object.entries(resolveExprs)) {
-        try {
-          ret[name] = requireModule(expr).version;
-        } catch {}
-      }
-      return ret;
-    },
-    async getCompileTimeCost() {
-      return deferred.compileTimeCost.promise;
-    },
-    async getClientDefinition() {
-      return ctx.def;
-    },
-    async getDoctorOverview() {
-      const appCtx = api.useAppContext();
-      const manifestPath = await findManifest(appCtx.distDirectory);
-      const json = await parseManifest(require(manifestPath));
-      const data = {
-        numModules: json.data.moduleGraph.modules.length,
-        numChunks: json.data.chunkGraph.chunks.length,
-        numPackages: json.data.packageGraph.packages.length,
-        summary: json.data.summary,
-        errors: json.data.errors,
-      };
-      return data;
-    },
-    async getDevtoolsConfig() {
-      return _.pick(ctx, 'storagePresets');
-    },
     echo(content) {
       return content;
+    },
+    async pullExportedState() {
+      extractSettledOperations($state).then(ops => {
+        clientConn.applyStateOperations.asEvent(ops);
+      });
+      return $state;
     },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {
     post: data =>
       onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
     on: cb => (handleMessage = cb),
-    serialize: v => flatted.stringify([v]),
-    deserialize: v => flatted.parse(v.toString())[0],
+    serialize: v => flatted.stringify([v], replacer),
+    deserialize: v => {
+      const msg = flatted.parse(v.toString(), reviver)[0];
+      return msg;
+    },
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
@@ -202,14 +151,22 @@ export const setupClientConnection = async (
 
   const hooks: InjectedHooks = {
     prepare() {
-      deferred.prepare.resolve();
+      const frameworkContext = {
+        ...api.useAppContext(),
+        builder: null,
+        serverInternalPlugins: null,
+      };
+      $resolvers.framework.context.resolve(frameworkContext);
+      $resolvers.framework.config.resolved.resolve(api.useConfigContext());
+      $resolvers.framework.config.transformed.resolve(
+        api.useResolvedConfigContext(),
+      );
+      getDoctorOverview(frameworkContext)
+        .then(doctor => $resolvers.doctor.resolve(doctor))
+        .catch(() => $resolvers.doctor.resolve(undefined));
     },
     modifyFileSystemRoutes({ entrypoint, routes }) {
-      // update remote records.
-      // clientConn.updateFileSystemRoutes({ entrypoint, routes });
-      // update local records.
-      _fileSystemRoutesMap[entrypoint.entryName] = _.cloneDeep(routes);
-
+      $state.fileSystemRoutes[entrypoint.entryName] = _.cloneDeep(routes);
       return { entrypoint, routes };
     },
   };
@@ -217,12 +174,16 @@ export const setupClientConnection = async (
   const builderPlugin: RsbuildPlugin = {
     name: 'builder-plugin-devtools',
     setup(api) {
-      deferred.builder.context.resolve(_.cloneDeep(api.context));
+      $resolvers.builder.context.resolve(api.context);
+      resolveDependencies(api.context.rootPath).then(deps => {
+        $state.dependencies = deps;
+      });
+
       api.modifyBundlerChain(() => {
-        deferred.builder.config.resolved.resolve(
+        $resolvers.builder.config.resolved.resolve(
           _.cloneDeep(api.getRsbuildConfig()),
         );
-        deferred.builder.config.transformed.resolve(
+        $resolvers.builder.config.transformed.resolve(
           _.cloneDeep(api.getNormalizedConfig()),
         );
       });
@@ -232,9 +193,7 @@ export const setupClientConnection = async (
       const handleBundlerConfig = (config: JsonValue) => {
         bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
-          deferred.bundler.config.resolved.resolve(
-            _.cloneDeep(bundlerConfigs) as any,
-          );
+          $state.bundler.configs.resolved = _.cloneDeep(bundlerConfigs) as any;
         }
       };
       if (api.context.bundlerType === 'webpack') {
@@ -248,7 +207,7 @@ export const setupClientConnection = async (
       }
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-        deferred.bundler.config.transformed.resolve(
+        $resolvers.bundler.configs.transformed.resolve(
           _.cloneDeep(bundlerConfigs),
         );
       });
@@ -258,10 +217,14 @@ export const setupClientConnection = async (
         buildStartedAt = Date.now();
       });
       api.onDevCompileDone(() => {
-        deferred.compileTimeCost.resolve(Date.now() - buildStartedAt);
+        $resolvers.performance.resolve({
+          compileDuration: Date.now() - buildStartedAt,
+        });
       });
       api.onAfterBuild(() => {
-        deferred.compileTimeCost.resolve(Date.now() - buildStartedAt);
+        $resolvers.performance.resolve({
+          compileDuration: Date.now() - buildStartedAt,
+        });
       });
     },
   };

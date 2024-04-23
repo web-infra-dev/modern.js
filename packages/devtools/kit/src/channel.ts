@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 import * as flatted from 'flatted';
 import type { ChannelOptions } from 'birpc';
+import { replacer, reviver } from './serializer';
 
 export class WebSocketChannel implements ChannelOptions {
   static link(ws: WebSocket) {
@@ -54,11 +55,12 @@ export class WebSocketChannel implements ChannelOptions {
   }
 
   serialize(data: unknown): string {
-    return flatted.stringify([data]);
+    return flatted.stringify([data], replacer);
   }
 
   deserialize(e: MessageEvent): unknown {
-    return flatted.parse(e.data.toString())[0];
+    const msg = flatted.parse(e.data.toString(), reviver)[0];
+    return msg;
   }
 }
 

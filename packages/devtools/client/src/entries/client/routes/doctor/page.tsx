@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { useSnapshot } from 'valtio';
 import {
   Box,
   Flex,
@@ -20,9 +19,9 @@ import {
 import _ from 'lodash';
 import { parseURL } from 'ufo';
 import clsx from 'clsx';
-import { $definition, $dependencies } from '../state';
+import { useSnapshot } from 'valtio';
+import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
-import { $doctor } from './state';
 import styles from './page.module.scss';
 import { IndicateCard } from '@/components/Card';
 
@@ -76,10 +75,13 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 };
 
 const Page: FC = () => {
-  const doctor = useSnapshot($doctor);
+  const { doctor } = useSnapshot($serverExported);
+  if (!doctor) {
+    throw new TypeError('Doctor is not available');
+  }
+  const dependencies = useSnapshot($serverExported.dependencies);
+  const def = useSnapshot($serverExported).definition;
 
-  const dependencies = useSnapshot($dependencies);
-  const def = useSnapshot($definition);
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),
   );
