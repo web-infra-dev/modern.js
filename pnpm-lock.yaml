@@ -214,8 +214,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -538,8 +538,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/plugin-swc':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -630,8 +630,8 @@ importers:
   packages/cli/rsbuild-plugin-esbuild:
     dependencies:
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -643,11 +643,11 @@ importers:
         version: 5.91.0(esbuild@0.17.19)
     devDependencies:
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/webpack':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)(esbuild@0.17.19)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)(esbuild@0.17.19)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -676,56 +676,56 @@ importers:
         specifier: 0.5.10
         version: 0.5.10(react-refresh@0.14.0)(webpack@5.91.0)
       '@rsbuild/babel-preset':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/plugin-assets-retry':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-babel':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-check-syntax':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-css-minimizer':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0)
       '@rsbuild/plugin-pug':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-react':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-rem':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-source-build':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-styled-components':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-svgr':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(typescript@5.3.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(typescript@5.3.3)
       '@rsbuild/plugin-toml':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-type-check':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3)
       '@rsbuild/plugin-yaml':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@rsbuild/webpack':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)(esbuild@0.17.19)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)(esbuild@0.17.19)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -800,8 +800,8 @@ importers:
         specifier: workspace:*
         version: link:../../server/prod-server
       '@rsbuild/plugin-swc':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -866,8 +866,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -2719,11 +2719,11 @@ importers:
         specifier: ^7.22.10
         version: 7.22.10(@babel/eslint-parser@7.22.15)(eslint@8.28.0)
       '@rsbuild/babel-preset':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.0
         version: 5.59.6(@typescript-eslint/parser@5.59.6)(eslint@8.28.0)(typescript@5.3.3)
@@ -2816,8 +2816,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3133,8 +3133,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/babel-preset':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -3872,8 +3872,8 @@ importers:
         version: 8.13.0
     devDependencies:
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3944,8 +3944,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/babel-preset':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4035,14 +4035,14 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/plugin-node-polyfill':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4057,8 +4057,8 @@ importers:
         version: 3.5.0(esbuild@0.17.19)
     devDependencies:
       '@rsbuild/plugin-swc':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4178,8 +4178,8 @@ importers:
         specifier: workspace:@modern-js/module-tools@*
         version: 'link:'
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4272,11 +4272,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 0.6.4
-        version: 0.6.4
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@rspack/plugin-react-refresh':
         specifier: 0.4.5
         version: 0.4.5
@@ -5254,11 +5254,11 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@rsbuild/plugin-swc':
-        specifier: 0.6.4
-        version: 0.6.4(@rsbuild/core@0.6.4)
+        specifier: 0.6.6
+        version: 0.6.6(@rsbuild/core@0.6.6)
       '@rsbuild/shared':
-        specifier: 0.6.4
-        version: 0.6.4(@swc/helpers@0.5.3)
+        specifier: 0.6.6
+        version: 0.6.6(@swc/helpers@0.5.3)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
@@ -15356,8 +15356,8 @@ packages:
       rollup: 3.29.4
     dev: true
 
-  /@rsbuild/babel-preset@0.6.4:
-    resolution: {integrity: sha512-Mq6uQiieXrIKHykopFAjpHgm3dapsi+KOyIGgYr9nEBmDcQrXnmQl/2L5HlAzQ3Qmwz9KsMtq9zFDF/XQW+CUA==}
+  /@rsbuild/babel-preset@0.6.6:
+    resolution: {integrity: sha512-BOv72O4F4f7JHbk3JDzVLZFJlUSFhfldScXtfDWySczkgUpg48HbLPWekJOK6c0ItnWClwZGC8tdzGDmhgkCOg==}
     dependencies:
       '@babel/core': 7.24.4
       '@babel/plugin-proposal-decorators': 7.24.1(@babel/core@7.24.4)
@@ -15389,50 +15389,50 @@ packages:
       postcss: 8.4.38
     dev: true
 
-  /@rsbuild/core@0.6.4:
-    resolution: {integrity: sha512-9sdsfP0v44C5/JB33UbZ+qoubWNCmRCt4z/XknXXLmBrCQxHL+OoVq1YV5YChlc9QQsa5ePG3bVmNqzg4gzc7A==}
+  /@rsbuild/core@0.6.6:
+    resolution: {integrity: sha512-gZeWzVlbRap2LkI7G5twrykxBsiy8sT4UspV7Lj4+tkV+67/Y3HCGV5YL4LPMsbHk/cRyiTvkkb+x4YaKdj96w==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
-      '@rspack/core': 0.6.2(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
+      '@rspack/core': 0.6.3(@swc/helpers@0.5.3)
       '@swc/helpers': 0.5.3
       core-js: 3.36.0
-      html-webpack-plugin: /html-rspack-plugin@5.6.2(@rspack/core@0.6.2)
+      html-webpack-plugin: /html-rspack-plugin@5.6.2(@rspack/core@0.6.3)
       postcss: 8.4.38
 
-  /@rsbuild/monorepo-utils@0.6.4(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-4XaGIsr3lVnsVXK20+cL/scY5ngEV8SIWwEgZ0GRNd9aOLRBpTFojrhrllo0rWIN54sb3oVj/MpUKtOtK75Msg==}
+  /@rsbuild/monorepo-utils@0.6.6(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-bb9JUGe3gh/tbRi15dRCHy9V6nkQlS3bef/iC4ao8utFJnFqhK8jquTVpVM5hy/PddtlwTivi5zuTLpQyQ5MVQ==}
     dependencies:
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       fast-glob: 3.3.2
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-assets-retry@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-SnudS8ZevDDgrAY8RIwGx2T9asILUbRPXiyOwRm4rKj9JXzPBxBuS6uppEO9LBNKdOJ8Nm2J2FrKtbe5KeVWAg==}
+  /@rsbuild/plugin-assets-retry@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-2S7Iw/BceKukw3AL4SOJti9sqNlvw8TfqSeCwaLuGhFWJi7afPwxbcIzlCUmHHRCfrQN81mdT81XyyyGK58AiQ==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       serialize-javascript: 6.0.2
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-babel@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-D1yXR9cvZWvsLWRWDhtlLmLD6sPVlcH6H1zg6590Uf5EK7J9MruNxa54GI9JCnR5yVo6X1zhRSnOB3jJEIDdEQ==}
+  /@rsbuild/plugin-babel@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-ij1SMA35A4Rzd/M0V6AGkZMm/ojumCxq1rbCj4ge04sBwnjtKXwNgmAM98xtmGO84ZgBuB0aymbd34QzfaQ0zQ==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
       '@babel/core': 7.24.4
       '@babel/plugin-proposal-decorators': 7.24.1(@babel/core@7.24.4)
       '@babel/plugin-transform-class-properties': 7.24.1(@babel/core@7.24.4)
       '@babel/preset-typescript': 7.24.1(@babel/core@7.24.4)
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       '@types/babel__core': 7.20.5
       upath: 2.0.1
     transitivePeerDependencies:
@@ -15440,13 +15440,13 @@ packages:
       - supports-color
     dev: false
 
-  /@rsbuild/plugin-check-syntax@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-DDwJNdrHTZhNE3mAEOz7x6HIUk29lV5poMY5YqoIK9MQZe4HgUCy+cDtbAYsbvtCclR3fCBOCdsD8/q9dMfFuQ==}
+  /@rsbuild/plugin-check-syntax@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-NeDMopIZptXyq7ppSFh90WWK8xnx62iQckhKf4Vwm0xjOO4Ftpje5ZcjrNIRW8NhLQpdIOA/i5exZ0VUTBYhDg==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       acorn: 8.11.3
       htmlparser2: 9.1.0
       source-map: 0.7.4
@@ -15454,13 +15454,13 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-css-minimizer@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0):
-    resolution: {integrity: sha512-hksRGAMgPJ9xSUCy9pmedKETpLPDgmjzaLsucqsO4iEdyXnddBJX31V8WkfV+ip/SpJ9Fq41XOO/DB8wz8jctA==}
+  /@rsbuild/plugin-css-minimizer@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0):
+    resolution: {integrity: sha512-gh30bgnbXQTkalmtEFirpGLo8d1dwreplc3gTS4dbI9Y85Z/Wgkfz53qlbv38iWQjpD3Wd00TB1NUVMbd08RDg==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.91.0)
     transitivePeerDependencies:
       - '@parcel/css'
@@ -15473,13 +15473,13 @@ packages:
       - webpack
     dev: false
 
-  /@rsbuild/plugin-node-polyfill@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-2pSWdByw4Z4L9W105r2AjtWj0OzHxb/DbLhE6Hjufjng9ugahtDeD+owcwlFhJ1EMIAQ3nBS9CMKl/CMeaeC5g==}
+  /@rsbuild/plugin-node-polyfill@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-aJOTRLe1IxHYIuPfAiQOb/LUejxXqoxv1dHHIN3ezFjb12J9K9OLD29ZbfX91z9oyQC9FiV484n7QqzJDYXojQ==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       assert: 2.1.0
       browserify-zlib: 0.2.0
       buffer: 5.7.1
@@ -15507,13 +15507,13 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-pug@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-I2Aiu1zrN1QCVl4fmBvrrc9VUYKYnsem81dsumsSbi8zI7jiv2hLbxD5Z104HZggXIPyCep8SYFSrJYRSXv0WQ==}
+  /@rsbuild/plugin-pug@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-H/I1GQ0DmaHNoHdUlUgWp6po9GNWC2lt5PPKbsIoKiA/rcK7pft2vkhO0QoxCPBOz1a1YyK215tRslc0JBeRkg==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       '@types/pug': 2.0.10
       pug: 3.0.2
     transitivePeerDependencies:
@@ -15533,61 +15533,61 @@ packages:
       - '@swc/helpers'
     dev: true
 
-  /@rsbuild/plugin-react@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-gp96Sb2Qa0HmFDaysuoTijbOUhg8QCBA8IwMI3YaZvLWsgFoOU8JBSHDPbu8eUHDwWfH41cKrhBWKAUf3q5Ffw==}
+  /@rsbuild/plugin-react@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-cblNNu4rjER3b/lQGH1Fa7NFVRT0M0b7aJkaMPEl2GA7ra8446zeOP5i0m8D25Pyd6tJ2QiMeFShE1d/G/FJpA==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
-      '@rspack/plugin-react-refresh': 0.6.2(react-refresh@0.14.0)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
+      '@rspack/plugin-react-refresh': 0.6.3(react-refresh@0.14.0)
       react-refresh: 0.14.0
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  /@rsbuild/plugin-rem@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-gS0eCfJlbNlhuc+arJ0IcH58Uxe362L8/3SiBbHWg9jmSLKb6w86QZAxEFpjLEKvA2n7lxpQ2xxdU/LzaWLN2w==}
+  /@rsbuild/plugin-rem@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-iAqUjJfUarXclhsixkkG8Ne3rRZZNkokNvxY44VuazzA2mKZsy8NAzE1CMgPBL40sRE1zHdHMarIfrssNWTNig==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       terser: 5.30.3
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-source-build@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-kGfSijGOLYNR1KENuDSczCy8HrBhSQVkk9SacD/1OQDp3p2VMA9k8hX9WWGtdx49z99XW3X+l051ZVfO1CSNsg==}
+  /@rsbuild/plugin-source-build@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-/5/xX1Q4GqKQChnP+4KLCN+65tMsdUbiNn890WMPBDoPN2B/SJ0zKykcxXYSZUwg6aMl2rh/5phFIm6Ej0TR+w==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/monorepo-utils': 0.6.4(@swc/helpers@0.5.3)
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/monorepo-utils': 0.6.6(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-styled-components@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-U65Xg3KKdOLrqs+ryVJ9PlfUdkgnEfaFVFMlkLTcXF0E+VjrJKfxPfX95FphNn4bKCKb+ZB24ji6n9aXrrIPLA==}
+  /@rsbuild/plugin-styled-components@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-h3Y6omKRqXiRddR2IJ5TFMhKeZkgu2xpgHuLRXYMNbe46x3cAIvcp3wI+uZeO8P0CqVS0sx/6sg4yl4pWemQug==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-svgr@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-mtyX6D8MJ7N0V/zu6zLoAKKugcJzkAeZ9juQwTEdI/qz/+/t560vErkMCNDxk2UD7/X+jw7dkLh+yQOfAPF3HA==}
+  /@rsbuild/plugin-svgr@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(typescript@5.3.3):
+    resolution: {integrity: sha512-WNLGYkWM7QcthAb58JJHkiQeAXk4jGTx+fBxiFu6gByZr/J3nvz6iQfZ2XBVX1aaNNZqZeLg/0QcgoZBR9vMGA==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/plugin-react': 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/plugin-react': 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       '@svgr/core': 8.1.0(typescript@5.3.3)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
@@ -15597,38 +15597,38 @@ packages:
       - typescript
     dev: false
 
-  /@rsbuild/plugin-swc@0.6.4(@rsbuild/core@0.6.4):
-    resolution: {integrity: sha512-DgZoPRy3zzbbmCi81DY+wexnDVW6/QJk3ru+sM5zEQfERE2DY+n2lqvRLtZtOIGbisR8mrWxN9MCnNw3I0Ggzw==}
+  /@rsbuild/plugin-swc@0.6.6(@rsbuild/core@0.6.6):
+    resolution: {integrity: sha512-c5B6jlo88F8b7WdiX6ttS09yTjFl3I5dtxVCa9j2nF9KdEbrl8ZPZQLKQ6xqaUgiRHUi1gfKtRiGzzstHAUlbA==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
       '@modern-js/swc-plugins': 0.6.7(@swc/helpers@0.5.3)
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/plugin-react': 0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/plugin-react': 0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       '@swc/helpers': 0.5.3
       core-js: 3.36.0
       lodash: 4.17.21
 
-  /@rsbuild/plugin-toml@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-8/BsA7tjv0tuHiCp6hZPMaEvXZ1z2oYKDfuYab5ssZ1wk6fSLrCIZodFZAwlexsewImRO9/wgeTdxfTOUZ57RA==}
+  /@rsbuild/plugin-toml@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-Nys70zy7H2yRnAcCI9sRo3Zt3adzV/l1qTaWGJQSnUUpTfabI8q+IOyJgILFPQYulkhrN7zW1NjjEIuPNNDFYw==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       toml: 3.0.0
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-type-check@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3):
-    resolution: {integrity: sha512-Sbw1o7o3Cvexv3B/JdHBUU/Sx0FX5mB0MpzzVGy4qvgbdtbkmKdQfDv+oI/vgloKl6gISl3WJJUzNVtKC1860A==}
+  /@rsbuild/plugin-type-check@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3):
+    resolution: {integrity: sha512-8QuWzDC0D8cmVEZ+zD3zjAyO09kHkyQaipY0eeAPc7nKS7dz2kUaB/pBWFwYKQLBHs3aoUeGV4ARixhBbqGq2w==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.3.3)(webpack@5.91.0)
       webpack: 5.91.0(esbuild@0.17.19)
     transitivePeerDependencies:
@@ -15640,13 +15640,13 @@ packages:
       - webpack-cli
     dev: false
 
-  /@rsbuild/plugin-yaml@0.6.4(@rsbuild/core@0.6.4)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-L8Oc4OXbpMnCKmv2diNN/p3NrcPA3XKT/ve7KU6gfwJuRNi5vwWj4fysLJ7Uvejh7/HvaVX9ZCEd5vXwInRaVA==}
+  /@rsbuild/plugin-yaml@0.6.6(@rsbuild/core@0.6.6)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-9dbx6ZNMDJCgD76ywYhZKsbBgsXF74SJr7XLmhROydERervJ6q4LtvCF8w+YUdegUNnPfcQEe3BnaXbOm37b/g==}
     peerDependencies:
-      '@rsbuild/core': ^0.6.4
+      '@rsbuild/core': ^0.6.6
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
@@ -15661,23 +15661,23 @@ packages:
       - '@swc/helpers'
     dev: true
 
-  /@rsbuild/shared@0.6.4(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-MqaVYNRcq/eT7TNt/iMQzdyN71WwT1wEonnJIz4/x5wV0sf82BN0rrIwFLBSkEO/0HBf1K5bKGTjX727tJNztw==}
+  /@rsbuild/shared@0.6.6(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-2aGqrIVqA7rAcEGd1FZSQAlrrVCaGl7rwVE84DH+YDSXYV6fYQr9sI9KQ5yQWNnse1pA2LKdDDgWKKfmF2PZCg==}
     dependencies:
-      '@rspack/core': 0.6.2(@swc/helpers@0.5.3)
+      '@rspack/core': 0.6.3(@swc/helpers@0.5.3)
       caniuse-lite: 1.0.30001608
       postcss: 8.4.38
     transitivePeerDependencies:
       - '@swc/helpers'
 
-  /@rsbuild/webpack@0.6.4(@swc/helpers@0.5.3)(esbuild@0.17.19):
-    resolution: {integrity: sha512-JHXzpZY17x4olZPtD9rvwOIgeMtNk/U5N+CeCzWrX/HyAX+/6NzTzBlL5ur6xxrq4oTIfwVfO8E2ak/2aInalg==}
+  /@rsbuild/webpack@0.6.6(@swc/helpers@0.5.3)(esbuild@0.17.19):
+    resolution: {integrity: sha512-9kgr+vqikj4CB4HuVgOapNHTBx/0ObyMqV6W/feJmyC9k/eBrJc6aLGkK6X5sJgu97dHx65L9OxLeOdxrOPMCg==}
     dependencies:
-      '@rsbuild/core': 0.6.4
-      '@rsbuild/shared': 0.6.4(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.6.6
+      '@rsbuild/shared': 0.6.6(@swc/helpers@0.5.3)
       fast-glob: 3.3.2
       globby: 11.1.0
-      html-webpack-plugin: /html-rspack-plugin@5.6.2(@rspack/core@0.6.2)
+      html-webpack-plugin: /html-rspack-plugin@5.6.2(@rspack/core@0.6.3)
       mini-css-extract-plugin: 2.8.1(webpack@5.91.0)
       postcss: 8.4.38
       tsconfig-paths-webpack-plugin: 4.1.0
@@ -15904,8 +15904,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-darwin-arm64@0.6.2:
-    resolution: {integrity: sha512-2+fpr27wJXVMsY441NRonws/e9RKBUWYX7onc0lFKVg/ZSmEfHWyrygcit/dpghIYQw9NJl5SiPGIPcIYeZd4w==}
+  /@rspack/binding-darwin-arm64@0.6.3:
+    resolution: {integrity: sha512-NS6LFwJYjOFIy7mp8FCquox/xCiWuc6a3OQtx+f80c+86uDOiQyix6BJJa3JDdQQ6DmAR3L2eRzV+XVnCzZwNA==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
@@ -15927,8 +15927,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-darwin-x64@0.6.2:
-    resolution: {integrity: sha512-q9m+10CZEmElqYoZNSN0V/kNBv1QMjHA7X+93GxtFa2hC7u/zfy80w0EFwSWV/6s5Z7wygmOHH72GAquuRZJUg==}
+  /@rspack/binding-darwin-x64@0.6.3:
+    resolution: {integrity: sha512-QGhB9+FeqQDc/I6hg5woc0a6XYQoNsCaJ5pAxnhSh4/wSe3IrFtokyqE2SUSwfWjkdNEnKYBC4p6Cc5KbkK7sg==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
@@ -15950,8 +15950,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-linux-arm64-gnu@0.6.2:
-    resolution: {integrity: sha512-F13+1zk8KUagizuvSjh7A83FxF3R/b6+yRIMln7TuV0DQ42JV8H48q/tU8+wI+KqdsNgj2yO8LZjqOQ994k4ow==}
+  /@rspack/binding-linux-arm64-gnu@0.6.3:
+    resolution: {integrity: sha512-tZxqV+bCxVyr8Z0skQoSnj7WYjwjuw34wrSUdTFLL6vw7nRgGiOhE2ZcRLa0coNHUPyq6dcWIQPwzg0ToHxLkA==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
@@ -15973,8 +15973,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-linux-arm64-musl@0.6.2:
-    resolution: {integrity: sha512-1IyPH6hQreOvcNZmwK4XD8E5NEYqrtzKvsUPB13AV3+mO1EHxhnwQ7Dtk82mqwtaTTUPXJRREp+UNjwUTeJ6bA==}
+  /@rspack/binding-linux-arm64-musl@0.6.3:
+    resolution: {integrity: sha512-1cNTLQE9c6CMGhFAuLdI3jYKhGiSiPCMRWb50GuzsfnbLcpnYfwHko7Fn/C/SOjP+xUZf7GlTTgrZssHP9yPrA==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
@@ -15996,8 +15996,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-linux-x64-gnu@0.6.2:
-    resolution: {integrity: sha512-NbqU05wIy1qC+66qlQjE9Zo4oAd70lZRgfO8iuLvon0GxG7plpffefhsAoAsh5vFg17ac6NWdwUUzWImYv2jhQ==}
+  /@rspack/binding-linux-x64-gnu@0.6.3:
+    resolution: {integrity: sha512-/bf9K3k8YNRTtNWbcG66CosIxvd77CIbq7XqPxW1OCsxzcl8nmTI0h1/bxgmiBchiAvNCou8mmP08GEvQXdUdQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
@@ -16019,8 +16019,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-linux-x64-musl@0.6.2:
-    resolution: {integrity: sha512-K18x2AR1UiABqJMTlB/mXPytdc9dk0tQuQyJ3hH+gxhYI6T6w22p+hQWq1T9vJsIIk2P693YrfXR66mRFiknsw==}
+  /@rspack/binding-linux-x64-musl@0.6.3:
+    resolution: {integrity: sha512-816xaFVOI6qs4Np4YrUzoNaTLrsthR63rFqsQgguD3ytVvTpr0nIXT4XrKvGHF2FDEhgpF+FTqyn3M3NIBK/2A==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
@@ -16042,8 +16042,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-win32-arm64-msvc@0.6.2:
-    resolution: {integrity: sha512-00FdIoh2X8zt2i07R89zyI0HONof91PiM5JgY8BAfSPur+M9Uj7stqYHezr0KtVdgH2sASMURFGmgcz62pLViw==}
+  /@rspack/binding-win32-arm64-msvc@0.6.3:
+    resolution: {integrity: sha512-lQg5CzYXI5BxAP+9Kja3yx9Y/xwd4m51xWPXFhjODn8s76LGIhfmbJHh8OG5QhcQACi88aj2hqW8BHFwOWPlsw==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
@@ -16065,8 +16065,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-win32-ia32-msvc@0.6.2:
-    resolution: {integrity: sha512-ZU43j+iicnDrTsu/Wrw/18E+zUTFCfTUdq2BlaKH8yxhJVYqPHFjQo64p/7djULeZVchZU4uGuu00oovEHl/zg==}
+  /@rspack/binding-win32-ia32-msvc@0.6.3:
+    resolution: {integrity: sha512-SP/Crwk4Ac7gGgTxNhcrVQQUS6ze7eDvxgf9I/D/UhBU22GfkLPn5HzFxZk/8gJ1iU+cLeMiqa0DdXPx48x46A==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
@@ -16088,8 +16088,8 @@ packages:
     dev: true
     optional: true
 
-  /@rspack/binding-win32-x64-msvc@0.6.2:
-    resolution: {integrity: sha512-1Ycfry5nk5SMDYOjlOmVXf4tJHOp2H2Wwupf5j2pUYPD9lyETt7O7GIQbdCLOcBLuyt0OSscDARTcqGlLw27gQ==}
+  /@rspack/binding-win32-x64-msvc@0.6.3:
+    resolution: {integrity: sha512-QAXxObKzVKQtV60Ig5TlW7h7ZMz3Z2WDiKJJe0qRakYznSzeEuNcaqTmLbYg9PGWOVLMd8WS6uLEmeLEi5TWAA==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -16123,18 +16123,18 @@ packages:
       '@rspack/binding-win32-x64-msvc': 0.6.1
     dev: true
 
-  /@rspack/binding@0.6.2:
-    resolution: {integrity: sha512-1LVccU/LRIMqp2g1ct2ebDS1DL7MnBlQNcUGf3szIiDsYXuGe3Pk4qdiLbVLzBQoDQFYKJmIgmUA1UkKZ5UN5g==}
+  /@rspack/binding@0.6.3:
+    resolution: {integrity: sha512-F2Ys11Bf87/sI3X1dVT8l7FLGCmQirf8KaTG0FdaObWqnoIeAET0MgP5vohRIy3tqjcmJURyRx2YFc4Btr8ZDQ==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.6.2
-      '@rspack/binding-darwin-x64': 0.6.2
-      '@rspack/binding-linux-arm64-gnu': 0.6.2
-      '@rspack/binding-linux-arm64-musl': 0.6.2
-      '@rspack/binding-linux-x64-gnu': 0.6.2
-      '@rspack/binding-linux-x64-musl': 0.6.2
-      '@rspack/binding-win32-arm64-msvc': 0.6.2
-      '@rspack/binding-win32-ia32-msvc': 0.6.2
-      '@rspack/binding-win32-x64-msvc': 0.6.2
+      '@rspack/binding-darwin-arm64': 0.6.3
+      '@rspack/binding-darwin-x64': 0.6.3
+      '@rspack/binding-linux-arm64-gnu': 0.6.3
+      '@rspack/binding-linux-arm64-musl': 0.6.3
+      '@rspack/binding-linux-x64-gnu': 0.6.3
+      '@rspack/binding-linux-x64-musl': 0.6.3
+      '@rspack/binding-win32-arm64-msvc': 0.6.3
+      '@rspack/binding-win32-ia32-msvc': 0.6.3
+      '@rspack/binding-win32-x64-msvc': 0.6.3
 
   /@rspack/core@0.5.1:
     resolution: {integrity: sha512-fsUKPhnBCV7UOE31W03GBfqp7lSRZBcRuvLwrUt1bmTAvl9SRrR0HuWhJAs4O8LvrjKgxRzXPM8Fpysqerfo4w==}
@@ -16185,8 +16185,8 @@ packages:
       zod-validation-error: 1.3.1(zod@3.22.3)
     dev: true
 
-  /@rspack/core@0.6.2(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-1IggX3FZM4bVhUWhBIeUroiyOH05fBFIT3gvanpXIE00yMbp1exFjkfko5HmQ6e5FQrIvcNEBoQ2QyIYzu0vOw==}
+  /@rspack/core@0.6.3(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-+KfWUywwhGHxwMVnXQPQkqjN8fedDN/0YcjQktK9qrpQ1FyE+EzFgO3n2wW6g1Ty5uftVVrDRQbpBUHxK/gKUw==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@swc/helpers': '>=0.5.1'
@@ -16195,7 +16195,7 @@ packages:
         optional: true
     dependencies:
       '@module-federation/runtime-tools': 0.1.6
-      '@rspack/binding': 0.6.2
+      '@rspack/binding': 0.6.3
       '@swc/helpers': 0.5.3
       browserslist: 4.23.0
       enhanced-resolve: 5.12.0
@@ -16229,8 +16229,8 @@ packages:
       react-refresh: 0.14.0
     dev: true
 
-  /@rspack/plugin-react-refresh@0.6.2(react-refresh@0.14.0):
-    resolution: {integrity: sha512-5k8oORBBhV/J8vvV2CUtK/X3q+puv2sMTfjKTjfNlfakLF/FoMj2SiCbUk3XmakimnPTsSrKv2w5MNvgqCaU7w==}
+  /@rspack/plugin-react-refresh@0.6.3(react-refresh@0.14.0):
+    resolution: {integrity: sha512-/IllQJlB1tXzBkDx/uGVvGRy3E/PXfU8RH4Uaa6Sxrj8Kk2ztIz+Yb1qnj4jjCbGmbYWp/+R0+QWqGROAhId9A==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -19710,7 +19710,7 @@ packages:
     dependencies:
       '@babel/core': 7.24.4
       '@jest/transform': 29.5.0
-      '@types/babel__core': 7.20.3
+      '@types/babel__core': 7.20.5
       babel-plugin-istanbul: 6.1.1
       babel-preset-jest: 29.5.0(@babel/core@7.24.4)
       chalk: 4.1.2
@@ -24655,7 +24655,7 @@ packages:
       tapable: 2.2.1
     dev: true
 
-  /html-rspack-plugin@5.6.2(@rspack/core@0.6.2):
+  /html-rspack-plugin@5.6.2(@rspack/core@0.6.3):
     resolution: {integrity: sha512-cPGwV3odvKJ7DBAG/DxF5e0nMMvBl1zGfyDciT2xMETRrIwajwC7LtEB3cf7auoGMK6xJOOLjWJgaKHLu/FzkQ==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
@@ -24664,7 +24664,7 @@ packages:
       '@rspack/core':
         optional: true
     dependencies:
-      '@rspack/core': 0.6.2(@swc/helpers@0.5.3)
+      '@rspack/core': 0.6.3(@swc/helpers@0.5.3)
       lodash: 4.17.21
       tapable: 2.2.1
 

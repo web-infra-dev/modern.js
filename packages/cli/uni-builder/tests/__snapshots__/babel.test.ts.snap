@@ -76,7 +76,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
               "transpileTemplateLiterals": true,
             },
           },
-          "sourceMaps": true,
         },
       },
     ],
@@ -160,7 +159,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
               "transpileTemplateLiterals": true,
             },
           },
-          "sourceMaps": true,
         },
       },
       {
