@@ -1,5 +1,13 @@
 # @modern-js/module-tools-docs
 
+## 2.49.1
+
+### Patch Changes
+
+- bfba084: docs: bump Rspress v1.18.2 and remove dividers
+- 4d5d222: docs(module-doc): align `define` description to actual behavior
+  docs(module-doc): 对齐 `define` 的文档描述和实际行为一致
+
 ## 2.49.0
 
 ## 2.48.6

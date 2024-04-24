@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.49.1
+
+### Patch Changes
+
+- 0c395bc: fix: swc can not transform dynamic import in cjs normally
+- 58c3729: fix: require bundle maybe failed
+  fix: require bundle 有可能是失败的
+- 5b44c1c: chore: export getServerManifest
+  chore: 导出 getServerManifest 方法
+  - @modern-js/plugin@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes

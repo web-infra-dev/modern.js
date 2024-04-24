@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.49.1
+
+### Patch Changes
+
+- b45da78: fix: should not print error level log when in prod env
+
+  fix: 生产环境不应该打印 error 级日志
+
+- 06bff92: fix: should not include babel-loader in streaming ssr project
+  fix: 在 streaming ssr 项目中，不应该引入 babel-loader
+  - @modern-js/plugin@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes

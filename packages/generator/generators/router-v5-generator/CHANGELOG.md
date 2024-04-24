@@ -1,5 +1,11 @@
 # @modern-js/router-v5-generator
 
+## 3.3.19
+
+### Patch Changes
+
+- @modern-js/utils@2.49.1
+
 ## 3.3.18
 
 ### Patch Changes

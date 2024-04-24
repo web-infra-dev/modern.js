@@ -1,5 +1,14 @@
 # @modern-js/main-doc
 
+## 2.49.1
+
+### Patch Changes
+
+- bfba084: docs: bump Rspress v1.18.2 and remove dividers
+- Updated dependencies [bfba084]
+  - @modern-js/builder-doc@2.49.1
+  - @modern-js/sandpack-react@2.49.1
+
 ## 2.49.0
 
 ### Patch Changes
