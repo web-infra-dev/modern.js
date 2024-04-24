@@ -30,7 +30,10 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
 
   if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
     for (const name of Object.keys(server.ssrByEntries)) {
-      if (!isStreaming(server.ssrByEntries[name])) {
+      if (
+        server.ssrByEntries[name] &&
+        !isStreaming(server.ssrByEntries[name])
+      ) {
         return true;
       }
     }
@@ -60,6 +63,8 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     return {
       config() {
         const appContext = api.useAppContext();
+        const userConfig = api.useConfigContext();
+
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'plugins',
@@ -137,7 +142,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                   ]);
               }
             },
-            babel: babelHandler,
+            babel:
+              isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig as any)
+                ? babelHandler
+                : undefined,
           },
         };
       },
