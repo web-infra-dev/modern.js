@@ -8,7 +8,7 @@ import {
 } from '@modern-js/utils';
 import { Middleware, ServerEnv, ServerManifest } from '../../../../core/server';
 
-async function getServerManifest(
+export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
 ): Promise<ServerManifest> {
