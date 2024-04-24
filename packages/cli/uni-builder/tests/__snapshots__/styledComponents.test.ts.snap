@@ -487,7 +487,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               "useDefineForClassFields": false,
             },
           },
-          "sourceMaps": true,
         },
       },
     ],

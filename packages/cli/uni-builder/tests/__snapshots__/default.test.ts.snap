@@ -13,6 +13,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -108,7 +111,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -177,7 +179,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -703,7 +704,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
@@ -788,7 +788,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
@@ -1103,6 +1102,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1198,7 +1200,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1267,7 +1268,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1793,7 +1793,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
@@ -1878,7 +1877,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
@@ -2232,6 +2230,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -3343,6 +3344,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
