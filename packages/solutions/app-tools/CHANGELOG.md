@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 2.49.1
+
+### Patch Changes
+
+- 9a69d27: no need to emit assets for SSR bundles
+- Updated dependencies [bf82b23]
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [0766ae2]
+- Updated dependencies [b70ea93]
+- Updated dependencies [72ae8ea]
+- Updated dependencies [b89879e]
+- Updated dependencies [5b44c1c]
+- Updated dependencies [6d5203e]
+  - @modern-js/uni-builder@2.49.1
+  - @modern-js/server-core@2.49.1
+  - @modern-js/prod-server@2.49.1
+  - @modern-js/rsbuild-plugin-esbuild@2.49.1
+  - @modern-js/server@2.49.1
+  - @modern-js/core@2.49.1
+  - @modern-js/plugin-data-loader@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/plugin-i18n@2.49.1
+  - @modern-js/plugin-lint@2.49.1
+  - @modern-js/node-bundle-require@2.49.1
+  - @modern-js/plugin@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes

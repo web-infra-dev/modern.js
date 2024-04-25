@@ -1,5 +1,18 @@
 # @modern-js/prod-server
 
+## 2.49.1
+
+### Patch Changes
+
+- 0766ae2: fix: @modern-js/utils should be a dependency in @modern-js/prod-server
+  fix: @modern-js/utils 应该是 @modern-js/prod-server 的依赖
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [5b44c1c]
+  - @modern-js/server-core@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes

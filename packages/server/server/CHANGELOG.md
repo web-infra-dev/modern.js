@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 2.49.1
+
+### Patch Changes
+
+- b89879e: fix: @modern-js/server-core should be a dependency in @modern-js/server
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [5b44c1c]
+  - @modern-js/server-core@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes

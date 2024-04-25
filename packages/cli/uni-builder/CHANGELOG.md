@@ -1,5 +1,22 @@
 # @modern-js/uni-builder
 
+## 2.49.1
+
+### Patch Changes
+
+- bf82b23: chore(uni-builder): reuse rspack-manifest-plugin in webpack mode
+
+  chore(uni-builder): 在 webpack 模式下复用 rspack-manifest-plugin
+
+- b70ea93: chore(deps): bump rsbuild to 0.6.6
+- 6d5203e: feat: support dev.client configuration
+
+  feat: 支持 dev.client 配置项
+
+- Updated dependencies [b89879e]
+  - @modern-js/server@2.49.1
+  - @modern-js/utils@2.49.1
+
 ## 2.49.0
 
 ### Minor Changes
