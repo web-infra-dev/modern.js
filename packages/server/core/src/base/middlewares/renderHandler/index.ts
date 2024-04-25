@@ -5,7 +5,7 @@ import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
-import { createRender } from './render';
+import { OnFallback, createRender } from './render';
 import type * as ssrCacheModule from './ssrCache';
 
 function createRenderHandler(
@@ -40,6 +40,7 @@ export type BindRenderHandleOptions = {
   metaName?: string;
   staticGenerate?: boolean;
   disableCustomHook?: boolean;
+  onFallback?: OnFallback;
 };
 
 export async function getRenderHandler(
@@ -55,6 +56,7 @@ export async function getRenderHandler(
       staticGenerate: options.staticGenerate,
       metaName: options.metaName || 'modern-js',
       forceCSR,
+      onFallback: options.onFallback,
       nonce: options.config.security?.nonce,
     });
     return render;
