@@ -1,5 +1,11 @@
 # @modern-js/plugin-module-babel
 
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.2
+
 ## 2.49.1
 
 ### Patch Changes
