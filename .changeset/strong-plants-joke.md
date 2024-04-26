@@ -1,3 +1,0 @@
----
-'@modern-js/core': patch
----
