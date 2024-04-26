@@ -9,6 +9,8 @@ import {
   parseQuery,
   transformResponse,
   getPathname,
+  onError as onErrorFn,
+  ErrorDigest,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
 import { SSRRenderOptions, ssrRender } from './ssrRender';
@@ -64,6 +66,9 @@ export async function createRender({
       nodeReq,
     );
 
+    const onError = (e: unknown) =>
+      onErrorFn(logger, ErrorDigest.ERENDER, e as string | Error, req);
+
     const renderOptions = {
       pwd,
       html,
@@ -85,13 +90,13 @@ export async function createRender({
         // eslint-disable-next-line no-case-declarations
         let response = await dataHandler(req, renderOptions);
         if (!response) {
-          response = await renderHandler(req, renderOptions, 'ssr');
+          response = await renderHandler(req, renderOptions, 'ssr', onError);
         }
 
         return response;
       case 'ssr':
       case 'csr':
-        return renderHandler(req, renderOptions, renderMode);
+        return renderHandler(req, renderOptions, renderMode, onError);
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
@@ -102,6 +107,7 @@ async function renderHandler(
   request: Request,
   options: SSRRenderOptions,
   mode: 'ssr' | 'csr',
+  onError: (e: unknown) => void,
 ) {
   // inject server.baseUrl message
   const serverData = {
@@ -111,9 +117,18 @@ async function renderHandler(
     },
   };
 
-  const response = await (mode === 'ssr'
-    ? ssrRender(request, options)
-    : csrRender(options.html));
+  let response: Response;
+
+  if (mode === 'ssr') {
+    try {
+      response = await ssrRender(request, options);
+    } catch (e) {
+      onError(e);
+      response = csrRender(options.html);
+    }
+  } else {
+    response = csrRender(options.html);
+  }
 
   return transformResponse(response, injectServerData(serverData));
 }
