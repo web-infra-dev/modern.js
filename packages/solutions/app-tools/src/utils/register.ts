@@ -50,7 +50,10 @@ export const registerCompiler = async (
         // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
         files: true,
         transpileOnly: true,
-        ignore: ['(?:^|/)node_modules/', `(?:^|/)${distDir}/`],
+        ignore: [
+          '(?:^|/)node_modules/',
+          `(?:^|/)${path.relative(appDir, distDir)}/`,
+        ],
         ...tsNodeOptions,
       });
     }
