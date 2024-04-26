@@ -537,6 +537,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/core':
+        specifier: 0.6.6
+        version: 0.6.6
       '@rsbuild/plugin-swc':
         specifier: 0.6.6
         version: 0.6.6(@rsbuild/core@0.6.6)
