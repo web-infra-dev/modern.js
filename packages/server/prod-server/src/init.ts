@@ -7,6 +7,8 @@ import {
   createErrorHtml,
   logHandler,
   processedBy,
+  onError,
+  ErrorDigest,
 } from '@modern-js/server-core/base';
 import { createLogger } from '@modern-js/utils';
 import {
@@ -15,7 +17,6 @@ import {
   injectServerManifest,
   createStaticMiddleware,
 } from '@modern-js/server-core/base/node';
-import { ErrorDigest, onError } from './error';
 import { ProdServerOptions, BaseEnv } from './types';
 
 export type InitProdMiddlewares = typeof initProdMiddlewares;
