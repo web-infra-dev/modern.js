@@ -78,7 +78,13 @@ export function createDefaultConfig(
     server,
     dev,
     html,
-    tools: {},
+    tools: {
+      tsChecker: {
+        issue: {
+          exclude: [{ file: '**/api/lambda/**/*' }],
+        },
+      },
+    },
     plugins: [],
     builderPlugins: [],
     runtime: {},

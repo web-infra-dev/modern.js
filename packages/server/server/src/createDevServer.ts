@@ -46,10 +46,6 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const server = createServerBase(prodServerOptions);
 
   const closeCb: Array<(...args: []) => any> = [];
-  await registerMockHandlers({
-    pwd,
-    server,
-  });
 
   // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
   const {
@@ -61,6 +57,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   close && closeCb.push(close);
 
   rsbuildMiddlewares && server.all('*', connectMid2HonoMid(rsbuildMiddlewares));
+
+  await registerMockHandlers({
+    pwd,
+    server,
+  });
 
   server.use('*', initFileReader());
   await server.init();
