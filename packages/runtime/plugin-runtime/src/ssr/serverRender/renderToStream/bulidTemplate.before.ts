@@ -5,11 +5,7 @@ import helmetReplace from '../helmet';
 import { RuntimeContext, SSRPluginConfig } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { checkIsNode, safeReplace } from '../utils';
-import {
-  HEAD_REG_EXP,
-  BuildTemplateCb,
-  buildTemplate,
-} from './buildTemplate.share';
+import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 const readAsset = async (chunk: string) => {
   // working node env
@@ -39,9 +35,8 @@ const checkIsInline = (
   }
 };
 
-// build head template
-function getHeadTemplate(
-  beforeEntryTemplate: string,
+export async function buildShellBeforeTemplate(
+  beforeAppTemplate: string,
   context: RuntimeContext,
   pluginConfig: SSRPluginConfig,
 ) {
@@ -56,16 +51,12 @@ function getHeadTemplate(
     injectCss,
   ];
 
-  const [headTemplate = ''] = beforeEntryTemplate.match(HEAD_REG_EXP) || [];
-  if (!headTemplate.length) {
-    return '';
-  }
-  return buildTemplate(headTemplate, callbacks);
+  return buildTemplate(beforeAppTemplate, callbacks);
 
-  async function injectCss(headTemplate: string) {
+  async function injectCss(template: string) {
     const css = await getCssChunks();
 
-    return safeReplace(headTemplate, CHUNK_CSS_PLACEHOLDER, css);
+    return safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
 
     async function getCssChunks() {
       const { routeManifest, routerContext, routes } = context;
@@ -96,7 +87,7 @@ function getHeadTemplate(
             };
             const _cssChunks = referenceCssAssets.filter(
               (asset?: string) =>
-                asset?.endsWith('.css') && !headTemplate.includes(asset),
+                asset?.endsWith('.css') && !template.includes(asset),
             );
             cssChunks.push(..._cssChunks);
           }
@@ -123,18 +114,4 @@ function getHeadTemplate(
       return `${styles.join('')}`;
     }
   }
-}
-
-// build script
-export async function buildShellBeforeTemplate(
-  beforeAppTemplate: string,
-  context: RuntimeContext,
-  pluginConfig: SSRPluginConfig,
-) {
-  const headTemplate = await getHeadTemplate(
-    beforeAppTemplate,
-    context,
-    pluginConfig,
-  );
-  return beforeAppTemplate.replace(HEAD_REG_EXP, headTemplate);
 }
