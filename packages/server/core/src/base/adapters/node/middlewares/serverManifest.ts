@@ -19,7 +19,7 @@ const dynamicImport = (filePath: string) => {
 };
 
 const loadBundle = async (filepath: string, logger: Logger) => {
-  if (!fs.existsSync(filepath)) {
+  if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
   return dynamicImport(filepath).catch(e => {
