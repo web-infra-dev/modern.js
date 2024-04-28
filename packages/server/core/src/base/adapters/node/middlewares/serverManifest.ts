@@ -5,6 +5,7 @@ import {
   MAIN_ENTRY_NAME,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
+  fs,
 } from '@modern-js/utils';
 import { Middleware, ServerEnv, ServerManifest } from '../../../../core/server';
 
@@ -18,6 +19,9 @@ const dynamicImport = (filePath: string) => {
 };
 
 const loadBundle = async (filepath: string, logger: Logger) => {
+  if (!(await fs.pathExists(filepath))) {
+    return undefined;
+  }
   return dynamicImport(filepath).catch(e => {
     logger.error(
       `Load ${filepath} bundle failed, error = %s`,
