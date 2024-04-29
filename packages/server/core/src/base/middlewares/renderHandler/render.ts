@@ -74,7 +74,7 @@ export async function createRender({
       });
     }
 
-    const renderMode = getRenderMode(
+    const renderMode = await getRenderMode(
       req,
       metaName || 'modern-js',
       routeInfo.isSSR,
