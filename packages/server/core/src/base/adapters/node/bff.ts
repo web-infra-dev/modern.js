@@ -31,7 +31,7 @@ export const bindBFFHandler = async (
     };
   } else {
     const renderHandler = enableHandleWeb
-      ? await getRenderHandler(options)
+      ? await getRenderHandler(server, options)
       : null;
     handler = await server.runner.prepareApiServer(
       {
