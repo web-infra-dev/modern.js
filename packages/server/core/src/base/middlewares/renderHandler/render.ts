@@ -1,6 +1,7 @@
 import type { IncomingMessage } from 'http';
-import { ServerRoute } from '@modern-js/types';
+import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
+import type { FallbackReason } from '../../../core/plugin';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
@@ -15,10 +16,21 @@ import {
 import { dataHandler } from './dataHandler';
 import { SSRRenderOptions, ssrRender } from './ssrRender';
 
+export type OnFallback = (
+  reason: FallbackReason,
+  utils: {
+    logger: Logger;
+    metrics?: Metrics;
+    reporter?: Reporter;
+  },
+  error?: unknown,
+) => Promise<void>;
+
 interface CreateRenderOptions {
   routes: ServerRoute[];
   pwd: string;
   staticGenerate?: boolean;
+  onFallback?: OnFallback;
   metaName?: string;
   forceCSR?: boolean;
   nonce?: string;
@@ -31,12 +43,16 @@ export async function createRender({
   staticGenerate,
   forceCSR,
   nonce,
+  onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
   return async (
     req,
     { logger, nodeReq, reporter, templates, serverManifest, locals, metrics },
   ) => {
     const routeInfo = matchRoute(req, routes);
+    const onFallback = async (reason: FallbackReason, error?: unknown) => {
+      return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
+    };
 
     if (!routeInfo) {
       return new Response(createErrorHtml(404), {
@@ -64,10 +80,13 @@ export async function createRender({
       routeInfo.isSSR,
       forceCSR,
       nodeReq,
+      onFallback,
     );
 
-    const onError = (e: unknown) =>
+    const onError = async (e: unknown) => {
       onErrorFn(logger, ErrorDigest.ERENDER, e as string | Error, req);
+      await onFallback?.('error', e);
+    };
 
     const renderOptions = {
       pwd,
@@ -107,7 +126,7 @@ async function renderHandler(
   request: Request,
   options: SSRRenderOptions,
   mode: 'ssr' | 'csr',
-  onError: (e: unknown) => void,
+  onError: (e: unknown) => Promise<void>,
 ) {
   // inject server.baseUrl message
   const serverData = {
@@ -123,7 +142,7 @@ async function renderHandler(
     try {
       response = await ssrRender(request, options);
     } catch (e) {
-      onError(e);
+      await onError(e);
       response = csrRender(options.html);
     }
   } else {
@@ -149,13 +168,14 @@ function matchRoute(
   return undefined;
 }
 
-function getRenderMode(
+async function getRenderMode(
   req: Request,
   framework: string,
   isSSR?: boolean,
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
-): 'ssr' | 'csr' | 'data' {
+  onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
+): Promise<'ssr' | 'csr' | 'data'> {
   const query = parseQuery(req);
 
   const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
@@ -170,6 +190,11 @@ function getRenderMode(
         req.headers.get(fallbackHeader) ||
         nodeReq?.headers[fallbackHeader])
     ) {
+      if (query.csr) {
+        await onFallback?.('query');
+      } else {
+        await onFallback?.('header');
+      }
       return 'csr';
     }
     return 'ssr';

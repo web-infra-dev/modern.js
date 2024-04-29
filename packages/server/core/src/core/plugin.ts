@@ -21,6 +21,9 @@ import type {
   HttpMethodDecider,
   ServerInitHookContext,
   AfterStreamingRenderContext,
+  Logger,
+  Metrics,
+  Reporter,
 } from '@modern-js/types';
 
 import { MiddlewareHandler as Middleware } from 'hono';
@@ -42,11 +45,6 @@ export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 
 export type NodeRequest = IncomingMessage;
 export type NodeResponse = ServerResponse;
-
-export type Adapter = (
-  req: NodeRequest,
-  res: NodeResponse,
-) => void | Promise<void>;
 
 export type WebServerStartInput = {
   pwd: string;
@@ -75,6 +73,16 @@ type Change = {
   event: 'add' | 'change' | 'unlink';
 };
 
+export type FallbackReason = 'error' | 'header' | 'query';
+
+const fallback = createParallelWorkflow<{
+  reason: FallbackReason;
+  error: unknown;
+  logger: Logger;
+  metrics?: Metrics;
+  reporter?: Reporter;
+}>();
+
 const prepareApiServer = createAsyncPipeline<APIServerStartInput, Middleware>();
 
 const onApiChange = createAsyncWaterfall<Change[]>();
@@ -84,6 +92,7 @@ const repack = createWaterfall();
 /**
  * @deprecated
  */
+
 const beforeServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
 // TODO FIXME
@@ -135,6 +144,7 @@ const serverHooks = {
   gather,
   config,
   prepare,
+  fallback,
   prepareWebServer,
   prepareApiServer,
   repack,
