@@ -43,13 +43,13 @@ export type BindRenderHandleOptions = {
 };
 
 export async function getRenderHandler(
-  serverBase: ServerBase,
   options: ServerBaseOptions & BindRenderHandleOptions,
+  serverBase?: ServerBase,
 ) {
   const { routes, pwd, config } = options;
 
   const onFallback: OnFallback = async (reason, utils, error) => {
-    await serverBase.runner.fallback({
+    await serverBase?.runner.fallback({
       reason,
       error,
       ...utils,
@@ -104,7 +104,7 @@ export async function bindRenderHandler(
       // ensure route.urlPath.length diminishing
       .sort(sortRoutes);
 
-    const render = await getRenderHandler(server, options);
+    const render = await getRenderHandler(options, server);
     for (const route of pageRoutes) {
       const { urlPath: originUrlPath, entryName } = route;
       const urlPath = originUrlPath.endsWith('/')
