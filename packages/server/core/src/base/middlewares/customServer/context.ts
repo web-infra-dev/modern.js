@@ -5,6 +5,7 @@ import {
   AfterStreamingRenderContext,
   ServerRoute,
   HookContext,
+  ModernResponse,
 } from '@modern-js/types';
 import { Context, ServerEnv } from '../../../core/server';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
@@ -45,13 +46,15 @@ export function createCustomMiddlewaresCtx(
 
   const reporter = c.get('reporter');
 
+  const response = baseContext.response as ModernResponse & {
+    locals: Record<string, any>;
+  };
+  response.locals = locals;
+
   return {
     ...baseContext,
     reporter,
-    response: {
-      ...baseContext.response,
-      locals,
-    },
+    response,
     source: {
       req: c.env.node?.req,
       res: c.env.node?.res,
