@@ -620,7 +620,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -1709,7 +1709,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -2806,7 +2806,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -3926,7 +3926,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
