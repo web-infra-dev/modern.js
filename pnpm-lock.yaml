@@ -787,8 +787,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       rspack-manifest-plugin:
-        specifier: 5.0.0-alpha0
-        version: 5.0.0-alpha0(webpack@5.91.0)
+        specifier: 5.0.0
+        version: 5.0.0
       terser-webpack-plugin:
         specifier: 5.3.10
         version: 5.3.10(esbuild@0.17.19)(webpack@5.91.0)
@@ -32009,14 +32009,16 @@ packages:
     resolution: {integrity: sha512-XDMoa858LLZnf4i2kUwyjBQGplXaoSoIfMQf9iji2ano5t1OfSiJsSYpHeOH26DJEc5hdje/4K3wiT6TWL3cRA==}
     engines: {node: '>=14.17.6'}
 
-  /rspack-manifest-plugin@5.0.0-alpha0(webpack@5.91.0):
-    resolution: {integrity: sha512-a84H6P/lK0x3kb0I8Qdiwxrnjt1oNW0j+7kwPMWcODJu8eYFBrTXa1t+14n18Jvg9RKIR6llCH16mYxf2d0s8A==}
+  /rspack-manifest-plugin@5.0.0:
+    resolution: {integrity: sha512-Rtpn6GI4mpTASPmLOGiHzv3KqVWuWhGJG9CKO7aioPrAhukML4jtgYUvbQdBze/mZcDrvqf6sxEGRGx5fKQ+ag==}
     engines: {node: '>=14'}
     peerDependencies:
-      webpack: ^5.75.0
+      '@rspack/core': 0.x || 1.x
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
     dependencies:
       tapable: 2.2.1
-      webpack: 5.91.0(esbuild@0.17.19)
       webpack-sources: 2.3.1
     dev: false
 

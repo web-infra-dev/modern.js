@@ -6,10 +6,10 @@ export const pluginManifest = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { target, CHAIN_ID }) => {
-      const { WebpackManifestPlugin } = await import('rspack-manifest-plugin');
+      const { RspackManifestPlugin } = await import('rspack-manifest-plugin');
       const publicPath = chain.output.get('publicPath');
 
-      chain.plugin(CHAIN_ID.PLUGIN.MANIFEST).use(WebpackManifestPlugin, [
+      chain.plugin(CHAIN_ID.PLUGIN.MANIFEST).use(RspackManifestPlugin, [
         {
           fileName:
             target === 'web'
