@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { isHtmlDisabled, RsbuildPlugin, BundlerChain } from '@rsbuild/shared';
 import { mergeRsbuildConfig } from '@rsbuild/core';
-import { isSSR, fs } from '@modern-js/utils';
+import { fs, isUseSSRBundle } from '@modern-js/utils';
 import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
@@ -45,7 +45,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         const { normalizedConfig } = options;
 
         applyRouterPlugin(chain, 'route-plugin', options, HtmlBundlerPlugin);
-        if (isSSR(normalizedConfig)) {
+        if (isUseSSRBundle(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
           applySSRDataLoader(chain, options);
         }
