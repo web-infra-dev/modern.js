@@ -46,7 +46,7 @@
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/babel-plugin-module-resolver": "workspace:*",
-    "@rsbuild/babel-preset": "0.6.8",
+    "@rsbuild/babel-preset": "0.6.9",
     "@swc/helpers": "0.5.3",
     "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },
