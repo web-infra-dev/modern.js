@@ -67,6 +67,7 @@ export function pluginEsbuild(
               ...options?.loader,
             });
           applyScriptCondition({
+            chain,
             rule,
             config: rsbuildConfig,
             context: api.context,

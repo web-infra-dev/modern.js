@@ -56,8 +56,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/shared": "0.6.8",
-    "@rsbuild/core": "0.6.8",
+    "@rsbuild/shared": "0.6.10",
+    "@rsbuild/core": "0.6.10",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
@@ -81,6 +81,7 @@
     "remark-slug": "^7.0.1",
     "serve-static": "^1.14.1",
     "tinypool": "^0.8.0",
+    "webpack-dev-middleware": "7.2.1",
     "webpack-hot-middleware": "^2.25.4"
   },
   "devDependencies": {

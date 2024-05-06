@@ -139,6 +139,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
@@ -167,7 +168,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.4",
+                "version": "7.24.5",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -280,6 +281,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
@@ -308,7 +310,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.4",
+                "version": "7.24.5",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -421,6 +423,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
