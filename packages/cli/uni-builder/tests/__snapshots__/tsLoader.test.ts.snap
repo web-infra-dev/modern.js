@@ -19,6 +19,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|mjs\\|cjs\\|jsx\\)\\$/,
     "use": [
@@ -114,6 +115,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
     "use": [
@@ -208,6 +210,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
       "src/**/*.ts",
     ],
     "test": /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
@@ -311,6 +314,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:ts\\|mts\\|cts\\|tsx\\)\\$/,
     "use": [

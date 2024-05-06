@@ -105,6 +105,7 @@ export const pluginTsLoader = (
           const rule = chain.module.rule(CHAIN_ID.RULE.TS);
 
           applyScriptCondition({
+            chain,
             rule,
             config,
             context: api.context,
