@@ -2,6 +2,7 @@ import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import vuePlugin from 'esbuild-plugin-vue3';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 import type { VueJSXPluginOptions } from '@vue/babel-plugin-jsx';
+import { vueWatchAdapterPlugin } from './watchAdapter';
 
 export const modulePluginVue = (options?: {
   vueJsxPluginOptions?: VueJSXPluginOptions;
@@ -26,6 +27,9 @@ export const modulePluginVue = (options?: {
       config.esbuildOptions = c => {
         const lastEsbuildConfig = lastEsbuildOptions(c);
         lastEsbuildConfig.plugins?.unshift(vuePlugin() as any);
+        lastEsbuildConfig.plugins?.unshift(
+          vueWatchAdapterPlugin(config) as any,
+        );
         return lastEsbuildConfig;
       };
       config.jsx = 'preserve';
