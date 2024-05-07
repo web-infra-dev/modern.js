@@ -13,9 +13,7 @@ export const vueWatchAdapterPlugin = (config: BaseBuildConfig): Plugin => {
     name: 'esbuild:vue-watch-adapter',
     setup(build) {
       build.onLoad({ filter: /\.vue$/ }, async args => {
-        if (compiler) {
-          compiler.addWatchFile(args.path);
-        }
+        compiler?.addWatchFile?.(args.path);
         return undefined;
       });
     },
