@@ -55,7 +55,7 @@ function canContinueRender ({ dom, appName }) {
 
 function generateRouterPlugin (basename,routerConfig) {
   if (basename) {
-    routerConfig.basename = basename;
+    routerConfig.originalBaseUrl = basename;
     if (routerConfig.supportHtml5History !== false) {
       if (!routerConfig.historyOptions) {
         routerConfig.historyOptions = {
