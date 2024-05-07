@@ -8,6 +8,7 @@ import {
   extractSettledOperations,
   replacer,
   reviver,
+  DevtoolsContext,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
@@ -16,7 +17,6 @@ import * as flatted from 'flatted';
 import type { JsonValue } from 'type-fest';
 import { subscribe } from 'valtio';
 import { RawData } from 'ws';
-import { DevtoolsContext } from '../options';
 import { CliPluginAPI, InjectedHooks } from '../types';
 import { requireModule } from '../utils/module';
 import { SocketServer } from '../utils/socket';
@@ -113,10 +113,7 @@ export const setupClientConnection = async (
     });
   });
 
-  $resolvers.definition.resolve(ctx.def);
-  $resolvers.devtoolsConfig.resolve({
-    storagePresets: ctx.storagePresets,
-  });
+  $resolvers.context.resolve(ctx);
   subscribe($state, ops => {
     clientConn.applyStateOperations.asEvent(ops);
   });

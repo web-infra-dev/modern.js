@@ -118,7 +118,7 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const { storagePresets = [] } = useSnapshot($serverExported).devtoolsConfig;
+  const { storagePresets } = useSnapshot($serverExported).context;
   const freq = {
     cookie: _(storagePresets)
       .flatMap(preset => _.keys(preset.cookie))

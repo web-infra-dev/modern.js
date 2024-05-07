@@ -8,11 +8,16 @@ import type {
   WebpackConfig,
   RspackConfig,
 } from '@modern-js/uni-builder';
-import { NormalizedConfig } from '@modern-js/core';
-import { RouteLegacy, NestedRouteForCli, PageRoute } from '@modern-js/types';
+import type { NormalizedConfig } from '@modern-js/core';
+import type {
+  RouteLegacy,
+  NestedRouteForCli,
+  PageRoute,
+} from '@modern-js/types';
 import type { Manifest } from '@rsdoctor/types';
 import type { StoragePresetContext } from './storage-preset';
 import type { ServerExportedState } from './state';
+import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;
 
@@ -29,6 +34,14 @@ export type Aliases = NonNullable<
 >;
 
 export type BundlerConfig = WebpackConfig | RspackConfig;
+
+export interface DevtoolsContext {
+  enable: boolean;
+  endpoint: string;
+  dataSource: string;
+  def: ClientDefinition;
+  storagePresets: StoragePresetContext[];
+}
 
 export type Compiler =
   | webpack.Compiler
@@ -52,6 +65,10 @@ export interface DoctorManifestOverview {
 
 export interface DevtoolsConfig {
   storagePresets?: StoragePresetContext[];
+}
+
+export interface ResolvedDevtoolsConfig {
+  storagePresets: StoragePresetContext[];
 }
 
 export interface ServerFunctions {

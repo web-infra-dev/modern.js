@@ -1,18 +1,13 @@
 import {
   ClientDefinition,
+  DevtoolsContext,
   ROUTE_BASENAME,
-  StoragePresetContext,
 } from '@modern-js/devtools-kit/node';
 
 export interface DevtoolsPluginOptions {
   enable?: boolean;
   endpoint?: string;
   dataSource?: string;
-}
-
-export interface DevtoolsContext extends Required<DevtoolsPluginOptions> {
-  def: ClientDefinition;
-  storagePresets: StoragePresetContext[];
 }
 
 export const resolveContext = (
