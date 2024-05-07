@@ -80,7 +80,16 @@ export async function createRender({
 
   return async (
     req,
-    { logger, nodeReq, reporter, templates, serverManifest, locals, metrics },
+    {
+      logger,
+      nodeReq,
+      reporter,
+      templates,
+      serverManifest,
+      locals,
+      metrics,
+      loaderContext,
+    },
   ) => {
     const [routeInfo, params] = matchRoute(router, req);
 
@@ -137,6 +146,7 @@ export async function createRender({
       locals,
       serverManifest,
       metrics,
+      loaderContext: loaderContext || new Map(),
     };
 
     switch (renderMode) {

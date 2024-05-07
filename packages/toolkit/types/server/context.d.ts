@@ -8,6 +8,11 @@ import qs from 'querystring';
 import type { SSRMode } from 'common';
 import { Metrics, Logger, Reporter, ServerTiming } from './utils';
 
+export interface RequestPayload {
+  reporter?: Reporter;
+  [key: string]: unknown;
+}
+
 export interface ModernServerContext {
   req: IncomingMessage;
 
@@ -79,6 +84,7 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   routeManifest?: Record<string, any>;
   template: string;
   entryName: string;
+  loaderContext: Map<string, unknown>;
   logger: Logger;
   serverTiming: ServerTiming;
   reporter?: Reporter;

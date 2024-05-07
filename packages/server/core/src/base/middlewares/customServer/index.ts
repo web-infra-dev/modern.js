@@ -1,9 +1,13 @@
-import { ServerRoute } from '@modern-js/types';
+import {
+  ServerRoute,
+  UnstableMiddlewareContext,
+  UnstableMiddleware,
+} from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner } from '../../../core/plugin';
-import { Middleware, ServerEnv } from '../../../core/server';
-import { transformResponse } from '../../utils';
+import { Context, Middleware, ServerEnv } from '../../../core/server';
+import { getLoaderCtx, transformResponse } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import {
@@ -48,7 +52,7 @@ export class CustomServer {
           middleware: webExtension,
         },
       },
-      { onLast: () => null },
+      { onLast: () => [] },
     );
   }
 
@@ -156,14 +160,24 @@ export class CustomServer {
     };
   }
 
-  getServerMiddleware(): Middleware<ServerNodeEnv & ServerEnv> {
+  async getServerMiddleware(): Promise<
+    | Middleware<ServerNodeEnv & ServerEnv>
+    | Array<Middleware<ServerNodeEnv & ServerEnv>>
+    | undefined
+  > {
+    const serverMiddleware = await this.serverMiddlewarePromise;
+
+    if (!serverMiddleware) {
+      return;
+    }
+
+    if (Array.isArray(serverMiddleware)) {
+      // eslint-disable-next-line consistent-return
+      return getUnstableMiddlewares(serverMiddleware);
+    }
+
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
-      const serverMiddleware = await this.serverMiddlewarePromise;
-      if (!serverMiddleware) {
-        return next();
-      }
-
       const reporter = c.get('reporter');
 
       const locals: Record<string, any> = {};
@@ -206,4 +220,52 @@ export class CustomServer {
 
 function isRedirect(headers: Headers, code?: number) {
   return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
+}
+
+function getUnstableMiddlewares(
+  serverMiddleware: UnstableMiddleware[],
+): Array<Middleware<ServerNodeEnv & ServerEnv>> {
+  return serverMiddleware.map(middleware => {
+    return async (c, next) => {
+      const context = createMiddlewareContextFromHono(c);
+
+      return middleware(context, next);
+    };
+  });
+}
+
+function createMiddlewareContextFromHono(
+  c: Context,
+): UnstableMiddlewareContext {
+  const loaderContext = getLoaderCtx(c);
+
+  return {
+    get req() {
+      return c.req.raw;
+    },
+
+    get res() {
+      return c.res;
+    },
+
+    set res(newRes) {
+      c.res = newRes;
+    },
+
+    get(key) {
+      return loaderContext.get(key);
+    },
+
+    set(key, value) {
+      return loaderContext.set(key, value);
+    },
+
+    status: c.status.bind(c),
+
+    header: c.header.bind(c),
+
+    body: c.body.bind(c),
+
+    html: c.html.bind(c),
+  };
 }

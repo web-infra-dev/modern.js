@@ -50,6 +50,7 @@ export interface SSRRenderOptions {
   metaName: string;
   logger: Logger;
   serverManifest: ServerManifest;
+  loaderContext: Map<string, unknown>;
 
   params: Params;
   /** Produce by custom server hook */
@@ -75,6 +76,7 @@ export async function ssrRender(
     locals,
     params,
     metrics,
+    loaderContext,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -121,6 +123,7 @@ export async function ssrRender(
 
     template: html,
     loadableStats,
+    loaderContext,
     routeManifest, // for streaming ssr
     entryName: entryName!,
     staticGenerate,

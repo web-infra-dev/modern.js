@@ -59,7 +59,13 @@ export const compose = (middlewares: Middleware[]) => {
   };
 };
 
-export default (): ServerPlugin => ({
+export type Options = {
+  future?: {
+    unstable_middleware?: boolean;
+  };
+};
+
+export default (options: Options): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {
@@ -113,6 +119,11 @@ export default (): ServerPlugin => ({
       },
       prepareWebServer() {
         const { middlewares } = storage;
+
+        if (options.future?.unstable_middleware) {
+          return middlewares as any[];
+        }
+
         const factory = compose(middlewares);
 
         return ctx => {

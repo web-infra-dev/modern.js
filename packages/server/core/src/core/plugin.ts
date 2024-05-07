@@ -24,6 +24,7 @@ import type {
   Logger,
   Metrics,
   Reporter,
+  UnstableMiddleware,
 } from '@modern-js/types';
 
 import { MiddlewareHandler as Middleware } from 'hono';
@@ -55,7 +56,7 @@ export type LoaderHandler = (context: ModernServerContext) => Promise<void>;
 
 const prepareWebServer = createAsyncPipeline<
   WebServerStartInput,
-  WebAdapter | null
+  WebAdapter | Array<UnstableMiddleware> | null
 >();
 
 export type APIServerStartInput = {

@@ -10,7 +10,12 @@ export type {
   CacheControl,
   CacheOptionProvider,
   CacheOption,
+  UnstableMiddlewareContext,
+  UnstableMiddleware,
+  UnstableNext,
 } from '@modern-js/types';
+
+export { parseQuery, parseCookie } from './helper';
 
 export const hook = (
   attacher: ({
