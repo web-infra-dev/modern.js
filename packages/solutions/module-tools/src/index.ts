@@ -7,4 +7,3 @@ export { moduleTools };
 export default moduleTools;
 
 export * from './utils/assert';
-export * from './utils/builder';
