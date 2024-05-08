@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.49.2",
+  "version": "2.49.3",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -81,7 +81,7 @@
     "@swc/helpers": "0.5.3"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.49.2",
+    "@modern-js/runtime": "workspace:^2.49.3",
     "react": ">=17",
     "react-dom": ">=17"
   },

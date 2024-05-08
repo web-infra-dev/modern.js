@@ -1,5 +1,12 @@
 # @modern-js/core
 
+## 2.49.3
+
+### Patch Changes
+
+- 61ed54a: fix(plugin-swc): missing `@rsbuild/core` peer dep
+  - @modern-js/utils@2.49.3
+
 ## 2.49.2
 
 ### Patch Changes

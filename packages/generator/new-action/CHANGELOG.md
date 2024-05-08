@@ -1,5 +1,13 @@
 # @modern-js/new-action
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/utils@2.49.3
+- @modern-js/generator-common@3.3.21
+- @modern-js/generator-utils@3.3.21
+
 ## 2.49.2
 
 ### Patch Changes

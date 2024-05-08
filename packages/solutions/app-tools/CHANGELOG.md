@@ -1,5 +1,41 @@
 # @modern-js/app-tools
 
+## 2.49.3
+
+### Patch Changes
+
+- 1adc1a7: fix: ignore should be a relative path in ts-node
+  fix: 使用 ts-node 时，ignore 应该为相对路径
+- ac974d7: fix: data.ts should not import into the client bundle in the ssg project
+  fix: 在 ssg 项目中，data.ts 不应该引入到客户端 bundle 中
+- 72b864d: fix: register mock middleware after dev middlewares & lambda files should not be check by ts-checker
+  fix: 在 dev middlewares 之后注册 mock middleware & lambda 文件不应该被 ts-checker 校验
+- Updated dependencies [d936fe3]
+- Updated dependencies [496703a]
+- Updated dependencies [45cae97]
+- Updated dependencies [0c4929f]
+- Updated dependencies [3114955]
+- Updated dependencies [1b594a5]
+- Updated dependencies [4d728d2]
+- Updated dependencies [aa3a1dc]
+- Updated dependencies [72b864d]
+- Updated dependencies [327f607]
+- Updated dependencies [3e663e9]
+  - @modern-js/server-core@2.49.3
+  - @modern-js/uni-builder@2.49.3
+  - @modern-js/server@2.49.3
+  - @modern-js/plugin-data-loader@2.49.3
+  - @modern-js/prod-server@2.49.3
+  - @modern-js/server-utils@2.49.3
+  - @modern-js/core@2.49.3
+  - @modern-js/plugin-i18n@2.49.3
+  - @modern-js/plugin-lint@2.49.3
+  - @modern-js/rsbuild-plugin-esbuild@2.49.3
+  - @modern-js/node-bundle-require@2.49.3
+  - @modern-js/plugin@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
 ## 2.49.2
 
 ### Patch Changes
