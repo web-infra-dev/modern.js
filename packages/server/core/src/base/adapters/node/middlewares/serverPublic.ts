@@ -17,9 +17,6 @@ export function createPublicMiddleware({
   return async (c, next) => {
     const route = matchRoute(c.req, routes);
 
-    console.log('routes', routes);
-
-    console.log('route', route);
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
