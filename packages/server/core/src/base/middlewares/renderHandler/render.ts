@@ -111,7 +111,6 @@ export async function createRender({
         if (!response) {
           response = await renderHandler(req, renderOptions, 'ssr', onError);
         }
-
         return response;
       case 'ssr':
       case 'csr':
@@ -149,7 +148,18 @@ async function renderHandler(
     response = csrRender(options.html);
   }
 
-  return transformResponse(response, injectServerData(serverData));
+  const newRes = transformResponse(response, injectServerData(serverData));
+
+  const { routeInfo } = options;
+  applyExtendHeaders(newRes, routeInfo);
+
+  return newRes;
+
+  function applyExtendHeaders(r: Response, route: ServerRoute) {
+    Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+      r.headers.set(k, v as string);
+    });
+  }
 }
 
 function matchRoute(
