@@ -1,6 +1,8 @@
 import type { IncomingMessage } from 'http';
 import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
+import { TrieRouter } from 'hono/router/trie-router';
+import type { Router } from 'hono/router';
 import type { FallbackReason } from '../../../core/plugin';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
@@ -14,7 +16,7 @@ import {
   ErrorDigest,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
-import { SSRRenderOptions, ssrRender } from './ssrRender';
+import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -36,6 +38,35 @@ interface CreateRenderOptions {
   nonce?: string;
 }
 
+function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
+  const sorted = routes.filter(r => !r.isApi).sort(sortRoutes);
+
+  const router = new TrieRouter<ServerRoute>();
+
+  for (const route of sorted) {
+    const { urlPath: originUrlPath } = route;
+
+    const urlPath = originUrlPath.endsWith('/')
+      ? `${originUrlPath}*`
+      : `${originUrlPath}/*`;
+    router.add('*', urlPath, route);
+  }
+
+  return router;
+}
+
+function matchRoute(
+  router: Router<ServerRoute>,
+  request: Request,
+): [ServerRoute, Params] {
+  const pathname = getPathname(request);
+  const matched = router.match('*', pathname);
+
+  const result = matched[0][0];
+
+  return result;
+}
+
 export async function createRender({
   routes,
   pwd,
@@ -45,11 +76,14 @@ export async function createRender({
   nonce,
   onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
+  const router = getRouter(routes);
+
   return async (
     req,
     { logger, nodeReq, reporter, templates, serverManifest, locals, metrics },
   ) => {
-    const routeInfo = matchRoute(req, routes);
+    const [routeInfo, params] = matchRoute(router, req);
+
     const onFallback = async (reason: FallbackReason, error?: unknown) => {
       return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
     };
@@ -99,6 +133,7 @@ export async function createRender({
       nodeReq,
       reporter,
       serverRoutes: routes,
+      params,
       locals,
       serverManifest,
       metrics,
@@ -131,7 +166,7 @@ async function renderHandler(
   const serverData = {
     router: {
       baseUrl: options.routeInfo.urlPath,
-      params: {} as Record<string, any>,
+      params: options.params,
     },
   };
 
@@ -160,22 +195,6 @@ async function renderHandler(
       r.headers.set(k, v as string);
     });
   }
-}
-
-function matchRoute(
-  req: Request,
-  routes: ServerRoute[],
-): ServerRoute | undefined {
-  const sorted = routes.sort(sortRoutes);
-  for (const route of sorted) {
-    const pathname = getPathname(req);
-
-    if (pathname.startsWith(route.urlPath)) {
-      return route;
-    }
-  }
-
-  return undefined;
 }
 
 async function getRenderMode(
