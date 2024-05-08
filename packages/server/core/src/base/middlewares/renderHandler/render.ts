@@ -104,27 +104,20 @@ export async function createRender({
       metrics,
     };
 
-    let response: Response | void;
-
     switch (renderMode) {
       case 'data':
-        response = await dataHandler(req, renderOptions);
+        // eslint-disable-next-line no-case-declarations
+        let response = await dataHandler(req, renderOptions);
         if (!response) {
           response = await renderHandler(req, renderOptions, 'ssr', onError);
         }
-        break;
-
+        return response;
       case 'ssr':
       case 'csr':
-        response = await renderHandler(req, renderOptions, renderMode, onError);
-        break;
+        return renderHandler(req, renderOptions, renderMode, onError);
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
-
-    applyExtendHeaders(response, routeInfo);
-
-    return response;
   };
 }
 
@@ -155,7 +148,18 @@ async function renderHandler(
     response = csrRender(options.html);
   }
 
-  return transformResponse(response, injectServerData(serverData));
+  const newRes = transformResponse(response, injectServerData(serverData));
+
+  const { routeInfo } = options;
+  applyExtendHeaders(newRes, routeInfo);
+
+  return newRes;
+
+  function applyExtendHeaders(r: Response, route: ServerRoute) {
+    Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+      r.headers.set(k, v as string);
+    });
+  }
 }
 
 function matchRoute(
@@ -172,12 +176,6 @@ function matchRoute(
   }
 
   return undefined;
-}
-
-function applyExtendHeaders(r: Response, route: ServerRoute) {
-  Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
-    r.headers.set(k, v as string);
-  });
 }
 
 async function getRenderMode(
