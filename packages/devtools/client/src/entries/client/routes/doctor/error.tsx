@@ -12,7 +12,7 @@ import { FeatureDisabled } from '@/components/Error/FeatureDisabled';
 
 const Handler: FC<ErrorFallbackProps> = () => {
   const error = useRouteError();
-  const def = useSnapshot($serverExported).definition;
+  const { def } = useSnapshot($serverExported).context;
   const isStateError =
     error && typeof error === 'object' && Object.keys(error).length === 0;
   if (isStateError) {
