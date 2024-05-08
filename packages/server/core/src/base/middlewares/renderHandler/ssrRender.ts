@@ -40,6 +40,8 @@ const defaultReporter: Reporter = {
   },
 };
 
+export type Params = Record<string, any>;
+
 export interface SSRRenderOptions {
   pwd: string;
   html: string;
@@ -49,6 +51,7 @@ export interface SSRRenderOptions {
   logger: Logger;
   serverManifest: ServerManifest;
 
+  params: Params;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   reporter?: Reporter;
@@ -70,6 +73,7 @@ export async function ssrRender(
     nodeReq,
     serverManifest,
     locals,
+    params,
     metrics,
   }: SSRRenderOptions,
 ): Promise<Response> {
@@ -95,7 +99,7 @@ export async function ssrRender(
   const ssrContext: SSRServerContext = {
     request: {
       baseUrl: routeInfo.urlPath,
-      params: {} as Record<string, string>,
+      params,
       pathname: nodeReq
         ? getPathnameFromNodeReq(nodeReq)
         : getPathname(request),
