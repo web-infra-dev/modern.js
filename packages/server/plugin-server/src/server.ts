@@ -65,7 +65,7 @@ export type Options = {
   };
 };
 
-export default (options: Options): ServerPlugin => ({
+export default (options: Options = {}): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {

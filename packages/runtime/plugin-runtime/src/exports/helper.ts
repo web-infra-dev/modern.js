@@ -40,3 +40,8 @@ export function parseQuery(req: Request): Query {
 
   return query;
 }
+
+export function getPathname(req: Request): string {
+  const match = req.url.match(/^https?:\/\/[^/]+(\/[^?]*)/);
+  return match ? match[1] : '/';
+}

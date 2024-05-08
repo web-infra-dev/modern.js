@@ -7,9 +7,10 @@ import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner } from '../../../core/plugin';
 import { Context, Middleware, ServerEnv } from '../../../core/server';
-import { getLoaderCtx, transformResponse } from '../../utils';
+import { transformResponse } from '../../utils';
 import { ServerReportTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
+import { getLoaderCtx } from './loader';
 import {
   getAfterMatchCtx,
   getAfterRenderCtx,
@@ -17,6 +18,8 @@ import {
   createAfterStreamingRenderContext,
 } from './context';
 import { ResArgs, createBaseHookContext } from './base';
+
+export { getLoaderCtx } from './loader';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -267,5 +270,7 @@ function createMiddlewareContextFromHono(
     body: c.body.bind(c),
 
     html: c.html.bind(c),
+
+    redirect: c.redirect.bind(c),
   };
 }

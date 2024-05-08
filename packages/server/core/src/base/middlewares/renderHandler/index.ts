@@ -1,15 +1,10 @@
 import { Render } from '../../../core/render';
 import { Context, Middleware, ServerEnv } from '../../../core/server';
 import { ServerBase, type ServerBaseOptions } from '../../serverBase';
-import {
-  checkIsProd,
-  sortRoutes,
-  getRuntimeEnv,
-  getLoaderCtx,
-} from '../../utils';
+import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
-import { CustomServer } from '../customServer';
+import { CustomServer, getLoaderCtx } from '../customServer';
 import { OnFallback, createRender } from './render';
 import type * as ssrCacheModule from './ssrCache';
 
