@@ -138,10 +138,11 @@ export const setupClientConnection = async (
       const appCtx = api.useAppContext();
       const basename = `${ctx.def.name.shortName}.runtime.json`;
       const filename = path.resolve(appCtx.appDirectory, basename);
-      const name = `New Preset ${nanoid()}`;
-      const config: DevtoolsConfig = (await fs.pathExists(filename))
-        ? await fs.readJSON(filename)
-        : {};
+      const name = `New Preset ${nanoid(5)}`;
+      const config: DevtoolsConfig = {};
+      if (await fs.pathExists(filename)) {
+        await fs.readJSON(filename);
+      }
       config.storagePresets ||= [];
       config.storagePresets.push({
         name,
