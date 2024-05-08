@@ -34,7 +34,7 @@ export interface ServerExportedState {
     };
   };
   doctor: Promise<DoctorManifestOverview | void>;
-  context: Promise<DevtoolsContext>;
+  context: DevtoolsContext | Promise<DevtoolsContext>;
   performance: Promise<{ compileDuration: number }>;
   dependencies: Record<string, string>;
   fileSystemRoutes: Record<string, FileSystemRoutes>;

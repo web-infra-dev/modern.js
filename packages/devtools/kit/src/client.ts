@@ -14,6 +14,8 @@ export class NameDefinition {
   casualName: string = 'modern.js';
 
   prefixName: string = '_modern_js';
+
+  shortName: string = 'modern';
 }
 
 export interface ShortenAlias {

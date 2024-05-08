@@ -2,39 +2,29 @@ import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import { DevtoolsConfig } from '@modern-js/devtools-kit';
 
-const CONFIG_FILENAME = 'modern.devtools.json';
+const CONFIG_FILENAME = 'modern.runtime.json';
 
-async function findUp(filename: string, dir = process.cwd()) {
-  const filePath = path.join(dir, filename);
-  if (await fs.pathExists(filePath)) {
-    return filePath;
+export function getConfigFilenames(dir = process.cwd()) {
+  const files: string[] = [];
+  let curr = dir;
+  while (path.dirname(curr) !== curr) {
+    files.push(path.join(curr, CONFIG_FILENAME));
+    // files.push(path.join(curr, 'node_modules/.modern-js', CONFIG_FILENAME));
+    curr = path.dirname(curr);
   }
-  const parent = path.dirname(dir);
-  if (parent === dir) {
-    return null;
-  }
-  return findUp(filename, parent);
-}
-
-export function resolveConfigFile(dir = process.cwd()) {
-  return findUp(CONFIG_FILENAME, dir);
+  return files;
 }
 
 /** Resolve all config files from target directory upward to the root path. */
 export async function resolveConfigFiles(
   dir = process.cwd(),
 ): Promise<string[]> {
-  const files = [];
-  let currentDir = dir;
-  while (true) {
-    const configFile = await resolveConfigFile(currentDir);
-    if (!configFile) {
-      break;
-    }
-    files.push(configFile);
-    currentDir = path.dirname(currentDir);
-  }
-  return files;
+  const files = getConfigFilenames(dir);
+  const ret: string[] = [];
+  await Promise.all(
+    files.map(async file => (await fs.pathExists(file)) && ret.push(file)),
+  );
+  return ret;
 }
 
 export async function loadConfigFile(filename: string) {

@@ -74,4 +74,8 @@ export interface ResolvedDevtoolsConfig {
 export interface ServerFunctions {
   echo: (content: string) => string;
   pullExportedState: () => Promise<ServerExportedState>;
+  createTemporaryStoragePreset: () => Promise<{
+    filename: string;
+    name: string;
+  }>;
 }

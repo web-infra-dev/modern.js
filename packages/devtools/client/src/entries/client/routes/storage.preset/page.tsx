@@ -13,8 +13,9 @@ import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import clsx from 'clsx';
 import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../state';
+import { $server, $serverExported } from '../state';
 import styles from './page.module.scss';
+import { useThrowable } from '@/utils';
 
 const unwindRecord = <T extends string | void>(
   record: Record<string, string>,
@@ -60,6 +61,12 @@ interface UnwindPreset {
   items: UnwindStorageRecord[];
 }
 
+interface SelectUnwindPreset {
+  name: string;
+  filename: string;
+  items?: UnwindStorageRecord[];
+}
+
 interface CardButtonProps extends FlexProps {
   selected?: boolean;
 }
@@ -103,6 +110,7 @@ const PresetCard: FC<PresetCardProps> = props => {
       </Text>
       <Flex align={'center'}>
         <Flex className={styles.previewBadgeList}>
+          {preset.items.length === 0 && <Badge color="gray">Empty</Badge>}
           {preset.items.map(item => (
             <Badge
               key={`${item.type}//${item.key}`}
@@ -119,6 +127,7 @@ const PresetCard: FC<PresetCardProps> = props => {
 
 const Page: FC = () => {
   const { storagePresets } = useSnapshot($serverExported).context;
+  const server = useThrowable($server);
   const freq = {
     cookie: _(storagePresets)
       .flatMap(preset => _.keys(preset.cookie))
@@ -141,13 +150,17 @@ const Page: FC = () => {
       .reverse()
       .value(),
   }));
-  const [selected, setSelected] = useState<UnwindPreset | null>();
+  const [select, setSelect] = useState<SelectUnwindPreset | null>();
   const matchSelected = (preset: UnwindPreset) =>
     Boolean(
-      selected &&
-        preset.filename === selected.filename &&
-        preset.name === selected.name,
+      select &&
+        preset.filename === select.filename &&
+        preset.name === select.name,
     );
+  const selected = unwindPresets.find(preset => matchSelected(preset));
+  const handleCreatePreset = async () => {
+    setSelect(await server.remote.createTemporaryStoragePreset());
+  };
 
   return (
     <Flex width="100%" className={styles.container}>
@@ -156,8 +169,8 @@ const Page: FC = () => {
           m="2"
           align="center"
           gap="1"
-          selected={!selected}
-          onClick={() => setSelected(null)}
+          selected={!select}
+          onClick={() => setSelect(null)}
         >
           <Text size="1" weight="bold">
             Current Storage
@@ -172,13 +185,14 @@ const Page: FC = () => {
             <PresetCard
               key={`${preset.name}@${preset.filename}`}
               selected={matchSelected(preset)}
-              onClick={() => setSelected(preset)}
+              onClick={() => setSelect(preset)}
               preset={preset}
             />
           ))}
           <CardButton
             justify="center"
             align="center"
+            onClick={handleCreatePreset}
             className={styles.btnCreatePreset}
           >
             <HiPlus />
