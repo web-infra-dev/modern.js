@@ -64,7 +64,7 @@ function matchRoute(
 
   const result = matched[0][0];
 
-  return result;
+  return result || [];
 }
 
 export async function createRender({
