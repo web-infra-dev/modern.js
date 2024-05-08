@@ -39,7 +39,7 @@ interface CreateRenderOptions {
 }
 
 function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
-  const sorted = routes.filter(r => !r.isApi).sort(sortRoutes);
+  const sorted = routes.sort(sortRoutes);
 
   const router = new TrieRouter<ServerRoute>();
 
