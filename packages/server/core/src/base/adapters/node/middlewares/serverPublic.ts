@@ -17,6 +17,9 @@ export function createPublicMiddleware({
   return async (c, next) => {
     const route = matchRoute(c.req, routes);
 
+    console.log('routes', routes);
+
+    console.log('route', route);
     if (route) {
       const { entryPath } = route;
       const filename = path.join(pwd, entryPath);
@@ -27,6 +30,10 @@ export function createPublicMiddleware({
         if (mimeType) {
           c.header('Content-Type', mimeType);
         }
+
+        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
 
         return c.body(data, 200);
       }

@@ -104,21 +104,27 @@ export async function createRender({
       metrics,
     };
 
+    let response: Response | void;
+
     switch (renderMode) {
       case 'data':
-        // eslint-disable-next-line no-case-declarations
-        let response = await dataHandler(req, renderOptions);
+        response = await dataHandler(req, renderOptions);
         if (!response) {
           response = await renderHandler(req, renderOptions, 'ssr', onError);
         }
+        break;
 
-        return response;
       case 'ssr':
       case 'csr':
-        return renderHandler(req, renderOptions, renderMode, onError);
+        response = await renderHandler(req, renderOptions, renderMode, onError);
+        break;
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
+
+    applyExtendHeaders(response, routeInfo);
+
+    return response;
   };
 }
 
@@ -166,6 +172,12 @@ function matchRoute(
   }
 
   return undefined;
+}
+
+function applyExtendHeaders(r: Response, route: ServerRoute) {
+  Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+    r.headers.set(k, v as string);
+  });
 }
 
 async function getRenderMode(
