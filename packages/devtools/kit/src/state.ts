@@ -48,7 +48,7 @@ export interface ServerExportedStateResult {
 }
 
 export const createServerExportedState = (): ServerExportedStateResult => {
-  const resolvers: ServerExportedStateResolvers = {
+  const resolvers = {
     framework: {
       context: PromiseStub.create(),
       config: {
@@ -74,7 +74,7 @@ export const createServerExportedState = (): ServerExportedStateResult => {
     performance: PromiseStub.create(),
     dependencies: {},
     fileSystemRoutes: {},
-  };
+  } satisfies ServerExportedStateResolvers;
   const state: ServerExportedState = {
     framework: {
       context: resolvers.framework.context.promise,
