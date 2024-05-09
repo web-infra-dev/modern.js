@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.49.3
+
+### Patch Changes
+
+- 496703a: fix: uni-builder should depedency prod-server correctly
+  fix: uni-builder 需要正确依赖 prod-server
+- 3114955: chore(uni-builder): use rspack-manifest-plugin stable version
+- Updated dependencies [72b864d]
+  - @modern-js/server@2.49.3
+  - @modern-js/prod-server@2.49.3
+  - @modern-js/utils@2.49.3
+
 ## 2.49.2
 
 ### Patch Changes

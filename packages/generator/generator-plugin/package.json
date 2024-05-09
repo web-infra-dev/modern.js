@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/generator-plugin",
-  "version": "3.3.20",
+  "version": "3.3.21",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",

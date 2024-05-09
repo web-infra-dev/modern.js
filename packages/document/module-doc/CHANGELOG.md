@@ -1,5 +1,11 @@
 # @modern-js/module-tools-docs
 
+## 2.49.3
+
+### Patch Changes
+
+- b1db211: docs: update buildConfig in plugin-vue docs
+
 ## 2.49.2
 
 ## 2.49.1
