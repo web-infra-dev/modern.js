@@ -4,7 +4,7 @@ import assert from 'assert';
 import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
-import { chokidar, fs, getPort, logger } from '@modern-js/utils';
+import { chokidar, fs, FSWatcher, getPort, logger } from '@modern-js/utils';
 import { Context, Hono } from 'hono';
 import { serve, HttpBindings } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
@@ -30,6 +30,12 @@ export const devtoolsPlugin = (
   inlineOptions: DevtoolsPluginOptions = {},
 ): DevtoolsPlugin => {
   const ctx = proxy(resolveContext(inlineOptions));
+  let watcher: FSWatcher | null = null;
+  const closeWatcher = () => {
+    if (!watcher) return;
+    watcher.close();
+    watcher = null;
+  };
 
   return {
     name: '@modern-js/plugin-devtools',
@@ -75,9 +81,13 @@ export const devtoolsPlugin = (
         },
         modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
         beforeRestart() {
+          closeWatcher();
           return new Promise((resolve, reject) =>
             httpServer.instance.close(err => (err ? reject(err) : resolve())),
           );
+        },
+        beforeExit() {
+          closeWatcher();
         },
         modifyServerRoutes({ routes }) {
           routes.push({
