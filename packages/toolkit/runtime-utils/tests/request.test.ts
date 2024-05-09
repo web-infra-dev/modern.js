@@ -1,9 +1,4 @@
-import {
-  parseHeaders,
-  parseQuery,
-  getPathname,
-  getHost,
-} from '../../../src/base/utils';
+import { parseHeaders, parseQuery, getPathname, getHost } from '../src/request';
 
 describe('test utils.request', () => {
   it('should parse query correctly', () => {
