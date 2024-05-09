@@ -7,7 +7,6 @@ import type {
   OutputNormalizedConfig,
   HtmlNormalizedConfig,
 } from '../../../../types/config';
-import { createErrorHtml } from '../../../utils';
 import { Middleware } from '../../../../core/server';
 import { createPublicMiddleware } from './serverPublic';
 
@@ -50,14 +49,19 @@ export function createStaticMiddleware(
 
     const hit = staticPathRegExp.test(pathname);
 
+    // FIXME: shoudn't hit, when cssPath, jsPath, mediaPath as '.'
     if (hit) {
       const filepath = path.join(
         pwd,
         pathname.replace(prefix, () => ''),
       );
       if (!(await fs.pathExists(filepath))) {
-        // we shoud return a response with status is 404, if we can't found static asset
-        return c.html(createErrorHtml(404), 404);
+        // FIXME: we shoud return a response with status is 404, if we can't found static asset
+        // return c.html(createErrorHtml(404), 404);
+
+        // In some case, page route would hit the staticPathRegExp.
+        // So we call next().
+        return next();
       }
       const mimeType = getMimeType(filepath);
       if (mimeType) {
