@@ -63,7 +63,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     return {
       config() {
         const appContext = api.useAppContext();
-        const userConfig = api.useConfigContext();
 
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
@@ -93,15 +92,11 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             // so we only use useLoader in CSR on Rspack build temporarily.
             return (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig)) {
+              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-                if (checkUseStringSSR(userConfig)) {
-                  config.plugins?.push(
-                    require.resolve('@loadable/babel-plugin'),
-                  );
-                }
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             };
           }
@@ -142,10 +137,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                   ]);
               }
             },
-            babel:
-              isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig as any)
-                ? babelHandler
-                : undefined,
+            babel: babelHandler,
           },
         };
       },
