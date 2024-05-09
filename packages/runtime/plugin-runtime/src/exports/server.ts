@@ -15,7 +15,11 @@ export type {
   UnstableNext,
 } from '@modern-js/types';
 
-export { parseQuery, parseCookie, getPathname } from './helper';
+export {
+  parseQuery,
+  parseCookie,
+  getPathname,
+} from '@modern-js/runtime-utils/request';
 
 export const hook = (
   attacher: ({

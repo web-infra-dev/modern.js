@@ -68,6 +68,15 @@
       "jsnext:source": "./src/url.ts",
       "require": "./dist/cjs/url.js",
       "default": "./dist/esm/url.js"
+    },
+    "./request": {
+      "jsnext:source": "./src/request.ts",
+      "node": {
+        "require": "./dist/cjs/request.js",
+        "import": "./dist/esm/request.js",
+        "default": "./dist/esm/request.js"
+      },
+      "default": "./dist/esm/request.js"
     }
   },
   "publishConfig": {
@@ -125,6 +134,15 @@
         "types": "./dist/types/url.d.ts",
         "require": "./dist/cjs/url.js",
         "default": "./dist/esm/url.js"
+      },
+      "./request": {
+        "types": "./dist/types/request.d.ts",
+        "node": {
+          "require": "./dist/cjs/request.js",
+          "import": "./dist/esm/request.js",
+          "default": "./dist/esm/request.js"
+        },
+        "default": "./dist/esm/request.js"
       }
     }
   },
@@ -159,6 +177,9 @@
       ],
       "url": [
         "./dist/types/url.d.ts"
+      ],
+      "request": [
+        "./dist/types/request.d.ts"
       ]
     }
   },

@@ -81,7 +81,7 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     if (stats.toJson({ all: false }).name !== 'server') {
-      onRepack(distDir, server.runner as any, routes);
+      onRepack(distDir, server.runner, routes);
     }
   });
 

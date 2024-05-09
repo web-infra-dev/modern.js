@@ -1,19 +1,14 @@
-import { Logger, Metrics, Reporter } from './utils';
+import { RequestPayload } from './context';
 
-interface DefaultVars {
-  logger: Logger;
-  metrics?: Metrics;
-  reporter?: Reporter;
+interface Set<V extends Record<string>> {
+  // eslint-disable-next-line @typescript-eslint/prefer-function-type
+  <Key extends keyof V>(key: Key, value: V[Key]): void;
 }
 
-type Set<V extends Record<string, unknown>> = <Key extends keyof V>(
-  key: Key,
-  value: V[Key],
-) => void;
-
-type Get<V extends Record<string, unknown>> = <Key extends keyof V>(
-  key: Key,
-) => V[Key];
+interface Get<V extends Record<string, unknown>> {
+  // eslint-disable-next-line @typescript-eslint/prefer-function-type
+  <Key extends keyof V>(key: Key): V[Key];
+}
 
 type Body = ReadableStream | ArrayBuffer | string | null;
 
@@ -22,8 +17,8 @@ export type UnstableMiddlewareContext<
 > = {
   req: Request;
   res: Response;
-  get: Get<V & DefaultVars>;
-  set: Set<V & DefaultVars>;
+  get: Get<V & RequestPayload>;
+  set: Set<V & RequestPayload>;
   header: (name: string, value: string, options?: { append?: boolean }) => void;
   status: (code: number) => void;
   redirect: (location: string, status?: number) => Response;

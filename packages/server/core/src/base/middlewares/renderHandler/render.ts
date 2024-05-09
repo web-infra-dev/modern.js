@@ -3,15 +3,14 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import { parseQuery, getPathname } from '@modern-js/runtime-utils/request';
 import type { FallbackReason } from '../../../core/plugin';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
   createErrorHtml,
   sortRoutes,
-  parseQuery,
   transformResponse,
-  getPathname,
   onError as onErrorFn,
   ErrorDigest,
 } from '../../utils';

@@ -9,7 +9,6 @@ import type { SSRMode } from 'common';
 import { Metrics, Logger, Reporter, ServerTiming } from './utils';
 
 export interface RequestPayload {
-  reporter?: Reporter;
   [key: string]: unknown;
 }
 

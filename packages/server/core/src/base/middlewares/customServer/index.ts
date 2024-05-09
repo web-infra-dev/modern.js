@@ -256,11 +256,11 @@ function createMiddlewareContextFromHono(
     },
 
     get(key) {
-      return loaderContext.get(key);
+      return loaderContext.get(key as string);
     },
 
     set(key, value) {
-      return loaderContext.set(key, value);
+      return loaderContext.set(key as string, value);
     },
 
     status: c.status.bind(c),

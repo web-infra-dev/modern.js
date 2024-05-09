@@ -1,19 +1,5 @@
-import {
-  UnstableMiddleware,
-  getPathname,
-  parseQuery,
-} from '@modern-js/runtime/server';
+import { UnstableMiddleware, parseQuery } from '@modern-js/runtime/server';
 import { Var } from '../shared';
-
-function log(): UnstableMiddleware {
-  return async (c, next) => {
-    const pathname = getPathname(c.req);
-    const logger = c.get('logger');
-
-    logger.info('req url', pathname);
-    await next();
-  };
-}
 
 function time(): UnstableMiddleware {
   return async (c, next) => {
@@ -81,6 +67,5 @@ function injectMessage(): UnstableMiddleware {
 export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
   auth() as unknown as UnstableMiddleware,
-  log(),
   injectMessage(),
 ];

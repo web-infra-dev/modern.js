@@ -86,7 +86,6 @@ export const routerPlugin = ({
             context.ssrContext?.loaderContext,
           );
           requestContext.set(reporterCtx, reporter);
-          requestContext.set('reporter', reporter);
 
           let routes = createRoutes
             ? createRoutes()
