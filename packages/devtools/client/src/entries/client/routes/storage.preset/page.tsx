@@ -1,4 +1,14 @@
-import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
+/* eslint-disable max-lines */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Badge,
+  Box,
+  Flex,
+  IconButton,
+  Popover,
+  Text,
+  Tooltip,
+} from '@radix-ui/themes';
 import _ from 'lodash';
 import {
   HiPlus,
@@ -7,15 +17,19 @@ import {
   HiMiniFolderOpen,
   HiMiniFire,
 } from 'react-icons/hi2';
-import { StoragePresetContext } from '@modern-js/devtools-kit/runtime';
+import {
+  StoragePresetConfig,
+  StoragePresetContext,
+} from '@modern-js/devtools-kit/runtime';
 import { FC, useState } from 'react';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import clsx from 'clsx';
 import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import { useSnapshot } from 'valtio';
-import { $server, $serverExported } from '../state';
+import { $mountPoint, $server, $serverExported } from '../state';
 import styles from './page.module.scss';
 import { useThrowable } from '@/utils';
+import { useToast } from '@/components/Toast';
 
 const unwindRecord = <T extends string | void>(
   record: Record<string, string>,
@@ -125,6 +139,30 @@ const PresetCard: FC<PresetCardProps> = props => {
   );
 };
 
+const applyPreset = async (preset: UnwindPreset | StoragePresetContext) => {
+  const mountPoint = await $mountPoint;
+  const storage: Record<StorageType, Record<string, string>> = {
+    cookie: {},
+    localStorage: {},
+    sessionStorage: {},
+  };
+  if ('items' in preset) {
+    for (const item of preset.items) {
+      storage[item.type][item.key] = item.value;
+    }
+  } else {
+    for (const type of STORAGE_TYPES) {
+      const records = preset[type];
+      records && Object.assign(storage[type], records);
+    }
+  }
+  await Promise.all([
+    mountPoint.remote.cookies(storage.cookie),
+    mountPoint.remote.localStorage(storage.localStorage),
+    mountPoint.remote.sessionStorage(storage.sessionStorage),
+  ]);
+};
+
 const Page: FC = () => {
   const { storagePresets } = useSnapshot($serverExported).context;
   const server = useThrowable($server);
@@ -150,6 +188,7 @@ const Page: FC = () => {
       .reverse()
       .value(),
   }));
+
   const [select, setSelect] = useState<SelectUnwindPreset | null>();
   const matchSelected = (preset: UnwindPreset) =>
     Boolean(
@@ -158,8 +197,43 @@ const Page: FC = () => {
         preset.name === select.name,
     );
   const selected = unwindPresets.find(preset => matchSelected(preset));
+
   const handleCreatePreset = async () => {
     setSelect(await server.remote.createTemporaryStoragePreset());
+  };
+
+  const applyActionToast = useToast({ content: '🔥 Fired' });
+  const copyActionToast = useToast({ content: '📋 Copied' });
+
+  const handleApplyAction = async () => {
+    if (!selected) return;
+    await applyPreset(selected);
+    applyActionToast.open();
+  };
+
+  const handleCopyAction = async () => {
+    if (!selected) return;
+    const preset: StoragePresetConfig = {
+      name: selected.name,
+    };
+    for (const { type, key, value } of selected.items) {
+      const group = preset[type] || {};
+      group[key] = value;
+      preset[type] = group;
+    }
+    const stringified = JSON.stringify(preset);
+    const blob = new Blob([stringified], { type: 'application/json' });
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    const uri = await new Promise<string | null>(resolve => {
+      reader.onload = e => resolve(e.target?.result?.toString() ?? null);
+    });
+    if (uri) {
+      navigator.clipboard.writeText(uri);
+      copyActionToast.open();
+    } else {
+      console.error('Failed to copy preset as data URI');
+    }
   };
 
   return (
@@ -219,13 +293,17 @@ const Page: FC = () => {
               grow="0"
               px="2"
               justify="end"
-              onClick={() => server.remote.open(selected.filename)}
+              onCopyAction={handleCopyAction}
+              onOpenAction={() => server.remote.open(selected.filename)}
+              onApplyAction={handleApplyAction}
             />
           </Flex>
         )}
         <Box grow="1" pb="2" pr="2" style={{ overflowY: 'scroll' }}>
           {selected && <PresetDetails preset={selected} />}
         </Box>
+        {applyActionToast.element}
+        {copyActionToast.element}
       </Flex>
     </Flex>
   );
