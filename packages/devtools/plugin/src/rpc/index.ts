@@ -123,6 +123,17 @@ export const setupClientConnection = async (
     clientConn.applyStateOperations.asEvent(ops);
   });
 
+  const validateSafeToOpen = (filename: string) => {
+    const { appDirectory } = api.useAppContext();
+    const resolved = path.resolve(appDirectory, filename);
+    for (const preset of ctx.storagePresets) {
+      if (path.resolve(appDirectory, preset.filename) === resolved) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
     echo(content) {
@@ -141,7 +152,7 @@ export const setupClientConnection = async (
       const name = `New Preset ${nanoid(5)}`;
       const config: DevtoolsConfig = {};
       if (await fs.pathExists(filename)) {
-        await fs.readJSON(filename);
+        Object.assign(config, await fs.readJSON(filename));
       }
       config.storagePresets ||= [];
       config.storagePresets.push({
@@ -152,6 +163,15 @@ export const setupClientConnection = async (
       });
       await fs.outputJSON(filename, config, { spaces: 2 });
       return { filename, name };
+    },
+    async open(filename) {
+      const name = path.resolve(api.useAppContext().appDirectory, filename);
+      const validated = validateSafeToOpen(name);
+      if (!validated) {
+        throw new Error('Failed to validate the file.');
+      }
+      const { default: open } = await import('open');
+      await open(name);
     },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {

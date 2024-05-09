@@ -78,4 +78,5 @@ export interface ServerFunctions {
     filename: string;
     name: string;
   }>;
+  open: (filename: string) => Promise<void>;
 }

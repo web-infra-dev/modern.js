@@ -214,7 +214,13 @@ const Page: FC = () => {
                 {selected.name}
               </Text>
             </Box>
-            <PresetToolbar shrink="0" grow="0" px="2" justify="end" />
+            <PresetToolbar
+              shrink="0"
+              grow="0"
+              px="2"
+              justify="end"
+              onClick={() => server.remote.open(selected.filename)}
+            />
           </Flex>
         )}
         <Box grow="1" pb="2" pr="2" style={{ overflowY: 'scroll' }}>
