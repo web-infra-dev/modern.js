@@ -78,7 +78,7 @@ function injectMessage(): UnstableMiddleware {
   };
 }
 
-export const middleware: UnstableMiddleware[] = [
+export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
   auth() as unknown as UnstableMiddleware,
   log(),

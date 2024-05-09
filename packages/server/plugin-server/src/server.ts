@@ -14,6 +14,8 @@ enum HOOKS {
 class Storage {
   public middlewares: Middleware[] = [];
 
+  public unstableMiddlewares: any[] = [];
+
   public hooks: Record<string, Hook> = {};
 
   reset() {
@@ -59,13 +61,7 @@ export const compose = (middlewares: Middleware[]) => {
   };
 };
 
-export type Options = {
-  future?: {
-    unstable_middleware?: boolean;
-  };
-};
-
-export default (options: Options = {}): ServerPlugin => ({
+export default (): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
   setup: api => {
@@ -76,7 +72,12 @@ export default (options: Options = {}): ServerPlugin => ({
 
     const loadMod = () => {
       const { middleware: unstableMiddleware } = loadMiddleware(pwd);
-      const { defaultExports, hooks, middleware } = loadServerMod(pwd);
+      const {
+        defaultExports,
+        hooks,
+        middleware,
+        unstableMiddleware: unstableMiddlewares,
+      } = loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
@@ -95,6 +96,8 @@ export default (options: Options = {}): ServerPlugin => ({
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
       storage.middlewares = storage.middlewares.concat(unstableMiddleware);
+
+      storage.unstableMiddlewares.push(...(unstableMiddlewares || []));
     };
 
     return {
@@ -118,10 +121,10 @@ export default (options: Options = {}): ServerPlugin => ({
         return storage.hooks.afterRender(context, next);
       },
       prepareWebServer() {
-        const { middlewares } = storage;
+        const { middlewares, unstableMiddlewares } = storage;
 
-        if (options.future?.unstable_middleware) {
-          return middlewares as any[];
+        if (unstableMiddlewares.length > 0) {
+          return unstableMiddlewares;
         }
 
         const factory = compose(middlewares);
