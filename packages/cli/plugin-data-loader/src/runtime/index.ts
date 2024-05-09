@@ -89,7 +89,6 @@ export const handleRequest = async ({
   // initial requestContext
   // 1. inject reporter
   requestContext.set(reporterCtx, reporter);
-  requestContext.set('reporter', reporter);
 
   let response;
 
