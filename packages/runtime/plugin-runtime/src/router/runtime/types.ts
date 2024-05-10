@@ -76,6 +76,8 @@ export type LoaderFunctionArgs<P extends Record<string, unknown> = any> =
 
 declare type DataFunctionValue = Response | NonNullable<unknown> | null;
 
-export type LoaderFunction = <P extends Record<string, unknown> = any>(
+export type LoaderFunction = <
+  P extends Record<string, unknown> = Record<string, unknown>,
+>(
   args: LoaderFunctionArgs<P>,
 ) => Promise<DataFunctionValue> | DataFunctionValue;
