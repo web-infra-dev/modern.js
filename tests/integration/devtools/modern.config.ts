@@ -23,7 +23,17 @@ export default defineConfig({
   tools: {
     devServer: {},
     rspack(config, { appendPlugins }) {
-      appendPlugins(new RsdoctorRspackPlugin({ disableClientServer }));
+      appendPlugins(
+        new RsdoctorRspackPlugin({
+          disableClientServer,
+          linter: {
+            rules: {
+              'ecma-version-check': 'off',
+              'duplicate-package': 'off',
+            },
+          },
+        }),
+      );
     },
   },
   plugins: [appTools({ bundler: 'experimental-rspack' }), devtoolsPlugin()],
