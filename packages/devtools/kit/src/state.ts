@@ -1,10 +1,9 @@
-import type { ClientDefinition } from './client';
 import type {
   AppContext,
   BuilderConfig,
   BuilderContext,
   BundlerConfig,
-  DevtoolsConfig,
+  DevtoolsContext,
   DoctorManifestOverview,
   FileSystemRoutes,
   FrameworkConfig,
@@ -34,9 +33,8 @@ export interface ServerExportedState {
       transformed: Promise<BundlerConfig[]>;
     };
   };
-  definition: Promise<ClientDefinition>;
   doctor: Promise<DoctorManifestOverview | void>;
-  devtoolsConfig: Promise<DevtoolsConfig>;
+  context: DevtoolsContext | Promise<DevtoolsContext>;
   performance: Promise<{ compileDuration: number }>;
   dependencies: Record<string, string>;
   fileSystemRoutes: Record<string, FileSystemRoutes>;
@@ -50,7 +48,7 @@ export interface ServerExportedStateResult {
 }
 
 export const createServerExportedState = (): ServerExportedStateResult => {
-  const resolvers: ServerExportedStateResolvers = {
+  const resolvers = {
     framework: {
       context: PromiseStub.create(),
       config: {
@@ -71,13 +69,12 @@ export const createServerExportedState = (): ServerExportedStateResult => {
         transformed: PromiseStub.create(),
       },
     },
-    definition: PromiseStub.create(),
     doctor: PromiseStub.create(),
-    devtoolsConfig: PromiseStub.create(),
+    context: PromiseStub.create(),
     performance: PromiseStub.create(),
     dependencies: {},
     fileSystemRoutes: {},
-  };
+  } satisfies ServerExportedStateResolvers;
   const state: ServerExportedState = {
     framework: {
       context: resolvers.framework.context.promise,
@@ -99,9 +96,8 @@ export const createServerExportedState = (): ServerExportedStateResult => {
         transformed: resolvers.bundler.configs.transformed.promise,
       },
     },
-    definition: resolvers.definition.promise,
     doctor: resolvers.doctor.promise,
-    devtoolsConfig: resolvers.devtoolsConfig.promise,
+    context: resolvers.context.promise,
     performance: resolvers.performance.promise,
     dependencies: resolvers.dependencies as any,
     fileSystemRoutes: resolvers.fileSystemRoutes as any,

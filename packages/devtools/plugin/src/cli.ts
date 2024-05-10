@@ -4,12 +4,13 @@ import assert from 'assert';
 import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import { ProxyDetail } from '@modern-js/types';
-import { fs, getPort, logger } from '@modern-js/utils';
+import { chokidar, fs, FSWatcher, getPort, logger } from '@modern-js/utils';
 import { Context, Hono } from 'hono';
 import { serve, HttpBindings } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { ClientDefinition, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
+import { proxy } from 'valtio';
 import {
   DevtoolsPluginOptions,
   resolveContext,
@@ -17,7 +18,7 @@ import {
 } from './options';
 import { setupClientConnection } from './rpc';
 import { SocketServer } from './utils/socket';
-import { loadConfigFiles } from './utils/config';
+import { getConfigFilenames, loadConfigFiles } from './utils/config';
 
 export type { DevtoolsPluginOptions };
 
@@ -28,7 +29,14 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
 export const devtoolsPlugin = (
   inlineOptions: DevtoolsPluginOptions = {},
 ): DevtoolsPlugin => {
-  const ctx = resolveContext(inlineOptions);
+  const ctx = proxy(resolveContext(inlineOptions));
+  let watcher: FSWatcher | null = null;
+  const closeWatcher = () => {
+    if (!watcher) return;
+    watcher.close();
+    watcher = null;
+  };
+
   return {
     name: '@modern-js/plugin-devtools',
     usePlugins: [],
@@ -50,12 +58,36 @@ export const devtoolsPlugin = (
       });
 
       return {
-        prepare: rpc.hooks.prepare,
+        async prepare() {
+          await rpc.hooks.prepare();
+
+          const appConfig = api.useConfigContext();
+          const appCtx = api.useAppContext();
+          const { devtools: options = {} } = appConfig;
+          updateContext(ctx, options);
+
+          const watcher = chokidar.watch(getConfigFilenames(), {
+            cwd: appCtx.appDirectory,
+            ignorePermissionErrors: true,
+          });
+          const refreshStoragePreset = async () => {
+            const configs = await loadConfigFiles(appCtx.appDirectory);
+            ctx.storagePresets = [];
+            updateContext(ctx, ...configs);
+          };
+          watcher.on('add', refreshStoragePreset);
+          watcher.on('change', refreshStoragePreset);
+          watcher.on('unlink', refreshStoragePreset);
+        },
         modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
         beforeRestart() {
+          closeWatcher();
           return new Promise((resolve, reject) =>
             httpServer.instance.close(err => (err ? reject(err) : resolve())),
           );
+        },
+        beforeExit() {
+          closeWatcher();
         },
         modifyServerRoutes({ routes }) {
           routes.push({
@@ -67,12 +99,6 @@ export const devtoolsPlugin = (
           return { routes };
         },
         async config() {
-          const appConfig = api.useConfigContext();
-          const appCtx = api.useAppContext();
-          const { devtools: options = {} } = appConfig;
-          updateContext(ctx, options);
-          const configs = await loadConfigFiles(appCtx.appDirectory);
-          updateContext(ctx, ...configs);
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
 
           const swProxyEntry = require.resolve(

@@ -20,7 +20,7 @@ const BUNDLER_PACKAGE_NAMES = {
 
 const Page: React.FC = () => {
   const frameworkContext = useSnapshot($serverExported.framework).context;
-  const def = useSnapshot($serverExported).definition;
+  const { def } = useSnapshot($serverExported).context;
   const dependencies = useSnapshot($serverExported.dependencies);
   const builderContext = useSnapshot($serverExported.builder).context;
   const { compileDuration } = useSnapshot($serverExported).performance;

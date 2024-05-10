@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   findManifest,
   parseManifest,
@@ -8,6 +9,7 @@ import {
   extractSettledOperations,
   replacer,
   reviver,
+  DevtoolsContext,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
@@ -16,8 +18,8 @@ import * as flatted from 'flatted';
 import type { JsonValue } from 'type-fest';
 import { subscribe } from 'valtio';
 import { RawData } from 'ws';
-import { DevtoolsContext } from '../options';
-import { CliPluginAPI, InjectedHooks } from '../types';
+import { fs, nanoid } from '@modern-js/utils';
+import { CliPluginAPI, DevtoolsConfig, InjectedHooks } from '../types';
 import { requireModule } from '../utils/module';
 import { SocketServer } from '../utils/socket';
 import { $resolvers, $state } from '../state';
@@ -113,10 +115,10 @@ export const setupClientConnection = async (
     });
   });
 
-  $resolvers.definition.resolve(ctx.def);
-  $resolvers.devtoolsConfig.resolve({
-    storagePresets: ctx.storagePresets,
-  });
+  if ('resolve' in $resolvers.context) {
+    $resolvers.context.resolve(ctx);
+  }
+  $state.context = ctx;
   subscribe($state, ops => {
     clientConn.applyStateOperations.asEvent(ops);
   });
@@ -131,6 +133,24 @@ export const setupClientConnection = async (
         clientConn.applyStateOperations.asEvent(ops);
       });
       return $state;
+    },
+    async createTemporaryStoragePreset() {
+      const appCtx = api.useAppContext();
+      const basename = `${ctx.def.name.shortName}.runtime.json`;
+      const filename = path.resolve(appCtx.appDirectory, basename);
+      const name = `New Preset ${nanoid()}`;
+      const config: DevtoolsConfig = (await fs.pathExists(filename))
+        ? await fs.readJSON(filename)
+        : {};
+      config.storagePresets ||= [];
+      config.storagePresets.push({
+        name,
+        cookie: {},
+        localStorage: {},
+        sessionStorage: {},
+      });
+      await fs.outputJSON(filename, config, { spaces: 2 });
+      return { filename, name };
     },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {

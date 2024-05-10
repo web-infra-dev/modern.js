@@ -80,7 +80,7 @@ const Page: FC = () => {
     throw new TypeError('Doctor is not available');
   }
   const dependencies = useSnapshot($serverExported.dependencies);
-  const def = useSnapshot($serverExported).definition;
+  const { def } = useSnapshot($serverExported).context;
 
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),
