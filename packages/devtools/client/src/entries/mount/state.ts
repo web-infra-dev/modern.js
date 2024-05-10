@@ -32,7 +32,7 @@ export const $client = $clientChannel.then(channel => {
     async cookies(items) {
       const cookiesReq = await fetch('/__devtools/api/cookies', {
         method: 'POST',
-        body: JSON.stringify(items),
+        body: JSON.stringify({ setCookies: items }),
       });
       const { cookies } = await cookiesReq.json();
       if (!cookies || typeof cookies !== 'object') {

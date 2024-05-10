@@ -209,7 +209,7 @@ const setupHttpServer = async () => {
           Date.now() + 30 * 24 * 3_600_000,
         ).toUTCString();
         cookies[k] = v;
-        c.header('Set-Cookie', `${k}=${v}; Expires=${expires}`, {
+        c.header('Set-Cookie', `${k}=${v}; Expires=${expires}; Path=/`, {
           append: true,
         });
       }
