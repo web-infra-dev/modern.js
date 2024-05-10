@@ -7,6 +7,10 @@ export default applyBaseConfig({
   server: {
     ssr: true,
   },
+  dev: {
+    // for test that https is working in the dev
+    https: true,
+  },
   security: {
     nonce: 'test-nonce',
   },

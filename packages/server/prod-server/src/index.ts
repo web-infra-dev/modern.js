@@ -16,7 +16,7 @@ export const createProdServer = async (options: ProdServerOptions) => {
   await loadServerEnv(options);
   await server.init();
 
-  const nodeServer = createNodeServer(server.handle.bind(server));
+  const nodeServer = await createNodeServer(server.handle.bind(server));
   await server.runner.beforeServerInit({
     app: nodeServer,
   });
