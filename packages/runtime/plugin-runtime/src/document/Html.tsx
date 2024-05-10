@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { ReactElement } from 'react';
 import { Body } from './Body';
 import { DocumentStructureContext } from './DocumentStructureContext';
@@ -44,7 +43,9 @@ function findTargetElement(
   return findTargetElement(tag, nextChildren);
 }
 
-export function Html(props: { children: any[] }) {
+export function Html(
+  props: { children: any[] } & React.HtmlHTMLAttributes<HTMLHtmlElement>,
+) {
   const { children, ...rest } = props;
 
   // deal with the component with default

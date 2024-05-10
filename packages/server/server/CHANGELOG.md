@@ -1,5 +1,78 @@
 # @modern-js/server
 
+## 2.49.3
+
+### Patch Changes
+
+- 72b864d: fix: register mock middleware after dev middlewares & lambda files should not be check by ts-checker
+  fix: 在 dev middlewares 之后注册 mock middleware & lambda 文件不应该被 ts-checker 校验
+- Updated dependencies [d936fe3]
+- Updated dependencies [45cae97]
+- Updated dependencies [0c4929f]
+- Updated dependencies [1b594a5]
+- Updated dependencies [4d728d2]
+- Updated dependencies [aa3a1dc]
+- Updated dependencies [327f607]
+- Updated dependencies [3e663e9]
+  - @modern-js/server-core@2.49.3
+  - @modern-js/server-utils@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.49.2
+- @modern-js/server-utils@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- b89879e: fix: @modern-js/server-core should be a dependency in @modern-js/server
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [5b44c1c]
+  - @modern-js/server-core@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- 805e021: fix: unify register in app-tools
+  fix: 在 app-tools 中统一注册 register
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [805e021]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/prod-server@2.48.6
+- @modern-js/server-utils@2.48.6
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

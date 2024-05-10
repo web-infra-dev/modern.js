@@ -1,5 +1,48 @@
 # @modern-js/server-utils
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.49.3
+- @modern-js/babel-compiler@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.49.2
+- @modern-js/babel-compiler@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.49.1
+- @modern-js/babel-compiler@2.49.1
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- 805e021: fix: unify register in app-tools
+  fix: 在 app-tools 中统一注册 register
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+  - @modern-js/babel-compiler@2.49.0
+  - @modern-js/babel-plugin-module-resolver@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.48.6
+- @modern-js/babel-compiler@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

@@ -1,5 +1,69 @@
 # @modern-js/runtime
 
+## 2.49.3
+
+### Patch Changes
+
+- 644a226: fix: <Html> should add <html> props types
+  fix: 组件 Html 应该添加上 html 标签属性的类型
+- 6d980e4: fix: helmet can't replace <html> when streaming ssr
+  fix: 使用 streaming ssr 时, helmet 无法替换 <html>
+- b57ca76: fix: add originalBaseUrl param
+  fix: 添加 originalBaseUrl 参数
+  - @modern-js/plugin@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- b45da78: fix: should not print error level log when in prod env
+
+  fix: 生产环境不应该打印 error 级日志
+
+- 06bff92: fix: should not include babel-loader in streaming ssr project
+  fix: 在 streaming ssr 项目中，不应该引入 babel-loader
+  - @modern-js/plugin@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/plugin@2.48.6
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

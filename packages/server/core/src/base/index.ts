@@ -1,4 +1,4 @@
-export { createErrorHtml } from './utils';
+export { createErrorHtml, onError, ErrorDigest } from './utils';
 
 export { AGGRED_DIR } from './constants';
 

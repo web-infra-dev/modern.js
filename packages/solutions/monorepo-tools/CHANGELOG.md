@@ -1,5 +1,62 @@
 # @modern-js/monorepo-tools
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/core@2.49.3
+- @modern-js/plugin-changeset@2.49.3
+- @modern-js/plugin-i18n@2.49.3
+- @modern-js/plugin-lint@2.49.3
+- @modern-js/plugin@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- Updated dependencies [10dd841]
+  - @modern-js/core@2.49.2
+  - @modern-js/plugin-changeset@2.49.2
+  - @modern-js/plugin-lint@2.49.2
+  - @modern-js/plugin-i18n@2.49.2
+  - @modern-js/plugin@2.49.2
+  - @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/core@2.49.1
+- @modern-js/plugin-changeset@2.49.1
+- @modern-js/plugin-i18n@2.49.1
+- @modern-js/plugin-lint@2.49.1
+- @modern-js/plugin@2.49.1
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+  - @modern-js/core@2.49.0
+  - @modern-js/plugin-changeset@2.49.0
+  - @modern-js/plugin-i18n@2.49.0
+  - @modern-js/plugin-lint@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/core@2.48.6
+- @modern-js/plugin-changeset@2.48.6
+- @modern-js/plugin-i18n@2.48.6
+- @modern-js/plugin-lint@2.48.6
+- @modern-js/plugin@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

@@ -1,5 +1,49 @@
 # @modern-js/plugin-worker
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/prod-server@2.49.3
+- @modern-js/server-utils@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/prod-server@2.49.2
+- @modern-js/server-utils@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- Updated dependencies [0766ae2]
+  - @modern-js/prod-server@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- Updated dependencies [fa7949a]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [805e021]
+  - @modern-js/prod-server@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/prod-server@2.48.6
+- @modern-js/server-utils@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

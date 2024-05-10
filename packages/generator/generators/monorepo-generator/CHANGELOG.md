@@ -1,5 +1,36 @@
 # @modern-js/monorepo-generator
 
+## 3.3.21
+
+### Patch Changes
+
+- @modern-js/utils@2.49.3
+
+## 3.3.20
+
+### Patch Changes
+
+- @modern-js/utils@2.49.2
+
+## 3.3.19
+
+### Patch Changes
+
+- @modern-js/utils@2.49.1
+
+## 3.3.18
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+
+## 3.3.17
+
+### Patch Changes
+
+- @modern-js/utils@2.48.6
+
 ## 3.3.16
 
 ### Patch Changes

@@ -1,3 +1,5 @@
+import type { Logger } from '@modern-js/types';
+
 const ERROR_PAGE_TEXT: Record<number, string> = {
   404: 'This page could not be found.',
   500: 'Internal Server Error.',
@@ -37,3 +39,31 @@ export const createErrorHtml = (status: number) => {
   </html>
   `;
 };
+
+export enum ErrorDigest {
+  ENOTF = 'Page could not be found',
+  EINTER = 'Internal server error',
+  ERENDER = 'SSR render failed',
+  // INIT: 'Server init error',
+  // WARMUP: 'SSR warmup failed',
+  // EMICROINJ: 'Get micro-frontend info failed',
+}
+
+export function onError(
+  logger: Logger,
+  digest: ErrorDigest,
+  error: Error | string,
+  req?: Request,
+) {
+  const headers = req?.headers;
+  headers?.delete('cookie');
+
+  logger.error(
+    req
+      ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
+      : `Server Error - ${digest}, error = %s`,
+    error instanceof Error ? error.stack || error.message : error,
+    req?.url,
+    headers,
+  );
+}

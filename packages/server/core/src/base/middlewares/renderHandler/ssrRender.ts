@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'http';
-import type { Logger, Reporter, ServerRoute } from '@modern-js/types';
+import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import {
   SERVER_RENDER_FUNCTION_NAME,
   MAIN_ENTRY_NAME,
@@ -40,6 +40,8 @@ const defaultReporter: Reporter = {
   },
 };
 
+export type Params = Record<string, any>;
+
 export interface SSRRenderOptions {
   pwd: string;
   html: string;
@@ -49,9 +51,11 @@ export interface SSRRenderOptions {
   logger: Logger;
   serverManifest: ServerManifest;
 
+  params: Params;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   reporter?: Reporter;
+  metrics?: Metrics;
   nodeReq?: IncomingMessage;
   nonce?: string;
 }
@@ -69,6 +73,8 @@ export async function ssrRender(
     nodeReq,
     serverManifest,
     locals,
+    params,
+    metrics,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -93,7 +99,7 @@ export async function ssrRender(
   const ssrContext: SSRServerContext = {
     request: {
       baseUrl: routeInfo.urlPath,
-      params: {} as Record<string, string>,
+      params,
       pathname: nodeReq
         ? getPathnameFromNodeReq(nodeReq)
         : getPathname(request),
@@ -119,6 +125,7 @@ export async function ssrRender(
     entryName: entryName!,
     staticGenerate,
     logger,
+    metrics,
     serverTiming: new ServerTiming(responseProxy.headers, metaName),
     reporter: reporter || defaultReporter,
     /** @deprecated node req */
@@ -205,6 +212,11 @@ export async function ssrRender(
     Readable && ssrResult instanceof Readable
       ? createReadableStreamFromReadable?.(ssrResult) || ''
       : (ssrResult as unknown as string | ReadableStream);
+
+  if (typeof data !== 'string') {
+    // for streaming http
+    responseProxy.headers.set('transfer-encoding', 'chunked');
+  }
 
   return new Response(data, {
     status: responseProxy.status,

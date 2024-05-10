@@ -1,5 +1,46 @@
 # @modern-js/new-action
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/utils@2.49.3
+- @modern-js/generator-common@3.3.21
+- @modern-js/generator-utils@3.3.21
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/utils@2.49.2
+- @modern-js/generator-common@3.3.20
+- @modern-js/generator-utils@3.3.20
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/utils@2.49.1
+- @modern-js/generator-common@3.3.19
+- @modern-js/generator-utils@3.3.19
+
+## 2.49.0
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+  - @modern-js/generator-common@3.3.18
+  - @modern-js/generator-utils@3.3.18
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/utils@2.48.6
+- @modern-js/generator-common@3.3.17
+- @modern-js/generator-utils@3.3.17
+
 ## 2.48.5
 
 ### Patch Changes

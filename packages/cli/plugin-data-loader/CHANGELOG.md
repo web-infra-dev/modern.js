@@ -1,5 +1,46 @@
 # @modern-js/plugin-data-loader
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.49.1
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

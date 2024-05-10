@@ -1,5 +1,40 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.49.3
+- @modern-js/module-tools@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.2
+- @modern-js/plugin-module-babel@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.49.1
+- @modern-js/module-tools@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.0
+- @modern-js/plugin-module-babel@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.48.6
+- @modern-js/module-tools@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

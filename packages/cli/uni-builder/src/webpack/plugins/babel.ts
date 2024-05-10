@@ -154,6 +154,7 @@ export const pluginBabel = (
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
         applyScriptCondition({
+          chain,
           rule,
           config,
           context: api.context,

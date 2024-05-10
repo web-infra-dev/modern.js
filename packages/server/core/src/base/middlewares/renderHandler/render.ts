@@ -1,6 +1,9 @@
 import type { IncomingMessage } from 'http';
-import { ServerRoute } from '@modern-js/types';
+import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
+import { TrieRouter } from 'hono/router/trie-router';
+import type { Router } from 'hono/router';
+import type { FallbackReason } from '../../../core/plugin';
 import { REPLACE_REG } from '../../../base/constants';
 import { Render } from '../../../core/render';
 import {
@@ -9,17 +12,59 @@ import {
   parseQuery,
   transformResponse,
   getPathname,
+  onError as onErrorFn,
+  ErrorDigest,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
-import { SSRRenderOptions, ssrRender } from './ssrRender';
+import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
+
+export type OnFallback = (
+  reason: FallbackReason,
+  utils: {
+    logger: Logger;
+    metrics?: Metrics;
+    reporter?: Reporter;
+  },
+  error?: unknown,
+) => Promise<void>;
 
 interface CreateRenderOptions {
   routes: ServerRoute[];
   pwd: string;
   staticGenerate?: boolean;
+  onFallback?: OnFallback;
   metaName?: string;
   forceCSR?: boolean;
   nonce?: string;
+}
+
+function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
+  const sorted = routes.sort(sortRoutes);
+
+  const router = new TrieRouter<ServerRoute>();
+
+  for (const route of sorted) {
+    const { urlPath: originUrlPath } = route;
+
+    const urlPath = originUrlPath.endsWith('/')
+      ? `${originUrlPath}*`
+      : `${originUrlPath}/*`;
+    router.add('*', urlPath, route);
+  }
+
+  return router;
+}
+
+function matchRoute(
+  router: Router<ServerRoute>,
+  request: Request,
+): [ServerRoute, Params] {
+  const pathname = getPathname(request);
+  const matched = router.match('*', pathname);
+
+  const result = matched[0][0];
+
+  return result || [];
 }
 
 export async function createRender({
@@ -29,12 +74,19 @@ export async function createRender({
   staticGenerate,
   forceCSR,
   nonce,
+  onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
+  const router = getRouter(routes);
+
   return async (
     req,
-    { logger, nodeReq, reporter, templates, serverManifest, locals },
+    { logger, nodeReq, reporter, templates, serverManifest, locals, metrics },
   ) => {
-    const routeInfo = matchRoute(req, routes);
+    const [routeInfo, params] = matchRoute(router, req);
+
+    const onFallback = async (reason: FallbackReason, error?: unknown) => {
+      return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
+    };
 
     if (!routeInfo) {
       return new Response(createErrorHtml(404), {
@@ -56,13 +108,19 @@ export async function createRender({
       });
     }
 
-    const renderMode = getRenderMode(
+    const renderMode = await getRenderMode(
       req,
       metaName || 'modern-js',
       routeInfo.isSSR,
       forceCSR,
       nodeReq,
+      onFallback,
     );
+
+    const onError = async (e: unknown) => {
+      onErrorFn(logger, ErrorDigest.ERENDER, e as string | Error, req);
+      await onFallback?.('error', e);
+    };
 
     const renderOptions = {
       pwd,
@@ -75,8 +133,10 @@ export async function createRender({
       nodeReq,
       reporter,
       serverRoutes: routes,
+      params,
       locals,
       serverManifest,
+      metrics,
     };
 
     switch (renderMode) {
@@ -84,13 +144,12 @@ export async function createRender({
         // eslint-disable-next-line no-case-declarations
         let response = await dataHandler(req, renderOptions);
         if (!response) {
-          response = await renderHandler(req, renderOptions, 'ssr');
+          response = await renderHandler(req, renderOptions, 'ssr', onError);
         }
-
         return response;
       case 'ssr':
       case 'csr':
-        return renderHandler(req, renderOptions, renderMode);
+        return renderHandler(req, renderOptions, renderMode, onError);
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
@@ -101,45 +160,51 @@ async function renderHandler(
   request: Request,
   options: SSRRenderOptions,
   mode: 'ssr' | 'csr',
+  onError: (e: unknown) => Promise<void>,
 ) {
   // inject server.baseUrl message
   const serverData = {
     router: {
       baseUrl: options.routeInfo.urlPath,
-      params: {} as Record<string, any>,
+      params: options.params,
     },
   };
 
-  const response = await (mode === 'ssr'
-    ? ssrRender(request, options)
-    : csrRender(options.html));
+  let response: Response;
 
-  return transformResponse(response, injectServerData(serverData));
-}
-
-function matchRoute(
-  req: Request,
-  routes: ServerRoute[],
-): ServerRoute | undefined {
-  const sorted = routes.sort(sortRoutes);
-  for (const route of sorted) {
-    const pathname = getPathname(req);
-
-    if (pathname.startsWith(route.urlPath)) {
-      return route;
+  if (mode === 'ssr') {
+    try {
+      response = await ssrRender(request, options);
+    } catch (e) {
+      await onError(e);
+      response = csrRender(options.html);
     }
+  } else {
+    response = csrRender(options.html);
   }
 
-  return undefined;
+  const newRes = transformResponse(response, injectServerData(serverData));
+
+  const { routeInfo } = options;
+  applyExtendHeaders(newRes, routeInfo);
+
+  return newRes;
+
+  function applyExtendHeaders(r: Response, route: ServerRoute) {
+    Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+      r.headers.set(k, v as string);
+    });
+  }
 }
 
-function getRenderMode(
+async function getRenderMode(
   req: Request,
   framework: string,
   isSSR?: boolean,
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
-): 'ssr' | 'csr' | 'data' {
+  onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
+): Promise<'ssr' | 'csr' | 'data'> {
   const query = parseQuery(req);
 
   const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
@@ -154,6 +219,11 @@ function getRenderMode(
         req.headers.get(fallbackHeader) ||
         nodeReq?.headers[fallbackHeader])
     ) {
+      if (query.csr) {
+        await onFallback?.('query');
+      } else {
+        await onFallback?.('header');
+      }
       return 'csr';
     }
     return 'ssr';

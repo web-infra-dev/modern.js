@@ -1,5 +1,25 @@
 # @modern-js/module-tools-docs
 
+## 2.49.3
+
+### Patch Changes
+
+- b1db211: docs: update buildConfig in plugin-vue docs
+
+## 2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- bfba084: docs: bump Rspress v1.18.2 and remove dividers
+- 4d5d222: docs(module-doc): align `define` description to actual behavior
+  docs(module-doc): 对齐 `define` 的文档描述和实际行为一致
+
+## 2.49.0
+
+## 2.48.6
+
 ## 2.48.5
 
 ## 2.48.4

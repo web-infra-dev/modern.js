@@ -30,7 +30,10 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
 
   if (server?.ssrByEntries && typeof server.ssrByEntries === 'object') {
     for (const name of Object.keys(server.ssrByEntries)) {
-      if (!isStreaming(server.ssrByEntries[name])) {
+      if (
+        server.ssrByEntries[name] &&
+        !isStreaming(server.ssrByEntries[name])
+      ) {
         return true;
       }
     }
@@ -60,6 +63,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     return {
       config() {
         const appContext = api.useAppContext();
+
         pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'plugins',
@@ -88,15 +92,11 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             // so we only use useLoader in CSR on Rspack build temporarily.
             return (config: any) => {
               const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig)) {
+              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-                if (checkUseStringSSR(userConfig)) {
-                  config.plugins?.push(
-                    require.resolve('@loadable/babel-plugin'),
-                  );
-                }
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             };
           }

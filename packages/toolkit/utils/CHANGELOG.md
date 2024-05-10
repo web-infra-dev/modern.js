@@ -1,5 +1,20 @@
 # @modern-js/utils
 
+## 2.49.3
+
+## 2.49.2
+
+## 2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+## 2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

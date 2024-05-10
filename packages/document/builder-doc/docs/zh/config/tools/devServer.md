@@ -76,6 +76,10 @@ export default {
 
 #### client
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.client](https://modernjs.dev/configure/app/dev/client) 代替。
+:::
+
 - **类型：**
 
 ```ts

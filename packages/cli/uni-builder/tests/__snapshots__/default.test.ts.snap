@@ -13,6 +13,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -51,6 +54,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -108,7 +112,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -177,7 +180,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -619,7 +621,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -703,7 +705,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
@@ -788,7 +789,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
@@ -963,6 +963,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -1066,11 +1067,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
-  "rsbuild:network-performance",
-  "rsbuild:preload-prefetch",
+  "rsbuild:resource-hints",
   "rsbuild:performance",
   "rsbuild:server",
   "rsbuild:module-federation",
+  "rsbuild:manifest",
   "rsbuild:rspack-profile",
   "uni-builder:split-chunks",
   "uni-builder:global-vars",
@@ -1103,6 +1104,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1141,6 +1145,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -1198,7 +1203,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1267,7 +1271,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1709,7 +1712,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -1793,7 +1796,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
@@ -1878,7 +1880,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
@@ -2124,7 +2125,20 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -2148,18 +2162,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
-    },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
     },
     RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
@@ -2231,6 +2233,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2259,6 +2264,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
@@ -2287,7 +2293,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.5",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2414,7 +2420,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.5",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2606,6 +2612,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": true,
             },
@@ -2666,6 +2673,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": true,
             },
@@ -2740,6 +2748,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": true,
             },
@@ -2801,7 +2810,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -2857,7 +2866,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.5",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -2985,7 +2994,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.5",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3214,6 +3223,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -3338,6 +3348,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "ignoreWarnings": [
+    /Conflicting order/,
+  ],
   "infrastructureLogging": {
     "level": "error",
   },
@@ -3366,6 +3379,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
@@ -3394,7 +3408,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.5",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3521,7 +3535,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.4",
+                    "version": "7.24.5",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -3719,6 +3733,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": false,
             },
@@ -3779,6 +3794,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": false,
             },
@@ -3853,6 +3869,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": false,
             },
@@ -3914,7 +3931,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/rspack/transformLoader",
             "options": {
-              "id": "rsbuild-transform-0",
+              "id": "rsbuild-transform-1",
             },
           },
         ],
@@ -3970,7 +3987,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.5",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -4113,7 +4130,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.4",
+                        "version": "7.24.5",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
@@ -4413,7 +4430,20 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -4439,18 +4469,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-    },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
     },
     RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {

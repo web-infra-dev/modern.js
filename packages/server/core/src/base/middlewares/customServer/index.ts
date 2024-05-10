@@ -107,6 +107,14 @@ export class CustomServer {
         return undefined;
       }
 
+      // TODO: fix by hono
+      // c.res must sync with c.#status
+      // but hono not do it,
+      // so we sync it manually
+      if (c.res) {
+        c.status(c.res.status);
+      }
+
       if (routeInfo.isStream) {
         // run afterStreamingRender hook
         const afterStreamingRenderContext = createAfterStreamingRenderContext(

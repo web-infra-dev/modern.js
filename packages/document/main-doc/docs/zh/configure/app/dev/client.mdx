@@ -1,0 +1,42 @@
+---
+sidebar_label: client
+---
+
+# dev.client
+
+配置 Modern.js 在开发过程中注入的 client 代码，可以用于设置热更新对应的 WebSocket URL。
+
+- **类型：**
+
+```ts
+type Client = {
+  /** 指定 WebSocket 请求的协议名称 */
+  protocol?: 'ws' | 'wss';
+  /** 指定 WebSocket 请求的路径 */
+  path?: string;
+  /** 指定 WebSocket 请求的端口号 */
+  port?: string;
+  /** 指定 WebSocket 请求的 host */
+  host?: string;
+  /**
+   * 当出现编译错误时，在浏览器中显示遮盖
+   * 该功能需要当前浏览器版本支持 [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+   */
+  overlay?: boolean;
+};
+```
+
+- **默认值：**
+
+```js
+const defaultConfig = {
+  path: '/webpack-hmr',
+  // 默认为开发服务器的端口号
+  port: '',
+  host: location.hostname,
+  protocol: location.protocol === 'https:' ? 'wss' : 'ws',
+  overlay: true,
+};
+```
+
+详细用法可参考 [Rsbuild - dev.client](https://rsbuild.dev/zh/config/dev/client)。

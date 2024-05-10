@@ -1,50 +1,63 @@
 import path from 'path';
-import type { ServerRoute } from '@modern-js/types';
+import type { ServerRoute, Logger } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
+  fs,
 } from '@modern-js/utils';
 import { Middleware, ServerEnv, ServerManifest } from '../../../../core/server';
 
-async function getServerManifest(
+const dynamicImport = (filePath: string) => {
+  try {
+    const module = require(filePath);
+    return Promise.resolve(module);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const loadBundle = async (filepath: string, logger: Logger) => {
+  if (!(await fs.pathExists(filepath))) {
+    return undefined;
+  }
+  return dynamicImport(filepath).catch(e => {
+    logger.error(
+      `Load ${filepath} bundle failed, error = %s`,
+      e instanceof Error ? e.stack || e.message : e,
+    );
+    return undefined;
+  });
+};
+
+export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
+  logger: Logger,
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
 
-  await Promise.all([
-    routes.map(async route => {
-      const entryName = route.entryName || MAIN_ENTRY_NAME;
+  await Promise.all(
+    routes
+      .filter(route => Boolean(route.bundle))
+      .map(async route => {
+        const entryName = route.entryName || MAIN_ENTRY_NAME;
+        const renderBundlePath = path.join(pwd, route.bundle || '');
+        const loaderBundlePath = path.join(
+          pwd,
+          SERVER_BUNDLE_DIRECTORY,
+          `${entryName}-server-loaders.js`,
+        );
 
-      const loaderBundlePath = path.join(
-        pwd,
-        SERVER_BUNDLE_DIRECTORY,
-        `${entryName}-server-loaders.js`,
-      );
+        const renderBundle = await loadBundle(renderBundlePath, logger);
+        const loaderBundle = await loadBundle(loaderBundlePath, logger);
 
-      const renderBundlePath = path.join(pwd, route.bundle || '');
-
-      await Promise.allSettled([
-        import(loaderBundlePath),
-        import(renderBundlePath),
-      ]).then(results => {
-        const { status: loaderStatus } = results[0];
-
-        if (loaderStatus === 'fulfilled') {
-          loaderBundles[entryName] = results[0].value;
-        }
-
-        const { status: renderStatus } = results[1];
-
-        if (renderStatus === 'fulfilled') {
-          renderBundles[entryName] = results[1].value;
-        }
-      });
-    }),
-  ]);
+        renderBundle && (renderBundles[entryName] = renderBundle);
+        loaderBundle && (loaderBundles[entryName] = loaderBundle);
+      }),
+  );
 
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
@@ -68,7 +81,8 @@ export function injectServerManifest(
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
-      const serverManifest = await getServerManifest(pwd, routes);
+      const logger = c.get('logger');
+      const serverManifest = await getServerManifest(pwd, routes, logger);
 
       c.set('serverManifest', serverManifest);
     }

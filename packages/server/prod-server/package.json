@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.5",
+  "version": "2.49.3",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -44,13 +44,13 @@
   "dependencies": {
     "@modern-js/server-core": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/eslint-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@types/merge-deep": "^3.0.0",
     "@types/node": "~16.11.7",
     "husky": "^8.0.0",

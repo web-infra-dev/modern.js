@@ -28,6 +28,10 @@ export function createPublicMiddleware({
           c.header('Content-Type', mimeType);
         }
 
+        Object.entries(route.responseHeaders || {}).forEach(([k, v]) => {
+          c.header(k, v as string);
+        });
+
         return c.body(data, 200);
       }
     }

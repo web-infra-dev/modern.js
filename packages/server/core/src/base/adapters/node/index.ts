@@ -13,4 +13,5 @@ export {
   injectServerManifest,
   injectTemplates,
   getHtmlTemplates,
+  getServerManifest,
 } from './middlewares';

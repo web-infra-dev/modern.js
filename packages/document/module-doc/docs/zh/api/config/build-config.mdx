@@ -369,13 +369,19 @@ type Options = {
 - 类型： `Record<string, string>`
 - 默认值： `{}`
 
-由于 `define` 功能是由全局文本替换实现的，所以需要保证全局变量值为字符串，更为安全的做法是将每个全局变量的值转化为字符串，使用 `JSON.stringify` 进行转换，如下所示：
+由于 `define` 功能是由全局文本替换实现的，所以需要保证全局变量值为字符串，更为安全的做法是将每个全局变量的值转化为字符串，如下所示：
+
+:::info
+框架内部会自动进行 JSON 序列化处理，因此不需要手动执行序列化。
+
+如果不需要自动序列化，可以通过配置 [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) 定义 [`alias`](https://esbuild.github.io/api/#alias) 来实现。
+:::
 
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     define: {
-      VERSION: JSON.stringify(require('./package.json').version || '0.0.0'),
+      VERSION: require('./package.json').version || '0.0.0',
     },
   },
 });
@@ -396,7 +402,7 @@ import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
     define: {
-      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0'),
+      'process.env.VERSION': process.env.VERSION || '0.0.0',
     },
   },
 });

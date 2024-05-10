@@ -5,7 +5,7 @@ import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
 import { CustomServer } from '../customServer';
-import { createRender } from './render';
+import { OnFallback, createRender } from './render';
 import type * as ssrCacheModule from './ssrCache';
 
 function createRenderHandler(
@@ -17,6 +17,7 @@ function createRenderHandler(
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
     const locals = c.get('locals');
+    const metrics = c.get('metrics');
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
@@ -26,6 +27,7 @@ function createRenderHandler(
       nodeReq,
       reporter,
       templates,
+      metrics,
       serverManifest,
       locals,
     });
@@ -42,11 +44,22 @@ export type BindRenderHandleOptions = {
 
 export async function getRenderHandler(
   options: ServerBaseOptions & BindRenderHandleOptions,
+  serverBase?: ServerBase,
 ) {
   const { routes, pwd, config } = options;
+
+  const onFallback: OnFallback = async (reason, utils, error) => {
+    await serverBase?.runner.fallback({
+      reason,
+      error,
+      ...utils,
+    });
+  };
+
   if (routes && routes.length > 0) {
     const ssrConfig = config.server?.ssr;
     const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+
     const render = createRender({
       routes,
       pwd,
@@ -54,6 +67,7 @@ export async function getRenderHandler(
       metaName: options.metaName || 'modern-js',
       forceCSR,
       nonce: options.config.security?.nonce,
+      onFallback,
     });
     return render;
   }
@@ -90,7 +104,7 @@ export async function bindRenderHandler(
       // ensure route.urlPath.length diminishing
       .sort(sortRoutes);
 
-    const render = await getRenderHandler(options);
+    const render = await getRenderHandler(options, server);
     for (const route of pageRoutes) {
       const { urlPath: originUrlPath, entryName } = route;
       const urlPath = originUrlPath.endsWith('/')

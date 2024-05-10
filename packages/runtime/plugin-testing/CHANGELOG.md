@@ -1,5 +1,80 @@
 # @modern-js/plugin-testing
 
+## 2.49.3
+
+### Patch Changes
+
+- Updated dependencies [644a226]
+- Updated dependencies [6d980e4]
+- Updated dependencies [b57ca76]
+  - @modern-js/runtime@2.49.3
+  - @modern-js/prod-server@2.49.3
+  - @modern-js/bff-core@2.49.3
+  - @modern-js/babel-compiler@2.49.3
+  - @modern-js/plugin@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/runtime@2.49.2
+- @modern-js/bff-core@2.49.2
+- @modern-js/prod-server@2.49.2
+- @modern-js/babel-compiler@2.49.2
+- @modern-js/plugin@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- Updated dependencies [0766ae2]
+- Updated dependencies [b45da78]
+- Updated dependencies [06bff92]
+  - @modern-js/prod-server@2.49.1
+  - @modern-js/runtime@2.49.1
+  - @modern-js/bff-core@2.49.1
+  - @modern-js/babel-compiler@2.49.1
+  - @modern-js/plugin@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [fa7949a]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [805e021]
+  - @modern-js/prod-server@2.49.0
+  - @modern-js/runtime@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/bff-core@2.49.0
+  - @modern-js/babel-compiler@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/runtime@2.48.6
+- @modern-js/bff-core@2.48.6
+- @modern-js/prod-server@2.48.6
+- @modern-js/babel-compiler@2.48.6
+- @modern-js/plugin@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes

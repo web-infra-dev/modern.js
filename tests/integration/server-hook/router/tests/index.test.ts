@@ -19,7 +19,11 @@ describe('test status code page', () => {
     port = await getPort();
 
     app = await launchApp(appPath, port);
-    browser = await puppeteer.launch(launchOptions as any);
+
+    browser = await puppeteer.launch({
+      ...launchOptions,
+      ignoreHTTPSErrors: true, // https://github.com/puppeteer/puppeteer/issues/1137
+    } as any);
     page = await browser.newPage();
   });
 
@@ -38,7 +42,9 @@ describe('test status code page', () => {
   });
 
   test('should router redirect correctly ', async () => {
-    const response = await page.goto(`http://localhost:${port}/redirect`);
+    const response = await page.goto(`http://localhost:${port}/redirect`, {
+      waitUntil: 'networkidle0',
+    });
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');
   });

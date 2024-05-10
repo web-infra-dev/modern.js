@@ -1,5 +1,56 @@
 # @modern-js/plugin-devtools
 
+## 2.49.3
+
+### Patch Changes
+
+- Updated dependencies [644a226]
+- Updated dependencies [6d980e4]
+- Updated dependencies [b57ca76]
+  - @modern-js/runtime@2.49.3
+  - @modern-js/devtools-client@2.49.3
+  - @modern-js/devtools-kit@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/devtools-kit@2.49.2
+- @modern-js/runtime@2.49.2
+- @modern-js/devtools-client@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- Updated dependencies [b45da78]
+- Updated dependencies [06bff92]
+  - @modern-js/runtime@2.49.1
+  - @modern-js/devtools-kit@2.49.1
+  - @modern-js/devtools-client@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/runtime@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/devtools-kit@2.49.0
+  - @modern-js/devtools-client@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/devtools-kit@2.48.6
+- @modern-js/devtools-client@2.48.6
+- @modern-js/runtime@2.48.6
+- @modern-js/utils@2.48.6
+
 ## 2.48.5
 
 ### Patch Changes
