@@ -95,8 +95,8 @@ export const makeRenderFunction = (code: string) => {
       .replace(/MOUNT_ID/g, 'mountNode')
       .replace(`createApp({`, 'createApp({ props,')
       .replace(
-        `bootstrap(AppWrapper, mountNode, root`,
-        'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
+        `bootstrap(AppWrapper, mountNode, root, ReactDOM)`,
+        'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null, ReactDOM), props',
       )
       .replace(
         `customBootstrap(AppWrapper`,
