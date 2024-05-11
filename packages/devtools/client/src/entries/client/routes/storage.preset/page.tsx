@@ -1,35 +1,27 @@
 /* eslint-disable max-lines */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  Badge,
-  Box,
-  Flex,
-  IconButton,
-  Popover,
-  Text,
-  Tooltip,
-} from '@radix-ui/themes';
-import _ from 'lodash';
-import {
-  HiPlus,
-  HiMiniFlag,
-  HiMiniClipboard,
-  HiMiniFolderOpen,
-  HiMiniFire,
-} from 'react-icons/hi2';
 import {
   StoragePresetConfig,
   StoragePresetContext,
 } from '@modern-js/devtools-kit/runtime';
-import { FC, useState } from 'react';
+import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
+import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import clsx from 'clsx';
-import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import _ from 'lodash';
+import { FC, useState } from 'react';
+import {
+  HiMiniClipboard,
+  HiMiniClipboardDocumentList,
+  HiMiniFire,
+  HiMiniFlag,
+  HiMiniFolderOpen,
+  HiPlus,
+} from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
 import { $mountPoint, $server, $serverExported } from '../state';
 import styles from './page.module.scss';
-import { useThrowable } from '@/utils';
 import { useToast } from '@/components/Toast';
+import { useThrowable } from '@/utils';
 
 const unwindRecord = <T extends string | void>(
   record: Record<string, string>,
@@ -204,6 +196,7 @@ const Page: FC = () => {
 
   const applyActionToast = useToast({ content: '🔥 Fired' });
   const copyActionToast = useToast({ content: '📋 Copied' });
+  const pasteActionToast = useToast({ content: '📋 Pasted' });
 
   const handleApplyAction = async () => {
     if (!selected) return;
@@ -232,8 +225,16 @@ const Page: FC = () => {
       navigator.clipboard.writeText(uri);
       copyActionToast.open();
     } else {
-      console.error('Failed to copy preset as data URI');
+      console.error('Failed to copy preset as data URL');
     }
+  };
+  const handlePasteAction = async () => {
+    if (!selected) return;
+    await server.remote.pasteStoragePreset({
+      filename: selected.filename,
+      name: selected.name,
+    });
+    pasteActionToast.open();
   };
 
   return (
@@ -294,6 +295,7 @@ const Page: FC = () => {
               px="2"
               justify="end"
               onCopyAction={handleCopyAction}
+              onPasteAction={handlePasteAction}
               onOpenAction={() => server.remote.open(selected.filename)}
               onApplyAction={handleApplyAction}
             />
@@ -304,6 +306,7 @@ const Page: FC = () => {
         </Box>
         {applyActionToast.element}
         {copyActionToast.element}
+        {pasteActionToast.element}
       </Flex>
     </Flex>
   );
@@ -365,22 +368,30 @@ const PresetDetails: FC<PresetDetailsProps> = props => {
 
 interface PresetToolbarProps extends FlexProps {
   onCopyAction?: () => void;
+  onPasteAction?: () => void;
   onOpenAction?: () => void;
   onApplyAction?: () => void;
 }
 
 const PresetToolbar: FC<PresetToolbarProps> = props => {
-  const { onCopyAction, onOpenAction, onApplyAction, ...rest } = props;
+  const { onCopyAction, onOpenAction, onApplyAction, onPasteAction, ...rest } =
+    props;
+
   return (
     <Flex position="relative" gap="3" height="5" align="center" {...rest}>
+      <Tooltip content="Copy as Data URL">
+        <IconButton onClick={onCopyAction} variant="ghost" color="gray">
+          <HiMiniClipboard />
+        </IconButton>
+      </Tooltip>
+      <Tooltip content="Paste from Data URL">
+        <IconButton onClick={onPasteAction} variant="ghost" color="gray">
+          <HiMiniClipboardDocumentList />
+        </IconButton>
+      </Tooltip>
       <Tooltip content="Open File">
         <IconButton onClick={onOpenAction} variant="ghost" color="gray">
           <HiMiniFolderOpen />
-        </IconButton>
-      </Tooltip>
-      <Tooltip content="Copy as Data URI">
-        <IconButton onClick={onCopyAction} variant="ghost" color="gray">
-          <HiMiniClipboard />
         </IconButton>
       </Tooltip>
       <Tooltip content="Apply Preset">

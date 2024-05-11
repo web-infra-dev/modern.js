@@ -1,4 +1,5 @@
 import path from 'path';
+import { Buffer } from 'buffer';
 import {
   findManifest,
   parseManifest,
@@ -10,6 +11,7 @@ import {
   replacer,
   reviver,
   DevtoolsContext,
+  StoragePresetConfig,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
@@ -163,6 +165,39 @@ export const setupClientConnection = async (
       });
       await fs.outputJSON(filename, config, { spaces: 2 });
       return { filename, name };
+    },
+    async pasteStoragePreset(target) {
+      const { default: clipboardy } = await import('clipboardy');
+      const raw = clipboardy.readSync();
+      const HEAD = `data:application/json;base64,`;
+      if (!raw.startsWith(HEAD)) {
+        throw new Error('Failed to parse data URL');
+      }
+      const encoded = raw.slice(HEAD.length);
+      const preset: StoragePresetConfig = JSON.parse(
+        Buffer.from(encoded, 'base64').toString('utf-8'),
+      );
+      if (typeof preset !== 'object' || preset === null) {
+        throw new Error('Failed to parse data URL');
+      }
+      if (typeof preset.name !== 'string') {
+        throw new Error('Failed to parse data URL');
+      }
+      const appCtx = api.useAppContext();
+      const filename = path.resolve(appCtx.appDirectory, target.filename);
+      const config: DevtoolsConfig = {};
+      if (await fs.pathExists(filename)) {
+        Object.assign(config, await fs.readJSON(filename));
+      }
+      config.storagePresets ||= [];
+      const diff = _.pick(preset, ['cookie', 'localStorage', 'sessionStorage']);
+      const matched = config.storagePresets.find(p => p.name === target.name);
+      if (matched) {
+        _.merge(matched, diff);
+      } else {
+        config.storagePresets.push(preset);
+      }
+      await fs.outputJSON(filename, config, { spaces: 2 });
     },
     async open(filename) {
       const name = path.resolve(api.useAppContext().appDirectory, filename);

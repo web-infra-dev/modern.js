@@ -78,5 +78,9 @@ export interface ServerFunctions {
     filename: string;
     name: string;
   }>;
+  pasteStoragePreset: (target: {
+    filename: string;
+    name: string;
+  }) => Promise<void>;
   open: (filename: string) => Promise<void>;
 }
