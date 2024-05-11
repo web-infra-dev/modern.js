@@ -14,11 +14,18 @@ function time(): UnstableMiddleware {
 }
 
 // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url-search-params
-function parseQuery(req: Request): URLSearchParams {
+function parseQuery(request: Request): URLSearchParams {
   // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
-  const url = new URL(req.url);
+  const url = new URL(request.url);
 
   return url.searchParams;
+}
+
+function getPathname(request: Request): string {
+  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+  const url = new URL(request.url);
+
+  return url.pathname;
 }
 
 function auth(): UnstableMiddleware<Var> {
@@ -35,6 +42,11 @@ function auth(): UnstableMiddleware<Var> {
 
   // eslint-disable-next-line consistent-return
   return async (c, next) => {
+    const pathname = getPathname(c.req);
+    if (pathname.startsWith('/login')) {
+      return next();
+    }
+
     const user = await getUserInfo(c.req);
 
     if (!user) {

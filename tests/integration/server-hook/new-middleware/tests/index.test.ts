@@ -21,7 +21,7 @@ describe('test new middleware run correctly', () => {
     }
   });
 
-  test('should get request info correctly', async () => {
+  test('should request "/" correctly', async () => {
     const url = `http://localhost:${port}`;
     const res = await axios.get(url);
 
@@ -32,14 +32,20 @@ describe('test new middleware run correctly', () => {
     expect(headers).toHaveProperty('server-timing');
 
     expect(body).toMatch(/lang="en"/);
+
+    expect(headers).toHaveProperty('x-custom-value', 'modern');
   });
 
   test('should redirect corretly', async () => {
     const url = `http://localhost:${port}/?unlogin=1`;
     const res = await axios.get(url);
 
-    const { data: body } = res;
+    const { data: body, headers } = res;
 
     expect(body).toMatch('Login');
+
+    expect(body).toMatch(/lang="en"/);
+
+    expect(headers).toHaveProperty('x-custom-value', 'modern');
   });
 });
