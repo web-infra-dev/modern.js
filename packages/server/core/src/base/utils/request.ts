@@ -8,7 +8,7 @@ export function parseQuery(req: Request): Query {
   const q = url.split('?')[1];
 
   if (q) {
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url-search-params
+    // eslint-disable-next-line node/prefer-global/url-search-params
     const search = new URLSearchParams(q);
     search.forEach((v, k) => {
       query[k] = v;

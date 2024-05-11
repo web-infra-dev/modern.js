@@ -3,17 +3,18 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
-import { parseQuery, getPathname } from '@modern-js/runtime-utils/request';
-import type { FallbackReason } from '../../../core/plugin';
-import { REPLACE_REG } from '../../../base/constants';
-import { Render } from '../../../core/render';
 import {
+  parseQuery,
+  getPathname,
   createErrorHtml,
   sortRoutes,
   transformResponse,
   onError as onErrorFn,
   ErrorDigest,
 } from '../../utils';
+import type { FallbackReason } from '../../../core/plugin';
+import { REPLACE_REG } from '../../../base/constants';
+import { Render } from '../../../core/render';
 import { dataHandler } from './dataHandler';
 import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
 

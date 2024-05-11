@@ -4,7 +4,7 @@ import { launchApp, getPort, killApp } from '../../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
 
-describe('test status code page', () => {
+describe('test new middleware run correctly', () => {
   let app: any;
   let port: number;
   beforeAll(async () => {

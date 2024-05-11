@@ -1,4 +1,4 @@
-import { UnstableMiddleware, parseQuery } from '@modern-js/runtime/server';
+import { UnstableMiddleware } from '@modern-js/runtime/server';
 import { Var } from '../shared';
 
 function time(): UnstableMiddleware {
@@ -13,11 +13,19 @@ function time(): UnstableMiddleware {
   };
 }
 
+// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url-search-params
+function parseQuery(req: Request): URLSearchParams {
+  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+  const url = new URL(req.url);
+
+  return url.searchParams;
+}
+
 function auth(): UnstableMiddleware<Var> {
   function getUserInfo(req: Request) {
     const query = parseQuery(req);
 
-    if (query.unlogin) {
+    if (query.get('unlogin')) {
       return null;
     }
     return {

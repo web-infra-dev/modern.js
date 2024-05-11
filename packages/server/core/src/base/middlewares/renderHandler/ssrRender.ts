@@ -6,12 +6,12 @@ import {
 } from '@modern-js/utils/universal/constants';
 import * as isbot from 'isbot';
 import {
+  getRuntimeEnv,
   parseHeaders,
   parseQuery,
   getHost,
   getPathname,
-} from '@modern-js/runtime-utils/request';
-import { getRuntimeEnv } from '../../utils';
+} from '../../utils';
 import {
   SSRServerContext,
   ServerManifest,

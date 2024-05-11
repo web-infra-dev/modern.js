@@ -8,8 +8,7 @@ import type {
   Container,
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
-import { getPathname } from '@modern-js/runtime-utils/request';
-import { createTransformStream } from '../../utils';
+import { createTransformStream, getPathname } from '../../utils';
 import type { SSRServerContext, ServerRender } from '../../../core/server';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
 
