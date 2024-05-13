@@ -2,5 +2,5 @@
 '@modern-js/server-core': patch
 ---
 
-fix: Compatible with the http-compression to ensure res.end is called
-fix: 兼容 http-compression，确保 res.end 被调用后才执行后面的代码
+fix: Compatible with http-compression, make sure res.end is called before executing the subsequent code
+fix: 兼容 http-compression，确保执行后续代码前，res.end 先被调用
