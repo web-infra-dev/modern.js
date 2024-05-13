@@ -20,20 +20,29 @@ export async function writeReadableStreamToWritable(
   const flushable = writable as { flush?: Function };
 
   try {
-    while (true) {
-      const { done, value } = await reader.read();
+    await new Promise<void>((resolve, reject) => {
+      writable.on('finish', resolve);
+      writable.on('error', reject);
 
-      if (done) {
-        writable.end();
-        break;
-      }
+      const writeAndFlush = async () => {
+        while (true) {
+          const { done, value } = await reader.read();
 
-      writable.write(value);
-      if (typeof flushable.flush === 'function') {
-        flushable.flush();
-      }
-    }
-  } catch (error: unknown) {
+          if (done) {
+            writable.end();
+            break;
+          }
+
+          writable.write(value);
+          if (typeof flushable.flush === 'function') {
+            flushable.flush();
+          }
+        }
+      };
+
+      writeAndFlush().catch(reject);
+    });
+  } catch (error) {
     writable.destroy(error as Error);
     throw error;
   }
