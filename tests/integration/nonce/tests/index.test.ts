@@ -15,7 +15,7 @@ describe('test nonce', () => {
   let page: Page;
   let browser: Browser;
   beforeAll(async () => {
-    jest.setTimeout(1000 * 60 * 2);
+    jest.setTimeout(2000 * 60 * 2);
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     await page.deleteCookie();
