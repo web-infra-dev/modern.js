@@ -14,7 +14,7 @@ export type Middleware = (ctx: MiddlewareContext, next: NextFunction) => void;
 export type ServerMod = {
   default: (args: any) => void;
   middleware: Middleware[];
-  unstableMiddleware: any | any[];
+  unstableMiddleware: any[];
   afterMatch: Hook;
   afterRender: Hook;
 };
