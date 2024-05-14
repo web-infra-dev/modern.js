@@ -72,6 +72,7 @@ export const devtoolsPlugin = (
           });
           const refreshStoragePreset = async () => {
             const configs = await loadConfigFiles(appCtx.appDirectory);
+            if (!configs) return;
             ctx.storagePresets = [];
             updateContext(ctx, ...configs);
           };

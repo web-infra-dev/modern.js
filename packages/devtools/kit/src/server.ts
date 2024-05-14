@@ -15,7 +15,11 @@ import type {
   PageRoute,
 } from '@modern-js/types';
 import type { Manifest } from '@rsdoctor/types';
-import type { StoragePresetContext } from './storage-preset';
+import type {
+  StoragePresetConfig,
+  StoragePresetContext,
+  StoragePresetWithIdent,
+} from './storage-preset';
 import type { ServerExportedState } from './state';
 import type { ClientDefinition } from './client';
 
@@ -64,7 +68,7 @@ export interface DoctorManifestOverview {
 }
 
 export interface DevtoolsConfig {
-  storagePresets?: StoragePresetContext[];
+  storagePresets?: StoragePresetConfig[];
 }
 
 export interface ResolvedDevtoolsConfig {
@@ -74,13 +78,10 @@ export interface ResolvedDevtoolsConfig {
 export interface ServerFunctions {
   echo: (content: string) => string;
   pullExportedState: () => Promise<ServerExportedState>;
-  createTemporaryStoragePreset: () => Promise<{
-    filename: string;
-    name: string;
-  }>;
+  createTemporaryStoragePreset: () => Promise<StoragePresetWithIdent>;
   pasteStoragePreset: (target: {
     filename: string;
-    name: string;
+    id: string;
   }) => Promise<void>;
   open: (filename: string) => Promise<void>;
 }

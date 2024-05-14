@@ -11,7 +11,7 @@ import {
   replacer,
   reviver,
   DevtoolsContext,
-  StoragePresetConfig,
+  StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
@@ -151,20 +151,23 @@ export const setupClientConnection = async (
       const appCtx = api.useAppContext();
       const basename = `${ctx.def.name.shortName}.runtime.json`;
       const filename = path.resolve(appCtx.appDirectory, basename);
-      const name = `New Preset ${nanoid(5)}`;
+      const id = nanoid();
+      const name = `New Preset ${id.slice(0, 6)}`;
       const config: DevtoolsConfig = {};
       if (await fs.pathExists(filename)) {
         Object.assign(config, await fs.readJSON(filename));
       }
-      config.storagePresets ||= [];
-      config.storagePresets.push({
+      const newPreset: StoragePresetWithIdent = {
         name,
+        id,
         cookie: {},
         localStorage: {},
         sessionStorage: {},
-      });
+      };
+      config.storagePresets ||= [];
+      config.storagePresets.push(newPreset);
       await fs.outputJSON(filename, config, { spaces: 2 });
-      return { filename, name };
+      return newPreset;
     },
     async pasteStoragePreset(target) {
       const { default: clipboardy } = await import('clipboardy');
@@ -174,7 +177,7 @@ export const setupClientConnection = async (
         throw new Error('Failed to parse data URL');
       }
       const encoded = raw.slice(HEAD.length);
-      const preset: StoragePresetConfig = JSON.parse(
+      const preset: StoragePresetWithIdent = JSON.parse(
         Buffer.from(encoded, 'base64').toString('utf-8'),
       );
       if (typeof preset !== 'object' || preset === null) {
@@ -191,7 +194,7 @@ export const setupClientConnection = async (
       }
       config.storagePresets ||= [];
       const diff = _.pick(preset, ['cookie', 'localStorage', 'sessionStorage']);
-      const matched = config.storagePresets.find(p => p.name === target.name);
+      const matched = _.find(config.storagePresets, { id: target.id });
       if (matched) {
         _.merge(matched, diff);
       } else {

@@ -1,8 +1,5 @@
 /* eslint-disable max-lines */
-import {
-  StoragePresetConfig,
-  StoragePresetContext,
-} from '@modern-js/devtools-kit/runtime';
+import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
 import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
@@ -23,15 +20,10 @@ import styles from './page.module.scss';
 import { useToast } from '@/components/Toast';
 import { useThrowable } from '@/utils';
 
-const unwindRecord = <T extends string | void>(
-  record: Record<string, string>,
-  type: T,
-) =>
-  _.map(record, (value, key) => {
-    const ret = { key, value } as { key: string; value: string; type: T };
-    if (type) {
-      ret.type = type;
-    }
+const unwindRecord = (preset: StoragePresetWithIdent, type: StorageType) =>
+  _.map(preset[type], (value, key) => {
+    const id = [preset.id, type, key].join('//');
+    const ret: UnwindStorageRecord = { key, value, type, id };
     return ret;
   });
 
@@ -45,32 +37,25 @@ const STORAGE_TYPE_PALETTE = {
 type StorageType = (typeof STORAGE_TYPES)[number];
 
 interface UnwindStorageRecord {
+  id: string;
   key: string;
   value: string;
   type: StorageType;
 }
 
-const unwindPreset = (preset: StoragePresetContext) => {
+const unwindPreset = (preset: StoragePresetWithIdent) => {
   const ret: UnwindStorageRecord[] = [];
   for (const type of STORAGE_TYPES) {
-    const records = preset[type];
-    if (records) {
-      ret.push(...unwindRecord(records, type));
-    }
+    ret.push(...unwindRecord(preset, type));
   }
   return ret;
 };
 
 interface UnwindPreset {
+  id: string;
   name: string;
   filename: string;
   items: UnwindStorageRecord[];
-}
-
-interface SelectUnwindPreset {
-  name: string;
-  filename: string;
-  items?: UnwindStorageRecord[];
 }
 
 interface CardButtonProps extends FlexProps {
@@ -118,10 +103,7 @@ const PresetCard: FC<PresetCardProps> = props => {
         <Flex className={styles.previewBadgeList}>
           {preset.items.length === 0 && <Badge color="gray">Empty</Badge>}
           {preset.items.map(item => (
-            <Badge
-              key={`${item.type}//${item.key}`}
-              color={STORAGE_TYPE_PALETTE[item.type]}
-            >
+            <Badge key={item.id} color={STORAGE_TYPE_PALETTE[item.type]}>
               {item.key}: {item.value}
             </Badge>
           ))}
@@ -131,7 +113,7 @@ const PresetCard: FC<PresetCardProps> = props => {
   );
 };
 
-const applyPreset = async (preset: UnwindPreset | StoragePresetContext) => {
+const applyPreset = async (preset: UnwindPreset | StoragePresetWithIdent) => {
   const mountPoint = await $mountPoint;
   const storage: Record<StorageType, Record<string, string>> = {
     cookie: {},
@@ -173,6 +155,7 @@ const Page: FC = () => {
       .value(),
   };
   const unwindPresets: UnwindPreset[] = storagePresets.map(preset => ({
+    id: preset.id,
     name: preset.name,
     filename: preset.filename,
     items: _(unwindPreset(preset))
@@ -181,17 +164,12 @@ const Page: FC = () => {
       .value(),
   }));
 
-  const [select, setSelect] = useState<SelectUnwindPreset | null>();
-  const matchSelected = (preset: UnwindPreset) =>
-    Boolean(
-      select &&
-        preset.filename === select.filename &&
-        preset.name === select.name,
-    );
-  const selected = unwindPresets.find(preset => matchSelected(preset));
+  const [select, setSelect] = useState<string>();
+  const selected = _.find(unwindPresets, { id: select });
 
   const handleCreatePreset = async () => {
-    setSelect(await server.remote.createTemporaryStoragePreset());
+    const newPreset = await server.remote.createTemporaryStoragePreset();
+    setSelect(newPreset.id);
   };
 
   const applyActionToast = useToast({ content: '🔥 Fired' });
@@ -206,13 +184,15 @@ const Page: FC = () => {
 
   const handleCopyAction = async () => {
     if (!selected) return;
-    const preset: StoragePresetConfig = {
+    const preset: StoragePresetWithIdent = {
+      id: selected.id,
       name: selected.name,
+      cookie: {},
+      localStorage: {},
+      sessionStorage: {},
     };
     for (const { type, key, value } of selected.items) {
-      const group = preset[type] || {};
-      group[key] = value;
-      preset[type] = group;
+      preset[type]![key] = value;
     }
     const stringified = JSON.stringify(preset);
     const blob = new Blob([stringified], { type: 'application/json' });
@@ -230,10 +210,7 @@ const Page: FC = () => {
   };
   const handlePasteAction = async () => {
     if (!selected) return;
-    await server.remote.pasteStoragePreset({
-      filename: selected.filename,
-      name: selected.name,
-    });
+    await server.remote.pasteStoragePreset(selected);
     pasteActionToast.open();
   };
 
@@ -245,7 +222,7 @@ const Page: FC = () => {
           align="center"
           gap="1"
           selected={!select}
-          onClick={() => setSelect(null)}
+          onClick={() => setSelect(undefined)}
         >
           <Text size="1" weight="bold">
             Current Storage
@@ -258,9 +235,9 @@ const Page: FC = () => {
         <Flex p="2" direction="column" gap="2" className={styles.presetList}>
           {unwindPresets.map(preset => (
             <PresetCard
-              key={`${preset.name}@${preset.filename}`}
-              selected={matchSelected(preset)}
-              onClick={() => setSelect(preset)}
+              key={preset.id}
+              selected={select === preset.id}
+              onClick={() => setSelect(preset.id)}
               preset={preset}
             />
           ))}
@@ -330,7 +307,7 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
       <Flex width="100%" wrap="wrap" align="start" gap="2">
         {records.length === 0 && <Badge color="gray">Empty</Badge>}
         {records.map(record => (
-          <Badge key={`${record.type}//${record.key}`} color={color}>
+          <Badge key={record.id} color={color}>
             {record.key}: {record.value}
           </Badge>
         ))}
