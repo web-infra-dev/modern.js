@@ -15,8 +15,8 @@ type Body = ReadableStream | ArrayBuffer | string | null;
 export type UnstableMiddlewareContext<
   V extends Record<string, unknown> = Record<string, unknown>,
 > = {
-  req: Request;
-  res: Response;
+  request: Request;
+  response: Response;
   get: Get<V & RequestPayload>;
   set: Set<V & RequestPayload>;
   header: (name: string, value: string, options?: { append?: boolean }) => void;

@@ -9,7 +9,7 @@ function time(): UnstableMiddleware {
 
     const end = Date.now();
 
-    c.res.headers.set('server-timing', `render; dur=${end - start}`);
+    c.response.headers.set('server-timing', `render; dur=${end - start}`);
   };
 }
 
@@ -42,12 +42,12 @@ function auth(): UnstableMiddleware<Var> {
 
   // eslint-disable-next-line consistent-return
   return async (c, next) => {
-    const pathname = getPathname(c.req);
+    const pathname = getPathname(c.request);
     if (pathname.startsWith('/login')) {
       return next();
     }
 
-    const user = await getUserInfo(c.req);
+    const user = await getUserInfo(c.request);
 
     if (!user) {
       return c.redirect('/login');
@@ -69,7 +69,7 @@ function injectMessage(): UnstableMiddleware {
 
     const language = await getLangauge();
 
-    const response = c.res;
+    const { response } = c;
     const text = await response.text();
 
     const newText = text.replace('<html>', `<html lang="${language}">`);
@@ -77,7 +77,7 @@ function injectMessage(): UnstableMiddleware {
     const newheaders = response.headers;
     newheaders.set('x-custom-value', 'modern');
 
-    c.res = c.body(newText, {
+    c.response = c.body(newText, {
       status: response.status,
       headers: newheaders,
     });

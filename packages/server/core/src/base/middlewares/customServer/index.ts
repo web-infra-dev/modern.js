@@ -243,15 +243,15 @@ function createMiddlewareContextFromHono(
   const loaderContext = getLoaderCtx(c);
 
   return {
-    get req() {
+    get request() {
       return c.req.raw;
     },
 
-    get res() {
+    get response() {
       return c.res;
     },
 
-    set res(newRes) {
+    set response(newRes) {
       c.res = newRes;
     },
 
