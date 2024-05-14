@@ -32,7 +32,14 @@ function createRenderHandler(
       locals,
     });
 
-    return res;
+    const { body, status, headers } = res;
+
+    const headersData: Record<string, string> = {};
+    headers.forEach((v, k) => {
+      headersData[k] = v;
+    });
+
+    return c.body(body, status, headersData);
   };
 }
 
