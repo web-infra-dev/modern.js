@@ -15,7 +15,7 @@ describe('test nonce', () => {
   let page: Page;
   let browser: Browser;
   beforeAll(async () => {
-    jest.setTimeout(2000 * 60 * 2);
+    jest.setTimeout(1000 * 60 * 2);
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     await page.deleteCookie();
@@ -35,7 +35,7 @@ describe('test nonce', () => {
   test('should inject nonce correctly', async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    await page.goto(`https://localhost:${port}`);
+    await page.goto(`http://localhost:${port}`);
     const scriptArr = await page.$$eval('head > script', scripts =>
       scripts
         .filter(script => script.type !== 'application/json')
