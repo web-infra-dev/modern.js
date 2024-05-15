@@ -1,5 +1,5 @@
 import { defer } from '@modern-js/runtime/router';
-import { useContext } from '@modern-js/plugin-koa/runtime';
+import { useContext } from '@modern-js/runtime/koa';
 
 interface User {
   name: string;
