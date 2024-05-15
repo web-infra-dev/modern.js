@@ -1,4 +1,4 @@
-jest.mock('@modern-js/runtime/koa', () => {
+jest.mock('@modern-js/plugin-koa/runtime', () => {
   return {
     __esModule: true,
     useContext: jest.fn(() => ({

@@ -33,7 +33,7 @@ function hook(options: HookOptions): void;
 使用不同的框架，应添加不同框架的中间件（示例为使用 koa 框架时）：
 
 ```ts title=api/_app.ts
-import { hook } from '@modern-js/runtime/koa';
+import { hook } from '@modern-js/plugin-koa/runtime';
 
 export default hook(({ addMiddleware }) => {
   addMiddleware(async (ctx, next) => {

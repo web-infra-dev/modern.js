@@ -7,10 +7,10 @@ title: useContext
 
 ## 使用姿势
 
-根据使用的框架拓展插件，从对应的命名空间中导出：
+根据使用的框架拓展插件，从对应的插件中导出：
 
 ```ts
-import { useContext } from '@modern-js/runtime/{namespace}';
+import { useContext } from '@modern-js/plugin-{framework}/runtime';
 ```
 
 ## 函数签名
@@ -22,7 +22,7 @@ import { useContext } from '@modern-js/runtime/{namespace}';
 开发者可以通过 `context` 获取更多的请求信息，例如获取请求 UA（示例为使用 koa 框架时）：
 
 ```ts
-import { useContext } from '@modern-js/runtime/koa';
+import { useContext } from '@modern-js/plugin-koa/runtime';
 
 export async function get() {
   const ctx = useContext();

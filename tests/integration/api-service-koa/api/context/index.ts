@@ -1,4 +1,4 @@
-import { useContext } from '@modern-js/runtime/koa';
+import { useContext } from '@modern-js/plugin-koa/runtime';
 
 export const get = async () => {
   const ctx = useContext();

@@ -17,7 +17,6 @@ import {
   i18n as commonI18n,
   Framework,
   Language,
-  FrameworkAppendTypeContent,
   Solution,
   BFFPluginName,
   BFFPluginDependence,
@@ -209,21 +208,6 @@ export const handleTemplateFile = async (
             framework === Framework.Express ? `.${language}` : '',
           ),
     );
-  }
-
-  const appendTypeContent = FrameworkAppendTypeContent[framework as Framework];
-
-  if (appendTypeContent && language === Language.TS) {
-    const typePath = path.join(appDir, 'src', 'modern-app-env.d.ts');
-    if (fs.existsSync(typePath)) {
-      const npmrc = fs.readFileSync(typePath, 'utf-8');
-      if (!npmrc.includes(appendTypeContent)) {
-        fs.writeFileSync(typePath, `${npmrc}${appendTypeContent}\n`, 'utf-8');
-      }
-    } else {
-      fs.ensureFileSync(typePath);
-      fs.writeFileSync(typePath, appendTypeContent, 'utf-8');
-    }
   }
 };
 
