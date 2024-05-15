@@ -12,7 +12,7 @@ import {
   createCustomMiddlewaresCtx,
   createAfterStreamingRenderContext,
 } from './context';
-import { createBaseHookContext } from './base';
+import { ResArgs, createBaseHookContext } from './base';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -168,7 +168,15 @@ export class CustomServer {
 
       const locals: Record<string, any> = {};
 
-      const customMiddlewareCtx = createCustomMiddlewaresCtx(c, locals);
+      const resArgs: ResArgs = {
+        headers: new Headers(),
+      };
+
+      const customMiddlewareCtx = createCustomMiddlewaresCtx(
+        c,
+        locals,
+        resArgs,
+      );
 
       const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
@@ -177,6 +185,13 @@ export class CustomServer {
         reporter?.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
 
       c.set('locals', locals);
+
+      if (isRedirect(resArgs.headers, resArgs.status)) {
+        return c.redirect(
+          resArgs.headers.get('Location') || '',
+          resArgs.status || 302,
+        );
+      }
 
       if (c.env?.node.res.headersSent) {
         return undefined;
@@ -187,4 +202,8 @@ export class CustomServer {
       }
     };
   }
+}
+
+function isRedirect(headers: Headers, code?: number) {
+  return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
 }

@@ -8,13 +8,21 @@ import { getCookie } from 'hono/cookie';
 import type { Context, HonoRequest, ServerEnv } from '../../../core/server';
 import { getHost } from '../../utils';
 
-export function createBaseHookContext(c: Context<ServerEnv>): HookContext {
+export type ResArgs = {
+  status?: number;
+  headers: Headers;
+};
+
+export function createBaseHookContext(
+  c: Context<ServerEnv>,
+  resParams?: ResArgs,
+): HookContext {
   const logger = c.get('logger');
   const metrics = c.get('metrics');
 
   return {
     request: new BaseHookRequest(c),
-    response: new BaseHookResponse(c),
+    response: new BaseHookResponse(c, resParams),
     logger,
     metrics,
   };
@@ -127,8 +135,11 @@ class BaseHookResponse implements ModernResponse {
 
   #c: Context;
 
-  constructor(c: Context) {
+  #resArgs?: ResArgs;
+
+  constructor(c: Context, resArgs?: ResArgs) {
     this.#c = c;
+    this.#resArgs = resArgs;
   }
 
   get(key: string) {
@@ -145,13 +156,16 @@ class BaseHookResponse implements ModernResponse {
       this.#c.header(key, value.toString(), {
         append: true,
       });
+      this.#resArgs?.headers.append(key, value.toString());
     } else {
       this.#c.header(key, value.toString());
+      this.#resArgs?.headers.set(key, value.toString());
     }
   }
 
   status(code: number) {
     this.#c.status(code);
+    this.#resArgs && (this.#resArgs.status = code);
   }
 
   get cookies() {
