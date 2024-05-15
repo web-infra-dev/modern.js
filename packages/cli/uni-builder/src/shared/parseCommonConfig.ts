@@ -137,6 +137,7 @@ export async function parseCommonConfig(
       convertToRem,
       disableMinimize,
       polyfill,
+      dataUriLimit = 10000,
       ...outputConfig
     } = {},
     html: {
@@ -167,6 +168,7 @@ export async function parseCommonConfig(
     plugins,
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
+      dataUriLimit,
       ...outputConfig,
     },
     source: {
