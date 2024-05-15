@@ -1,4 +1,4 @@
-import { useParams } from '@modern-js/runtime/router-v5';
+import { useParams } from '@modern-js/plugin-router-v5/runtime';
 
 export default () => {
   const params = useParams();

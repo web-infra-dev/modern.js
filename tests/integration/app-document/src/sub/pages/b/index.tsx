@@ -1,4 +1,4 @@
-import { Link } from '@modern-js/runtime/router-v5';
+import { Link } from '@modern-js/plugin-router-v5/runtime';
 
 export default function B() {
   return (

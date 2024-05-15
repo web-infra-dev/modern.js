@@ -131,7 +131,7 @@ module.exports = {
       }
       console.info(
         `${i18n.t(localeKeys.successTooltip)} ${chalk.yellow.bold(
-          `@modern-js/runtime/router-v5`,
+          `@modern-js/plugin-router-v5/runtime`,
         )} ${i18n.t(localeKeys.successTooltipSuffix)}`,
       );
     }

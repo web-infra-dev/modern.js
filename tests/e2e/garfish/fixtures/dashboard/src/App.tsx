@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
+import { Switch, Route, Link } from '@modern-js/plugin-router-v5/runtime';
 import './App.css';
 
 const App = (props: {
