@@ -3,7 +3,6 @@ import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
 import { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
-import clsx from 'clsx';
 import _ from 'lodash';
 import { FC, useState } from 'react';
 import {
@@ -19,6 +18,7 @@ import { $mountPoint, $server, $serverExported } from '../state';
 import styles from './page.module.scss';
 import { useToast } from '@/components/Toast';
 import { useThrowable } from '@/utils';
+import { Card } from '@/components/Card';
 
 const unwindRecord = (preset: StoragePresetWithIdent, type: StorageType) =>
   _.map(preset[type], (value, key) => {
@@ -63,22 +63,12 @@ interface CardButtonProps extends FlexProps {
 }
 
 const CardButton: FC<CardButtonProps> = props => {
-  const { className, selected = false, ...rest } = props;
+  const { selected, ...rest } = props;
   return (
-    <Flex
-      data-selected={selected}
-      p="3"
-      className={clsx(styles.smallCard, className)}
-      {...rest}
-    />
+    <Card variant="small" selected={selected} clickable={true} asChild>
+      <Flex {...rest} />
+    </Card>
   );
-};
-
-type CardProps = FlexProps;
-
-const Card = (props: CardProps) => {
-  const { className, ...rest } = props;
-  return <Flex p="3" className={clsx(styles.card, className)} {...rest} />;
 };
 
 interface PresetCardProps extends CardButtonProps {
@@ -113,7 +103,18 @@ const PresetCard: FC<PresetCardProps> = props => {
   );
 };
 
-const applyPreset = async (preset: UnwindPreset | StoragePresetWithIdent) => {
+interface StorageStatus {
+  cookie: {
+    client: Record<string, string>;
+    server: Record<string, string>;
+  };
+  localStorage: Record<string, string>;
+  sessionStorage: Record<string, string>;
+}
+
+const applyPreset = async (
+  preset: UnwindPreset | StoragePresetWithIdent,
+): Promise<StorageStatus> => {
   const mountPoint = await $mountPoint;
   const storage: Record<StorageType, Record<string, string>> = {
     cookie: {},
@@ -130,11 +131,12 @@ const applyPreset = async (preset: UnwindPreset | StoragePresetWithIdent) => {
       records && Object.assign(storage[type], records);
     }
   }
-  await Promise.all([
+  const [cookie, localStorage, sessionStorage] = await Promise.all([
     mountPoint.remote.cookies(storage.cookie),
     mountPoint.remote.localStorage(storage.localStorage),
     mountPoint.remote.sessionStorage(storage.sessionStorage),
   ]);
+  return { cookie, localStorage, sessionStorage };
 };
 
 const Page: FC = () => {
@@ -165,6 +167,7 @@ const Page: FC = () => {
   }));
 
   const [select, setSelect] = useState<string>();
+  // const [_storageStatus, setStorageStatus] = useState<StorageStatus>();
   const selected = _.find(unwindPresets, { id: select });
 
   const handleCreatePreset = async () => {
@@ -179,6 +182,7 @@ const Page: FC = () => {
   const handleApplyAction = async () => {
     if (!selected) return;
     await applyPreset(selected);
+    // setStorageStatus(await applyPreset(selected));
     applyActionToast.open();
   };
 
@@ -300,17 +304,19 @@ interface PresetRecordsCardProps {
 const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
   const { title, records, color, ...rest } = props;
   return (
-    <Card direction="column" gap="2" {...rest}>
-      <Text size="1" weight="bold">
-        {title}
-      </Text>
-      <Flex width="100%" wrap="wrap" align="start" gap="2">
-        {records.length === 0 && <Badge color="gray">Empty</Badge>}
-        {records.map(record => (
-          <Badge key={record.id} color={color}>
-            {record.key}: {record.value}
-          </Badge>
-        ))}
+    <Card asChild {...rest}>
+      <Flex direction="column" gap="2">
+        <Text size="1" weight="bold">
+          {title}
+        </Text>
+        <Flex width="100%" wrap="wrap" align="start" gap="2">
+          {records.length === 0 && <Badge color="gray">Empty</Badge>}
+          {records.map(record => (
+            <Badge key={record.id} color={color}>
+              {record.key}: {record.value}
+            </Badge>
+          ))}
+        </Flex>
       </Flex>
     </Card>
   );
