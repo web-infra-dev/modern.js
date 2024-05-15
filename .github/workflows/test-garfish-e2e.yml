@@ -2,7 +2,7 @@ name: E2E Test (Garfish)
 
 on:
   push:
-    branches: [main]
+    branches: [main, feat-update-rsbuild-*]
 
   workflow_dispatch:
 
