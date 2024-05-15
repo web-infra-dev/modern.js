@@ -1,4 +1,4 @@
-import { testBff } from '@modern-js/runtime/testing/bff';
+import { testBff } from '@modern-js/plugin-testing/bff';
 
 describe('basic usage', () => {
   it('should support get', async () => {

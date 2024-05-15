@@ -18,7 +18,7 @@ title: 测试 Model
 新增 `count.test.ts` 文件，代码如下：
 
 ```ts
-import { createStore } from '@modern-js/runtime/testing';
+import { createStore } from '@modern-js/plugin-testing/runtime';
 import countModel from './count';
 
 describe('test model', () => {
@@ -36,7 +36,7 @@ describe('test model', () => {
 ```
 
 :::info
-这里使用的 [`createStore`](/apis/app/runtime/model/create-store) 是从 `@modern-js/runtime/testing` 导入的，内部会使用 [`runtime.state`](/configure/app/runtime/state) 的配置去创建 `store`。
+这里使用的 [`createStore`](/apis/app/runtime/model/create-store) 是从 `@modern-js/plugin-testing/runtime` 导入的，内部会使用 [`runtime.state`](/configure/app/runtime/state) 的配置去创建 `store`。
 
 :::
 

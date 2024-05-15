@@ -95,7 +95,7 @@ npm run test
 
 {/* 链接待补充 */}
 
-对于组件，Modern.js 的 Runtime API 提供了用于测试 UI 组件的功能，其功能由 `@modern-js/runtime/testing` 提供。
+对于组件，Modern.js 的 Runtime API 提供了用于测试 UI 组件的功能，其功能由 `@modern-js/plugin-testing/runtime` 提供。
 
 :::tip
 如果需要使用 Runtime API，那么可以通过 [微生成器](/guide/basic/command-preview) 开启。
@@ -112,7 +112,7 @@ export default () => {
 - 然后在测试文件中，我们可以按以下方式引用，其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
 ```tsx title="./tests/index.test.tsx"
-import { render, screen } from '@modern-js/runtime/testing';
+import { render, screen } from '@modern-js/plugin-testing/runtime';
 
 import Component from '@/index';
 

@@ -34,10 +34,10 @@ Modern.js 默认识别的测试文件路径为：`<rootDir>/src/**/*.test.[jt]s?
 
 ## 使用姿势
 
-Modern.js test 支持使用 [testing-library](https://testing-library.com/docs/) 相关包 API，可直接通过 `@modern-js/runtime/testing` 进行导入:
+Modern.js test 支持使用 [testing-library](https://testing-library.com/docs/) 相关包 API，可直接通过 `@modern-js/plugin-testing/runtime` 进行导入:
 
 ```ts
-import { render, screen } from '@modern-js/runtime/testing';
+import { render, screen } from '@modern-js/plugin-testing/runtime';
 ```
 
 其他 Modern.js 支持的 testing API 可参考[这里](/apis/app/runtime/testing/cleanup)。

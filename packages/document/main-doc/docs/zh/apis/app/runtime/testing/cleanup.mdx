@@ -26,7 +26,7 @@ import { cleanup } from '@modenr-js/runtime/testing';
 例如，如果你使用[ava](https://github.com/avajs/ava)测试框架，那么你需要像这样使用 test.afterEach 钩子。
 
 ```tsx
-import { cleanup, render } from '@modern-js/runtime/testing';
+import { cleanup, render } from '@modern-js/plugin-testing/runtime';
 import test from 'ava';
 
 test.afterEach(cleanup);

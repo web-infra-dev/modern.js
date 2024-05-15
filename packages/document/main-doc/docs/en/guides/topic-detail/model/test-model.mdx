@@ -18,7 +18,7 @@ This will enable testing feature support.
 Create a new file called `count.test.ts` with the following code:
 
 ```ts
-import { createStore } from '@modern-js/runtime/testing';
+import { createStore } from '@modern-js/plugin-testing/runtime';
 import countModel from './count';
 
 describe('test model', () => {
@@ -36,7 +36,7 @@ describe('test model', () => {
 ```
 
 :::info
-The [`createStore`](/apis/app/runtime/model/create-store) used here is imported from `@modern-js/runtime/testing`, which internally uses the configuration of [`runtime.state`](/configure/app/runtime/state) to create a `store`.
+The [`createStore`](/apis/app/runtime/model/create-store) used here is imported from `@modern-js/plugin-testing/runtime`, which internally uses the configuration of [`runtime.state`](/configure/app/runtime/state) to create a `store`.
 
 :::
 
