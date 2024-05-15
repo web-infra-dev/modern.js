@@ -125,6 +125,7 @@ export async function parseCommonConfig(
       enableInlineScripts,
       disableCssExtract,
       enableInlineStyles,
+      enableCssModuleTSDeclaration,
       disableCssModuleExtension,
       disableTsChecker,
       disableSvgr,
@@ -389,6 +390,13 @@ export async function parseCommonConfig(
     rsbuildPlugins.push(
       pluginRem(typeof convertToRem === 'boolean' ? {} : convertToRem),
     );
+  }
+
+  if (enableCssModuleTSDeclaration) {
+    const { pluginTypedCSSModules } = await import(
+      '@rsbuild/plugin-typed-css-modules'
+    );
+    rsbuildPlugins.push(pluginTypedCSSModules());
   }
 
   rsbuildPlugins.push(

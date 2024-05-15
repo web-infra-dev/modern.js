@@ -177,6 +177,10 @@ export type UniBuilderExtraConfig = {
      */
     disableFilenameHash?: boolean;
     /**
+     * Whether to generate a TypeScript declaration file for CSS Modules.
+     */
+    enableCssModuleTSDeclaration?: boolean;
+    /**
      * @deprecated use `source.decorators` instead
      */
     enableLatestDecorators?: boolean;
