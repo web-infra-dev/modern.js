@@ -65,7 +65,19 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   server.use('*', initFileReader());
   await server.init();
-  const nodeServer = createNodeServer(server.handle.bind(server));
+
+  const devHttpsOption = typeof dev === 'object' && dev.https;
+  let nodeServer;
+  if (devHttpsOption) {
+    const { genHttpsOptions } = await import('./dev-tools/https');
+    const httpsOptions = await genHttpsOptions(devHttpsOption, pwd);
+    nodeServer = await createNodeServer(
+      server.handle.bind(server),
+      httpsOptions,
+    );
+  } else {
+    nodeServer = await createNodeServer(server.handle.bind(server));
+  }
 
   rsbuild?.onDevCompileDone(({ stats }) => {
     if (stats.toJson({ all: false }).name !== 'server') {

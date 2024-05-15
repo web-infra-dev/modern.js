@@ -44,7 +44,6 @@ function matchRoute(req: HonoRequest, routes: ServerRoute[]) {
   for (const route of routes.sort(sortRoutes)) {
     if (
       !route.isSSR &&
-      !route.isApi &&
       route.entryPath.startsWith('public') &&
       req.path.startsWith(route.urlPath)
     ) {

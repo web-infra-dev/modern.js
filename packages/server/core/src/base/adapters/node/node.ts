@@ -1,4 +1,5 @@
-import { Server as NodeServer, createServer, ServerResponse } from 'node:http';
+import { Server as NodeServer, ServerResponse } from 'node:http';
+import type { Server as NodeHttpsServer } from 'node:https';
 import { NodeRequest, NodeResponse } from '../../../core/plugin';
 import { RequestHandler } from '../../../core/server';
 import {
@@ -136,16 +137,28 @@ const getRequestListener = (handler: RequestHandler) => {
   };
 };
 
-type NodeServerWrapper = NodeServer & {
+type NodeServerWrapper = (NodeServer | NodeHttpsServer) & {
   getRequestListener: () => ReturnType<typeof getRequestListener>;
   getRequestHandler: () => RequestHandler;
 };
 
-export const createNodeServer = (
+export const createNodeServer = async (
   requestHandler: RequestHandler,
-): NodeServerWrapper => {
+  httpsOptions?: Record<string, unknown>,
+): Promise<NodeServerWrapper> => {
   const requestListener = getRequestListener(requestHandler);
-  const nodeServer = createServer(requestListener) as NodeServerWrapper;
+
+  let nodeServer;
+  if (httpsOptions) {
+    const { createServer } = await import('node:https');
+    nodeServer = createServer(
+      httpsOptions,
+      requestListener,
+    ) as NodeServerWrapper;
+  } else {
+    const { createServer } = await import('node:http');
+    nodeServer = createServer(requestListener) as NodeServerWrapper;
+  }
 
   nodeServer.getRequestListener = () => requestListener;
   nodeServer.getRequestHandler = () => requestHandler;
