@@ -142,12 +142,6 @@ export const MWAActionFunctionsDependencies: Partial<
   [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
 };
 
-export const MWAActionFunctionsAppendTypeContent: Partial<
-  Record<ActionFunction, string>
-> = {
-  [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
-};
-
 export const MWAActionRefactorDependencies: Partial<
   Record<ActionRefactor, string>
 > = {

@@ -7,7 +7,6 @@ import {
   MWAActionReactors,
   ActionFunction,
   MWAActionFunctionsDependencies,
-  MWAActionFunctionsAppendTypeContent,
   MWAActionReactorAppendTypeContent,
   MWAActionFunctionsDevDependencies,
   MWANewActionGenerators,
@@ -161,7 +160,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
           }
         : {},
       appendTypeContent:
-        MWAActionFunctionsAppendTypeContent[action as ActionFunction] ||
         MWAActionReactorAppendTypeContent[action as ActionRefactor],
       pluginName: MWANewActionPluginName[actionType][action],
       pluginDependence: MWANewActionPluginDependence[actionType][action],
