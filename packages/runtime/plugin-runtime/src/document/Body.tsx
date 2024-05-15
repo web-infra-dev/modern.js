@@ -7,9 +7,7 @@ import {
 import { DocumentStructureContext } from './DocumentStructureContext';
 import { DefaultRoot } from './Root';
 
-export function Body(
-  props: { children?: any } & React.DOMAttributes<HTMLBodyElement>,
-) {
+export function Body(props: React.DOMAttributes<HTMLBodyElement>) {
   const { hasSetRoot } = useContext(DocumentStructureContext);
   const { children, ...rest } = props;
   return (
