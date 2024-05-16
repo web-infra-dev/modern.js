@@ -6788,6 +6788,43 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/server-hook/new-middleware:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.7
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-server':
+        specifier: workspace:*
+        version: link:../../../../packages/server/plugin-server
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^16
+        version: 16.11.68
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.4.5
+
   tests/integration/server-hook/request:
     dependencies:
       '@modern-js/runtime':
@@ -12887,7 +12924,7 @@ packages:
     resolution: {integrity: sha512-fmKzsidoXQT2KwnrwE0SQq3uj8Z763vzR8LnLBwC2qYWEFpjX8daRsk6rHUM1QvNlEW/UJXNXm59ztmJJWs2Mg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      jest-get-type: 29.4.3
+      jest-get-type: 29.6.3
 
   /@jest/expect@29.5.0:
     resolution: {integrity: sha512-PueDR2HGihN3ciUNGr4uelropW7rqUfTiOn+8u0leg/42UhblPxHkfoh0Ruu3I9Y1962P3u2DY4+h7GVTSVU6g==}
