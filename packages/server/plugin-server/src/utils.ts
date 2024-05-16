@@ -13,7 +13,8 @@ export type Middleware = (ctx: MiddlewareContext, next: NextFunction) => void;
 
 export type ServerMod = {
   default: (args: any) => void;
-  middleware: Middleware | Middleware[];
+  middleware: Middleware[];
+  unstableMiddleware: any[];
   afterMatch: Hook;
   afterRender: Hook;
 };
@@ -38,10 +39,16 @@ export const loadServerMod = (pwd: string = process.cwd()) => {
   const mod: ServerMod = requireExistModule(webAppPath, {
     interop: false,
   });
-  const { default: defaultExports, middleware, ...hooks } = mod || {};
+  const {
+    default: defaultExports,
+    middleware,
+    unstableMiddleware,
+    ...hooks
+  } = mod || {};
 
   return {
     defaultExports,
+    unstableMiddleware,
     hooks,
     middleware,
   };

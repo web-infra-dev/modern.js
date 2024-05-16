@@ -5,6 +5,8 @@ import type { ServerManifest } from './server';
 export interface RenderOptions {
   logger: Logger;
 
+  loaderContext?: Map<string, unknown>;
+
   /** ssr render html templates */
   templates: Record<string, string>;
 

@@ -3,18 +3,18 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
-import type { FallbackReason } from '../../../core/plugin';
-import { REPLACE_REG } from '../../../base/constants';
-import { Render } from '../../../core/render';
 import {
+  parseQuery,
+  getPathname,
   createErrorHtml,
   sortRoutes,
-  parseQuery,
   transformResponse,
-  getPathname,
   onError as onErrorFn,
   ErrorDigest,
 } from '../../utils';
+import type { FallbackReason } from '../../../core/plugin';
+import { REPLACE_REG } from '../../../base/constants';
+import { Render } from '../../../core/render';
 import { dataHandler } from './dataHandler';
 import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
 
@@ -80,7 +80,16 @@ export async function createRender({
 
   return async (
     req,
-    { logger, nodeReq, reporter, templates, serverManifest, locals, metrics },
+    {
+      logger,
+      nodeReq,
+      reporter,
+      templates,
+      serverManifest,
+      locals,
+      metrics,
+      loaderContext,
+    },
   ) => {
     const [routeInfo, params] = matchRoute(router, req);
 
@@ -137,6 +146,7 @@ export async function createRender({
       locals,
       serverManifest,
       metrics,
+      loaderContext: loaderContext || new Map(),
     };
 
     switch (renderMode) {

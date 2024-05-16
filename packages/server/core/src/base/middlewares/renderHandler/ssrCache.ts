@@ -8,9 +8,9 @@ import type {
   Container,
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
+import { createTransformStream, getPathname } from '../../utils';
 import type { SSRServerContext, ServerRender } from '../../../core/server';
 import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
-import { createTransformStream, getPathname } from '../../utils';
 
 interface CacheStruct {
   val: string;

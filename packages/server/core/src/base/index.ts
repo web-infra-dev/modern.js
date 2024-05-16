@@ -10,6 +10,7 @@ export {
   bindRenderHandler,
   logHandler,
   processedBy,
+  getLoaderCtx,
 } from './middlewares';
 export type { BindRenderHandleOptions } from './middlewares';
 

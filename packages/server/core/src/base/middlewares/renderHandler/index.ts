@@ -1,10 +1,10 @@
 import { Render } from '../../../core/render';
-import { Middleware, ServerEnv } from '../../../core/server';
+import { Context, Middleware, ServerEnv } from '../../../core/server';
 import { ServerBase, type ServerBaseOptions } from '../../serverBase';
 import { checkIsProd, sortRoutes, getRuntimeEnv } from '../../utils';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
-import { CustomServer } from '../customServer';
+import { CustomServer, getLoaderCtx } from '../customServer';
 import { OnFallback, createRender } from './render';
 import type * as ssrCacheModule from './ssrCache';
 
@@ -18,6 +18,7 @@ function createRenderHandler(
     const serverManifest = c.get('serverManifest') || {};
     const locals = c.get('locals');
     const metrics = c.get('metrics');
+    const loaderContext = getLoaderCtx(c as Context);
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
@@ -29,6 +30,7 @@ function createRenderHandler(
       templates,
       metrics,
       serverManifest,
+      loaderContext,
       locals,
     });
 
@@ -128,8 +130,14 @@ export async function bindRenderHandler(
 
       !disableCustomHook && server.use(urlPath, customServerHookMiddleware);
 
-      const customServerMiddleware = customServer.getServerMiddleware();
-      server.use(urlPath, customServerMiddleware);
+      const customServerMiddleware = await customServer.getServerMiddleware();
+      if (customServerMiddleware) {
+        if (Array.isArray(customServerMiddleware)) {
+          server.use(urlPath, ...customServerMiddleware);
+        } else {
+          server.use(urlPath, customServerMiddleware);
+        }
+      }
 
       render && server.all(urlPath, createRenderHandler(render));
     }
