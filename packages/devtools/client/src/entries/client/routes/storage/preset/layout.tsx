@@ -121,7 +121,7 @@ const Page: FC = () => {
           </Text>
         </CardButton>
         <Box mx="2" className={styles.divider} />
-        <Flex p="2" direction="column" gap="2" className={styles.presetList}>
+        <Flex p="2" direction="column" gap="2" className={styles.scrollable}>
           {unwindPresets.map(preset => (
             <PresetCard
               key={preset.id}
@@ -139,7 +139,7 @@ const Page: FC = () => {
           </CardButton>
         </Flex>
       </Flex>
-      <Box width="0" grow="1" shrink="1" pt="2">
+      <Box width="0" grow="1" height="100%" shrink="1" pt="2">
         <Outlet />
       </Box>
     </Flex>

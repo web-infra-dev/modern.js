@@ -1,5 +1,6 @@
 import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
 import _ from 'lodash';
+import { $mountPoint } from '../../state';
 
 export const STORAGE_TYPES = [
   'cookie',
@@ -45,3 +46,24 @@ export interface UnwindPreset {
   filename: string;
   items: UnwindStorageRecord[];
 }
+
+export interface StorageStatus {
+  cookie: {
+    client: Record<string, string>;
+    server: Record<string, string>;
+  };
+  localStorage: Record<string, string>;
+  sessionStorage: Record<string, string>;
+}
+
+export const applyStorage = async (
+  storage?: Partial<Record<StorageType, Record<string, string>>>,
+) => {
+  const mountPoint = await $mountPoint;
+  const [cookie, localStorage, sessionStorage] = await Promise.all([
+    mountPoint.remote.cookies(storage?.cookie),
+    mountPoint.remote.localStorage(storage?.localStorage),
+    mountPoint.remote.sessionStorage(storage?.sessionStorage),
+  ]);
+  return { cookie, localStorage, sessionStorage };
+};

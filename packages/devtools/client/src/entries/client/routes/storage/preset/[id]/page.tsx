@@ -13,29 +13,18 @@ import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
 import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import {
+  applyStorage,
   STORAGE_TYPES,
+  StorageStatus,
   StorageType,
   unwindRecord,
   UnwindStorageRecord,
 } from '../shared';
 import styles from './page.module.scss';
-import {
-  $mountPoint,
-  $server,
-  $serverExported,
-} from '@/entries/client/routes/state';
+import { $server, $serverExported } from '@/entries/client/routes/state';
 import { useToast } from '@/components/Toast';
 import { useThrowable } from '@/utils';
 import { Card } from '@/components/Card';
-
-interface StorageStatus {
-  cookie: {
-    client: Record<string, string>;
-    server: Record<string, string>;
-  };
-  localStorage: Record<string, string>;
-  sessionStorage: Record<string, string>;
-}
 
 interface PresetToolbarProps extends FlexProps {
   onCopyAction?: () => void;
@@ -77,7 +66,6 @@ const PresetToolbar: FC<PresetToolbarProps> = props => {
 const applyPreset = async (
   preset: StoragePresetWithIdent,
 ): Promise<StorageStatus> => {
-  const mountPoint = await $mountPoint;
   const storage: Record<StorageType, Record<string, string>> = {
     cookie: {},
     localStorage: {},
@@ -87,12 +75,7 @@ const applyPreset = async (
     const records = preset[type];
     records && Object.assign(storage[type], records);
   }
-  const [cookie, localStorage, sessionStorage] = await Promise.all([
-    mountPoint.remote.cookies(storage.cookie),
-    mountPoint.remote.localStorage(storage.localStorage),
-    mountPoint.remote.sessionStorage(storage.sessionStorage),
-  ]);
-  return { cookie, localStorage, sessionStorage };
+  return await applyStorage(storage);
 };
 
 interface PresetRecordsCardProps {
@@ -164,7 +147,7 @@ const Page = () => {
     pasteActionToast.open();
   };
   return (
-    <Flex key={id} direction="column" gap="2">
+    <Flex direction="column" gap="2">
       <Flex
         grow="0"
         px="2"

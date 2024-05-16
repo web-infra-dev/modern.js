@@ -14,11 +14,6 @@
   height: 100%;
 }
 
-.preset-list {
-  overflow: scroll;
-  scrollbar-width: none;
-}
-
 .overflow-badge {
   position: absolute;
   top: 0;
@@ -52,4 +47,23 @@
 
 .divider {
   border-top: solid 1px var(--gray-4);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+}
+
+.scrollable {
+  overflow: hidden scroll;
+  scrollbar-width: none;
 }
