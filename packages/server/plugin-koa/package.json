@@ -86,7 +86,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
-    "@types/koa": "^2.13.4",
+    "@types/koa": "2.13.4",
     "@types/koa-router": "^7.4.4",
     "@types/node": "^14",
     "@types/supertest": "^2.0.11",
