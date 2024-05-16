@@ -1,0 +1,183 @@
+---
+sidebar_position: 15
+---
+
+# 部署
+
+目前 Modern.js 支持在 node.js 环境下运行，你可以自行托管，同时，Modern.js 官方支持在 netlify 平台上部署。
+
+:::info
+当前仅支持在 node.js 环境运行，对其他运行时环境的支持将在后续版本中提供。
+:::
+
+
+## 构建产物的命令
+
+执行 `modern deploy` 命令将自动构建适用于生产环境的输出文件。此过程包括优化输出文件及其依赖，并检测当前部署平台，自动生成可以在该平台运行的产物。
+如果你希望在本地生成并测试特定部署平台的产物，可以通过设置环境变量来指定平台:
+
+```bash
+MODERN_DEPLOY=netlify npx modern deploy
+```
+
+:::info
+在 Modern.js 官方支持的部署平台中部署时，无需指定环境变量。
+:::
+
+
+## Node.js
+
+### 单仓库项目
+
+默认情况下，当未检测到 Modern.js 支持的部署平台时，Modern.js 会输出可以在 Node.js 环境下运行的构建产物。
+
+使用以下命令构建项目：
+```bash
+npx modern deploy
+```
+
+当执行 `modern deploy` 命令时，Modern.js 会产出可运行的生产环境产物，并输出以下内容：
+
+```bash
+Static directory: `.output/static`
+You can preview this build by `node .output/index`
+```
+
+此时，你可以通过 `node .output/index` 运行整个 server，在 `.output/static` 目录下是页面所需的静态资源，你可以将这些静态资源自行上传至 CDN。
+
+:::info
+默认情况下，运行 Modern.js Server 时会监听 8080 端口，如果你想修改监听的端口，可以指定 `PORT` 环境变量：
+```
+PORT=3000 node .output/index
+```
+:::
+
+
+### Monorepo
+
+对于 Monorepo 项目，除了需要构建我们当前的项目外，还需要构建当前项目的依赖的其他仓库。
+
+假设当前项目的 `package.json` 中的 name 为 `app`，以 pnpm 作为 monorepo 管理工具为例，你可以在当前项目的 `package.json` 添加以下命令用于构建当前项目的产物：
+
+```json title="app/package.json"
+{
+  "scripts": {
+    "deploy": "modern deploy",
+    "deploy:app": "pnpm --filter 'app^...' run build && pnpm --filter=app run deploy",
+  }
+}
+```
+
+如果你使用 rush 管理仓库，可以在 `package.json` 中添加以下命令：
+
+```json
+{
+  "scripts": {
+    "deploy": "modern deploy",
+    "deploy:app": "rush rebuild --to-except app && rushx deploy",
+  }
+}
+```
+
+当构建完成后，Modern.js 会将项目中所有的依赖生成在 `.output/node_modules` 目录下。同样的，你可以使用 `node .output/index` 运行整个 Server。
+
+## Netlify
+
+Netlify 是一个流行的 web 开发平台，专为构建、发布和维护现代 web 项目而设计，在 Netlify 上部署，主要需要配置 `netlify.toml` 文件，
+根据你的项目复杂度，可以渐进配置。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `netlify.toml` 文件：
+
+```bash
+./
+├── src/
+├── modern.config.ts
+├── netlify.toml
+├── package.json
+```
+
+在 `netlify.toml` 中添加以下内容：
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+```
+
+在 Netlify 平台上添加项目，部署即可。
+
+### 全栈项目
+
+全栈项目是指使用了 自定义 Server，SSR，BFF 的项目，这些项目需要部署在 Netlify Functions 上。基于上述的 `netlify.toml` 文件，
+添加以下配置：
+
+```toml title="netlify.toml"
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+
+[functions]
+  # Sets a custom directory for Netlify Functions
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+
+```
+
+:::info
+目前 Modern.js 还不支持在 Netlify Edge Functions 进行部署，我们将在后续的版本中支持。
+:::
+
+
+### Monorepo 项目
+
+对于 Monorepo 项目，除了需要构建我们当前的项目外，还需要构建当前项目的依赖的其他仓库。我们以一个 pnpm monorepo 仓库为例，
+在 Netlify 上对 Monorepo 项目进行部署。
+
+假设我们有以下 Monorepo 仓库：
+
+```
+./
+├── packages/
+│   ├── app/
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+我们需要在 netlify 平台上配置 Base directory 为 `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/netlify-base-dir.png" />
+
+在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
+
+```json
+"scripts": {
+  "deploy:app": "pnpm --filter 'app^...' run build && pnpm --filter=app run deploy",
+}
+```
+
+在 `netlify.toml` 配置构建命令：
+
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy:app"
+
+[functions]
+  # Sets a custom directory for Netlify Functions
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+```
+
+提交你的代码，使用 Netlify 平台部署即可。
+
+
+
+
+
+
+

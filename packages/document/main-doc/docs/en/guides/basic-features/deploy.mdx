@@ -1,0 +1,185 @@
+---
+sidebar_position: 15
+---
+
+# Deploy
+
+Currently, Modern.js can run in the node.js environment, you can host it yourself. At the same time, Modern.js officially supports deployment on the netlify platform.
+
+:::info
+Currently Modern.js only supports running in node.js environments, support for other runtime environments will be provided in a later version.
+:::
+
+
+## Commands to build products
+
+Running the `modern deploy` command will automatically build the output file for the production environment. This process includes optimizing the output file and its dependencies, and detecting the current deployment platform and automatically generating a product that will run on that platform.
+
+If you want to generate and test the output locally for a specific deployment platform, you can specify the platform by setting the environment variable: `modern deploy`:
+
+```bash
+MODERN_DEPLOY=netlify npx modern deploy
+```
+
+:::info
+When deploying on the deployment platforms officially supported by Modern.js, there is no need to specify environment variables.
+:::
+
+
+## Node.js
+
+### Single Repo
+
+By default, Modern.js outputs builds that can be run in a Node.js environment when no Modern.js-supported deployment platform is detected.
+
+Use the following command to build the project:
+```bash
+npx modern deploy
+```
+
+When running the `modern deploy` command, Modern.js will generate runnable products and output the following content:
+
+```bash
+Static directory: `.output/static`
+You can preview this build by `node .output/index`
+```
+
+At this point, you can run the entire server by `node .output/index`, and the static resources required for the page are in the `.output/static` directory. You can upload these static resources to a CDN yourself:
+
+:::info
+By default, when running Modern.js Server, it listens on port 8080. If you want to change the listening port, you can specify the `PORT` environment variable:
+```
+PORT=3000 node .output/index
+```
+:::
+
+
+### Monorepo
+
+For the Monorepo project, in addition to building our current project, we also need to build other repositories that the current project depends on.
+
+We assume that the name in the `package.json` of the current project is `app`. Taking pnpm as an example of a monorepo management tool, you can add the following command to the `package.json` of the current project to build products for the current project:
+
+```json title="app/package.json"
+{
+  "scripts": {
+    "deploy": "modern deploy",
+    "deploy:app": "pnpm --filter 'app^...' run build && pnpm --filter=app run deploy",
+  }
+}
+```
+
+If you use rush to manage repositories, you can add the following command in `package.json`:
+
+```json
+{
+  "scripts": {
+    "deploy": "modern deploy",
+    "deploy:app": "rush rebuild --to-except app && rushx deploy",
+  }
+}
+```
+
+After the build is completed, Modern.js will generate all dependencies in the `.output/node_modules` directory of the project. Similarly, you can run the entire server using `node .output/index`.
+
+## Netlify
+
+Netlify is a popular web development platform designed for building, deploying, and maintaining modern web projects. Deploying on Netlify mainly requires configuring the `netlify.toml` file.
+
+Depending on the complexity of your project, you can configure it incrementally by this doc.
+
+### Pure Front-end Project
+
+Add the `netlify.toml` file to the root directory of the current project:
+
+```bash
+./
+├── src/
+├── modern.config.ts
+├── netlify.toml
+├── package.json
+```
+
+Add the following content to `netlify.toml`:
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+```
+
+Add a project to the Netlify platform and deploy it!
+
+### Full Stack Project
+
+Full-stack projects refer to projects that use custom servers, SSR, and BFF. These projects need to be deployed on Netlify Functions. Based on the `netlify.toml` file mentioned above,
+add the following configuration:
+
+```toml title="netlify.toml"
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+
+[functions]
+  # Sets a custom directory for Netlify Functions
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+
+```
+
+:::info
+Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
+:::
+
+
+### Monorepo 项目
+
+For Monorepo projects, in addition to building our current project, we also need to build the dependencies of the current project from other repositories.
+We take a pnpm monorepo repository as an example and deploy the Monorepo project on Netlify.
+
+Suppose we have the following Monorepo repository:
+
+```
+./
+├── packages/
+│   ├── app/
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+We need to configure Base directory on the netlify platform as `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/netlify-base-dir.png" />
+
+Add the following script in `packages/app/package.json`, before executing the deployment command of the `app` repository, first execute the build of other repositories in the workspace:
+
+```json
+"scripts": {
+  "deploy:app": "pnpm --filter 'app^...' run build && pnpm --filter=app run deploy",
+}
+```
+
+Configure the build command in `netlify.toml`:
+
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy:app"
+
+[functions]
+  # Sets a custom directory for Netlify Functions
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+```
+
+Just submit your code and deploy it using the Netlify platform.
+
+
+
+
+
+
+

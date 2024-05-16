@@ -1,0 +1,41 @@
+{
+  "private": true,
+  "name": "deploy-server",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
+    "build": "modern build",
+    "serve": "modern serve",
+    "start:bff": "modern serve --api-only",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-koa": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "koa": "^2.15.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "3.14.1",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/koa": "^2.15.0",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}
