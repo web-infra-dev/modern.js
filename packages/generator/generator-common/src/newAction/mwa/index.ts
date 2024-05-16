@@ -40,29 +40,18 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const getMWANewActionSchema = (
-  extra: Record<string, any> = {},
-): Schema => {
-  const { funcMap = {}, refactorMap = {} } = extra;
-  const funcs = MWAActionFunctions.filter(func => !funcMap[func]);
-  const refactors = MWAActionReactors.filter(reactor => !refactorMap[reactor]);
+export const getMWANewActionSchema = (): Schema => {
   return {
     type: 'object',
     properties: {
       actionType: {
         type: 'string',
         title: i18n.t(localeKeys.action.self),
-        enum: MWAActionTypes.filter(type =>
-          type === ActionType.Function ? funcs.length > 0 : true,
-        )
-          .filter(type =>
-            type === ActionType.Refactor ? refactors.length > 0 : true,
-          )
-          .map(type => ({
-            value: type,
-            label: ActionTypeText[type](),
-            type: ['string'],
-          })),
+        enum: MWAActionTypes.map(type => ({
+          value: type,
+          label: ActionTypeText[type](),
+          type: ['string'],
+        })),
       },
       [ActionType.Element]: {
         type: 'string',
@@ -85,7 +74,7 @@ export const getMWANewActionSchema = (
       [ActionType.Function]: {
         type: 'string',
         title: ActionTypeQuestionText[ActionType.Function](),
-        enum: funcs.map(func => ({
+        enum: MWAActionFunctions.map(func => ({
           value: func,
           label: ActionFunctionText[func](),
         })),
@@ -103,7 +92,7 @@ export const getMWANewActionSchema = (
       [ActionType.Refactor]: {
         type: 'string',
         title: ActionTypeQuestionText[ActionType.Refactor](),
-        enum: refactors.map(refactor => ({
+        enum: MWAActionReactors.map(refactor => ({
           value: refactor,
           label: ActionRefactorText[refactor](),
         })),
