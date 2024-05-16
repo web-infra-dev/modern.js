@@ -70,4 +70,4 @@ After adding the above configuration, when assets fail to load from the `cdn1.co
 
 If the assets request for `cdn2.com` also fails, the request will fallback to `cdn3.com`.
 
-For detailed usage, please refer to [Rsbuild - Assets Retry Plugin](https://rsbuild.dev/plugins/list/plugin-assets-retry#options).
+`assetsRetry` is implemented based on the Assets Retry plugin of Rsbuild and provides the same configuration options. You can refer to [Rsbuild - Assets Retry Plugin](https://rsbuild.dev/plugins/list/plugin-assets-retry#options) to understand all available configuration options.
