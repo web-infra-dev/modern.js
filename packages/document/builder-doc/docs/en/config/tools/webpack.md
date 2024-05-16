@@ -294,9 +294,3 @@ export default {
   },
 };
 ```
-
-#### getCompiledPath
-
-- **Type:** `(name: string) => string`
-
-Get the path to the builder built-in dependencies, same as [webpackChain#getCompiledPath](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpackchain).

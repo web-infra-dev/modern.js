@@ -137,8 +137,7 @@ type ModifyWebpackChainUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
-  getCompiledPath: (name: string) => string;
-  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
+  HtmlPlugin: typeof import('html-webpack-plugin');
 };
 
 function ModifyWebpackChain(
@@ -180,8 +179,7 @@ type ModifyWebpackConfigUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
-  getCompiledPath: (name: string) => string;
-  HtmlWebpackPlugin: typeof import('html-webpack-plugin');
+  HtmlPlugin: typeof import('html-webpack-plugin');
   addRules: (rules: RuleSetRule | RuleSetRule[]) => void;
   prependPlugins: (
     plugins: WebpackPluginInstance | WebpackPluginInstance[],
@@ -227,7 +225,6 @@ type ModifyRspackConfigUtils = {
   target: BuilderTarget;
   isServer: boolean;
   isWebWorker: boolean;
-  getCompiledPath: (name: string) => string;
   rspack: typeof import('@rspack/core');
 };
 
