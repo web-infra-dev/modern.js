@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 2.49.4
+
+### Patch Changes
+
+- 6e12e9f: fix: public middleware should not filter api route & support https
+  fix: public middleware 不应该过滤 api 路由 & 支持 https
+- Updated dependencies [4653e73]
+- Updated dependencies [2c60b6b]
+- Updated dependencies [936ca64]
+- Updated dependencies [6e12e9f]
+  - @modern-js/server-core@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/utils@2.49.4
+
 ## 2.49.3
 
 ### Patch Changes

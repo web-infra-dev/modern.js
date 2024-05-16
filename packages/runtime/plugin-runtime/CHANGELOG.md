@@ -1,5 +1,16 @@
 # @modern-js/runtime
 
+## 2.49.4
+
+### Patch Changes
+
+- a5fdc8d: fix: useLoader should run normally in csr when webpack build
+  fix: useLoader 当使用 webpack 构建是，在 csr 下应该需要正常跑
+  - @modern-js/plugin@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/types@2.49.4
+  - @modern-js/utils@2.49.4
+
 ## 2.49.3
 
 ### Patch Changes

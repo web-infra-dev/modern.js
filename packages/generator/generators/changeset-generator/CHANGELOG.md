@@ -1,5 +1,11 @@
 # @modern-js/changeset-generator
 
+## 3.3.22
+
+### Patch Changes
+
+- @modern-js/utils@2.49.4
+
 ## 3.3.21
 
 ### Patch Changes
