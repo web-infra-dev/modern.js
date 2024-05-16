@@ -22,7 +22,7 @@
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-koa": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "koa": "^2.15.3",
+    "koa": "^2.13.4",
     "react": "^18",
     "react-dom": "^18",
     "ts-node": "^10.9.1",
@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@types/koa": "^2.15.0",
+    "@types/koa": "^2.13.4 ",
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/react": "^18",
