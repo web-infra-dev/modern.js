@@ -1,15 +1,17 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
   HiMiniClipboard,
   HiMiniClipboardDocumentList,
   HiMiniFolderOpen,
   HiMiniFire,
 } from 'react-icons/hi2';
-import { useParams, useRevalidator } from '@modern-js/runtime/router';
+import { useLoaderData, useRevalidator } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
-import _ from 'lodash';
-import { useSnapshot } from 'valtio';
-import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
+import {
+  StoragePresetContext,
+  StoragePresetWithIdent,
+} from '@modern-js/devtools-kit/runtime';
+import { subscribe } from 'valtio';
 import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import {
@@ -106,12 +108,12 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 };
 
 const Page = () => {
-  const { id } = useParams();
-  if (!id) throw new TypeError('storage preset id is required');
   const { revalidate } = useRevalidator();
-  const { storagePresets } = useSnapshot($serverExported).context;
-  const preset = _.find(storagePresets, { id });
-  if (!preset) throw new TypeError('storage preset not found');
+  useEffect(() => {
+    const unwatch = subscribe($serverExported, revalidate);
+    return unwatch;
+  }, []);
+  const preset = useLoaderData() as StoragePresetContext;
   const unwindRecords = [
     ...unwindRecord(preset, 'cookie'),
     ...unwindRecord(preset, 'localStorage'),
