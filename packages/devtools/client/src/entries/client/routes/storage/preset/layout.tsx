@@ -1,13 +1,23 @@
-import { Outlet, useMatch, useNavigate } from '@modern-js/runtime/router';
+import {
+  Outlet,
+  useLoaderData,
+  useMatch,
+  useNavigate,
+} from '@modern-js/runtime/router';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import _ from 'lodash';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { HiMiniFlag, HiPlus } from 'react-icons/hi2';
 import { snapshot, useSnapshot } from 'valtio';
 import { watch } from 'valtio/utils';
 import styles from './page.module.scss';
-import { STORAGE_TYPE_PALETTE, unwindPreset, UnwindPreset } from './shared';
+import {
+  STORAGE_TYPE_PALETTE,
+  StorageStatus,
+  unwindPreset,
+  UnwindPreset,
+} from './shared';
 import { Card } from '@/components/Card';
 import { $server, $serverExported } from '@/entries/client/routes/state';
 import { useThrowable } from '@/utils';
@@ -38,11 +48,20 @@ const CardButton: FC<CardButtonProps> = props => {
 
 interface PresetCardProps extends CardButtonProps {
   preset: UnwindPreset;
+  highlight?: boolean;
 }
 
 const PresetCard: FC<PresetCardProps> = props => {
-  const { preset, ...rest } = props;
+  const { preset, highlight, ...rest } = props;
   const isSaved = !preset.filename.match(/[/\\]node_modules[/\\]/);
+  let highlightElement: ReactNode = null;
+  if (highlight) {
+    highlightElement = (
+      <Text size="1" color="red" asChild>
+        <HiMiniFlag />
+      </Text>
+    );
+  }
 
   return (
     <CardButton direction="column" {...rest}>
@@ -53,6 +72,7 @@ const PresetCard: FC<PresetCardProps> = props => {
             *
           </Text>
         )}
+        {highlightElement}
       </Text>
       <Flex align={'center'}>
         <Flex className={styles.previewBadgeList}>
@@ -70,6 +90,12 @@ const PresetCard: FC<PresetCardProps> = props => {
 
 const Page: FC = () => {
   const { storagePresets } = useSnapshot($serverExported).context;
+  const data = useLoaderData() as StorageStatus;
+  const status = {
+    cookie: { ...data.cookie.client, ...data.cookie.server },
+    localStorage: data.localStorage,
+    sessionStorage: data.sessionStorage,
+  };
   const server = useThrowable($server);
   const navigate = useNavigate();
   const freq = {
@@ -87,9 +113,7 @@ const Page: FC = () => {
       .value(),
   };
   const unwindPresets: UnwindPreset[] = storagePresets.map(preset => ({
-    id: preset.id,
-    name: preset.name,
-    filename: preset.filename,
+    ...preset,
     items: _(unwindPreset(preset))
       .sortBy(item => freq[item.type][item.key] ?? 0)
       .reverse()
@@ -127,6 +151,13 @@ const Page: FC = () => {
               key={preset.id}
               to={`/storage/preset/${preset.id}`}
               preset={preset}
+              highlight={
+                preset.items.length > 0 &&
+                _.isMatch(
+                  status,
+                  _.pick(preset, ['cookie', 'localStorage', 'sessionStorage']),
+                )
+              }
             />
           ))}
           <CardButton

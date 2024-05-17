@@ -5,7 +5,7 @@ import {
   HiMiniFolderOpen,
   HiMiniFire,
 } from 'react-icons/hi2';
-import { useParams } from '@modern-js/runtime/router';
+import { useParams, useRevalidator } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
 import _ from 'lodash';
 import { useSnapshot } from 'valtio';
@@ -108,6 +108,7 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 const Page = () => {
   const { id } = useParams();
   if (!id) throw new TypeError('storage preset id is required');
+  const { revalidate } = useRevalidator();
   const { storagePresets } = useSnapshot($serverExported).context;
   const preset = _.find(storagePresets, { id });
   if (!preset) throw new TypeError('storage preset not found');
@@ -125,6 +126,7 @@ const Page = () => {
   const handleApplyAction = async () => {
     await applyPreset(preset);
     applyActionToast.open();
+    revalidate();
   };
 
   const handleCopyAction = async () => {

@@ -1,4 +1,7 @@
-import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
+import {
+  StoragePresetContext,
+  StoragePresetWithIdent,
+} from '@modern-js/devtools-kit/runtime';
 import _ from 'lodash';
 import { $mountPoint } from '../../state';
 
@@ -40,7 +43,7 @@ export const unwindPreset = (preset: StoragePresetWithIdent) => {
   return ret;
 };
 
-export interface UnwindPreset {
+export interface UnwindPreset extends StoragePresetContext {
   id: string;
   name: string;
   filename: string;
