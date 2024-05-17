@@ -11,7 +11,7 @@ import { Context, ServerEnv } from '../../../core/server';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
-import { createBaseHookContext } from './base';
+import { ResArgs, createBaseHookContext } from './base';
 
 export function getAfterMatchCtx(
   entryName: string,
@@ -41,8 +41,12 @@ export async function getAfterRenderCtx(
 export function createCustomMiddlewaresCtx(
   c: Context<ServerNodeEnv & ServerEnv>,
   locals: Record<string, any>,
+  resArgs?: ResArgs,
 ): MiddlewareContext {
-  const baseContext = createBaseHookContext(c as unknown as Context<ServerEnv>);
+  const baseContext = createBaseHookContext(
+    c as unknown as Context<ServerEnv>,
+    resArgs,
+  );
 
   const reporter = c.get('reporter');
 

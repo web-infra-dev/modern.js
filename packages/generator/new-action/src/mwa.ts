@@ -29,6 +29,7 @@ import {
   hasEnabledFunction,
   usePluginNameExport,
 } from './utils';
+import { enableAlreadyText } from './constants';
 
 interface IMWANewActionOption {
   locale?: string;
@@ -59,7 +60,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     throw new Error('config is not a valid json');
   }
 
-  i18n.changeLanguage({ locale: (UserConfig.locale as string) || locale });
+  const language = (UserConfig.locale as string) || locale;
+  i18n.changeLanguage({ locale: language });
 
   const smith = new CodeSmith({
     debug,
@@ -104,13 +106,20 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const ans = await formilyAPI.getInputBySchemaFunc(getMWANewActionSchema, {
     ...UserConfig,
-    funcMap,
-    refactorMap,
   });
 
   const actionType = ans.actionType as ActionType;
 
   const action = ans[actionType] as string;
+
+  if (
+    (actionType === ActionType.Function && funcMap[action as ActionFunction]) ||
+    (actionType === ActionType.Refactor &&
+      refactorMap[action as ActionRefactor])
+  ) {
+    smith.logger.error(enableAlreadyText[language]);
+    return;
+  }
 
   const generator = getGeneratorPath(
     MWANewActionGenerators[actionType][action],

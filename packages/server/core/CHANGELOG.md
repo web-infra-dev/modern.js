@@ -1,5 +1,21 @@
 # @modern-js/server-plugin
 
+## 2.49.4
+
+### Patch Changes
+
+- 4653e73: fix(server-core): server static can't handle page route correctly
+  fix(server-core): server static 无法正确的处理页面路由
+- 2c60b6b: fix(server-core): support custom server middleware redirect, and support render function merge headers from HonoCtx.#header
+  fix(server-core): 支持 custom server middleware 重定向, 并且支持 render 函数合并 HonoCtx.#header
+- 936ca64: fix: Compatible with http-compression, make sure res.end is called before executing the subsequent code
+  fix: 兼容 http-compression，确保执行后续代码前，res.end 先被调用
+- 6e12e9f: fix: public middleware should not filter api route & support https
+  fix: public middleware 不应该过滤 api 路由 & 支持 https
+  - @modern-js/plugin@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/utils@2.49.4
+
 ## 2.49.3
 
 ### Patch Changes

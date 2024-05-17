@@ -1,21 +1,27 @@
-export function parseQuery(request: Request) {
-  const { url } = request;
+export type Query = Record<string, string>;
+
+export function parseQuery(req: Request): Query {
+  const query: Query = {};
+
+  const { url } = req;
+
   const q = url.split('?')[1];
 
-  const query: Record<string, string> = {};
-
   if (q) {
-    q.split('&').forEach(item => {
-      const [key, value] = item.split('=');
-      query[key] = value;
+    // eslint-disable-next-line node/prefer-global/url-search-params
+    const search = new URLSearchParams(q);
+    search.forEach((v, k) => {
+      query[k] = v;
     });
   }
 
   return query;
 }
 
-export function parseHeaders(request: Request) {
-  const headersData: Record<string, string | undefined> = {};
+export type HeadersData = Record<string, string | undefined>;
+
+export function parseHeaders(request: Request): HeadersData {
+  const headersData: HeadersData = {};
   request.headers.forEach((value, key) => {
     headersData[key] = value;
   });
@@ -48,4 +54,28 @@ export function getHost(request: Request): string {
   // but the this.href would assign a invalid value:`http[s]://${pathname}`
   // so we need assign host a no-empty value.
   return host;
+}
+
+type Cookie = Record<string, string>;
+
+export function parseCookie(req: Request): Cookie {
+  // Cookie: name=value; name2=value2; name3=value3
+  // Pairs in the list are separated by a semicolon and a space ('; ').
+  const _cookie = req.headers.get('Cookie');
+
+  const cookie: Cookie = {};
+
+  _cookie
+    ?.trim()
+    .split(';')
+    .forEach(item => {
+      // every item is name=value
+      const [k, v] = item.trim().split('=');
+
+      if (k) {
+        cookie[k] = v;
+      }
+    });
+
+  return cookie;
 }
