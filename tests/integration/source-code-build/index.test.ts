@@ -63,6 +63,8 @@ describe('source build', () => {
 
     expect(targetText).toMatch('Card-Comp');
     expect(targetText).toMatch('CARD-COMP');
+
+    await fs.writeFile(card.codeDir, card.original);
   });
 
   test('update utils project code', async () => {
@@ -78,12 +80,12 @@ describe('source build', () => {
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
     expect(targetText).toMatch('this is utils');
+
+    await fs.writeFile(utils.codeDir, utils.original);
   });
 
   afterEach(async () => {
     browser.close();
     await killApp(app);
-    await fs.writeFile(card.codeDir, card.original);
-    await fs.writeFile(utils.codeDir, utils.original);
   });
 });
