@@ -31,11 +31,6 @@ describe('source build', () => {
       codeDir: cardCompDir,
       original: await fs.readFile(cardCompDir, 'utf8'),
     };
-    const utilsDir = path.join(__dirname, './utils/src/index.ts');
-    utils = {
-      codeDir: utilsDir,
-      original: await fs.readFile(utilsDir, 'utf8'),
-    };
   });
   test('should run successfully', async () => {
     expect(app.exitCode).toBe(null);
