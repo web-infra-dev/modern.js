@@ -7,8 +7,8 @@ import {
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
 import {
-  createRequestContext,
   reporterCtx,
+  createRequestContext,
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
@@ -28,19 +28,11 @@ function createFetchRequest(req: SSRServerContext['request']): Request {
 
   const controller = new AbortController();
 
-  // req.on('close', () => {
-  //   controller.abort();
-  // });
-
   const init = {
     method: req.method,
     headers: createFetchHeaders(req.headers),
     signal: controller.signal,
   };
-
-  // if (req.method !== 'GET' && req.method !== 'HEAD') {
-  //   init.body = req.body;
-  // }
 
   return new Request(url.href, init);
 }
@@ -90,7 +82,9 @@ export const routerPlugin = ({
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
           const { reporter, serverTiming } = context.ssrContext!;
-          const requestContext = createRequestContext();
+          const requestContext = createRequestContext(
+            context.ssrContext?.loaderContext,
+          );
           requestContext.set(reporterCtx, reporter);
 
           let routes = createRoutes

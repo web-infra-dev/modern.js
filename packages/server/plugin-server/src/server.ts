@@ -14,6 +14,8 @@ enum HOOKS {
 class Storage {
   public middlewares: Middleware[] = [];
 
+  public unstableMiddlewares: any[] = [];
+
   public hooks: Record<string, Hook> = {};
 
   reset() {
@@ -70,7 +72,12 @@ export default (): ServerPlugin => ({
 
     const loadMod = () => {
       const { middleware: unstableMiddleware } = loadMiddleware(pwd);
-      const { defaultExports, hooks, middleware } = loadServerMod(pwd);
+      const {
+        defaultExports,
+        hooks,
+        middleware,
+        unstableMiddleware: unstableMiddlewares,
+      } = loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
@@ -89,6 +96,8 @@ export default (): ServerPlugin => ({
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
       storage.middlewares = storage.middlewares.concat(unstableMiddleware);
+
+      storage.unstableMiddlewares.push(...(unstableMiddlewares || []));
     };
 
     return {
@@ -112,7 +121,12 @@ export default (): ServerPlugin => ({
         return storage.hooks.afterRender(context, next);
       },
       prepareWebServer() {
-        const { middlewares } = storage;
+        const { middlewares, unstableMiddlewares } = storage;
+
+        if (unstableMiddlewares.length > 0) {
+          return unstableMiddlewares;
+        }
+
         const factory = compose(middlewares);
 
         return ctx => {

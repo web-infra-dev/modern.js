@@ -10,6 +10,9 @@ export type {
   CacheControl,
   CacheOptionProvider,
   CacheOption,
+  UnstableMiddlewareContext,
+  UnstableMiddleware,
+  UnstableNext,
 } from '@modern-js/types';
 
 export const hook = (
