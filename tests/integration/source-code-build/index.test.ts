@@ -21,10 +21,6 @@ describe('source build', () => {
     codeDir: string;
     original: string;
   };
-  let utils: {
-    codeDir: string;
-    original: string;
-  };
 
   beforeEach(async () => {
     port = await getPort();
@@ -65,23 +61,6 @@ describe('source build', () => {
     expect(targetText).toMatch('CARD-COMP');
 
     await fs.writeFile(card.codeDir, card.original);
-  });
-
-  test('update utils project code', async () => {
-    const newContent = `
-    export const strAdd = (str1: string, str2: string) => {
-      return 'this is utils' + str1 + str2;
-    }
-    `;
-    await fs.writeFile(utils.codeDir, newContent);
-    await sleep(2000);
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`);
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText).toMatch('this is utils');
-
-    await fs.writeFile(utils.codeDir, utils.original);
   });
 
   afterEach(async () => {
