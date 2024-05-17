@@ -41,22 +41,22 @@ const PresetToolbar: FC<PresetToolbarProps> = props => {
 
   return (
     <Flex position="relative" gap="3" height="5" align="center" {...rest}>
-      <Tooltip content="Copy as Data URL">
+      <Tooltip content="Copy as Data URL" delayDuration={200}>
         <IconButton onClick={onCopyAction} variant="ghost" color="gray">
           <HiMiniClipboard />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Paste from Data URL">
+      <Tooltip content="Paste from Data URL" delayDuration={200}>
         <IconButton onClick={onPasteAction} variant="ghost" color="gray">
           <HiMiniClipboardDocumentList />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Open File">
+      <Tooltip content="Open File" delayDuration={200}>
         <IconButton onClick={onOpenAction} variant="ghost" color="gray">
           <HiMiniFolderOpen />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Apply Preset">
+      <Tooltip content="Apply Preset" delayDuration={200}>
         <IconButton onClick={onApplyAction} variant="ghost" color="gray">
           <HiMiniFire />
         </IconButton>
