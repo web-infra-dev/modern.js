@@ -4,7 +4,7 @@ sidebar_position: 15
 
 # 部署
 
-目前 Modern.js 支持在 node.js 环境下运行，你可以自行托管，同时，Modern.js 官方支持在 netlify 平台上部署。
+目前 Modern.js 支持在 node.js 环境下运行，你可以自行托管，同时，Modern.js 官方支持在 Netlify 平台上部署。
 
 :::info
 当前仅支持在 node.js 环境运行，对其他运行时环境的支持将在后续版本中提供。
@@ -118,7 +118,6 @@ Netlify 是一个流行的 web 开发平台，专为构建、发布和维护现�
   command = "npm run deploy"
 
 [functions]
-  # Sets a custom directory for Netlify Functions
   directory = ".netlify/functions"
   node_bundler = "none"
   included_files = [".netlify/functions/**"]
@@ -149,7 +148,7 @@ Netlify 是一个流行的 web 开发平台，专为构建、发布和维护现�
 
 我们需要在 netlify 平台上配置 Base directory 为 `packages/app`:
 
-<img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/lmeh7nuptpfnuhd/netlify-basedir.png?x-resource-account=public" />
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/netlify-monorepo-basedir.png?x-resource-account=public" />
 
 在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
 
@@ -167,7 +166,6 @@ Netlify 是一个流行的 web 开发平台，专为构建、发布和维护现�
   command = "npm run deploy:app"
 
 [functions]
-  # Sets a custom directory for Netlify Functions
   directory = ".netlify/functions"
   node_bundler = "none"
   included_files = [".netlify/functions/**"]
