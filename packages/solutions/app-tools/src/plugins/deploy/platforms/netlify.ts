@@ -10,6 +10,21 @@ import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
 import { CreatePreset } from './platform';
 
+async function cleanDistDirectory(dir: string) {
+  try {
+    const items = await fse.readdir(dir);
+
+    for (const item of items) {
+      const fullPath = path.join(dir, item);
+      if (item !== 'static' && item !== '_redirects') {
+        await fse.remove(fullPath);
+      }
+    }
+  } catch (error) {
+    console.error('Error cleaning directory:', error);
+  }
+}
+
 export const createNetlifyPreset: CreatePreset = (
   appContext,
   modernConfig,
@@ -111,6 +126,7 @@ export const createNetlifyPreset: CreatePreset = (
       await fse.writeFile(entryFilePath, entryCode);
     },
     async end() {
+      await cleanDistDirectory(distDirectory);
       if (!needModernServer) {
         return;
       }

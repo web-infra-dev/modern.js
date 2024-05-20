@@ -18,7 +18,6 @@ export const createVercelPreset: CreatePreset = (
   const { appDirectory, distDirectory, serverInternalPlugins, entrypoints } =
     appContext;
   const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
-  // const entryFilePath = path.join(outputDirectory, 'index.js');
 
   const vercelOutput = path.join(appDirectory, '.vercel');
   const outputDirectory = path.join(vercelOutput, 'output');
