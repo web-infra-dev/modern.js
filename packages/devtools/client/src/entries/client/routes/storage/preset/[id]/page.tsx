@@ -1,15 +1,17 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import {
   HiMiniClipboard,
   HiMiniClipboardDocumentList,
   HiMiniFolderOpen,
   HiMiniFire,
 } from 'react-icons/hi2';
-import { useParams } from '@modern-js/runtime/router';
+import { useLoaderData, useRevalidator } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
-import _ from 'lodash';
-import { useSnapshot } from 'valtio';
-import { StoragePresetWithIdent } from '@modern-js/devtools-kit/runtime';
+import {
+  StoragePresetContext,
+  StoragePresetWithIdent,
+} from '@modern-js/devtools-kit/runtime';
+import { subscribe } from 'valtio';
 import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import {
@@ -39,22 +41,22 @@ const PresetToolbar: FC<PresetToolbarProps> = props => {
 
   return (
     <Flex position="relative" gap="3" height="5" align="center" {...rest}>
-      <Tooltip content="Copy as Data URL">
+      <Tooltip content="Copy as Data URL" delayDuration={200}>
         <IconButton onClick={onCopyAction} variant="ghost" color="gray">
           <HiMiniClipboard />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Paste from Data URL">
+      <Tooltip content="Paste from Data URL" delayDuration={200}>
         <IconButton onClick={onPasteAction} variant="ghost" color="gray">
           <HiMiniClipboardDocumentList />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Open File">
+      <Tooltip content="Open File" delayDuration={200}>
         <IconButton onClick={onOpenAction} variant="ghost" color="gray">
           <HiMiniFolderOpen />
         </IconButton>
       </Tooltip>
-      <Tooltip content="Apply Preset">
+      <Tooltip content="Apply Preset" delayDuration={200}>
         <IconButton onClick={onApplyAction} variant="ghost" color="gray">
           <HiMiniFire />
         </IconButton>
@@ -106,11 +108,12 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 };
 
 const Page = () => {
-  const { id } = useParams();
-  if (!id) throw new TypeError('storage preset id is required');
-  const { storagePresets } = useSnapshot($serverExported).context;
-  const preset = _.find(storagePresets, { id });
-  if (!preset) throw new TypeError('storage preset not found');
+  const { revalidate } = useRevalidator();
+  useEffect(() => {
+    const unwatch = subscribe($serverExported, revalidate);
+    return unwatch;
+  }, []);
+  const preset = useLoaderData() as StoragePresetContext;
   const unwindRecords = [
     ...unwindRecord(preset, 'cookie'),
     ...unwindRecord(preset, 'localStorage'),
@@ -125,6 +128,7 @@ const Page = () => {
   const handleApplyAction = async () => {
     await applyPreset(preset);
     applyActionToast.open();
+    revalidate();
   };
 
   const handleCopyAction = async () => {

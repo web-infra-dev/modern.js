@@ -37,7 +37,7 @@ export const $mountPoint = $mountPointChannel.then(async channel => {
   };
   const remote = createBirpc<MountPointFunctions, ToMountPointFunctions>(
     definitions,
-    { ...channel.handlers, timeout: 500 },
+    { ...channel.handlers, timeout: 8_000 },
   );
   return { remote, hooks };
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FallbackProps } from 'react-error-boundary';
 import { useRouteError } from '@modern-js/runtime/router';
 import { Box, Heading, Text, TextArea } from '@radix-ui/themes';
@@ -28,5 +28,10 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = props => {
 
 export const ErrorRouteHandler: React.FC = () => {
   const error = useRouteError();
+
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
+
   return <ErrorFallback resetErrorBoundary={() => null} error={error} />;
 };
