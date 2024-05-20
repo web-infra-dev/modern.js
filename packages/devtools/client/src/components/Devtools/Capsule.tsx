@@ -81,7 +81,12 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   }, []);
 
   return (
-    <Theme appearance={appearance} className={appearance} hasBackground={false}>
+    <Theme
+      appearance={appearance}
+      className={appearance}
+      hasBackground={false}
+      style={{ height: 0, width: 0, minHeight: 0, minWidth: 0 }}
+    >
       <Visible when={showDevtools} keepAlive={true} load={loadDevtools}>
         <div className={styles.container}>
           <FrameBox
