@@ -1,4 +1,5 @@
 import path from 'path';
+import { Buffer } from 'buffer';
 import {
   findManifest,
   parseManifest,
@@ -10,6 +11,7 @@ import {
   replacer,
   reviver,
   DevtoolsContext,
+  StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/node';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import _ from '@modern-js/utils/lodash';
@@ -123,6 +125,17 @@ export const setupClientConnection = async (
     clientConn.applyStateOperations.asEvent(ops);
   });
 
+  const validateSafeToOpen = (filename: string) => {
+    const { appDirectory } = api.useAppContext();
+    const resolved = path.resolve(appDirectory, filename);
+    for (const preset of ctx.storagePresets) {
+      if (path.resolve(appDirectory, preset.filename) === resolved) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
     echo(content) {
@@ -138,19 +151,65 @@ export const setupClientConnection = async (
       const appCtx = api.useAppContext();
       const basename = `${ctx.def.name.shortName}.runtime.json`;
       const filename = path.resolve(appCtx.appDirectory, basename);
-      const name = `New Preset ${nanoid()}`;
-      const config: DevtoolsConfig = (await fs.pathExists(filename))
-        ? await fs.readJSON(filename)
-        : {};
-      config.storagePresets ||= [];
-      config.storagePresets.push({
+      const id = nanoid();
+      const name = `New Preset ${id.slice(0, 6)}`;
+      const config: DevtoolsConfig = {};
+      if (await fs.pathExists(filename)) {
+        Object.assign(config, await fs.readJSON(filename));
+      }
+      const newPreset: StoragePresetWithIdent = {
         name,
+        id,
         cookie: {},
         localStorage: {},
         sessionStorage: {},
-      });
+      };
+      config.storagePresets ||= [];
+      config.storagePresets.push(newPreset);
       await fs.outputJSON(filename, config, { spaces: 2 });
-      return { filename, name };
+      return newPreset;
+    },
+    async pasteStoragePreset(target) {
+      const { default: clipboardy } = await import('clipboardy');
+      const raw = clipboardy.readSync();
+      const HEAD = `data:application/json;base64,`;
+      if (!raw.startsWith(HEAD)) {
+        throw new Error('Failed to parse data URL');
+      }
+      const encoded = raw.slice(HEAD.length);
+      const preset: StoragePresetWithIdent = JSON.parse(
+        Buffer.from(encoded, 'base64').toString('utf-8'),
+      );
+      if (typeof preset !== 'object' || preset === null) {
+        throw new Error('Failed to parse data URL');
+      }
+      if (typeof preset.name !== 'string') {
+        throw new Error('Failed to parse data URL');
+      }
+      const appCtx = api.useAppContext();
+      const filename = path.resolve(appCtx.appDirectory, target.filename);
+      const config: DevtoolsConfig = {};
+      if (await fs.pathExists(filename)) {
+        Object.assign(config, await fs.readJSON(filename));
+      }
+      config.storagePresets ||= [];
+      const diff = _.pick(preset, ['cookie', 'localStorage', 'sessionStorage']);
+      const matched = _.find(config.storagePresets, { id: target.id });
+      if (matched) {
+        _.merge(matched, diff);
+      } else {
+        config.storagePresets.push(preset);
+      }
+      await fs.outputJSON(filename, config, { spaces: 2 });
+    },
+    async open(filename) {
+      const name = path.resolve(api.useAppContext().appDirectory, filename);
+      const validated = validateSafeToOpen(name);
+      if (!validated) {
+        throw new Error('Failed to validate the file.');
+      }
+      const { default: open } = await import('open');
+      await open(name);
     },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {

@@ -1,6 +1,13 @@
 import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import { DevtoolsConfig } from '@modern-js/devtools-kit';
+import {
+  DevtoolsConfig,
+  DevtoolsContext,
+  StoragePresetWithIdent,
+  StoragePresetContext,
+  StoragePresetConfig,
+} from '@modern-js/devtools-kit';
+import { logger, nanoid } from '@modern-js/utils';
 
 const CONFIG_FILENAME = 'modern.runtime.json';
 
@@ -28,17 +35,45 @@ export async function resolveConfigFiles(
 }
 
 export async function loadConfigFile(filename: string) {
-  const { storagePresets }: DevtoolsConfig = await fs.readJSON(filename);
-  if (storagePresets) {
-    for (const preset of storagePresets) {
-      preset.filename = filename;
-    }
+  const storagePresets: StoragePresetConfig[] = [];
+  try {
+    const config: DevtoolsConfig = await fs.readJSON(filename);
+    config.storagePresets && storagePresets.push(...config.storagePresets);
+  } catch (e) {
+    logger.error(e);
+    return null;
   }
-  return { storagePresets };
+  type PresetWithIdent = StoragePresetWithIdent & { id: string };
+  const presets: PresetWithIdent[] = [];
+  let _validated = true;
+  for (const preset of storagePresets) {
+    if (typeof preset.id !== 'string') {
+      preset.id = nanoid();
+      _validated = false;
+    }
+    presets.push(preset as PresetWithIdent);
+  }
+  if (!_validated) {
+    await fs.outputJSON(filename, { storagePresets: presets }, { spaces: 2 });
+    return null;
+  }
+  const ret: StoragePresetContext[] = [];
+  for (const preset of presets) {
+    ret.push({ ...preset, filename });
+  }
+  return { storagePresets: ret };
 }
 
 export async function loadConfigFiles(dir = process.cwd()) {
   const filenames = await resolveConfigFiles(dir);
-  const ret = await Promise.all(filenames.map(loadConfigFile));
+  const resolved = await Promise.all(filenames.map(loadConfigFile));
+  const ret: Partial<DevtoolsContext>[] = [];
+  for (const config of resolved) {
+    if (config) {
+      ret.push(config);
+    } else {
+      return null;
+    }
+  }
   return ret;
 }

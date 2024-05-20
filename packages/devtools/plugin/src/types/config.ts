@@ -1,5 +1,5 @@
-import { StoragePresetConfig } from '@modern-js/devtools-kit/node';
+import { StoragePresetWithIdent } from '@modern-js/devtools-kit/node';
 
 export interface DevtoolsConfig {
-  storagePresets?: StoragePresetConfig[];
+  storagePresets?: StoragePresetWithIdent[];
 }

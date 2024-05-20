@@ -1,5 +1,6 @@
 import '@/styles/theme.scss';
 import React, { useEffect } from 'react';
+import * as ToastPrimitive from '@radix-ui/react-toast';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
 import {
   Box,
@@ -100,22 +101,24 @@ const Layout = () => {
       accentColor="blue"
       panelBackground="solid"
     >
-      <Navigator />
-      <Box width="100%" position="relative" pt="4">
-        <Box width="100%" height="100%" position="relative">
-          <Outlet />
+      <ToastPrimitive.Provider swipeDirection="up">
+        <Navigator />
+        <Box width="100%" position="relative" pt="4">
+          <Box width="100%" height="100%" position="relative">
+            <Outlet />
+          </Box>
+          <Breadcrumbs
+            className={styles.breadcrumbs}
+            height="7"
+            position="absolute"
+            top="0"
+            left="0"
+            right="0"
+          />
         </Box>
-        <Breadcrumbs
-          className={styles.breadcrumbs}
-          height="7"
-          position="absolute"
-          top="0"
-          left="0"
-          right="0"
-        />
-      </Box>
-      <ThemePanel defaultOpen={false} style={{ display }} />
-      <Puller />
+        <ThemePanel defaultOpen={false} style={{ display }} />
+        <Puller />
+      </ToastPrimitive.Provider>
     </Theme>
   );
 };

@@ -23,7 +23,7 @@ import { useSnapshot } from 'valtio';
 import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
-import { IndicateCard } from '@/components/Card';
+import { Card, CardColumn } from '@/components/Card';
 
 interface SummaryCostsData {
   title: string;
@@ -121,9 +121,9 @@ const Page: FC = () => {
         justify="center"
         className={styles.container}
       >
-        <IndicateCard className={styles.primaryCard}>
+        <Card variant="indicate" className={styles.primaryCard}>
           <Theme appearance="light" hasBackground={false} asChild>
-            <IndicateCard.Column>
+            <CardColumn>
               <Heading as="h1" color="gray" className={styles.heading}>
                 {implementation}
               </Heading>
@@ -142,10 +142,10 @@ const Page: FC = () => {
               >
                 Launch {implementation} with complete features.
               </Link>
-            </IndicateCard.Column>
+            </CardColumn>
           </Theme>
-        </IndicateCard>
-        <IndicateCard className={styles.infoCard}>
+        </Card>
+        <Card variant="indicate" className={styles.infoCard}>
           <Flex justify="between" gap="2" align="center" height="100%">
             <Box>
               <Text color="gray">Visit our website</Text>
@@ -162,9 +162,9 @@ const Page: FC = () => {
             </Box>
             <img className={styles.logo} src={logo} />
           </Flex>
-        </IndicateCard>
-        <IndicateCard className={styles.countCard}>
-          <IndicateCard.Column>
+        </Card>
+        <Card variant="indicate" className={styles.countCard}>
+          <CardColumn>
             <Text className={styles.countText} size="1">
               <HiMiniRectangleStack /> {doctor.numModules} modules
             </Text>
@@ -174,10 +174,10 @@ const Page: FC = () => {
             <Text className={styles.countText} size="1">
               <HiMiniArchiveBox /> {doctor.numChunks} chunks
             </Text>
-          </IndicateCard.Column>
-        </IndicateCard>
-        <IndicateCard className={styles.compileCostCard}>
-          <IndicateCard.Column>
+          </CardColumn>
+        </Card>
+        <Card variant="indicate" className={styles.compileCostCard}>
+          <CardColumn>
             <Flex asChild align="center" gap="1">
               <Heading as="h3" size="2" color="gray">
                 <HiChartBar />
@@ -189,10 +189,10 @@ const Page: FC = () => {
                 <GraphBar key={cost.name} cost={cost} />
               ))}
             </Flex>
-          </IndicateCard.Column>
-        </IndicateCard>
-        <IndicateCard width="100%">
-          <IndicateCard.Column>
+          </CardColumn>
+        </Card>
+        <Card variant="indicate" width="100%">
+          <CardColumn>
             <Text weight="bold" size="1" color="gray">
               Found {_.size(errors)} {_.size(errors) > 1 ? 'errors' : 'error'}
             </Text>
@@ -209,8 +209,8 @@ const Page: FC = () => {
                 )}
               </Box>
             ))}
-          </IndicateCard.Column>
-        </IndicateCard>
+          </CardColumn>
+        </Card>
       </Flex>
     </Flex>
   );

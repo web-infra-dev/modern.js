@@ -1,0 +1,24 @@
+{
+  "folders": [
+    {
+      "name": "modern-js-monorepo",
+      "path": "../../"
+    },
+    {
+      "name": "devtools-kit",
+      "path": "./kit"
+    },
+    {
+      "name": "devtools-plugin",
+      "path": "./plugin"
+    },
+    {
+      "name": "devtools-client",
+      "path": "./client"
+    },
+    {
+      "name": "devtools-integration",
+      "path": "../../tests/integration/devtools"
+    }
+  ]
+}

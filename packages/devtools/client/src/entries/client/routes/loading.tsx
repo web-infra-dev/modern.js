@@ -1,5 +1,6 @@
 import { useUnmount } from 'react-use';
 import { $mountPoint } from './state';
+import styles from './loading.module.scss';
 import { Loading } from '@/components/Loading';
 
 const GlobalLoading = () => {
@@ -8,12 +9,7 @@ const GlobalLoading = () => {
     mountPoint.remote.onFinishRender();
   });
 
-  return (
-    <Loading
-      width="100%"
-      style={{ height: 'calc(100vh - var(--breadcrumb-height))' }}
-    />
-  );
+  return <Loading className={styles.loading} />;
 };
 
 export default GlobalLoading;

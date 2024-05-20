@@ -9,9 +9,9 @@ import {
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
 import { $serverExported, VERSION } from '../state';
-import '@/components/Card/Indicate.module.scss';
+import '@/components/Card/Card.module.scss';
 import styles from './page.module.scss';
-import { IndicateCard } from '@/components/Card';
+import { Card, CardColumn } from '@/components/Card';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
@@ -47,9 +47,9 @@ const Page: React.FC = () => {
         justify="center"
         className={styles.container}
       >
-        <IndicateCard className={styles.primaryCard}>
+        <Card variant="indicate" className={styles.primaryCard}>
           <Theme appearance="dark" hasBackground={false} asChild>
-            <IndicateCard.Column>
+            <CardColumn>
               <Heading as="h1" className={styles.heading}>
                 DevTools
               </Heading>
@@ -59,10 +59,10 @@ const Page: React.FC = () => {
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}
               </Text>
-            </IndicateCard.Column>
+            </CardColumn>
           </Theme>
-        </IndicateCard>
-        <IndicateCard className={styles.infoCard}>
+        </Card>
+        <Card variant="indicate" className={styles.infoCard}>
           <Flex justify="between" gap="3" align="center" height="100%">
             <Box>
               <Text color="gray">Visit our website</Text>
@@ -81,8 +81,8 @@ const Page: React.FC = () => {
               <HiOutlineDocumentText size="50" color="var(--gray-6)" />
             </Box>
           </Flex>
-        </IndicateCard>
-        <IndicateCard className={styles.pluginCard}>
+        </Card>
+        <Card variant="indicate" className={styles.pluginCard}>
           <Flex align="center" justify="between" height="100%" gap="6">
             <Box>
               <Text
@@ -100,8 +100,8 @@ const Page: React.FC = () => {
             </Box>
             <HiOutlinePuzzlePiece size="50" color="var(--gray-6)" />
           </Flex>
-        </IndicateCard>
-        <IndicateCard className={styles.compileTimeCard}>
+        </Card>
+        <Card variant="indicate" className={styles.compileTimeCard}>
           <Flex align="center" justify="between" height="100%" gap="6">
             <Box>
               <Text
@@ -118,7 +118,7 @@ const Page: React.FC = () => {
             </Box>
             <HiOutlineClock size="50" color="var(--gray-6)" />
           </Flex>
-        </IndicateCard>
+        </Card>
       </Flex>
       <Flex align="center" className={styles.bottomTip}>
         <Text color="gray" size="2">
