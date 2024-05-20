@@ -21,7 +21,7 @@ export const Toast: FC<ToastProps> = props => {
           {children}
         </ToastPrimitive.Action>
       )}
-      <Box grow="1" />
+      <Box flexGrow="1" />
       <ToastPrimitive.Close className={styles.close} aria-label="Close">
         <HiMiniXMark />
       </ToastPrimitive.Close>

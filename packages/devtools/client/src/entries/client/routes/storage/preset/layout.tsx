@@ -22,10 +22,10 @@ import { Card } from '@/components/Card';
 import { $server, $serverExported } from '@/entries/client/routes/state';
 import { useThrowable } from '@/utils';
 
-interface CardButtonProps extends FlexProps {
+type CardButtonProps = FlexProps & {
   selected?: boolean;
   to?: string;
-}
+};
 
 const CardButton: FC<CardButtonProps> = props => {
   const { selected, to, ...rest } = props;
@@ -46,10 +46,10 @@ const CardButton: FC<CardButtonProps> = props => {
   );
 };
 
-interface PresetCardProps extends CardButtonProps {
+type PresetCardProps = CardButtonProps & {
   preset: UnwindPreset;
   highlight?: boolean;
-}
+};
 
 const PresetCard: FC<PresetCardProps> = props => {
   const { preset, highlight, ...rest } = props;
@@ -170,7 +170,7 @@ const Page: FC = () => {
           </CardButton>
         </Flex>
       </Flex>
-      <Box width="0" grow="1" height="100%" shrink="1" pt="2">
+      <Box width="0" flexGrow="1" height="100%" flexShrink="1" pt="2">
         <Outlet />
       </Box>
     </Flex>

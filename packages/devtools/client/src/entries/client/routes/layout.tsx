@@ -8,7 +8,6 @@ import {
   ThemePanel,
   Tooltip,
   useThemeContext,
-  updateThemeAppearanceClass,
 } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
@@ -57,7 +56,7 @@ const AppearanceButton = () => {
   const { appearance } = useThemeContext();
 
   const handleClick = () => {
-    updateThemeAppearanceClass(appearance === 'light' ? 'dark' : 'light');
+    // updateThemeAppearanceClass(appearance === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -82,12 +81,12 @@ const Navigator: React.FC = () => {
   const tabs = useSnapshot($tabs);
 
   return (
-    <Flex direction="column" shrink="0" className={styles.navigator}>
+    <Flex direction="column" flexShrink="0" className={styles.navigator}>
       {tabs.map(tab => (
         // @ts-expect-error
         <NavigateButton key={tab.name} tab={tab} />
       ))}
-      <Box grow="1" />
+      <Box flexGrow="1" />
       <AppearanceButton />
     </Flex>
   );

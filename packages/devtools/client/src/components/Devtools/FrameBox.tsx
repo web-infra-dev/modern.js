@@ -1,5 +1,4 @@
-import { Box } from '@radix-ui/themes';
-import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
+import { Box, BoxProps } from '@radix-ui/themes';
 import React from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
@@ -7,12 +6,10 @@ import { Loading } from '../Loading';
 import styles from './FrameBox.module.scss';
 import { $inner } from '@/entries/mount/state';
 
-export interface FrameBoxProps
-  extends BoxProps,
-    React.RefAttributes<HTMLDivElement> {
+export type FrameBoxProps = BoxProps & {
   src?: string;
   onClose?: () => void;
-}
+};
 
 export const FrameBox: React.FC<FrameBoxProps> = ({
   src,

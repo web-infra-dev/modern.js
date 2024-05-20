@@ -77,9 +77,7 @@ const Page: React.FC = () => {
                 </Link>
               </Flex>
             </Box>
-            <Box color="gray" asChild>
-              <HiOutlineDocumentText size="50" color="var(--gray-6)" />
-            </Box>
+            <HiOutlineDocumentText size="50" color="var(--gray-6)" />
           </Flex>
         </Card>
         <Card variant="indicate" className={styles.pluginCard}>

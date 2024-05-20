@@ -6,13 +6,20 @@ import {
   HiMiniFire,
 } from 'react-icons/hi2';
 import { useLoaderData, useRevalidator } from '@modern-js/runtime/router';
-import { Badge, Box, Flex, IconButton, Text, Tooltip } from '@radix-ui/themes';
+import {
+  Badge,
+  Box,
+  Flex,
+  IconButton,
+  Text,
+  Tooltip,
+  FlexProps,
+} from '@radix-ui/themes';
 import {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';
 import { subscribe } from 'valtio';
-import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import {
   applyStorage,
@@ -28,12 +35,12 @@ import { useToast } from '@/components/Toast';
 import { useThrowable } from '@/utils';
 import { Card } from '@/components/Card';
 
-interface PresetToolbarProps extends FlexProps {
+type PresetToolbarProps = FlexProps & {
   onCopyAction?: () => void;
   onPasteAction?: () => void;
   onOpenAction?: () => void;
   onApplyAction?: () => void;
-}
+};
 
 const PresetToolbar: FC<PresetToolbarProps> = props => {
   const { onCopyAction, onOpenAction, onApplyAction, onPasteAction, ...rest } =
@@ -153,21 +160,21 @@ const Page = () => {
   return (
     <Flex direction="column" gap="2">
       <Flex
-        grow="0"
+        flexGrow="0"
         px="2"
         gap="2"
         justify="between"
         align="center"
         width="100%"
       >
-        <Box shrink="0" className={styles.textEllipsis}>
+        <Box flexShrink="0" className={styles.textEllipsis}>
           <Text size="1" weight="bold" color="gray">
             {preset.name}
           </Text>
         </Box>
         <PresetToolbar
-          shrink="0"
-          grow="0"
+          flexShrink="0"
+          flexGrow="0"
           px="2"
           justify="end"
           onCopyAction={handleCopyAction}
@@ -176,7 +183,7 @@ const Page = () => {
           onApplyAction={handleApplyAction}
         />
       </Flex>
-      <Box grow="1" pb="2" pr="2" style={{ overflowY: 'scroll' }}>
+      <Box flexGrow="1" pb="2" pr="2" style={{ overflowY: 'scroll' }}>
         <Flex direction="column" gap="2">
           <PresetRecordsCard
             title="Cookie"

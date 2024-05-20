@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { Theme as OriginalTheme, useThemeContext } from '@radix-ui/themes';
-import type { ThemeProps } from '@radix-ui/themes/dist/cjs/theme';
+import {
+  Theme as OriginalTheme,
+  ThemeProps,
+  useThemeContext,
+} from '@radix-ui/themes';
 import { getQuery } from 'ufo';
 import _ from 'lodash';
 
