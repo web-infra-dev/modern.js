@@ -43,7 +43,7 @@ const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
           p="1"
           className={styles.tabButtonInner}
         >
-          <Box height="5" width="5" asChild>
+          <Box height="var(--space-5)" width="var(--space-5)" asChild>
             {tab.icon}
           </Box>
         </Flex>
@@ -68,7 +68,7 @@ const AppearanceButton = () => {
           p="1"
           className={styles.tabButtonInner}
         >
-          <Box height="5" width="5" asChild>
+          <Box height="var(--space-5)" width="var(--space-5)" asChild>
             {appearance === 'dark' ? <HiOutlineMoon /> : <HiOutlineSun />}
           </Box>
         </Flex>
@@ -108,7 +108,7 @@ const Layout = () => {
           </Box>
           <Breadcrumbs
             className={styles.breadcrumbs}
-            height="7"
+            height="2.5rem"
             position="absolute"
             top="0"
             left="0"

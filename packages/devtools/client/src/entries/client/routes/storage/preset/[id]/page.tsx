@@ -47,7 +47,13 @@ const PresetToolbar: FC<PresetToolbarProps> = props => {
     props;
 
   return (
-    <Flex position="relative" gap="3" height="5" align="center" {...rest}>
+    <Flex
+      position="relative"
+      gap="3"
+      height="var(--space-5)"
+      align="center"
+      {...rest}
+    >
       <Tooltip content="Copy as Data URL" delayDuration={200}>
         <IconButton onClick={onCopyAction} variant="ghost" color="gray">
           <HiMiniClipboard />
