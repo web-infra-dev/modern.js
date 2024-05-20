@@ -21,13 +21,6 @@ function parseQuery(request: Request): URLSearchParams {
   return url.searchParams;
 }
 
-function getPathname(request: Request): string {
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
-  const url = new URL(request.url);
-
-  return url.pathname;
-}
-
 function auth(): UnstableMiddleware<Var> {
   function getUserInfo(req: Request) {
     const query = parseQuery(req);
@@ -42,8 +35,7 @@ function auth(): UnstableMiddleware<Var> {
 
   // eslint-disable-next-line consistent-return
   return async (c, next) => {
-    const pathname = getPathname(c.request);
-    if (pathname.startsWith('/login')) {
+    if (c.request.url.includes('/login')) {
       return next();
     }
 
