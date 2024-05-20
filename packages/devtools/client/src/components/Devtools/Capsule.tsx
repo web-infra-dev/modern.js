@@ -12,6 +12,7 @@ import { useStickyDraggable } from '@/utils/draggable';
 import { $client, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
 import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
+import { useThemeAppearance } from '@/utils/theme';
 
 const parseDeepLink = (url = window.location) => {
   // Expected: #/__devtools/doctor
@@ -34,17 +35,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
 
   const draggable = useStickyDraggable({ clamp: true });
 
-  const [appearance, setAppearance] = useState<'light' | 'dark'>(() => {
-    const ret =
-      localStorage.getItem('__modern_js_devtools_appearance') ?? 'light';
-    localStorage.setItem('__modern_js_devtools_appearance', ret);
-    return ret as any;
-  });
-  useEvent('storage', (e: StorageEvent) => {
-    if (e.key === '__modern_js_devtools_appearance') {
-      setAppearance((e.newValue as any) || undefined);
-    }
-  });
+  const [appearance] = useThemeAppearance();
 
   useEvent('keydown', (e: KeyboardEvent) => {
     e.shiftKey && e.altKey && e.code === 'KeyD' && toggleDevtools();
@@ -90,7 +81,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   }, []);
 
   return (
-    <Theme appearance={appearance} className={appearance}>
+    <Theme appearance={appearance} className={appearance} hasBackground={false}>
       <Visible when={showDevtools} keepAlive={true} load={loadDevtools}>
         <div className={styles.container}>
           <FrameBox

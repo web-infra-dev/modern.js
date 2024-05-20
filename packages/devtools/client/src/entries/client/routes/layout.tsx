@@ -2,13 +2,7 @@ import '@/styles/theme.scss';
 import React, { useEffect } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
-import {
-  Box,
-  Flex,
-  ThemePanel,
-  Tooltip,
-  useThemeContext,
-} from '@radix-ui/themes';
+import { Box, Flex, Tooltip } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
@@ -17,6 +11,7 @@ import { $tabs } from './state';
 import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
+import { useThemeAppearance } from '@/utils/theme';
 
 const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
   let to = '';
@@ -53,10 +48,10 @@ const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
 };
 
 const AppearanceButton = () => {
-  const { appearance } = useThemeContext();
+  const [appearance, setAppearance] = useThemeAppearance();
 
   const handleClick = () => {
-    // updateThemeAppearanceClass(appearance === 'light' ? 'dark' : 'light');
+    setAppearance(appearance === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -93,7 +88,6 @@ const Navigator: React.FC = () => {
 };
 
 const Layout = () => {
-  const display = process.env.NODE_ENV === 'development' ? undefined : 'none';
   return (
     <Theme
       className={styles.wrapper}
@@ -115,7 +109,6 @@ const Layout = () => {
             right="0"
           />
         </Box>
-        <ThemePanel defaultOpen={false} style={{ display }} />
         <Puller />
       </ToastPrimitive.Provider>
     </Theme>
