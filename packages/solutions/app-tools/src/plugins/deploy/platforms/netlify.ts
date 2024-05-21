@@ -126,7 +126,12 @@ export const createNetlifyPreset: CreatePreset = (
       await fse.writeFile(entryFilePath, entryCode);
     },
     async end() {
-      await cleanDistDirectory(distDirectory);
+      if (
+        process.env.NODE_ENV !== 'test' &&
+        process.env.NODE_ENV !== 'development'
+      ) {
+        await cleanDistDirectory(distDirectory);
+      }
       if (!needModernServer) {
         return;
       }

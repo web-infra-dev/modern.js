@@ -12,6 +12,7 @@ export type TracedPackage = {
     {
       pkgJSON: PackageJson;
       path: string;
+      isDirectDep: boolean;
       files: string[];
     }
   >;
@@ -21,6 +22,7 @@ export type TracedFile = {
   path: string;
   subpath: string;
   parents: string[];
+  isDirectDep: boolean;
 
   pkgPath: string;
   pkgName: string;
@@ -148,6 +150,7 @@ export const findPackageParents = (
   const versionFiles: TracedFile[] = pkg.versions[version].files.map(
     path => tracedFiles[path],
   );
+
   const parentPkgs = [
     ...new Set(
       versionFiles.flatMap(file =>
@@ -155,7 +158,8 @@ export const findPackageParents = (
           .map(parentPath => {
             const parentFile = tracedFiles[parentPath];
 
-            if (parentFile.pkgName === pkg.name) {
+            // when parent does not exist, parent may be an entry file.
+            if (!parentFile || parentFile.pkgName === pkg.name) {
               return null;
             }
             return `${parentFile.pkgName}@${parentFile.pkgVersion}`;

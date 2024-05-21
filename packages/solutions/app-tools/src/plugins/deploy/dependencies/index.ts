@@ -46,7 +46,6 @@ export const handleDependencies = async (
         if (reasons.ignored) {
           return;
         }
-
         const filePath = await resolveTracedPath(base, _path);
 
         if (
@@ -107,11 +106,18 @@ export const handleDependencies = async (
         const tracedFile = {
           path: filePath,
           parents,
+          isDirectDep: parents.some(parent => {
+            return (
+              parent.startsWith(appDir) &&
+              !parent.startsWith(currentProjectModules)
+            );
+          }),
 
           subpath,
           pkgName,
           pkgPath,
         } as TracedFile;
+
         // eslint-disable-next-line consistent-return
         return [filePath, tracedFile];
       }),
@@ -137,13 +143,18 @@ export const handleDependencies = async (
       };
       tracedPackages[pkgName] = tracedPackage;
     }
+
     let tracedPackageVersion = tracedPackage.versions[pkgJSON.version!];
     if (!tracedPackageVersion) {
       tracedPackageVersion = {
         path: tracedFile.pkgPath,
         files: [],
+        isDirectDep: false,
         pkgJSON,
       };
+      if (tracedFile.isDirectDep) {
+        tracedPackageVersion.isDirectDep = tracedFile.isDirectDep;
+      }
       tracedPackage.versions[pkgJSON.version!] = tracedPackageVersion;
     }
 
@@ -181,9 +192,24 @@ export const handleDependencies = async (
     }),
   );
 
+  const projectPkgJson = await readPackageJSON(serverRootDir).catch(
+    () => ({} as PackageJson),
+  );
+
   for (const [pkgName, pkgVersions] of Object.entries(multiVersionPkgs)) {
     const versionEntires = Object.entries(pkgVersions).sort(
       ([v1, p1], [v2, p2]) => {
+        const shouldHoist1 =
+          tracedPackages[pkgName]?.versions?.[v1]?.isDirectDep;
+        const shouldHoist2 =
+          tracedPackages[pkgName]?.versions?.[v2]?.isDirectDep;
+
+        if (shouldHoist1 && !shouldHoist2) {
+          return -1;
+        }
+        if (!shouldHoist1 && shouldHoist2) {
+          return 1;
+        }
         if (p1.length === 0) {
           return -1;
         }
@@ -219,14 +245,10 @@ export const handleDependencies = async (
     }
   }
 
-  const projectPkg = await readPackageJSON(serverRootDir).catch(
-    () => ({} as PackageJson),
-  );
-
   const outputPkgPath = path.join(serverRootDir, 'package.json');
   await fse.writeJSON(outputPkgPath, {
-    name: `${projectPkg.name || 'modernjs-project'}-prod`,
-    version: projectPkg.version || '0.0.0',
+    name: `${projectPkgJson.name || 'modernjs-project'}-prod`,
+    version: projectPkgJson.version || '0.0.0',
     private: true,
     dependencies: Object.fromEntries(
       [
