@@ -228,6 +228,19 @@ export const setupClientConnection = async (
     clientRpcOptions,
   );
 
+  let _pendingCompiler = 0;
+  const resolveRsdoctorManifest = async () => {
+    _pendingCompiler -= 1;
+    if (_pendingCompiler === 0) {
+      try {
+        const doctor = await getDoctorOverview(await $state.framework.context);
+        $resolvers.doctor.resolve(doctor);
+      } catch (err) {
+        $resolvers.doctor.resolve(undefined);
+      }
+    }
+  };
+
   const hooks: InjectedHooks = {
     prepare() {
       const frameworkContext = {
@@ -240,13 +253,18 @@ export const setupClientConnection = async (
       $resolvers.framework.config.transformed.resolve(
         api.useResolvedConfigContext(),
       );
-      getDoctorOverview(frameworkContext)
-        .then(doctor => $resolvers.doctor.resolve(doctor))
-        .catch(() => $resolvers.doctor.resolve(undefined));
     },
     modifyFileSystemRoutes({ entrypoint, routes }) {
       $state.fileSystemRoutes[entrypoint.entryName] = _.cloneDeep(routes);
       return { entrypoint, routes };
+    },
+    afterCreateCompiler({ compiler }) {
+      if (!compiler) return;
+      _pendingCompiler += 1;
+      compiler.hooks.done.tap(
+        { name: '@modern-js/plugin-devtools', stage: 4000 },
+        () => resolveRsdoctorManifest(),
+      );
     },
   };
 

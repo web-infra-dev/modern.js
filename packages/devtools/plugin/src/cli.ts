@@ -85,6 +85,7 @@ export const devtoolsPlugin = (
           watcher.on('unlink', refreshStoragePreset);
         },
         modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
+        afterCreateCompiler: rpc.hooks.afterCreateCompiler,
         beforeRestart() {
           closeWatcher();
           return new Promise((resolve, reject) =>
