@@ -66,12 +66,16 @@ export const devtoolsPlugin = (
           const { devtools: options = {} } = appConfig;
           updateContext(ctx, options);
 
-          const watcher = chokidar.watch(getConfigFilenames(), {
+          const basename = `${ctx.def.name.shortName}.runtime.json`;
+          const watcher = chokidar.watch(getConfigFilenames(basename), {
             cwd: appCtx.appDirectory,
             ignorePermissionErrors: true,
           });
           const refreshStoragePreset = async () => {
-            const configs = await loadConfigFiles(appCtx.appDirectory);
+            const configs = await loadConfigFiles(
+              basename,
+              appCtx.appDirectory,
+            );
             if (!configs) return;
             ctx.storagePresets = [];
             updateContext(ctx, ...configs);
