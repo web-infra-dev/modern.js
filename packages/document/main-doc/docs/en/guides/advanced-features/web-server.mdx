@@ -50,15 +50,18 @@ The Hook provided by Modern.js is used to control the built-in logic in the Web 
 Currently, two Hooks are provided: `AfterMatch` and `AfterRender`, which can be used to modify the rendering results. It can be written in `server/index.ts` as follows:
 
 ```ts
-import type { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
+import type {
+  AfterMatchHook,
+  AfterRenderHook,
+} from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (ctx, next) => {
   next();
-}
+};
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   next();
-}
+};
 ```
 
 Projects should follow these best practices when using Hook:
@@ -81,7 +84,9 @@ Modern.js provides a set of APIs by default for projects to use:
 import { Middlewre } from '@modern-js/runtime/server';
 
 export const middleware: Middlewre = (context, next) => {
-  const { source: { req, res } } = context;
+  const {
+    source: { req, res },
+  } = context;
   console.log(req.url);
   next();
 };
@@ -98,6 +103,33 @@ Projects should follow these best practices when using Middleware:
 3. In Middleware, you can ignore the default rendering and customize the rendering process.
 
 **In general, in CSR projects, using Hook can basically meet all the needs of simple scenarios. In SSR projects, Middleware can be used for more complex Node extensions.**
+
+### UnstableMiddleware
+
+Modern.js will provide new Middleware to add pre-processing middleware to the Web Server, supporting the execution of custom logic before and after handling the page.
+
+```ts title="server/index.ts"
+import {
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/runtime/server';
+
+const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+
+  console.log(`dur=${end - start}`);
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [time];
+```
+
+:::note
+For detailed API and more usage, please refer to [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware)
+:::
 
 ## Managed Page Requests with BFF
 
