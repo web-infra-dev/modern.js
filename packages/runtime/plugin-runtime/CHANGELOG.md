@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.50.0
+
+### Patch Changes
+
+- 4a9c0c7: feat: add typings for Body、Root、Style components
+
+  feat: 为 Body、Root、Style 组件添加类型
+
+  - @modern-js/plugin@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/types@2.50.0
+  - @modern-js/utils@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes

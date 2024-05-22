@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.50.0
+
+### Patch Changes
+
+- 7ed2fbc: chore: add bodyInit for createWebRequest
+  chore: createWebRequest 函数支持 bodyInit 入参
+  - @modern-js/plugin@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/utils@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes

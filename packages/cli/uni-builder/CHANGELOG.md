@@ -1,5 +1,13 @@
 # @modern-js/uni-builder
 
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.50.0
+- @modern-js/server@2.50.0
+- @modern-js/utils@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes

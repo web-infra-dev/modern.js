@@ -1,5 +1,22 @@
 # @modern-js/plugin-devtools
 
+## 2.50.0
+
+### Minor Changes
+
+- 460793f: feat(devtools): new tab added for managing storage presets
+
+  feat(devtools): 新增标签页提供 storage presets 管理
+
+### Patch Changes
+
+- Updated dependencies [4a9c0c7]
+- Updated dependencies [460793f]
+  - @modern-js/runtime@2.50.0
+  - @modern-js/devtools-kit@2.50.0
+  - @modern-js/devtools-client@2.50.0
+  - @modern-js/utils@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes
