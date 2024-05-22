@@ -1,5 +1,4 @@
 export const getRuntimeEnv = () => {
-  // eslint-disable-next-line node/no-unsupported-features/es-builtins
   if (globalThis?.process?.release?.name === 'node') {
     return 'node';
   }

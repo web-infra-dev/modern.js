@@ -4,6 +4,7 @@ import { createHooks } from 'hookable';
 import createDeferred from 'p-defer';
 import { proxy } from 'valtio';
 import { activate, createBridge } from 'react-devtools-inline/backend';
+import _ from 'lodash';
 import {
   ClientFunctions,
   MountPointFunctions as ToClientFunctions,
@@ -27,6 +28,36 @@ export const $client = $clientChannel.then(channel => {
     },
     async onFinishRender() {
       await hooks.callHook('onFinishRender');
+    },
+    async cookies(items) {
+      const cookiesReq = await fetch('/__devtools/api/cookies', {
+        method: 'POST',
+        body: JSON.stringify({ setCookies: items }),
+      });
+      const { cookies } = await cookiesReq.json();
+      if (!cookies || typeof cookies !== 'object') {
+        throw new TypeError('No cookies returned from server');
+      }
+
+      const { parse } = await import('cookie-es');
+      const clientOnly = parse(document.cookie);
+      const serverOnly: Record<string, string> = _.omit(
+        cookies,
+        Object.keys(clientOnly),
+      );
+      return { client: clientOnly, server: serverOnly };
+    },
+    async localStorage(items) {
+      _.each(items, (v, k) => {
+        window.localStorage.setItem(k, v);
+      });
+      return { ...window.localStorage };
+    },
+    async sessionStorage(items) {
+      _.each(items, (v, k) => {
+        window.sessionStorage.setItem(k, v);
+      });
+      return { ...window.sessionStorage };
     },
   };
   const remote = createBirpc<ClientFunctions, ToClientFunctions>(definitions, {

@@ -1,0 +1,67 @@
+{
+  "storagePresets": [
+    {
+      "name": "用户asdasd",
+      "cookie": {
+        "lang": "zh",
+        "x-tt-jwt": "eC10dC1qd3Q="
+      },
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "id": "NH-u77BTywmgiL5BGI"
+    },
+    {
+      "name": "商家运营",
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a626L+Q6JCl"
+      },
+      "id": "rOA8DK3H5u-VzOaxrAIEA"
+    },
+    {
+      "name": "商家管理员",
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a62566h55CG5ZGY"
+      },
+      "id": "o8VD1NFWeczy4s9wuQ0Rb"
+    },
+    {
+      "name": "用户assdfs",
+      "cookie": {
+        "lang": "zh",
+        "x-tt-jwt": "eC10dC1q3e109d3Q="
+      },
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "id": "Su2FBxx4Sh8gkpetupZJU"
+    },
+    {
+      "name": "商家运营B",
+      "cookie": {
+        "x-tt-jwt": "5ZWG5F13626L+Q6JCl"
+      },
+      "id": "oZkTXi6ZvoD1Jd4yMElXw"
+    },
+    {
+      "name": "商家管理员2",
+      "localStorage": {
+        "__cache_first_1161": "1"
+      },
+      "cookie": {
+        "x-tt-jwt": "5ZWG5a625asd66h55CG5ZGY"
+      },
+      "id": "YG5V4dtjmRqdm705f6Cbh"
+    },
+    {
+      "name": "New Preset XBBHSE",
+      "id": "XBBHSEx2DfWBj3mJkq-OY",
+      "cookie": {},
+      "localStorage": {},
+      "sessionStorage": {}
+    }
+  ]
+}

@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import { useRouteError } from '@modern-js/runtime/router';
 import { Box, Link } from '@radix-ui/themes';
-import { useSnapshot } from 'valtio';
 import { parseURL } from 'ufo';
-import { $definition } from '../state';
+import { useSnapshot } from 'valtio';
+import { $serverExported } from '../state';
 import {
   ErrorFallbackProps,
   ErrorRouteHandler,
@@ -12,7 +12,7 @@ import { FeatureDisabled } from '@/components/Error/FeatureDisabled';
 
 const Handler: FC<ErrorFallbackProps> = () => {
   const error = useRouteError();
-  const def = useSnapshot($definition);
+  const { def } = useSnapshot($serverExported).context;
   const isStateError =
     error && typeof error === 'object' && Object.keys(error).length === 0;
   if (isStateError) {
