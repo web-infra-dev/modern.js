@@ -1,9 +1,16 @@
 ---
 title: Middleware
 ---
+
 # Middleware
 
 Used to extend the built-in Web Server of Modern.js, unlike [Hook](/apis/app/runtime/web-server/hook), Middleware can directly operate Node's origin request and response, and can be extended using the framework plugin.
+
+:::warning
+In the next major release, Modern.js will use new middleware to replace this approach.
+
+It is recommended to use [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware) to handle page requests.
+:::
 
 :::note
 For more detail, see [Extend Web Server](/guides/advanced-features/web-server).
@@ -124,7 +131,6 @@ export const middleware: SomeType = (ctx, next) => {
 ```
 
 By default, the framework extension capability of Web Server is turned off after installing the framework extension plugin. If you want to use the framework extension, you can turn it on through ['server.enableFrameworkExt'](/configure/app/server/enable-framework-ext.html).
-
 
 :::info
 The type name exported by the framework extension may not 'Middleware', but is named by the framework extension plugin.
