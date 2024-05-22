@@ -51,7 +51,8 @@ describe('devtools dev', () => {
       <div>
         <div>
           <h1>Hello, Modern.js!</h1>
-          <div style="display: flex; gap: 0.5rem;">
+          <div><button>-</button><span>0</span><button>+</button></div>
+          <div style="display: flex; gap: 0.5rem">
             <a href="/user">User</a>
             <a href="/devtools">DevTools</a>
             <a href="/admin">Admin</a>
