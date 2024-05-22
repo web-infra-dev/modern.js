@@ -1,10 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
 import { omit } from '@modern-js/utils/lodash';
 import { DocumentContext } from './DocumentContext';
 import { DOCUMENT_SSR_PLACEHOLDER } from './constants';
 
-export function Root(props: { children?: any; rootId?: string }) {
+export function Root(
+  props: { rootId?: string } & React.DOMAttributes<HTMLDivElement>,
+) {
   const { rootId, children, ...rest } = props;
   const legalProperties = omit(rest, 'id');
 

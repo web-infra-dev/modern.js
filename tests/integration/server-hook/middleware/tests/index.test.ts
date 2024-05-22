@@ -40,4 +40,20 @@ describe('test status code page', () => {
     expect(header['x-index-middleware']).toMatch('true');
     expect(header['x-unstable-middleware']).toMatch('true');
   });
+
+  test('should redirect correctly', async () => {
+    const response = await page.goto(`http://localhost:${port}/redirect`);
+
+    const chain = response?.request().redirectChain();
+
+    expect(chain?.length).toBe(1);
+    expect(chain?.[0].url()).toBe(`http://localhost:${port}/redirect`);
+  });
+
+  test('should set headers correctly', async () => {
+    const response = await page.goto(`http://localhost:${port}/home`);
+    const headers = response?.headers();
+
+    expect(headers).toHaveProperty('x-index-name', 'home');
+  });
 });

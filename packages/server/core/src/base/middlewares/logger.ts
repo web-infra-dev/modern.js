@@ -1,7 +1,7 @@
 // The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
 // license at https://github.com/honojs/hono/blob/main/LICENSE
-import type { Middleware, ServerEnv } from '../../core/server';
 import { getPathname } from '../utils';
+import type { Middleware, ServerEnv } from '../../core/server';
 
 enum LogPrefix {
   Outgoing = '-->',

@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 2.49.4
+
+### Patch Changes
+
+- d7e6c67: fix: parse props to custom bootstrap
+- Updated dependencies [a5fdc8d]
+  - @modern-js/runtime@2.49.4
+  - @modern-js/utils@2.49.4
+
 ## 2.49.3
 
 ### Patch Changes

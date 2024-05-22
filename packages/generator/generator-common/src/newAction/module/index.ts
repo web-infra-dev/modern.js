@@ -23,10 +23,7 @@ export const ModuleActionTypesMap: Record<string, string[]> = {
 
 export const ModuleSpecialSchemaMap: Record<string, Schema> = {};
 
-export const getModuleNewActionSchema = (
-  extra: Record<string, any> = {},
-): Schema => {
-  const { funcMap = {} } = extra;
+export const getModuleNewActionSchema = (): Schema => {
   return {
     type: 'object',
     properties: {
@@ -42,12 +39,10 @@ export const getModuleNewActionSchema = (
       [ActionType.Function]: {
         type: 'string',
         title: ActionTypeQuestionText[ActionType.Function](),
-        enum: ModuleActionFunctions.filter(func => !funcMap[func]).map(
-          func => ({
-            value: func,
-            label: ActionFunctionText[func](),
-          }),
-        ),
+        enum: ModuleActionFunctions.map(func => ({
+          value: func,
+          label: ActionFunctionText[func](),
+        })),
         'x-reactions': [
           {
             dependencies: ['actionType'],

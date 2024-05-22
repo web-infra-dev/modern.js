@@ -71,10 +71,13 @@ interface DataFunctionArgs<D = any> {
   context?: D;
 }
 
-export type LoaderFunctionArgs = DataFunctionArgs<RequestContext>;
+export type LoaderFunctionArgs<P extends Record<string, unknown> = any> =
+  DataFunctionArgs<RequestContext<P>>;
 
 declare type DataFunctionValue = Response | NonNullable<unknown> | null;
 
-export type LoaderFunction = (
-  args: LoaderFunctionArgs,
+export type LoaderFunction = <
+  P extends Record<string, unknown> = Record<string, unknown>,
+>(
+  args: LoaderFunctionArgs<P>,
 ) => Promise<DataFunctionValue> | DataFunctionValue;

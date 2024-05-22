@@ -132,36 +132,6 @@ export default {
 };
 ```
 
-#### getCompiledPath
-
-- **Type:** `(name: string) => string`
-
-Get the path to the builder built-in dependencies, such as:
-
-- sass
-- sass-loader
-- less
-- less-loader
-- css-loader
-- ...
-
-This method is usually used when you need to reuse the same dependency with the builder.
-
-:::tip
-Builder built-in dependencies are subject to change with version iterations, e.g. generate large version break changes. Please avoid using this API if it is not necessary.
-:::
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { getCompiledPath }) => {
-      const loaderPath = getCompiledPath('less-loader');
-      // ...
-    },
-  },
-};
-```
-
 #### CHAIN_ID
 
 Some common Chain IDs are predefined in the Builder, and you can use these IDs to locate the built-in Rule or Plugin.
