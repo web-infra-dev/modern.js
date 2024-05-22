@@ -32,5 +32,5 @@ export type Hooks = BaseHooks<any> & AppToolsHooks<any>;
 
 export type InjectedHooks = Pick<
   ToThreads<Hooks>,
-  'prepare' | 'modifyFileSystemRoutes'
+  'prepare' | 'modifyFileSystemRoutes' | 'afterCreateCompiler'
 >;
