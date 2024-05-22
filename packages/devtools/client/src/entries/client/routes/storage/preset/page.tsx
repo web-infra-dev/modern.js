@@ -59,22 +59,22 @@ const Page: FC = () => {
     (value, key) => ({ key, value, id: key }),
   );
   return (
-    <Flex direction="column" gap="2" height="100%" shrink="1">
+    <Flex direction="column" gap="2" height="100%" flexShrink="1">
       <Flex
-        grow="0"
+        flexGrow="0"
         px="2"
         gap="2"
         justify="between"
         align="center"
         width="100%"
       >
-        <Box shrink="0" className={styles.textEllipsis}>
+        <Box flexShrink="0" className={styles.textEllipsis}>
           <Text size="1" weight="bold" color="gray">
             Current Storage
           </Text>
         </Box>
       </Flex>
-      <Box grow="1" pb="2" pr="2" className={styles.scrollable}>
+      <Box flexGrow="1" pb="2" pr="2" className={styles.scrollable}>
         <Flex direction="column" gap="2">
           <PresetRecordsCard title="Cookie" records={cookie} color="yellow" />
           <PresetRecordsCard

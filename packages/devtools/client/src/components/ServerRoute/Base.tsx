@@ -40,7 +40,7 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
           >
             {title}
           </Text>
-          <Box grow="1" />
+          <Box flexGrow="1" />
           <Box className={styles.mark} data-open={isOpen}>
             <CaretSortIcon />
           </Box>

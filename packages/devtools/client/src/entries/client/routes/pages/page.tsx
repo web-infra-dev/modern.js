@@ -45,18 +45,17 @@ const Page: React.FC = () => {
       </Flex>
       <Box className={styles.input}>
         <Box mx="auto" style={{ maxWidth: '40rem' }}>
-          <TextField.Root>
+          <TextField.Root
+            placeholder="/foo?bar#baz"
+            onChange={e => handleUrlInput(e.target.value)}
+            type="url"
+            autoComplete="false"
+            autoCapitalize="false"
+            autoCorrect="false"
+          >
             <TextField.Slot>
               <HiOutlineArrowsRightLeft />
             </TextField.Slot>
-            <TextField.Input
-              placeholder="/foo?bar#baz"
-              onChange={e => handleUrlInput(e.target.value)}
-              type="url"
-              autoComplete="false"
-              autoCapitalize="false"
-              autoCorrect="false"
-            />
           </TextField.Root>
         </Box>
       </Box>
