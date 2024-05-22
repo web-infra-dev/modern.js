@@ -13,6 +13,7 @@ installGlobals();
 export const createWebRequest = (
   req: NodeRequest,
   res: NodeResponse,
+  body?: BodyInit,
 ): Request => {
   const headerRecord: [string, string][] = [];
   const len = req.rawHeaders.length;
@@ -30,12 +31,12 @@ export const createWebRequest = (
   };
   res.on('close', () => controller.abort());
 
-  // TODO: Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here now.
+  // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
   if (
-    !(method === 'GET' || method === 'HEAD') &&
-    req.url?.includes('__loader')
+    body ||
+    (!(method === 'GET' || method === 'HEAD') && req.url?.includes('__loader'))
   ) {
-    init.body = createReadableStreamFromReadable(req);
+    init.body = body ?? createReadableStreamFromReadable(req);
     (init as { duplex: 'half' }).duplex = 'half';
   }
 
