@@ -75,6 +75,7 @@ export const traversePromises = (
   const promises = new Set<[PromiseLike<unknown>, Path]>();
   const memo = new WeakSet();
   const traverse = (value: any, currentPath: Path) => {
+    if (value === null) return;
     if (typeof value === 'object') {
       if (memo.has(value)) {
         return;
@@ -84,7 +85,7 @@ export const traversePromises = (
     }
     if (isPromiseLike(value)) {
       promises.add([value, currentPath]);
-    } else if (typeof value === 'object' && value !== null) {
+    } else if (typeof value === 'object') {
       for (const [k, v] of Object.entries(value)) {
         traverse(v, [...currentPath, k]);
       }

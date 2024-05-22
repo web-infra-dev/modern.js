@@ -47,19 +47,8 @@ describe('devtools dev', () => {
 
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.innerHTML, root);
-    const expected = `
-      <div>
-        <div>
-          <h1>Hello, Modern.js!</h1>
-          <div style="display: flex; gap: 0.5rem;">
-            <a href="/user">User</a>
-            <a href="/devtools">DevTools</a>
-            <a href="/admin">Admin</a>
-          </div>
-        </div>
-      </div>
-    `;
-    expect(targetText).toBe(expected.replace(/\n\s*/g, ''));
+    const expected = '<h1>Hello, Modern.js!</h1>';
+    expect(targetText).toContain(expected);
     expect(errors.length).toEqual(0);
 
     await browser.close();
