@@ -45,7 +45,6 @@ async function getDeployPreset(
 
 export default (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-deploy',
-  pre: ['@modern-js/plugin-bff', '@modern-js/plugin-server'],
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 

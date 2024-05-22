@@ -29,22 +29,6 @@ export type TracedFile = {
   pkgVersion?: string;
 };
 
-export function applyProductionCondition(exports: PackageJson['exports']) {
-  if (!exports || typeof exports === 'string') {
-    return;
-  }
-  if (exports.production) {
-    if (typeof exports.production === 'string') {
-      exports.default = exports.production;
-    } else {
-      Object.assign(exports, exports.production);
-    }
-  }
-  for (const key in exports) {
-    applyProductionCondition(exports[key]);
-  }
-}
-
 function applyPublicCondition(pkg: PackageJson) {
   if (pkg?.publishConfig?.exports) {
     pkg.exports = pkg?.publishConfig?.exports;
