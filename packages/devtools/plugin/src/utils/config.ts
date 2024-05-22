@@ -9,14 +9,12 @@ import {
 } from '@modern-js/devtools-kit';
 import { logger, nanoid } from '@modern-js/utils';
 
-const CONFIG_FILENAME = 'modern.runtime.json';
-
-export function getConfigFilenames(dir = process.cwd()) {
+export function getConfigFilenames(base: string, dir = process.cwd()) {
   const files: string[] = [];
   let curr = dir;
   while (path.dirname(curr) !== curr) {
-    files.push(path.join(curr, CONFIG_FILENAME));
-    // files.push(path.join(curr, 'node_modules/.modern-js', CONFIG_FILENAME));
+    files.push(path.join(curr, base));
+    // files.push(path.join(curr, 'node_modules/.modern-js', base));
     curr = path.dirname(curr);
   }
   return files;
@@ -24,9 +22,10 @@ export function getConfigFilenames(dir = process.cwd()) {
 
 /** Resolve all config files from target directory upward to the root path. */
 export async function resolveConfigFiles(
+  base: string,
   dir = process.cwd(),
 ): Promise<string[]> {
-  const files = getConfigFilenames(dir);
+  const files = getConfigFilenames(base, dir);
   const ret: string[] = [];
   await Promise.all(
     files.map(async file => (await fs.pathExists(file)) && ret.push(file)),
@@ -64,8 +63,8 @@ export async function loadConfigFile(filename: string) {
   return { storagePresets: ret };
 }
 
-export async function loadConfigFiles(dir = process.cwd()) {
-  const filenames = await resolveConfigFiles(dir);
+export async function loadConfigFiles(base: string, dir = process.cwd()) {
+  const filenames = await resolveConfigFiles(base, dir);
   const resolved = await Promise.all(filenames.map(loadConfigFile));
   const ret: Partial<DevtoolsContext>[] = [];
   for (const config of resolved) {
