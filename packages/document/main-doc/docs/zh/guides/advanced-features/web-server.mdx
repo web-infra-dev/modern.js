@@ -76,7 +76,7 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 
 对于某些项目，可能在服务端有更多的需求，Modern.js 提供了 Middleware 为 Web Server 添加前置中间件。它只能运行在 Node 环境下，因此如果项目被部署到其他环境中，如 Worker 环境，则不可以使用 Middleware。
 
-:::warning
+:::note
 下一个大版本，Modern.js 将会使用新 Middleware 来替代该写法。
 
 推荐使用 [UnstableMiddleware](/guides/advanced-features/web-server.html#unstablemiddleware) 处理页面请求。
