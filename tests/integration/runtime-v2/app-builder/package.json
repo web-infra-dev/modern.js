@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "app-builder",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "USE_RUNTIME_V2=true modern dev"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
