@@ -24,6 +24,7 @@ import {
 } from './commands';
 import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/watchFiles';
+import analyzePlugin from './plugins/analyze';
 
 export * from './defineConfig';
 
@@ -43,16 +44,19 @@ export const appTools = (
     bundler: 'webpack',
   },
 ): CliPlugin<AppTools<'shared'>> => {
-  console.log(options);
   return {
     name: '@modern-js/app-tools-v2',
 
-    post: ['@modern-js/plugin-initialize'],
+    post: ['@modern-js/plugin-initialize', '@modern-js/plugin-analyze'],
 
     registerHook: hooks,
 
     usePlugins: [
       initializePlugin({
+        bundler:
+          options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+      }),
+      analyzePlugin({
         bundler:
           options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
       }),

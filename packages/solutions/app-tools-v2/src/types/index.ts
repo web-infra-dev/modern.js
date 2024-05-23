@@ -8,8 +8,17 @@ import type {
 } from './legacyConfig';
 
 export * from './config';
+export type { webpack, Rspack } from '@modern-js/uni-builder';
 export type { Bundler } from './utils';
 export type { IAppContext, PluginAPI } from '@modern-js/core';
+export type {
+  ServerUserConfig,
+  ServerNormalizedConfig,
+  BffUserConfig,
+  BffNormalizedConfig,
+  SSR,
+  SSRByEntries,
+} from '@modern-js/server-core';
 
 export type AppTools<B extends Bundler = 'webpack'> = {
   hooks: AppToolsHooks<B>;
