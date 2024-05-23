@@ -479,6 +479,9 @@ importers:
 
   packages/cli/plugin-ssg:
     dependencies:
+      '@modern-js/prod-server':
+        specifier: workspace:*
+        version: link:../../server/prod-server
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -498,9 +501,6 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../server/prod-server
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
