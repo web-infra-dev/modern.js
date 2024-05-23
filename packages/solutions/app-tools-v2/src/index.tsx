@@ -1,5 +1,6 @@
 import { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import initializePlugin from './plugins/initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
@@ -35,11 +36,16 @@ export const appTools = (
   return {
     name: '@modern-js/app-tools-v2',
 
-    post: [],
+    post: ['@modern-js/plugin-initialize'],
 
     registerHook: hooks,
 
-    usePlugins: [],
+    usePlugins: [
+      initializePlugin({
+        bundler:
+          options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+      }),
+    ],
 
     setup: api => {
       const appContext = api.useAppContext();
