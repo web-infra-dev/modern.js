@@ -4,6 +4,7 @@ packages:
  - 'packages/document/*'
  - 'packages/devtools/*'
  - 'packages/runtime/*'
+ - 'packages/runtime-v2/*'
  - 'packages/generator/*'
  - 'packages/generator/generators/*'
  - 'packages/generator/plugins/*'

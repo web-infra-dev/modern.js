@@ -27,6 +27,7 @@ import { generateWatchFiles } from './utils/watchFiles';
 import analyzePlugin from './plugins/analyze';
 
 export * from './defineConfig';
+export * from './types';
 
 export type AppToolsOptions = {
   /**
