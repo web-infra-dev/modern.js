@@ -1,10 +1,19 @@
-import { createDebugger, fs, isApiOnly } from '@modern-js/utils';
+import {
+  createDebugger,
+  fs,
+  getArgv,
+  isApiOnly,
+  isDevCommand,
+  minimist,
+} from '@modern-js/utils';
 import { CliPlugin } from '@modern-js/core';
 import { AppTools, webpack } from '../../types';
 import { createBuilderGenerator } from '../../builder';
 import { emitResolvedConfig } from '../../utils/config';
 import { printInstructions } from '../../utils/instruction';
 import { checkIsBuildCommands } from './utils';
+import { getServerRoutes } from './route';
+import { getSelectedEntries } from './entry';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -51,6 +60,59 @@ export default ({
           api.setAppContext(appContext);
           return;
         }
+
+        const [{ getBundleEntry }, { getHtmlTemplate }] = await Promise.all([
+          import('./entry'),
+          import('./htmlTemplate'),
+        ]);
+
+        const entrypoints = getBundleEntry(appContext, resolvedConfig);
+
+        debug(`entrypoints: %o`, entrypoints);
+
+        const initialRoutes = getServerRoutes(entrypoints, {
+          appContext,
+          config: resolvedConfig,
+        });
+
+        const { routes } = await hookRunners.modifyServerRoutes({
+          routes: initialRoutes,
+        });
+
+        debug(`server routes: %o`, routes);
+
+        appContext = {
+          ...api.useAppContext(),
+          entrypoints,
+          serverRoutes: routes,
+        };
+        api.setAppContext(appContext);
+
+        const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
+          appContext,
+          config: resolvedConfig,
+        });
+
+        let checkedEntries = entrypoints.map(point => point.entryName);
+        if (isDevCommand()) {
+          const { entry } = minimist(getArgv());
+          checkedEntries = await getSelectedEntries(
+            typeof entry === 'string' ? entry.split(',') : entry,
+            entrypoints,
+          );
+        }
+
+        appContext = {
+          ...api.useAppContext(),
+          entrypoints,
+          checkedEntries,
+          apiOnly,
+          serverRoutes: routes,
+          htmlTemplates,
+        };
+
+        api.setAppContext(appContext);
+
         if (checkIsBuildCommands()) {
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
