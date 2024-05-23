@@ -1,7 +1,10 @@
 import React from 'react';
 import { getGlobalApp, getGlobalRoutes } from '../context';
 
-export function createRoot() {
+export function createRoot(App?: React.ComponentType) {
+  if (App) {
+    return App;
+  }
   console.log('createRoot');
   const app = getGlobalApp();
   const routes = getGlobalRoutes();
