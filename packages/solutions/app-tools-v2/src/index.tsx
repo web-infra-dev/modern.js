@@ -3,6 +3,15 @@ import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
+import {
+  buildCommand,
+  deployCommand,
+  devCommand,
+  inspectCommand,
+  newCommand,
+  serverCommand,
+  upgradeCommand,
+} from './commands';
 
 export * from './defineConfig';
 
@@ -42,7 +51,17 @@ export const appTools = (
       const locale = getLocaleLanguage();
       i18n.changeLanguage({ locale });
 
-      return {};
+      return {
+        async commands({ program }) {
+          await devCommand(program, api);
+          await buildCommand(program, api);
+          serverCommand(program, api);
+          deployCommand(program, api);
+          newCommand(program, locale);
+          inspectCommand(program, api);
+          upgradeCommand(program);
+        },
+      };
     },
   };
 };
