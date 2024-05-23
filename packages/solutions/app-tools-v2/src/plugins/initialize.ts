@@ -9,13 +9,13 @@ import type {
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
-} from '../../types';
+} from '../types';
 import {
   checkIsLegacyConfig,
   createDefaultConfig,
   createLegacyDefaultConfig,
   transformNormalizedConfig,
-} from '../../config';
+} from '../config';
 
 export default ({
   bundler,

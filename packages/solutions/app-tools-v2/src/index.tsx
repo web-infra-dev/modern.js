@@ -1,4 +1,5 @@
 import path from 'path';
+import { lintPlugin } from '@modern-js/plugin-lint';
 import { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import {
@@ -11,6 +12,7 @@ import initializePlugin from './plugins/initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
+import serverBuildPlugin from './plugins/serverBuild';
 import {
   buildCommand,
   deployCommand,
@@ -54,6 +56,8 @@ export const appTools = (
         bundler:
           options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
       }),
+      serverBuildPlugin(),
+      lintPlugin(),
     ],
 
     setup: api => {
