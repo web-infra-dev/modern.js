@@ -98,12 +98,24 @@ export const linkPackage = async (
     });
 };
 
-export const readDirRecursive = async (dir: string): Promise<string[]> => {
+interface ReadDirOptions {
+  filter?: (filePath: string) => boolean;
+}
+
+export const readDirRecursive = async (
+  dir: string,
+  options: ReadDirOptions = {},
+): Promise<string[]> => {
+  const { filter } = options;
   const files = await fse.readdir(dir, { withFileTypes: true });
   const filesAndDirs = await Promise.all(
     files.map(async file => {
-      const resPath = path.resolve(dir, file.name);
-      return file.isDirectory() ? readDirRecursive(resPath) : resPath;
+      const resolvedPath = path.resolve(dir, file.name);
+      if (file.isDirectory()) {
+        return readDirRecursive(resolvedPath, options);
+      } else {
+        return filter && !filter(resolvedPath) ? [] : resolvedPath;
+      }
     }),
   );
   return filesAndDirs.flat();
@@ -121,9 +133,15 @@ export const isFile = async (file: string) => {
   }
 };
 
-export const findEntryFiles = async (rootDir: string) => {
-  const files = await readDirRecursive(rootDir);
-  return files;
+export const findEntryFiles = async (
+  rootDir: string,
+  entryFilter?: (filePath: string) => boolean,
+) => {
+  const files = await readDirRecursive(rootDir, { filter: entryFilter });
+  return files.filter(
+    file =>
+      file.endsWith('.mjs') || file.endsWith('.cjs') || file.endsWith('.js'),
+  );
 };
 
 export const findPackageParents = (

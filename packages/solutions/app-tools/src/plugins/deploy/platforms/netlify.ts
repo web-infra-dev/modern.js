@@ -76,7 +76,6 @@ export const createNetlifyPreset: CreatePreset = (
 
       if (needModernServer) {
         await fse.ensureDir(funcsDirectory);
-        await fse.copy(distDirectory, funcsDirectory);
         await fse.copy(distDirectory, funcsDirectory, {
           filter: (src: string) => {
             const distStaticDirectory = path.join(distDirectory, `static`);

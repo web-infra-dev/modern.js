@@ -4,6 +4,5 @@
     "strictNullChecks": false,
     "noEmit": true
   },
-  "types": ["jasmine", "jest"],
-  "exclude": ["./integration"]
+  "types": ["jasmine", "jest"]
 }

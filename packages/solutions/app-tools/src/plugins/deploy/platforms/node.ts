@@ -10,11 +10,7 @@ import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
 import { CreatePreset } from './platform';
 
-export const createNodePreset: CreatePreset = (
-  appContext,
-  config,
-  needModernServer,
-) => {
+export const createNodePreset: CreatePreset = (appContext, config) => {
   const { appDirectory, distDirectory, serverInternalPlugins } = appContext;
   const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
   const outputDirectory = path.join(appDirectory, '.output');
@@ -28,9 +24,6 @@ export const createNodePreset: CreatePreset = (
       await fse.copy(distDirectory, outputDirectory);
     },
     async genEntry() {
-      if (!needModernServer) {
-        return;
-      }
       const serverConfig = {
         server: {
           port: 8080,
@@ -75,10 +68,17 @@ export const createNodePreset: CreatePreset = (
         `You can preview this build by`,
         chalk.blue(`node .output/index`),
       );
+
+      const filter = (filePath: string) => {
+        return !filePath.startsWith(staticDirectory);
+      };
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      await handleDependencies(appDirectory, outputDirectory, [
-        '@modern-js/prod-server',
-      ]);
+      await handleDependencies(
+        appDirectory,
+        outputDirectory,
+        ['@modern-js/prod-server'],
+        filter,
+      );
     },
   };
 };

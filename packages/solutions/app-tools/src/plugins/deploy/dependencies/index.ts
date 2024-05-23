@@ -19,9 +19,11 @@ export const handleDependencies = async (
   appDir: string,
   serverRootDir: string,
   include: string[],
+  entryFilter?: (filePath: string) => boolean,
 ) => {
   const base = '/';
-  const entryFiles = await findEntryFiles(serverRootDir);
+  const entryFiles = await findEntryFiles(serverRootDir, entryFilter);
+
   const includeEntries = include.map(item => {
     if (isAbsolute(item)) {
       return item;
