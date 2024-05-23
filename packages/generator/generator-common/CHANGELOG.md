@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.3.23
+
+### Patch Changes
+
+- e759876: feat: new command add already enable function tooltip
+
+  feat: new 命令增加已经开启功能的提示
+
+  - @modern-js/plugin-i18n@2.50.0
+
 ## 3.3.22
 
 ### Patch Changes

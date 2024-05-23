@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.49.4",
+  "version": "2.50.0",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",

@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-vue
 
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/plugin-module-babel@2.50.0
+- @modern-js/module-tools@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes

@@ -10,6 +10,7 @@ import {
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
+const isCompatibleNode = Number(process.versions.node.split('.')[0]) >= 18;
 
 function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
@@ -17,6 +18,9 @@ function existsSync(filePath: string) {
 
 describe('devtools build', () => {
   test(`should get right devtools build!`, async () => {
+    if (!isCompatibleNode) {
+      return;
+    }
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
@@ -26,6 +30,9 @@ describe('devtools build', () => {
 
 describe('devtools dev', () => {
   test(`should render page correctly`, async () => {
+    if (!isCompatibleNode) {
+      return;
+    }
     const appPort = await getPort();
     const app = await launchApp(
       appDir,
