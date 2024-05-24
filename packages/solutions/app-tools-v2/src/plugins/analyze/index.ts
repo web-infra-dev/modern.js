@@ -11,8 +11,8 @@ import { AppTools, webpack } from '../../types';
 import { createBuilderGenerator } from '../../builder';
 import { emitResolvedConfig } from '../../utils/config';
 import { printInstructions } from '../../utils/instruction';
+import { generateRoutes } from '../../utils/routes';
 import { checkIsBuildCommands } from './utils';
-import { getServerRoutes } from './route';
 import { getSelectedEntries } from './entry';
 
 const debug = createDebugger('plugin-analyze');
@@ -61,12 +61,16 @@ export default ({
           return;
         }
 
-        const [{ getBundleEntry }, { getHtmlTemplate }] = await Promise.all([
-          import('./entry'),
-          import('./htmlTemplate'),
-        ]);
+        const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
+          await Promise.all([
+            import('./entry'),
+            import('./route'),
+            import('./htmlTemplate'),
+          ]);
 
-        const entrypoints = getBundleEntry(appContext, resolvedConfig);
+        const { entrypoints } = await hookRunners.modifyEntrypoints({
+          entrypoints: getBundleEntry(appContext, resolvedConfig),
+        });
 
         debug(`entrypoints: %o`, entrypoints);
 
@@ -123,7 +127,7 @@ export default ({
 
           builder.onBeforeBuild(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();
-            // await generateRoutes(appContext);
+            await generateRoutes(appContext);
             await hookRunners.beforeBuild({
               bundlerConfigs:
                 bundlerConfigs as unknown as webpack.Configuration[],

@@ -1,5 +1,7 @@
 import { isReact18 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
+import { Entrypoint } from '@modern-js/types';
+import { generateCode } from './code';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
@@ -8,6 +10,15 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   usePlugins: [],
   setup: api => {
     return {
+      modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {
+        // TODO runtime entry
+        return { entrypoints };
+      },
+      async beforeCreateCompiler() {
+        const appContext = api.useAppContext();
+        const resolvedConfig = api.useResolvedConfigContext();
+        await generateCode({ appContext, config: resolvedConfig });
+      },
       config() {
         const appDir = api.useAppContext().appDirectory;
         process.env.IS_REACT18 = isReact18(appDir).toString();

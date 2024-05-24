@@ -62,7 +62,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
       isMainEntry: false,
       entry: entryFile as string,
       absoluteEntryDir: path.resolve(dir),
-      isAutoMount: false,
+      isAutoMount: true,
     };
   });
 export const getFileSystemEntry = (

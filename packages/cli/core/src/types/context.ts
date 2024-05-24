@@ -33,6 +33,8 @@ export interface IAppContext {
   nodeModulesDirectory: string;
   /** Path to the configuration file */
   configFile: string | false;
+  /** Path to the runtime configuration file */
+  runtimeConfigFile: string;
   /** Path to the server configuration file */
   serverConfigFile: string;
   /** Currently registered server plugins */

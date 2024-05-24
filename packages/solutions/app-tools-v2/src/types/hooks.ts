@@ -61,6 +61,9 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     entrypoint: Entrypoint;
     routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   }>;
+  modifyEntrypoints: AsyncWaterfall<{
+    entrypoints: Entrypoint[];
+  }>;
   modifyServerRoutes: AsyncWaterfall<{
     routes: ServerRoute[];
   }>;
