@@ -29,6 +29,7 @@ export const handleDependencies = async (
       return item;
     }
     try {
+      // FIXME: should appoint paths
       return require.resolve(item);
     } catch (error) {}
     return item;

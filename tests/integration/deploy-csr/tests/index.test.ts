@@ -15,9 +15,11 @@ describe('deploy', () => {
       stdio: 'inherit',
     });
     const outputDirectory = path.join(appDir, '.output');
+    const bootstrapJs = path.join(outputDirectory, 'index.js');
     const staticDirectory = path.join(outputDirectory, 'static');
     const htmlDirectory = path.join(outputDirectory, 'html');
 
+    expect(await fse.pathExists(bootstrapJs)).toBe(true);
     expect(await fse.pathExists(staticDirectory)).toBe(true);
     expect(await fse.pathExists(htmlDirectory)).toBe(true);
   });
