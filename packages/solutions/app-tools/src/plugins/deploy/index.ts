@@ -49,8 +49,12 @@ export default (): CliPlugin<AppTools> => ({
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 
     return {
-      async beforeDeploy() {
+      async deploy() {
         const appContext = api.useAppContext();
+        const { metaName } = appContext;
+        if (metaName !== 'modern-js' && !process.env.MODERNJS_DEPLOY) {
+          return;
+        }
         const modernConfig = api.useResolvedConfigContext();
         const deployPreset = await getDeployPreset(
           appContext,
