@@ -9720,7 +9720,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.6
       '@babel/helper-builder-binary-assignment-operator-visitor': 7.22.15
-      '@babel/helper-plugin-utils': 7.22.5
+      '@babel/helper-plugin-utils': 7.24.5
 
   /@babel/plugin-transform-exponentiation-operator@7.23.3(@babel/core@7.24.5):
     resolution: {integrity: sha512-5fhCsl1odX96u7ILKHBj4/Y8vipoqwsJMh4csSA8qFfxrZDEA4Ssku2DyNvMJSmZNOEBT750LfFPbtrnTP90BQ==}
