@@ -1,13 +1,14 @@
 import { isReact18 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import { Entrypoint } from '@modern-js/types';
+import { routerPlugin } from '../router/cli';
 import { generateCode } from './code';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [],
+  usePlugins: [routerPlugin()],
   setup: api => {
     return {
       modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {

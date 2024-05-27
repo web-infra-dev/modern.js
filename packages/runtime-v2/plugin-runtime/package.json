@@ -116,7 +116,8 @@
     "react-is": "^18",
     "react-side-effect": "^2.1.1",
     "styled-components": "^5.3.1",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.3",
+    "es-module-lexer": "^1.1.0"
   },
   "peerDependencies": {
     "@modern-js/app-tools-v2": "workspace:^2.49.4",
