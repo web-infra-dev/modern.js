@@ -10,7 +10,8 @@ describe('deploy', () => {
   });
 
   test('support csr when deploy target is node', async () => {
-    await execa('npx', ['modern', 'deploy', '-s'], {
+    await execa('MODERNJS_DEPLOY=node npx modern deploy -s', {
+      shell: true,
       cwd: appDir,
       stdio: 'inherit',
     });
