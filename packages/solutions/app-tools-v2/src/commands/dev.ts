@@ -5,7 +5,7 @@ import { initProdMiddlewares } from '@modern-js/prod-server';
 import { registerCompiler } from '../utils/compiler';
 import { printInstructions } from '../utils/instruction';
 import { setServer, getServerInternalPlugins } from '../utils/server';
-// import { generateRoutes } from '../utils/routes';
+import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
@@ -61,7 +61,7 @@ export const dev = async (
     );
   }
 
-  //   await generateRoutes(appContext);
+  await generateRoutes(appContext);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const serverOptions = {

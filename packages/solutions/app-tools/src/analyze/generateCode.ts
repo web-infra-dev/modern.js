@@ -1,3 +1,4 @@
+/* eslint-disable max-depth */
 /* eslint-disable max-lines */
 import path from 'path';
 import {

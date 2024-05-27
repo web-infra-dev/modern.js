@@ -1,6 +1,6 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
-// import { generateRoutes } from '../utils/routes';
+import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
@@ -40,7 +40,7 @@ export const build = async (
       configFile: serverConfigFile,
     });
 
-    // await generateRoutes(appContext);
+    await generateRoutes(appContext);
 
     await hookRunners.afterBuild({
       // "null" stats
