@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deploy support server when deploy target is netlify 1`] = `"/* /.netlify/functions/index 200"`;
+
+exports[`deploy support server when deploy target is vercel 1`] = `
+{
+  "default": {
+    "routes": [
+      {
+        "continue": true,
+        "headers": {
+          "cache-control": "s-maxage=31536000, immutable",
+        },
+        "src": "/static/(.*)",
+      },
+      {
+        "handle": "filesystem",
+      },
+      {
+        "dest": "/index",
+        "src": "/(.*)",
+      },
+    ],
+    "version": 3,
+  },
+  "routes": [
+    {
+      "continue": true,
+      "headers": {
+        "cache-control": "s-maxage=31536000, immutable",
+      },
+      "src": "/static/(.*)",
+    },
+    {
+      "handle": "filesystem",
+    },
+    {
+      "dest": "/index",
+      "src": "/(.*)",
+    },
+  ],
+  "version": 3,
+}
+`;
+
+exports[`deploy support server when deploy target is vercel 2`] = `
+{
+  "default": {
+    "handler": "index.js",
+    "launcherType": "Nodejs",
+    "runtime": "nodejs16.x",
+    "shouldAddHelpers": false,
+    "supportsResponseStreaming": true,
+  },
+  "handler": "index.js",
+  "launcherType": "Nodejs",
+  "runtime": "nodejs16.x",
+  "shouldAddHelpers": false,
+  "supportsResponseStreaming": true,
+}
+`;

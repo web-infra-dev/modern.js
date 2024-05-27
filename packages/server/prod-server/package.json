@@ -32,6 +32,11 @@
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
+    },
+    "./netlify": {
+      "types": "./dist/types/netlify.d.ts",
+      "jsnext:source": "./src/netlify.ts",
+      "default": "./dist/cjs/netlify.js"
     }
   },
   "typesVersions": {
@@ -76,6 +81,11 @@
         "types": "./dist/types/index.d.ts",
         "jsnext:source": "./src/index.ts",
         "default": "./dist/cjs/index.js"
+      },
+      "./netlify": {
+        "types": "./dist/types/netlify.d.ts",
+        "jsnext:source": "./src/netlify.ts",
+        "default": "./dist/cjs/netlify.js"
       }
     }
   }

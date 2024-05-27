@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`deploy support csr when deploy target is netlify 1`] = `
+"/one/* /html/one/index.html 200
+/two/* /html/two/index.html 200"
+`;
+
+exports[`deploy support csr when deploy target is vercel 1`] = `
+{
+  "default": {
+    "routes": [
+      {
+        "continue": true,
+        "headers": {
+          "cache-control": "s-maxage=31536000, immutable",
+        },
+        "src": "/static/(.*)",
+      },
+      {
+        "handle": "filesystem",
+      },
+      {
+        "dest": "/html/one/index.html",
+        "headers": {
+          "cache-control": "s-maxage=0",
+        },
+        "src": "/one(?:/.*)?",
+      },
+      {
+        "dest": "/html/two/index.html",
+        "headers": {
+          "cache-control": "s-maxage=0",
+        },
+        "src": "/two(?:/.*)?",
+      },
+    ],
+    "version": 3,
+  },
+  "routes": [
+    {
+      "continue": true,
+      "headers": {
+        "cache-control": "s-maxage=31536000, immutable",
+      },
+      "src": "/static/(.*)",
+    },
+    {
+      "handle": "filesystem",
+    },
+    {
+      "dest": "/html/one/index.html",
+      "headers": {
+        "cache-control": "s-maxage=0",
+      },
+      "src": "/one(?:/.*)?",
+    },
+    {
+      "dest": "/html/two/index.html",
+      "headers": {
+        "cache-control": "s-maxage=0",
+      },
+      "src": "/two(?:/.*)?",
+    },
+  ],
+  "version": 3,
+}
+`;

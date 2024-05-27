@@ -106,6 +106,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   >;
   afterBuild: AsyncWorkflow<{ stats?: Stats | MultiStats }, unknown>;
   beforeDeploy: AsyncWorkflow<Record<string, any>, unknown>;
+  deploy: AsyncWorkflow<Record<string, any>, unknown>;
   afterDeploy: AsyncWorkflow<Record<string, any>, unknown>;
 
   beforeRestart: AsyncWorkflow<void, void>;

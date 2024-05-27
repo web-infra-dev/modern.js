@@ -210,7 +210,7 @@ export class CustomServer {
         );
       }
 
-      if (c.env?.node.res.headersSent) {
+      if (c.env?.node?.res?.headersSent) {
         return undefined;
       }
 

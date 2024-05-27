@@ -11,5 +11,6 @@ export const deploy = async (
   await getServerInternalPlugins(api);
 
   await hookRunners.beforeDeploy(options);
+  await hookRunners.deploy(options);
   await hookRunners.afterDeploy(options);
 };

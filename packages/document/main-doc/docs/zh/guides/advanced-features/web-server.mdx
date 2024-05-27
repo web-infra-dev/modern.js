@@ -85,9 +85,9 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 Modern.js 默认提供了一套 API 供项目使用：
 
 ```ts
-import { Middlewre } from '@modern-js/runtime/server';
+import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middlewre = (context, next) => {
+export const middleware: Middleware = (context, next) => {
   const {
     source: { req, res },
   } = context;
