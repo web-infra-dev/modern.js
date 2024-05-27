@@ -11,10 +11,14 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is node', async () => {
-    await execa('MODERNJS_DEPLOY=node npx modern deploy --skip-build', {
+    await execa('npx modern deploy --skip-build', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'node',
+      },
     });
     const outputDirectory = path.join(appDir, '.output');
     const staticDirectory = path.join(outputDirectory, 'static');
@@ -29,10 +33,14 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is vercel', async () => {
-    await execa('MODERNJS_DEPLOY=vercel npx modern deploy --skip-build', {
+    await execa('npx modern deploy --skip-build', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'vercel',
+      },
     });
 
     const outputDirectory = path.join(appDir, '.vercel/output');
@@ -59,10 +67,14 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is netlify', async () => {
-    await execa('MODERNJS_DEPLOY=netlify npx modern deploy --skip-build', {
+    await execa('npx modern deploy --skip-build', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'netlify',
+      },
     });
 
     const publishDir = path.join(appDir, 'dist');

@@ -10,10 +10,14 @@ describe('deploy', () => {
   });
 
   test('support csr when deploy target is node', async () => {
-    await execa('MODERNJS_DEPLOY=node npx modern deploy -s', {
+    await execa('npx modern deploy -s', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'node',
+      },
     });
     const outputDirectory = path.join(appDir, '.output');
     const bootstrapJs = path.join(outputDirectory, 'index.js');
@@ -26,10 +30,14 @@ describe('deploy', () => {
   });
 
   test('support csr when deploy target is vercel', async () => {
-    await execa('MODERNJS_DEPLOY=vercel npx modern deploy -s', {
+    await execa('npx modern deploy -s', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'vercel',
+      },
     });
 
     const outputDirectory = path.join(appDir, '.vercel/output');
@@ -47,10 +55,14 @@ describe('deploy', () => {
   });
 
   test('support csr when deploy target is netlify', async () => {
-    await execa('MODERNJS_DEPLOY=netlify npx modern deploy -s', {
+    await execa('npx modern deploy -s', {
       shell: true,
       cwd: appDir,
       stdio: 'inherit',
+      env: {
+        ...process.env,
+        MODERNJS_DEPLOY: 'netlify',
+      },
     });
 
     const outputDirectory = path.join(appDir, 'dist');
