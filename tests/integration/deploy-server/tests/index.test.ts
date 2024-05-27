@@ -11,7 +11,8 @@ describe('deploy', () => {
   });
 
   test('support server when deploy target is node', async () => {
-    await execa('npx', ['modern', 'deploy', '-s'], {
+    await execa('MODERNJS_DEPLOY=node npx modern deploy --skip-build', {
+      shell: true,
       cwd: appDir,
       stdio: 'inherit',
     });
