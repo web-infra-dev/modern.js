@@ -3,6 +3,7 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import { Entrypoint } from '@modern-js/types';
 import { routerPlugin } from '../router/cli';
 import { generateCode } from './code';
+import { pluginAlias } from './alias';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
@@ -12,7 +13,6 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   setup: api => {
     return {
       modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {
-        // TODO runtime entry
         return { entrypoints };
       },
       async beforeCreateCompiler() {
@@ -20,9 +20,14 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         const resolvedConfig = api.useResolvedConfigContext();
         await generateCode({ appContext, config: resolvedConfig });
       },
+      prepare() {
+        const { builder, entrypoints, internalDirectory } = api.useAppContext();
+        builder?.addPlugins([pluginAlias({ entrypoints, internalDirectory })]);
+      },
       config() {
-        const appDir = api.useAppContext().appDirectory;
-        process.env.IS_REACT18 = isReact18(appDir).toString();
+        const { appDirectory } = api.useAppContext();
+        process.env.IS_REACT18 = isReact18(appDirectory).toString();
+
         return {
           runtime: {},
           runtimeByEntries: {},

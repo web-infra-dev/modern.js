@@ -32,7 +32,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
         // nest route
         const hookRunners = api.useHookRunners();
         const config = api.useConfigContext();
-        console.log('===entrypoints', JSON.stringify(entrypoints));
         await Promise.all(
           entrypoints.map(async entrypoint => {
             const { isAutoMount } = entrypoint;
@@ -40,7 +39,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
               const isHasNestedRoutes = hasNestedRoutes(
                 entrypoint.absoluteEntryDir!,
               );
-              console.log('==isHasNestedRoutes', isHasNestedRoutes);
               if (isHasNestedRoutes) {
                 entrypoint.nestedRoutesEntry = path.join(
                   entrypoint.absoluteEntryDir!,
@@ -57,7 +55,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
                   entrypoint.entryName,
                   entrypoint.isMainEntry,
                 );
-                console.log('===nestedRoutes', nestedRoutes);
                 if (nestedRoutes) {
                   if (!Array.isArray(nestedRoutes)) {
                     nestedRoutes = [nestedRoutes];
@@ -71,7 +68,6 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
                   entrypoint,
                   routes: initialRoutes as any,
                 });
-                console.log('routes', routes);
                 const { code } = await hookRunners.beforeGenerateRoutes({
                   entrypoint,
                   code: await templates.fileSystemRoutes({

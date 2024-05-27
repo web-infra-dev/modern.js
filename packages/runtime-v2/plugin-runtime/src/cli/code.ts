@@ -3,6 +3,7 @@ import type { IAppContext, AppNormalizedConfig } from '@modern-js/app-tools-v2';
 import { fs } from '@modern-js/utils';
 import { safeReplacer } from './utils/config';
 import {
+  ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
   ENTRY_RUNTIME_CONFIG_FILE_NAME,
@@ -30,18 +31,39 @@ export const generateCode = async ({
       const { entryName, isAutoMount, entry } = entrypoint;
 
       if (isAutoMount) {
+        // // index.jsx
+        // const indexCode = template.index({
+        //   srcDirectory,
+        //   internalSrcAlias,
+        //   entryName,
+        //   entry,
+        // });
+        // const indexFile = path.resolve(
+        //   internalDirectory,
+        //   `./${entryName}/${ENTRY_POINT_INDEX_FILE_NAME}`,
+        // );
+        // fs.outputFileSync(indexFile, indexCode, 'utf8');
+
+        // register.js
+        const registerCode = template.register();
+        const registerFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_POINT_REGISTER_FILE_NAME}`,
+        );
+        fs.outputFileSync(registerFile, registerCode, 'utf8');
+
         // runtime-register.js
-        const registerCode = template.runtimeRegister({
+        const registerRuntimeCode = template.runtimeRegister({
           srcDirectory,
           internalSrcAlias,
           metaName,
           runtimeConfigFile,
         });
-        const registerFile = path.resolve(
+        const registerRuntimeFile = path.resolve(
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}`,
         );
-        fs.outputFileSync(registerFile, registerCode, 'utf8');
+        fs.outputFileSync(registerRuntimeFile, registerRuntimeCode, 'utf8');
 
         // runtime-global-context.js
         const contextCode = template.runtimeGlobalContext({

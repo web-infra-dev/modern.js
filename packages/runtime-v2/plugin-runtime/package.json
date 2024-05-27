@@ -126,6 +126,7 @@
   },
   "devDependencies": {
     "@types/cookie": "0.5.1",
+    "@rsbuild/core": "0.6.15",
     "@modern-js/app-tools-v2": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/server-core": "workspace:*",

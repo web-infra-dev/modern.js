@@ -8,7 +8,6 @@ interface GlobalContext {
 const globalContext: GlobalContext = {};
 
 export function setGlobalContext(context: GlobalContext) {
-  console.log('setGlobalContext', context);
   globalContext.App = context.App;
   globalContext.routes = context.routes;
 }
