@@ -214,8 +214,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -538,11 +538,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@rsbuild/plugin-swc':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -633,8 +633,8 @@ importers:
   packages/cli/rsbuild-plugin-esbuild:
     dependencies:
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -646,11 +646,11 @@ importers:
         version: 5.91.0(esbuild@0.17.19)
     devDependencies:
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@rsbuild/webpack':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)(esbuild@0.17.19)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)(esbuild@0.17.19)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -682,65 +682,65 @@ importers:
         specifier: 0.5.10
         version: 0.5.10(react-refresh@0.14.0)(webpack@5.91.0)
       '@rsbuild/babel-preset':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@rsbuild/plugin-assets-retry':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-babel':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-check-syntax':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-css-minimizer':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0)
       '@rsbuild/plugin-less':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-pug':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-react':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-rem':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-sass':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-source-build':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-styled-components':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-svgr':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(typescript@5.3.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(typescript@5.3.3)
       '@rsbuild/plugin-toml':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@rsbuild/plugin-type-check':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3)
       '@rsbuild/plugin-typed-css-modules':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/plugin-yaml':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@rsbuild/webpack':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)(esbuild@0.17.19)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)(esbuild@0.17.19)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -812,8 +812,8 @@ importers:
         version: 5.1.0(html-webpack-plugin@5.5.3)(webpack@5.91.0)
     devDependencies:
       '@rsbuild/plugin-swc':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -885,8 +885,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -2753,11 +2753,11 @@ importers:
         specifier: ^7.22.10
         version: 7.22.10(@babel/eslint-parser@7.22.15)(eslint@8.28.0)
       '@rsbuild/babel-preset':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.0
         version: 5.59.6(@typescript-eslint/parser@5.59.6)(eslint@8.28.0)(typescript@5.3.3)
@@ -2850,8 +2850,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/types
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3167,8 +3167,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/babel-preset':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -3906,8 +3906,8 @@ importers:
         version: 8.13.0
     devDependencies:
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3978,8 +3978,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/babel-preset':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4069,14 +4069,14 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@rsbuild/plugin-node-polyfill':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -4103,8 +4103,8 @@ importers:
         version: 3.7.0
     devDependencies:
       '@rsbuild/plugin-swc':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4224,8 +4224,8 @@ importers:
         specifier: workspace:@modern-js/module-tools@*
         version: 'link:'
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4318,11 +4318,11 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/core':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128
+        specifier: 0.7.1
+        version: 0.7.1
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@rspack/plugin-react-refresh':
         specifier: 0.4.5
         version: 0.4.5
@@ -5303,11 +5303,11 @@ importers:
         specifier: 1.33.0
         version: 1.33.0
       '@rsbuild/plugin-swc':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)
+        specifier: 0.7.1
+        version: 0.7.1(@rsbuild/core@0.7.1)
       '@rsbuild/shared':
-        specifier: 0.0.0-next-20240528072128
-        version: 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+        specifier: 0.7.1
+        version: 0.7.1(@swc/helpers@0.5.3)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
@@ -9365,7 +9365,7 @@ packages:
     dependencies:
       '@babel/core': 7.24.5
       '@babel/helper-create-regexp-features-plugin': 7.22.15(@babel/core@7.24.5)
-      '@babel/helper-plugin-utils': 7.24.0
+      '@babel/helper-plugin-utils': 7.24.5
 
   /@babel/plugin-transform-arrow-functions@7.23.3(@babel/core@7.23.6):
     resolution: {integrity: sha512-NzQcQrzaQPkaEwoTm4Mhyl8jI1huEL/WWIEvudjTCMJ9aBZNpsJbMASx7EQECtQQPS/DcnFpo0FIh3LvEO9cxQ==}
@@ -15732,8 +15732,8 @@ packages:
       rollup: 3.29.4
     dev: true
 
-  /@rsbuild/babel-preset@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-D8pr04++cVb2XsD/5iOl/FNNCqriO093WUhewVx0yPq4yFqI4TEYddXzc8LYlSPtbiFP36qW6wY/CE10zfSHZw==}
+  /@rsbuild/babel-preset@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-fiJlC/EfoNOrlu0xEqm2nRMLq2+6zAlqLkcuB+2ETdG8eKxe3ed/2xrzNVL3kBkXsWoTVIVhciQ9u/DNxesSZg==}
     dependencies:
       '@babel/core': 7.24.5
       '@babel/plugin-proposal-decorators': 7.24.1(@babel/core@7.24.5)
@@ -15745,7 +15745,7 @@ packages:
       '@babel/preset-typescript': 7.24.1(@babel/core@7.24.5)
       '@babel/runtime': 7.24.5
       '@babel/types': 7.24.5
-      '@rsbuild/plugin-babel': 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
+      '@rsbuild/plugin-babel': 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
       '@types/babel__core': 7.20.5
       babel-plugin-dynamic-import-node: 2.3.3
       core-js: 3.36.0
@@ -15754,18 +15754,6 @@ packages:
       - '@swc/helpers'
       - supports-color
     dev: false
-
-  /@rsbuild/core@0.0.0-next-20240528072128:
-    resolution: {integrity: sha512-69hTf65DbElX6AS0akAnyzsKp+la+YBnaurn8+qx0hMQMmtRoBWrtBu5udFUtIgKo5pfgDGX1mRzgnSAOLxw3Q==}
-    engines: {node: '>=16.0.0'}
-    hasBin: true
-    dependencies:
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
-      '@rspack/core': 0.7.0(@swc/helpers@0.5.3)
-      '@swc/helpers': 0.5.3
-      core-js: 3.36.0
-      html-webpack-plugin: /html-rspack-plugin@5.7.2(@rspack/core@0.7.0)
-      postcss: 8.4.38
 
   /@rsbuild/core@0.6.1:
     resolution: {integrity: sha512-I/AE7AbRu7hEytRlxKptSGkd2ZXAgowUjH86dspkinoBlGcGjRhYGAYaDR4svfq3MmTTuU0lA/w4JAHHR0E59A==}
@@ -15780,29 +15768,41 @@ packages:
       postcss: 8.4.38
     dev: true
 
-  /@rsbuild/plugin-assets-retry@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-/ree5RTCBadIiCPAa1tun4B3GG/QTy4TP7eYme+DGVNyj3hkKSuKwqs32w2m3gySRsKMyMvFs/fcaXsyxMd1Bg==}
-    peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+  /@rsbuild/core@0.7.1:
+    resolution: {integrity: sha512-zMlCd6D7za0CVJUB4wV+qKPlKx+KYQd5JScadkUUmVa2pbYtqGsl4WL9nh6/EtPHh4+dQ+gWz0Yuv9iQwDTDPQ==}
+    engines: {node: '>=16.0.0'}
+    hasBin: true
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
+      '@rspack/core': 0.7.0(@swc/helpers@0.5.3)
+      '@swc/helpers': 0.5.3
+      core-js: 3.36.0
+      html-webpack-plugin: /html-rspack-plugin@5.7.2(@rspack/core@0.7.0)
+      postcss: 8.4.38
+
+  /@rsbuild/plugin-assets-retry@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-idXSUHkteKqtqY8yvxJhM1JYd/Ts1jqMRUz1G0oauyo9Mu+QlpyT0UlB8SfWBQUgvAErFLZVnDGp0hU9H8XSMQ==}
+    peerDependencies:
+      '@rsbuild/core': ^0.7.1
+    dependencies:
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       serialize-javascript: 6.0.2
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-babel@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-YYMTIPSzv3kL3jPstzwxEqogMjyOEaqlCeQdc86q56X6FPUAHEtFAnuZfbqTH4onbbY50egajDWhuBPvyuaO7w==}
+  /@rsbuild/plugin-babel@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-zyvbfR1k7Md87+Dvt4hWdfAOuGys2+gypPzJaPqyl1svPULw4gVtL+6IvQxYBKMYXyWAs9Eop6j9P0I7tI1uQg==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
       '@babel/core': 7.24.5
       '@babel/plugin-proposal-decorators': 7.24.1(@babel/core@7.24.5)
       '@babel/plugin-transform-class-properties': 7.24.1(@babel/core@7.24.5)
       '@babel/preset-typescript': 7.24.1(@babel/core@7.24.5)
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       '@types/babel__core': 7.20.5
       upath: 2.0.1
     transitivePeerDependencies:
@@ -15810,13 +15810,13 @@ packages:
       - supports-color
     dev: false
 
-  /@rsbuild/plugin-check-syntax@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-X3+0sFhJdHmLzXS3+inJtNTuDnq0MqEugnI1kp3Phckyv27kwG2OoXrdO4H+hFFxVakSvI1aa0jeL63+/F6HXg==}
+  /@rsbuild/plugin-check-syntax@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-jG3PB9timnaCfUrBkAoO5+mTF7QA6JFnKvXFA6s21EdsAN+xA6QyhqSPS2UAsrb+3xNTbXqr1Z10CBfIlnWn9g==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       acorn: 8.11.3
       htmlparser2: 9.1.0
       source-map: 0.7.4
@@ -15824,13 +15824,13 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-css-minimizer@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0):
-    resolution: {integrity: sha512-IhWFNM7fv3aFjFjLdw6+3Hq08bk6f/WkWfIYh7jGQ7by0CsBgqr9BT9XvVAwW4gcB6PqIfUfBz+TFoP2Y2cJzQ==}
+  /@rsbuild/plugin-css-minimizer@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(esbuild@0.17.19)(webpack@5.91.0):
+    resolution: {integrity: sha512-8VtNIq6fqFRqu6hua4LGYAtlWfPWgdimneOrkh66Pkl/WrPo6LIVLqyyLQBenWbExHIs07OVtwqmrE4dVs5uIg==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.91.0)
     transitivePeerDependencies:
       - '@parcel/css'
@@ -15843,23 +15843,23 @@ packages:
       - webpack
     dev: false
 
-  /@rsbuild/plugin-less@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-D34nvQjx+iG7hUJ8xCwtAXz5YSIG9JQp+82/X/SBffuiuI7J1/qbnbJdP6hmumD5MbhLQVd2NHEeEcLIuGCVrA==}
+  /@rsbuild/plugin-less@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-9uWL4S4F+sbxzQaMyIAFvB0o5NM17RwHcWsSJ/FzKddD8mLIrkWl32eLin65jyk3Wd95yBBEbXV2epJ2s8dl1g==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-node-polyfill@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128):
-    resolution: {integrity: sha512-kf31u1em7jDlUQOb145h+qRGqsTZfEzr4vF/jkb1/K/fE6LRXRGUDZ/2RVTofPlMZ1Z2fVFjU/qcQKAGacj/jg==}
+  /@rsbuild/plugin-node-polyfill@0.7.1(@rsbuild/core@0.7.1):
+    resolution: {integrity: sha512-QAn5g5WnON8rezaSdnoz6TECsurq3ywn1Hx9Tg/g1yIr+0wn4nzjpaLfuABZJDgtwQo6Z6U1ESVHKXtnk5pbTA==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': 0.7.1
       assert: 2.1.0
       browserify-zlib: 0.2.0
       buffer: 5.7.1
@@ -15885,30 +15885,18 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@rsbuild/plugin-pug@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-7aexGP8NiML6hheGSmgtlHYvA0xqrcCZ8RPMGy0tzOPx1gDv3VDhuAYZPP2zNuNfzPKi7cecLpGw9xVxmSNtMQ==}
+  /@rsbuild/plugin-pug@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-zrbXQwEzThJ4tc2AgyxrKbzAsP4lt24aAN2E0eXbleYrgpIpbgPiW3o0ytpPcGylBY1R0EeQ4gXstScI85UfiQ==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       '@types/pug': 2.0.10
       pug: 3.0.3
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
-
-  /@rsbuild/plugin-react@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-SkH7czCfR1p8JJV+tP8NWScw5mcPPRwPyvBXPedhqOSc5adShGwhvYPxUxTCB1mAfj7b6dASUxdnVPOTsQC0iw==}
-    peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-    dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
-      '@rspack/plugin-react-refresh': 0.7.0(react-refresh@0.14.2)
-      react-refresh: 0.14.2
-    transitivePeerDependencies:
-      - '@swc/helpers'
 
   /@rsbuild/plugin-react@0.6.1(@rsbuild/core@0.6.1):
     resolution: {integrity: sha512-U/ZeuXDbT0lqUmIBWZOuZlaR036eGvsPaXUCugDQWWYRo0dM894dQd2q3EPh6KJv55VQ9eMxNMvKgVYA+7fhug==}
@@ -15923,100 +15911,112 @@ packages:
       - '@swc/helpers'
     dev: true
 
-  /@rsbuild/plugin-rem@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-ojFa/0PX6tiAcoM9iprN853/ThLyN4Xm/e8eY+t1ZZIWZQ+S2Zme59HivKE65U3rLzPaWbFfjP6BmWVUrHOlVQ==}
+  /@rsbuild/plugin-react@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-sbLz1VeTtHnGAHBNF1kqzBRx7LbbCz4JwGDd8rxnZ0Kr5ICo/XpKvp33WfEIhyQ0FvTaKfn96htqedqLqzWR1A==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
+      '@rspack/plugin-react-refresh': 0.7.0(react-refresh@0.14.2)
+      react-refresh: 0.14.2
+    transitivePeerDependencies:
+      - '@swc/helpers'
+
+  /@rsbuild/plugin-rem@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-8CsOgR8N0zEYrJ2W/JsW7hkmYnAfVP2kILH+LaX/BUuY1I+mvHHxKiAVUqHlgEaVjRpkf5+KnfiX1TbrVGcmHw==}
+    peerDependencies:
+      '@rsbuild/core': ^0.7.1
+    dependencies:
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       terser: 5.31.0
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-sass@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-CLj1GFjwaJdrY0L6dI3vse5pQUYySKTUGYzsMzecZYqQUvEeCpvQxqG8fT9PjjgqHslbO4u/WyAc+RE8xlB5ww==}
+  /@rsbuild/plugin-sass@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-j2zRplNVqsJfdav9a4bZMRlffZpXsgqp9tidvpQm2WWn0PTCb/RcTUuOzrZY9yshoSnGGuWG7jz+Y4RtnAa9CA==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       postcss: 8.4.38
       sass-embedded: 1.77.2
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-source-build@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-A3KPi2IVGZuiwG2PkipJMw/ONnddG1FEnZ+8jfa3wNPGLurgCjYn07fDPlUMA4U03+XrTsPuKemp9dOBvTRe2Q==}
+  /@rsbuild/plugin-source-build@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-rpAUg5InYhgq8jz2v1HMeLN9SPrBDidwAve7O9vV8s6Wj5wQo4cRLrZ37y1LNn+nMhtrMsu9Vn0R2lijcDJy6A==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       fast-glob: 3.3.2
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-styled-components@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-tCdg/sQ9ueubz3RjgQMtieBOAiPC4PDBPb3zmbAsqkXyJQAXcQjZRpsR+IMl7eJFv3VpPTpMK4Z4QBLZA2LHMg==}
+  /@rsbuild/plugin-styled-components@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-qPp+BEo7s4uF14SSgmClpr3s0j3sVoUTZ1dj/ZfU5EPfUJyOfbnA8osFXysf8zcozF+tp9wyfjKNS/fn1Gongw==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-svgr@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(typescript@5.3.3):
-    resolution: {integrity: sha512-zwB7GH8D/vZNk9ElPz4StQTv2e9FD6IJPKX5YulLumm7YVePt1jHWnyKM4E6zAJGNuSw1p7fcp2AM9uc1h5LwA==}
+  /@rsbuild/plugin-svgr@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(typescript@5.3.3):
+    resolution: {integrity: sha512-zJEn1sERQWaLWgBcO5rIe9Xg7XtieKVJB2QlqmP5zw9qWa5HtJb3dpnclpwpdyC5QMo6aSkZt27qgLY1GzNSsQ==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/plugin-react': 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/plugin-react': 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       '@svgr/core': 8.1.0(typescript@5.3.3)
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
-      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
+      '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
     transitivePeerDependencies:
       - '@swc/helpers'
       - supports-color
       - typescript
     dev: false
 
-  /@rsbuild/plugin-swc@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128):
-    resolution: {integrity: sha512-ZoDIrPmiQqRMEXXNOYL9qYia83urvtdxqoUWhIsOltjOmxGQzuzDrTce84PJGPvdtszQUfQ2z/o5IrJh3B2xZA==}
+  /@rsbuild/plugin-swc@0.7.1(@rsbuild/core@0.7.1):
+    resolution: {integrity: sha512-wXh1s7Z2KUUAofv3Bp0GqjRLVcri+rcVXY88rxfb7+Vj7Hv8wgJzmIhJ12LlqJg+XeqnlqYEKb1RaRaB00ZkKw==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
       '@modern-js/swc-plugins': 0.6.7(@swc/helpers@0.5.3)
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/plugin-react': 0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/plugin-react': 0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       '@swc/helpers': 0.5.3
       core-js: 3.36.0
       lodash: 4.17.21
 
-  /@rsbuild/plugin-toml@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128):
-    resolution: {integrity: sha512-wiFQiqSk126/ahRasnC0cbi7xagTAlXywe2KcpbEpu9WiPLtJi3LNmYApmIggHF46clbdWsXbtuTVQmD/Ig/jw==}
+  /@rsbuild/plugin-toml@0.7.1(@rsbuild/core@0.7.1):
+    resolution: {integrity: sha512-sJC97+cgRZ1g+7jOBcNSaXXJT28h+jliUdxAGDMHsG/rp8mA+6nlKmz1cDFsFsYsDftlFmQBxAC+z47PWn2h4A==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': 0.7.1
       toml: 3.0.0
     dev: false
 
-  /@rsbuild/plugin-type-check@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3):
-    resolution: {integrity: sha512-5q69kAbtbz95EN788//9+OtD1/uGtxv1rq/+iugjPNf4L6xeqcHia2vIs5QeKVZhsgdg/IjFOzvekeWv65vm9Q==}
+  /@rsbuild/plugin-type-check@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3)(esbuild@0.17.19)(typescript@5.3.3):
+    resolution: {integrity: sha512-fBN//Ltn0/h9a3IPoGi5UsbqRcLnvPXrltzRIC5Hod+hy1+B9Ljz3ntmMGwPMhapM/D13CTsthVUz2i9pySZHQ==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.3.3)(webpack@5.91.0)
       webpack: 5.91.0(esbuild@0.17.19)
     transitivePeerDependencies:
@@ -16028,36 +16028,24 @@ packages:
       - webpack-cli
     dev: false
 
-  /@rsbuild/plugin-typed-css-modules@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128)(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-GMR5UX4pUKdV/bp9S9UV8roeHt6FxV4OqMBehGOwPH+fP5h/JEpA0eKbtN4g9CEoZKTM+5+/AaO+OiKyrQBcHw==}
+  /@rsbuild/plugin-typed-css-modules@0.7.1(@rsbuild/core@0.7.1)(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-GoxennxG1zeKrZO7yEPHZ7ERo65bhZM6QmfaS6pIRa1QsUCGPR6IdnhdzeTRl/MU5Oq5z83HqlejrNwZ2TnqcQ==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@rsbuild/plugin-yaml@0.0.0-next-20240528072128(@rsbuild/core@0.0.0-next-20240528072128):
-    resolution: {integrity: sha512-iPDOKAzLhJY5AzQxXbYZx1CLAo16phwz9CI0Q2y4FhVIqP3b/z/D5M89PmuhPAfxks8kUiOuvgWE89eC/qndFw==}
+  /@rsbuild/plugin-yaml@0.7.1(@rsbuild/core@0.7.1):
+    resolution: {integrity: sha512-DqH5wAjIeJN5U4yB6vz8yY2kwARiIppEf2mFJUEFu1fDBLlPJI94vs8SHAgA/YPncY8NktDHLvF696j3iFsOYQ==}
     peerDependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': ^0.7.1
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
+      '@rsbuild/core': 0.7.1
     dev: false
-
-  /@rsbuild/shared@0.0.0-next-20240528072128(@swc/helpers@0.5.3):
-    resolution: {integrity: sha512-R6//Gpsh/aNYMZ8TXEbck/Z7GVgDWdFJSBxyk1TsnvcLizr9dbJdvPG40V+EoZeOeIy3yQdFDWQvm0vuzkhMLQ==}
-    dependencies:
-      '@rspack/core': 0.7.0(@swc/helpers@0.5.3)
-      caniuse-lite: 1.0.30001617
-      html-webpack-plugin: /html-rspack-plugin@5.7.2(@rspack/core@0.7.0)
-      postcss: 8.4.38
-    optionalDependencies:
-      fsevents: 2.3.3
-    transitivePeerDependencies:
-      - '@swc/helpers'
 
   /@rsbuild/shared@0.6.1(@swc/helpers@0.5.3):
     resolution: {integrity: sha512-AEjdkhgc1FHPPEPWua3k6i/UOgxw9xvIGjl7IEyC4jJgYAKDqr2LcL6hhP+dS3BAVDUsJrQJ0FN3zWLkaYICDQ==}
@@ -16069,11 +16057,23 @@ packages:
       - '@swc/helpers'
     dev: true
 
-  /@rsbuild/webpack@0.0.0-next-20240528072128(@swc/helpers@0.5.3)(esbuild@0.17.19):
-    resolution: {integrity: sha512-jKdjmEtIWvscpNy5l5pZUoEqxEExE5aauzL88RG6Xzw3/F/Dswh2/4Bp97k3V0NfqACiE04pylh8mLHfaHd9Ig==}
+  /@rsbuild/shared@0.7.1(@swc/helpers@0.5.3):
+    resolution: {integrity: sha512-AFFIPSyHx45qyBBm33R45IhVG+BeBzBBMvWtYlpFlUPDLcDjWQjpmnv/oN7E39JzXtxiNQUD7cxRG6zgMYdZvQ==}
     dependencies:
-      '@rsbuild/core': 0.0.0-next-20240528072128
-      '@rsbuild/shared': 0.0.0-next-20240528072128(@swc/helpers@0.5.3)
+      '@rspack/core': 0.7.0(@swc/helpers@0.5.3)
+      caniuse-lite: 1.0.30001617
+      html-webpack-plugin: /html-rspack-plugin@5.7.2(@rspack/core@0.7.0)
+      postcss: 8.4.38
+    optionalDependencies:
+      fsevents: 2.3.3
+    transitivePeerDependencies:
+      - '@swc/helpers'
+
+  /@rsbuild/webpack@0.7.1(@swc/helpers@0.5.3)(esbuild@0.17.19):
+    resolution: {integrity: sha512-Fvufp1d9XO+FexZQ30uQVbTUJTUVi0r5EwPL9ZiaxJjX6F3ts/4i0wjJpQV8cWujsHgaCBPoz9R/WhuovNznIw==}
+    dependencies:
+      '@rsbuild/core': 0.7.1
+      '@rsbuild/shared': 0.7.1(@swc/helpers@0.5.3)
       copy-webpack-plugin: 9.1.0(webpack@5.91.0)
       mini-css-extract-plugin: 2.8.1(webpack@5.91.0)
       postcss: 8.4.38
@@ -17885,6 +17885,21 @@ packages:
       cosmiconfig: 8.1.3
       deepmerge: 4.3.1
       svgo: 3.0.2
+    dev: true
+
+  /@svgr/plugin-svgo@8.1.0(@svgr/core@8.1.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-Ywtl837OGO9pTLIN/onoWLmDQ4zFUycI1g76vuKGEz6evR/ZTJlJuz3G/fIkb6OVBJ2g0o6CGJzaEjfmEo3AHA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@svgr/core': '*'
+    dependencies:
+      '@svgr/core': 8.1.0(typescript@5.3.3)
+      cosmiconfig: 8.3.6(typescript@5.3.3)
+      deepmerge: 4.3.1
+      svgo: 3.0.2
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /@swc/core-darwin-arm64@1.3.42:
     resolution: {integrity: sha512-hM6RrZFyoCM9mX3cj/zM5oXwhAqjUdOCLXJx7KTQps7NIkv/Qjvobgvyf2gAb89j3ARNo9NdIoLjTjJ6oALtiA==}
@@ -34072,12 +34087,12 @@ packages:
       uglify-js:
         optional: true
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.20
       esbuild: 0.18.20
       jest-worker: 27.5.1
       schema-utils: 3.3.0
-      serialize-javascript: 6.0.2
-      terser: 5.31.0
+      serialize-javascript: 6.0.1
+      terser: 5.29.2
       webpack: 5.91.0(esbuild@0.18.20)
 
   /terser@5.19.2:
@@ -34110,6 +34125,7 @@ packages:
       acorn: 8.11.3
       commander: 2.20.3
       source-map-support: 0.5.21
+    dev: false
 
   /test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}

@@ -936,6 +936,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:manifest",
   "rsbuild:module-federation",
   "rsbuild:rspack-profile",
+  "rsbuild:lazy-compilation",
   "uni-builder:split-chunks",
   "uni-builder:global-vars",
   "uni-builder:devtool",
