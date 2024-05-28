@@ -107,6 +107,8 @@ export const pluginStorybook: (
         await applyReact(builderConfig, options);
 
         applyOutput(builderConfig);
+
+        applyServerConfig(builderConfig, options);
       });
 
       const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
@@ -339,6 +341,19 @@ async function applyMdxLoader(
       ],
     },
   );
+}
+
+function applyServerConfig(builderConfig: RsbuildConfig, options: Options) {
+  builderConfig.server ??= {};
+
+  builderConfig.server = {
+    ...(builderConfig.server || {}),
+    port: options.port,
+    host: 'localhost',
+    htmlFallback: false,
+    strictPort: true,
+    printUrls: false,
+  };
 }
 
 function applyOutput(builderConfig: RsbuildConfig) {

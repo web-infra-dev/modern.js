@@ -17,14 +17,9 @@ export const entries = async (_: unknown, options: Options) => {
   const { bundler } = await getConfig(options);
 
   if (options.configType === 'DEVELOPMENT') {
-    // Suppress informational messages when --quiet is specified. webpack-hot-middleware's quiet
     // parameter would also suppress warnings.
     result.push(
       ...([
-        `${require.resolve(
-          'webpack-hot-middleware/client',
-        )}?reload=true&quiet=false&noInfo=${options.quiet}`,
-
         bundler === 'rspack'
           ? require.resolve('@rspack/plugin-react-refresh/react-refresh-entry')
           : null,
