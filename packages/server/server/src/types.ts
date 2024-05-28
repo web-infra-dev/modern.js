@@ -1,10 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'http';
+import type { Socket } from 'net';
 import type {
   DevServerOptions,
   DevServerHttpsOptions,
   NextFunction,
 } from '@modern-js/types';
-import type { RsbuildInstance, RsbuildDevServer } from '@rsbuild/shared';
+import type { RsbuildInstance } from '@rsbuild/core';
 
 import { ServerBase, ServerBaseOptions } from '@modern-js/server-core/base';
 
@@ -55,10 +56,11 @@ export type ExtraOptions = {
   };
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
-  getMiddlewares?: () => Pick<
-    RsbuildDevServer,
-    'middlewares' | 'onHTTPUpgrade' | 'close'
-  >;
+  getMiddlewares?: () => {
+    middlewares: Middleware;
+    onHTTPUpgrade: (req: IncomingMessage, socket: Socket, head: any) => void;
+    close: () => Promise<void>;
+  };
 };
 
 export type ModernDevServerOptions<

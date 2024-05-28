@@ -2,7 +2,6 @@
 /* eslint-disable complexity */
 import {
   NODE_MODULES_REGEX,
-  CSS_MODULES_REGEX,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
@@ -36,6 +35,7 @@ import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
 import { transformToRsbuildServerOptions } from './devServer';
 
+const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */

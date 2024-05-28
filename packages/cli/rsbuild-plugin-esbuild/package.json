@@ -27,14 +27,14 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.3",
-    "@rsbuild/shared": "0.7.0-beta.3",
+    "@rsbuild/shared": "0.7.0",
     "esbuild": "0.17.19",
     "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "@rsbuild/core": "0.7.0-beta.3",
-    "@rsbuild/webpack": "0.7.0-beta.3",
+    "@rsbuild/core": "0.7.0",
+    "@rsbuild/webpack": "0.7.0",
     "typescript": "^5.4.2"
   },
   "publishConfig": {
