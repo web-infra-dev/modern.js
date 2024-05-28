@@ -1,15 +1,14 @@
 import {
   StartDevServerOptions as RsbuildStartDevServerOptions,
-  getAddressUrls,
   debug,
-  StartServerResult,
-  RsbuildInstance,
   deepmerge,
   DevConfig,
   ServerConfig,
   mergeChainedOptions,
   isProd,
 } from '@rsbuild/shared';
+
+import { RsbuildInstance } from '@rsbuild/core';
 
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
@@ -148,8 +147,9 @@ export type StartDevServerOptions = RsbuildStartDevServerOptions & {
   initProdMiddlewares?: InitProdMiddlewares;
 };
 
-export type UniBuilderStartServerResult = Omit<StartServerResult, 'server'> & {
+export type UniBuilderStartServerResult = {
   server: Server;
+  port: number;
 };
 
 export async function startDevServer(
@@ -208,9 +208,6 @@ export async function startDevServer(
     options.initProdMiddlewares,
   );
 
-  const protocol = https ? 'https' : 'http';
-  const urls = getAddressUrls({ protocol, port, host });
-
   debug('listen dev server');
 
   return new Promise<UniBuilderStartServerResult>(resolve => {
@@ -230,7 +227,6 @@ export async function startDevServer(
 
         resolve({
           port,
-          urls: urls.map(item => item.url),
           server,
         });
       },

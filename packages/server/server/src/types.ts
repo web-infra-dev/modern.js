@@ -57,7 +57,11 @@ export type ExtraOptions = {
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares?: () => {
-    middlewares: Middleware;
+    middlewares: (
+      req: IncomingMessage,
+      res: ServerResponse,
+      next: NextFunction,
+    ) => void;
     onHTTPUpgrade: (req: IncomingMessage, socket: Socket, head: any) => void;
     close: () => Promise<void>;
   };
