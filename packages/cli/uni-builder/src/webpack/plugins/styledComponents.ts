@@ -3,10 +3,20 @@ import { PLUGIN_SWC_NAME } from '@rsbuild/core';
 import {
   isServerTarget,
   mergeChainedOptions,
-  getDefaultStyledComponentsConfig,
   type ChainedConfig,
 } from '@rsbuild/shared';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
+
+const getDefaultStyledComponentsConfig = (isProd: boolean, ssr: boolean) => {
+  return {
+    ssr,
+    // "pure" is used to improve dead code elimination in production.
+    // we don't need to enable it in development because it will slow down the build process.
+    pure: isProd,
+    displayName: true,
+    transpileTemplateLiterals: true,
+  };
+};
 
 export const pluginStyledComponents = (
   userConfig: ChainedConfig<PluginStyledComponentsOptions> = {},

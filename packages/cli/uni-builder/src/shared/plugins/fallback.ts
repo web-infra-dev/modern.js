@@ -2,12 +2,13 @@ import { join } from 'path';
 import {
   JS_REGEX,
   TS_REGEX,
-  HTML_REGEX,
   getDistPath,
   getFilename,
   type Rspack,
 } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
+
+const HTML_REGEX = /\.html$/;
 
 type RuleSetRule = Rspack.RuleSetRule;
 

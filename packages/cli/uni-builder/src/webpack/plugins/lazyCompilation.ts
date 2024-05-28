@@ -1,11 +1,7 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
+import type { DevConfig } from '@rsbuild/shared';
 
-export type LazyCompilationOptions =
-  | boolean
-  | {
-      entries?: boolean;
-      imports?: boolean;
-    };
+type LazyCompilationOptions = DevConfig['lazyCompilation'];
 
 export const pluginLazyCompilation = (
   options: LazyCompilationOptions,

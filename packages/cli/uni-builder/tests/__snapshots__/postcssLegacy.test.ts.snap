@@ -3,48 +3,40 @@
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 1`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 1,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
           },
-        ],
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [],
+          },
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.css\\$/,
   },
 ]
 `;
@@ -52,76 +44,55 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 2`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-            "options": {
-              "join": [Function],
-              "sourceMap": false,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 3,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
         },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [],
           },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-            "options": {
-              "join": [Function],
-              "sourceMap": false,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-              "sourceMap": true,
-            },
-          },
-        ],
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+        "options": {
+          "join": [Function],
+          "sourceMap": false,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+        "options": {
+          "api": "modern-compiler",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
   },
 ]
 `;
@@ -129,74 +100,53 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 3`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.less\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-                "paths": [
-                  "node_modules",
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 2,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
         },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [],
-              },
-              "sourceMap": true,
-            },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [],
           },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-                "paths": [
-                  "node_modules",
-                ],
-              },
-              "sourceMap": true,
-            },
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "lessOptions": {
+            "javascriptEnabled": true,
+            "paths": [
+              "node_modules",
+            ],
           },
-        ],
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.less\\$/,
   },
 ]
 `;
@@ -204,84 +154,58 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
 exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": true,
-            },
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 1,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
           },
-        ],
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "browsers": [
+                  "chrome >= 87",
+                ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
+              },
+              [Function],
+              [Function],
+              [Function],
+            ],
+          },
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.css\\$/,
   },
 ]
 `;
@@ -289,112 +213,73 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
 exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-            "options": {
-              "join": [Function],
-              "sourceMap": false,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 3,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
         },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "browsers": [
+                  "chrome >= 87",
                 ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
               },
-              "sourceMap": true,
-            },
+              [Function],
+              [Function],
+              [Function],
+            ],
           },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-            "options": {
-              "join": [Function],
-              "sourceMap": false,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-              "sourceMap": true,
-            },
-          },
-        ],
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+        "options": {
+          "join": [Function],
+          "sourceMap": false,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+        "options": {
+          "api": "modern-compiler",
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
   },
 ]
 `;
@@ -402,110 +287,71 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
 exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3`] = `
 [
   {
-    "oneOf": [
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.less\\$/,
+    "use": [
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-        "type": "css/module",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-                "paths": [
-                  "node_modules",
-                ],
-              },
-              "sourceMap": true,
-            },
-          },
-        ],
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "resolve": {
-          "preferRelative": true,
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "options": {
+          "importLoaders": 2,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
         },
-        "sideEffects": true,
-        "type": "css",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "chrome >= 87",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "chrome >= 87",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "options": {
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "browsers": [
+                  "chrome >= 87",
                 ],
+                "info": [Function],
+                "options": {
+                  "flexbox": "no-2009",
+                  "overrideBrowserslist": [
+                    "chrome >= 87",
+                  ],
+                },
+                "postcssPlugin": "autoprefixer",
+                "prepare": [Function],
               },
-              "sourceMap": true,
-            },
+              [Function],
+              [Function],
+              [Function],
+            ],
           },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-            "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-              "lessOptions": {
-                "javascriptEnabled": true,
-                "paths": [
-                  "node_modules",
-                ],
-              },
-              "sourceMap": true,
-            },
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+          "lessOptions": {
+            "javascriptEnabled": true,
+            "paths": [
+              "node_modules",
+            ],
           },
-        ],
+          "sourceMap": true,
+        },
       },
     ],
-    "test": /\\\\\\.less\\$/,
   },
 ]
 `;

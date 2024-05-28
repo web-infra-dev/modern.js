@@ -26,6 +26,11 @@ export async function parseConfig(
     options,
   );
 
+  if (uniBuilderConfig.experiments?.lazyCompilation) {
+    rsbuildConfig.dev!.lazyCompilation =
+      uniBuilderConfig.experiments.lazyCompilation;
+  }
+
   if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
