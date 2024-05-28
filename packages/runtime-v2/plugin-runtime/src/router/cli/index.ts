@@ -1,5 +1,5 @@
 import path from 'path';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import type { Entrypoint, Route } from '@modern-js/types';
 import { hasNestedRoutes } from './route';
 import { generatorRouteCode } from './code';
@@ -89,6 +89,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             return entrypoint;
           }),
         );
+        return { entrypoints };
       },
     };
   },

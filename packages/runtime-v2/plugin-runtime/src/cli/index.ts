@@ -21,8 +21,11 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         await generateCode({ appContext, config: resolvedConfig });
       },
       prepare() {
-        const { builder, entrypoints, internalDirectory } = api.useAppContext();
-        builder?.addPlugins([pluginAlias({ entrypoints, internalDirectory })]);
+        const { builder, entrypoints, internalDirectory, metaName } =
+          api.useAppContext();
+        builder?.addPlugins([
+          pluginAlias({ entrypoints, internalDirectory, metaName }),
+        ]);
       },
       config() {
         const { appDirectory } = api.useAppContext();
