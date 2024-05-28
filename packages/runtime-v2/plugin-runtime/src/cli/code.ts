@@ -74,6 +74,7 @@ export const generateCode = async ({
           internalSrcAlias,
           metaName,
           entry,
+          isCustomEntry,
         });
         const contextFile = path.resolve(
           internalDirectory,

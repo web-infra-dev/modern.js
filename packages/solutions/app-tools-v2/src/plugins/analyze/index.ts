@@ -73,8 +73,6 @@ export default ({
           entrypoints: await getBundleEntry(api, appContext, resolvedConfig),
         });
 
-        console.log('===entrypoints', entrypoints);
-
         debug(`entrypoints: %o`, entrypoints);
 
         const initialRoutes = getServerRoutes(entrypoints, {

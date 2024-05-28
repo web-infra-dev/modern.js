@@ -92,17 +92,23 @@ export const runtimeGlobalContext = ({
   internalSrcAlias,
   metaName,
   entry,
+  isCustomEntry,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
   entry: string;
+  isCustomEntry?: boolean;
 }) => {
   return `import { setGlobalContext } from '@${metaName}/runtime-v2/context'
 
-import App from '${entry
-    .replace('/entry.tsx', '')
-    .replace(srcDirectory, internalSrcAlias)}/App';
+import App from '${
+    isCustomEntry
+      ? entry
+          .replace('entry.tsx', 'App.tsx')
+          .replace(srcDirectory, internalSrcAlias)
+      : entry.replace(srcDirectory, internalSrcAlias)
+  }';
 
 setGlobalContext({
   App,

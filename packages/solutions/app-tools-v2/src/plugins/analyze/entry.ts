@@ -122,7 +122,6 @@ export const getFileSystemEntry = async (
           }
         }),
       );
-      console.log(dirs);
       return scanDir(api, dirs);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
