@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import {
   NestedRouteForCli,
@@ -319,4 +320,14 @@ ${importConfigsCode}
 ${routeModulesCode}
 ${routeComponentsCode}
 `;
+};
+
+export const runtimeGlobalContext = ({ metaName }: { metaName: string }) => {
+  return `import { setGlobalContext } from '@${metaName}/runtime-v2/context'
+
+import { routes } from './routes.js';
+
+setGlobalContext({
+  routes,
+});`;
 };

@@ -7,7 +7,7 @@ import { pluginAlias } from './alias';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
-  post: [],
+  post: ['@modern-js/plugin-router'],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
   usePlugins: [routerPlugin()],
   setup: api => {

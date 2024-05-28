@@ -69,19 +69,11 @@ export default ({
           ]);
 
         // get runtime entry points
-        let { entrypoints } = await hookRunners.modifyEntrypoints({
+        const { entrypoints } = await hookRunners.modifyEntrypoints({
           entrypoints: getBundleEntry(appContext, resolvedConfig),
         });
 
         debug(`entrypoints: %o`, entrypoints);
-
-        // generate runtime code, like route
-        const { entrypoints: runtimeEntryPoints } =
-          await hookRunners.generatorCode({
-            entrypoints,
-          });
-
-        entrypoints = runtimeEntryPoints;
 
         const initialRoutes = getServerRoutes(entrypoints, {
           appContext,

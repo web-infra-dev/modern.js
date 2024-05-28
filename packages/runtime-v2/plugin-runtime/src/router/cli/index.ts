@@ -2,7 +2,7 @@ import path from 'path';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import type { Entrypoint, Route } from '@modern-js/types';
 import { hasNestedRoutes } from './route';
-import { generatorRouteCode } from './code';
+import { generatorRegisterCode, generatorRouteCode } from './code';
 import * as templates from './template';
 import { walk } from './nestedRoutes';
 import { NESTED_ROUTES_DIR } from './constants';
@@ -28,7 +28,21 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
           },
         };
       },
-      async generatorCode({ entrypoints }: { entrypoints: Entrypoint[] }) {
+      async beforeCreateCompiler() {
+        const { metaName, entrypoints } = api.useAppContext();
+        entrypoints.forEach(entrypoint => {
+          if (entrypoint.nestedRoutesEntry) {
+            generatorRegisterCode(
+              internalDirectory,
+              entrypoint.entryName,
+              templates.runtimeGlobalContext({
+                metaName,
+              }),
+            );
+          }
+        });
+      },
+      async modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {
         // nest route
         const hookRunners = api.useHookRunners();
         const config = api.useConfigContext();

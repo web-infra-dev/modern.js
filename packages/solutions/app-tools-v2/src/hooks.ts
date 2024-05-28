@@ -15,7 +15,6 @@ export const hooks: AppToolsHooks = {
   modifyEntrypoints: createAsyncWaterfall(),
   modifyFileSystemRoutes: createAsyncWaterfall(),
   modifyServerRoutes: createAsyncWaterfall(),
-  generatorCode: createAsyncWaterfall(),
   htmlPartials: createAsyncWaterfall(),
   beforeGenerateRoutes: createAsyncWaterfall(),
   addDefineTypes: createAsyncWaterfall(),
