@@ -1,7 +1,6 @@
 import { join, resolve } from 'path';
 import type { Options } from '@storybook/types';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
-import { getConfig } from './build';
 import { STORYBOOK_CONFIG_ENTRY } from './utils';
 
 export const previewMainTemplate = () => {
@@ -12,20 +11,8 @@ function getStoriesConfigPath(cwd: string) {
   return resolve(join(cwd, STORYBOOK_CONFIG_ENTRY));
 }
 
-export const entries = async (_: unknown, options: Options) => {
+export const entries = async (_: unknown) => {
   const result: string[] = [];
-  const { bundler } = await getConfig(options);
-
-  if (options.configType === 'DEVELOPMENT') {
-    // parameter would also suppress warnings.
-    result.push(
-      ...([
-        bundler === 'rspack'
-          ? require.resolve('@rspack/plugin-react-refresh/react-refresh-entry')
-          : null,
-      ].filter(Boolean) as string[]),
-    );
-  }
 
   result.push(getStoriesConfigPath(process.cwd()));
 

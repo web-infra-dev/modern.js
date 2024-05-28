@@ -4314,9 +4314,6 @@ importers:
       '@rsbuild/shared':
         specifier: 0.6.15
         version: 0.6.15(@swc/helpers@0.5.3)
-      '@rspack/plugin-react-refresh':
-        specifier: 0.4.5
-        version: 0.4.5
       '@storybook/components':
         specifier: ~7.6.12
         version: 7.6.17(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
@@ -16510,15 +16507,6 @@ packages:
       enhanced-resolve: 5.12.0
       tapable: 2.2.1
       webpack-sources: 3.2.3
-
-  /@rspack/plugin-react-refresh@0.4.5:
-    resolution: {integrity: sha512-VGauW5J2r8zX+y2DlX1oPHPlruEHM9O+8faLfWWOJF0Gylra+WGD9STWbR+XcYJsCnDzbTzIL5gOq4cQbINcYg==}
-    peerDependencies:
-      react-refresh: '>=0.10.0 <1.0.0'
-    peerDependenciesMeta:
-      react-refresh:
-        optional: true
-    dev: false
 
   /@rspack/plugin-react-refresh@0.6.1(react-refresh@0.14.2):
     resolution: {integrity: sha512-yTxsm/tiso3YQRt7kHQbk/b+QZWpBNutWjLBAb7571Wu53p98Jlv9rhYKpuXgQQWGKxCPXQcR1fAd5zbvU0UMQ==}

@@ -367,6 +367,7 @@ function applyOutput(builderConfig: RsbuildConfig) {
     {
       output: {
         externals: globalsNameReferenceMap,
+        // storybook will generator other files in other pipeline
         cleanDistPath: false,
       },
     },
