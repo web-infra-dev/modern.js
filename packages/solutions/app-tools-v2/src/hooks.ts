@@ -13,6 +13,7 @@ export const hooks: AppToolsHooks = {
   modifyEntryRenderFunction: createAsyncWaterfall(),
   modifyAsyncEntry: createAsyncWaterfall(),
   modifyEntrypoints: createAsyncWaterfall(),
+  checkEntryPoint: createAsyncWaterfall(),
   modifyFileSystemRoutes: createAsyncWaterfall(),
   modifyServerRoutes: createAsyncWaterfall(),
   htmlPartials: createAsyncWaterfall(),

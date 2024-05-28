@@ -1,5 +1,5 @@
 import path from 'path';
-import { IAppContext } from '@modern-js/core';
+import type { IAppContext, PluginAPI } from '@modern-js/core';
 import { Entrypoint } from '@modern-js/types';
 import {
   MAIN_ENTRY_NAME,
@@ -9,7 +9,7 @@ import {
   chalk,
   inquirer,
 } from '@modern-js/utils';
-import { AppNormalizedConfig } from '../../types';
+import { AppNormalizedConfig, AppTools } from '../../types';
 import { i18n, localeKeys } from '../../locale';
 import { JS_EXTENSIONS, ENTRY_FILE_NAME } from './constants';
 import { isSubDirOrEqual } from './utils';
@@ -19,7 +19,21 @@ const hasEntry = (dir: string) =>
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
   );
 
-const isBundleEntry = (dir: string) => hasEntry(dir);
+const isBundleEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
+  path: string,
+) => {
+  const hookRunners = api.useHookRunners();
+  return (
+    hasEntry(path) ||
+    (
+      await hookRunners.checkEntryPoint({
+        path,
+        entry: false,
+      })
+    ).entry
+  );
+};
 
 const ensureExtensions = (file: string) => {
   if (!path.extname(file)) {
@@ -53,22 +67,29 @@ const ifAlreadyExists = (
     return false;
   });
 
-const scanDir = (dirs: string[]): Entrypoint[] =>
-  dirs.map((dir: string) => {
-    const entryFile = hasEntry(dir);
-    const entryName = path.basename(dir);
-    return {
-      entryName,
-      isMainEntry: false,
-      entry: entryFile as string,
-      absoluteEntryDir: path.resolve(dir),
-      isAutoMount: true,
-    };
-  });
-export const getFileSystemEntry = (
+const scanDir = async (
+  api: PluginAPI<AppTools<'shared'>>,
+  dirs: string[],
+): Promise<Entrypoint[]> =>
+  Promise.all(
+    dirs.map(async (dir: string) => {
+      const entryFile = await isBundleEntry(api, dir);
+      const entryName = path.basename(dir);
+      return {
+        entryName,
+        isMainEntry: false,
+        entry: entryFile as string,
+        absoluteEntryDir: path.resolve(dir),
+        isAutoMount: true,
+        isCustomEntry: Boolean(hasEntry(dir)),
+      };
+    }),
+  );
+export const getFileSystemEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
-): Entrypoint[] => {
+): Promise<Entrypoint[]> => {
   const { appDirectory } = appContext;
 
   const {
@@ -85,19 +106,24 @@ export const getFileSystemEntry = (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      return scanDir(
-        isBundleEntry(src)
-          ? [src]
-          : fs
-              .readdirSync(src)
-              .map(file => path.join(src, file))
-              .filter(
-                file =>
-                  fs.statSync(file).isDirectory() &&
-                  isBundleEntry(file) &&
-                  !disabledDirs.includes(file),
-              ),
+      if (await isBundleEntry(api, src)) {
+        return scanDir(api, [src]);
+      }
+      const dirs: string[] = [];
+      await Promise.all(
+        fs.readdirSync(src).map(async filename => {
+          const file = path.join(src, filename);
+          if (
+            fs.statSync(file).isDirectory() &&
+            (await isBundleEntry(api, file)) &&
+            !disabledDirs.includes(file)
+          ) {
+            dirs.push(file);
+          }
+        }),
       );
+      console.log(dirs);
+      return scanDir(api, dirs);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }
@@ -113,17 +139,18 @@ export const getFileSystemEntry = (
 const isDirectory = (file: string) => !path.extname(file);
 
 // 扫描 src 文件夹，获取所有的入口信息
-export const getBundleEntry = (
+export const getBundleEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
-): Entrypoint[] => {
+): Promise<Entrypoint[]> => {
   const { appDirectory, packageName } = appContext;
   const { disableDefaultEntries, entries, entriesDir, mainEntryName } =
     config.source;
 
   const defaults = disableDefaultEntries
     ? []
-    : getFileSystemEntry(appContext, config);
+    : await getFileSystemEntry(api, appContext, config);
 
   if (entries) {
     Object.keys(entries).forEach(name => {
@@ -140,6 +167,7 @@ export const getBundleEntry = (
           ? ensureAbsolutePath(appDirectory, entryName)
           : path.dirname(ensureAbsolutePath(appDirectory, entryName)),
         isAutoMount,
+        isCustomEntry: Boolean(hasEntry(path.join(appDirectory, entryName))),
       };
       if (!ifAlreadyExists(defaults, entrypoint)) {
         defaults.push(entrypoint);

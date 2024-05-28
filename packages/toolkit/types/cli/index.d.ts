@@ -35,6 +35,7 @@ export interface Entrypoint {
     routes?: any[];
   };
   absoluteEntryDir?: string;
+  isCustomEntry?: boolean;
 }
 
 /**

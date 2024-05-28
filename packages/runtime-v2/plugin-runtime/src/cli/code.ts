@@ -3,6 +3,7 @@ import type { IAppContext, AppNormalizedConfig } from '@modern-js/app-tools-v2';
 import { fs } from '@modern-js/utils';
 import { safeReplacer } from './utils/config';
 import {
+  ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
@@ -28,21 +29,23 @@ export const generateCode = async ({
 
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, entry } = entrypoint;
+      const { entryName, isAutoMount, entry, isCustomEntry } = entrypoint;
 
       if (isAutoMount) {
-        // // index.jsx
-        // const indexCode = template.index({
-        //   srcDirectory,
-        //   internalSrcAlias,
-        //   entryName,
-        //   entry,
-        // });
-        // const indexFile = path.resolve(
-        //   internalDirectory,
-        //   `./${entryName}/${ENTRY_POINT_INDEX_FILE_NAME}`,
-        // );
-        // fs.outputFileSync(indexFile, indexCode, 'utf8');
+        // index.jsx
+        const indexCode = template.index({
+          srcDirectory,
+          internalSrcAlias,
+          metaName,
+          entry,
+          entryName,
+          isCustomEntry,
+        });
+        const indexFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
+        );
+        fs.outputFileSync(indexFile, indexCode, 'utf8');
 
         // register.js
         const registerCode = template.register();

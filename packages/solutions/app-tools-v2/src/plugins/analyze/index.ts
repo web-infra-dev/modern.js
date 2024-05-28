@@ -70,8 +70,10 @@ export default ({
 
         // get runtime entry points
         const { entrypoints } = await hookRunners.modifyEntrypoints({
-          entrypoints: getBundleEntry(appContext, resolvedConfig),
+          entrypoints: await getBundleEntry(api, appContext, resolvedConfig),
         });
+
+        console.log('===entrypoints', entrypoints);
 
         debug(`entrypoints: %o`, entrypoints);
 

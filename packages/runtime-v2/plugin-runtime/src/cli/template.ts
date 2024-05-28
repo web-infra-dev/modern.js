@@ -5,19 +5,51 @@ import {
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
 } from './constants';
 
-export const index = ({
+const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
-  entryName,
+  metaName,
   entry,
+  isCustomEntry,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
-  entryName: string;
+  metaName: string;
   entry: string;
+  isCustomEntry?: boolean;
 }) =>
-  `import '@modern-js/runtime-v2/register/${entryName}';
-import '${entry.replace(srcDirectory, internalSrcAlias)}'`;
+  isCustomEntry
+    ? `import '${entry.replace(srcDirectory, internalSrcAlias)}'`
+    : `import { createRoot } from '@${metaName}/runtime-v2/react';
+import { render } from '@${metaName}/runtime-v2/client';
+
+const ModernRoot = createRoot();
+
+render(<ModernRoot />);`;
+export const index = ({
+  srcDirectory,
+  internalSrcAlias,
+  metaName,
+  entry,
+  entryName,
+  isCustomEntry,
+}: {
+  srcDirectory: string;
+  internalSrcAlias: string;
+  metaName: string;
+  entry: string;
+  entryName: string;
+  isCustomEntry?: boolean;
+}) =>
+  `import '@${metaName}/runtime-v2/registry/${entryName}';
+${genRenderCode({
+  srcDirectory,
+  internalSrcAlias,
+  metaName,
+  entry,
+  isCustomEntry,
+})}
+`;
 
 export const register =
   () => `import './${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}';
