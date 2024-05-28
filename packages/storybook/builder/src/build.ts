@@ -5,7 +5,7 @@ import serveStatic from 'serve-static';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
 import type { BuilderOptions } from './types';
-import { getCompiler } from './core';
+import { getCompiler, createBuilder } from './core';
 import { finalize } from './plugin-storybook';
 
 export type StorybookBuilder = RawStorybookBuilder<BuilderOptions, Stats>;
@@ -23,6 +23,38 @@ export const getConfig: StorybookBuilder['getConfig'] = async options => {
 
 // export `build` is used by storybook core
 export const build: StorybookBuilder['build'] = async ({ options }) => {
+  const config = await getConfig(options);
+
+  const builder = await createBuilder(process.cwd(), config, options);
+
+  const previewResolvedDir = dirname(
+    require.resolve('@storybook/preview/package.json'),
+  );
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirTarget = join(options.outputDir || '', `sb-preview`);
+
+  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+    filter: src => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.js';
+      }
+      return true;
+    },
+  });
+
+  let stats: Stats;
+
+  builder.onAfterBuild(params => {
+    stats = params.stats as Stats;
+  });
+
+  await Promise.all([builder.build(), previewFiles]);
+
+  return stats!;
+};
+
+export const build1: StorybookBuilder['build'] = async ({ options }) => {
   const config = await getConfig(options);
 
   const compiler = await getCompiler(process.cwd(), config, options);

@@ -1,4 +1,4 @@
-import { createUniBuilder } from '@modern-js/uni-builder';
+import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
 import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/core';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
@@ -12,6 +12,15 @@ export async function getCompiler(
   builderOptions: BuilderOptions,
   options: Options,
 ): Promise<Compiler> {
+  const builder = await createBuilder(cwd, builderOptions, options);
+  return builder.createCompiler();
+}
+
+export async function createBuilder(
+  cwd: string,
+  builderOptions: BuilderOptions,
+  options: Options,
+): Promise<UniBuilderInstance> {
   const { bundler } = builderOptions;
 
   const { presets } = options;
@@ -56,5 +65,5 @@ export async function getCompiler(
     ...(finalConfig.builderPlugins || []),
   ]);
 
-  return builder.createCompiler();
+  return builder;
 }

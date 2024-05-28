@@ -106,7 +106,7 @@ export const pluginStorybook: (
         // storybook dom shim
         await applyReact(builderConfig, options);
 
-        applyExternals(builderConfig);
+        applyOutput(builderConfig);
       });
 
       const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
@@ -341,7 +341,7 @@ async function applyMdxLoader(
   );
 }
 
-function applyExternals(builderConfig: RsbuildConfig) {
+function applyOutput(builderConfig: RsbuildConfig) {
   const config = mergeRsbuildConfig(
     {
       output: {
@@ -352,6 +352,7 @@ function applyExternals(builderConfig: RsbuildConfig) {
     {
       output: {
         externals: globalsNameReferenceMap,
+        cleanDistPath: false,
       },
     },
   );
