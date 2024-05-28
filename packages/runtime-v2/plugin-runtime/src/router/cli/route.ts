@@ -4,3 +4,7 @@ import { NESTED_ROUTES_DIR } from './constants';
 
 export const hasNestedRoutes = (dir: string) =>
   fs.existsSync(path.join(dir, NESTED_ROUTES_DIR));
+
+export const isRouteEntry = (dir: string) => {
+  return hasNestedRoutes(dir) ? path.join(dir, NESTED_ROUTES_DIR) : false;
+};

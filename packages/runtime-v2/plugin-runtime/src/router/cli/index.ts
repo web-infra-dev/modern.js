@@ -1,7 +1,7 @@
 import path from 'path';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import type { Entrypoint, Route } from '@modern-js/types';
-import { hasNestedRoutes } from './route';
+import { hasNestedRoutes, isRouteEntry } from './route';
 import { generatorRegisterCode, generatorRouteCode } from './code';
 import * as templates from './template';
 import { walk } from './nestedRoutes';
@@ -14,6 +14,9 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     const { internalDirectory, internalSrcAlias, srcDirectory } =
       api.useAppContext();
     return {
+      checkEntryPoint({ path }) {
+        return { path, entry: isRouteEntry(path) };
+      },
       config() {
         return {
           source: {
