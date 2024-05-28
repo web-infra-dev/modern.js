@@ -19,7 +19,6 @@ import type {
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import type { LazyCompilationOptions } from './webpack/plugins/lazyCompilation';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
@@ -315,7 +314,7 @@ export type UniBuilderExtraConfig = {
     /**
      * Tips: this configuration is not yet supported in rspack
      */
-    lazyCompilation?: LazyCompilationOptions;
+    lazyCompilation?: DevConfig['lazyCompilation'];
     /**
      * Enable the ability for source code building
      */
