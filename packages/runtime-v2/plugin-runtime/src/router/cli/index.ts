@@ -14,8 +14,8 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     const { internalDirectory, internalSrcAlias, srcDirectory } =
       api.useAppContext();
     return {
-      checkEntryPoint({ path }) {
-        return { path, entry: isRouteEntry(path) };
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRouteEntry(path) };
       },
       config() {
         return {

@@ -14,8 +14,8 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   usePlugins: [routerPlugin()],
   setup: api => {
     return {
-      checkEntryPoint({ path }) {
-        return { path, entry: isRuntimeEntry(path) };
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRuntimeEntry(path) };
       },
       modifyEntrypoints({ entrypoints }) {
         const { internalDirectory } = api.useAppContext();
