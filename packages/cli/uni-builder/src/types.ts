@@ -311,9 +311,6 @@ export type UniBuilderExtraConfig = {
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
-    /**
-     * Tips: this configuration is not yet supported in rspack
-     */
     lazyCompilation?: DevConfig['lazyCompilation'];
     /**
      * Enable the ability for source code building
