@@ -33,6 +33,8 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { pluginSass } from '@rsbuild/plugin-sass';
+import { pluginLess } from '@rsbuild/plugin-less';
 import { transformToRsbuildServerOptions } from './devServer';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
@@ -161,7 +163,7 @@ export async function parseCommonConfig(
     } = {},
     dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
-    tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
+    tools: { devServer, tsChecker, minifyCss, less, sass, ...toolsConfig } = {},
   } = uniBuilderConfig;
 
   const rsbuildConfig: RsbuildConfig = {
@@ -359,6 +361,12 @@ export async function parseCommonConfig(
     pluginYaml(),
     pluginAntd(),
     pluginArco(),
+    pluginSass({
+      sassLoaderOptions: sass,
+    }),
+    pluginLess({
+      lessLoaderOptions: less,
+    }),
   ];
 
   if (checkSyntax) {

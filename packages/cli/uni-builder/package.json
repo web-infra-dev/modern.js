@@ -37,6 +37,8 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@rsbuild/babel-preset": "0.7.0",
     "@rsbuild/core": "0.7.0",
+    "@rsbuild/plugin-sass": "0.7.0",
+    "@rsbuild/plugin-less": "0.7.0",
     "@rsbuild/plugin-assets-retry": "0.7.0",
     "@rsbuild/plugin-babel": "0.7.0",
     "@rsbuild/plugin-check-syntax": "0.7.0",
