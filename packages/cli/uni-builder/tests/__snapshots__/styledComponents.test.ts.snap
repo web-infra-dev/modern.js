@@ -171,7 +171,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "version": "7.24.5",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -313,7 +313,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "version": "7.24.5",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -428,7 +428,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-swc/dist/loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-swc/dist/loader.cjs",
         "options": {
           "cwd": "",
           "env": {

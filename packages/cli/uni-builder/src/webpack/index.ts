@@ -4,7 +4,6 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
@@ -85,7 +84,7 @@ export async function parseConfig(
 }
 
 export type UniBuilderWebpackInstance = Omit<
-  RsbuildInstance<RsbuildProvider<'webpack'>>,
+  RsbuildInstance,
   keyof OverridesUniBuilderInstance
 > &
   OverridesUniBuilderInstance;
@@ -101,7 +100,9 @@ export async function createWebpackBuilder(
   });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
-  const { setHTMLPlugin } = await import('@rsbuild/core/internal');
+  const {
+    __internalHelper: { setHTMLPlugin },
+  } = await import('@rsbuild/core');
 
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
 

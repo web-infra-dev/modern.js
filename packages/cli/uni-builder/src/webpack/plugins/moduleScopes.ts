@@ -1,7 +1,10 @@
 import path from 'path';
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { ensureAbsolutePath, type ChainedConfig } from '@rsbuild/shared';
+import { type ChainedConfig } from '@rsbuild/shared';
 import type { ModuleScopes } from '../../types';
+
+const ensureAbsolutePath = (base: string, filePath: string): string =>
+  path.isAbsolute(filePath) ? filePath : path.resolve(base, filePath);
 
 export const isPrimitiveScope = (
   items: unknown[],

@@ -1,5 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { isProd, isUseCssExtract, NormalizedConfig } from '@rsbuild/shared';
+import { isProd } from '@rsbuild/shared';
 import { getCssSupport } from '../getCssSupport';
 
 export const pluginPostcssLegacy = (
@@ -11,10 +11,7 @@ export const pluginPostcssLegacy = (
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
       // only web target provides CSS outputs, so we can ignore other target
       const cssSupport = getCssSupport(webBrowserslist);
-      const enableExtractCSS = isUseCssExtract(
-        config as NormalizedConfig,
-        'web',
-      );
+      const enableExtractCSS = !config.output?.injectStyles;
 
       const enableCssMinify = !enableExtractCSS && isProd;
 

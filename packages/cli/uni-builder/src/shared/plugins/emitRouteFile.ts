@@ -1,5 +1,12 @@
 import { join } from 'path';
-import { type RsbuildPlugin, isFileExists } from '@rsbuild/shared';
+import { type RsbuildPlugin, fse } from '@rsbuild/shared';
+
+export async function isFileExists(file: string) {
+  return fse.promises
+    .access(file, fse.constants.F_OK)
+    .then(() => true)
+    .catch(() => false);
+}
 
 /**
  * generate a basic route.json for modern.js server

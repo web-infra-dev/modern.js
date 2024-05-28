@@ -28,6 +28,8 @@ import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { PluginSassOptions } from '@rsbuild/plugin-sass';
+import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
 import type {
   StartDevServerOptions,
@@ -129,6 +131,14 @@ export type UniBuilderExtraConfig = {
      * @requires webpack
      */
     terser?: ToolsTerserConfig;
+    /**
+     * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
+     */
+    less?: PluginLessOptions['lessLoaderOptions'];
+    /**
+     * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
+     */
+    sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
     /**
@@ -176,6 +186,10 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `output.filenameHash` instead
      */
     disableFilenameHash?: boolean;
+    /**
+     * Whether to generate a TypeScript declaration file for CSS Modules.
+     */
+    enableCssModuleTSDeclaration?: boolean;
     /**
      * @deprecated use `source.decorators` instead
      */
