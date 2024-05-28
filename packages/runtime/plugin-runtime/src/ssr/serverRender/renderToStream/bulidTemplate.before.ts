@@ -39,6 +39,7 @@ export async function buildShellBeforeTemplate(
   beforeAppTemplate: string,
   context: RuntimeContext,
   pluginConfig: SSRPluginConfig,
+  styledComponentsStyleTags?: string,
 ) {
   const helmetData: HelmetData = ReactHelmet.renderStatic();
   const callbacks: BuildTemplateCb[] = [
@@ -48,14 +49,19 @@ export async function buildShellBeforeTemplate(
         : headTemplate;
     },
     // @TODO: prefetch scripts of lazy component
-    injectCss,
+    template => injectCss(template, styledComponentsStyleTags),
   ];
 
   return buildTemplate(beforeAppTemplate, callbacks);
 
-  async function injectCss(template: string) {
-    const css = await getCssChunks();
-
+  async function injectCss(
+    template: string,
+    styledComponentsStyleTags?: string,
+  ) {
+    let css = await getCssChunks();
+    if (styledComponentsStyleTags) {
+      css += styledComponentsStyleTags;
+    }
     return safeReplace(template, CHUNK_CSS_PLACEHOLDER, css);
 
     async function getCssChunks() {

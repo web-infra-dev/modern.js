@@ -103,7 +103,7 @@ export const Breadcrumbs: React.FC<BreadcrumbProps> = props => {
     }
   }
   return (
-    <Flex align="center" height="8" gap="1" px="4" {...props}>
+    <Flex align="center" height="var(--space-8)" gap="1" px="4" {...props}>
       {elements}
     </Flex>
   );

@@ -15,9 +15,6 @@
   flex: 4;
   min-width: max-content;
   background-color: var(--blue-10);
-  :global(.dark) & {
-    background-color: var(--blue-10);
-  }
   button {
     border: none;
     border-radius: var(--radius-thumb);

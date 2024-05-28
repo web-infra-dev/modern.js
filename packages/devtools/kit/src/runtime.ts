@@ -6,3 +6,8 @@ export * from './constants';
 export * from './channel';
 export type * from './rsdoctor';
 export * from './runtime-globals';
+export type * from './storage-preset';
+export * from './promise';
+export * from './valtio';
+export * from './state';
+export * from './serializer';

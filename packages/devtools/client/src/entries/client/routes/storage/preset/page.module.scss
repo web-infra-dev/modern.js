@@ -1,0 +1,69 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  @media screen and (min-width: 520px) {
+    flex-direction: row;
+  }
+}
+
+.side-panel {
+  width: 15rem;
+  height: 100%;
+}
+
+.overflow-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--gray-1);
+  box-shadow: 0 0 15px var(--gray-1);
+  line-height: 0;
+}
+
+.preview-badge-list {
+  display: flex;
+  flex: 1;
+  gap: var(--space-1);
+  position: relative;
+  overflow: hidden;
+  padding-right: var(--space-4);
+  &::after {
+    content: '';
+    width: var(--space-4);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(to right, transparent, var(--bg));
+  }
+}
+
+.btn-create-preset {
+  color: var(--gray-7);
+}
+
+.divider {
+  border-top: solid 1px var(--gray-4);
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+}
+
+.scrollable {
+  overflow: hidden scroll;
+  scrollbar-width: none;
+}

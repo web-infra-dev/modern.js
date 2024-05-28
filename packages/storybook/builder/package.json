@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.49.4",
+  "version": "2.50.0",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -56,8 +56,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/shared": "0.7.0",
-    "@rsbuild/core": "0.7.0",
+    "@rsbuild/shared": "0.0.0-next-20240528072128",
+    "@rsbuild/core": "0.0.0-next-20240528072128",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",

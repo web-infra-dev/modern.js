@@ -1,14 +1,8 @@
 import '@/styles/theme.scss';
 import React, { useEffect } from 'react';
+import * as ToastPrimitive from '@radix-ui/react-toast';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
-import {
-  Box,
-  Flex,
-  ThemePanel,
-  Tooltip,
-  useThemeContext,
-  updateThemeAppearanceClass,
-} from '@radix-ui/themes';
+import { Box, Flex, Tooltip } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
@@ -17,6 +11,7 @@ import { $tabs } from './state';
 import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
+import { useThemeAppearance } from '@/utils/theme';
 
 const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
   let to = '';
@@ -43,7 +38,7 @@ const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
           p="1"
           className={styles.tabButtonInner}
         >
-          <Box height="5" width="5" asChild>
+          <Box height="var(--space-5)" width="var(--space-5)" asChild>
             {tab.icon}
           </Box>
         </Flex>
@@ -53,10 +48,10 @@ const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
 };
 
 const AppearanceButton = () => {
-  const { appearance } = useThemeContext();
+  const [appearance, setAppearance] = useThemeAppearance();
 
   const handleClick = () => {
-    updateThemeAppearanceClass(appearance === 'light' ? 'dark' : 'light');
+    setAppearance(appearance === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -68,7 +63,7 @@ const AppearanceButton = () => {
           p="1"
           className={styles.tabButtonInner}
         >
-          <Box height="5" width="5" asChild>
+          <Box height="var(--space-5)" width="var(--space-5)" asChild>
             {appearance === 'dark' ? <HiOutlineMoon /> : <HiOutlineSun />}
           </Box>
         </Flex>
@@ -81,36 +76,43 @@ const Navigator: React.FC = () => {
   const tabs = useSnapshot($tabs);
 
   return (
-    <Flex direction="column" shrink="0" className={styles.navigator}>
+    <Flex direction="column" flexShrink="0" className={styles.navigator}>
       {tabs.map(tab => (
         // @ts-expect-error
         <NavigateButton key={tab.name} tab={tab} />
       ))}
-      <Box grow="1" />
+      <Box flexGrow="1" />
       <AppearanceButton />
     </Flex>
   );
 };
 
-export default function Layout() {
-  const display = process.env.NODE_ENV === 'development' ? undefined : 'none';
+const Layout = () => {
   return (
     <Theme
       className={styles.wrapper}
       accentColor="blue"
       panelBackground="solid"
     >
-      <Box className={styles.inner}>
-        <Box className={styles.innerRight}>
-          <Box className={styles.container}>
+      <ToastPrimitive.Provider swipeDirection="up">
+        <Navigator />
+        <Box width="100%" position="relative" pt="4">
+          <Box width="100%" height="100%" position="relative">
             <Outlet />
           </Box>
+          <Breadcrumbs
+            className={styles.breadcrumbs}
+            height="2.5rem"
+            position="absolute"
+            top="0"
+            left="0"
+            right="0"
+          />
         </Box>
-      </Box>
-      <ThemePanel defaultOpen={false} style={{ display }} />
-      <Navigator />
-      <Breadcrumbs className={styles.breadcrumbs} />
-      <Puller />
+        <Puller />
+      </ToastPrimitive.Provider>
     </Theme>
   );
-}
+};
+
+export default Layout;

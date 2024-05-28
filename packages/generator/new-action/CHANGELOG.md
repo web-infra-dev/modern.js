@@ -1,5 +1,18 @@
 # @modern-js/new-action
 
+## 2.50.0
+
+### Patch Changes
+
+- e759876: feat: new command add already enable function tooltip
+
+  feat: new 命令增加已经开启功能的提示
+
+- Updated dependencies [e759876]
+  - @modern-js/generator-common@3.3.23
+  - @modern-js/generator-utils@3.3.23
+  - @modern-js/utils@2.50.0
+
 ## 2.49.4
 
 ### Patch Changes

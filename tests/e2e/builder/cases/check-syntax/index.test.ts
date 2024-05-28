@@ -8,11 +8,6 @@ function getCommonBuildConfig(cwd: string): RsbuildConfig {
     source: {
       exclude: [path.resolve(cwd, './src/test.js')],
     },
-    tools: {
-      rspack: config => {
-        config.target = ['web'];
-      },
-    },
   };
 }
 

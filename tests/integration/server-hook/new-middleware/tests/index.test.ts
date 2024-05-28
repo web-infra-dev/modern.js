@@ -1,15 +1,24 @@
 import path from 'path';
-import axios from 'axios';
-import { launchApp, getPort, killApp } from '../../../../utils/modernTestUtils';
+import puppeteer, { Browser, Page } from 'puppeteer';
+import {
+  launchApp,
+  getPort,
+  killApp,
+  launchOptions,
+} from '../../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
 
 describe('test new middleware run correctly', () => {
   let app: any;
   let port: number;
+  let page: Page;
+  let browser: Browser;
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
 
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     port = await getPort();
 
     app = await launchApp(appPath, port);
@@ -19,13 +28,16 @@ describe('test new middleware run correctly', () => {
     if (app) {
       await killApp(app);
     }
+    await page.close();
+    await browser.close();
   });
 
   test('should request "/" correctly', async () => {
     const url = `http://localhost:${port}`;
-    const res = await axios.get(url);
+    const res = await page.goto(url);
 
-    const { headers, data: body } = res;
+    const headers = res?.headers();
+    const body = await res?.text();
 
     expect(body).toMatch('Liming');
 
@@ -38,9 +50,13 @@ describe('test new middleware run correctly', () => {
 
   test('should redirect corretly', async () => {
     const url = `http://localhost:${port}/?unlogin=1`;
-    const res = await axios.get(url);
+    const res = await page.goto(url);
 
-    const { data: body, headers } = res;
+    const body = await res?.text();
+    const headers = res?.headers();
+    const chain = res?.request().redirectChain();
+
+    expect(chain?.length).toBe(1);
 
     expect(body).toMatch('Login');
 
