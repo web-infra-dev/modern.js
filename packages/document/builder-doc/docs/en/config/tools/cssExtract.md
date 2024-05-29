@@ -16,39 +16,6 @@ const defaultOptions = {
 };
 ```
 
-- **Bundler:** `only support webpack`
+The config of [CssExtractRspackPlugin](https://www.rspack.dev/plugins/rspack/css-extract-rspack-plugin) / [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
 
-The config of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
-
-### Object Type
-
-When this value is an Object, it is merged with the default config via Object.assign. For example:
-
-```js
-export default {
-  tools: {
-    cssExtract: {
-      pluginOptions: {
-        filename: 'static/css/[name].[contenthash:8].css',
-      },
-    },
-  },
-};
-```
-
-### Function Type
-
-When the value a Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config. For example:
-
-```js
-export default {
-  tools: {
-    cssExtract: config => {
-      config.pluginOptions.filename = 'static/css/[name].[contenthash:8].css';
-      return config;
-    },
-  },
-};
-```
-
-For more config details, please refer to [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
+For detailed usage, please refer to [Rsbuild - tools.cssExtract](https://rsbuild.dev/config/tools/css-extract).
