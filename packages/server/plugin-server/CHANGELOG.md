@@ -1,5 +1,14 @@
 # @modern-js/plugin-server
 
+## 2.51.0
+
+### Patch Changes
+
+- f826930: fix(plugin-server): support update server hook & middleware
+  fix(plugin-server): 支持热更新 server hook & middleware
+  - @modern-js/server-utils@2.51.0
+  - @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes

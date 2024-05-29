@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.51.0
+
+### Minor Changes
+
+- e8d41fe: feat: bump rsbuild to 0.7.x and use CssExtractRspackPlugin to extract CSS
+
+### Patch Changes
+
+- @modern-js/prod-server@2.51.0
+- @modern-js/server@2.51.0
+- @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes
