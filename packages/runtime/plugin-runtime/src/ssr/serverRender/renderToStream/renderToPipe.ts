@@ -37,6 +37,8 @@ function renderToPipe(
       ? sheet.collectStyles(rootElement)
       : rootElement;
 
+    let renderLevel = RenderLevel.SERVER_RENDER;
+
     const { pipe } = renderToPipeableStream(root, {
       ...options,
       nonce: ssrContext?.nonce,
@@ -46,11 +48,11 @@ function renderToPipe(
           : '';
         getTemplates(
           context,
-          RenderLevel.SERVER_RENDER,
+          renderLevel,
           pluginConfig,
           styledComponentsStyleTags,
         ).then(({ shellAfter, shellBefore }) => {
-          options?.onShellReady?.();
+          options?.[onReady]?.();
           const injectableTransform = new Transform({
             transform(chunk, _encoding, callback) {
               try {
@@ -91,14 +93,20 @@ function renderToPipe(
         });
       },
       onShellError(error: unknown) {
+        renderLevel = RenderLevel.CLIENT_RENDER;
         // eslint-disable-next-line promise/no-promise-in-callback
-        getTemplates(context, RenderLevel.CLIENT_RENDER, pluginConfig).then(
+        getTemplates(context, renderLevel, pluginConfig).then(
           ({ shellAfter, shellBefore }) => {
             const fallbackHtml = `${shellBefore}${shellAfter}`;
             resolve(fallbackHtml);
             options?.onShellError?.(error);
           },
         );
+      },
+      onError(error: unknown) {
+        renderLevel = RenderLevel.CLIENT_RENDER;
+
+        options?.onError?.(error);
       },
     });
   });
