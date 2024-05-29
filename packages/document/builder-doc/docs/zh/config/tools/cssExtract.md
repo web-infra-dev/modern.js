@@ -15,39 +15,6 @@ const defaultOptions = {
 };
 ```
 
-- **打包工具：** `仅支持 webpack`
+通过 `tools.cssExtract` 可以更改 [CssExtractRspackPlugin](https://www.rspack.dev/zh/plugins/rspack/css-extract-rspack-plugin) 或 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。
 
-通过 `tools.cssExtract` 可以更改 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。
-
-### Object 类型
-
-当此值为 Object 类型时，与默认配置通过 Object.assign 合并。比如：
-
-```js
-export default {
-  tools: {
-    cssExtract: {
-      pluginOptions: {
-        filename: 'static/css/[name].[contenthash:8].css',
-      },
-    },
-  },
-};
-```
-
-### Function 类型
-
-当此值为 Function 类型时，默认配置作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终配置。比如：
-
-```js
-export default {
-  tools: {
-    cssExtract: config => {
-      config.pluginOptions.filename = 'static/css/[name].[contenthash:8].css';
-      return config;
-    },
-  },
-};
-```
-
-更多配置细节可参考 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin)。
+详细用法可参考 [Rsbuild - tools.cssExtract](https://rsbuild.dev/zh/config/tools/css-extract)。

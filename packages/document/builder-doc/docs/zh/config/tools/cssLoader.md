@@ -20,39 +20,4 @@
 }
 ```
 
-:::tip
-在使用 Rspack 作为打包工具时，仅支持在 [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) 时使用该配置。
-
-修改 CSS Modules 相关配置，推荐使用 [output.cssModules](https://modernjs.dev/builder/api/config-output.html#outputcssmodules) 配置项。
-:::
-
-### Object 类型
-
-当此值为 Object 类型时，会与默认配置进行深层合并 (deep merge)。比如：
-
-```js
-export default {
-  tools: {
-    cssLoader: {
-      modules: {
-        exportOnlyLocals: true,
-      },
-    },
-  },
-};
-```
-
-### Function 类型
-
-当此值为 Function 类型时，默认配置作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终配置。比如：
-
-```js
-export default {
-  tools: {
-    cssLoader: config => {
-      config.modules.exportOnlyLocals = true;
-      return config;
-    },
-  },
-};
-```
+详细用法可参考 [Rsbuild - tools.cssLoader](https://rsbuild.dev/zh/config/tools/css-loader)。
