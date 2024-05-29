@@ -1,17 +1,16 @@
-import { createUniBuilder } from '@modern-js/uni-builder';
+import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
 import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/core';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
-import type { Compiler } from 'webpack-dev-middleware';
 import type { BuilderOptions, BuilderConfig } from './types';
 import { getConfigFileName, runWithErrorMsg } from './utils';
 import { pluginStorybook, addonBabelAdapter } from './plugin-storybook';
 
-export async function getCompiler(
+export async function createBuilder(
   cwd: string,
   builderOptions: BuilderOptions,
   options: Options,
-): Promise<Compiler> {
+): Promise<UniBuilderInstance> {
   const { bundler } = builderOptions;
 
   const { presets } = options;
@@ -56,5 +55,5 @@ export async function getCompiler(
     ...(finalConfig.builderPlugins || []),
   ]);
 
-  return builder.createCompiler();
+  return builder;
 }

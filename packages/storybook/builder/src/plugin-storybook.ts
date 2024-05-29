@@ -106,7 +106,9 @@ export const pluginStorybook: (
         // storybook dom shim
         await applyReact(builderConfig, options);
 
-        applyExternals(builderConfig);
+        applyOutput(builderConfig);
+
+        applyServerConfig(builderConfig, options);
       });
 
       const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
@@ -341,7 +343,20 @@ async function applyMdxLoader(
   );
 }
 
-function applyExternals(builderConfig: RsbuildConfig) {
+function applyServerConfig(builderConfig: RsbuildConfig, options: Options) {
+  builderConfig.server ??= {};
+
+  builderConfig.server = {
+    ...(builderConfig.server || {}),
+    port: options.port,
+    host: 'localhost',
+    htmlFallback: false,
+    strictPort: true,
+    printUrls: false,
+  };
+}
+
+function applyOutput(builderConfig: RsbuildConfig) {
   const config = mergeRsbuildConfig(
     {
       output: {
@@ -352,6 +367,8 @@ function applyExternals(builderConfig: RsbuildConfig) {
     {
       output: {
         externals: globalsNameReferenceMap,
+        // storybook will generator other files in other pipeline
+        cleanDistPath: false,
       },
     },
   );
