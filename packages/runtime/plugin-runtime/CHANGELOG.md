@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.51.0
+
+### Patch Changes
+
+- 4c09d57: fix: streaming ssr should set renderLevel correctly when render occur error
+  fix: streaming ssr 当渲染遇到错误，应该设置正确的 renderLevel
+- 08d9466: feat: support stream to string & support server ender styled components
+  feat: 支持 stream 模式转 string ，并且支持服务端渲染 styled compoents
+- 7834d4b: fix: default types should be `Record<string, unknown>`
+  fix: 默认 types 应该是 `Record<string, unknown>`
+  - @modern-js/plugin@2.51.0
+  - @modern-js/runtime-utils@2.51.0
+  - @modern-js/types@2.51.0
+  - @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes

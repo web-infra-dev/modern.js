@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.51.0
+
+### Minor Changes
+
+- 9d4d04d: feat: support deploy command
+  feat: 支持部署命令
+
+### Patch Changes
+
+- @modern-js/plugin@2.51.0
+- @modern-js/runtime-utils@2.51.0
+- @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes

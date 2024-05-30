@@ -1,5 +1,14 @@
 # @modern-js/plugin-ssg
 
+## 2.51.0
+
+### Patch Changes
+
+- c462b7e: fix(plugin-ssg): prod-server should be dependencies in ssg plugin
+  fix(plugin-ssg): prod-server 应该是生产依赖在 ssg 插件里
+  - @modern-js/prod-server@2.51.0
+  - @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes
