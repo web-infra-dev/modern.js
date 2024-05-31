@@ -1,13 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Traditional SSR error thrown in client navigation 1`] = `
-CDPPage {
-  "emitter": {
-    "all": Map {},
-    "emit": [Function],
-    "off": [Function],
-    "on": [Function],
-  },
-  "eventsMap": Map {},
-}
-`;
+exports[`Traditional SSR error thrown in client navigation 1`] = `"{"status":500,"statusText":"Internal Server Error","data":{"messsage":"error occurs"}}"`;

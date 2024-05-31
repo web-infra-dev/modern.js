@@ -2,9 +2,8 @@ import { isRouteErrorResponse, useRouteError } from '@modern-js/runtime/router';
 
 const ErrorBoundary = () => {
   const error = useRouteError() as Error;
-  console.log('isRouteErrorResponse', isRouteErrorResponse(error));
   return (
-    <div>
+    <div className="error">
       <h2>
         {isRouteErrorResponse(error)
           ? JSON.stringify({
