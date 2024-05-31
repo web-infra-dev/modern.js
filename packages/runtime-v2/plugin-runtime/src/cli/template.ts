@@ -13,12 +13,14 @@ const genRenderCode = ({
   metaName,
   entry,
   isCustomEntry,
+  mountId,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
   entry: string;
   isCustomEntry?: boolean;
+  mountId?: string;
 }) =>
   isCustomEntry
     ? `import '${entry.replace(srcDirectory, internalSrcAlias)}'`
@@ -27,7 +29,7 @@ import { render } from '@${metaName}/runtime-v2/client';
 
 const ModernRoot = createRoot();
 
-render(<ModernRoot />);`;
+render(<ModernRoot />, '${mountId || 'root'}');`;
 export const index = ({
   srcDirectory,
   internalSrcAlias,
@@ -35,6 +37,7 @@ export const index = ({
   entry,
   entryName,
   isCustomEntry,
+  mountId,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -42,6 +45,7 @@ export const index = ({
   entry: string;
   entryName: string;
   isCustomEntry?: boolean;
+  mountId?: string;
 }) =>
   `import '@${metaName}/runtime-v2/registry/${entryName}';
 ${genRenderCode({
@@ -50,6 +54,7 @@ ${genRenderCode({
   metaName,
   entry,
   isCustomEntry,
+  mountId,
 })}
 `;
 

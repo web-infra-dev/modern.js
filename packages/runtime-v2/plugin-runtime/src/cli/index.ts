@@ -30,9 +30,9 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
       },
       async beforeCreateCompiler() {
         const appContext = api.useAppContext();
-        await generateCode(api, {
-          appContext,
-        });
+        const resolvedConfig = api.useResolvedConfigContext();
+        const { mountId } = resolvedConfig.html;
+        await generateCode(api, appContext, mountId);
       },
       /* Note that the execution time of the config hook is before prepare.
       /* This means that the entry information cannot be obtained in the config hook.

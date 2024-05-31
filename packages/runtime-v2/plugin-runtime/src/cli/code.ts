@@ -11,11 +11,8 @@ import * as template from './template';
 
 export const generateCode = async (
   api: PluginAPI<AppTools>,
-  {
-    appContext,
-  }: {
-    appContext: IAppContext;
-  },
+  appContext: IAppContext,
+  mountId?: string,
 ) => {
   const {
     runtimeConfigFile,
@@ -44,6 +41,7 @@ export const generateCode = async (
           entry,
           entryName,
           isCustomEntry,
+          mountId,
         });
         const indexFile = path.resolve(
           internalDirectory,
