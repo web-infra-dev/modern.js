@@ -1,5 +1,6 @@
 import path from 'path';
 import { findExists } from '@modern-js/utils';
+import type { RuntimePlugin } from '@modern-js/app-tools-v2';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
@@ -74,21 +75,47 @@ const getImportRuntimeConfigCode = (
   return `let runtimeConfig`;
 };
 
+const getRegisterRuntimePluginCode = (
+  name: string,
+  config: Record<string, any>,
+) =>
+  name === 'router'
+    ? `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
+        config,
+      )}, runtimeConfig['${name}'], { routesConfig: { routes: getGlobalRoutes() } })));`
+    : `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
+        config,
+      )}, runtimeConfig['${name}'])));`;
+
 export const runtimeRegister = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
   runtimeConfigFile,
+  runtimePlugins,
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
   runtimeConfigFile: string;
-}) => `import { registerPlugin, mergeRuntimeConfig } from '@${metaName}/runtime-v2/plugin';
+  runtimePlugins: RuntimePlugin[];
+}) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime-v2/plugin';
+import { getGlobalRoutes } from '@${metaName}/runtime-v2/context';
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
-import cliRuntimeConfig from './runtime-config.json';
 
-registerPlugin(mergeRuntimeConfig(runtimeConfig, cliRuntimeConfig));
+const plugins = [];
+
+${runtimePlugins.map(
+  ({
+    name,
+    implementation,
+    config,
+  }) => `import { ${name}Plugin } from '${implementation}';
+
+${getRegisterRuntimePluginCode(name, config)}
+`,
+)}
+registerPlugin(plugins, runtimeConfig);
 `;
 
 export const runtimeGlobalContext = ({

@@ -7,6 +7,8 @@ import { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import { AppToolsHooks } from './types/hooks';
 
 export const hooks: AppToolsHooks = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _internal_runtimePlugins: createAsyncWaterfall(),
   modifyEntryExport: createAsyncWaterfall(),
   // modifyEntryImports: createAsyncWaterfall(),
   // modifyEntryRuntimePlugins: createAsyncWaterfall(),

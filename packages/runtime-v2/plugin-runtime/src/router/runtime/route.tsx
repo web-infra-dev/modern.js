@@ -58,7 +58,7 @@ export function renderRoutes({
   if (!routes) {
     return null;
   }
-  const routeElements = getRouteComponents(routes, {
+  const routeElements = getRouteComponents(routes as NestedRoute[], {
     globalApp,
     props,
   });

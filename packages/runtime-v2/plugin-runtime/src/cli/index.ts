@@ -30,12 +30,14 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
       },
       async beforeCreateCompiler() {
         const appContext = api.useAppContext();
-        const resolvedConfig = api.useResolvedConfigContext();
-        generateCode({
+        await generateCode(api, {
           appContext,
-          config: resolvedConfig,
         });
       },
+      /* Note that the execution time of the config hook is before prepare.
+      /* This means that the entry information cannot be obtained in the config hook.
+      /* Therefore, aliases cannot be set directly in the config.
+      */
       prepare() {
         const { builder, entrypoints, internalDirectory, metaName } =
           api.useAppContext();

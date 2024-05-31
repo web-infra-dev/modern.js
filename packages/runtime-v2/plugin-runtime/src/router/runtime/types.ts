@@ -1,11 +1,11 @@
 import { RouteObject } from '@modern-js/runtime-utils/router';
-import { NestedRoute } from '@modern-js/types';
+import { NestedRoute, PageRoute } from '@modern-js/types';
 
 export type RouterConfig = {
   mode?: 'react-router-5';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
-    routes: NestedRoute[];
+    routes: (NestedRoute | PageRoute)[];
   };
   serverBase?: string[];
   supportHtml5History?: boolean;

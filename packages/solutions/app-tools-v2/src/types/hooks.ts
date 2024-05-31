@@ -27,13 +27,18 @@ import { Bundler } from './utils';
 //   initialize?: string;
 // }
 
-// export interface RuntimePlugin {
-//   name: string;
-//   options: string;
-//   args?: string;
-// }
+export interface RuntimePlugin {
+  name: string;
+  implementation: string;
+  config: Record<string, any>;
+}
 
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  _internal_runtimePlugins: AsyncWaterfall<{
+    entryName: string;
+    plugins: RuntimePlugin[];
+  }>;
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
     exportStatement: string;

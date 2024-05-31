@@ -1,6 +1,6 @@
 import path from 'path';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
-import type { Entrypoint, Route } from '@modern-js/types';
+import type { Entrypoint, Route, ServerRoute } from '@modern-js/types';
 import { hasNestedRoutes, isRouteEntry } from './route';
 import { generatorRegisterCode, generatorRouteCode } from './code';
 import * as templates from './template';
@@ -14,6 +14,22 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     const { internalDirectory, internalSrcAlias, srcDirectory } =
       api.useAppContext();
     return {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      _internal_runtimePlugins({ entryName, plugins }) {
+        const { serverRoutes } = api.useAppContext();
+        const serverBase = serverRoutes
+          .filter((route: ServerRoute) => route.entryName === entryName)
+          .map(route => route.urlPath)
+          .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+
+        plugins.push({
+          name: 'router',
+          implementation: '@modern-js/runtime-v2/router',
+          config: { serverBase },
+        });
+        return { entryName, plugins };
+      },
+
       checkEntryPoint({ path, entry }) {
         return { path, entry: entry || isRouteEntry(path) };
       },

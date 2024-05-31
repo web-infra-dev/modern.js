@@ -1,23 +1,22 @@
 import path from 'path';
-import type { IAppContext, AppNormalizedConfig } from '@modern-js/app-tools-v2';
+import type { AppTools, IAppContext, PluginAPI } from '@modern-js/app-tools-v2';
 import { fs } from '@modern-js/utils';
-import { safeReplacer } from './utils/config';
 import {
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
-  ENTRY_RUNTIME_CONFIG_FILE_NAME,
 } from './constants';
 import * as template from './template';
 
-export const generateCode = async ({
-  appContext,
-  config,
-}: {
-  appContext: IAppContext;
-  config: AppNormalizedConfig<'shared'>;
-}) => {
+export const generateCode = async (
+  api: PluginAPI<AppTools>,
+  {
+    appContext,
+  }: {
+    appContext: IAppContext;
+  },
+) => {
   const {
     runtimeConfigFile,
     internalDirectory,
@@ -26,11 +25,16 @@ export const generateCode = async ({
     entrypoints,
     srcDirectory,
   } = appContext;
-
+  const runner = api.useHookRunners();
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, entry, isCustomEntry } = entrypoint;
-
+      const { plugins: runtimePlugins } = await runner._internal_runtimePlugins(
+        {
+          entryName,
+          plugins: [],
+        },
+      );
       if (isAutoMount) {
         // index.jsx
         const indexCode = template.index({
@@ -61,6 +65,7 @@ export const generateCode = async ({
           internalSrcAlias,
           metaName,
           runtimeConfigFile,
+          runtimePlugins,
         });
         const registerRuntimeFile = path.resolve(
           internalDirectory,
@@ -81,23 +86,6 @@ export const generateCode = async ({
           `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
         );
         fs.outputFileSync(contextFile, contextCode, 'utf8');
-
-        // runtime-config.json
-        const configFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_RUNTIME_CONFIG_FILE_NAME}`,
-        );
-        await fs.writeJSON(
-          configFile,
-          {
-            runtime: config.runtime,
-            runtimeByEntries: config.runtimeByEntries,
-          },
-          {
-            spaces: 2,
-            replacer: safeReplacer(),
-          },
-        );
       }
     }),
   );
