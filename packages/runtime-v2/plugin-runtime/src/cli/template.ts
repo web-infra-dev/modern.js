@@ -53,8 +53,8 @@ ${genRenderCode({
 `;
 
 export const register =
-  () => `import './${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}';
-import './${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}';
+  () => `import './${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}';
+import './${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}';
 `;
 
 const getImportRuntimeConfigCode = (

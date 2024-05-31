@@ -1,6 +1,4 @@
 import React from 'react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { RuntimeReactContext } from '../context/runtime';
 import { getGlobalApp } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
 
@@ -25,17 +23,7 @@ export function createRoot(UserApp?: React.ComponentType) {
   const HOCApp = runner.hoc(
     { App: WrapperComponent },
     {
-      onLast: ({ App }: any) => {
-        const WrapComponent = ({ context, ...props }: any) => {
-          return (
-            <RuntimeReactContext.Provider value={context}>
-              <App {...props} />
-            </RuntimeReactContext.Provider>
-          );
-        };
-
-        return hoistNonReactStatics(WrapComponent, App);
-      },
+      onLast: ({ App }) => App,
     },
   );
   return HOCApp;

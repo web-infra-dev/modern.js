@@ -19,7 +19,7 @@ const init = createAsyncPipeline<
   {
     context: RuntimeContext;
   },
-  unknown
+  RuntimeContext
 >();
 
 const runtimeHooks = {

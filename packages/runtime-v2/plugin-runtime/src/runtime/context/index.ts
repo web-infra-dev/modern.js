@@ -1,8 +1,8 @@
-import { NestedRoute, PageRoute } from '@modern-js/types';
+import { NestedRoute } from '@modern-js/types';
 
 interface GlobalContext {
   App?: React.ComponentType;
-  routes?: (NestedRoute | PageRoute)[];
+  routes?: NestedRoute[];
 }
 
 const globalContext: GlobalContext = {};
@@ -16,6 +16,6 @@ export function getGlobalApp() {
   return globalContext.App;
 }
 
-export function getGlobalRoutes(): (NestedRoute | PageRoute)[] {
-  return globalContext.routes!;
+export function getGlobalRoutes() {
+  return globalContext.routes;
 }

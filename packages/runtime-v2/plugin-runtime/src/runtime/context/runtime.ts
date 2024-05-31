@@ -12,7 +12,7 @@ export interface RuntimeContext extends BaseRuntimeContext {
 
 export const RuntimeReactContext = createContext<RuntimeContext>({});
 
-export const getInitialContext = (runner: PluginRunner) => ({
+export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
   runner,
   isBrowser: true,
 });

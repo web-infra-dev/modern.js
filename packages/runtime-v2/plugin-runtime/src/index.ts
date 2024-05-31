@@ -1,6 +1,8 @@
+import { RouterConfig } from './router/runtime';
 import { Plugin } from './runtime/plugin';
 
 interface RuntimeConfig {
+  router?: boolean | RouterConfig;
   plugins: Plugin[];
 }
 /**
