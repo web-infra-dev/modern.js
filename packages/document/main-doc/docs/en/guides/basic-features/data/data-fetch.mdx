@@ -155,6 +155,8 @@ function loader() {
 
 ### Error Handling
 
+#### Basic Usage
+
 In the `loader` function, errors can be handled by throwing an `error` or a `response`. When an error is thrown in the `loader` function, Modern.js will stop executing the code in the current `loader` and switch the front-end UI to the defined [`ErrorBoundary`](/guides/basic-features/routes#error-handling) component:
 
 ```tsx
@@ -177,6 +179,32 @@ const ErrorBoundary = () => {
       <h2>{error.statusText}</h2>
     </div>
   );
+};
+
+export default ErrorBoundary;
+```
+
+#### Practice
+
+In an SSR project you can control the status code of a page and display the corresponding UI by `throw response` in the data loader, as in the following example, where there is one loader for the entire routing route
+
+For example, if there is a loader in the entire routing route that throws a response, the status code of the page will be consistent with this `response` and the UI of the page will switch to `ErrorBoundary`.
+
+```ts
+// routes/user/profile/page.data.ts
+export async function loader() {
+  const user = await fetchUser();
+  if(!user){
+    throw new Response('The user was not found', { status: 404 });
+  }
+  return user;
+}
+
+// routes/error.tsx
+import { useRouteError } from '@modern-js/runtime/router';
+const ErrorBoundary = () => {
+  const error = useRouteError() as { data: string };
+  return <div className="error">{error.data}</div>;
 };
 
 export default ErrorBoundary;

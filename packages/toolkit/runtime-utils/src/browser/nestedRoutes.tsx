@@ -45,7 +45,7 @@ export const renderNestedRoute = (
   const { children, index, id, component, isRoot, lazyImport, config, handle } =
     nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
-  const { parent, DeferredDataComponent, props = {}, reporter } = options;
+  const { parent, props = {}, reporter } = options;
 
   const routeProps: Omit<RouteProps, 'children' | 'lazy'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -89,9 +89,6 @@ export const renderNestedRoute = (
       element = (
         <>
           <Component {...props} />
-          {typeof document === 'undefined' && DeferredDataComponent && (
-            <DeferredDataComponent nonce={props?.nonce} />
-          )}
         </>
       );
     } else if (lazyImport) {

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Traditional SSR in json data error thrown in client navigation 1`] = `
+CDPPage {
+  "emitter": {
+    "all": Map {},
+    "emit": [Function],
+    "off": [Function],
+    "on": [Function],
+  },
+  "eventsMap": Map {},
+}
+`;

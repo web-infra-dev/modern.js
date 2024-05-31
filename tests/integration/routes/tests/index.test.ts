@@ -16,8 +16,6 @@ import {
   modernServe,
   launchOptions,
 } from '../../../utils/modernTestUtils';
-import { SequenceWait } from '../../../utils/testInSequence';
-// declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -364,6 +362,23 @@ const supportLoader = async (page: Page, errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
+const supportThrowResponse = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three/error/response`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  const errorStatusElm = await page.$('.response-status');
+  const text = await page.evaluate(el => el?.textContent, errorStatusElm);
+  expect(text?.includes('255')).toBeTruthy();
+  const errorContentElm = await page.$('.response-content');
+  const text1 = await page.evaluate(el => el?.textContent, errorContentElm);
+  expect(text1?.includes("can't found the user")).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 const supportLoaderForSSRAndCSR = async (
   page: Page,
   errors: string[],
@@ -665,11 +680,6 @@ const supportPrefetchWithShouldRevalidate = async (
   expect(isRequestPageData).toBe(false);
 };
 
-const curSequence = new SequenceWait();
-curSequence.add('dev-test');
-curSequence.add('build-test');
-curSequence.add('dev-test-rspack');
-
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -755,6 +765,8 @@ describe('dev', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -806,7 +818,6 @@ describe('dev', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('dev-test');
   });
 });
 
@@ -817,7 +828,6 @@ describe('build', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
-    await curSequence.waitUntil('dev-test');
     appPort = await getPort();
     const buildResult = await modernBuild(appDir);
     // log in case for test failed by build failed
@@ -897,6 +907,8 @@ describe('build', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -949,7 +961,6 @@ describe('build', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('build-test');
   });
 });
 
@@ -960,7 +971,6 @@ describe('dev with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
-    await curSequence.waitUntil('build-test');
     appPort = await getPort();
     app = await launchApp(
       appDir,
@@ -1042,6 +1052,8 @@ describe('dev with rspack', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -1092,7 +1104,6 @@ describe('dev with rspack', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('dev-test-rspack');
   });
 });
 
@@ -1103,7 +1114,6 @@ describe('build with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
-    await curSequence.waitUntil('dev-test-rspack');
     appPort = await getPort();
     const buildResult = await modernBuild(appDir, [], {
       env: {
@@ -1188,6 +1198,8 @@ describe('build with rspack', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -1240,7 +1252,6 @@ describe('build with rspack', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('build-test');
   });
 });
 /* eslint-enable max-lines */
