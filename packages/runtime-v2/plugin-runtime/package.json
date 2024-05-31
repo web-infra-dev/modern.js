@@ -54,6 +54,11 @@
       "types": "./dist/types/runtime/client/index.d.ts",
       "jsnext:source": "./src/runtime/client/index.ts",
       "default": "./dist/cjs/runtime/client/index.js"
+    },
+    "./router": {
+      "types": "./dist/types/router/runtime/index.d.ts",
+      "jsnext:source": "./src/router/runtime/index.ts",
+      "default": "./dist/cjs/router/runtime/index.js"
     }
   },
   "typesVersions": {
@@ -78,6 +83,9 @@
       ],
       "client": [
         "./dist/types/runtime/client/index.d.ts"
+      ],
+      "router": [
+        "./dist/types/router/runtime/index.d.ts"
       ]
     }
   },

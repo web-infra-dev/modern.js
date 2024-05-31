@@ -1,5 +1,3 @@
-export const JS_EXTENSIONS = ['.js', '.ts', '.jsx', '.tsx'];
-
 export const NESTED_ROUTES_DIR = 'routes';
 
 export const ACTION_EXPORT_NAME = 'action';

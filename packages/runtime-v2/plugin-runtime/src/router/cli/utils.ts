@@ -3,7 +3,8 @@ import { fs as fse, normalizeToPosixPath } from '@modern-js/utils';
 import { transform } from 'esbuild';
 import type { Loader } from 'esbuild';
 import { parse } from 'es-module-lexer';
-import { ACTION_EXPORT_NAME, JS_EXTENSIONS } from './constants';
+import { JS_EXTENSIONS } from '../../cli/constants';
+import { ACTION_EXPORT_NAME } from './constants';
 
 export const getPathWithoutExt = (filename: string) => {
   const extname = path.extname(filename);

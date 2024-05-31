@@ -2,8 +2,9 @@
 import * as path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
+import { JS_EXTENSIONS } from '../../cli/constants';
 import { getPathWithoutExt, hasAction, replaceWithAlias } from './utils';
-import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
+import { NESTED_ROUTE } from './constants';
 
 const conventionNames = Object.values(NESTED_ROUTE);
 

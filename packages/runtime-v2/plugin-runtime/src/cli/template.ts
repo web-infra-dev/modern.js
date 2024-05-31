@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
+import { findExists } from '@modern-js/utils';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
+  JS_EXTENSIONS,
 } from './constants';
 
 const genRenderCode = ({
@@ -61,13 +62,16 @@ const getImportRuntimeConfigCode = (
   internalSrcAlias: string,
   runtimeConfigFile: string,
 ) => {
-  try {
-    // eslint-disable-next-line import/no-dynamic-require
-    require(path.join(srcDirectory, runtimeConfigFile));
+  if (
+    findExists(
+      JS_EXTENSIONS.map(ext =>
+        path.resolve(srcDirectory, `${runtimeConfigFile}${ext}`),
+      ),
+    )
+  ) {
     return `import runtimeConfig from '${internalSrcAlias}/${runtimeConfigFile}';`;
-  } catch (e) {
-    return `let runtimeConfig`;
   }
+  return `let runtimeConfig`;
 };
 
 export const runtimeRegister = ({
