@@ -102,7 +102,7 @@ describe('handleRequest', () => {
     };
   };
 
-  test('should return 500 when routeId not match url', async () => {
+  test('should return 403 when routeId not match url', async () => {
     const handler = createHandler(
       [
         {
@@ -119,7 +119,7 @@ describe('handleRequest', () => {
       `/three?${LOADER_ID_PARAM}=user/profile/layout`,
     );
 
-    expect(res.status).toBe(500);
+    expect(res.status).toBe(403);
   });
 
   test.skip('should return directly when routeId not exist', async () => {
@@ -186,7 +186,7 @@ describe('handleRequest', () => {
     const res = await request(handler).get(
       `/three/user?${LOADER_ID_PARAM}=user/layout`,
     );
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(404);
     expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
     expect(res.text).toBe('loader1');
   });
@@ -236,7 +236,9 @@ describe('handleRequest', () => {
       `/three/user/profile/name?${LOADER_ID_PARAM}=user.profile.name/layout`,
     );
     expect(res.status).toBe(500);
-    expect(res.headers['content-type'].includes('text/plain')).toBeTruthy();
-    expect(res.text).toBe('Error: throw error by loader4');
+    expect(
+      res.headers['content-type'].includes('application/json'),
+    ).toBeTruthy();
+    expect(res.body.message).toBe('throw error by loader4');
   });
 });

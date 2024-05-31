@@ -6,7 +6,9 @@ const loader0 = async () => {
 };
 
 const loader1 = async () => {
-  return new Response('loader1');
+  return new Response('loader1', {
+    status: 404,
+  });
 };
 
 const loader3 = async ({ params }) => {

@@ -38,9 +38,7 @@ async function errorThrownInClientNavigation(page: Page, appPort: number) {
   });
 
   await page.click('#error-btn');
-  await (expect(page) as any).toMatchTextContent(
-    /{"status":500,"statusText":"Internal Server Error","internal":false,"data":"Error: error occurs"}/,
-  );
+  await (expect(page) as any).toMatchSnapshot();
 }
 
 async function redirectInLoader(page: Page, appPort: number) {

@@ -9,6 +9,7 @@ import {
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
   isRouteErrorResponse,
+  json,
 } from '@modern-js/runtime-utils/remix-router';
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import { isPlainObject } from '@modern-js/utils/lodash';
@@ -21,6 +22,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
+import { errorResponseToJson, serializeError } from './errors';
 
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
 export function isRedirectResponse(status: number): boolean {
@@ -79,7 +81,7 @@ export const handleRequest = async ({
 
   const basename = entry.urlPath;
   const end = time();
-  const { logger, reporter } = context;
+  const { reporter } = context;
   const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
@@ -133,19 +135,25 @@ export const handleRequest = async ({
     const cost = end();
     reporter?.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
-    const message = isRouteErrorResponse(error) ? error.data : String(error);
-    if (error instanceof Error) {
-      logger?.error(`Error: ${error.name} ${error.message} ${error.stack}`);
+    if (isResponse(error)) {
+      error.headers.set('X-Modernjs-Catch', 'yes');
+      response = error;
+    } else if (isRouteErrorResponse(error)) {
+      response = errorResponseToJson(error);
     } else {
-      logger?.error(message);
-    }
+      const errorInstance =
+        error instanceof Error || error instanceof DOMException
+          ? error
+          : new Error('Unexpected Server Error');
 
-    response = new Response(message, {
-      status: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    });
+      // Handle errors uniformly using the application/json
+      response = json(serializeError(errorInstance), {
+        status: 500,
+        headers: {
+          'X-Modernjs-Error': 'yes',
+        },
+      });
+    }
   }
 
   // eslint-disable-next-line consistent-return
