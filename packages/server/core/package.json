@@ -80,7 +80,7 @@
     "@web-std/fetch": "^4.2.1",
     "@web-std/stream": "^1.0.3",
     "@web-std/file": "^3.0.3",
-    "hono": "^3.12.2",
+    "hono": "^4.2.7",
     "isbot": "3.8.0",
     "merge-deep": "^3.0.3"
   },
