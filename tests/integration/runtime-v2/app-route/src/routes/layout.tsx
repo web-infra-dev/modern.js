@@ -1,4 +1,4 @@
-import { Outlet } from '@modern-js/runtime/router';
+import { Outlet } from '@modern-js/runtime-v2/router';
 
 export default () => {
   return (

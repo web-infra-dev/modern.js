@@ -1,8 +1,10 @@
 import { RouterConfig } from './router/runtime';
-import { Plugin } from './runtime/plugin';
+import { Plugin } from './core/plugin';
+import { StateConfig } from './state/runtime';
 
 interface RuntimeConfig {
-  router?: boolean | RouterConfig;
+  router?: boolean | Partial<RouterConfig>;
+  state?: boolean | StateConfig;
   plugins: Plugin[];
 }
 /**

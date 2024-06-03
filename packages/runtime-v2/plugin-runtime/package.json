@@ -59,6 +59,16 @@
       "types": "./dist/types/router/runtime/index.d.ts",
       "jsnext:source": "./src/router/runtime/index.ts",
       "default": "./dist/cjs/router/runtime/index.js"
+    },
+    "./state": {
+      "types": "./dist/types/state/runtime/index.d.ts",
+      "jsnext:source": "./src/state/runtime/index.ts",
+      "default": "./dist/cjs/state/runtime/index.js"
+    },
+    "./model": {
+      "types": "./dist/types/state/runtime/index.d.ts",
+      "jsnext:source": "./src/state/runtime/index.ts",
+      "default": "./dist/cjs/state/runtime/index.js"
     }
   },
   "typesVersions": {
@@ -86,6 +96,12 @@
       ],
       "router": [
         "./dist/types/router/runtime/index.d.ts"
+      ],
+      "model": [
+        "./dist/types/state/runtime/index.d.ts"
+      ],
+      "state": [
+        "./dist/types/state/runtime/index.d.ts"
       ]
     }
   },

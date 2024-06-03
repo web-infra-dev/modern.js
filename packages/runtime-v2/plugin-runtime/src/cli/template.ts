@@ -110,16 +110,18 @@ ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
 const plugins = [];
 
-${runtimePlugins.map(
-  ({
-    name,
-    implementation,
-    config,
-  }) => `import { ${name}Plugin } from '${implementation}';
+${runtimePlugins
+  .map(
+    ({
+      name,
+      implementation,
+      config,
+    }) => `import { ${name}Plugin } from '${implementation}';
 
 ${getRegisterRuntimePluginCode(name, config)}
 `,
-)}
+  )
+  .join('\n')}
 registerPlugin(plugins, runtimeConfig);
 `;
 

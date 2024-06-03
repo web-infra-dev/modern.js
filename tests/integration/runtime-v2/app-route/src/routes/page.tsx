@@ -1,5 +1,15 @@
+import { useModel } from '@modern-js/runtime-v2/model';
+import countModel from '../models/count';
+
 const Page = () => {
-  return <div>Modern APP</div>;
+  const [state, actions] = useModel(countModel);
+
+  return (
+    <div>
+      <div>counter: {state.value}</div>
+      <button onClick={() => actions.add()}>add</button>
+    </div>
+  );
 };
 
 export default Page;

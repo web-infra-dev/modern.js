@@ -7,8 +7,8 @@ import {
   createRoutesFromElements,
 } from '@modern-js/runtime-utils/router';
 import { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
-import { Plugin } from '../../runtime/plugin';
-import { RuntimeReactContext } from '../../runtime/context/runtime';
+import { Plugin } from '../../core/plugin';
+import { RuntimeReactContext } from '../../core/context/runtime';
 import { urlJoin } from './utils';
 import { renderRoutes } from './route';
 import { RouterConfig, Routes } from './types';

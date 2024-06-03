@@ -1,7 +1,8 @@
 import path from 'path';
-import { isReact18 } from '@modern-js/utils';
+import { cleanRequireCache, isReact18 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import { routerPlugin } from '../router/cli';
+import { statePlugin } from '../state/cli';
 import { generateCode } from './code';
 import { pluginAlias } from './alias';
 import { isRuntimeEntry } from './entry';
@@ -9,9 +10,9 @@ import { ENTRY_POINT_FILE_NAME } from './constants';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
-  post: ['@modern-js/plugin-router'],
+  post: ['@modern-js/plugin-router', '@modern-js/plugin-state'],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [routerPlugin()],
+  usePlugins: [routerPlugin(), statePlugin()],
   setup: api => {
     return {
       checkEntryPoint({ path, entry }) {
@@ -74,11 +75,11 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         };
       },
       async beforeRestart() {
-        // cleanRequireCache([
-        //   require.resolve('../state/cli'),
-        //   require.resolve('../router/cli'),
-        //   require.resolve('../ssr/cli'),
-        // ]);
+        cleanRequireCache([
+          require.resolve('../state/cli'),
+          require.resolve('../router/cli'),
+          // require.resolve('../ssr/cli'),
+        ]);
       },
     };
   },
