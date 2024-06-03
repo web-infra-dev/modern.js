@@ -7,6 +7,8 @@ import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
 import { proxy } from 'valtio';
 import { DevtoolsPluginOptions, resolveContext } from './options';
 import { CliPluginAPI, Plugin, PluginApi } from './types';
+import { pluginDebug } from './plugins/debug';
+import { pluginHttp } from './plugins/http';
 
 export type { DevtoolsPluginOptions };
 
@@ -14,7 +16,7 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
   setClientDefinition: (def: ClientDefinition) => void;
 };
 
-export const BUILTIN_PLUGINS: Plugin[] = [];
+export const BUILTIN_PLUGINS: Plugin[] = [pluginDebug, pluginHttp];
 
 export const devtoolsPlugin = (
   inlineOptions: DevtoolsPluginOptions = {},
@@ -29,6 +31,9 @@ export const devtoolsPlugin = (
     setupFramework: () => setupFramework.promise,
     context: () => ctx,
   };
+  for (const plugin of BUILTIN_PLUGINS) {
+    plugin.setup(api);
+  }
 
   return {
     name: '@modern-js/plugin-devtools',
@@ -54,8 +59,8 @@ export const devtoolsPlugin = (
         async beforeRestart() {
           await api.frameworkHooks.callHook('beforeRestart');
         },
-        async beforeExit() {
-          await api.frameworkHooks.callHook('beforeExit');
+        beforeExit() {
+          api.frameworkHooks.callHook('beforeExit');
         },
         async modifyServerRoutes(params) {
           await api.frameworkHooks.callHook('modifyServerRoutes', params);
