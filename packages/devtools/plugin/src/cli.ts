@@ -27,6 +27,7 @@ export const devtoolsPlugin = (
     frameworkHooks: createHooks(),
     setupBuilder: () => setupBuilder.promise,
     setupFramework: () => setupFramework.promise,
+    context: () => ctx,
   };
 
   return {

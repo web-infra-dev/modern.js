@@ -10,6 +10,7 @@ import type {
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { Hookable } from 'hookable';
+import { DevtoolsContext } from '@modern-js/devtools-kit/node';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
@@ -84,6 +85,7 @@ export interface PluginApi {
   builderHooks: Hookable<BuilderHooks>;
   setupFramework: () => Promise<CliPluginAPI>;
   setupBuilder: () => Promise<RsbuildPluginAPI>;
+  context: () => DevtoolsContext;
 }
 
 export interface Plugin {
