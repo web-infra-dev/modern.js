@@ -1,18 +1,17 @@
 import path from 'path';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
-import type { Entrypoint, Route, ServerRoute } from '@modern-js/types';
-import { hasNestedRoutes, isRouteEntry } from './route';
-import { generatorRegisterCode, generatorRouteCode } from './code';
+import type { Entrypoint, ServerRoute } from '@modern-js/types';
+import { cloneDeep } from '@modern-js/utils/lodash';
+import { isRouteEntry } from './route';
 import * as templates from './template';
-import { walk } from './nestedRoutes';
-import { NESTED_ROUTES_DIR } from './constants';
+import { isPageComponentFile } from './utils';
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    const { internalDirectory, internalSrcAlias, srcDirectory } =
-      api.useAppContext();
+    const { internalDirectory } = api.useAppContext();
+    let originEntrypoints: any[] = [];
     return {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       _internal_runtimePlugins({ entryName, plugins }) {
@@ -49,80 +48,76 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
       },
       async beforeCreateCompiler() {
         const { metaName, entrypoints } = api.useAppContext();
-        entrypoints.forEach(entrypoint => {
-          if (entrypoint.nestedRoutesEntry) {
-            generatorRegisterCode(
-              internalDirectory,
-              entrypoint.entryName,
-              templates.runtimeGlobalContext({
-                metaName,
-              }),
-            );
-          }
-        });
+        await Promise.all(
+          entrypoints.map(async entrypoint => {
+            if (entrypoint.nestedRoutesEntry) {
+              const { generatorRegisterCode } = await import('./code');
+              generatorRegisterCode(
+                internalDirectory,
+                entrypoint.entryName,
+                templates.runtimeGlobalContext({
+                  metaName,
+                }),
+              );
+            }
+          }),
+        );
       },
       async modifyEntrypoints({ entrypoints }: { entrypoints: Entrypoint[] }) {
         // nest route
-        const hookRunners = api.useHookRunners();
-        const config = api.useConfigContext();
-        await Promise.all(
-          entrypoints.map(async entrypoint => {
-            const { isAutoMount } = entrypoint;
-            if (isAutoMount) {
-              const isHasNestedRoutes = hasNestedRoutes(
-                entrypoint.absoluteEntryDir!,
-              );
-              if (isHasNestedRoutes) {
-                entrypoint.nestedRoutesEntry = path.join(
-                  entrypoint.absoluteEntryDir!,
-                  NESTED_ROUTES_DIR,
-                );
-                const initialRoutes: Route[] = [];
-                let nestedRoutes = await walk(
-                  entrypoint.nestedRoutesEntry,
-                  entrypoint.nestedRoutesEntry,
-                  {
-                    name: internalSrcAlias,
-                    basename: srcDirectory,
-                  },
-                  entrypoint.entryName,
-                  entrypoint.isMainEntry,
-                );
-                if (nestedRoutes) {
-                  if (!Array.isArray(nestedRoutes)) {
-                    nestedRoutes = [nestedRoutes];
-                  }
-                  for (const route of nestedRoutes) {
-                    initialRoutes.unshift(route);
-                  }
-                }
-
-                const { routes } = await hookRunners.modifyFileSystemRoutes({
-                  entrypoint,
-                  routes: initialRoutes as any,
-                });
-                const { code } = await hookRunners.beforeGenerateRoutes({
-                  entrypoint,
-                  code: await templates.fileSystemRoutes({
-                    routes,
-                    // ssrMode: useSSG ? 'string' : mode,
-                    nestedRoutesEntry: entrypoint.nestedRoutesEntry,
-                    entryName: entrypoint.entryName,
-                    internalDirectory,
-                    splitRouteChunks: config?.output?.splitRouteChunks,
-                  }),
-                });
-                generatorRouteCode(
-                  internalDirectory,
-                  entrypoint.entryName,
-                  code,
-                );
-              }
-            }
-            return entrypoint;
-          }),
-        );
+        const resolvedConfig = api.useResolvedConfigContext();
+        originEntrypoints = cloneDeep(entrypoints);
+        const { generatorRoutes } = await import('./code');
+        await generatorRoutes({
+          appContext: api.useAppContext(),
+          api: api as any,
+          entrypoints,
+          config: resolvedConfig,
+        });
         return { entrypoints };
+      },
+
+      watchFiles() {
+        const { entrypoints } = api.useAppContext();
+        const nestedRouteEntries = entrypoints
+          .map(point => point.nestedRoutesEntry)
+          .filter(Boolean) as string[];
+        return { files: nestedRouteEntries, isPrivate: true };
+      },
+
+      async fileChange(e) {
+        const appContext = api.useAppContext();
+        const { appDirectory, entrypoints } = appContext;
+        const { filename, eventType } = e;
+        const nestedRouteEntries = entrypoints
+          .map(point => point.nestedRoutesEntry)
+          .filter(Boolean) as string[];
+        const pagesDir = entrypoints
+          .map(point => point.entry)
+          // should only watch file-based routes
+          .filter(entry => entry && !path.extname(entry))
+          .concat(nestedRouteEntries);
+        const isPageFile = (name: string) =>
+          pagesDir.some(pageDir => name.includes(pageDir));
+
+        const absoluteFilePath = path.resolve(appDirectory, filename);
+        const isRouteComponent =
+          isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
+
+        if (
+          isRouteComponent &&
+          (eventType === 'add' || eventType === 'unlink')
+        ) {
+          const resolvedConfig = api.useResolvedConfigContext();
+          const { generatorRoutes } = await import('./code');
+          const entrypoints = cloneDeep(originEntrypoints);
+          await generatorRoutes({
+            appContext,
+            api: api as any,
+            entrypoints,
+            config: resolvedConfig,
+          });
+        }
       },
     };
   },

@@ -54,10 +54,9 @@ export const fileSystemRoutes = async ({
     'map.json',
   );
 
-  const importLazyCode = `
-      import { lazy } from "react";
-      import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
-    `;
+  const importLazyCode = `import { lazy } from "react";
+import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+`;
 
   let rootLayoutCode = ``;
   const getDataLoaderPath = ({
@@ -194,8 +193,8 @@ export const fileSystemRoutes = async ({
   };
 
   let routeComponentsCode = `
-      export const routes = [
-    `;
+export const routes = [
+`;
   for (const route of routes) {
     if ('type' in route) {
       const newRoute = traverseRouteTree(route);
@@ -300,13 +299,13 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-      import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
     `;
   const routeModulesCode = `
-      if(typeof document !== 'undefined'){
-        window.${ROUTE_MODULES} = {}
-      }
-    `;
+if (typeof document !== 'undefined') {
+  window.${ROUTE_MODULES} = {}
+}
+`;
 
   return `
 ${importLazyCode}

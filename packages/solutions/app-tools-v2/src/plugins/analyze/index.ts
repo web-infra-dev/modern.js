@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
   createDebugger,
   fs,
@@ -12,6 +13,7 @@ import { createBuilderGenerator } from '../../builder';
 import { emitResolvedConfig } from '../../utils/config';
 import { printInstructions } from '../../utils/instruction';
 import { generateRoutes } from '../../utils/routes';
+import { initialNormalizedConfig } from '../../config';
 import { checkIsBuildCommands } from './utils';
 import { getSelectedEntries } from './entry';
 
@@ -178,6 +180,22 @@ export default ({
           };
           api.setAppContext(appContext);
         }
+      },
+      watchFiles() {
+        const { entrypoints } = api.useAppContext();
+        const pagesDir = entrypoints
+          .map(point => point.entry)
+          // should only watch file-based routes
+          .filter(entry => entry && !path.extname(entry));
+        return { files: pagesDir, isPrivate: true };
+      },
+
+      resolvedConfig({ resolved }) {
+        const appContext = api.useAppContext();
+        const config = initialNormalizedConfig(resolved, appContext, bundler);
+        return {
+          resolved: config,
+        };
       },
     };
   },
