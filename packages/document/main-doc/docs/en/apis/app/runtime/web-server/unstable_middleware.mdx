@@ -132,3 +132,29 @@ const auth: UnstableMiddleware = async (c, next) => {
 
 export const unstableMiddlewares: UnstableMiddleware = [auth];
 ```
+
+### Modify Response
+
+```ts
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+const modifier: UnstableMiddleware = async (c, next) => {
+  await next();
+
+  const { response } = c;
+
+  const text = await response.text();
+
+  const newText = text.replace('<html>', `<html lang="${language}">`);
+
+  const newheaders = response.headers;
+  newheaders.set('x-custom-value', 'modern');
+
+  c.response = c.body(newText, {
+    status: response.status,
+    headers: newheaders,
+  });
+};
+
+export const unstableMiddlewares: UnstableMiddleware = [modifier];
+```
