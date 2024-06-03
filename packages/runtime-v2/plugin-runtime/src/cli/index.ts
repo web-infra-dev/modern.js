@@ -3,6 +3,7 @@ import { cleanRequireCache, isReact18 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools-v2';
 import { routerPlugin } from '../router/cli';
 import { statePlugin } from '../state/cli';
+import { documentPlugin } from '../document/cli';
 import { generateCode } from './code';
 import { pluginAlias } from './alias';
 import { isRuntimeEntry } from './entry';
@@ -12,7 +13,7 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: ['@modern-js/plugin-router', '@modern-js/plugin-state'],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [routerPlugin(), statePlugin()],
+  usePlugins: [routerPlugin(), statePlugin(), documentPlugin()],
   setup: api => {
     return {
       checkEntryPoint({ path, entry }) {

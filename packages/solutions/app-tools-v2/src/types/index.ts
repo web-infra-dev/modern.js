@@ -11,7 +11,7 @@ export * from './config';
 export * from './hooks';
 export type { webpack, Rspack } from '@modern-js/uni-builder';
 export type { Bundler } from './utils';
-export type { IAppContext, PluginAPI } from '@modern-js/core';
+export type { IAppContext, PluginAPI, NormalizedConfig } from '@modern-js/core';
 export type {
   ServerUserConfig,
   ServerNormalizedConfig,
