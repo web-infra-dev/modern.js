@@ -133,7 +133,6 @@ export const devtoolsPlugin = (
               });
               builderApi.onAfterBuild(async params => {
                 await api.builderHooks.callHook('onAfterBuild', params);
-                require('exit')();
               });
               builderApi.onExit(() => {
                 api.builderHooks.callHookWith(syncSerialTaskCaller, 'onExit');
