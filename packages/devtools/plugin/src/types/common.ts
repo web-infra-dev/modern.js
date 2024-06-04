@@ -87,7 +87,7 @@ export interface PluginApi {
   builderHooks: Hookable<BuilderHooks>;
   setupFramework: () => Promise<CliPluginAPI>;
   setupBuilder: () => Promise<RsbuildPluginAPI>;
-  context: () => DevtoolsContext;
+  context: DevtoolsContext;
   vars: DevtoolsPluginVars;
 }
 

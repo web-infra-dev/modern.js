@@ -52,7 +52,9 @@ export const devtoolsPlugin = (
     frameworkHooks: createHooks(),
     setupBuilder: () => setupBuilder.promise,
     setupFramework: () => setupFramework.promise,
-    context: () => ctx,
+    get context() {
+      return ctx;
+    },
     get vars() {
       return _sharedVars as any;
     },

@@ -5,8 +5,7 @@ import { updateContext } from '../options';
 
 export const pluginWatcher: Plugin = {
   async setup(api) {
-    const ctx = api.context();
-    const basename = `${ctx.def.name.shortName}.runtime.json`;
+    const basename = `${api.context.def.name.shortName}.runtime.json`;
     const frameworkApi = await api.setupFramework();
     const appCtx = frameworkApi.useAppContext();
     const watcher = chokidar.watch(getConfigFilenames(basename), {
@@ -16,8 +15,8 @@ export const pluginWatcher: Plugin = {
     const refreshStoragePreset = async () => {
       const configs = await loadConfigFiles(basename, appCtx.appDirectory);
       if (!configs) return;
-      ctx.storagePresets = [];
-      updateContext(ctx, ...configs);
+      api.context.storagePresets = [];
+      updateContext(api.context, ...configs);
     };
     watcher.on('add', refreshStoragePreset);
     watcher.on('change', refreshStoragePreset);
