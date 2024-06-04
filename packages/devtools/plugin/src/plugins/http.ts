@@ -4,7 +4,7 @@ import http from 'http';
 import { URL } from 'url';
 import { Context, Hono } from 'hono';
 import { getPort, fs } from '@modern-js/utils';
-import { serve, HttpBindings } from '@hono/node-server';
+import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { Plugin } from '../types';
 
@@ -70,18 +70,26 @@ app.get('*', async c => {
 
 export const pluginHttp: Plugin = {
   async setup(api) {
-    const port = await getPort(8782, { slient: true });
-    const instance = serve({
+    if (process.env.NODE_ENV === 'production') return;
+
+    const instance = createAdaptorServer({
       fetch: app.fetch,
-      port,
       hostname: '127.0.0.1', // https://stackoverflow.com/questions/77142563/nodejs-18-breaks-dns-resolution-of-localhost-from-127-0-0-1-to-1
       serverOptions: {
         allowHTTP1: true,
       },
     });
+    const port = await getPort(8782, { slient: true });
+    instance.listen(port);
     assert(instance instanceof http.Server, 'instance should be http.Server');
 
-    api.frameworkHooks.hook('beforeExit', () => instance.close());
-    api.frameworkHooks.hook('beforeRestart', () => instance.close());
+    let _open = true;
+    const cleanup = () => {
+      _open && instance.close();
+      _open = false;
+    };
+    api.frameworkHooks.hook('beforeExit', cleanup);
+    api.frameworkHooks.hook('beforeRestart', cleanup);
+    api.frameworkHooks.hook('afterBuild', cleanup);
   },
 };
