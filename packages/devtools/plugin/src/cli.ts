@@ -7,7 +7,7 @@ import {
 import { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
 import createDeferred from 'p-defer';
-import { createHooks, HookCallback } from 'hookable';
+import { createHooks } from 'hookable';
 import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
 import { proxy } from 'valtio';
 import { DevtoolsPluginOptions, resolveContext } from './options';
@@ -18,6 +18,7 @@ import { pluginState } from './plugins/state';
 import { pluginWatcher } from './plugins/watcher';
 import { pluginServiceWorker } from './plugins/service-worker';
 import { pluginHtml } from './plugins/html';
+import { pluginRpc } from './plugins/rpc';
 
 export type { DevtoolsPluginOptions };
 
@@ -33,14 +34,8 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   // --- //
   pluginState,
   pluginHttp,
+  pluginRpc,
 ];
-
-function syncSerialTaskCaller(hooks: HookCallback[], args: any[]) {
-  const [, ...rest] = args;
-  for (const hook of hooks) {
-    hook(...rest);
-  }
-}
 
 export const devtoolsPlugin = (
   inlineOptions: DevtoolsPluginOptions = {},
@@ -101,7 +96,10 @@ export const devtoolsPlugin = (
           cleanup();
         },
         beforeExit() {
-          api.frameworkHooks.callHookWith(syncSerialTaskCaller, 'beforeExit');
+          api.frameworkHooks.callHookWith(
+            hooks => hooks.forEach(hook => hook()),
+            'beforeExit',
+          );
           cleanup();
         },
         async afterBuild(params) {
@@ -158,7 +156,10 @@ export const devtoolsPlugin = (
                 await api.builderHooks.callHook('onAfterBuild', params);
               });
               builderApi.onExit(() => {
-                api.builderHooks.callHookWith(syncSerialTaskCaller, 'onExit');
+                api.builderHooks.callHookWith(
+                  hooks => hooks.forEach(hook => hook()),
+                  'onExit',
+                );
               });
             },
           };
