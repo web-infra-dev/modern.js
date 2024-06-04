@@ -106,7 +106,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```toml
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 ```
 
 在 Netlify 平台上添加项目，部署即可。
@@ -118,7 +118,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```toml title="netlify.toml"
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 
 [functions]
   directory = ".netlify/functions"
@@ -172,7 +172,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```toml
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 
 [functions]
   directory = ".netlify/functions"
@@ -216,7 +216,12 @@ Vercel 是一个面向现代 web 应用的部署平台，它提供了丰富的�
 全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，有两点需要注意：
 
 1. 当前，Modern.js 还不支持在 Vercel 平台上部署 BFF 项目，我们将在后续的版本中支持。
-2. Vercel 平台部署时，默认 node 运行时为 `20.x`，部署全栈项目时建议选择 `18.x`，具体原因详见[Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error)。
+2. Vercel 平台部署时，默认 node 运行时为 `20.x`，部署全栈项目时建议选择 `18.x`，具体原因详见[Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error)，你可以修改 `package.json` 指定版本：
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+```
 
 
 ### Monorepo 项目
@@ -239,9 +244,16 @@ Vercel 是一个面向现代 web 应用的部署平台，它提供了丰富的�
 └── pnpm-workspace.yaml
 ```
 
-首先，你需要在 Vercel 平台上配置 **Root Directory** 为 `packages/app`，并选择 Node.js 运行时为 `18.x`:
+首先，你需要在 Vercel 平台上配置 **Root Directory** 为 `packages/app`:
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+将 Node.js 运行时设置为 `18.x`：
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+},
+```
 
 在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
 

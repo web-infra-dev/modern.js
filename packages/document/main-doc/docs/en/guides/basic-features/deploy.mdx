@@ -108,7 +108,7 @@ Add the following content to `netlify.toml`:
 ```toml
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 ```
 
 Now, add a project to the Netlify platform and deploy it!
@@ -120,7 +120,7 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 ```toml title="netlify.toml"
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 
 [functions]
   directory = ".netlify/functions"
@@ -177,7 +177,7 @@ Configure the build command in `netlify.toml`:
 ```toml
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 
 [functions]
   directory = ".netlify/functions"
@@ -221,7 +221,13 @@ Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. Th
 In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
 
 1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
-2. When deploying on Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects, see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error).
+2. When deploying on Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects,
+see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error), you can modify `package.json` to specify the version:
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+```
 
 
 ### Monorepo
@@ -246,9 +252,17 @@ Assuming the directory structure of the Monorepo repository is as follows:
 └── pnpm-workspace.yaml
 ```
 
-First, you need to configure the **Root Directory** as `packages/app` on the Vercel platform, and select Node.js runtime as `18.x`:
+First, you need to configure the **Root Directory** as `packages/app` on the Vercel platform:
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+Specify Node.js runtime as `18.x`:
+
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+````
 
 Add the following script to `packages/app/package.json` to run `build` command of the other repositories in the workspace before run the `deploy` command for the `app` repository:
 
