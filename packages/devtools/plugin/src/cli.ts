@@ -16,6 +16,7 @@ import { pluginDebug } from './plugins/debug';
 import { pluginHttp } from './plugins/http';
 import { pluginState } from './plugins/state';
 import { pluginWatcher } from './plugins/watcher';
+import { pluginServiceWorker } from './plugins/service-worker';
 
 export type { DevtoolsPluginOptions };
 
@@ -26,6 +27,8 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
 export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
   pluginWatcher,
+  pluginServiceWorker,
+  // --- //
   pluginState,
   pluginHttp,
 ];
