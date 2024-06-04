@@ -68,24 +68,31 @@ app.get('*', async c => {
   return c.html(content);
 });
 
+declare global {
+  interface DevtoolsPluginVars {
+    http: http.Server;
+  }
+}
+
 export const pluginHttp: Plugin = {
   async setup(api) {
     if (process.env.NODE_ENV === 'production') return;
 
-    const instance = createAdaptorServer({
+    const server = createAdaptorServer({
       fetch: app.fetch,
       hostname: '127.0.0.1', // https://stackoverflow.com/questions/77142563/nodejs-18-breaks-dns-resolution-of-localhost-from-127-0-0-1-to-1
       serverOptions: {
         allowHTTP1: true,
       },
     });
+    assert(server instanceof http.Server, 'instance should be http.Server');
+    api.vars.http = server;
     const port = await getPort(8782, { slient: true });
-    instance.listen(port);
-    assert(instance instanceof http.Server, 'instance should be http.Server');
+    server.listen(port);
 
     let _open = true;
     const cleanup = () => {
-      _open && instance.close();
+      _open && server.close();
       _open = false;
     };
     api.frameworkHooks.hook('beforeExit', cleanup);

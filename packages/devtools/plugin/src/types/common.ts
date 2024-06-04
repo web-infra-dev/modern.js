@@ -82,12 +82,18 @@ export type $BuilderHooks = UnwrapBuilderHooks<
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BuilderHooks extends $BuilderHooks {}
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface DevtoolsPluginVars extends Record<string, unknown> {}
+}
+
 export interface PluginApi {
   frameworkHooks: Hookable<FrameworkHooks>;
   builderHooks: Hookable<BuilderHooks>;
   setupFramework: () => Promise<CliPluginAPI>;
   setupBuilder: () => Promise<RsbuildPluginAPI>;
   context: () => DevtoolsContext;
+  vars: DevtoolsPluginVars;
 }
 
 export interface Plugin {

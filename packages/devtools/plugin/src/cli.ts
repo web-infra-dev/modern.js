@@ -31,12 +31,16 @@ export const devtoolsPlugin = (
   const ctx = proxy(resolveContext(inlineOptions));
   const setupBuilder = createDeferred<RsbuildPluginAPI>();
   const setupFramework = createDeferred<CliPluginAPI>();
+  const _sharedVars: Record<string, unknown> = {};
   const api: PluginApi = {
     builderHooks: createHooks(),
     frameworkHooks: createHooks(),
     setupBuilder: () => setupBuilder.promise,
     setupFramework: () => setupFramework.promise,
     context: () => ctx,
+    get vars() {
+      return _sharedVars as any;
+    },
   };
   const cleanup = () => {
     setupBuilder.reject(new Error('Devtools Plugin is disabled'));
