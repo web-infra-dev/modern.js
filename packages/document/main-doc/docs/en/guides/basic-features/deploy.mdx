@@ -115,7 +115,7 @@ Now, add a project to the Netlify platform and deploy it!
 
 ### Full Stack Project
 
-Full-stack projects refer to projects that use Custom Web Servers, SSR, and BFF. These projects need to be deployed on **Netlify Functions**. Based on the `netlify.toml` file mentioned above, add the following configuration:
+Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Netlify Functions**. Based on the `netlify.toml` file mentioned above, add the following configuration:
 
 ```toml title="netlify.toml"
 [build]
@@ -216,12 +216,12 @@ Commit your project to git, select Framework Preset as `Other` on the Vercel pla
 
 ### Full Stack Project
 
-Full-stack projects refer to projects that use Custom Web Servers, SSR, and BFF. These projects need to be deployed on **Vercel Functions**.
+Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Vercel Functions**.
 
 In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
 
 1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
-2. When deploying Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects, see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error).
+2. When deploying on Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects, see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error).
 
 
 ### Monorepo
@@ -250,7 +250,7 @@ First, you need to configure the **Root Directory** as `packages/app` on the Ver
 
 <img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
 
-Add the following script to `packages/app/package.json` to execute the build of the other repositories in the workspace before run the deploy command for the `app` repository:
+Add the following script to `packages/app/package.json` to run `build` command of the other repositories in the workspace before run the `deploy` command for the `app` repository:
 
 ```json
 {
