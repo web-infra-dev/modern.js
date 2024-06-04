@@ -1072,8 +1072,8 @@ importers:
   packages/devtools/plugin:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.8.2
-        version: 1.8.2
+        specifier: ^1.11.2
+        version: 1.11.2
       '@modern-js/devtools-client':
         specifier: workspace:*
         version: link:../client
@@ -12822,8 +12822,8 @@ packages:
       '@hapi/hoek': 9.3.0
     dev: true
 
-  /@hono/node-server@1.8.2:
-    resolution: {integrity: sha512-h8l2TBLCPHZBUrrkosZ6L5CpBLj6zdESyF4B+zngiCDF7aZFQJ0alVbLx7jn8PCVi9EyoFf8a4hOZFi1tD95EA==}
+  /@hono/node-server@1.11.2:
+    resolution: {integrity: sha512-JhX0nUC66GeDxpIdMKWDRMEwtQBa64CY907iAF1sYqb4m2p2PdSU7zkbnNhAZLg/6IjSlTuj6CF307JlBXVvpg==}
     engines: {node: '>=18.14.1'}
     dev: false
 
