@@ -2,7 +2,7 @@ import type { AppTools, CliPlugin, UserConfig } from '@modern-js/app-tools';
 import { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
 import createDeferred from 'p-defer';
-import { createHooks } from 'hookable';
+import { createHooks, HookCallback } from 'hookable';
 import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
 import { proxy } from 'valtio';
 import { DevtoolsPluginOptions, resolveContext } from './options';
@@ -18,6 +18,13 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
 
 export const BUILTIN_PLUGINS: Plugin[] = [pluginDebug, pluginHttp];
 
+function syncSerialTaskCaller(hooks: HookCallback[], args: any[]) {
+  const [, ...rest] = args;
+  for (const hook of hooks) {
+    hook(...rest);
+  }
+}
+
 export const devtoolsPlugin = (
   inlineOptions: DevtoolsPluginOptions = {},
 ): DevtoolsPlugin => {
@@ -30,6 +37,12 @@ export const devtoolsPlugin = (
     setupBuilder: () => setupBuilder.promise,
     setupFramework: () => setupFramework.promise,
     context: () => ctx,
+  };
+  const cleanup = () => {
+    setupBuilder.reject(new Error('Devtools Plugin is disabled'));
+    setupFramework.reject(new Error('Devtools Plugin is disabled'));
+    api.builderHooks.removeAllHooks();
+    api.frameworkHooks.removeAllHooks();
   };
   for (const plugin of BUILTIN_PLUGINS) {
     plugin.setup(api);
@@ -56,15 +69,21 @@ export const devtoolsPlugin = (
         async afterCreateCompiler(params) {
           await api.frameworkHooks.callHook('afterCreateCompiler', params);
         },
-        async beforeRestart() {
-          await api.frameworkHooks.callHook('beforeRestart');
-        },
-        beforeExit() {
-          api.frameworkHooks.callHook('beforeExit');
-        },
         async modifyServerRoutes(params) {
           await api.frameworkHooks.callHook('modifyServerRoutes', params);
           return params;
+        },
+        async beforeRestart() {
+          await api.frameworkHooks.callHook('beforeRestart');
+          cleanup();
+        },
+        beforeExit() {
+          api.frameworkHooks.callHookWith(syncSerialTaskCaller, 'beforeExit');
+          cleanup();
+        },
+        async afterBuild(params) {
+          api.frameworkHooks.callHook('afterBuild', params);
+          cleanup();
         },
         async config() {
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
@@ -114,6 +133,10 @@ export const devtoolsPlugin = (
               });
               builderApi.onAfterBuild(async params => {
                 await api.builderHooks.callHook('onAfterBuild', params);
+                require('exit')();
+              });
+              builderApi.onExit(() => {
+                api.builderHooks.callHookWith(syncSerialTaskCaller, 'onExit');
               });
             },
           };

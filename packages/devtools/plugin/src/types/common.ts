@@ -51,6 +51,7 @@ export type $FrameworkHooks = CleanHooks<
     | 'afterCreateCompiler'
     | 'beforeRestart'
     | 'beforeExit'
+    | 'afterBuild'
   >
 >;
 
@@ -74,6 +75,7 @@ export type $BuilderHooks = UnwrapBuilderHooks<
     | 'onAfterCreateCompiler'
     | 'onDevCompileDone'
     | 'onAfterBuild'
+    | 'onExit'
   >
 >;
 
