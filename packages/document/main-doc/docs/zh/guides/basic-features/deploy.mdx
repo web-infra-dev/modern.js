@@ -2,12 +2,12 @@
 sidebar_position: 15
 ---
 
-# 部署
+# 部署应用
 
 目前，Modern.js 提供了两种部署方式：
 
 - 你可以将应用自行托管在包含 Node.js 环境的容器中，这为应用提供了部署的灵活性。
-- 你也可以通过平台部署应用，目前 Modern.js 官方支持了 [Netlify](https://www.netlify.com/) 平台。
+- 你也可以通过平台部署应用，目前 Modern.js 官方支持了 [Netlify](https://www.netlify.com/) 和 [Vercel](https://vercel.com/) 平台。
 
 :::info
 目前 Modern.js 仅支持在 Node.js 环境中运行，未来将提供更多运行时环境的支持。
@@ -88,7 +88,7 @@ PORT=3000 node .output/index
 
 ## Netlify
 
-Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进的配置该文件。
+Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现代 Web 项目而设计。在 Netlify 上部署，通常需要配置 `netlify.toml` 文件，你可以根据项目复杂度，渐进地配置该文件。
 
 ### 纯前端项目
 
@@ -106,7 +106,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```toml
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 ```
 
 在 Netlify 平台上添加项目，部署即可。
@@ -118,7 +118,7 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```toml title="netlify.toml"
 [build]
   publish = "dist"
-  command = "npm run deploy"
+  command = "modern deploy"
 
 [functions]
   directory = ".netlify/functions"
@@ -133,6 +133,10 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 
 
 ### Monorepo 项目
+
+:::info
+以下指南主要针对于全栈项目，对于纯 CSR 的项目，只需要按照[纯前端项目](#纯前端项目)部署即可。
+:::
 
 对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。这里以一个 pnpm Monorepo 仓库为例，在 Netlify 上对 Monorepo 项目进行部署。
 
@@ -177,5 +181,101 @@ Netlify 是一个流行的 Web 开发平台，专为构建、发布和维护现�
 ```
 
 提交你的代码，使用 Netlify 平台部署即可。
+
+## Vercel
+
+Vercel 是一个面向现代 Web 应用的部署平台，它提供了丰富的功能，支持部署静态网站，服务端渲染应用等。在 Vercel 上部署，通常需要配置 `vercel.json` 文件，你可以根据项目复杂度，渐进地配置该文件。
+
+### 纯前端项目
+
+在当前项目的根目录添加 `vercel.json` 文件：
+```bash
+./
+├── src
+├── modern.config.ts
+├── vercel.json
+└── package.json
+```
+
+在 `vercel.json` 中添加以下内容：
+```json title="vercel.json"
+{
+  "buildCommand": "modern deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+提交你的项目到 git，在 Vercel 平台上选择 Frmeworkwork Preset 为 `Other`，部署即可。
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
+
+### 全栈项目
+
+全栈项目是指使用了自定义 Web Server、SSR、BFF 的项目，这些项目需要部署在 **Vercel Functions** 上。
+
+全栈项目除了按照[纯前端项目](#纯前端项目)的方式配置 `vercel.json` 外，有两点需要注意：
+
+1. 当前，Modern.js 还不支持在 Vercel 平台上部署 BFF 项目，我们将在后续的版本中支持。
+2. Vercel 平台部署时，默认 node 运行时为 `20.x`，部署全栈项目时建议选择 `18.x`，具体原因详见[Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error)，你可以修改 `package.json` 指定版本：
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+```
+
+
+### Monorepo 项目
+
+:::info
+以下指南主要针对于全栈项目，对于纯 CSR 的项目，只需要按照[纯前端项目](#纯前端项目-1)部署即可。
+:::
+
+对于 Monorepo 项目，除了需要构建当前的项目外，还需要构建当前项目依赖的仓库中其他子项目。这里以一个 pnpm Monorepo 仓库为例，在 Vercel 上对 Monorepo 项目进行部署。
+
+假设 Monorepo 仓库目录结构如下：
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+首先，你需要在 Vercel 平台上配置 **Root Directory** 为 `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+将 Node.js 运行时设置为 `18.x`：
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+},
+```
+
+在 `packages/app/package.json` 中添加以下 script，在执行 `app` 仓库的部署命令之前，先执行 workspace 中其他仓库的构建：
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy",
+  }
+}
+```
+
+在 `packages/app/vercel.json` 文件中添加以下内容：
+```json title="vercel.json"
+{
+  "buildCommand": "npm run deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+提交你的代码，使用 Vercel 平台部署即可。
+
+
 
 
