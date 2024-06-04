@@ -106,16 +106,29 @@ export class CacheManager {
 
         return chunk;
       });
-      stream.readable.getReader().closed.then(() => {
-        const current = Date.now();
-        const cache: CacheStruct = {
-          val: html,
-          cursor: current,
-        };
-        this.container.set(key, JSON.stringify(cache), { ttl });
-      });
 
-      body.pipeThrough(stream);
+      const reader = body.getReader();
+      const writer = stream.writable.getWriter();
+
+      const push = () => {
+        reader.read().then(({ done, value }) => {
+          if (done) {
+            const current = Date.now();
+            const cache: CacheStruct = {
+              val: html,
+              cursor: current,
+            };
+            this.container.set(key, JSON.stringify(cache), { ttl });
+            writer.close();
+            return;
+          }
+
+          writer.write(value);
+          push();
+        });
+      };
+
+      push();
 
       return {
         data: stream.readable,
