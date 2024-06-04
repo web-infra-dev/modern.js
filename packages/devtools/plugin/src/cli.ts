@@ -9,6 +9,7 @@ import { DevtoolsPluginOptions, resolveContext } from './options';
 import { CliPluginAPI, Plugin, PluginApi } from './types';
 import { pluginDebug } from './plugins/debug';
 import { pluginHttp } from './plugins/http';
+import { pluginState } from './plugins/state';
 
 export type { DevtoolsPluginOptions };
 
@@ -16,7 +17,7 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
   setClientDefinition: (def: ClientDefinition) => void;
 };
 
-export const BUILTIN_PLUGINS: Plugin[] = [pluginDebug, pluginHttp];
+export const BUILTIN_PLUGINS: Plugin[] = [pluginDebug, pluginState, pluginHttp];
 
 function syncSerialTaskCaller(hooks: HookCallback[], args: any[]) {
   const [, ...rest] = args;
