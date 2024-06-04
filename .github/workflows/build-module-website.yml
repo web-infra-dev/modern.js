@@ -44,7 +44,7 @@ jobs:
         run: pnpm --filter @modern-js/module-tools-docs run build:doc
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.6.1
         with:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main

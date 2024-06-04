@@ -20,6 +20,7 @@ class Storage {
 
   reset() {
     this.middlewares = [];
+    this.unstableMiddlewares = [];
     this.hooks = {};
   }
 }
@@ -61,6 +62,14 @@ export const compose = (middlewares: Middleware[]) => {
   };
 };
 
+function getFactory(storage: Storage) {
+  const { middlewares } = storage;
+
+  const factory = compose(middlewares);
+
+  return factory;
+}
+
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
@@ -100,6 +109,8 @@ export default (): ServerPlugin => ({
       storage.unstableMiddlewares.push(...(unstableMiddlewares || []));
     };
 
+    let factory: ReturnType<typeof compose>;
+
     return {
       prepare() {
         loadMod();
@@ -107,6 +118,7 @@ export default (): ServerPlugin => ({
       reset() {
         storage.reset();
         loadMod();
+        factory = getFactory(storage);
       },
       afterMatch(context, next) {
         if (!storage.hooks.afterMatch) {
@@ -121,18 +133,19 @@ export default (): ServerPlugin => ({
         return storage.hooks.afterRender(context, next);
       },
       prepareWebServer() {
-        const { middlewares, unstableMiddlewares } = storage;
+        const { unstableMiddlewares } = storage;
 
         if (unstableMiddlewares.length > 0) {
           return unstableMiddlewares;
         }
 
-        const factory = compose(middlewares);
+        factory = getFactory(storage);
 
         return ctx => {
           const {
             source: { res },
           } = ctx;
+
           return new Promise<void>((resolve, reject) => {
             // res is not exist in other js runtime.
             res?.on('finish', (err: Error) => {

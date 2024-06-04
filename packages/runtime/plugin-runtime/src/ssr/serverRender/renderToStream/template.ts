@@ -13,6 +13,7 @@ export const getTemplates = async (
   context: RuntimeContext,
   renderLevel: RenderLevel,
   pluginConfig: SSRPluginConfig,
+  styledComponentsStyleTags?: string,
 ): Promise<InjectTemplate> => {
   const { ssrContext } = context;
   const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
@@ -22,6 +23,7 @@ export const getTemplates = async (
     beforeAppTemplate,
     context,
     pluginConfig,
+    styledComponentsStyleTags,
   );
   const builtAfterTemplate = await buildShellAfterTemplate(
     afterAppHtmlTemplate,

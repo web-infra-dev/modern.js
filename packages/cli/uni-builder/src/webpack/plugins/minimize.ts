@@ -3,7 +3,6 @@ import {
   type BundlerChain,
   type RsbuildPlugin,
   type NormalizedConfig,
-  parseMinifyOptions,
   mergeChainedOptions,
 } from '@rsbuild/shared';
 import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
@@ -92,8 +91,13 @@ export const pluginMinimize = (
   setup(api) {
     api.modifyBundlerChain(async (chain, { isProd }) => {
       const config = api.getNormalizedConfig();
+      const { minify } = config.output;
 
-      if (parseMinifyOptions(config, isProd).minifyJs) {
+      if (minify === false || !isProd) {
+        return;
+      }
+
+      if (minify === true || minify?.js !== false) {
         await applyJSMinimizer(chain, config, userTerserConfig);
       }
     });

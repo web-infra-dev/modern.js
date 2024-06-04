@@ -20,39 +20,4 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
 }
 ```
 
-:::tip
-When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/en/api/config-output.html#outputdisablecssextract) is true.
-
-To modify CSS Modules configuration, it is recommended to use the [output.cssModules](https://modernjs.dev/builder/en/api/config-output.html#outputcssmodules) configuration.
-:::
-
-### Object Type
-
-When this value is an Object, it is merged with the default config via deep merge. For example:
-
-```js
-export default {
-  tools: {
-    cssLoader: {
-      modules: {
-        exportOnlyLocals: true,
-      },
-    },
-  },
-};
-```
-
-### Function Type
-
-When the value is a Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config. For example:
-
-```js
-export default {
-  tools: {
-    cssLoader: config => {
-      config.modules.exportOnlyLocals = true;
-      return config;
-    },
-  },
-};
-```
+For detailed usage, please refer to [Rsbuild - tools.cssLoader](https://rsbuild.dev/config/tools/css-loader).

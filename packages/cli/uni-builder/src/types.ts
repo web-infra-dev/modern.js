@@ -19,7 +19,6 @@ import type {
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import type { LazyCompilationOptions } from './webpack/plugins/lazyCompilation';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
@@ -28,6 +27,8 @@ import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { PluginSassOptions } from '@rsbuild/plugin-sass';
+import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
 import type {
   StartDevServerOptions,
@@ -129,6 +130,14 @@ export type UniBuilderExtraConfig = {
      * @requires webpack
      */
     terser?: ToolsTerserConfig;
+    /**
+     * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
+     */
+    less?: PluginLessOptions['lessLoaderOptions'];
+    /**
+     * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
+     */
+    sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
     /**
@@ -176,6 +185,10 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `output.filenameHash` instead
      */
     disableFilenameHash?: boolean;
+    /**
+     * Whether to generate a TypeScript declaration file for CSS Modules.
+     */
+    enableCssModuleTSDeclaration?: boolean;
     /**
      * @deprecated use `source.decorators` instead
      */
@@ -298,10 +311,7 @@ export type UniBuilderExtraConfig = {
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
-    /**
-     * Tips: this configuration is not yet supported in rspack
-     */
-    lazyCompilation?: LazyCompilationOptions;
+    lazyCompilation?: DevConfig['lazyCompilation'];
     /**
      * Enable the ability for source code building
      */

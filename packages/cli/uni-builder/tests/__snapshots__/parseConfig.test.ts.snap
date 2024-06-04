@@ -17,6 +17,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -81,6 +82,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -132,6 +134,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -190,6 +193,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -245,6 +249,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -303,6 +308,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -358,6 +364,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -420,6 +427,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -475,6 +483,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -533,6 +542,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -588,6 +598,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -648,6 +659,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -705,6 +717,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     ],
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -762,6 +775,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     ],
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -819,6 +833,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "cssModules": {
       "localIdentName": "[local]-[hash:base64:6]",
     },
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -876,6 +891,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "cssModules": {
       "auto": [Function],
     },
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -930,6 +946,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -981,6 +998,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",

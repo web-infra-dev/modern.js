@@ -2,7 +2,6 @@
 /* eslint-disable complexity */
 import {
   NODE_MODULES_REGEX,
-  CSS_MODULES_REGEX,
   RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
@@ -34,8 +33,11 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { pluginSass } from '@rsbuild/plugin-sass';
+import { pluginLess } from '@rsbuild/plugin-less';
 import { transformToRsbuildServerOptions } from './devServer';
 
+const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
 
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
@@ -125,6 +127,7 @@ export async function parseCommonConfig(
       enableInlineScripts,
       disableCssExtract,
       enableInlineStyles,
+      enableCssModuleTSDeclaration,
       disableCssModuleExtension,
       disableTsChecker,
       disableSvgr,
@@ -136,6 +139,7 @@ export async function parseCommonConfig(
       convertToRem,
       disableMinimize,
       polyfill,
+      dataUriLimit = 10000,
       ...outputConfig
     } = {},
     html: {
@@ -159,13 +163,14 @@ export async function parseCommonConfig(
     } = {},
     dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
-    tools: { devServer, tsChecker, minifyCss, ...toolsConfig } = {},
+    tools: { devServer, tsChecker, minifyCss, less, sass, ...toolsConfig } = {},
   } = uniBuilderConfig;
 
   const rsbuildConfig: RsbuildConfig = {
     plugins,
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
+      dataUriLimit,
       ...outputConfig,
     },
     source: {
@@ -356,6 +361,12 @@ export async function parseCommonConfig(
     pluginYaml(),
     pluginAntd(),
     pluginArco(),
+    pluginSass({
+      sassLoaderOptions: sass,
+    }),
+    pluginLess({
+      lessLoaderOptions: less,
+    }),
   ];
 
   if (checkSyntax) {
@@ -389,6 +400,13 @@ export async function parseCommonConfig(
     rsbuildPlugins.push(
       pluginRem(typeof convertToRem === 'boolean' ? {} : convertToRem),
     );
+  }
+
+  if (enableCssModuleTSDeclaration) {
+    const { pluginTypedCSSModules } = await import(
+      '@rsbuild/plugin-typed-css-modules'
+    );
+    rsbuildPlugins.push(pluginTypedCSSModules());
   }
 
   rsbuildPlugins.push(

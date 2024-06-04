@@ -87,9 +87,9 @@ It is recommended to use [UnstableMiddleware](/guides/advanced-features/web-serv
 Modern.js provides a set of APIs by default for projects to use:
 
 ```ts
-import { Middlewre } from '@modern-js/runtime/server';
+import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middlewre = (context, next) => {
+export const middleware: Middleware = (context, next) => {
   const {
     source: { req, res },
   } = context;
@@ -110,7 +110,7 @@ Projects should follow these best practices when using Middleware:
 
 **In general, in CSR projects, using Hook can basically meet all the needs of simple scenarios. In SSR projects, Middleware can be used for more complex Node extensions.**
 
-### UnstableMiddleware
+### Unstable Middleware
 
 Modern.js will provide new Middleware to add pre-processing middleware to the Web Server, supporting the execution of custom logic before and after handling the page.
 

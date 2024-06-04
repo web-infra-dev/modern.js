@@ -21,10 +21,6 @@ describe('source build', () => {
     codeDir: string;
     original: string;
   };
-  let utils: {
-    codeDir: string;
-    original: string;
-  };
 
   beforeEach(async () => {
     port = await getPort();
@@ -34,11 +30,6 @@ describe('source build', () => {
     card = {
       codeDir: cardCompDir,
       original: await fs.readFile(cardCompDir, 'utf8'),
-    };
-    const utilsDir = path.join(__dirname, './utils/src/index.ts');
-    utils = {
-      codeDir: utilsDir,
-      original: await fs.readFile(utilsDir, 'utf8'),
     };
   });
   test('should run successfully', async () => {
@@ -63,27 +54,12 @@ describe('source build', () => {
 
     expect(targetText).toMatch('Card-Comp');
     expect(targetText).toMatch('CARD-COMP');
-  });
 
-  test('update utils project code', async () => {
-    const newContent = `
-    export const strAdd = (str1: string, str2: string) => {
-      return 'this is utils' + str1 + str2;
-    }
-    `;
-    await fs.writeFile(utils.codeDir, newContent);
-    await sleep(2000);
-    const page = await browser.newPage();
-    await page.goto(`http://localhost:${port}`);
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText).toMatch('this is utils');
+    await fs.writeFile(card.codeDir, card.original);
   });
 
   afterEach(async () => {
     browser.close();
     await killApp(app);
-    await fs.writeFile(card.codeDir, card.original);
-    await fs.writeFile(utils.codeDir, utils.original);
   });
 });

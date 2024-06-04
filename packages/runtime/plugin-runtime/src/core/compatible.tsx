@@ -55,10 +55,14 @@ export const createApp = ({
         App ? { ...props } : null,
         App
           ? props.children
-          : React.cloneElement(props.children, {
-              ...props.children?.props,
-              ...props,
-            }),
+          : React.Children.map(props.children, child =>
+              React.isValidElement(child)
+                ? React.cloneElement(child, {
+                    ...(child.props as object),
+                    ...props,
+                  })
+                : child,
+            ),
       );
       const context = useContext(RuntimeReactContext);
 
@@ -307,6 +311,13 @@ export const bootstrap: BootStrap = async (
     const initialData = await runInit(context);
     if (!isRedirectResponse(initialData)) {
       context.initialData = initialData;
+      // Support data loader to return status code
+      if (
+        context.routerContext?.statusCode &&
+        context.routerContext?.statusCode !== 200
+      ) {
+        context.ssrContext?.response.status(context.routerContext?.statusCode);
+      }
       return runner.server({
         App,
         context,

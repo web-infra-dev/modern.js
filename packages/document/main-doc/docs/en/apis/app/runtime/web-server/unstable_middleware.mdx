@@ -12,7 +12,7 @@ UnstableMiddleware will replace [Middleware](/apis/app/runtime/web-server/middle
 ```ts title="server/index.ts"
 import { UnstableMiddleware } from '@modern-js/runtime/server';
 
-export const unstableMiddlewares: UnstableMiddleware[] = [];
+export const unstableMiddleware: UnstableMiddleware[] = [];
 ```
 
 ## Types
@@ -74,7 +74,7 @@ const time: UnstableMiddleware = async (c, next) => {
   console.log(`${end - start}`);
 };
 
-export const unstableMiddlewares: UnstableMiddleware = [time];
+export const unstableMiddleware: UnstableMiddleware[] = [time];
 ```
 
 ### Injecting Server Data for DataLoader Consumption
@@ -101,7 +101,7 @@ const setPayload: UnstableMiddleware = async (
   await next();
 };
 
-export const unstableMiddlewares: UnstableMiddleware = [setPayload];
+export const unstableMiddleware: UnstableMiddleware[] = [setPayload];
 ```
 
 ```ts title="src/routes/page.data.ts"
@@ -130,5 +130,31 @@ const auth: UnstableMiddleware = async (c, next) => {
   await next();
 };
 
-export const unstableMiddlewares: UnstableMiddleware = [auth];
+export const unstableMiddleware: UnstableMiddleware[] = [auth];
+```
+
+### Modify Response
+
+```ts
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+const modifier: UnstableMiddleware = async (c, next) => {
+  await next();
+
+  const { response } = c;
+
+  const text = await response.text();
+
+  const newText = text.replace('<html>', `<html lang="${language}">`);
+
+  const newheaders = response.headers;
+  newheaders.set('x-custom-value', 'modern');
+
+  c.response = c.body(newText, {
+    status: response.status,
+    headers: newheaders,
+  });
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [modifier];
 ```

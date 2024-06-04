@@ -1,4 +1,3 @@
-// @ts-expect-error
 import type { Tinypool } from 'tinypool';
 
 let tinyPoolPromise: Promise<Tinypool> | null = null;

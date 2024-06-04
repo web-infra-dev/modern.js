@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.51.0
+
+### Minor Changes
+
+- 9d4d04d: feat: support deploy command
+  feat: 支持部署命令
+
+### Patch Changes
+
+- Updated dependencies [e8d41fe]
+- Updated dependencies [9d4d04d]
+  - @modern-js/uni-builder@2.51.0
+  - @modern-js/server-core@2.51.0
+  - @modern-js/core@2.51.0
+  - @modern-js/plugin-data-loader@2.51.0
+  - @modern-js/prod-server@2.51.0
+  - @modern-js/server@2.51.0
+  - @modern-js/server-utils@2.51.0
+  - @modern-js/plugin-i18n@2.51.0
+  - @modern-js/plugin-lint@2.51.0
+  - @modern-js/rsbuild-plugin-esbuild@2.51.0
+  - @modern-js/node-bundle-require@2.51.0
+  - @modern-js/plugin@2.51.0
+  - @modern-js/types@2.51.0
+  - @modern-js/utils@2.51.0
+
 ## 2.50.0
 
 ### Patch Changes

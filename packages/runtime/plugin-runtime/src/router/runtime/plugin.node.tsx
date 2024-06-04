@@ -12,12 +12,14 @@ import {
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
+import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouteManifest, RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
+import DeferredDataScripts from './DeferredDataScripts.node';
 
 // TODO: polish
 function createFetchRequest(req: SSRServerContext['request']): Request {
@@ -142,8 +144,10 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              const { remixRouter, routerContext } =
+              const { remixRouter, routerContext, ssrContext } =
                 useContext(RuntimeReactContext);
+
+              const { nonce, mode } = ssrContext!;
               return (
                 <App {...props}>
                   <StaticRouterProvider
@@ -151,6 +155,8 @@ export const routerPlugin = ({
                     context={routerContext!}
                     hydrate={false}
                   />
+                  <DeferredDataScripts nonce={nonce} context={routerContext!} />
+                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </App>
               );
             }) as React.FC<any>;

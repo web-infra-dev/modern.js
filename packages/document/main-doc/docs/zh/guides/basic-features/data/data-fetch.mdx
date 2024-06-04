@@ -155,6 +155,8 @@ export async function loader() {
 
 ### 错误处理
 
+#### 基本用法
+
 在 `loader` 函数中，可以通过 `throw error` 或者 `throw response` 的方式处理错误，当 `loader` 函数中有错误被抛出时，Modern.js 会停止执行当前 `loader` 中的代码，并将前端 UI 切换到定义的 [`ErrorBoundary`](/guides/basic-features/routes#错误处理) 组件：
 
 ```tsx
@@ -177,6 +179,31 @@ const ErrorBoundary = () => {
       <h2>{error.statusText}</h2>
     </div>
   );
+};
+
+export default ErrorBoundary;
+```
+
+#### 实践
+
+在 SSR 项目中你可以通过在 data loader 中 `throw response` 的方式，控制页面的状态码，展示对应的 UI，如以下示例，整条路由路线中有一个 loader
+throw response，页面的状态码将与这个 `response` 保持一致，页面的 UI 也会切换为 `ErrorBoundary`:
+
+```ts
+// routes/user/profile/page.data.ts
+export async function loader() {
+  const user = await fetchUser();
+  if(!user){
+    throw new Response('The user was not found', { status: 404 });
+  }
+  return user;
+}
+
+// routes/error.tsx
+import { useRouteError } from '@modern-js/runtime/router';
+const ErrorBoundary = () => {
+  const error = useRouteError() as { data: string };
+  return <div className="error">{error.data}</div>;
 };
 
 export default ErrorBoundary;
@@ -383,8 +410,6 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 // xxx.data.client.ts
 export const loader = () => {}
 ```
-
-
 
 
 ### 错误用法

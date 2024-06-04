@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/rsbuild-plugin-esbuild",
-  "version": "2.50.0",
+  "version": "2.51.0",
   "description": "Esbuild Rsbuild plugin and Modern.js",
   "homepage": "https://modernjs.dev",
   "repository": {
@@ -27,14 +27,14 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.3",
-    "@rsbuild/shared": "0.6.15",
+    "@rsbuild/shared": "0.7.1",
     "esbuild": "0.17.19",
     "webpack": "^5.91.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "@rsbuild/core": "0.6.15",
-    "@rsbuild/webpack": "0.6.15",
+    "@rsbuild/core": "0.7.1",
+    "@rsbuild/webpack": "0.7.1",
     "typescript": "^5.4.2"
   },
   "publishConfig": {

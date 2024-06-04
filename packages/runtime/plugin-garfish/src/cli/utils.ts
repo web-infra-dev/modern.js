@@ -56,6 +56,8 @@ function canContinueRender ({ dom, appName }) {
 function generateRouterPlugin (basename,routerConfig) {
   if (basename) {
     routerConfig.originalBaseUrl = basename;
+    // for compatibility with react router v5
+    routerConfig.basename = basename;
     if (routerConfig.supportHtml5History !== false) {
       if (!routerConfig.historyOptions) {
         routerConfig.historyOptions = {

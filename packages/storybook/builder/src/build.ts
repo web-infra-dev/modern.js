@@ -1,11 +1,9 @@
 import { dirname, join, parse } from 'path';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 import serveStatic from 'serve-static';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
 import type { BuilderOptions } from './types';
-import { getCompiler } from './core';
+import { createBuilder } from './core';
 import { finalize } from './plugin-storybook';
 
 export type StorybookBuilder = RawStorybookBuilder<BuilderOptions, Stats>;
@@ -25,7 +23,7 @@ export const getConfig: StorybookBuilder['getConfig'] = async options => {
 export const build: StorybookBuilder['build'] = async ({ options }) => {
   const config = await getConfig(options);
 
-  const compiler = await getCompiler(process.cwd(), config, options);
+  const builder = await createBuilder(process.cwd(), config, options);
 
   const previewResolvedDir = dirname(
     require.resolve('@storybook/preview/package.json'),
@@ -43,19 +41,19 @@ export const build: StorybookBuilder['build'] = async ({ options }) => {
     },
   });
 
-  const compilation: Promise<Stats> = new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(stats as Stats);
-      }
-    });
+  let stats: Stats;
+
+  builder.onAfterBuild(params => {
+    stats = params.stats as Stats;
   });
 
-  const [stats] = await Promise.all([compilation, previewFiles]);
+  await Promise.all([builder.build(), previewFiles]);
 
-  return stats;
+  return stats!;
+};
+
+let server: {
+  close: () => Promise<void>;
 };
 
 // export `start` is used by storybook core
@@ -63,6 +61,7 @@ export const start: StorybookBuilder['start'] = async ({
   options,
   router,
   startTime,
+  server: storybookServer,
 }) => {
   const previewResolvedDir = dirname(
     require.resolve('@storybook/preview/package.json'),
@@ -76,32 +75,26 @@ export const start: StorybookBuilder['start'] = async ({
 
   const config = await getConfig(options);
 
-  const compiler = await getCompiler(process.cwd(), config, options);
+  const builder = await createBuilder(process.cwd(), config, options);
 
-  const middleware = webpackDevMiddleware(compiler, {
-    writeToDisk: false,
-    // builder can log errors, so not using dev-middleware logs
-    stats: false,
-  });
-
-  router.use(middleware);
-  router.use(webpackHotMiddleware(compiler, { log: false }));
-
-  const stats: Stats = await new Promise(resolve => {
-    middleware.waitUntilValid(stats => {
-      resolve(stats as Stats);
+  const waitFirstCompileDone = new Promise<Stats>(resolve => {
+    builder.onDevCompileDone(({ stats, isFirstCompile }) => {
+      if (!isFirstCompile) {
+        return;
+      }
+      resolve(stats);
     });
   });
 
-  if (!stats) {
-    throw new Error('build failed');
-  }
+  const rsbuildServer = await builder.createDevServer();
+  server = rsbuildServer;
 
-  const statsJson = stats.toJson();
+  router.use(rsbuildServer.middlewares);
+  storybookServer.on('upgrade', rsbuildServer.onHTTPUpgrade);
 
-  if (statsJson.errors.length > 1) {
-    throw stats;
-  }
+  await rsbuildServer.afterListen();
+
+  const stats = await waitFirstCompileDone;
 
   return {
     bail,
@@ -112,4 +105,5 @@ export const start: StorybookBuilder['start'] = async ({
 
 export const bail = async () => {
   await finalize();
+  await server?.close();
 };

@@ -1,13 +1,11 @@
 /* eslint-disable react/no-danger */
-import { type TrackedPromise } from '@modern-js/runtime-utils/remix-router';
-import { Suspense, useEffect, useRef, useMemo, useContext } from 'react';
 import {
-  Await,
-  UNSAFE_DataRouterContext as DataRouterContext,
-  useAsyncError,
-} from '@modern-js/runtime-utils/router';
+  StaticHandlerContext,
+  type TrackedPromise,
+} from '@modern-js/runtime-utils/remix-router';
+import { Suspense, useEffect, useRef, useMemo } from 'react';
+import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { serializeJson } from '@modern-js/runtime-utils/node';
-import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { serializeErrors } from './utils';
 
 /**
@@ -58,9 +56,11 @@ const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new E
  * DeferredDataScripts only renders in server side,
  * it doesn't need to be hydrated in client side.
  */
-const DeferredDataScripts = (props?: { nonce?: string }) => {
-  const context = useContext(DataRouterContext);
-  const { staticContext } = context || {};
+const DeferredDataScripts = (props?: {
+  nonce?: string;
+  context: StaticHandlerContext;
+}) => {
+  const staticContext = props?.context;
   const hydratedRef = useRef(false);
 
   useEffect(() => {
@@ -160,7 +160,6 @@ const DeferredDataScripts = (props?: { nonce?: string }) => {
         />
       )}
       {!hydratedRef.current && deferredScripts[1]}
-      {JSX_SHELL_STREAM_END_MARK}
     </>
   );
 };
