@@ -127,12 +127,109 @@ export const pluginRpc: Plugin = {
       api.vars.resolver.context.resolve(api.context);
     }
     api.vars.state.context = api.context;
-    // sync state operations to remote.
-    subscribe(api.vars.state, ops => {
-      clientConn.applyStateOperations.asEvent(ops);
+    api.frameworkHooks.hook(
+      'modifyFileSystemRoutes',
+      ({ entrypoint, routes }) => {
+        api.vars.state.fileSystemRoutes[entrypoint.entryName] =
+          _.cloneDeep(routes);
+      },
+    );
+
+    // initialize the state by builder context.
+    const builderApi = await api.setupBuilder();
+    api.vars.resolver.builder.context.resolve(builderApi.context);
+    resolveDependencies(builderApi.context.rootPath).then(deps => {
+      api.vars.state.dependencies = deps;
     });
 
+    api.builderHooks.hook('modifyBundlerChain', () => {
+      api.vars.resolver.builder.config.resolved.resolve(
+        _.cloneDeep(builderApi.getRsbuildConfig()),
+      );
+      api.vars.resolver.builder.config.transformed.resolve(
+        _.cloneDeep(builderApi.getNormalizedConfig()),
+      );
+    });
+
+    const expectBundlerNum = _.castArray(builderApi.context.targets).length;
+    const bundlerConfigs: JsonValue[] = [];
+    const handleBundlerConfig = (config: JsonValue) => {
+      bundlerConfigs.push(config);
+      if (bundlerConfigs.length >= expectBundlerNum) {
+        api.vars.state.bundler.configs.resolved = _.cloneDeep(
+          bundlerConfigs,
+        ) as any;
+      }
+    };
+    if (builderApi.context.bundlerType === 'webpack') {
+      api.builderHooks.hook('modifyWebpackConfig', config => {
+        handleBundlerConfig(config as JsonValue);
+      });
+    } else {
+      api.builderHooks.hook('modifyRspackConfig', config => {
+        handleBundlerConfig(config as JsonValue);
+      });
+    }
+
+    api.builderHooks.hook('onBeforeCreateCompiler', ({ bundlerConfigs }) => {
+      api.vars.resolver.bundler.configs.transformed.resolve(
+        _.cloneDeep(bundlerConfigs),
+      );
+    });
+
+    let buildStartedAt = NaN;
+    api.builderHooks.hook('onAfterCreateCompiler', () => {
+      buildStartedAt = Date.now();
+    });
+    api.builderHooks.hook('onDevCompileDone', () => {
+      api.vars.resolver.performance.resolve({
+        compileDuration: Date.now() - buildStartedAt,
+      });
+    });
+    api.builderHooks.hook('onAfterBuild', () => {
+      api.vars.resolver.performance.resolve({
+        compileDuration: Date.now() - buildStartedAt,
+      });
+    });
+
+    let _pendingCompiler = 0;
+    const resolveRsdoctorManifest = async () => {
+      _pendingCompiler -= 1;
+      if (_pendingCompiler === 0) {
+        try {
+          const doctor = await getDoctorOverview(
+            await api.vars.state.framework.context,
+          );
+          api.vars.resolver.doctor.resolve(doctor);
+        } catch (err) {
+          api.vars.resolver.doctor.resolve(undefined);
+        }
+      }
+    };
+
+    api.frameworkHooks.hook('afterCreateCompiler', ({ compiler }) => {
+      if (!compiler) return;
+      _pendingCompiler += 1;
+      compiler.hooks.done.tap(
+        { name: '@modern-js/plugin-devtools', stage: 4000 },
+        () => resolveRsdoctorManifest(),
+      );
+    });
+
+    // initialize the state by framework context.
     const frameworkApi = await api.setupFramework();
+    const frameworkContext = {
+      ...frameworkApi.useAppContext(),
+      builder: null,
+      serverInternalPlugins: null,
+    };
+    api.vars.resolver.framework.context.resolve(frameworkContext);
+    api.vars.resolver.framework.config.resolved.resolve(
+      frameworkApi.useConfigContext(),
+    );
+    api.vars.resolver.framework.config.transformed.resolve(
+      frameworkApi.useResolvedConfigContext(),
+    );
 
     const validateSafeToOpen = (filename: string) => {
       const { appDirectory } = frameworkApi.useAppContext();
@@ -244,105 +341,9 @@ export const pluginRpc: Plugin = {
       clientRpcOptions,
     );
 
-    let _pendingCompiler = 0;
-    const resolveRsdoctorManifest = async () => {
-      _pendingCompiler -= 1;
-      if (_pendingCompiler === 0) {
-        try {
-          const doctor = await getDoctorOverview(
-            await api.vars.state.framework.context,
-          );
-          api.vars.resolver.doctor.resolve(doctor);
-        } catch (err) {
-          api.vars.resolver.doctor.resolve(undefined);
-        }
-      }
-    };
-
-    const frameworkContext = {
-      ...frameworkApi.useAppContext(),
-      builder: null,
-      serverInternalPlugins: null,
-    };
-    api.vars.resolver.framework.context.resolve(frameworkContext);
-    api.vars.resolver.framework.config.resolved.resolve(
-      frameworkApi.useConfigContext(),
-    );
-    api.vars.resolver.framework.config.transformed.resolve(
-      frameworkApi.useResolvedConfigContext(),
-    );
-
-    api.frameworkHooks.hook(
-      'modifyFileSystemRoutes',
-      ({ entrypoint, routes }) => {
-        api.vars.state.fileSystemRoutes[entrypoint.entryName] =
-          _.cloneDeep(routes);
-      },
-    );
-
-    api.frameworkHooks.hook('afterCreateCompiler', ({ compiler }) => {
-      if (!compiler) return;
-      _pendingCompiler += 1;
-      compiler.hooks.done.tap(
-        { name: '@modern-js/plugin-devtools', stage: 4000 },
-        () => resolveRsdoctorManifest(),
-      );
-    });
-
-    const builderApi = await api.setupBuilder();
-    api.vars.resolver.builder.context.resolve(builderApi.context);
-    resolveDependencies(builderApi.context.rootPath).then(deps => {
-      api.vars.state.dependencies = deps;
-    });
-
-    api.builderHooks.hook('modifyBundlerChain', () => {
-      api.vars.resolver.builder.config.resolved.resolve(
-        _.cloneDeep(builderApi.getRsbuildConfig()),
-      );
-      api.vars.resolver.builder.config.transformed.resolve(
-        _.cloneDeep(builderApi.getNormalizedConfig()),
-      );
-    });
-
-    const expectBundlerNum = _.castArray(builderApi.context.targets).length;
-    const bundlerConfigs: JsonValue[] = [];
-    const handleBundlerConfig = (config: JsonValue) => {
-      bundlerConfigs.push(config);
-      if (bundlerConfigs.length >= expectBundlerNum) {
-        api.vars.state.bundler.configs.resolved = _.cloneDeep(
-          bundlerConfigs,
-        ) as any;
-      }
-    };
-    if (builderApi.context.bundlerType === 'webpack') {
-      api.builderHooks.hook('modifyWebpackConfig', config => {
-        handleBundlerConfig(config as JsonValue);
-      });
-    } else {
-      api.builderHooks.hook('modifyRspackConfig', config => {
-        handleBundlerConfig(config as JsonValue);
-      });
-    }
-
-    api.builderHooks.hook('onBeforeCreateCompiler', ({ bundlerConfigs }) => {
-      api.vars.resolver.bundler.configs.transformed.resolve(
-        _.cloneDeep(bundlerConfigs),
-      );
-    });
-
-    let buildStartedAt = NaN;
-    api.builderHooks.hook('onAfterCreateCompiler', () => {
-      buildStartedAt = Date.now();
-    });
-    api.builderHooks.hook('onDevCompileDone', () => {
-      api.vars.resolver.performance.resolve({
-        compileDuration: Date.now() - buildStartedAt,
-      });
-    });
-    api.builderHooks.hook('onAfterBuild', () => {
-      api.vars.resolver.performance.resolve({
-        compileDuration: Date.now() - buildStartedAt,
-      });
+    // sync state operations to remote.
+    subscribe(api.vars.state, ops => {
+      clientConn.applyStateOperations.asEvent(ops);
     });
   },
 };
