@@ -2,7 +2,7 @@
 sidebar_position: 15
 ---
 
-# Deploy
+# Deploy Application
 
 Currently, Modern.js offers two deployment way:
 - You can host your application in a container that includes a Node.js environment on your own, which provides flexibility for the deployment of the application.
@@ -136,6 +136,10 @@ Currently, Modern.js does not support deployment on Netlify Edge Functions. We w
 
 ### Monorepo
 
+:::info
+The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#Pure Frontend Project) to deploy.
+:::
+
 For Monorepo projects, in addition to building our current project, you also need to build other sub-projects in the repository that the current project depends on.
 
 We take a pnpm Monorepo repository as an example and deploy the Monorepo project on Netlify.
@@ -182,3 +186,87 @@ Configure the build command in `netlify.toml`:
 ```
 
 Just submit your code and deploy it using the Netlify platform.
+
+## Vercel
+
+Vercel is a deployment platform for modern web applications that provides a rich set of features to support deploying static websites, server-side rendered applications, and more. To deploy on Vercel, you usually need to configure the `vercel.json` file, which you can configure incrementally depending on the complexity of your project.
+
+### Pure Front-end Project
+
+Add the `vercel.json` file to the root directory of the current project:
+```bash
+./
+├── src
+├── modern.config.ts
+├── vercel.json
+└── package.json
+```
+
+Add the following content to `vercel.json`:
+```json title="vercel.json"
+{
+  "buildCommand": "modern deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+Commit your project to git, select Framework Preset as `Other` on the Vercel platform and deploy.
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
+
+### 全栈项目
+
+Full-stack projects refer to projects that use Custom Web Servers, SSR, and BFF. These projects need to be deployed on **Vercel Functions**.
+
+In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
+
+1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
+2. When deploying Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects, see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error).
+
+
+### Monorepo
+
+:::info
+The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#pure-front-end-project-1) to deploy.
+:::
+
+For Monorepo projects, in addition to building our current project, you also need to build other sub-projects in the repository that the current project depends on.
+
+We take a pnpm Monorepo repository as an example and deploy the Monorepo project on Vercel.
+
+Assuming the directory structure of the Monorepo repository is as follows:
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+First, you need to configure the **Root Directory** as `packages/app` on the Vercel platform, and select Node.js runtime as `18.x`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+Add the following script to `packages/app/package.json` to execute the build of the other repositories in the workspace before run the deploy command for the `app` repository:
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy",
+  }
+}
+```
+
+Add the following content to the `packages/app/vercel.json` file:
+```json title="vercel.json"
+{
+  "buildCommand": "npm run deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+Just submit your code and deploy it using the Vercel platform.
