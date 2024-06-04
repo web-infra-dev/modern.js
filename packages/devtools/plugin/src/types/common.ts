@@ -1,12 +1,7 @@
 /* eslint-disable node/no-unsupported-features/es-builtins */
 import type { Buffer } from 'buffer';
 import { BaseHooks } from '@modern-js/core';
-import type {
-  AppTools,
-  AppToolsHooks,
-  CliPlugin,
-  UserConfig,
-} from '@modern-js/app-tools';
+import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { Hookable } from 'hookable';
@@ -56,7 +51,7 @@ export type $FrameworkHooks = CleanHooks<
 >;
 
 export interface FrameworkHooks extends $FrameworkHooks {
-  config: (config: UserConfig<AppTools>) => void;
+  config: () => void;
 }
 
 type UnwrapBuilderHooks<T> = {

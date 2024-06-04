@@ -6,6 +6,9 @@ import { Context, Hono } from 'hono';
 import { getPort, fs } from '@modern-js/utils';
 import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
+import type { AppTools, UserConfig } from '@modern-js/app-tools';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
+import type { ProxyDetail } from '@modern-js/types';
 import { Plugin } from '../types';
 
 const CLIENT_SERVE_DIR = path.resolve(
@@ -87,8 +90,30 @@ export const pluginHttp: Plugin = {
     });
     assert(server instanceof http.Server, 'instance should be http.Server');
     api.vars.http = server;
-    const port = await getPort(8782, { slient: true });
-    server.listen(port);
+    api.frameworkHooks.hook('prepare', async () => {
+      const port = await getPort(8782, { slient: true });
+      server.listen(port);
+      api.frameworkHooks.hook('config', () => {
+        const proxy = {
+          [ROUTE_BASENAME]: {
+            target: `http://127.0.0.1:${port}`,
+            pathRewrite: { [`^${ROUTE_BASENAME}`]: '' },
+            ws: true,
+            onProxyReq(proxyReq, req) {
+              const addrInfo = req.socket.address();
+              if ('address' in addrInfo) {
+                const { address } = addrInfo;
+                proxyReq.setHeader('X-Forwarded-For', address);
+              } else {
+                proxyReq.removeHeader('X-Forwarded-For');
+              }
+            },
+          },
+        } as Record<string, ProxyDetail>;
+        return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;
+      });
+      return {};
+    });
 
     let _open = true;
     const cleanup = () => {

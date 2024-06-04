@@ -1,4 +1,9 @@
-import type { AppTools, CliPlugin, UserConfig } from '@modern-js/app-tools';
+import {
+  mergeConfig,
+  type AppTools,
+  type CliPlugin,
+  type UserConfig,
+} from '@modern-js/app-tools';
 import { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
 import createDeferred from 'p-defer';
@@ -98,8 +103,8 @@ export const devtoolsPlugin = (
         },
         async config() {
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);
-          const config: UserConfig<AppTools> = {};
-          await api.frameworkHooks.callHook('config', config);
+          const configs: UserConfig<AppTools>[] =
+            await api.frameworkHooks.callHookParallel('config');
 
           const builderPlugin: RsbuildPlugin = {
             name: 'builder-plugin-devtools',
@@ -150,10 +155,8 @@ export const devtoolsPlugin = (
               });
             },
           };
-          config.builderPlugins ||= [];
-          config.builderPlugins.push(builderPlugin);
-
-          return config;
+          configs.push({ builderPlugins: [builderPlugin] });
+          return mergeConfig(configs) as unknown as UserConfig<AppTools>;
         },
       };
     },
