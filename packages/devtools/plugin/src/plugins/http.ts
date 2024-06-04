@@ -90,29 +90,26 @@ export const pluginHttp: Plugin = {
     });
     assert(server instanceof http.Server, 'instance should be http.Server');
     api.vars.http = server;
-    api.frameworkHooks.hook('prepare', async () => {
+    api.frameworkHooks.hook('config', async () => {
       const port = await getPort(8782, { slient: true });
       server.listen(port);
-      api.frameworkHooks.hook('config', () => {
-        const proxy = {
-          [ROUTE_BASENAME]: {
-            target: `http://127.0.0.1:${port}`,
-            pathRewrite: { [`^${ROUTE_BASENAME}`]: '' },
-            ws: true,
-            onProxyReq(proxyReq, req) {
-              const addrInfo = req.socket.address();
-              if ('address' in addrInfo) {
-                const { address } = addrInfo;
-                proxyReq.setHeader('X-Forwarded-For', address);
-              } else {
-                proxyReq.removeHeader('X-Forwarded-For');
-              }
-            },
+      const proxy = {
+        [ROUTE_BASENAME]: {
+          target: `http://127.0.0.1:${port}`,
+          pathRewrite: { [`^${ROUTE_BASENAME}`]: '' },
+          ws: true,
+          onProxyReq(proxyReq, req) {
+            const addrInfo = req.socket.address();
+            if ('address' in addrInfo) {
+              const { address } = addrInfo;
+              proxyReq.setHeader('X-Forwarded-For', address);
+            } else {
+              proxyReq.removeHeader('X-Forwarded-For');
+            }
           },
-        } as Record<string, ProxyDetail>;
-        return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;
-      });
-      return {};
+        },
+      } as Record<string, ProxyDetail>;
+      return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;
     });
 
     let _open = true;
