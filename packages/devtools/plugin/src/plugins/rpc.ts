@@ -21,7 +21,6 @@ import * as flatted from 'flatted';
 import type { JsonValue } from 'type-fest';
 import { subscribe } from 'valtio';
 import { RawData } from 'ws';
-import { $resolvers, $state } from '../state';
 import { CliPluginAPI, DevtoolsConfig, Plugin } from '../types';
 import { requireModule } from '../utils/module';
 import { SocketServer } from '../utils/socket';
@@ -124,12 +123,12 @@ export const pluginRpc: Plugin = {
     // });
 
     // initialize the state.
-    if ('resolve' in $resolvers.context) {
-      $resolvers.context.resolve(api.context);
+    if ('resolve' in api.vars.resolver.context) {
+      api.vars.resolver.context.resolve(api.context);
     }
-    $state.context = api.context;
+    api.vars.state.context = api.context;
     // sync state operations to remote.
-    subscribe($state, ops => {
+    subscribe(api.vars.state, ops => {
       clientConn.applyStateOperations.asEvent(ops);
     });
 
@@ -152,10 +151,10 @@ export const pluginRpc: Plugin = {
         return content;
       },
       async pullExportedState() {
-        extractSettledOperations($state).then(ops => {
+        extractSettledOperations(api.vars.state).then(ops => {
           clientConn.applyStateOperations.asEvent(ops);
         });
-        return $state;
+        return api.vars.state;
       },
       async createTemporaryStoragePreset() {
         const appCtx = frameworkApi.useAppContext();
@@ -251,11 +250,11 @@ export const pluginRpc: Plugin = {
       if (_pendingCompiler === 0) {
         try {
           const doctor = await getDoctorOverview(
-            await $state.framework.context,
+            await api.vars.state.framework.context,
           );
-          $resolvers.doctor.resolve(doctor);
+          api.vars.resolver.doctor.resolve(doctor);
         } catch (err) {
-          $resolvers.doctor.resolve(undefined);
+          api.vars.resolver.doctor.resolve(undefined);
         }
       }
     };
@@ -265,18 +264,19 @@ export const pluginRpc: Plugin = {
       builder: null,
       serverInternalPlugins: null,
     };
-    $resolvers.framework.context.resolve(frameworkContext);
-    $resolvers.framework.config.resolved.resolve(
+    api.vars.resolver.framework.context.resolve(frameworkContext);
+    api.vars.resolver.framework.config.resolved.resolve(
       frameworkApi.useConfigContext(),
     );
-    $resolvers.framework.config.transformed.resolve(
+    api.vars.resolver.framework.config.transformed.resolve(
       frameworkApi.useResolvedConfigContext(),
     );
 
     api.frameworkHooks.hook(
       'modifyFileSystemRoutes',
       ({ entrypoint, routes }) => {
-        $state.fileSystemRoutes[entrypoint.entryName] = _.cloneDeep(routes);
+        api.vars.state.fileSystemRoutes[entrypoint.entryName] =
+          _.cloneDeep(routes);
       },
     );
 
@@ -309,7 +309,9 @@ export const pluginRpc: Plugin = {
     const handleBundlerConfig = (config: JsonValue) => {
       bundlerConfigs.push(config);
       if (bundlerConfigs.length >= expectBundlerNum) {
-        $state.bundler.configs.resolved = _.cloneDeep(bundlerConfigs) as any;
+        api.vars.state.bundler.configs.resolved = _.cloneDeep(
+          bundlerConfigs,
+        ) as any;
       }
     };
     if (builderApi.context.bundlerType === 'webpack') {
@@ -333,12 +335,12 @@ export const pluginRpc: Plugin = {
       buildStartedAt = Date.now();
     });
     api.builderHooks.hook('onDevCompileDone', () => {
-      $resolvers.performance.resolve({
+      api.vars.resolver.performance.resolve({
         compileDuration: Date.now() - buildStartedAt,
       });
     });
     api.builderHooks.hook('onAfterBuild', () => {
-      $resolvers.performance.resolve({
+      api.vars.resolver.performance.resolve({
         compileDuration: Date.now() - buildStartedAt,
       });
     });
