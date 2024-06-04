@@ -17,6 +17,7 @@ import { pluginHttp } from './plugins/http';
 import { pluginState } from './plugins/state';
 import { pluginWatcher } from './plugins/watcher';
 import { pluginServiceWorker } from './plugins/service-worker';
+import { pluginHtml } from './plugins/html';
 
 export type { DevtoolsPluginOptions };
 
@@ -28,6 +29,7 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
   pluginWatcher,
   pluginServiceWorker,
+  pluginHtml,
   // --- //
   pluginState,
   pluginHttp,
