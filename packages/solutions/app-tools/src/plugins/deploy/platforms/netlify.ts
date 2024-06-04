@@ -16,7 +16,7 @@ async function cleanDistDirectory(dir: string) {
 
     for (const item of items) {
       const fullPath = path.join(dir, item);
-      if (item !== 'static' && item !== '_redirects') {
+      if (item !== 'static' && item !== '_redirects' && item !== 'html') {
         await fse.remove(fullPath);
       }
     }
@@ -125,10 +125,7 @@ export const createNetlifyPreset: CreatePreset = (
       await fse.writeFile(entryFilePath, entryCode);
     },
     async end() {
-      if (
-        process.env.NODE_ENV !== 'test' &&
-        process.env.NODE_ENV !== 'development'
-      ) {
+      if (process.env.NODE_ENV !== 'development') {
         await cleanDistDirectory(distDirectory);
       }
       if (!needModernServer) {
