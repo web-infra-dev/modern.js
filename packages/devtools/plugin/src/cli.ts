@@ -10,6 +10,7 @@ import { CliPluginAPI, Plugin, PluginApi } from './types';
 import { pluginDebug } from './plugins/debug';
 import { pluginHttp } from './plugins/http';
 import { pluginState } from './plugins/state';
+import { pluginWatcher } from './plugins/watcher';
 
 export type { DevtoolsPluginOptions };
 
@@ -17,7 +18,12 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
   setClientDefinition: (def: ClientDefinition) => void;
 };
 
-export const BUILTIN_PLUGINS: Plugin[] = [pluginDebug, pluginState, pluginHttp];
+export const BUILTIN_PLUGINS: Plugin[] = [
+  pluginDebug,
+  pluginWatcher,
+  pluginState,
+  pluginHttp,
+];
 
 function syncSerialTaskCaller(hooks: HookCallback[], args: any[]) {
   const [, ...rest] = args;
