@@ -8,6 +8,8 @@ import {
 } from './polyfills/stream';
 import { installGlobals } from './polyfills/install';
 
+export { writeReadableStreamToWritable } from './polyfills';
+
 installGlobals();
 
 export const createWebRequest = (
