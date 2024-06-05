@@ -50,7 +50,7 @@ describe('plugin-minimize', () => {
 
     const config = await unwrapConfig(rsbuild);
 
-    expect(config.optimization?.minimizer?.length).toBe(1);
+    expect(config.optimization?.minimizer?.length).toBe(2);
 
     expect(config.optimization?.minimizer).toMatchSnapshot();
 
