@@ -38,6 +38,8 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     req.__templates = context.get('templates') || {};
     req.__serverManifest = context.get('serverManifest') || {};
     await handler(req, res);
+    // make sure res.headersSent is set, because when using pipe, headersSent is not set immediately
+    await new Promise(resolve => setTimeout(resolve, 0));
     if (res.headersSent) {
       context.finalized = true;
     } else {
