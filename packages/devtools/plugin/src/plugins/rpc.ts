@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Buffer } from 'buffer';
 import path from 'path';
 import {
@@ -191,28 +192,15 @@ export const pluginRpc: Plugin = {
       });
     });
 
-    let _pendingCompiler = 0;
-    const resolveRsdoctorManifest = async () => {
-      _pendingCompiler -= 1;
-      if (_pendingCompiler === 0) {
-        try {
-          const doctor = await getDoctorOverview(
-            await api.vars.state.framework.context,
-          );
-          api.vars.resolver.doctor.resolve(doctor);
-        } catch (err) {
-          api.vars.resolver.doctor.resolve(undefined);
-        }
+    api.hooks.hook('settleState', async () => {
+      try {
+        const doctor = await getDoctorOverview(
+          await api.vars.state.framework.context,
+        );
+        api.vars.resolver.doctor.resolve(doctor);
+      } catch (err) {
+        api.vars.resolver.doctor.resolve(undefined);
       }
-    };
-
-    api.frameworkHooks.hook('afterCreateCompiler', ({ compiler }) => {
-      if (!compiler) return;
-      _pendingCompiler += 1;
-      compiler.hooks.done.tap(
-        { name: '@modern-js/plugin-devtools', stage: 4000 },
-        () => resolveRsdoctorManifest(),
-      );
     });
 
     // initialize the state by framework context.

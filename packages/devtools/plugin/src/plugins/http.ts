@@ -112,13 +112,8 @@ export const pluginHttp: Plugin = {
       return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;
     });
 
-    let _open = true;
-    const cleanup = () => {
-      _open && server.close();
-      _open = false;
-    };
-    api.frameworkHooks.hook('beforeExit', cleanup);
-    api.frameworkHooks.hook('beforeRestart', cleanup);
-    api.frameworkHooks.hook('afterBuild', cleanup);
+    api.hooks.hook('cleanup', () => {
+      server.close();
+    });
   },
 };
