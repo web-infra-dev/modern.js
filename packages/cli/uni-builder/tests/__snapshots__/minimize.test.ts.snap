@@ -5,6 +5,13 @@ exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
   SwcMinimizerPlugin {
     "minifyOptions": {
       "cssMinify": {},
+      "jsMinify": undefined,
+    },
+    "name": "swc-minimizer-plugin",
+  },
+  SwcMinimizerPlugin {
+    "minifyOptions": {
+      "cssMinify": undefined,
       "jsMinify": {
         "format": {
           "asciiOnly": true,

@@ -16,7 +16,7 @@ export type {
 export type {
   BundlerChain,
   RsbuildPlugin,
-  ChainedConfig,
+  ConfigChain,
   CopyPluginOptions,
   ChainIdentifier,
   NormalizedConfig,

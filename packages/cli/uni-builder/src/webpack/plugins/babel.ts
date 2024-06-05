@@ -2,10 +2,9 @@ import lodash from 'lodash';
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
 import type { BabelConfig } from '@rsbuild/babel-preset';
-import { isBeyondReact17 } from '@modern-js/utils';
+import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
 import {
   SCRIPT_REGEX,
-  mergeChainedOptions,
   applyScriptCondition,
   getBrowserslistWithDefault,
   type RsbuildPlugin,
@@ -120,14 +119,14 @@ export const pluginBabel = (
             ]);
           }
 
-          const babelConfig = mergeChainedOptions({
-            defaults: baseBabelConfig,
-            options: options?.babelLoaderOptions,
-            utils: {
+          const babelConfig = applyOptionsChain(
+            baseBabelConfig,
+            options?.babelLoaderOptions,
+            {
               ...getBabelUtils(baseBabelConfig),
               ...babelUtils,
             },
-          });
+          );
 
           // Compute final babel config
           const finalOptions: BabelConfig = {

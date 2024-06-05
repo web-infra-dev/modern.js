@@ -4,11 +4,11 @@ import {
   deepmerge,
   DevConfig,
   ServerConfig,
-  mergeChainedOptions,
   isProd,
 } from '@rsbuild/shared';
+import { applyOptionsChain } from '@modern-js/utils';
 
-import { RsbuildInstance } from '@rsbuild/core';
+import type { RsbuildInstance } from '@rsbuild/core';
 
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
@@ -58,8 +58,8 @@ export const transformToRsbuildServerOptions = (
 } => {
   const { port = 8080, host, https, ...devConfig } = dev;
 
-  const newDevServerConfig = mergeChainedOptions({
-    defaults: {
+  const newDevServerConfig = applyOptionsChain(
+    {
       devMiddleware: {
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
@@ -71,9 +71,10 @@ export const transformToRsbuildServerOptions = (
         ...(devConfig.client || {}),
       },
     },
-    options: devServer,
-    mergeFn: deepmerge,
-  });
+    devServer,
+    {},
+    deepmerge,
+  );
 
   const rsbuildDev: DevConfig = {
     ...devConfig,
