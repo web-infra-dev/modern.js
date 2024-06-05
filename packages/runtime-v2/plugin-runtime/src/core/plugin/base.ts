@@ -11,6 +11,7 @@ import { RuntimeContext } from '../context/runtime';
 const hoc = createPipeline<
   {
     App: React.ComponentType<any>;
+    config: Record<string, any>;
   },
   React.ComponentType<any>
 >();

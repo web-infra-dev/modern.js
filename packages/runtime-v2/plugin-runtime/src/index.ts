@@ -2,6 +2,7 @@ import { RouterConfig } from './router/runtime';
 import { Plugin } from './core/plugin';
 import { StateConfig } from './state/runtime';
 
+export type { Plugin } from './core/plugin';
 interface RuntimeConfig {
   router?: boolean | Partial<RouterConfig>;
   state?: boolean | StateConfig;

@@ -10,11 +10,12 @@ import { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import { Plugin } from '../../core/plugin';
 import { RuntimeReactContext } from '../../core/context/runtime';
 import { urlJoin } from './utils';
-import { renderRoutes } from './route';
+import { renderRoutes } from './component';
 import { RouterConfig, Routes } from './types';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 
 export * from '@modern-js/runtime-utils/router';
+export * from './module';
 export type { RouterConfig } from './types';
 
 // eslint-disable-next-line import/no-mutable-exports
@@ -60,11 +61,11 @@ export const routerPlugin = ({
         async init({ context }, next) {
           return next({ context });
         },
-        hoc({ App }: { App: React.ComponentType }, next) {
+        hoc({ App, config }, next) {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return next({ App });
+            return next({ App, config });
           }
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
@@ -73,7 +74,9 @@ export const routerPlugin = ({
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
               const _basename =
-                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+                baseUrl === '/'
+                  ? urlJoin(baseUrl, config.router?.basename || basename)
+                  : baseUrl;
 
               const runtimeContext = useContext(RuntimeReactContext);
 
@@ -141,7 +144,7 @@ export const routerPlugin = ({
             }) as React.FC<any>;
           };
           const RouteApp = getRouteApp();
-          return next({ App: RouteApp });
+          return next({ App: RouteApp, config });
         },
       };
     },

@@ -299,7 +299,7 @@ export const routes = [
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime-v2/router';
     `;
   const routeModulesCode = `
 if (typeof document !== 'undefined') {

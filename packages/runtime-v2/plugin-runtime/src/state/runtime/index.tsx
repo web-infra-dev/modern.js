@@ -59,7 +59,7 @@ export const statePlugin = (config: StateConfig): Plugin => {
     setup: () => {
       const storeConfig = getStoreConfig(config);
       return {
-        hoc({ App }, next) {
+        hoc({ App, config }, next) {
           const getStateApp = (props: any) => {
             const store = createStore(storeConfig);
             return (
@@ -70,6 +70,7 @@ export const statePlugin = (config: StateConfig): Plugin => {
           };
           return next({
             App: getStateApp,
+            config,
           });
         },
       };

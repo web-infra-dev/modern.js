@@ -87,10 +87,10 @@ const getRegisterRuntimePluginCode = (
   name === 'router'
     ? `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
-      )}, runtimeConfig['${name}'], { routesConfig: { routes: getGlobalRoutes() } })));`
+      )}, (runtimeConfig || {})['${name}'], { routesConfig: { routes: getGlobalRoutes() } })));`
     : `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
-      )}, runtimeConfig['${name}'])));`;
+      )}, (runtimeConfig || {})['${name}'])));`;
 
 export const runtimeRegister = ({
   srcDirectory,
