@@ -1,5 +1,17 @@
 # @modern-js/uni-builder
 
+## 2.52.0
+
+### Patch Changes
+
+- b520609: chore(deps): bump Rsbuild v0.7.3
+
+  chore(deps): 升级 Rsbuild v0.7.3
+
+  - @modern-js/prod-server@2.52.0
+  - @modern-js/server@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Minor Changes

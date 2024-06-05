@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.52.0
+
+### Patch Changes
+
+- ad4548d: fix: redablestream should not be locked, when stream transfer
+  fix: redablestream 不应该被锁住当 stream 传输时
+- 920d856: fix: export writeReadableStreamToWritable
+  fix: 暴露 writeReadableStreamToWritable 方法
+- Updated dependencies [85ac453]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/plugin@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Minor Changes
