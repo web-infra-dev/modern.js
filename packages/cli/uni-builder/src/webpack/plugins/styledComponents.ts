@@ -1,10 +1,7 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { PLUGIN_SWC_NAME } from '@rsbuild/core';
-import {
-  isServerTarget,
-  mergeChainedOptions,
-  type ChainedConfig,
-} from '@rsbuild/shared';
+import { isServerTarget, type ConfigChain } from '@rsbuild/shared';
+import { applyOptionsChain } from '@modern-js/utils';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
 
 const getDefaultStyledComponentsConfig = (isProd: boolean, ssr: boolean) => {
@@ -19,7 +16,7 @@ const getDefaultStyledComponentsConfig = (isProd: boolean, ssr: boolean) => {
 };
 
 export const pluginStyledComponents = (
-  userConfig: ChainedConfig<PluginStyledComponentsOptions> = {},
+  userConfig: ConfigChain<PluginStyledComponentsOptions> = {},
 ): RsbuildPlugin => ({
   name: 'uni-builder:styled-components',
 
@@ -29,10 +26,10 @@ export const pluginStyledComponents = (
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd }) => {
       const isSSR = isServerTarget(api.context.targets);
 
-      const styledComponentsOptions = mergeChainedOptions({
-        defaults: getDefaultStyledComponentsConfig(isProd, isSSR),
-        options: userConfig,
-      });
+      const styledComponentsOptions = applyOptionsChain(
+        getDefaultStyledComponentsConfig(isProd, isSSR),
+        userConfig,
+      );
 
       if (!styledComponentsOptions) {
         return;

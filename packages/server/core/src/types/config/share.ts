@@ -1,6 +1,6 @@
 type ArrayOrNot<T> = T | T[];
 
-export type ChainedConfig<Config, Utils = unknown> = ArrayOrNot<
+export type ConfigChain<Config, Utils = unknown> = ArrayOrNot<
   | Config
   | (keyof Utils extends never
       ? (config: Config) => Config | void
