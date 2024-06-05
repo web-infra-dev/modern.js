@@ -43,7 +43,7 @@
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/themes": "^3.0.5",
     "@scripts/jest-config": "workspace:*",
-    "@rsbuild/core": "0.7.1",
+    "@rsbuild/core": "0.7.3",
     "@types/jest": "^29",
     "@types/lodash": "^4.14.202",
     "@types/node": "~16.11.7",
