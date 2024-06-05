@@ -1,5 +1,7 @@
 import { NestedRoute, PageRoute } from '@modern-js/types';
 
+export * from './runtime';
+
 interface GlobalContext {
   App?: React.ComponentType;
   routes?: (NestedRoute | PageRoute)[];

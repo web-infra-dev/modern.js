@@ -5,10 +5,13 @@ import {
   createBrowserRouter,
   createHashRouter,
   createRoutesFromElements,
+  useMatches,
+  useLocation,
+  useHref,
 } from '@modern-js/runtime-utils/router';
 import { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import { Plugin } from '../../core/plugin';
-import { RuntimeReactContext } from '../../core/context/runtime';
+import { RuntimeReactContext } from '../../core/context';
 import { urlJoin } from './utils';
 import { renderRoutes } from './component';
 import { RouterConfig, Routes } from './types';
@@ -59,6 +62,18 @@ export const routerPlugin = ({
       finalRouteConfig = routesConfig;
       return {
         async init({ context }, next) {
+          // garfish 插件需要使用
+          context.router = {
+            useMatches,
+            useLocation,
+            useHref,
+          };
+
+          Object.defineProperty(context, 'routes', {
+            get() {
+              return routes;
+            },
+          });
           return next({ context });
         },
         hoc({ App, config }, next) {
