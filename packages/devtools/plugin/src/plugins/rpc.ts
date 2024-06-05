@@ -1,4 +1,3 @@
-import assert from 'assert';
 import { Buffer } from 'buffer';
 import path from 'path';
 import {
@@ -105,7 +104,7 @@ const getDoctorOverview = async (
 export const pluginRpc: Plugin = {
   async setup(api) {
     const httpServer = api.vars.http;
-    assert(httpServer, 'http server is required for rpc plugin');
+    if (!httpServer) return;
 
     const server = new SocketServer({ server: httpServer, path: '/rpc' });
     let handleMessage: null | ((data: RawData, isBinary: boolean) => void) =
