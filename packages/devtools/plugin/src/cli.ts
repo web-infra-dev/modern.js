@@ -19,6 +19,8 @@ import { pluginWatcher } from './plugins/watcher';
 import { pluginServiceWorker } from './plugins/service-worker';
 import { pluginHtml } from './plugins/html';
 import { pluginRpc } from './plugins/rpc';
+import { pluginCleanup } from './plugins/cleanup';
+import { pluginSettleState } from './plugins/settle';
 
 export type { DevtoolsPluginOptions };
 
@@ -28,6 +30,7 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
 
 export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
+  pluginCleanup,
   pluginWatcher,
   pluginServiceWorker,
   pluginHtml,
@@ -35,6 +38,7 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   pluginState,
   pluginHttp,
   pluginRpc,
+  pluginSettleState,
 ];
 
 export const devtoolsPlugin = (
@@ -47,6 +51,7 @@ export const devtoolsPlugin = (
   const api: PluginApi = {
     builderHooks: createHooks(),
     frameworkHooks: createHooks(),
+    hooks: createHooks(),
     setupBuilder: () => setupBuilder.promise,
     setupFramework: () => setupFramework.promise,
     get context() {
@@ -56,12 +61,15 @@ export const devtoolsPlugin = (
       return _sharedVars as any;
     },
   };
-  const cleanup = () => {
+
+  api.hooks.hook('cleanup', () => {
     setupBuilder.reject(new Error('Devtools Plugin is disabled'));
     setupFramework.reject(new Error('Devtools Plugin is disabled'));
-    api.builderHooks.removeAllHooks();
-    api.frameworkHooks.removeAllHooks();
-  };
+    // api.builderHooks.removeAllHooks();
+    // api.frameworkHooks.removeAllHooks();
+    // api.hooks.removeAllHooks();
+  });
+
   for (const plugin of BUILTIN_PLUGINS) {
     plugin.setup(api);
   }
@@ -93,18 +101,18 @@ export const devtoolsPlugin = (
         },
         async beforeRestart() {
           await api.frameworkHooks.callHook('beforeRestart');
-          cleanup();
         },
         beforeExit() {
           api.frameworkHooks.callHookWith(
             hooks => hooks.forEach(hook => hook()),
             'beforeExit',
           );
-          cleanup();
+        },
+        async afterDev(params) {
+          await api.frameworkHooks.callHook('afterDev', params);
         },
         async afterBuild(params) {
           api.frameworkHooks.callHook('afterBuild', params);
-          cleanup();
         },
         async config() {
           logger.info(`${ctx.def.name.formalName} DevTools is enabled`);

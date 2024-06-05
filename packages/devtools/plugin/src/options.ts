@@ -14,7 +14,7 @@ export const resolveContext = (
   ...sources: Partial<DevtoolsContext>[]
 ): DevtoolsContext => {
   const ret: DevtoolsContext = {
-    enable: process.env.NODE_ENV === 'development',
+    enable: true,
     dataSource: `${ROUTE_BASENAME}/rpc`,
     endpoint: ROUTE_BASENAME,
     def: new ClientDefinition(),
