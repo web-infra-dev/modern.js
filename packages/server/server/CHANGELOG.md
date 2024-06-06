@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 2.52.0
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+- Updated dependencies [ad4548d]
+- Updated dependencies [920d856]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/server-core@2.52.0
+  - @modern-js/server-utils@2.52.0
+  - @modern-js/types@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Patch Changes
