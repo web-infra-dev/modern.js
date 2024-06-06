@@ -1,7 +1,7 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { logger } from '@modern-js/utils';
+import { getMeta, logger } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
-import { buildServerConfig } from '../utils/config';
+import { buildServerConfig, buildServerConfigV2 } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
 import { registerCompiler } from '../utils/register';
@@ -30,6 +30,9 @@ export const build = async (
 
   await loadPlugins(api, appContext.appDirectory);
 
+  const meta = getMeta(appContext.metaName);
+  const serverConfigFileV2 = `${meta}.server`;
+
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;
     await hookRunners.beforeBuild({
@@ -41,6 +44,12 @@ export const build = async (
       appDirectory,
       distDirectory,
       configFile: serverConfigFile,
+    });
+
+    await buildServerConfigV2({
+      appDirectory,
+      distDirectory,
+      configFile: serverConfigFileV2,
     });
 
     await generateRoutes(appContext);
@@ -62,6 +71,12 @@ export const build = async (
     appDirectory,
     distDirectory,
     configFile: serverConfigFile,
+  });
+
+  await buildServerConfigV2({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFileV2,
   });
 
   logger.info('Starting production build...');

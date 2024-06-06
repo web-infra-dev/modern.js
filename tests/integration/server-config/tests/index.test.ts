@@ -26,7 +26,7 @@ const supportServerPlugins = async ({
   expect(text).toBe(expectedText);
 };
 
-describe.skip('server config in dev', () => {
+describe('server config in dev', () => {
   let port = 8080;
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
@@ -53,7 +53,7 @@ describe.skip('server config in dev', () => {
   });
 });
 
-describe.skip('server config in prod', () => {
+describe('server config in prod', () => {
   let port = 8080;
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');

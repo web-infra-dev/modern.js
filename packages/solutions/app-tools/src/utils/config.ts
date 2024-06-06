@@ -72,6 +72,68 @@ export const buildServerConfig = async ({
   }
 };
 
+export const buildServerConfigV2 = async ({
+  appDirectory,
+  distDirectory,
+  configFile,
+  options,
+  watch,
+}: {
+  appDirectory: string;
+  distDirectory: string;
+  configFile: string;
+  options?: Parameters<typeof bundle>[1];
+  watch?: boolean;
+}) => {
+  const configFilePath = await getServerConfig(
+    appDirectory,
+    `server/${configFile}`,
+  );
+
+  const getOutputFile = async (filepath: string) =>
+    path.resolve(
+      distDirectory,
+      `${filepath.replace(
+        new RegExp(CONFIG_FILE_EXTENSIONS.join('|')),
+        '',
+      )}.js`,
+    );
+
+  if (configFilePath) {
+    const configHelperFilePath = path.normalize(
+      path.join(distDirectory, './config-helper.js'),
+    );
+    const helperCode = `
+      export const defineConfig = (config) => config;
+    `;
+
+    await fs.ensureDir(distDirectory);
+    await fs.writeFile(configHelperFilePath, helperCode);
+    await bundle(configFilePath, {
+      ...options,
+      watch,
+      getOutputFile,
+      esbuildPlugins: [
+        {
+          name: 'native-build-config',
+          setup(ctx) {
+            ctx.onResolve(
+              {
+                filter: /app-tools\/server/,
+              },
+              () => {
+                return {
+                  path: configHelperFilePath,
+                };
+              },
+            );
+          },
+        },
+      ],
+    });
+  }
+};
+
 /**
  *
  * 处理循环引用的 replacer

@@ -1,5 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import { DEFAULT_DEV_HOST, getMeta } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { applyPlugins } from '@modern-js/prod-server';
 import { loadPlugins } from '../utils/loadPlugins';
@@ -8,7 +8,7 @@ import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
-import { buildServerConfig } from '../utils/config';
+import { buildServerConfig, buildServerConfigV2 } from '../utils/config';
 import type { AppTools } from '../types';
 
 export interface ExtraServerOptions {
@@ -54,6 +54,15 @@ export const dev = async (
     watch: true,
   });
 
+  const meta = getMeta(metaName);
+  const serverConfigFileV2 = `${meta}.server`;
+  await buildServerConfigV2({
+    appDirectory,
+    distDirectory,
+    configFile: serverConfigFileV2,
+    watch: true,
+  });
+
   await hookRunners.beforeDev();
 
   if (!appContext.builder && !apiOnly) {
@@ -63,7 +72,6 @@ export const dev = async (
   }
 
   await generateRoutes(appContext);
-  // const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const pluginInstances = await loadPlugins(api, appDirectory);
 

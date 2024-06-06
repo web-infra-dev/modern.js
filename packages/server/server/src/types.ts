@@ -54,6 +54,7 @@ export type ExtraOptions = {
   dev: Pick<DevServerOptions, 'watch' | 'https'> & {
     writeToDisk?: boolean | ((filename: string) => boolean);
   };
+  serverConfigFile?: string;
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares?: () => {
