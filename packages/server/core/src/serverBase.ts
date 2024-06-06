@@ -2,7 +2,13 @@ import type { Server as NodeServer } from 'http';
 import { ISAppContext, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
 import { createContext } from '@modern-js/plugin';
-import type { AppContext, Env, ServerHookRunner, ServerPlugin } from './types';
+import type {
+  AppContext,
+  Env,
+  ServerConfig,
+  ServerHookRunner,
+  ServerPlugin,
+} from './types';
 import type { CliConfig } from './types/config';
 import { PluginManager } from './pluginManager';
 
@@ -16,11 +22,10 @@ export type ServerBaseOptions = {
   /** server working directory, and then also dist directory */
   pwd: string;
   config: CliConfig;
-  serverConfigFile?: string;
+  serverConfig?: ServerConfig;
   metaName?: string;
   routes?: ServerRoute[];
   plugins?: ServerPlugin[];
-  // internalPlugins?: InternalPlugins;
   appContext: {
     appDirectory?: string;
     sharedDirectory?: string;
@@ -44,7 +49,7 @@ export class ServerBase<E extends Env = any> {
   constructor(options: ServerBaseOptions) {
     this.options = options;
 
-    const { config, plugins } = options;
+    const { config, plugins, serverConfig } = options;
     const appContext = this.#getAppContext();
 
     this.appContext = appContext;
@@ -53,6 +58,7 @@ export class ServerBase<E extends Env = any> {
       cliConfig: config,
       plugins,
       appContext,
+      serverConfig,
     });
 
     this.app = new Hono<E>();

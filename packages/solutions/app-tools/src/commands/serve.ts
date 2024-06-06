@@ -14,9 +14,9 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     distDirectory,
     appDirectory,
     port,
-    serverConfigFile,
     metaName,
     serverRoutes,
+    serverConfigFile,
   } = appContext;
 
   logger.info(`Starting production server...`);
@@ -46,6 +46,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     },
     routes: serverRoutes,
     plugins: pluginInstances,
+    serverConfigFile,
     appContext: {
       appDirectory,
       sharedDirectory: getTargetDir(
@@ -64,7 +65,6 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         appContext.distDirectory,
       ),
     },
-    serverConfigFile,
     runMode,
   });
 

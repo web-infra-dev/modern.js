@@ -144,8 +144,6 @@ export const testingBffPlugin = (): CliPlugin<{
           userConfig,
           routes: appContext.serverRoutes,
           plugins: appContext.serverPlugins,
-          // Todo need use collect server internalPlugins
-          // plugins: appContext.serverInternalPlugins,
           utils,
           appContext,
         });

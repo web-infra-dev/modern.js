@@ -57,7 +57,6 @@ process.on('message', async (chunk: string) => {
         appContext.appDirectory || distDirectory,
       ),
       staticGenerate: true,
-      // TODO: support staticGenerate
     };
 
     nodeServer = await createProdServer(serverOptions);

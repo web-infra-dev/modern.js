@@ -25,7 +25,6 @@ import {
   Metrics,
   MiddlewareContext,
   Reporter,
-  // ServerInitHookContext,
   ServerRoute,
   UnstableMiddleware,
 } from '@modern-js/types';
@@ -154,7 +153,7 @@ export type ServerPlugin = PluginOptions<
   AsyncSetup<ServerHooks, PluginAPI>
 >;
 
-export type ServerConfig = {
+export interface ServerConfig {
   bff?: BffUserConfig;
   plugins?: ServerPlugin[];
-};
+}
