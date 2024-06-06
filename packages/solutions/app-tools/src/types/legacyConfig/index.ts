@@ -7,7 +7,6 @@ import type { OutputLegacyUserConfig } from './output';
 import type { SourceLegacyUserConfig } from './source';
 import type { DeployLegacyUserConfig } from './deploy';
 import type { ToolsLegacyUserConfig } from './tools';
-import type { TestingLegacyUserConfig } from './testing';
 
 export type { DevUserLegacyConfig } from './dev';
 export type { OutputLegacyUserConfig } from './output';
@@ -33,7 +32,6 @@ export type AppToolsLegacyUserConfig = {
   runtime?: RuntimeLegacyConfig;
   runtimeByEntries?: RuntimeByEntriesLegacyConfig;
   bff?: LegacyBffUserConfig;
-  testing?: TestingLegacyUserConfig;
   legacy?: boolean;
 };
 

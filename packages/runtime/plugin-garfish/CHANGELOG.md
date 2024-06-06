@@ -1,5 +1,15 @@
 # @modern-js/plugin-garfish
 
+## 2.52.0
+
+### Patch Changes
+
+- 997152b: fix: should inject basename for garfish projects with router v5
+  fix: 对于 garfish 项目，应该注入 basename 以支持 router v5
+- Updated dependencies [85ac453]
+  - @modern-js/runtime@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Patch Changes

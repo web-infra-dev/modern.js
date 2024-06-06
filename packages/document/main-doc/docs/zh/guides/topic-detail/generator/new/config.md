@@ -60,8 +60,6 @@ sidebar_position: 3
 
 - 启用「微前端」模式 -- micro_frontend
 
-- 启用「单元测试 / 集成测试」功能 -- test
-
 - 启用「基于 UA 的 Polyfill」功能 -- polyfill
 
 - 启用「全局代理」 -- proxy
@@ -111,37 +109,8 @@ sidebar_position: 3
 
 选项：
 
-- 启用「单元测试 / 集成测试」功能 -- test
-
 - 启用 「Tailwind CSS」 支持 -- tailwindcss
 
 - 启用「Storybook」 -- storybook
 
 - 启用「Runtime API」 -- runtime_api
-
-## Monorepo
-
-### sub_solution
-
-问题：请选择你想创建的工程类型
-
-选项：
-
-- Web 应用 -- mwa
-- Npm 模块 -- module
-
-### packageName
-
-问题：请填写子项目名称
-
-:::info
-子项目的 `package.json` 的 name 字段值，该配置值为字符串类型。
-:::
-
-### packagePath
-
-问题：请填写子项目目录名称
-
-:::info
-子项目基于 apps 或者 packages 目录的子目录名称，该字段为字符串类型。
-:::

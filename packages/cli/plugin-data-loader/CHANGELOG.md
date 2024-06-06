@@ -1,5 +1,18 @@
 # @modern-js/plugin-data-loader
 
+## 2.52.0
+
+### Minor Changes
+
+- 85ac453: feat: support control status code by data loader
+  feat: 支持通过 data loader 控制页面状态码
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Patch Changes

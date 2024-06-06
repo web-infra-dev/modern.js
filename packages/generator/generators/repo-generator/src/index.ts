@@ -8,10 +8,6 @@ import {
   Solution,
   SolutionDefaultConfig,
   BaseGenerator,
-  getMonorepoNewActionSchema,
-  SubSolution,
-  SubSolutionGenerator,
-  MonorepoNewActionConfig,
   getScenesSchema,
 } from '@modern-js/generator-common';
 import { getGeneratorPath } from '@modern-js/generator-utils';
@@ -50,24 +46,16 @@ const handleTemplateFile = async (
   appApi: AppAPI,
   generatorPlugin?: GeneratorPlugin,
 ) => {
-  const { isMonorepo } = context.config;
-
-  const { solution } = await appApi.getInputBySchemaFunc(
-    isMonorepo ? getMonorepoNewActionSchema : getSolutionSchema,
-    {
-      ...context.config,
-      customPlugin: generatorPlugin?.customPlugin,
-    },
-  );
+  const { solution } = await appApi.getInputBySchemaFunc(getSolutionSchema, {
+    ...context.config,
+    customPlugin: generatorPlugin?.customPlugin,
+  });
 
   await appApi.getInputBySchemaFunc(getScenesSchema, context.config);
 
   const solutionGenerator =
-    // eslint-disable-next-line no-nested-ternary
     solution === 'custom'
       ? BaseGenerator
-      : isMonorepo
-      ? SubSolutionGenerator[solution as SubSolution]
       : SolutionGenerator[solution as Solution];
 
   if (!solution || !solutionGenerator) {
@@ -78,9 +66,6 @@ const handleTemplateFile = async (
     getGeneratorPath(solutionGenerator, context.config.distTag, [__dirname]),
     undefined,
     {
-      ...(isMonorepo
-        ? MonorepoNewActionConfig[solution as SubSolution] || {}
-        : {}),
       ...context.config,
       hasPlugin: getNeedRunPlugin(context, generatorPlugin),
       generatorPlugin,

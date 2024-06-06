@@ -231,7 +231,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.5",
+                "version": "7.24.6",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -334,7 +334,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.5",
+                "version": "7.24.6",
               },
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",

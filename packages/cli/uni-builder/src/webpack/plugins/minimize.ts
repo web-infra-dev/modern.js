@@ -3,8 +3,8 @@ import {
   type BundlerChain,
   type RsbuildPlugin,
   type NormalizedConfig,
-  mergeChainedOptions,
 } from '@rsbuild/shared';
+import { applyOptionsChain } from '@modern-js/utils';
 import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
 function applyRemoveConsole(
@@ -68,10 +68,7 @@ async function applyJSMinimizer(
       break;
   }
 
-  const mergedOptions = mergeChainedOptions({
-    defaults: DEFAULT_OPTIONS,
-    options: userTerserConfig,
-  });
+  const mergedOptions = applyOptionsChain(DEFAULT_OPTIONS, userTerserConfig);
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)

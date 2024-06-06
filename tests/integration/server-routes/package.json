@@ -8,7 +8,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "test": "modern test",
+    "test": "jest",
     "preview": "modern deploy --mode preview",
     "deploy": "modern deploy"
   },
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/jest": "^29",
-    "@types/node": "^14"
+    "@types/node": "^14",
+    "jest": "^29"
   }
 }

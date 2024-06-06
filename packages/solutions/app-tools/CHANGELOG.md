@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.52.0
+
+### Patch Changes
+
+- e564e1e: fix: should not remove html directory
+  fix: 不应该删除 html 目录
+- Updated dependencies [85ac453]
+- Updated dependencies [b520609]
+- Updated dependencies [ad4548d]
+- Updated dependencies [920d856]
+  - @modern-js/plugin-data-loader@2.52.0
+  - @modern-js/uni-builder@2.52.0
+  - @modern-js/server-core@2.52.0
+  - @modern-js/prod-server@2.52.0
+  - @modern-js/server@2.52.0
+  - @modern-js/core@2.52.0
+  - @modern-js/server-utils@2.52.0
+  - @modern-js/plugin-i18n@2.52.0
+  - @modern-js/plugin-lint@2.52.0
+  - @modern-js/rsbuild-plugin-esbuild@2.52.0
+  - @modern-js/node-bundle-require@2.52.0
+  - @modern-js/plugin@2.52.0
+  - @modern-js/types@2.52.0
+  - @modern-js/utils@2.52.0
+
 ## 2.51.0
 
 ### Minor Changes

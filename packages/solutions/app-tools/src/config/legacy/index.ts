@@ -25,7 +25,6 @@ export function transformNormalizedConfig(
     server,
     cliOptions,
     plugins,
-    testing,
     autoLoadPlugins,
   } = config;
   return {
@@ -40,7 +39,6 @@ export function transformNormalizedConfig(
     runtimeByEntries,
     server,
     cliOptions,
-    testing,
     devtools: {},
     builderPlugins: [],
     plugins: plugins as any,

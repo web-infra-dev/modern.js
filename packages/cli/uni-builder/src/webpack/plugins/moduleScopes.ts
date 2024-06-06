@@ -1,6 +1,6 @@
 import path from 'path';
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { type ChainedConfig } from '@rsbuild/shared';
+import { type ConfigChain } from '@rsbuild/shared';
 import type { ModuleScopes } from '../../types';
 
 const ensureAbsolutePath = (base: string, filePath: string): string =>
@@ -17,7 +17,7 @@ export const isPrimitiveScope = (
 
 export const applyScopeChain = (
   defaults: ModuleScopes,
-  options: ChainedConfig<ModuleScopes>,
+  options: ConfigChain<ModuleScopes>,
 ): ModuleScopes => {
   if (Array.isArray(options)) {
     if (isPrimitiveScope(options)) {
@@ -29,7 +29,7 @@ export const applyScopeChain = (
 };
 
 export const pluginModuleScopes = (
-  moduleScopes?: ChainedConfig<ModuleScopes>,
+  moduleScopes?: ConfigChain<ModuleScopes>,
 ): RsbuildPlugin => ({
   name: 'uni-builder:module-scopes',
 

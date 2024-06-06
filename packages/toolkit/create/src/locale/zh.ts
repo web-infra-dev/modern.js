@@ -3,7 +3,6 @@ export const ZH_LOCALE = {
     description: '创建 Modern.js 工程方案',
     mwa: '一键创建 Web 应用(使用默认配置)',
     module: '一键创建 Module 应用(使用默认配置)',
-    monorepo: '一键常见 Monorepo 应用(使用默认配置)',
     config: '创建项目默认配置(JSON 字符串)',
     generator: '使用自定义生成器',
     packages: '创建项目指定特定依赖版本信息',

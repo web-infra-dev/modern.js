@@ -31,26 +31,6 @@ export default defineConfig({
 });
 ```
 
-:::
-
-## Test 测试
-
-当我们想要对一些模块进行测试的时候，可以启用测试功能。启动该功能后，**会在项目目录下创建 `tests` 目录以及相关文件，在 package.json 中新增 `"@modern-js/plugin-testing"` 依赖**。使用 `modern test` 来测试你的模块。
-
-:::tip
-在成功开启后，会提示需要手动在配置中增加如下类似的代码。
-
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { testingPlugin } from '@modern-js/plugin-testing';
-
-export default defineConfig({
-  plugins: [moduleTools(), testingPlugin()],
-});
-```
-
-:::
-
 ## Storybook 调试
 
 当我们想要对组件或者普通模块进行调试的时候，可以启用 Storybook 调试功能。启动该功能后，**会在项目目录下创建 `stories` 目录以及 `.storybook` 目录，在 package.json 中新增 `"@modern-js/storybook"` 依赖**。使用 `storybook dev` 和 `storybook build` 来调试和构建。

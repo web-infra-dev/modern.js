@@ -1,22 +1,23 @@
 import type {
   NodeEnv,
   MetaOptions,
-  ServerConfig,
-  ScriptInject,
-  RsbuildTarget,
-  ChainedConfig,
-  ChainedConfigWithUtils,
+  ConfigChain,
+  ConfigChainWithContext,
   InlineChunkTest,
-  DevConfig,
   RequestHandler,
-  RsbuildEntry,
   MaybePromise,
-  RsbuildPluginAPI,
-  ArrayOrNot,
   HtmlTagDescriptor,
-  Polyfill,
 } from '@rsbuild/shared';
-import type { RsbuildConfig } from '@rsbuild/core';
+import type {
+  DevConfig,
+  RsbuildConfig,
+  RsbuildTarget,
+  Polyfill,
+  ScriptInject,
+  RsbuildEntry,
+  ServerConfig,
+  RsbuildPluginAPI,
+} from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
@@ -37,6 +38,8 @@ import type {
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
 
+type ArrayOrNot<T> = T | T[];
+
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
   frameworkConfigPath?: string;
@@ -52,7 +55,7 @@ export type CreateUniBuilderOptions = {
 
 export type GlobalVars = Record<string, any>;
 
-export type ChainedGlobalVars = ChainedConfigWithUtils<
+export type ChainedGlobalVars = ConfigChainWithContext<
   GlobalVars,
   {
     env: NodeEnv;
@@ -73,7 +76,7 @@ export type DisableSourceMapOption =
       css?: boolean;
     };
 
-export type ToolsDevServerConfig = ChainedConfig<{
+export type ToolsDevServerConfig = ConfigChain<{
   before?: RequestHandler[];
   after?: RequestHandler[];
   client?: DevConfig['client'];
@@ -93,7 +96,7 @@ export type ToolsDevServerConfig = ChainedConfig<{
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
   TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
 
-export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
+export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
 export type UniBuilderExtraConfig = {
   tools?: {
@@ -164,7 +167,7 @@ export type UniBuilderExtraConfig = {
      * Restrict importing paths. After configuring this option, all source files can only import code from
      * the specific paths, and import code from other paths is not allowed.
      */
-    moduleScopes?: ChainedConfig<ModuleScopes>;
+    moduleScopes?: ConfigChain<ModuleScopes>;
     /**
      * This configuration will determine which field of `package.json` you use to import the `npm` module.
      * Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
