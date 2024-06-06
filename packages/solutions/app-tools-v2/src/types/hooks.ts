@@ -34,8 +34,7 @@ export interface RuntimePlugin {
 }
 
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  _internal_runtimePlugins: AsyncWaterfall<{
+  _internalRuntimePlugins: AsyncWaterfall<{
     entryName: string;
     plugins: RuntimePlugin[];
   }>;

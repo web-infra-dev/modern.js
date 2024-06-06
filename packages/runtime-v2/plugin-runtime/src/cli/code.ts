@@ -26,12 +26,10 @@ export const generateCode = async (
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, entry, isCustomEntry } = entrypoint;
-      const { plugins: runtimePlugins } = await runner._internal_runtimePlugins(
-        {
-          entryName,
-          plugins: [],
-        },
-      );
+      const { plugins: runtimePlugins } = await runner._internalRuntimePlugins({
+        entryName,
+        plugins: [],
+      });
       if (isAutoMount) {
         // index.jsx
         const indexCode = template.index({

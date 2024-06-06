@@ -13,8 +13,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     const { internalDirectory } = api.useAppContext();
     let originEntrypoints: any[] = [];
     return {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      _internal_runtimePlugins({ entryName, plugins }) {
+      _internalRuntimePlugins({ entryName, plugins }) {
         const { serverRoutes } = api.useAppContext();
         const serverBase = serverRoutes
           .filter((route: ServerRoute) => route.entryName === entryName)

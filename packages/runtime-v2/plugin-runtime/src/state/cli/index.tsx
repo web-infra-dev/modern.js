@@ -5,8 +5,7 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
   required: ['@modern-js/runtime'],
   setup: _api => {
     return {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      _internal_runtimePlugins({ entryName, plugins }) {
+      _internalRuntimePlugins({ entryName, plugins }) {
         plugins.push({
           name: 'state',
           implementation: '@modern-js/runtime-v2/state',
