@@ -39,7 +39,6 @@
     "@modern-js/generator-plugin": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/module-generator": "workspace:*",
-    "@modern-js/monorepo-generator": "workspace:*",
     "@modern-js/mwa-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

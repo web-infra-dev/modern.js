@@ -4,7 +4,6 @@ import { Command } from '@modern-js/utils/commander';
 
 import { MWANewAction } from './mwa';
 import { ModuleNewAction } from './module';
-import { MonorepoNewAction } from './monorepo';
 
 import { getSolutionByDependance } from './utils';
 
@@ -32,9 +31,6 @@ const main = async () => {
           break;
         case 'module':
           ModuleNewAction(config);
-          break;
-        case 'monorepo':
-          MonorepoNewAction(config);
           break;
         default:
           break;

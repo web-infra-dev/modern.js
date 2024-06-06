@@ -3,7 +3,6 @@ import type { UniBuilderPlugin } from '@modern-js/uni-builder';
 import type { Bundler } from '../utils';
 import type { OutputUserConfig } from './output';
 import type { SourceUserConfig } from './source';
-import type { TestingUserConfig } from './testing';
 import type { DevUserConfig } from './dev';
 import type { ToolsUserConfig } from './tools';
 import type { HtmlUserConfig } from './html';
@@ -39,7 +38,6 @@ export interface AppToolsUserConfig<B extends Bundler> {
   html?: HtmlUserConfig;
   tools?: ToolsUserConfig<B>;
   security?: SecurityUserConfig;
-  testing?: TestingUserConfig;
   builderPlugins?: UniBuilderPlugin[];
   performance?: PerformanceUserConfig;
   devtools?: any;

@@ -86,7 +86,6 @@ export default ({
           'html',
           'output',
           'tools',
-          'testing',
           'plugins',
           'builderPlugins',
           'runtime',

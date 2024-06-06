@@ -20,7 +20,6 @@ Options:
   -d,--debug               using debug mode to log something (default: false)
   --mwa                    create mwa application using default config (default: false)
   --module                 create module application using default config (default: false)
-  --monorepo               create monorepo application using default config (default: false)
   --generator <generator>  run custom generator
   -p, --plugin <plugin>    use generator plugin to create new solution or customize Modern.js solution (default: [])
   --dist-tag <distTag>     use specified tag version for it\'s generator (default: "")
@@ -88,10 +87,6 @@ Quickly create a Web App project.
 ## --module
 
 Quickly create a Npm Module project.
-
-## --monorepo
-
-Quickly create a Monorepo project.
 
 ## -p, --plugin \<plugin>
 
