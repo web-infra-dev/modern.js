@@ -25,7 +25,6 @@ import { i18n, localeKeys } from './locale';
 const SpecialModernDeps = [
   '@modern-js/plugin-storybook',
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
-  '@modern-js/plugin-testing',
 ];
 
 const DeprecatedModernBuilderDeps = [
