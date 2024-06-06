@@ -41,8 +41,6 @@ export type BundlerConfig = WebpackConfig | RspackConfig;
 
 export interface DevtoolsContext {
   enable: boolean;
-  endpoint: string;
-  dataSource: string;
   def: ClientDefinition;
   storagePresets: StoragePresetContext[];
 }
