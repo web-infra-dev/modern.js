@@ -30,7 +30,6 @@ export type DevtoolsPlugin = CliPlugin<AppTools> & {
 
 export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
-  pluginCleanup,
   pluginWatcher,
   pluginServiceWorker,
   pluginHtml,
@@ -39,6 +38,8 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   pluginHttp,
   pluginRpc,
   pluginSettleState,
+  // --- //
+  pluginCleanup,
 ];
 
 export const devtoolsPlugin = (

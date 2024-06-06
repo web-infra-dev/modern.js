@@ -24,6 +24,7 @@ import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
+import { useThrowable } from '@/utils';
 
 interface SummaryCostsData {
   title: string;
@@ -75,12 +76,13 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 };
 
 const Page: FC = () => {
-  const { doctor } = useSnapshot($serverExported);
+  const serverExported = useThrowable($serverExported);
+  const { doctor } = useSnapshot(serverExported);
   if (!doctor) {
     throw new TypeError('Doctor is not available');
   }
-  const dependencies = useSnapshot($serverExported.dependencies);
-  const { def } = useSnapshot($serverExported).context;
+  const dependencies = useSnapshot(serverExported.dependencies);
+  const { def } = useSnapshot(serverExported).context;
 
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),

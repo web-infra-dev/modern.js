@@ -20,7 +20,7 @@ import type {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from './storage-preset';
-import type { ServerExportedState } from './state';
+import type { ExportedServerState } from './state';
 import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;
@@ -77,7 +77,7 @@ export interface ResolvedDevtoolsConfig {
 
 export interface ServerFunctions {
   echo: (content: string) => string;
-  pullExportedState: () => Promise<ServerExportedState>;
+  pullExportedState: () => Promise<ExportedServerState>;
   createTemporaryStoragePreset: () => Promise<StoragePresetWithIdent>;
   pasteStoragePreset: (target: {
     filename: string;

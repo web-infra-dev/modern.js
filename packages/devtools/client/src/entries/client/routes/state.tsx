@@ -1,12 +1,10 @@
 import {
   MessagePortChannel,
-  PromiseStub,
   ServerFunctions,
   Tab,
   ClientFunctions as ToServerFunctions,
   WebSocketChannel,
   applyOperation,
-  createServerExportedState,
 } from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
@@ -46,8 +44,6 @@ export const $socket = new window.WebSocket(DATA_SOURCE);
 
 export const $serverChannel = WebSocketChannel.link($socket);
 
-export const $serverExported = proxy(createServerExportedState().state);
-
 export const $server = $serverChannel.then(async channel => {
   const hooks = createHooks<ToServerFunctions>();
   const definitions: ToServerFunctions = {
@@ -65,22 +61,12 @@ export const $server = $serverChannel.then(async channel => {
     timeout: 5000,
   });
 
-  remote.pullExportedState().then(state => {
-    for (const [key, newVal] of Object.entries(state)) {
-      type Key = keyof typeof $serverExported;
-      const val = $serverExported[key as Key];
-      if (val instanceof Promise && newVal instanceof Promise) {
-        continue;
-      }
-      if (val instanceof Promise) {
-        PromiseStub.get<any>(val).resolve(newVal);
-      }
-      $serverExported[key as Key] = newVal;
-    }
-  });
-
   return { remote, hooks };
 });
+
+export const $serverExported = $server.then(async server =>
+  proxy(await server.remote.pullExportedState()),
+);
 
 export const $tabs = proxy<Tab[]>([]);
 

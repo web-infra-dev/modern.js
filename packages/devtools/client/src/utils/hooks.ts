@@ -30,10 +30,13 @@ export const useThrowable = <T>(value: T): Awaited<T> => {
       const _value = _thrownPromiseMap.get(value);
       if (_value instanceof Error) {
         throw _value;
+      } else if (_value instanceof Promise) {
+        throw _value;
       } else {
         return _value;
       }
     } else {
+      _thrownPromiseMap.set(value, value);
       value
         .then(v => _thrownPromiseMap.set(value, v))
         .catch(e => _thrownPromiseMap.set(value, e));

@@ -10,97 +10,59 @@ import type {
   NormalizedBuilderConfig,
   TransformedFrameworkConfig,
 } from './server';
-import { PromiseStub, type DeepToResolvers } from './promise';
 
-export interface ServerExportedState {
+export interface ServerState {
   framework: {
-    context: Promise<AppContext>;
+    context?: AppContext;
     config: {
-      resolved: Promise<FrameworkConfig>;
-      transformed: Promise<TransformedFrameworkConfig>;
+      resolved?: FrameworkConfig;
+      transformed?: TransformedFrameworkConfig;
     };
   };
   builder: {
-    context: Promise<BuilderContext>;
+    context?: BuilderContext;
     config: {
-      resolved: Promise<BuilderConfig>;
-      transformed: Promise<NormalizedBuilderConfig>;
+      resolved?: BuilderConfig;
+      transformed?: NormalizedBuilderConfig;
     };
   };
   bundler: {
     configs: {
-      resolved: Promise<BundlerConfig[]>;
-      transformed: Promise<BundlerConfig[]>;
+      resolved?: BundlerConfig[];
+      transformed?: BundlerConfig[];
     };
   };
-  doctor: Promise<DoctorManifestOverview | void>;
-  context: DevtoolsContext | Promise<DevtoolsContext>;
-  performance: Promise<{ compileDuration: number }>;
+  doctor?: DoctorManifestOverview;
+  context: DevtoolsContext;
+  performance?: { compileDuration: number };
   dependencies: Record<string, string>;
   fileSystemRoutes: Record<string, FileSystemRoutes>;
 }
 
-export type ServerExportedStateResolvers = DeepToResolvers<ServerExportedState>;
-
-export interface ServerExportedStateResult {
-  resolvers: ServerExportedStateResolvers;
-  state: ServerExportedState;
-}
-
-export const createServerExportedState = (): ServerExportedStateResult => {
-  const resolvers = {
-    framework: {
-      context: PromiseStub.create(),
-      config: {
-        resolved: PromiseStub.create(),
-        transformed: PromiseStub.create(),
-      },
-    },
-    builder: {
-      context: PromiseStub.create(),
-      config: {
-        resolved: PromiseStub.create(),
-        transformed: PromiseStub.create(),
-      },
-    },
-    bundler: {
-      configs: {
-        resolved: PromiseStub.create(),
-        transformed: PromiseStub.create(),
-      },
-    },
-    doctor: PromiseStub.create(),
-    context: PromiseStub.create(),
-    performance: PromiseStub.create(),
-    dependencies: {},
-    fileSystemRoutes: {},
-  } satisfies ServerExportedStateResolvers;
-  const state: ServerExportedState = {
-    framework: {
-      context: resolvers.framework.context.promise,
-      config: {
-        resolved: resolvers.framework.config.resolved.promise,
-        transformed: resolvers.framework.config.transformed.promise,
-      },
-    },
-    builder: {
-      context: resolvers.builder.context.promise,
-      config: {
-        resolved: resolvers.builder.config.resolved.promise,
-        transformed: resolvers.builder.config.transformed.promise,
-      },
-    },
-    bundler: {
-      configs: {
-        resolved: resolvers.bundler.configs.resolved.promise,
-        transformed: resolvers.bundler.configs.transformed.promise,
-      },
-    },
-    doctor: resolvers.doctor.promise,
-    context: resolvers.context.promise,
-    performance: resolvers.performance.promise,
-    dependencies: resolvers.dependencies as any,
-    fileSystemRoutes: resolvers.fileSystemRoutes as any,
+export interface ExportedServerState extends ServerState {
+  framework: {
+    context: AppContext;
+    config: {
+      resolved: FrameworkConfig;
+      transformed: TransformedFrameworkConfig;
+    };
   };
-  return { resolvers, state };
-};
+  builder: {
+    context: BuilderContext;
+    config: {
+      resolved: BuilderConfig;
+      transformed: NormalizedBuilderConfig;
+    };
+  };
+  bundler: {
+    configs: {
+      resolved: BundlerConfig[];
+      transformed: BundlerConfig[];
+    };
+  };
+  doctor?: DoctorManifestOverview;
+  context: DevtoolsContext;
+  performance: { compileDuration: number };
+  dependencies: Record<string, string>;
+  fileSystemRoutes: Record<string, FileSystemRoutes>;
+}
