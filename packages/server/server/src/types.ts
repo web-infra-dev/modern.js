@@ -7,7 +7,7 @@ import type {
 } from '@modern-js/types';
 import type { RsbuildInstance } from '@rsbuild/core';
 
-import { ServerBase, ServerBaseOptions } from '@modern-js/server-core/base';
+import { ServerBase, ServerBaseOptions } from '@modern-js/server-core';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -74,3 +74,8 @@ export type ModernDevServerOptions<
 export type InitProdMiddlewares<
   O extends ServerBaseOptions = ServerBaseOptions,
 > = (server: ServerBase, options: O) => Promise<ServerBase>;
+
+export type ApplyPlugins<O extends ServerBaseOptions = ServerBaseOptions> = (
+  server: ServerBase,
+  options: O,
+) => Promise<void>;

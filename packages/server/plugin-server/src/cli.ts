@@ -18,12 +18,14 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-server',
 
   setup: api => ({
-    collectServerPlugins({ plugins }) {
+    _internalServerPlugins({ plugins }) {
       plugins.push({
-        '@modern-js/plugin-server': '@modern-js/plugin-server/server',
+        name: '@modern-js/plugin-server/server',
       });
+
       return { plugins };
     },
+
     async afterBuild() {
       const { appDirectory, distDirectory } = api.useAppContext();
 

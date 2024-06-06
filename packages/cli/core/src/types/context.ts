@@ -4,6 +4,7 @@ import {
   ServerRoute,
   HtmlTemplates,
   HtmlPartials,
+  ServerPlugin,
 } from '@modern-js/types';
 import type {
   UniBuilderInstance,
@@ -35,6 +36,8 @@ export interface IAppContext {
   configFile: string | false;
   /** Path to the server configuration file */
   serverConfigFile: string;
+  /** Server Plugins  */
+  serverPlugins: ServerPlugin[];
   /** Currently registered server plugins */
   serverInternalPlugins: InternalPlugins;
   /** IPv4 address of the current machine */

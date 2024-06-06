@@ -1,7 +1,4 @@
-import {
-  ServerBaseOptions,
-  BindRenderHandleOptions,
-} from '@modern-js/server-core/base';
+import { ServerBaseOptions, RenderPluginOptions } from '@modern-js/server-core';
 import { Reporter } from '@modern-js/types';
 import { Logger } from '@modern-js/utils';
 
@@ -10,8 +7,8 @@ interface MonitorOptions {
 }
 
 export type ProdServerOptions = ServerBaseOptions &
-  Omit<BindRenderHandleOptions, 'templates'> &
-  MonitorOptions;
+  MonitorOptions &
+  RenderPluginOptions;
 
 export type BaseEnv = {
   Variables: {

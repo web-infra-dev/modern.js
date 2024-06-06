@@ -5,6 +5,7 @@ import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
 import { registerCompiler } from '../utils/register';
+import { loadPlugins } from '../utils/loadPlugins';
 
 export const build = async (
   api: PluginAPI<AppTools<'shared'>>,
@@ -26,6 +27,8 @@ export const build = async (
   );
 
   const { apiOnly } = appContext;
+
+  await loadPlugins(api, appContext.appDirectory);
 
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;

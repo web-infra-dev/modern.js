@@ -18,7 +18,7 @@ export const hooks: AppToolsHooks = {
   beforeGenerateRoutes: createAsyncWaterfall(),
   addDefineTypes: createAsyncWaterfall(),
   collectServerPlugins: createAsyncWaterfall(),
-
+  _internalServerPlugins: createAsyncWaterfall(),
   beforeDev: createAsyncWorkflow(),
   afterDev: createAsyncWorkflow(),
   beforeCreateCompiler: createAsyncWorkflow(),

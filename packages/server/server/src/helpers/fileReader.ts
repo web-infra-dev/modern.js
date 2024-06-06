@@ -1,5 +1,5 @@
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import { Middleware } from '@modern-js/server-core/base';
+import { Middleware } from '@modern-js/server-core';
 
 export const initFileReader = (): Middleware => {
   let isInit = false;

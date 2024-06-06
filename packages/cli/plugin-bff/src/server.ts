@@ -45,7 +45,7 @@ export default (): ServerPlugin => ({
           apiMiddlewares: middlewares,
         });
       },
-      reset() {
+      reset({ event }) {
         storage.reset();
         const appContext = api.useAppContext();
         const newApiModule = requireExistModule(apiAppPath);
@@ -58,16 +58,17 @@ export default (): ServerPlugin => ({
           ...appContext,
           apiMiddlewares: middlewares,
         });
+
+        if (event.type === 'file-change') {
+          const apiHandlerInfos = apiRouter.getApiHandlers();
+          const appContext = api.useAppContext();
+          api.setAppContext({
+            ...appContext,
+            apiHandlerInfos,
+          });
+        }
       },
-      onApiChange(changes) {
-        const apiHandlerInfos = apiRouter.getApiHandlers();
-        const appContext = api.useAppContext();
-        api.setAppContext({
-          ...appContext,
-          apiHandlerInfos,
-        });
-        return changes;
-      },
+
       prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);
