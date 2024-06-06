@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
-jest.mock('@modern-js/server-core/base/node', () => {
-  const originalModule = jest.requireActual('@modern-js/server-core/base/node');
+jest.mock('@modern-js/server-core/node', () => {
+  const originalModule = jest.requireActual('@modern-js/server-core/node');
 
   return {
     ...originalModule,

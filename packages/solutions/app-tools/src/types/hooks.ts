@@ -9,6 +9,7 @@ import type {
   NestedRouteForCli,
   PageRoute,
   RouteLegacy,
+  ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
 import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
@@ -32,6 +33,7 @@ export interface RuntimePlugin {
   options: string;
   args?: string;
 }
+
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyEntryExport: AsyncWaterfall<{
     entrypoint: Entrypoint;
@@ -75,6 +77,8 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   collectServerPlugins: AsyncWaterfall<{
     plugins: Array<Record<string, string>>;
   }>;
+
+  _internalServerPlugins: AsyncWaterfall<{ plugins: ServerPlugin[] }>;
 
   // beforeCreateBuilder
   beforeDev: AsyncWorkflow<void, unknown>;

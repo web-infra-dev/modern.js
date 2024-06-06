@@ -85,6 +85,7 @@ export const initAppContext = ({
     distDirectory: distDir,
     sharedDirectory: path.resolve(appDirectory, sharedDir),
     nodeModulesDirectory: path.resolve(appDirectory, './node_modules'),
+    serverPlugins: [],
     internalDirectory: path.resolve(
       appDirectory,
       `./node_modules/.${metaName}`,

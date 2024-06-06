@@ -118,10 +118,11 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         return { routes: routes.concat(apiServerRoutes) };
       },
 
-      collectServerPlugins({ plugins }) {
+      _internalServerPlugins({ plugins }) {
         plugins.push({
-          '@modern-js/plugin-bff': '@modern-js/plugin-bff/server',
+          name: '@modern-js/plugin-bff/server',
         });
+
         return { plugins };
       },
 

@@ -28,25 +28,16 @@
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/esm-node/index.js"
     },
-    "./base": {
-      "types": "./dist/types/base/index.d.ts",
-      "jsnext:source": "./src/base/index.ts",
+    "./node": {
+      "types": "./dist/types/adapters/node/index.d.ts",
+      "jsnext:source": "./src/adapters/node/index.ts",
       "node": {
-        "require": "./dist/cjs/base/index.js",
-        "import": "./dist/esm/base/index.js"
+        "require": "./dist/cjs/adapters/node/index.js",
+        "import": "./dist/esm/adapters/node/index.js"
       },
-      "default": "./dist/esm-node/base/index.js"
-    },
-    "./base/node": {
-      "types": "./dist/types/base/adapters/node/index.d.ts",
-      "jsnext:source": "./src/base/adapters/node/index.ts",
-      "node": {
-        "require": "./dist/cjs/base/adapters/node/index.js",
-        "import": "./dist/esm/base/adapters/node/index.js"
-      },
-      "default": "./dist/cjs/base/adapters/node/index.js"
+      "default": "./dist/cjs/adapters/node/index.js"
     }
   },
   "typesVersions": {
@@ -54,11 +45,8 @@
       ".": [
         "./dist/types/index.d.ts"
       ],
-      "base": [
-        "./dist/types/base/index.d.ts"
-      ],
-      "base/node": [
-        "./dist/types/base/adapters/node/index.d.ts"
+      "node": [
+        "./dist/types/adapters/node/index.d.ts"
       ]
     }
   },
@@ -106,25 +94,18 @@
       ".": {
         "types": "./dist/types/index.d.ts",
         "node": {
-          "jsnext:source": "./src/index.ts",
           "import": "./dist/esm/index.js",
           "require": "./dist/cjs/index.js"
         },
-        "default": "./dist/cjs/index.js"
+        "default": "./dist/esm-node/index.js"
       },
-      "./base": {
-        "types": "./dist/types/base/index.d.ts",
-        "jsnext:source": "./src/base/index.ts",
+      "./node": {
+        "types": "./dist/types/adapters/node/index.d.ts",
         "node": {
-          "require": "./dist/cjs/base/index.js",
-          "import": "./dist/esm/base/index.js"
+          "require": "./dist/cjs/adapters/node/index.js",
+          "import": "./dist/esm/adapters/node/index.js"
         },
-        "default": "./dist/esm-node/base/index.js"
-      },
-      "./base/node": {
-        "types": "./dist/types/base/adapters/node/index.d.ts",
-        "import": "./dist/esm/base/adapters/node/index.js",
-        "default": "./dist/cjs/base/adapters/node/index.js"
+        "default": "./dist/cjs/adapters/node/index.js"
       }
     }
   }

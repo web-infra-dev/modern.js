@@ -5,14 +5,19 @@ import {
   WatchOptions,
   logger,
 } from '@modern-js/utils';
-import { AGGRED_DIR, ServerBase } from '@modern-js/server-core/base';
-import { registerMockHandlers } from '@modern-js/server-core/base/node';
+import {
+  AGGRED_DIR,
+  ServerBase,
+  FileChangeEvent,
+} from '@modern-js/server-core';
 import Watcher, { WatchEvent, mergeWatchOptions } from '../dev-tools/watcher';
 import { debug } from './utils';
+import { registerMockHandlers } from './mock';
 
 export * from './repack';
 export * from './devOptions';
 export * from './fileReader';
+export * from './mock';
 
 async function onServerChange({
   pwd,
@@ -29,7 +34,6 @@ async function onServerChange({
   const mockPath = path.normalize(path.join(pwd, mock));
 
   const { runner } = server;
-  runner.reset();
   if (filepath.startsWith(mockPath)) {
     await registerMockHandlers({
       pwd,
@@ -38,7 +42,14 @@ async function onServerChange({
     logger.info('Finish registering the mock handlers');
   } else {
     try {
-      await runner.onApiChange([{ filename: filepath, event }]);
+      const fileChangeEvent: FileChangeEvent = {
+        type: 'file-change',
+        payload: [{ filename: filepath, event }],
+      };
+
+      await runner.reset({
+        event: fileChangeEvent,
+      });
       debug(`Finish reload server, trigger by ${filepath} ${event}`);
     } catch (e) {
       logger.error(e as Error);
