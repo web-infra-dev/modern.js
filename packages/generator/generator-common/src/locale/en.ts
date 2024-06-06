@@ -3,7 +3,6 @@ export const EN_LOCALE = {
     self: 'Please select the type of project you want to create:',
     mwa: 'Web App',
     module: 'Npm Module',
-    monorepo: 'Monorepo',
     custom: 'Custom Solution',
     default: 'Default',
   },
@@ -14,7 +13,6 @@ export const EN_LOCALE = {
     self: 'Please select the type of project you want to create:',
     mwa: 'Web App',
     module: 'Npm Module',
-    monorepo: 'Monorepo',
   },
   action: {
     self: 'Please select the operation you want:',

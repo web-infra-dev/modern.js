@@ -4,29 +4,16 @@ import { i18n, localeKeys } from '../locale';
 export enum Solution {
   MWA = 'mwa',
   Module = 'module',
-  Monorepo = 'monorepo',
-}
-
-export enum SubSolution {
-  MWA = 'mwa',
-  Module = 'module',
 }
 
 export const SolutionText: Record<Solution, () => string> = {
   [Solution.MWA]: () => i18n.t(localeKeys.solution.mwa),
   [Solution.Module]: () => i18n.t(localeKeys.solution.module),
-  [Solution.Monorepo]: () => i18n.t(localeKeys.solution.monorepo),
-};
-
-export const SubSolutionText: Record<SubSolution, () => string> = {
-  [SubSolution.MWA]: () => i18n.t(localeKeys.sub_solution.mwa),
-  [SubSolution.Module]: () => i18n.t(localeKeys.sub_solution.module),
 };
 
 export const SolutionToolsMap: Record<Solution, string> = {
   [Solution.MWA]: '@modern-js/app-tools',
   [Solution.Module]: '@modern-js/module-tools',
-  [Solution.Monorepo]: '@modern-js/monorepo-tools',
 };
 
 export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
@@ -39,20 +26,12 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
           ? i18n.t(localeKeys.sub_solution.self)
           : i18n.t(localeKeys.solution.self),
         enum: (() => {
-          const items = (
-            extra?.solutions ||
-            Object.values(extra?.isMonorepo ? SubSolution : Solution)
-          )
-            .filter(
-              (solution: Solution) =>
-                !(extra?.isSubProject && solution === Solution.Monorepo),
-            )
-            .map((solution: unknown) => ({
+          const items = (extra?.solutions || Object.values(Solution)).map(
+            (solution: unknown) => ({
               value: solution,
-              label: extra?.isMonorepo
-                ? SubSolutionText[solution as SubSolution]()
-                : SolutionText[solution as Solution](),
-            }));
+              label: SolutionText[solution as Solution](),
+            }),
+          );
           if (extra?.customPlugin?.custom?.length) {
             return [
               ...items,
@@ -95,11 +74,9 @@ export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
               if (solution && solution !== 'custom') {
                 items.unshift({
                   value: solution,
-                  label: `${
-                    extra?.isMonorepoSubProject
-                      ? SubSolutionText[solution as SubSolution]()
-                      : SolutionText[solution as Solution]()
-                  }(${i18n.t(localeKeys.solution.default)})`,
+                  label: `${SolutionText[solution as Solution]()}(${i18n.t(
+                    localeKeys.solution.default,
+                  )})`,
                 });
               }
               return items;
@@ -116,12 +93,6 @@ export const PackagesGenerator = '@modern-js/packages-generator';
 export const SolutionGenerator: Record<Solution, string> = {
   [Solution.MWA]: '@modern-js/mwa-generator',
   [Solution.Module]: '@modern-js/module-generator',
-  [Solution.Monorepo]: '@modern-js/monorepo-generator',
-};
-
-export const SubSolutionGenerator: Record<SubSolution, string> = {
-  [SubSolution.MWA]: '@modern-js/mwa-generator',
-  [SubSolution.Module]: '@modern-js/module-generator',
 };
 
 export const ChangesetGenerator = '@modern-js/changeset-generator';
