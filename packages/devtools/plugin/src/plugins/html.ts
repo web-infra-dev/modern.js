@@ -1,7 +1,7 @@
 import assert from 'assert';
 import type { AppTools } from '@modern-js/app-tools';
 import type { UserConfig } from '@modern-js/core';
-import _ from '@modern-js/utils/lodash';
+import { SetupClientParams } from '@modern-js/devtools-kit';
 import { Plugin } from '../types';
 
 export const pluginHtml: Plugin = {
@@ -17,11 +17,10 @@ export const pluginHtml: Plugin = {
 
     api.frameworkHooks.hook('config', async () => {
       // Inject options to client.
-      const clientOptions = _.pick(api.context, [
-        'def',
-        'endpoint',
-        'dataSource',
-      ]);
+      const clientOptions: SetupClientParams = {
+        def: api.context.def,
+        src: '/__devtools',
+      };
       // Keep resource query always existing.
       Object.assign(clientOptions, { __keep: true });
       const serializedOptions = JSON.stringify(clientOptions);

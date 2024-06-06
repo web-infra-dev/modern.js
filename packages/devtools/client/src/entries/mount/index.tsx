@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
   shadow.appendChild(container);
 
   const options = window.__MODERN_JS_DEVTOOLS_OPTIONS__;
+  const srcFromStorage = localStorage.getItem('use_modernjs_devtools');
+  options.src = srcFromStorage || options.src;
   const root = createRoot(container);
   root.render(<DevtoolsCapsule {...options} />);
 });

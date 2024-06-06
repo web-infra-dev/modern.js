@@ -3,7 +3,6 @@ import { Flex, Theme } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 import { useAsync, useEvent, useToggle } from 'react-use';
 import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
-import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Capsule.module.scss';
 import { FrameBox } from './FrameBox';
@@ -27,11 +26,10 @@ const parseDeepLink = (url = window.location) => {
 
 export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
   const logoSrc = props.def.assets.logo;
+  const src = props.src ?? '/__devtools';
   const deepLink = parseDeepLink();
   const [showDevtools, toggleDevtools] = useToggle(Boolean(deepLink));
   const [loadDevtools, setLoadDevtools] = useState(false);
-
-  const src = withQuery(props.endpoint, { src: props.dataSource });
 
   const draggable = useStickyDraggable({ clamp: true });
 
