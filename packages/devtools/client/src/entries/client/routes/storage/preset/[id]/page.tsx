@@ -122,8 +122,9 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 
 const Page = () => {
   const { revalidate } = useRevalidator();
+  const serverExported = useThrowable($serverExported);
   useEffect(() => {
-    const unwatch = subscribe($serverExported, revalidate);
+    const unwatch = subscribe(serverExported, revalidate);
     return unwatch;
   }, []);
   const preset = useLoaderData() as StoragePresetContext;

@@ -9,10 +9,12 @@ import {
   ErrorRouteHandler,
 } from '@/components/Error/Fallback';
 import { FeatureDisabled } from '@/components/Error/FeatureDisabled';
+import { useThrowable } from '@/utils';
 
 const Handler: FC<ErrorFallbackProps> = () => {
   const error = useRouteError();
-  const { def } = useSnapshot($serverExported).context;
+  const serverExported = useThrowable($serverExported);
+  const { def } = useSnapshot(serverExported).context;
   const isStateError =
     error && typeof error === 'object' && Object.keys(error).length === 0;
   if (isStateError) {

@@ -89,7 +89,8 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const { storagePresets } = useSnapshot($serverExported).context;
+  const serverExported = useThrowable($serverExported);
+  const { storagePresets } = useSnapshot(serverExported).context;
   const data = useLoaderData() as StorageStatus;
   const status = {
     cookie: { ...data.cookie.client, ...data.cookie.server },
@@ -124,7 +125,7 @@ const Page: FC = () => {
     const newPreset = await server.remote.createTemporaryStoragePreset();
     const { id } = newPreset;
     const unwatch = watch(get => {
-      const { storagePresets } = snapshot(get($serverExported)).context;
+      const { storagePresets } = snapshot(get(serverExported)).context;
       const preset = _.find(storagePresets, { id });
       if (preset) {
         unwatch();

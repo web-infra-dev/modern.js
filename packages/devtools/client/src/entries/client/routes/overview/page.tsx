@@ -12,6 +12,7 @@ import { $serverExported, VERSION } from '../state';
 import '@/components/Card/Card.module.scss';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
+import { useThrowable } from '@/utils';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
@@ -19,11 +20,12 @@ const BUNDLER_PACKAGE_NAMES = {
 } as const;
 
 const Page: React.FC = () => {
-  const frameworkContext = useSnapshot($serverExported.framework).context;
-  const { def } = useSnapshot($serverExported).context;
-  const dependencies = useSnapshot($serverExported.dependencies);
-  const builderContext = useSnapshot($serverExported.builder).context;
-  const { compileDuration } = useSnapshot($serverExported).performance;
+  const serverExported = useThrowable($serverExported);
+  const frameworkContext = useSnapshot(serverExported.framework).context;
+  const { def } = useSnapshot(serverExported).context;
+  const dependencies = useSnapshot(serverExported.dependencies);
+  const builderContext = useSnapshot(serverExported.builder).context;
+  const { compileDuration } = useSnapshot(serverExported).performance;
   const isMacOS = window.navigator.userAgent.includes('Mac OS');
   const { toolsType } = frameworkContext;
   if (toolsType !== 'app-tools') {

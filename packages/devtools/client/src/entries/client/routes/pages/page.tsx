@@ -10,9 +10,11 @@ import {
   MatchUrlContext,
 } from '@/components/ServerRoute/Context';
 import { ServerRoute } from '@/components/ServerRoute/Route';
+import { useThrowable } from '@/utils';
 
 const Page: React.FC = () => {
-  const { serverRoutes } = useSnapshot($serverExported.framework).context;
+  const serverExported = useThrowable($serverExported);
+  const { serverRoutes } = useSnapshot(serverExported.framework).context;
 
   const [matchContext, setMatchContext] = useState<MatchServerRouteValue>({
     url: '',

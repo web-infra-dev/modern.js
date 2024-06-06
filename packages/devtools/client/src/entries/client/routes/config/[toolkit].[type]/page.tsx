@@ -3,12 +3,14 @@ import { useParams } from '@modern-js/runtime/router';
 import { useSnapshot } from 'valtio';
 import { $serverExported } from '../../state';
 import { ObjectInspector } from '@/components/ObjectInspector';
+import { useThrowable } from '@/utils';
 
 const Page: React.FC = () => {
+  const serverExported = useThrowable($serverExported);
   const configSet = {
-    framework: useSnapshot($serverExported.framework.config),
-    builder: useSnapshot($serverExported.builder.config),
-    bundler: useSnapshot($serverExported.bundler.configs),
+    framework: useSnapshot(serverExported.framework.config),
+    builder: useSnapshot(serverExported.builder.config),
+    bundler: useSnapshot(serverExported.bundler.configs),
   } as const;
   const { toolkit, type } = useParams() as {
     toolkit: 'framework' | 'builder' | 'bundler';

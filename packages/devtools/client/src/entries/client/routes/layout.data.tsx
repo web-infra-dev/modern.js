@@ -17,7 +17,7 @@ let _executed = false;
 export const loader = async () => {
   if (_executed) return null;
   _executed = true;
-  const runtimePlugins = (await $serverExported.context).def.plugins;
+  const runtimePlugins = (await $serverExported).context.def.plugins;
   const globals = PluginGlobals.use();
   await setupPlugins(runtimePlugins);
   const tabs: Tab[] = [
