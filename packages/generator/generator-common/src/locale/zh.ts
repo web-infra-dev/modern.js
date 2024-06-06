@@ -23,8 +23,6 @@ export const ZH_LOCALE = {
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
       i18n: '启用「国际化（i18n）」功能',
-      test: '启用「单元测试 / 集成测试」功能',
-      e2e_test: '启用「E2E 测试」功能',
       storybookV7: '启用「Storybook」V7',
       runtime_api: '启用「Runtime API」',
       ssg: '启用「SSG」功能',

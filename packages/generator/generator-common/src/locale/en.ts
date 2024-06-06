@@ -23,8 +23,6 @@ export const EN_LOCALE = {
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
       i18n: 'Enable Internationalization (i18n)',
-      test: 'Enable Unit Test / Integration Test',
-      e2e_test: 'Enable E2E Test',
       storybookV7: 'Enable Storybook V7',
       runtime_api: 'Enable Runtime API',
       ssg: 'Enable SSG',

@@ -121,12 +121,6 @@ export const commonTransformAndLog = async (
         '`tools.lodash` is not support in legacy mode. Please check migrate documentation.',
       );
     }
-
-    if (legacyTools.jest) {
-      finalConfig.testing = {
-        jest: legacyTools.jest,
-      };
-    }
   }
 
   if (legacyUserConfig.output?.importStyle) {
@@ -266,12 +260,6 @@ export const createConfigByBuildConfig = async (
       logger.warn(
         '`tools.lodash` is not support in legacy mode. Please check migrate documentation.',
       );
-    }
-
-    if (legacyTools.jest) {
-      finalConfig.testing = {
-        jest: legacyTools.jest,
-      };
     }
   }
 

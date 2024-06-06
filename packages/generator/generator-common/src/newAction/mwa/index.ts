@@ -25,7 +25,6 @@ export const MWAActionFunctions = [
   ActionFunction.SSG,
   ActionFunction.SWC,
   ActionFunction.MicroFrontend,
-  ActionFunction.Test,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
   ActionFunction.StorybookV7,
@@ -115,7 +114,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
-  [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -135,7 +133,6 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
-  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/types' />`,
 };
 
 export const MWAActionRefactorDependencies: Partial<
@@ -162,7 +159,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
@@ -185,7 +181,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
-    [ActionFunction.Test]: 'testingPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
     [ActionFunction.Proxy]: 'proxyPlugin',
@@ -207,7 +202,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.BFF]: '@modern-js/plugin-bff',
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
-    [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
