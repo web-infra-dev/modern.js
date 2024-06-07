@@ -16,4 +16,9 @@ export {
   getServerManifest,
 } from './plugins';
 
-export { loadServerPlugins, loadServerEnv, loadServerConfig } from './helper';
+export {
+  loadServerPlugins,
+  loadServerEnv,
+  loadServerConfig,
+  loadCacheConfig,
+} from './helper';

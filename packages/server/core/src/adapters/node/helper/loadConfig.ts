@@ -23,7 +23,7 @@ export function loadServerConfig(
 
   const configFileName = `${meta}.server.js`;
 
-  const serverConfigPath = path.join(pwd, 'server', configFileName);
+  const serverConfigPath = path.join(pwd, configFileName);
 
   const serverConfig = requireConfig(serverConfigPath);
 

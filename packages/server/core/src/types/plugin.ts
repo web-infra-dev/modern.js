@@ -19,6 +19,8 @@ import {
   AfterMatchContext,
   AfterRenderContext,
   AfterStreamingRenderContext,
+  CacheOption,
+  Container,
   HttpMethodDecider,
   ISAppContext,
   Logger,
@@ -79,28 +81,55 @@ export type WebAdapter = (ctx: MiddlewareContext) => void | Promise<void>;
 
 export interface ServerHooks {
   config: AsyncWaterfall<ServerConfig>;
+
   prepare: AsyncWaterfall<void>;
+
   reset: ParallelWorkflow<{ event: ResetEvent }>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   * */
   prepareWebServer: AsyncPipeline<
     WebServerStartInput,
     WebAdapter | Array<UnstableMiddleware> | null
   >;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it when server runtime entry refactor
+   *
+   */
   fallback: ParallelWorkflow<FallbackInput>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   */
   prepareApiServer: AsyncPipeline<APIServerStartInput, MiddlewareHandler>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   */
   afterMatch: AsyncPipeline<AfterMatchContext, any>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   */
   afterRender: AsyncPipeline<AfterRenderContext, any>;
 
-  /** @deprecated  */
+  /**
+   * @deprecated
+   *
+   * deprecate it next major version
+   * */
   afterStreamingRender: AsyncPipeline<AfterStreamingRenderContext, string>;
 }
 
@@ -117,7 +146,8 @@ type Middleware = {
 
   handler: MiddlewareHandler | MiddlewareHandler[];
 
-  before?: Middleware['name'];
+  // TODO: add it when it be need.
+  // before?: Middleware['name'];
 };
 
 declare module '@modern-js/types' {
@@ -135,9 +165,13 @@ export { NodeServer };
 
 export type AppContext = ReturnType<typeof createContext<ISAppContext>>;
 export type ConfigContext = ReturnType<typeof createContext<UserConfig>>;
+export type ServerConfigContext = ReturnType<
+  typeof createContext<ServerConfig>
+>;
 
 export type ServerPluginAPI = {
   setAppContext: (c: ISAppContext) => void;
+  uesServerConfig: () => ServerConfig;
   useAppContext: () => ISAppContext;
   useConfigContext: () => UserConfig;
 };
@@ -153,7 +187,20 @@ export type ServerPlugin = PluginOptions<
   AsyncSetup<ServerHooks, PluginAPI>
 >;
 
+export type CacheConfig = {
+  strategy: CacheOption;
+  container?: Container;
+};
+
+type RenderMiddleware = UnstableMiddleware;
+
+export interface RenderConfig {
+  cache?: CacheConfig;
+  middleware?: RenderMiddleware[];
+}
+
 export interface ServerConfig {
+  render?: RenderConfig;
   bff?: BffUserConfig;
   plugins?: ServerPlugin[];
 }
