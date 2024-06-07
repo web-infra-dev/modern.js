@@ -5,7 +5,6 @@ import type {
   CliPlugin,
   UserConfig,
   IAppContext,
-  InternalPlugins,
   NormalizedConfig,
 } from './types';
 
@@ -48,7 +47,6 @@ export const initAppContext = ({
   configFile,
   options,
   serverConfigFile,
-  serverInternalPlugins,
 }: {
   appDirectory: string;
   plugins: CliPlugin[];
@@ -61,7 +59,6 @@ export const initAppContext = ({
     sharedDir?: string;
   };
   serverConfigFile: string;
-  serverInternalPlugins: InternalPlugins;
 }): IAppContext => {
   const {
     metaName = 'modern-js',
@@ -75,7 +72,6 @@ export const initAppContext = ({
     appDirectory,
     configFile,
     serverConfigFile,
-    serverInternalPlugins,
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,

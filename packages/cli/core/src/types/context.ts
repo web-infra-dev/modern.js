@@ -1,6 +1,5 @@
 import {
   Entrypoint,
-  InternalPlugins,
   ServerRoute,
   HtmlTemplates,
   HtmlPartials,
@@ -38,8 +37,6 @@ export interface IAppContext {
   serverConfigFile: string;
   /** Server Plugins  */
   serverPlugins: ServerPlugin[];
-  /** Currently registered server plugins */
-  serverInternalPlugins: InternalPlugins;
   /** IPv4 address of the current machine */
   ip?: string;
   /** Port number of the development server */

@@ -3,7 +3,6 @@ import {
   ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
   fs as fse,
-  getInternalPlugins,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
@@ -30,9 +29,10 @@ export const createNetlifyPreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, serverInternalPlugins, entrypoints } =
+  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
     appContext;
-  const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
+
+  const plugins = serverPlugins.map(plugin => plugin.name);
 
   const netlifyOutput = path.join(appDirectory, '.netlify');
   const funcsDirectory = path.join(netlifyOutput, 'functions');

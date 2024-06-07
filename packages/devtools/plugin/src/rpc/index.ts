@@ -246,7 +246,7 @@ export const setupClientConnection = async (
       const frameworkContext = {
         ...api.useAppContext(),
         builder: null,
-        serverInternalPlugins: null,
+        serverPlugins: [],
       };
       $resolvers.framework.context.resolve(frameworkContext);
       $resolvers.framework.config.resolved.resolve(api.useConfigContext());

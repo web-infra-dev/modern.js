@@ -3,7 +3,6 @@ import {
   ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
   fs as fse,
-  getInternalPlugins,
   chalk,
 } from '@modern-js/utils';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
@@ -11,8 +10,10 @@ import { handleDependencies } from '../dependencies';
 import { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
-  const { appDirectory, distDirectory, serverInternalPlugins } = appContext;
-  const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
+  const { appDirectory, distDirectory, serverPlugins } = appContext;
+
+  const plugins = serverPlugins.map(plugin => plugin.name);
+
   const outputDirectory = path.join(appDirectory, '.output');
   const staticDirectory = path.join(outputDirectory, 'static');
   const entryFilePath = path.join(outputDirectory, 'index.js');

@@ -2,7 +2,7 @@ import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { DEFAULT_DEV_HOST, getMeta } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { applyPlugins } from '@modern-js/prod-server';
-import { loadPlugins } from '../utils/loadPlugins';
+import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
@@ -73,7 +73,7 @@ export const dev = async (
 
   await generateRoutes(appContext);
 
-  const pluginInstances = await loadPlugins(api, appDirectory);
+  const pluginInstances = await loadServerPlugins(api, appDirectory);
 
   const serverOptions = {
     metaName,
