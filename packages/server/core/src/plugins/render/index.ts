@@ -12,7 +12,11 @@ import {
 import { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitor';
 import { sortRoutes } from '../../utils';
-import { getLoaderCtx, CustomServer } from '../customServer';
+import {
+  getLoaderCtx,
+  CustomServer,
+  getServerMidFromUnstableMid,
+} from '../customServer';
 import { createRender } from './render';
 
 export interface RenderPluginOptions {
@@ -44,6 +48,10 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
         }
 
         const customServer = new CustomServer(runner, serverBase!, pwd);
+
+        const serverMiddleware =
+          serverConfig.render?.middleware &&
+          getServerMidFromUnstableMid(serverConfig.render.middleware);
 
         const pageRoutes = getPageRoutes(routes);
 
@@ -79,7 +87,7 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
           });
 
           const customServerMiddleware =
-            await customServer.getServerMiddleware();
+            serverMiddleware || (await customServer.getServerMiddleware());
 
           customServerMiddleware &&
             middlewares.push({

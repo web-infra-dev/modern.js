@@ -175,7 +175,7 @@ export class CustomServer {
 
     if (Array.isArray(serverMiddleware)) {
       // eslint-disable-next-line consistent-return
-      return getUnstableMiddlewares(serverMiddleware);
+      return getServerMidFromUnstableMid(serverMiddleware);
     }
 
     // eslint-disable-next-line consistent-return
@@ -220,11 +220,7 @@ export class CustomServer {
   }
 }
 
-function isRedirect(headers: Headers, code?: number) {
-  return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
-}
-
-function getUnstableMiddlewares(
+export function getServerMidFromUnstableMid(
   serverMiddleware: UnstableMiddleware[],
 ): Array<Middleware<ServerNodeEnv & ServerEnv>> {
   return serverMiddleware.map(middleware => {
@@ -234,6 +230,10 @@ function getUnstableMiddlewares(
       return middleware(context, next);
     };
   });
+}
+
+function isRedirect(headers: Headers, code?: number) {
+  return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
 }
 
 function createMiddlewareContextFromHono(
