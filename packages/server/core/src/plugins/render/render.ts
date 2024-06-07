@@ -12,7 +12,7 @@ import {
   onError as onErrorFn,
   ErrorDigest,
 } from '../../utils';
-import type { FallbackReason } from '../../types';
+import type { CacheConfig, FallbackReason } from '../../types';
 import { REPLACE_REG } from '../../constants';
 import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
@@ -31,6 +31,7 @@ export type OnFallback = (
 interface CreateRenderOptions {
   pwd: string;
   routes: ServerRoute[];
+  cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   onFallback?: OnFallback;
   metaName?: string;
@@ -72,6 +73,7 @@ export async function createRender({
   pwd,
   metaName,
   staticGenerate,
+  cacheConfig,
   forceCSR,
   nonce,
   onFallback: onFallbackFn,
@@ -140,6 +142,7 @@ export async function createRender({
       nonce,
       logger,
       nodeReq,
+      cacheConfig,
       reporter,
       serverRoutes: routes,
       params,

@@ -1,22 +1,30 @@
 import { ServerRoute } from '@modern-js/types';
-import { ServerPlugin, Context, Middleware, ServerEnv } from '../../types';
+import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
+import {
+  ServerPlugin,
+  Context,
+  Middleware,
+  ServerEnv,
+  Render,
+  UserConfig,
+  CacheConfig,
+} from '../../types';
 import { ServerNodeEnv } from '../../adapters/node/hono';
-import { Render } from '../../types/render';
-import { UserConfig } from '../../types/config';
-import { checkIsProd, getRuntimeEnv, sortRoutes } from '../../utils';
+import { initReporter } from '../monitor';
+import { sortRoutes } from '../../utils';
 import { getLoaderCtx, CustomServer } from '../customServer';
-import type * as ssrCacheModule from './ssrCache';
 import { createRender } from './render';
 
 export interface RenderPluginOptions {
   staticGenerate?: boolean;
+  cacheConfig?: CacheConfig;
 }
 
 export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
-    const { staticGenerate } = options;
+    const { staticGenerate, cacheConfig } = options;
 
     return {
       async prepare() {
@@ -29,17 +37,10 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
         } = api.useAppContext();
         const runner = api.useHookRunners();
         const config = api.useConfigContext();
+        const serverConfig = api.uesServerConfig();
 
         if (!routes) {
           return;
-        }
-
-        if (getRuntimeEnv() === 'node') {
-          const cacheModuleName = './ssrCache';
-          const { ssrCache } = (await import(
-            cacheModuleName
-          )) as typeof ssrCacheModule;
-          await ssrCache.loadCacheMod(checkIsProd() ? pwd : undefined);
         }
 
         const customServer = new CustomServer(runner, serverBase!, pwd);
@@ -51,6 +52,7 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
           routes,
           config,
           metaName,
+          cacheConfig: serverConfig.render?.cache || cacheConfig,
           staticGenerate,
         });
 
@@ -59,6 +61,11 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
           const urlPath = originUrlPath.endsWith('/')
             ? `${originUrlPath}*`
             : `${originUrlPath}/*`;
+
+          middlewares.push({
+            name: 'init-reporter',
+            handler: initReporter(entryName || MAIN_ENTRY_NAME),
+          });
 
           const customServerHookMiddleware = customServer.getHookMiddleware(
             entryName || 'main',
@@ -142,6 +149,7 @@ export interface GetRenderHandlerOptions {
   pwd: string;
   routes: ServerRoute[];
   config: UserConfig;
+  cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   metaName?: string;
 }
@@ -150,6 +158,7 @@ export async function getRenderHandler({
   pwd,
   routes,
   config,
+  cacheConfig,
   metaName,
   staticGenerate,
 }: GetRenderHandlerOptions): Promise<Render> {
@@ -161,6 +170,7 @@ export async function getRenderHandler({
     pwd,
     // TODO: need static Genrate
     staticGenerate,
+    cacheConfig,
     forceCSR,
     nonce: config.security?.nonce,
     metaName: metaName || 'modern-js',

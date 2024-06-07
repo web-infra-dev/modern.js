@@ -12,11 +12,17 @@ import {
   getHost,
   getPathname,
 } from '../../utils';
-import { SSRServerContext, ServerManifest, ServerRender } from '../../types';
+import {
+  CacheConfig,
+  SSRServerContext,
+  ServerManifest,
+  ServerRender,
+} from '../../types';
 import { X_RENDER_CACHE } from '../../constants';
 import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
 import type * as ssrCaheModule from './ssrCache';
 import { ServerTiming } from './serverTiming';
+import { matchCacheControl, getCacheResult } from './ssrCache';
 
 const defaultReporter: Reporter = {
   init() {
@@ -51,6 +57,7 @@ export interface SSRRenderOptions {
   params: Params;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
+  cacheConfig?: CacheConfig;
   reporter?: Reporter;
   metrics?: Metrics;
   nodeReq?: IncomingMessage;
@@ -73,6 +80,7 @@ export async function ssrRender(
     params,
     metrics,
     loaderContext,
+    cacheConfig,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
@@ -148,31 +156,20 @@ export async function ssrRender(
   let cacheStatus: ssrCaheModule.CacheStatus | undefined;
   const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
 
-  if (runtimeEnv === 'node') {
-    const cacheModuleName = './ssrCache';
-    const { ssrCache } = (await import(
-      cacheModuleName
-    )) as typeof ssrCaheModule;
-    const incomingMessage = nodeReq
-      ? nodeReq
-      : new IncomingMessgeProxy(request);
-    const cacheControl = await ssrCache.matchCacheControl(
-      incomingMessage as any,
-    );
+  const cacheControl = await matchCacheControl(
+    cacheConfig?.strategy,
+    nodeReq || (new IncomingMessgeProxy(request) as IncomingMessage),
+  );
 
-    if (cacheControl) {
-      const { data, status } = await ssrCache.getCache(
-        request,
-        cacheControl,
-        render,
-        ssrContext,
-      );
-
-      ssrResult = data;
-      cacheStatus = status;
-    } else {
-      ssrResult = await render(ssrContext);
-    }
+  if (cacheControl) {
+    const { data, status } = await getCacheResult(request, {
+      cacheControl,
+      container: cacheConfig?.container,
+      render,
+      ssrContext,
+    });
+    ssrResult = data;
+    cacheStatus = status;
   } else {
     ssrResult = await render(ssrContext);
   }

@@ -13,8 +13,9 @@ import {
   bindBffPlugin,
   serverStaticPlugin,
   injectResourcePlugin,
+  loadCacheConfig,
 } from '@modern-js/server-core/node';
-import { createLogger } from '@modern-js/utils';
+import { createLogger, isProd } from '@modern-js/utils';
 import { ProdServerOptions } from './types';
 
 function getLogger() {
@@ -31,7 +32,10 @@ export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
 ) {
-  const { pwd, routes } = options;
+  const { pwd, routes, appContext } = options;
+
+  const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
+  const cacheConfig = loadCacheConfig(loadCachePwd);
 
   serverBase.notFound(c => {
     const logger = c.get('logger');
@@ -58,6 +62,7 @@ export async function applyPlugins(
     bindBffPlugin(),
     renderPlugin({
       staticGenerate: options.staticGenerate,
+      cacheConfig,
     }),
   ];
 

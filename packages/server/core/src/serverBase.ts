@@ -5,6 +5,7 @@ import { createContext } from '@modern-js/plugin';
 import type {
   AppContext,
   Env,
+  Middleware,
   ServerConfig,
   ServerHookRunner,
   ServerPlugin,
@@ -114,18 +115,19 @@ export class ServerBase<E extends Env = any> {
     const { middlewares } = this.appContext.get();
 
     for (const middleware of middlewares) {
-      const { path, method = 'all', handler } = middleware;
+      const { path = '*', method = 'all', handler } = middleware;
+      const handlers = handler2Handlers(handler);
 
-      if (path) {
-        if (Array.isArray(handler)) {
-          this.app[method](path, ...handler);
-        } else {
-          this.app[method](path, handler);
-        }
-      } else if (Array.isArray(handler)) {
-        this.app[method]('*', ...handler);
+      this.app[method](path, ...handlers);
+    }
+
+    function handler2Handlers(
+      handler: Middleware[] | Middleware,
+    ): Middleware[] {
+      if (Array.isArray(handler)) {
+        return handler;
       } else {
-        this.app[method]('*', handler);
+        return [handler];
       }
     }
   }
