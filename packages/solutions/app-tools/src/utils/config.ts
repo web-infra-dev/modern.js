@@ -131,7 +131,11 @@ export const buildServerConfigV2 = async ({
         },
       ],
     });
+
+    const fileBasename = path.basename(configFilePath);
+    return getOutputFile(fileBasename);
   }
+  return undefined;
 };
 
 /**

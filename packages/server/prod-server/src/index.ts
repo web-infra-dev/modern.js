@@ -21,8 +21,8 @@ export const createProdServer = async (options: ProdServerOptions) => {
   await loadServerEnv(options);
   const serverConfig = loadServerConfig(
     options.pwd,
-    options.metaName,
     options.serverConfigFile,
+    options.serverConfigPath,
   );
 
   const server = createServerBase<BaseEnv>({

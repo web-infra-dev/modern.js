@@ -56,7 +56,7 @@ export const dev = async (
 
   const meta = getMeta(metaName);
   const serverConfigFileV2 = `${meta}.server`;
-  await buildServerConfigV2({
+  const serverConfigPath = await buildServerConfigV2({
     appDirectory,
     distDirectory,
     configFile: serverConfigFileV2,
@@ -89,6 +89,7 @@ export const dev = async (
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
     },
+    serverConfigPath,
     routes: serverRoutes,
     pwd: appDirectory,
     config: normalizedConfig as any,
