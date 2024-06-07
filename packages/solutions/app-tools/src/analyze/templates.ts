@@ -63,6 +63,7 @@ export const renderFunction = ({
 
   AppWrapper = createApp({
     plugins: [
+     ...(runtimeConfig?.plugins || []),
      ${plugins
        .map(
          ({ name, options, args }) =>

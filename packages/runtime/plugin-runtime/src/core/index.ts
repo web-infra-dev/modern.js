@@ -2,7 +2,7 @@ export { runtime } from './plugin';
 
 export type { Plugin } from './plugin';
 
-export { defineConfig, getConfig } from './appConfig';
+export { defineConfig, getConfig, defineRuntimeConfig } from './config';
 
 // compatible
 export * from './compatible';

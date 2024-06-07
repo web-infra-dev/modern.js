@@ -4,8 +4,9 @@ import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { RuntimeReactContext, RuntimeContext } from './context/runtime';
-import { Plugin, runtime } from './plugin';
+import { Plugin, registerPlugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
+import { getGlobalRunner } from './plugin/runner';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -25,8 +26,6 @@ function isClientArgs(
 
 type PluginRunner = ReturnType<typeof runtime.init>;
 
-const runnerMap = new WeakMap<React.ComponentType<any>, PluginRunner>();
-
 const getInitialContext = (runner: PluginRunner) => ({
   loaderManager: createLoaderManager({}),
   runner,
@@ -39,12 +38,10 @@ export const createApp = ({
   plugins,
   props: globalProps,
 }: CreateAppOptions) => {
-  const appRuntime = runtime.clone();
-  appRuntime.usePlugin(...plugins);
+  registerPlugin(plugins);
 
   return (App?: React.ComponentType<any>) => {
-    const runner = appRuntime.init();
-
+    const runner = getGlobalRunner();
     const WrapperComponent: React.ComponentType<any> = props => {
       return React.createElement(
         App || React.Fragment,
@@ -77,7 +74,7 @@ export const createApp = ({
             if (!contextValue?.runner) {
               contextValue = getInitialContext(runner);
 
-              runner.init(
+              contextValue = runner.init(
                 { context: contextValue },
                 {
                   onLast: ({ context: context1 }) => App?.init?.(context1),
@@ -98,8 +95,6 @@ export const createApp = ({
         },
       },
     );
-
-    runnerMap.set(HOCApp, runner);
 
     return HOCApp;
   };
@@ -131,24 +126,18 @@ export const bootstrap: BootStrap = async (
   ReactDOM,
   // eslint-disable-next-line consistent-return
 ) => {
-  let App = BootApp;
-  let runner = runnerMap.get(App);
-
-  // ensure Component used is created by `createApp`
-  if (!runner) {
-    App = createApp({ plugins: [] })(App);
-    runner = runnerMap.get(App)!;
-  }
+  const App = BootApp;
+  const runner = getGlobalRunner();
 
   const context: RuntimeContext = getInitialContext(runner);
 
   const runInit = (_context: RuntimeContext) =>
-    runner!.init(
+    runner.init(
       { context: _context },
       {
         onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
       },
-    ) as any;
+    );
 
   // don't mount the App, let user in charge of it.
   if (!id) {

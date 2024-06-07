@@ -33,6 +33,11 @@
     "./types/index": "./types/index.d.ts",
     "./types/router": "./types/router.d.ts",
     "./types/model": "./types/model.d.ts",
+    "./context": {
+      "types": "./dist/types/core/context/index.d.ts",
+      "jsnext:source": "./src/core/context/index.ts",
+      "default": "./dist/cjs/core/context/index.js"
+    },
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
       "jsnext:source": "./src/exports/loadable.ts",
@@ -112,6 +117,9 @@
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
+      ],
+      "context": [
+        "./dist/types/core/context/index.d.ts"
       ],
       "head": [
         "./dist/types/exports/head.d.ts"

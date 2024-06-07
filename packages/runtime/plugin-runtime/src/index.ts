@@ -18,6 +18,7 @@ export {
   bootstrap,
   RuntimeReactContext,
   defineConfig,
+  defineRuntimeConfig,
   useRuntimeContext,
 } from './core';
 
