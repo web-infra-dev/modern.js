@@ -54,7 +54,11 @@ export type ExtraOptions = {
   dev: Pick<DevServerOptions, 'watch' | 'https'> & {
     writeToDisk?: boolean | ((filename: string) => boolean);
   };
+
+  /** compat, the default value is modern.server-runtime.config.ts  */
   serverConfigFile?: string;
+
+  serverConfigPath?: string;
   useSSRWorker?: boolean;
   rsbuild: RsbuildInstance;
   getMiddlewares?: () => {

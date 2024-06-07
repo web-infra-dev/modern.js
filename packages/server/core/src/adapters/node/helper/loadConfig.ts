@@ -1,10 +1,5 @@
 import path from 'path';
-import {
-  compatRequire,
-  fs,
-  getMeta,
-  DEFAULT_SERVER_CONFIG,
-} from '@modern-js/utils';
+import { compatRequire, fs, DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import { ServerConfig } from '../../../types';
 
 const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
@@ -14,30 +9,33 @@ const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
   return undefined;
 };
 
-export function loadServerConfig(
-  pwd: string,
-  metaName = 'modern-js',
-  compatConfigFile = DEFAULT_SERVER_CONFIG,
-): ServerConfig {
-  const meta = getMeta(metaName);
-
-  const configFileName = `${meta}.server.js`;
-
-  const serverConfigPath = path.join(pwd, configFileName);
-
-  const serverConfig = requireConfig(serverConfigPath);
-
-  if (serverConfig) {
-    return serverConfig;
-  }
-  const serverConfigPathOld = path.join(pwd, `${compatConfigFile}.js`);
-  const serverConfigOld = requireConfig(serverConfigPathOld);
-  return serverConfigOld || {};
+function loadServerConfigNew(
+  serverConfigPath: string,
+): ServerConfig | undefined {
+  const serverConfigFile = serverConfigPath.endsWith('.js')
+    ? serverConfigPath
+    : `${serverConfigPath}.js`;
+  return requireConfig(serverConfigFile);
 }
 
-export function loadServerConfig1(serverConfigPath: string): ServerConfig {
-  if (fs.pathExistsSync(serverConfigPath)) {
-    return compatRequire(serverConfigPath);
+function loadServerConfigOld(pwd: string, configFile: string): ServerConfig {
+  const serverConfigPath = path.join(pwd, `${configFile}.js`);
+  const serverConfig = requireConfig(serverConfigPath);
+  return serverConfig || {};
+}
+
+export function loadServerConfig(
+  pwd: string,
+  oldServerFile: string = DEFAULT_SERVER_CONFIG,
+  newServerConfigPath?: string,
+) {
+  const newServerConfig =
+    newServerConfigPath && loadServerConfigNew(newServerConfigPath);
+
+  if (newServerConfig) {
+    return newServerConfig;
   }
-  return {};
+
+  const oldServerConfig = loadServerConfigOld(pwd, oldServerFile);
+  return oldServerConfig;
 }

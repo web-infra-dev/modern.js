@@ -4,8 +4,11 @@ import { Logger } from '@modern-js/utils';
 
 interface ProdServerExtraOptions {
   logger?: Logger;
+
   /** compat modern.server-runtime.config.ts */
   serverConfigFile?: string;
+
+  serverConfigPath?: string;
 }
 
 export type ProdServerOptions = Exclude<ServerBaseOptions, 'serverConfig'> &

@@ -15,12 +15,16 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptions<O>,
   applyPlugins: ApplyPlugins<O>,
 ): Promise<NodeServer> => {
-  const { config, pwd, metaName, serverConfigFile } = options;
+  const { config, pwd, serverConfigFile, serverConfigPath } = options;
   const dev = getDevOptions(options);
 
   const distDir = path.resolve(pwd, config.output.path || 'dist');
 
-  const serverConfig = loadServerConfig(distDir, metaName, serverConfigFile);
+  const serverConfig = loadServerConfig(
+    distDir,
+    serverConfigFile,
+    serverConfigPath,
+  );
 
   const prodServerOptions = {
     ...options,
