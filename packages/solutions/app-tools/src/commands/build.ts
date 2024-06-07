@@ -5,7 +5,7 @@ import { buildServerConfig, buildServerConfigV2 } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
 import { registerCompiler } from '../utils/register';
-import { loadPlugins } from '../utils/loadPlugins';
+import { loadServerPlugins } from '../utils/loadPlugins';
 
 export const build = async (
   api: PluginAPI<AppTools<'shared'>>,
@@ -28,7 +28,7 @@ export const build = async (
 
   const { apiOnly } = appContext;
 
-  await loadPlugins(api, appContext.appDirectory);
+  await loadServerPlugins(api, appContext.appDirectory);
 
   const meta = getMeta(appContext.metaName);
   const serverConfigFileV2 = `${meta}.server`;

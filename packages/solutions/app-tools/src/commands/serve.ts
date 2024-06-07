@@ -3,7 +3,7 @@ import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
-import { loadPlugins } from '../utils/loadPlugins';
+import { loadServerPlugins } from '../utils/loadPlugins';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
@@ -31,7 +31,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     runMode = 'apiOnly';
   }
 
-  const pluginInstances = await loadPlugins(api, appDirectory);
+  const pluginInstances = await loadServerPlugins(api, appDirectory);
 
   const app = await createProdServer({
     metaName,
