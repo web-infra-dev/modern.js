@@ -1,4 +1,4 @@
-export { createPlugin, createRuntime, runtime, registerInit } from './plugin';
+export { runtime } from './plugin';
 
 export type { Plugin } from './plugin';
 
@@ -7,8 +7,8 @@ export { defineConfig, getConfig } from './appConfig';
 // compatible
 export * from './compatible';
 
-export type { TRuntimeContext, RuntimeContext } from '../runtimeContext';
-export { RuntimeReactContext, ServerRouterContext } from '../runtimeContext';
+export type { RuntimeContext } from './context/runtime';
+export { RuntimeReactContext, ServerRouterContext } from './context/runtime';
 export * from './loader';
 
 export type { SSRData, SSRContainer } from './types';

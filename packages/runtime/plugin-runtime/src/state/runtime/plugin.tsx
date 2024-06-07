@@ -60,7 +60,7 @@ const state = (config: StateConfig): Plugin => ({
   setup: () => {
     const storeConfig = getStoreConfig(config);
     return {
-      hoc({ App }, next) {
+      hoc({ App, config }, next) {
         const getStateApp = (props: any) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const context = useContext(RuntimeReactContext);
@@ -73,6 +73,7 @@ const state = (config: StateConfig): Plugin => ({
         };
         return next({
           App: hoistNonReactStatics(getStateApp, App),
+          config,
         });
       },
       init({ context }, next) {
@@ -86,15 +87,6 @@ const state = (config: StateConfig): Plugin => ({
         context.store = createStore(storeConfig);
 
         return next({ context });
-      },
-      pickContext({ context, pickedContext }, next) {
-        return next({
-          context,
-          pickedContext: {
-            ...pickedContext,
-            store: context.store,
-          },
-        });
       },
     };
   },

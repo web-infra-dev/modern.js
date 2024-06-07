@@ -9,18 +9,15 @@ export type {
   BaseRuntimeContext,
   RuntimeContext,
   BaseTRuntimeContext,
-  TRuntimeContext,
-} from './runtimeContext';
+} from './core/context/runtime';
 export type { RuntimeUserConfig } from './config';
 
 export {
   createApp,
-  createPlugin,
   useLoader,
   bootstrap,
   RuntimeReactContext,
   defineConfig,
-  registerInit,
   useRuntimeContext,
 } from './core';
 

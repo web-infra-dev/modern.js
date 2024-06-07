@@ -32,21 +32,6 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
 
         return next({ context });
       },
-      pickContext: ({ context, pickedContext }, next) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain, no-unsafe-optional-chaining
-        const { request, response } = context?.ssrContext!;
-        const { initialData } = context;
-
-        return next({
-          context,
-          pickedContext: {
-            ...pickedContext,
-            initialData,
-            request,
-            response,
-          },
-        });
-      },
     };
   },
 });

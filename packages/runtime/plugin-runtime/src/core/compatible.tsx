@@ -1,13 +1,9 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
-import {
-  RuntimeReactContext,
-  RuntimeContext,
-  TRuntimeContext,
-} from '../runtimeContext';
+import { RuntimeReactContext, RuntimeContext } from './context/runtime';
 import { Plugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 
@@ -50,7 +46,7 @@ export const createApp = ({
     const runner = appRuntime.init();
 
     const WrapperComponent: React.ComponentType<any> = props => {
-      const element = React.createElement(
+      return React.createElement(
         App || React.Fragment,
         App ? { ...props } : null,
         App
@@ -64,14 +60,6 @@ export const createApp = ({
                 : child,
             ),
       );
-      const context = useContext(RuntimeReactContext);
-
-      return runner.provide(
-        { element, props: { ...props }, context },
-        {
-          onLast: ({ element }) => element,
-        },
-      );
     };
 
     if (App) {
@@ -79,7 +67,7 @@ export const createApp = ({
     }
 
     const HOCApp = runner.hoc(
-      { App: WrapperComponent },
+      { App: WrapperComponent, config: globalProps || {} },
       {
         onLast: ({ App }: any) => {
           const WrapComponent = ({ context, ...props }: any) => {
@@ -329,17 +317,5 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
-  const memoizedContext = useMemo(
-    () =>
-      context.runner.pickContext(
-        { context, pickedContext: {} as any },
-        {
-          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
-            pickedContext,
-        },
-      ),
-    [context],
-  );
-
-  return memoizedContext;
+  return context;
 };
