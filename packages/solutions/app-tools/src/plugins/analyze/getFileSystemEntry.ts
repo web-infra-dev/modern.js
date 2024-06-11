@@ -28,13 +28,12 @@ const isBundleEntry = async (
 ) => {
   const hookRunners = api.useHookRunners();
   return (
-    hasIndex(dir) ||
     (
       await hookRunners.checkEntryPoint({
         path: dir,
         entry: false,
       })
-    ).entry
+    ).entry || hasIndex(dir)
   );
 };
 
@@ -51,13 +50,14 @@ const scanDir = (
 
       const entryName = path.basename(dir);
 
-      if (indexFile) {
+      if (indexFile && !customBootstrap) {
         return {
           entryName,
           isMainEntry: false,
           entry: indexFile,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: false,
+          customBootstrap,
         };
       }
 
@@ -72,7 +72,13 @@ const scanDir = (
           customBootstrap,
         };
       }
-      throw Error('Not Found Entry File');
+      return {
+        entryName,
+        isMainEntry: false,
+        entry: indexFile as string,
+        absoluteEntryDir: path.resolve(dir),
+        isAutoMount: false,
+      };
     }),
   );
 
