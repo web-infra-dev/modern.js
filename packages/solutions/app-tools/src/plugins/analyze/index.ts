@@ -93,7 +93,10 @@ export default ({
           import('./getHtmlTemplate'),
         ]);
 
-        const entrypoints = getBundleEntry(appContext, resolvedConfig);
+        // get runtime entry points
+        const { entrypoints } = await hookRunners.modifyEntrypoints({
+          entrypoints: await getBundleEntry(api, appContext, resolvedConfig),
+        });
 
         debug(`entrypoints: %o`, entrypoints);
 

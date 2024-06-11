@@ -1,10 +1,19 @@
+import path from 'path';
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
   isRouterV5 as isV5,
+  findExists,
+  JS_EXTENSIONS,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { hasNestedRoutes, hasPages, isRouteEntry } from './entry';
+import {
+  FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
+  NESTED_ROUTES_DIR,
+  PAGES_DIR_NAME,
+} from './constants';
 
 const PLUGIN_IDENTIFIER = 'router';
 
@@ -19,6 +28,9 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     let pluginsExportsUtils: any;
 
     return {
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRouteEntry(path) };
+      },
       config() {
         const appContext = api.useAppContext();
 
@@ -42,6 +54,44 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             },
           },
         };
+      },
+      async modifyEntrypoints({ entrypoints }) {
+        const newEntrypoints = entrypoints.map(entrypoint => {
+          const isHasNestedRoutes = hasNestedRoutes(
+            entrypoint.absoluteEntryDir!,
+          );
+          const isHasPages = hasPages(entrypoint.absoluteEntryDir!);
+          if (!isHasNestedRoutes && !isHasPages) {
+            return entrypoint;
+          }
+          entrypoint.fileSystemRoutes = {
+            globalApp: findExists(
+              JS_EXTENSIONS.map(ext =>
+                path.resolve(
+                  entrypoint.absoluteEntryDir!,
+                  `./${PAGES_DIR_NAME}/${FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT}${ext}`,
+                ),
+              ),
+            ),
+          };
+          if (isHasPages) {
+            entrypoint.entry = path.join(
+              entrypoint.absoluteEntryDir!,
+              PAGES_DIR_NAME,
+            );
+            entrypoint.pageRoutesEntry = entrypoint.entry;
+          }
+          if (isHasNestedRoutes) {
+            entrypoint.entry = path.join(
+              entrypoint.absoluteEntryDir!,
+              NESTED_ROUTES_DIR,
+            );
+            entrypoint.nestedRoutesEntry = entrypoint.entry;
+          }
+          return entrypoint;
+        });
+
+        return { entrypoints: newEntrypoints };
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;

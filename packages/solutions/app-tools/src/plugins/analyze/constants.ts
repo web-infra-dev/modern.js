@@ -1,12 +1,4 @@
-export const JS_EXTENSIONS = ['.js', '.ts', '.jsx', '.tsx'];
-
 export const INDEX_FILE_NAME = 'index';
-
-export const APP_FILE_NAME = 'App';
-
-export const PAGES_DIR_NAME = 'pages';
-
-export const NESTED_ROUTES_DIR = 'routes';
 
 export const FILE_SYSTEM_ROUTES_FILE_NAME = 'routes.js';
 

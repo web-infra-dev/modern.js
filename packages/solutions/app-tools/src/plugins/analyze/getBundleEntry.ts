@@ -5,11 +5,16 @@ import {
   findExists,
   MAIN_ENTRY_NAME,
   isRouterV5,
+  JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppNormalizedConfig, IAppContext } from '../../types';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  IAppContext,
+  PluginAPI,
+} from '../../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
-import { JS_EXTENSIONS } from './constants';
 import { isSubDirOrEqual } from './utils';
 
 const ensureExtensions = (file: string) => {
@@ -50,7 +55,8 @@ const ifAlreadyExists = (
     return false;
   });
 
-export const getBundleEntry = (
+export const getBundleEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
 ) => {
@@ -60,53 +66,40 @@ export const getBundleEntry = (
 
   const defaults = disableDefaultEntries
     ? []
-    : getFileSystemEntry(appContext, config);
+    : await getFileSystemEntry(api, appContext, config);
 
   // merge entrypoints from user config with directory convention.
   if (entries) {
     Object.keys(entries).forEach(name => {
       const value = entries[name];
-      const entrypoint: Entrypoint =
-        typeof value === 'string'
-          ? {
-              entryName: name,
-              isMainEntry: false,
-              entry: ensureAbsolutePath(appDirectory, value),
-              absoluteEntryDir: isDirectory(
-                ensureAbsolutePath(appDirectory, value),
-              )
-                ? ensureAbsolutePath(appDirectory, value)
-                : path.dirname(ensureAbsolutePath(appDirectory, value)),
-              isAutoMount: true,
-              fileSystemRoutes: fs
-                .statSync(ensureAbsolutePath(appDirectory, value))
-                .isDirectory()
-                ? {}
-                : undefined,
-            }
-          : {
-              entryName: name,
-              isMainEntry: false,
-              entry: ensureAbsolutePath(appDirectory, value.entry),
-              absoluteEntryDir: isDirectory(
-                ensureAbsolutePath(appDirectory, value.entry),
-              )
-                ? ensureAbsolutePath(appDirectory, value.entry)
-                : path.dirname(ensureAbsolutePath(appDirectory, value.entry)),
-              isAutoMount: !value.disableMount,
-              customBootstrap:
-                value.customBootstrap &&
-                ensureAbsolutePath(appDirectory, value.customBootstrap),
-              fileSystemRoutes: fs
-                .statSync(ensureAbsolutePath(appDirectory, value.entry))
-                .isDirectory()
-                ? {}
-                : undefined,
-            };
+      const entryName = typeof value === 'string' ? value : value.entry;
+      const isAutoMount = typeof value === 'string' ? true : value.disableMount;
+      const entrypoint: Entrypoint = {
+        entryName: name,
+        isMainEntry: false,
+        entry: ensureAbsolutePath(appDirectory, entryName),
+        absoluteEntryDir: isDirectory(
+          ensureAbsolutePath(appDirectory, entryName),
+        )
+          ? ensureAbsolutePath(appDirectory, entryName)
+          : path.dirname(ensureAbsolutePath(appDirectory, entryName)),
+        isAutoMount,
+        customBootstrap:
+          typeof value === 'string'
+            ? false
+            : value.customBootstrap &&
+              ensureAbsolutePath(appDirectory, value.customBootstrap),
+        fileSystemRoutes: fs
+          .statSync(ensureAbsolutePath(appDirectory, entryName))
+          .isDirectory()
+          ? {}
+          : undefined,
+      };
 
       if (entrypoint.fileSystemRoutes && !isRouterV5(config)) {
         entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
+
       if (!ifAlreadyExists(defaults, entrypoint)) {
         defaults.push(entrypoint);
       }

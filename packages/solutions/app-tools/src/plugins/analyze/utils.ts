@@ -5,6 +5,7 @@ import {
   normalizeToPosixPath,
   fs as fse,
   getCommand,
+  JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { Loader } from 'esbuild';
@@ -14,7 +15,6 @@ import type { ImportStatement } from '../../types';
 import {
   ACTION_EXPORT_NAME,
   FILE_SYSTEM_ROUTES_FILE_NAME,
-  JS_EXTENSIONS,
   LOADER_EXPORT_NAME,
 } from './constants';
 

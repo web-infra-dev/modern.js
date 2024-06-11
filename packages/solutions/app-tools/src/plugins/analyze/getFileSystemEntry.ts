@@ -1,17 +1,19 @@
 import fs from 'fs';
 import path from 'path';
-import { findExists, ensureAbsolutePath } from '@modern-js/utils';
-import type { Entrypoint } from '@modern-js/types';
-import type { AppNormalizedConfig, IAppContext } from '../../types';
-import { isDefaultExportFunction } from './isDefaultExportFunction';
 import {
+  findExists,
+  ensureAbsolutePath,
   JS_EXTENSIONS,
-  INDEX_FILE_NAME,
-  APP_FILE_NAME,
-  PAGES_DIR_NAME,
-  FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
-  NESTED_ROUTES_DIR,
-} from './constants';
+} from '@modern-js/utils';
+import type { Entrypoint } from '@modern-js/types';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  IAppContext,
+  PluginAPI,
+} from '../../types';
+import { INDEX_FILE_NAME } from './constants';
+import { isDefaultExportFunction } from './isDefaultExportFunction';
 
 export type { Entrypoint };
 
@@ -20,98 +22,65 @@ const hasIndex = (dir: string) =>
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${INDEX_FILE_NAME}${ext}`)),
   );
 
-const hasApp = (dir: string) =>
-  findExists(
-    JS_EXTENSIONS.map(ext => path.resolve(dir, `${APP_FILE_NAME}${ext}`)),
+const isBundleEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
+  dir: string,
+) => {
+  const hookRunners = api.useHookRunners();
+  return (
+    hasIndex(dir) ||
+    (
+      await hookRunners.checkEntryPoint({
+        path: dir,
+        entry: false,
+      })
+    ).entry
+  );
+};
+
+const scanDir = (
+  api: PluginAPI<AppTools<'shared'>>,
+  dirs: string[],
+): Promise<Entrypoint[]> =>
+  Promise.all(
+    dirs.map(async (dir: string) => {
+      const indexFile = hasIndex(dir);
+      const customBootstrap = isDefaultExportFunction(indexFile)
+        ? indexFile
+        : false;
+
+      const entryName = path.basename(dir);
+
+      if (indexFile) {
+        return {
+          entryName,
+          isMainEntry: false,
+          entry: indexFile,
+          absoluteEntryDir: path.resolve(dir),
+          isAutoMount: false,
+        };
+      }
+
+      const entryFile = await isBundleEntry(api, dir);
+      if (entryFile) {
+        return {
+          entryName,
+          isMainEntry: false,
+          entry: entryFile,
+          absoluteEntryDir: path.resolve(dir),
+          isAutoMount: true,
+          customBootstrap,
+        };
+      }
+      throw Error('Not Found Entry File');
+    }),
   );
 
-const hasPages = (dir: string) => fs.existsSync(path.join(dir, PAGES_DIR_NAME));
-
-const hasNestedRoutes = (dir: string) =>
-  fs.existsSync(path.join(dir, NESTED_ROUTES_DIR));
-
-const isBundleEntry = (dir: string) =>
-  hasApp(dir) || hasPages(dir) || hasIndex(dir) || hasNestedRoutes(dir);
-
-const scanDir = (dirs: string[]): Entrypoint[] =>
-  dirs.map((dir: string) => {
-    const indexFile = hasIndex(dir);
-
-    const customBootstrap = isDefaultExportFunction(indexFile)
-      ? indexFile
-      : false;
-
-    const entryName = path.basename(dir);
-
-    if (indexFile && !customBootstrap) {
-      return {
-        entryName,
-        isMainEntry: false,
-        entry: indexFile,
-        absoluteEntryDir: path.resolve(dir),
-        isAutoMount: false,
-      };
-    }
-
-    const isHasApp = hasApp(dir);
-
-    if (isHasApp) {
-      return {
-        entryName,
-        isMainEntry: false,
-        entry: path.join(dir, APP_FILE_NAME),
-        isAutoMount: true,
-        absoluteEntryDir: path.resolve(dir),
-        customBootstrap,
-      };
-    }
-
-    const isHasNestedRoutes = hasNestedRoutes(dir);
-    const isHasPages = hasPages(dir);
-
-    if (isHasNestedRoutes || isHasPages) {
-      const entrypoint: Entrypoint = {
-        entryName,
-        isMainEntry: false,
-        entry: '',
-        fileSystemRoutes: {
-          globalApp: findExists(
-            JS_EXTENSIONS.map(ext =>
-              path.resolve(
-                dir,
-                `./${PAGES_DIR_NAME}/${FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT}${ext}`,
-              ),
-            ),
-          ),
-        },
-        isAutoMount: true,
-        absoluteEntryDir: path.resolve(dir),
-        customBootstrap,
-      };
-      if (isHasPages) {
-        entrypoint.entry = path.join(dir, PAGES_DIR_NAME);
-        entrypoint.pageRoutesEntry = entrypoint.entry;
-      }
-      if (isHasNestedRoutes) {
-        entrypoint.entry = path.join(dir, NESTED_ROUTES_DIR);
-        entrypoint.nestedRoutesEntry = entrypoint.entry;
-      }
-
-      return entrypoint;
-    }
-    return {
-      entryName,
-      isMainEntry: false,
-      entry: indexFile as string,
-      absoluteEntryDir: path.resolve(dir),
-      isAutoMount: false,
-    };
-  });
-
-export const getFileSystemEntry = (
+export const getFileSystemEntry = async (
+  api: PluginAPI<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
-): Entrypoint[] => {
+): Promise<Entrypoint[]> => {
   const { appDirectory } = appContext;
 
   const {
@@ -128,19 +97,23 @@ export const getFileSystemEntry = (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      return scanDir(
-        isBundleEntry(src)
-          ? [src]
-          : fs
-              .readdirSync(src)
-              .map(file => path.join(src, file))
-              .filter(
-                file =>
-                  fs.statSync(file).isDirectory() &&
-                  isBundleEntry(file) &&
-                  !disabledDirs.includes(file),
-              ),
+      if (await isBundleEntry(api, src)) {
+        return scanDir(api, [src]);
+      }
+      const dirs: string[] = [];
+      await Promise.all(
+        fs.readdirSync(src).map(async filename => {
+          const file = path.join(src, filename);
+          if (
+            fs.statSync(file).isDirectory() &&
+            (await isBundleEntry(api, file)) &&
+            !disabledDirs.includes(file)
+          ) {
+            dirs.push(file);
+          }
+        }),
       );
+      return scanDir(api, dirs);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }
