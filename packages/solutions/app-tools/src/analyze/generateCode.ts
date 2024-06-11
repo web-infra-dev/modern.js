@@ -1,6 +1,7 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import {
+  findExists,
   fs,
   getEntryOptions,
   isRouterV5,
@@ -31,6 +32,7 @@ import {
   FILE_SYSTEM_ROUTES_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
+  JS_EXTENSIONS,
 } from './constants';
 import {
   getDefaultImports,
@@ -113,10 +115,15 @@ export const generateCode = async (
     internalDirAlias,
     internalSrcAlias,
     packageName,
+    runtimeConfigFile,
   } = appContext;
 
   const hookRunners = api.useHookRunners();
-
+  const customRuntimeConfig = findExists(
+    JS_EXTENSIONS.map(ext =>
+      path.resolve(srcDirectory, `${runtimeConfigFile}${ext}`),
+    ),
+  );
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
   const importsStatemets = new Map<string, ImportStatement[]>();
@@ -125,13 +132,20 @@ export const generateCode = async (
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
       : false;
 
-  await Promise.all(entrypoints.map(generateEntryCode));
+  await Promise.all(
+    entrypoints.map(entrypoint =>
+      generateEntryCode(entrypoint, customRuntimeConfig),
+    ),
+  );
 
   return {
     importsStatemets,
   };
 
-  async function generateEntryCode(entrypoint: Entrypoint) {
+  async function generateEntryCode(
+    entrypoint: Entrypoint,
+    customRuntimeConfig: string | false,
+  ) {
     const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
       entrypoint;
     if (isAutoMount) {
@@ -264,6 +278,8 @@ export const generateCode = async (
           appDirectory,
           internalSrcAlias,
           internalDirAlias,
+          runtimeConfigFile,
+          customRuntimeConfig,
         }),
       });
       importsStatemets.set(entryName, imports);
@@ -294,8 +310,13 @@ export const generateIndexCode = async ({
 }) => {
   const hookRunners = api.useHookRunners();
   const { mountId } = config.html;
-  const { internalDirectory, packageName } = appContext;
-
+  const { internalDirectory, packageName, srcDirectory, runtimeConfigFile } =
+    appContext;
+  const customRuntimeConfig = findExists(
+    JS_EXTENSIONS.map(ext =>
+      path.resolve(srcDirectory, `${runtimeConfigFile}${ext}`),
+    ),
+  );
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const {
@@ -320,6 +341,7 @@ export const generateIndexCode = async ({
             code: templates.renderFunction({
               plugins,
               customBootstrap,
+              customRuntimeConfig,
               fileSystemRoutes,
             }),
           });

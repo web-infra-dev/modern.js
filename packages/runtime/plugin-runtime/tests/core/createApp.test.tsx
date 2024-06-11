@@ -1,13 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  Plugin,
-  createRuntime,
-  createApp,
-  createPlugin,
-  useRuntimeContext,
-} from '../../src/core';
+import { Plugin, createApp, useRuntimeContext } from '../../src/core';
 import { initialWrapper } from '../utils';
+import { createRuntime } from '../../src/core/plugin';
 
 declare module '../../src/core' {
   interface RuntimeContext {
@@ -62,40 +57,13 @@ describe('create-app', () => {
     expect(container.innerHTML).toBe('<div>App:2</div>');
   });
 
-  it('provide', () => {
-    const runtime = createRuntime();
-    const wrap = initialWrapper(
-      [
-        runtime.createPlugin(() => ({
-          provide: ({ element }) => <div>{element}</div>,
-        })),
-      ],
-      runtime,
-    );
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      return <div>App:{test}</div>;
-    }
-
-    const AppWrapper = wrap(App, { context: {} as any });
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toEqual('App:1');
-    expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
-  });
-
   it('runtime context', () => {
     const runtime = createRuntime();
     const wrap = initialWrapper(
       [
         runtime.createPlugin(() => ({
-          provide: ({ element }) => <div>{element}</div>,
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
-          client: ({ App: App1, rootElement }, next) =>
-            next({ App: App1, rootElement }),
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          client: ({ App: App1 }, next) => next({ App: App1 } as any),
         })),
       ],
       runtime,
@@ -112,17 +80,16 @@ describe('create-app', () => {
 
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toEqual('App:1');
-    expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+    expect(container.innerHTML).toBe('<div>App:1</div>');
   });
 
   it('createApp', () => {
+    const runtime = createRuntime();
     const wrap = createApp({
       plugins: [
-        createPlugin(() => ({
-          provide: ({ element }) => <div>{element}</div>,
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
-          client: ({ App: App1, rootElement }, next) =>
-            next({ App: App1, rootElement }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          client: ({ App: App1 }, next) => next({ App: App1 } as any),
         })),
       ],
     });
@@ -138,9 +105,8 @@ describe('create-app', () => {
 
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toEqual('App:1');
-    expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+    expect(container.innerHTML).toBe('<div>App:1</div>');
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const NullWrapper = wrap(null);
     expect(React.isValidElement(<NullWrapper />)).toBe(true);
@@ -149,10 +115,8 @@ describe('create-app', () => {
   it('createApp with plugin options', () => {
     const plugin = (): Plugin => ({
       setup: () => ({
-        provide: ({ element }) => <div>{element}</div>,
-        hoc: ({ App: App1 }, next) => next({ App: App1 }),
-        client: ({ App: App1, rootElement }, next) =>
-          next({ App: App1, rootElement }),
+        hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+        client: ({ App: App1 }, next) => next({ App: App1 } as any),
       }),
     });
 
@@ -171,7 +135,7 @@ describe('create-app', () => {
 
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toEqual('App:1');
-    expect(container.innerHTML).toBe('<div><div>App:1</div></div>');
+    expect(container.innerHTML).toBe('<div>App:1</div>');
   });
 
   it('useRuntimeContext', () => {

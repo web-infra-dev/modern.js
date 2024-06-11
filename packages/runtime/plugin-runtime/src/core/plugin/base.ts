@@ -68,7 +68,7 @@ export type RuntimeHooks = typeof runtimeHooks;
 /** Plugin options of a runtime plugin. */
 export type Plugin = PluginOptions<RuntimeHooks, Setup<RuntimeHooks>>;
 
-const createRuntime = () => createManager(runtimeHooks);
+export const createRuntime = () => createManager(runtimeHooks);
 
 export const runtime = createRuntime();
 

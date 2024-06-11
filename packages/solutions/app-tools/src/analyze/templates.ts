@@ -48,12 +48,15 @@ export const renderFunction = ({
   plugins,
   customBootstrap,
   fileSystemRoutes,
+  customRuntimeConfig,
 }: {
   plugins: RuntimePlugin[];
   customBootstrap?: string | false;
+  customRuntimeConfig?: string | false;
   fileSystemRoutes: Entrypoint['fileSystemRoutes'];
 }) => {
   const bootstrap = 'bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM)';
+  const runtimeConfig = `...(runtimeConfig?.plugins || []),`;
 
   return `
   const finalAppConfig = {
@@ -63,7 +66,7 @@ export const renderFunction = ({
 
   AppWrapper = createApp({
     plugins: [
-     ...(runtimeConfig?.plugins || []),
+     ${customRuntimeConfig ? runtimeConfig : ''}
      ${plugins
        .map(
          ({ name, options, args }) =>

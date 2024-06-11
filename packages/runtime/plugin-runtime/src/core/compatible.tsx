@@ -16,6 +16,7 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
   plugins: Plugin[];
+  runtime?: typeof runtime;
   props?: any;
 };
 
@@ -40,12 +41,12 @@ const getInitialContext = (runner: PluginRunner) => ({
 
 export const createApp = ({
   plugins,
+  runtime,
   props: globalProps,
 }: CreateAppOptions) => {
-  registerPlugin(plugins);
+  const runner = registerPlugin(plugins, { plugins: [] }, runtime);
 
   return (App?: React.ComponentType<any>) => {
-    const runner = getGlobalRunner();
     const WrapperComponent: React.ComponentType<any> = props => {
       return React.createElement(
         App || React.Fragment,
@@ -78,7 +79,7 @@ export const createApp = ({
             if (!contextValue?.runner) {
               contextValue = getInitialContext(runner);
 
-              contextValue = runner.init(
+              runner.init(
                 { context: contextValue },
                 {
                   onLast: ({ context: context1 }) => App?.init?.(context1),

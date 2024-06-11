@@ -10,10 +10,12 @@ export interface RuntimeConfig {
 export function registerPlugin(
   internalPlugins: Plugin[],
   runtimeConfig?: RuntimeConfig,
+  customRuntime?: typeof runtime,
 ) {
   const { plugins = [] } = runtimeConfig || {};
-  runtime.usePlugin(...internalPlugins, ...plugins);
-  const runner = runtime.init();
+  (customRuntime || runtime).usePlugin(...internalPlugins, ...plugins);
+  const runner = (customRuntime || runtime).init();
   // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
   setGlobalRunner(runner);
+  return runner;
 }

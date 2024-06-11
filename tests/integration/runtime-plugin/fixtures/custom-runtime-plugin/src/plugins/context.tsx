@@ -1,5 +1,5 @@
-import { Plugin, useRuntimeContext } from '@modern-js/runtime';
-import { createContext } from 'react';
+import { Plugin, RuntimeReactContext } from '@modern-js/runtime';
+import { createContext, useContext } from 'react';
 
 interface ContextValue {
   test?: string;
@@ -19,13 +19,12 @@ export const contextPlugin = (): Plugin => {
         init: async ({ context }, next) => {
           const value = await getValue();
           context.custom = { test: value };
-          console.log(context);
           return next({ context });
         },
         hoc: ({ App, config }, next) => {
           const getContextApp = () => {
             return () => {
-              const context = useRuntimeContext();
+              const context = useContext(RuntimeReactContext);
               return (
                 <Context.Provider value={context.custom}>
                   <App />

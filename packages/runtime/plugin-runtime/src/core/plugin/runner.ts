@@ -1,4 +1,4 @@
-import { PluginRunner } from './base';
+import { PluginRunner, runtime } from './base';
 
 let globalRunner: PluginRunner;
 
@@ -7,5 +7,10 @@ export function setGlobalRunner(runner: PluginRunner) {
 }
 
 export function getGlobalRunner() {
-  return globalRunner;
+  if (globalRunner) {
+    return globalRunner;
+  }
+  const runner = runtime.init();
+  setGlobalRunner(runner);
+  return runner;
 }
