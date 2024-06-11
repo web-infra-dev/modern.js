@@ -17,7 +17,6 @@ export type {
 } from './types';
 
 export * from './plugins';
-
 export * from './types/plugin';
 export * from './types/render';
 export * from '@modern-js/plugin';
