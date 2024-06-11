@@ -154,21 +154,7 @@ export default (): ServerPlugin => {
     pre: ['@modern-js/plugin-bff'],
     post: ['@modern-js/plugin-server'],
     setup: api => ({
-      // async onApiChange(changes) {
-      //   const appContext = api.useAppContext();
-      //   const middlewares = appContext.apiMiddlewares as Middleware[];
-      //   const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-      //   app = await createApp({
-      //     apiDir,
-      //     middlewares,
-      //     mode,
-      //     apiHandlerInfos,
-      //     render: renderHtml,
-      //   });
-      //   return changes;
-      // },
       async reset({ event }) {
-        // const { } = event;
         if (event.type === 'file-change') {
           const appContext = api.useAppContext();
           const middlewares = appContext.apiMiddlewares as Middleware[];

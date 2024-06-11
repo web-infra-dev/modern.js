@@ -1,10 +1,30 @@
 import path from 'path';
-import { registerMockHandlers } from '../../../src/base/adapters/node/middlewares/mock';
-import { createServerBase } from '../../../src/base';
-import { getDefaultConfig, getDefaultAppContext } from '../helpers';
+import { createServerBase } from '@modern-js/server-core';
+import { registerMockHandlers } from '../src/helpers';
+
+function getDefaultConfig() {
+  return {
+    html: {},
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    runtime: {},
+    bff: {},
+    dev: {},
+    security: {},
+  };
+}
+
+function getDefaultAppContext() {
+  return {
+    apiDirectory: '',
+    lambdaDirectory: '',
+  };
+}
 
 describe('should mock middleware work correctly', () => {
-  const pwd = path.join(__dirname, '../fixtures/mock');
+  const pwd = path.join(__dirname, './fixtures/mock');
 
   it('support cjs', async () => {
     const server = createServerBase({
@@ -12,6 +32,7 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
       pwd: '',
     });
+
     await registerMockHandlers({
       server,
       pwd: path.join(pwd, 'cjs'),

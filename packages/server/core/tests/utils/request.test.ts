@@ -3,7 +3,7 @@ import {
   parseQuery,
   getPathname,
   getHost,
-} from '../../../src/base/utils';
+} from '../../src/utils';
 
 describe('test utils.request', () => {
   it('should parse query correctly', () => {

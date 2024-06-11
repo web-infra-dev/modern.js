@@ -5,6 +5,8 @@ export { AGGRED_DIR } from './constants';
 export type { ServerBase, ServerBaseOptions } from './serverBase';
 export { createServerBase } from './serverBase';
 
+export { PluginManager, type PluginManagerOptions } from './pluginManager';
+
 export type {
   Middleware,
   Context,

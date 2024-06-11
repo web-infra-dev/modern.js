@@ -1,17 +1,24 @@
 import * as path from 'path';
 import request from 'supertest';
 import Koa from 'koa';
-import { serverManager } from '@modern-js/server-core';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import plugin from '../src/plugin';
-import { APIPlugin } from './helpers';
+import { APIPlugin, createPluginManager } from './helpers';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 const API_DIR = './api';
 const MockKoa = Koa;
 const MockRouter = Router;
 const MockKoaBody = koaBody;
+
+async function createRunner() {
+  const pluginManager = createPluginManager();
+
+  pluginManager.addPlugins([APIPlugin, plugin()]);
+
+  return pluginManager.init();
+}
 
 describe('lambda-mode', () => {
   const id = '666';
@@ -21,10 +28,8 @@ describe('lambda-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await serverManager
-      .clone()
-      .usePlugin(APIPlugin, plugin)
-      .init();
+    const runner = await createRunner();
+
     apiHandler = await runner.prepareApiServer({
       pwd,
       prefix,
@@ -113,7 +118,7 @@ describe('add middlewares', () => {
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.clone().usePlugin(APIPlugin, plugin).init();
+    runner = await createRunner();
   });
 
   test('should works', async () => {
@@ -160,7 +165,7 @@ describe('support use koaBody in app.ts', () => {
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.clone().usePlugin(APIPlugin, plugin).init();
+    runner = await createRunner();
   });
 
   test('support use koaBody', async () => {
@@ -203,7 +208,7 @@ describe('support app.ts in lambda mode', () => {
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.clone().usePlugin(APIPlugin, plugin).init();
+    runner = await createRunner();
   });
 
   beforeEach(() => {

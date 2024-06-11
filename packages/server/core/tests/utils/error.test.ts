@@ -1,4 +1,4 @@
-import { createErrorHtml } from '../../../src/base/utils';
+import { createErrorHtml } from '../../src/utils';
 
 describe('test utils.error', () => {
   it('should get 404 error html', () => {

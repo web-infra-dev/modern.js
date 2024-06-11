@@ -149,19 +149,6 @@ export default (): ServerPlugin => {
     pre: ['@modern-js/plugin-bff'],
     post: ['@modern-js/plugin-server'],
     setup: api => ({
-      // async onApiChange(changes) {
-      //   const appContext = api.useAppContext();
-      //   const middlewares = appContext.apiMiddlewares as Middleware[];
-      //   const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-      //   app = await createApp({
-      //     apiDir,
-      //     middlewares,
-      //     mode,
-      //     apiHandlerInfos,
-      //     render: renderHtml,
-      //   });
-      //   return changes;
-      // },
       async reset({ event }) {
         if (event.type === 'file-change') {
           const appContext = api.useAppContext();
@@ -184,6 +171,7 @@ export default (): ServerPlugin => {
         const userConfig = api.useConfigContext();
         const middlewares = appContext.apiMiddlewares as Middleware[];
         mode = appContext.apiMode as 'function' | 'framework';
+
         renderHtml =
           userConfig.bff?.enableHandleWeb && render ? render : undefined;
         apiDir = apiDirectory || path.join(pwd, './api');

@@ -1,19 +1,12 @@
 import path from 'path';
 import { ServerRoute } from '@modern-js/types';
 import { createLogger } from '@modern-js/utils';
-import {
-  bindRenderHandler,
-  createServerBase,
-  injectLogger,
-  injectReporter,
-} from '../../../src/base';
-import { getPathnameFromNodeReq } from '../../../src/base/middlewares/renderHandler/ssrRender';
-import {
-  injectTemplates,
-  injectServerManifest,
-} from '../../../src/base/adapters/node';
+import { createServerBase } from '../../src/serverBase';
+import { monitorPlugin, renderPlugin } from '../../src/plugins';
+import { getPathnameFromNodeReq } from '../../src/plugins/render/ssrRender';
+import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
-import { ServerUserConfig } from '../../../src/types/config';
+import { ServerUserConfig } from '../../src/types';
 
 async function createSSRServer(
   pwd: string,
@@ -23,28 +16,24 @@ async function createSSRServer(
 
   config.server = serverConfig;
 
-  const server = createServerBase({
-    config,
-    pwd,
-    appContext: getDefaultAppContext(),
-  });
-
-  server.all('*', injectReporter());
-  server.all('*', injectLogger(createLogger()));
-
-  await server.init();
-
   const routes: ServerRoute[] = require(path.resolve(pwd, 'route.json'));
 
-  server.all('*', injectServerManifest(pwd, routes));
-  server.all('*', injectTemplates(pwd, routes));
-
-  await bindRenderHandler(server, {
+  const server = createServerBase({
+    routes,
+    config,
     pwd,
     appContext: getDefaultAppContext(),
-    config,
-    routes,
   });
+
+  server.addPlugins([
+    monitorPlugin({
+      logger: createLogger(),
+    }),
+    injectResourcePlugin(),
+    renderPlugin({}),
+  ]);
+
+  await server.init();
 
   return server;
 }
@@ -56,27 +45,24 @@ describe('should render html correctly', () => {
     const csrPwd = path.join(pwd, 'csr');
     const config = getDefaultConfig();
 
-    const server = createServerBase({
-      config,
-      pwd: csrPwd,
-      appContext: getDefaultAppContext(),
-    });
-
-    server.use(injectReporter());
-
-    await server.init();
-
     const routes = require(path.resolve(csrPwd, 'route.json'));
 
-    server.all('*', injectTemplates(csrPwd, routes));
-    server.all('*', injectLogger(createLogger()));
-
-    await bindRenderHandler(server, {
+    const server = createServerBase({
+      routes,
+      config,
       pwd: csrPwd,
       appContext: getDefaultAppContext(),
-      config,
-      routes,
     });
+
+    server.addPlugins([
+      monitorPlugin({
+        logger: createLogger(),
+      }),
+      injectResourcePlugin(),
+      renderPlugin({}),
+    ]);
+
+    await server.init();
 
     const response = await server.request('/', {}, {});
     const html = await response.text();

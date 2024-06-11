@@ -1,20 +1,17 @@
 import path from 'path';
-import { loadPlugins } from '../../src/core/loadPlugins';
+import { loadServerPlugins } from '../../src/adapters/node/helper';
+// import { loadPlugins } from '../../src/core/loadPlugins';
 
 const modulePath = path.join(__dirname, './fixtures/load-plugins');
 describe('test load plugin', () => {
   it('should load string plugin correctly', () => {
-    const loaded = loadPlugins(modulePath, {
-      'test-a': 'test-a',
-    });
+    const loaded = loadServerPlugins([{ name: 'test-a' }], modulePath);
     expect(loaded[0].name).toBe('test-a');
   });
 
   it('should throw error if plugin not found', () => {
     try {
-      loadPlugins(modulePath, {
-        'test-b': 'test-b',
-      });
+      loadServerPlugins([{ name: 'test-b' }], modulePath);
     } catch (e: any) {
       expect(e.message).toMatch('Can not find module test-b.');
     }
