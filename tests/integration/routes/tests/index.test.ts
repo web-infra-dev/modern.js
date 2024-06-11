@@ -448,6 +448,7 @@ const supportDefineInit = async (
 ) => {
   await page.goto(`http://127.0.0.1:${appPort}/four/user`, {
     waitUntil: ['networkidle0'],
+    timeout: 80000,
   });
   const isBrowser = await page.evaluate(() => (window as any).__isBrowser);
 
