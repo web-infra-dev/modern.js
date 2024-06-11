@@ -24,7 +24,9 @@ export interface RenderPluginOptions {
   cacheConfig?: CacheConfig;
 }
 
-export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
+export const renderPlugin = (
+  options: RenderPluginOptions = {},
+): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
@@ -41,7 +43,6 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
         } = api.useAppContext();
         const runner = api.useHookRunners();
         const config = api.useConfigContext();
-        const serverConfig = api.uesServerConfig();
 
         if (!routes) {
           return;
@@ -50,8 +51,8 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
         const customServer = new CustomServer(runner, serverBase!, pwd);
 
         const serverMiddleware =
-          serverConfig.render?.middleware &&
-          getServerMidFromUnstableMid(serverConfig.render.middleware);
+          config.render?.middleware &&
+          getServerMidFromUnstableMid(config.render.middleware);
 
         const pageRoutes = getPageRoutes(routes);
 
@@ -60,7 +61,7 @@ export const renderPlugin = (options: RenderPluginOptions): ServerPlugin => ({
           routes,
           config,
           metaName,
-          cacheConfig: serverConfig.render?.cache || cacheConfig,
+          cacheConfig: config.render?.cache || cacheConfig,
           staticGenerate,
         });
 

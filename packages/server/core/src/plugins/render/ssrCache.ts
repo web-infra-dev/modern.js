@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'http';
-import { Readable } from 'stream';
+import type * as nodeStream from 'stream';
 import type {
   CacheControl,
   CacheOption,
@@ -7,9 +7,9 @@ import type {
   Container,
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
-import { createTransformStream, getPathname } from '../../utils';
+import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
+import { createTransformStream, getPathname, getRuntimeEnv } from '../../utils';
 import type { SSRServerContext, ServerRender } from '../../types';
-import { createReadableStreamFromReadable } from '../../adapters/node/polyfills/stream';
 
 interface CacheStruct {
   val: string;
@@ -18,7 +18,7 @@ interface CacheStruct {
 
 export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
 export type CacheResult = {
-  data: string | Readable | ReadableStream;
+  data: string | nodeStream.Readable | ReadableStream;
   status?: CacheStatus;
 };
 
@@ -43,11 +43,25 @@ async function processCache(
     await container.set(key, JSON.stringify(cache), { ttl });
     return { data: renderResult, status };
   } else {
+    const { Readable } = await import('stream').catch(_ => ({
+      Readable: undefined,
+    }));
+
+    const runtimeEnv = getRuntimeEnv();
+
+    const streamModule = '../../adapters/node/polyfills/stream';
+    const { createReadableStreamFromReadable } =
+      runtimeEnv === 'node'
+        ? ((await import(streamModule).catch(_ => ({
+            createReadableStreamFromReadable: undefined,
+          }))) as typeof streamPolyfills)
+        : { createReadableStreamFromReadable: undefined };
+
     const body =
       // TODO: remove node:stream, move it to ssr entry.
-      renderResult instanceof Readable
-        ? createReadableStreamFromReadable(renderResult)
-        : renderResult;
+      Readable && renderResult instanceof Readable
+        ? createReadableStreamFromReadable?.(renderResult)
+        : (renderResult as ReadableStream);
 
     let html = '';
     const stream = createTransformStream(chunk => {
@@ -56,7 +70,7 @@ async function processCache(
       return chunk;
     });
 
-    const reader = body.getReader();
+    const reader = body!.getReader();
     const writer = stream.writable.getWriter();
 
     const push = () => {

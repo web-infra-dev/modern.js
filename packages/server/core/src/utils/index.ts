@@ -5,3 +5,4 @@ export * from './error';
 export * from './warmup';
 export * from './entry';
 export * from './request';
+export * from './serverConfig';

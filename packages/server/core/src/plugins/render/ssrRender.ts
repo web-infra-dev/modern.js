@@ -20,9 +20,8 @@ import {
 } from '../../types';
 import { X_RENDER_CACHE } from '../../constants';
 import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
-import type * as ssrCaheModule from './ssrCache';
 import { ServerTiming } from './serverTiming';
-import { matchCacheControl, getCacheResult } from './ssrCache';
+import { matchCacheControl, getCacheResult, CacheStatus } from './ssrCache';
 
 const defaultReporter: Reporter = {
   init() {
@@ -153,7 +152,7 @@ export async function ssrRender(
   const runtimeEnv = getRuntimeEnv();
 
   let ssrResult: Awaited<ReturnType<ServerRender>>;
-  let cacheStatus: ssrCaheModule.CacheStatus | undefined;
+  let cacheStatus: CacheStatus | undefined;
   const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
 
   const cacheControl = await matchCacheControl(

@@ -31,7 +31,7 @@ import {
   UnstableMiddleware,
 } from '@modern-js/types';
 import { MiddlewareHandler } from 'hono';
-import { BffUserConfig, UserConfig } from './config';
+import { UserConfig } from './config';
 import { Render } from './render';
 
 export type ChangeEvent = 'add' | 'change' | 'unlink';
@@ -164,16 +164,12 @@ export type NodeResponse = ServerResponse;
 export { NodeServer };
 
 export type AppContext = ReturnType<typeof createContext<ISAppContext>>;
-export type ConfigContext = ReturnType<typeof createContext<UserConfig>>;
-export type ServerConfigContext = ReturnType<
-  typeof createContext<ServerConfig>
->;
+export type ConfigContext = ReturnType<typeof createContext<ServerConfig>>;
 
 export type ServerPluginAPI = {
   setAppContext: (c: ISAppContext) => void;
-  uesServerConfig: () => ServerConfig;
   useAppContext: () => ISAppContext;
-  useConfigContext: () => UserConfig;
+  useConfigContext: () => ServerConfig;
 };
 
 export type PluginAPI = ServerPluginAPI & CommonAPI<ServerHooks>;
@@ -199,8 +195,7 @@ export interface RenderConfig {
   middleware?: RenderMiddleware[];
 }
 
-export interface ServerConfig {
+export type ServerConfig = {
   render?: RenderConfig;
-  bff?: BffUserConfig;
   plugins?: ServerPlugin[];
-}
+} & UserConfig;

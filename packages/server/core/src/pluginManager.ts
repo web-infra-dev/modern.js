@@ -14,9 +14,8 @@ import type {
   ServerHookRunner,
   ServerPlugin,
   ServerConfig,
-  ServerConfigContext,
 } from './types';
-import { loadConfig } from './utils/serverConfig';
+import { loadConfig } from './utils';
 
 export interface PluginManagerOptions {
   cliConfig: CliConfig;
@@ -37,11 +36,9 @@ export class PluginManager {
 
   #configContext: ConfigContext = createContext<any>({});
 
-  #serverConfigCtx: ServerConfigContext = createContext<any>({});
-
   constructor(options: PluginManagerOptions) {
     this.#appContext = options.appContext;
-    this.#serverConfigCtx = createContext(options.serverConfig || {});
+    this.#configContext = createContext(options.serverConfig || {});
     this.#options = options;
     this.#plugins = options.plugins || [];
   }
@@ -76,7 +73,6 @@ export class PluginManager {
 
     const pluginApi: ServerPluginAPI = {
       useConfigContext: () => this.#configContext.use().value,
-      uesServerConfig: () => this.#serverConfigCtx.use().value,
       useAppContext: () => this.#appContext.use().value,
       setAppContext: c => this.#appContext.set(c),
     };
@@ -98,12 +94,9 @@ export class PluginManager {
 
     const finalServerConfig = await runner.config(serverRuntimeConfig || {});
 
-    this.#serverConfigCtx.set(finalServerConfig);
-
     const finalConfig = loadConfig({
       cliConfig,
-      serverConfig: finalServerConfig as any,
-      resolvedConfigPath: '',
+      serverConfig: finalServerConfig,
     });
 
     this.#configContext.set(finalConfig);
