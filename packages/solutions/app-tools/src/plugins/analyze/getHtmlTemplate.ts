@@ -6,7 +6,7 @@ import type {
   AppTools,
   IAppContext,
   PluginAPI,
-} from '../types';
+} from '../../types';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 

@@ -11,12 +11,13 @@ import {
 import { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import initializePlugin from './plugins/initialize';
-import analyzePlugin from './analyze';
+import analyzePlugin from './plugins/analyze';
+import serverBuildPlugin from './plugins/serverBuild';
+import deployPlugin from './plugins/deploy';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
-import serverBuildPlugin from './plugins/serverBuild';
-import deployPlugin from './plugins/deploy';
+
 import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 import {

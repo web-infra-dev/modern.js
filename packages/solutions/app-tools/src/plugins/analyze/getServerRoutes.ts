@@ -11,8 +11,8 @@ import {
   SERVER_WORKER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
-import { isMainEntry } from '../utils/routes';
-import type { AppNormalizedConfig } from '../types';
+import { isMainEntry } from '../../utils/routes';
+import type { AppNormalizedConfig } from '../../types';
 import { walkDirectory } from './utils';
 
 /**

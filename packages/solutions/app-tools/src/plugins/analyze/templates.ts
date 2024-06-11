@@ -10,7 +10,11 @@ import type {
 } from '@modern-js/types';
 import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import type { AppNormalizedConfig, IAppContext, RuntimePlugin } from '../types';
+import type {
+  AppNormalizedConfig,
+  IAppContext,
+  RuntimePlugin,
+} from '../../types';
 import { APP_CONFIG_NAME, TEMP_LOADERS_DIR } from './constants';
 import { getServerLoadersFile } from './utils';
 

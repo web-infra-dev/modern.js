@@ -10,7 +10,7 @@ import type { Entrypoint } from '@modern-js/types';
 import type { Loader } from 'esbuild';
 import { transform } from 'esbuild';
 import { parse } from 'es-module-lexer';
-import type { ImportStatement } from '../types';
+import type { ImportStatement } from '../../types';
 import {
   ACTION_EXPORT_NAME,
   FILE_SYSTEM_ROUTES_FILE_NAME,

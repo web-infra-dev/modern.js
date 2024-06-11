@@ -25,7 +25,7 @@ import {
   AppTools,
   ImportSpecifier,
   ImportStatement,
-} from '../types';
+} from '../../types';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import {

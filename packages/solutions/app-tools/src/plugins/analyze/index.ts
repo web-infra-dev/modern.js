@@ -10,13 +10,13 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { printInstructions } from '../utils/printInstructions';
-import { generateRoutes, getPathWithoutExt } from '../utils/routes';
-import { emitResolvedConfig } from '../utils/config';
-import { getSelectedEntries } from '../utils/getSelectedEntries';
-import { AppTools, webpack } from '../types';
-import { initialNormalizedConfig } from '../config';
-import { createBuilderGenerator } from '../builder';
+import { printInstructions } from '../../utils/printInstructions';
+import { generateRoutes, getPathWithoutExt } from '../../utils/routes';
+import { emitResolvedConfig } from '../../utils/config';
+import { getSelectedEntries } from '../../utils/getSelectedEntries';
+import { AppTools, webpack } from '../../types';
+import { initialNormalizedConfig } from '../../config';
+import { createBuilderGenerator } from '../../builder';
 import {
   checkIsBuildCommands,
   isPageComponentFile,

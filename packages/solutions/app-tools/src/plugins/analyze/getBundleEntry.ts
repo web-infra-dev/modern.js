@@ -7,7 +7,7 @@ import {
   isRouterV5,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppNormalizedConfig, IAppContext } from '../types';
+import type { AppNormalizedConfig, IAppContext } from '../../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { JS_EXTENSIONS } from './constants';
 import { isSubDirOrEqual } from './utils';

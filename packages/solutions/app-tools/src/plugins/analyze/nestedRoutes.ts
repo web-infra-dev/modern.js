@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
-import { getPathWithoutExt } from '../utils/routes';
+import { getPathWithoutExt } from '../../utils/routes';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
 import { hasAction, replaceWithAlias } from './utils';
 
