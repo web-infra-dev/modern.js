@@ -88,6 +88,15 @@ const state = (config: StateConfig): Plugin => ({
 
         return next({ context });
       },
+      pickContext({ context, pickedContext }, next) {
+        return next({
+          context,
+          pickedContext: {
+            ...pickedContext,
+            store: context.store,
+          },
+        });
+      },
     };
   },
 });

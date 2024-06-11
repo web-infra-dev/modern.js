@@ -53,6 +53,10 @@ export interface BaseTRuntimeContext {
   };
 }
 
+export interface TRuntimeContext extends BaseTRuntimeContext {
+  [key: string]: any;
+}
+
 export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
   loaderManager: createLoaderManager({}),
   runner,

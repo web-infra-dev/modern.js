@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
-import { RuntimeReactContext, RuntimeContext } from './context/runtime';
+import {
+  RuntimeReactContext,
+  RuntimeContext,
+  TRuntimeContext,
+} from './context/runtime';
 import { Plugin, registerPlugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
@@ -306,5 +310,17 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
-  return context;
+  const memoizedContext = useMemo(
+    () =>
+      context.runner.pickContext(
+        { context, pickedContext: {} as any },
+        {
+          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
+            pickedContext,
+        },
+      ),
+    [context],
+  );
+
+  return memoizedContext;
 };

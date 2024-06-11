@@ -6,7 +6,7 @@ import {
   Setup,
 } from '@modern-js/plugin';
 
-import { RuntimeContext } from '../context/runtime';
+import { RuntimeContext, TRuntimeContext } from '../context/runtime';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
@@ -46,11 +46,20 @@ const init = createAsyncPipeline<
   RuntimeContext
 >();
 
+/**
+ * To add runtime info to runtime context
+ */
+const pickContext = createPipeline<
+  { context: RuntimeContext; pickedContext: TRuntimeContext },
+  TRuntimeContext
+>();
+
 const runtimeHooks = {
   hoc,
   init,
   client,
   server,
+  pickContext,
 };
 
 /** All hooks of runtime plugin. */
