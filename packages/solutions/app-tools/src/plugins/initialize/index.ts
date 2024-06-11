@@ -9,13 +9,13 @@ import {
   createDefaultConfig,
   createLegacyDefaultConfig,
   transformNormalizedConfig,
-} from '../config';
+} from '../../config';
 import type {
   CliPlugin,
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
-} from '../types';
+} from '../../types';
 
 export default ({
   bundler,
