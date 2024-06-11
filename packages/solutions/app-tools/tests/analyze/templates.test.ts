@@ -4,7 +4,7 @@ import {
   fileSystemRoutes,
   renderFunction,
   routesForServer,
-} from '../../src/analyze/templates';
+} from '../../src/plugins/analyze/templates';
 
 jest.mock('@modern-js/utils', () => {
   const fs = {
@@ -21,7 +21,7 @@ jest.mock('@modern-js/utils', () => {
 
 expect.addSnapshotSerializer({
   test: val => typeof val === 'string',
-  print: (val: string) => val.replace(/\\/g, '/'),
+  print: (val: unknown) => (val as string).replace(/\\/g, '/'),
 });
 
 describe('fileSystemRoutes', () => {
@@ -37,7 +37,6 @@ describe('fileSystemRoutes', () => {
 
     const code = await fileSystemRoutes({
       routes,
-      ssrMode: false,
       entryName: 'main',
       internalDirectory: '',
     });
@@ -83,7 +82,6 @@ describe('fileSystemRoutes', () => {
     const code = await fileSystemRoutes({
       entryName: 'main',
       routes,
-      ssrMode: false,
       internalDirectory: '',
     });
     expect(code).toMatchSnapshot();

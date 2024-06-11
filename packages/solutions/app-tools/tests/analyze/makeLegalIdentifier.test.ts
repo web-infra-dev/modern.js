@@ -1,4 +1,4 @@
-import { makeLegalIdentifier } from '../../src/analyze/makeLegalIdentifier';
+import { makeLegalIdentifier } from '../../src/plugins/analyze/makeLegalIdentifier';
 
 describe('is default export function', () => {
   test('camel-cases names', () => {

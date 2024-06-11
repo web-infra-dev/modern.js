@@ -8,12 +8,8 @@ import {
   JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-  PluginAPI,
-} from '../../types';
+import { CliHooksRunner } from '@modern-js/core';
+import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { isSubDirOrEqual } from './utils';
 
@@ -56,7 +52,7 @@ const ifAlreadyExists = (
   });
 
 export const getBundleEntry = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  hookRunners: CliHooksRunner<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
 ) => {
@@ -66,7 +62,7 @@ export const getBundleEntry = async (
 
   const defaults = disableDefaultEntries
     ? []
-    : await getFileSystemEntry(api, appContext, config);
+    : await getFileSystemEntry(hookRunners, appContext, config);
 
   // merge entrypoints from user config with directory convention.
   if (entries) {

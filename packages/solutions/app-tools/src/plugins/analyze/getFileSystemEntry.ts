@@ -6,12 +6,8 @@ import {
   JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-  PluginAPI,
-} from '../../types';
+import { CliHooksRunner } from '@modern-js/core';
+import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
 import { INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 
@@ -23,10 +19,9 @@ const hasIndex = (dir: string) =>
   );
 
 const isBundleEntry = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dir: string,
 ) => {
-  const hookRunners = api.useHookRunners();
   return (
     (
       await hookRunners.checkEntryPoint({
@@ -38,7 +33,7 @@ const isBundleEntry = async (
 };
 
 const scanDir = (
-  api: PluginAPI<AppTools<'shared'>>,
+  hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dirs: string[],
 ): Promise<Entrypoint[]> =>
   Promise.all(
@@ -61,7 +56,7 @@ const scanDir = (
         };
       }
 
-      const entryFile = await isBundleEntry(api, dir);
+      const entryFile = await isBundleEntry(hookRunners, dir);
       if (entryFile) {
         return {
           entryName,
@@ -83,7 +78,7 @@ const scanDir = (
   );
 
 export const getFileSystemEntry = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  hookRunners: CliHooksRunner<AppTools<'shared'>>,
   appContext: IAppContext,
   config: AppNormalizedConfig<'shared'>,
 ): Promise<Entrypoint[]> => {
@@ -103,8 +98,8 @@ export const getFileSystemEntry = async (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      if (await isBundleEntry(api, src)) {
-        return scanDir(api, [src]);
+      if (await isBundleEntry(hookRunners, src)) {
+        return scanDir(hookRunners, [src]);
       }
       const dirs: string[] = [];
       await Promise.all(
@@ -112,14 +107,14 @@ export const getFileSystemEntry = async (
           const file = path.join(src, filename);
           if (
             fs.statSync(file).isDirectory() &&
-            (await isBundleEntry(api, file)) &&
+            (await isBundleEntry(hookRunners, file)) &&
             !disabledDirs.includes(file)
           ) {
             dirs.push(file);
           }
         }),
       );
-      return scanDir(api, dirs);
+      return scanDir(hookRunners, dirs);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }
