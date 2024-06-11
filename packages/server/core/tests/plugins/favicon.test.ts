@@ -1,8 +1,4 @@
-import {
-  createServerBase,
-  // favionFallbackMiddleware,
-  faviconPlugin,
-} from '../../src';
+import { createServerBase, faviconPlugin } from '../../src';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 describe('favion plugin', () => {

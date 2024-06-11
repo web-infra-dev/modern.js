@@ -1,6 +1,5 @@
 import path from 'path';
 import { loadServerPlugins } from '../../src/adapters/node/helper';
-// import { loadPlugins } from '../../src/core/loadPlugins';
 
 const modulePath = path.join(__dirname, './fixtures/load-plugins');
 describe('test load plugin', () => {
