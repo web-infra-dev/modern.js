@@ -2,12 +2,12 @@ import {
   TS_REGEX,
   JS_REGEX,
   castArray,
-  mergeChainedOptions,
   applyScriptCondition,
   getBrowserslistWithDefault,
   type FileFilterUtil,
-  type ChainedConfigWithUtils,
+  type ConfigChainWithContext,
 } from '@rsbuild/shared';
+import { applyOptionsChain } from '@modern-js/utils';
 import {
   PluginBabelOptions,
   getBabelUtils,
@@ -20,7 +20,7 @@ import { getPresetReact } from './babel';
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 
-export type PluginTsLoaderOptions = ChainedConfigWithUtils<
+export type PluginTsLoaderOptions = ConfigChainWithContext<
   TSLoaderOptions,
   {
     /**
@@ -70,11 +70,11 @@ export const pluginTsLoader = (
 
           const babelUtils = getBabelUtils(baseBabelConfig);
 
-          const babelLoaderOptions = mergeChainedOptions({
-            defaults: baseBabelConfig,
-            options: babelOptions,
-            utils: babelUtils,
-          });
+          const babelLoaderOptions = applyOptionsChain(
+            baseBabelConfig,
+            babelOptions,
+            babelUtils,
+          );
 
           const includes: Array<string | RegExp> = [];
           const excludes: Array<string | RegExp> = [];
@@ -96,12 +96,12 @@ export const pluginTsLoader = (
             allowTsInNodeModules: true,
           };
 
-          const tsLoaderOptions = mergeChainedOptions({
-            defaults: tsLoaderDefaultOptions,
+          const tsLoaderOptions = applyOptionsChain(
             // @ts-expect-error ts-loader has incorrect types for compilerOptions
+            tsLoaderDefaultOptions,
             options,
-            utils: tsLoaderUtils,
-          });
+            tsLoaderUtils,
+          );
           const rule = chain.module.rule(CHAIN_ID.RULE.TS);
 
           applyScriptCondition({

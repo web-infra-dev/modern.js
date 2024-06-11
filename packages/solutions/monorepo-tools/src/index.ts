@@ -27,7 +27,7 @@ export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
       commands({ program }) {
         clearCli(program, api);
         deployCli(program, api);
-        newCli(program, locale);
+        newCli(program);
         upgradeCli(program);
       },
     };

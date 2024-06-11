@@ -116,10 +116,6 @@ exports[`test generator cases test getModuleNewCases 1`] = `
 [
   {
     "actionType": "function",
-    "function": "test",
-  },
-  {
-    "actionType": "function",
     "function": "tailwindcss",
   },
   {
@@ -133,48 +129,6 @@ exports[`test generator cases test getModuleNewCases 1`] = `
   {
     "actionType": "function",
     "function": "module_doc",
-  },
-]
-`;
-
-exports[`test generator cases test getMonorepoCases 1`] = `
-[
-  {
-    "packageManager": "pnpm",
-    "solution": "monorepo",
-  },
-  {
-    "packageManager": "yarn",
-    "solution": "monorepo",
-  },
-]
-`;
-
-exports[`test generator cases test getMonorepoNewCases 1`] = `
-[
-  {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
-    "solution": "mwa",
-  },
-  {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "mwa",
-  },
-  {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
-    "solution": "module",
-  },
-  {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "module",
   },
 ]
 `;

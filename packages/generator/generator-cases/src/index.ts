@@ -12,7 +12,6 @@ import {
   ActionFunction,
   ModuleActionTypes,
   ModuleActionTypesMap,
-  SubSolution,
   BuildTools,
 } from '@modern-js/generator-common';
 
@@ -34,12 +33,6 @@ export const ModuleValueMap: Record<string, string[]> = {
   packageManager: PackageManagerValues,
 };
 
-export const MonorepoValueMap: Record<string, string[]> = {
-  packageManager: PackageManagerValues.filter(
-    packageManager => packageManager !== 'npm',
-  ),
-};
-
 export const getMWACases = (length?: number) => {
   const cases = make(MWAValueMap, {
     length: length || Object.keys(MWAValueMap).length,
@@ -57,16 +50,6 @@ export const getModuleCases = (length?: number) => {
   return cases.map(item => ({
     ...item,
     solution: Solution.Module,
-  }));
-};
-
-export const getMonorepoCases = () => {
-  const cases = make(MonorepoValueMap, {
-    length: Object.keys(MonorepoValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    solution: Solution.Monorepo,
   }));
 };
 
@@ -149,36 +132,4 @@ export const MWASubProjectValueMap: Record<string, string[]> = {
 
 export const ModuleSubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
-};
-
-const getMWASubProjectCases = (length?: number) => {
-  const cases = make(MWASubProjectValueMap, {
-    length: length || Object.keys(MWASubProjectValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    packageName: Object.values(item).join('-'),
-    packagePath: Object.values(item).join('-'),
-    solution: SubSolution.MWA,
-  }));
-};
-
-const getModuleSubProjectCases = (length?: number) => {
-  const cases = make(ModuleSubProjectValueMap, {
-    length: length || Object.keys(ModuleSubProjectValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    packageName: Object.values(item).join('-'),
-    packagePath: Object.values(item).join('-'),
-    solution: SubSolution.Module,
-  }));
-};
-
-export const getMonorepoNewCases = (length?: number) => {
-  const cases: Array<Record<string, string>> = [
-    ...getMWASubProjectCases(length),
-    ...getModuleSubProjectCases(length),
-  ];
-  return cases;
 };

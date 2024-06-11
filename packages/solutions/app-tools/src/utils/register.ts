@@ -5,12 +5,12 @@ import {
   getAliasConfig,
   readTsConfigByFile,
 } from '@modern-js/utils';
-import { ChainedConfig } from '@rsbuild/shared';
+import { ConfigChain } from '@rsbuild/shared';
 
 export const registerCompiler = async (
   appDir: string = process.cwd(),
   distDir: string,
-  alias?: ChainedConfig<Alias>,
+  alias?: ConfigChain<Alias>,
 ) => {
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);

@@ -1,7 +1,7 @@
 import { BabelTransformOptions } from '@modern-js/types/common';
-import { ChainedConfig } from './share';
+import { ConfigChain } from './share';
 
-type ToolsBabelConfig = ChainedConfig<BabelTransformOptions, any>;
+type ToolsBabelConfig = ConfigChain<BabelTransformOptions, any>;
 
 export interface ToolsUserConfig {
   babel?: ToolsBabelConfig;

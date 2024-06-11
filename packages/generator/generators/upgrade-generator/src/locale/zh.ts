@@ -6,7 +6,7 @@ export const ZH_LOCALE = {
     no_solution: `当前项目不包含 Modern.js 工程方案依赖，请先安装相关工程方案依赖。
 - 应用项目(@modern-js/app-tools)
 - 模块项目(@modern-js/module-tools)
-- Monorepo (@modern-js/monorepo-tools)`,
+`,
     more_solution:
       '项目中不允许同时包含多种工程方案相关依赖，请先移除不相关的工程方案依赖。',
   },
