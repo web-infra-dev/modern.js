@@ -30,6 +30,8 @@ import {
   upgradeCommand,
 } from './commands';
 
+export { dev } from './commands/dev';
+
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
 // eslint-disable-next-line import/export
