@@ -11,7 +11,6 @@ export {
   SERVER_PLUGIN_KOA,
   SERVER_PLUGIN_SERVER,
   SERVER_PLUGIN_POLYFILL,
-  INTERNAL_SERVER_PLUGINS,
 } from '../universal/constants';
 
 /**

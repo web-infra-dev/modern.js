@@ -90,15 +90,14 @@ export class PluginManager {
   }
 
   async #initConfigContext(runner: ServerHookRunner) {
-    const { serverConfig: serverRuntimeConfig, cliConfig } = this.#options;
-
-    const finalServerConfig = await runner.config(serverRuntimeConfig || {});
-
-    const finalConfig = loadConfig({
+    const { serverConfig, cliConfig } = this.#options;
+    const mergedConfig = loadConfig({
       cliConfig,
-      serverConfig: finalServerConfig,
+      serverConfig: serverConfig || {},
     });
 
-    this.#configContext.set(finalConfig);
+    const finalServerConfig = await runner.config(mergedConfig);
+
+    this.#configContext.set(finalServerConfig);
   }
 }

@@ -32,6 +32,7 @@ export const createNetlifyPreset: CreatePreset = (
   const { appDirectory, distDirectory, entrypoints, serverPlugins } =
     appContext;
 
+  // TODO: support serverPlugin apply options.
   const plugins = serverPlugins.map(plugin => plugin.name);
 
   const netlifyOutput = path.join(appDirectory, '.netlify');

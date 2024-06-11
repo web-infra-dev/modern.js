@@ -17,6 +17,7 @@ export const createVercelPreset: CreatePreset = (
   const { appDirectory, distDirectory, entrypoints, serverPlugins } =
     appContext;
 
+  // TODO: support serverPlugin apply options.
   const plugins = serverPlugins.map(plugin => plugin.name);
 
   const vercelOutput = path.join(appDirectory, '.vercel');

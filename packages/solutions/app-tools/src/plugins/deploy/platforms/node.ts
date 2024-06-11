@@ -12,6 +12,7 @@ import { CreatePreset } from './platform';
 export const createNodePreset: CreatePreset = (appContext, config) => {
   const { appDirectory, distDirectory, serverPlugins } = appContext;
 
+  // TODO: support serverPlugin apply options.
   const plugins = serverPlugins.map(plugin => plugin.name);
 
   const outputDirectory = path.join(appDirectory, '.output');
