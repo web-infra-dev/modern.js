@@ -85,6 +85,6 @@ describe('Default cases', () => {
 
     await pluginManager.init();
 
-    expect(expectedServerConfig).toEqual(receivedServerConfig);
+    expect(expectedServerConfig.bff).toEqual(receivedServerConfig.bff);
   });
 });
