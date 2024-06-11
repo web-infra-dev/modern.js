@@ -114,6 +114,7 @@ exports[`renderFunction basic usage 1`] = `
   AppWrapper = createApp({
     plugins: [
      
+     
     ]
   })(App)
 
