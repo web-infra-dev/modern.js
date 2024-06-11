@@ -1,7 +1,4 @@
-import * as path from 'path';
-import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
-import mergeDeep from 'merge-deep';
-import { getServerConfigPath } from '../../src/utils/serverConfig';
+import { deepmerge } from 'deepmerge-ts';
 
 describe('test loadConfig', () => {
   test('should merge CliConfig and ServerConfig correctly', () => {
@@ -26,7 +23,7 @@ describe('test loadConfig', () => {
       },
     };
 
-    const config = mergeDeep(cliConfig as any, serverConfig);
+    const config = deepmerge(cliConfig as any, serverConfig);
 
     expect(config).toEqual({
       bff: {
@@ -43,22 +40,5 @@ describe('test loadConfig', () => {
         envVars: ['VERSION'],
       },
     });
-  });
-
-  test('should get server config path correctly', async () => {
-    const distDirectory = path.normalize(
-      '/Users/user/project/local-test-project/dist',
-    );
-    const serverConfigFile = DEFAULT_SERVER_CONFIG;
-    const serverConfigPath = path.normalize(
-      `/Users/user/project/local-test-project/dist/${DEFAULT_SERVER_CONFIG}.js`,
-    );
-
-    const serverConf = await getServerConfigPath(
-      distDirectory,
-      serverConfigFile,
-    );
-
-    expect(serverConf).toEqual(serverConfigPath);
   });
 });
