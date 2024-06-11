@@ -32,7 +32,7 @@ export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
 ) {
-  const { pwd, routes, appContext } = options;
+  const { pwd, appContext } = options;
 
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
   const cacheConfig = loadCacheConfig(loadCachePwd);
@@ -53,10 +53,7 @@ export async function applyPlugins(
     monitorPlugin({ logger: getLogger() }),
     processedByPlugin(),
     logPlugin(),
-    injectResourcePlugin({
-      pwd,
-      routes,
-    }),
+    injectResourcePlugin(),
     serverStaticPlugin(),
     faviconPlugin(),
     bindBffPlugin(),
