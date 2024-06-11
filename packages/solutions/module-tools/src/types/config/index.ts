@@ -1,6 +1,7 @@
 import type { BuildOptions } from 'esbuild';
 import type { CreateFilter } from '@rollup/pluginutils';
 import type { MinifyOptions as TerserMinifyOptions } from 'terser';
+import type { TestConfig } from '@modern-js/types';
 import type { Config } from '../../../compiled/@svgr/core';
 import { internalPreset, presetList } from '../../constants/preset';
 import { ICompiler } from '../esbuild';
@@ -237,6 +238,8 @@ export interface ModuleExtraConfig {
   buildPreset?: BuildPreset;
 
   dev?: Dev;
+
+  testing?: TestConfig;
 
   runtime?: RuntimeUserConfig;
 }

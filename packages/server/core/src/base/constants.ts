@@ -8,8 +8,8 @@ export const AGGRED_DIR = {
 
 export const REPLACE_REG = {
   before: {
-    head: '<head[^>]*>',
-    body: '<body[^>]*>',
+    head: '<head\\b[^>]*>',
+    body: '<body\\b[^>]*>',
   },
   after: {
     head: '</head>',
