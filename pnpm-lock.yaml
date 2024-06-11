@@ -6721,6 +6721,46 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/server-config-v2:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../../packages/server/core
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../../packages/toolkit/utils
+      '@types/express':
+        specifier: ^4.17.13
+        version: 4.17.13
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.4.5
+
   tests/integration/server-hook/middleware:
     dependencies:
       '@modern-js/runtime':
@@ -11316,8 +11356,8 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.23.6
-      '@babel/helper-plugin-utils': 7.22.5
-      '@babel/helper-validator-option': 7.23.5
+      '@babel/helper-plugin-utils': 7.24.6
+      '@babel/helper-validator-option': 7.24.6
       '@babel/plugin-transform-react-display-name': 7.22.5(@babel/core@7.23.6)
       '@babel/plugin-transform-react-jsx': 7.22.15(@babel/core@7.23.6)
       '@babel/plugin-transform-react-jsx-development': 7.22.5(@babel/core@7.23.6)

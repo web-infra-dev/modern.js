@@ -1,6 +1,6 @@
 import { Container, CacheControl } from '@modern-js/types';
-import { CacheManager } from '../../../src/base/middlewares/renderHandler/ssrCache';
-import type { SSRServerContext } from '../../../src/core/server';
+import { getCacheResult } from '../../src/plugins/render/ssrCache';
+import type { SSRServerContext } from '../../src/types';
 
 function sleep(timeout: number) {
   return new Promise(resolve => {
@@ -34,8 +34,6 @@ class MyContainer implements Container {
 
 const container = new MyContainer();
 
-const cacheManager = new CacheManager(container);
-
 const ssrContext: SSRServerContext = {} as any;
 
 describe('test cacheManager', () => {
@@ -51,31 +49,31 @@ describe('test cacheManager', () => {
 
     const render = async () => `Hello_${counter++}`;
 
-    const result1 = await cacheManager.getCacheResult(
-      req,
+    const result1 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
 
     expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(50);
-    const result2 = await cacheManager.getCacheResult(
-      req,
+    const result2 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result2.data).toEqual(`Hello_0`);
 
     await sleep(100);
-    const result3 = await cacheManager.getCacheResult(
-      req,
+    const result3 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result3.data).toEqual(`Hello_0`);
   });
 
@@ -90,30 +88,30 @@ describe('test cacheManager', () => {
     });
     const render = async () => `Hello_${counter++}`;
 
-    const result1 = await cacheManager.getCacheResult(
-      req,
+    const result1 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(150);
-    const result2 = await cacheManager.getCacheResult(
-      req,
+    const result2 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result2.data).toEqual(`Hello_0`);
 
     await sleep(50);
-    const result3 = await cacheManager.getCacheResult(
-      req,
+    const result3 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result3.data).toEqual(`Hello_1`);
   });
 
@@ -128,30 +126,30 @@ describe('test cacheManager', () => {
     });
     const render = async () => `Hello_${counter++}`;
 
-    const result1 = await cacheManager.getCacheResult(
-      req,
+    const result1 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result1.data).toEqual(`Hello_0`);
 
     await sleep(600);
-    const result2 = await cacheManager.getCacheResult(
-      req,
+    const result2 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result2.data).toEqual(`Hello_1`);
 
     await sleep(600);
-    const result3 = await cacheManager.getCacheResult(
-      req,
+    const result3 = await getCacheResult(req, {
       cacheControl,
       render,
       ssrContext,
-    );
+      container,
+    });
     expect(result3.data).toEqual(`Hello_2`);
   });
 });

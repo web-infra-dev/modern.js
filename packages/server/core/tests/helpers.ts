@@ -1,4 +1,4 @@
-import { createServerBase } from '../../src/base/index';
+import { createServerBase } from '../src';
 
 export function getDefaultConfig() {
   return {
@@ -9,6 +9,8 @@ export function getDefaultConfig() {
     server: {},
     runtime: {},
     bff: {},
+    dev: {},
+    security: {},
   };
 }
 

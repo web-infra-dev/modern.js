@@ -1,5 +1,5 @@
 import path from 'path';
-import { loadServerEnv } from '../../../src/base/adapters/node';
+import { loadServerEnv } from '../../src/adapters/node';
 
 describe('test load serve env file', () => {
   const pwd = path.resolve(__dirname, '../fixtures', 'serverEnv');

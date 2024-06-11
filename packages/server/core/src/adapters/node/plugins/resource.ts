@@ -130,22 +130,13 @@ export function injectServerManifest(
   };
 }
 
-export interface InjectResourcePluginOptions {
-  pwd: string;
-  routes?: ServerRoute[];
-}
-
-export const injectResourcePlugin = (
-  options: InjectResourcePluginOptions,
-): ServerPlugin => ({
+export const injectResourcePlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-inject-resource',
 
   setup(api) {
-    const { pwd, routes } = options;
-
     return {
       async prepare() {
-        const { middlewares } = api.useAppContext();
+        const { middlewares, routes, distDirectory: pwd } = api.useAppContext();
 
         middlewares.push({
           name: 'inject-server-manifest',
