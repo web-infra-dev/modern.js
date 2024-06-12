@@ -187,7 +187,7 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.SWC]: 'swcPlugin',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: 'reactRouter5Plugin',
+    [ActionRefactor.ReactRouter5]: 'routerPlugin',
   },
 };
 
