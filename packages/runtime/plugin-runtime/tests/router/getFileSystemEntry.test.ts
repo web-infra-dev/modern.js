@@ -8,6 +8,7 @@ import {
 import appTools, { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { getFileSystemEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getFileSystemEntry';
+import { modifyEntrypoints } from '../../src/router/cli';
 
 async function getRunner() {
   const main = manager
@@ -34,9 +35,7 @@ describe('get entrypoints from file system', () => {
       appContext as IAppContext,
       config as AppNormalizedConfig<'shared'>,
     );
-    const { entrypoints: newEntrypoints } = await runner.modifyEntrypoints({
-      entrypoints,
-    });
+    const newEntrypoints = modifyEntrypoints(entrypoints);
     expect(newEntrypoints).toMatchObject([
       {
         entryName: 'src',

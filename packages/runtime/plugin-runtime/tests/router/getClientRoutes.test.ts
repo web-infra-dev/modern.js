@@ -12,6 +12,7 @@ import {
 } from '../../src/router/cli/code/getClientRoutes';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { runtimePlugin } from '../../src/cli';
+import { modifyEntrypoints } from '../../src/router/cli';
 
 type GetClientRoutesFunc =
   | typeof getClientRoutesLegacy
@@ -75,9 +76,7 @@ async function basicUsage(
     appContext as IAppContext,
     config as AppNormalizedConfig<'shared'>,
   );
-  const { entrypoints: newEntrypoints } = await runner.modifyEntrypoints({
-    entrypoints,
-  });
+  const newEntrypoints = modifyEntrypoints(entrypoints);
 
   let routes;
 
@@ -110,9 +109,7 @@ async function supportLayout(
     appContext as IAppContext,
     config as AppNormalizedConfig<'shared'>,
   );
-  const { entrypoints: newEntrypoints } = await runner.modifyEntrypoints({
-    entrypoints,
-  });
+  const newEntrypoints = modifyEntrypoints(entrypoints);
 
   let routes;
 
