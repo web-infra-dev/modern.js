@@ -1,5 +1,17 @@
 # @modern-js/packages-generator
 
+## 3.4.0
+
+### Minor Changes
+
+- f0aa3d3: feat: @modern-js/create not support create Monorepo Project
+
+  feat: @modern-js/create 移除创建 Monorepo 项目
+
+### Patch Changes
+
+- @modern-js/utils@2.53.0
+
 ## 3.3.25
 
 ### Patch Changes

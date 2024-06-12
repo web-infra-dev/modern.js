@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/rsbuild-plugin-esbuild",
-  "version": "2.52.0",
+  "version": "2.53.0",
   "description": "Esbuild Rsbuild plugin and Modern.js",
   "homepage": "https://modernjs.dev",
   "repository": {
