@@ -8,7 +8,7 @@ import {
 import appTools, { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { getFileSystemEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getFileSystemEntry';
-import { modifyEntrypoints } from '../../src/router/cli';
+import { modifyEntrypoints } from '../../src/router/cli/entry';
 
 async function getRunner() {
   const main = manager

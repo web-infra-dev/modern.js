@@ -12,7 +12,7 @@ import {
 } from '../../src/router/cli/code/getClientRoutes';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { runtimePlugin } from '../../src/cli';
-import { modifyEntrypoints } from '../../src/router/cli';
+import { modifyEntrypoints } from '../../src/router/cli/entry';
 
 type GetClientRoutesFunc =
   | typeof getClientRoutesLegacy
