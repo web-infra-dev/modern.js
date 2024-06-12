@@ -21,6 +21,8 @@ export type RenderResult = {
   };
 };
 
+type LoaderFailureMode = 'clientRender' | 'errorBoundary';
+
 export type SSRServerContext = BaseSSRServerContext & {
   request: BaseSSRServerContext['request'] & {
     userAgent: string;
@@ -29,6 +31,7 @@ export type SSRServerContext = BaseSSRServerContext & {
   };
   htmlModifiers: BuildHtmlCb[];
   tracker: SSRTracker;
+  loaderFailureMode?: 'clientRender' | 'errorBoundary';
 };
 export type ModernSSRReactComponent = React.ComponentType<any>;
 export { RuntimeContext };
@@ -39,6 +42,7 @@ export type SSRPluginConfig = {
   enableInlineStyles?: boolean | RegExp;
   enableInlineScripts?: boolean | RegExp;
   disablePrerender?: boolean;
+  loaderFailureMode?: LoaderFailureMode;
   chunkLoadingGlobal?: string;
   unsafeHeaders?: string[];
 } & Exclude<ServerUserConfig['ssr'], boolean>;
