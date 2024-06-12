@@ -460,8 +460,8 @@ export const init = (context: RuntimeContext) => {
 import { useRuntimeContext } from '@modern-js/runtime';
 
 export default () => {
-  const { context } = useRuntimeContext();
-  const { message } = context.getInitData();
+  const context = useRuntimeContext();
+  const { message } = context.initialData;
 
   return <div>{message}</div>;
 };
