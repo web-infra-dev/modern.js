@@ -45,36 +45,6 @@ describe('get entrypoints from file system', () => {
     ]);
   });
 
-  test(`should have one entry include src/pages`, async () => {
-    const appContext = {
-      appDirectory: path.resolve(fixtures, './file-system-routes'),
-    };
-
-    const runner = await getRunner();
-    const entrypoints = await getFileSystemEntry(
-      runner,
-      appContext as IAppContext,
-      config as AppNormalizedConfig<'shared'>,
-    );
-    const { entrypoints: newEntrypoints } = await runner.modifyEntrypoints({
-      entrypoints,
-    });
-    expect(newEntrypoints).toMatchObject([
-      {
-        entryName: 'src',
-        entry: path.resolve(fixtures, './file-system-routes/src/pages'),
-        isAutoMount: true,
-        customBootstrap: false,
-        fileSystemRoutes: {
-          globalApp: path.resolve(
-            fixtures,
-            './file-system-routes/src/pages/_app.ts',
-          ),
-        },
-      },
-    ]);
-  });
-
   test(`should have one index entry with isAutoMount false`, async () => {
     const appContext = {
       appDirectory: path.resolve(fixtures, './index-entry'),

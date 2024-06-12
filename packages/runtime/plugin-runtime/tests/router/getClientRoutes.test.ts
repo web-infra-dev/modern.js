@@ -5,14 +5,13 @@ import {
   manager,
   type IAppContext,
 } from '@modern-js/core';
-import { getBundleEntry } from '../../src/plugins/analyze/getBundleEntry';
+import { AppNormalizedConfig, AppTools, appTools } from '@modern-js/app-tools';
 import {
   getClientRoutes,
   getClientRoutesLegacy,
-} from '../../src/plugins/analyze/getClientRoutes';
-import { AppNormalizedConfig, AppTools } from '../../src/types';
-import { appTools } from '../../src/index';
-import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
+} from '../../src/router/cli/code/getClientRoutes';
+import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
+import { runtimePlugin } from '../../src/cli';
 
 type GetClientRoutesFunc =
   | typeof getClientRoutesLegacy
