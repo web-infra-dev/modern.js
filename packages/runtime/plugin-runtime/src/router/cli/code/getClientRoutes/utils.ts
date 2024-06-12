@@ -9,7 +9,7 @@ import {
   FILE_SYSTEM_ROUTES_LAYOUT,
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
   FILE_SYSTEM_ROUTES_IGNORED_REGEX,
-} from '../constants';
+} from '../../constants';
 
 const debug = createDebugger('get-client-routes');
 

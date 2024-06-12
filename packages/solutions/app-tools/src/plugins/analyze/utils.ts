@@ -3,7 +3,6 @@ import path from 'path';
 import {
   isReact18,
   normalizeToPosixPath,
-  fs as fse,
   getCommand,
   JS_EXTENSIONS,
 } from '@modern-js/utils';
@@ -12,11 +11,7 @@ import type { Loader } from 'esbuild';
 import { transform } from 'esbuild';
 import { parse } from 'es-module-lexer';
 import type { ImportStatement } from '../../types';
-import {
-  ACTION_EXPORT_NAME,
-  FILE_SYSTEM_ROUTES_FILE_NAME,
-  LOADER_EXPORT_NAME,
-} from './constants';
+import { FILE_SYSTEM_ROUTES_FILE_NAME } from './constants';
 
 export const walkDirectory = (dir: string): string[] =>
   fs.readdirSync(dir).reduce<string[]>((previous, filename) => {
@@ -110,18 +105,6 @@ export const getDefaultImports = ({
   return imports;
 };
 
-export const isPageComponentFile = (filePath: string) => {
-  if (/\.(d|test|spec|e2e)\.(js|jsx|ts|tsx)$/.test(filePath)) {
-    return false;
-  }
-
-  if (['.js', '.jsx', '.ts', '.tsx'].includes(path.extname(filePath))) {
-    return true;
-  }
-
-  return false;
-};
-
 export const replaceWithAlias = (
   base: string,
   filePath: string,
@@ -155,43 +138,6 @@ export const parseModule = async ({
 
   // eslint-disable-next-line @typescript-eslint/await-thenable
   return await parse(content);
-};
-
-export const hasLoader = async (filename: string, source?: string) => {
-  let content = source;
-  if (!source) {
-    content = (await fse.readFile(filename, 'utf-8')).toString();
-  }
-  if (content) {
-    const [, moduleExports] = await parseModule({
-      source: content.toString(),
-      filename,
-    });
-    return moduleExports.some(e => e.n === LOADER_EXPORT_NAME);
-  }
-  return false;
-};
-
-export const hasAction = async (filename: string, source?: string) => {
-  let content = source;
-  if (!source) {
-    content = (await fse.readFile(filename, 'utf-8')).toString();
-  }
-  if (content) {
-    const [, moduleExports] = await parseModule({
-      source: content.toString(),
-      filename,
-    });
-    return moduleExports.some(e => e.n === ACTION_EXPORT_NAME);
-  }
-  return false;
-};
-
-export const getServerLoadersFile = (
-  internalDirectory: string,
-  entryName: string,
-) => {
-  return path.join(internalDirectory, entryName, 'route-server-loaders.js');
 };
 
 export const getServerCombinedModueFile = (
