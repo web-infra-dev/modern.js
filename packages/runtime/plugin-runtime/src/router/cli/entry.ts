@@ -1,6 +1,11 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import { NESTED_ROUTES_DIR, PAGES_DIR_NAME } from './constants';
+import { JS_EXTENSIONS, findExists, fs } from '@modern-js/utils';
+import { Entrypoint } from '@modern-js/types';
+import {
+  FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
+  NESTED_ROUTES_DIR,
+  PAGES_DIR_NAME,
+} from './constants';
 
 export const hasPages = (dir: string) =>
   fs.existsSync(path.join(dir, PAGES_DIR_NAME));
@@ -16,4 +21,39 @@ export const isRouteEntry = (dir: string) => {
     return path.join(dir, PAGES_DIR_NAME);
   }
   return false;
+};
+
+export const modifyEntrypoints = (entrypoints: Entrypoint[]) => {
+  return entrypoints.map(entrypoint => {
+    const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
+    const isHasPages = hasPages(entrypoint.absoluteEntryDir!);
+    if (!isHasNestedRoutes && !isHasPages) {
+      return entrypoint;
+    }
+    entrypoint.fileSystemRoutes = {
+      globalApp: findExists(
+        JS_EXTENSIONS.map(ext =>
+          path.resolve(
+            entrypoint.absoluteEntryDir!,
+            `./${PAGES_DIR_NAME}/${FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT}${ext}`,
+          ),
+        ),
+      ),
+    };
+    if (isHasPages) {
+      entrypoint.entry = path.join(
+        entrypoint.absoluteEntryDir!,
+        PAGES_DIR_NAME,
+      );
+      entrypoint.pageRoutesEntry = entrypoint.entry;
+    }
+    if (isHasNestedRoutes) {
+      entrypoint.entry = path.join(
+        entrypoint.absoluteEntryDir!,
+        NESTED_ROUTES_DIR,
+      );
+      entrypoint.nestedRoutesEntry = entrypoint.entry;
+    }
+    return entrypoint;
+  });
 };

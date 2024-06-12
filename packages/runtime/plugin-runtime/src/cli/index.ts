@@ -6,6 +6,8 @@ import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
 import { isRuntimeEntry } from './entry';
 
+export { isRuntimeEntry } from './entry';
+
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [

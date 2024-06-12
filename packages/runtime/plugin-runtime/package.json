@@ -103,6 +103,11 @@
       "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
     },
+    "./router/cli": {
+      "types": "./dist/types/router/cli/index.d.ts",
+      "jsnext:source": "./src/router/cli/index.ts",
+      "default": "./dist/cjs/router/cli/index.js"
+    },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
@@ -155,6 +160,9 @@
       ],
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
+      ],
+      "router/cli": [
+        "./dist/types/router/cli/index.d.ts"
       ],
       "loadable-bundler-plugin": [
         "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts"
