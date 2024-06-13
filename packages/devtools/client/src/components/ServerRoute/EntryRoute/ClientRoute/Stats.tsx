@@ -7,7 +7,7 @@ import { Promisable } from 'type-fest';
 import { LegacyRouteStats } from './LegacyRoute/Stats';
 import { RemixRouteStats } from './RemixRoute/Stats';
 import { $serverExported } from '@/entries/client/routes/state';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 
 export const $fileSystemRoutes = proxy<
   Record<string, Promisable<FileSystemRoutes>>
@@ -24,7 +24,7 @@ export const ClientRouteStats: React.FC<ClientRouteStatsProps> = ({
   if (!entryName) {
     throw new TypeError('');
   }
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   const { entrypoints } = useSnapshot(serverExported.framework).context;
   const entrypoint = _.find(entrypoints, { entryName });
   if (!entrypoint) {

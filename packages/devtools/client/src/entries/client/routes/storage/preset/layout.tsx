@@ -20,7 +20,7 @@ import {
 } from './shared';
 import { Card } from '@/components/Card';
 import { $server, $serverExported } from '@/entries/client/routes/state';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 
 type CardButtonProps = FlexProps & {
   selected?: boolean;
@@ -89,7 +89,7 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   const { storagePresets } = useSnapshot(serverExported).context;
   const data = useLoaderData() as StorageStatus;
   const status = {
@@ -97,7 +97,7 @@ const Page: FC = () => {
     localStorage: data.localStorage,
     sessionStorage: data.sessionStorage,
   };
-  const server = useThrowable($server);
+  const server = use($server);
   const navigate = useNavigate();
   const freq = {
     cookie: _(storagePresets)

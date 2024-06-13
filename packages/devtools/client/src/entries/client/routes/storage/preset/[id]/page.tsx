@@ -32,7 +32,7 @@ import {
 import styles from './page.module.scss';
 import { $server, $serverExported } from '@/entries/client/routes/state';
 import { useToast } from '@/components/Toast';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 import { Card } from '@/components/Card';
 
 type PresetToolbarProps = FlexProps & {
@@ -122,7 +122,7 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 
 const Page = () => {
   const { revalidate } = useRevalidator();
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   useEffect(() => {
     const unwatch = subscribe(serverExported, revalidate);
     return unwatch;
@@ -134,7 +134,7 @@ const Page = () => {
     ...unwindRecord(preset, 'sessionStorage'),
   ];
 
-  const server = useThrowable($server);
+  const server = use($server);
   const applyActionToast = useToast({ content: '🔥 Fired' });
   const copyActionToast = useToast({ content: '📋 Copied' });
   const pasteActionToast = useToast({ content: '📋 Pasted' });

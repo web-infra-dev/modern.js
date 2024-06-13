@@ -3,10 +3,10 @@ import { useParams } from '@modern-js/runtime/router';
 import { useSnapshot } from 'valtio';
 import { $serverExported } from '../../state';
 import { ObjectInspector } from '@/components/ObjectInspector';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 
 const Page: React.FC = () => {
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   const configSet = {
     framework: useSnapshot(serverExported.framework.config),
     builder: useSnapshot(serverExported.builder.config),

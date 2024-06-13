@@ -12,7 +12,7 @@ import { $serverExported, VERSION } from '../state';
 import '@/components/Card/Card.module.scss';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',
@@ -20,7 +20,7 @@ const BUNDLER_PACKAGE_NAMES = {
 } as const;
 
 const Page: React.FC = () => {
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   const frameworkContext = useSnapshot(serverExported.framework).context;
   const { def } = useSnapshot(serverExported).context;
   const dependencies = useSnapshot(serverExported.dependencies);

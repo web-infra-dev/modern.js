@@ -24,7 +24,7 @@ import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
-import { useThrowable } from '@/utils';
+import { use } from '@/utils';
 
 interface SummaryCostsData {
   title: string;
@@ -76,7 +76,7 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 };
 
 const Page: FC = () => {
-  const serverExported = useThrowable($serverExported);
+  const serverExported = use($serverExported);
   const { doctor } = useSnapshot(serverExported);
   if (!doctor) {
     throw new TypeError('Doctor is not available');
