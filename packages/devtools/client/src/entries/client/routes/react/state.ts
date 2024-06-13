@@ -1,8 +1,8 @@
-import { $mountPoint } from '../state';
+import { $$globals } from '../layout.data';
 import { WallAgent } from '@/utils/react-devtools';
 
 export const wallAgent = new WallAgent();
 
-$mountPoint.then(mountPoint => {
+$$globals.then(({ mountPoint }) => {
   wallAgent.bindRemote(mountPoint.remote, 'sendReactDevtoolsData');
 });

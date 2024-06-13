@@ -3,17 +3,16 @@ import { useRouteError } from '@modern-js/runtime/router';
 import { Box, Link } from '@radix-ui/themes';
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../state';
+import { useGlobals } from '../layout.data';
 import {
   ErrorFallbackProps,
   ErrorRouteHandler,
 } from '@/components/Error/Fallback';
 import { FeatureDisabled } from '@/components/Error/FeatureDisabled';
-import { use } from '@/utils';
 
 const Handler: FC<ErrorFallbackProps> = () => {
   const error = useRouteError();
-  const serverExported = use($serverExported);
+  const serverExported = useGlobals();
   const { def } = useSnapshot(serverExported).context;
   const isStateError =
     error && typeof error === 'object' && Object.keys(error).length === 0;

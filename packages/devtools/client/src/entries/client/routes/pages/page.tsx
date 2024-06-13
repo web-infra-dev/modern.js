@@ -3,18 +3,17 @@ import React, { useState } from 'react';
 import { parseURL, withTrailingSlash } from 'ufo';
 import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../state';
+import { useGlobals } from '../layout.data';
 import styles from './page.module.scss';
 import {
   MatchServerRouteValue,
   MatchUrlContext,
 } from '@/components/ServerRoute/Context';
 import { ServerRoute } from '@/components/ServerRoute/Route';
-import { use } from '@/utils';
 
 const Page: React.FC = () => {
-  const serverExported = use($serverExported);
-  const { serverRoutes } = useSnapshot(serverExported.framework).context;
+  const $globals = useGlobals();
+  const { serverRoutes } = useSnapshot($globals.framework).context;
 
   const [matchContext, setMatchContext] = useState<MatchServerRouteValue>({
     url: '',

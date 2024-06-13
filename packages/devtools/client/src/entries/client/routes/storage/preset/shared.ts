@@ -3,7 +3,7 @@ import {
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';
 import _ from 'lodash';
-import { $mountPoint } from '../../state';
+import { $$globals } from '../../layout.data';
 
 export const STORAGE_TYPES = [
   'cookie',
@@ -62,7 +62,7 @@ export interface StorageStatus {
 export const applyStorage = async (
   storage?: Partial<Record<StorageType, Record<string, string>>>,
 ) => {
-  const mountPoint = await $mountPoint;
+  const { mountPoint } = await $$globals;
   const [cookie, localStorage, sessionStorage] = await Promise.all([
     mountPoint.remote.cookies(storage?.cookie),
     mountPoint.remote.localStorage(storage?.localStorage),

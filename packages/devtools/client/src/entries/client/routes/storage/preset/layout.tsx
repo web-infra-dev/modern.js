@@ -11,6 +11,7 @@ import { FC, ReactNode } from 'react';
 import { HiMiniFlag, HiPlus } from 'react-icons/hi2';
 import { snapshot, useSnapshot } from 'valtio';
 import { watch } from 'valtio/utils';
+import { useGlobals } from '../../layout.data';
 import styles from './page.module.scss';
 import {
   STORAGE_TYPE_PALETTE,
@@ -19,8 +20,6 @@ import {
   UnwindPreset,
 } from './shared';
 import { Card } from '@/components/Card';
-import { $server, $serverExported } from '@/entries/client/routes/state';
-import { use } from '@/utils';
 
 type CardButtonProps = FlexProps & {
   selected?: boolean;
@@ -89,15 +88,15 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const serverExported = use($serverExported);
-  const { storagePresets } = useSnapshot(serverExported).context;
+  const globals = useGlobals();
+  const { server } = globals;
+  const { storagePresets } = useSnapshot(globals).context;
   const data = useLoaderData() as StorageStatus;
   const status = {
     cookie: { ...data.cookie.client, ...data.cookie.server },
     localStorage: data.localStorage,
     sessionStorage: data.sessionStorage,
   };
-  const server = use($server);
   const navigate = useNavigate();
   const freq = {
     cookie: _(storagePresets)
@@ -122,10 +121,11 @@ const Page: FC = () => {
   }));
 
   const handleCreatePreset = async () => {
+    if (!server) return;
     const newPreset = await server.remote.createTemporaryStoragePreset();
     const { id } = newPreset;
     const unwatch = watch(get => {
-      const { storagePresets } = snapshot(get(serverExported)).context;
+      const { storagePresets } = snapshot(get(globals)).context;
       const preset = _.find(storagePresets, { id });
       if (preset) {
         unwatch();

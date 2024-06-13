@@ -40,6 +40,7 @@ export interface ServerState {
 }
 
 export interface ExportedServerState extends ServerState {
+  websocket?: string;
   framework: {
     context: AppContext;
     config: {

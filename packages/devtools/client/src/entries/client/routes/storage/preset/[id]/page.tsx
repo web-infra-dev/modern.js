@@ -21,6 +21,7 @@ import {
 } from '@modern-js/devtools-kit/runtime';
 import { subscribe } from 'valtio';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import { useGlobals } from '../../../layout.data';
 import {
   applyStorage,
   STORAGE_TYPES,
@@ -30,9 +31,7 @@ import {
   UnwindStorageRecord,
 } from '../shared';
 import styles from './page.module.scss';
-import { $server, $serverExported } from '@/entries/client/routes/state';
 import { useToast } from '@/components/Toast';
-import { use } from '@/utils';
 import { Card } from '@/components/Card';
 
 type PresetToolbarProps = FlexProps & {
@@ -122,9 +121,10 @@ const PresetRecordsCard: FC<PresetRecordsCardProps> = props => {
 
 const Page = () => {
   const { revalidate } = useRevalidator();
-  const serverExported = use($serverExported);
+  const $globals = useGlobals();
+  const { server } = $globals;
   useEffect(() => {
-    const unwatch = subscribe(serverExported, revalidate);
+    const unwatch = subscribe($globals, revalidate);
     return unwatch;
   }, []);
   const preset = useLoaderData() as StoragePresetContext;
@@ -134,7 +134,6 @@ const Page = () => {
     ...unwindRecord(preset, 'sessionStorage'),
   ];
 
-  const server = use($server);
   const applyActionToast = useToast({ content: '🔥 Fired' });
   const copyActionToast = useToast({ content: '📋 Copied' });
   const pasteActionToast = useToast({ content: '📋 Pasted' });
@@ -161,6 +160,7 @@ const Page = () => {
     }
   };
   const handlePasteAction = async () => {
+    if (!server) return;
     await server.remote.pasteStoragePreset(preset);
     pasteActionToast.open();
   };
@@ -186,7 +186,7 @@ const Page = () => {
           justify="end"
           onCopyAction={handleCopyAction}
           onPasteAction={handlePasteAction}
-          onOpenAction={() => server.remote.open(preset.filename)}
+          onOpenAction={() => server?.remote.open(preset.filename)}
           onApplyAction={handleApplyAction}
         />
       </Flex>

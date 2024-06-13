@@ -7,7 +7,7 @@ import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
-import { $tabs } from './state';
+import { useGlobals } from './layout.data';
 import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
@@ -73,7 +73,7 @@ const AppearanceButton = () => {
 };
 
 const Navigator: React.FC = () => {
-  const tabs = useSnapshot($tabs);
+  const { tabs } = useSnapshot(useGlobals());
 
   return (
     <Flex direction="column" flexShrink="0" className={styles.navigator}>
