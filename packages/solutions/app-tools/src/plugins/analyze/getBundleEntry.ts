@@ -4,7 +4,6 @@ import {
   fs,
   findExists,
   MAIN_ENTRY_NAME,
-  isRouterV5,
   JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
@@ -69,7 +68,8 @@ export const getBundleEntry = async (
     Object.keys(entries).forEach(name => {
       const value = entries[name];
       const entryName = typeof value === 'string' ? value : value.entry;
-      const isAutoMount = typeof value === 'string' ? true : value.disableMount;
+      const isAutoMount =
+        typeof value === 'string' ? true : !value.disableMount;
       const entrypoint: Entrypoint = {
         entryName: name,
         isMainEntry: false,
@@ -91,10 +91,6 @@ export const getBundleEntry = async (
           ? {}
           : undefined,
       };
-
-      if (entrypoint.fileSystemRoutes && !isRouterV5(config)) {
-        entrypoint.nestedRoutesEntry = entrypoint.entry;
-      }
 
       if (!ifAlreadyExists(defaults, entrypoint)) {
         defaults.push(entrypoint);

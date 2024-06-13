@@ -12,7 +12,8 @@ export async function handleModifyEntrypoints(
   api: PluginAPI<AppTools<'shared'>>,
   entrypoints: Entrypoint[],
 ) {
-  const newEntryPoints = modifyEntrypoints(entrypoints);
+  const config = api.useResolvedConfigContext();
+  const newEntryPoints = modifyEntrypoints(entrypoints, config);
   const appContext = api.useAppContext();
   const resolvedConfig = api.useResolvedConfigContext();
   appContext.entrypoints = newEntryPoints;

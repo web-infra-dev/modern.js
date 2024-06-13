@@ -56,7 +56,12 @@ const scanDir = (
         };
       }
 
-      const entryFile = await isBundleEntry(hookRunners, dir);
+      const entryFile = (
+        await hookRunners.checkEntryPoint({
+          path: dir,
+          entry: false,
+        })
+      ).entry;
       if (entryFile) {
         return {
           entryName,
@@ -67,13 +72,7 @@ const scanDir = (
           customBootstrap,
         };
       }
-      return {
-        entryName,
-        isMainEntry: false,
-        entry: indexFile as string,
-        absoluteEntryDir: path.resolve(dir),
-        isAutoMount: false,
-      };
+      throw Error('There is no valid entry point in the current project!');
     }),
   );
 

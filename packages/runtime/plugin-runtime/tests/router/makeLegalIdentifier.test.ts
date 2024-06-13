@@ -1,4 +1,4 @@
-import { makeLegalIdentifier } from '../../src//router/cli/code/makeLegalIdentifier';
+import { makeLegalIdentifier } from '../../src/router/cli/code/makeLegalIdentifier';
 
 describe('is default export function', () => {
   test('camel-cases names', () => {
