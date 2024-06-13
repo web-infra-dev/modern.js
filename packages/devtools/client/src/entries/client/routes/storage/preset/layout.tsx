@@ -11,7 +11,6 @@ import { FC, ReactNode } from 'react';
 import { HiMiniFlag, HiPlus } from 'react-icons/hi2';
 import { snapshot, useSnapshot } from 'valtio';
 import { watch } from 'valtio/utils';
-import { useGlobals } from '../../layout.data';
 import styles from './page.module.scss';
 import {
   STORAGE_TYPE_PALETTE,
@@ -19,6 +18,7 @@ import {
   unwindPreset,
   UnwindPreset,
 } from './shared';
+import { useGlobals } from '@/entries/client/globals';
 import { Card } from '@/components/Card';
 
 type CardButtonProps = FlexProps & {

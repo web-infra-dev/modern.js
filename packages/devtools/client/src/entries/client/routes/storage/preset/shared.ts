@@ -3,7 +3,7 @@ import {
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';
 import _ from 'lodash';
-import { $$globals } from '../../layout.data';
+import { $$globals } from '@/entries/client/globals';
 
 export const STORAGE_TYPES = [
   'cookie',

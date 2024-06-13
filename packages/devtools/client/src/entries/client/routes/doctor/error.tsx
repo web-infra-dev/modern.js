@@ -3,7 +3,7 @@ import { useRouteError } from '@modern-js/runtime/router';
 import { Box, Link } from '@radix-ui/themes';
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '../layout.data';
+import { useGlobals } from '@/entries/client/globals';
 import {
   ErrorFallbackProps,
   ErrorRouteHandler,

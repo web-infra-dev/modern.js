@@ -21,7 +21,6 @@ import {
 } from '@modern-js/devtools-kit/runtime';
 import { subscribe } from 'valtio';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
-import { useGlobals } from '../../../layout.data';
 import {
   applyStorage,
   STORAGE_TYPES,
@@ -31,6 +30,7 @@ import {
   UnwindStorageRecord,
 } from '../shared';
 import styles from './page.module.scss';
+import { useGlobals } from '@/entries/client/globals';
 import { useToast } from '@/components/Toast';
 import { Card } from '@/components/Card';
 

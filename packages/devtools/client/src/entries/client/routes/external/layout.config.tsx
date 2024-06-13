@@ -1,6 +1,6 @@
 import { Location } from '@modern-js/runtime/router';
 import _ from 'lodash';
-import { $$globals } from '../layout.data';
+import { $$globals } from '@/entries/client/globals';
 import { use } from '@/utils';
 
 export const handle = {

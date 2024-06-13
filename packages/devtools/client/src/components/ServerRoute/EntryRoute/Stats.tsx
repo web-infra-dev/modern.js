@@ -4,7 +4,7 @@ import type { ServerRoute } from '@modern-js/types';
 import { Box, Flex, Strong, Text } from '@radix-ui/themes';
 import { useSnapshot } from 'valtio';
 import styles from './Stats.module.scss';
-import { useGlobals } from '@/entries/client/routes/layout.data';
+import { useGlobals } from '@/entries/client/globals';
 
 export interface EntryStatsProps {
   route: ServerRoute;

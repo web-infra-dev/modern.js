@@ -6,7 +6,7 @@ import { proxy, useSnapshot } from 'valtio';
 import { Promisable } from 'type-fest';
 import { LegacyRouteStats } from './LegacyRoute/Stats';
 import { RemixRouteStats } from './RemixRoute/Stats';
-import { useGlobals } from '@/entries/client/routes/layout.data';
+import { useGlobals } from '@/entries/client/globals';
 
 export const $fileSystemRoutes = proxy<
   Record<string, Promisable<FileSystemRoutes>>

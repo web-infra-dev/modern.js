@@ -6,8 +6,8 @@ import {
   createBridge,
   createStore,
 } from 'react-devtools-inline/frontend';
-import { useGlobals } from '../../layout.data';
 import { wallAgent } from '../state';
+import { useGlobals } from '@/entries/client/globals';
 
 const Page: React.FC = () => {
   const params = useParams();

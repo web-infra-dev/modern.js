@@ -1,6 +1,6 @@
 import { useUnmount } from 'react-use';
 import styles from './loading.module.scss';
-import { useGlobals } from './layout.data';
+import { useGlobals } from '@/entries/client/globals';
 import { Loading } from '@/components/Loading';
 
 const GlobalLoading = () => {

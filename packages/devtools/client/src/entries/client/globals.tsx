@@ -147,7 +147,9 @@ const initializeState = async (url: string) => {
   const $mountPoint = initializeMountPoint();
   const $exported = initializeServerExported(manifestUrl);
   const $server = $exported.then(exported =>
-    exported.websocket ? initializeServer(exported.websocket, exported) : null,
+    exported.websocket
+      ? initializeServer(exported.websocket, proxy(exported))
+      : null,
   );
   const $setupPlugins = $exported.then(exported => {
     const runtimePlugins = exported.context.def.plugins;
@@ -174,9 +176,5 @@ const initializeState = async (url: string) => {
 export const $$globals = initializeState(location.href);
 
 export const useGlobals = () => use($$globals);
-
-export const loader = async () => {
-  return await $$globals;
-};
 
 export type GlobalState = Awaited<typeof $$globals>;

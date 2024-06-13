@@ -9,7 +9,11 @@ import { getPort, fs } from '@modern-js/utils';
 import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
-import { replacer, ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
+import {
+  ExportedServerState,
+  replacer,
+  ROUTE_BASENAME,
+} from '@modern-js/devtools-kit/node';
 import type { ProxyDetail } from '@modern-js/types';
 import { Plugin } from '../types';
 
@@ -88,7 +92,11 @@ export const pluginHttp: Plugin = {
     api.hooks.hook('settleState', async () => _pendingSettleState.resolve());
     app.get('/manifest', async c => {
       await _pendingSettleState.promise;
-      const stringified = flatted.stringify([api.vars.state], replacer);
+      const exported: ExportedServerState = {
+        ...(api.vars.state as any),
+        websocket: '/__devtools/rpc',
+      };
+      const stringified = flatted.stringify([exported], replacer);
       return c.newResponse(stringified, 200, {
         'Content-Type': 'application/json',
       });

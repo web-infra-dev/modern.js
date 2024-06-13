@@ -7,7 +7,7 @@ import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
-import { useGlobals } from './layout.data';
+import { useGlobals } from '@/entries/client/globals';
 import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';

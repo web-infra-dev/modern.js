@@ -1,4 +1,4 @@
-import { $$globals } from '../layout.data';
+import { $$globals } from '@/entries/client/globals';
 import { WallAgent } from '@/utils/react-devtools';
 
 export const wallAgent = new WallAgent();

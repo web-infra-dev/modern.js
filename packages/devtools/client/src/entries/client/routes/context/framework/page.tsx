@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '../../layout.data';
+import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {

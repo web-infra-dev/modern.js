@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { parseURL, withTrailingSlash } from 'ufo';
 import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '../layout.data';
 import styles from './page.module.scss';
+import { useGlobals } from '@/entries/client/globals';
 import {
   MatchServerRouteValue,
   MatchUrlContext,

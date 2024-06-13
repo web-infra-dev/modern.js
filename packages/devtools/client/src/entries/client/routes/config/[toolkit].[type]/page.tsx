@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from '@modern-js/runtime/router';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '../../layout.data';
+import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {

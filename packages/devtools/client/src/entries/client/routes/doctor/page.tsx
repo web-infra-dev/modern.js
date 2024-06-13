@@ -20,10 +20,10 @@ import _ from 'lodash';
 import { parseURL } from 'ufo';
 import clsx from 'clsx';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '../layout.data';
 import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
 
 interface SummaryCostsData {
   title: string;

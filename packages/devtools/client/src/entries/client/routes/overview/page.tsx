@@ -9,8 +9,8 @@ import {
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
 import '@/components/Card/Card.module.scss';
-import { useGlobals } from '../layout.data';
 import styles from './page.module.scss';
+import { useGlobals } from '@/entries/client/globals';
 import { Card, CardColumn } from '@/components/Card';
 
 const BUNDLER_PACKAGE_NAMES = {
