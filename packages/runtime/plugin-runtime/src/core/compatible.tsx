@@ -16,6 +16,9 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
   plugins: Plugin[];
+  /**
+   * in test, we need to run createApp in the same time. It needs not to use the global runtime runner
+   */
   runtime?: typeof runtime;
   props?: any;
 };
