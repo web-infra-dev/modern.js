@@ -1,5 +1,24 @@
 # @modern-js/generator-cases
 
+## 3.4.0
+
+### Minor Changes
+
+- f0aa3d3: feat: @modern-js/create not support create Monorepo Project
+
+  feat: @modern-js/create 移除创建 Monorepo 项目
+
+### Patch Changes
+
+- f0aa3d3: feat: new command not support enable testing function
+
+  feat: new 命令不在支持开启测试功能
+
+- Updated dependencies [f0aa3d3]
+- Updated dependencies [5e442c1]
+- Updated dependencies [f0aa3d3]
+  - @modern-js/generator-common@3.4.0
+
 ## 3.3.25
 
 ### Patch Changes

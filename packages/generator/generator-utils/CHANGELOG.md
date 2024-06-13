@@ -1,5 +1,20 @@
 # @modern-js/generator-utils
 
+## 3.4.0
+
+### Patch Changes
+
+- f0aa3d3: feat: new command not support enable testing function
+
+  feat: new 命令不在支持开启测试功能
+
+- Updated dependencies [f0aa3d3]
+- Updated dependencies [5e442c1]
+- Updated dependencies [f0aa3d3]
+  - @modern-js/generator-common@3.4.0
+  - @modern-js/plugin-i18n@2.53.0
+  - @modern-js/utils@2.53.0
+
 ## 3.3.25
 
 ### Patch Changes

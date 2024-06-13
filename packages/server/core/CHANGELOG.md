@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 2.53.0
+
+### Patch Changes
+
+- 0fce81a: fix: avoid to mismatch header label
+  fix: 避免误匹配 header 标签
+- b251046: fix: Avoid memory leaks in node versions 18 and 20
+  fix: 避免在 node 18 和 20 版本下内存泄露
+- a481488: fix: should add the escape character for the regexps
+  fix: 为正则表达式添加转义字符
+  - @modern-js/plugin@2.53.0
+  - @modern-js/runtime-utils@2.53.0
+  - @modern-js/utils@2.53.0
+
 ## 2.52.0
 
 ### Patch Changes
