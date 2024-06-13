@@ -25,12 +25,7 @@ const setProgramVersion = (version = 'unknown') => {
   program.name('modern').usage('<command> [options]').version(version);
 };
 
-export const mergeOptions = (
-  options?: CoreOptions,
-): CoreOptions & {
-  runtimeConfigFile: string;
-  serverConfigFile: string;
-} => {
+export const mergeOptions = (options?: CoreOptions): CoreOptions => {
   const defaultOptions = {
     runtimeConfigFile: DEFAULT_RUNTIME_CONFIG,
     serverConfigFile: DEFAULT_SERVER_CONFIG,
@@ -85,9 +80,9 @@ export const createCli = () => {
       appDirectory,
       plugins,
       configFile: loaded.filePath,
-      runtimeConfigFile: mergedOptions?.runtimeConfigFile,
+      runtimeConfigFile: mergedOptions?.runtimeConfigFile || '',
       options: mergedOptions?.options,
-      serverConfigFile: mergedOptions?.serverConfigFile,
+      serverConfigFile: mergedOptions?.serverConfigFile || '',
       serverInternalPlugins:
         mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
