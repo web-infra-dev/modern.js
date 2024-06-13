@@ -1,15 +1,16 @@
 import path from 'path';
-import { logger, isApiOnly, getTargetDir, getMeta } from '@modern-js/utils';
+import {
+  logger,
+  isApiOnly,
+  getTargetDir,
+  getMeta,
+  SERVER_DIR,
+} from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
-
-function getServerConfigPath(dist: string, metaName = 'modern-js') {
-  const meta = getMeta(metaName);
-  return path.join(dist, `${meta}.server.js`);
-}
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
@@ -37,7 +38,12 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     runMode = 'apiOnly';
   }
 
-  const serverConfigPath = getServerConfigPath(distDirectory, metaName);
+  const meta = getMeta(metaName);
+  const serverConfigPath = path.resolve(
+    distDirectory,
+    SERVER_DIR,
+    `${meta}.server`,
+  );
 
   const pluginInstances = await loadServerPlugins(api, appDirectory);
 

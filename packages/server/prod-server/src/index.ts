@@ -25,16 +25,20 @@ export const createProdServer = async (options: ProdServerOptions) => {
     options.serverConfigPath,
   );
 
-  const server = createServerBase<BaseEnv>({
-    ...options,
-    serverConfig,
-  });
+  const serverBaseOptions = options;
 
-  await applyPlugins(server, options);
+  if (serverConfig) {
+    serverBaseOptions.serverConfig = serverConfig;
+  }
+
+  const server = createServerBase<BaseEnv>(serverBaseOptions);
 
   // load env file.
   const nodeServer = await createNodeServer(server.handle.bind(server));
-  await server.init({ nodeServer });
+
+  await applyPlugins(server, options, nodeServer);
+
+  await server.init();
 
   return nodeServer;
 };

@@ -1,4 +1,3 @@
-import type { Server as NodeServer } from 'http';
 import { ISAppContext, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
 import { createContext } from '@modern-js/plugin';
@@ -71,12 +70,7 @@ export class ServerBase<E extends Env = any> {
    * - 执行 runner.prepare;
    * - 应用 middlewares
    */
-  async init({ nodeServer }: { nodeServer?: NodeServer } = {}) {
-    // TODO: remove nodeServer set to appContext
-    this.appContext.set({
-      ...this.appContext.get(),
-      nodeServer,
-    });
+  async init() {
     const runner = await this.pluginManager.init();
 
     this.runner = runner;

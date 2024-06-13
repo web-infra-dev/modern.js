@@ -66,6 +66,7 @@ export type APIServerStartInput = {
   pwd: string;
   prefix?: string;
   httpMethodDecider?: HttpMethodDecider;
+
   config?: {
     middleware?: Array<any>;
   };

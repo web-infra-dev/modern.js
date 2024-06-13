@@ -46,12 +46,6 @@ export const build = async (
       configFile: serverConfigFile,
     });
 
-    await buildServerConfigV2({
-      appDirectory,
-      distDirectory,
-      configFile: serverConfigFileV2,
-    });
-
     await generateRoutes(appContext);
 
     await hookRunners.afterBuild({

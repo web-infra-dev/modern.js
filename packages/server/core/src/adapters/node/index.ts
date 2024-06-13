@@ -14,6 +14,7 @@ export {
   injectResourcePlugin,
   getHtmlTemplates,
   getServerManifest,
+  injectNodeSeverPlugin,
 } from './plugins';
 
 export {

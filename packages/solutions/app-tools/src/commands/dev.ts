@@ -1,5 +1,6 @@
+import path from 'node:path';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST, getMeta } from '@modern-js/utils';
+import { DEFAULT_DEV_HOST, SERVER_DIR, getMeta } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { applyPlugins } from '@modern-js/prod-server';
 import { loadServerPlugins } from '../utils/loadPlugins';
@@ -8,7 +9,7 @@ import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
 import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
-import { buildServerConfig, buildServerConfigV2 } from '../utils/config';
+import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 
 export interface ExtraServerOptions {
@@ -55,13 +56,11 @@ export const dev = async (
   });
 
   const meta = getMeta(metaName);
-  const serverConfigFileV2 = `${meta}.server`;
-  const serverConfigPath = await buildServerConfigV2({
+  const serverConfigPath = path.resolve(
     appDirectory,
-    distDirectory,
-    configFile: serverConfigFileV2,
-    watch: true,
-  });
+    SERVER_DIR,
+    `${meta}.server`,
+  );
 
   await hookRunners.beforeDev();
 

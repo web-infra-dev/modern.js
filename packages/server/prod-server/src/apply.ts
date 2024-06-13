@@ -8,12 +8,14 @@ import {
   onError,
   processedByPlugin,
   renderPlugin,
+  NodeServer,
 } from '@modern-js/server-core';
 import {
   bindBffPlugin,
   serverStaticPlugin,
   injectResourcePlugin,
   loadCacheConfig,
+  injectNodeSeverPlugin,
 } from '@modern-js/server-core/node';
 import { createLogger, isProd } from '@modern-js/utils';
 import { ProdServerOptions } from './types';
@@ -31,6 +33,7 @@ export type ApplyPlugins = typeof applyPlugins;
 export async function applyPlugins(
   serverBase: ServerBase,
   options: ProdServerOptions,
+  nodeServer?: NodeServer,
 ) {
   const { pwd, appContext } = options;
 
@@ -62,6 +65,10 @@ export async function applyPlugins(
       cacheConfig,
     }),
   ];
+
+  if (nodeServer) {
+    plugins.unshift(injectNodeSeverPlugin({ nodeServer }));
+  }
 
   serverBase.addPlugins(plugins);
 }

@@ -9,7 +9,7 @@ import { ApplyPlugins, ModernDevServerOptions } from './types';
 import { getDevOptions } from './helpers';
 import { devPlugin } from './dev';
 
-export type { ModernDevServerOptions, InitProdMiddlewares } from './types';
+export type { ModernDevServerOptions } from './types';
 
 export const createDevServer = async <O extends ServerBaseOptions>(
   options: ModernDevServerOptions<O>,
@@ -29,14 +29,13 @@ export const createDevServer = async <O extends ServerBaseOptions>(
   const prodServerOptions = {
     ...options,
     pwd: distDir, // server base pwd must distDir,
-    serverConfig,
   };
 
+  if (serverConfig) {
+    prodServerOptions.serverConfig = serverConfig;
+  }
+
   const server = createServerBase(prodServerOptions);
-
-  server.addPlugins([devPlugin(options)]);
-
-  await applyPlugins(server, prodServerOptions);
 
   const devHttpsOption = typeof dev === 'object' && dev.https;
   let nodeServer;
@@ -51,7 +50,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     nodeServer = await createNodeServer(server.handle.bind(server));
   }
 
-  await server.init({ nodeServer });
+  server.addPlugins([devPlugin(options)]);
+
+  await applyPlugins(server, prodServerOptions, nodeServer);
+
+  await server.init();
 
   return nodeServer;
 };
