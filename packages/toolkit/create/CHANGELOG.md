@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.53.0
+
+### Minor Changes
+
+- f0aa3d3: feat: @modern-js/create not support create Monorepo Project
+
+  feat: @modern-js/create 移除创建 Monorepo 项目
+
 ## 2.52.0
 
 ## 2.51.0

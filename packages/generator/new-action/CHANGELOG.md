@@ -1,5 +1,22 @@
 # @modern-js/new-action
 
+## 2.53.0
+
+### Minor Changes
+
+- f0aa3d3: feat: @modern-js/create not support create Monorepo Project
+
+  feat: @modern-js/create 移除创建 Monorepo 项目
+
+### Patch Changes
+
+- Updated dependencies [f0aa3d3]
+- Updated dependencies [5e442c1]
+- Updated dependencies [f0aa3d3]
+  - @modern-js/generator-common@3.4.0
+  - @modern-js/generator-utils@3.4.0
+  - @modern-js/utils@2.53.0
+
 ## 2.52.0
 
 ### Patch Changes
