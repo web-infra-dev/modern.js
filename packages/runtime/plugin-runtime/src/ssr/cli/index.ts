@@ -1,11 +1,8 @@
 import path from 'path';
 import {
-  getEntryOptions,
-  SERVER_RENDER_FUNCTION_NAME,
   LOADABLE_STATS_FILE,
   isUseSSRBundle,
   createRuntimeExportsUtils,
-  isSSGEntry,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
@@ -13,9 +10,6 @@ import type {
   CliPlugin,
   AppTools,
 } from '@modern-js/app-tools';
-import type { RouterConfig } from '../../router';
-
-const PLUGIN_IDENTIFIER = 'ssr';
 
 const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
@@ -56,8 +50,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
   required: ['@modern-js/runtime'],
 
   setup: api => {
-    const ssrConfigMap = new Map<string, any>();
-
     let pluginsExportsUtils: any;
 
     return {
@@ -140,106 +132,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             babel: babelHandler,
           },
         };
-      },
-      modifyEntryImports({ entrypoint, imports }) {
-        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
-        const userConfig = api.useResolvedConfigContext();
-        const { packageName, entrypoints } = api.useAppContext();
-        pluginsExportsUtils.addExport(
-          `export { default as ssr } from '@modern-js/runtime/ssr'`,
-        );
-
-        // if use ssg then set ssr config to true
-        const ssrConfig = getEntryOptions(
-          entryName,
-          isMainEntry,
-          userConfig.server.ssr,
-          userConfig.server.ssrByEntries,
-          packageName,
-        );
-
-        if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
-          const runtimeConfig = getEntryOptions(
-            entryName,
-            isMainEntry,
-            userConfig.runtime,
-            userConfig.runtimeByEntries,
-            packageName,
-          );
-          if (
-            (runtimeConfig?.router as RouterConfig)?.mode === 'react-router-5'
-          ) {
-            throw new Error(
-              `router v5 plugin doesn't support streaming SSR, check your config 'runtime.router'`,
-            );
-          }
-
-          if (fileSystemRoutes && !entrypoint.nestedRoutesEntry) {
-            throw new Error(
-              'You should switch to file-system based router to support streaming SSR.',
-            );
-          }
-        }
-
-        const useSSG = isSSGEntry(userConfig, entryName, entrypoints);
-
-        ssrConfigMap.set(entryName, ssrConfig || useSSG);
-        if (ssrConfig || useSSG) {
-          imports.push({
-            value: '@modern-js/runtime/plugins',
-            specifiers: [{ imported: PLUGIN_IDENTIFIER }],
-          });
-        }
-        return {
-          entrypoint,
-          imports,
-        };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins, bundlerConfigs }) {
-        if (ssrConfigMap.get(entrypoint.entryName)) {
-          const chunkLoadingGlobal = bundlerConfigs?.find(
-            config => config.name === 'client',
-          )?.output?.chunkLoadingGlobal;
-          const config = api.useResolvedConfigContext();
-          const { enableInlineScripts, enableInlineStyles } = config.output;
-          const { crossorigin, scriptLoading } = config.html;
-
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              scriptLoading,
-              ...(ssrConfigMap.get(entrypoint.entryName) || {}),
-              crossorigin,
-              chunkLoadingGlobal,
-              enableInlineScripts:
-                typeof enableInlineScripts === 'function'
-                  ? undefined
-                  : enableInlineScripts,
-              enableInlineStyles:
-                typeof enableInlineStyles === 'function'
-                  ? undefined
-                  : enableInlineStyles,
-            }),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
-      },
-      modifyEntryExport({ entrypoint, exportStatement }) {
-        if (ssrConfigMap.get(entrypoint.entryName)) {
-          return {
-            entrypoint,
-            exportStatement: [
-              `export function ${SERVER_RENDER_FUNCTION_NAME}(context) {
-              return bootstrap(AppWrapper, context)
-            }`,
-              exportStatement,
-            ].join('\n'),
-          };
-        }
-        return { entrypoint, exportStatement };
       },
     };
   },
