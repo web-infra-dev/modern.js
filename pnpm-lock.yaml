@@ -6577,6 +6577,21 @@ importers:
 
   tests/integration/runtime: {}
 
+  tests/integration/runtime-plugin/fixtures/custom-runtime-plugin:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
   tests/integration/runtime/fixtures/file-based-router:
     dependencies:
       '@modern-js/app-tools':
@@ -35288,12 +35303,12 @@ packages:
       uglify-js:
         optional: true
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.20
       esbuild: 0.18.20
       jest-worker: 27.5.1
       schema-utils: 3.3.0
-      serialize-javascript: 6.0.2
-      terser: 5.31.1
+      serialize-javascript: 6.0.1
+      terser: 5.29.2
       webpack: 5.92.0(esbuild@0.18.20)
     dev: false
 
