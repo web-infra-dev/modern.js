@@ -55,7 +55,8 @@ const initializeServerExported = async (url: string) => {
 };
 
 const initializeServer = async (url: string, state: ExportedServerState) => {
-  const socket = new window.WebSocket(url);
+  const _url = new URL(url, location.href);
+  const socket = new window.WebSocket(_url);
   const channel = await WebSocketChannel.link(socket);
   const hooks = createHooks<ToServerFunctions>();
   const definitions: ToServerFunctions = {
@@ -72,7 +73,7 @@ const initializeServer = async (url: string, state: ExportedServerState) => {
     ...channel.handlers,
     timeout: 5000,
   });
-  const server = { remote, hooks };
+  const server = { remote, hooks, url: _url };
   return server;
 };
 
