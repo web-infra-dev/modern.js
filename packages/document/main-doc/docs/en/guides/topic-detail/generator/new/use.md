@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Usage
 
-In Web App, Npm Module and Monorepo projects, we provide the `new` command to create project elements, enable features and create sub-project.
+In Web App, Npm Module projects, we provide the `new` command to create project elements, enable features and create sub-project.
 
 ## Web App
 
