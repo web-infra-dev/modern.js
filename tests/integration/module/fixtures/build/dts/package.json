@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "devDependencies": {
     "react": "^18.2.0"
-  }
+  },
+  "private": true
 }

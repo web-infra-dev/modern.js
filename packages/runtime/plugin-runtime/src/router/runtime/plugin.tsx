@@ -40,6 +40,9 @@ export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   basename = '',
+  // when the current child app has multiple entries, there is a problem,
+  // so we have added a new parameter, the parameter will replace basename and baseUrl after the major version.
+  originalBaseUrl = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -81,6 +84,7 @@ export const routerPlugin = ({
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
               const baseUrl =
+                originalBaseUrl ||
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
               const _basename =

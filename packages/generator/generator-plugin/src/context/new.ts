@@ -6,13 +6,8 @@ import {
   MWAActionElements,
   MWAActionFunctions,
   Solution,
-  SubSolution,
 } from '@modern-js/generator-common';
-import {
-  MWANewAction,
-  ModuleNewAction,
-  MonorepoNewAction,
-} from '@modern-js/new-action';
+import { MWANewAction, ModuleNewAction } from '@modern-js/new-action';
 
 export class PluginNewAPI {
   private readonly solution: Solution | 'custom';
@@ -37,7 +32,6 @@ export class PluginNewAPI {
     return {
       createElement: this.createElement.bind(this),
       enableFunc: this.enableFunc.bind(this),
-      createSubProject: this.createSubProject.bind(this),
     };
   }
 
@@ -95,24 +89,5 @@ export class PluginNewAPI {
       return;
     }
     throw new Error(`this solution project not support enable function`);
-  }
-
-  async createSubProject(
-    solution: SubSolution,
-    params: Record<string, unknown>,
-  ) {
-    if (this.solution === Solution.Monorepo) {
-      await MonorepoNewAction({
-        config: JSON.stringify({
-          solution,
-          noNeedInstall: true,
-          ...this.inputData,
-          ...params,
-        }),
-        cwd: this.projectPath,
-      });
-      return;
-    }
-    throw new Error(`this solution project not support create subproject`);
   }
 }

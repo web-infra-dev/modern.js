@@ -1,5 +1,73 @@
 # @modern-js/plugin-module-import
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/module-tools@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [6e15311]
+- Updated dependencies [5d135ea]
+  - @modern-js/module-tools@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

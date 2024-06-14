@@ -4,7 +4,6 @@ import {
   type RsbuildPlugin,
   type RsbuildInstance,
 } from '@rsbuild/core';
-import type { RsbuildProvider } from '@rsbuild/shared';
 import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
@@ -52,11 +51,6 @@ export async function parseConfig(
     );
   }
 
-  if (uniBuilderConfig.output?.enableAssetManifest) {
-    const { pluginManifest } = await import('./plugins/manifest');
-    rsbuildPlugins.push(pluginManifest());
-  }
-
   if (!uniBuilderConfig.output?.disableMinimize) {
     const { pluginMinimize } = await import('./plugins/minimize');
     rsbuildPlugins.push(pluginMinimize(uniBuilderConfig.tools?.terser));
@@ -90,7 +84,7 @@ export async function parseConfig(
 }
 
 export type UniBuilderWebpackInstance = Omit<
-  RsbuildInstance<RsbuildProvider<'webpack'>>,
+  RsbuildInstance,
   keyof OverridesUniBuilderInstance
 > &
   OverridesUniBuilderInstance;
@@ -106,7 +100,9 @@ export async function createWebpackBuilder(
   });
 
   const { webpackProvider } = await import('@rsbuild/webpack');
-  const { setHTMLPlugin } = await import('@rsbuild/core/provider');
+  const {
+    __internalHelper: { setHTMLPlugin },
+  } = await import('@rsbuild/core');
 
   const { default: HtmlWebpackPlugin } = await import('html-webpack-plugin');
 

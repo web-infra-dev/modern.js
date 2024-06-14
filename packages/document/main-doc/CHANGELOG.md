@@ -1,5 +1,84 @@
 # @modern-js/main-doc
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.53.0
+- @modern-js/builder-doc@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.52.0
+- @modern-js/sandpack-react@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.51.0
+- @modern-js/sandpack-react@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.50.0
+- @modern-js/builder-doc@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.49.4
+- @modern-js/sandpack-react@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.49.3
+- @modern-js/sandpack-react@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.49.2
+- @modern-js/sandpack-react@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- bfba084: docs: bump Rspress v1.18.2 and remove dividers
+- Updated dependencies [bfba084]
+  - @modern-js/builder-doc@2.49.1
+  - @modern-js/sandpack-react@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.49.0
+- @modern-js/builder-doc@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.48.6
+- @modern-js/sandpack-react@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.48.5
+- @modern-js/builder-doc@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

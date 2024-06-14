@@ -1,5 +1,37 @@
 # @modern-js/utils
 
+## 2.53.0
+
+## 2.52.0
+
+## 2.51.0
+
+## 2.50.0
+
+## 2.49.4
+
+## 2.49.3
+
+## 2.49.2
+
+## 2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+## 2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- 4ca9f4c: fix: remove `node:` prefix
+  fix: 移除 `node:` 前缀
+
 ## 2.48.4
 
 ### Patch Changes

@@ -1,5 +1,83 @@
 # @modern-js/plugin-ssg
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.52.0
+- @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- c462b7e: fix(plugin-ssg): prod-server should be dependencies in ssg plugin
+  fix(plugin-ssg): prod-server 应该是生产依赖在 ssg 插件里
+  - @modern-js/prod-server@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

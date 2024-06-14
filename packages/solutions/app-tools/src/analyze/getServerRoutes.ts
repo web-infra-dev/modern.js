@@ -7,11 +7,11 @@ import {
   removeLeadingSlash,
   getEntryOptions,
   SERVER_BUNDLE_DIRECTORY,
-  MAIN_ENTRY_NAME,
   removeTailSlash,
   SERVER_WORKER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
+import { isMainEntry } from '../utils/routes';
 import type { AppNormalizedConfig } from '../types';
 import { walkDirectory } from './utils';
 
@@ -126,16 +126,15 @@ const collectHtmlRoutes = (
     server: { baseUrl, routes, ssr, ssrByEntries },
     deploy,
   } = config;
-
   const { packageName } = appContext;
   const workerSSR = deploy?.worker?.ssr;
 
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
     (previous, { entryName }) => {
-      const isMainEntry = entryName === (mainEntryName || MAIN_ENTRY_NAME);
+      const isMain = isMainEntry(entryName, mainEntryName);
       const entryOptions = getEntryOptions(
         entryName,
-        isMainEntry,
+        isMain,
         ssr,
         ssrByEntries,
         packageName,
@@ -149,7 +148,7 @@ const collectHtmlRoutes = (
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
-        urlPath: `/${isMainEntry ? '' : entryName}`,
+        urlPath: `/${isMain ? '' : entryName}`,
         entryName,
         entryPath: removeLeadingSlash(
           path.posix.normalize(

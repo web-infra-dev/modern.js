@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.4",
+  "version": "2.53.0",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -60,6 +60,7 @@
     },
     "./fileReader": {
       "jsnext:source": "./src/node/fileReader.ts",
+      "types": "./dist/types/node/fileReader.d.ts",
       "require": "./dist/cjs/node/fileReader.js",
       "default": "./dist/esm/node/fileReader.js"
     },

@@ -1,24 +1,57 @@
 import {
   CHAIN_ID,
-  getTerserMinifyOptions,
-  type BundlerChain,
+  type RspackChain,
   type RsbuildPlugin,
   type NormalizedConfig,
-  parseMinifyOptions,
-  mergeChainedOptions,
 } from '@rsbuild/shared';
+import { applyOptionsChain } from '@modern-js/utils';
 import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
+function applyRemoveConsole(
+  options: TerserPluginOptions,
+  config: NormalizedConfig,
+) {
+  const { removeConsole } = config.performance;
+  const compressOptions =
+    typeof options.terserOptions!.compress === 'boolean'
+      ? {}
+      : options.terserOptions!.compress || {};
+
+  if (removeConsole === true) {
+    options.terserOptions!.compress = {
+      ...compressOptions,
+      drop_console: true,
+    };
+  } else if (Array.isArray(removeConsole)) {
+    const pureFuncs = removeConsole.map(method => `console.${method}`);
+    options.terserOptions!.compress = {
+      ...compressOptions,
+      pure_funcs: pureFuncs,
+    };
+  }
+
+  return options;
+}
+
 async function applyJSMinimizer(
-  chain: BundlerChain,
+  chain: RspackChain,
   config: NormalizedConfig,
   userTerserConfig?: ToolsTerserConfig,
 ) {
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
   const DEFAULT_OPTIONS: TerserPluginOptions = {
-    terserOptions: getTerserMinifyOptions(config),
+    terserOptions: {
+      mangle: {
+        safari10: true,
+      },
+      format: {
+        ascii_only: config.output.charset === 'ascii',
+      },
+    },
   };
+
+  applyRemoveConsole(DEFAULT_OPTIONS, config);
 
   switch (config.output.legalComments) {
     case 'inline':
@@ -35,10 +68,7 @@ async function applyJSMinimizer(
       break;
   }
 
-  const mergedOptions = mergeChainedOptions({
-    defaults: DEFAULT_OPTIONS,
-    options: userTerserConfig,
-  });
+  const mergedOptions = applyOptionsChain(DEFAULT_OPTIONS, userTerserConfig);
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)
@@ -58,8 +88,13 @@ export const pluginMinimize = (
   setup(api) {
     api.modifyBundlerChain(async (chain, { isProd }) => {
       const config = api.getNormalizedConfig();
+      const { minify } = config.output;
 
-      if (parseMinifyOptions(config, isProd).minifyJs) {
+      if (minify === false || !isProd) {
+        return;
+      }
+
+      if (minify === true || minify?.js !== false) {
         await applyJSMinimizer(chain, config, userTerserConfig);
       }
     });

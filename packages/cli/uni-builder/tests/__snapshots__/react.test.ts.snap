@@ -19,6 +19,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
@@ -47,10 +48,10 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.1",
+                "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {

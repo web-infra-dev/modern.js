@@ -1,24 +1,25 @@
 import type {
   NodeEnv,
   MetaOptions,
-  ServerConfig,
-  ScriptInject,
-  RsbuildTarget,
-  ChainedConfig,
-  ChainedConfigWithUtils,
+  ConfigChain,
+  ConfigChainWithContext,
   InlineChunkTest,
-  DevConfig,
   RequestHandler,
-  RsbuildEntry,
-  PromiseOrNot,
-  RsbuildPluginAPI,
-  ArrayOrNot,
+  MaybePromise,
   HtmlTagDescriptor,
 } from '@rsbuild/shared';
-import type { RsbuildConfig } from '@rsbuild/core';
+import type {
+  DevConfig,
+  RsbuildConfig,
+  RsbuildTarget,
+  Polyfill,
+  ScriptInject,
+  RsbuildEntry,
+  ServerConfig,
+  RsbuildPluginAPI,
+} from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import type { LazyCompilationOptions } from './webpack/plugins/lazyCompilation';
 import type { PluginRemOptions } from '@rsbuild/plugin-rem';
 import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
@@ -27,6 +28,8 @@ import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
 import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { PluginSassOptions } from '@rsbuild/plugin-sass';
+import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
 import type {
   StartDevServerOptions,
@@ -34,6 +37,8 @@ import type {
 } from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
+
+type ArrayOrNot<T> = T | T[];
 
 export type CreateBuilderCommonOptions = {
   entry?: RsbuildEntry;
@@ -50,7 +55,7 @@ export type CreateUniBuilderOptions = {
 
 export type GlobalVars = Record<string, any>;
 
-export type ChainedGlobalVars = ChainedConfigWithUtils<
+export type ChainedGlobalVars = ConfigChainWithContext<
   GlobalVars,
   {
     env: NodeEnv;
@@ -71,7 +76,7 @@ export type DisableSourceMapOption =
       css?: boolean;
     };
 
-export type ToolsDevServerConfig = ChainedConfig<{
+export type ToolsDevServerConfig = ConfigChain<{
   before?: RequestHandler[];
   after?: RequestHandler[];
   client?: DevConfig['client'];
@@ -91,7 +96,7 @@ export type ToolsDevServerConfig = ChainedConfig<{
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
   TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
 
-export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
+export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
 export type UniBuilderExtraConfig = {
   tools?: {
@@ -128,6 +133,14 @@ export type UniBuilderExtraConfig = {
      * @requires webpack
      */
     terser?: ToolsTerserConfig;
+    /**
+     * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
+     */
+    less?: PluginLessOptions['lessLoaderOptions'];
+    /**
+     * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
+     */
+    sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
     /**
@@ -154,7 +167,7 @@ export type UniBuilderExtraConfig = {
      * Restrict importing paths. After configuring this option, all source files can only import code from
      * the specific paths, and import code from other paths is not allowed.
      */
-    moduleScopes?: ChainedConfig<ModuleScopes>;
+    moduleScopes?: ConfigChain<ModuleScopes>;
     /**
      * This configuration will determine which field of `package.json` you use to import the `npm` module.
      * Same as the [resolve.mainFields](https://webpack.js.org/configuration/resolve/#resolvemainfields) config of webpack.
@@ -175,6 +188,10 @@ export type UniBuilderExtraConfig = {
      * @deprecated use `output.filenameHash` instead
      */
     disableFilenameHash?: boolean;
+    /**
+     * Whether to generate a TypeScript declaration file for CSS Modules.
+     */
+    enableCssModuleTSDeclaration?: boolean;
     /**
      * @deprecated use `source.decorators` instead
      */
@@ -297,10 +314,7 @@ export type UniBuilderExtraConfig = {
     checkSyntax?: boolean | PluginCheckSyntaxOptions;
   };
   experiments?: {
-    /**
-     * Tips: this configuration is not yet supported in rspack
-     */
-    lazyCompilation?: LazyCompilationOptions;
+    lazyCompilation?: DevConfig['lazyCompilation'];
     /**
      * Enable the ability for source code building
      */
@@ -362,7 +376,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => PromiseOrNot<any | void>,
+    ) => MaybePromise<any | void>,
   ) => void;
 };
 
@@ -371,7 +385,7 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => PromiseOrNot<void>;
+  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];
@@ -380,7 +394,9 @@ export type UniBuilderPlugin = {
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: RsbuildConfig['output'];
+  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+    polyfill?: Polyfill | 'ua';
+  };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
   tools?: RsbuildConfig['tools'];

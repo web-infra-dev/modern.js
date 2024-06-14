@@ -4,7 +4,6 @@ import {
   ActionFunction,
   PackageManager,
   Solution,
-  SubSolution,
 } from '@modern-js/generator-common';
 import { AddFileParams, AddManyFilesParams } from '../utils/file';
 import { PluginFileAPI } from './file';
@@ -62,10 +61,6 @@ export type ForgedAPI = {
   enableFunc: (
     func: ActionFunction,
     params?: Record<string, unknown> | undefined,
-  ) => Promise<void>;
-  createSubProject: (
-    solution: SubSolution,
-    params: Record<string, unknown>,
   ) => Promise<void>;
 };
 

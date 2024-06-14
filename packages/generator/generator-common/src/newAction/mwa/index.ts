@@ -25,7 +25,6 @@ export const MWAActionFunctions = [
   ActionFunction.SSG,
   ActionFunction.SWC,
   ActionFunction.MicroFrontend,
-  ActionFunction.Test,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
   ActionFunction.StorybookV7,
@@ -40,29 +39,18 @@ export const MWAActionTypesMap: Record<ActionType, string[]> = {
   [ActionType.Refactor]: MWAActionReactors,
 };
 
-export const getMWANewActionSchema = (
-  extra: Record<string, any> = {},
-): Schema => {
-  const { funcMap = {}, refactorMap = {} } = extra;
-  const funcs = MWAActionFunctions.filter(func => !funcMap[func]);
-  const refactors = MWAActionReactors.filter(reactor => !refactorMap[reactor]);
+export const getMWANewActionSchema = (): Schema => {
   return {
     type: 'object',
     properties: {
       actionType: {
         type: 'string',
         title: i18n.t(localeKeys.action.self),
-        enum: MWAActionTypes.filter(type =>
-          type === ActionType.Function ? funcs.length > 0 : true,
-        )
-          .filter(type =>
-            type === ActionType.Refactor ? refactors.length > 0 : true,
-          )
-          .map(type => ({
-            value: type,
-            label: ActionTypeText[type](),
-            type: ['string'],
-          })),
+        enum: MWAActionTypes.map(type => ({
+          value: type,
+          label: ActionTypeText[type](),
+          type: ['string'],
+        })),
       },
       [ActionType.Element]: {
         type: 'string',
@@ -85,7 +73,7 @@ export const getMWANewActionSchema = (
       [ActionType.Function]: {
         type: 'string',
         title: ActionTypeQuestionText[ActionType.Function](),
-        enum: funcs.map(func => ({
+        enum: MWAActionFunctions.map(func => ({
           value: func,
           label: ActionFunctionText[func](),
         })),
@@ -103,7 +91,7 @@ export const getMWANewActionSchema = (
       [ActionType.Refactor]: {
         type: 'string',
         title: ActionTypeQuestionText[ActionType.Refactor](),
-        enum: refactors.map(refactor => ({
+        enum: MWAActionReactors.map(refactor => ({
           value: refactor,
           label: ActionRefactorText[refactor](),
         })),
@@ -126,7 +114,6 @@ export const MWAActionFunctionsDevDependencies: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
-  [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
@@ -146,7 +133,6 @@ export const MWAActionFunctionsAppendTypeContent: Partial<
   Record<ActionFunction, string>
 > = {
   [ActionFunction.MicroFrontend]: `/// <reference types='@modern-js/plugin-garfish/types' />`,
-  [ActionFunction.Test]: `/// <reference types='@modern-js/plugin-testing/types' />`,
 };
 
 export const MWAActionRefactorDependencies: Partial<
@@ -173,7 +159,6 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.BFF]: '@modern-js/bff-generator',
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
-    [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.StorybookV7]: '@modern-js/storybook-next-generator',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
@@ -196,14 +181,13 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
-    [ActionFunction.Test]: 'testingPlugin',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
     [ActionFunction.Proxy]: 'proxyPlugin',
     [ActionFunction.SWC]: 'swcPlugin',
   },
   [ActionType.Refactor]: {
-    [ActionRefactor.ReactRouter5]: 'reactRouter5Plugin',
+    [ActionRefactor.ReactRouter5]: 'routerPlugin',
   },
 };
 
@@ -218,7 +202,6 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.BFF]: '@modern-js/plugin-bff',
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
-    [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',

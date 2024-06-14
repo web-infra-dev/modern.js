@@ -47,5 +47,7 @@ website/**/.temp
 .nx/
 playground/
 
-# Local Netlify folder
-.netlify
+
+.output/
+.vercel/
+.netlify/

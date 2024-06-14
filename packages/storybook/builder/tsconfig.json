@@ -1,16 +1,11 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "target": "ES2020",
-    "declaration": true,
-    "outDir": "dist",
-    "isolatedModules": true,
-    "noImplicitAny": true,
-    "skipLibCheck": true,
-    "sourceMap": true,
-    "moduleResolution": "NodeNext",
-    "module": "NodeNext",
-    "esModuleInterop": true
+    "module": "ES2020",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "rootDir": "src",
+    "moduleResolution": "Bundler"
   },
-  "include": ["./src"],
+  "include": ["src"]
 }

@@ -1,5 +1,6 @@
-import { mergeChainedOptions, type Define } from '@rsbuild/shared';
+import type { Define } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { applyOptionsChain } from '@modern-js/utils';
 import type { ChainedGlobalVars } from '../../types';
 
 export const pluginGlobalVars = (
@@ -13,11 +14,7 @@ export const pluginGlobalVars = (
         return;
       }
 
-      const globalVars = mergeChainedOptions({
-        defaults: {},
-        options,
-        utils: { env, target },
-      });
+      const globalVars = applyOptionsChain({}, options, { env, target });
 
       const serializedVars: Define = {};
 

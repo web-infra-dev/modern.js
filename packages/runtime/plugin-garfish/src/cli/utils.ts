@@ -55,6 +55,8 @@ function canContinueRender ({ dom, appName }) {
 
 function generateRouterPlugin (basename,routerConfig) {
   if (basename) {
+    routerConfig.originalBaseUrl = basename;
+    // for compatibility with react router v5
     routerConfig.basename = basename;
     if (routerConfig.supportHtml5History !== false) {
       if (!routerConfig.historyOptions) {
@@ -102,6 +104,12 @@ export const makeRenderFunction = (code: string) => {
         `customBootstrap(AppWrapper`,
         'customBootstrap(AppWrapper, mountNode',
       )
+      /*
+      传递 props 给 customBootstrap
+      (.*)：.代表任何字符（除了换行符），*代表前面的字符可以出现任意次数，包括0次。所以这部分匹配任何在 customBootstrap 括号中的内容，并且用括号()标记为一个捕获组，留待之后引用。
+      'customBootstrap($1, props)': 这是替换模式。$1是一个特殊的符号，用于引用前面正则表达式中的第一个捕获组。
+      */
+      .replace(/customBootstrap\((.*)\)/g, 'customBootstrap($1, props)')
   );
 };
 

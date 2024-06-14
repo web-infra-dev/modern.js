@@ -1,0 +1,42 @@
+---
+sidebar_label: client
+---
+
+# dev.client
+
+Configure the client code injected by Modern.js during the development process. This can be used to set the WebSocket URL for HMR.
+
+- **Type:**
+
+```ts
+type Client = {
+  /** Specify the protocol name for the WebSocket request */
+  protocol?: 'ws' | 'wss';
+  /** Specify the path for the WebSocket request */
+  path?: string;
+  /** Specify the port number for the WebSocket request */
+  port?: string;
+  /** Specify the host for the WebSocket request */
+  host?: string;
+  /**
+   * Shows overlay in the browser when there are compiler errors
+   * This feature requires the current browser version to support [Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+   */
+  overlay?: boolean;
+};
+```
+
+- **Default:**
+
+```js
+const defaultConfig = {
+  path: '/webpack-hmr',
+  // Defaults to the port number of the dev server
+  port: '',
+  host: location.hostname,
+  protocol: location.protocol === 'https:' ? 'wss' : 'ws',
+  overlay: false,
+};
+```
+
+For detailed usage, please refer to [Rsbuild - dev.client](https://rsbuild.dev/config/dev/client).

@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Usage
 
-In Web App, Npm Module and Monorepo projects, we provide the `new` command to create project elements, enable features and create sub-project.
+In Web App, Npm Module projects, we provide the `new` command to create project elements, enable features and create sub-project.
 
 ## Web App
 
@@ -73,23 +73,3 @@ npm run new
 ```
 
 After running, Storybook plugin dependencies will be installed in the project, and the `storybook` command will be added. A `stories` directory will be created for Storybook module development, along with prompt information for registering Storybook plugins.
-
-## Monorepo
-
-Monorepo projects use the `new` command provided by `@modern-js/monorepo-tools`.
-
-The `new` command provides the ability to create sub-project.
-
-For example:
-
-Create Web App Sub-project:
-
-```bash
-? Please select the type of project you want to create: Web App
-? Please fill in the sub-project name: web_app
-? Please fill in the sub-project directory name: web_app
-? Please select the programming language: TS
-? Please select the bundler: webpack
-```
-
-After running, a sub-project named `web_app` will be created in the `apps` directory of the project. In the sub-project directory, you can still run the `new` command to create project elements and enable features.

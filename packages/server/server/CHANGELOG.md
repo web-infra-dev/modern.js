@@ -1,5 +1,153 @@
 # @modern-js/server
 
+## 2.53.0
+
+### Patch Changes
+
+- Updated dependencies [0fce81a]
+- Updated dependencies [b251046]
+- Updated dependencies [a481488]
+  - @modern-js/server-core@2.53.0
+  - @modern-js/server-utils@2.53.0
+  - @modern-js/runtime-utils@2.53.0
+  - @modern-js/types@2.53.0
+  - @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+- Updated dependencies [ad4548d]
+- Updated dependencies [920d856]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/server-core@2.52.0
+  - @modern-js/server-utils@2.52.0
+  - @modern-js/types@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- Updated dependencies [9d4d04d]
+  - @modern-js/server-core@2.51.0
+  - @modern-js/server-utils@2.51.0
+  - @modern-js/runtime-utils@2.51.0
+  - @modern-js/types@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- Updated dependencies [7ed2fbc]
+  - @modern-js/server-core@2.50.0
+  - @modern-js/server-utils@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/types@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- 6e12e9f: fix: public middleware should not filter api route & support https
+  fix: public middleware 不应该过滤 api 路由 & 支持 https
+- Updated dependencies [4653e73]
+- Updated dependencies [2c60b6b]
+- Updated dependencies [936ca64]
+- Updated dependencies [6e12e9f]
+  - @modern-js/server-core@2.49.4
+  - @modern-js/server-utils@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/types@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- 72b864d: fix: register mock middleware after dev middlewares & lambda files should not be check by ts-checker
+  fix: 在 dev middlewares 之后注册 mock middleware & lambda 文件不应该被 ts-checker 校验
+- Updated dependencies [d936fe3]
+- Updated dependencies [45cae97]
+- Updated dependencies [0c4929f]
+- Updated dependencies [1b594a5]
+- Updated dependencies [4d728d2]
+- Updated dependencies [aa3a1dc]
+- Updated dependencies [327f607]
+- Updated dependencies [3e663e9]
+  - @modern-js/server-core@2.49.3
+  - @modern-js/server-utils@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.49.2
+- @modern-js/server-utils@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- b89879e: fix: @modern-js/server-core should be a dependency in @modern-js/server
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [5b44c1c]
+  - @modern-js/server-core@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- 805e021: fix: unify register in app-tools
+  fix: 在 app-tools 中统一注册 register
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [805e021]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/prod-server@2.48.6
+- @modern-js/server-utils@2.48.6
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/prod-server@2.48.5
+  - @modern-js/server-utils@2.48.5
+  - @modern-js/runtime-utils@2.48.5
+  - @modern-js/types@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

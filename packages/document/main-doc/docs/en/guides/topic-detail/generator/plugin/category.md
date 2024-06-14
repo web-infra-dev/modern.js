@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-## Introduction
+# Introduction
 
 There are two types of generator plugin:
 

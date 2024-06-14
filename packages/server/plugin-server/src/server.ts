@@ -14,10 +14,13 @@ enum HOOKS {
 class Storage {
   public middlewares: Middleware[] = [];
 
+  public unstableMiddlewares: any[] = [];
+
   public hooks: Record<string, Hook> = {};
 
   reset() {
     this.middlewares = [];
+    this.unstableMiddlewares = [];
     this.hooks = {};
   }
 }
@@ -59,6 +62,14 @@ export const compose = (middlewares: Middleware[]) => {
   };
 };
 
+function getFactory(storage: Storage) {
+  const { middlewares } = storage;
+
+  const factory = compose(middlewares);
+
+  return factory;
+}
+
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-server',
 
@@ -70,7 +81,12 @@ export default (): ServerPlugin => ({
 
     const loadMod = () => {
       const { middleware: unstableMiddleware } = loadMiddleware(pwd);
-      const { defaultExports, hooks, middleware } = loadServerMod(pwd);
+      const {
+        defaultExports,
+        hooks,
+        middleware,
+        unstableMiddleware: unstableMiddlewares,
+      } = loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
@@ -89,7 +105,11 @@ export default (): ServerPlugin => ({
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
       storage.middlewares = storage.middlewares.concat(unstableMiddleware);
+
+      storage.unstableMiddlewares.push(...(unstableMiddlewares || []));
     };
+
+    let factory: ReturnType<typeof compose>;
 
     return {
       prepare() {
@@ -98,11 +118,7 @@ export default (): ServerPlugin => ({
       reset() {
         storage.reset();
         loadMod();
-      },
-      gather({ addWebMiddleware }) {
-        storage.middlewares.forEach(mid => {
-          addWebMiddleware(mid);
-        });
+        factory = getFactory(storage);
       },
       afterMatch(context, next) {
         if (!storage.hooks.afterMatch) {
@@ -116,16 +132,23 @@ export default (): ServerPlugin => ({
         }
         return storage.hooks.afterRender(context, next);
       },
-      prepareWebServer({ config }) {
-        const { middleware } = config;
-        const factory = compose(middleware);
+      prepareWebServer() {
+        const { unstableMiddlewares } = storage;
+
+        if (unstableMiddlewares.length > 0) {
+          return unstableMiddlewares;
+        }
+
+        factory = getFactory(storage);
 
         return ctx => {
           const {
             source: { res },
           } = ctx;
+
           return new Promise<void>((resolve, reject) => {
-            res.on('finish', (err: Error) => {
+            // res is not exist in other js runtime.
+            res?.on('finish', (err: Error) => {
               if (err) {
                 return reject(err);
               }

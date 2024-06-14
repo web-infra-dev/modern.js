@@ -24,23 +24,19 @@ export const Pair: React.FC<PairProps> = ({
 
   return (
     <Box key={data.id} className={styles.inputPair} aria-disabled={disabled}>
-      <TextField.Root>
-        <TextField.Input
-          value={data.key}
+      <TextField.Root
+        value={data.key}
+        disabled={disabled}
+        placeholder={placeholders[0]}
+        onChange={e => ($data.key = e.currentTarget.value)}
+      />
+      <Box asChild flexGrow="1">
+        <TextField.Root
+          value={data.value}
           disabled={disabled}
-          placeholder={placeholders[0]}
-          onChange={e => ($data.key = e.currentTarget.value)}
+          placeholder={placeholders[1]}
+          onChange={e => ($data.value = e.currentTarget.value)}
         />
-      </TextField.Root>
-      <Box asChild grow="1">
-        <TextField.Root>
-          <TextField.Input
-            value={data.value}
-            disabled={disabled}
-            placeholder={placeholders[1]}
-            onChange={e => ($data.value = e.currentTarget.value)}
-          />
-        </TextField.Root>
       </Box>
       <Box className={styles.actions}>
         <IconButton variant="ghost" color="gray" onClick={onDelete}>

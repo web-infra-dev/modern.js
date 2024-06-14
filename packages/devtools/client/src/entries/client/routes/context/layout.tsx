@@ -3,7 +3,7 @@ import { Box } from '@radix-ui/themes';
 
 export default function Layout() {
   return (
-    <Box px="4">
+    <Box width="100%" height="100%" p="4" style={{ overflowY: 'scroll' }}>
       <Outlet />
     </Box>
   );

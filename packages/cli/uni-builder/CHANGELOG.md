@@ -1,5 +1,128 @@
 # @modern-js/uni-builder
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.53.0
+- @modern-js/server@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- b520609: chore(deps): bump Rsbuild v0.7.3
+
+  chore(deps): 升级 Rsbuild v0.7.3
+
+  - @modern-js/prod-server@2.52.0
+  - @modern-js/server@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Minor Changes
+
+- e8d41fe: feat: bump rsbuild to 0.7.x and use CssExtractRspackPlugin to extract CSS
+
+### Patch Changes
+
+- @modern-js/prod-server@2.51.0
+- @modern-js/server@2.51.0
+- @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.50.0
+- @modern-js/server@2.50.0
+- @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- Updated dependencies [6e12e9f]
+  - @modern-js/prod-server@2.49.4
+  - @modern-js/server@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- 496703a: fix: uni-builder should depedency prod-server correctly
+  fix: uni-builder 需要正确依赖 prod-server
+- 3114955: chore(uni-builder): use rspack-manifest-plugin stable version
+- Updated dependencies [72b864d]
+  - @modern-js/server@2.49.3
+  - @modern-js/prod-server@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/server@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- bf82b23: chore(uni-builder): reuse rspack-manifest-plugin in webpack mode
+
+  chore(uni-builder): 在 webpack 模式下复用 rspack-manifest-plugin
+
+- b70ea93: chore(deps): bump rsbuild to 0.6.6
+- 6d5203e: feat: support dev.client configuration
+
+  feat: 支持 dev.client 配置项
+
+- Updated dependencies [b89879e]
+  - @modern-js/server@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- e891617: fix(uni-builder): modernjs should extend "ua" type in output.polyfill
+- 772d1f6: chore(deps): bump rsbuild to [0.6.x](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.0)
+
+  chore(deps): 升级 rsbuild 到 [0.6.x](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.0)
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [805e021]
+  - @modern-js/server@2.49.0
+  - @modern-js/utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- 06ed962: chore(deps): bump rsbuild to [0.6.1](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.1)
+
+  chore(deps): 升级 rsbuild 到 [0.6.1](https://github.com/web-infra-dev/rsbuild/releases/tag/v0.6.1)
+
+  - @modern-js/server@2.48.6
+  - @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/server@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

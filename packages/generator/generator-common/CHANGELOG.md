@@ -1,5 +1,89 @@
 # @modern-js/generator-common
 
+## 3.4.0
+
+### Minor Changes
+
+- f0aa3d3: feat: @modern-js/create not support create Monorepo Project
+
+  feat: @modern-js/create 移除创建 Monorepo 项目
+
+### Patch Changes
+
+- 5e442c1: fix: when enable react router v5, tooltip with plugin name is not right
+
+  fix: 修复当开启 react router v5 时，提示的插件名称不正确
+
+- f0aa3d3: feat: new command not support enable testing function
+
+  feat: new 命令不在支持开启测试功能
+
+  - @modern-js/plugin-i18n@2.53.0
+
+## 3.3.25
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.52.0
+
+## 3.3.24
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.51.0
+
+## 3.3.23
+
+### Patch Changes
+
+- e759876: feat: new command add already enable function tooltip
+
+  feat: new 命令增加已经开启功能的提示
+
+  - @modern-js/plugin-i18n@2.50.0
+
+## 3.3.22
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.4
+
+## 3.3.21
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.3
+
+## 3.3.20
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.2
+
+## 3.3.19
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.1
+
+## 3.3.18
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.0
+
+## 3.3.17
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.48.6
+
+## 3.3.16
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.48.5
+
 ## 3.3.15
 
 ### Patch Changes

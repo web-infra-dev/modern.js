@@ -1,0 +1,160 @@
+---
+title: Unstable Middleware
+---
+
+# Unstable Middleware
+
+Used to extend the built-in Web Server in Modern.js.
+UnstableMiddleware will replace [Middleware](/apis/app/runtime/web-server/middleware) in the future.
+
+## Usage
+
+```ts title="server/index.ts"
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+export const unstableMiddleware: UnstableMiddleware[] = [];
+```
+
+## Types
+
+**UnstableMiddleware**
+
+```ts
+type UnstableMiddleware<
+  V extends Record<string, unknown> = Record<string, unknown>,
+> = (
+  c: UnstableMiddlewareContext<V>,
+  next: UnstableNext,
+) => Promise<void | Response>;
+```
+
+**UnstableMiddlewareContext**
+
+```ts
+type Body = ReadableStream | ArrayBuffer | string | null;
+
+type UnstableMiddlewareContext<
+  V extends Record<string, unknown> = Record<string, unknown>,
+> = {
+  request: Request;
+  response: Response;
+  get: Get<V>;
+  set: Set<V>;
+  header: (name: string, value: string, options?: { append?: boolean }) => void;
+  status: (code: number) => void;
+  redirect: (location: string, status?: number) => Response;
+  body: (data: Body, init?: ResponseInit) => Response;
+  html: (
+    data: string | Promise<string>,
+    init?: ResponseInit,
+  ) => Response | Promise<Response>;
+};
+```
+
+**UnstableNext**
+
+```ts
+type UnstableNext = () => Promise<void>;
+```
+
+## Examples
+
+### Web Server Timing
+
+```ts
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+const time: UnstableMiddleware = async (c, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+
+  console.log(`${end - start}`);
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [time];
+```
+
+### Injecting Server Data for DataLoader Consumption
+
+```ts title="shared/index.ts"
+export type Vars = {
+  message: string;
+};
+```
+
+```ts title="server/index.ts"
+import {
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/runtime/server';
+import type { Vars } from '../shared/index';
+
+const setPayload: UnstableMiddleware = async (
+  c: UnstableMiddlewareContext<Vars>,
+  next,
+) => {
+  c.set('message', 'facker');
+
+  await next();
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [setPayload];
+```
+
+```ts title="src/routes/page.data.ts"
+import type { Payload } from '../../shared/index';
+import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+
+export const loader = async ({ context }: LoaderFunctionArgs<Vars>) => {
+  const message = context?.get('message');
+
+  // ...
+};
+```
+
+### Redirect
+
+```ts
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+const auth: UnstableMiddleware = async (c, next) => {
+  const user = getUser(c.request);
+
+  if (!user) {
+    return c.redirect('/login');
+  }
+
+  await next();
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [auth];
+```
+
+### Modify Response
+
+```ts
+import { UnstableMiddleware } from '@modern-js/runtime/server';
+
+const modifier: UnstableMiddleware = async (c, next) => {
+  await next();
+
+  const { response } = c;
+
+  const text = await response.text();
+
+  const newText = text.replace('<html>', `<html lang="${language}">`);
+
+  const newheaders = response.headers;
+  newheaders.set('x-custom-value', 'modern');
+
+  c.response = c.body(newText, {
+    status: response.status,
+    headers: newheaders,
+  });
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [modifier];
+```

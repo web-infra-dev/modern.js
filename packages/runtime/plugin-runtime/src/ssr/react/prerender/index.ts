@@ -89,9 +89,11 @@ function factory(Component: React.ComponentType<any>) {
         throw new Error('invalid props, check usage');
       }
 
-      console.error(
-        '[Warn] PreRender has been deprecated, please use SSR Cache instead. reference to docs: https://modernjs.dev/guides/advanced-features/ssr.html',
-      );
+      if (process.env.NODE_ENV === 'development') {
+        console.error(
+          '[Warn] PreRender has been deprecated, please use SSR Cache instead. reference to docs: https://modernjs.dev/guides/advanced-features/ssr.html',
+        );
+      }
 
       return createElement(Component, { ...newProps });
     }

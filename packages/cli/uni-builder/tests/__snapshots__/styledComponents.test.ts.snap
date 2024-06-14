@@ -139,6 +139,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
@@ -167,10 +168,10 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.1",
+                "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -280,6 +281,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
@@ -308,10 +310,10 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.1",
+                "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -421,11 +423,12 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-swc/dist/loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-swc/dist/loader.cjs",
         "options": {
           "cwd": "",
           "env": {
@@ -487,7 +490,6 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
               "useDefineForClassFields": false,
             },
           },
-          "sourceMaps": true,
         },
       },
     ],

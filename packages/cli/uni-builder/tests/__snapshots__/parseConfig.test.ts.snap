@@ -4,6 +4,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/aaaa",
     },
     "hmr": false,
@@ -16,6 +17,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -67,6 +69,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -79,6 +82,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -116,6 +120,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -129,6 +134,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -153,6 +159,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -169,6 +176,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -185,6 +193,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -209,6 +218,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -225,6 +235,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -238,6 +249,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -262,6 +274,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -278,6 +291,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -294,6 +308,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -318,6 +333,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -334,6 +350,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -347,6 +364,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -371,6 +389,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -387,6 +406,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -407,6 +427,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -431,6 +452,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -447,6 +469,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -460,6 +483,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -484,6 +508,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -500,6 +525,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -516,6 +542,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -540,6 +567,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -556,6 +584,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -569,6 +598,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -593,6 +623,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -609,6 +640,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -627,6 +659,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -651,6 +684,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -667,6 +701,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -682,6 +717,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     ],
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -706,6 +742,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -722,6 +759,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -737,6 +775,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     ],
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -761,6 +800,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -777,6 +817,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -792,6 +833,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "cssModules": {
       "localIdentName": "[local]-[hash:base64:6]",
     },
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -816,6 +858,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -832,6 +875,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -847,6 +891,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "cssModules": {
       "auto": [Function],
     },
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -871,6 +916,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   "security": {},
   "server": {
     "htmlFallback": false,
+    "port": 8080,
     "printUrls": false,
     "publicDir": false,
   },
@@ -887,6 +933,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -899,6 +946,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",
@@ -937,6 +985,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
 {
   "dev": {
     "client": {
+      "overlay": false,
       "path": "/webpack-hmr",
     },
     "hmr": true,
@@ -949,6 +998,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "title": "",
   },
   "output": {
+    "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
       "server": "bundles",

@@ -56,8 +56,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
-- [source.exclude](/api/config-source.html#sourceexclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -84,18 +82,13 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 > Builder 中与构建产物有关的配置。
 
-不支持的配置项及能力包括：
-
-- [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
-- [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
+所有 output 下的配置项及能力在 Rspack 内均可使用。
 
 #### Experiments Config
 
 > Builder 中的一些实验性配置。
 
-不支持的配置项及能力包括：
-
-- [experiments.lazyCompilation](/api/config-experiments.html#experimentslazycompilation)
+所有 experiments 下的配置项及能力在 Rspack 内均可使用。
 
 #### Performance Config
 
@@ -104,7 +97,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项及能力包括：
 
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
-- [performance.chunkSplit (split-by-module)](/api/config-performance.html#performancechunksplit)
 
 #### Tools Config
 
@@ -113,9 +105,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项包括：
 
 - [tools.terser](/api/config-tools.html#toolsterser)
-- [tools.cssExtract](/api/config-tools.html#toolscssextract)
-- [tools.cssLoader](/api/config-tools.html#toolscssloader) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
-- [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：使用 [tools.rspack](/api/config-tools#toolsrspack) 代替。
 - [tools.webpackChain](/api/config-tools.html#toolswebpackchain)：使用 [tools.bundlerChain](/api/config-tools#toolsbundlerchain) 代替。

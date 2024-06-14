@@ -25,6 +25,7 @@ import {
   hasEnabledFunction,
   usePluginNameExport,
 } from './utils';
+import { enableAlreadyText } from './constants';
 
 interface IModuleNewActionOption {
   locale?: string;
@@ -55,7 +56,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     throw new Error('config is not a valid json');
   }
 
-  i18n.changeLanguage({ locale: (UserConfig.locale as string) || locale });
+  const language = (UserConfig.locale as string) || locale;
+  i18n.changeLanguage({ locale: language });
 
   const smith = new CodeSmith({
     debug,
@@ -98,12 +100,16 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   const ans = await formilyAPI.getInputBySchemaFunc(getModuleNewActionSchema, {
     ...UserConfig,
-    funcMap,
   });
 
   const actionType = ans.actionType as ActionType;
 
   const action = ans[actionType] as string;
+
+  if (actionType === ActionType.Function && funcMap[action as ActionFunction]) {
+    smith.logger.error(enableAlreadyText[language]);
+    return;
+  }
 
   const generator = getGeneratorPath(
     ModuleNewActionGenerators[actionType]![action],

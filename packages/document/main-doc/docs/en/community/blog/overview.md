@@ -8,8 +8,6 @@ Welcome to Modern.js blog!
 
 You can find the latest update of Modern.js and our thought processes here. Occasionally we explain the infrastructure behind it.
 
----
-
 ## Announcing Modern.js v2: support Rspack
 
 > Published on 16.03.2023
@@ -19,8 +17,6 @@ We are excited to announce the release of Modern.js v2!
 Modern.js is a suite of infrastructure tools we built for web development inside Bytedance (we call ourself Web Infra). Since we open sourced this project a little more than a year ago, there were dozens of contributors helped us on development; we aggregated more than 2,000 pull requests and Modern.js started to support build tool like Rspack, features like nested routes, Streaming SSR and there are more to come!
 
 We are extremely proud of what we have achieved so far, you can also refer to [this article(English version under construction)](/community/blog/v2-release-note)👈🏻 to see what has changed over the last year in Modern.js.
-
----
 
 ## What is Streaming SSR in React 18
 
@@ -35,8 +31,6 @@ Since React 18, React supports a new type of SSR (streaming SSR) and it brought 
 To understand its design further, check out this [Github Discussion](https://github.com/reactwg/react-18/discussions/37) by Dan Abramov or watch this [talk](https://www.youtube.com/watch?v=pj5N-Khihgc).
 
 Or read more from us at [here(Further content in English under construction)](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g).
-
----
 
 ## Introducing React Server Component in Modern.js
 
@@ -58,8 +52,6 @@ We updated Modern.js to v1.21.0 during Sept - Oct. Major upgrade includes:
 - **added typescript compiler option on server side**
 
 [Read more (English version under construction)](/community/blog/2022-0910-updates)
-
----
 
 ## Updates during July - August in 2022
 

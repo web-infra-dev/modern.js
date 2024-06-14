@@ -1,5 +1,157 @@
 # @modern-js/server-plugin
 
+## 2.53.0
+
+### Patch Changes
+
+- 0fce81a: fix: avoid to mismatch header label
+  fix: 避免误匹配 header 标签
+- b251046: fix: Avoid memory leaks in node versions 18 and 20
+  fix: 避免在 node 18 和 20 版本下内存泄露
+- a481488: fix: should add the escape character for the regexps
+  fix: 为正则表达式添加转义字符
+  - @modern-js/plugin@2.53.0
+  - @modern-js/runtime-utils@2.53.0
+  - @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- ad4548d: fix: redablestream should not be locked, when stream transfer
+  fix: redablestream 不应该被锁住当 stream 传输时
+- 920d856: fix: export writeReadableStreamToWritable
+  fix: 暴露 writeReadableStreamToWritable 方法
+- Updated dependencies [85ac453]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/plugin@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Minor Changes
+
+- 9d4d04d: feat: support deploy command
+  feat: 支持部署命令
+
+### Patch Changes
+
+- @modern-js/plugin@2.51.0
+- @modern-js/runtime-utils@2.51.0
+- @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- 7ed2fbc: chore: add bodyInit for createWebRequest
+  chore: createWebRequest 函数支持 bodyInit 入参
+  - @modern-js/plugin@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- 4653e73: fix(server-core): server static can't handle page route correctly
+  fix(server-core): server static 无法正确的处理页面路由
+- 2c60b6b: fix(server-core): support custom server middleware redirect, and support render function merge headers from HonoCtx.#header
+  fix(server-core): 支持 custom server middleware 重定向, 并且支持 render 函数合并 HonoCtx.#header
+- 936ca64: fix: Compatible with http-compression, make sure res.end is called before executing the subsequent code
+  fix: 兼容 http-compression，确保执行后续代码前，res.end 先被调用
+- 6e12e9f: fix: public middleware should not filter api route & support https
+  fix: public middleware 不应该过滤 api 路由 & 支持 https
+  - @modern-js/plugin@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- d936fe3: fix: serverBase may be undefined when get renderHandler
+  fix: 当获得 renderHandler 时, serverBase 有可能是 undefined
+- 45cae97: fix: render should handle api route when open enableHandleWeb
+  fix: 当开启了 enableHandleWeb, render 应该处理 api 路由
+- 0c4929f: fix: add onFallback for renderHandler
+  fix: 给 renderHandler 增加 onFallback 回调
+- 1b594a5: fix: we should not log error when bundle is not exists
+  fix: 我们不应该打印错误日志，当 bundle 不存在时
+- 4d728d2: fix: server middleware response lose some methods
+  fix: server middleware response 丢失一些方法
+- aa3a1dc: fix: log error when load bundle failed
+  fix: 打印错误日志当 bundle 加载错误时
+- 327f607: fix: server support add extends res headers from routes
+  fix: server 支持丛 route.json 添加额外的响应头
+- 3e663e9: feat(server-core): render support dynamic route
+  feat(server-core): render 支持动态路由
+  - @modern-js/plugin@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- 0c395bc: fix: swc can not transform dynamic import in cjs normally
+- 58c3729: fix: require bundle maybe failed
+  fix: require bundle 有可能是失败的
+- 5b44c1c: chore: export getServerManifest
+  chore: 导出 getServerManifest 方法
+  - @modern-js/plugin@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- fa7949a: fix: adjust rslog level so that user can print log in middleware
+  fix: 调整 rslog 等级保证用户能够在中间件等地方打印日志
+- d7c883b: fix: server hook need save the res status and headers
+  fix: server hook 需要保留 res 的 status 和 headers
+- 768d2e0: fix: streaming ssr should add transfer-enconding: chunked
+  fix: streaming ssr 应该添加头 transfer-enconding: chunked
+- 6a543df: fix: ssrContext add metrics
+  fix: ssrContext 添加 metrics
+- f6c632f: fix: server middleware ctx status should be set when return response
+  fix: server 中间件的 ctx.status 应该被设置当返回 response 时
+- 259a175: fix(server-core): new server should return 404 when can't found html template & 404,500 response shouldn't run afterRenderHook
+  fix(server-core): 新 server 在找不到 html 模版时应该返回 404, 且 404，500 响应不应该被 afterRenderHook 处理
+- Updated dependencies [e8c8c5d]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/plugin@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/plugin@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

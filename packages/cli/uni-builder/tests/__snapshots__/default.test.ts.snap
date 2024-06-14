@@ -2,15 +2,6 @@
 
 exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 {
-  "builtins": {
-    "css": {
-      "modules": {
-        "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]-[hash:6]",
-        "localsConvention": "camelCase",
-      },
-    },
-  },
   "context": "",
   "devtool": "cheap-module-source-map",
   "entry": {
@@ -21,6 +12,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -40,6 +32,68 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
         "include": [
           {
             "and": [
@@ -50,7 +104,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -107,7 +167,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -120,6 +179,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           ],
         },
         "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
           "fullySpecified": false,
         },
         "use": [
@@ -176,7 +238,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": true,
             },
           },
         ],
@@ -271,353 +332,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "type": "asset/resource",
       },
       {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.css\\$/,
-      },
-      {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-                  "lessOptions": {
-                    "javascriptEnabled": true,
-                    "paths": [
-                      "node_modules",
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-                  "lessOptions": {
-                    "javascriptEnabled": true,
-                    "paths": [
-                      "node_modules",
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.less\\$/,
-      },
-      {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-                "options": {
-                  "join": [Function],
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": true,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-                "options": {
-                  "join": [Function],
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-      },
-      {
         "test": /\\\\\\.toml\\$/,
-        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "id": "rsbuild-transform-1",
+            },
           },
         ],
       },
@@ -627,6 +348,158 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": true,
+            },
           },
         ],
       },
@@ -700,11 +573,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -785,11 +657,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": true,
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -809,7 +680,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -890,8 +761,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
-    "cssChunkFilename": "static/css/async/[name].css",
-    "cssFilename": "static/css/[name].css",
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
@@ -906,6 +775,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "plugins": [
     HotModuleReplacementPlugin {
       "name": "HotModuleReplacementPlugin",
+    },
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+      },
     },
     HtmlWebpackPlugin {
       "options": {
@@ -960,6 +836,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -977,10 +854,14 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "_options": {
         "prefix": "Client",
         "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
+    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1014,7 +895,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
     "extensions": [
@@ -1036,9 +916,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 
 exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
 [
-  "rsbuild:transition",
   "rsbuild:basic",
   "rsbuild:entry",
+  "rsbuild:cache",
   "rsbuild:target",
   "rsbuild:output",
   "rsbuild:resolve",
@@ -1051,23 +931,24 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:node-addons",
   "rsbuild:define",
   "rsbuild:css",
-  "rsbuild:less",
-  "rsbuild:sass",
   "rsbuild:minimize",
   "rsbuild:progress",
   "rsbuild:swc",
   "rsbuild:externals",
   "rsbuild:split-chunks",
-  "rsbuild:start-url",
+  "rsbuild:open",
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
-  "rsbuild:network-performance",
-  "rsbuild:preload-prefetch",
+  "rsbuild:resource-hints",
   "rsbuild:performance",
   "rsbuild:server",
+  "rsbuild:manifest",
   "rsbuild:module-federation",
   "rsbuild:rspack-profile",
+  "rsbuild:lazy-compilation",
+  "rsbuild:sri",
+  "rsbuild:nonce",
   "uni-builder:split-chunks",
   "uni-builder:global-vars",
   "uni-builder:devtool",
@@ -1076,6 +957,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:yaml",
   "uni-builder:antd",
   "uni-builder:arco",
+  "rsbuild:sass",
+  "rsbuild:less",
   "rsbuild:type-check",
   "uni-builder:runtime-chunk",
   "rsbuild:react",
@@ -1088,15 +971,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
 
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
 {
-  "builtins": {
-    "css": {
-      "modules": {
-        "exportsOnly": false,
-        "localIdentName": "[local]-[hash:6]",
-        "localsConvention": "camelCase",
-      },
-    },
-  },
   "context": "",
   "devtool": "hidden-source-map",
   "entry": {
@@ -1107,6 +981,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
+    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1126,6 +1001,68 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
         "include": [
           {
             "and": [
@@ -1136,7 +1073,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1193,7 +1136,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1206,6 +1148,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           ],
         },
         "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
           "fullySpecified": false,
         },
         "use": [
@@ -1262,7 +1207,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "transpileTemplateLiterals": true,
                 },
               },
-              "sourceMaps": false,
             },
           },
         ],
@@ -1357,353 +1301,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "type": "asset/resource",
       },
       {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.css\\$/,
-      },
-      {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-                  "lessOptions": {
-                    "javascriptEnabled": true,
-                    "paths": [
-                      "node_modules",
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
-                  "lessOptions": {
-                    "javascriptEnabled": true,
-                    "paths": [
-                      "node_modules",
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.less\\$/,
-      },
-      {
-        "oneOf": [
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
-            "type": "css/module",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-                "options": {
-                  "join": [Function],
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-          {
-            "resolve": {
-              "preferRelative": true,
-            },
-            "sideEffects": true,
-            "type": "css",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-                "options": {
-                  "postcssOptions": {
-                    "config": false,
-                    "plugins": [
-                      {
-                        "browsers": [
-                          "> 0.01%",
-                          "not dead",
-                          "not op_mini all",
-                        ],
-                        "info": [Function],
-                        "options": {
-                          "flexbox": "no-2009",
-                          "overrideBrowserslist": [
-                            "> 0.01%",
-                            "not dead",
-                            "not op_mini all",
-                          ],
-                        },
-                        "postcssPlugin": "autoprefixer",
-                        "prepare": [Function],
-                      },
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                      [Function],
-                    ],
-                  },
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
-                "options": {
-                  "join": [Function],
-                  "sourceMap": false,
-                },
-              },
-              {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
-                "options": {
-                  "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
-                  "sourceMap": true,
-                },
-              },
-            ],
-          },
-        ],
-        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
-      },
-      {
         "test": /\\\\\\.toml\\$/,
-        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "id": "rsbuild-transform-1",
+            },
           },
         ],
       },
@@ -1713,6 +1317,158 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": false,
+            },
           },
         ],
       },
@@ -1786,11 +1542,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -1871,11 +1626,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                       "transpileTemplateLiterals": true,
                     },
                   },
-                  "sourceMaps": false,
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -1895,7 +1649,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -2014,8 +1768,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "output": {
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
-    "cssChunkFilename": "static/css/async/[name].[contenthash:8].css",
-    "cssFilename": "static/css/[name].[contenthash:8].css",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
     "path": "dist",
@@ -2027,6 +1779,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].[contenthash:8].css",
+        "filename": "static/css/[name].[contenthash:8].css",
+        "ignoreOrder": true,
+      },
+    },
     HtmlWebpackPlugin {
       "options": {
         "base": false,
@@ -2117,7 +1876,20 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -2131,29 +1903,18 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
-    RemoveCssSourcemapPlugin {
-      "name": "RemoveCssSourcemapPlugin",
-    },
     ProgressPlugin {
       "_options": {
         "prefix": "Client",
         "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
+    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2178,7 +1939,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
     },
     "extensions": [
       ".ts",
@@ -2241,6 +2001,68 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
         "include": [
           {
             "and": [
@@ -2251,6 +2073,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
@@ -2279,10 +2102,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.1",
+                    "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2406,10 +2229,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.1",
+                    "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2581,62 +2404,22 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "type": "asset/resource",
       },
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.css\\$/,
+        "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
-              "importLoaders": 1,
-              "modules": {
-                "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
-              },
-              "sourceMap": true,
+              "id": "rsbuild-transform-1",
             },
           },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": true,
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -2651,19 +2434,21 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
               "importLoaders": 3,
               "modules": {
                 "auto": true,
+                "exportGlobals": false,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": true,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "config": false,
@@ -2699,16 +2484,17 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
             "options": {
               "join": [Function],
               "sourceMap": false,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sourceMap": true,
             },
           },
@@ -2725,19 +2511,21 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
                 "auto": true,
+                "exportGlobals": false,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": true,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "config": false,
@@ -2773,9 +2561,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -2784,24 +2572,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               },
               "sourceMap": true,
             },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -2847,10 +2617,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.1",
+                        "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -2922,7 +2692,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -2975,10 +2745,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.1",
+                        "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -3050,7 +2820,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -3070,7 +2840,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -3204,6 +2974,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -3230,6 +3001,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
+    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3345,6 +3117,68 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "config": false,
+                "plugins": [
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
         "include": [
           {
             "and": [
@@ -3355,6 +3189,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "use": [
@@ -3383,10 +3218,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.1",
+                    "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3510,10 +3345,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.1",
+                    "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3691,62 +3526,22 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "type": "asset/resource",
       },
       {
-        "resolve": {
-          "preferRelative": true,
-        },
-        "sideEffects": true,
-        "test": /\\\\\\.css\\$/,
+        "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
-          },
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
-              "importLoaders": 1,
-              "modules": {
-                "auto": true,
-                "exportLocalsConvention": "camelCase",
-                "localIdentName": "[local]-[hash:base64:6]",
-              },
-              "sourceMap": false,
+              "id": "rsbuild-transform-1",
             },
           },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
-            "options": {
-              "postcssOptions": {
-                "config": false,
-                "plugins": [
-                  {
-                    "browsers": [
-                      "> 0.01%",
-                      "not dead",
-                      "not op_mini all",
-                    ],
-                    "info": [Function],
-                    "options": {
-                      "flexbox": "no-2009",
-                      "overrideBrowserslist": [
-                        "> 0.01%",
-                        "not dead",
-                        "not op_mini all",
-                      ],
-                    },
-                    "postcssPlugin": "autoprefixer",
-                    "prepare": [Function],
-                  },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                ],
-              },
-              "sourceMap": false,
-            },
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -3761,19 +3556,21 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
               "importLoaders": 3,
               "modules": {
                 "auto": true,
+                "exportGlobals": false,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": false,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "config": false,
@@ -3809,16 +3606,17 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/resolve-url-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
             "options": {
               "join": [Function],
               "sourceMap": false,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/sass",
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sourceMap": true,
             },
           },
@@ -3835,19 +3633,21 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
                 "auto": true,
+                "exportGlobals": false,
                 "exportLocalsConvention": "camelCase",
                 "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
               },
               "sourceMap": false,
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "config": false,
@@ -3883,9 +3683,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
             "options": {
-              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/shared/compiled/less",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
               "lessOptions": {
                 "javascriptEnabled": true,
                 "paths": [
@@ -3894,24 +3694,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               },
               "sourceMap": false,
             },
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.toml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-toml/compiled/toml-loader",
-          },
-        ],
-      },
-      {
-        "test": /\\\\\\.ya\\?ml\\$/,
-        "type": "javascript/auto",
-        "use": [
-          {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
           },
         ],
       },
@@ -3957,10 +3739,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.1",
+                        "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4047,7 +3829,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -4100,10 +3882,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.1",
+                        "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4190,7 +3972,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -4210,7 +3992,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -4400,7 +4182,20 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       "version": 5,
     },
+    InlineChunkHtmlPlugin {
+      "distPath": {
+        "css": "static/css",
+        "js": "static/js",
+      },
+      "inlinedAssets": Set {},
+      "name": "InlineChunkHtmlPlugin",
+      "scriptTests": [
+        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
+      ],
+      "styleTests": [],
+    },
     HtmlBasicPlugin {
+      "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
         "index": {},
@@ -4427,18 +4222,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showEntries": true,
       "showModules": true,
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
+    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {

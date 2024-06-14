@@ -25,7 +25,6 @@ export default function () {
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
     .option('--mwa', i18n.t(localeKeys.command.mwa), false)
     .option('--module', i18n.t(localeKeys.command.module), false)
-    .option('--monorepo', i18n.t(localeKeys.command.monorepo), false)
     .option('--generator <generator>', i18n.t(localeKeys.command.generator))
     .option(
       '-p, --plugin <plugin>',

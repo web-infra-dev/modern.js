@@ -1,5 +1,33 @@
 # @modern-js/devtools-client
 
+## 2.53.0
+
+## 2.52.0
+
+## 2.51.0
+
+## 2.50.0
+
+### Minor Changes
+
+- 460793f: feat(devtools): new tab added for managing storage presets
+
+  feat(devtools): 新增标签页提供 storage presets 管理
+
+## 2.49.4
+
+## 2.49.3
+
+## 2.49.2
+
+## 2.49.1
+
+## 2.49.0
+
+## 2.48.6
+
+## 2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

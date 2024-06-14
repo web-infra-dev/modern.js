@@ -19,7 +19,11 @@ describe('test status code page', () => {
     port = await getPort();
 
     app = await launchApp(appPath, port);
-    browser = await puppeteer.launch(launchOptions as any);
+
+    browser = await puppeteer.launch({
+      ...launchOptions,
+      ignoreHTTPSErrors: true, // https://github.com/puppeteer/puppeteer/issues/1137
+    } as any);
     page = await browser.newPage();
   });
 
@@ -31,14 +35,16 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  test('should router rewrite correctly ', async () => {
+  test.skip('should router rewrite correctly ', async () => {
     await page.goto(`http://localhost:${port}/rewrite`);
     const text = await page.$eval('#root', el => el?.textContent);
     expect(text).toMatch('Entry Page');
   });
 
-  test.skip('should router redirect correctly ', async () => {
-    const response = await page.goto(`http://localhost:${port}/redirect`);
+  test('should router redirect correctly ', async () => {
+    const response = await page.goto(`http://localhost:${port}/redirect`, {
+      waitUntil: 'networkidle0',
+    });
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');
   });

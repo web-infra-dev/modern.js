@@ -1,5 +1,136 @@
 # @modern-js/prod-server
 
+## 2.53.0
+
+### Patch Changes
+
+- Updated dependencies [0fce81a]
+- Updated dependencies [b251046]
+- Updated dependencies [a481488]
+  - @modern-js/server-core@2.53.0
+  - @modern-js/runtime-utils@2.53.0
+  - @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+- Updated dependencies [ad4548d]
+- Updated dependencies [920d856]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/server-core@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- Updated dependencies [9d4d04d]
+  - @modern-js/server-core@2.51.0
+  - @modern-js/runtime-utils@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- Updated dependencies [7ed2fbc]
+  - @modern-js/server-core@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- 6e12e9f: fix: public middleware should not filter api route & support https
+  fix: public middleware 不应该过滤 api 路由 & 支持 https
+- Updated dependencies [4653e73]
+- Updated dependencies [2c60b6b]
+- Updated dependencies [936ca64]
+- Updated dependencies [6e12e9f]
+  - @modern-js/server-core@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- Updated dependencies [d936fe3]
+- Updated dependencies [45cae97]
+- Updated dependencies [0c4929f]
+- Updated dependencies [1b594a5]
+- Updated dependencies [4d728d2]
+- Updated dependencies [aa3a1dc]
+- Updated dependencies [327f607]
+- Updated dependencies [3e663e9]
+  - @modern-js/server-core@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- 0766ae2: fix: @modern-js/utils should be a dependency in @modern-js/prod-server
+  fix: @modern-js/utils 应该是 @modern-js/prod-server 的依赖
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [5b44c1c]
+  - @modern-js/server-core@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- fa7949a: fix: adjust rslog level so that user can print log in middleware
+  fix: 调整 rslog 等级保证用户能够在中间件等地方打印日志
+- Updated dependencies [fa7949a]
+- Updated dependencies [d7c883b]
+- Updated dependencies [768d2e0]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [f6c632f]
+- Updated dependencies [259a175]
+  - @modern-js/server-core@2.49.0
+  - @modern-js/runtime-utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/server-core@2.48.6
+- @modern-js/plugin@2.48.6
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/server-core@2.48.5
+  - @modern-js/plugin@2.48.5
+  - @modern-js/runtime-utils@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

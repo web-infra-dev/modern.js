@@ -100,7 +100,7 @@ export const libs = {
 ### Cannot find module 'http'
 
 如果产物在浏览器运行时报了类似 `Cannot find module 'http'` 的错误，说明你的产物打包进了 node 模块。
-这可能会发生于你的依赖里有一些同时支持 browser 和 node 的三方包，例如 `axios`，此时只需要将 [platform](/api/config/build-config.html/#platform) 设置为 `browser` 即可。
+这可能会发生于你的依赖里有一些同时支持 browser 和 node 的三方包，例如 `axios`，此时只需要将 [platform](/api/config/build-config.html#platform) 设置为 `browser` 即可。
 如果一些三方包不支持 browser, 你可能需要手动注入 [node polyfill](/plugins/official-list/plugin-node-polyfill)。
 
 ## 异常类问题

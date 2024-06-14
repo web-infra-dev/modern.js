@@ -20,6 +20,7 @@ import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
 import serverBuildPlugin from './plugins/serverBuild';
+import deployPlugin from './plugins/deploy';
 import type {
   DevOptions,
   BuildOptions,
@@ -120,7 +121,6 @@ export type AppToolsOptions = {
    * */
   bundler?: 'experimental-rspack' | 'webpack';
 };
-
 /**
  * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
  */
@@ -155,6 +155,7 @@ export const appTools = (
     }),
     serverBuildPlugin(),
     lintPlugin(),
+    deployPlugin(),
   ],
 
   setup: api => {

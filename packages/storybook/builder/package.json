@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/storybook-builder",
-  "version": "2.48.4",
+  "version": "2.53.0",
   "description": "modern.js support for storybook",
   "repository": {
     "type": "git",
@@ -56,13 +56,12 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@rsbuild/shared": "0.5.4",
-    "@rsbuild/core": "0.5.4",
+    "@rsbuild/shared": "0.7.7",
+    "@rsbuild/core": "0.7.7",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/plugin-react-refresh": "0.4.5",
     "@storybook/components": "~7.6.12",
     "@storybook/core-common": "~7.6.12",
     "@storybook/csf-plugin": "~7.6.12",
@@ -80,8 +79,7 @@
     "remark-external-links": "^9.0.1",
     "remark-slug": "^7.0.1",
     "serve-static": "^1.14.1",
-    "tinypool": "^0.8.0",
-    "webpack-hot-middleware": "^2.25.4"
+    "tinypool": "^0.8.0"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -89,7 +87,6 @@
     "@storybook/types": "~7.6.12",
     "@types/babel__core": "^7.20.1",
     "@types/serve-static": "^1.13.10",
-    "@types/webpack-hot-middleware": "^2.25.6",
     "typescript": "^5.2.2"
   },
   "publishConfig": {

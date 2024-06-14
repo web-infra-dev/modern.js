@@ -29,10 +29,12 @@ import { modulePluginVue } from '@modern-js/plugin-module-vue';
 
 export default defineConfig({
   plugins: [moduleTools(), modulePluginVue()],
-  buildType: 'bundle',
-  format: 'esm',
-  input: ['src/index.vue'],
-  dts: false,
+  buildConfig: {
+    buildType: 'bundle',
+    format: 'esm',
+    input: ['src/index.vue'],
+    dts: false,
+  },
 });
 ```
 

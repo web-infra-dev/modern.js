@@ -1,5 +1,113 @@
 # @modern-js/plugin-express
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/bff-core@2.53.0
+- @modern-js/bff-runtime@2.53.0
+- @modern-js/types@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- @modern-js/bff-core@2.52.0
+- @modern-js/bff-runtime@2.52.0
+- @modern-js/types@2.52.0
+- @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- @modern-js/bff-core@2.51.0
+- @modern-js/bff-runtime@2.51.0
+- @modern-js/types@2.51.0
+- @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/bff-core@2.50.0
+- @modern-js/bff-runtime@2.50.0
+- @modern-js/types@2.50.0
+- @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- @modern-js/bff-core@2.49.4
+- @modern-js/bff-runtime@2.49.4
+- @modern-js/types@2.49.4
+- @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/bff-core@2.49.3
+- @modern-js/bff-runtime@2.49.3
+- @modern-js/types@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/bff-core@2.49.2
+- @modern-js/bff-runtime@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.49.1
+- @modern-js/bff-runtime@2.49.1
+- @modern-js/types@2.49.1
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [805e021]
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/bff-core@2.49.0
+  - @modern-js/bff-runtime@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/bff-core@2.48.6
+- @modern-js/bff-runtime@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/bff-core@2.48.5
+  - @modern-js/bff-runtime@2.48.5
+  - @modern-js/types@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

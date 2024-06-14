@@ -1,5 +1,92 @@
 # @modern-js/plugin-server
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.52.0
+- @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- f826930: fix(plugin-server): support update server hook & middleware
+  fix(plugin-server): 支持热更新 server hook & middleware
+  - @modern-js/server-utils@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.50.0
+- @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- @modern-js/server-utils@2.49.4
+- @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- @modern-js/server-utils@2.49.3
+- @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/server-utils@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- @modern-js/server-utils@2.49.1
+- @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [805e021]
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/server-utils@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/server-utils@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

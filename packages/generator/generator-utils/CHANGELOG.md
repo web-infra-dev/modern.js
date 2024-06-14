@@ -1,5 +1,103 @@
 # @modern-js/generator-utils
 
+## 3.4.0
+
+### Patch Changes
+
+- f0aa3d3: feat: new command not support enable testing function
+
+  feat: new 命令不在支持开启测试功能
+
+- Updated dependencies [f0aa3d3]
+- Updated dependencies [5e442c1]
+- Updated dependencies [f0aa3d3]
+  - @modern-js/generator-common@3.4.0
+  - @modern-js/plugin-i18n@2.53.0
+  - @modern-js/utils@2.53.0
+
+## 3.3.25
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.52.0
+- @modern-js/utils@2.52.0
+- @modern-js/generator-common@3.3.25
+
+## 3.3.24
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.51.0
+- @modern-js/utils@2.51.0
+- @modern-js/generator-common@3.3.24
+
+## 3.3.23
+
+### Patch Changes
+
+- Updated dependencies [e759876]
+  - @modern-js/generator-common@3.3.23
+  - @modern-js/plugin-i18n@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 3.3.22
+
+### Patch Changes
+
+- @modern-js/generator-common@3.3.22
+- @modern-js/plugin-i18n@2.49.4
+- @modern-js/utils@2.49.4
+
+## 3.3.21
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.3
+- @modern-js/utils@2.49.3
+- @modern-js/generator-common@3.3.21
+
+## 3.3.20
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.2
+- @modern-js/utils@2.49.2
+- @modern-js/generator-common@3.3.20
+
+## 3.3.19
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.49.1
+- @modern-js/utils@2.49.1
+- @modern-js/generator-common@3.3.19
+
+## 3.3.18
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/utils@2.49.0
+  - @modern-js/plugin-i18n@2.49.0
+  - @modern-js/generator-common@3.3.18
+
+## 3.3.17
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.48.6
+- @modern-js/utils@2.48.6
+- @modern-js/generator-common@3.3.17
+
+## 3.3.16
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/plugin-i18n@2.48.5
+  - @modern-js/generator-common@3.3.16
+
 ## 3.3.15
 
 ### Patch Changes

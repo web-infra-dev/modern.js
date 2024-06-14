@@ -1,5 +1,279 @@
 # @modern-js/app-tools
 
+## 2.53.0
+
+### Patch Changes
+
+- Updated dependencies [0fce81a]
+- Updated dependencies [b251046]
+- Updated dependencies [a481488]
+  - @modern-js/server-core@2.53.0
+  - @modern-js/plugin-data-loader@2.53.0
+  - @modern-js/prod-server@2.53.0
+  - @modern-js/server@2.53.0
+  - @modern-js/server-utils@2.53.0
+  - @modern-js/uni-builder@2.53.0
+  - @modern-js/core@2.53.0
+  - @modern-js/plugin-i18n@2.53.0
+  - @modern-js/plugin-lint@2.53.0
+  - @modern-js/rsbuild-plugin-esbuild@2.53.0
+  - @modern-js/node-bundle-require@2.53.0
+  - @modern-js/plugin@2.53.0
+  - @modern-js/types@2.53.0
+  - @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- e564e1e: fix: should not remove html directory
+  fix: 不应该删除 html 目录
+- Updated dependencies [85ac453]
+- Updated dependencies [b520609]
+- Updated dependencies [ad4548d]
+- Updated dependencies [920d856]
+  - @modern-js/plugin-data-loader@2.52.0
+  - @modern-js/uni-builder@2.52.0
+  - @modern-js/server-core@2.52.0
+  - @modern-js/prod-server@2.52.0
+  - @modern-js/server@2.52.0
+  - @modern-js/core@2.52.0
+  - @modern-js/server-utils@2.52.0
+  - @modern-js/plugin-i18n@2.52.0
+  - @modern-js/plugin-lint@2.52.0
+  - @modern-js/rsbuild-plugin-esbuild@2.52.0
+  - @modern-js/node-bundle-require@2.52.0
+  - @modern-js/plugin@2.52.0
+  - @modern-js/types@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Minor Changes
+
+- 9d4d04d: feat: support deploy command
+  feat: 支持部署命令
+
+### Patch Changes
+
+- Updated dependencies [e8d41fe]
+- Updated dependencies [9d4d04d]
+  - @modern-js/uni-builder@2.51.0
+  - @modern-js/server-core@2.51.0
+  - @modern-js/core@2.51.0
+  - @modern-js/plugin-data-loader@2.51.0
+  - @modern-js/prod-server@2.51.0
+  - @modern-js/server@2.51.0
+  - @modern-js/server-utils@2.51.0
+  - @modern-js/plugin-i18n@2.51.0
+  - @modern-js/plugin-lint@2.51.0
+  - @modern-js/rsbuild-plugin-esbuild@2.51.0
+  - @modern-js/node-bundle-require@2.51.0
+  - @modern-js/plugin@2.51.0
+  - @modern-js/types@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- Updated dependencies [7ed2fbc]
+  - @modern-js/server-core@2.50.0
+  - @modern-js/plugin-data-loader@2.50.0
+  - @modern-js/prod-server@2.50.0
+  - @modern-js/server@2.50.0
+  - @modern-js/server-utils@2.50.0
+  - @modern-js/uni-builder@2.50.0
+  - @modern-js/core@2.50.0
+  - @modern-js/plugin-i18n@2.50.0
+  - @modern-js/plugin-lint@2.50.0
+  - @modern-js/rsbuild-plugin-esbuild@2.50.0
+  - @modern-js/node-bundle-require@2.50.0
+  - @modern-js/plugin@2.50.0
+  - @modern-js/types@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- Updated dependencies [4653e73]
+- Updated dependencies [2c60b6b]
+- Updated dependencies [936ca64]
+- Updated dependencies [6e12e9f]
+  - @modern-js/server-core@2.49.4
+  - @modern-js/prod-server@2.49.4
+  - @modern-js/server@2.49.4
+  - @modern-js/plugin-data-loader@2.49.4
+  - @modern-js/server-utils@2.49.4
+  - @modern-js/uni-builder@2.49.4
+  - @modern-js/core@2.49.4
+  - @modern-js/plugin-i18n@2.49.4
+  - @modern-js/plugin-lint@2.49.4
+  - @modern-js/rsbuild-plugin-esbuild@2.49.4
+  - @modern-js/node-bundle-require@2.49.4
+  - @modern-js/plugin@2.49.4
+  - @modern-js/types@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- 1adc1a7: fix: ignore should be a relative path in ts-node
+  fix: 使用 ts-node 时，ignore 应该为相对路径
+- ac974d7: fix: data.ts should not import into the client bundle in the ssg project
+  fix: 在 ssg 项目中，data.ts 不应该引入到客户端 bundle 中
+- 72b864d: fix: register mock middleware after dev middlewares & lambda files should not be check by ts-checker
+  fix: 在 dev middlewares 之后注册 mock middleware & lambda 文件不应该被 ts-checker 校验
+- Updated dependencies [d936fe3]
+- Updated dependencies [496703a]
+- Updated dependencies [45cae97]
+- Updated dependencies [0c4929f]
+- Updated dependencies [3114955]
+- Updated dependencies [1b594a5]
+- Updated dependencies [4d728d2]
+- Updated dependencies [aa3a1dc]
+- Updated dependencies [72b864d]
+- Updated dependencies [327f607]
+- Updated dependencies [3e663e9]
+  - @modern-js/server-core@2.49.3
+  - @modern-js/uni-builder@2.49.3
+  - @modern-js/server@2.49.3
+  - @modern-js/plugin-data-loader@2.49.3
+  - @modern-js/prod-server@2.49.3
+  - @modern-js/server-utils@2.49.3
+  - @modern-js/core@2.49.3
+  - @modern-js/plugin-i18n@2.49.3
+  - @modern-js/plugin-lint@2.49.3
+  - @modern-js/rsbuild-plugin-esbuild@2.49.3
+  - @modern-js/node-bundle-require@2.49.3
+  - @modern-js/plugin@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- Updated dependencies [10dd841]
+  - @modern-js/core@2.49.2
+  - @modern-js/plugin-data-loader@2.49.2
+  - @modern-js/plugin-lint@2.49.2
+  - @modern-js/plugin-i18n@2.49.2
+  - @modern-js/rsbuild-plugin-esbuild@2.49.2
+  - @modern-js/uni-builder@2.49.2
+  - @modern-js/server-core@2.49.2
+  - @modern-js/prod-server@2.49.2
+  - @modern-js/server@2.49.2
+  - @modern-js/server-utils@2.49.2
+  - @modern-js/node-bundle-require@2.49.2
+  - @modern-js/plugin@2.49.2
+  - @modern-js/types@2.49.2
+  - @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- 9a69d27: no need to emit assets for SSR bundles
+- Updated dependencies [bf82b23]
+- Updated dependencies [0c395bc]
+- Updated dependencies [58c3729]
+- Updated dependencies [0766ae2]
+- Updated dependencies [b70ea93]
+- Updated dependencies [72ae8ea]
+- Updated dependencies [b89879e]
+- Updated dependencies [5b44c1c]
+- Updated dependencies [6d5203e]
+  - @modern-js/uni-builder@2.49.1
+  - @modern-js/server-core@2.49.1
+  - @modern-js/prod-server@2.49.1
+  - @modern-js/rsbuild-plugin-esbuild@2.49.1
+  - @modern-js/server@2.49.1
+  - @modern-js/core@2.49.1
+  - @modern-js/plugin-data-loader@2.49.1
+  - @modern-js/server-utils@2.49.1
+  - @modern-js/plugin-i18n@2.49.1
+  - @modern-js/plugin-lint@2.49.1
+  - @modern-js/node-bundle-require@2.49.1
+  - @modern-js/plugin@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- 805e021: fix: unify register in app-tools
+  fix: 在 app-tools 中统一注册 register
+- Updated dependencies [fa7949a]
+- Updated dependencies [d7c883b]
+- Updated dependencies [768d2e0]
+- Updated dependencies [e891617]
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+- Updated dependencies [f6c632f]
+- Updated dependencies [259a175]
+- Updated dependencies [772d1f6]
+- Updated dependencies [805e021]
+  - @modern-js/prod-server@2.49.0
+  - @modern-js/server-core@2.49.0
+  - @modern-js/uni-builder@2.49.0
+  - @modern-js/plugin-data-loader@2.49.0
+  - @modern-js/server@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/server-utils@2.49.0
+  - @modern-js/core@2.49.0
+  - @modern-js/plugin-i18n@2.49.0
+  - @modern-js/plugin-lint@2.49.0
+  - @modern-js/node-bundle-require@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- Updated dependencies [06ed962]
+  - @modern-js/uni-builder@2.48.6
+  - @modern-js/core@2.48.6
+  - @modern-js/plugin-data-loader@2.48.6
+  - @modern-js/plugin-i18n@2.48.6
+  - @modern-js/plugin-lint@2.48.6
+  - @modern-js/server-core@2.48.6
+  - @modern-js/prod-server@2.48.6
+  - @modern-js/server@2.48.6
+  - @modern-js/server-utils@2.48.6
+  - @modern-js/node-bundle-require@2.48.6
+  - @modern-js/plugin@2.48.6
+  - @modern-js/types@2.48.6
+  - @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/core@2.48.5
+  - @modern-js/plugin-data-loader@2.48.5
+  - @modern-js/plugin-i18n@2.48.5
+  - @modern-js/plugin-lint@2.48.5
+  - @modern-js/uni-builder@2.48.5
+  - @modern-js/server-core@2.48.5
+  - @modern-js/prod-server@2.48.5
+  - @modern-js/server@2.48.5
+  - @modern-js/server-utils@2.48.5
+  - @modern-js/node-bundle-require@2.48.5
+  - @modern-js/plugin@2.48.5
+  - @modern-js/types@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

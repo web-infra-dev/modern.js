@@ -1,5 +1,31 @@
 # @modern-js/builder-doc
 
+## 2.53.0
+
+## 2.52.0
+
+## 2.51.0
+
+## 2.50.0
+
+## 2.49.4
+
+## 2.49.3
+
+## 2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- bfba084: docs: bump Rspress v1.18.2 and remove dividers
+
+## 2.49.0
+
+## 2.48.6
+
+## 2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

@@ -1,0 +1,286 @@
+---
+sidebar_position: 15
+---
+
+# Deploy Application
+
+Currently, Modern.js offers two deployment way:
+- You can host your application in a container that includes a Node.js environment on your own, which provides flexibility for the deployment of the application.
+- You can also deploy your application through a platform. Currently, Modern.js supports the [Netlify](https://www.netlify.com/) and [Vercel](https://vercel.com/).
+
+:::info
+Currently, Modern.js only supports running in a Node.js environment. Support for more runtime environments will be provided in the future.
+:::
+
+
+## Build Deployment Products
+
+Running the `modern deploy` command will automatically produce deployment products. This process includes optimizing Bundler build products and their dependencies, detecting the current deployment platform, and automatically generating deployment products that can run on that platform.
+
+If you want to generate and test the output locally for a specific deployment platform, you can specify the platform by setting the environment variable: `modern deploy`:
+
+```bash
+MODERNJS_DEPLOY=netlify npx modern deploy
+```
+
+:::info
+When deploying on the deployment platforms officially supported by Modern.js, there is no need to specify environment variables.
+:::
+
+
+## Node.js
+
+### Single Repo
+
+By default, Modern.js outputs builds that can be run in a Node.js environment when no Modern.js-supported deployment platform is detected.
+
+Use the following command to build the project:
+
+```bash
+npx modern deploy
+```
+
+When running the `modern deploy` command, Modern.js will generate runnable products and output the following content in terminal:
+
+```bash
+Static directory: `.output/static`
+You can preview this build by `node .output/index`
+```
+
+At this point, you can run the entire server by `node .output/index`, and the static resources required for the page are in the `.output/static` directory. You can upload these static resources to a CDN yourself:
+
+:::info
+By default, when running Modern.js Server, it listens on port 8080. If you want to change the listening port, you can specify the `PORT` environment variable:
+```
+PORT=3000 node .output/index
+```
+:::
+
+
+### Monorepo
+
+For Monorepo projects, in addition to building the current project, it is also necessary to build other sub-projects in the repository that the current project depends on.
+
+Assume that the name in the `package.json` of the current project is `app`. Taking pnpm as an example of a monorepo management tool, you can add the following command to the `package.json` of the current project to build products for the current project:
+
+```json title="app/package.json"
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy",
+  }
+}
+```
+
+If you use Rush as your Monorepo management tool, you can add the following commands to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "build:packages": "rush rebuild --to-except app",
+    "deploy": "rushx build:packages && modern deploy",
+  }
+}
+```
+
+After the build is completed, Modern.js will generate all dependencies in the `.output/node_modules` directory of the project. Similarly, you can run the Modern.js server using `node .output/index`.
+
+## Netlify
+
+Netlify is a popular Web development platform designed for building, deploying, and maintaining modern web projects. Deploying on Netlify mainly requires configuring the `netlify.toml` file.
+
+Depending on the complexity of your project, you can configure it incrementally by this doc.
+
+### Pure Front-end Project
+
+Add the `netlify.toml` file to the root directory of the current project:
+
+```bash
+.
+├── src
+├── modern.config.ts
+├── netlify.toml
+└── package.json
+```
+
+Add the following content to `netlify.toml`:
+
+```toml
+[build]
+  publish = "dist"
+  command = "modern deploy"
+```
+
+Now, add a project to the Netlify platform and deploy it!
+
+### Full Stack Project
+
+Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Netlify Functions**. Based on the `netlify.toml` file mentioned above, add the following configuration:
+
+```toml title="netlify.toml"
+[build]
+  publish = "dist"
+  command = "modern deploy"
+
+[functions]
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+
+```
+
+:::info
+Currently, Modern.js does not support deployment on Netlify Edge Functions. We will support it in future versions.
+:::
+
+
+### Monorepo
+
+:::info
+The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#Pure Frontend Project) to deploy.
+:::
+
+For Monorepo projects, in addition to building our current project, you also need to build other sub-projects in the repository that the current project depends on.
+
+We take a pnpm Monorepo repository as an example and deploy the Monorepo project on Netlify.
+
+Assuming the directory structure of the Monorepo repository is as follows:
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+You need to configure Base directory on the netlify platform as `packages/app`:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/netlify-monorepo-basedir.png?x-resource-account=public" />
+
+Add the following script in `packages/app/package.json`, before executing the deployment command of the `app` repository, first execute the build of other repositories in the workspace:
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy",
+  }
+}
+
+```
+
+Configure the build command in `netlify.toml`:
+
+```toml
+[build]
+  publish = "dist"
+  command = "npm run deploy"
+
+[functions]
+  directory = ".netlify/functions"
+  node_bundler = "none"
+  included_files = [".netlify/functions/**"]
+```
+
+Just submit your code and deploy it using the Netlify platform.
+
+## Vercel
+
+Vercel is a deployment platform for modern web applications that provides a rich set of features to support deploying static websites, server-side rendered applications, and more. To deploy on Vercel, you usually need to configure the `vercel.json` file, which you can configure incrementally depending on the complexity of your project.
+
+### Pure Front-end Project
+
+Add the `vercel.json` file to the root directory of the current project:
+```bash
+./
+├── src
+├── modern.config.ts
+├── vercel.json
+└── package.json
+```
+
+Add the following content to `vercel.json`:
+```json title="vercel.json"
+{
+  "buildCommand": "modern deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+Commit your project to git, select Framework Preset as `Other` on the Vercel platform and deploy.
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-framework-preset.png" />
+
+### Full Stack Project
+
+Full-stack projects refer to projects that use Custom Web Server, SSR or BFF. These projects need to be deployed on **Vercel Functions**.
+
+In addition to configuring `vercel.json` in the same way as a [pure front-end project](#pure-front-end-project), there are two points to note for full-stack projects:
+
+1. Currently, Modern.js does not support deploying BFF projects on the Vercel platform. We will support it in future versions.
+2. When deploying on Vercel platform, the default node runtime is `20.x`, it is recommended to choose `18.x` when deploying full-stack projects,
+see [Serverless Function contains invalid runtime error](https://vercel.com/guides/serverless-function-contains-invalid-runtime-error), you can modify `package.json` to specify the version:
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+```
+
+
+### Monorepo
+
+:::info
+The following guide is mainly for full-stack projects, for pure CSR projects, just follow [Pure Frontend Project](#pure-front-end-project-1) to deploy.
+:::
+
+For Monorepo projects, in addition to building our current project, you also need to build other sub-projects in the repository that the current project depends on.
+
+We take a pnpm Monorepo repository as an example and deploy the Monorepo project on Vercel.
+
+Assuming the directory structure of the Monorepo repository is as follows:
+
+```
+.
+├── packages
+│   ├── app
+│   └── app-dep1
+├── package.json
+├── pnpm-lock.yaml
+└── pnpm-workspace.yaml
+```
+
+First, you need to configure the **Root Directory** as `packages/app` on the Vercel platform:
+
+<img src="https://sf16-sg.tiktokcdn.com/obj/eden-sg/lmeh7nuptpfnuhd/vercel-root-directory.png" />
+
+Specify Node.js runtime as `18.x`:
+
+```json title="package.json"
+"engines": {
+  "node": "18.x"
+}
+````
+
+Add the following script to `packages/app/package.json` to run `build` command of the other repositories in the workspace before run the `deploy` command for the `app` repository:
+
+```json
+{
+  "scripts": {
+    "build:packages": "pnpm --filter 'app^...' run build",
+    "deploy": "pnpm run build:packages && modern deploy",
+  }
+}
+```
+
+Add the following content to the `packages/app/vercel.json` file:
+```json title="vercel.json"
+{
+  "buildCommand": "npm run deploy",
+  "outputDirectory": ".vercel/output"
+}
+```
+
+Just submit your code and deploy it using the Vercel platform.

@@ -1,5 +1,142 @@
 # @modern-js/runtime
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/plugin@2.53.0
+- @modern-js/runtime-utils@2.53.0
+- @modern-js/types@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Minor Changes
+
+- 85ac453: feat: support control status code by data loader
+  feat: 支持通过 data loader 控制页面状态码
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+  - @modern-js/runtime-utils@2.52.0
+  - @modern-js/plugin@2.52.0
+  - @modern-js/types@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- 4c09d57: fix: streaming ssr should set renderLevel correctly when render occur error
+  fix: streaming ssr 当渲染遇到错误，应该设置正确的 renderLevel
+- 08d9466: feat: support stream to string & support server ender styled components
+  feat: 支持 stream 模式转 string ，并且支持服务端渲染 styled compoents
+- 7834d4b: fix: default types should be `Record<string, unknown>`
+  fix: 默认 types 应该是 `Record<string, unknown>`
+  - @modern-js/plugin@2.51.0
+  - @modern-js/runtime-utils@2.51.0
+  - @modern-js/types@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- 4a9c0c7: feat: add typings for Body、Root、Style components
+
+  feat: 为 Body、Root、Style 组件添加类型
+
+  - @modern-js/plugin@2.50.0
+  - @modern-js/runtime-utils@2.50.0
+  - @modern-js/types@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- a5fdc8d: fix: useLoader should run normally in csr when webpack build
+  fix: useLoader 当使用 webpack 构建是，在 csr 下应该需要正常跑
+  - @modern-js/plugin@2.49.4
+  - @modern-js/runtime-utils@2.49.4
+  - @modern-js/types@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- 644a226: fix: <Html> should add <html> props types
+  fix: 组件 Html 应该添加上 html 标签属性的类型
+- 6d980e4: fix: helmet can't replace <html> when streaming ssr
+  fix: 使用 streaming ssr 时, helmet 无法替换 <html>
+- b57ca76: fix: add originalBaseUrl param
+  fix: 添加 originalBaseUrl 参数
+  - @modern-js/plugin@2.49.3
+  - @modern-js/runtime-utils@2.49.3
+  - @modern-js/types@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.49.2
+- @modern-js/runtime-utils@2.49.2
+- @modern-js/types@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- b45da78: fix: should not print error level log when in prod env
+
+  fix: 生产环境不应该打印 error 级日志
+
+- 06bff92: fix: should not include babel-loader in streaming ssr project
+  fix: 在 streaming ssr 项目中，不应该引入 babel-loader
+  - @modern-js/plugin@2.49.1
+  - @modern-js/runtime-utils@2.49.1
+  - @modern-js/types@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Minor Changes
+
+- e8c8c5d: refactor: refactor server
+  refactor: 重构 server
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+- Updated dependencies [6a543df]
+  - @modern-js/runtime-utils@2.49.0
+  - @modern-js/types@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/plugin@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/plugin@2.48.6
+- @modern-js/runtime-utils@2.48.6
+- @modern-js/types@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/plugin@2.48.5
+  - @modern-js/runtime-utils@2.48.5
+  - @modern-js/types@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

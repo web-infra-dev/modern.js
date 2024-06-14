@@ -8,7 +8,6 @@ import { createDir } from './utils';
 interface Options {
   mwa?: boolean;
   module: boolean;
-  monorepo?: boolean;
   debug?: boolean;
   config?: string;
   packages?: string;
@@ -36,7 +35,6 @@ function getDefaultConfig(
   const {
     mwa,
     module,
-    monorepo,
     config,
     packages,
     registry,
@@ -72,10 +70,6 @@ function getDefaultConfig(
     if (!initialConfig.packageName) {
       initialConfig.packageName = projectDir;
     }
-  }
-
-  if (monorepo) {
-    initialConfig.defaultSolution = 'monorepo';
   }
 
   if (registry) {

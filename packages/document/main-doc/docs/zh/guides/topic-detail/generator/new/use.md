@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 使用
 
-在 Web 应用、 Npm 模块和 Monorepo 项目中，我们提供了 `new` 命令用于创建项目元素、开启功能和创建子项目。
+在 Web 应用、 Npm 模块中，我们提供了 `new` 命令用于创建项目元素、开启功能和创建子项目。
 
 ## Web 应用
 
@@ -72,23 +72,3 @@ npm run new
 ```
 
 执行完成后将会在项目安装 Storybook 插件相关依赖，增加 `storybook` 命令，创建 `stories` 目录用于 Storybook 模块的开发并提供提示信息用于注册 Storybook 插件。
-
-## Monorepo
-
-Monorepo 项目通过 `@modern-js/monorepo-tools` 提供 new 命令。
-
-new 命令提供了创建子项目的能力。
-
-例如：
-
-创建 Web 应用子项目：
-
-```bash
-? 请选择你想创建的工程类型 Web 应用
-? 请填写子项目名称 web_app
-? 请填写子项目目录名称 web_app
-? 请选择开发语言 TS
-? 请选择构建工具 webpack
-```
-
-执行完成后将会在项目 apps 目录创建 `web_app` 的子项目，在子项目目录中依然可以执行 new 命令创建项目元素和开启功能。

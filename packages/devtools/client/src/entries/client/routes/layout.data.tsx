@@ -4,11 +4,12 @@ import {
   HiOutlineCube,
   HiOutlineHome,
   HiOutlineRectangleGroup,
+  HiMiniCircleStack,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { ref } from 'valtio';
-import { $definition, $tabs } from './state';
+import { $serverExported, $tabs } from './state';
 import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
 
 let _executed = false;
@@ -16,9 +17,9 @@ let _executed = false;
 export const loader = async () => {
   if (_executed) return null;
   _executed = true;
-  const scripts = await Promise.resolve($definition.plugins);
+  const runtimePlugins = (await $serverExported.context).def.plugins;
   const globals = PluginGlobals.use();
-  await setupPlugins(scripts);
+  await setupPlugins(runtimePlugins);
   const tabs: Tab[] = [
     {
       name: 'overview',
@@ -61,6 +62,12 @@ export const loader = async () => {
       title: 'Doctor',
       icon: <RiShieldCrossLine />,
       view: { type: 'builtin', src: '/doctor' },
+    },
+    {
+      name: 'storage',
+      title: 'Storage',
+      icon: <HiMiniCircleStack />,
+      view: { type: 'builtin', src: '/storage/preset' },
     },
   ];
   await globals.callHook('tab:list', tabs);

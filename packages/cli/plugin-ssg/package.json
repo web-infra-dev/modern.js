@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.48.4",
+  "version": "2.53.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -67,6 +67,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
     "node-mocks-http": "^1.11.0",
     "normalize-path": "3.0.0",
     "portfinder": "^1.0.28",
@@ -82,7 +83,6 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

@@ -8,15 +8,11 @@ Modern.js 框架默认集成了一些社区中流行的库和开发工具。
 
 在这篇文档中，你可以了解到 Modern.js 框架涉及的主要技术栈，以及一些可选的库和工具。
 
----
-
 ## UI 库
 
 Modern.js 使用 [React 18](https://react.dev/) 来构建用户界面，同时也兼容 React 17。
 
 Modern.js 底层的 Rsbuild 支持构建 Vue 应用，如果你需要使用 Vue，可以参考[「Rsbuild - Vue」](https://rsbuild.dev/zh/guide/framework/vue3)。
-
----
 
 ## 路由
 
@@ -24,15 +20,11 @@ Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，�
 
 Modern.js 支持约定式路由、自控式路由或其他路由方案，请参考[「路由方案」](/guides/basic-features/routes) 进行选择。
 
----
-
 ## 微前端
 
 Modern.js 提供对 [Garfish](https://www.garfishjs.org/) 微前端框架开箱即用的支持。
 
 同时，我们也正在与 [Module Federation](https://webpack.js.org/concepts/module-federation/) 的作者 Zack Jackson 合作，以提供更完整的解决方案。
-
----
 
 ## 状态管理
 
@@ -40,23 +32,17 @@ Modern.js 可以与社区中任意的状态管理库搭配使用，比如 [Redux
 
 Modern.js 也基于 Redux 封装了 Reduck 状态管理库，你可以参考 [「Reduck 状态管理」](/guides/topic-detail/model/quick-start)来使用。
 
----
-
 ## 包管理器
 
 Modern.js 可以与社区中任意的包管理器搭配使用，比如 [npm](https://www.npmjs.com/package/npm)、[yarn](https://classic.yarnpkg.com/lang/en/)、[pnpm](https://pnpm.io/) 或 [Bun](https://bun.sh/)。
 
 我们推荐使用 pnpm 来获得更快的安装速度。
 
----
-
 ## 打包工具
 
 Modern.js 使用 [Webpack 5](https://webpack.js.org/) 或 [Rspack](https://www.rspack.dev/) 来打包你的 Web 应用。
 
 默认使用的打包工具为 Webpack 5，你可以参考[「使用 Rspack」](/guides/advanced-features/rspack-start) 来切换到更快的 Rspack。
-
----
 
 ## 转译工具
 
@@ -65,8 +51,6 @@ Modern.js 使用 [Babel](https://babeljs.io/)、[SWC](https://swc.rs/) 或 [esbu
 - 使用 Webpack 打包时，默认为 Babel，支持切换到 SWC 或 esbuild。
 - 使用 Rspack 打包时，默认为 SWC，支持切换到 Babel。
 
----
-
 ## 压缩工具
 
 在生产环境构建时，Modern.js 使用 [Terser](https://github.com/terser/terser)、[SWC](https://swc.rs/) 或 [esbuild](https://esbuild.github.io/) 来压缩 JavaScript 代码，使用 [cssnano](https://cssnano.co/) 来压缩 CSS 代码。
@@ -74,15 +58,11 @@ Modern.js 使用 [Babel](https://babeljs.io/)、[SWC](https://swc.rs/) 或 [esbu
 - 使用 Webpack 打包时，默认使用 Terser 压缩 JS 代码，支持切换到 SWC 或 esbuild。
 - 使用 Rspack 打包时，默认使用 SWC 压缩 JS 代码，暂不支持切换到其他工具。
 
----
-
 ## CSS 转换
 
 Modern.js 使用 [PostCSS](https://postcss.org/) 来转换 CSS 代码，并默认开启 [autoprefixer](https://github.com/postcss/autoprefixer) 来补全 CSS 前缀。
 
 Modern.js 支持[「启用 Tailwind CSS」](/guides/basic-features/css.html#使用-tailwind-css)，并同时兼容 Tailwind CSS v2 和 v3 版本。
-
----
 
 ## CSS 预处理器
 
@@ -91,15 +71,11 @@ Modern.js 支持 [Sass](https://sass-lang.com/)、[Less](https://lesscss.org/) �
 - 默认支持 Sass 和 Less，开箱即用。
 - 可选支持 Stylus，请参考[「Stylus 插件」](https://rsbuild.dev/zh/plugins/list/plugin-stylus) 来使用。
 
----
-
 ## CSS Modules
 
 Modern.js 对 [CSS Modules](https://github.com/css-modules/css-modules) 提供了开箱即用的支持，内部基于 [css-loader](https://www.npmjs.com/package/css-loader) 实现。
 
 请参考[「使用 CSS Modules」](/guides/basic-features/css-modules) 来使用。
-
----
 
 ## CSS-in-JS
 
@@ -107,29 +83,15 @@ Modern.js 支持使用 [styled-components](https://styled-components.com/)，请
 
 如果你需要使用其他 CSS-in-JS 方案，可以自行集成到你的项目中。
 
----
-
-## 测试框架
-
-Modern.js 支持使用 [Jest](https://jestjs.io/) 进行单元测试或集成测试。该功能为可选功能，请参考[「使用 Jest 测试」](/guides/advanced-features/testing) 启用。
-
-如果你需要使用 [Vitest](https://vitest.dev/) 或其他测试框架，可以自行集成到你的项目中。
-
----
-
 ## 组件库
 
 Modern.js 可以与社区中任意的 React 组件库搭配使用，比如 [MUI](https://mui.com/)、[Ant Design](https://ant.design/)、[Arco Design](https://github.com/arco-design/arco-design)、[Semi Design](https://semi.design/)、[Radix UI](https://www.radix-ui.com/) 等。
 
 同时，Modern.js 内置了对 Ant Design 和 Arco Design 的 [按需引入](/configure/app/source/transform-import) 支持。
 
----
-
 ## 组件开发
 
 Modern.js 支持使用 [Storybook](https://storybook.js.org/) 来开发 UI 组件。该功能为可选功能，请参考[「使用 Storybook」](/guides/advanced-features/using-storybook) 启用。
-
----
 
 ## Node.js 框架
 

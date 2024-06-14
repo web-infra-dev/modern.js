@@ -1,5 +1,106 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.53.0
+
+### Patch Changes
+
+- @modern-js/runtime@2.53.0
+- @modern-js/node-bundle-require@2.53.0
+- @modern-js/utils@2.53.0
+
+## 2.52.0
+
+### Patch Changes
+
+- Updated dependencies [85ac453]
+  - @modern-js/runtime@2.52.0
+  - @modern-js/node-bundle-require@2.52.0
+  - @modern-js/utils@2.52.0
+
+## 2.51.0
+
+### Patch Changes
+
+- Updated dependencies [4c09d57]
+- Updated dependencies [08d9466]
+- Updated dependencies [7834d4b]
+  - @modern-js/runtime@2.51.0
+  - @modern-js/node-bundle-require@2.51.0
+  - @modern-js/utils@2.51.0
+
+## 2.50.0
+
+### Patch Changes
+
+- Updated dependencies [4a9c0c7]
+  - @modern-js/runtime@2.50.0
+  - @modern-js/node-bundle-require@2.50.0
+  - @modern-js/utils@2.50.0
+
+## 2.49.4
+
+### Patch Changes
+
+- Updated dependencies [a5fdc8d]
+  - @modern-js/runtime@2.49.4
+  - @modern-js/node-bundle-require@2.49.4
+  - @modern-js/utils@2.49.4
+
+## 2.49.3
+
+### Patch Changes
+
+- Updated dependencies [644a226]
+- Updated dependencies [6d980e4]
+- Updated dependencies [b57ca76]
+  - @modern-js/runtime@2.49.3
+  - @modern-js/node-bundle-require@2.49.3
+  - @modern-js/utils@2.49.3
+
+## 2.49.2
+
+### Patch Changes
+
+- @modern-js/runtime@2.49.2
+- @modern-js/node-bundle-require@2.49.2
+- @modern-js/utils@2.49.2
+
+## 2.49.1
+
+### Patch Changes
+
+- Updated dependencies [b45da78]
+- Updated dependencies [06bff92]
+  - @modern-js/runtime@2.49.1
+  - @modern-js/node-bundle-require@2.49.1
+  - @modern-js/utils@2.49.1
+
+## 2.49.0
+
+### Patch Changes
+
+- Updated dependencies [e8c8c5d]
+  - @modern-js/runtime@2.49.0
+  - @modern-js/utils@2.49.0
+  - @modern-js/node-bundle-require@2.49.0
+
+## 2.48.6
+
+### Patch Changes
+
+- @modern-js/runtime@2.48.6
+- @modern-js/node-bundle-require@2.48.6
+- @modern-js/utils@2.48.6
+
+## 2.48.5
+
+### Patch Changes
+
+- Updated dependencies [4ca9f4c]
+  - @modern-js/utils@2.48.5
+  - @modern-js/runtime@2.48.5
+  - @modern-js/node-bundle-require@2.48.5
+
 ## 2.48.4
 
 ### Patch Changes

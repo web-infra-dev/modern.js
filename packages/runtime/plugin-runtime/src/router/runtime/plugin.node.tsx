@@ -7,21 +7,19 @@ import {
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
 import {
-  createRequestContext,
   reporterCtx,
+  createRequestContext,
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
+import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouteManifest, RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
-import { installGlobals } from './fetch';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
-
-// Polyfill Web Fetch API
-installGlobals();
+import DeferredDataScripts from './DeferredDataScripts.node';
 
 // TODO: polish
 function createFetchRequest(req: SSRServerContext['request']): Request {
@@ -32,19 +30,11 @@ function createFetchRequest(req: SSRServerContext['request']): Request {
 
   const controller = new AbortController();
 
-  // req.on('close', () => {
-  //   controller.abort();
-  // });
-
   const init = {
     method: req.method,
     headers: createFetchHeaders(req.headers),
     signal: controller.signal,
   };
-
-  // if (req.method !== 'GET' && req.method !== 'HEAD') {
-  //   init.body = req.body;
-  // }
 
   return new Request(url.href, init);
 }
@@ -71,6 +61,7 @@ export function createFetchHeaders(
 
 export const routerPlugin = ({
   basename = '',
+  originalBaseUrl = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -89,11 +80,13 @@ export const routerPlugin = ({
           }
 
           const { request, mode: ssrMode, nonce } = context.ssrContext!;
-          const baseUrl = request.baseUrl as string;
+          const baseUrl = originalBaseUrl || (request.baseUrl as string);
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
           const { reporter, serverTiming } = context.ssrContext!;
-          const requestContext = createRequestContext();
+          const requestContext = createRequestContext(
+            context.ssrContext?.loaderContext,
+          );
           requestContext.set(reporterCtx, reporter);
 
           let routes = createRoutes
@@ -123,7 +116,7 @@ export const routerPlugin = ({
             requestContext,
           });
           const cost = end();
-          reporter.reportTiming(LOADER_REPORTER_NAME, cost);
+          reporter?.reportTiming(LOADER_REPORTER_NAME, cost);
           serverTiming.addServeTiming(LOADER_REPORTER_NAME, cost);
 
           if (routerContext instanceof Response) {
@@ -151,8 +144,10 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              const { remixRouter, routerContext } =
+              const { remixRouter, routerContext, ssrContext } =
                 useContext(RuntimeReactContext);
+
+              const { nonce, mode } = ssrContext!;
               return (
                 <App {...props}>
                   <StaticRouterProvider
@@ -160,6 +155,8 @@ export const routerPlugin = ({
                     context={routerContext!}
                     hydrate={false}
                   />
+                  <DeferredDataScripts nonce={nonce} context={routerContext!} />
+                  {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </App>
               );
             }) as React.FC<any>;

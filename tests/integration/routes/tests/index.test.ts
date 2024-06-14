@@ -16,8 +16,6 @@ import {
   modernServe,
   launchOptions,
 } from '../../../utils/modernTestUtils';
-import { SequenceWait } from '../../../utils/testInSequence';
-// declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
 
@@ -364,6 +362,23 @@ const supportLoader = async (page: Page, errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
+const supportThrowResponse = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three/error/response`, {
+    waitUntil: ['domcontentloaded'],
+  });
+  const errorStatusElm = await page.$('.response-status');
+  const text = await page.evaluate(el => el?.textContent, errorStatusElm);
+  expect(text?.includes('255')).toBeTruthy();
+  const errorContentElm = await page.$('.response-content');
+  const text1 = await page.evaluate(el => el?.textContent, errorContentElm);
+  expect(text1?.includes("can't found the user")).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
 const supportLoaderForSSRAndCSR = async (
   page: Page,
   errors: string[],
@@ -665,10 +680,6 @@ const supportPrefetchWithShouldRevalidate = async (
   expect(isRequestPageData).toBe(false);
 };
 
-const curSequence = new SequenceWait();
-curSequence.add('dev-test');
-curSequence.add('build-test');
-
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -754,6 +765,8 @@ describe('dev', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -805,7 +818,6 @@ describe('dev', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('dev-test');
   });
 });
 
@@ -816,7 +828,6 @@ describe('build', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
-    await curSequence.waitUntil('dev-test');
     appPort = await getPort();
     const buildResult = await modernBuild(appDir);
     // log in case for test failed by build failed
@@ -896,6 +907,8 @@ describe('build', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -948,7 +961,6 @@ describe('build', () => {
     await killApp(app);
     await page.close();
     await browser.close();
-    await curSequence.done('build-test');
   });
 });
 
@@ -959,7 +971,6 @@ describe('dev with rspack', () => {
   let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
-    await curSequence.waitUntil('build-test');
     appPort = await getPort();
     app = await launchApp(
       appDir,
@@ -1041,6 +1052,8 @@ describe('dev with rspack', () => {
       supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
       supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
   });
 
   describe('global configuration', () => {
@@ -1052,6 +1065,154 @@ describe('dev with rspack', () => {
     test('basic usage', async () => {
       await testRouterPlugin(appDir);
     });
+  });
+
+  describe('client data', () => {
+    test('support client data', async () => {
+      await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
+    });
+  });
+
+  describe('prefetch', () => {
+    test('suppport prefetch', async () => {
+      await supportPrefetchInIntentMode(page, errors, appPort);
+    });
+    test('support prefetch with shouldRevalidate', async () => {
+      await supportPrefetchWithShouldRevalidate(page, errors, appPort);
+    });
+  });
+
+  describe('support shouldRevalidate', () => {
+    test('support shouldRevalidate in ssr', async () => {
+      await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
+    });
+  });
+
+  afterAll(async () => {
+    await killApp(app);
+    await page.close();
+    await browser.close();
+  });
+});
+
+describe('build with rspack', () => {
+  let appPort: number;
+  let app: unknown;
+  let page: Page;
+  let browser: Browser;
+  const errors: string[] = [];
+  beforeAll(async () => {
+    appPort = await getPort();
+    const buildResult = await modernBuild(appDir, [], {
+      env: {
+        BUNDLER: 'rspack',
+      },
+    });
+
+    // log in case for test failed by build failed
+    if (buildResult.code !== 0) {
+      console.log('ut test build failed, err: ', buildResult.stderr);
+      console.log('ut test build failed, output: ', buildResult.stdout);
+    }
+    app = await modernServe(appDir, appPort, {
+      cwd: appDir,
+    });
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
+    page.on('pageerror', error => {
+      errors.push(error.message);
+    });
+  });
+
+  describe('self control route', () => {
+    test('should render correctly', async () =>
+      renderSelfRoute(page, errors, appPort));
+  });
+
+  describe('pages routes', () => {
+    test('render pages route correctly', async () =>
+      renderPageRoute(page, errors, appPort));
+
+    test('render dynamic pages route correctly', async () =>
+      renderDynamicRoute(page, errors, appPort));
+
+    test('render options params pages route correctly', async () =>
+      renderOptionalParamsRoute(page, errors, appPort));
+
+    test('support global layout', async () =>
+      supportGlobalLayout(page, errors, appPort));
+
+    test('support _layout', async () => supportLayout(page, errors, appPort));
+  });
+
+  describe('nested routes', () => {
+    test('basic usage', async () => supportNestedRoutes(page, errors, appPort));
+
+    test('dynamic path', async () =>
+      supportDynamaicPaths(page, errors, appPort));
+
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
+
+    test('no layout dir', async () =>
+      supportNoLayoutDir(page, errors, appPort));
+
+    test('pathless layout', async () =>
+      supportPathLessLayout(page, errors, appPort));
+
+    test('path without layout', async () =>
+      supportPathWithoutLayout(page, errors, appPort));
+
+    test.skip('support handle loader error', async () =>
+      supportHandleLoaderError(page, errors, appPort));
+  });
+
+  describe('suppot both page route and nested route', () => {
+    test('nested route has higher priority', async () =>
+      nestedRouteOverPage(page, errors, appPort));
+
+    test('support works together', async () =>
+      supportNestedRouteAndPage(page, errors, appPort));
+  });
+
+  describe('loader', () => {
+    test('support loader', async () => supportLoader(page, errors, appPort));
+    test('support loader for ssr and csr', async () =>
+      supportLoaderForSSRAndCSR(page, errors, appPort));
+
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
+    test('support redirect for ssr', () =>
+      supportRedirectForSSR(page, errors, appPort));
+    test('support redirect for csr', () =>
+      supportRedirectForCSR(page, errors, appPort));
+    test('support throw response', async () =>
+      supportThrowResponse(page, errors, appPort));
+  });
+
+  describe('global configuration', () => {
+    test('support app init', async () =>
+      await supportDefineInit(page, errors, appPort));
+  });
+
+  describe('router plugin', () => {
+    test('basic usage', async () => {
+      await testRouterPlugin(appDir);
+    });
+    test('the correct hash should be included in the bundler-runtime chunk', async () =>
+      hasHashCorrectly(appDir));
   });
 
   describe('client data', () => {

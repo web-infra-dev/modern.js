@@ -50,15 +50,18 @@ The Hook provided by Modern.js is used to control the built-in logic in the Web 
 Currently, two Hooks are provided: `AfterMatch` and `AfterRender`, which can be used to modify the rendering results. It can be written in `server/index.ts` as follows:
 
 ```ts
-import type { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
+import type {
+  AfterMatchHook,
+  AfterRenderHook,
+} from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (ctx, next) => {
   next();
-}
+};
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   next();
-}
+};
 ```
 
 Projects should follow these best practices when using Hook:
@@ -75,13 +78,21 @@ For more detail, see [Hook](/apis/app/runtime/web-server/hook).
 
 For some projects, there may be more requirements at the server level, Modern.js provides Middleware to add pre-middleware for Web Server. It can only run in a Node environment, so if the project is deployed to another environment, such as a Worker environment, Middleware cannot be used.
 
+:::note
+In the next major release, Modern.js will use new middleware to replace this approach.
+
+It is recommended to use [UnstableMiddleware](/guides/advanced-features/web-server.html#unstablemiddleware) to handle page requests.
+:::
+
 Modern.js provides a set of APIs by default for projects to use:
 
 ```ts
-import { Middlewre } from '@modern-js/runtime/server';
+import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middlewre = (context, next) => {
-  const { source: { req, res } } = context;
+export const middleware: Middleware = (context, next) => {
+  const {
+    source: { req, res },
+  } = context;
   console.log(req.url);
   next();
 };
@@ -98,6 +109,33 @@ Projects should follow these best practices when using Middleware:
 3. In Middleware, you can ignore the default rendering and customize the rendering process.
 
 **In general, in CSR projects, using Hook can basically meet all the needs of simple scenarios. In SSR projects, Middleware can be used for more complex Node extensions.**
+
+### Unstable Middleware
+
+Modern.js will provide new Middleware to add pre-processing middleware to the Web Server, supporting the execution of custom logic before and after handling the page.
+
+```ts title="server/index.ts"
+import {
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/runtime/server';
+
+const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+
+  console.log(`dur=${end - start}`);
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [time];
+```
+
+:::note
+For detailed API and more usage, please refer to [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware)
+:::
 
 ## Managed Page Requests with BFF
 

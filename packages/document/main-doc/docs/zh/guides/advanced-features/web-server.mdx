@@ -76,12 +76,18 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 
 对于某些项目，可能在服务端有更多的需求，Modern.js 提供了 Middleware 为 Web Server 添加前置中间件。它只能运行在 Node 环境下，因此如果项目被部署到其他环境中，如 Worker 环境，则不可以使用 Middleware。
 
+:::note
+下一个大版本，Modern.js 将会使用新 Middleware 来替代该写法。
+
+推荐使用 [UnstableMiddleware](/guides/advanced-features/web-server.html#unstablemiddleware) 处理页面请求。
+:::
+
 Modern.js 默认提供了一套 API 供项目使用：
 
 ```ts
-import { Middlewre } from '@modern-js/runtime/server';
+import { Middleware } from '@modern-js/runtime/server';
 
-export const middleware: Middlewre = (context, next) => {
+export const middleware: Middleware = (context, next) => {
   const {
     source: { req, res },
   } = context;
@@ -101,6 +107,33 @@ export const middleware: Middlewre = (context, next) => {
 3. 在 Middleware 里可以无视后续默认渲染，自定义渲染流程。
 
 **总的来说，CSR 项目中，使用 Hook 基本能满足简单场景的所有需求。SSR 项目中，可以使用 Middleware 做更复杂的 Node 扩展。**
+
+### Unstable Middleware
+
+Modern.js 将提供新 Middleware 为 Web Server 添加前置中间件，支持在处理页面的前后执行自定义逻辑。
+
+```ts title="server/index.ts"
+import {
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/runtime/server';
+
+const time: UnstableMiddleware = async (c: UnstableMiddlewareContext, next) => {
+  const start = Date.now();
+
+  await next();
+
+  const end = Date.now();
+
+  console.log(`dur=${end - start}`);
+};
+
+export const unstableMiddleware: UnstableMiddleware[] = [time];
+```
+
+:::note
+详细 API 和更多用法查看 [UnstableMiddleware](/apis/app/runtime/web-server/unstable_middleware)
+:::
 
 ## 通过 BFF 托管页面请求
 

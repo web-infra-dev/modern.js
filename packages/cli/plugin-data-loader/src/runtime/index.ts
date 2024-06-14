@@ -1,21 +1,20 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import type { NestedRoute, ServerRoute } from '@modern-js/types';
-import {
-  installGlobals,
-  writeReadableStreamToWritable,
-  Response as NodeResponse,
-} from '@remix-run/node';
+import type {
+  Logger,
+  NestedRoute,
+  Reporter,
+  ServerRoute,
+} from '@modern-js/types';
 import {
   createStaticHandler,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
   isRouteErrorResponse,
+  json,
 } from '@modern-js/runtime-utils/remix-router';
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import { isPlainObject } from '@modern-js/utils/lodash';
 import {
   matchEntry,
-  ServerContext,
   createRequestContext,
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
@@ -23,16 +22,14 @@ import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
-
-// Polyfill Web Fetch API
-installGlobals();
+import { errorResponseToJson, serializeError } from './errors';
 
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
 export function isRedirectResponse(status: number): boolean {
   return redirectStatusCodes.has(status);
 }
 
-export function isResponse(value: any): value is NodeResponse {
+export function isResponse(value: any): value is Response {
   return (
     value != null &&
     typeof value.status === 'number' &&
@@ -53,87 +50,30 @@ function convertModernRedirectResponse(headers: Headers, basename: string) {
   newHeaders.set('X-Modernjs-Redirect', redirectUrl);
   newHeaders.delete('Location');
 
-  return new NodeResponse(null, {
+  return new Response(null, {
     status: 204,
     headers: newHeaders,
   });
 }
 
-const createLoaderHeaders = (
-  requestHeaders: IncomingMessage['headers'],
-): Headers => {
-  const headers = new Headers();
-
-  for (const [key, values] of Object.entries(requestHeaders)) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
-};
-
-const createRequest = (context: ServerContext) => {
-  const origin = `${context.protocol}://${context.host}`;
-  // eslint-disable-next-line node/prefer-global/url
-  const url = new URL(context.url, origin);
-
-  const controller = new AbortController();
-
-  const init: {
-    [key: string]: unknown;
-  } = {
-    method: context.method,
-    headers: createLoaderHeaders(context.headers),
-    signal: controller.signal,
-  };
-
-  if (!['GET', 'HEAD'].includes(context.method.toUpperCase())) {
-    init.body = context.req;
-  }
-
-  const request = new Request(url.href, init);
-
-  return request;
-};
-
-const sendLoaderResponse = async (
-  res: ServerResponse,
-  nodeResponse: NodeResponse,
-) => {
-  res.statusMessage = nodeResponse.statusText;
-  res.statusCode = nodeResponse.status;
-
-  for (const [key, value] of nodeResponse.headers.entries()) {
-    res.setHeader(key, value);
-  }
-
-  if (nodeResponse.body) {
-    await writeReadableStreamToWritable(nodeResponse.body, res);
-  } else {
-    res.end();
-  }
-};
-
 export const handleRequest = async ({
-  context,
+  request,
   serverRoutes,
   routes: routesConfig,
+  context,
 }: {
-  context: ServerContext;
+  request: Request;
   serverRoutes: ServerRoute[];
   routes: NestedRoute[];
-}) => {
-  const { query } = context;
-  const routeId = query[LOADER_ID_PARAM] as string;
-  const entry = matchEntry(context.path, serverRoutes);
-
+  context: {
+    logger: Logger;
+    reporter?: Reporter;
+  };
+}): Promise<Response | void> => {
+  // eslint-disable-next-line node/prefer-global/url
+  const url = new URL(request.url);
+  const routeId = url.searchParams.get(LOADER_ID_PARAM) as string;
+  const entry = matchEntry(url.pathname, serverRoutes);
   // LOADER_ID_PARAM is the indicator for CSR data loader request.
   if (!routeId || !entry) {
     return;
@@ -141,13 +81,12 @@ export const handleRequest = async ({
 
   const basename = entry.urlPath;
   const end = time();
-  const { res, logger, reporter } = context;
+  const { reporter } = context;
   const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
-  const request = createRequest(context);
   const requestContext = createRequestContext();
   // initial requestContext
   // 1. inject reporter
@@ -182,34 +121,41 @@ export const handleRequest = async ({
         const headers = new Headers(init.headers);
         headers.set('Content-Type', `${CONTENT_TYPE_DEFERRED}; charset=UTF-8`);
         init.headers = headers;
-        response = new NodeResponse(body, init);
+        response = new Response(body, init);
       }
     } else {
       response = isResponse(response)
         ? response
-        : new NodeResponse(JSON.stringify(response), {
+        : new Response(JSON.stringify(response), {
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
             },
           });
     }
+    const cost = end();
+    reporter?.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
-    const message = isRouteErrorResponse(error) ? error.data : String(error);
-    if (error instanceof Error) {
-      logger?.error(`Error: ${error.name} ${error.message} ${error.stack}`);
+    if (isResponse(error)) {
+      error.headers.set('X-Modernjs-Catch', 'yes');
+      response = error;
+    } else if (isRouteErrorResponse(error)) {
+      response = errorResponseToJson(error);
     } else {
-      logger?.error(message);
-    }
+      const errorInstance =
+        error instanceof Error || error instanceof DOMException
+          ? error
+          : new Error('Unexpected Server Error');
 
-    response = new NodeResponse(message, {
-      status: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-      },
-    });
+      // Handle errors uniformly using the application/json
+      response = json(serializeError(errorInstance), {
+        status: 500,
+        headers: {
+          'X-Modernjs-Error': 'yes',
+        },
+      });
+    }
   }
 
-  const cost = end();
-  reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
-  await sendLoaderResponse(res, response);
+  // eslint-disable-next-line consistent-return
+  return response as unknown as Response;
 };

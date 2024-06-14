@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { useSnapshot } from 'valtio';
 import {
   Box,
   Flex,
@@ -20,11 +19,11 @@ import {
 import _ from 'lodash';
 import { parseURL } from 'ufo';
 import clsx from 'clsx';
-import { $definition, $dependencies } from '../state';
+import { useSnapshot } from 'valtio';
+import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
-import { $doctor } from './state';
 import styles from './page.module.scss';
-import { IndicateCard } from '@/components/Card';
+import { Card, CardColumn } from '@/components/Card';
 
 interface SummaryCostsData {
   title: string;
@@ -76,10 +75,13 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 };
 
 const Page: FC = () => {
-  const doctor = useSnapshot($doctor);
+  const { doctor } = useSnapshot($serverExported);
+  if (!doctor) {
+    throw new TypeError('Doctor is not available');
+  }
+  const dependencies = useSnapshot($serverExported.dependencies);
+  const { def } = useSnapshot($serverExported).context;
 
-  const dependencies = useSnapshot($dependencies);
-  const def = useSnapshot($definition);
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),
   );
@@ -119,9 +121,9 @@ const Page: FC = () => {
         justify="center"
         className={styles.container}
       >
-        <IndicateCard className={styles.primaryCard}>
+        <Card variant="indicate" className={styles.primaryCard}>
           <Theme appearance="light" hasBackground={false} asChild>
-            <IndicateCard.Column>
+            <CardColumn>
               <Heading as="h1" color="gray" className={styles.heading}>
                 {implementation}
               </Heading>
@@ -140,10 +142,10 @@ const Page: FC = () => {
               >
                 Launch {implementation} with complete features.
               </Link>
-            </IndicateCard.Column>
+            </CardColumn>
           </Theme>
-        </IndicateCard>
-        <IndicateCard className={styles.infoCard}>
+        </Card>
+        <Card variant="indicate" className={styles.infoCard}>
           <Flex justify="between" gap="2" align="center" height="100%">
             <Box>
               <Text color="gray">Visit our website</Text>
@@ -160,9 +162,9 @@ const Page: FC = () => {
             </Box>
             <img className={styles.logo} src={logo} />
           </Flex>
-        </IndicateCard>
-        <IndicateCard className={styles.countCard}>
-          <IndicateCard.Column>
+        </Card>
+        <Card variant="indicate" className={styles.countCard}>
+          <CardColumn>
             <Text className={styles.countText} size="1">
               <HiMiniRectangleStack /> {doctor.numModules} modules
             </Text>
@@ -172,10 +174,10 @@ const Page: FC = () => {
             <Text className={styles.countText} size="1">
               <HiMiniArchiveBox /> {doctor.numChunks} chunks
             </Text>
-          </IndicateCard.Column>
-        </IndicateCard>
-        <IndicateCard className={styles.compileCostCard}>
-          <IndicateCard.Column>
+          </CardColumn>
+        </Card>
+        <Card variant="indicate" className={styles.compileCostCard}>
+          <CardColumn>
             <Flex asChild align="center" gap="1">
               <Heading as="h3" size="2" color="gray">
                 <HiChartBar />
@@ -187,10 +189,10 @@ const Page: FC = () => {
                 <GraphBar key={cost.name} cost={cost} />
               ))}
             </Flex>
-          </IndicateCard.Column>
-        </IndicateCard>
-        <IndicateCard width="100%">
-          <IndicateCard.Column>
+          </CardColumn>
+        </Card>
+        <Card variant="indicate" width="100%">
+          <CardColumn>
             <Text weight="bold" size="1" color="gray">
               Found {_.size(errors)} {_.size(errors) > 1 ? 'errors' : 'error'}
             </Text>
@@ -207,8 +209,8 @@ const Page: FC = () => {
                 )}
               </Box>
             ))}
-          </IndicateCard.Column>
-        </IndicateCard>
+          </CardColumn>
+        </Card>
       </Flex>
     </Flex>
   );

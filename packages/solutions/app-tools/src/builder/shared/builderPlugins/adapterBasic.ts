@@ -1,5 +1,5 @@
 import path from 'path';
-import { RsbuildPlugin, BundlerChain } from '@rsbuild/shared';
+import { RsbuildPlugin, RspackChain } from '@rsbuild/shared';
 
 export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',
@@ -44,7 +44,7 @@ export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
 /** compat some config, if target is `node` or `worker` */
 function applyNodeCompat(
   target: 'node' | 'service-worker',
-  chain: BundlerChain,
+  chain: RspackChain,
 ) {
   const nodeExts = [
     '.node.js',
