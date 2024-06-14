@@ -6,15 +6,6 @@ import { Plugin } from '../types';
 
 export const pluginHtml: Plugin = {
   async setup(api) {
-    api.frameworkHooks.hook('modifyServerRoutes', ({ routes }) => {
-      routes.push({
-        urlPath: '/sw-proxy.js',
-        isSPA: true,
-        isSSR: false,
-        entryPath: 'public/sw-proxy.js',
-      });
-    });
-
     api.frameworkHooks.hook('config', async () => {
       // Inject options to client.
       const clientOptions: SetupClientParams = {
