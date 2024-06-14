@@ -1,14 +1,9 @@
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
-import {
-  getRuntimeConfig,
-  makeProvider,
-  makeRenderFunction,
-  setRuntimeConfig,
-  generateAsyncEntry,
-} from './utils';
+import { getRuntimeConfig, setRuntimeConfig } from './utils';
+import { generateCode } from './code';
 
 export type UseConfig = ReturnType<typeof useConfigContext>;
 
@@ -40,12 +35,30 @@ export function getDefaultMicroFrontedConfig(
 
 export const garfishPlugin = ({
   pluginName = '@modern-js/plugin-garfish',
-  runtimePluginName = '@modern-js/runtime/plugins',
 } = {}): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
-  setup: ({ useAppContext, useResolvedConfigContext, useConfigContext }) => {
+  setup: api => {
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
+        const runtimeConfig = getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        );
+        if (runtimeConfig?.masterApp) {
+          plugins.push({
+            name: 'garfish',
+            implementation: '@modern-js/plugin-garfish',
+            config: runtimeConfig?.masterApp || {},
+          });
+        }
+        return { entrypoint, plugins };
+      },
       resolvedConfig: async config => {
         const { resolved } = config;
         const { masterApp, router } = getRuntimeConfig(resolved);
@@ -55,8 +68,7 @@ export const garfishPlugin = ({
           },
         };
         if (masterApp) {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
-          const useConfig = useConfigContext();
+          const useConfig = api.useConfigContext();
           const baseUrl = useConfig?.server?.baseUrl;
           if (Array.isArray(baseUrl)) {
             throw new Error(
@@ -88,12 +100,10 @@ export const garfishPlugin = ({
         return nConfig;
       },
       config() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const useConfig = useConfigContext();
+        const useConfig = api.useConfigContext();
         logger('useConfig', useConfig);
 
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useAppContext();
+        const config = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
           config.internalDirectory,
           'plugins',
@@ -130,8 +140,7 @@ export const garfishPlugin = ({
             rspack: (config: any) => {
               config.builtins ??= {};
 
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolveOptions = useResolvedConfigContext();
+              const resolveOptions = api.useResolvedConfigContext();
               if (
                 resolveOptions?.deploy?.microFrontend &&
                 !config.externalsType
@@ -146,8 +155,8 @@ export const garfishPlugin = ({
                   .plugin('garfish-banner')
                   .use(bundler.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolveOptions = useResolvedConfigContext();
+
+              const resolveOptions = api.useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
 
@@ -206,8 +215,7 @@ export const garfishPlugin = ({
         };
       },
       addRuntimeExports() {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
+        const config = api.useResolvedConfigContext();
         const { masterApp } = getRuntimeConfig(config);
         if (masterApp) {
           const addExportStatement = `export { default as garfish, default as masterApp } from '${pluginName}/runtime'`;
@@ -218,111 +226,15 @@ export const garfishPlugin = ({
         logger('otherExportStatement', otherExportStatement);
         pluginsExportsUtils.addExport(otherExportStatement);
       },
-      modifyEntryImports({ entrypoint, imports }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        const { masterApp } = getRuntimeConfig(config);
-        if (masterApp) {
-          imports.push({
-            value: runtimePluginName,
-            specifiers: [
-              {
-                imported: 'garfish',
-              },
-            ],
-          });
-          imports.push({
-            value: runtimePluginName,
-            specifiers: [
-              {
-                imported: 'masterApp',
-              },
-            ],
-          });
+      async generateEntryCode({ entrypoints }) {
+        const resolveOptions = api.useResolvedConfigContext();
+        if (resolveOptions?.deploy?.microFrontend) {
+          const appContext = api.useAppContext();
+          const resolvedConfig = api.useResolvedConfigContext();
+          const { mountId } = resolvedConfig.html;
+          await generateCode(appContext, mountId);
         }
-        imports.push({
-          value: runtimePluginName,
-          specifiers: [
-            {
-              imported: 'hoistNonReactStatics',
-            },
-          ],
-        });
-
-        imports.push({
-          value: 'react-dom',
-          specifiers: [
-            {
-              imported: 'unmountComponentAtNode',
-            },
-            {
-              imported: 'createPortal',
-            },
-          ],
-        });
-        return { imports, entrypoint };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        const { masterApp } = getRuntimeConfig(config);
-        if (masterApp) {
-          logger('garfishPlugin options', masterApp);
-          plugins.push({
-            name: 'garfish',
-            args: 'masterApp',
-            options:
-              masterApp === true
-                ? JSON.stringify({})
-                : JSON.stringify(masterApp),
-          });
-        }
-        return { entrypoint, plugins };
-      },
-      modifyEntryRenderFunction({ entrypoint, code }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        if (!config?.deploy?.microFrontend) {
-          return { entrypoint, code };
-        }
-        const nCode = makeRenderFunction(code);
-        logger('makeRenderFunction', nCode);
-        return {
-          entrypoint,
-          code: nCode,
-        };
-      },
-      modifyAsyncEntry({ entrypoint, code }) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        let finalCode = code;
-        if (config?.deploy?.microFrontend && config?.source?.enableAsyncEntry) {
-          finalCode = generateAsyncEntry(code);
-          return {
-            entrypoint,
-            code: `${finalCode}`,
-          };
-        }
-        return {
-          entrypoint,
-          code: finalCode,
-        };
-      },
-      modifyEntryExport({ entrypoint, exportStatement }: any) {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        const config = useResolvedConfigContext();
-        if (config?.deploy?.microFrontend) {
-          const exportStatementCode = makeProvider();
-          logger('exportStatement', exportStatementCode);
-          return {
-            entrypoint,
-            exportStatement: exportStatementCode,
-          };
-        }
-        return {
-          entrypoint,
-          exportStatement,
-        };
+        return { entrypoints };
       },
     };
   },

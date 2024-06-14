@@ -2941,6 +2941,9 @@ importers:
       '@remix-run/web-fetch':
         specifier: ^4.1.3
         version: 4.3.2
+      '@rsbuild/core':
+        specifier: 0.7.7
+        version: 0.7.7
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -6149,6 +6152,87 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/entries:
+    dependencies:
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+
+  tests/integration/entries/fixtures/app-builder:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-custom:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-custom-routes:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-entry:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-route:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
   tests/integration/esbuild:
     dependencies:
       '@types/jest':
@@ -6173,6 +6257,60 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+
+  tests/integration/garfish/app-dashboard:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/garfish/app-master:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/garfish/app-table:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
 
   tests/integration/load-config:
     dependencies:
@@ -8963,7 +9101,7 @@ packages:
     resolution: {integrity: sha512-2YnuOp4HAk2BsBrJJvYCbItHx0zWscI1C3zgWkz+wDyD9I7GIVrfnLyrR4Y1VR+7p+chAEcrgRQYZAGIKMV7vQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/helper-validator-identifier': 7.24.6
+      '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
       picocolors: 1.0.0
@@ -12775,7 +12913,7 @@ packages:
     resolution: {integrity: sha512-xuU6o9m68KeqZbQuDt2TcKSxUw/mrsvavlEqQ1leZ/B+C9tk6E4sRWy97WaXgvq5E+nU3cXMxv3WKOCanVMCmQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.24.6
+      '@babel/code-frame': 7.24.7
       '@babel/generator': 7.24.5
       '@babel/helper-environment-visitor': 7.22.20
       '@babel/helper-function-name': 7.23.0
@@ -12852,7 +12990,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/helper-string-parser': 7.23.4
-      '@babel/helper-validator-identifier': 7.24.6
+      '@babel/helper-validator-identifier': 7.24.7
       to-fast-properties: 2.0.0
 
   /@babel/types@7.24.5:
@@ -15267,7 +15405,7 @@ packages:
     resolution: {integrity: sha512-w9qsxogSrvUBHmBPKjr7vqV9b6HkzcSd7Ps0KhBaB+iAfv2fNumVELA/zWqtRyJdlXvMB0Y3ilYB9+XM17NmNw==}
     dependencies:
       '@swc/helpers': 0.5.1
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       lodash: 4.17.21
       rslog: 1.2.1
 
@@ -15275,7 +15413,7 @@ packages:
     resolution: {integrity: sha512-51Uv2oueWru4BvoE7VHai03wT0VZ1VFNPrDXR3Rd3DanRdM5BDBs28mB6+pz68SFQPjK7/f2ZgqRr0FjGWhUvg==}
     dependencies:
       '@swc/helpers': 0.5.1
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       lodash: 4.17.21
       rslog: 1.2.1
 
@@ -17439,7 +17577,7 @@ packages:
     resolution: {integrity: sha512-AEjdkhgc1FHPPEPWua3k6i/UOgxw9xvIGjl7IEyC4jJgYAKDqr2LcL6hhP+dS3BAVDUsJrQJ0FN3zWLkaYICDQ==}
     dependencies:
       '@rspack/core': 0.6.1(@swc/helpers@0.5.3)
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       postcss: 8.4.38
     transitivePeerDependencies:
       - '@swc/helpers'
@@ -20423,7 +20561,7 @@ packages:
       '@babel/parser': 7.23.6
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
-      source-map-js: 1.0.2
+      source-map-js: 1.2.0
     dev: false
 
   /@vue/compiler-dom@3.3.4:
@@ -20446,7 +20584,7 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.30.5
       postcss: 8.4.38
-      source-map-js: 1.0.2
+      source-map-js: 1.2.0
     dev: false
 
   /@vue/compiler-ssr@3.3.4:
@@ -21913,7 +22051,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       electron-to-chromium: 1.4.605
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
@@ -21923,7 +22061,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       electron-to-chromium: 1.4.717
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
@@ -22089,16 +22227,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.20.2
-      caniuse-lite: 1.0.30001627
+      caniuse-lite: 1.0.30001636
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: false
 
   /caniuse-lite@1.0.30001566:
     resolution: {integrity: sha512-ggIhCsTxmITBAMmK8yZjEhCO5/47jKXPu6Dha/wuCS4JePVL+3uiDEBuhu2aIoT+bqTOR8L76Ip1ARL9xYsEJA==}
-
-  /caniuse-lite@1.0.30001627:
-    resolution: {integrity: sha512-4zgNiB8nTyV/tHhwZrFs88ryjls/lHiqFhrxCW4qSTeuRByBVnPYpDInchOIySWknznucaf31Z4KYqjfbrecVw==}
 
   /caniuse-lite@1.0.30001636:
     resolution: {integrity: sha512-bMg2vmr8XBsbL6Lr0UHXy/21m84FTxDLWn2FSqMd5PrlbMxwJlQnC2YWYxVgp66PZE+BBNF2jYQUBKCo1FDeZg==}
@@ -23682,6 +23817,7 @@ packages:
   /diff-sequences@29.4.3:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
 
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
@@ -27660,9 +27796,10 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       chalk: 4.1.2
-      diff-sequences: 29.4.3
+      diff-sequences: 29.6.3
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+    dev: true
 
   /jest-diff@29.7.0:
     resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
@@ -27799,7 +27936,7 @@ packages:
     resolution: {integrity: sha512-Kijeg9Dag6CKtIDA7O21zNTACqD5MD/8HfIV8pdD94vFyFuer52SigdC3IQMhab3vACxXMiFk+yMHNdbqtyTGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@babel/code-frame': 7.24.6
+      '@babel/code-frame': 7.24.7
       '@jest/types': 29.5.0
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
@@ -27945,7 +28082,7 @@ packages:
       chalk: 4.1.2
       expect: 29.5.0
       graceful-fs: 4.2.11
-      jest-diff: 29.5.0
+      jest-diff: 29.7.0
       jest-get-type: 29.6.3
       jest-matcher-utils: 29.5.0
       jest-message-util: 29.5.0
@@ -30366,7 +30503,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.24.6
+      '@babel/code-frame': 7.24.7
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -36731,7 +36868,7 @@ packages:
     dependencies:
       '@types/node': 18.11.17
       esbuild: 0.17.19
-      postcss: 8.4.35
+      postcss: 8.4.38
       rollup: 3.29.4
     optionalDependencies:
       fsevents: 2.3.3

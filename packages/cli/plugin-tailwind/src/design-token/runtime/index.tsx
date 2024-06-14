@@ -1,5 +1,1 @@
-import designTokenPlugin from './plugin';
-
-export * from './plugin';
-
-export default designTokenPlugin;
+export { default, designTokenPlugin } from './plugin';
