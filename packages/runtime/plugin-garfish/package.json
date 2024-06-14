@@ -43,8 +43,8 @@
     "./types": "./type.d.ts",
     ".": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/cjs/cli/index.js"
+      "jsnext:source": "./src/runtime/index.ts",
+      "default": "./dist/cjs/runtime/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
