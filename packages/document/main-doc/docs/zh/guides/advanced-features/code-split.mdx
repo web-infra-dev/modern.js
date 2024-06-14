@@ -4,17 +4,17 @@ sidebar_position: 3
 
 # 代码分割
 
-代码分割是优化前端资源加载的一种常用手段，本文将介绍 Modern.js 支持的三种代码分割方式：
+代码分割（code splitting）是优化前端资源加载的一种常用手段，本文将介绍 Modern.js 支持的三种代码分割方式：
 
 :::info
 使用 Modern.js [约定式路由](/guides/basic-features/routes#约定式路由)时，默认会根据路由组件做代码分割，无需自行进行代码分割。
 :::
 
-- `import`
+- 动态 `import`
 - `React.lazy`
 - `loadable`
 
-## import
+## 动态 import
 
 使用动态 `import()` 语法，传入的 JS 模块将会被被打包到单独的 JS 文件中。例如：
 
@@ -34,7 +34,7 @@ React 官方提供的组件代码分割的方式。
 对于使用传统 SSR（字符串渲染）的项目，不支持 `React.lazy`，请使用 Loadable API。
 :::
 
-```ts
+```tsx
 import React, { Suspense } from 'react';
 
 const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -60,7 +60,7 @@ function MyComponent() {
 
 在 Modern.js 中，可以从 `@modern-js/runtime/loadable` 中导出使用 Loadable API，示例如下：
 
-```ts
+```tsx
 import loadable from '@modern-js/runtime/loadable';
 
 const OtherComponent = loadable(() => import('./OtherComponent'));

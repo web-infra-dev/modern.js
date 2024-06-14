@@ -97,7 +97,7 @@ export const libs = {
 
 In this case `babel-plugin-import` may also cause `Comps` to become `undefined`. So you need to remove the corresponding `babel-plugin-import` as well.
 
-### Cannot find module http
+### Cannot find module 'http'
 
 If the output reports an error like `Cannot find module 'http'` at browser runtime, it means that your output has bundled node modules.
 This may occur if some of your dependencies support both browser and node, such as `axios`, in which case you only need to set the [platform](/api/config/build-config.html/#platform) to `browser`.
