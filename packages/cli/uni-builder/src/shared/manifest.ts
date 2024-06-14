@@ -1,9 +1,9 @@
-import type { Chunk } from 'webpack';
+import type { Rspack } from '@rsbuild/shared';
 
 export const generateManifest = (
   seed: Record<string, any>,
   files: Array<{
-    chunk?: Chunk;
+    chunk?: Rspack.Chunk;
     name: string;
     path: string;
   }>,

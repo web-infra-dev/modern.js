@@ -106,6 +106,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -174,6 +179,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           ],
         },
         "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
           "fullySpecified": false,
         },
         "use": [
@@ -846,6 +854,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "_options": {
         "prefix": "Client",
         "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
@@ -884,7 +895,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
       "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
     "extensions": [
@@ -926,7 +936,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:swc",
   "rsbuild:externals",
   "rsbuild:split-chunks",
-  "rsbuild:start-url",
+  "rsbuild:open",
   "rsbuild:inline-chunk",
   "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
@@ -1065,6 +1075,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1133,6 +1148,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           ],
         },
         "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
           "fullySpecified": false,
         },
         "use": [
@@ -1889,6 +1907,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "_options": {
         "prefix": "Client",
         "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
       },
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
@@ -1918,7 +1939,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
     },
     "extensions": [
       ".ts",
@@ -2082,7 +2102,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.6",
+                    "version": "7.24.7",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -2209,7 +2229,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.6",
+                    "version": "7.24.7",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -2597,7 +2617,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.6",
+                        "version": "7.24.7",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -2725,7 +2745,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.6",
+                        "version": "7.24.7",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -3198,7 +3218,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.6",
+                    "version": "7.24.7",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -3325,7 +3345,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
                     "useESModules": true,
-                    "version": "7.24.6",
+                    "version": "7.24.7",
                   },
                 ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -3719,7 +3739,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.6",
+                        "version": "7.24.7",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
@@ -3862,7 +3882,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                       {
                         "useESModules": true,
-                        "version": "7.24.6",
+                        "version": "7.24.7",
                       },
                     ],
                     "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
