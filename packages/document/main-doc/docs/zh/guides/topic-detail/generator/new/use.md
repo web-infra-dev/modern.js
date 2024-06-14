@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 使用
 
-在 Web 应用、 Npm 模块和 Monorepo 项目中，我们提供了 `new` 命令用于创建项目元素、开启功能和创建子项目。
+在 Web 应用、 Npm 模块中，我们提供了 `new` 命令用于创建项目元素、开启功能和创建子项目。
 
 ## Web 应用
 
