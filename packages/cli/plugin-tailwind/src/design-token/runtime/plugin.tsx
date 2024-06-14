@@ -7,7 +7,7 @@ export const DesignTokenContext = React.createContext<any>({});
 export const useDesignTokens = (): IDesignTokens =>
   useContext<IDesignTokens>(DesignTokenContext);
 
-export default (
+export const designTokenPlugin = (
   options: {
     token?: Record<string, any>;
     useStyledComponentsThemeProvider?: boolean;
@@ -58,3 +58,5 @@ export default (
     },
   }),
 });
+
+export default designTokenPlugin;

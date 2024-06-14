@@ -22,6 +22,7 @@ import {
   ImportStatement,
 } from '@modern-js/app-tools';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
+import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
 import { getServerLoadersFile, getServerCombinedModueFile } from './utils';
@@ -185,3 +186,18 @@ export const generateCode = async (
     }
   }
 };
+
+export function generatorRegisterCode(
+  internalDirectory: string,
+  entryName: string,
+  code: string,
+) {
+  fs.outputFileSync(
+    path.resolve(
+      internalDirectory,
+      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
+    ),
+    code,
+    'utf8',
+  );
+}

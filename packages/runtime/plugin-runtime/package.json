@@ -36,12 +36,22 @@
     "./context": {
       "types": "./dist/types/core/context/index.d.ts",
       "jsnext:source": "./src/core/context/index.ts",
-      "default": "./dist/cjs/core/context/index.js"
+      "default": "./dist/esm/core/context/index.js"
     },
     "./plugin": {
       "types": "./dist/types/core/plugin/index.d.ts",
       "jsnext:source": "./src/core/plugin/index.ts",
-      "default": "./dist/cjs/core/plugin/index.js"
+      "default": "./dist/esm/core/plugin/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/core/react/index.d.ts",
+      "jsnext:source": "./src/core/react/index.ts",
+      "default": "./dist/esm/core/react/index.js"
+    },
+    "./client": {
+      "types": "./dist/types/core/client/index.d.ts",
+      "jsnext:source": "./src/core/client/index.ts",
+      "default": "./dist/esm/core/client/index.js"
     },
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
@@ -134,6 +144,12 @@
       "plugin": [
         "./dist/types/core/plugin/index.d.ts"
       ],
+      "react": [
+        "./dist/types/core/react/index.d.ts"
+      ],
+      "client": [
+        "./dist/types/core/client/index.d.ts"
+      ],
       "head": [
         "./dist/types/exports/head.d.ts"
       ],
@@ -213,6 +229,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
+    "@rsbuild/core": "0.7.7",
     "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
