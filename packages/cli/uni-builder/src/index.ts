@@ -14,7 +14,7 @@ export type {
   UniBuilderWebpackInstance,
 };
 export type {
-  BundlerChain,
+  RspackChain,
   RsbuildPlugin,
   ConfigChain,
   CopyPluginOptions,
@@ -38,5 +38,5 @@ export {
   type RsbuildContext,
   type RsbuildConfig,
 } from '@rsbuild/core';
-export type { webpack, WebpackChain, WebpackConfig } from '@rsbuild/webpack';
+export type { webpack, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME } from './shared/constants';

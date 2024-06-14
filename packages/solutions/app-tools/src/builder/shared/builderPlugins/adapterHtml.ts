@@ -1,7 +1,7 @@
 import {
   isHtmlDisabled,
   RsbuildPlugin,
-  BundlerChain,
+  RspackChain,
   createVirtualModule,
   ChainIdentifier,
   RsbuildPluginAPI,
@@ -44,7 +44,7 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
   },
 });
 
-async function injectAssetPrefix({ chain }: { chain: BundlerChain }) {
+async function injectAssetPrefix({ chain }: { chain: RspackChain }) {
   const entries = chain.entryPoints.entries() || {};
   const entryNames = Object.keys(entries);
   const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
@@ -64,7 +64,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
   HtmlBundlerPlugin,
 }: {
   api: RsbuildPluginAPI;
-  chain: BundlerChain;
+  chain: RspackChain;
   options: BuilderOptions<B>;
   CHAIN_ID: ChainIdentifier;
   HtmlBundlerPlugin: any;
