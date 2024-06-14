@@ -184,7 +184,7 @@ export const bootstrap: BootStrap = async (
       context.initialData = ssrData?.data?.initialData;
       const initialData = await runInit(context);
       if (initialData) {
-        context.initialData = initialData;
+        context.initialData = initialData as Record<string, unknown>;
       }
 
       const rootElement =
@@ -238,14 +238,14 @@ export const bootstrap: BootStrap = async (
 
       return runner.client(
         {
-          App,
+          App: React.createElement(App, { context } as any),
           context,
           ModernRender,
           ModernHydrate,
         },
         {
           onLast: ({ App }) => {
-            ModernRender(React.createElement(App, { context }));
+            ModernRender(App);
           },
         },
       );
@@ -295,7 +295,7 @@ export const bootstrap: BootStrap = async (
 
     const initialData = await runInit(context);
     if (!isRedirectResponse(initialData)) {
-      context.initialData = initialData;
+      context.initialData = initialData as Record<string, unknown>;
       // Support data loader to return status code
       if (
         context.routerContext?.statusCode &&
