@@ -21,9 +21,9 @@ import registerRoutes from './registerRoutes';
 
 declare module 'http' {
   interface IncomingMessage {
-    __honoRequest: HonoRequest;
-    __templates: Record<string, string>;
-    __serverManifest: ServerManifest;
+    __honoRequest?: HonoRequest;
+    __templates?: Record<string, string>;
+    __serverManifest?: ServerManifest;
   }
 }
 
@@ -123,11 +123,11 @@ const createApp = async ({
 
   if (render) {
     app.use(async (ctx, next) => {
-      const response = await render(ctx.req.__honoRequest.raw, {
+      const response = await render(ctx.req.__honoRequest!.raw, {
         logger,
         nodeReq: ctx.req,
-        templates: ctx.req.__templates,
-        serverManifest: ctx.req.__serverManifest,
+        templates: ctx.req.__templates!,
+        serverManifest: ctx.req.__serverManifest!,
       });
 
       if (response) {
