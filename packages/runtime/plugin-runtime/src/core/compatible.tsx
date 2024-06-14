@@ -17,7 +17,7 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 export type CreateAppOptions = {
   plugins: Plugin[];
   /**
-   * in test, we need to run createApp in the same time. It needs not to use the global runtime runner
+   * In the test cases, we need to execute multiple createApp instances simultaneously, and they must not share the runtime.
    */
   runtime?: typeof runtime;
   props?: any;
