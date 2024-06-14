@@ -8,14 +8,21 @@ import {
 import type { Entrypoint } from '@modern-js/types';
 import { CliHooksRunner } from '@modern-js/core';
 import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
-import { INDEX_FILE_NAME } from './constants';
+import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 
 export type { Entrypoint };
 
+// compatible index entry
 const hasIndex = (dir: string) =>
   findExists(
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${INDEX_FILE_NAME}${ext}`)),
+  );
+
+// new entry
+const hasEntry = (dir: string) =>
+  findExists(
+    JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
   );
 
 const isBundleEntry = async (
@@ -28,7 +35,9 @@ const isBundleEntry = async (
         path: dir,
         entry: false,
       })
-    ).entry || hasIndex(dir)
+    ).entry ||
+    hasEntry(dir) ||
+    hasIndex(dir)
   );
 };
 
@@ -44,6 +53,7 @@ const scanDir = (
         : false;
 
       const entryName = path.basename(dir);
+      const customEntryFile = hasEntry(dir);
 
       if (indexFile && !customBootstrap) {
         return {
@@ -66,10 +76,21 @@ const scanDir = (
         return {
           entryName,
           isMainEntry: false,
-          entry: entryFile,
+          entry: customEntryFile || entryFile,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
+          customEntry: customEntryFile,
+        };
+      }
+      if (customEntryFile) {
+        return {
+          entryName,
+          isMainEntry: false,
+          entry: customEntryFile,
+          absoluteEntryDir: path.resolve(dir),
+          isAutoMount: false,
+          customEntry: customEntryFile,
         };
       }
       throw Error('There is no valid entry point in the current project!');

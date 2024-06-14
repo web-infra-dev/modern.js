@@ -1,5 +1,4 @@
 import { loadableReady } from '@loadable/component';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type { Plugin, RuntimeContext } from '../core';
@@ -75,7 +74,7 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
             renderLevel === RenderLevel.CLIENT_RENDER ||
             renderLevel === RenderLevel.SERVER_PREFETCH
           ) {
-            ModernRender(<App context={context} />);
+            ModernRender(App);
           } else if (renderLevel === RenderLevel.SERVER_RENDER) {
             const loadableReadyOptions: any = {
               chunkLoadingGlobal: config.chunkLoadingGlobal,
@@ -83,17 +82,15 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
             if (isReact18()) {
               loadableReady(() => {
                 // callback: https://github.com/reactwg/react-18/discussions/5
-                let SSRApp: React.FC = () => (
-                  <WithCallback callback={callback}>
-                    <App context={hydrateContext} />
-                  </WithCallback>
+                const SSRApp: React.FC = () => (
+                  <WithCallback callback={callback}>{App}</WithCallback>
                 );
-                SSRApp = hoistNonReactStatics(SSRApp, App);
+                // SSRApp = hoistNonReactStatics(SSRApp, App);
                 ModernHydrate(<SSRApp />);
               }, loadableReadyOptions);
             } else {
               loadableReady(() => {
-                ModernHydrate(<App context={hydrateContext} />, callback);
+                ModernHydrate(App, callback);
               }, loadableReadyOptions);
             }
           } else {
@@ -101,22 +98,20 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
             console.warn(
               `unknow render level: ${renderLevel}, execute render()`,
             );
-            ModernRender(<App context={context} />);
+            ModernRender(App);
           }
         }
 
         function streamSSRHydrate() {
           if (renderLevel === RenderLevel.SERVER_RENDER) {
             // callback: https://github.com/reactwg/react-18/discussions/5
-            let SSRApp: React.FC = () => (
-              <WithCallback callback={callback}>
-                <App context={hydrateContext} />
-              </WithCallback>
+            const SSRApp: React.FC = () => (
+              <WithCallback callback={callback}>{App}</WithCallback>
             );
-            SSRApp = hoistNonReactStatics(SSRApp, App);
+            // SSRApp = hoistNonReactStatics(SSRApp, App);
             ModernHydrate(<SSRApp />);
           } else {
-            ModernRender(<App context={context} />);
+            ModernRender(App);
           }
         }
       },
