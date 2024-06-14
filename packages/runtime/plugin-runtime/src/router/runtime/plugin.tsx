@@ -77,7 +77,7 @@ export const routerPlugin = ({
         hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig && !createRoutes) {
+          if (!finalRouteConfig.routes && !createRoutes) {
             return next({ App, config });
           }
 
@@ -88,7 +88,9 @@ export const routerPlugin = ({
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
               const _basename =
-                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+                baseUrl === '/'
+                  ? urlJoin(baseUrl, config?.router?.basename || basename)
+                  : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
               const runtimeContext = useContext(RuntimeReactContext);
