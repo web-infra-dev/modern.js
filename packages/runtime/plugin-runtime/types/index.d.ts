@@ -1,3 +1,5 @@
+/// <reference types='@modern-js/types/hoist-non-react-statics' />
+
 import { StateConfig } from '../dist/types';
 
 declare module '@modern-js/app-tools' {
