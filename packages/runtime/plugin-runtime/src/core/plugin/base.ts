@@ -14,12 +14,12 @@ export interface AppProps {}
 /** TODO remove */
 const client = createAsyncPipeline<
   {
-    App: React.ComponentType<any>;
+    App: React.ReactElement<any>;
     readonly context: RuntimeContext;
     ModernRender: (App: React.ReactElement) => void;
     ModernHydrate: (App: React.ReactElement, callback?: () => void) => void;
   },
-  void
+  any
 >();
 
 /** TODO remove */
@@ -43,7 +43,7 @@ const init = createAsyncPipeline<
   {
     context: RuntimeContext;
   },
-  RuntimeContext
+  unknown
 >();
 
 /**

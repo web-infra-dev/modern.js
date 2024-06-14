@@ -1,4 +1,4 @@
-import { getEntryOptions, createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
@@ -9,11 +9,30 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
   required: ['@modern-js/runtime'],
 
   setup: api => {
-    const stateConfigMap = new Map<string, any>();
-
     let pluginsExportsUtils: any;
 
     return {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
+        const { entryName, isMainEntry } = entrypoint;
+        const userConfig = api.useResolvedConfigContext();
+        const { packageName } = api.useAppContext();
+
+        const stateConfig = getEntryOptions(
+          entryName,
+          isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        )?.state;
+        if (stateConfig) {
+          plugins.push({
+            name: PLUGIN_IDENTIFIER,
+            implementation: '@modern-js/runtime/model',
+            config: {},
+          });
+        }
+        return { entrypoint, plugins };
+      },
       config() {
         const appContext = api.useAppContext();
 
@@ -28,54 +47,6 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
           },
-        };
-      },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, isMainEntry } = entrypoint;
-        const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
-
-        const stateConfig = getEntryOptions(
-          entryName,
-          isMainEntry,
-          userConfig.runtime,
-          userConfig.runtimeByEntries,
-          packageName,
-        )?.state;
-
-        stateConfigMap.set(entryName, stateConfig);
-
-        if (stateConfig) {
-          imports.push({
-            value: '@modern-js/runtime/plugins',
-            specifiers: [
-              {
-                imported: PLUGIN_IDENTIFIER,
-              },
-            ],
-          });
-        }
-
-        return {
-          entrypoint,
-          imports,
-        };
-      },
-
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
-        const stateOptions = stateConfigMap.get(entrypoint.entryName);
-
-        if (stateOptions) {
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: `${JSON.stringify(
-              stateConfigMap.get(entrypoint.entryName),
-            )}`,
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
         };
       },
       addRuntimeExports() {

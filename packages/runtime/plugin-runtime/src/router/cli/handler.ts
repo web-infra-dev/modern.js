@@ -5,6 +5,7 @@ import { AppTools } from '@modern-js/app-tools';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { modifyEntrypoints } from './entry';
 import { isPageComponentFile } from './code/utils';
+import * as templates from './code/templates';
 
 let originEntrypoints: any[] = [];
 
@@ -13,14 +14,33 @@ export async function handleModifyEntrypoints(
   entrypoints: Entrypoint[],
 ) {
   const config = api.useResolvedConfigContext();
-  const newEntryPoints = modifyEntrypoints(entrypoints, config);
+  return modifyEntrypoints(entrypoints, config);
+}
+
+export async function handleGeneratorEntryCode(
+  api: PluginAPI<AppTools<'shared'>>,
+  entrypoints: Entrypoint[],
+) {
   const appContext = api.useAppContext();
+  const { internalDirectory } = api.useAppContext();
   const resolvedConfig = api.useResolvedConfigContext();
-  appContext.entrypoints = newEntryPoints;
-  originEntrypoints = cloneDeep(newEntryPoints);
-  const { generateCode } = await import('./code');
+  const { generatorRegisterCode, generateCode } = await import('./code');
+  originEntrypoints = cloneDeep(entrypoints);
   await generateCode(appContext, resolvedConfig, entrypoints, api);
-  return newEntryPoints;
+  await Promise.all(
+    entrypoints.map(async entrypoint => {
+      if (entrypoint.nestedRoutesEntry) {
+        generatorRegisterCode(
+          internalDirectory,
+          entrypoint.entryName,
+          templates.runtimeGlobalContext({
+            metaName: appContext.metaName,
+          }),
+        );
+      }
+    }),
+  );
+  return entrypoints;
 }
 
 export async function handleFileChange(
