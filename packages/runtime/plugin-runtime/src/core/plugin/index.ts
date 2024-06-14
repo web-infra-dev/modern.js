@@ -1,3 +1,4 @@
+import { merge } from '@modern-js/utils/lodash';
 import { runtime, Plugin } from './base';
 import { setGlobalRunner } from './runner';
 
@@ -18,4 +19,12 @@ export function registerPlugin(
   // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
   setGlobalRunner(runner);
   return runner;
+}
+
+export function mergeConfig(
+  cliConfig: Record<string, any>,
+  runtimeConfig: Record<string, any>,
+  otherConfig: Record<string, any>,
+) {
+  return merge(cliConfig, runtimeConfig, otherConfig);
 }
