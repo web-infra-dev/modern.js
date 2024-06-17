@@ -4,7 +4,6 @@ import {
   createStaticRouter,
   StaticRouterProvider,
 } from '@modern-js/runtime-utils/node/router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
 import {
   reporterCtx,
@@ -177,13 +176,6 @@ export const routerPlugin = ({
           };
 
           const RouteApp = getRouteApp();
-
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
 
           return next({
             App: RouteApp,

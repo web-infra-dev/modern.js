@@ -1,5 +1,4 @@
 import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import React, { useContext } from 'react';
 
 export const DesignTokenContext = React.createContext<any>({});
@@ -52,7 +51,7 @@ export const designTokenPlugin = (
       };
 
       return next({
-        App: hoistNonReactStatics(DesignTokenAppWrapper, App),
+        App: DesignTokenAppWrapper,
         config,
       });
     },
