@@ -3,17 +3,11 @@ import assert from 'assert';
 import http from 'http';
 import { URL } from 'url';
 import { Handler, Hono } from 'hono';
-import createDeferred from 'p-defer';
 import { getPort, fs } from '@modern-js/utils';
 import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
-import {
-  ExportedServerState,
-  ServerManifest,
-  replacer,
-  ROUTE_BASENAME,
-} from '@modern-js/devtools-kit/node';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import type { ProxyDetail } from '@modern-js/types';
 import { Plugin } from '../types';
 
@@ -88,22 +82,9 @@ export const pluginHttp: Plugin = {
     );
     app.get(':filename{.+\\.hot-update\\.\\w+$}', hotUpdateHandler);
 
-    const _pendingSettleState = createDeferred<void>();
-    api.hooks.hook('settleState', async () => _pendingSettleState.resolve());
     app.get('/manifest', async c => {
-      await _pendingSettleState.promise;
-      const routesManifestName = require.resolve(
-        '@modern-js/devtools-client/manifest',
-      );
-      const routesManifest = await fs.readJSON(routesManifestName);
-      const manifest: ServerManifest = {
-        ...(api.vars.state as ExportedServerState),
-        client: '/__devtools',
-        websocket: '/__devtools/rpc',
-        routeAssets: routesManifest.routeAssets,
-      };
-      const stringified = JSON.stringify(manifest, replacer());
-      return c.newResponse(stringified, 200, {
+      const json = await api.vars.useManifestJson;
+      return c.newResponse(json, 200, {
         'Content-Type': 'application/json',
       });
     });

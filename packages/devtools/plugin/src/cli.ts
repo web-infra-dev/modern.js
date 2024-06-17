@@ -21,6 +21,7 @@ import { pluginHtml } from './plugins/html';
 import { pluginRpc } from './plugins/rpc';
 import { pluginCleanup } from './plugins/cleanup';
 import { pluginSettleState } from './plugins/settle';
+import { pluginManifest } from './plugins/manifest';
 
 export type { DevtoolsPluginOptions };
 
@@ -38,6 +39,7 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   pluginHttp,
   pluginRpc,
   pluginSettleState,
+  pluginManifest,
   // --- //
   pluginCleanup,
 ];
