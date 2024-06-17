@@ -1,5 +1,4 @@
-import { createRoot } from '@modern-js/runtime/react';
-import { render } from '@modern-js/runtime/client';
+import { createRoot, render } from '@modern-js/runtime';
 import { Root } from 'react-dom/client';
 import { createPortal } from 'react-dom';
 
