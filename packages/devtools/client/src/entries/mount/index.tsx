@@ -16,7 +16,6 @@ const setup = () => {
     throw new Error('template not found');
   }
   shadow.appendChild(template.content);
-  console.log('template.content: ', template.content);
 
   const container = document.createElement('div');
   container.classList.add(

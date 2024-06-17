@@ -57,6 +57,7 @@ const setup = () => {
   const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
   if (!devtoolsUrl) return;
   const manifest: ServerManifest = fetchSync(devtoolsUrl).json(reviver());
+  manifest.source = devtoolsUrl;
 
   // Inject JavaScript chunks to client.
   const template = document.createElement('template');

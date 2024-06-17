@@ -74,7 +74,12 @@ export interface RouteAsset {
 }
 
 export interface ServerManifest extends ExportedServerState {
+  /** Original url of the served manifest file. */
+  source?: string;
+  /** WebSocket endpoint for live connection. */
   websocket?: string;
+  /** Client endpoint for interactive panel. */
   client: string;
+  /** Route assets. */
   routeAssets: Record<string, RouteAsset>;
 }
