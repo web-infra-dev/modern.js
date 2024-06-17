@@ -33,7 +33,7 @@ export async function handleGeneratorEntryCode(
         generatorRegisterCode(
           internalDirectory,
           entrypoint.entryName,
-          templates.runtimeGlobalContext({
+          await templates.runtimeGlobalContext({
             metaName: appContext.metaName,
             srcDirectory: appContext.srcDirectory,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
