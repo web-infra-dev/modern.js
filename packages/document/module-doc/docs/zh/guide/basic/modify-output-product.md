@@ -39,15 +39,15 @@ export default defineConfig({
 
 `buildPreset` 代表着提前准备好的一组或者多组构建相关的配置，只需要使用 `buildPreset` 对应的预设值，就可以省去麻烦且复杂的配置工作，得到符合预期的产物。
 
-Modern.js Module 主要内置了两套构建预设,包括:
+Modern.js Module 主要内置了两套构建预设，包括:
 
 - `npm-component`: 用于构建组件库。
-- `npm-library`: 用于打包其他库类型的项目,如工具库。
+- `npm-library`: 用于打包其他库类型的项目，如工具库。
 
 同时，还提供一些变体，例如 `npm-library-with-umd` 和 `npm-library-es5`，顾名思义，分别对应带有 umd 产物和支持到 es5 语法的库预设。
-详细配置可以查看其[API](/api/config/build-preset)。
+详细配置可以查看其 [API](/api/config/build-preset) 。
 
-除此之外,我们也可以完全自定义构建配置:
+除此之外，我们也可以完全自定义构建配置:
 
 ## 构建配置
 
