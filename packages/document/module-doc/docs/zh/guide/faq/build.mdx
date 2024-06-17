@@ -97,7 +97,7 @@ export const libs = {
 
 此时 `babel-plugin-import` 也可能会导致 `Comps` 变为 `undefined`。因此也需要移除对应的 `babel-plugin-import`。
 
-### Cannot find module http
+### Cannot find module 'http'
 
 如果产物在浏览器运行时报了类似 `Cannot find module 'http'` 的错误，说明你的产物打包进了 node 模块。
 这可能会发生于你的依赖里有一些同时支持 browser 和 node 的三方包，例如 `axios`，此时只需要将 [platform](/api/config/build-config.html#platform) 设置为 `browser` 即可。

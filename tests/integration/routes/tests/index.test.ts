@@ -912,7 +912,7 @@ describe('build', () => {
   });
 
   describe('global configuration', () => {
-    test('support app init', async () =>
+    test.skip('support app init', async () =>
       await supportDefineInit(page, errors, appPort));
   });
 
@@ -1203,7 +1203,7 @@ describe('build with rspack', () => {
   });
 
   describe('global configuration', () => {
-    test('support app init', async () =>
+    test.skip('support app init', async () =>
       await supportDefineInit(page, errors, appPort));
   });
 

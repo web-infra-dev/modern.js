@@ -2,6 +2,7 @@ import React from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createApp } from '@modern-js/runtime';
+import { createRuntime } from '@modern-js/runtime/plugin';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 import 'jest-location-mock';
@@ -151,6 +152,7 @@ describe('plugin-garfish', () => {
     let unmount = () => {};
     await act(async () => {
       const AppWrapper = createApp({
+        runtime: createRuntime(),
         plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       const res = render(<AppWrapper />);
@@ -254,6 +256,7 @@ describe('plugin-garfish', () => {
 
     await act(async () => {
       const AppWrapper = createApp({
+        runtime: createRuntime(),
         plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       render(<AppWrapper />, {});
@@ -310,6 +313,7 @@ describe('plugin-garfish', () => {
 
     await act(async () => {
       const AppWrapper = createApp({
+        runtime: createRuntime(),
         plugins: [garfishPlugin(microFrontendConfig)],
       })(App);
       render(<AppWrapper />, {});

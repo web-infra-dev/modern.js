@@ -2,7 +2,7 @@ import path from 'path';
 import { existsSync } from 'fs';
 import { CliPlugin, IAppContext, manager } from '@modern-js/core';
 
-import { getBundleEntry } from '../../../../solutions/app-tools/src/analyze/getBundleEntry';
+import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';
 
 describe('plugin runtime cli', () => {
@@ -41,9 +41,9 @@ describe('plugin runtime cli', () => {
     const runner2 = await cloned.init();
     const config = await runner2.config();
 
-    const { htmlPlugin } = config.find(
-      (item: any) => item.tools.htmlPlugin,
-    )!.tools;
+    const { htmlPlugin } = (
+      config.find((item: any) => item.tools.htmlPlugin)! as any
+    ).tools;
 
     const mockBuilderOptions = {
       templateParameters: () => {
@@ -76,8 +76,9 @@ describe('plugin runtime cli', () => {
       existsSync(path.join(__dirname, './feature/document/_main.html.js')),
     ).toBeTruthy();
   });
-  it('when user config set empty entries and disableDefaultEntries true, should get the ', () => {
-    const entries = getBundleEntry(
+  it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
+    const entries = await getBundleEntry(
+      runner,
       {
         internalDirectory: path.join(__dirname, './feature'),
         appDirectory: path.join(__dirname, './feature'),

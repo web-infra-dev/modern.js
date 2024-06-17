@@ -65,6 +65,13 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyServerRoutes: AsyncWaterfall<{
     routes: ServerRoute[];
   }>;
+  modifyEntrypoints: AsyncWaterfall<{
+    entrypoints: Entrypoint[];
+  }>;
+  checkEntryPoint: AsyncWaterfall<{
+    path: string;
+    entry: false | string;
+  }>;
   htmlPartials: AsyncWaterfall<{
     entrypoint: Entrypoint;
     partials: HtmlPartials;

@@ -45,12 +45,14 @@ export const initAppContext = ({
   appDirectory,
   plugins,
   configFile,
+  runtimeConfigFile,
   options,
   serverConfigFile,
 }: {
   appDirectory: string;
   plugins: CliPlugin[];
   configFile: string | false;
+  runtimeConfigFile: string | false;
   options?: {
     metaName?: string;
     srcDir?: string;
@@ -71,6 +73,7 @@ export const initAppContext = ({
     metaName,
     appDirectory,
     configFile,
+    runtimeConfigFile,
     serverConfigFile,
     ip: address.ip(),
     port: 0,
