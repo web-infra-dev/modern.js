@@ -13,6 +13,8 @@ export type {
 export type { RuntimeUserConfig } from './config';
 
 export {
+  createRoot,
+  render,
   createApp,
   useLoader,
   bootstrap,
