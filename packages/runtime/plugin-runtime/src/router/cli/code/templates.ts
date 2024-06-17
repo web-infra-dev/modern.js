@@ -8,11 +8,21 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import {
+  findExists,
+  fs,
+  getEntryOptions,
+  isSSGEntry,
+  slash,
+} from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
 import { TEMP_LOADERS_DIR } from '../constants';
-import { getServerLoadersFile } from './utils';
+import {
+  getPathWithoutExt,
+  getServerLoadersFile,
+  replaceWithAlias,
+} from './utils';
 
 export const routesForServer = ({
   routes,
@@ -459,13 +469,42 @@ export function ssrLoaderCombinedModule(
   return null;
 }
 
-export const runtimeGlobalContext = ({ metaName }: { metaName: string }) => {
+export const runtimeGlobalContext = ({
+  metaName,
+  srcDirectory,
+  nestedRoutesEntry,
+  internalSrcAlias,
+}: {
+  metaName: string;
+  srcDirectory: string;
+  nestedRoutesEntry: string;
+  internalSrcAlias: string;
+}) => {
+  const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+  const rootLayoutFile = findExists(
+    ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
+  );
+  const layoutPath = rootLayoutFile
+    ? getPathWithoutExt(
+        replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+      )
+    : '';
+
   return `import { setGlobalContext } from '@${metaName}/runtime/context'
+${
+  layoutPath
+    ? `import { init as appInit } from '${layoutPath}';
+import { config as appConfig } from '${layoutPath}';`
+    : `let appInit;
+let appConfig`
+}
 
 import { routes } from './routes.js';
 
 setGlobalContext({
   routes,
+  appInit,
+  appConfig,
 });`;
 };
 /* eslint-enable max-lines */
