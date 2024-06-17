@@ -55,9 +55,7 @@ const setup = () => {
     /use_modernjs_devtools=([^;]+)/,
   )?.[1];
   const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
-  if (!devtoolsUrl) {
-    throw new TypeError('Devtools URL is not found');
-  }
+  if (!devtoolsUrl) return;
   const manifest: ServerManifest = fetchSync(devtoolsUrl).json(reviver());
 
   // Inject JavaScript chunks to client.
