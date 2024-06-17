@@ -45,6 +45,6 @@ describe('app-custom', () => {
     });
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText?.trim()).toEqual('about');
+    expect(targetText?.trim()).toEqual('about init data');
   });
 });
