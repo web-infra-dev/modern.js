@@ -103,6 +103,11 @@
       "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
     },
+    "./router/cli": {
+      "types": "./dist/types/router/cli/index.d.ts",
+      "jsnext:source": "./src/router/cli/index.ts",
+      "default": "./dist/cjs/router/cli/index.js"
+    },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
@@ -156,6 +161,9 @@
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
       ],
+      "router/cli": [
+        "./dist/types/router/cli/index.d.ts"
+      ],
       "loadable-bundler-plugin": [
         "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts"
       ]
@@ -185,11 +193,13 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.14",
     "esbuild": "0.17.19",
+    "es-module-lexer": "^1.1.0",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",

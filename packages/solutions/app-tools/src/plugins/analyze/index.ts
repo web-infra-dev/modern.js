@@ -9,20 +9,14 @@ import {
   getArgv,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { cloneDeep } from '@modern-js/utils/lodash';
-import { printInstructions } from '../utils/printInstructions';
-import { generateRoutes, getPathWithoutExt } from '../utils/routes';
-import { emitResolvedConfig } from '../utils/config';
-import { getSelectedEntries } from '../utils/getSelectedEntries';
-import { AppTools, webpack } from '../types';
-import { initialNormalizedConfig } from '../config';
-import { createBuilderGenerator } from '../builder';
-import {
-  checkIsBuildCommands,
-  isPageComponentFile,
-  parseModule,
-  replaceWithAlias,
-} from './utils';
+import { printInstructions } from '../../utils/printInstructions';
+import { generateRoutes, getPathWithoutExt } from '../../utils/routes';
+import { emitResolvedConfig } from '../../utils/config';
+import { getSelectedEntries } from '../../utils/getSelectedEntries';
+import { AppTools, webpack } from '../../types';
+import { initialNormalizedConfig } from '../../config';
+import { createBuilderGenerator } from '../../builder';
+import { checkIsBuildCommands, parseModule, replaceWithAlias } from './utils';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
@@ -42,7 +36,6 @@ export default ({
   setup: api => {
     let pagesDir: string[] = [];
     let nestedRouteEntries: string[] = [];
-    let originEntrypoints: any[] = [];
 
     return {
       async prepare() {
@@ -93,7 +86,14 @@ export default ({
           import('./getHtmlTemplate'),
         ]);
 
-        const entrypoints = getBundleEntry(appContext, resolvedConfig);
+        // get runtime entry points
+        const { entrypoints } = await hookRunners.modifyEntrypoints({
+          entrypoints: await getBundleEntry(
+            hookRunners,
+            appContext,
+            resolvedConfig,
+          ),
+        });
 
         debug(`entrypoints: %o`, entrypoints);
 
@@ -124,8 +124,6 @@ export default ({
           // should only watch file-based routes
           .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
-
-        originEntrypoints = cloneDeep(entrypoints);
 
         const { importsStatemets } = await generateCode(
           appContext,
@@ -298,27 +296,6 @@ export default ({
           entrypoint,
           imports,
         };
-      },
-      async fileChange(e) {
-        const appContext = api.useAppContext();
-        const { appDirectory } = appContext;
-        const { filename, eventType } = e;
-        const isPageFile = (name: string) =>
-          pagesDir.some(pageDir => name.includes(pageDir));
-
-        const absoluteFilePath = path.resolve(appDirectory, filename);
-        const isRouteComponent =
-          isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
-
-        if (
-          isRouteComponent &&
-          (eventType === 'add' || eventType === 'unlink')
-        ) {
-          const resolvedConfig = api.useResolvedConfigContext();
-          const { generateCode } = await import('./generateCode');
-          const entrypoints = cloneDeep(originEntrypoints);
-          generateCode(appContext, resolvedConfig, entrypoints, api);
-        }
       },
     };
   },

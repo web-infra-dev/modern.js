@@ -1,45 +1,23 @@
-/* eslint-disable max-lines */
 import path from 'path';
 import {
   findExists,
   fs,
   getEntryOptions,
-  isRouterV5,
-  isSSGEntry,
-  isUseSSRBundle,
-  logger,
+  JS_EXTENSIONS,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
-import type {
-  Entrypoint,
-  Route,
-  RouteLegacy,
-  PageRoute,
-  SSRMode,
-  NestedRouteForCli,
-} from '@modern-js/types';
+import type { Entrypoint } from '@modern-js/types';
 import { RspackConfig, WebpackConfig } from '@rsbuild/shared';
 import {
   AppNormalizedConfig,
   AppTools,
   ImportSpecifier,
   ImportStatement,
-} from '../types';
+} from '../../types';
 import * as templates from './templates';
-import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
-import {
-  FILE_SYSTEM_ROUTES_FILE_NAME,
-  ENTRY_POINT_FILE_NAME,
-  ENTRY_BOOTSTRAP_FILE_NAME,
-  JS_EXTENSIONS,
-} from './constants';
-import {
-  getDefaultImports,
-  getServerLoadersFile,
-  getServerCombinedModueFile,
-} from './utils';
-import { walk } from './nestedRoutes';
+import { ENTRY_POINT_FILE_NAME, ENTRY_BOOTSTRAP_FILE_NAME } from './constants';
+import { getDefaultImports } from './utils';
 
 const createImportSpecifier = (specifiers: ImportSpecifier[]): string => {
   let defaults = '';
@@ -114,7 +92,6 @@ export const generateCode = async (
     appDirectory,
     internalDirAlias,
     internalSrcAlias,
-    packageName,
     runtimeConfigFile,
   } = appContext;
 
@@ -124,13 +101,7 @@ export const generateCode = async (
       path.resolve(srcDirectory, `${runtimeConfigFile}${ext}`),
     ),
   );
-  const isV5 = isRouterV5(config);
-  const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
   const importsStatemets = new Map<string, ImportStatement[]>();
-  const oldVersion =
-    typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
-      ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
-      : false;
 
   await Promise.all(
     entrypoints.map(entrypoint =>
@@ -146,129 +117,8 @@ export const generateCode = async (
     entrypoint: Entrypoint,
     customRuntimeConfig: string | false,
   ) {
-    const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
-      entrypoint;
+    const { entryName, isAutoMount } = entrypoint;
     if (isAutoMount) {
-      // generate routes file for file system routes entrypoint.
-      if (fileSystemRoutes) {
-        let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
-          [];
-        let nestedRoutes: NestedRouteForCli | NestedRouteForCli[] | null = null;
-        if (entrypoint.entry) {
-          initialRoutes = getRoutes({
-            entrypoint,
-            srcDirectory,
-            srcAlias: internalSrcAlias,
-            internalDirectory,
-            internalDirAlias,
-          });
-        }
-        if (!isV5 && entrypoint.nestedRoutesEntry) {
-          nestedRoutes = await walk(
-            entrypoint.nestedRoutesEntry,
-            entrypoint.nestedRoutesEntry,
-            {
-              name: internalSrcAlias,
-              basename: srcDirectory,
-            },
-            entrypoint.entryName,
-            entrypoint.isMainEntry,
-            oldVersion,
-          );
-          if (nestedRoutes) {
-            if (!Array.isArray(nestedRoutes)) {
-              nestedRoutes = [nestedRoutes];
-            }
-            for (const route of nestedRoutes) {
-              (initialRoutes as Route[]).unshift(route);
-            }
-          }
-        }
-
-        const { routes } = await hookRunners.modifyFileSystemRoutes({
-          entrypoint,
-          routes: initialRoutes,
-        });
-
-        const config = api.useResolvedConfigContext();
-        const ssr = getEntryOptions(
-          entryName,
-          isMainEntry,
-          config.server.ssr,
-          config.server.ssrByEntries,
-          packageName,
-        );
-        const useSSG = isSSGEntry(config, entryName, entrypoints);
-
-        let mode: SSRMode | undefined;
-        if (ssr) {
-          mode = typeof ssr === 'object' ? ssr.mode || 'string' : 'string';
-        }
-        if (mode === 'stream') {
-          const hasPageRoute = routes.some(
-            route => 'type' in route && route.type === 'page',
-          );
-          if (hasPageRoute) {
-            logger.error(
-              'Streaming ssr is not supported when pages dir exists',
-            );
-            // eslint-disable-next-line no-process-exit
-            process.exit(1);
-          }
-        }
-
-        const { code } = await hookRunners.beforeGenerateRoutes({
-          entrypoint,
-          code: await templates.fileSystemRoutes({
-            routes,
-            ssrMode: useSSG ? 'string' : mode,
-            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
-            entryName: entrypoint.entryName,
-            internalDirectory,
-            splitRouteChunks: config?.output?.splitRouteChunks,
-          }),
-        });
-
-        // extract nested router loaders
-        if (entrypoint.nestedRoutesEntry && isUseSSRBundle(config)) {
-          const routesServerFile = getServerLoadersFile(
-            internalDirectory,
-            entryName,
-          );
-
-          const code = templates.routesForServer({
-            routes: routes as (NestedRouteForCli | PageRoute)[],
-          });
-
-          await fs.ensureFile(routesServerFile);
-          await fs.writeFile(routesServerFile, code);
-        }
-
-        const serverLoaderCombined = templates.ssrLoaderCombinedModule(
-          entrypoints,
-          entrypoint,
-          config,
-          appContext,
-        );
-        if (serverLoaderCombined) {
-          const serverLoaderFile = getServerCombinedModueFile(
-            internalDirectory,
-            entryName,
-          );
-
-          await fs.outputFile(serverLoaderFile, serverLoaderCombined);
-        }
-
-        fs.outputFileSync(
-          path.resolve(
-            internalDirectory,
-            `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
-          ),
-          code,
-          'utf8',
-        );
-      }
-
       // call modifyEntryImports hook
       const { imports } = await hookRunners.modifyEntryImports({
         entrypoint,

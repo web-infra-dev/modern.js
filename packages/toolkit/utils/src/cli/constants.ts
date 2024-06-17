@@ -14,6 +14,8 @@ export {
   INTERNAL_SERVER_PLUGINS,
 } from '../universal/constants';
 
+export const JS_EXTENSIONS = ['.js', '.ts', '.jsx', '.tsx'];
+
 /**
  * server side bundles directory, which relative to dist.
  */

@@ -1,9 +1,8 @@
 import * as path from 'path';
-import { fs, normalizeToPosixPath } from '@modern-js/utils';
+import { JS_EXTENSIONS, fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
-import { getPathWithoutExt } from '../utils/routes';
-import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
-import { hasAction, replaceWithAlias } from './utils';
+import { NESTED_ROUTE } from '../constants';
+import { getPathWithoutExt, hasAction, replaceWithAlias } from './utils';
 
 const conventionNames = Object.values(NESTED_ROUTE);
 

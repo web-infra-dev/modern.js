@@ -1,11 +1,18 @@
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
-import { getBundleEntry } from '../../src/analyze/getBundleEntry';
+import {
+  CliHooksRunner,
+  CliPlugin,
+  manager,
+  type IAppContext,
+} from '@modern-js/core';
+import { AppNormalizedConfig, AppTools, appTools } from '@modern-js/app-tools';
 import {
   getClientRoutes,
   getClientRoutesLegacy,
-} from '../../src/analyze/getClientRoutes';
-import { AppNormalizedConfig } from '../../src/types';
+} from '../../src/router/cli/code/getClientRoutes';
+import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
+import { runtimePlugin } from '../../src/cli';
+import { modifyEntrypoints } from '../../src/router/cli/entry';
 
 type GetClientRoutesFunc =
   | typeof getClientRoutesLegacy
@@ -28,21 +35,35 @@ const prepareEnv = (fixturePath: string) => {
   };
 };
 
-describe('getClientRoutesLegacy', () => {
-  test('basic usage', () => basicUsage(getClientRoutesLegacy));
+async function getRunner() {
+  const main = manager
+    .clone()
+    .usePlugin(appTools as CliPlugin, runtimePlugin as CliPlugin);
 
-  test('nested routes with `_app.tsx` and `_layout.tsx`', () =>
-    supportLayout(getClientRoutesLegacy));
+  const runner: CliHooksRunner<AppTools<'shared'>> = (await main.init()) as any;
+  return runner;
+}
+
+describe('getClientRoutesLegacy', () => {
+  test('basic usage', async () =>
+    basicUsage(getClientRoutesLegacy, await getRunner()));
+
+  test('nested routes with `_app.tsx` and `_layout.tsx`', async () =>
+    supportLayout(getClientRoutesLegacy, await getRunner()));
 });
 
 describe('getClientRoutes', () => {
-  test('basic usage', () => basicUsage(getClientRoutes));
+  test('basic usage', async () =>
+    basicUsage(getClientRoutes, await getRunner()));
 
-  test('nested routes with `_app.tsx` and `_layout.tsx`', () =>
-    supportLayout(getClientRoutes));
+  test('nested routes with `_app.tsx` and `_layout.tsx`', async () =>
+    supportLayout(getClientRoutes, await getRunner()));
 });
 
-function basicUsage(getClientRoutes: GetClientRoutesFunc) {
+async function basicUsage(
+  getClientRoutes: GetClientRoutesFunc,
+  runner: CliHooksRunner<AppTools<'shared'>>,
+) {
   const fixturePath = path.resolve(
     __dirname,
     './fixtures/entries/file-system-routes',
@@ -50,14 +71,16 @@ function basicUsage(getClientRoutes: GetClientRoutesFunc) {
 
   const { appContext, config } = prepareEnv(fixturePath);
 
-  const entries = getBundleEntry(
+  const entrypoints = await getBundleEntry(
+    runner,
     appContext as IAppContext,
     config as AppNormalizedConfig<'shared'>,
   );
+  const newEntrypoints = modifyEntrypoints(entrypoints);
 
   let routes;
 
-  for (const entrypoint of entries) {
+  for (const entrypoint of newEntrypoints) {
     routes = getClientRoutes({
       entrypoint,
       srcDirectory: appContext.srcDirectory,
@@ -70,7 +93,10 @@ function basicUsage(getClientRoutes: GetClientRoutesFunc) {
   expect(routes).toMatchSnapshot();
 }
 
-function supportLayout(getClientRoutes: GetClientRoutesFunc) {
+async function supportLayout(
+  getClientRoutes: GetClientRoutesFunc,
+  runner: CliHooksRunner<AppTools<'shared'>>,
+) {
   const fixturePath = path.resolve(
     __dirname,
     './fixtures/entries/file-system-routes-nested',
@@ -78,14 +104,16 @@ function supportLayout(getClientRoutes: GetClientRoutesFunc) {
 
   const { appContext, config } = prepareEnv(fixturePath);
 
-  const entries = getBundleEntry(
+  const entrypoints = await getBundleEntry(
+    runner,
     appContext as IAppContext,
     config as AppNormalizedConfig<'shared'>,
   );
+  const newEntrypoints = modifyEntrypoints(entrypoints);
 
   let routes;
 
-  for (const entrypoint of entries) {
+  for (const entrypoint of newEntrypoints) {
     routes = getClientRoutes({
       entrypoint,
       srcDirectory: appContext.srcDirectory,

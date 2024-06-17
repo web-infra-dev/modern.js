@@ -1,17 +1,19 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { Entrypoint, RouteLegacy } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRouteForCli,
+  PageRoute,
+} from '@modern-js/types';
 import { makeLegalIdentifier } from '../makeLegalIdentifier';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
   FILE_SYSTEM_ROUTES_INDEX,
   FILE_SYSTEM_ROUTES_LAYOUT,
-} from '../constants';
+} from '../../constants';
 import { replaceWithAlias } from '../utils';
 import { debug, findLayout, shouldSkip, getRouteWeight } from './utils';
-
-export type { RouteLegacy as Route };
 
 const compName = (srcDirectory: string, filePath: string) => {
   const legalCompName = makeLegalIdentifier(
@@ -26,10 +28,10 @@ const layoutNameAbbr = (filePath: string) => {
   return `${prefix}${makeLegalIdentifier(dirName)}`;
 };
 
-const parents: RouteLegacy[] = [];
+const parents: PageRoute[] = [];
 
 /* eslint-disable no-param-reassign */
-const recursiveReadDirLegacy = ({
+const recursiveReadDir = ({
   dir,
   routes,
   basePath = '/',
@@ -37,7 +39,7 @@ const recursiveReadDirLegacy = ({
   srcAlias,
 }: {
   dir: string;
-  routes: RouteLegacy[];
+  routes: PageRoute[];
   basePath: string;
   srcDirectory: string;
   srcAlias: string;
@@ -54,19 +56,19 @@ const recursiveReadDirLegacy = ({
     } else {
       const alias = replaceWithAlias(srcDirectory, layout, srcAlias);
       const componentName = compName(srcDirectory, layout);
-      const route: RouteLegacy = {
+      const route: PageRoute = {
         path: `${basePath.substring(0, basePath.length - 1)}`,
-        exact: false,
-        routes: [],
+        children: [],
         _component: alias,
         component: componentName,
         parent,
+        type: 'page',
       };
       parent = route;
       resetParent = true;
       routes.push(route);
       parents.push(route);
-      routes = route.routes as RouteLegacy[];
+      routes = route.children as PageRoute[];
     }
   }
 
@@ -90,7 +92,7 @@ const recursiveReadDirLegacy = ({
         }
       }
 
-      const route: RouteLegacy = {
+      const route: PageRoute = {
         path: `${basePath}${
           dynamicRouteMatched
             ? `:${dynamicRouteMatched[1].replace(/\$$/, '?')}${
@@ -100,12 +102,12 @@ const recursiveReadDirLegacy = ({
         }`,
         _component: alias,
         component: componentName,
-        exact: true,
         parent,
+        type: 'page',
       };
 
       if (fs.statSync(filePath).isDirectory()) {
-        recursiveReadDirLegacy({
+        recursiveReadDir({
           dir: filePath,
           routes,
           basePath: `${route.path}/`,
@@ -128,7 +130,6 @@ const recursiveReadDirLegacy = ({
 
       if (filename === '404' && basePath === '/') {
         route.path = '*';
-        route.exact = false;
       }
 
       routes.push(route);
@@ -142,19 +143,21 @@ const recursiveReadDirLegacy = ({
 /* eslint-enable  no-param-reassign */
 
 const normalizeNestedRoutes = (
-  nested: RouteLegacy[],
+  nested: PageRoute[],
   internalComponentsDir: string,
   internalDirectory: string,
   internalDirAlias: string,
-) => {
-  const flat = (routes: RouteLegacy[]): RouteLegacy[] =>
-    routes.reduce<RouteLegacy[]>(
+): PageRoute[] => {
+  const flat = (routes: PageRoute[]): PageRoute[] =>
+    routes.reduce<PageRoute[]>(
       (memo, route) =>
-        memo.concat(Array.isArray(route.routes) ? flat(route.routes) : [route]),
+        memo.concat(
+          Array.isArray(route.children) ? flat(route.children) : [route],
+        ),
       [],
     );
 
-  const generate = (route: RouteLegacy) => {
+  const generate = (route: PageRoute) => {
     const codes = [];
 
     let lastComponent = route.component;
@@ -214,25 +217,32 @@ export const getClientRoutes = ({
   srcAlias: string;
   internalDirectory: string;
   internalDirAlias: string;
-}) => {
-  const { entry, entryName } = entrypoint;
-
-  if (!fs.existsSync(entry)) {
+}): (NestedRouteForCli | PageRoute)[] => {
+  const { entryName, pageRoutesEntry } = entrypoint;
+  if (!pageRoutesEntry) {
+    return [];
+  }
+  if (!fs.existsSync(pageRoutesEntry)) {
     throw new Error(
-      `generate file system routes error, ${entry} directory not found.`,
+      `generate file system routes error, ${pageRoutesEntry} directory not found.`,
     );
   }
 
-  if (!(fs.existsSync(entry) && fs.statSync(entry).isDirectory())) {
+  if (
+    !(
+      fs.existsSync(pageRoutesEntry) &&
+      fs.statSync(pageRoutesEntry).isDirectory()
+    )
+  ) {
     throw new Error(
-      `generate file system routes error, ${entry} should be directory.`,
+      `generate file system routes error, ${pageRoutesEntry} should be directory.`,
     );
   }
 
-  let routes: RouteLegacy[] = [];
+  let routes: PageRoute[] = [];
 
-  recursiveReadDirLegacy({
-    dir: entry,
+  recursiveReadDir({
+    dir: pageRoutesEntry,
     routes,
     basePath: '/',
     srcDirectory,
@@ -257,10 +267,10 @@ export const getClientRoutes = ({
 
   // FIXME: support more situations
   routes.sort((a, b) => {
-    const delta = getRouteWeight(a.path) - getRouteWeight(b.path);
+    const delta = getRouteWeight(a.path!) - getRouteWeight(b.path!);
 
     if (delta === 0) {
-      return a.path.length - b.path.length;
+      return a.path!.length - b.path!.length;
     }
 
     return delta;

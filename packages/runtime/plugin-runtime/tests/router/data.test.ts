@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import path from 'path';
-import { hasAction, hasLoader } from '../../src/analyze/utils';
+import { hasLoader, hasAction } from '../../src/router/cli/code/utils';
 
 describe('should verify loader and action normally', () => {
   const dataFile = path.resolve(
