@@ -32,6 +32,8 @@ When the value type is `Object`, the following properties can be configured:
   However, if developers want to reduce one rendering when there is no use of the useLoader API in your project, you can set the configuration `disablePrerender=true`.
 - `unsafeHeaders`: `string[] = []`, For safety reasons, Modern.js does not add excessive content to SSR_DATA. Developers can use this configuration to specify the headers that need to be injected.
 - `scriptLoading`: `'defer' | 'blocking' | 'module' | 'async'`, The configuration is the same as [html.scriptLoading](/configure/app/html/script-loading), supporting SSR injected script set to `async` loading. The priority is `ssr.scriptLoading` > `html.scriptLoading`.
+- `loaderFailureMode`: `'clientRender' | 'errorBoundary'`, The default configuration is `'errorBoundary'`, when an error occurs in [data loader](/en/guides/basic-features/data/data-fetch.html#data-loader-recommended),
+it will default to rendering the [`Error`](/en/guides/basic-features/routes.html#errorboundary) component of the route. When configured as `'clientRender'`, if a loader throws an error, it switch to client-side rendering，you can use it with [Client Loader](/en/guides/basic-features/data/data-fetch.html#client-loader).
 
 ```ts title="modern.config.ts"
 export default defineConfig({

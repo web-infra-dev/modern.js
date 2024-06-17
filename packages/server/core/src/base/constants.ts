@@ -25,3 +25,4 @@ export enum ServerReportTimings {
 }
 
 export const X_RENDER_CACHE = 'x-render-cache';
+export const X_MODERNJS_RENDER = 'x-modernjs-render';
