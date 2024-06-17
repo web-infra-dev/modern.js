@@ -11,6 +11,7 @@ import {
 import { Plugin, registerPlugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
+import { getGlobalAppInit } from './context';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -143,7 +144,10 @@ export const bootstrap: BootStrap = async (
     runner.init(
       { context: _context },
       {
-        onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
+        onLast: ({ context: context1 }) => {
+          const init = getGlobalAppInit();
+          return init?.(context1);
+        },
       },
     );
 
