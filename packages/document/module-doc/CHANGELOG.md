@@ -1,5 +1,11 @@
 # @modern-js/module-tools-docs
 
+## 2.53.0
+
+### Patch Changes
+
+- 51bd725: docs: correcting the name of the document product added to .gitignore
+
 ## 2.52.0
 
 ## 2.51.0

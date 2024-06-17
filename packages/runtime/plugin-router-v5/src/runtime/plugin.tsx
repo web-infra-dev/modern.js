@@ -111,7 +111,7 @@ export const routerPlugin = ({
 
           return next({ context });
         },
-        hoc: ({ App }, next) => {
+        hoc: ({ App, config }, next) => {
           const getRouteApp = () => {
             if (isBrow) {
               const baseUrl =
@@ -179,10 +179,12 @@ export const routerPlugin = ({
           if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
+              config,
             });
           }
           return next({
             App: RouteApp,
+            config,
           });
         },
       };

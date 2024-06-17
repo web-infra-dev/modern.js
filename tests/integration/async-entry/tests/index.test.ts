@@ -13,7 +13,7 @@ describe('generate async entry', () => {
         path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.jsx`),
         'utf8',
       ),
-    ).toContain(`import App from '@_modern_js_src/App';`);
+    ).toContain(`import App from '@_modern_js_src/App.tsx';`);
 
     expect(
       readFileSync(

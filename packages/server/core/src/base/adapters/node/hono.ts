@@ -11,9 +11,9 @@ import {
 type NodeBindings = {
   node: {
     req: NodeRequest & {
-      __honoRequest: HonoRequest;
-      __templates: Record<string, string>;
-      __serverManifest: ServerManifest;
+      __honoRequest?: HonoRequest;
+      __templates?: Record<string, string>;
+      __serverManifest?: ServerManifest;
     };
     res: NodeResponse;
   };
@@ -40,6 +40,10 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
     await handler(req, res);
     // make sure res.headersSent is set, because when using pipe, headersSent is not set immediately
     await new Promise(resolve => setTimeout(resolve, 0));
+    // Avoid memory leaks in node versions 18 and 20
+    delete req.__honoRequest;
+    delete req.__templates;
+    delete req.__serverManifest;
     if (res.headersSent) {
       context.finalized = true;
     } else {

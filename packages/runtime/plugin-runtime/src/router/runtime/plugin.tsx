@@ -74,11 +74,11 @@ export const routerPlugin = ({
 
           return next({ context });
         },
-        hoc: ({ App }, next) => {
+        hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig && !createRoutes) {
-            return next({ App });
+            return next({ App, config });
           }
 
           const getRouteApp = () => {
@@ -180,11 +180,13 @@ export const routerPlugin = ({
           if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
+              config,
             });
           }
 
           return next({
             App: RouteApp,
+            config,
           });
         },
         pickContext: ({ context, pickedContext }, next) => {

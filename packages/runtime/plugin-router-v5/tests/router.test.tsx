@@ -1,17 +1,20 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
-import { createApp, createPlugin } from '@modern-js/runtime';
+import { createApp } from '@modern-js/runtime';
+import { createRuntime } from '@modern-js/runtime/plugin';
 import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router-v5', () => {
   it('base usage', () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({}),
       ],
@@ -30,10 +33,12 @@ describe('@modern-js/plugin-router-v5', () => {
   });
 
   it('pages', () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           routesConfig: { routes: [{ path: '/', component: App as any }] },
@@ -70,10 +75,12 @@ describe('@modern-js/plugin-router-v5', () => {
     const mockCallback = jest.fn();
     App.init = mockCallback;
 
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -94,11 +101,12 @@ describe('@modern-js/plugin-router-v5', () => {
       ...history,
       push: jest.fn(),
     };
-
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           history: customHistory,
@@ -157,10 +165,12 @@ describe('@modern-js/plugin-router-v5', () => {
       return <div>home</div>;
     }
 
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -202,10 +212,12 @@ describe('@modern-js/plugin-router-v5', () => {
       return routes;
     });
 
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
           modifyRoutes(routes: RouteProps[]) {
             return modifyFn?.(routes);
           },

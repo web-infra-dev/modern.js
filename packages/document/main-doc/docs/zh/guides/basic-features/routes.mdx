@@ -230,7 +230,7 @@ export default () => {
     └── page.tsx
 ```
 
-当访问任何匹配不到的路径时(如 `/blog/a`)，都会渲染 `routes/$.tsx` 组件，因为这里有 `layout.tsx`，渲染的 UI 如下：
+当访问任何匹配不到的路径时(如 `/blog/a`)，都会渲染 `routes/blog/$.tsx` 组件，因为这里有 `layout.tsx`，渲染的 UI 如下：
 
 ```tsx
 <RootLayout>
@@ -352,7 +352,7 @@ Modern.js 建议必须有根 Layout 和根 Loading。
 
 ### 路由重定向
 
-可以通过创建 [`Data Loader`](/guides/basic-features/data/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.data.ts` 文件：
+可以使用 [`Data Loader`](/guides/basic-features/data/data-fetch) 文件做路由的重定向。如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.data.ts` 文件：
 
 ```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
@@ -460,8 +460,8 @@ export const init = (context: RuntimeContext) => {
 import { useRuntimeContext } from '@modern-js/runtime';
 
 export default () => {
-  const { context } = useRuntimeContext();
-  const { message } = context.getInitData();
+  const context = useRuntimeContext();
+  const { message } = context.initialData;
 
   return <div>{message}</div>;
 };
@@ -492,7 +492,7 @@ export const init = (context: RuntimeContext) => {
 
 ### 预加载
 
-在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
+在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片。当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
 这种情况下你可以通过定义 `Loading` 组件，在静态资源加载完成前，展示一个自定义的 `Loading` 组件。
 
 为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载：
@@ -550,7 +550,7 @@ export default () => {
 ```
 
 :::note
-Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力，而这些能力，在使用自控路由时，都需要开发者自行封装，推荐开发者使用约定式路由。
+Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力。而在使用自控路由时，这些能力都需要开发者自行封装。我们推荐开发者使用约定式路由。
 :::
 
 ## 其他路由方案

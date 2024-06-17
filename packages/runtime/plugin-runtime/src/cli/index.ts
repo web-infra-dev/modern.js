@@ -4,6 +4,9 @@ import { statePlugin } from '../state/cli';
 import { ssrPlugin } from '../ssr/cli';
 import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
+import { isRuntimeEntry } from './entry';
+
+export { isRuntimeEntry } from './entry';
 
 export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
@@ -18,6 +21,9 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
   usePlugins: [ssrPlugin(), statePlugin(), routerPlugin(), documentPlugin()],
   setup: api => {
     return {
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRuntimeEntry(path) };
+      },
       config() {
         const appDir = api.useAppContext().appDirectory;
         process.env.IS_REACT18 = isReact18(appDir).toString();

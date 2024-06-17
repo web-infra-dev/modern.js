@@ -14,6 +14,8 @@ export {
   INTERNAL_SERVER_PLUGINS,
 } from '../universal/constants';
 
+export const JS_EXTENSIONS = ['.js', '.ts', '.jsx', '.tsx'];
+
 /**
  * server side bundles directory, which relative to dist.
  */
@@ -49,6 +51,11 @@ export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.mjs'];
  * Serialized config path
  */
 export const OUTPUT_CONFIG_FILE = 'modern.config.json';
+
+/**
+ * Default runtime config filename
+ */
+export const DEFAULT_RUNTIME_CONFIG = 'modern.runtime';
 
 /**
  * Default server config basename

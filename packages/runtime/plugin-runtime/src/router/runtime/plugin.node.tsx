@@ -122,7 +122,7 @@ export const routerPlugin = ({
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
-            return routerContext;
+            return routerContext as any;
           }
 
           const router = createStaticRouter(routes, routerContext);
@@ -135,11 +135,11 @@ export const routerPlugin = ({
 
           return next({ context });
         },
-        hoc: ({ App }, next) => {
+        hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!routesConfig) {
-            return next({ App });
+            return next({ App, config });
           }
 
           const getRouteApp = () => {
@@ -167,11 +167,13 @@ export const routerPlugin = ({
           if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
+              config,
             });
           }
 
           return next({
             App: RouteApp,
+            config,
           });
         },
         pickContext: ({ context, pickedContext }, next) => {
