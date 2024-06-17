@@ -38,12 +38,28 @@ interface CreateRenderOptions {
   nonce?: string;
 }
 
+const DYNAMIC_ROUTE_REG = /\/:./;
+
 function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
-  const sorted = routes.sort(sortRoutes);
+  const dynamicRoutes: ServerRoute[] = [];
+  const normalRoutes: ServerRoute[] = [];
+
+  routes.forEach(route => {
+    if (DYNAMIC_ROUTE_REG.test(route.urlPath)) {
+      dynamicRoutes.push(route);
+    } else {
+      normalRoutes.push(route);
+    }
+  });
+
+  const finalRoutes = [
+    ...normalRoutes.sort(sortRoutes),
+    ...dynamicRoutes.sort(sortRoutes),
+  ];
 
   const router = new TrieRouter<ServerRoute>();
 
-  for (const route of sorted) {
+  for (const route of finalRoutes) {
     const { urlPath: originUrlPath } = route;
 
     const urlPath = originUrlPath.endsWith('/')
