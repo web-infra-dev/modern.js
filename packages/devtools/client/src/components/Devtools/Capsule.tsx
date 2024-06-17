@@ -1,4 +1,3 @@
-import { SetupClientParams } from '@modern-js/devtools-kit/runtime';
 import { Flex, Theme } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 import { useAsync, useEvent, useToggle } from 'react-use';
@@ -24,9 +23,12 @@ const parseDeepLink = (url = window.location) => {
   return pathname;
 };
 
-export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
-  const logoSrc = props.def.assets.logo;
-  const src = props.src ?? '/__devtools';
+export interface DevtoolsCapsuleProps {
+  src: string;
+  logo: string;
+}
+
+export const DevtoolsCapsule: React.FC<DevtoolsCapsuleProps> = props => {
   const deepLink = parseDeepLink();
   const [showDevtools, toggleDevtools] = useToggle(Boolean(deepLink));
   const [loadDevtools, setLoadDevtools] = useState(false);
@@ -88,7 +90,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
       <Visible when={showDevtools} keepAlive={true} load={loadDevtools}>
         <div className={styles.container}>
           <FrameBox
-            src={src}
+            src={props.src}
             onClose={() => toggleDevtools(false)}
             style={{ pointerEvents: draggable.isDragging ? 'none' : 'auto' }}
           />
@@ -96,7 +98,7 @@ export const DevtoolsCapsule: React.FC<SetupClientParams> = props => {
       </Visible>
       <Flex className={styles.fab} {...draggable.props} align="center">
         <DevtoolsCapsuleButton type="primary" onClick={toggleDevtools}>
-          <img className={styles.logo} src={logoSrc}></img>
+          <img className={styles.logo} src={props.logo} />
         </DevtoolsCapsuleButton>
         <DevtoolsCapsuleButton onClick={handleClickInspect}>
           <HiMiniCursorArrowRipple />

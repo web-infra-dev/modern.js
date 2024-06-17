@@ -1,5 +1,5 @@
 import {
-  ExportedServerState,
+  ServerManifest,
   MessagePortChannel,
   ServerFunctions,
   Tab,
@@ -9,7 +9,6 @@ import {
   reviver,
 } from '@modern-js/devtools-kit/runtime';
 import { createBirpc } from 'birpc';
-import * as flatted from 'flatted';
 import { createHooks } from 'hookable';
 import _ from 'lodash';
 import {
@@ -48,13 +47,13 @@ const initializeMountPoint = async () => {
   return { remote, hooks };
 };
 
-const initializeServerExported = async (url: string) => {
+const initializeManifest = async (url: string) => {
   const res = await fetch(url);
-  const json: ExportedServerState = flatted.parse(await res.text(), reviver)[0];
+  const json: ServerManifest = JSON.parse(await res.text(), reviver());
   return json;
 };
 
-const initializeServer = async (url: string, state: ExportedServerState) => {
+const initializeServer = async (url: string, state: ServerManifest) => {
   const _url = new URL(url, location.href);
   const socket = new window.WebSocket(_url);
   const channel = await WebSocketChannel.link(socket);
@@ -146,13 +145,13 @@ const initializeState = async (url: string) => {
   const manifestUrl = _.castArray(query.src)[0] ?? resolveURL(url, 'manifest');
 
   const $mountPoint = initializeMountPoint();
-  const $exported = initializeServerExported(manifestUrl);
-  const $server = $exported.then(exported =>
-    exported.websocket
-      ? initializeServer(exported.websocket, proxy(exported))
+  const $manifest = initializeManifest(manifestUrl);
+  const $server = $manifest.then(manifest =>
+    manifest.websocket
+      ? initializeServer(manifest.websocket, proxy(manifest))
       : null,
   );
-  const $setupPlugins = $exported.then(exported => {
+  const $setupPlugins = $manifest.then(exported => {
     const runtimePlugins = exported.context.def.plugins;
     return setupPlugins(runtimePlugins);
   });
@@ -160,7 +159,7 @@ const initializeState = async (url: string) => {
 
   const [mountPoint, exported, server, tabs] = await Promise.all([
     $mountPoint,
-    $exported,
+    $manifest,
     $server,
     $tabs,
   ]);

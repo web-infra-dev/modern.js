@@ -55,11 +55,11 @@ export class WebSocketChannel implements ChannelOptions {
   }
 
   serialize(data: unknown): string {
-    return flatted.stringify([data], replacer);
+    return flatted.stringify([data], replacer());
   }
 
   deserialize(e: MessageEvent): unknown {
-    const msg = flatted.parse(e.data.toString(), reviver)[0];
+    const msg = flatted.parse(e.data.toString(), reviver())[0];
     return msg;
   }
 }

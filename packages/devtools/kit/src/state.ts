@@ -40,7 +40,6 @@ export interface ServerState {
 }
 
 export interface ExportedServerState extends ServerState {
-  websocket?: string;
   framework: {
     context: AppContext;
     config: {
@@ -66,4 +65,16 @@ export interface ExportedServerState extends ServerState {
   performance: { compileDuration: number };
   dependencies: Record<string, string>;
   fileSystemRoutes: Record<string, FileSystemRoutes>;
+}
+
+export interface RouteAsset {
+  chunkIds: string[];
+  assets: string[];
+  referenceCssAssets: [];
+}
+
+export interface ServerManifest extends ExportedServerState {
+  websocket?: string;
+  client: string;
+  routeAssets: Record<string, RouteAsset>;
 }

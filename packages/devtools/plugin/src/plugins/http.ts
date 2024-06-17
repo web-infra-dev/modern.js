@@ -4,13 +4,13 @@ import http from 'http';
 import { URL } from 'url';
 import { Handler, Hono } from 'hono';
 import createDeferred from 'p-defer';
-import * as flatted from 'flatted';
 import { getPort, fs } from '@modern-js/utils';
 import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
 import {
   ExportedServerState,
+  ServerManifest,
   replacer,
   ROUTE_BASENAME,
 } from '@modern-js/devtools-kit/node';
@@ -92,11 +92,17 @@ export const pluginHttp: Plugin = {
     api.hooks.hook('settleState', async () => _pendingSettleState.resolve());
     app.get('/manifest', async c => {
       await _pendingSettleState.promise;
-      const exported: ExportedServerState = {
-        ...(api.vars.state as any),
+      const routesManifestName = require.resolve(
+        '@modern-js/devtools-client/manifest',
+      );
+      const routesManifest = await fs.readJSON(routesManifestName);
+      const manifest: ServerManifest = {
+        ...(api.vars.state as ExportedServerState),
+        client: '/__devtools',
         websocket: '/__devtools/rpc',
+        routeAssets: routesManifest.routeAssets,
       };
-      const stringified = flatted.stringify([exported], replacer);
+      const stringified = JSON.stringify(manifest, replacer());
       return c.newResponse(stringified, 200, {
         'Content-Type': 'application/json',
       });

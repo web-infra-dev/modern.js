@@ -2,7 +2,7 @@ import { Buffer } from 'buffer';
 import path from 'path';
 import {
   DevtoolsContext,
-  ExportedServerState,
+  ServerManifest,
   findManifest,
   parseManifest,
   replacer,
@@ -213,7 +213,7 @@ export const pluginRpc: Plugin = {
       },
       async pullExportedState() {
         try {
-          return api.vars.state as ExportedServerState;
+          return api.vars.state as ServerManifest;
         } catch (e) {
           console.error(e);
           throw e;
@@ -295,9 +295,9 @@ export const pluginRpc: Plugin = {
       post: data =>
         onceConnection.then(() => server.clients.forEach(ws => ws.send(data))),
       on: cb => (handleMessage = cb),
-      serialize: v => flatted.stringify([v], replacer),
+      serialize: v => flatted.stringify([v], replacer()),
       deserialize: v => {
-        const msg = flatted.parse(v.toString(), reviver)[0];
+        const msg = flatted.parse(v.toString(), reviver())[0];
         return msg;
       },
       onError(error, functionName, args) {
