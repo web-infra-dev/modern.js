@@ -216,7 +216,6 @@
     "@types/styled-components": "^5.1.14",
     "esbuild": "0.17.19",
     "es-module-lexer": "^1.1.0",
-    "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",
     "react-is": "^18",
@@ -229,7 +228,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/core": "0.7.7",
+    "@rsbuild/core": "0.7.8",
     "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",

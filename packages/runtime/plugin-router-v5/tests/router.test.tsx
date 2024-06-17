@@ -3,6 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
+import { setGlobalContext } from '@modern-js/runtime/context';
 import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
@@ -73,7 +74,7 @@ describe('@modern-js/plugin-router-v5', () => {
     }
 
     const mockCallback = jest.fn();
-    App.init = mockCallback;
+    setGlobalContext({ appInit: mockCallback });
 
     const runtime = createRuntime();
     const AppWrapper = createApp({
