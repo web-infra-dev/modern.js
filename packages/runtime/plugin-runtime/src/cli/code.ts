@@ -25,7 +25,8 @@ export const generateCode = async (
   const runner = api.useHookRunners();
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, entry, customEntry } = entrypoint;
+      const { entryName, isAutoMount, entry, customEntry, customBootstrap } =
+        entrypoint;
       const { plugins: runtimePlugins } = await runner._internalRuntimePlugins({
         entrypoint,
         plugins: [],
@@ -39,6 +40,7 @@ export const generateCode = async (
           entry,
           entryName,
           customEntry,
+          customBootstrap,
           mountId,
         });
         const indexFile = path.resolve(
