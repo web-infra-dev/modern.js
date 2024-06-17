@@ -9,6 +9,7 @@ import createRouterPlugin, {
 import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
 import { createRuntime } from '../../src/core/plugin';
+import { setGlobalContext } from '../../src/core/context';
 
 beforeAll(() => {
   // use React 18
@@ -118,7 +119,7 @@ describe('@modern-js/plugin-router', () => {
     }
 
     const mockCallback = jest.fn();
-    App.init = mockCallback;
+    setGlobalContext({ appInit: mockCallback });
     const runtime = createRuntime();
     const AppWrapper = createApp({
       runtime,

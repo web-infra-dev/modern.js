@@ -14,7 +14,6 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
@@ -172,16 +171,8 @@ export const routerPlugin = ({
             };
           };
 
-          let RouteApp = getRouteApp();
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
+          const RouteApp = getRouteApp();
+
           return next({
             App: RouteApp,
             config,
