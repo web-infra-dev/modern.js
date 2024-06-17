@@ -1,6 +1,6 @@
 import { NestedRoute, PageRoute } from '@modern-js/types';
 
-export { RuntimeReactContext } from './runtime';
+export { RuntimeReactContext, type RuntimeContext } from './runtime';
 
 interface GlobalContext {
   App?: React.ComponentType;

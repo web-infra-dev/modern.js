@@ -2,24 +2,21 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
-import { RuntimeContext } from '../../core/context';
-import { LoaderResult } from '../../core/loader/loaderManager';
+import { RuntimeContext } from '../../context';
+import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestConfig } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
-// import { SSRPluginConfig } from '';
-// import { SSRTracker, SSRTimings, SSRErrors } from './serverRender/tracker';
 
-// todo: SSRContext
 export const prefetch = async (
   App: React.ComponentType<any>,
   context: RuntimeContext,
   config: HandleRequestConfig,
   { onError, onTiming }: Tracer,
 ) =>
-  // tracker: SSRTracker,
-  run(context.ssrContext.request.headers, async () => {
+  // TODO: remove context.ssrContext
+  run(context.ssrContext!.request.headers, async () => {
     const { ssrContext } = context;
-    const { loadableStats } = ssrContext;
+    const { loadableStats } = ssrContext || {};
 
     if (!config.disablePrerender) {
       try {
@@ -28,7 +25,7 @@ export const prefetch = async (
         if (loadableStats) {
           const extractor = new ChunkExtractor({
             stats: loadableStats,
-            entrypoints: [ssrContext.entryName].filter(Boolean),
+            entrypoints: [ssrContext!.entryName].filter(Boolean),
           });
           renderToStaticMarkup(
             extractor.collectChunks(<App context={context} />),
@@ -77,7 +74,7 @@ export const prefetch = async (
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
       if (data._error) {
-        ssrContext.logger.error('App Load use-loader', data._error);
+        onError(SSRErrors.USE_LOADER, data._error);
         delete data._error;
       }
     });

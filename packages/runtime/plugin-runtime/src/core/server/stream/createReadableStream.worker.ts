@@ -1,6 +1,6 @@
 import { renderToReadableStream } from 'react-dom/server';
 import { RenderLevel } from '../shared';
-import { ESCAPED_SHELL_STREAM_END_MARK } from '../../common';
+import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import {
   CreateReadableStreamFromElement,
   ShellChunkStatus,

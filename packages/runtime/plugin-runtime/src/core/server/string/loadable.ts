@@ -1,8 +1,15 @@
-import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
+import { type Chunk, ChunkExtractor } from '@loadable/server';
 import { ReactElement } from 'react';
 import { attributesToString, checkIsNode } from '../utils';
-// import { SSRPluginConfig, RenderResult } from '../types';
 import type { Collector, ChunkSet } from './types';
+
+declare module '@loadable/server' {
+  export interface ChunkExtractor {
+    chunks: Chunk;
+
+    getChunkAssets: (chunks: Chunk) => Chunk[];
+  }
+}
 
 const extname = (uri: string): string => {
   if (typeof uri !== 'string' || !uri.includes('.')) {
@@ -11,19 +18,19 @@ const extname = (uri: string): string => {
   return `.${uri?.split('.').pop()}` || '';
 };
 
-const generateChunks = (chunks: ChunkAsset[], ext: string) =>
+const generateChunks = (chunks: Chunk[], ext: string) =>
   chunks
     .filter(chunk => Boolean(chunk.url))
-    .filter(chunk => extname(chunk.url!).slice(1) === ext);
+    .filter(chunk => extname(chunk.url).slice(1) === ext);
 
 const checkIsInline = (
-  chunk: ChunkAsset,
+  chunk: Chunk,
   enableInline: boolean | RegExp | undefined,
 ) => {
   // only production apply the inline config
   if (process.env.NODE_ENV === 'production') {
     if (enableInline instanceof RegExp) {
-      return enableInline.test(chunk.url!);
+      return enableInline.test(chunk.url);
     } else {
       return Boolean(enableInline);
     }
@@ -32,14 +39,14 @@ const checkIsInline = (
   }
 };
 
-const readAsset = async (chunk: ChunkAsset) => {
+const readAsset = async (chunk: Chunk) => {
   // working node env
   const fs = await import('fs/promises');
   const path = await import('path');
 
   // only working in 'production' env
   // we need ensure the assetsDir is same as ssr bundles.
-  const filepath = path.resolve(__dirname, chunk.filename!);
+  const filepath = path.resolve(__dirname, chunk.filename);
 
   return fs.readFile(filepath, 'utf-8');
 };
@@ -128,7 +135,7 @@ export class LoadableCollector implements Collector {
     chunkSet.jsChunk += s;
   }
 
-  private async emitScriptAssets(chunks: ChunkAsset[]) {
+  private async emitScriptAssets(chunks: Chunk[]) {
     const { template, nonce, chunkSet, config } = this.options;
     const { scriptLoading = 'defer', enableInlineScripts } = config;
 
@@ -148,10 +155,10 @@ export class LoadableCollector implements Collector {
     const scripts = await Promise.all(
       chunks
         .filter(chunk => {
-          const jsChunkReg = new RegExp(`<script .*src="${chunk.url!}".*>`);
+          const jsChunkReg = new RegExp(`<script .*src="${chunk.url}".*>`);
           return (
             !jsChunkReg.test(template) &&
-            !this.existsAssets?.includes(chunk.path!)
+            !this.existsAssets?.includes(chunk.path)
           );
         })
         .map(async chunk => {
@@ -174,7 +181,7 @@ export class LoadableCollector implements Collector {
     chunkSet.jsChunk += scripts.filter(script => Boolean(script)).join('');
   }
 
-  private async emitStyleAssets(chunks: ChunkAsset[]) {
+  private async emitStyleAssets(chunks: Chunk[]) {
     const { template, chunkSet, config } = this.options;
 
     const { enableInlineStyles } = config;
@@ -184,15 +191,15 @@ export class LoadableCollector implements Collector {
     const css = await Promise.all(
       chunks
         .filter(chunk => {
-          const cssChunkReg = new RegExp(`<link .*href="${chunk.url!}".*>`);
+          const cssChunkReg = new RegExp(`<link .*href="${chunk.url}".*>`);
 
           return (
             !cssChunkReg.test(template) &&
-            !this.existsAssets?.includes(chunk.path!)
+            !this.existsAssets?.includes(chunk.path)
           );
         })
         .map(async chunk => {
-          const link = `<link${atrributes} href="${chunk.url!}" rel="stylesheet" />`;
+          const link = `<link${atrributes} href="${chunk.url}" rel="stylesheet" />`;
 
           // only in node read asserts
           if (checkIsNode() && checkIsInline(chunk, enableInlineStyles)) {
