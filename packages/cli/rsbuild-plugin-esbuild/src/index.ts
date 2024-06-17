@@ -91,8 +91,6 @@ export function pluginEsbuild(
             .use(ESBuildMinifyPlugin)
             .init(
               () =>
-                // @ts-expect-error
-                // Due to rspack compiler missing some properties, but ESBuildMinifyPlugin only works in webpack.
                 new ESBuildMinifyPlugin({
                   // other legalComments such as linked is not supported yet
                   // https://github.com/privatenumber/esbuild-loader/issues/263
