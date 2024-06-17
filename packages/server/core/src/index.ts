@@ -11,7 +11,7 @@ export type {
   Middleware,
   Context,
   Next,
-  HonoRequest,
+  HonoRequest as InternalRequest,
   ServerEnv,
   ServerManifest,
 } from './types';

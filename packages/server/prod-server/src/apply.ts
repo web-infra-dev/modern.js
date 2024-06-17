@@ -11,7 +11,6 @@ import {
   NodeServer,
 } from '@modern-js/server-core';
 import {
-  bindBffPlugin,
   serverStaticPlugin,
   injectResourcePlugin,
   loadCacheConfig,
@@ -59,7 +58,6 @@ export async function applyPlugins(
     injectResourcePlugin(),
     serverStaticPlugin(),
     faviconPlugin(),
-    bindBffPlugin(),
     renderPlugin({
       staticGenerate: options.staticGenerate,
       cacheConfig,

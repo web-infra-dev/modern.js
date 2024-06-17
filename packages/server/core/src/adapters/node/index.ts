@@ -9,7 +9,6 @@ export {
 } from './node';
 
 export {
-  bindBffPlugin,
   serverStaticPlugin,
   injectResourcePlugin,
   getHtmlTemplates,

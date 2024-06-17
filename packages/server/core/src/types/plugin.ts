@@ -138,6 +138,8 @@ export type ServerHookCallback = ToThreads<ServerHooks>;
 
 /** Plugin Api */
 
+type MiddlewareOrder = 'pre' | 'post' | 'default';
+
 type Middleware = {
   name: string;
 
@@ -147,8 +149,9 @@ type Middleware = {
 
   handler: MiddlewareHandler | MiddlewareHandler[];
 
-  // TODO: add it when it be need.
-  // before?: Middleware['name'];
+  before?: Array<Middleware['name']>;
+
+  order?: MiddlewareOrder;
 };
 
 declare module '@modern-js/types' {

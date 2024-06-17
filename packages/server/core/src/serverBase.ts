@@ -4,7 +4,7 @@ import { createContext } from '@modern-js/plugin';
 import type {
   AppContext,
   Env,
-  Middleware,
+  Middleware as MiddlewareHandler,
   ServerConfig,
   ServerHookRunner,
   ServerPlugin,
@@ -108,7 +108,51 @@ export class ServerBase<E extends Env = any> {
   #applyMiddlewares() {
     const { middlewares } = this.appContext.get();
 
+    const preMiddlewares: typeof middlewares = [];
+    const defaultMiddlewares: typeof middlewares = [];
+    const postMiddlewares: typeof middlewares = [];
+
     for (const middleware of middlewares) {
+      switch (middleware.order) {
+        case 'pre':
+          preMiddlewares.push(middleware);
+          break;
+        case 'post':
+          postMiddlewares.push(middleware);
+          break;
+        default:
+          defaultMiddlewares.push(middleware);
+      }
+    }
+
+    const finalMiddlewares: typeof middlewares = [];
+
+    const insertMiddleware = (middleware: (typeof middlewares)[0]) => {
+      if (middleware.before) {
+        const targetIndex = finalMiddlewares.findIndex(item => {
+          if (middleware.before?.includes(item.name)) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        if (targetIndex !== -1) {
+          finalMiddlewares.splice(targetIndex, 0, middleware);
+        } else {
+          finalMiddlewares.push(middleware);
+        }
+      } else {
+        finalMiddlewares.push(middleware);
+      }
+    };
+
+    preMiddlewares.forEach(insertMiddleware);
+
+    defaultMiddlewares.forEach(insertMiddleware);
+
+    postMiddlewares.forEach(insertMiddleware);
+
+    for (const middleware of finalMiddlewares) {
       const { path = '*', method = 'all', handler } = middleware;
       const handlers = handler2Handlers(handler);
 
@@ -116,8 +160,8 @@ export class ServerBase<E extends Env = any> {
     }
 
     function handler2Handlers(
-      handler: Middleware[] | Middleware,
-    ): Middleware[] {
+      handler: MiddlewareHandler[] | MiddlewareHandler,
+    ): MiddlewareHandler[] {
       if (Array.isArray(handler)) {
         return handler;
       } else {

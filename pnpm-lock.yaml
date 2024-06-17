@@ -6696,6 +6696,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-bff':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-bff
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../../../packages/server/core
