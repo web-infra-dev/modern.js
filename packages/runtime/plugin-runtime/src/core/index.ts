@@ -14,3 +14,6 @@ export * from './loader';
 export type { SSRData, SSRContainer } from './types';
 
 export * from '@modern-js/plugin';
+
+export { createRoot } from './react';
+export { render } from './client';
