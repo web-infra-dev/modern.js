@@ -25,7 +25,6 @@ export type ServerBaseOptions = {
   serverConfig?: ServerConfig;
   metaName?: string;
   routes?: ServerRoute[];
-  plugins?: ServerPlugin[];
   appContext: {
     appDirectory?: string;
     sharedDirectory?: string;
@@ -49,14 +48,13 @@ export class ServerBase<E extends Env = any> {
   constructor(options: ServerBaseOptions) {
     this.options = options;
 
-    const { config, plugins, serverConfig } = options;
+    const { config, serverConfig } = options;
     const appContext = this.#getAppContext();
 
     this.appContext = appContext;
 
     this.pluginManager = new PluginManager({
       cliConfig: config,
-      plugins,
       appContext,
       serverConfig,
     });

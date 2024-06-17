@@ -63,7 +63,9 @@ export type ExtraOptions = {
   serverConfigFile?: string;
 
   serverConfigPath?: string;
+
   useSSRWorker?: boolean;
+
   rsbuild: RsbuildInstance;
   getMiddlewares?: () => {
     middlewares: (

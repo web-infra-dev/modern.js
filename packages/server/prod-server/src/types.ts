@@ -1,4 +1,8 @@
-import { ServerBaseOptions, RenderPluginOptions } from '@modern-js/server-core';
+import {
+  ServerBaseOptions,
+  RenderPluginOptions,
+  ServerPlugin,
+} from '@modern-js/server-core';
 import { Reporter } from '@modern-js/types';
 import { Logger } from '@modern-js/utils';
 
@@ -9,6 +13,8 @@ interface ProdServerExtraOptions {
   serverConfigFile?: string;
 
   serverConfigPath?: string;
+
+  plugins?: ServerPlugin[];
 }
 
 export type ProdServerOptions = Exclude<ServerBaseOptions, 'serverConfig'> &

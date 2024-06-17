@@ -52,6 +52,7 @@ export async function applyPlugins(
   });
 
   const plugins = [
+    ...(options.plugins || []),
     monitorPlugin({ logger: getLogger() }),
     processedByPlugin(),
     logPlugin(),

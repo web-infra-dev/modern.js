@@ -30,7 +30,7 @@ export interface PluginManagerOptions {
 export class PluginManager {
   #appContext: AppContext;
 
-  #plugins: ServerPlugin[];
+  #plugins: ServerPlugin[] = [];
 
   #options: PluginManagerOptions;
 
@@ -40,7 +40,6 @@ export class PluginManager {
     this.#appContext = options.appContext;
     this.#configContext = createContext(options.serverConfig || {});
     this.#options = options;
-    this.#plugins = options.plugins || [];
   }
 
   async init() {
