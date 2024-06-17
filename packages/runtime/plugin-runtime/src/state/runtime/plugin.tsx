@@ -5,7 +5,6 @@ import {
   type StoreConfig,
 } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { immer, effects, autoActions, devtools } from '../plugins';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
@@ -72,7 +71,7 @@ export const statePlugin = (config: StateConfig): Plugin => ({
           );
         };
         return next({
-          App: hoistNonReactStatics(getStateApp, App),
+          App: getStateApp,
           config,
         });
       },
