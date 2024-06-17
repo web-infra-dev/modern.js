@@ -1,6 +1,6 @@
 import { ServerUserConfig } from '@modern-js/app-tools-v2';
-import { createRoot } from '../core/react';
-import { RuntimeContext } from '../core/context';
+import { createRoot } from '../react';
+import { RuntimeContext } from '../context';
 
 export type Resource = {
   loadableStats: Record<string, any>;

@@ -3,7 +3,7 @@ import { attributesToString, parseQuery, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import { BuildHtmlCb, buildHtml, RenderLevel } from '../shared';
 import { HandleRequestConfig } from '../requestHandler';
-import { RuntimeContext } from '../../core/context';
+import { RuntimeContext } from '../../context';
 
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: RuntimeContext;

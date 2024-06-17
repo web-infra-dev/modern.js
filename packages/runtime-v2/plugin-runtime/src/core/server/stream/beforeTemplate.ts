@@ -5,7 +5,7 @@ import { createReplaceHelemt } from '../helmet';
 import { CHUNK_CSS_PLACEHOLDER } from '../constants';
 import { checkIsNode, safeReplace } from '../utils';
 import { BuildHtmlCb, buildHtml } from '../shared';
-import { RuntimeContext } from '../../core/context';
+import { RuntimeContext } from '../../context';
 import { HandleRequestConfig } from '../requestHandler';
 
 const readAsset = async (chunk: string) => {

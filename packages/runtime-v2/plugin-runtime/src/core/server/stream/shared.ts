@@ -1,6 +1,6 @@
 import { time } from '@modern-js/runtime-utils/time';
 import { createElement } from 'react';
-import { RuntimeContext } from '../../core/context';
+import { RuntimeContext } from '../../context';
 import { HandleRequestConfig } from '../requestHandler';
 import { RenderStreaming } from '../shared';
 import {
