@@ -23,8 +23,9 @@ export function registerPlugin(
 
 export function mergeConfig(
   cliConfig: Record<string, any>,
-  runtimeConfig: Record<string, any>,
-  otherConfig: Record<string, any>,
+  runtimeConfig?: Record<string, any>,
+  appConfig?: Record<string, any>,
+  otherConfig?: Record<string, any>,
 ) {
-  return merge(cliConfig, runtimeConfig, otherConfig);
+  return merge(cliConfig, runtimeConfig, appConfig, otherConfig);
 }
