@@ -10,7 +10,7 @@ import type {
   Render,
   ServerManifest,
   ServerPlugin,
-  HonoRequest,
+  InternalRequest,
 } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
@@ -23,7 +23,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
-      __honoRequest: HonoRequest;
+      __honoRequest: InternalRequest;
       __templates: Record<string, string>;
       __serverManifest: ServerManifest;
     }

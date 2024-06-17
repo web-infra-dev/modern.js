@@ -11,7 +11,7 @@ import type {
   ServerManifest,
   ServerPlugin,
 } from '@modern-js/server-core';
-import { HonoRequest } from '@modern-js/server-core';
+import { InternalRequest } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,
@@ -21,7 +21,7 @@ import registerRoutes from './registerRoutes';
 
 declare module 'http' {
   interface IncomingMessage {
-    __honoRequest?: HonoRequest;
+    __honoRequest?: InternalRequest;
     __templates?: Record<string, string>;
     __serverManifest?: ServerManifest;
   }
