@@ -9,7 +9,6 @@ import {
   RouteObject,
   useHref,
 } from '@modern-js/runtime-utils/router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import { Plugin, RuntimeReactContext } from '../../core';
@@ -173,18 +172,7 @@ export const routerPlugin = ({
               );
             }) as React.FC<any>;
           };
-          let RouteApp = getRouteApp();
-
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
-
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
+          const RouteApp = getRouteApp();
 
           return next({
             App: RouteApp,
