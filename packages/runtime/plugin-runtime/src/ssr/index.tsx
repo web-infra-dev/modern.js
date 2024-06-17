@@ -85,7 +85,6 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
                 const SSRApp: React.FC = () => (
                   <WithCallback callback={callback}>{App}</WithCallback>
                 );
-                // SSRApp = hoistNonReactStatics(SSRApp, App);
                 ModernHydrate(<SSRApp />);
               }, loadableReadyOptions);
             } else {
@@ -108,7 +107,6 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
             const SSRApp: React.FC = () => (
               <WithCallback callback={callback}>{App}</WithCallback>
             );
-            // SSRApp = hoistNonReactStatics(SSRApp, App);
             ModernHydrate(<SSRApp />);
           } else {
             ModernRender(App);

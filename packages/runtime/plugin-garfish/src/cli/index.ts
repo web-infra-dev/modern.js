@@ -211,9 +211,6 @@ export const garfishPlugin = ({
           logger('exportStatement', addExportStatement);
           pluginsExportsUtils.addExport(addExportStatement);
         }
-        const otherExportStatement = `export { hoistNonReactStatics } from '${pluginName}/deps'`;
-        logger('otherExportStatement', otherExportStatement);
-        pluginsExportsUtils.addExport(otherExportStatement);
       },
       async generateEntryCode({ entrypoints }) {
         const resolveOptions = api.useResolvedConfigContext();
