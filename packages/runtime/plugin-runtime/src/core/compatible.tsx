@@ -1,7 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import {
   RuntimeReactContext,
@@ -68,10 +67,6 @@ export const createApp = ({
       );
     };
 
-    if (App) {
-      hoistNonReactStatics(WrapperComponent, App);
-    }
-
     const HOCApp = runner.hoc(
       { App: WrapperComponent, config: globalProps || {} },
       {
@@ -86,7 +81,8 @@ export const createApp = ({
               runner.init(
                 { context: contextValue },
                 {
-                  onLast: ({ context: context1 }) => App?.init?.(context1),
+                  onLast: ({ context: context1 }) =>
+                    getGlobalAppInit()?.(context1),
                 },
               );
             }
@@ -100,7 +96,7 @@ export const createApp = ({
             );
           };
 
-          return hoistNonReactStatics(WrapComponent, App);
+          return WrapComponent;
         },
       },
     );

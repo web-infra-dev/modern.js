@@ -17,10 +17,15 @@ import {
 } from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
-import { TEMP_LOADERS_DIR } from '../constants';
+import {
+  APP_CONFIG_NAME,
+  APP_INIT_EXPORTED,
+  TEMP_LOADERS_DIR,
+} from '../constants';
 import {
   getPathWithoutExt,
   getServerLoadersFile,
+  parseModule,
   replaceWithAlias,
 } from './utils';
 
@@ -469,7 +474,7 @@ export function ssrLoaderCombinedModule(
   return null;
 }
 
-export const runtimeGlobalContext = ({
+export const runtimeGlobalContext = async ({
   metaName,
   srcDirectory,
   nestedRoutesEntry,
@@ -480,24 +485,36 @@ export const runtimeGlobalContext = ({
   nestedRoutesEntry: string;
   internalSrcAlias: string;
 }) => {
+  let imports = `import { setGlobalContext } from '@${metaName}/runtime/context';\n`;
   const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
   const rootLayoutFile = findExists(
     ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
   );
-  const layoutPath = rootLayoutFile
-    ? getPathWithoutExt(
-        replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
-      )
-    : '';
+  if (rootLayoutFile) {
+    const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+    const rootLayout = rootLayoutBuffer.toString();
+    const [, moduleExports] = await parseModule({
+      source: rootLayout.toString(),
+      filename: rootLayoutFile,
+    });
+    const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
+    const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
+    const layoutPath = getPathWithoutExt(
+      replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+    );
+    if (hasAppConfig) {
+      imports += `import { config as appConfig } from '${layoutPath}';\n`;
+    } else {
+      imports += `let appConfig;\n`;
+    }
+    if (hasAppInit) {
+      imports += `import { init as appInit } from '${layoutPath}';\n`;
+    } else {
+      imports += `let appInit;\n`;
+    }
+  }
 
-  return `import { setGlobalContext } from '@${metaName}/runtime/context'
-${
-  layoutPath
-    ? `import { init as appInit } from '${layoutPath}';
-import { config as appConfig } from '${layoutPath}';`
-    : `let appInit;
-let appConfig`
-}
+  return `${imports}
 
 import { routes } from './routes.js';
 
