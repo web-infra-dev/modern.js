@@ -1,6 +1,6 @@
 /* eslint-disable no-inner-declarations */
 import React from 'react';
-import { getGlobalApp } from '../context';
+import { getGlobalAppInit } from '../context';
 import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
@@ -26,8 +26,8 @@ export async function render(
       { context: _context },
       {
         onLast: ({ context: context1 }) => {
-          const App = getGlobalApp();
-          return (App as any)?.init?.(context1);
+          const init = getGlobalAppInit();
+          return init?.(context1);
         },
       },
     ) as any;
