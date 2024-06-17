@@ -16,6 +16,7 @@ describe('command build', () => {
   test('hooks should be invoke correctly', async () => {
     const mockBeforeBuild = jest.fn();
     const mockAfterBuild = jest.fn();
+    const mockInternalServerPlugins = jest.fn(() => ({ plugins: [] }));
 
     const mockAPI = {
       useAppContext: jest.fn((): any => ({
@@ -24,9 +25,11 @@ describe('command build', () => {
         appDirectory: '',
       })),
       useResolvedConfigContext: jest.fn(),
+
       useHookRunners: (): any => ({
         afterBuild: mockAfterBuild,
         beforeBuild: mockBeforeBuild,
+        _internalServerPlugins: mockInternalServerPlugins,
       }),
     };
 
@@ -37,6 +40,7 @@ describe('command build', () => {
         expect(mockBeforeBuild).toBeCalled();
         expect(mockGenerateRoutes).toBeCalled();
         expect(mockAfterBuild).toBeCalled();
+        expect(mockInternalServerPlugins).toBeCalled();
       },
     });
     await cloned.init();
