@@ -5,10 +5,11 @@ import {
   type RouterState,
 } from '@modern-js/runtime-utils/remix-router';
 import { createContext } from 'react';
-import { createLoaderManager } from './core/loader/loaderManager';
-import { runtime } from './core/plugin';
-import { RouteManifest } from './router/runtime/types';
-import { SSRServerContext } from './ssr/serverRender/types';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import { createLoaderManager } from '../loader/loaderManager';
+import { PluginRunner, runtime } from '../plugin';
+import { RouteManifest } from '../../router/runtime/types';
+import { SSRServerContext } from '../../ssr/serverRender/types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
@@ -55,3 +56,11 @@ export interface BaseTRuntimeContext {
 export interface TRuntimeContext extends BaseTRuntimeContext {
   [key: string]: any;
 }
+
+export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
+  loaderManager: createLoaderManager({}),
+  runner,
+  isBrowser: true,
+  routeManifest:
+    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
+});

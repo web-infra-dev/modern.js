@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { fetch, Request, Response } from '@remix-run/web-fetch';
-import { createApp, createPlugin } from '../../src/core';
+import { createApp } from '../../src/core';
 import createRouterPlugin, {
   Outlet,
   useLocation,
 } from '../../src/router/runtime';
 import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
+import { createRuntime } from '../../src/core/plugin';
 
 beforeAll(() => {
   // use React 18
@@ -36,10 +36,11 @@ beforeAll(() => {
 
 describe('@modern-js/plugin-router', () => {
   it('base usage', () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -69,10 +70,11 @@ describe('@modern-js/plugin-router', () => {
   });
 
   it('pages', () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -117,11 +119,12 @@ describe('@modern-js/plugin-router', () => {
 
     const mockCallback = jest.fn();
     App.init = mockCallback;
-
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App, config }, next) => next({ App, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -168,11 +171,12 @@ describe('@modern-js/plugin-router', () => {
     function Home() {
       return <div>home</div>;
     }
-
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(() => ({
-          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+        runtime.createPlugin(() => ({
+          hoc: ({ App, config }, next) => next({ App, config }),
         })),
         createRouterPlugin({
           routesConfig: {
@@ -218,9 +222,11 @@ describe('@modern-js/plugin-router', () => {
   });
 
   it('modifyRoutes hook', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({
+      runtime,
       plugins: [
-        createPlugin(
+        runtime.createPlugin(
           () =>
             ({
               modifyRoutes: (routes: any) => {
@@ -264,4 +270,3 @@ describe('@modern-js/plugin-router', () => {
     });
   });
 });
-/* eslint-enable @typescript-eslint/ban-ts-comment */

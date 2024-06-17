@@ -51,6 +51,11 @@ export const CONFIG_FILE_EXTENSIONS = ['.js', '.ts', '.mjs'];
 export const OUTPUT_CONFIG_FILE = 'modern.config.json';
 
 /**
+ * Default runtime config filename
+ */
+export const DEFAULT_RUNTIME_CONFIG = 'modern.runtime';
+
+/**
  * Default server config basename
  */
 export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';

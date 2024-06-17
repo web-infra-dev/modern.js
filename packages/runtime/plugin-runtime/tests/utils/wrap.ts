@@ -1,6 +1,6 @@
 import React from 'react';
 import { runtime, Plugin } from '../../src/core/plugin';
-import { RuntimeReactContext } from '../../src/runtimeContext';
+import { RuntimeReactContext } from '../../src/core/context';
 
 export type WrapOptions = Record<string, unknown>;
 
@@ -14,7 +14,7 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
 };
 
 export const wrap = <P = Record<string, unknown>>(
-  App: React.ComponentType<P>,
+  App: React.ComponentType<any>,
   // eslint-disable-next-line no-empty-pattern
   {}: WrapOptions,
   manager = runtime,
@@ -22,18 +22,16 @@ export const wrap = <P = Record<string, unknown>>(
   const runner = manager.init();
 
   const WrapperComponent: React.ComponentType<P> = props => {
-    const element = React.createElement(App, { ...props }, props.children);
-
-    return runner.provide(
-      { element, props: { ...props }, context: {} as any },
-      {
-        onLast: ({ element }) => element,
-      },
+    const element = React.createElement(
+      App,
+      { ...props },
+      (props as any).children,
     );
+    return element;
   };
 
   return runner.hoc(
-    { App: WrapperComponent },
+    { App: WrapperComponent, config: {} },
     {
       onLast: ({ App }) => {
         const WrapComponent = ({ context, ...props }: any) =>

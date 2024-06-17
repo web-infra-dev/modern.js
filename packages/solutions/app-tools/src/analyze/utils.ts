@@ -34,12 +34,16 @@ export const getDefaultImports = ({
   appDirectory,
   internalSrcAlias,
   internalDirAlias,
+  runtimeConfigFile,
+  customRuntimeConfig,
 }: {
   entrypoint: Entrypoint;
   srcDirectory: string;
   appDirectory: string;
   internalSrcAlias: string;
   internalDirAlias: string;
+  runtimeConfigFile: string | false;
+  customRuntimeConfig: string | false;
 }): ImportStatement[] => {
   const { entryName, fileSystemRoutes, customBootstrap, entry } = entrypoint;
   const imports = [
@@ -93,6 +97,13 @@ export const getDefaultImports = ({
       value: normalizeToPosixPath(
         entry.replace(srcDirectory, internalSrcAlias),
       ),
+    });
+  }
+
+  if (customRuntimeConfig) {
+    imports.push({
+      specifiers: [{ local: 'runtimeConfig' }],
+      value: path.join(internalSrcAlias, runtimeConfigFile || ''),
     });
   }
 

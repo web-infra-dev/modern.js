@@ -2,6 +2,7 @@ import {
   logger,
   program,
   Command,
+  DEFAULT_RUNTIME_CONFIG,
   DEFAULT_SERVER_CONFIG,
   INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
@@ -24,12 +25,9 @@ const setProgramVersion = (version = 'unknown') => {
   program.name('modern').usage('<command> [options]').version(version);
 };
 
-export const mergeOptions = (
-  options?: CoreOptions,
-): CoreOptions & {
-  serverConfigFile: string;
-} => {
+export const mergeOptions = (options?: CoreOptions): CoreOptions => {
   const defaultOptions = {
+    runtimeConfigFile: DEFAULT_RUNTIME_CONFIG,
     serverConfigFile: DEFAULT_SERVER_CONFIG,
   };
 
@@ -82,8 +80,9 @@ export const createCli = () => {
       appDirectory,
       plugins,
       configFile: loaded.filePath,
+      runtimeConfigFile: mergedOptions?.runtimeConfigFile || '',
       options: mergedOptions?.options,
-      serverConfigFile: mergedOptions?.serverConfigFile,
+      serverConfigFile: mergedOptions?.serverConfigFile || '',
       serverInternalPlugins:
         mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });

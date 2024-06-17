@@ -5,6 +5,7 @@ export interface CoreOptions {
   cwd?: string;
   version?: string;
   configFile?: string;
+  runtimeConfigFile?: string;
   /**
    * The initial log message when CLI started
    */
