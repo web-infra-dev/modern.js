@@ -52,16 +52,18 @@ export const modifyEntrypoints = (
         ),
       };
       if (isHasPages) {
-        entrypoint.pageRoutesEntry = path.join(
+        entrypoint.entry = path.join(
           entrypoint.absoluteEntryDir!,
           PAGES_DIR_NAME,
         );
+        entrypoint.pageRoutesEntry = entrypoint.entry;
       }
       if (isHasNestedRoutes) {
-        entrypoint.nestedRoutesEntry = path.join(
+        entrypoint.entry = path.join(
           entrypoint.absoluteEntryDir!,
           NESTED_ROUTES_DIR,
         );
+        entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
     } else {
       throw Error(

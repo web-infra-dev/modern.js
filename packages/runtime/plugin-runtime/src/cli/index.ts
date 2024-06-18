@@ -44,8 +44,7 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
       async generateEntryCode({ entrypoints }) {
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
-        const { mountId } = resolvedConfig.html;
-        await generateCode(api, appContext, mountId);
+        await generateCode(api, appContext, resolvedConfig);
         return { entrypoints };
       },
       /* Note that the execution time of the config hook is before prepare.
