@@ -21,12 +21,6 @@ export interface ImportSpecifier {
   imported?: string;
 }
 
-export interface ImportStatement {
-  specifiers: ImportSpecifier[];
-  value: string;
-  initialize?: string;
-}
-
 export interface RuntimePlugin {
   name: string;
   implementation: string;

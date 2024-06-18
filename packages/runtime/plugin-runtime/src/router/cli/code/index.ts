@@ -16,11 +16,7 @@ import type {
   SSRMode,
   NestedRouteForCli,
 } from '@modern-js/types';
-import {
-  AppNormalizedConfig,
-  AppTools,
-  ImportStatement,
-} from '@modern-js/app-tools';
+import { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import * as templates from './templates';
@@ -46,17 +42,12 @@ export const generateCode = async (
 
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
-  const importsStatemets = new Map<string, ImportStatement[]>();
   const oldVersion =
     typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
       : false;
 
   await Promise.all(entrypoints.map(generateEntryCode));
-
-  return {
-    importsStatemets,
-  };
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
