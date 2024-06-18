@@ -33,16 +33,13 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export const garfishPlugin = ({
-  pluginName = '@modern-js/plugin-garfish',
-} = {}): CliPlugin<AppTools> => ({
+export const garfishPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
   setup: api => {
-    let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
         const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
+        const { packageName, metaName } = api.useAppContext();
         const runtimeConfig = getEntryOptions(
           entrypoint.entryName,
           entrypoint.isMainEntry,
@@ -53,7 +50,7 @@ export const garfishPlugin = ({
         if (runtimeConfig?.masterApp) {
           plugins.push({
             name: 'garfish',
-            implementation: '@modern-js/plugin-garfish',
+            implementation: `@${metaName}/plugin-garfish/runtime`,
             config: runtimeConfig?.masterApp || {},
           });
         }
@@ -101,13 +98,8 @@ export const garfishPlugin = ({
       },
       config() {
         const useConfig = api.useConfigContext();
+        const { metaName, packageName } = api.useAppContext();
         logger('useConfig', useConfig);
-
-        const config = api.useAppContext();
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          config.internalDirectory,
-          'plugins',
-        );
 
         let disableCssExtract = useConfig.output?.disableCssExtract || false;
 
@@ -127,8 +119,7 @@ export const garfishPlugin = ({
           },
           source: {
             alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-              '@modern-js/runtime/garfish': '@modern-js/plugin-garfish/runtime',
+              [`@${metaName}/runtime/garfish`]: `@${metaName}/plugin-garfish/runtime`,
             },
           },
           tools: {
@@ -200,7 +191,7 @@ export const garfishPlugin = ({
               }
               const uniqueName = chain.output.get('uniqueName');
               if (!uniqueName) {
-                chain.output.uniqueName(config.packageName);
+                chain.output.uniqueName(packageName);
               }
               const resolveConfig = chain.toConfig();
               logger('bundlerConfig', {
@@ -217,8 +208,13 @@ export const garfishPlugin = ({
       addRuntimeExports() {
         const config = api.useResolvedConfigContext();
         const { masterApp } = getRuntimeConfig(config);
+        const { internalDirectory, metaName } = api.useAppContext();
+        const pluginsExportsUtils = createRuntimeExportsUtils(
+          internalDirectory,
+          'plugins',
+        );
         if (masterApp) {
-          const addExportStatement = `export { default as garfish, default as masterApp } from '${pluginName}/runtime'`;
+          const addExportStatement = `export { default as garfish, default as masterApp } from '${metaName}/plugin-garfish/runtime'`;
           logger('exportStatement', addExportStatement);
           pluginsExportsUtils.addExport(addExportStatement);
         }
