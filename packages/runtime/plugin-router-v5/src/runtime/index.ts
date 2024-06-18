@@ -1,8 +1,7 @@
 import { routerPlugin } from './plugin';
-import type { SingleRouteConfig, HistoryConfig, RouterConfig } from './plugin';
 
-export type { SingleRouteConfig, HistoryConfig, RouterConfig };
-export { routerPlugin };
+export type { SingleRouteConfig, HistoryConfig, RouterConfig } from './plugin';
+export { routerPlugin } from './plugin';
 export default routerPlugin;
 
 export * from 'react-router-dom';

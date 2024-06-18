@@ -1,9 +1,5 @@
 import path from 'path';
-import {
-  LOADABLE_STATS_FILE,
-  isUseSSRBundle,
-  createRuntimeExportsUtils,
-} from '@modern-js/utils';
+import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   ServerUserConfig,
@@ -50,17 +46,8 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
   required: ['@modern-js/runtime'],
 
   setup: api => {
-    let pluginsExportsUtils: any;
-
     return {
       config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
         const babelHandler = (() => {
@@ -101,7 +88,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
               '@modern-js/runtime-utils/node$': require.resolve(
                 '@modern-js/runtime-utils/node',
               ),
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
             globalVars: (values, { target }) => {
               values['process.env.MODERN_TARGET'] =
