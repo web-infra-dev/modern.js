@@ -13,7 +13,7 @@ import {
   ErrorDigest,
 } from '../../utils';
 import type { CacheConfig, FallbackReason } from '../../types';
-import { REPLACE_REG } from '../../constants';
+import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
 import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
 import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
@@ -266,6 +266,7 @@ function csrRender(html: string): Response {
     status: 200,
     headers: new Headers({
       'content-type': 'text/html; charset=UTF-8',
+      [X_MODERNJS_RENDER]: 'client',
     }),
   });
 }

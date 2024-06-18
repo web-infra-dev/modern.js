@@ -49,6 +49,20 @@ const handleDeferredResponse = async (res: Response) => {
   return res;
 };
 
+const isErrorResponse = (res: Response) => {
+  return res.headers.get('X-Modernjs-Error') != null;
+};
+
+const handleErrorResponse = async (res: Response) => {
+  if (isErrorResponse(res)) {
+    const data = await res.json();
+    const error = new Error(data.message);
+    error.stack = data.stack;
+    throw error;
+  }
+  return res;
+};
+
 export const createRequest = (routeId: string, method = 'get') => {
   return async ({
     params,
@@ -63,11 +77,11 @@ export const createRequest = (routeId: string, method = 'get') => {
       method,
       signal: request.signal,
     });
-    if (!res.ok) {
-      throw res;
-    }
+
     res = handleRedirectResponse(res);
+    res = await handleErrorResponse(res);
     res = await handleDeferredResponse(res);
+
     return res;
   };
 };

@@ -18,7 +18,7 @@ import {
   ServerManifest,
   ServerRender,
 } from '../../types';
-import { X_RENDER_CACHE } from '../../constants';
+import { X_MODERNJS_RENDER, X_RENDER_CACHE } from '../../constants';
 import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
 import { ServerTiming } from './serverTiming';
 import { matchCacheControl, getCacheResult, CacheStatus } from './ssrCache';
@@ -179,6 +179,8 @@ export async function ssrRender(
   if (cacheStatus) {
     responseProxy.headers.set(X_RENDER_CACHE, cacheStatus);
   }
+
+  responseProxy.headers.set(X_MODERNJS_RENDER, 'server');
 
   if (redirection.url) {
     const { headers } = responseProxy;
