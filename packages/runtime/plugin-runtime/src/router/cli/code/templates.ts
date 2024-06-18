@@ -479,11 +479,13 @@ export const runtimeGlobalContext = async ({
   srcDirectory,
   nestedRoutesEntry,
   internalSrcAlias,
+  globalApp,
 }: {
   metaName: string;
   srcDirectory: string;
   nestedRoutesEntry?: string;
   internalSrcAlias: string;
+  globalApp?: string | false;
 }) => {
   let imports = `import { setGlobalContext } from '@${metaName}/runtime/context';\n`;
   if (nestedRoutesEntry) {
@@ -519,11 +521,20 @@ export const runtimeGlobalContext = async ({
     imports += `let appInit;\n`;
   }
 
+  if (globalApp) {
+    imports += `import layoutApp from '${globalApp.replace(
+      srcDirectory,
+      internalSrcAlias,
+    )}';\n`;
+  } else {
+    imports += `let layoutApp;\n`;
+  }
   return `${imports}
 
 import { routes } from './routes.js';
 
 setGlobalContext({
+  layoutApp,
   routes,
   appInit,
   appConfig,

@@ -8,6 +8,7 @@ interface GlobalContext {
   routes?: (NestedRoute | PageRoute)[];
   appInit?: () => Promise<unknown>;
   appConfig?: AppConfig;
+  layoutApp?: React.ComponentType;
 }
 
 const globalContext: GlobalContext = {};
@@ -17,6 +18,7 @@ export function setGlobalContext(context: GlobalContext) {
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
   globalContext.appConfig = context.appConfig;
+  globalContext.layoutApp = context.layoutApp;
 }
 
 export function getGlobalApp() {
@@ -33,4 +35,8 @@ export function getGlobalAppInit() {
 
 export function getGlobalAppConfig() {
   return globalContext.appConfig || (getGlobalApp() as any)?.config;
+}
+
+export function getGlobalLayoutApp() {
+  return globalContext.layoutApp;
 }
