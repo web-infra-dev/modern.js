@@ -19,11 +19,9 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    let pluginsExportsUtils: any;
-
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
-        const { packageName, serverRoutes } = api.useAppContext();
+        const { packageName, serverRoutes, metaName } = api.useAppContext();
         const serverBase = serverRoutes
           .filter(
             (route: ServerRoute) => route.entryName === entrypoint.entryName,
@@ -41,7 +39,7 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         if (runtimeConfig?.router && !isV5(userConfig)) {
           plugins.push({
             name: 'router',
-            implementation: '@modern-js/runtime/router',
+            implementation: `@${metaName}/runtime/router`,
             config: { serverBase },
           });
         }
@@ -52,13 +50,6 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         return { path, entry: entry || isRouteEntry(path) };
       },
       config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
         return {
           source: {
             include: [
@@ -69,9 +60,6 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
               /node_modules\/react-router-dom/,
               /node_modules\/@remix-run\/router/,
             ],
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
           },
         };
       },
@@ -85,9 +73,15 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
+        const { internalDirectory, metaName } = api.useAppContext();
+
+        const pluginsExportsUtils = createRuntimeExportsUtils(
+          internalDirectory,
+          'plugins',
+        );
         if (!isV5(userConfig)) {
           pluginsExportsUtils.addExport(
-            `export { default as router } from '@modern-js/runtime/router'`,
+            `export { default as router } from '@${metaName}/runtime/router'`,
           );
         }
       },

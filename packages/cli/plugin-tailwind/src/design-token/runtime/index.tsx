@@ -1,1 +1,6 @@
-export { default, designTokenPlugin } from './plugin';
+export {
+  default,
+  DesignTokenContext,
+  useDesignTokens,
+  designTokenPlugin,
+} from './plugin';
