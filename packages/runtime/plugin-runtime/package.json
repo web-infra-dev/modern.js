@@ -237,6 +237,7 @@
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@types/invariant": "^2.2.30",
+    "@types/loadable__server": "5.12.11",
     "@types/jest": "^29",
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/node": "^14",
