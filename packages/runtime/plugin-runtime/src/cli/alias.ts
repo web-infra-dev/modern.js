@@ -18,13 +18,6 @@ export const pluginAlias = ({
       //   const { entrypoints, internalDirectory } = api.useAppContext();
       const entrypointsAlias: Record<string, string> = {};
       entrypoints.forEach(entrypoint => {
-        if (entrypoint.isMainEntry) {
-          entrypointsAlias[`@${metaName}/runtime/registry`] = path.join(
-            internalDirectory,
-            entrypoint.entryName,
-            ENTRY_POINT_REGISTER_FILE_NAME,
-          );
-        }
         entrypointsAlias[
           `@${metaName}/runtime/registry/${entrypoint.entryName}`
         ] = path.join(
@@ -32,6 +25,13 @@ export const pluginAlias = ({
           entrypoint.entryName,
           ENTRY_POINT_REGISTER_FILE_NAME,
         );
+        if (entrypoint.isMainEntry) {
+          entrypointsAlias[`@${metaName}/runtime/registry`] = path.join(
+            internalDirectory,
+            entrypoint.entryName,
+            ENTRY_POINT_REGISTER_FILE_NAME,
+          );
+        }
       });
       return mergeRsbuildConfig(userConfig, {
         source: {
