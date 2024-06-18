@@ -4,10 +4,25 @@ import { AppConfig } from '../../common';
 export { RuntimeReactContext, type RuntimeContext } from './runtime';
 
 interface GlobalContext {
+  /**
+   * App.tsx export default component
+   */
   App?: React.ComponentType;
+  /**
+   * nest router and page router config
+   */
   routes?: (NestedRoute | PageRoute)[];
+  /**
+   * nest router init function
+   */
   appInit?: () => Promise<unknown>;
+  /**
+   * nest router config function
+   */
   appConfig?: AppConfig;
+  /**
+   * page router _app.tsx export layout app
+   */
   layoutApp?: React.ComponentType;
 }
 

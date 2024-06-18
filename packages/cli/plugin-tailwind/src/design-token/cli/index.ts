@@ -1,4 +1,4 @@
-import { lazyImport, createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
 import { DesignSystem } from '../../types';
 
@@ -8,7 +8,6 @@ export const designTokenPlugin = (
   name: '@modern-js/plugin-design-token',
 
   setup(api) {
-    let pluginsExportsUtils: any;
     const resolveConfig = lazyImport('tailwindcss/resolveConfig', require);
 
     const PLUGIN_IDENTIFIER = 'designToken';
@@ -46,8 +45,7 @@ export const designTokenPlugin = (
           const designTokens = getDesignTokens(userConfig.source.designSystem);
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            implementation:
-              '@modern-js/plugin-tailwindcss/runtime-design-token',
+            implementation: `${pluginName}/runtime-design-token`,
             config: {
               token: designTokens,
               useStyledComponentsThemeProvider: Boolean(useSCThemeProvider),
@@ -57,24 +55,13 @@ export const designTokenPlugin = (
         }
         return { entrypoint, plugins };
       },
-      config() {
+      addRuntimeExports() {
         const appContext = api.useAppContext();
 
-        pluginsExportsUtils = createRuntimeExportsUtils(
+        const pluginsExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'plugins',
         );
-
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
-          },
-        };
-      },
-
-      addRuntimeExports() {
         pluginsExportsUtils.addExport(
           `export { default as designToken } from '${pluginName}/runtime-design-token'`,
         );
