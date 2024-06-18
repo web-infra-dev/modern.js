@@ -16,10 +16,11 @@ const test = async (
   const appContext = api.useAppContext();
 
   const runner = api.useHookRunners();
-  // eslint-disable-next-line no-unsafe-optional-chaining
-  const { plugins = [] } = await (runner as any)._internalServerPlugins?.({
-    plugins: [],
-  });
+
+  const { plugins = [] } =
+    (await (runner as any)._internalServerPlugins?.({
+      plugins: [],
+    })) || {};
 
   api.setAppContext({
     ...api.useAppContext(),
