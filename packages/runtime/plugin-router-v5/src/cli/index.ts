@@ -26,7 +26,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
           plugins.push({
             name: 'router',
-            implementation: '@modern-js/plugin-router-v5',
+            implementation: '@modern-js/plugin-router-v5/runtime',
             config: { serverBase },
           });
         }
