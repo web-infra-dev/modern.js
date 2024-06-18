@@ -105,7 +105,7 @@ const getRegisterRuntimePluginCode = (
   name === 'router'
     ? `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
-      )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'], { routesConfig: { routes: getGlobalRoutes() } })));`
+      )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'], { routesConfig: { routes: getGlobalRoutes(), globalApp: getGlobalLayoutApp() } })));`
     : `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
       )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'])));`;
@@ -123,7 +123,7 @@ export const runtimeRegister = ({
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePlugin[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalRoutes, getGlobalAppConfig } from '@${metaName}/runtime/context';
+import { getGlobalRoutes, getGlobalAppConfig, getGlobalLayoutApp } from '@${metaName}/runtime/context';
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
 const plugins = [];
