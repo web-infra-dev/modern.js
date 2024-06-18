@@ -217,8 +217,7 @@ export const garfishPlugin = ({
         if (resolveOptions?.deploy?.microFrontend) {
           const appContext = api.useAppContext();
           const resolvedConfig = api.useResolvedConfigContext();
-          const { mountId } = resolvedConfig.html;
-          await generateCode(appContext, mountId);
+          await generateCode(appContext, resolvedConfig);
         }
         return { entrypoints };
       },
