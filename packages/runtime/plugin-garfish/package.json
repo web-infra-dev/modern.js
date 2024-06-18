@@ -21,7 +21,7 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/runtime/index.d.ts"
+        "./dist/types/cli/index.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
@@ -39,9 +39,9 @@
   "exports": {
     "./types": "./type.d.ts",
     ".": {
-      "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/esm/runtime/index.js"
+      "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
