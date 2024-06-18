@@ -10,7 +10,6 @@ const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   customEntry,
   customBootstrap,
   mountId,
@@ -18,13 +17,12 @@ const genRenderCode = ({
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
-  entry: string;
   customEntry?: string | false;
   customBootstrap?: string | false;
   mountId?: string;
 }) => {
   if (customEntry) {
-    return `import '${entry.replace(srcDirectory, internalSrcAlias)}'`;
+    return `import '${customEntry.replace(srcDirectory, internalSrcAlias)}'`;
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/client';
@@ -52,7 +50,6 @@ export const index = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   entryName,
   customEntry,
   customBootstrap,
@@ -72,7 +69,6 @@ ${genRenderCode({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   customEntry,
   customBootstrap,
   mountId,
