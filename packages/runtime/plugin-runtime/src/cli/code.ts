@@ -1,7 +1,13 @@
 import path from 'path';
-import type { AppTools, IAppContext, PluginAPI } from '@modern-js/app-tools';
+import type {
+  AppTools,
+  IAppContext,
+  NormalizedConfig,
+  PluginAPI,
+} from '@modern-js/app-tools';
 import { fs } from '@modern-js/utils';
 import {
+  ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
@@ -12,8 +18,10 @@ import * as template from './template';
 export const generateCode = async (
   api: PluginAPI<AppTools>,
   appContext: IAppContext,
-  mountId?: string,
+  config: NormalizedConfig<AppTools>,
 ) => {
+  const { mountId } = config.html;
+  const { enableAsyncEntry } = config.source;
   const {
     runtimeConfigFile,
     internalDirectory,
@@ -47,7 +55,22 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
-        fs.outputFileSync(indexFile, indexCode, 'utf8');
+        const bootstrapFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+        );
+        fs.outputFileSync(
+          enableAsyncEntry ? bootstrapFile : indexFile,
+          indexCode,
+          'utf8',
+        );
+        if (enableAsyncEntry) {
+          fs.outputFileSync(
+            indexFile,
+            `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+            'utf8',
+          );
+        }
 
         // register.js
         const registerCode = template.register();
