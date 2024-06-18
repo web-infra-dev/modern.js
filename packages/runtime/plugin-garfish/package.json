@@ -29,9 +29,6 @@
       "runtime": [
         "./dist/types/runtime/index.d.ts"
       ],
-      "deps": [
-        "./dist/types/deps/index.d.ts"
-      ],
       "types": [
         "./type.d.ts"
       ]
@@ -44,21 +41,16 @@
     ".": {
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/cjs/runtime/index.js"
+      "default": "./dist/esm/runtime/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
-    "./deps": {
-      "types": "./dist/types/deps/index.d.ts",
-      "jsnext:source": "./src/deps/index.ts",
-      "default": "./dist/esm/deps/index.js"
-    },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/index.ts",
+      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
