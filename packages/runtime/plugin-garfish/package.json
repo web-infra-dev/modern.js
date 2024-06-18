@@ -76,7 +76,6 @@
     "@types/react-loadable": "^5.5.6",
     "debug": "4.3.4",
     "garfish": "^1.8.1",
-    "hoist-non-react-statics": "^3.3.2",
     "react-loadable": "^5.5.0",
     "@swc/helpers": "0.5.3"
   },
@@ -86,7 +85,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.7.7",
+    "@rsbuild/shared": "0.7.8",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",

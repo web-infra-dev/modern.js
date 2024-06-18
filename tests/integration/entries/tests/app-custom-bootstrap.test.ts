@@ -15,7 +15,7 @@ describe('app-custom', () => {
   let browser: Browser;
   let appPort: number;
   beforeAll(async () => {
-    const appDir = path.join(fixtures, 'app-entry');
+    const appDir = path.join(fixtures, 'app-custom-bootstrap');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
@@ -37,14 +37,6 @@ describe('app-custom', () => {
     });
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText?.trim()).toEqual('index');
-  });
-  test('about', async () => {
-    await page.goto(`http://localhost:${appPort}/about`, {
-      waitUntil: ['networkidle0'],
-    });
-    const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText?.trim()).toEqual('about init data');
+    expect(targetText?.trim()).toEqual('Modern APP');
   });
 });
