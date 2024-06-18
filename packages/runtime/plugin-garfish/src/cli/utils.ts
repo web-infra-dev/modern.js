@@ -24,3 +24,16 @@ export function setRuntimeConfig(
   }
   return undefined;
 }
+
+export const generateAsyncEntryCode = () => {
+  return `
+      export const provider = async (...args) => {
+        const exports = await import('./bootstrap');
+        return exports.provider.apply(null, args);
+      };
+      if (!window.__GARFISH__) { import('./bootstrap.jsx'); }
+      if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
+        __GARFISH_EXPORTS__.provider = provider;
+      }
+    `;
+};
