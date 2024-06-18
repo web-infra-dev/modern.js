@@ -1,8 +1,15 @@
 import { type Chunk, ChunkExtractor } from '@loadable/server';
 import { ReactElement } from 'react';
 import { attributesToString, checkIsNode } from '../utils';
-import { SSRPluginConfig, RenderResult } from '../types';
-import type { Collector } from './render';
+import type { Collector, ChunkSet } from './types';
+
+declare module '@loadable/server' {
+  export interface ChunkExtractor {
+    chunks: Chunk;
+
+    getChunkAssets: (chunks: Chunk) => Chunk[];
+  }
+}
 
 const extname = (uri: string): string => {
   if (typeof uri !== 'string' || !uri.includes('.')) {
@@ -44,7 +51,24 @@ const readAsset = async (chunk: Chunk) => {
   return fs.readFile(filepath, 'utf-8');
 };
 
-class LoadableCollector implements Collector {
+export interface LoadableCollectorOptions {
+  nonce?: string;
+  stats?: Record<string, any>;
+  routeManifest?: Record<string, any>;
+  template: string;
+  entryName: string;
+  chunkSet: ChunkSet;
+  config: LoadableCollectorConfig;
+}
+
+export interface LoadableCollectorConfig {
+  scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
+  enableInlineStyles?: boolean | RegExp;
+  enableInlineScripts?: boolean | RegExp;
+  crossorigin?: boolean | 'anonymous' | 'use-credentials';
+}
+
+export class LoadableCollector implements Collector {
   private options: LoadableCollectorOptions;
 
   private extractor?: ChunkExtractor;
@@ -99,9 +123,7 @@ class LoadableCollector implements Collector {
       return;
     }
 
-    const {
-      result: { chunksMap },
-    } = this.options;
+    const { chunkSet } = this.options;
 
     const s = scripts
       .split('</script>')
@@ -110,12 +132,11 @@ class LoadableCollector implements Collector {
       .map(i => `${i}</script>`)
       .join('');
 
-    chunksMap.js += s;
+    chunkSet.jsChunk += s;
   }
 
   private async emitScriptAssets(chunks: Chunk[]) {
-    const { template, config, nonce, result } = this.options;
-    const { chunksMap } = result;
+    const { template, nonce, chunkSet, config } = this.options;
     const { scriptLoading = 'defer', enableInlineScripts } = config;
 
     const scriptLoadingAtr = {
@@ -157,15 +178,13 @@ class LoadableCollector implements Collector {
         }),
     );
     // filter empty string;
-    chunksMap.js += scripts.filter(script => Boolean(script)).join('');
+    chunkSet.jsChunk += scripts.filter(script => Boolean(script)).join('');
   }
 
   private async emitStyleAssets(chunks: Chunk[]) {
-    const {
-      template,
-      result: { chunksMap },
-      config: { enableInlineStyles },
-    } = this.options;
+    const { template, chunkSet, config } = this.options;
+
+    const { enableInlineStyles } = config;
 
     const atrributes = attributesToString(this.generateAttributes());
 
@@ -197,7 +216,7 @@ class LoadableCollector implements Collector {
     );
 
     // filter empty string;
-    chunksMap.css += css.filter(css => Boolean(css)).join('');
+    chunkSet.jsChunk += css.filter(css => Boolean(css)).join('');
   }
 
   private generateAttributes(
@@ -217,16 +236,4 @@ class LoadableCollector implements Collector {
       ...extraAtr,
     };
   }
-}
-export interface LoadableCollectorOptions {
-  nonce?: string;
-  stats?: Record<string, any>;
-  routeManifest?: Record<string, any>;
-  template: string;
-  config: SSRPluginConfig;
-  entryName: string;
-  result: RenderResult;
-}
-export function createLoadableCollector(options: LoadableCollectorOptions) {
-  return new LoadableCollector(options);
 }
