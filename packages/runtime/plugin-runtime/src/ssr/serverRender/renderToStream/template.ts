@@ -1,4 +1,4 @@
-import { RenderLevel, RuntimeContext, SSRPluginConfig } from '../types';
+import { RenderLevel, SSRPluginConfig } from '../types';
 import { buildShellAfterTemplate } from './buildTemplate.after';
 import { buildShellBeforeTemplate } from './bulidTemplate.before';
 
@@ -10,14 +10,14 @@ export type InjectTemplate = {
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
 
 export const getTemplates = async (
-  context: RuntimeContext,
+  context: any,
   renderLevel: RenderLevel,
   pluginConfig: SSRPluginConfig,
   styledComponentsStyleTags?: string,
 ): Promise<InjectTemplate> => {
   const { ssrContext } = context;
   const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
-    ssrContext!.template.split(HTML_SEPARATOR) || [];
+    ssrContext.template.split(HTML_SEPARATOR) || [];
 
   const builtBeforeTemplate = await buildShellBeforeTemplate(
     beforeAppTemplate,

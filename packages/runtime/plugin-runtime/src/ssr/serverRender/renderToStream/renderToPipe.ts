@@ -1,7 +1,7 @@
 import { Transform, Readable } from 'stream';
 import type { RenderToPipeableStreamOptions } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
-import { RenderLevel, RuntimeContext, SSRPluginConfig } from '../types';
+import { RenderLevel, SSRPluginConfig } from '../types';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { getTemplates } from './template';
 
@@ -12,7 +12,7 @@ enum ShellChunkStatus {
 
 function renderToPipe(
   rootElement: React.ReactElement,
-  context: RuntimeContext,
+  context: any,
   pluginConfig: SSRPluginConfig,
   options?: RenderToPipeableStreamOptions,
 ) {

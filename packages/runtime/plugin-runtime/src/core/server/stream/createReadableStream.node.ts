@@ -2,8 +2,9 @@ import { Transform } from 'stream';
 import { renderToPipeableStream } from 'react-dom/server';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import { ServerStyleSheet } from 'styled-components';
-import { RenderLevel } from '../shared';
+import { isbot as checkIsBot } from 'isbot';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
+import { RenderLevel } from '../shared';
 import { getTemplates } from './template';
 import {
   CreateReadableStreamFromElement,
@@ -20,11 +21,9 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
     const forceStream2String = Boolean(process.env.MODERN_JS_STREAM_TO_STRING);
     // When a crawler visit the page, we should waiting for entrie content of page
-    const onReady =
-      // TODO: support Spider
-      runtimeContext.ssrContext?.isSpider || forceStream2String
-        ? 'onAllReady'
-        : 'onShellReady';
+
+    const isbot = checkIsBot(request.headers.get('user-agent'));
+    const onReady = isbot || forceStream2String ? 'onAllReady' : 'onShellReady';
 
     const sheet = new ServerStyleSheet();
 

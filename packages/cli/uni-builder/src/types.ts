@@ -14,9 +14,9 @@ import type {
   RsbuildTarget,
   Polyfill,
   ScriptInject,
-  RsbuildEntry,
   ServerConfig,
   RsbuildPluginAPI,
+  SourceConfig,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -41,7 +41,7 @@ import type TerserPlugin from 'terser-webpack-plugin';
 type ArrayOrNot<T> = T | T[];
 
 export type CreateBuilderCommonOptions = {
-  entry?: RsbuildEntry;
+  entry?: SourceConfig['entry'];
   frameworkConfigPath?: string;
   target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
