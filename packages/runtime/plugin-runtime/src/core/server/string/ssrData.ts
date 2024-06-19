@@ -1,11 +1,7 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
-import {
-  attributesToString,
-  getHeadersData,
-  parseQuery,
-  serializeErrors,
-} from '../utils';
+import { parseHeaders, parseQuery } from '@modern-js/runtime-utils/universal';
+import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { HandleRequestConfig } from '../requestHandler';
 import { Collector, ChunkSet } from './types';
@@ -46,19 +42,22 @@ export class SSRDataCollector implements Collector {
     const { prefetchData, chunkSet } = this.#options;
 
     const url = new URL(request.url);
-    const query = parseQuery(url);
+    const query = parseQuery(request);
     const { pathname, host } = url;
+
+    const headerData = parseHeaders(request);
 
     return {
       data: prefetchData,
       context: {
         request: {
           // TODO: support params
+          //  confirm it is need?
           query,
           pathname,
           host,
           url: request.url,
-          headers: getHeadersData(request.headers),
+          headers: headerData,
         },
       },
       renderLevel: chunkSet.renderLevel,
