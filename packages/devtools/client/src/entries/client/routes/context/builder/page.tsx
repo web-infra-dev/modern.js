@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../../state';
+import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
-  const { context } = useSnapshot($serverExported.framework);
+  const $globals = useGlobals();
+  const { context } = useSnapshot($globals.framework);
   return <ObjectInspector data={context} sortObjectKeys={true} />;
 };
 
