@@ -9,7 +9,7 @@ import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createLoaderManager } from '../loader/loaderManager';
 import { PluginRunner, runtime } from '../plugin';
 import { RouteManifest } from '../../router/runtime/types';
-import { SSRServerContext } from '../../ssr/serverRender/types';
+import { SSRServerContext } from '../types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;

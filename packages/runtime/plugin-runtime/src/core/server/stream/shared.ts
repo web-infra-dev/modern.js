@@ -1,5 +1,8 @@
 import { time } from '@modern-js/runtime-utils/time';
+import { parseHeaders } from '@modern-js/runtime-utils/universal';
 import { createElement } from 'react';
+import { run } from '@modern-js/runtime-utils/node';
+
 import { RuntimeContext } from '../../context';
 import { HandleRequestConfig } from '../requestHandler';
 import { RenderStreaming } from '../shared';
@@ -57,40 +60,48 @@ export function createRenderStreaming(
   createReadableStreamFromElement: CreateReadableStreamFromElement,
 ): RenderStreaming {
   return async (request, serverRoot, options) => {
-    const end = time();
-    const { runtimeContext, config, resource } = options;
+    const headersData = parseHeaders(request);
 
-    const onError = createOnError(options.onError);
-    const onTiming = createOnTiming(options.onTiming);
+    return run(headersData, async () => {
+      const end = time();
+      const { runtimeContext, config, resource } = options;
 
-    const { htmlTemplate } = resource;
+      const onError = createOnError(options.onError);
+      const onTiming = createOnTiming(options.onTiming);
 
-    const rootElement = createElement(serverRoot, {
-      context: Object.assign(runtimeContext || {}, {
-        ssr: true,
-      }),
+      const { htmlTemplate } = resource;
+
+      const rootElement = createElement(serverRoot, {
+        context: Object.assign(runtimeContext || {}, {
+          ssr: true,
+        }),
+      });
+
+      const stream = await createReadableStreamFromElement(
+        request,
+        rootElement,
+        {
+          config,
+          htmlTemplate,
+          runtimeContext,
+          onShellReady() {
+            const cost = end();
+            onTiming(SSRTimings.RENDER_SHELL, cost);
+          },
+          onAllReady() {
+            const cost = end();
+            onTiming(SSRTimings.RENDER_HTML, cost);
+          },
+          onShellError(error) {
+            onError(SSRErrors.RENDER_SHELL, error);
+          },
+          onError(error) {
+            onError(SSRErrors.RENDER_STREAM, error);
+          },
+        },
+      );
+
+      return stream;
     });
-
-    const stream = await createReadableStreamFromElement(request, rootElement, {
-      config,
-      htmlTemplate,
-      runtimeContext,
-      onShellReady() {
-        const cost = end();
-        onTiming(SSRTimings.RENDER_SHELL, cost);
-      },
-      onAllReady() {
-        const cost = end();
-        onTiming(SSRTimings.RENDER_HTML, cost);
-      },
-      onShellError(error) {
-        onError(SSRErrors.RENDER_SHELL, error);
-      },
-      onError(error) {
-        onError(SSRErrors.RENDER_STREAM, error);
-      },
-    });
-
-    return stream;
   };
 }

@@ -87,7 +87,7 @@ export const routerPlugin = ({
           const baseUrl = originalBaseUrl || (request.baseUrl as string);
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
-          const { reporter, serverTiming } = context.ssrContext!;
+          const { reporter } = context.ssrContext!;
           const requestContext = createRequestContext(
             context.ssrContext?.loaderContext,
           );
@@ -120,8 +120,7 @@ export const routerPlugin = ({
             requestContext,
           });
           const cost = end();
-          reporter?.reportTiming(LOADER_REPORTER_NAME, cost);
-          serverTiming.addServeTiming(LOADER_REPORTER_NAME, cost);
+          context.ssrContext?.onTiming(LOADER_REPORTER_NAME, cost);
 
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
