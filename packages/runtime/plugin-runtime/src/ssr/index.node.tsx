@@ -5,7 +5,6 @@ import type {
 } from './serverRender/types';
 import { formatServer } from './utils';
 import render from './serverRender';
-import { createSSRTracker } from './serverRender/tracker';
 
 export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
   name: '@modern-js/plugin-ssr',
@@ -24,7 +23,7 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
 
         context.ssrContext!.request = formatServer(request);
         context.ssrContext!.mode = config.mode;
-        context.ssrContext!.tracker = createSSRTracker(context.ssrContext!);
+        // context.ssrContext!.tracker = createSSRTracker(context.ssrContext!);
         context.ssrContext!.loaderFailureMode = config.loaderFailureMode;
 
         if (!context.ssrContext!.htmlModifiers) {

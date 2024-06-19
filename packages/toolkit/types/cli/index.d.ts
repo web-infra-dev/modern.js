@@ -34,7 +34,11 @@ export interface Entrypoint {
    * Using customEntry instead.
    */
   customBootstrap?: string | false;
+
   customEntry?: string | false;
+
+  customServerEntry?: string | false;
+
   fileSystemRoutes?: {
     globalApp?: string | false;
     routes?: any[];

@@ -25,7 +25,7 @@ export function buildShellAfterTemplate(
         context: { ssrContext, initialData, __i18nData__ },
         renderLevel,
       } = options;
-      const { request, enableUnsafeCtx, nonce, tracker } = ssrContext!;
+      const { request, enableUnsafeCtx, nonce, tracker } = ssrContext as any;
       const unsafeContext = {
         headers: request.headers,
       };
