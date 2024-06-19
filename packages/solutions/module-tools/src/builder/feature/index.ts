@@ -1,5 +1,5 @@
 import { HookList, Context } from '../../types';
-import { getProjectTsconfig } from '../../utils/dts';
+import { detectTSVersion, getProjectTsconfig } from '../../utils/dts';
 import { formatCjs } from './format-cjs';
 import { css } from './style';
 import { minify } from './terser';
@@ -29,6 +29,10 @@ export async function getInternalList(context: Context): Promise<HookList> {
   const emitDecoratorMetadata =
     userTsconfig?.compilerOptions?.emitDecoratorMetadata ?? false;
 
+  const tsVersion = await detectTSVersion(
+    context.api.useAppContext().appDirectory,
+  );
+
   const { transformImport, transformLodash, externalHelpers, format, target } =
     context.config;
 
@@ -42,7 +46,7 @@ export async function getInternalList(context: Context): Promise<HookList> {
     : format === 'umd' || target === 'es5';
   if (enbaleSwcTransform) {
     const { swcTransform } = await import('./swc');
-    internal.push(swcTransform(userTsconfig));
+    internal.push(swcTransform(userTsconfig, tsVersion));
   }
 
   if (enableSwcRenderChunk) {

@@ -40,7 +40,7 @@ const getSwcTarget = (target: string): JscTarget => {
   return 'es2022';
 };
 
-export const swcTransform = (userTsconfig: ITsconfig) => ({
+export const swcTransform = (userTsconfig: ITsconfig, tsVersion: number) => ({
   name,
   apply(compiler: ICompiler) {
     const tsUseDefineForClassFields =
@@ -102,6 +102,10 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
                 useDefineForClassFields,
                 legacyDecorator: emitDecoratorMetadata ? true : undefined,
                 decoratorMetadata: emitDecoratorMetadata ? true : undefined,
+                decoratorVersion:
+                  !emitDecoratorMetadata && tsVersion >= 5
+                    ? '2022-03'
+                    : undefined,
               },
               externalHelpers,
               target: getSwcTarget(target),
