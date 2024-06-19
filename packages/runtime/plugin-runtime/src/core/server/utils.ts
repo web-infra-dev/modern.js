@@ -28,24 +28,6 @@ export function checkIsNode(): boolean {
   return typeof process !== 'undefined' && process.release?.name === 'node';
 }
 
-export function parseQuery(url: URL) {
-  const q: Record<string, string> = {};
-
-  url.searchParams.forEach((v, k) => {
-    q[k] = v;
-  });
-
-  return q;
-}
-
-export function getHeadersData(headers: Headers) {
-  const headersData: Record<string, string | undefined> = {};
-  headers.forEach((value, key) => {
-    headersData[key] = value;
-  });
-  return headersData;
-}
-
 /**
  * forked from https://github.com/remix-run/remix/blob/main/packages/remix-server-runtime/errors.ts
  * license at https://github.com/remix-run/remix/blob/main/LICENSE.md
