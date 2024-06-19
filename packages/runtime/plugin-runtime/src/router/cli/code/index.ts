@@ -52,6 +52,7 @@ export const generateCode = async (
   async function generateEntryCode(entrypoint: Entrypoint) {
     const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
       entrypoint;
+    const { metaName } = api.useAppContext();
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (fileSystemRoutes) {
@@ -126,6 +127,7 @@ export const generateCode = async (
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
           code: await templates.fileSystemRoutes({
+            metaName,
             routes,
             ssrMode: useSSG ? 'string' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
