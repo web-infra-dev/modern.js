@@ -116,7 +116,7 @@ export default class Entry {
   }
 
   public async renderToHtml(context: RuntimeContext): Promise<string> {
-    const ssrContext = context.ssrContext!;
+    const ssrContext = context.ssrContext! as any;
 
     if (ssrContext.redirection?.url) {
       return '';
@@ -183,7 +183,7 @@ export default class Entry {
   private async renderToString(context: RuntimeContext): Promise<string> {
     let html = '';
     const end = time();
-    const { ssrContext } = context;
+    const { ssrContext } = context as any;
     try {
       const App = React.createElement(this.App, {
         context: Object.assign(context, { ssr: true }),
@@ -193,7 +193,7 @@ export default class Entry {
         .addCollector(createStyledCollector(this.result))
         .addCollector(
           createLoadableCollector({
-            stats: ssrContext!.loadableStats,
+            stats: ssrContext.loadableStats,
             result: this.result,
             entryName: this.entryName,
             config: this.pluginConfig,

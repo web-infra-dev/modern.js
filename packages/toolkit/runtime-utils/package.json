@@ -48,6 +48,11 @@
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
     },
+    "./universal": {
+      "jsnext:source": "./src/universal/index.ts",
+      "require": "./dist/cjs/universal/index.js",
+      "default": "./dist/esm/universal/index.js"
+    },
     "./parsed": {
       "jsnext:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
@@ -101,6 +106,11 @@
         "require": "./dist/cjs/node/router.js",
         "default": "./dist/esm/node/router.js"
       },
+      "./universal": {
+        "types": "./dist/universal/index.d.ts",
+        "require": "./dist/cjs/universal/index.js",
+        "default": "./dist/esm/universal/index.js"
+      },
       "./time": {
         "types": "./dist/types/time.d.ts",
         "require": "./dist/cjs/time.js",
@@ -144,6 +154,9 @@
       ],
       "node/router": [
         "./dist/types/node/router.d.ts"
+      ],
+      "universal": [
+        "./dist/types/universal/index.d.ts"
       ],
       "time": [
         "./dist/types/time.d.ts"

@@ -15,8 +15,8 @@ const prefetch = async (
   tracker: SSRTracker,
 ) =>
   run(context.ssrContext!.request.headers, async () => {
-    const { ssrContext } = context;
-    const { loadableStats } = ssrContext!;
+    const { ssrContext } = context as any;
+    const { loadableStats } = ssrContext;
 
     if (!config.disablePrerender) {
       try {
@@ -25,7 +25,7 @@ const prefetch = async (
         if (loadableStats) {
           const extractor = new ChunkExtractor({
             stats: loadableStats,
-            entrypoints: [ssrContext!.entryName].filter(Boolean),
+            entrypoints: [ssrContext.entryName].filter(Boolean),
           });
           renderToStaticMarkup(
             extractor.collectChunks(<App context={context} />),
@@ -73,7 +73,7 @@ const prefetch = async (
     Object.keys(loadersData).forEach(id => {
       const data = loadersData[id];
       if (data._error) {
-        ssrContext!.logger.error('App Load use-loader', data._error);
+        ssrContext.logger.error('App Load use-loader', data._error);
         delete data._error;
       }
     });

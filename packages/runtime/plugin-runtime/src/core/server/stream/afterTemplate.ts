@@ -1,5 +1,6 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
-import { attributesToString, parseQuery, safeReplace } from '../utils';
+import { parseQuery } from '@modern-js/runtime-utils/universal';
+import { attributesToString, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import { BuildHtmlCb, buildHtml, RenderLevel } from '../shared';
 import { HandleRequestConfig } from '../requestHandler';
@@ -39,7 +40,7 @@ function createReplaceSSRData(options: {
 
   const url = new URL(request.url);
 
-  const query = parseQuery(url);
+  const query = parseQuery(request);
 
   const { pathname, host } = url;
 
