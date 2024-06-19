@@ -44,7 +44,9 @@ export const ClientRouteStats: React.FC<ClientRouteStatsProps> = ({
     if (isLegacyRoutes(fileSystemRoute as FileSystemRoutes)) {
       return <LegacyRouteStats />;
     } else {
-      return <RemixRouteStats remixRoutes={fileSystemRoute} route={route} />;
+      return (
+        <RemixRouteStats remixRoutes={fileSystemRoute as any} route={route} />
+      );
     }
   };
   return (
