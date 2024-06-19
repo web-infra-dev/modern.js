@@ -2,7 +2,6 @@ import {
   isHtmlDisabled,
   RsbuildPlugin,
   RspackChain,
-  createVirtualModule,
   ChainIdentifier,
   RsbuildPluginAPI,
 } from '@rsbuild/shared';
@@ -16,6 +15,9 @@ import { Bundler } from '../../../types';
 import { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
+
+const createVirtualModule = (content: string) =>
+  `data:text/javascript,${content}`;
 
 export const builderPluginAdapterHtml = <B extends Bundler>(
   options: BuilderOptions<B>,

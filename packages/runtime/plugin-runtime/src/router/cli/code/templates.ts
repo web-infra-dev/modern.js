@@ -479,46 +479,62 @@ export const runtimeGlobalContext = async ({
   srcDirectory,
   nestedRoutesEntry,
   internalSrcAlias,
+  globalApp,
 }: {
   metaName: string;
   srcDirectory: string;
-  nestedRoutesEntry: string;
+  nestedRoutesEntry?: string;
   internalSrcAlias: string;
+  globalApp?: string | false;
 }) => {
   let imports = `import { setGlobalContext } from '@${metaName}/runtime/context';\n`;
-  const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
-  const rootLayoutFile = findExists(
-    ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
-  );
-  if (rootLayoutFile) {
-    const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
-    const rootLayout = rootLayoutBuffer.toString();
-    const [, moduleExports] = await parseModule({
-      source: rootLayout.toString(),
-      filename: rootLayoutFile,
-    });
-    const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
-    const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
-    const layoutPath = getPathWithoutExt(
-      replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+  if (nestedRoutesEntry) {
+    const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+    const rootLayoutFile = findExists(
+      ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
     );
-    if (hasAppConfig) {
-      imports += `import { config as appConfig } from '${layoutPath}';\n`;
-    } else {
-      imports += `let appConfig;\n`;
+    if (rootLayoutFile) {
+      const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+      const rootLayout = rootLayoutBuffer.toString();
+      const [, moduleExports] = await parseModule({
+        source: rootLayout.toString(),
+        filename: rootLayoutFile,
+      });
+      const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
+      const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
+      const layoutPath = getPathWithoutExt(
+        replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+      );
+      if (hasAppConfig) {
+        imports += `import { config as appConfig } from '${layoutPath}';\n`;
+      } else {
+        imports += `let appConfig;\n`;
+      }
+      if (hasAppInit) {
+        imports += `import { init as appInit } from '${layoutPath}';\n`;
+      } else {
+        imports += `let appInit;\n`;
+      }
     }
-    if (hasAppInit) {
-      imports += `import { init as appInit } from '${layoutPath}';\n`;
-    } else {
-      imports += `let appInit;\n`;
-    }
+  } else {
+    imports += `let appConfig;\n`;
+    imports += `let appInit;\n`;
   }
 
+  if (globalApp) {
+    imports += `import layoutApp from '${globalApp.replace(
+      srcDirectory,
+      internalSrcAlias,
+    )}';\n`;
+  } else {
+    imports += `let layoutApp;\n`;
+  }
   return `${imports}
 
 import { routes } from './routes.js';
 
 setGlobalContext({
+  layoutApp,
   routes,
   appInit,
   appConfig,

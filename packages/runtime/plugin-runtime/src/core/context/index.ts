@@ -1,13 +1,29 @@
-import { NestedRoute, PageRoute } from '@modern-js/types';
+import type { NestedRoute, PageRoute } from '@modern-js/types';
 import { AppConfig } from '../../common';
 
 export { RuntimeReactContext, type RuntimeContext } from './runtime';
 
 interface GlobalContext {
+  /**
+   * App.tsx export default component
+   */
   App?: React.ComponentType;
+  /**
+   * nest router and page router config
+   */
   routes?: (NestedRoute | PageRoute)[];
+  /**
+   * nest router init function
+   */
   appInit?: () => Promise<unknown>;
+  /**
+   * nest router config function
+   */
   appConfig?: AppConfig;
+  /**
+   * page router _app.tsx export layout app
+   */
+  layoutApp?: React.ComponentType;
 }
 
 const globalContext: GlobalContext = {};
@@ -17,6 +33,7 @@ export function setGlobalContext(context: GlobalContext) {
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
   globalContext.appConfig = context.appConfig;
+  globalContext.layoutApp = context.layoutApp;
 }
 
 export function getGlobalApp() {
@@ -33,4 +50,8 @@ export function getGlobalAppInit() {
 
 export function getGlobalAppConfig() {
   return globalContext.appConfig || (getGlobalApp() as any)?.config;
+}
+
+export function getGlobalLayoutApp() {
+  return globalContext.layoutApp;
 }

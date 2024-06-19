@@ -1,5 +1,9 @@
 import path from 'path';
-import { isReact18, cleanRequireCache } from '@modern-js/utils';
+import {
+  isReact18,
+  cleanRequireCache,
+  createRuntimeExportsUtils,
+} from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { statePlugin } from '../state/cli';
 import { ssrPlugin } from '../ssr/cli';
@@ -44,8 +48,7 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
       async generateEntryCode({ entrypoints }) {
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
-        const { mountId } = resolvedConfig.html;
-        await generateCode(api, appContext, mountId);
+        await generateCode(api, appContext, resolvedConfig);
         return { entrypoints };
       },
       /* Note that the execution time of the config hook is before prepare.
@@ -60,8 +63,13 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
         ]);
       },
       config() {
-        const appDir = api.useAppContext().appDirectory;
-        process.env.IS_REACT18 = isReact18(appDir).toString();
+        const { appDirectory, metaName, internalDirectory } =
+          api.useAppContext();
+        process.env.IS_REACT18 = isReact18(appDirectory).toString();
+        const pluginsExportsUtils = createRuntimeExportsUtils(
+          internalDirectory,
+          'plugins',
+        );
         return {
           runtime: {},
           runtimeByEntries: {},
@@ -73,6 +81,10 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
                * So need to add alias
                */
               'styled-components': require.resolve('styled-components'),
+              /**
+               * Compatible with the reference path of the old version of the plugin.
+               */
+              [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
             },
             globalVars: {
               'process.env.IS_REACT18': process.env.IS_REACT18,

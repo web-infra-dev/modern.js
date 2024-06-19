@@ -28,6 +28,9 @@ export const modifyEntrypoints = (
   config: Record<string, any> = {},
 ) => {
   return entrypoints.map(entrypoint => {
+    if (!entrypoint.isAutoMount) {
+      return entrypoint;
+    }
     const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
     const isHasPages = hasPages(entrypoint.absoluteEntryDir!);
     if (!isHasNestedRoutes && !isHasPages) {

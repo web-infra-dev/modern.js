@@ -29,7 +29,7 @@ export async function handleGeneratorEntryCode(
   await generateCode(appContext, resolvedConfig, entrypoints, api);
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      if (entrypoint.nestedRoutesEntry) {
+      if (entrypoint.nestedRoutesEntry || entrypoint.pageRoutesEntry) {
         generatorRegisterCode(
           internalDirectory,
           entrypoint.entryName,
@@ -38,6 +38,7 @@ export async function handleGeneratorEntryCode(
             srcDirectory: appContext.srcDirectory,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             internalSrcAlias: appContext.internalSrcAlias,
+            globalApp: entrypoint.fileSystemRoutes?.globalApp,
           }),
         );
       }

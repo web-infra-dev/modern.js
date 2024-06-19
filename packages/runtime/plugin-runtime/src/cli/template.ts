@@ -10,7 +10,6 @@ const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   customEntry,
   customBootstrap,
   mountId,
@@ -18,13 +17,12 @@ const genRenderCode = ({
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
-  entry: string;
   customEntry?: string | false;
   customBootstrap?: string | false;
   mountId?: string;
 }) => {
   if (customEntry) {
-    return `import '${entry.replace(srcDirectory, internalSrcAlias)}'`;
+    return `import '${customEntry.replace(srcDirectory, internalSrcAlias)}'`;
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/client';
@@ -52,7 +50,6 @@ export const index = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   entryName,
   customEntry,
   customBootstrap,
@@ -72,7 +69,6 @@ ${genRenderCode({
   srcDirectory,
   internalSrcAlias,
   metaName,
-  entry,
   customEntry,
   customBootstrap,
   mountId,
@@ -109,7 +105,7 @@ const getRegisterRuntimePluginCode = (
   name === 'router'
     ? `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
-      )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'], { routesConfig: { routes: getGlobalRoutes() } })));`
+      )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'], { routesConfig: { routes: getGlobalRoutes(), globalApp: getGlobalLayoutApp() } })));`
     : `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
         config,
       )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'])));`;
@@ -127,7 +123,7 @@ export const runtimeRegister = ({
   runtimeConfigFile: string | false;
   runtimePlugins: RuntimePlugin[];
 }) => `import { registerPlugin, mergeConfig } from '@${metaName}/runtime/plugin';
-import { getGlobalRoutes, getGlobalAppConfig } from '@${metaName}/runtime/context';
+import { getGlobalRoutes, getGlobalAppConfig, getGlobalLayoutApp } from '@${metaName}/runtime/context';
 ${getImportRuntimeConfigCode(srcDirectory, internalSrcAlias, runtimeConfigFile)}
 
 const plugins = [];

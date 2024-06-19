@@ -20,10 +20,10 @@ import _ from 'lodash';
 import { parseURL } from 'ufo';
 import clsx from 'clsx';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../state';
 import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
 import { Card, CardColumn } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
 
 interface SummaryCostsData {
   title: string;
@@ -75,12 +75,15 @@ const GraphBar: FC<{ cost: SummaryCostsData }> = ({ cost }) => {
 };
 
 const Page: FC = () => {
-  const { doctor } = useSnapshot($serverExported);
+  const serverExported = useGlobals();
+  const {
+    doctor,
+    dependencies,
+    context: { def },
+  } = useSnapshot(serverExported);
   if (!doctor) {
     throw new TypeError('Doctor is not available');
   }
-  const dependencies = useSnapshot($serverExported.dependencies);
-  const { def } = useSnapshot($serverExported).context;
 
   const isWebDoctor = Object.keys(dependencies).find(key =>
     key.startsWith('@web-doctor/'),

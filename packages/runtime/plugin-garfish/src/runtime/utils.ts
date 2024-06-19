@@ -1,5 +1,3 @@
-import { ModuleInfo } from './useModuleApps';
-
 declare const __GARFISH_EXPORTS__: string;
 
 export function isRenderGarfish(params?: { appName?: string }) {
@@ -12,12 +10,4 @@ export function isRenderGarfish(params?: { appName?: string }) {
         app => app.appInfo?.name === params?.appName,
       ));
   return renderByGarfish;
-}
-
-export const SUBMODULE_APP_COMPONENT_KEY = 'SubModuleComponent';
-
-export function generateSubAppContainerKey(moduleInfo?: ModuleInfo): string {
-  return moduleInfo
-    ? `modern_sub_app_container_${decodeURIComponent(moduleInfo?.name)}`
-    : 'modern_sub_app_container';
 }

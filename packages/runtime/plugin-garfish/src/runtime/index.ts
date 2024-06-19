@@ -3,5 +3,5 @@ export { useModuleApps, useModuleApp } from './useModuleApps';
 export type { Manifest, ModuleInfo, Config } from './useModuleApps';
 export { default as Garfish, default as garfish } from 'garfish';
 
-export * from './utils';
-export * from './provider';
+export { isRenderGarfish } from './utils';
+export { createProvider } from './provider';

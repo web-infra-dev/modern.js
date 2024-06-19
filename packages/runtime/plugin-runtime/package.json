@@ -91,12 +91,6 @@
       "node": "./dist/cjs/document/index.js",
       "default": "./dist/esm/document/index.js"
     },
-    "./document/cli": {
-      "types": "./dist/types/document/index.d.ts",
-      "jsnext:source": "./src/document/cli/index.ts",
-      "node": "./dist/cjs/document/cli/index.js",
-      "default": "./dist/esm/document/cli/index.js"
-    },
     "./ssr": {
       "types": "./dist/types/ssr/index.d.ts",
       "jsnext:source": "./src/ssr/index.ts",
@@ -123,11 +117,6 @@
       "types": "./dist/types/router/runtime/server.d.ts",
       "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
-    },
-    "./router/cli": {
-      "types": "./dist/types/router/cli/index.d.ts",
-      "jsnext:source": "./src/router/cli/index.ts",
-      "default": "./dist/cjs/router/cli/index.js"
     },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
@@ -173,9 +162,6 @@
       "document": [
         "./dist/types/document/index.d.ts"
       ],
-      "document/cli": [
-        "./dist/types/document/cli/index.d.ts"
-      ],
       "ssr": [
         "./dist/types/ssr/index.d.ts"
       ],
@@ -187,9 +173,6 @@
       ],
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
-      ],
-      "router/cli": [
-        "./dist/types/router/cli/index.d.ts"
       ],
       "loadable-bundler-plugin": [
         "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts"
@@ -240,7 +223,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/core": "0.7.8",
+    "@rsbuild/core": "0.7.9",
     "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",

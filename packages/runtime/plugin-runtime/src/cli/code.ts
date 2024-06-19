@@ -4,9 +4,11 @@ import type {
   IAppContext,
   PluginAPI,
   AppNormalizedConfig,
+  NormalizedConfig,
 } from '@modern-js/app-tools';
 import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
 import {
+  ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
@@ -40,8 +42,10 @@ function getSSRMode(
 export const generateCode = async (
   api: PluginAPI<AppTools>,
   appContext: IAppContext,
-  mountId?: string,
+  config: NormalizedConfig<AppTools>,
 ) => {
+  const { mountId } = config.html;
+  const { enableAsyncEntry } = config.source;
   const {
     runtimeConfigFile,
     internalDirectory,
@@ -50,7 +54,7 @@ export const generateCode = async (
     entrypoints,
     srcDirectory,
   } = appContext;
-  const config = api.useResolvedConfigContext();
+  // const config = api.useResolvedConfigContext();
   const runner = api.useHookRunners();
   await Promise.all(
     entrypoints.map(async entrypoint => {
@@ -97,13 +101,30 @@ export const generateCode = async (
             customServerEntry,
             srcDirectory,
           });
-
           const indexServerFile = path.resolve(
             internalDirectory,
             `./${entryName}/${SERVER_ENTRY_POINT_FILE_NAME}`,
           );
 
           fs.outputFileSync(indexServerFile, indexServerCode, 'utf8');
+        }
+
+        const bootstrapFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+        );
+
+        fs.outputFileSync(
+          enableAsyncEntry ? bootstrapFile : indexFile,
+          indexCode,
+          'utf8',
+        );
+        if (enableAsyncEntry) {
+          fs.outputFileSync(
+            indexFile,
+            `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+            'utf8',
+          );
         }
 
         // register.js

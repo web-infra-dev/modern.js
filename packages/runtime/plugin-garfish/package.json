@@ -21,16 +21,13 @@
   "typesVersions": {
     "*": {
       ".": [
-        "./dist/types/runtime/index.d.ts"
+        "./dist/types/cli/index.d.ts"
       ],
       "cli": [
         "./dist/types/cli/index.d.ts"
       ],
       "runtime": [
         "./dist/types/runtime/index.d.ts"
-      ],
-      "deps": [
-        "./dist/types/deps/index.d.ts"
       ],
       "types": [
         "./type.d.ts"
@@ -42,23 +39,18 @@
   "exports": {
     "./types": "./type.d.ts",
     ".": {
-      "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/cjs/runtime/index.js"
+      "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
+      "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
-    "./deps": {
-      "types": "./dist/types/deps/index.d.ts",
-      "jsnext:source": "./src/deps/index.ts",
-      "default": "./dist/esm/deps/index.js"
-    },
     "./runtime": {
       "types": "./dist/types/runtime/index.d.ts",
-      "jsnext:source": "./src/index.ts",
+      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
@@ -85,7 +77,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.7.8",
+    "@rsbuild/shared": "0.7.9",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",

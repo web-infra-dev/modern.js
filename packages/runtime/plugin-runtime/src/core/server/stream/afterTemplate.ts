@@ -52,7 +52,6 @@ function createReplaceSSRData(options: {
     context: {
       reporter: {
         // TODO: reporter sessionId,
-        // add it to headers?
         // sessionId: tracker.sessionId,
       },
 

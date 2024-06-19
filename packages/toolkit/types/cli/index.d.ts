@@ -39,6 +39,7 @@ export interface Entrypoint {
 
   customServerEntry?: string | false;
 
+  customEntry?: string | false;
   fileSystemRoutes?: {
     globalApp?: string | false;
     routes?: any[];
