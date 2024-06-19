@@ -78,7 +78,7 @@ export class PluginManager {
 
     const coreManager = createAsyncManager(hooks, pluginApi);
 
-    this.#plugins.push(...(this.#options.serverConfig?.plugins || []));
+    this.addPlugins(this.#options.serverConfig?.plugins || []);
 
     this.#plugins.forEach(p => {
       const plugin = coreManager.createPlugin(p.setup, p);
