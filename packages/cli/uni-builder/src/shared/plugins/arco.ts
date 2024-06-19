@@ -1,5 +1,6 @@
-import { isServerTarget, type RsbuildPlugin } from '@rsbuild/shared';
+import { type RsbuildPlugin } from '@rsbuild/shared';
 import { isPackageInstalled } from '@modern-js/utils';
+import { isServerTarget } from '../../shared/utils';
 
 export const pluginArco = (): RsbuildPlugin => ({
   name: 'uni-builder:arco',
