@@ -914,6 +914,9 @@ importers:
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
+      flatted:
+        specifier: ^3.2.9
+        version: 3.2.9
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -8480,8 +8483,8 @@ packages:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
       '@babel/core': 7.24.7
-      '@babel/helper-compilation-targets': 7.24.7
-      '@babel/helper-plugin-utils': 7.24.7
+      '@babel/helper-compilation-targets': 7.23.6
+      '@babel/helper-plugin-utils': 7.24.6
       debug: 4.3.4(supports-color@5.5.0)
       lodash.debounce: 4.0.8
       resolve: 1.22.4
@@ -21505,7 +21508,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
-      '@babel/compat-data': 7.24.7
+      '@babel/compat-data': 7.24.4
       '@babel/core': 7.24.7
       '@babel/helper-define-polyfill-provider': 0.6.1(@babel/core@7.24.7)
       semver: 6.3.1
