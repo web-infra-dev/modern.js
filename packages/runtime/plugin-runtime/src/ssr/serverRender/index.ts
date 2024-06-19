@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import { isReact18 } from '../utils';
-import { ServerRenderOptions } from './types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
 
-export default async function serverRender(options: ServerRenderOptions) {
+export default async function serverRender(options: any) {
   if (options.context.ssrContext?.template) {
     options.context.ssrContext.template =
       options.context.ssrContext?.template.replace(

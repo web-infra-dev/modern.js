@@ -21,7 +21,7 @@ export const render = ({ App, context, config }: ServerRenderOptions) => {
       }),
     });
 
-    const { tracker } = ssrContext;
+    const { tracker } = ssrContext as any;
 
     const stream = renderToPipe(rootElement, context, config, {
       onShellReady() {
