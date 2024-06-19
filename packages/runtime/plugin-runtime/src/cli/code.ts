@@ -54,7 +54,6 @@ export const generateCode = async (
     entrypoints,
     srcDirectory,
   } = appContext;
-  // const config = api.useResolvedConfigContext();
   const runner = api.useHookRunners();
   await Promise.all(
     entrypoints.map(async entrypoint => {

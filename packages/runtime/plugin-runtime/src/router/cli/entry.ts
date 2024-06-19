@@ -52,13 +52,13 @@ export const modifyEntrypoints = (
         ),
       };
       if (isHasPages) {
-        entrypoint.pageRoutesEntry = path.join(
+        entrypoint.entry = path.join(
           entrypoint.absoluteEntryDir!,
           PAGES_DIR_NAME,
         );
       }
       if (isHasNestedRoutes) {
-        entrypoint.nestedRoutesEntry = path.join(
+        entrypoint.entry = path.join(
           entrypoint.absoluteEntryDir!,
           NESTED_ROUTES_DIR,
         );
