@@ -4,11 +4,11 @@ import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node'
 import { ServerStyleSheet } from 'styled-components';
 import { isbot as checkIsBot } from 'isbot';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
+import { RenderLevel } from '../shared';
 import { getTemplates } from './template';
 import {
   CreateReadableStreamFromElement,
   ShellChunkStatus,
-  RenderLevel,
   getReadableStreamFromString,
 } from './shared';
 
