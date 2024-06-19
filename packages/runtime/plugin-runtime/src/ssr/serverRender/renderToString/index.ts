@@ -11,7 +11,7 @@ export const render = ({
 
   return run(ssrContext.request.headers, async () => {
     const entry = new SSREntry({
-      ctx: ssrContext,
+      ctx: ssrContext as any,
       App,
       config,
     });

@@ -25,6 +25,13 @@ const hasEntry = (dir: string) =>
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
   );
 
+const hasServerEntry = (dir: string) =>
+  findExists(
+    JS_EXTENSIONS.map(ext =>
+      path.resolve(dir, `${ENTRY_FILE_NAME}.server${ext}`),
+    ),
+  );
+
 const isBundleEntry = async (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dir: string,
@@ -54,6 +61,7 @@ const scanDir = (
 
       const entryName = path.basename(dir);
       const customEntryFile = hasEntry(dir);
+      const customServerEntry = hasServerEntry(dir);
 
       if (indexFile && !customBootstrap) {
         return {
@@ -72,11 +80,13 @@ const scanDir = (
           entry: false,
         })
       ).entry;
+
       if (entryFile) {
         return {
           entryName,
           isMainEntry: false,
           entry: customEntryFile || entryFile,
+          customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
@@ -88,6 +98,7 @@ const scanDir = (
           entryName,
           isMainEntry: false,
           entry: customEntryFile,
+          customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: false,
           customEntry: customEntryFile,

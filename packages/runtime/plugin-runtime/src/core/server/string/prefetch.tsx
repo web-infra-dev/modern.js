@@ -2,22 +2,24 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
-import { RuntimeContext } from '../../context';
+import { parseHeaders } from '@modern-js/runtime-utils/universal';
 import { LoaderResult } from '../../loader/loaderManager';
-import { HandleRequestConfig } from '../requestHandler';
+import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
 
 export const prefetch = async (
   App: React.ComponentType<any>,
-  context: RuntimeContext,
-  config: HandleRequestConfig,
+  request: Request,
+  options: HandleRequestOptions,
   { onError, onTiming }: Tracer,
-) =>
-  // TODO: remove context.ssrContext
-  run(context.ssrContext!.request.headers, async () => {
-    const { ssrContext } = context;
-    const { loadableStats } = ssrContext || {};
+) => {
+  const headersData = parseHeaders(request);
 
+  const { runtimeContext: context, resource, config } = options;
+
+  const { entryName, loadableStats } = resource;
+
+  return run(headersData, async () => {
     if (!config.disablePrerender) {
       try {
         const end = time();
@@ -25,7 +27,7 @@ export const prefetch = async (
         if (loadableStats) {
           const extractor = new ChunkExtractor({
             stats: loadableStats,
-            entrypoints: [ssrContext!.entryName].filter(Boolean),
+            entrypoints: [entryName].filter(Boolean),
           });
           renderToStaticMarkup(
             extractor.collectChunks(<App context={context} />),
@@ -87,3 +89,4 @@ export const prefetch = async (
       storeState: context?.store?.getState(),
     };
   });
+};
