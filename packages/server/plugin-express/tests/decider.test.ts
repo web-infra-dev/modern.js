@@ -1,8 +1,7 @@
 import path from 'path';
-import { serverManager } from '@modern-js/server-core';
 import request from 'supertest';
 import plugin from '../src/plugin';
-import { APIPlugin } from './helpers';
+import { APIPlugin, createPluginManager } from './helpers';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 
@@ -13,10 +12,11 @@ describe('support input params decider', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await serverManager
-      .clone()
-      .usePlugin(APIPlugin, plugin)
-      .init();
+    const pluginManager = createPluginManager();
+
+    pluginManager.addPlugins([APIPlugin, plugin()]);
+
+    const runner = await pluginManager.init();
 
     apiHandler = await runner.prepareApiServer({
       pwd,

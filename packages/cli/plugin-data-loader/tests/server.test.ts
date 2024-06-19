@@ -5,10 +5,7 @@ import qs from 'querystring';
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
-import {
-  createWebRequest,
-  sendResponse,
-} from '@modern-js/server-core/base/node';
+import { createWebRequest, sendResponse } from '@modern-js/server-core/node';
 import { handleRequest } from '../src/runtime';
 import { LOADER_ID_PARAM } from '../src/common/constants';
 

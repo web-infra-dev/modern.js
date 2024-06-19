@@ -16,6 +16,18 @@ export const getServerConfig = async (
   return configFilePath;
 };
 
+/**
+ * Transform the metaName
+ * @param metaName The name of framework, the default value is 'modern-js'
+ * @returns
+ * modern-js -> modern
+ */
+export const getMeta = (metaName = 'modern-js') => {
+  const meta = metaName.toLowerCase().split('-')[0];
+
+  return meta;
+};
+
 export const getTargetDir = (
   from: string,
   baseDir: string,

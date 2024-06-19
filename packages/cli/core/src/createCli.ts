@@ -4,7 +4,6 @@ import {
   Command,
   DEFAULT_RUNTIME_CONFIG,
   DEFAULT_SERVER_CONFIG,
-  INTERNAL_SERVER_PLUGINS,
 } from '@modern-js/utils';
 import { initAppDir, initCommandsMap, createFileWatcher } from './utils';
 import { loadPlugins } from './loadPlugins';
@@ -83,8 +82,6 @@ export const createCli = () => {
       runtimeConfigFile: mergedOptions?.runtimeConfigFile || '',
       options: mergedOptions?.options,
       serverConfigFile: mergedOptions?.serverConfigFile || '',
-      serverInternalPlugins:
-        mergedOptions?.internalPlugins?.server || INTERNAL_SERVER_PLUGINS,
     });
 
     ConfigContext.set(loaded.config);

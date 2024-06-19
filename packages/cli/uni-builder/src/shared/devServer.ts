@@ -12,8 +12,8 @@ import { type RsbuildInstance, logger } from '@rsbuild/core';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
 import {
-  initProdMiddlewares,
-  type InitProdMiddlewares,
+  applyPlugins,
+  type ApplyPlugins,
   type ProdServerOptions as ModernServerOptions,
 } from '@modern-js/prod-server';
 import type {
@@ -45,6 +45,8 @@ const getServerOptions = (
     server: {},
     runtime: {},
     bff: {},
+    dev: {},
+    security: {},
   };
 };
 
@@ -144,7 +146,7 @@ const getDevServerOptions = async ({
 export type StartDevServerOptions = RsbuildStartDevServerOptions & {
   apiOnly?: boolean;
   serverOptions?: ServerOptions;
-  initProdMiddlewares?: InitProdMiddlewares;
+  applyPlugins?: ApplyPlugins;
 };
 
 export type UniBuilderStartServerResult = {
@@ -159,8 +161,8 @@ export async function startDevServer(
 ) {
   logger.debug('create dev server');
 
-  if (!options.initProdMiddlewares) {
-    options.initProdMiddlewares = initProdMiddlewares;
+  if (!options.applyPlugins) {
+    options.applyPlugins = applyPlugins;
   }
 
   const { createDevServer } = await import('@modern-js/server');
@@ -205,7 +207,7 @@ export async function startDevServer(
       },
       config,
     },
-    options.initProdMiddlewares,
+    options.applyPlugins,
   );
 
   logger.debug('listen dev server');

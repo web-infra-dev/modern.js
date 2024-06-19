@@ -51,7 +51,7 @@ export type Compiler =
   | webpack.MultiCompiler
   | Rspack.MultiCompiler;
 
-export type AppContext = Omit<IAppContext, 'builder' | 'serverInternalPlugins'>;
+export type AppContext = Omit<IAppContext, 'builder'>;
 
 export type FileSystemRoutes =
   | RouteLegacy[]

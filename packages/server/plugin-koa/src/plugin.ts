@@ -6,19 +6,24 @@ import Router from 'koa-router';
 import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire, logger } from '@modern-js/utils';
-import type { Render, ServerPlugin } from '@modern-js/server-core';
+import type {
+  Render,
+  ServerManifest,
+  ServerPlugin,
+} from '@modern-js/server-core';
+import { InternalRequest } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,
-} from '@modern-js/server-core/base/node';
+} from '@modern-js/server-core/node';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
 declare module 'http' {
   interface IncomingMessage {
-    __honoRequest: Request;
-    __templates: Record<string, string>;
-    __serverManifest: any;
+    __honoRequest?: InternalRequest;
+    __templates?: Record<string, string>;
+    __serverManifest?: ServerManifest;
   }
 }
 
@@ -118,11 +123,11 @@ const createApp = async ({
 
   if (render) {
     app.use(async (ctx, next) => {
-      const response = await render(ctx.req.__honoRequest, {
+      const response = await render(ctx.req.__honoRequest!.raw, {
         logger,
         nodeReq: ctx.req,
-        templates: ctx.req.__templates,
-        serverManifest: ctx.req.__serverManifest,
+        templates: ctx.req.__templates!,
+        serverManifest: ctx.req.__serverManifest!,
       });
 
       if (response) {
@@ -144,18 +149,20 @@ export default (): ServerPlugin => {
     pre: ['@modern-js/plugin-bff'],
     post: ['@modern-js/plugin-server'],
     setup: api => ({
-      async onApiChange(changes) {
-        const appContext = api.useAppContext();
-        const middlewares = appContext.apiMiddlewares as Middleware[];
-        const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-        app = await createApp({
-          apiDir,
-          middlewares,
-          mode,
-          apiHandlerInfos,
-          render: renderHtml,
-        });
-        return changes;
+      async reset({ event }) {
+        if (event.type === 'file-change') {
+          const appContext = api.useAppContext();
+          const middlewares = appContext.apiMiddlewares as Middleware[];
+          const apiHandlerInfos =
+            appContext.apiHandlerInfos as APIHandlerInfo[];
+          app = await createApp({
+            apiDir,
+            middlewares,
+            mode,
+            apiHandlerInfos,
+            render: renderHtml,
+          });
+        }
       },
       async prepareApiServer({ pwd, render }) {
         const appContext = api.useAppContext();
@@ -164,6 +171,7 @@ export default (): ServerPlugin => {
         const userConfig = api.useConfigContext();
         const middlewares = appContext.apiMiddlewares as Middleware[];
         mode = appContext.apiMode as 'function' | 'framework';
+
         renderHtml =
           userConfig.bff?.enableHandleWeb && render ? render : undefined;
         apiDir = apiDirectory || path.join(pwd, './api');

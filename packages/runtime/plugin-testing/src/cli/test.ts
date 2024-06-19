@@ -15,6 +15,18 @@ const test = async (
   const userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
 
+  const runner = api.useHookRunners();
+
+  const { plugins = [] } =
+    (await (runner as any)._internalServerPlugins?.({
+      plugins: [],
+    })) || {};
+
+  api.setAppContext({
+    ...api.useAppContext(),
+    serverPlugins: plugins,
+  });
+
   userConfig.testing = userConfig.testing || {};
 
   const jest = userConfig.testing.jest || userConfig?.tools?.jest;
