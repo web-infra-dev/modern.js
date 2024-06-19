@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { JS_REGEX, type Rspack } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { TS_REGEX, getFilename } from '../../shared/utils';
+import { TS_REGEX, getHash } from '../../shared/utils';
 
 const HTML_REGEX = /\.html$/;
 
@@ -65,14 +65,15 @@ export const pluginFallback = (): RsbuildPlugin => ({
 
   setup(api) {
     if (api.context.bundlerType === 'webpack') {
-      api.modifyBundlerChain((chain, { isProd }) => {
+      api.modifyBundlerChain(chain => {
         const rsbuildConfig = api.getNormalizedConfig();
-        const { distPath } = rsbuildConfig.output;
+        const { distPath, filename } = rsbuildConfig.output;
         const distDir = distPath.media;
-        const filename = getFilename(rsbuildConfig, 'media', isProd);
+        const mediaFilename =
+          filename.media ?? `[name]${getHash(rsbuildConfig)}[ext]`;
 
         chain.output.merge({
-          assetModuleFilename: join(distDir, filename),
+          assetModuleFilename: join(distDir, mediaFilename),
         });
       });
 
@@ -85,10 +86,12 @@ export const pluginFallback = (): RsbuildPlugin => ({
         config.module.rules = resourceRuleFallback(config.module.rules);
       });
     } else {
-      api.modifyRspackConfig((config, { isProd }) => {
+      api.modifyRspackConfig(config => {
         const rsbuildConfig = api.getNormalizedConfig();
         const distDir = rsbuildConfig.output.distPath.media;
-        const filename = getFilename(rsbuildConfig, 'media', isProd);
+        const filename =
+          rsbuildConfig.output.filename.media ??
+          `[name]${getHash(rsbuildConfig)}[ext]`;
 
         config.output ||= {};
         config.output.assetModuleFilename = join(distDir, filename);
