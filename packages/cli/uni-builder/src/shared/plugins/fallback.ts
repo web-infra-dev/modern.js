@@ -1,12 +1,7 @@
 import { join } from 'path';
-import {
-  JS_REGEX,
-  TS_REGEX,
-  getDistPath,
-  getFilename,
-  type Rspack,
-} from '@rsbuild/shared';
+import { JS_REGEX, type Rspack } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { TS_REGEX, getFilename } from '../../shared/utils';
 
 const HTML_REGEX = /\.html$/;
 
@@ -72,7 +67,8 @@ export const pluginFallback = (): RsbuildPlugin => ({
     if (api.context.bundlerType === 'webpack') {
       api.modifyBundlerChain((chain, { isProd }) => {
         const rsbuildConfig = api.getNormalizedConfig();
-        const distDir = getDistPath(rsbuildConfig, 'media');
+        const { distPath } = rsbuildConfig.output;
+        const distDir = distPath.media;
         const filename = getFilename(rsbuildConfig, 'media', isProd);
 
         chain.output.merge({
@@ -91,8 +87,7 @@ export const pluginFallback = (): RsbuildPlugin => ({
     } else {
       api.modifyRspackConfig((config, { isProd }) => {
         const rsbuildConfig = api.getNormalizedConfig();
-
-        const distDir = getDistPath(rsbuildConfig, 'media');
+        const distDir = rsbuildConfig.output.distPath.media;
         const filename = getFilename(rsbuildConfig, 'media', isProd);
 
         config.output ||= {};

@@ -43,7 +43,7 @@ export async function applyDocgenWebpack(chain: RspackChain, options: Options) {
         resolveOptions,
       })
       .after(CHAIN_ID.USE.BABEL)
-      .after(CHAIN_ID.USE.ESBUILD)
+      .after('esbuild')
       .after(CHAIN_ID.USE.SWC)
       .end();
 
@@ -56,7 +56,7 @@ export async function applyDocgenWebpack(chain: RspackChain, options: Options) {
           resolveOptions,
         })
         .after(CHAIN_ID.USE.TS)
-        .after(CHAIN_ID.USE.ESBUILD)
+        .after('esbuild')
         .after(CHAIN_ID.USE.SWC)
         .end();
     }

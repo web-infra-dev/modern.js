@@ -1,8 +1,9 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { PLUGIN_SWC_NAME } from '@rsbuild/core';
-import { isServerTarget, type ConfigChain } from '@rsbuild/shared';
+import { type ConfigChain } from '@rsbuild/shared';
 import { applyOptionsChain } from '@modern-js/utils';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
+import { isServerTarget } from '../../shared/utils';
 
 const getDefaultStyledComponentsConfig = (isProd: boolean, ssr: boolean) => {
   return {

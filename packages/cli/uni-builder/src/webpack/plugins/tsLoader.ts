@@ -1,5 +1,4 @@
 import {
-  TS_REGEX,
   JS_REGEX,
   castArray,
   applyScriptCondition,
@@ -17,6 +16,7 @@ import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
 import { getPresetReact } from './babel';
+import { TS_REGEX } from '../../shared/utils';
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 

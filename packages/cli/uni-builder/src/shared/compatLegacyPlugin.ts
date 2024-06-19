@@ -3,8 +3,7 @@ import type {
   UniBuilderPluginAPI,
   UniBuilderContext,
 } from '../types';
-import type { RsbuildPlugin } from '@rsbuild/core';
-import { logger } from '@rsbuild/shared';
+import { type RsbuildPlugin, logger } from '@rsbuild/core';
 import { join } from 'path';
 
 function addDeprecatedWarning(
