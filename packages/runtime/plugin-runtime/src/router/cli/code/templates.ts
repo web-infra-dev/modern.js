@@ -132,6 +132,7 @@ const createMatchReg = (keyword: string) =>
   new RegExp(`("${keyword}":\\s)"([^\n]+)"`, 'g');
 
 export const fileSystemRoutes = async ({
+  metaName,
   routes,
   ssrMode,
   nestedRoutesEntry,
@@ -139,6 +140,7 @@ export const fileSystemRoutes = async ({
   internalDirectory,
   splitRouteChunks = true,
 }: {
+  metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
@@ -173,7 +175,7 @@ export const fileSystemRoutes = async ({
 
   const importLazyCode = `
     import { lazy } from "react";
-    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+    import loadable, { lazy as loadableLazy } from "@${metaName}/runtime/loadable"
   `;
 
   let rootLayoutCode = ``;
@@ -417,7 +419,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/router';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){
@@ -487,7 +489,9 @@ export const runtimeGlobalContext = async ({
   internalSrcAlias: string;
   globalApp?: string | false;
 }) => {
-  let imports = `import { setGlobalContext } from '@${metaName}/runtime/context';\n`;
+  const imports = [
+    `import { setGlobalContext } from '@${metaName}/runtime/context';`,
+  ];
   if (nestedRoutesEntry) {
     const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
     const rootLayoutFile = findExists(
@@ -506,30 +510,32 @@ export const runtimeGlobalContext = async ({
         replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
       );
       if (hasAppConfig) {
-        imports += `import { config as appConfig } from '${layoutPath}';\n`;
+        imports.push(`import { config as appConfig } from '${layoutPath}';`);
       } else {
-        imports += `let appConfig;\n`;
+        imports.push(`let appConfig;`);
       }
       if (hasAppInit) {
-        imports += `import { init as appInit } from '${layoutPath}';\n`;
+        imports.push(`import { init as appInit } from '${layoutPath}';`);
       } else {
-        imports += `let appInit;\n`;
+        imports.push(`let appInit;`);
       }
     }
   } else {
-    imports += `let appConfig;\n`;
-    imports += `let appInit;\n`;
+    imports.push(`let appConfig;`);
+    imports.push(`let appInit;`);
   }
 
   if (globalApp) {
-    imports += `import layoutApp from '${globalApp.replace(
-      srcDirectory,
-      internalSrcAlias,
-    )}';\n`;
+    imports.push(
+      `import layoutApp from '${globalApp.replace(
+        srcDirectory,
+        internalSrcAlias,
+      )}';`,
+    );
   } else {
-    imports += `let layoutApp;\n`;
+    imports.push(`let layoutApp;`);
   }
-  return `${imports}
+  return `${imports.join('\n')}
 
 import { routes } from './routes.js';
 
