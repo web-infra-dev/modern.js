@@ -1,14 +1,15 @@
 import React from 'react';
 import { useParams } from '@modern-js/runtime/router';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../../state';
+import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
+  const globals = useGlobals();
   const configSet = {
-    framework: useSnapshot($serverExported.framework.config),
-    builder: useSnapshot($serverExported.builder.config),
-    bundler: useSnapshot($serverExported.bundler.configs),
+    framework: useSnapshot(globals.framework.config),
+    builder: useSnapshot(globals.builder.config),
+    bundler: useSnapshot(globals.bundler.configs),
   } as const;
   const { toolkit, type } = useParams() as {
     toolkit: 'framework' | 'builder' | 'bundler';

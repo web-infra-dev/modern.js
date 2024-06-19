@@ -8,9 +8,9 @@ import {
 } from 'react-icons/hi2';
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
-import { $serverExported, VERSION } from '../state';
 import '@/components/Card/Card.module.scss';
 import styles from './page.module.scss';
+import { useGlobals } from '@/entries/client/globals';
 import { Card, CardColumn } from '@/components/Card';
 
 const BUNDLER_PACKAGE_NAMES = {
@@ -19,11 +19,13 @@ const BUNDLER_PACKAGE_NAMES = {
 } as const;
 
 const Page: React.FC = () => {
-  const frameworkContext = useSnapshot($serverExported.framework).context;
-  const { def } = useSnapshot($serverExported).context;
-  const dependencies = useSnapshot($serverExported.dependencies);
-  const builderContext = useSnapshot($serverExported.builder).context;
-  const { compileDuration } = useSnapshot($serverExported).performance;
+  const $globals = useGlobals();
+  const { version } = useSnapshot($globals);
+  const frameworkContext = useSnapshot($globals.framework).context;
+  const { def } = useSnapshot($globals).context;
+  const dependencies = useSnapshot($globals.dependencies);
+  const builderContext = useSnapshot($globals.builder).context;
+  const { compileDuration } = useSnapshot($globals).performance;
   const isMacOS = window.navigator.userAgent.includes('Mac OS');
   const { toolsType } = frameworkContext;
   if (toolsType !== 'app-tools') {
@@ -54,7 +56,7 @@ const Page: React.FC = () => {
                 DevTools
               </Heading>
               <Flex gap="2">
-                <button type="button">v{VERSION}</button>
+                <button type="button">v{version}</button>
               </Flex>
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}

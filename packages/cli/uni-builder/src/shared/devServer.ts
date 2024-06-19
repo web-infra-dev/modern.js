@@ -1,6 +1,5 @@
 import {
   StartDevServerOptions as RsbuildStartDevServerOptions,
-  debug,
   deepmerge,
   DevConfig,
   ServerConfig,
@@ -8,7 +7,7 @@ import {
 } from '@rsbuild/shared';
 import { applyOptionsChain } from '@modern-js/utils';
 
-import type { RsbuildInstance } from '@rsbuild/core';
+import { type RsbuildInstance, logger } from '@rsbuild/core';
 
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
@@ -160,7 +159,7 @@ export async function startDevServer(
   options: StartDevServerOptions = {},
   builderConfig: UniBuilderConfig,
 ) {
-  debug('create dev server');
+  logger.debug('create dev server');
 
   if (!options.applyPlugins) {
     options.applyPlugins = applyPlugins;
@@ -211,7 +210,7 @@ export async function startDevServer(
     options.applyPlugins,
   );
 
-  debug('listen dev server');
+  logger.debug('listen dev server');
 
   return new Promise<UniBuilderStartServerResult>(resolve => {
     server.listen(
@@ -224,7 +223,7 @@ export async function startDevServer(
           throw err;
         }
 
-        debug('listen dev server done');
+        logger.debug('listen dev server done');
 
         await rsbuildServer.afterListen();
 

@@ -34,7 +34,7 @@ export const pluginModuleScopes = (
   name: 'uni-builder:module-scopes',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
+    api.modifyBundlerChain(async chain => {
       if (!moduleScopes) {
         return;
       }
@@ -55,14 +55,12 @@ export const pluginModuleScopes = (
         return scope;
       });
 
-      chain.resolve
-        .plugin(CHAIN_ID.RESOLVE_PLUGIN.MODULE_SCOPE)
-        .use(ModuleScopePlugin, [
-          {
-            scopes: formattedScopes,
-            allowedFiles: [rootPackageJson],
-          },
-        ]);
+      chain.resolve.plugin('module-scope').use(ModuleScopePlugin, [
+        {
+          scopes: formattedScopes,
+          allowedFiles: [rootPackageJson],
+        },
+      ]);
     });
   },
 });

@@ -44,6 +44,7 @@ export type $FrameworkHooks = CleanHooks<
     | 'modifyFileSystemRoutes'
     | 'modifyServerRoutes'
     | 'afterCreateCompiler'
+    | 'afterDev'
     | 'beforeRestart'
     | 'beforeExit'
     | 'afterBuild'
@@ -77,14 +78,20 @@ export type $BuilderHooks = UnwrapBuilderHooks<
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BuilderHooks extends $BuilderHooks {}
 
+export interface DevtoolsHooks {
+  cleanup: () => Promise<void> | void;
+  settleState: () => Promise<void> | void;
+}
+
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DevtoolsPluginVars extends Record<string, unknown> {}
 }
 
 export interface PluginApi {
-  frameworkHooks: Hookable<FrameworkHooks>;
   builderHooks: Hookable<BuilderHooks>;
+  frameworkHooks: Hookable<FrameworkHooks>;
+  hooks: Hookable<DevtoolsHooks>;
   setupFramework: () => Promise<CliPluginAPI>;
   setupBuilder: () => Promise<RsbuildPluginAPI>;
   context: DevtoolsContext;

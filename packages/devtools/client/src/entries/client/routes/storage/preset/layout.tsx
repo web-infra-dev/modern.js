@@ -18,9 +18,8 @@ import {
   unwindPreset,
   UnwindPreset,
 } from './shared';
+import { useGlobals } from '@/entries/client/globals';
 import { Card } from '@/components/Card';
-import { $server, $serverExported } from '@/entries/client/routes/state';
-import { useThrowable } from '@/utils';
 
 type CardButtonProps = FlexProps & {
   selected?: boolean;
@@ -89,14 +88,15 @@ const PresetCard: FC<PresetCardProps> = props => {
 };
 
 const Page: FC = () => {
-  const { storagePresets } = useSnapshot($serverExported).context;
+  const globals = useGlobals();
+  const { server } = globals;
+  const { storagePresets } = useSnapshot(globals).context;
   const data = useLoaderData() as StorageStatus;
   const status = {
     cookie: { ...data.cookie.client, ...data.cookie.server },
     localStorage: data.localStorage,
     sessionStorage: data.sessionStorage,
   };
-  const server = useThrowable($server);
   const navigate = useNavigate();
   const freq = {
     cookie: _(storagePresets)
@@ -121,10 +121,11 @@ const Page: FC = () => {
   }));
 
   const handleCreatePreset = async () => {
+    if (!server) return;
     const newPreset = await server.remote.createTemporaryStoragePreset();
     const { id } = newPreset;
     const unwatch = watch(get => {
-      const { storagePresets } = snapshot(get($serverExported)).context;
+      const { storagePresets } = snapshot(get(globals)).context;
       const preset = _.find(storagePresets, { id });
       if (preset) {
         unwatch();

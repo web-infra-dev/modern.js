@@ -62,3 +62,16 @@
   pointer-events: none;
   background: linear-gradient(to bottom, var(--color-background), transparent);
 }
+
+.online-indicator {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-1);
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: 999px;
+  background-color: var(--gray-8);
+  &[data-active="true"] {
+    background-color: var(--grass-8);
+  }
+}
