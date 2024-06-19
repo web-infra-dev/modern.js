@@ -1,4 +1,4 @@
-import { manager } from '@modern-js/core';
+import { AppContext, manager } from '@modern-js/core';
 import RuntimePlugin from '@modern-js/runtime/cli';
 import plugin, { useHistory, useParams } from '../src';
 import cliPlugin from '../src/cli';
@@ -24,6 +24,7 @@ describe('cli-router-legacy', () => {
   });
 
   it('plugin-router-legacy cli config is defined', async () => {
+    AppContext.set({ metaName: 'modern-js' } as any);
     const config = await runner.config();
     expect(
       config.find(
