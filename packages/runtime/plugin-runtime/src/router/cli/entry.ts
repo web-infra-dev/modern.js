@@ -56,12 +56,14 @@ export const modifyEntrypoints = (
           entrypoint.absoluteEntryDir!,
           PAGES_DIR_NAME,
         );
+        entrypoint.pageRoutesEntry = entrypoint.entry;
       }
       if (isHasNestedRoutes) {
         entrypoint.entry = path.join(
           entrypoint.absoluteEntryDir!,
           NESTED_ROUTES_DIR,
         );
+        entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
     } else {
       throw Error(
