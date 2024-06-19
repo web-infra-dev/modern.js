@@ -5,7 +5,6 @@ export interface MountPointFunctions {
 }
 
 export interface SetupClientParams {
-  endpoint: string;
-  dataSource: string;
+  src: string;
   def: ClientDefinition;
 }

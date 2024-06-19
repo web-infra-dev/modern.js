@@ -11,11 +11,14 @@ export const pluginDebug: Plugin = {
     logger.debug('setup framework api');
     await api.setupBuilder();
     logger.debug('setup builder api');
-    api.frameworkHooks.afterEach(e => {
+    api.builderHooks.beforeEach(e => {
+      logger.debug('after builder hook:', e.name);
+    });
+    api.frameworkHooks.beforeEach(e => {
       logger.debug('after framework hook:', e.name);
     });
-    api.builderHooks.afterEach(e => {
-      logger.debug('after builder hook:', e.name);
+    api.hooks.beforeEach(e => {
+      logger.debug('after hook:', e.name);
     });
   },
 };

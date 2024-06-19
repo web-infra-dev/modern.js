@@ -22,13 +22,8 @@ export const pluginWatcher: Plugin = {
     watcher.on('change', refreshStoragePreset);
     watcher.on('unlink', refreshStoragePreset);
 
-    let _open = true;
-    const cleanup = () => {
-      _open && watcher.close();
-      _open = false;
-    };
-    api.frameworkHooks.hook('beforeExit', cleanup);
-    api.frameworkHooks.hook('beforeRestart', cleanup);
-    api.frameworkHooks.hook('afterBuild', cleanup);
+    api.hooks.hook('cleanup', () => {
+      watcher.close();
+    });
   },
 };

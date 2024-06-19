@@ -6,9 +6,8 @@ import {
   createBridge,
   createStore,
 } from 'react-devtools-inline/frontend';
-import { $mountPoint } from '../../state';
 import { wallAgent } from '../state';
-import { useThrowable } from '@/utils';
+import { useGlobals } from '@/entries/client/globals';
 
 const Page: React.FC = () => {
   const params = useParams();
@@ -17,7 +16,8 @@ const Page: React.FC = () => {
   const navigate = useNavigate();
   const browserTheme = ctx.appearance === 'light' ? 'light' : 'dark';
 
-  const mountPoint = useThrowable($mountPoint);
+  const { mountPoint } = useGlobals();
+
   useEffect(() => {
     mountPoint.remote.activateReactDevtools();
   }, []);
