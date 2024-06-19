@@ -35,6 +35,7 @@ describe('fileSystemRoutes', () => {
     ];
 
     const code = await fileSystemRoutes({
+      metaName: 'modern-js',
       routes,
       entryName: 'main',
       internalDirectory: '',
@@ -79,6 +80,7 @@ describe('fileSystemRoutes', () => {
       },
     ];
     const code = await fileSystemRoutes({
+      metaName: 'modern-js',
       entryName: 'main',
       routes,
       internalDirectory: '',
