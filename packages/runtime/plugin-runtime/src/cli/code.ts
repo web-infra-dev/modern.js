@@ -85,7 +85,24 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
-        fs.outputFileSync(indexFile, indexCode, 'utf8');
+
+        const bootstrapFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+        );
+
+        fs.outputFileSync(
+          enableAsyncEntry ? bootstrapFile : indexFile,
+          indexCode,
+          'utf8',
+        );
+        if (enableAsyncEntry) {
+          fs.outputFileSync(
+            indexFile,
+            `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+            'utf8',
+          );
+        }
 
         // index.server.js
         const ssrMode = getSSRMode(entryName, config);
@@ -106,24 +123,6 @@ export const generateCode = async (
           );
 
           fs.outputFileSync(indexServerFile, indexServerCode, 'utf8');
-        }
-
-        const bootstrapFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
-        );
-
-        fs.outputFileSync(
-          enableAsyncEntry ? bootstrapFile : indexFile,
-          indexCode,
-          'utf8',
-        );
-        if (enableAsyncEntry) {
-          fs.outputFileSync(
-            indexFile,
-            `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
-            'utf8',
-          );
         }
 
         // register.js
