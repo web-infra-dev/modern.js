@@ -1,5 +1,27 @@
 # @modern-js/plugin-testing
 
+## 2.54.0
+
+### Minor Changes
+
+- a8d8f0c: feat: support new server plugin & discard server plugin some hooks
+  feat: 支持新 server plugin & 减少 server plugin 钩子
+
+### Patch Changes
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [413b27f]
+- Updated dependencies [09798ac]
+- Updated dependencies [9da873c]
+  - @modern-js/runtime@2.54.0
+  - @modern-js/utils@2.54.0
+  - @modern-js/prod-server@2.54.0
+  - @modern-js/types@2.54.0
+  - @modern-js/bff-core@2.54.0
+  - @modern-js/babel-compiler@2.54.0
+  - @modern-js/plugin@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

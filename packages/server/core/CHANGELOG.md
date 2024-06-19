@@ -1,5 +1,27 @@
 # @modern-js/server-plugin
 
+## 2.54.0
+
+### Minor Changes
+
+- a8d8f0c: feat: support new server plugin & discard server plugin some hooks
+  feat: 支持新 server plugin & 减少 server plugin 钩子
+
+### Patch Changes
+
+- 8cdb67d: fix: render function dynamic router match error
+  fix: render 函数动态路由匹配错误
+- 09798ac: feat: refactor runtime plugin
+
+  feat: 重构 runtime 插件
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [09798ac]
+  - @modern-js/utils@2.54.0
+  - @modern-js/plugin@2.54.0
+  - @modern-js/runtime-utils@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes
