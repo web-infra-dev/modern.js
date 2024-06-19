@@ -1,3 +1,4 @@
+import { BaseSSRServerContext } from '@modern-js/types';
 import type { LoaderResult } from './loader/loaderManager';
 
 declare global {
@@ -23,3 +24,26 @@ export interface RouterSSRData {
 export interface SSRContainer {
   data?: SSRData; // string ssr data
 }
+
+type BuildHtmlCb = (tempalte: string) => string;
+
+export type SSRServerContext = Pick<
+  BaseSSRServerContext,
+  | 'redirection'
+  | 'response'
+  | 'nonce'
+  | 'mode'
+  | 'loaderContext'
+  | 'reporter'
+  | 'routeManifest'
+> & {
+  request: BaseSSRServerContext['request'] & {
+    userAgent: string;
+    cookie: string;
+    cookieMap: Record<string, string>;
+  };
+  htmlModifiers: BuildHtmlCb[];
+  loaderFailureMode?: 'clientRender' | 'errorBoundary';
+  onError: (e: unknown) => void;
+  onTiming: (name: string, dur: number) => void;
+};

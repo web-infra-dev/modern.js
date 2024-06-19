@@ -1,4 +1,5 @@
 import { renderToReadableStream } from 'react-dom/server';
+import { isbot as checkIsBot } from 'isbot';
 import { RenderLevel } from '../shared';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import {
@@ -40,13 +41,13 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
         options?.onAllReady?.();
       });
 
-      // TODO: support sipder
-      // if (sipder) {
-      // However, when a crawler visits your page, or if you’re generating the pages at the build time,
-      // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
-      // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
-      //   await readableOriginal.allReady;
-      // }
+      const isbot = checkIsBot(request.headers.get('user-agent'));
+      if (isbot) {
+        // However, when a crawler visits your page, or if you’re generating the pages at the build time,
+        // you might want to let all of the content load first and then produce the final HTML output instead of revealing it progressively.
+        // from: https://react.dev/reference/react-dom/server/renderToReadableStream#handling-different-errors-in-different-ways
+        await readableOriginal.allReady;
+      }
 
       const reader = readableOriginal.getReader();
 

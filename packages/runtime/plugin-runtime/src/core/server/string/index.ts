@@ -3,6 +3,8 @@ import ReactDomServer from 'react-dom/server';
 import React from 'react';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
+import { run } from '@modern-js/runtime-utils/node';
+import { parseHeaders } from '@modern-js/runtime-utils/universal';
 import { createReplaceHelemt } from '../helmet';
 import { safeReplace } from '../utils';
 import {
@@ -30,62 +32,66 @@ export const renderString: RenderString = async (
   serverRoot,
   options,
 ) => {
-  const { resource, runtimeContext, config, onError, onTiming } = options;
+  const headersData = parseHeaders(request);
 
-  const tracer: Tracer = {
-    onError: createOnError(onError),
-    onTiming: createOnTiming(onTiming),
-  };
+  return run(headersData, async () => {
+    const { resource, runtimeContext, config, onError, onTiming } = options;
 
-  const routerContext = runtimeContext.routerContext as StaticHandlerContext;
+    const tracer: Tracer = {
+      onError: createOnError(onError),
+      onTiming: createOnTiming(onTiming),
+    };
 
-  const { htmlTemplate, entryName } = resource;
+    const routerContext = runtimeContext.routerContext as StaticHandlerContext;
 
-  const chunkSet: ChunkSet = {
-    renderLevel: RenderLevel.SERVER_RENDER,
-    ssrScripts: '',
-    jsChunk: '',
-    cssChunk: '',
-  };
+    const { htmlTemplate, entryName } = resource;
 
-  let prefetchData = {};
+    const chunkSet: ChunkSet = {
+      renderLevel: RenderLevel.SERVER_RENDER,
+      ssrScripts: '',
+      jsChunk: '',
+      cssChunk: '',
+    };
 
-  try {
-    prefetchData = prefetch(serverRoot, runtimeContext, config, tracer);
-    chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
-  } catch (e) {
-    chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-  }
+    let prefetchData = {};
 
-  const collectors = [
-    new StyledCollector(chunkSet),
-    new LoadableCollector({
-      template: htmlTemplate,
-      entryName,
+    try {
+      prefetchData = prefetch(serverRoot, request, options, tracer);
+      chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
+    } catch (e) {
+      chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
+    }
+
+    const collectors = [
+      new StyledCollector(chunkSet),
+      new LoadableCollector({
+        template: htmlTemplate,
+        entryName,
+        chunkSet,
+        config,
+      }),
+      new SSRDataCollector({
+        request,
+        prefetchData,
+        chunkSet,
+        routerContext,
+      }),
+    ];
+
+    const App = React.createElement(serverRoot, {
+      context: Object.assign(runtimeContext, { ssr: true }),
+    });
+
+    const html = await generateHtml(
+      App,
+      htmlTemplate,
       chunkSet,
-      config,
-    }),
-    new SSRDataCollector({
-      request,
-      prefetchData,
-      chunkSet,
-      routerContext,
-    }),
-  ];
+      collectors,
+      tracer,
+    );
 
-  const App = React.createElement(serverRoot, {
-    context: Object.assign(runtimeContext, { ssr: true }),
+    return html;
   });
-
-  const html = await generateHtml(
-    App,
-    htmlTemplate,
-    chunkSet,
-    collectors,
-    tracer,
-  );
-
-  return html;
 };
 
 async function generateHtml(
