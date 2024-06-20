@@ -7,6 +7,5 @@ export const ZH_LOCALE = {
 {packageManager} change       # 新增 changeset 变更
 {packageManager} bump         # 基于 changeset 更新版本号和 changelog
 {packageManager} new          # 启用可选功能
-{packageManager} test         # 运行测试用例
 {packageManager} release      # 发布当前 npm 包`,
 };
