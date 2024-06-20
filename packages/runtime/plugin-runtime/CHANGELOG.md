@@ -1,5 +1,36 @@
 # @modern-js/runtime
 
+## 2.54.0
+
+### Minor Changes
+
+- 09798ac: feat: refactor runtime plugin
+
+  feat: 重构 runtime 插件
+
+- 9da873c: feat(ssr): support for loaderFailureMode configure
+  feat(ssr): 支持 loaderFailureMode 配置
+
+### Patch Changes
+
+- 15a090c: feat: refactor app-tools command and analyze check entry point
+
+  feat: 重构 app-tools 命令和 analyze 插件识别入口逻辑
+
+- 413b27f: fix: entrypoint error when use custom index entry
+
+  fix: 修复当使用自定义 index 入口时入口路径错误
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [09798ac]
+- Updated dependencies [9da873c]
+  - @modern-js/utils@2.54.0
+  - @modern-js/plugin-data-loader@2.54.0
+  - @modern-js/types@2.54.0
+  - @modern-js/plugin@2.54.0
+  - @modern-js/runtime-utils@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

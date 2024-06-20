@@ -1,5 +1,46 @@
 # @modern-js/app-tools
 
+## 2.54.0
+
+### Minor Changes
+
+- a8d8f0c: feat: support new server plugin & discard server plugin some hooks
+  feat: 支持新 server plugin & 减少 server plugin 钩子
+- 9da873c: feat(ssr): support for loaderFailureMode configure
+  feat(ssr): 支持 loaderFailureMode 配置
+
+### Patch Changes
+
+- 15a090c: feat: refactor app-tools command and analyze check entry point
+
+  feat: 重构 app-tools 命令和 analyze 插件识别入口逻辑
+
+- da84b0a: chore(deps): bump rsbuild to 0.7.7
+- 09798ac: feat: refactor runtime plugin
+
+  feat: 重构 runtime 插件
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [da84b0a]
+- Updated dependencies [8cdb67d]
+- Updated dependencies [09798ac]
+- Updated dependencies [9da873c]
+  - @modern-js/utils@2.54.0
+  - @modern-js/plugin-data-loader@2.54.0
+  - @modern-js/prod-server@2.54.0
+  - @modern-js/uni-builder@2.54.0
+  - @modern-js/server@2.54.0
+  - @modern-js/types@2.54.0
+  - @modern-js/server-core@2.54.0
+  - @modern-js/core@2.54.0
+  - @modern-js/plugin-i18n@2.54.0
+  - @modern-js/plugin-lint@2.54.0
+  - @modern-js/server-utils@2.54.0
+  - @modern-js/node-bundle-require@2.54.0
+  - @modern-js/plugin@2.54.0
+  - @modern-js/rsbuild-plugin-esbuild@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @modern-js/main-doc
 
+## 2.54.0
+
+### Patch Changes
+
+- 38537fc: optimize the doc content
+- Updated dependencies [38537fc]
+  - @modern-js/builder-doc@2.54.0
+  - @modern-js/sandpack-react@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

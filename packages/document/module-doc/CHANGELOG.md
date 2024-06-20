@@ -1,5 +1,11 @@
 # @modern-js/module-tools-docs
 
+## 2.54.0
+
+### Patch Changes
+
+- 38537fc: optimize the doc content
+
 ## 2.53.0
 
 ### Patch Changes
