@@ -4,7 +4,7 @@ import {
   SERVER_RENDER_FUNCTION_NAME,
   MAIN_ENTRY_NAME,
 } from '@modern-js/utils/universal/constants';
-import * as isbot from 'isbot';
+import { isbot as checkIsBot } from 'isbot';
 import {
   getRuntimeEnv,
   parseHeaders,
@@ -87,7 +87,7 @@ export async function ssrRender(
   const routeManifest = serverManifest.routeManifest || {};
 
   const host = getHost(request);
-  const isSpider = isbot.default(request.headers.get('user-agent'));
+  const isSpider = checkIsBot(request.headers.get('user-agent'));
   const responseProxy = new ResponseProxy();
 
   const query = parseQuery(request);
