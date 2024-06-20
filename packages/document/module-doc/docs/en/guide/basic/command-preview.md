@@ -70,20 +70,6 @@ The Modern.js Module provides the ability to use debugging tools, which can be s
 
 The officially supported debugging tool is [Rspress](https://rspress.dev/), so you can run `modern dev` or `modern dev doc` to execute it after you run `modern new` to enable it.
 
-## `modern test`
-
-```bash
-Usage: modern test [options]
-
-Options:
-  -u --updateSnapshot  use this flag to re-record snapshots.
-  --watch              watch files for changes and rerun tests related to changed files.
-  -h, --help           show command help
-```
-
-You need to execute `modern new` to turn on the test function before you can execute the `modern test` command.
-The `modern test` command will automatically run the `src/tests/*.test.(js|ts|jsx|tsx)` file as a test case.
-
 ## `modern lint`
 
 ```bash

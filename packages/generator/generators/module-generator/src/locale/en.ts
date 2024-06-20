@@ -8,6 +8,5 @@ export const EN_LOCALE = {
 {packageManager} change       # Add a new changeset
 {packageManager} bump         # Update version and changelog via changeset
 {packageManager} new          # Enable optional features
-{packageManager} test         # Run test cases
 {packageManager} release      # Release the package`,
 };
