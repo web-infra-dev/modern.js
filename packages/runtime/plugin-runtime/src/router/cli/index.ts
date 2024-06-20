@@ -29,18 +29,21 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
           .map(route => route.urlPath)
           .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
         const userConfig = api.useResolvedConfigContext();
-        const runtimeConfig = getEntryOptions(
+        const routerConfig = getEntryOptions(
           entrypoint.entryName,
           entrypoint.isMainEntry,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,
-        );
-        if (runtimeConfig?.router && !isV5(userConfig)) {
+        )?.router;
+        if (routerConfig && !isV5(userConfig)) {
           plugins.push({
             name: 'router',
             implementation: `@${metaName}/runtime/router`,
-            config: { serverBase },
+            config:
+              typeof routerConfig === 'boolean'
+                ? { serverBase }
+                : { ...routerConfig, serverBase },
           });
         }
 
