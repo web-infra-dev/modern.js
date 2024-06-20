@@ -138,9 +138,11 @@ export const createNetlifyPreset: CreatePreset = (
       if (!needModernServer) {
         return;
       }
-      await handleDependencies(appDirectory, funcsDirectory, [
-        '@modern-js/prod-server',
-      ]);
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: funcsDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+      });
     },
   };
 };

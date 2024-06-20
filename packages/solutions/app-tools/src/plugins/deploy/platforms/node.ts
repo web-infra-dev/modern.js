@@ -81,12 +81,12 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         return !filePath.startsWith(staticDirectory);
       };
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      await handleDependencies(
-        appDirectory,
-        outputDirectory,
-        ['@modern-js/prod-server'],
-        filter,
-      );
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: outputDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+        entryFilter: filter,
+      });
     },
   };
 };

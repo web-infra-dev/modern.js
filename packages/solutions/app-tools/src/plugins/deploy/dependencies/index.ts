@@ -1,4 +1,4 @@
-import path, { isAbsolute } from 'node:path';
+import path from 'node:path';
 import { fs as fse, pkgUp, semver } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { readPackageJSON } from 'pkg-types';
@@ -10,30 +10,31 @@ import {
   TracedPackage,
   TracedFile,
   findEntryFiles,
-  traceFiles,
+  traceFiles as defaultTraceFiles,
   findPackageParents,
   resolveTracedPath,
+  readDirRecursive,
 } from './utils';
 
-export const handleDependencies = async (
-  appDir: string,
-  serverRootDir: string,
-  include: string[],
-  entryFilter?: (filePath: string) => boolean,
-) => {
+export const handleDependencies = async ({
+  appDir,
+  serverRootDir,
+  includeEntries,
+  traceFiles = defaultTraceFiles,
+  entryFilter,
+  modifyPackageJson,
+  copyWholePackage,
+}: {
+  appDir: string;
+  serverRootDir: string;
+  includeEntries: string[];
+  traceFiles?: typeof defaultTraceFiles;
+  entryFilter?: (filePath: string) => boolean;
+  modifyPackageJson?: (pkgJson: PackageJson) => PackageJson;
+  copyWholePackage?: (pkgName: string) => boolean;
+}) => {
   const base = '/';
   const entryFiles = await findEntryFiles(serverRootDir, entryFilter);
-
-  const includeEntries = include.map(item => {
-    if (isAbsolute(item)) {
-      return item;
-    }
-    try {
-      // FIXME: should appoint paths
-      return require.resolve(item);
-    } catch (error) {}
-    return item;
-  });
 
   const fileTrace = await traceFiles(
     entryFiles.concat(includeEntries),
@@ -161,11 +162,21 @@ export const handleDependencies = async (
       tracedPackage.versions[pkgJSON.version!] = tracedPackageVersion;
     }
 
-    tracedFile.path.startsWith(tracedFile.pkgPath) &&
-      tracedPackageVersion.path === tracedFile.pkgPath &&
-      tracedPackageVersion.files.push(tracedFile.path);
     tracedFile.pkgName = pkgName;
     tracedFile.pkgVersion = pkgJSON.version;
+
+    const shouldCopyWholePackage = copyWholePackage?.(pkgName);
+    if (
+      tracedFile.path.startsWith(tracedFile.pkgPath) &&
+      tracedPackageVersion.path === tracedFile.pkgPath
+    ) {
+      if (shouldCopyWholePackage) {
+        const allFiles = await readDirRecursive(tracedFile.pkgPath);
+        tracedPackageVersion.files.push(...allFiles);
+      } else {
+        tracedPackageVersion.files.push(tracedFile.path);
+      }
+    }
   }
 
   const multiVersionPkgs: Record<string, { [version: string]: string[] }> = {};
@@ -191,7 +202,11 @@ export const handleDependencies = async (
     singleVersionPackages.map(pkgName => {
       const pkg = tracedPackages[pkgName];
       const version = Object.keys(pkg.versions)[0];
-      return writePackage(pkg, version, serverRootDir);
+      return writePackage({
+        pkg,
+        version,
+        projectDir: serverRootDir,
+      });
     }),
   );
 
@@ -228,7 +243,12 @@ export const handleDependencies = async (
       const pkg = tracedPackages[pkgName];
 
       const pkgDestPath = `.modernjs/${pkgName}@${version}/node_modules/${pkgName}`;
-      await writePackage(pkg, version, serverRootDir, pkgDestPath);
+      await writePackage({
+        pkg,
+        version,
+        projectDir: serverRootDir,
+        _pkgPath: pkgDestPath,
+      });
       await linkPackage(pkgDestPath, `${pkgName}`, serverRootDir);
 
       for (const parentPkg of parentPkgs) {
@@ -249,7 +269,8 @@ export const handleDependencies = async (
   }
 
   const outputPkgPath = path.join(serverRootDir, 'package.json');
-  await fse.writeJSON(outputPkgPath, {
+
+  const newPkgJson = {
     name: `${projectPkgJson.name || 'modernjs-project'}-prod`,
     version: projectPkgJson.version || '0.0.0',
     private: true,
@@ -261,5 +282,9 @@ export const handleDependencies = async (
         ]),
       ].sort(([a], [b]) => a.localeCompare(b)),
     ),
-  });
+  };
+
+  const finalPkgJson = modifyPackageJson?.(newPkgJson) || newPkgJson;
+
+  await fse.writeJSON(outputPkgPath, finalPkgJson);
 };
