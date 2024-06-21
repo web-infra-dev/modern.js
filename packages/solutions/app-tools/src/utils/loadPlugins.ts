@@ -10,7 +10,7 @@ export async function getServerPlugins(
   const runner = api.useHookRunners();
   const { plugins } = await runner._internalServerPlugins({ plugins: [] });
 
-  // filter plugins only this freamwork
+  // filter plugins by metaName
   const filtedPlugins = plugins.filter(plugin =>
     plugin.name.includes(metaName),
   );

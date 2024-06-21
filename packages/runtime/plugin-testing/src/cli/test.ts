@@ -22,7 +22,7 @@ const test = async (
       plugins: [],
     })) || {};
 
-  // filter plugins only this freamwork
+  // filter plugins by metaName
   const filtedPlugins = plugins?.filter((plugin: any) =>
     plugin.name.includes(appContext.metaName || 'modern-js'),
   );
