@@ -72,7 +72,7 @@ export const dev = async (
 
   await generateRoutes(appContext);
 
-  const pluginInstances = await loadServerPlugins(api, appDirectory);
+  const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
   const serverOptions = {
     metaName,
