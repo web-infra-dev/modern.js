@@ -1,6 +1,7 @@
 import path from 'path';
 import { JS_EXTENSIONS, findExists, fs, isRouterV5 } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types';
+import { hasApp } from '../../cli/entry';
 import {
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
   NESTED_ROUTES_DIR,
@@ -29,6 +30,10 @@ export const modifyEntrypoints = (
 ) => {
   return entrypoints.map(entrypoint => {
     if (!entrypoint.isAutoMount) {
+      return entrypoint;
+    }
+    const isHasApp = hasApp(entrypoint.absoluteEntryDir!);
+    if (isHasApp) {
       return entrypoint;
     }
     const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
