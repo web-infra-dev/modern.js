@@ -3266,15 +3266,15 @@ importers:
       '@web-std/stream':
         specifier: ^1.0.3
         version: 1.0.3
-      deepmerge-ts:
-        specifier: 7.0.2
-        version: 7.0.2
       hono:
         specifier: ^3.12.2
         version: 3.12.12
       isbot:
         specifier: 3.8.0
         version: 3.8.0
+      ts-deepmerge:
+        specifier: 7.0.0
+        version: 7.0.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -21540,7 +21540,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.4.0 || ^8.0.0-0 <8.0.0
     dependencies:
-      '@babel/compat-data': 7.24.7
+      '@babel/compat-data': 7.24.4
       '@babel/core': 7.24.7
       '@babel/helper-define-polyfill-provider': 0.6.1(@babel/core@7.24.7)
       semver: 6.3.1
@@ -23533,11 +23533,6 @@ packages:
 
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
-
-  /deepmerge-ts@7.0.2:
-    resolution: {integrity: sha512-kt42SClSQ1DTvAdUtPlZfcCHQxiiLG0nIRu6KJEnhRUc1WJwo1ZQwWcUDRw4ZCHcOUk+HIiTBhohGS/lLtITqQ==}
-    engines: {node: '>=16.0.0'}
-    dev: false
 
   /deepmerge@1.5.2:
     resolution: {integrity: sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==}
@@ -35667,6 +35662,11 @@ packages:
   /ts-dedent@2.2.0:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
     engines: {node: '>=6.10'}
+
+  /ts-deepmerge@7.0.0:
+    resolution: {integrity: sha512-WZ/iAJrKDhdINv1WG6KZIGHrZDar6VfhftG1QJFpVbOYZMYJLJOvZOo1amictRXVdBXZIgBHKswMTXzElngprA==}
+    engines: {node: '>=14.13.1'}
+    dev: false
 
   /ts-easing@0.2.0:
     resolution: {integrity: sha512-Z86EW+fFFh/IFB1fqQ3/+7Zpf9t2ebOAxNI/V6Wo7r5gqiqtxmgTlQ1qbqQcjLKYeSHPTsEmvlJUDg/EuL0uHQ==}
