@@ -1,5 +1,19 @@
 # @modern-js/plugin-testing
 
+## 2.54.1
+
+### Patch Changes
+
+- f8ba62c: fix: filter server plugin by metaName
+  fix: 用 metaName 来过滤 server plugin
+  - @modern-js/runtime@2.54.1
+  - @modern-js/prod-server@2.54.1
+  - @modern-js/bff-core@2.54.1
+  - @modern-js/babel-compiler@2.54.1
+  - @modern-js/plugin@2.54.1
+  - @modern-js/types@2.54.1
+  - @modern-js/utils@2.54.1
+
 ## 2.54.0
 
 ### Minor Changes

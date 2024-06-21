@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.54.1
+
+### Patch Changes
+
+- 29aeb3c: fix: downgrading deepmerge-ts, deepmerge-ts v7 can't run in nodev16.2.0
+  fix: 降级 deepmerge-ts, deepmerge-ts v7 在 nodev16.2.0 上跑
+  - @modern-js/plugin@2.54.1
+  - @modern-js/runtime-utils@2.54.1
+  - @modern-js/utils@2.54.1
+
 ## 2.54.0
 
 ### Minor Changes
