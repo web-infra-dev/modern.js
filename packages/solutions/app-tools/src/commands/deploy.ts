@@ -7,8 +7,11 @@ export const deploy = async (
   options: any,
 ) => {
   const hookRunners = api.useHookRunners();
+
+  const { metaName } = api.useAppContext();
+
   // deploy command need get all plugins
-  await getServerPlugins(api);
+  await getServerPlugins(api, metaName);
 
   await hookRunners.beforeDeploy(options);
   await hookRunners.deploy(options);
