@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 2.54.1
+
+### Patch Changes
+
+- f8ba62c: fix: filter server plugin by metaName
+  fix: 用 metaName 来过滤 server plugin
+- Updated dependencies [29aeb3c]
+  - @modern-js/server-core@2.54.1
+  - @modern-js/plugin-data-loader@2.54.1
+  - @modern-js/prod-server@2.54.1
+  - @modern-js/server@2.54.1
+  - @modern-js/server-utils@2.54.1
+  - @modern-js/uni-builder@2.54.1
+  - @modern-js/core@2.54.1
+  - @modern-js/plugin-i18n@2.54.1
+  - @modern-js/plugin-lint@2.54.1
+  - @modern-js/rsbuild-plugin-esbuild@2.54.1
+  - @modern-js/node-bundle-require@2.54.1
+  - @modern-js/plugin@2.54.1
+  - @modern-js/types@2.54.1
+  - @modern-js/utils@2.54.1
+
 ## 2.54.0
 
 ### Minor Changes

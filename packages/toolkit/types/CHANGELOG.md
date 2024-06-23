@@ -1,5 +1,7 @@
 # @modern-js/types
 
+## 2.54.1
+
 ## 2.54.0
 
 ### Minor Changes
