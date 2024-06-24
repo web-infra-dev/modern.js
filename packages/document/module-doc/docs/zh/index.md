@@ -29,8 +29,8 @@ features:
   - title: 'Storybook: 社区流行的 UI 开发工具'
     details: 集成了 Storybook，你可以使用它调试 UI。
     icon: 📦
-  - title: 'Jest: 令人愉快的测试框架'
-    details: 集成了 Jest，使得代码测试更加容易。
+  - title: 'Lint: 代码格式化'
+    details: 丰富场景的内置 ESLint 规则。
     icon: 📐
 ---
 # index

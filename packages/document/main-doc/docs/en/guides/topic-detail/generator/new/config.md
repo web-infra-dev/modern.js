@@ -60,8 +60,6 @@ Options:
 
 - Enable Micro Frontend -- micro_frontend
 
-- Enable Unit Test / Integration Test -- test
-
 - Enable UA-based Polyfill Feature -- polyfill
 
 - Enable Global Proxy -- proxy
@@ -109,8 +107,6 @@ Options:
 Question: Please select the feature name.
 
 Options:
-
-- Enable Unit Test / Integration Test -- test
 
 - Enable Tailwind CSS -- tailwindcss
 

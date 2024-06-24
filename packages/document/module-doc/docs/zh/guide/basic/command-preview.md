@@ -45,7 +45,6 @@ Options:
 
 目前可以开启的功能有：
 
-- Test 测试
 - Storybook V7
 - Tailwind CSS 支持
 - Modern.js Runtime API

@@ -45,7 +45,6 @@ The `modern new` command is used to start the microgenerator functionality, whic
 
 The following features can currently be enabled.
 
-- Testing support
 - Storybook V7
 - Tailwind CSS support
 - Modern.js Runtime API

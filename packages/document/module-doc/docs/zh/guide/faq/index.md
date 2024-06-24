@@ -5,4 +5,3 @@
 - [通用类问题](./basic.mdx)
 - [构建相关问题](./build.mdx)
 - [Storybook 相关问题](./storybook.mdx)
-- [测试相关问题](./test.mdx)
