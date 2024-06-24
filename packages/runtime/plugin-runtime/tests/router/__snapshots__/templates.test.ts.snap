@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fileSystemRoutes generate code 1`] = `
+
+    
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+  
+    
+    
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+  
+    
+    import loading_0 from '@_modern_js_src/routes/loading.tsx';
+
+    import error_0 from '@_modern_js_src/routes/error.tsx';
+
+    import loader_0 from "@_modern_js_src/routes/user/[id]/page.tsx";
+import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
+
+    
+    
+    if(typeof document !== 'undefined'){
+      window._routeModules = {}
+    }
+  
+    
+    export const routes = [
+  {
+  "path": "/",
+  "_component": "@_modern_js_src/routes/layout.tsx",
+  "id": "layout",
+  "type": "nested",
+  "children": [
+    {
+      "path": "user",
+      "error": error_0,
+      "_component": "@_modern_js_src/routes/user/layout.tsx",
+      "loading": loading_0,
+      "id": "user/layout",
+      "type": "nested",
+      "loader": loader_1,
+      "children": [
+        {
+          "path": ":id",
+          "id": "user/[id]/layout",
+          "type": "nested",
+          "children": [
+            {
+              "_component": "@_modern_js_src/routes/user/[id]/page.tsx",
+              "index": true,
+              "id": "user/[id]/page",
+              "loader": loader_0,
+              "type": "nested",
+              "lazyImport": () => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError) ,
+              "component": lazy(() => import(/* webpackChunkName: "user/[id]/page" */  '@_modern_js_src/routes/user/[id]/page.tsx').then(routeModule => handleRouteModule(routeModule, "user/[id]/page")).catch(handleRouteModuleError) ),
+              "shouldRevalidate": createShouldRevalidate("user/[id]/page")
+            }
+          ],
+          "lazyImport": null
+        }
+      ],
+      "lazyImport": () => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError) ,
+      "component": lazy(() => import(/* webpackChunkName: "user/layout" */  '@_modern_js_src/routes/user/layout.tsx').then(routeModule => handleRouteModule(routeModule, "user/layout")).catch(handleRouteModuleError) ),
+      "shouldRevalidate": createShouldRevalidate("user/layout")
+    }
+  ],
+  "lazyImport": () => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError) ,
+  "component": lazy(() => import(/* webpackChunkName: "layout" */  '@_modern_js_src/routes/layout.tsx').then(routeModule => handleRouteModule(routeModule, "layout")).catch(handleRouteModuleError) )
+},
+];
+  
+`;
+
+exports[`fileSystemRoutes generate code for legacy router 1`] = `
+
+    
+    import { lazy } from "react";
+    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+  
+    
+    
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+  
+    
+    
+    
+    
+    
+    
+    if(typeof document !== 'undefined'){
+      window._routeModules = {}
+    }
+  
+    
+    export const routes = [
+  {
+  "path": "/user",
+  "exact": true,
+  "component": loadable(() => import('@/pages/user')),
+  "_component": "@/pages/user"
+},
+];
+  
+`;
+
+exports[`routesForServer generate code for server 1`] = `
+
+    import loader_0 from "@_modern_js_src/routes/user/[id]/page.loader.ts";
+import loader_1 from "@_modern_js_src/routes/layout.loader.ts";
+
+    
+  export const routes = [
+  {
+  "path": "/",
+  "_component": "@_modern_js_src/routes/layout.tsx",
+  "id": "layout",
+  "type": "nested",
+  "children": [
+    {
+      "path": "user",
+      "error": "@_modern_js_src/routes/error.tsx",
+      "_component": "@_modern_js_src/routes/user/layout.tsx",
+      "loading": "@_modern_js_src/routes/loading.tsx",
+      "id": "user/layout",
+      "type": "nested",
+      "loader": loader_1,
+      "children": [
+        {
+          "path": ":id",
+          "id": "user/[id]/layout",
+          "type": "nested",
+          "children": [
+            {
+              "_component": "@_modern_js_src/routes/user/[id]/page.tsx",
+              "index": true,
+              "id": "user/[id]/page",
+              "loader": loader_0,
+              "type": "nested"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+];
+  
+`;

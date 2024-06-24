@@ -17,7 +17,7 @@ export default (
   name: '@modern-js/plugin-design-token',
 
   setup: () => ({
-    hoc({ App }, next) {
+    hoc({ App, config }, next) {
       const DesignTokenAppWrapper = (props: any) => {
         const {
           token = {},
@@ -53,6 +53,7 @@ export default (
 
       return next({
         App: hoistNonReactStatics(DesignTokenAppWrapper, App),
+        config,
       });
     },
   }),

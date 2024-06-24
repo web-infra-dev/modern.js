@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { parseURL, withTrailingSlash } from 'ufo';
 import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
-import { $serverExported } from '../state';
 import styles from './page.module.scss';
+import { useGlobals } from '@/entries/client/globals';
 import {
   MatchServerRouteValue,
   MatchUrlContext,
@@ -12,7 +12,8 @@ import {
 import { ServerRoute } from '@/components/ServerRoute/Route';
 
 const Page: React.FC = () => {
-  const { serverRoutes } = useSnapshot($serverExported.framework).context;
+  const $globals = useGlobals();
+  const { serverRoutes } = useSnapshot($globals.framework).context;
 
   const [matchContext, setMatchContext] = useState<MatchServerRouteValue>({
     url: '',

@@ -1,9 +1,16 @@
-import { logger, isApiOnly, getTargetDir } from '@modern-js/utils';
+import path from 'path';
+import {
+  logger,
+  isApiOnly,
+  getTargetDir,
+  getMeta,
+  SERVER_DIR,
+} from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
 import type { AppTools } from '../types';
-import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
+import { loadServerPlugins } from '../utils/loadPlugins';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
@@ -14,9 +21,9 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     distDirectory,
     appDirectory,
     port,
-    serverConfigFile,
     metaName,
     serverRoutes,
+    serverConfigFile,
   } = appContext;
 
   logger.info(`Starting production server...`);
@@ -31,7 +38,14 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     runMode = 'apiOnly';
   }
 
-  const serverInternalPlugins = await getServerInternalPlugins(api);
+  const meta = getMeta(metaName);
+  const serverConfigPath = path.resolve(
+    distDirectory,
+    SERVER_DIR,
+    `${meta}.server`,
+  );
+
+  const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
   const app = await createProdServer({
     metaName,
@@ -45,6 +59,9 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       },
     },
     routes: serverRoutes,
+    plugins: pluginInstances,
+    serverConfigFile,
+    serverConfigPath,
     appContext: {
       appDirectory,
       sharedDirectory: getTargetDir(
@@ -63,8 +80,6 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         appContext.distDirectory,
       ),
     },
-    serverConfigFile,
-    internalPlugins: serverInternalPlugins,
     runMode,
   });
 

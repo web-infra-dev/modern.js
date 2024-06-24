@@ -127,18 +127,6 @@ export const garfishPlugin = ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            rspack: (config: any) => {
-              config.builtins ??= {};
-
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const resolveOptions = useResolvedConfigContext();
-              if (
-                resolveOptions?.deploy?.microFrontend &&
-                !config.externalsType
-              ) {
-                config.externalsType = 'commonjs';
-              }
-            },
             bundlerChain: (chain, { env, CHAIN_ID, bundler }) => {
               // add comments avoid sourcemap abnormal
               if (bundler.BannerPlugin) {

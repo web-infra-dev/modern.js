@@ -1,4 +1,4 @@
-import { createImportStatements } from '../../src/analyze/generateCode';
+import { createImportStatements } from '../../src/plugins/analyze/generateCode';
 
 describe('generate code', () => {
   test('should create import statements successfully', () => {

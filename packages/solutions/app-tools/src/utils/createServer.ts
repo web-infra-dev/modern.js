@@ -1,6 +1,6 @@
 import type { Server } from 'node:http';
 import { ModernDevServerOptions, createDevServer } from '@modern-js/server';
-import { initProdMiddlewares } from '@modern-js/prod-server';
+import { applyPlugins } from '@modern-js/prod-server';
 
 let server: Server | null = null;
 
@@ -23,7 +23,7 @@ export const createServer = async (
   if (server) {
     server.close();
   }
-  server = await createDevServer(options, initProdMiddlewares);
+  server = await createDevServer(options, applyPlugins);
 
   return server;
 };

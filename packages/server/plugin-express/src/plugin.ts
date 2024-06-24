@@ -6,11 +6,16 @@ import cookieParser from 'cookie-parser';
 import { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire, logger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
-import type { Render, ServerPlugin } from '@modern-js/server-core';
+import type {
+  Render,
+  ServerManifest,
+  ServerPlugin,
+  InternalRequest,
+} from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,
-} from '@modern-js/server-core/base/node';
+} from '@modern-js/server-core/node';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
@@ -18,10 +23,9 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
-      // eslint-disable-next-line node/no-unsupported-features/es-builtins
-      __honoRequest: globalThis.Request;
+      __honoRequest: InternalRequest;
       __templates: Record<string, string>;
-      __serverManifest: any;
+      __serverManifest: ServerManifest;
     }
   }
 }
@@ -116,7 +120,7 @@ const createApp = async ({
   if (render) {
     // eslint-disable-next-line consistent-return
     app.use(async (req, res, next) => {
-      const response = await render(req.__honoRequest, {
+      const response = await render(req.__honoRequest.raw, {
         logger,
         nodeReq: req,
         templates: req.__templates,
@@ -150,19 +154,22 @@ export default (): ServerPlugin => {
     pre: ['@modern-js/plugin-bff'],
     post: ['@modern-js/plugin-server'],
     setup: api => ({
-      async onApiChange(changes) {
-        const appContext = api.useAppContext();
-        const middlewares = appContext.apiMiddlewares as Middleware[];
-        const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
-        app = await createApp({
-          apiDir,
-          middlewares,
-          mode,
-          apiHandlerInfos,
-          render: renderHtml,
-        });
-        return changes;
+      async reset({ event }) {
+        if (event.type === 'file-change') {
+          const appContext = api.useAppContext();
+          const middlewares = appContext.apiMiddlewares as Middleware[];
+          const apiHandlerInfos =
+            appContext.apiHandlerInfos as APIHandlerInfo[];
+          app = await createApp({
+            apiDir,
+            middlewares,
+            mode,
+            apiHandlerInfos,
+            render: renderHtml,
+          });
+        }
       },
+
       async prepareApiServer({ pwd, render }) {
         const appContext = api.useAppContext();
         const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];

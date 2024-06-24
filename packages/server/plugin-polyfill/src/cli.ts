@@ -17,10 +17,8 @@ export const polyfillPlugin = (): CliPlugin<AppTools> => ({
       return { partials, entrypoint };
     },
 
-    collectServerPlugins({ plugins }) {
-      plugins.push({
-        '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/server',
-      });
+    _internalServerPlugins({ plugins }) {
+      plugins.push({ name: '@modern-js/plugin-polyfill/server' });
       return { plugins };
     },
   }),

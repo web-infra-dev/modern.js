@@ -1,7 +1,9 @@
+import path from 'node:path';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import { DEFAULT_DEV_HOST, SERVER_DIR, getMeta } from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
-import { initProdMiddlewares } from '@modern-js/prod-server';
+import { applyPlugins } from '@modern-js/prod-server';
+import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
 import { printInstructions } from '../utils/printInstructions';
 import { setServer } from '../utils/createServer';
@@ -9,7 +11,6 @@ import { generateRoutes } from '../utils/routes';
 import { DevOptions } from '../utils/types';
 import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
-import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export interface ExtraServerOptions {
   useSSRWorker?: boolean;
@@ -54,6 +55,13 @@ export const dev = async (
     watch: true,
   });
 
+  const meta = getMeta(metaName);
+  const serverConfigPath = path.resolve(
+    appDirectory,
+    SERVER_DIR,
+    `${meta}.server`,
+  );
+
   await hookRunners.beforeDev();
 
   if (!appContext.builder && !apiOnly) {
@@ -63,7 +71,8 @@ export const dev = async (
   }
 
   await generateRoutes(appContext);
-  const serverInternalPlugins = await getServerInternalPlugins(api);
+
+  const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
   const serverOptions = {
     metaName,
@@ -79,19 +88,17 @@ export const dev = async (
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
     },
+    serverConfigPath,
     routes: serverRoutes,
     pwd: appDirectory,
     config: normalizedConfig as any,
     serverConfigFile,
-    internalPlugins: serverInternalPlugins,
+    plugins: pluginInstances,
     ...devServerOptions,
   };
 
   if (apiOnly) {
-    const app = await createDevServer(
-      serverOptions as any,
-      initProdMiddlewares,
-    );
+    const app = await createDevServer(serverOptions as any, applyPlugins);
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
@@ -107,7 +114,7 @@ export const dev = async (
   } else {
     const { server } = await appContext.builder!.startDevServer({
       serverOptions,
-      initProdMiddlewares,
+      applyPlugins,
     });
     // TODO: set correct server
     setServer(server as any);

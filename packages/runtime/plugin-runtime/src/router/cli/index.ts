@@ -5,12 +5,17 @@ import {
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { isRouteEntry } from './entry';
+import { handleFileChange, handleModifyEntrypoints } from './handler';
+
+export { isRouteEntry } from './entry';
+export { handleFileChange, handleModifyEntrypoints } from './handler';
 
 const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export const routerPlugin = (): CliPlugin<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
@@ -19,6 +24,9 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     let pluginsExportsUtils: any;
 
     return {
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isRouteEntry(path) };
+      },
       config() {
         const appContext = api.useAppContext();
 
@@ -42,6 +50,10 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             },
           },
         };
+      },
+      async modifyEntrypoints({ entrypoints }) {
+        const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
+        return { entrypoints: newEntryPoints };
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
@@ -113,6 +125,9 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             `export { default as router } from '@modern-js/runtime/router'`,
           );
         }
+      },
+      async fileChange(e) {
+        await handleFileChange(api, e);
       },
     };
   },

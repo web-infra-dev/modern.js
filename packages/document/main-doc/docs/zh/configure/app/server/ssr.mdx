@@ -32,6 +32,8 @@ export default defineConfig({
   开发者在保证项目中没有使用 useLoader Api 情况下, 可通过配置 `disablePrerender=true`来减少一次渲染。
 - `unsafeHeaders`: `string[] = []`, 为了安全考虑，Modern.js 不会往 SSR_DATA 添加过多的内容。开发者可以通过该配置，对需要注入的 headers 进行配置。
 - `scriptLoading`: `'defer' | 'blocking' | 'module' | 'async'`, 配置同 [html.scriptLoading](/configure/app/html/script-loading)，支持 ssr 注入的 script 设置为 async 加载方式。优先级为 `ssr.scriptLoading` > `html.scriptLoading`
+- `loaderFailureMode`: `'clientRender' | 'errorBoundary'`, 默认配置为 `'errorBoundary'`，当 [data loader](/guides/basic-features/data/data-fetch.html#data-loader推荐) 中出错时，默认会渲染路由 [`Error`](/guides/basic-features/routes.html#错误处理) 组件，
+配置为 `'clientRender'` 时，有一个 data loader 抛错，就降级到客户端渲染，可以与 [Client Loader](/guides/basic-features/data/data-fetch.html#client-loader) 配合使用。
 
 ```ts title="modern.config.ts"
 export default defineConfig({

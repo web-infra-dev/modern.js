@@ -1,5 +1,6 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
+import { loadServerPlugins } from '../utils/loadPlugins';
 import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
@@ -18,6 +19,9 @@ export const build = async (
   let resolvedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
+
+  // we need load server plugin to appContext for ssg & deploy commands.
+  await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
   await registerCompiler(
     appContext.appDirectory,

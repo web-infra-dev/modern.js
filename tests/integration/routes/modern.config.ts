@@ -22,12 +22,14 @@ export default defineConfig({
     disableTsChecker: true,
   },
   server: {
-    ssr: {
-      mode: 'stream',
-    },
     ssrByEntries: {
       one: false,
       two: false,
+      three: {
+        mode: 'stream',
+        disablePrerender: true,
+        loaderFailureMode: 'clientRender',
+      },
       four: false,
     },
   },

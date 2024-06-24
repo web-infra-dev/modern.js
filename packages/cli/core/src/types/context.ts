@@ -1,9 +1,9 @@
 import {
   Entrypoint,
-  InternalPlugins,
   ServerRoute,
   HtmlTemplates,
   HtmlPartials,
+  ServerPlugin,
 } from '@modern-js/types';
 import type {
   UniBuilderInstance,
@@ -33,10 +33,12 @@ export interface IAppContext {
   nodeModulesDirectory: string;
   /** Path to the configuration file */
   configFile: string | false;
+  /** Path to the runtime configuration file */
+  runtimeConfigFile: string | false;
   /** Path to the server configuration file */
   serverConfigFile: string;
-  /** Currently registered server plugins */
-  serverInternalPlugins: InternalPlugins;
+  /** Server Plugins  */
+  serverPlugins: ServerPlugin[];
   /** IPv4 address of the current machine */
   ip?: string;
   /** Port number of the development server */

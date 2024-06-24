@@ -14,7 +14,7 @@ Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过�
 Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以有一个同名的 `data` 文件，该 `data` 文件可以导出一个 `loader` 函数，函数会在组件渲染之前执行，为路由组件提供数据。
 
 :::info
-Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这已经不是我们推荐的用法，除迁移过程外，不推荐两者混用。
+Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这已经不是我们推荐的用法。除迁移过程外，不推荐两者混用。
 
 :::
 
@@ -379,7 +379,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 1. 在 SSR 降级时，不希望框架向 SSR 服务发送请求获取数据，希望能直接请求后端服务。
 2. 在客户端有一些缓存，不希望请求 SSR 服务获取数据。
 
-这些场景下，我们可以使用 Client Loader， 添加 Client Loader 后，在以下的场景，会调用 Client Loader 中的代码，而不再像 SSR 服务发送请求：
+这些场景下，我们可以使用 Client Loader。添加 Client Loader 后，会调用 Client Loader 中的代码，而不再像 SSR 服务发送请求：
 
 1. SSR 降级为 CSR 后，在客户端获取数据时，会执行 Client Loader 代替框架发送请求到 Data Loader（Server） 获取数据。
 2. SSR 项目进行 SPA 跳转时，获取数据，会执行 Clinet Loader。

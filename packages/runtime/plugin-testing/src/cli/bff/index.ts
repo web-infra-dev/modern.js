@@ -1,6 +1,6 @@
 import type { CliPlugin, IAppContext } from '@modern-js/core';
 import { isApiOnly } from '@modern-js/utils';
-import { InternalPlugins } from '@modern-js/types';
+import { ServerPlugin } from '@modern-js/prod-server';
 import { UserConfig } from '../../base/config';
 import {
   TestConfigOperator,
@@ -21,7 +21,7 @@ export const setJestConfigForBFF = async ({
 }: {
   pwd: string;
   userConfig: any;
-  plugins: InternalPlugins;
+  plugins: ServerPlugin[];
   routes: any[];
   utils: TestConfigOperator;
   appContext: IAppContext;
@@ -143,8 +143,7 @@ export const testingBffPlugin = (): CliPlugin<{
           pwd,
           userConfig,
           routes: appContext.serverRoutes,
-          // Todo need use collect server internalPlugins
-          plugins: appContext.serverInternalPlugins,
+          plugins: appContext.serverPlugins,
           utils,
           appContext,
         });

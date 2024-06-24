@@ -1,5 +1,30 @@
 # @modern-js/module-generator
 
+## 3.4.3
+
+### Patch Changes
+
+- @modern-js/utils@2.54.2
+
+## 3.4.2
+
+### Patch Changes
+
+- 44ef03f: fix: remove test command doc
+
+  fix: 移除 test 命令相关文档
+
+  - @modern-js/utils@2.54.1
+
+## 3.4.1
+
+### Patch Changes
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [09798ac]
+  - @modern-js/utils@2.54.0
+
 ## 3.4.0
 
 ### Minor Changes

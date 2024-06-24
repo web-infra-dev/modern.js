@@ -11,7 +11,7 @@ import type {
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
-import { getServerCombinedModueFile } from '../../../analyze/utils';
+import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -213,6 +213,7 @@ function applyFilterEntriesBySSRConfig({
   entryNames.forEach(name => {
     if (
       !ssgEntries.includes(name) &&
+      !name.includes('server-loaders') &&
       ((ssr && ssrByEntries?.[name] === false) ||
         (!ssr && !ssrByEntries?.[name]))
     ) {

@@ -38,9 +38,9 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
         };
       },
 
-      collectServerPlugins({ plugins }) {
+      _internalServerPlugins({ plugins }) {
         plugins.push({
-          '@modern-js/plugin-koa': '@modern-js/plugin-koa/server',
+          name: '@modern-js/plugin-koa/server',
         });
         return { plugins };
       },

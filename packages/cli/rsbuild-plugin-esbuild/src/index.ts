@@ -1,10 +1,12 @@
 import path from 'path';
-import { JS_REGEX, TS_REGEX, applyScriptCondition } from '@rsbuild/shared';
+import { JS_REGEX, applyScriptCondition } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type {
   LoaderOptions,
   MinifyPluginOptions,
 } from '../compiled/esbuild-loader';
+
+const TS_REGEX = /\.(?:ts|mts|cts|tsx)$/;
 
 export interface PluginEsbuildOptions {
   loader?: false | LoaderOptions;
@@ -50,7 +52,7 @@ export function pluginEsbuild(
           chain.module
             .rule(CHAIN_ID.RULE.JS)
             .test(JS_REGEX)
-            .use(CHAIN_ID.USE.ESBUILD)
+            .use('esbuild')
             .loader(esbuildLoaderPath)
             .options({
               loader: 'jsx',
@@ -60,7 +62,7 @@ export function pluginEsbuild(
           const rule = chain.module.rule(CHAIN_ID.RULE.TS);
           rule
             .test(TS_REGEX)
-            .use(CHAIN_ID.USE.ESBUILD)
+            .use('esbuild')
             .loader(esbuildLoaderPath)
             .options({
               loader: 'tsx',
@@ -87,12 +89,10 @@ export function pluginEsbuild(
             .delete(CHAIN_ID.MINIMIZER.CSS);
 
           chain.optimization
-            .minimizer(CHAIN_ID.MINIMIZER.ESBUILD)
+            .minimizer('js-css')
             .use(ESBuildMinifyPlugin)
             .init(
               () =>
-                // @ts-expect-error
-                // Due to rspack compiler missing some properties, but ESBuildMinifyPlugin only works in webpack.
                 new ESBuildMinifyPlugin({
                   // other legalComments such as linked is not supported yet
                   // https://github.com/privatenumber/esbuild-loader/issues/263

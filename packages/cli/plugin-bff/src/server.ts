@@ -1,7 +1,13 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
-import { API_DIR, isProd, requireExistModule } from '@modern-js/utils';
-import { type ServerPlugin } from '@modern-js/server-core';
+import {
+  API_DIR,
+  isProd,
+  isWebOnly,
+  requireExistModule,
+} from '@modern-js/utils';
+import { getRenderHandler, type ServerPlugin } from '@modern-js/server-core';
+import { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import { API_APP_NAME } from './constants';
 
 type SF = (args: any) => void;
@@ -27,7 +33,7 @@ export default (): ServerPlugin => ({
     let apiAppPath = '';
     let apiRouter: ApiRouter;
     return {
-      prepare() {
+      async prepare() {
         const appContext = api.useAppContext();
         const { appDirectory, distDirectory } = appContext;
         const root = isProd() ? distDirectory : appDirectory;
@@ -44,8 +50,68 @@ export default (): ServerPlugin => ({
           ...appContext,
           apiMiddlewares: middlewares,
         });
+
+        /** bind api server */
+        const config = api.useConfigContext();
+        const prefix = config?.bff?.prefix || '/api';
+        const enableHandleWeb = config?.bff?.enableHandleWeb;
+        const httpMethodDecider = config?.bff?.httpMethodDecider;
+
+        const {
+          distDirectory: pwd,
+          routes,
+          middlewares: globalMiddlewares,
+        } = api.useAppContext();
+
+        const webOnly = await isWebOnly();
+
+        let handler: ServerNodeMiddleware;
+
+        if (webOnly) {
+          handler = async (c, next) => {
+            c.body('');
+            await next();
+          };
+        } else {
+          const runner = api.useHookRunners();
+          const renderHandler = enableHandleWeb
+            ? await getRenderHandler({
+                pwd,
+                routes: routes || [],
+                config,
+              })
+            : null;
+          handler = await runner.prepareApiServer(
+            {
+              pwd,
+              prefix,
+              render: renderHandler,
+              httpMethodDecider,
+            },
+            { onLast: () => null as any },
+          );
+        }
+
+        if (handler) {
+          globalMiddlewares.push({
+            name: 'bind-bff',
+            handler: (c, next) => {
+              if (!c.req.path.startsWith(prefix) && !enableHandleWeb) {
+                return next();
+              } else {
+                return handler(c, next);
+              }
+            },
+            order: 'post',
+            before: [
+              'custom-server-hook',
+              'custom-server-middleware',
+              'render',
+            ],
+          });
+        }
       },
-      reset() {
+      reset({ event }) {
         storage.reset();
         const appContext = api.useAppContext();
         const newApiModule = requireExistModule(apiAppPath);
@@ -58,16 +124,17 @@ export default (): ServerPlugin => ({
           ...appContext,
           apiMiddlewares: middlewares,
         });
+
+        if (event.type === 'file-change') {
+          const apiHandlerInfos = apiRouter.getApiHandlers();
+          const appContext = api.useAppContext();
+          api.setAppContext({
+            ...appContext,
+            apiHandlerInfos,
+          });
+        }
       },
-      onApiChange(changes) {
-        const apiHandlerInfos = apiRouter.getApiHandlers();
-        const appContext = api.useAppContext();
-        api.setAppContext({
-          ...appContext,
-          apiHandlerInfos,
-        });
-        return changes;
-      },
+
       prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);

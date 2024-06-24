@@ -7,7 +7,11 @@ import type {
 } from '@modern-js/types';
 import type { RsbuildInstance } from '@rsbuild/core';
 
-import { ServerBase, ServerBaseOptions } from '@modern-js/server-core/base';
+import {
+  NodeServer,
+  ServerBase,
+  ServerBaseOptions,
+} from '@modern-js/server-core';
 
 export type { DevServerOptions, DevServerHttpsOptions };
 
@@ -54,7 +58,14 @@ export type ExtraOptions = {
   dev: Pick<DevServerOptions, 'watch' | 'https'> & {
     writeToDisk?: boolean | ((filename: string) => boolean);
   };
+
+  /** compat, the default value is modern.server-runtime.config.ts  */
+  serverConfigFile?: string;
+
+  serverConfigPath?: string;
+
   useSSRWorker?: boolean;
+
   rsbuild: RsbuildInstance;
   getMiddlewares?: () => {
     middlewares: (
@@ -71,6 +82,8 @@ export type ModernDevServerOptions<
   O extends ServerBaseOptions = ServerBaseOptions,
 > = O & ExtraOptions;
 
-export type InitProdMiddlewares<
-  O extends ServerBaseOptions = ServerBaseOptions,
-> = (server: ServerBase, options: O) => Promise<ServerBase>;
+export type ApplyPlugins<O extends ServerBaseOptions = ServerBaseOptions> = (
+  server: ServerBase,
+  options: O,
+  nodeServer?: NodeServer,
+) => Promise<void>;

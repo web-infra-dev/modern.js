@@ -20,7 +20,7 @@ import type {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from './storage-preset';
-import type { ServerExportedState } from './state';
+import type { ExportedServerState } from './state';
 import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;
@@ -41,8 +41,6 @@ export type BundlerConfig = WebpackConfig | RspackConfig;
 
 export interface DevtoolsContext {
   enable: boolean;
-  endpoint: string;
-  dataSource: string;
   def: ClientDefinition;
   storagePresets: StoragePresetContext[];
 }
@@ -53,7 +51,7 @@ export type Compiler =
   | webpack.MultiCompiler
   | Rspack.MultiCompiler;
 
-export type AppContext = Omit<IAppContext, 'builder' | 'serverInternalPlugins'>;
+export type AppContext = Omit<IAppContext, 'builder'>;
 
 export type FileSystemRoutes =
   | RouteLegacy[]
@@ -77,7 +75,7 @@ export interface ResolvedDevtoolsConfig {
 
 export interface ServerFunctions {
   echo: (content: string) => string;
-  pullExportedState: () => Promise<ServerExportedState>;
+  pullExportedState: () => Promise<ExportedServerState>;
   createTemporaryStoragePreset: () => Promise<StoragePresetWithIdent>;
   pasteStoragePreset: (target: {
     filename: string;
