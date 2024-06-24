@@ -185,7 +185,6 @@ export const traceFiles = async (
   return await nodeFileTrace(entryFiles, {
     base,
     processCwd: serverRootDir,
-    cache: Object.create(null),
   });
 };
 
