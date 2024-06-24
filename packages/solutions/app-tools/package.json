@@ -43,6 +43,11 @@
       "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
       "default": "./dist/cjs/exports/server.js"
+    },
+    "./deploy": {
+      "types": "./dist/types/plugins/deploy/exports.d.ts",
+      "jsnext:source": "./src/plugins/deploy/exports.ts",
+      "default": "./dist/cjs/plugins/deploy/exports.js"
     }
   },
   "engines": {
@@ -58,6 +63,9 @@
       ],
       "server": [
         "./dist/types/exports/server.d.ts"
+      ],
+      "deploy": [
+        "./dist/types/plugins/deploy/exports.d.ts"
       ]
     }
   },
