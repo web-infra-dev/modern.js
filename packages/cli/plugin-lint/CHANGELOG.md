@@ -1,5 +1,12 @@
 # @modern-js/plugin-lint
 
+## 2.54.2
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.54.2
+- @modern-js/utils@2.54.2
+
 ## 2.54.1
 
 ### Patch Changes

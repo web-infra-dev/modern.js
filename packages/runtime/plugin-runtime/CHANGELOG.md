@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.54.2
+
+### Patch Changes
+
+- 8c71964: fix: Fix the failure of App entry recognition when there are pages and routes paths.
+
+  fix: 修复当存在 pages 和 routes 路径时，App 入口识别失败
+
+  - @modern-js/plugin-data-loader@2.54.2
+  - @modern-js/plugin@2.54.2
+  - @modern-js/runtime-utils@2.54.2
+  - @modern-js/types@2.54.2
+  - @modern-js/utils@2.54.2
+
 ## 2.54.1
 
 ### Patch Changes
