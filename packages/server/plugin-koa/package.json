@@ -74,6 +74,7 @@
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "koa-body": "^4.2.0",
     "koa-router": "^10.0.0",
     "type-is": "^1.6.18",
@@ -81,7 +82,6 @@
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
