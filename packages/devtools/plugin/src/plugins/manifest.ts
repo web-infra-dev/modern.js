@@ -36,6 +36,9 @@ export const pluginManifest: Plugin = {
         websocket: `ws://localhost:${api.vars.http.port}/rpc`,
         routeAssets: routesManifest.routeAssets,
       };
+
+      await api.hooks.callHook('createManifest', { manifest });
+
       api.vars.manifest = manifest;
       deferredManifest.resolve(manifest);
 

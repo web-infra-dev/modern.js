@@ -27,6 +27,7 @@ export type { DevtoolsPluginOptions };
 
 export type DevtoolsPlugin = CliPlugin<AppTools> & {
   setClientDefinition: (def: ClientDefinition) => void;
+  plugins: Plugin[];
 };
 
 export const BUILTIN_PLUGINS: Plugin[] = [
@@ -73,9 +74,10 @@ export const devtoolsPlugin = (
     // api.hooks.removeAllHooks();
   });
 
-  return {
+  const instance: DevtoolsPlugin = {
     name: '@modern-js/plugin-devtools',
     usePlugins: [],
+    plugins: [...BUILTIN_PLUGINS],
     setClientDefinition(def) {
       Object.assign(ctx.def, def);
     },
@@ -84,7 +86,7 @@ export const devtoolsPlugin = (
 
       setupFramework.resolve(frameworkApi);
 
-      for (const plugin of BUILTIN_PLUGINS) {
+      for (const plugin of instance.plugins) {
         await plugin.setup(api);
       }
 
@@ -184,6 +186,7 @@ export const devtoolsPlugin = (
       };
     },
   };
+  return instance;
 };
 
 export default devtoolsPlugin;

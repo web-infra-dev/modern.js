@@ -5,7 +5,7 @@ import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { Hookable } from 'hookable';
-import { DevtoolsContext } from '@modern-js/devtools-kit/node';
+import { DevtoolsContext, ServerManifest } from '@modern-js/devtools-kit/node';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
@@ -83,6 +83,7 @@ export interface BuilderHooks extends $BuilderHooks {
 export interface DevtoolsHooks {
   cleanup: () => Promise<void> | void;
   settleState: () => Promise<void> | void;
+  createManifest: (arg: { manifest: ServerManifest }) => Promise<void> | void;
 }
 
 declare global {
