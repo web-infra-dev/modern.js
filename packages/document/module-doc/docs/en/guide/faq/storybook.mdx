@@ -94,3 +94,11 @@ module.exports = function expressMiddleware (router) {
 ```
 
 Link：https://github.com/storybookjs/storybook/issues/11551
+
+## Tailwind CSS doesn't work in Storybook
+
+The Storybook build capability of the Modern.js Module is provided by [Rsbuild](https://rsbuild.dev/). Since the underlying implementation of Rsbuild is not integrated with Modern.js Module, the Modern.js Module plugins do not work in Storybook (Rsbuild).
+
+Solution: Register the tailwindcss PostCSS plugin in storybook.
+
+Reference link: [Rsbuild - tailwindcss](https://rsbuild.dev/guide/basic/tailwindcss#configuring-postcss).
