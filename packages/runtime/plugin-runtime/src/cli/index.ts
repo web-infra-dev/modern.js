@@ -106,6 +106,17 @@ export const runtimePlugin = (
               // https://github.com/styled-components/babel-plugin-styled-components/issues/287
               topLevelImportPaths: ['@modern-js/runtime/styled'],
             },
+            /**
+             * Add IgnorePlugin to fix react-dom/client import error when use react17
+             */
+            webpackChain: (chain, { webpack }) => {
+              chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
+                {
+                  resourceRegExp: /^react-dom\/client$/,
+                  contextRegExp: /./,
+                },
+              ]);
+            },
           },
         };
       },
