@@ -1,6 +1,7 @@
 import {
   createNodeServer,
-  loadServerConfig,
+  loadServerRuntimeConfig,
+  loadServerCliConfig,
   loadServerEnv,
 } from '@modern-js/server-core/node';
 import { createServerBase } from '@modern-js/server-core';
@@ -11,7 +12,7 @@ export { applyPlugins, type ApplyPlugins } from './apply';
 
 export {
   loadServerPlugins,
-  loadServerConfig,
+  loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
 export type { ServerPlugin } from '@modern-js/server-core';
 
@@ -19,16 +20,23 @@ export type { ProdServerOptions, BaseEnv } from './types';
 
 export const createProdServer = async (options: ProdServerOptions) => {
   await loadServerEnv(options);
-  const serverConfig = loadServerConfig(
+
+  const serverBaseOptions = options;
+
+  const serverCliConfig = loadServerCliConfig(options.pwd, options.config);
+
+  if (serverCliConfig) {
+    serverBaseOptions.config = serverCliConfig;
+  }
+
+  const serverRuntimeConfig = loadServerRuntimeConfig(
     options.pwd,
     options.serverConfigFile,
     options.serverConfigPath,
   );
 
-  const serverBaseOptions = options;
-
-  if (serverConfig) {
-    serverBaseOptions.serverConfig = serverConfig;
+  if (serverRuntimeConfig) {
+    serverBaseOptions.serverConfig = serverRuntimeConfig;
   }
 
   const server = createServerBase<BaseEnv>(serverBaseOptions);

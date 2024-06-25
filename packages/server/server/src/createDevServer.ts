@@ -3,7 +3,7 @@ import path from 'node:path';
 import { ServerBaseOptions, createServerBase } from '@modern-js/server-core';
 import {
   createNodeServer,
-  loadServerConfig,
+  loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
 import { ApplyPlugins, ModernDevServerOptions } from './types';
 import { getDevOptions } from './helpers';
@@ -20,11 +20,10 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   const distDir = path.resolve(pwd, config.output.path || 'dist');
 
-  const serverConfig = loadServerConfig(
-    distDir,
-    serverConfigFile,
-    serverConfigPath,
-  );
+  const serverConfig =
+    process.env.NODE_ENV === 'production'
+      ? loadServerRuntimeConfig(distDir, serverConfigFile, serverConfigPath)
+      : options.config;
 
   const prodServerOptions = {
     ...options,
