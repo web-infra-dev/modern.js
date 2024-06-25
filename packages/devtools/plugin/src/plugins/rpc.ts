@@ -25,6 +25,7 @@ export interface SetupClientConnectionOptions {
 }
 
 export const pluginRpc: Plugin = {
+  name: 'rpc',
   async setup(api) {
     const httpServer = api.vars.http;
     if (!httpServer) return;

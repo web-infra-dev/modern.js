@@ -53,6 +53,7 @@ export type $FrameworkHooks = CleanHooks<
 
 export interface FrameworkHooks extends $FrameworkHooks {
   config: () => void;
+  setup: (api: CliPluginAPI) => void;
 }
 
 type UnwrapBuilderHooks<T> = {
@@ -75,8 +76,9 @@ export type $BuilderHooks = UnwrapBuilderHooks<
   >
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BuilderHooks extends $BuilderHooks {}
+export interface BuilderHooks extends $BuilderHooks {
+  setup: (api: RsbuildPluginAPI) => void;
+}
 
 export interface DevtoolsHooks {
   cleanup: () => Promise<void> | void;
@@ -99,5 +101,6 @@ export interface PluginApi {
 }
 
 export interface Plugin {
+  name: string;
   setup: (api: PluginApi) => Promise<void>;
 }

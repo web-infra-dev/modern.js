@@ -1,7 +1,7 @@
 /* eslint-disable node/prefer-global/url */
 /* eslint-disable node/no-unsupported-features/node-builtins */
 /// <reference lib="dom" />
-import { reviver, ServerManifest } from '@modern-js/devtools-kit/runtime';
+import { ServerManifest } from '@modern-js/devtools-kit/runtime';
 
 /**
  * Implement sync fetch based on XMLRequest.
@@ -56,7 +56,7 @@ const setup = () => {
   )?.[1];
   const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
   if (!devtoolsUrl) return;
-  const manifest: ServerManifest = fetchSync(devtoolsUrl).json(reviver());
+  const manifest: ServerManifest = fetchSync(devtoolsUrl).json();
   manifest.source = devtoolsUrl;
 
   // Inject JavaScript chunks to client.

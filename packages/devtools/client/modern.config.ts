@@ -19,12 +19,12 @@ if (process.env.NODE_ENV === 'production') {
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: ROUTE_BASENAME,
+      supportHtml5History: false,
     },
   },
   dev: {
-    assetPrefix: ROUTE_BASENAME,
     port: 8780,
+    assetPrefix: 'http://localhost:8780',
   },
   source: {
     mainEntryName: 'client',
@@ -47,6 +47,9 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
+    distPath: {
+      html: 'static/html',
+    },
     assetPrefix: ROUTE_BASENAME,
     disableInlineRuntimeChunk: true,
     disableSourceMap: process.env.NODE_ENV === 'production',

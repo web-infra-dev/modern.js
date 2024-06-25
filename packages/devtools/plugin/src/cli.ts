@@ -33,10 +33,10 @@ export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
   pluginWatcher,
   pluginServiceWorker,
-  pluginHtml,
   // --- //
-  pluginState,
   pluginHttp,
+  pluginHtml,
+  pluginState,
   pluginRpc,
   pluginSettleState,
   pluginManifest,
@@ -73,10 +73,6 @@ export const devtoolsPlugin = (
     // api.hooks.removeAllHooks();
   });
 
-  for (const plugin of BUILTIN_PLUGINS) {
-    plugin.setup(api);
-  }
-
   return {
     name: '@modern-js/plugin-devtools',
     usePlugins: [],
@@ -85,7 +81,14 @@ export const devtoolsPlugin = (
     },
     async setup(frameworkApi) {
       if (!ctx.enable) return {};
+
       setupFramework.resolve(frameworkApi);
+
+      for (const plugin of BUILTIN_PLUGINS) {
+        await plugin.setup(api);
+      }
+
+      await api.frameworkHooks.callHook('setup', frameworkApi);
 
       return {
         async prepare() {
@@ -124,7 +127,8 @@ export const devtoolsPlugin = (
 
           const builderPlugin: RsbuildPlugin = {
             name: 'builder-plugin-devtools',
-            setup(builderApi) {
+            async setup(builderApi) {
+              await api.builderHooks.callHook('setup', builderApi);
               setupBuilder.resolve(builderApi);
 
               builderApi.modifyBundlerChain(async (options, utils) => {

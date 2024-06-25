@@ -18,6 +18,7 @@ declare global {
 }
 
 export const pluginManifest: Plugin = {
+  name: 'manifest',
   async setup(api) {
     const deferredManifest = createDeferred<ServerManifest>();
     const deferredManifestJson = createDeferred<string>();
@@ -31,8 +32,8 @@ export const pluginManifest: Plugin = {
       const routesManifest = await fs.readJSON(routesManifestName);
       const manifest: ServerManifest = {
         ...(api.vars.state as ExportedServerState),
-        client: '/__devtools',
-        websocket: '/__devtools/rpc',
+        client: `http://localhost:${api.vars.http.port}/static/html/client/index.html`,
+        websocket: `ws://localhost:${api.vars.http.port}/rpc`,
         routeAssets: routesManifest.routeAssets,
       };
       api.vars.manifest = manifest;

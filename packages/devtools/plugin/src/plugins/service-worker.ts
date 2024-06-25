@@ -3,6 +3,7 @@ import type { UserConfig } from '@modern-js/core';
 import { Plugin } from '../types';
 
 export const pluginServiceWorker: Plugin = {
+  name: 'service-worker',
   async setup(api) {
     api.frameworkHooks.hook('modifyServerRoutes', ({ routes }) => {
       routes.push({
