@@ -185,6 +185,9 @@ importers:
       '@modern-js/create-request':
         specifier: workspace:*
         version: link:../../server/create-request
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../../server/utils
@@ -207,9 +210,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3263,15 +3263,15 @@ importers:
       '@web-std/stream':
         specifier: ^1.0.3
         version: 1.0.3
-      deepmerge-ts:
-        specifier: 7.0.2
-        version: 7.0.2
       hono:
         specifier: ^3.12.2
         version: 3.12.12
       isbot:
-        specifier: 3.8.0
-        version: 3.8.0
+        specifier: '4'
+        version: 4.4.0
+      ts-deepmerge:
+        specifier: 7.0.0
+        version: 7.0.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -3367,6 +3367,9 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../bff-runtime
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3398,9 +3401,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3455,6 +3455,9 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../bff-runtime
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3480,9 +3483,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -23687,11 +23687,6 @@ packages:
   /deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  /deepmerge-ts@7.0.2:
-    resolution: {integrity: sha512-kt42SClSQ1DTvAdUtPlZfcCHQxiiLG0nIRu6KJEnhRUc1WJwo1ZQwWcUDRw4ZCHcOUk+HIiTBhohGS/lLtITqQ==}
-    engines: {node: '>=16.0.0'}
-    dev: false
-
   /deepmerge@1.5.2:
     resolution: {integrity: sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==}
     engines: {node: '>=0.10.0'}
@@ -27512,11 +27507,6 @@ packages:
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
-    dev: false
-
-  /isbot@3.8.0:
-    resolution: {integrity: sha512-vne1mzQUTR+qsMLeCBL9+/tgnDXRyc2pygLGl/WsgA+EZKIiB5Ehu0CiVTHIIk30zhJ24uGz4M5Ppse37aR0Hg==}
-    engines: {node: '>=12'}
     dev: false
 
   /isbot@4.4.0:
@@ -35825,6 +35815,11 @@ packages:
   /ts-dedent@2.2.0:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
     engines: {node: '>=6.10'}
+
+  /ts-deepmerge@7.0.0:
+    resolution: {integrity: sha512-WZ/iAJrKDhdINv1WG6KZIGHrZDar6VfhftG1QJFpVbOYZMYJLJOvZOo1amictRXVdBXZIgBHKswMTXzElngprA==}
+    engines: {node: '>=14.13.1'}
+    dev: false
 
   /ts-easing@0.2.0:
     resolution: {integrity: sha512-Z86EW+fFFh/IFB1fqQ3/+7Zpf9t2ebOAxNI/V6Wo7r5gqiqtxmgTlQ1qbqQcjLKYeSHPTsEmvlJUDg/EuL0uHQ==}
