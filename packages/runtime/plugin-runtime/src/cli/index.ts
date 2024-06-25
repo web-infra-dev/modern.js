@@ -5,6 +5,7 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { rspack } from '@rsbuild/core';
 import { statePlugin } from '../state/cli';
 import { ssrPlugin } from '../ssr/cli';
 import { routerPlugin } from '../router/cli';
@@ -115,6 +116,14 @@ export const runtimePlugin = (
                   resourceRegExp: /^react-dom\/client$/,
                   contextRegExp: /./,
                 },
+              ]);
+            },
+            rspack: (_config, { appendPlugins }) => {
+              appendPlugins([
+                new rspack.IgnorePlugin({
+                  resourceRegExp: /^react-dom\/client$/,
+                  contextRegExp: /./,
+                }),
               ]);
             },
           },

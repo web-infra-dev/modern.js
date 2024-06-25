@@ -19,6 +19,7 @@ export {
 export {
   loadServerPlugins,
   loadServerEnv,
-  loadServerConfig,
+  loadServerRuntimeConfig,
+  loadServerCliConfig,
   loadCacheConfig,
 } from './helper';
