@@ -105,8 +105,13 @@ export const createNetlifyPreset: CreatePreset = (
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
+
+      const pluginsCode = `[${plugins
+        .map((plugin, index) => {
+          return `plugin_${index}()`;
+        })
+        .join(',')}]`;
 
       let entryCode = (
         await fse.readFile(path.join(__dirname, './netlifyEntry.js'))
@@ -118,6 +123,7 @@ export const createNetlifyPreset: CreatePreset = (
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);

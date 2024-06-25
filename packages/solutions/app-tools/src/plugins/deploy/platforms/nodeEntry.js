@@ -38,6 +38,7 @@ async function main() {
       apiDirectory: p_apiDirectory,
       lambdaDirectory: p_lambdaDirectory,
     },
+    plugins: p_plugins,
     ...dynamicProdOptions,
   };
 
