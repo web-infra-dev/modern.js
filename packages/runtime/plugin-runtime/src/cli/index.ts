@@ -5,6 +5,7 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { rspack } from '@rsbuild/core';
 import { statePlugin } from '../state/cli';
 import { ssrPlugin } from '../ssr/cli';
 import { routerPlugin } from '../router/cli';
@@ -105,6 +106,25 @@ export const runtimePlugin = (
             styledComponents: {
               // https://github.com/styled-components/babel-plugin-styled-components/issues/287
               topLevelImportPaths: ['@modern-js/runtime/styled'],
+            },
+            /**
+             * Add IgnorePlugin to fix react-dom/client import error when use react17
+             */
+            webpackChain: (chain, { webpack }) => {
+              chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
+                {
+                  resourceRegExp: /^react-dom\/client$/,
+                  contextRegExp: /./,
+                },
+              ]);
+            },
+            rspack: (_config, { appendPlugins }) => {
+              appendPlugins([
+                new rspack.IgnorePlugin({
+                  resourceRegExp: /^react-dom\/client$/,
+                  contextRegExp: /./,
+                }),
+              ]);
             },
           },
         };
