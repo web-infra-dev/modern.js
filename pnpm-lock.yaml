@@ -185,6 +185,9 @@ importers:
       '@modern-js/create-request':
         specifier: workspace:*
         version: link:../../server/create-request
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../../server/utils
@@ -207,9 +210,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3370,6 +3370,9 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../bff-runtime
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3401,9 +3404,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3458,6 +3458,9 @@ importers:
       '@modern-js/bff-runtime':
         specifier: workspace:*
         version: link:../bff-runtime
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3483,9 +3486,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
