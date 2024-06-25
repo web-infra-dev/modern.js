@@ -1,6 +1,5 @@
 import {
   createNodeServer,
-  // loadServerConfig,
   loadServerRuntimeConfig,
   loadServerCliConfig,
   loadServerEnv,
