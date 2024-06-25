@@ -10,6 +10,10 @@ export const getConfig = (
   // @ts-expect-error
   Component[APP_CONFIG_SYMBOL];
 
+/**
+ * @deprecated
+ * define config in modern.runtime.ts file
+ */
 export const defineConfig = (
   Component: React.ComponentType<any>,
   config: AppConfig,
