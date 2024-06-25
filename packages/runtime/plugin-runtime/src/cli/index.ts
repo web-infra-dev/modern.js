@@ -15,8 +15,14 @@ import { generateCode } from './code';
 import { pluginAlias } from './alias';
 
 export { isRuntimeEntry } from './entry';
-
-export const runtimePlugin = (): CliPlugin<AppTools> => ({
+export { statePlugin, ssrPlugin, routerPlugin, documentPlugin };
+export const runtimePlugin = (
+  params:
+    | {
+        plugins?: CliPlugin<AppTools>[];
+      }
+    | undefined,
+): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',
@@ -26,7 +32,12 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
     '@modern-js/plugin-design-token',
   ],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [ssrPlugin(), statePlugin(), routerPlugin(), documentPlugin()],
+  usePlugins: params?.plugins || [
+    ssrPlugin(),
+    statePlugin(),
+    routerPlugin(),
+    documentPlugin(),
+  ],
   setup: api => {
     return {
       checkEntryPoint({ path, entry }) {
@@ -94,6 +105,17 @@ export const runtimePlugin = (): CliPlugin<AppTools> => ({
             styledComponents: {
               // https://github.com/styled-components/babel-plugin-styled-components/issues/287
               topLevelImportPaths: ['@modern-js/runtime/styled'],
+            },
+            /**
+             * Add IgnorePlugin to fix react-dom/client import error when use react17
+             */
+            webpackChain: (chain, { webpack }) => {
+              chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
+                {
+                  resourceRegExp: /^react-dom\/client$/,
+                  contextRegExp: /./,
+                },
+              ]);
             },
           },
         };

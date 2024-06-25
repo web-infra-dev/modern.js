@@ -128,17 +128,6 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            rspack: (config: any) => {
-              config.builtins ??= {};
-
-              const resolveOptions = api.useResolvedConfigContext();
-              if (
-                resolveOptions?.deploy?.microFrontend &&
-                !config.externalsType
-              ) {
-                config.externalsType = 'commonjs';
-              }
-            },
             bundlerChain: (chain, { env, CHAIN_ID, bundler }) => {
               // add comments avoid sourcemap abnormal
               if (bundler.BannerPlugin) {

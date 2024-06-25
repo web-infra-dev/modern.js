@@ -1,5 +1,15 @@
 # @modern-js/builder-doc
 
+## 2.54.2
+
+## 2.54.1
+
+## 2.54.0
+
+### Patch Changes
+
+- 38537fc: optimize the doc content
+
 ## 2.53.0
 
 ## 2.52.0

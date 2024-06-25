@@ -45,7 +45,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     `${meta}.server`,
   );
 
-  const pluginInstances = await loadServerPlugins(api, appDirectory);
+  const pluginInstances = await loadServerPlugins(api, appDirectory, metaName);
 
   const app = await createProdServer({
     metaName,

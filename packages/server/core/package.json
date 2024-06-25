@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.53.0",
+  "version": "2.54.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -63,8 +63,8 @@
     "@web-std/stream": "^1.0.3",
     "@web-std/file": "^3.0.3",
     "hono": "^3.12.2",
-    "deepmerge-ts": "7.0.2",
-    "isbot": "3.8.0"
+    "ts-deepmerge": "7.0.0",
+    "isbot": "4"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

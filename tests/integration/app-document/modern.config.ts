@@ -28,7 +28,7 @@ export default applyBaseConfig({
   },
   source: {
     entries: {
-      sub: './src/sub/App.tsx',
+      sub: './src/sub/pages',
       test: './src/test/App.tsx',
     },
   },

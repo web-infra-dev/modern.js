@@ -1,4 +1,4 @@
-import { deepmerge } from 'deepmerge-ts';
+import { merge } from 'ts-deepmerge';
 
 describe('test loadConfig', () => {
   test('should merge CliConfig and ServerConfig correctly', () => {
@@ -23,7 +23,7 @@ describe('test loadConfig', () => {
       },
     };
 
-    const config = deepmerge(cliConfig as any, serverConfig);
+    const config = merge(cliConfig as any, serverConfig);
 
     expect(config).toEqual({
       bff: {

@@ -22,9 +22,14 @@ const test = async (
       plugins: [],
     })) || {};
 
+  // filter plugins by metaName
+  const filtedPlugins = plugins?.filter((plugin: any) =>
+    plugin.name.includes(appContext.metaName || 'modern-js'),
+  );
+
   api.setAppContext({
     ...api.useAppContext(),
-    serverPlugins: plugins,
+    serverPlugins: filtedPlugins,
   });
 
   userConfig.testing = userConfig.testing || {};

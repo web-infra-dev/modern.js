@@ -1,4 +1,4 @@
-import { deepmerge } from 'deepmerge-ts';
+import { merge } from 'ts-deepmerge';
 import { CliConfig, ServerConfig } from '../types';
 
 /**
@@ -11,7 +11,7 @@ export const loadConfig = ({
   cliConfig: CliConfig;
   serverConfig: ServerConfig;
 }): ServerConfig => {
-  const config = deepmerge(
+  const config = merge(
     {
       ...cliConfig,
       plugins: [],

@@ -1,5 +1,11 @@
 # @modern-js/create
 
+## 2.54.2
+
+## 2.54.1
+
+## 2.54.0
+
 ## 2.53.0
 
 ### Minor Changes

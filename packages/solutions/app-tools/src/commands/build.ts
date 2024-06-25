@@ -21,7 +21,7 @@ export const build = async (
   const hookRunners = api.useHookRunners();
 
   // we need load server plugin to appContext for ssg & deploy commands.
-  await loadServerPlugins(api, appContext.appDirectory);
+  await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
   await registerCompiler(
     appContext.appDirectory,

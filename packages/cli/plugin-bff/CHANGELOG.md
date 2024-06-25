@@ -1,5 +1,40 @@
 # @modern-js/plugin-bff
 
+## 2.54.2
+
+### Patch Changes
+
+- @modern-js/bff-core@2.54.2
+- @modern-js/create-request@2.54.2
+- @modern-js/server-utils@2.54.2
+- @modern-js/utils@2.54.2
+
+## 2.54.1
+
+### Patch Changes
+
+- @modern-js/server-utils@2.54.1
+- @modern-js/bff-core@2.54.1
+- @modern-js/create-request@2.54.1
+- @modern-js/utils@2.54.1
+
+## 2.54.0
+
+### Minor Changes
+
+- a8d8f0c: feat: support new server plugin & discard server plugin some hooks
+  feat: 支持新 server plugin & 减少 server plugin 钩子
+
+### Patch Changes
+
+- Updated dependencies [15a090c]
+- Updated dependencies [a8d8f0c]
+- Updated dependencies [09798ac]
+  - @modern-js/utils@2.54.0
+  - @modern-js/bff-core@2.54.0
+  - @modern-js/create-request@2.54.0
+  - @modern-js/server-utils@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

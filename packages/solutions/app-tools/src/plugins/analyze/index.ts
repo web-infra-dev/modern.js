@@ -181,6 +181,7 @@ export default ({
           builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();
 
+            await hookRunners.generateEntryCode({ entrypoints });
             // run modernjs framework `beforeCreateCompiler` hook
             await hookRunners.beforeCreateCompiler({
               bundlerConfigs:

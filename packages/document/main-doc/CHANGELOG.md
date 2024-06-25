@@ -1,5 +1,32 @@
 # @modern-js/main-doc
 
+## 2.54.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.54.2
+- @modern-js/sandpack-react@2.54.2
+
+## 2.54.1
+
+### Patch Changes
+
+- 44ef03f: fix: remove test command doc
+
+  fix: 移除 test 命令相关文档
+
+  - @modern-js/sandpack-react@2.54.1
+  - @modern-js/builder-doc@2.54.1
+
+## 2.54.0
+
+### Patch Changes
+
+- 38537fc: optimize the doc content
+- Updated dependencies [38537fc]
+  - @modern-js/builder-doc@2.54.0
+  - @modern-js/sandpack-react@2.54.0
+
 ## 2.53.0
 
 ### Patch Changes

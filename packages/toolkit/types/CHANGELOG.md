@@ -1,5 +1,16 @@
 # @modern-js/types
 
+## 2.54.2
+
+## 2.54.1
+
+## 2.54.0
+
+### Minor Changes
+
+- a8d8f0c: feat: support new server plugin & discard server plugin some hooks
+  feat: 支持新 server plugin & 减少 server plugin 钩子
+
 ## 2.53.0
 
 ## 2.52.0

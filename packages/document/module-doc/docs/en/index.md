@@ -29,8 +29,8 @@ features:
   - title: 'Storybook: The community popular UI development tool'
     details: Integrated with Storybook, you can use it to debug UI.
     icon: 📦
-  - title: 'Jest: Delightful Testing Framework'
-    details: Jest integration makes it easier to test code。
+  - title: 'Lint: Code Formatting'
+    details: Built-in ESLint rules for rich scenarios.
     icon: 📐
 ---
 # index
