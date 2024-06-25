@@ -23,7 +23,10 @@ export const createProdServer = async (options: ProdServerOptions) => {
 
   const serverBaseOptions = options;
 
-  const serverCliConfig = loadServerCliConfig(options.pwd, options.config);
+  const serverCliConfig =
+    process.env.NODE_ENV === 'production'
+      ? loadServerCliConfig(options.pwd, options.config)
+      : options.config;
 
   if (serverCliConfig) {
     serverBaseOptions.config = serverCliConfig;

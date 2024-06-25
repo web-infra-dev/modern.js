@@ -20,10 +20,11 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   const distDir = path.resolve(pwd, config.output.path || 'dist');
 
-  const serverConfig =
-    process.env.NODE_ENV === 'production'
-      ? loadServerRuntimeConfig(distDir, serverConfigFile, serverConfigPath)
-      : options.config;
+  const serverConfig = loadServerRuntimeConfig(
+    distDir,
+    serverConfigFile,
+    serverConfigPath,
+  );
 
   const prodServerOptions = {
     ...options,
