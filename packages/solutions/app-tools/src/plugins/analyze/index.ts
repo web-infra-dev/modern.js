@@ -145,6 +145,8 @@ export default ({
         api.setAppContext(appContext);
 
         if (checkIsBuildCommands()) {
+          await hookRunners.generateEntryCode({ entrypoints });
+
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
@@ -179,7 +181,6 @@ export default ({
           builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();
 
-            await hookRunners.generateEntryCode({ entrypoints });
             // run modernjs framework `beforeCreateCompiler` hook
             await hookRunners.beforeCreateCompiler({
               bundlerConfigs:

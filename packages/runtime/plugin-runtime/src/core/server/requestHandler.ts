@@ -5,16 +5,21 @@ import {
   parseHeaders,
   parseQuery,
 } from '@modern-js/runtime-utils/universal';
+import { ServerRoute } from '@modern-js/types';
+import { RouteManifest } from '../../router/runtime/types';
 import { createRoot } from '../react';
 import { RuntimeContext, getGlobalAppInit } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { SSRServerContext } from '../types';
+import { getSSRConfigByEntry, getSSRMode } from './utils';
+import { CHUNK_CSS_PLACEHOLDER } from './constants';
 
 export type Resource = {
   loadableStats: Record<string, any>;
-  routeManifest: Record<string, any>;
+  routeManifest: RouteManifest;
+  route: ServerRoute;
   htmlTemplate: string;
   entryName: string;
 };
@@ -28,7 +33,9 @@ export type HandleRequestConfig = {
   disablePrerender?: boolean;
   chunkLoadingGlobal?: string;
   unsafeHeaders?: string[];
-} & Exclude<ServerUserConfig['ssr'], boolean>;
+  ssr?: ServerUserConfig['ssr'];
+  ssrByEntries?: ServerUserConfig['ssrByEntries'];
+};
 
 export type HandleRequestOptions = Exclude<
   RequestHandlerOptions,
@@ -54,8 +61,8 @@ export type RequestHandlerOptions = {
   /** @deprecated  */
   staticGenerate?: boolean;
 
-  onError: (err: unknown) => void;
-  onTiming: (name: string, dur: number) => void;
+  onError?: (err: unknown) => void;
+  onTiming?: (name: string, dur: number) => void;
 };
 
 export type RequestHandler = (
@@ -71,9 +78,12 @@ function createSSRContext(
   request: Request,
   options: RequestHandlerOptions,
 ): SSRServerContext {
-  const { config, loaderContext, onError, onTiming } = options;
+  const { config, loaderContext, onError, onTiming, resource, staticGenerate } =
+    options;
 
   const { nonce } = config;
+
+  const { entryName, route } = resource;
 
   const cookie = request.headers.get('cookie');
 
@@ -87,12 +97,25 @@ function createSSRContext(
 
   const url = new URL(request.url);
 
+  const ssrConfig = getSSRConfigByEntry(
+    entryName,
+    config.ssr,
+    config.ssrByEntries,
+    staticGenerate,
+  );
+
+  const ssrMode = getSSRMode(ssrConfig);
+
+  const loaderFailureMode =
+    typeof ssrConfig === 'object' ? ssrConfig.loaderFailureMode : undefined;
+
   return {
     nonce,
     loaderContext,
     redirection: {},
     htmlModifiers: [],
     request: {
+      baseUrl: route.urlPath,
       userAgent: request.headers.get('user-agent')!,
       cookie: cookie!,
       cookieMap,
@@ -101,6 +124,7 @@ function createSSRContext(
       params: {},
       headers: headersData,
       host: url.host,
+      raw: request,
     },
     response: {
       // TODO: support response
@@ -112,8 +136,10 @@ function createSSRContext(
       },
       locals: {},
     },
+    mode: ssrMode,
     onError,
     onTiming,
+    loaderFailureMode,
   };
 }
 
@@ -124,7 +150,13 @@ export const createRequestHandler: CreateRequestHandler =
 
       const runner = getGlobalRunner();
 
-      const context: RuntimeContext = getInitialContext(runner);
+      const { routeManifest } = options.resource;
+
+      const context: RuntimeContext = getInitialContext(
+        runner,
+        false,
+        routeManifest,
+      );
 
       const runInit = (_context: RuntimeContext) =>
         runner.init(
@@ -185,6 +217,14 @@ export const createRequestHandler: CreateRequestHandler =
       if (redirectResponse) {
         return redirectResponse;
       }
+
+      const { htmlTemplate } = options.resource;
+
+      // TODO: Confirm  why replace chunk-css-place_holder here
+      options.resource.htmlTemplate = htmlTemplate.replace(
+        '</head>',
+        `${CHUNK_CSS_PLACEHOLDER}</head>`,
+      );
 
       const response = handleRequest(request, serverRoot, {
         ...options,

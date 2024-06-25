@@ -1,96 +1,62 @@
 import type { IncomingMessage } from 'http';
-import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type { Reporter, ServerRoute } from '@modern-js/types';
+import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 import {
-  SERVER_RENDER_FUNCTION_NAME,
-  MAIN_ENTRY_NAME,
-} from '@modern-js/utils/universal/constants';
-import * as isbot from 'isbot';
-import {
-  getRuntimeEnv,
-  parseHeaders,
-  parseQuery,
-  getHost,
-  getPathname,
-} from '../../utils';
-import {
-  CacheConfig,
-  SSRServerContext,
-  ServerManifest,
-  ServerRender,
-} from '../../types';
-import { X_MODERNJS_RENDER, X_RENDER_CACHE } from '../../constants';
-import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
-import { ServerTiming } from './serverTiming';
-import { matchCacheControl, getCacheResult, CacheStatus } from './ssrCache';
-
-const defaultReporter: Reporter = {
-  init() {
-    // noImpl
-  },
-  reportError() {
-    // noImpl
-  },
-  reportTiming() {
-    // noImpl
-  },
-  reportInfo() {
-    // noImpl
-  },
-  reportWarn() {
-    // noImpl
-  },
-};
-
-export type Params = Record<string, any>;
+  OnError,
+  OnTiming,
+  Params,
+  RequestHandlerConfig,
+  RequestHandlerOptions,
+} from '../../types/requestHandler';
+import { parseHeaders, getPathname } from '../../utils';
+import { CacheConfig, ServerManifest, UserConfig } from '../../types';
+import { X_MODERNJS_RENDER } from '../../constants';
+import { matchCacheControl, getCacheResult } from './ssrCache';
 
 export interface SSRRenderOptions {
   pwd: string;
   html: string;
   routeInfo: ServerRoute;
   staticGenerate: boolean;
-  metaName: string;
-  logger: Logger;
+  config: UserConfig;
   serverManifest: ServerManifest;
   loaderContext: Map<string, unknown>;
 
   params: Params;
+  reporter?: Reporter;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
   cacheConfig?: CacheConfig;
-  reporter?: Reporter;
-  metrics?: Metrics;
   nodeReq?: IncomingMessage;
-  nonce?: string;
+  // nonce?: string;
+
+  onError?: OnError;
+  onTiming?: OnTiming;
 }
+
+const SERVER_RUNTIME_ENTRY = 'requestHandler';
 
 export async function ssrRender(
   request: Request,
   {
     routeInfo,
     html,
+    config: userConfig,
     staticGenerate,
-    nonce,
-    metaName,
-    reporter,
-    logger,
     nodeReq,
     serverManifest,
     locals,
     params,
-    metrics,
     loaderContext,
     cacheConfig,
+    onError,
+    onTiming,
   }: SSRRenderOptions,
 ): Promise<Response> {
   const { entryName } = routeInfo;
   const loadableStats = serverManifest.loadableStats || {};
   const routeManifest = serverManifest.routeManifest || {};
 
-  const host = getHost(request);
-  const isSpider = isbot.default(request.headers.get('user-agent'));
-  const responseProxy = new ResponseProxy();
-
-  const query = parseQuery(request);
   const headers = parseHeaders(request);
 
   if (nodeReq) {
@@ -101,47 +67,6 @@ export async function ssrRender(
     }
   }
 
-  const ssrContext: SSRServerContext = {
-    request: {
-      baseUrl: routeInfo.urlPath,
-      params,
-      pathname: nodeReq
-        ? getPathnameFromNodeReq(nodeReq)
-        : getPathname(request),
-      host,
-      query,
-      url: nodeReq ? getHrefFromNodeReq(nodeReq) : request.url,
-      headers,
-    },
-    response: {
-      setHeader(key, value) {
-        responseProxy.headers.set(key, value);
-      },
-      status(code) {
-        responseProxy.status = code;
-      },
-      locals: locals || {},
-    },
-    redirection: {},
-
-    template: html,
-    loadableStats,
-    loaderContext,
-    routeManifest, // for streaming ssr
-    entryName: entryName!,
-    staticGenerate,
-    logger,
-    metrics,
-    serverTiming: new ServerTiming(responseProxy.headers, metaName),
-    reporter: reporter || defaultReporter,
-    /** @deprecated node req */
-    req: nodeReq || (request as any),
-    /** @deprecated node res  */
-    res: undefined,
-    isSpider,
-    nonce,
-  };
-
   const renderBundle =
     serverManifest.renderBundles?.[entryName || MAIN_ENTRY_NAME];
 
@@ -149,86 +74,52 @@ export async function ssrRender(
     throw new Error(`Can't found renderBundle ${entryName || MAIN_ENTRY_NAME}`);
   }
 
-  const runtimeEnv = getRuntimeEnv();
+  const requestHandler = await renderBundle[SERVER_RUNTIME_ENTRY];
 
-  let ssrResult: Awaited<ReturnType<ServerRender>>;
-  let cacheStatus: CacheStatus | undefined;
-  const render: ServerRender = renderBundle[SERVER_RENDER_FUNCTION_NAME];
+  loaderContext.set('privdate_locals', locals);
+
+  const config = createRequestHandlerConfig(userConfig);
+
+  const requestHandlerOptions: RequestHandlerOptions = {
+    resource: {
+      route: routeInfo,
+      loadableStats,
+      routeManifest,
+      htmlTemplate: html,
+      entryName: entryName || MAIN_ENTRY_NAME,
+    },
+    params,
+    loaderContext,
+    config,
+
+    staticGenerate,
+    onError,
+    onTiming,
+  };
 
   const cacheControl = await matchCacheControl(
     cacheConfig?.strategy,
     nodeReq || (new IncomingMessgeProxy(request) as IncomingMessage),
   );
 
+  let response: Response;
+
   if (cacheControl) {
-    const { data, status } = await getCacheResult(request, {
+    response = await getCacheResult(request, {
       cacheControl,
       container: cacheConfig?.container,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions,
     });
-    ssrResult = data;
-    cacheStatus = status;
   } else {
-    ssrResult = await render(ssrContext);
+    response = await requestHandler(request, requestHandlerOptions);
   }
 
-  const { redirection } = ssrContext;
+  response.headers.set(X_MODERNJS_RENDER, 'server');
 
-  // set ssr cacheStatus
-  if (cacheStatus) {
-    responseProxy.headers.set(X_RENDER_CACHE, cacheStatus);
-  }
+  response.headers.set('content-type', 'text/html; charset=UTF-8');
 
-  responseProxy.headers.set(X_MODERNJS_RENDER, 'server');
-
-  if (redirection.url) {
-    const { headers } = responseProxy;
-    headers.set('Location', redirection.url);
-    return new Response(null, {
-      status: redirection.status || 302,
-      headers: {
-        Location: redirection.url,
-      },
-    });
-  }
-
-  const { Readable } = await import('stream').catch(_ => ({
-    Readable: undefined,
-  }));
-
-  const streamModule = '../../adapters/node/polyfills/stream';
-  const { createReadableStreamFromReadable } =
-    runtimeEnv === 'node'
-      ? ((await import(streamModule).catch(_ => ({
-          createReadableStreamFromReadable: undefined,
-        }))) as typeof streamPolyfills)
-      : { createReadableStreamFromReadable: undefined };
-
-  const data =
-    Readable && ssrResult instanceof Readable
-      ? createReadableStreamFromReadable?.(ssrResult) || ''
-      : (ssrResult as unknown as string | ReadableStream);
-
-  if (typeof data !== 'string') {
-    // for streaming http
-    responseProxy.headers.set('transfer-encoding', 'chunked');
-  }
-
-  return new Response(data, {
-    status: responseProxy.status,
-    headers: responseProxy.headers,
-  });
-}
-
-class ResponseProxy {
-  headers: Headers = new Headers();
-
-  status: number = 200;
-
-  constructor() {
-    this.headers.set('content-type', 'text/html; charset=UTF-8');
-  }
+  return response;
 }
 
 class IncomingMessgeProxy {
@@ -249,45 +140,18 @@ class IncomingMessgeProxy {
   }
 }
 
-function getHrefFromNodeReq(nodeReq: IncomingMessage) {
-  function getProtocal() {
-    if ((nodeReq.socket as any).encrypted) {
-      return 'https';
-    }
+function createRequestHandlerConfig(
+  userConfig: UserConfig,
+): RequestHandlerConfig {
+  const { output, server, security, html } = userConfig;
 
-    const proto = nodeReq.headers['x-forwarded-proto'];
-    return proto ? (proto as string).split(/\s*,\s*/, 1)[0] : 'http';
-  }
-
-  function getHost() {
-    let host = nodeReq.headers['x-forwarded-host'];
-    if (!host) {
-      // eslint-disable-next-line prefer-destructuring
-      host = nodeReq.headers.host;
-    }
-
-    host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
-    // the host = '',if we can't cat Host or X-Forwarded-Host header
-    // but the this.href would assign a invalid value:`http[s]://${pathname}`
-    // so we need assign host a no-empty value.
-    return host;
-  }
-
-  const href = `${getProtocal()}://${getHost()}${nodeReq.url || ''}`;
-  return href;
-}
-
-export function getPathnameFromNodeReq(nodeReq: IncomingMessage) {
-  const { url } = nodeReq;
-  if (!url) {
-    return '/';
-  }
-  const match = url.match(/\/[^?]*/);
-  let pathname = match ? match[0] : '/';
-
-  if (pathname !== '/' && pathname.endsWith('/')) {
-    pathname = pathname.slice(0, -1);
-  }
-
-  return pathname;
+  return {
+    ssr: server?.ssr,
+    ssrByEntries: server?.ssrByEntries,
+    nonce: security?.nonce,
+    enableInlineScripts: output?.enableInlineScripts,
+    enableInlineStyles: output?.enableInlineStyles,
+    crossorigin: html?.crossorigin,
+    scriptLoading: html?.scriptLoading,
+  };
 }

@@ -1,6 +1,6 @@
 export { renderString } from './string';
 
-export { renderStreaming } from './stream/index.worker';
+export { renderStreaming } from './stream';
 
 export {
   createRequestHandler,
@@ -11,3 +11,6 @@ export {
 } from './requestHandler';
 
 export type { RenderStreaming, RenderString, RenderOptions } from './shared';
+
+// react component
+export { PreRender, NoSSR } from './react';

@@ -15,6 +15,16 @@ export interface OutputUserConfig {
   path?: string;
   assetPrefix?: string;
   polyfill?: 'entry' | 'usage' | 'ua' | 'off';
+
+  /**
+   * @deprecated use `output.inlineScripts` instead
+   */
+  enableInlineScripts?: boolean;
+
+  /**
+   * @deprecated use `output.inlineStyles` instead
+   */
+  enableInlineStyles?: boolean;
 }
 
 export type OutputNormalizedConfig = OutputUserConfig;

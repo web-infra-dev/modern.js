@@ -2,6 +2,8 @@ import {
   StaticHandlerContext,
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
+import { ServerUserConfig } from '@modern-js/app-tools';
+import { SSRConfig } from './shared';
 
 export function attributesToString(attributes: Record<string, any>) {
   // Iterate through the properties and convert them into a string, only including properties that are not undefined.
@@ -56,4 +58,29 @@ export function serializeErrors(
     }
   }
   return serialized;
+}
+
+export function getSSRConfigByEntry(
+  entryName: string,
+  ssr?: ServerUserConfig['ssr'],
+  ssrByEntries?: ServerUserConfig['ssrByEntries'],
+  staticGenerate?: boolean,
+) {
+  if (staticGenerate) {
+    return true;
+  }
+
+  if (ssrByEntries?.[entryName]) {
+    return ssrByEntries[entryName];
+  }
+
+  return ssr;
+}
+
+export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
+  if (typeof ssrConfig === 'boolean') {
+    return ssrConfig ? 'string' : false;
+  }
+
+  return ssrConfig?.mode === 'stream' ? 'stream' : 'string';
 }

@@ -24,6 +24,10 @@ function getSSRMode(
 ): 'string' | 'stream' | false {
   const { ssr, ssrByEntries } = config.server;
 
+  if (config.output.ssg) {
+    return 'string';
+  }
+
   return checkSSRMode(ssrByEntries?.[entry] || ssr);
 
   function checkSSRMode(ssr: AppNormalizedConfig['server']['ssr']) {

@@ -38,12 +38,14 @@ export type SSRServerContext = Pick<
   | 'routeManifest'
 > & {
   request: BaseSSRServerContext['request'] & {
+    baseUrl: string;
     userAgent: string;
     cookie: string;
     cookieMap: Record<string, string>;
+    raw: Request;
   };
   htmlModifiers: BuildHtmlCb[];
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
-  onError: (e: unknown) => void;
-  onTiming: (name: string, dur: number) => void;
+  onError?: (e: unknown) => void;
+  onTiming?: (name: string, dur: number) => void;
 };

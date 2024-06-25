@@ -74,29 +74,16 @@
       "node": "./dist/cjs/exports/server.js",
       "default": "./dist/esm/exports/server.js"
     },
-    "./server/node": {
-      "types": "./dist/types/core/serve/index.node.d.ts",
-      "jsnext:source": "./src/core/server/index.node.ts",
-      "node": "./dist/cjs/core/server/index.node.js",
-      "default": "./dist/esm/core/server/index.node.js"
-    },
-    "./server/worker": {
-      "types": "./dist/types/core/serve/index.node.d.ts",
-      "jsnext:source": "./src/core/server/index.node.ts",
-      "default": "./dist/esm/core/server/index.node.js"
+    "./ssr": {
+      "types": "./dist/types/core/server/index.d.ts",
+      "jsnext:source": "./src/core/server/index.ts",
+      "default": "./dist/esm/core/server/index.js"
     },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/index.ts",
       "node": "./dist/cjs/document/index.js",
       "default": "./dist/esm/document/index.js"
-    },
-    "./ssr": {
-      "types": "./dist/types/ssr/index.d.ts",
-      "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/esm/ssr/index.node.js",
-      "worker": "./dist/esm/ssr/index.node.js",
-      "default": "./dist/esm/ssr/index.js"
     },
     "./model": {
       "types": "./types/model.d.ts",
@@ -163,7 +150,7 @@
         "./dist/types/document/index.d.ts"
       ],
       "ssr": [
-        "./dist/types/ssr/index.d.ts"
+        "./dist/types/core/server/index.d.ts"
       ],
       "model": [
         "./types/model.d.ts"
