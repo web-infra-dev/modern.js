@@ -168,7 +168,7 @@ export const appTools = (
       },
 
       async beforeRestart() {
-        cleanRequireCache([require.resolve('./analyze')]);
+        cleanRequireCache([require.resolve('./plugins/analyze')]);
       },
 
       async modifyFileSystemRoutes({ entrypoint, routes }) {
