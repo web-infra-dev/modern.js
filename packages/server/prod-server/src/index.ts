@@ -21,10 +21,12 @@ export type { ProdServerOptions, BaseEnv } from './types';
 export const createProdServer = async (options: ProdServerOptions) => {
   await loadServerEnv(options);
 
+  const serverBaseOptions = options;
+
   const serverCliConfig = loadServerCliConfig(options.pwd, options.config);
 
   if (serverCliConfig) {
-    options.config = serverCliConfig;
+    serverBaseOptions.config = serverCliConfig;
   }
 
   const serverRuntimeConfig = loadServerRuntimeConfig(
@@ -32,8 +34,6 @@ export const createProdServer = async (options: ProdServerOptions) => {
     options.serverConfigFile,
     options.serverConfigPath,
   );
-
-  const serverBaseOptions = options;
 
   if (serverRuntimeConfig) {
     serverBaseOptions.serverConfig = serverRuntimeConfig;
