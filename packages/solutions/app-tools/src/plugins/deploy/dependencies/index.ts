@@ -168,7 +168,7 @@ export const handleDependencies = async ({
     const shouldCopyWholePackage = copyWholePackage?.(pkgName);
     if (
       tracedFile.path.startsWith(tracedFile.pkgPath) &&
-      tracedPackageVersion.path === tracedFile.pkgPath
+      tracedPackageVersion.pkgJSON.version === tracedFile.pkgVersion
     ) {
       if (shouldCopyWholePackage) {
         const allFiles = await readDirRecursive(tracedFile.pkgPath);
