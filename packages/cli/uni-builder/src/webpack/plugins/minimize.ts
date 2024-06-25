@@ -1,6 +1,6 @@
 import {
   CHAIN_ID,
-  type BundlerChain,
+  type RspackChain,
   type RsbuildPlugin,
   type NormalizedConfig,
 } from '@rsbuild/shared';
@@ -34,7 +34,7 @@ function applyRemoveConsole(
 }
 
 async function applyJSMinimizer(
-  chain: BundlerChain,
+  chain: RspackChain,
   config: NormalizedConfig,
   userTerserConfig?: ToolsTerserConfig,
 ) {

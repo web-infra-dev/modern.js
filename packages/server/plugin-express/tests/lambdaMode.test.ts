@@ -5,13 +5,22 @@
 import path from 'path';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import request from 'supertest';
-import { serverManager } from '@modern-js/server-core';
 import plugin from '../src/plugin';
-import { APIPlugin } from './helpers';
+import { APIPlugin, createPluginManager } from './helpers';
 import './common';
 
 const pwd = path.join(__dirname, './fixtures/lambda-mode');
 const API_DIR = './api';
+
+async function createRunner(plugins: any[]) {
+  const pluginManager = createPluginManager();
+
+  pluginManager.addPlugins(plugins);
+
+  const runner = await pluginManager.init();
+
+  return runner;
+}
 
 describe('lambda-mode', () => {
   const id = '666';
@@ -21,10 +30,7 @@ describe('lambda-mode', () => {
   let apiHandler: any;
 
   beforeAll(async () => {
-    const runner = await serverManager
-      .clone()
-      .usePlugin(APIPlugin, plugin)
-      .init();
+    const runner = await createRunner([APIPlugin, plugin()]);
 
     apiHandler = await runner.prepareApiServer({
       pwd,
@@ -114,8 +120,7 @@ describe('add middlewares', () => {
   let runner: any;
 
   beforeAll(async () => {
-    serverManager.usePlugin(plugin);
-    runner = await serverManager.init();
+    runner = await createRunner([APIPlugin, plugin()]);
   });
 
   test('should support add by function', async () => {
@@ -199,11 +204,10 @@ describe('add middlewares', () => {
 });
 
 describe('support app.ts in lambda mode', () => {
-  serverManager.usePlugin(APIPlugin, plugin);
   let runner: any;
 
   beforeAll(async () => {
-    runner = await serverManager.init();
+    runner = await createRunner([APIPlugin, plugin()]);
   });
 
   beforeEach(() => {
@@ -373,8 +377,7 @@ describe('support as async handler', () => {
   let runner: any;
 
   beforeAll(async () => {
-    serverManager.usePlugin(plugin);
-    runner = await serverManager.init();
+    runner = await createRunner([APIPlugin, plugin()]);
   });
 
   test('API handler should works', async () => {

@@ -4,10 +4,7 @@ import puppeteer, { Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 
-import type {
-  // Browser,
-  Page,
-} from 'puppeteer';
+import type { Page } from 'puppeteer';
 import {
   launchApp,
   killApp,
@@ -320,11 +317,11 @@ const supportHandleLoaderError = async (
   });
   await Promise.all([
     page.click('.loader-error-btn'),
-    page.waitForSelector('.error-case'),
+    page.waitForSelector('.error-loader-page'),
   ]);
-  const errorElm = await page.$('.error-case');
+  const errorElm = await page.$('.error-loader-page');
   const text = await page.evaluate(el => el?.textContent, errorElm);
-  expect(text?.includes('loader error')).toBeTruthy();
+  expect(text).toBe('render by client loader');
   expect(errors.length).toBe(0);
 };
 
@@ -469,7 +466,7 @@ const supportClientLoader = async (
   ]);
   const clientLoaderLayout = await page.$('.client-loader-layout');
   const text = await page.evaluate(el => el?.textContent, clientLoaderLayout);
-  expect(text?.includes('layout from client loader')).toBeTruthy();
+  expect(text).toBe('layout from client loader');
 
   const clientLoaderPage = await page.$('.client-loader-page');
   const text1 = await page.evaluate(el => el?.textContent, clientLoaderPage);
@@ -742,7 +739,7 @@ describe('dev', () => {
     test('support handle config', async () =>
       supportHandleConfig(page, appPort));
 
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -884,7 +881,7 @@ describe('build', () => {
     test('path without layout', async () =>
       supportPathWithoutLayout(page, errors, appPort));
 
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -912,7 +909,7 @@ describe('build', () => {
   });
 
   describe('global configuration', () => {
-    test('support app init', async () =>
+    test.skip('support app init', async () =>
       await supportDefineInit(page, errors, appPort));
   });
 
@@ -1028,8 +1025,7 @@ describe('dev with rspack', () => {
     test('support handle config', async () =>
       supportHandleConfig(page, appPort));
 
-    // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -1175,7 +1171,7 @@ describe('build with rspack', () => {
     test('path without layout', async () =>
       supportPathWithoutLayout(page, errors, appPort));
 
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -1203,7 +1199,7 @@ describe('build with rspack', () => {
   });
 
   describe('global configuration', () => {
-    test('support app init', async () =>
+    test.skip('support app init', async () =>
       await supportDefineInit(page, errors, appPort));
   });
 

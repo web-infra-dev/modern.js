@@ -1,18 +1,25 @@
-import { loadServerEnv } from '@modern-js/server-core/base/node';
-import { createServerBase } from '@modern-js/server-core/base';
-import { initProdMiddlewares } from './init';
+import {
+  loadServerCliConfig,
+  loadServerEnv,
+} from '@modern-js/server-core/node';
+import { createServerBase } from '@modern-js/server-core';
 import { BaseEnv, ProdServerOptions } from './types';
-
-export { initProdMiddlewares, type InitProdMiddlewares } from './init';
+import { applyPlugins } from './apply';
 
 export type { ProdServerOptions, BaseEnv } from './types';
 
 export const createNetlifyFunction = async (options: ProdServerOptions) => {
-  const server = createServerBase<BaseEnv>(options);
-  await loadServerEnv(options);
-  await server.init();
+  const serverCliConfig = loadServerCliConfig(options.pwd, options.config);
 
-  await initProdMiddlewares(server, options);
+  if (serverCliConfig) {
+    options.config = serverCliConfig;
+  }
+
+  const server = createServerBase<BaseEnv>(options);
+
+  await loadServerEnv(options);
+  await applyPlugins(server, options);
+  await server.init();
   return (request: Request, context: unknown) => {
     return server.handle(request, context);
   };

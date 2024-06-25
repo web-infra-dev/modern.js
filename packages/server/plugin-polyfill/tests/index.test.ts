@@ -1,5 +1,5 @@
 import type { NormalizedConfig } from '@modern-js/core';
-import { createServerBase } from '@modern-js/server-core/base';
+import { createServerBase } from '@modern-js/server-core';
 import cliPlugin from '../src/cli';
 import serverPlugin from '../src';
 import { defaultPolyfill } from '../src/const';
@@ -13,6 +13,8 @@ function getDefaultConfig() {
     server: {},
     runtime: {},
     bff: {},
+    dev: {},
+    security: {},
   };
 }
 
@@ -26,7 +28,7 @@ describe('plugin-static-hosting', () => {
       useResolvedConfigContext: () => {
         return {
           output: {},
-        } as NormalizedConfig;
+        } as unknown as NormalizedConfig;
       },
     } as any);
 
@@ -35,9 +37,10 @@ describe('plugin-static-hosting', () => {
   });
 
   it('polyfill middleware', async () => {
-    const server = await createServerBase({
+    const server = createServerBase({
       config: getDefaultConfig(),
       pwd: '',
+      appContext: {},
     });
 
     expect(serverPlugin).toBeDefined();

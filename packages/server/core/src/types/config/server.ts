@@ -43,6 +43,7 @@ export type SSR =
       disablePrerender?: boolean;
       unsafeHeaders?: string[];
       scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
+      loaderFailureMode?: 'clientRender' | 'errorBoundary';
     };
 
 export type SSRByEntries = Record<string, SSR>;

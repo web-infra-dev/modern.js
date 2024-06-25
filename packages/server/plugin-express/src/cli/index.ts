@@ -30,9 +30,9 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
         };
       },
 
-      collectServerPlugins({ plugins }) {
+      _internalServerPlugins({ plugins }) {
         plugins.push({
-          '@modern-js/plugin-express': '@modern-js/plugin-express/server',
+          name: '@modern-js/plugin-express/server',
         });
         return { plugins };
       },

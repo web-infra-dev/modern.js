@@ -24,6 +24,6 @@ class MyContainer implements Container {
 export const customContainer: Container = new MyContainer();
 
 export const cacheOption: CacheOption = {
-  maxAge: 5000,
+  maxAge: 50000,
   staleWhileRevalidate: 10000,
 };

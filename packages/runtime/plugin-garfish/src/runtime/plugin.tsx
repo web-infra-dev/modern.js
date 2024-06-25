@@ -61,7 +61,7 @@ export default (config: Config): Plugin => ({
     logger('createPlugin', config);
     const promise = initOptions(manifest, options);
     return {
-      hoc({ App }, next) {
+      hoc({ App, config }, next) {
         class GetMicroFrontendApp extends React.Component {
           state: {
             MApp: React.FC<MicroComponentProps>;
@@ -124,6 +124,7 @@ export default (config: Config): Plugin => ({
 
         return next({
           App: hoistNonReactStatics(GetMicroFrontendApp, App),
+          config,
         });
       },
     };

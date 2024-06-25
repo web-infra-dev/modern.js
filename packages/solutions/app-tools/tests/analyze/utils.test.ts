@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { isSubDirOrEqual } from '../../src/analyze/utils';
+import { isSubDirOrEqual } from '../../src/plugins/analyze/utils';
 
 describe('isSubDirOrEqual', () => {
   it('should return true for the same directories', () => {

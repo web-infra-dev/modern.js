@@ -42,3 +42,5 @@ export type ServerOptions = {
   dev?: DevNormalizedConfig;
   security?: SecurityNormalizedConfig;
 };
+
+export type CliConfig = Required<UserConfig>;

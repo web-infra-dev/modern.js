@@ -3,7 +3,6 @@ import {
   ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
   fs as fse,
-  getInternalPlugins,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
@@ -30,9 +29,11 @@ export const createNetlifyPreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, serverInternalPlugins, entrypoints } =
+  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
     appContext;
-  const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
+
+  // TODO: support serverPlugin apply options.
+  const plugins = serverPlugins.map(plugin => plugin.name);
 
   const netlifyOutput = path.join(appDirectory, '.netlify');
   const funcsDirectory = path.join(netlifyOutput, 'functions');
@@ -105,8 +106,13 @@ export const createNetlifyPreset: CreatePreset = (
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
+
+      const pluginsCode = `[${plugins
+        .map((plugin, index) => {
+          return `plugin_${index}()`;
+        })
+        .join(',')}]`;
 
       let entryCode = (
         await fse.readFile(path.join(__dirname, './netlifyEntry.js'))
@@ -118,6 +124,7 @@ export const createNetlifyPreset: CreatePreset = (
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);

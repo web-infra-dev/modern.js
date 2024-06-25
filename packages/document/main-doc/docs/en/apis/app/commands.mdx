@@ -145,7 +145,6 @@ $ npx modern new
   Enable BFF
   Enable SSG
   Enable Micro Frontend
-  Enable Unit Test / Integration Test
 ```
 
 :::tip
@@ -266,38 +265,3 @@ Options:
 Normally, only the part of the code modified by this commit needs to be checked by `lint-staged` during the `git commit` phase.
 
 - `--no-fix` close auto fix by lint.
-
-## modern test
-
-`modern test` command will automatically run the test cases.
-
-```bash
-Usage: modern test [options]
-
-Options:
-  -u --updateSnapshot  use this flag to re-record snapshots.
-  --watch              watch files for changes and rerun tests related to changed files.
-  -h, --help           show command help
-```
-
-:::tip
-`modern test` command need to execute the `new` command in advance to enable the `unit test/integration test`.
-:::
-
-The effect is as follows:
-
-```bash
-$ npx modern test
- PASS  src/tests/index.test.ts
-  The add method
-    ✓ should work fine. (2ms)
-
-Test Suites: 1 passed, 1 total
-Tests:       1 passed, 1 total
-Snapshots:   0 total
-Time:        0.994 s, estimated 1 s
-```
-
-:::info
-Files match `*.test.(js|ts)` in `api/` or `src/` folders will be recognized as test cases by default.
-:::

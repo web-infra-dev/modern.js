@@ -2,10 +2,10 @@ import { ExternalTabView, Tab } from '@modern-js/devtools-kit/runtime';
 import { Route, Routes } from '@modern-js/runtime/router';
 import { FC } from 'react';
 import { useSnapshot } from 'valtio';
-import { $tabs } from '../state';
+import { useGlobals } from '@/entries/client/globals';
 
 const Page: FC = () => {
-  const tabs = useSnapshot($tabs);
+  const { tabs } = useSnapshot(useGlobals());
   const externalTabs: (Tab & { view: ExternalTabView })[] = [];
   for (const tab of tabs) {
     // @ts-expect-error

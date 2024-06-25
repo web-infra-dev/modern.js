@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { createRuntime } from '../../src/core';
 import { initialRender } from '../utils';
+import { createRuntime } from '../../src/core/plugin';
 
 describe('render', () => {
   it('server', async () => {
@@ -25,8 +25,8 @@ describe('render', () => {
   });
 
   it('client', async () => {
-    const root = document.createElement('div');
     const runtime = createRuntime();
+    const root = document.createElement('div');
     const render = initialRender([], runtime);
     function App() {
       return <div>App</div>;

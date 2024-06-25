@@ -31,5 +31,9 @@ export const onRepack = (
 ) => {
   cleanSSRCache(distDir, routes);
   fileReader.reset();
-  runner.repack();
+  runner.reset({
+    event: {
+      type: 'repack',
+    },
+  });
 };

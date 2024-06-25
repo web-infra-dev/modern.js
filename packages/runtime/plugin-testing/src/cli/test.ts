@@ -15,6 +15,23 @@ const test = async (
   const userConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
 
+  const runner = api.useHookRunners();
+
+  const { plugins = [] } =
+    (await (runner as any)._internalServerPlugins?.({
+      plugins: [],
+    })) || {};
+
+  // filter plugins by metaName
+  const filtedPlugins = plugins?.filter((plugin: any) =>
+    plugin.name.includes(appContext.metaName || 'modern-js'),
+  );
+
+  api.setAppContext({
+    ...api.useAppContext(),
+    serverPlugins: filtedPlugins,
+  });
+
   userConfig.testing = userConfig.testing || {};
 
   const jest = userConfig.testing.jest || userConfig?.tools?.jest;

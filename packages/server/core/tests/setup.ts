@@ -1,3 +1,3 @@
-import { installGlobals } from '../src/base/adapters/node/polyfills';
+import { installGlobals } from '../src/adapters/node/polyfills';
 
 installGlobals();

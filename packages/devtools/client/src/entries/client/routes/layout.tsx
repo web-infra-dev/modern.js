@@ -1,13 +1,13 @@
 import '@/styles/theme.scss';
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
 import { Box, Flex, Tooltip } from '@radix-ui/themes';
-import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
+import { HiOutlineMoon, HiOutlineSun, HiMiniGlobeAlt } from 'react-icons/hi2';
 import { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
-import { $tabs } from './state';
+import { useGlobals } from '@/entries/client/globals';
 import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
@@ -47,6 +47,27 @@ const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
   );
 };
 
+const ServerStatus: FC = () => {
+  const { server } = useSnapshot(useGlobals());
+  const tooltip = server ? 'Connected' : 'Disconnected';
+
+  return (
+    <Tooltip content={tooltip} side="right">
+      <Box className={styles.tabButton}>
+        <Box p="1" position="relative" className={styles.tabButtonInner}>
+          <Box height="var(--space-5)" width="var(--space-5)" asChild>
+            <HiMiniGlobeAlt />
+          </Box>
+          <Box
+            className={styles.onlineIndicator}
+            data-active={Boolean(server)}
+          />
+        </Box>
+      </Box>
+    </Tooltip>
+  );
+};
+
 const AppearanceButton = () => {
   const [appearance, setAppearance] = useThemeAppearance();
 
@@ -73,7 +94,7 @@ const AppearanceButton = () => {
 };
 
 const Navigator: React.FC = () => {
-  const tabs = useSnapshot($tabs);
+  const { tabs } = useSnapshot(useGlobals());
 
   return (
     <Flex direction="column" flexShrink="0" className={styles.navigator}>
@@ -82,6 +103,7 @@ const Navigator: React.FC = () => {
         <NavigateButton key={tab.name} tab={tab} />
       ))}
       <Box flexGrow="1" />
+      <ServerStatus />
       <AppearanceButton />
     </Flex>
   );

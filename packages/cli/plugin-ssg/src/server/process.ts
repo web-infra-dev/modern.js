@@ -1,8 +1,12 @@
 import { Server, request } from 'http';
-import { InternalPlugins, ServerRoute as ModernRoute } from '@modern-js/types';
+import { ServerRoute as ModernRoute, ServerPlugin } from '@modern-js/types';
 import portfinder from 'portfinder';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
-import { ProdServerOptions, createProdServer } from '@modern-js/prod-server';
+import {
+  ProdServerOptions,
+  createProdServer,
+  loadServerPlugins,
+} from '@modern-js/prod-server';
 import { CLOSE_SIGN } from './consts';
 
 process.on('message', async (chunk: string) => {
@@ -31,7 +35,7 @@ process.on('message', async (chunk: string) => {
       /** Directory for lambda modules */
       lambdaDirectory: string;
     };
-    plugins: InternalPlugins;
+    plugins: ServerPlugin[];
   } = context;
 
   let nodeServer: Server | null = null;
@@ -48,8 +52,11 @@ process.on('message', async (chunk: string) => {
       config: options as any,
       appContext,
       routes,
+      plugins: loadServerPlugins(
+        plugins,
+        appContext.appDirectory || distDirectory,
+      ),
       staticGenerate: true,
-      internalPlugins: plugins,
     };
 
     nodeServer = await createProdServer(serverOptions);

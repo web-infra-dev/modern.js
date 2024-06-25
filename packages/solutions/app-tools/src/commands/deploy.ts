@@ -1,14 +1,17 @@
 import type { PluginAPI } from '@modern-js/core';
+import { getServerPlugins } from '../utils/loadPlugins';
 import type { AppTools } from '../types';
-import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
 export const deploy = async (
   api: PluginAPI<AppTools<'shared'>>,
   options: any,
 ) => {
   const hookRunners = api.useHookRunners();
+
+  const { metaName } = api.useAppContext();
+
   // deploy command need get all plugins
-  await getServerInternalPlugins(api);
+  await getServerPlugins(api, metaName);
 
   await hookRunners.beforeDeploy(options);
   await hookRunners.deploy(options);

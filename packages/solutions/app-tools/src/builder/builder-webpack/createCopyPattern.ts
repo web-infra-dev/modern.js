@@ -1,5 +1,5 @@
 import { removeTailSlash } from '@modern-js/utils';
-import { CopyPluginOptions, WebpackChain } from '@modern-js/uni-builder';
+import { CopyPluginOptions, RspackChain } from '@modern-js/uni-builder';
 import { createCopyInfo } from '../shared';
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
@@ -14,7 +14,7 @@ const info = (file: { sourceFilename: string }) => ({
 export function createPublicPattern(
   appContext: IAppContext,
   config: AppNormalizedConfig,
-  chain: WebpackChain,
+  chain: RspackChain,
 ) {
   const { publicDir } = createCopyInfo(appContext, config);
   return {

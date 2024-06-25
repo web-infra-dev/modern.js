@@ -45,7 +45,6 @@ Options:
 
 目前可以开启的功能有：
 
-- Test 测试
 - Storybook V7
 - Tailwind CSS 支持
 - Modern.js Runtime API
@@ -69,20 +68,6 @@ Commands:
 Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
 
 目前官方支持的调试工具有 [Rspress](https://rspress.dev/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev doc` 执行它。
-
-## `modern test`
-
-```bash
-Usage: modern test [options]
-
-Options:
-  -u --updateSnapshot  使用此选项来更新快照
-  --watch              监视文件的变更并重新运行相关的测试
-  -h, --help           显示命令帮助
-```
-
-需要先执行 `modern new` 开启测试功能，然后才可以执行 `modern test` 命令。
-`modern test` 命令会自动将 `tests/*.test.(js|ts|jsx|tsx)` 文件当做测试用例运行。
 
 ## `modern lint`
 

@@ -3,7 +3,6 @@ import {
   ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
   fs as fse,
-  getInternalPlugins,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
@@ -15,9 +14,11 @@ export const createVercelPreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, serverInternalPlugins, entrypoints } =
+  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
     appContext;
-  const plugins = getInternalPlugins(appDirectory, serverInternalPlugins);
+
+  // TODO: support serverPlugin apply options.
+  const plugins = serverPlugins.map(plugin => plugin.name);
 
   const vercelOutput = path.join(appDirectory, '.vercel');
   const outputDirectory = path.join(vercelOutput, 'output');
@@ -113,8 +114,13 @@ export const createVercelPreset: CreatePreset = (
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
+
+      const pluginsCode = `[${plugins
+        .map((plugin, index) => {
+          return `plugin_${index}()`;
+        })
+        .join(',')}]`;
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
@@ -126,6 +132,7 @@ export const createVercelPreset: CreatePreset = (
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);

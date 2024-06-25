@@ -35,7 +35,7 @@ export const createServer = (
     const appContext = api.useAppContext();
     // Todo: need use collect server plugins
     // maybe build command need add collect, or just call collectServerPlugin hooks
-    const plugins = appContext.serverInternalPlugins;
+    const plugins = appContext.serverPlugins;
 
     cp.send(
       JSON.stringify({

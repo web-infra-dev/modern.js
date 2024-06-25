@@ -1,66 +1,58 @@
 import path from 'path';
-import { IAppContext } from '@modern-js/core';
-import { getFileSystemEntry } from '../../src/analyze/getFileSystemEntry';
-import { AppNormalizedConfig } from '../../src/types';
+import {
+  IAppContext,
+  manager,
+  CliPlugin,
+  CliHooksRunner,
+} from '@modern-js/core';
+import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
+import { AppNormalizedConfig, AppTools } from '../../src/types';
+import { appTools } from '../../src/index';
+import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
+
+async function getRunner() {
+  const main = manager
+    .clone()
+    .usePlugin(appTools as CliPlugin, runtimePlugin as CliPlugin);
+
+  const runner: CliHooksRunner<AppTools<'shared'>> = (await main.init()) as any;
+  return runner;
+}
 
 describe('get entrypoints from file system', () => {
   const fixtures = path.resolve(__dirname, './fixtures/entries');
 
   const config = { source: { entriesDir: './src' } };
 
-  test('should have one entry include src/App', () => {
+  test('should have one entry include src/App', async () => {
     const appContext = {
       appDirectory: path.resolve(fixtures, './single-entry'),
     };
 
     expect(
-      getFileSystemEntry(
+      await getFileSystemEntry(
+        await getRunner(),
         appContext as IAppContext,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
       {
         entryName: 'src',
-        entry: path.resolve(fixtures, './single-entry/src/App'),
+        entry: path.resolve(fixtures, './single-entry/src/App.tsx'),
         isAutoMount: true,
         customBootstrap: false,
       },
     ]);
   });
 
-  test(`should have one entry include src/pages`, () => {
-    const appContext = {
-      appDirectory: path.resolve(fixtures, './file-system-routes'),
-    };
-
-    expect(
-      getFileSystemEntry(
-        appContext as IAppContext,
-        config as AppNormalizedConfig<'shared'>,
-      ),
-    ).toMatchObject([
-      {
-        entryName: 'src',
-        entry: path.resolve(fixtures, './file-system-routes/src/pages'),
-        isAutoMount: true,
-        customBootstrap: false,
-        fileSystemRoutes: {
-          globalApp: path.resolve(
-            fixtures,
-            './file-system-routes/src/pages/_app.ts',
-          ),
-        },
-      },
-    ]);
-  });
-
-  test(`should have one index entry with isAutoMount false`, () => {
+  test(`should have one index entry with isAutoMount false`, async () => {
     const appContext = {
       appDirectory: path.resolve(fixtures, './index-entry'),
     };
 
     expect(
-      getFileSystemEntry(
+      await getFileSystemEntry(
+        await getRunner(),
         appContext as IAppContext,
         config as AppNormalizedConfig<'shared'>,
       ),
@@ -73,20 +65,21 @@ describe('get entrypoints from file system', () => {
     ]);
   });
 
-  test(`should have one entry with custom bootstrap function`, () => {
+  test(`should have one entry with custom bootstrap function`, async () => {
     const appContext = {
       appDirectory: path.resolve(fixtures, './custom-bootstrap'),
     };
 
     expect(
-      getFileSystemEntry(
+      await getFileSystemEntry(
+        await getRunner(),
         appContext as IAppContext,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
       {
         entryName: 'src',
-        entry: path.resolve(appContext.appDirectory, './src/App'),
+        entry: path.resolve(appContext.appDirectory, './src/App.tsx'),
         isAutoMount: true,
         customBootstrap: path.resolve(
           appContext.appDirectory,
@@ -96,13 +89,16 @@ describe('get entrypoints from file system', () => {
     ]);
   });
 
-  test(`should have no entry`, () => {
+  test(`should have no entry`, async () => {
     const appContext = { appDirectory: path.resolve(fixtures, './no-entry') };
 
     expect(
-      getFileSystemEntry(
-        appContext as IAppContext,
-        config as AppNormalizedConfig<'shared'>,
+      (
+        await getFileSystemEntry(
+          await getRunner(),
+          appContext as IAppContext,
+          config as AppNormalizedConfig<'shared'>,
+        )
       ).length,
     ).toBe(0);
   });

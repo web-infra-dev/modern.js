@@ -6,7 +6,8 @@
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/ModuleScopePlugin.js
  */
 import { dirname, relative, resolve } from 'path';
-import { color, isRegExp, isString } from '@rsbuild/shared';
+import { color } from '@rsbuild/shared';
+import { isRegExp, isString } from '@modern-js/utils';
 
 export class ModuleScopePlugin {
   scopes: Array<string | RegExp>;

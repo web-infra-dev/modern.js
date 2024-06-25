@@ -218,7 +218,7 @@ describe('test dev and build', () => {
       await page.waitForSelector('#root a');
       const root = await page.$('#root');
       const targetText = await page.evaluate(el => el?.textContent, root);
-      expect(targetText?.trim()).toEqual('去 A去 B');
+      expect(targetText?.trim()).toEqual('Here is page A返回 Home');
       expect(errors.length).toEqual(0);
     });
   });

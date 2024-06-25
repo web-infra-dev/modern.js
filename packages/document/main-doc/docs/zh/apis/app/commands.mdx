@@ -144,7 +144,6 @@ $ npx modern new
 ❯ 启用 「Tailwind CSS」 支持
   启用「BFF」功能
   启用「微前端」模式
-  启用「单元测试 / 集成测试」功能
 ```
 
 :::tip
@@ -268,38 +267,3 @@ Options:
 通常情况下，我们只需要在 `git commit` 阶段通过 `lint-staged` 检查本次提交修改的部分代码。
 
 - 设置 `--no-fix` 参数后可以关闭自动修复 lint 错误代码的能力。
-
-## modern test
-
-`modern test` 命令会自动运行项目下的测试用例。
-
-```bash
-Usage: modern test [options]
-
-Options:
-  -u --updateSnapshot  使用此选项来更新快照
-  --watch              监视文件的变更并重新运行相关的测试
-  -h, --help           显示命令帮助
-```
-
-:::tip
-在使用 `modern test` 命令前，需要先通过 [`new`](/apis/app/commands#modern-new) 命令启用「单元测试 / 集成测试」功能。
-:::
-
-效果如下：
-
-```bash
-$ npx modern test
- PASS  src/tests/index.test.ts
-  The add method
-    ✓ should work fine. (2ms)
-
-Test Suites: 1 passed, 1 total
-Tests:       1 passed, 1 total
-Snapshots:   0 total
-Time:        0.994 s, estimated 1 s
-```
-
-:::info
-`src` 和 `api` 目录下面的 `*.test.(js|ts)` 文件都会被识别为测试用例。
-:::
