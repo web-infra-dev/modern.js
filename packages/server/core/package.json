@@ -87,7 +87,7 @@
     "exports": {
       ".": {
         "types": "./dist/types/index.d.ts",
-        "import": "./dist/esm-node/index.d.ts",
+        "import": "./dist/esm-node/index.js",
         "default": "./dist/cjs/index.js"
       },
       "./node": {
