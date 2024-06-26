@@ -6,7 +6,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import { run } from '@modern-js/runtime-utils/node';
 import { parseHeaders } from '@modern-js/runtime-utils/universal';
 import { createReplaceHelemt } from '../helmet';
-import { safeReplace } from '../utils';
+import { getSSRConfigByEntry, safeReplace } from '../utils';
 import {
   CHUNK_CSS_PLACEHOLDER,
   CHUNK_JS_PLACEHOLDER,
@@ -56,11 +56,17 @@ export const renderString: RenderString = async (
     let prefetchData = {};
 
     try {
-      prefetchData = prefetch(serverRoot, request, options, tracer);
+      prefetchData = await prefetch(serverRoot, request, options, tracer);
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
     }
+
+    const ssrConfig = getSSRConfigByEntry(
+      entryName,
+      config.ssr,
+      config.ssrByEntries,
+    );
 
     const collectors = [
       new StyledCollector(chunkSet),
@@ -73,6 +79,7 @@ export const renderString: RenderString = async (
       new SSRDataCollector({
         request,
         prefetchData,
+        ssrConfig,
         chunkSet,
         routerContext,
       }),

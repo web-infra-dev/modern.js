@@ -1,17 +1,17 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
-import { parseHeaders, parseQuery } from '@modern-js/runtime-utils/universal';
+import { parseQuery } from '@modern-js/runtime-utils/universal';
 import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
-import { HandleRequestConfig } from '../requestHandler';
+import { SSRData, SSRConfig } from '../shared';
 import { Collector, ChunkSet } from './types';
 
 export interface SSRDataCreatorOptions {
   request: Request;
   prefetchData: Record<string, any>;
   chunkSet: ChunkSet;
+  ssrConfig?: SSRConfig;
   routerContext?: StaticHandlerContext;
-  config?: HandleRequestConfig;
   nonce?: string;
 }
 
@@ -38,14 +38,26 @@ export class SSRDataCollector implements Collector {
     chunkSet.ssrScripts = ssrDataScripts;
   }
 
-  #getSSRData(request: Request): Record<string, any> {
-    const { prefetchData, chunkSet } = this.#options;
+  #getSSRData(request: Request): SSRData {
+    const { prefetchData, chunkSet, ssrConfig } = this.#options;
 
     const url = new URL(request.url);
     const query = parseQuery(request);
     const { pathname, host } = url;
 
-    const headerData = parseHeaders(request);
+    let headers;
+
+    if (typeof ssrConfig === 'object') {
+      headers = ssrConfig.unsafeHeaders
+        ? Object.fromEntries(
+            Array.from(request.headers.entries()).filter(([key, _]) => {
+              return ssrConfig.unsafeHeaders
+                ?.map(header => header.toLowerCase())
+                ?.includes(key.toLowerCase());
+            }),
+          )
+        : undefined;
+    }
 
     return {
       data: prefetchData,
@@ -53,11 +65,12 @@ export class SSRDataCollector implements Collector {
         request: {
           // TODO: support params
           //  confirm it is need?
+          params: {},
           query,
           pathname,
           host,
           url: request.url,
-          headers: headerData,
+          headers,
         },
       },
       renderLevel: chunkSet.renderLevel,
@@ -68,8 +81,9 @@ export class SSRDataCollector implements Collector {
     ssrData: Record<string, any>,
     routerData?: Record<string, any>,
   ) {
-    const { config, nonce } = this.#options;
-    const { inlineScript } = config || {};
+    const { nonce, ssrConfig } = this.#options;
+    const inlineScript =
+      typeof ssrConfig === 'boolean' ? true : ssrConfig?.inlineScript !== false;
 
     const useInlineScript = inlineScript !== false;
     const serializeSSRData = serializeJson(ssrData);

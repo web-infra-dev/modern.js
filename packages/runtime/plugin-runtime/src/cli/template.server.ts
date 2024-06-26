@@ -2,7 +2,7 @@ const SERVER_ENTRY = `
 import {
   #render,
   createRequestHandler,
-} from '@#metaName/runtime/server/node';
+} from '@#metaName/runtime/ssr';
 
 const handleRequest = async (request, serverRoot, options) => {
 
