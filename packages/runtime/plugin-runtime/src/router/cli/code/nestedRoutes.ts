@@ -262,7 +262,9 @@ export const walk = async (
       if (pageAction) {
         pageRoute.action = pageAction;
       }
-      route.children?.push(pageRoute);
+
+      // Should ensure that the `page.tsx` has a higher priority than `__a/layout.tsx`
+      route.children?.unshift(pageRoute);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_LOADER_FILE) {
