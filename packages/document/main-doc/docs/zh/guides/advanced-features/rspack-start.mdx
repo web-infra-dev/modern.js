@@ -135,7 +135,7 @@ export default defineConfig<'rspack'>({
 }
 ```
 
-如果需要使用 Rspack 的 nightly/canary 版本，Rspack 的 nightly/canary 版本发到了增加了 `-canary` 后缀的包名下，需要 overrides 所有的 Rspack 内部包:
+如果需要使用 Rspack 的 nightly/canary 版本，Rspack 的 nightly/canary 版本的包名会在增加 `-canary` 后缀之后发布，需要修改所有的 Rspack 内部包:
 
 ```json title=package.json
 {
