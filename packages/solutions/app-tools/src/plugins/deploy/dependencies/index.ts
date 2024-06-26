@@ -168,6 +168,7 @@ export const handleDependencies = async ({
     const shouldCopyWholePackage = copyWholePackage?.(pkgName);
     if (
       tracedFile.path.startsWith(tracedFile.pkgPath) &&
+      // Merged package files are based on the version, not on paths, to handle some boundary cases
       tracedPackageVersion.pkgJSON.version === tracedFile.pkgVersion
     ) {
       if (shouldCopyWholePackage) {
