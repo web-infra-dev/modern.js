@@ -5,8 +5,8 @@ import { updateContext } from '../options';
 
 export const pluginWatcher: Plugin = {
   async setup(api) {
-    const basename = `${api.context.def.name.shortName}.runtime.json`;
     const frameworkApi = await api.setupFramework();
+    const basename = `${api.context.def.name.shortName}.runtime.json`;
     const appCtx = frameworkApi.useAppContext();
     const watcher = chokidar.watch(getConfigFilenames(basename), {
       cwd: appCtx.appDirectory,
