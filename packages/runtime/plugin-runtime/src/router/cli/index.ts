@@ -39,7 +39,7 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         if (routerConfig && !isV5(userConfig)) {
           plugins.push({
             name: 'router',
-            implementation: `@${metaName}/runtime/router`,
+            path: `@${metaName}/runtime/router`,
             config:
               typeof routerConfig === 'boolean'
                 ? { serverBase }

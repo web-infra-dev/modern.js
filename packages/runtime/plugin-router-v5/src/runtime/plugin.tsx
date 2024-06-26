@@ -17,6 +17,10 @@ import {
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import {
+  getGlobalLayoutApp,
+  getGlobalRoutes,
+} from '@modern-js/runtime/context';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
 
@@ -67,6 +71,10 @@ export type RouterConfig = Partial<HistoryConfig> & {
   history?: History;
   serverBase?: string[];
 };
+// eslint-disable-next-line import/no-mutable-exports
+export let finalRouteConfig: RouterConfig['routesConfig'] = {
+  routes: [],
+};
 
 export const routerPlugin = ({
   serverBase = [],
@@ -76,7 +84,12 @@ export const routerPlugin = ({
   createRoutes,
   historyOptions = {},
 }: RouterConfig): Plugin => {
-  const originRoutes = routesConfig?.routes || [];
+  finalRouteConfig = {
+    routes: getGlobalRoutes() as SingleRouteConfig[],
+    globalApp: getGlobalLayoutApp(),
+    ...routesConfig,
+  };
+  const originRoutes = finalRouteConfig?.routes;
   const isBrow = isBrowser();
 
   const select = (pathname: string) =>
@@ -133,13 +146,15 @@ export const routerPlugin = ({
               return (props: any) => {
                 const runner = (api as any).useHookRunners();
                 routes = runner.modifyRoutes(originRoutes);
-                routesConfig && (routesConfig.routes = routes);
+                finalRouteConfig && (finalRouteConfig.routes = routes);
                 return (
                   <Router history={history}>
                     {createRoutes ? (
                       <App {...props} Component={createRoutes()} />
                     ) : (
-                      <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                      <App {...props}>
+                        {renderRoutes(finalRouteConfig, props)}
+                      </App>
                     )}
                   </Router>
                 );
@@ -162,7 +177,7 @@ export const routerPlugin = ({
                   : baseUrl;
               const runner = (api as any).useHookRunners();
               const routes = runner.modifyRoutes(originRoutes);
-              routesConfig && (routesConfig.routes = routes);
+              finalRouteConfig && (finalRouteConfig.routes = routes);
               return (
                 <StaticRouter
                   basename={basename === '/' ? '' : basename}
@@ -172,7 +187,9 @@ export const routerPlugin = ({
                   {createRoutes ? (
                     <App {...props} Component={createRoutes()} />
                   ) : (
-                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                    <App {...props}>
+                      {renderRoutes(finalRouteConfig, props)}
+                    </App>
                   )}
                 </StaticRouter>
               );

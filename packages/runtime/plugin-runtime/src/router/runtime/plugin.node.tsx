@@ -15,6 +15,7 @@ import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../core/types';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
@@ -40,6 +41,11 @@ export function createFetchHeaders(
   return headers;
 }
 
+// eslint-disable-next-line import/no-mutable-exports
+export let finalRouteConfig: RouterConfig['routesConfig'] = {
+  routes: [],
+};
+
 export const routerPlugin = ({
   basename = '',
   originalBaseUrl = '',
@@ -52,11 +58,16 @@ export const routerPlugin = ({
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      finalRouteConfig = {
+        routes: getGlobalRoutes(),
+        globalApp: getGlobalLayoutApp(),
+        ...routesConfig,
+      };
       return {
         async init({ context }, next) {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!routesConfig && !createRoutes) {
+          if (!finalRouteConfig.routes && !createRoutes) {
             return next({ context });
           }
 
@@ -79,7 +90,7 @@ export const routerPlugin = ({
             ? createRoutes()
             : createRoutesFromElements(
                 renderRoutes({
-                  routesConfig,
+                  routesConfig: finalRouteConfig,
                   ssrMode,
                   props: {
                     nonce,
@@ -132,7 +143,7 @@ export const routerPlugin = ({
         hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!routesConfig) {
+          if (!finalRouteConfig) {
             return next({ App, config });
           }
 

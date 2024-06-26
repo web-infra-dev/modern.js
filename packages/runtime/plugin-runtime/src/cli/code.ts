@@ -10,6 +10,7 @@ import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
 import {
+  INDEX_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
@@ -94,20 +95,15 @@ export const generateCode = async (
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
 
-        const bootstrapFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
-        );
-
-        fs.outputFileSync(
-          enableAsyncEntry ? bootstrapFile : indexFile,
-          indexCode,
-          'utf8',
-        );
+        fs.outputFileSync(indexFile, indexCode, 'utf8');
         if (enableAsyncEntry) {
+          const bootstrapFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+          );
           fs.outputFileSync(
-            indexFile,
-            `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+            bootstrapFile,
+            `import('./${INDEX_FILE_NAME}');`,
             'utf8',
           );
         }

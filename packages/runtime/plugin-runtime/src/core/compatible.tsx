@@ -157,14 +157,14 @@ export const bootstrap: BootStrap = async (
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
   if (isBrowser) {
     if (isClientArgs(id)) {
-      const ssrData = (window as any)._SSR_DATA;
+      const ssrData = window._SSR_DATA;
       const loadersData = ssrData?.data?.loadersData || {};
 
       const initialLoadersState = Object.keys(loadersData).reduce(
         (res: any, key) => {
           const loaderData = loadersData[key];
 
-          if (loaderData.loading !== false) {
+          if (loaderData?.loading !== false) {
             return res;
           }
 

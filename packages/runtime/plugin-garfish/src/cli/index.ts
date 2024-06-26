@@ -51,7 +51,7 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
         if (runtimeConfig?.masterApp) {
           plugins.push({
             name: 'garfish',
-            implementation: `@${metaName}/plugin-garfish/runtime`,
+            path: `@${metaName}/plugin-garfish/runtime`,
             config: runtimeConfig?.masterApp || {},
           });
         }

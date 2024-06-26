@@ -35,22 +35,26 @@ const hasServerEntry = (dir: string) =>
 const isBundleEntry = async (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dir: string,
+  enableCustomEntry?: boolean,
 ) => {
-  return (
-    (
-      await hookRunners.checkEntryPoint({
-        path: dir,
-        entry: false,
-      })
-    ).entry ||
-    hasEntry(dir) ||
-    hasIndex(dir)
-  );
+  const { entry } = await hookRunners.checkEntryPoint({
+    path: dir,
+    entry: false,
+  });
+  if (entry) {
+    return entry;
+  }
+  const customEntry = hasEntry(dir);
+  if (enableCustomEntry && customEntry) {
+    return customEntry;
+  }
+  return hasIndex(dir);
 };
 
 const scanDir = (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dirs: string[],
+  enableCustomEntry?: boolean,
 ): Promise<Entrypoint[]> =>
   Promise.all(
     dirs.map(async (dir: string) => {
@@ -85,15 +89,15 @@ const scanDir = (
         return {
           entryName,
           isMainEntry: false,
-          entry: customEntryFile || entryFile,
+          entry: enableCustomEntry ? customEntryFile || entryFile : entryFile,
           customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
-          customEntry: customEntryFile,
+          customEntry: enableCustomEntry ? customEntryFile : false,
         };
       }
-      if (customEntryFile) {
+      if (enableCustomEntry && customEntryFile) {
         return {
           entryName,
           isMainEntry: false,
@@ -116,7 +120,7 @@ export const getFileSystemEntry = async (
   const { appDirectory } = appContext;
 
   const {
-    source: { entriesDir, disableEntryDirs },
+    source: { entriesDir, disableEntryDirs, enableCustomEntry },
   } = config;
 
   let disabledDirs: string[] = [];
@@ -129,8 +133,8 @@ export const getFileSystemEntry = async (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      if (await isBundleEntry(hookRunners, src)) {
-        return scanDir(hookRunners, [src]);
+      if (await isBundleEntry(hookRunners, src, enableCustomEntry)) {
+        return scanDir(hookRunners, [src], enableCustomEntry);
       }
       const dirs: string[] = [];
       await Promise.all(
@@ -138,14 +142,14 @@ export const getFileSystemEntry = async (
           const file = path.join(src, filename);
           if (
             fs.statSync(file).isDirectory() &&
-            (await isBundleEntry(hookRunners, file)) &&
+            (await isBundleEntry(hookRunners, file, enableCustomEntry)) &&
             !disabledDirs.includes(file)
           ) {
             dirs.push(file);
           }
         }),
       );
-      return scanDir(hookRunners, dirs);
+      return scanDir(hookRunners, dirs, enableCustomEntry);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }
