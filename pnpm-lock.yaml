@@ -583,9 +583,6 @@ importers:
       babel-plugin-macros:
         specifier: 3.1.0
         version: 3.1.0
-      hoist-non-react-statics:
-        specifier: ^3.3.2
-        version: 3.3.2
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -2689,9 +2686,6 @@ importers:
       garfish:
         specifier: ^1.8.1
         version: 1.8.1
-      hoist-non-react-statics:
-        specifier: ^3.3.2
-        version: 3.3.2
       react-loadable:
         specifier: ^5.5.0
         version: 5.5.0(react@18.2.0)
@@ -2789,9 +2783,6 @@ importers:
       history:
         specifier: ^4.7.9
         version: 4.10.1
-      hoist-non-react-statics:
-        specifier: ^3.3.2
-        version: 3.3.2
       react-router-dom:
         specifier: ^5.3.4
         version: 5.3.4(react@18.2.0)
@@ -2913,12 +2904,12 @@ importers:
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
-      hoist-non-react-statics:
-        specifier: ^3.3.2
-        version: 3.3.2
       invariant:
         specifier: ^2.2.4
         version: 2.2.4
+      isbot:
+        specifier: '4'
+        version: 4.4.0
       react-helmet:
         specifier: ^6.1.0
         version: 6.1.0(react@18.2.0)
@@ -2944,6 +2935,9 @@ importers:
       '@remix-run/web-fetch':
         specifier: ^4.1.3
         version: 4.3.2
+      '@rsbuild/core':
+        specifier: 0.7.10
+        version: 0.7.10
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2962,6 +2956,9 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.2.6
+      '@types/loadable__server':
+        specifier: 5.12.11
+        version: 5.12.11
       '@types/loadable__webpack-plugin':
         specifier: ^5.7.3
         version: 5.7.3
@@ -3270,8 +3267,8 @@ importers:
         specifier: ^3.12.2
         version: 3.12.12
       isbot:
-        specifier: 3.8.0
-        version: 3.8.0
+        specifier: '4'
+        version: 4.4.0
       ts-deepmerge:
         specifier: 7.0.0
         version: 7.0.0
@@ -6152,6 +6149,102 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/entries:
+    dependencies:
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+
+  tests/integration/entries/fixtures/app-builder:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-custom:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-custom-bootstrap:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-custom-routes:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-entry:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-route:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
   tests/integration/esbuild:
     dependencies:
       '@types/jest':
@@ -6176,6 +6269,60 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+
+  tests/integration/garfish/app-dashboard:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/garfish/app-master:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/garfish/app-table:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-garfish':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-garfish
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
 
   tests/integration/load-config:
     dependencies:
@@ -8673,13 +8820,11 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-environment-visitor': 7.24.7
-      '@babel/helper-module-imports': 7.24.7
-      '@babel/helper-simple-access': 7.24.7
-      '@babel/helper-split-export-declaration': 7.24.7
-      '@babel/helper-validator-identifier': 7.24.7
-    transitivePeerDependencies:
-      - supports-color
+      '@babel/helper-environment-visitor': 7.24.6
+      '@babel/helper-module-imports': 7.24.6
+      '@babel/helper-simple-access': 7.24.6
+      '@babel/helper-split-export-declaration': 7.24.6
+      '@babel/helper-validator-identifier': 7.24.6
     dev: false
 
   /@babel/helper-module-transforms@7.24.6(@babel/core@7.24.6):
@@ -8702,13 +8847,11 @@ packages:
       '@babel/core': ^7.0.0
     dependencies:
       '@babel/core': 7.24.7
-      '@babel/helper-environment-visitor': 7.24.7
-      '@babel/helper-module-imports': 7.24.7
-      '@babel/helper-simple-access': 7.24.7
-      '@babel/helper-split-export-declaration': 7.24.7
-      '@babel/helper-validator-identifier': 7.24.7
-    transitivePeerDependencies:
-      - supports-color
+      '@babel/helper-environment-visitor': 7.24.6
+      '@babel/helper-module-imports': 7.24.6
+      '@babel/helper-simple-access': 7.24.6
+      '@babel/helper-split-export-declaration': 7.24.6
+      '@babel/helper-validator-identifier': 7.24.6
     dev: false
 
   /@babel/helper-module-transforms@7.24.7(@babel/core@7.24.7):
@@ -11003,8 +11146,6 @@ packages:
       '@babel/helper-module-transforms': 7.24.6(@babel/core@7.24.7)
       '@babel/helper-plugin-utils': 7.24.6
       '@babel/helper-simple-access': 7.24.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@babel/plugin-transform-modules-commonjs@7.24.7(@babel/core@7.24.7):
@@ -19884,6 +20025,12 @@ packages:
       '@types/react': 18.0.21
     dev: false
 
+  /@types/loadable__server@5.12.11:
+    resolution: {integrity: sha512-GACLW+PTT5tXZgFc+wVxICMXCFACPEws+34a75qcYG7CkLaj2nItGE0xzor57H0hpkF59wHZJalMbg7n/wGCKw==}
+    dependencies:
+      '@types/react': 18.0.21
+    dev: true
+
   /@types/loadable__webpack-plugin@5.7.3:
     resolution: {integrity: sha512-jdOgIovGk9xcbU1Kyveiw9RVCBbHfv9U9AKOveop8Jk4JQQOPrafE7WHaNxotza08pH1YG6vHTV84xUL2W2F1Q==}
     dependencies:
@@ -27362,9 +27509,9 @@ packages:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: false
 
-  /isbot@3.8.0:
-    resolution: {integrity: sha512-vne1mzQUTR+qsMLeCBL9+/tgnDXRyc2pygLGl/WsgA+EZKIiB5Ehu0CiVTHIIk30zhJ24uGz4M5Ppse37aR0Hg==}
-    engines: {node: '>=12'}
+  /isbot@4.4.0:
+    resolution: {integrity: sha512-8ZvOWUA68kyJO4hHJdWjyreq7TYNWTS9y15IzeqVdKxR9pPr3P/3r9AHcoIv9M0Rllkao5qWz2v1lmcyKIVCzQ==}
+    engines: {node: '>=18'}
     dev: false
 
   /isexe@2.0.0:
