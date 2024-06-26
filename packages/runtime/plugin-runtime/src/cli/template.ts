@@ -25,7 +25,7 @@ const genRenderCode = ({
     return `import '${customEntry.replace(srcDirectory, internalSrcAlias)}'`;
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
-import { render } from '@${metaName}/runtime/client';
+import { render } from '@${metaName}/runtime/browser';
 ${
   customBootstrap
     ? `import customBootstrap from '${customBootstrap.replace(

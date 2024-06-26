@@ -3,7 +3,7 @@ import { Entrypoint } from '@modern-js/types';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { ENTRY_POINT_REGISTER_FILE_NAME } from './constants';
 
-export const pluginAlias = ({
+export const builderPluginAlias = ({
   entrypoints,
   internalDirectory,
   metaName,

@@ -48,10 +48,10 @@
       "jsnext:source": "./src/core/react/index.ts",
       "default": "./dist/esm/core/react/index.js"
     },
-    "./client": {
-      "types": "./dist/types/core/client/index.d.ts",
-      "jsnext:source": "./src/core/client/index.ts",
-      "default": "./dist/esm/core/client/index.js"
+    "./browser": {
+      "types": "./dist/types/core/browser/index.d.ts",
+      "jsnext:source": "./src/core/browser/index.ts",
+      "default": "./dist/esm/core/browser/index.js"
     },
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
@@ -147,8 +147,8 @@
       "react": [
         "./dist/types/core/react/index.d.ts"
       ],
-      "client": [
-        "./dist/types/core/client/index.d.ts"
+      "browser": [
+        "./dist/types/core/browser/index.d.ts"
       ],
       "head": [
         "./dist/types/exports/head.d.ts"
