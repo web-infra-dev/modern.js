@@ -56,9 +56,6 @@ export function onError(
   logger?: Logger,
   req?: Request,
 ) {
-  const headers = req?.headers;
-  headers?.delete('cookie');
-
   const headerData = req && parseHeaders(req);
 
   headerData && delete headerData.cookie;
@@ -70,7 +67,7 @@ export function onError(
         : `Server Error - ${digest}, error = %s`,
       error instanceof Error ? error.stack || error.message : error,
       req?.url,
-      headers,
+      headerData,
     );
   } else if (req) {
     console.error(
