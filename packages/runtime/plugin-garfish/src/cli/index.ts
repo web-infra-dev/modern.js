@@ -35,6 +35,7 @@ export function getDefaultMicroFrontedConfig(
 
 export const garfishPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-garfish',
+  pre: ['@modern-js/runtime'],
   setup: api => {
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
