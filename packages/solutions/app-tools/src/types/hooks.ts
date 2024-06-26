@@ -47,7 +47,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     path: string;
     entry: false | string;
   }>;
-  generateEntryCode: AsyncWaterfall<{ entrypoints: Entrypoint[] }>;
+  generateEntryCode: AsyncWorkflow<{ entrypoints: Entrypoint[] }, void>;
   htmlPartials: AsyncWaterfall<{
     entrypoint: Entrypoint;
     partials: HtmlPartials;

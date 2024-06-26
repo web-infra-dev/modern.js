@@ -71,8 +71,7 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         return { entrypoints: newEntryPoints };
       },
       async generateEntryCode({ entrypoints }) {
-        const newEntryPoints = await handleGeneratorEntryCode(api, entrypoints);
-        return { entrypoints: newEntryPoints };
+        await handleGeneratorEntryCode(api, entrypoints);
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();

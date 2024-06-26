@@ -13,17 +13,13 @@ import { documentPlugin } from '../document/cli';
 import { isRuntimeEntry } from './entry';
 import { ENTRY_POINT_FILE_NAME } from './constants';
 import { generateCode } from './code';
-import { pluginAlias } from './alias';
+import { builderPluginAlias } from './alias';
 
 export { isRuntimeEntry } from './entry';
 export { statePlugin, ssrPlugin, routerPlugin, documentPlugin };
-export const runtimePlugin = (
-  params:
-    | {
-        plugins?: CliPlugin<AppTools>[];
-      }
-    | undefined,
-): CliPlugin<AppTools> => ({
+export const runtimePlugin = (params?: {
+  plugins?: CliPlugin<AppTools>[];
+}): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',
@@ -60,8 +56,13 @@ export const runtimePlugin = (
       async generateEntryCode({ entrypoints }) {
         const appContext = api.useAppContext();
         const resolvedConfig = api.useResolvedConfigContext();
-        await generateCode(api, appContext, resolvedConfig);
-        return { entrypoints };
+        const runners = api.useHookRunners();
+        await generateCode(
+          entrypoints,
+          appContext,
+          resolvedConfig,
+          runners._internalRuntimePlugins,
+        );
       },
       /* Note that the execution time of the config hook is before prepare.
       /* This means that the entry information cannot be obtained in the config hook.
@@ -71,7 +72,7 @@ export const runtimePlugin = (
         const { builder, entrypoints, internalDirectory, metaName } =
           api.useAppContext();
         builder?.addPlugins([
-          pluginAlias({ entrypoints, internalDirectory, metaName }),
+          builderPluginAlias({ entrypoints, internalDirectory, metaName }),
         ]);
       },
       config() {
