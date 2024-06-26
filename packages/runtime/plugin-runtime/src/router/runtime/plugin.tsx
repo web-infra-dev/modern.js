@@ -88,7 +88,11 @@ export const routerPlugin = ({
                 select(location.pathname);
               const _basename =
                 baseUrl === '/'
-                  ? urlJoin(baseUrl, config?.router?.basename || basename)
+                  ? urlJoin(
+                      baseUrl,
+                      config?.router?.basename?.replace(/^\/*/, '/') ||
+                        basename,
+                    )
                   : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
