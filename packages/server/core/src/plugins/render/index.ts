@@ -177,6 +177,7 @@ export async function getRenderHandler({
   const render = createRender({
     routes,
     pwd,
+    config,
     // TODO: need static Genrate
     staticGenerate,
     cacheConfig,

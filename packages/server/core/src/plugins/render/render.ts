@@ -3,6 +3,7 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
   getPathname,
@@ -12,11 +13,11 @@ import {
   onError as onErrorFn,
   ErrorDigest,
 } from '../../utils';
-import type { CacheConfig, FallbackReason } from '../../types';
+import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
 import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
-import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
+import { SSRRenderOptions, ssrRender } from './ssrRender';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -31,6 +32,7 @@ export type OnFallback = (
 interface CreateRenderOptions {
   pwd: string;
   routes: ServerRoute[];
+  config: UserConfig;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   onFallback?: OnFallback;
@@ -91,7 +93,7 @@ export async function createRender({
   staticGenerate,
   cacheConfig,
   forceCSR,
-  nonce,
+  config,
   onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
@@ -154,9 +156,7 @@ export async function createRender({
       html,
       routeInfo,
       staticGenerate: staticGenerate || false,
-      metaName: metaName || 'modern-js',
-      nonce,
-      logger,
+      config,
       nodeReq,
       cacheConfig,
       reporter,
@@ -164,7 +164,6 @@ export async function createRender({
       params,
       locals,
       serverManifest,
-      metrics,
       loaderContext: loaderContext || new Map(),
     };
 

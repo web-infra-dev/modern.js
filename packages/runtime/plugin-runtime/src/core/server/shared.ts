@@ -1,6 +1,10 @@
+import { ServerUserConfig } from '@modern-js/app-tools';
+import { Query } from '@modern-js/runtime-utils/universal';
 import { HandleRequestOptions } from './requestHandler';
 
 export type RenderOptions = HandleRequestOptions;
+
+export type SSRConfig = NonNullable<ServerUserConfig['ssr']>;
 
 export type RenderStreaming = (
   request: Request,
@@ -28,3 +32,21 @@ export enum RenderLevel {
   SERVER_PREFETCH,
   SERVER_RENDER,
 }
+
+export type SSRData = {
+  data: Record<string, any>;
+  context: {
+    request: {
+      params: Record<string, any>;
+      query: Query;
+      pathname: string;
+      host: string;
+      url: string;
+      headers?: Record<string, string>;
+    };
+    reporter?: {
+      sessionId?: string;
+    };
+  };
+  renderLevel: RenderLevel;
+};

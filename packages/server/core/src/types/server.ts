@@ -7,6 +7,11 @@ import type {
   ServerRoute,
   NestedRoute,
 } from '@modern-js/types';
+import {
+  RequestHandler as BundleRequestHandler,
+  OnError,
+  OnTiming,
+} from './requestHandler';
 
 export type SSRServerContext = BaseSSRServerContext & {
   staticGenerate?: boolean;
@@ -26,13 +31,18 @@ type ServerLoaderBundle = {
   handleRequest: (options: {
     request: Request;
     serverRoutes: ServerRoute[];
-    context: any;
     routes: NestedRoute[];
+    context: {
+      reporter?: Reporter;
+    };
+
+    onError?: OnError;
+    onTiming?: OnTiming;
   }) => Promise<any>;
 };
 
 type ServerRenderBundle = {
-  serverRender: () => any;
+  requestHandler: Promise<BundleRequestHandler>;
 };
 
 export type ServerManifest = {

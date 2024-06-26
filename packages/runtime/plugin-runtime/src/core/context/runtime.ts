@@ -57,10 +57,15 @@ export interface TRuntimeContext extends BaseTRuntimeContext {
   [key: string]: any;
 }
 
-export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
+export const getInitialContext = (
+  runner: PluginRunner,
+  isBrowser = true,
+  routeManifest?: RouteManifest,
+): RuntimeContext => ({
   loaderManager: createLoaderManager({}),
   runner,
-  isBrowser: true,
+  isBrowser,
   routeManifest:
-    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
+    routeManifest ||
+    (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
 });

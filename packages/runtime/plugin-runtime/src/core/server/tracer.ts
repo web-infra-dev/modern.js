@@ -20,21 +20,21 @@ export type Tracer = {
 
 export type OnError = (key: SSRErrors, e: unknown) => void;
 
-export function createOnError(onError: (e: unknown) => void): OnError {
+export function createOnError(onError?: (e: unknown) => void): OnError {
   return (key, e) => {
     const error = e instanceof Error ? e : new Error('Unexpected Server Error');
 
     (error as any).name = key;
 
-    onError(e);
+    onError?.(e);
   };
 }
 export type OnTiming = (key: SSRTimings, cost: number) => void;
 
 export function createOnTiming(
-  onTiming: (name: string, dur: number) => void,
+  onTiming?: (name: string, dur: number) => void,
 ): OnTiming {
   return (key, cost) => {
-    onTiming(key, cost);
+    onTiming?.(key, cost);
   };
 }
