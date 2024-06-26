@@ -4,6 +4,8 @@ export const ENTRY_POINT_FILE_NAME = 'index.jsx';
 
 export const SERVER_ENTRY_POINT_FILE_NAME = 'index.server.jsx';
 
+export const INDEX_FILE_NAME = 'index';
+
 export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 
 export const ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME = 'runtime-register.js';

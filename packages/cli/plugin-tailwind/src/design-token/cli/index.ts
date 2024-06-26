@@ -45,7 +45,7 @@ export const designTokenPlugin = (
           const designTokens = getDesignTokens(userConfig.source.designSystem);
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            implementation: `${pluginName}/runtime-design-token`,
+            path: `${pluginName}/runtime-design-token`,
             config: {
               token: designTokens,
               useStyledComponentsThemeProvider: Boolean(useSCThemeProvider),

@@ -11,6 +11,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
@@ -48,7 +49,11 @@ export const routerPlugin = ({
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   let routes: RouteObject[] = [];
-  finalRouteConfig = routesConfig;
+  finalRouteConfig = {
+    routes: getGlobalRoutes(),
+    globalApp: getGlobalLayoutApp(),
+    ...routesConfig,
+  };
   window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
 
   return {
