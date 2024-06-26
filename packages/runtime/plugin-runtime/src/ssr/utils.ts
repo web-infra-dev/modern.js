@@ -4,9 +4,7 @@ import { SSRServerContext } from './serverRender/types';
 
 export const isReact18 = () => process.env.IS_REACT18 === 'true';
 
-export const formatServer = (
-  request: BaseSSRServerContext['request'],
-): SSRServerContext['request'] => {
+export const formatServer = (request: BaseSSRServerContext['request']): any => {
   const {
     cookie = '',
     'user-agent': userAgent = '',
@@ -19,7 +17,7 @@ export const formatServer = (
     userAgent,
     referer,
     ...request,
-  };
+  } as any;
 };
 
 const getQuery = () =>

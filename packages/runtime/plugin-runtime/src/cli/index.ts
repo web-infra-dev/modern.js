@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  isReact18,
+  isReact18 as checkIsReact18,
   cleanRequireCache,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
@@ -78,11 +78,16 @@ export const runtimePlugin = (params?: {
       config() {
         const { appDirectory, metaName, internalDirectory } =
           api.useAppContext();
-        process.env.IS_REACT18 = isReact18(appDirectory).toString();
+
+        const isReact18 = checkIsReact18(appDirectory);
+
+        process.env.IS_REACT18 = isReact18.toString();
+
         const pluginsExportsUtils = createRuntimeExportsUtils(
           internalDirectory,
           'plugins',
         );
+
         return {
           runtime: {},
           runtimeByEntries: {},
@@ -112,20 +117,24 @@ export const runtimePlugin = (params?: {
              * Add IgnorePlugin to fix react-dom/client import error when use react17
              */
             webpackChain: (chain, { webpack }) => {
-              chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
-                {
-                  resourceRegExp: /^react-dom\/client$/,
-                  contextRegExp: /./,
-                },
-              ]);
+              if (!isReact18) {
+                chain.plugin('ignore-plugin').use(webpack.IgnorePlugin, [
+                  {
+                    resourceRegExp: /^react-dom\/client$/,
+                    contextRegExp: /./,
+                  },
+                ]);
+              }
             },
             rspack: (_config, { appendPlugins }) => {
-              appendPlugins([
-                new rspack.IgnorePlugin({
-                  resourceRegExp: /^react-dom\/client$/,
-                  contextRegExp: /./,
-                }),
-              ]);
+              if (!isReact18) {
+                appendPlugins([
+                  new rspack.IgnorePlugin({
+                    resourceRegExp: /^react-dom\/client$/,
+                    contextRegExp: /./,
+                  }),
+                ]);
+              }
             },
           },
         };

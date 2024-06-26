@@ -145,6 +145,8 @@ export default ({
         api.setAppContext(appContext);
 
         if (checkIsBuildCommands()) {
+          await hookRunners.generateEntryCode({ entrypoints });
+
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({

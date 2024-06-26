@@ -120,13 +120,13 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
           context.ssrContext = {
             ...context.ssrContext!,
             response: mockResp,
-            request: formatClient({} as any),
+            request: formatClient({} as any) as any,
           };
           return next({ context });
         }
 
         context.ssrContext!.response = mockResp;
-        context.ssrContext!.request = formatClient(request);
+        context.ssrContext!.request = formatClient(request) as any;
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
@@ -149,7 +149,7 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
           pickedContext: {
             ...pickedContext,
             initialData,
-            request,
+            request: request as any,
             response: mockResp,
           },
         });

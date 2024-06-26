@@ -2,7 +2,7 @@ import { serializeJson } from '@modern-js/runtime-utils/node';
 import { parseQuery } from '@modern-js/runtime-utils/universal';
 import { attributesToString, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
-import { BuildHtmlCb, buildHtml, RenderLevel } from '../shared';
+import { BuildHtmlCb, buildHtml, RenderLevel, SSRData } from '../shared';
 import { HandleRequestConfig } from '../requestHandler';
 import { RuntimeContext } from '../../context';
 
@@ -44,7 +44,7 @@ function createReplaceSSRData(options: {
 
   const { pathname, host } = url;
 
-  const SSRData = {
+  const ssrData: SSRData = {
     data: {
       initialData: runtimeContext.initialData,
       i18nData: runtimeContext.__i18nData__,
@@ -71,7 +71,7 @@ function createReplaceSSRData(options: {
   const attrsStr = attributesToString({ nonce });
 
   const ssrDataScript = `
-    <script${attrsStr}>window._SSR_DATA = ${serializeJson(SSRData)}</script>
+    <script${attrsStr}>window._SSR_DATA = ${serializeJson(ssrData)}</script>
     `;
 
   return (template: string) =>

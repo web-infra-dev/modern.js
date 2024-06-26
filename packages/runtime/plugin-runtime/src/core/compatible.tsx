@@ -312,10 +312,16 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
+  const pickedContext: TRuntimeContext = {
+    initialData: context.initialData,
+    request: context.ssrContext?.request,
+    response: context.ssrContext?.response,
+  };
+
   const memoizedContext = useMemo(
     () =>
       context.runner.pickContext(
-        { context, pickedContext: {} as any },
+        { context, pickedContext },
         {
           onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
             pickedContext,
