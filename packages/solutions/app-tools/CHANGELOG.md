@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.54.4
+
+### Patch Changes
+
+- 3755228: feat: export handleDependencies
+  feat: 暴露 handleDependencies 方法
+- 8149769: fix: module not found error when restart app
+  fix: 修复重启应用时找不到模块的报错
+  - @modern-js/core@2.54.4
+  - @modern-js/plugin-data-loader@2.54.4
+  - @modern-js/plugin-i18n@2.54.4
+  - @modern-js/plugin-lint@2.54.4
+  - @modern-js/rsbuild-plugin-esbuild@2.54.4
+  - @modern-js/uni-builder@2.54.4
+  - @modern-js/server-core@2.54.4
+  - @modern-js/prod-server@2.54.4
+  - @modern-js/server@2.54.4
+  - @modern-js/server-utils@2.54.4
+  - @modern-js/node-bundle-require@2.54.4
+  - @modern-js/plugin@2.54.4
+  - @modern-js/types@2.54.4
+  - @modern-js/utils@2.54.4
+
 ## 2.54.3
 
 ### Patch Changes

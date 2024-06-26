@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 2.54.4
+
+### Patch Changes
+
+- d1b5316: chore: add slash to basename if not exist
+  chore: 如果 basename 不是 / 开头，则添加 / 前缀
+  - @modern-js/runtime@2.54.4
+  - @modern-js/utils@2.54.4
+
 ## 2.54.3
 
 ### Patch Changes

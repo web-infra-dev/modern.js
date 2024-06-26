@@ -1,5 +1,14 @@
 # @modern-js/plugin-router-v5
 
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/plugin@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/types@2.54.4
+- @modern-js/utils@2.54.4
+
 ## 2.54.3
 
 ### Patch Changes
