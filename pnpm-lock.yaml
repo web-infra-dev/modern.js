@@ -11488,11 +11488,9 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-      '@babel/helper-module-transforms': 7.24.7(@babel/core@7.24.7)
-      '@babel/helper-plugin-utils': 7.24.7
+      '@babel/helper-module-transforms': 7.24.6(@babel/core@7.24.7)
+      '@babel/helper-plugin-utils': 7.24.6
       '@babel/helper-simple-access': 7.24.6
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@babel/plugin-transform-modules-commonjs@7.24.7(@babel/core@7.24.7):
@@ -11555,11 +11553,9 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
       '@babel/helper-hoist-variables': 7.24.6
-      '@babel/helper-module-transforms': 7.24.7(@babel/core@7.24.7)
-      '@babel/helper-plugin-utils': 7.24.7
-      '@babel/helper-validator-identifier': 7.24.7
-    transitivePeerDependencies:
-      - supports-color
+      '@babel/helper-module-transforms': 7.24.6(@babel/core@7.24.7)
+      '@babel/helper-plugin-utils': 7.24.6
+      '@babel/helper-validator-identifier': 7.24.6
     dev: false
 
   /@babel/plugin-transform-modules-systemjs@7.24.7(@babel/core@7.24.7):
@@ -12440,7 +12436,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-      '@babel/helper-plugin-utils': 7.24.7
+      '@babel/helper-plugin-utils': 7.24.6
       regenerator-transform: 0.15.2
     dev: false
 
