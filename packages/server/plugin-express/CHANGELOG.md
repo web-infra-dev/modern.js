@@ -1,5 +1,27 @@
 # @modern-js/plugin-express
 
+## 2.54.3
+
+### Patch Changes
+
+- b9ca86d: fix: move @modern-js/server-core to bff/koa/express plugin dependencies
+  fix: 将 @modern-js/server-core 作为 bff/koa/express 插件的 dependencies
+- Updated dependencies [b50d7ec]
+  - @modern-js/server-core@2.54.3
+  - @modern-js/bff-core@2.54.3
+  - @modern-js/bff-runtime@2.54.3
+  - @modern-js/types@2.54.3
+  - @modern-js/utils@2.54.3
+
+## 2.54.2
+
+### Patch Changes
+
+- @modern-js/bff-core@2.54.2
+- @modern-js/bff-runtime@2.54.2
+- @modern-js/types@2.54.2
+- @modern-js/utils@2.54.2
+
 ## 2.54.1
 
 ### Patch Changes

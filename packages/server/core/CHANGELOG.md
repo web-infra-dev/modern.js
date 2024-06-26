@@ -1,5 +1,23 @@
 # @modern-js/server-plugin
 
+## 2.54.3
+
+### Patch Changes
+
+- b50d7ec: fix: we should load modern.config.json when production
+  fix: 在生产阶段，我们应该加载 modern.config.json
+  - @modern-js/plugin@2.54.3
+  - @modern-js/runtime-utils@2.54.3
+  - @modern-js/utils@2.54.3
+
+## 2.54.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.54.2
+- @modern-js/runtime-utils@2.54.2
+- @modern-js/utils@2.54.2
+
 ## 2.54.1
 
 ### Patch Changes

@@ -67,7 +67,7 @@ When you get a problem like this, you can first open the browser console and the
 
 Storybook does not provide a solution for this, but there is one in the Storybook Issue. In the Modern.js Module, you can:
 
-1. Add the `config/storybook/middleware.js` file and initialize the following:
+1. Add the `.storybook/middleware.js` file and initialize the following:
 
 ``` js
 /* eslint-disable filenames/match-exported */
@@ -94,3 +94,11 @@ module.exports = function expressMiddleware (router) {
 ```
 
 Link：https://github.com/storybookjs/storybook/issues/11551
+
+## Tailwind CSS doesn't work in Storybook
+
+The Storybook build capability of the Modern.js Module is provided by [Rsbuild](https://rsbuild.dev/). Since the underlying implementation of Rsbuild is not integrated with Modern.js Module, the Modern.js Module plugins do not work in Storybook (Rsbuild).
+
+Solution: Register the tailwindcss PostCSS plugin in storybook.
+
+Reference link: [Rsbuild - tailwindcss](https://rsbuild.dev/guide/basic/tailwindcss#configuring-postcss).

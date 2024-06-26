@@ -4,8 +4,11 @@ import {
   fs,
   DEFAULT_SERVER_CONFIG,
   requireExistModule,
+  ensureAbsolutePath,
+  OUTPUT_CONFIG_FILE,
+  lodash as _,
 } from '@modern-js/utils';
-import { ServerConfig } from '../../../types';
+import { CliConfig, ServerConfig, UserConfig } from '../../../types';
 
 const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
   if (fs.pathExistsSync(serverConfigPath)) {
@@ -34,7 +37,7 @@ function loadServerConfigOld(
   return serverConfig;
 }
 
-export function loadServerConfig(
+export function loadServerRuntimeConfig(
   pwd: string,
   oldServerFile: string = DEFAULT_SERVER_CONFIG,
   newServerConfigPath?: string,
@@ -48,4 +51,36 @@ export function loadServerConfig(
 
   const oldServerConfig = loadServerConfigOld(pwd, oldServerFile);
   return oldServerConfig;
+}
+
+export function loadServerCliConfig(
+  pwd: string,
+  defaultConfig: UserConfig = {},
+): CliConfig {
+  const cliConfigPath = ensureAbsolutePath(
+    pwd,
+    path.join(defaultConfig.output?.path || 'dist', OUTPUT_CONFIG_FILE),
+  );
+
+  let cliConfig: CliConfig = {
+    output: {},
+    source: {},
+    tools: {},
+    server: {},
+    security: {},
+    runtime: {},
+    bff: {},
+    html: {},
+    dev: {},
+  };
+
+  try {
+    cliConfig = require(cliConfigPath);
+  } catch (_) {
+    // ignore
+  }
+
+  const mergedCliConfig = _.merge(defaultConfig, cliConfig);
+
+  return mergedCliConfig;
 }

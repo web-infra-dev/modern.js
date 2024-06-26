@@ -42,8 +42,13 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
+
+      const pluginsCode = `[${plugins
+        .map((plugin, index) => {
+          return `plugin_${index}()`;
+        })
+        .join(',')}]`;
 
       let entryCode = (
         await fse.readFile(path.join(__dirname, './nodeEntry.js'))
@@ -55,6 +60,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
@@ -75,12 +81,12 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         return !filePath.startsWith(staticDirectory);
       };
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      await handleDependencies(
-        appDirectory,
-        outputDirectory,
-        ['@modern-js/prod-server'],
-        filter,
-      );
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: outputDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+        entryFilter: filter,
+      });
     },
   };
 };

@@ -1,5 +1,21 @@
 # @modern-js/plugin-garfish
 
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.3
+- @modern-js/utils@2.54.3
+
+## 2.54.2
+
+### Patch Changes
+
+- ea16092: fix: not specify externalsType in rspack mode
+- Updated dependencies [8c71964]
+  - @modern-js/runtime@2.54.2
+  - @modern-js/utils@2.54.2
+
 ## 2.54.1
 
 ### Patch Changes
