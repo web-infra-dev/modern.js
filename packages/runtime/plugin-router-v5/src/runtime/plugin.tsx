@@ -116,11 +116,15 @@ export const routerPlugin = ({
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
-              historyOptions.basename =
+              const basename =
                 baseUrl === '/'
-                  ? urlJoin(baseUrl, historyOptions.basename as string)
+                  ? urlJoin(
+                      baseUrl,
+                      config.router?.basename?.replace(/^\/*/, '/') ||
+                        (historyOptions.basename as string),
+                    )
                   : baseUrl;
-
+              historyOptions.basename = basename;
               const history =
                 customHistory ||
                 (supportHtml5History
@@ -150,7 +154,11 @@ export const routerPlugin = ({
               const baseUrl = request?.baseUrl as string;
               const basename =
                 baseUrl === '/'
-                  ? urlJoin(baseUrl, historyOptions.basename as string)
+                  ? urlJoin(
+                      baseUrl,
+                      config.router?.basename?.replace(/^\/*/, '/') ||
+                        (historyOptions.basename as string),
+                    )
                   : baseUrl;
               const runner = (api as any).useHookRunners();
               const routes = runner.modifyRoutes(originRoutes);
