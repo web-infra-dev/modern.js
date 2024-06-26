@@ -24,7 +24,7 @@ export interface ImportSpecifier {
 
 export interface RuntimePlugin {
   name: string;
-  implementation: string;
+  path: string;
   config: Record<string, any>;
 }
 

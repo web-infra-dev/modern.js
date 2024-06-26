@@ -11,7 +11,7 @@ import { ssrPlugin } from '../ssr/cli';
 import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
 import { isRuntimeEntry } from './entry';
-import { ENTRY_POINT_FILE_NAME } from './constants';
+import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
 import { generateCode } from './code';
 import { builderPluginAlias } from './alias';
 
@@ -31,8 +31,8 @@ export const runtimePlugin = (params?: {
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
   usePlugins: params?.plugins || [
     ssrPlugin(),
-    statePlugin(),
     routerPlugin(),
+    statePlugin(),
     documentPlugin(),
   ],
   setup: api => {
@@ -42,11 +42,18 @@ export const runtimePlugin = (params?: {
       },
       modifyEntrypoints({ entrypoints }) {
         const { internalDirectory } = api.useAppContext();
+        const {
+          source: { enableAsyncEntry },
+        } = api.useResolvedConfigContext();
         const newEntryPoints = entrypoints.map(entrypoint => {
           if (entrypoint.isAutoMount) {
             entrypoint.internalEntry = path.resolve(
               internalDirectory,
-              `./${entrypoint.entryName}/${ENTRY_POINT_FILE_NAME}`,
+              `./${entrypoint.entryName}/${
+                enableAsyncEntry
+                  ? ENTRY_BOOTSTRAP_FILE_NAME
+                  : ENTRY_POINT_FILE_NAME
+              }`,
             );
           }
           return entrypoint;
