@@ -14,13 +14,6 @@ import {
   SSR_DATA_JSON_ID,
 } from './serverRender/constants';
 
-declare module '../core' {
-  interface SSRContainer {
-    renderLevel: RenderLevel;
-    context?: SSRServerContext;
-  }
-}
-
 export const ssr = (config: SSRPluginConfig): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
