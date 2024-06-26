@@ -122,17 +122,52 @@ export default defineConfig<'rspack'>({
 
 可以使用 pnpm / yarn / npm 等包管理工具自带的依赖升级功能来将 Rspack 强制升级到指定版本。
 
-以 pnpm 为例，可通过 `overrides` 以下依赖更新 Rspack 版本:
+以 pnpm 为例，可通过 `overrides` 修改内置的 Rspack 版本:
 
 ```json title=package.json
 {
   "pnpm": {
     "overrides": {
-      "@rspack/core": "nightly",
-      "@rspack/plugin-react-refresh": "nightly",
+      "@rspack/core": "latest",
+      "@rspack/plugin-react-refresh": "latest",
     }
   }
 }
+```
+
+如果需要使用 Rspack 的 nightly/canary 版本，Rspack 的 nightly/canary 版本发到了增加了 `-canary` 后缀的包名下，需要 overrides 所有的 Rspack 内部包:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/binding": "npm:@rspack/binding-canary@nightly",
+      "@rspack/binding-darwin-arm64": "npm:@rspack/binding-darwin-arm64-canary@nightly",
+      "@rspack/binding-darwin-x64": "npm:@rspack/binding-darwin-x64-canary@nightly",
+      "@rspack/binding-linux-x64-gnu": "npm:@rspack/binding-linux-x64-gnu-canary@nightly",
+      "@rspack/binding-win32-x64-msvc": "npm:@rspack/binding-win32-x64-msvc-canary@nightly",
+      "create-rspack": "npm:create-rspack-canary@nightly",
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/cli": "npm:@rspack/cli-canary@nightly",
+      "@rspack/dev-server": "npm:@rspack/dev-server-canary@nightly",
+      "@rspack/plugin-minify": "npm:@rspack/plugin-minify-canary@nightly",
+       "@rspack/plugin-preact-refresh": "npm:@rspack/plugin-preact-refresh-canary@nightly",
+      "@rspack/test-tools": "npm:@rspack/test-tools-canary@nightly"
+    },
+    "peerDependencyRules": {
+      "allowAny": [
+        "@rspack/*"
+      ]
+    }
+  }
+}
+```
+
+Rspack 提供了 [install-rspack](https://github.com/rspack-contrib/install-rspack) 工具来快速修改 Rspack 版本:
+
+```sh
+npx install-rspack --version nightly # nightly npm tag
+npx install-rspack --version 0.7.5-canary-d614005-20240625082730 # A specific canary version
 ```
 
 :::tip Nightly 版本介绍
