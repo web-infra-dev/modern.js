@@ -1,5 +1,6 @@
 import { BaseSSRServerContext } from '@modern-js/types';
 import type { LoaderResult } from './loader/loaderManager';
+import type { RenderLevel } from './server/shared';
 
 declare global {
   interface Window {
@@ -23,6 +24,8 @@ export interface RouterSSRData {
 
 export interface SSRContainer {
   data?: SSRData; // string ssr data
+  renderLevel: RenderLevel;
+  context?: SSRServerContext;
 }
 
 type BuildHtmlCb = (tempalte: string) => string;
