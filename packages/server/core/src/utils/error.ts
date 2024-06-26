@@ -1,4 +1,5 @@
 import type { Logger } from '@modern-js/types';
+import { parseHeaders } from './request';
 
 const ERROR_PAGE_TEXT: Record<number, string> = {
   404: 'This page could not be found.',
@@ -50,20 +51,38 @@ export enum ErrorDigest {
 }
 
 export function onError(
-  logger: Logger,
   digest: ErrorDigest,
   error: Error | string,
+  logger?: Logger,
   req?: Request,
 ) {
   const headers = req?.headers;
   headers?.delete('cookie');
 
-  logger.error(
-    req
-      ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
-      : `Server Error - ${digest}, error = %s`,
-    error instanceof Error ? error.stack || error.message : error,
-    req?.url,
-    headers,
-  );
+  const headerData = req && parseHeaders(req);
+
+  headerData && delete headerData.cookie;
+
+  if (logger) {
+    logger.error(
+      req
+        ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
+        : `Server Error - ${digest}, error = %s`,
+      error instanceof Error ? error.stack || error.message : error,
+      req?.url,
+      headers,
+    );
+  } else if (req) {
+    console.error(
+      `Server Error - ${digest}, error = ${
+        error instanceof Error ? error.stack || error.message : error
+      }, req.url = ${req.url}, req.headers = ${JSON.stringify(headerData)}`,
+    );
+  } else {
+    console.error(
+      `Server Error - ${digest}, error = ${
+        error instanceof Error ? error.stack || error.message : error
+      } `,
+    );
+  }
 }

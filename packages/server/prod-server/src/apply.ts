@@ -41,13 +41,13 @@ export async function applyPlugins(
 
   serverBase.notFound(c => {
     const logger = c.get('logger');
-    onError(logger, ErrorDigest.ENOTF, '404 not found', c.req.raw);
+    onError(ErrorDigest.ENOTF, '404 not found', logger, c.req.raw);
     return c.html(createErrorHtml(404), 404);
   });
 
   serverBase.onError((err, c) => {
     const logger = c.get('logger');
-    onError(logger, ErrorDigest.EINTER, err, c.req.raw);
+    onError(ErrorDigest.EINTER, err, logger, c.req.raw);
     return c.html(createErrorHtml(500), 500);
   });
 
