@@ -41,6 +41,15 @@ exports[`nested routes walk 1`] = `
         "_component": "@_modern_js_src/user/layout",
         "children": [
           {
+            "_component": "@_modern_js_src/user/page",
+            "children": undefined,
+            "config": "@_modern_js_src/user/page.config",
+            "id": "user/page",
+            "index": true,
+            "loader": "@_modern_js_src/user/page.loader",
+            "type": "nested",
+          },
+          {
             "_component": "@_modern_js_src/user/$",
             "action": "@_modern_js_src/user/$.data",
             "clientData": "@_modern_js_src/user/$.data.client",
@@ -56,15 +65,6 @@ exports[`nested routes walk 1`] = `
             "data": "@_modern_js_src/user/[id]/page.data",
             "id": "user/(id)/page",
             "path": ":id",
-            "type": "nested",
-          },
-          {
-            "_component": "@_modern_js_src/user/page",
-            "children": undefined,
-            "config": "@_modern_js_src/user/page.config",
-            "id": "user/page",
-            "index": true,
-            "loader": "@_modern_js_src/user/page.loader",
             "type": "nested",
           },
           {
