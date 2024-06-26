@@ -14,7 +14,7 @@ export const hooks: AppToolsHooks = {
   modifyEntrypoints: createAsyncWaterfall(),
   /** add entry type */
   checkEntryPoint: createAsyncWaterfall(),
-  generateEntryCode: createAsyncWaterfall(),
+  generateEntryCode: createAsyncWorkflow(),
   htmlPartials: createAsyncWaterfall(),
   beforeGenerateRoutes: createAsyncWaterfall(),
   addDefineTypes: createAsyncWaterfall(),

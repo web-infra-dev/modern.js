@@ -1,6 +1,6 @@
 import { createRoot, render } from '@modern-js/runtime';
-import { Root } from 'react-dom/client';
-import { createPortal } from 'react-dom';
+import type { Root } from 'react-dom/client';
+import { createPortal, unmountComponentAtNode } from 'react-dom';
 
 export function createProvider(id?: string) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
@@ -22,7 +22,11 @@ export function createProvider(id?: string) {
       destroy({ dom }: { dom: HTMLElement }) {
         const node = dom.querySelector(`#${id || 'root'}`) || dom;
         if (node) {
-          (root as any).unmount();
+          if (process.env.IS_REACT18 === 'true') {
+            (root as any).unmount();
+          } else {
+            unmountComponentAtNode(node);
+          }
         }
       },
       // 兼容旧版本

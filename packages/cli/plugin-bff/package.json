@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.2",
+  "version": "2.54.3",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -71,7 +71,7 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@rsbuild/shared": "0.7.9",
+    "@rsbuild/shared": "0.7.10",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
