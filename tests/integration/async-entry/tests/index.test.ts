@@ -10,16 +10,16 @@ describe('generate async entry', () => {
 
     expect(
       readFileSync(
-        path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.jsx`),
+        path.resolve(appDir, `node_modules/.modern-js/main/index.jsx`),
         'utf8',
       ),
     ).toContain(`import { createRoot } from '@modern-js/runtime/react';`);
 
     expect(
       readFileSync(
-        path.resolve(appDir, `node_modules/.modern-js/main/index.jsx`),
+        path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.jsx`),
         'utf8',
       ),
-    ).toContain(`import('./bootstrap.jsx');`);
+    ).toContain(`import('./index');`);
   });
 });

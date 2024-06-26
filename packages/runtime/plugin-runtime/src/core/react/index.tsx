@@ -7,6 +7,8 @@ export function createRoot(
   config?: { router: { basename: string } },
 ) {
   const App = UserApp || getGlobalApp();
+
+  const runner = getGlobalRunner();
   const WrapperComponent: React.ComponentType<any> = props => {
     return React.createElement(
       App || React.Fragment,
@@ -23,9 +25,9 @@ export function createRoot(
           ),
     );
   };
-
-  const runner = getGlobalRunner();
-
+  /**
+   * when use routes entry, after running router plugin, the App will be define
+   */
   const HOCApp = runner.hoc(
     { App: WrapperComponent, config: config || {} },
     {

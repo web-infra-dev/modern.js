@@ -25,7 +25,7 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
         if (stateConfig) {
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            implementation: `@${metaName}/runtime/model`,
+            path: `@${metaName}/runtime/model`,
             config: typeof stateConfig === 'boolean' ? {} : stateConfig,
           });
         }

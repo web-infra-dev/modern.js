@@ -40,17 +40,14 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
-        const bootstrapFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
-        );
-        fs.outputFileSync(
-          enableAsyncEntry ? bootstrapFile : indexFile,
-          indexCode,
-          'utf8',
-        );
+
+        fs.outputFileSync(indexFile, indexCode, 'utf8');
         if (enableAsyncEntry) {
-          fs.outputFileSync(indexFile, generateAsyncEntryCode(), 'utf8');
+          const bootstrapFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+          );
+          fs.outputFileSync(bootstrapFile, generateAsyncEntryCode(), 'utf8');
         }
       }
     }),

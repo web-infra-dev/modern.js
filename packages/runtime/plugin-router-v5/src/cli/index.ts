@@ -33,7 +33,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
             .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
           plugins.push({
             name: 'router',
-            implementation: `@${metaName}/plugin-router-v5/runtime`,
+            path: `@${metaName}/plugin-router-v5/runtime`,
             config:
               typeof routerConfig === 'boolean'
                 ? { serverBase }
