@@ -213,9 +213,8 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
         if (resolveOptions?.deploy?.microFrontend) {
           const appContext = api.useAppContext();
           const resolvedConfig = api.useResolvedConfigContext();
-          await generateCode(appContext, resolvedConfig);
+          await generateCode(entrypoints, appContext, resolvedConfig);
         }
-        return { entrypoints };
       },
     };
   },

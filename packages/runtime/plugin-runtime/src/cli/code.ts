@@ -2,11 +2,13 @@ import path from 'path';
 import type {
   AppTools,
   IAppContext,
-  PluginAPI,
   AppNormalizedConfig,
   NormalizedConfig,
+  RuntimePlugin,
 } from '@modern-js/app-tools';
 import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
+import { Entrypoint } from '@modern-js/types';
+import type { MaybeAsync } from '@modern-js/plugin';
 import {
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
@@ -40,9 +42,13 @@ function getSSRMode(
 }
 
 export const generateCode = async (
-  api: PluginAPI<AppTools>,
+  entrypoints: Entrypoint[],
   appContext: IAppContext,
   config: NormalizedConfig<AppTools>,
+  onCollectRuntimePlugins: (params: {
+    entrypoint: Entrypoint;
+    plugins: RuntimePlugin[];
+  }) => MaybeAsync<{ entrypoint: Entrypoint; plugins: RuntimePlugin[] }>,
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;
@@ -51,10 +57,8 @@ export const generateCode = async (
     internalDirectory,
     internalSrcAlias,
     metaName,
-    entrypoints,
     srcDirectory,
   } = appContext;
-  const runner = api.useHookRunners();
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const {
@@ -65,7 +69,7 @@ export const generateCode = async (
         customBootstrap,
         customServerEntry,
       } = entrypoint;
-      const { plugins: runtimePlugins } = await runner._internalRuntimePlugins({
+      const { plugins: runtimePlugins } = await onCollectRuntimePlugins({
         entrypoint,
         plugins: [],
       });
