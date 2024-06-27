@@ -246,7 +246,7 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(<App />);
+      return ModernRender(React.createElement(App, { context } as any));
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',
