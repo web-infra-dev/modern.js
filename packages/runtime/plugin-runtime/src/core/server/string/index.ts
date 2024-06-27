@@ -13,7 +13,7 @@ import {
   HTML_PLACEHOLDER,
   SSR_DATA_PLACEHOLDER,
 } from '../constants';
-import { BuildHtmlCb, RenderLevel, RenderString, buildHtml } from '../shared';
+import { BuildHtmlCb, RenderString, buildHtml } from '../shared';
 import {
   SSRErrors,
   SSRTimings,
@@ -21,6 +21,7 @@ import {
   createOnError,
   createOnTiming,
 } from '../tracer';
+import { RenderLevel } from '../../constants';
 import { SSRDataCollector } from './ssrData';
 import { LoadableCollector } from './loadable';
 import { Collector, ChunkSet } from './types';
@@ -94,6 +95,7 @@ export const renderString: RenderString = async (
       htmlTemplate,
       chunkSet,
       collectors,
+      runtimeContext.ssrContext?.htmlModifiers || [],
       tracer,
     );
 
@@ -106,6 +108,7 @@ async function generateHtml(
   htmlTemplate: string,
   chunkSet: ChunkSet,
   collectors: Collector[],
+  htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
 ): Promise<string> {
   const end = time();
@@ -143,6 +146,7 @@ async function generateHtml(
     createReplaceChunkCss(cssChunk),
     createReplaceSSRDataScript(ssrScripts),
     createReplaceHelemt(helmetData),
+    ...htmlModifiers,
   ]);
 
   return finalHtml;

@@ -79,6 +79,11 @@
       "jsnext:source": "./src/core/server/index.ts",
       "default": "./dist/esm/core/server/index.js"
     },
+    "./ssr/server": {
+      "types": "./dist/types/core/server/index.server.d.ts",
+      "jsnext:source": "./src/core/server/index.server.ts",
+      "default": "./dist/esm/core/server/index.server.js"
+    },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/index.ts",
@@ -151,6 +156,9 @@
       ],
       "ssr": [
         "./dist/types/core/server/index.d.ts"
+      ],
+      "ssr/server": [
+        "./dist/types/core/server/index.server.d.ts"
       ],
       "model": [
         "./types/model.d.ts"

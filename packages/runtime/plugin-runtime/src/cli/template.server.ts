@@ -2,14 +2,17 @@ const SERVER_ENTRY = `
 import {
   #render,
   createRequestHandler,
-} from '@#metaName/runtime/ssr';
+} from '@#metaName/runtime/ssr/server';
 
 const handleRequest = async (request, serverRoot, options) => {
 
   const body = await #render(request, serverRoot, options);
 
   return new Response(body, {
-    'content-type': 'text/html; charset=utf-8'
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+      #headers
+    },
   })
 };
 
@@ -42,10 +45,9 @@ function genHandlerCode({
   customServerEntry,
   srcDirectory,
   internalSrcAlias,
-  entry,
 }: GenHandlerCodeOptions) {
   if (customServerEntry) {
-    return `export { default as requestHandler } from '${entry.replace(
+    return `export { default as requestHandler } from '${customServerEntry.replace(
       srcDirectory,
       internalSrcAlias,
     )}'`;
@@ -72,9 +74,10 @@ function transformServerEntry(
 
   const output = source
     .replace(/#metaName/g, metaName)
+    .replace(/#render/g, mode === 'string' ? 'renderString' : 'renderStreaming')
     .replace(
-      /#render/g,
-      mode === 'string' ? 'renderString' : 'renderStreaming',
+      /#headers/g,
+      mode === 'string' ? '' : `'transfer-encoding': 'chunked',`,
     );
 
   return output;
