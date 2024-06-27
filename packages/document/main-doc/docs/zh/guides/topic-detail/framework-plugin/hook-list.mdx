@@ -421,12 +421,12 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
 });
 ```
 
-### `modifyEntryImports`
+### `checkEntryPoint`
 
-- 功能：用于修改、添加生成入口文件中的 `import` 语句
+- 功能：增加入口类型
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
 - Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
+- 类型：`AsyncWaterfall<{ path: string; entry: false | string; }>`
 - 使用示例：
 
 ```ts
@@ -435,30 +435,45 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
-      modifyEntryImports({ entrypoint, imports }) {
-        // 添加 `import React from 'React'`
-        imports.push({
-          value: 'react',
-          specifiers: [
-            {
-              imported: 'unmountComponentAtNode',
-            },
-          ],
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isNewEntry(path) };
+      },
+    };
+  },
+});
+```
+
+### `modifyEntrypoints`
+
+- 功能：用于修改入口信息，针对于插件新增的入口，可以通过该钩子修改对应的 entrypoint 信息
+- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
+- Hook 模型：`AsyncWaterfall`
+- 类型：`AsyncWaterfall<{ entrypoints: Entrypoint[];}>`
+- 使用示例：
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      async modifyEntrypoints({ entrypoints }) {
+        const newEntryPoints = entrypoints.map(entrypoint => {
+            ...
         });
-
-        return { entrypoint, imports };
+        return { entrypoints: newEntryPoints };
       },
     };
   },
 });
 ```
 
-### `modifyEntryExport`
+### `generateEntryCode`
 
-- 功能：用于修改生成入口文件中的 `export` 语句
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
+- 功能：用于修改生成的入口文件
+- 执行阶段：生成入口文件之后，创建 builder 之前
 - Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
+- 类型：`AsyncWorkflow<{ entrypoints: Entrypoint[] }, void>`
 - 使用示例：
 
 ```ts
@@ -467,74 +482,12 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
-      modifyEntryExport({ entrypoint, exportStatement }) {
-        return {
-          entrypoint,
-          exportStatement: [`export const foo = 'test'`, exportStatement].join(
-            '\n',
-          ),
-        };
-      },
-    };
-  },
-});
-```
-
-### `modifyEntryRuntimePlugins`
-
-- 功能：用于添加、修改生成入口文件中的 [Runtime 插件](#Runtime)
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
-- 使用示例：
-
-```ts
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-export const myPlugin = (): CliPlugin<AppTools> => ({
-  setup(api) {
-    return {
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const name = 'customPlugin';
-        const options = {
-          /** 可序列化的内容 */
-        };
-
-        return {
-          plugins: [
-            ...plugins,
-            {
-              name,
-              options: JSON.stringify(options),
-            },
-          ],
-        };
-      },
-    };
-  },
-});
-```
-
-### `modifyEntryRenderFunction`
-
-- 功能：用于修改生成入口文件中 `render` 函数
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- 使用示例：
-
-```ts
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-export const myPlugin = (): CliPlugin<AppTools> => ({
-  setup(api) {
-    return {
-      modifyEntryRenderFunction({ entrypoint, code }) {
-        const customRender = `/** render function body */`;
-        return {
-          entrypoint,
-          code: customRender,
-        };
+      async generateEntryCode({ entrypoints }) {
+        await Promise.all(
+            entrypoints.map(async entrypoint => {
+               ...
+            })
+          );
       },
     };
   },
@@ -601,32 +554,6 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
               isSSR: false,
             },
           ],
-        };
-      },
-    };
-  },
-});
-```
-
-### `modifyAsyncEntry`
-
-- 功能：用于修改包裹入口文件的异步模块，参见 [source.enableAsyncEntry](/configure/app/source/enable-async-entry)
-- 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- 使用示例：
-
-```ts
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-export const myPlugin = (): CliPlugin<AppTools> => ({
-  setup(api) {
-    return {
-      modifyAsyncEntry({ entrypoint, code }) {
-        const customCode = `console.log('hello');`;
-        return {
-          entrypoint,
-          code: `${customCode}${code}`,
         };
       },
     };
@@ -782,7 +709,7 @@ export const myPlugin = (): Plugin => ({
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
 - Hook 模型：`Pipeline`
-- 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
+- 类型：`Pipeline<{App: React.ComponentType<any>;config: Record<string, any>;},React.ComponentType<any>>()`
 - 使用示例：
 
 :::note
@@ -792,13 +719,12 @@ export const myPlugin = (): Plugin => ({
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 
 export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
-      hoc({ App }, next) {
+      hoc({ App, config }, next) {
         const AppWrapper = (props: any) => {
           return (
             <FooContext.Provider store={'test'}>
@@ -807,7 +733,8 @@ export const myPlugin = (): Plugin => ({
           );
         };
         return next({
-          App: hoistNonReactStatics(AppWrapper, App),
+          App: AppWrapper,
+          config
         });
       },
     };
@@ -815,76 +742,3 @@ export const myPlugin = (): Plugin => ({
 });
 ```
 
-{/* ### `provide`
-
-- 功能：修改需要渲染的 Element
-- 执行阶段：渲染（SSR/CSR）
-- Hook 模型：`Pipeline`
-- 类型：`Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
-- 使用示例：
-
-```ts
-import { createContext } from 'react';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    const FooContext = createContext('');
-
-    return {
-      provide: ({ element }) => <div>{element}</div>,
-    };
-  },
-});
-```
-
-### `client`
-
-- 功能：定制客户端渲染流程
-- 执行阶段：在浏览器客户端渲染
-- Hook 模型：`AsyncPipeline`
-- 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
-- 使用示例：
-
-```ts
-import ReactDOM from 'react-dom';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    return {
-      client: async ({ App, rootElement }) => {
-        ReactDOM.render(
-          React.createElement(App, { context: { foo: 'test' } }),
-          rootElement,
-        );
-      },
-    };
-  },
-});
-```
-
-### `server`
-
-- 功能：定制服务器端渲染流程
-- 执行阶段：SSR
-- Hook 模型：`AsyncPipeline`
-- 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
-- 使用示例：
-
-```ts
-import ReactDomServer from 'react-dom/server';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    return {
-      server({ App, context }) {
-        return ReactDomServer.renderToString(
-          React.createElement(App, { context: { foo: 'test' } }),
-        );
-      },
-    };
-  },
-});
-```*/}

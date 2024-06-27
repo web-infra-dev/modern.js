@@ -1,0 +1,22 @@
+---
+title: createRoot
+---
+# createRoot
+
+It is used to create the root component provided by Modern.js, which will automatically register Runtime plugins and complete the initialization of Runtime plugins.
+
+## Usage
+
+```ts
+import { createRoot } from '@modern-js/runtime/react';
+```
+
+## Function Signature
+
+```ts
+export function createRoot(UserApp?: React.ComponentType | null): React.ComponentType<any>;
+```
+
+### Parameters
+
+- `UserApp`: an optional parameter, and the default is the component exported from `App.tsx`.
