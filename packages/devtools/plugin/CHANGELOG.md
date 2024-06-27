@@ -1,5 +1,25 @@
 # @modern-js/plugin-devtools
 
+## 2.54.4
+
+### Patch Changes
+
+- a5a4fe0: fix(devtools): resolve storage preset config file
+  fix(devtools): 无法正确找到 storage preset 配置文件
+  - @modern-js/devtools-client@2.54.4
+  - @modern-js/devtools-kit@2.54.4
+  - @modern-js/runtime@2.54.4
+  - @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.3
+- @modern-js/devtools-client@2.54.3
+- @modern-js/devtools-kit@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

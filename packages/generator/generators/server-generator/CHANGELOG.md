@@ -1,5 +1,17 @@
 # @modern-js/server-generator
 
+## 3.4.5
+
+### Patch Changes
+
+- @modern-js/utils@2.54.4
+
+## 3.4.4
+
+### Patch Changes
+
+- @modern-js/utils@2.54.3
+
 ## 3.4.3
 
 ### Patch Changes
