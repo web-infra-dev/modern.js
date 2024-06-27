@@ -421,12 +421,12 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
 });
 ```
 
-### `modifyEntryImports`
+### `checkEntryPoint`
 
-- Function: Used for modifying or adding `import` statements in the generated entry files.
+- Function: Used for increasing entry types.
 - Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
 - Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
+- Type: `AsyncWaterfall<{ path: string; entry: false | string; }>`
 - Example:
 
 ```ts
@@ -435,30 +435,20 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
-      modifyEntryImports({ entrypoint, imports }) {
-        // add `import React from 'React'`
-        imports.push({
-          value: 'react',
-          specifiers: [
-            {
-              imported: 'unmountComponentAtNode',
-            },
-          ],
-        });
-
-        return { entrypoint, imports };
-      },
+      checkEntryPoint({ path, entry }) {
+        return { path, entry: entry || isNewEntry(path) };
+      }
     };
   },
 });
 ```
 
-### `modifyEntryExport`
+### `modifyEntrypoints`
 
-- Function: used to modify the `export` statement in the generated entry file
+- Function: Used for modifying the entry information, for the newly added entries of the plugin, the corresponding entrypoint information can be modified through this hook.
 - Execution stage: Before the entry file is generated, the [`prepare`](#prepare) phase triggers
 - Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
+- Type: `AsyncWaterfall<{ entrypoints: Entrypoint[];}>`
 - Example:
 
 ```ts
@@ -467,25 +457,23 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
-      modifyEntryExport({ entrypoint, exportStatement }) {
-        return {
-          entrypoint,
-          exportStatement: [`export const foo = 'test'`, exportStatement].join(
-            '\n',
-          ),
-        };
+      async modifyEntrypoints({ entrypoints }) {
+        const newEntryPoints = entrypoints.map(entrypoint => {
+            ...
+        });
+        return { entrypoints: newEntryPoints };
       },
     };
   },
 });
 ```
 
-### `modifyEntryRuntimePlugins`
+### `generateEntryCode`
 
-- Function: Used for adding or modifying [Runtime plugins](#Runtime) in the generated entry files.
-- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Function: Used for modifying the generated entry file
+- Execution stage: After generating the entry file and before creating the builder.
 - Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
+- Type: `AsyncWorkflow<{ entrypoints: Entrypoint[] }, void>`
 - Example:
 
 ```ts
@@ -494,47 +482,12 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const name = 'customPlugin';
-        const options = {
-          /** serializable content */
-        };
-
-        return {
-          plugins: [
-            ...plugins,
-            {
-              name,
-              options: JSON.stringify(options),
-            },
-          ],
-        };
-      },
-    };
-  },
-});
-```
-
-### `modifyEntryRenderFunction`
-
-- Function: Used for modifying the `render` function in the generated entry files.
-- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- Example:
-
-```ts
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-export const myPlugin = (): CliPlugin<AppTools> => ({
-  setup(api) {
-    return {
-      modifyEntryRenderFunction({ entrypoint, code }) {
-        const customRender = `/** render function body */`;
-        return {
-          entrypoint,
-          code: customRender,
-        };
+      async generateEntryCode({ entrypoints }) {
+        await Promise.all(
+            entrypoints.map(async entrypoint => {
+               ...
+            })
+          );
       },
     };
   },
@@ -601,32 +554,6 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
               isSSR: false,
             },
           ],
-        };
-      },
-    };
-  },
-});
-```
-
-### `modifyAsyncEntry`
-
-- Function: Used for modifying the asynchronous module that wraps the entry file, see [source.enableAsyncEntry](/configure/app/source/enable-async-entry).
-- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- Example:
-
-```ts
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-
-export const myPlugin = (): CliPlugin<AppTools> => ({
-  setup(api) {
-    return {
-      modifyAsyncEntry({ entrypoint, code }) {
-        const customCode = `console.log('hello');`;
-        return {
-          entrypoint,
-          code: `${customCode}${code}`,
         };
       },
     };
@@ -780,7 +707,7 @@ export const myPlugin = (): Plugin => ({
 - Function: Modifies the components that need to be rendered.
 - Execution stage: Rendering (SSR/CSR).
 - Hook model: `Pipeline`
-- Type: `Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
+- Type: `Pipeline<{App: React.ComponentType<any>;config: Record<string, any>;},React.ComponentType<any>>()`
 - Example:
 
 :::note
@@ -790,13 +717,12 @@ When using the hoc hook, you need to copy the static properties of the original 
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 
 export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
-      hoc({ App }, next) {
+      hoc({ App, config }, next) {
         const AppWrapper = (props: any) => {
           return (
             <FooContext.Provider store={'test'}>
@@ -805,84 +731,11 @@ export const myPlugin = (): Plugin => ({
           );
         };
         return next({
-          App: hoistNonReactStatics(AppWrapper, App),
+          App: AppWrapper,
+          config
         });
       },
     };
   },
 });
 ```
-
-{/* ### `provide`
-
-- Function: Modifies the Elements that need to be rendered.
-- Execution stage: Rendering (SSR/CSR).
-- Hook model: `Pipeline`
-- Type: `Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
-- Example:
-
-```ts
-import { createContext } from 'react';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    const FooContext = createContext('');
-
-    return {
-      provide: ({ element }) => <div>{element}</div>,
-    };
-  },
-});
-```
-
-### `client`
-
-- Function: Customizes the client-side rendering process.
-- Execution stage: Client-side rendering in the browser.
-- Hook model: `AsyncPipeline`
-- Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
-- Example:
-
-```ts
-import ReactDOM from 'react-dom';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    return {
-      client: async ({ App, rootElement }) => {
-        ReactDOM.render(
-          React.createElement(App, { context: { foo: 'test' } }),
-          rootElement,
-        );
-      },
-    };
-  },
-});
-```
-
-### `server`
-
-- Function: Customize the server-side rendering process.
-- Execution Phase: SSR
-- Hook model: `AsyncPipeline`
-- Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
-- Example:
-
-```ts
-import ReactDomServer from 'react-dom/server';
-import type { Plugin } from '@modern-js/runtime';
-
-export const myPlugin = (): Plugin => ({
-  setup(api) {
-    return {
-      server({ App, context }) {
-        return ReactDomServer.renderToString(
-          React.createElement(App, { context: { foo: 'test' } }),
-        );
-      },
-    };
-  },
-});
-``` */}
