@@ -89,14 +89,12 @@ export async function render(
       // we should hydateRoot only when ssr
       if (ssrData) {
         return hydrateRoot(App, context, ModernRender, ModernHydrate);
-      } else {
-        return ModernRender(App);
       }
-    } else {
-      throw Error(
-        '`render` function needs id in browser environment, it needs to be string or element',
-      );
+      return ModernRender(App);
     }
+    throw Error(
+      '`render` function needs id in browser environment, it needs to be string or element',
+    );
   } else {
     throw Error('ssr need use server func');
   }

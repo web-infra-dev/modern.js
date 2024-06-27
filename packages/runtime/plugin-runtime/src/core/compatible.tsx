@@ -11,6 +11,7 @@ import { Plugin, registerPlugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
 import { getGlobalAppInit } from './context';
+import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -129,7 +130,6 @@ export const bootstrap: BootStrap = async (
    */
   root,
   ReactDOM,
-  // eslint-disable-next-line consistent-return
 ) => {
   const App = BootApp;
   const runner = getGlobalRunner();
@@ -198,8 +198,12 @@ export const bootstrap: BootStrap = async (
         if (IS_REACT18) {
           if (root) {
             root.render(App);
-          } else if (ReactDOM.createRoot) {
-            ReactDOM.createRoot(rootElement).render(App);
+            return root;
+          }
+          if (ReactDOM.createRoot) {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(App);
+            return root;
           } else {
             throw Error(
               'The `bootstrap` `ReactDOM` parameter needs to provide the `createRoot` method',
@@ -212,13 +216,14 @@ export const bootstrap: BootStrap = async (
             );
           }
           ReactDOM.render(App, rootElement);
+          return rootElement;
         }
       };
 
       const ModernHydrate = (
         App: React.ReactElement,
         callback?: () => void,
-      ) => {
+      ): any => {
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(
@@ -226,86 +231,29 @@ export const bootstrap: BootStrap = async (
             );
           }
           ReactDOM.hydrateRoot(rootElement, App);
-        } else {
-          if (!ReactDOM.hydrate) {
-            throw Error(
-              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
-            );
-          }
-          ReactDOM.hydrate(App, rootElement, callback);
+          return rootElement;
         }
+        if (!ReactDOM.hydrate) {
+          throw Error(
+            'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
+          );
+        }
+        ReactDOM.hydrate(App, rootElement, callback);
+        return rootElement;
       };
 
-      return runner.client(
-        {
-          App: React.createElement(App, { context } as any),
-          context,
-          ModernRender,
-          ModernHydrate,
-        },
-        {
-          onLast: ({ App }) => {
-            ModernRender(App);
-          },
-        },
-      );
+      // we should hydateRoot only when ssr
+      if (ssrData) {
+        return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
+      }
+      return ModernRender(<App />);
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',
       );
     }
   } else {
-    Object.assign(context, {
-      ssrContext: id,
-      isBrowser: false,
-      loaderManager: createLoaderManager(
-        {},
-        {
-          skipNonStatic: (id as Record<string, any>).staticGenerate,
-          // if not static generate, only non-static loader can exec on prod env
-          skipStatic:
-            process.env.NODE_ENV === 'production' &&
-            !(id as Record<string, any>).staticGenerate,
-        },
-      ),
-    });
-
-    // Handle redirects from React Router with an HTTP redirect
-    const isRedirectResponse = (result: any) => {
-      if (
-        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
-        result instanceof Response &&
-        result.status >= 300 &&
-        result.status <= 399
-      ) {
-        const { status } = result;
-        const redirectUrl = result.headers.get('Location') || '/';
-        const { ssrContext } = context;
-        if (ssrContext) {
-          ssrContext.redirection = ssrContext.redirection || {};
-          ssrContext.redirection.status = status;
-          ssrContext.redirection.url = redirectUrl;
-        }
-        return true;
-      }
-      return false;
-    };
-
-    const initialData = await runInit(context);
-    if (!isRedirectResponse(initialData)) {
-      context.initialData = initialData as Record<string, unknown>;
-      // Support data loader to return status code
-      if (
-        context.routerContext?.statusCode &&
-        context.routerContext?.statusCode !== 200
-      ) {
-        context.ssrContext?.response.status(context.routerContext?.statusCode);
-      }
-      return runner.server({
-        App,
-        context,
-      });
-    }
+    throw Error('Bootstrap function not support ssr render');
   }
 };
 

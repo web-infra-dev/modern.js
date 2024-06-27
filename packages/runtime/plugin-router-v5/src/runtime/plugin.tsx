@@ -161,7 +161,7 @@ export const routerPlugin = ({
                     {createRoutes ? (
                       <App Component={createRoutes()} />
                     ) : (
-                      <>{renderRoutes(finalRouteConfig, props)}</>
+                      renderRoutes(finalRouteConfig, props)
                     )}
                   </Router>
                 );
