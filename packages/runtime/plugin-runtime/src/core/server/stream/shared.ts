@@ -27,7 +27,7 @@ export type CreateReadableStreamFromElement = (
   request: Request,
   rootElement: React.ReactElement,
   options: CreateReadableStreamFromElementOptions,
-) => Promise<ReadableStream>;
+) => Promise<ReadableStream<Uint8Array>>;
 
 export enum ShellChunkStatus {
   START = 0,
