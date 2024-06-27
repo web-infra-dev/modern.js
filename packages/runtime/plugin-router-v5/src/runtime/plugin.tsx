@@ -152,10 +152,14 @@ export const routerPlugin = ({
                 const runner = (api as any).useHookRunners();
                 routes = runner.modifyRoutes(originRoutes);
                 finalRouteConfig && (finalRouteConfig.routes = routes);
+                /**
+                 * when exist createRoutes function, App.tsx must be exist, and support Component props
+                 * this is compatible config routes
+                 */
                 return (
                   <Router history={history}>
                     {createRoutes ? (
-                      <>{createRoutes()}</>
+                      <App Component={createRoutes()} />
                     ) : (
                       <>{renderRoutes(finalRouteConfig, props)}</>
                     )}
@@ -188,7 +192,7 @@ export const routerPlugin = ({
                   context={routerContext}
                 >
                   {createRoutes ? (
-                    <>{createRoutes()}</>
+                    <App Component={createRoutes()} />
                   ) : (
                     renderRoutes(finalRouteConfig, props)
                   )}
