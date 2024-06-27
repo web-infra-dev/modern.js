@@ -81,12 +81,14 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 :::
 
-并非 `src/` 下所有的一级目录都会成为项目入口, 入口所在目录必须满足以下四个条件之一：
+并非 `src/` 下所有的一级目录都会成为项目入口, 入口所在目录必须满足以下五个条件之一：
 
 1. 具有 `routes/` 目录。
 2. 具有 `App.[jt]sx?` 文件。
-3. 具有 `index.[jt]sx?` 文件。
-4. 具有 `pages/` 目录（兼容 Modern.js 1.0）。
+3. 具有 `entry.[jt]sx?` 文件 (需要开启 `source.enableCustomEntry` 使用)。
+4. 具有 `index.[jt]sx?` 文件（即将废弃）。
+5. 具有 `pages/` 目录（兼容 Modern.js 1.0）(即将废弃)。
+
 
 当 `src/` 目录满足入口特征时，Modern.js 会认为当前项目为单入口应用。
 
@@ -138,7 +140,46 @@ export default () => {
 
 详细内容可以参考[路由方案](/guides/basic-features/routes#自控式路由)。
 
+#### 自定义入口
+
+如果入口中存在 `entry.[jt]sx` 文件，需要开发者在 `entry.[jt]sx` 文件中调用 `createRoot` 和 `render` 函数，完成项目入口逻辑。
+
+:::info
+使用该文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
+:::
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+render(<ModernRoot />);
+
+```
+
+比如在 render 执行前，需要做一些其他操作，可以这样实现：
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+
 #### 自定义 Bootstrap
+
+:::warning
+即将废弃，推荐使用自定义入口
+:::
 
 如果入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
 
@@ -153,45 +194,30 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 
 此时，Modern.js 生成的文件内容如下：
 
-```js
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+```tsx
+import '@modern-js/runtime/registry/main';
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
 import customBootstrap from '@_modern_js_src/index.tsx';
-import App from '@_modern_js_src/App';
-import { router, state } from '@modern-js/runtime/plugins';
 
-const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
-const MOUNT_ID = 'root';
+const ModernRoot = createRoot();
 
-let AppWrapper = null;
-let root = null;
-
-function render() {
-  AppWrapper = createApp({
-    // runtime 的插件参数...
-  })(App);
-  if (IS_BROWSER) {
-    customBootstrap(AppWrapper, () =>
-      bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM),
-    );
-  }
-  return AppWrapper;
-}
-
-AppWrapper = render();
-
-export default AppWrapper;
+customBootstrap(ModernRoot, () => render(<ModernRoot />, 'root'));
 ```
 
 ### 构建模式入口
 
-构建模式指的是不使用 Modern.js 自动生成的入口，而是完全由开发者自行定义页面的入口。
+构建模式指的是不使用 Modern.js 提供的 Runtime 能力，而是完全由开发者自行定义页面的入口。
 
-当入口目录中存在 `index.[jt]sx`，并且没有通过 `export default` 导出函数时，这类文件就会被识别为 webpack 或 Rspack 的 entry 模块。
+当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数或者入口目录存在 `entry.[jt]sx` 并且未安装 `@modern-js/runtime` 依赖时，对应文件就会被识别为 webpack 或 Rspack 的 entry 模块。
+
+:::info
+使用 `entry.[jt]sx` 文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
+:::
 
 此时 Modern.js 不会自动生成入口代码，因此需要你自行将组件挂载到 DOM 节点上，例如:
 
-```js title=src/index.jsx
+```js title=src/entry.tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
@@ -199,9 +225,9 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-这种方式等价于开启 Modern.js 的 [source.entries.disableMount](/configure/app/source/entries) 选项。当你使用这种方式时，**将无法使用 Modern.js 框架的运行时能力**，比如 modern.config.js 文件中的 `runtime` 配置将不会再生效。
+这种方式等价于开启 Modern.js 的 [source.entries.disableMount](/configure/app/source/entries) 选项。当你使用这种方式时，**将无法使用 Modern.js 框架的运行时能力**，比如 `modern.config.js` 文件中的 `runtime` 配置将不会再生效。
 
-## 自定义入口
+## 自定义入口配置
 
 在某些情况下，你可能需要自定义入口配置，而不是使用 Modern.js 提供的入口约定。
 
@@ -234,4 +260,4 @@ export default defineConfig({
 });
 ```
 
-注意，当你开启 `disableMount` 时，**将无法使用 Modern.js 框架的运行时能力**，比如 modern.config.ts 文件中的 `runtime` 配置将不会再生效。
+注意，当你开启 `disableMount` 时，**将无法使用 Modern.js 框架的运行时能力**，比如 `modern.config.ts` 文件中的 `runtime` 配置将不会再生效。
