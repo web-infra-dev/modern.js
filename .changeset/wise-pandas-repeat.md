@@ -2,4 +2,5 @@
 '@modern-js/core': patch
 ---
 
-fix: update the version
+chore: update the version
+chore: 更新版本
