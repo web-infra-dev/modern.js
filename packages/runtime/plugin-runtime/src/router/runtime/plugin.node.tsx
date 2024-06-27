@@ -148,13 +148,13 @@ export const routerPlugin = ({
           }
 
           const getRouteApp = () => {
-            return (props => {
+            return (() => {
               const { remixRouter, routerContext, ssrContext } =
                 useContext(RuntimeReactContext);
 
               const { nonce, mode } = ssrContext!;
               return (
-                <App {...props}>
+                <>
                   <StaticRouterProvider
                     router={remixRouter!}
                     context={routerContext!}
@@ -162,7 +162,7 @@ export const routerPlugin = ({
                   />
                   <DeferredDataScripts nonce={nonce} context={routerContext!} />
                   {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
-                </App>
+                </>
               );
             }) as React.FC<any>;
           };

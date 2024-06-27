@@ -9,27 +9,11 @@ export function createRoot(
   const App = UserApp || getGlobalApp();
 
   const runner = getGlobalRunner();
-  const WrapperComponent: React.ComponentType<any> = props => {
-    return React.createElement(
-      App || React.Fragment,
-      App ? { ...props } : null,
-      App
-        ? props.children
-        : React.Children.map(props.children, child =>
-            React.isValidElement(child)
-              ? React.cloneElement(child, {
-                  ...(child.props as object),
-                  ...props,
-                })
-              : child,
-          ),
-    );
-  };
   /**
    * when use routes entry, after running router plugin, the App will be define
    */
   const HOCApp = runner.hoc(
-    { App: WrapperComponent, config: config || {} },
+    { App: App!, config: config || {} },
     {
       onLast: ({ App }: any) => {
         const WrapComponent = ({ context, ...props }: any) => {

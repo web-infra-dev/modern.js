@@ -174,11 +174,7 @@ export const routerPlugin = ({
               beforeCreateRouter = false;
               const router = useCreateRouter(props);
 
-              return (
-                <App {...props}>
-                  <RouterProvider router={router} />
-                </App>
-              );
+              return <RouterProvider router={router} />;
             }) as React.FC<any>;
           };
           const RouteApp = getRouteApp();
