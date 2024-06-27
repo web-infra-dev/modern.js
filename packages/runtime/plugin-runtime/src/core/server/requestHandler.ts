@@ -220,7 +220,6 @@ export const createRequestHandler: CreateRequestHandler =
 
       const { htmlTemplate } = options.resource;
 
-      // TODO: Confirm  why replace chunk-css-place_holder here
       options.resource.htmlTemplate = htmlTemplate.replace(
         '</head>',
         `${CHUNK_CSS_PLACEHOLDER}</head>`,

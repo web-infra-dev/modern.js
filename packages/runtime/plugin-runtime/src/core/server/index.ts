@@ -1,16 +1,11 @@
-export { renderString } from './string';
-
-export { renderStreaming } from './stream';
-
-export {
-  createRequestHandler,
-  type HandleRequest,
-  type HandleRequestOptions,
-  type HandleRequestConfig,
-  type CreateRequestHandler,
-} from './requestHandler';
-
-export type { RenderStreaming, RenderString, RenderOptions } from './shared';
+import { Plugin } from '../plugin';
 
 // react component
 export { PreRender, NoSSR } from './react';
+
+export const ssr = (_config: any): Plugin => ({
+  name: '@modern-js/plugin-ssr',
+  setup: () => ({}),
+});
+
+export default ssr;

@@ -3,7 +3,8 @@ import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { parseQuery } from '@modern-js/runtime-utils/universal';
 import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
-import { SSRData, SSRConfig } from '../shared';
+import { SSRConfig } from '../shared';
+import { SSRContainer } from '../../types';
 import { Collector, ChunkSet } from './types';
 
 export interface SSRDataCreatorOptions {
@@ -38,7 +39,7 @@ export class SSRDataCollector implements Collector {
     chunkSet.ssrScripts = ssrDataScripts;
   }
 
-  #getSSRData(request: Request): SSRData {
+  #getSSRData(request: Request): SSRContainer {
     const { prefetchData, chunkSet, ssrConfig } = this.#options;
 
     const url = new URL(request.url);
@@ -73,6 +74,7 @@ export class SSRDataCollector implements Collector {
           headers,
         },
       },
+      mode: 'string',
       renderLevel: chunkSet.renderLevel,
     };
   }

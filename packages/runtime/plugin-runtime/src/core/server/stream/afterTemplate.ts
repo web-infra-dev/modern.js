@@ -2,7 +2,9 @@ import { serializeJson } from '@modern-js/runtime-utils/node';
 import { parseQuery } from '@modern-js/runtime-utils/universal';
 import { attributesToString, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
-import { BuildHtmlCb, buildHtml, RenderLevel, SSRData } from '../shared';
+import { BuildHtmlCb, buildHtml } from '../shared';
+import { RenderLevel } from '../../constants';
+import { SSRContainer } from '../../types';
 import { HandleRequestConfig } from '../requestHandler';
 import { RuntimeContext } from '../../context';
 
@@ -44,7 +46,7 @@ function createReplaceSSRData(options: {
 
   const { pathname, host } = url;
 
-  const ssrData: SSRData = {
+  const ssrData: SSRContainer = {
     data: {
       initialData: runtimeContext.initialData,
       i18nData: runtimeContext.__i18nData__,
@@ -66,6 +68,7 @@ function createReplaceSSRData(options: {
         // ...(enableUnsafeCtx ? unsafeContext : {}),
       },
     },
+    mode: 'stream',
     renderLevel,
   };
   const attrsStr = attributesToString({ nonce });
