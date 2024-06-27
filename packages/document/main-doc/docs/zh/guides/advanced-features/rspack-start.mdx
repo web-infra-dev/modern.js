@@ -129,7 +129,8 @@ export default defineConfig<'rspack'>({
   "pnpm": {
     "overrides": {
       "@rspack/binding": "0.7.5",
-      "@rspack/core": "0.7.5"
+      "@rspack/core": "0.7.5",
+      "@rspack/plugin-react-refresh": "0.7.5"
     }
   }
 }
@@ -142,7 +143,8 @@ export default defineConfig<'rspack'>({
   "pnpm": {
     "overrides": {
       "@rspack/binding": "npm:@rspack/binding-canary@nightly",
-      "@rspack/core": "npm:@rspack/core-canary@nightly"
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh@nightly"
     },
     "peerDependencyRules": {
       "allowAny": [

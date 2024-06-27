@@ -130,7 +130,8 @@ For example, if you are using pnpm, you can override the Rspack version with `ov
   "pnpm": {
     "overrides": {
       "@rspack/binding": "0.7.5",
-      "@rspack/core": "0.7.5"
+      "@rspack/core": "0.7.5",
+      "@rspack/plugin-react-refresh": "0.7.5"
     }
   }
 }
@@ -143,7 +144,8 @@ If you need to use the nightly/canary version of Rspack, the package name of the
   "pnpm": {
     "overrides": {
       "@rspack/binding": "npm:@rspack/binding-canary@nightly",
-      "@rspack/core": "npm:@rspack/core-canary@nightly"
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh-canary@nightly"
     },
     "peerDependencyRules": {
       "allowAny": [
