@@ -9,7 +9,7 @@ export default () => {
       <Routes>
         <Route
           index
-          element={<div className="description">{context.test}</div>}
+          element={<div className="description">{context?.test}</div>}
         />
         <Route path="about" element={<div>about</div>} />
       </Routes>
