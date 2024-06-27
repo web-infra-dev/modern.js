@@ -58,6 +58,8 @@ const setup = () => {
   if (!devtoolsUrl) return;
   const manifest: ServerManifest = fetchSync(devtoolsUrl).json();
   manifest.source = devtoolsUrl;
+  // Skip if no client assets.
+  if (!manifest.client) return;
 
   // Inject JavaScript chunks to client.
   const template = document.createElement('template');

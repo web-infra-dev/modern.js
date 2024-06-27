@@ -79,7 +79,7 @@ export interface ServerManifest extends ExportedServerState {
   /** WebSocket endpoint for live connection. */
   websocket?: string;
   /** Client endpoint for interactive panel. */
-  client: string;
+  client?: string;
   /** Route assets. */
   routeAssets: Record<string, RouteAsset>;
 }

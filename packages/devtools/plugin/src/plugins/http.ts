@@ -60,7 +60,7 @@ const hotUpdateHandler: Handler = async c => {
 
 declare global {
   interface DevtoolsPluginVars {
-    http: http.Server & { port: number };
+    http?: http.Server & { port: number };
   }
 }
 

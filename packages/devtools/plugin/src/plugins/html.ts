@@ -7,7 +7,8 @@ export const pluginHtml: Plugin = {
   name: 'html',
   async setup(api) {
     api.frameworkHooks.hook('config', async () => {
-      const { port } = api.vars.http;
+      const port = api.vars.http?.port;
+      if (!port) return {};
       // Inject options to client.
       const clientOptions: SetupClientParams = {
         def: api.context.def,
