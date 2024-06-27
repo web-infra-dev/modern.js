@@ -1,6 +1,6 @@
 export { renderString } from './string';
 
-export { renderStreaming } from './stream/index.worker';
+export { renderStreaming } from './stream';
 
 export {
   createRequestHandler,

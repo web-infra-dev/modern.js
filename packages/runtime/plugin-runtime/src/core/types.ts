@@ -1,6 +1,6 @@
 import { BaseSSRServerContext } from '@modern-js/types';
 import type { LoaderResult } from './loader/loaderManager';
-import type { RenderLevel } from './server/shared';
+import type { RenderLevel } from './constants';
 
 declare global {
   interface Window {
@@ -10,9 +10,10 @@ declare global {
 }
 
 export interface SSRData {
-  loadersData: Record<string, LoaderResult | undefined>;
+  loadersData?: Record<string, LoaderResult | undefined>;
   initialData?: Record<string, unknown>;
   storeState?: any;
+  [props: string]: any;
 }
 export interface RouteData {
   [routeId: string]: any;
@@ -22,10 +23,25 @@ export interface RouterSSRData {
   errors: RouteData | null;
 }
 
+export type SSRMode = 'string' | 'stream';
+
 export interface SSRContainer {
-  data?: SSRData; // string ssr data
   renderLevel: RenderLevel;
-  context?: SSRServerContext;
+  mode: SSRMode;
+  data?: SSRData; // string ssr data
+  context?: {
+    request: {
+      params: Record<string, any>;
+      query: Record<string, string>;
+      pathname: string;
+      host: string;
+      url: string;
+      headers?: Record<string, string>;
+    };
+    reporter?: {
+      sessionId?: string;
+    };
+  };
 }
 
 type BuildHtmlCb = (tempalte: string) => string;

@@ -4,6 +4,7 @@ import { getGlobalAppInit } from '../context';
 import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
+import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -84,19 +85,13 @@ export async function render(
           : hydrateWithReact17;
         return hydrateFunc(App, rootElement, callback);
       }
-      return runner.client(
-        {
-          App,
-          context,
-          ModernRender,
-          ModernHydrate,
-        },
-        {
-          onLast: ({ App }) => {
-            return ModernRender(App);
-          },
-        },
-      );
+
+      // we should hydateRoot only when ssr
+      if (ssrData) {
+        return hydrateRoot(App, context, ModernRender, ModernHydrate);
+      } else {
+        return ModernRender(App);
+      }
     } else {
       throw Error(
         '`render` function needs id in browser environment, it needs to be string or element',
@@ -131,7 +126,8 @@ async function hydrateWithReact18(
   rootElement: HTMLElement,
 ) {
   const ReactDOM = await import('react-dom/client');
-  ReactDOM.hydrateRoot(rootElement, App);
+  const root = ReactDOM.hydrateRoot(rootElement, App);
+  return root;
 }
 
 async function hydrateWithReact17(
@@ -140,5 +136,6 @@ async function hydrateWithReact17(
   callback?: () => void,
 ) {
   const ReactDOM = await import('react-dom');
-  ReactDOM.hydrate(App, rootElement, callback);
+  const root = ReactDOM.hydrate(App, rootElement, callback);
+  return root as any;
 }

@@ -1,6 +1,6 @@
 import { renderToReadableStream } from 'react-dom/server';
 import { isbot as checkIsBot } from 'isbot';
-import { RenderLevel } from '../shared';
+import { RenderLevel } from '../../constants';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import {
   CreateReadableStreamFromElement,

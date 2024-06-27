@@ -7,9 +7,9 @@ import {
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { rspack } from '@rsbuild/core';
 import { statePlugin } from '../state/cli';
-import { ssrPlugin } from '../ssr/cli';
 import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
+import { ssrPlugin } from './ssr';
 import { isRuntimeEntry } from './entry';
 import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
 import { generateCode } from './code';

@@ -1,6 +1,5 @@
-import { ServerUserConfig } from '@modern-js/app-tools';
-import { Query } from '@modern-js/runtime-utils/universal';
-import { HandleRequestOptions } from './requestHandler';
+import type { ServerUserConfig } from '@modern-js/app-tools';
+import type { HandleRequestOptions } from './requestHandler';
 
 export type RenderOptions = HandleRequestOptions;
 
@@ -26,27 +25,3 @@ export function buildHtml(template: string, callbacks: BuildHtmlCb[]) {
     Promise.resolve(template),
   );
 }
-
-export enum RenderLevel {
-  CLIENT_RENDER,
-  SERVER_PREFETCH,
-  SERVER_RENDER,
-}
-
-export type SSRData = {
-  data: Record<string, any>;
-  context: {
-    request: {
-      params: Record<string, any>;
-      query: Query;
-      pathname: string;
-      host: string;
-      url: string;
-      headers?: Record<string, string>;
-    };
-    reporter?: {
-      sessionId?: string;
-    };
-  };
-  renderLevel: RenderLevel;
-};

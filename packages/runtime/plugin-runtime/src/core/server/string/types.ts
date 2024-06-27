@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { RenderLevel } from '../shared';
+import { RenderLevel } from '../../constants';
 
 export interface Collector {
   collect?: (comopnent: ReactElement) => ReactElement;

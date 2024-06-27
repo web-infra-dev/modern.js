@@ -47,6 +47,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
   setup: api => {
     return {
+      // for bundle
       config() {
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
