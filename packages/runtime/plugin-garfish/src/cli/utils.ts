@@ -28,10 +28,10 @@ export function setRuntimeConfig(
 export const generateAsyncEntryCode = () => {
   return `
       export const provider = async (...args) => {
-        const exports = await import('./bootstrap');
+        const exports = await import('./index.jsx');
         return exports.provider.apply(null, args);
       };
-      if (!window.__GARFISH__) { import('./bootstrap.jsx'); }
+      if (!window.__GARFISH__) { import('./index.jsx'); }
       if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
         __GARFISH_EXPORTS__.provider = provider;
       }
