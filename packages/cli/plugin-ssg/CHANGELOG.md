@@ -1,5 +1,13 @@
 # @modern-js/plugin-ssg
 
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+  - @modern-js/prod-server@2.54.5
+  - @modern-js/utils@2.54.5
+
 ## 2.54.4
 
 ### Patch Changes
