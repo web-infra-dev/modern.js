@@ -1,5 +1,7 @@
 # @modern-js/devtools-client
 
+## 2.54.4
+
 ## 2.54.3
 
 ## 2.54.2

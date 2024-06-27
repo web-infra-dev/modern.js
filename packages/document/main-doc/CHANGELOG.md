@@ -1,5 +1,16 @@
 # @modern-js/main-doc
 
+## 2.54.4
+
+### Patch Changes
+
+- 66fd09f: feat: add deprecat function doc
+
+  feat: 添加下线功能文档
+
+  - @modern-js/builder-doc@2.54.4
+  - @modern-js/sandpack-react@2.54.4
+
 ## 2.54.3
 
 ### Patch Changes
