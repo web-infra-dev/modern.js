@@ -8,4 +8,9 @@ export const ZH_LOCALE = {
     cwd: '项目路径',
     config: '指定配置文件路径，可以为相对路径或绝对路径',
   },
+  info: {
+    isLatest: '当前版本为最新版本',
+    success: '🎉 版本更新成功',
+    reInstallTip: '👉 请重新安装依赖 ~',
+  },
 };

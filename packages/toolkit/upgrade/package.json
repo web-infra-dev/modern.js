@@ -20,12 +20,8 @@
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "bin": {
-    "run": "./bin/run.js"
+    "run": "./dist/run.js"
   },
-  "files": [
-    "bin",
-    "dist"
-  ],
   "exports": {
     ".": {
       "node": {
@@ -34,6 +30,22 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
+    },
+    "./upgrade": {
+      "node": {
+        "jsnext:source": "./src/upgrade.ts",
+        "import": "./dist/upgrade.js",
+        "require": "./dist/upgrade.js"
+      },
+      "default": "./dist/upgrade.js"
+    },
+    "./utils": {
+      "node": {
+        "jsnext:source": "./src/utils/index.ts",
+        "import": "./dist/utils/index.js",
+        "require": "./dist/utils/index.js"
+      },
+      "default": "./dist/utils/index.js"
     }
   },
   "scripts": {
@@ -46,6 +58,8 @@
     "@modern-js/codesmith": "2.3.5",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/generator-utils": "workspace:*",
+    "@modern-js/generator-common": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
