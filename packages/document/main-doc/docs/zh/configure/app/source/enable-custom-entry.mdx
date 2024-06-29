@@ -1,0 +1,41 @@
+---
+sidebar_label: enableCustomEntry
+---
+
+# source.enableCustomEntry
+
+- **类型：** `boolean`
+- **默认值：** `false`
+
+该选项用于使用 Modern.js 自定义入口场景。
+
+开启此选项后，Modern.js 将使用 `src/entry.[jt]sx` 文件作为项目的入口， 具体使用姿势可参考[页面入口](/guides/concept/entries.html)。
+
+## 示例
+
+首先，在配置文件中开启此选项：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    enableCustomEntry: true,
+  },
+});
+```
+
+创建 `src/entry.tsx` 文件：
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```

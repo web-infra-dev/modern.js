@@ -4,6 +4,10 @@ sidebar_position: 4
 ---
 # index.[tj]s
 
+:::warning
+Soon to be deprecated, it is recommended to use [`entry.[tj]s`](/apis/app/hooks/src/entry)。
+:::
+
 The identifier for the entry point when the application uses custom `bootstrap`.
 
 In general, the [`App.[tj]sx`](/apis/app/hooks/src/app) hook file can already meet our needs. When we need to add custom behavior before `bootstrap` or completely take over the webpack packaging entry, we can place `index.[tj]s` in the `src` or entry directory. There are two cases below:
