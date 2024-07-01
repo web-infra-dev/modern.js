@@ -19,6 +19,16 @@ export type {
   BffNormalizedConfig,
   SSR,
   SSRByEntries,
+
+  // render request handler
+  Resource,
+  Params,
+  RequestHandlerConfig,
+  LoaderContext,
+  OnError,
+  OnTiming,
+  RequestHandlerOptions,
+  RequestHandler,
 } from '@modern-js/server-core';
 export type {
   IAppContext,

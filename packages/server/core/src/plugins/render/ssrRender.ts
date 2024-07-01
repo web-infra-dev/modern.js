@@ -28,7 +28,6 @@ export interface SSRRenderOptions {
   locals?: Record<string, any>;
   cacheConfig?: CacheConfig;
   nodeReq?: IncomingMessage;
-  // nonce?: string;
 
   onError?: OnError;
   onTiming?: OnTiming;
@@ -48,6 +47,7 @@ export async function ssrRender(
     locals,
     params,
     loaderContext,
+    reporter,
     cacheConfig,
     onError,
     onTiming,
@@ -91,6 +91,8 @@ export async function ssrRender(
     params,
     loaderContext,
     config,
+
+    reporter,
 
     staticGenerate,
     onError,
