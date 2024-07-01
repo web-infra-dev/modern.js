@@ -33,71 +33,63 @@ export async function render(
       },
     ) as any;
 
-  const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
+  if (isClientArgs(id)) {
+    const ssrData = window._SSR_DATA;
+    const loadersData = ssrData?.data?.loadersData || {};
 
-  if (isBrowser) {
-    if (isClientArgs(id)) {
-      const ssrData = window._SSR_DATA;
-      const loadersData = ssrData?.data?.loadersData || {};
+    const initialLoadersState = Object.keys(loadersData).reduce(
+      (res: any, key) => {
+        const loaderData = loadersData[key];
 
-      const initialLoadersState = Object.keys(loadersData).reduce(
-        (res: any, key) => {
-          const loaderData = loadersData[key];
-
-          if (loaderData?.loading !== false) {
-            return res;
-          }
-
-          res[key] = loaderData;
+        if (loaderData?.loading !== false) {
           return res;
-        },
-        {},
-      );
+        }
 
-      Object.assign(context, {
-        loaderManager: createLoaderManager(initialLoadersState, {
-          skipStatic: true,
-        }),
-        ...(ssrData ? { ssrContext: ssrData?.context } : {}),
-      });
-
-      context.initialData = ssrData?.data?.initialData;
-      const initialData = await runInit(context);
-      if (initialData) {
-        context.initialData = initialData;
-      }
-      const rootElement =
-        id && typeof id !== 'string'
-          ? id
-          : document.getElementById(id || 'root')!;
-
-      async function ModernRender(App: React.ReactElement) {
-        const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-        return renderFunc(React.cloneElement(App, { context }), rootElement);
-      }
-
-      async function ModernHydrate(
-        App: React.ReactElement,
-        callback?: () => void,
-      ) {
-        const hydrateFunc = IS_REACT18
-          ? hydrateWithReact18
-          : hydrateWithReact17;
-        return hydrateFunc(App, rootElement, callback);
-      }
-
-      // we should hydateRoot only when ssr
-      if (ssrData) {
-        return hydrateRoot(App, context, ModernRender, ModernHydrate);
-      }
-      return ModernRender(App);
-    }
-    throw Error(
-      '`render` function needs id in browser environment, it needs to be string or element',
+        res[key] = loaderData;
+        return res;
+      },
+      {},
     );
-  } else {
-    throw Error('ssr need use server func');
+
+    Object.assign(context, {
+      loaderManager: createLoaderManager(initialLoadersState, {
+        skipStatic: true,
+      }),
+      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+    });
+
+    context.initialData = ssrData?.data?.initialData;
+    const initialData = await runInit(context);
+    if (initialData) {
+      context.initialData = initialData;
+    }
+    const rootElement =
+      id && typeof id !== 'string'
+        ? id
+        : document.getElementById(id || 'root')!;
+
+    async function ModernRender(App: React.ReactElement) {
+      const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
+      return renderFunc(React.cloneElement(App, { context }), rootElement);
+    }
+
+    async function ModernHydrate(
+      App: React.ReactElement,
+      callback?: () => void,
+    ) {
+      const hydrateFunc = IS_REACT18 ? hydrateWithReact18 : hydrateWithReact17;
+      return hydrateFunc(App, rootElement, callback);
+    }
+
+    // we should hydateRoot only when ssr
+    if (ssrData) {
+      return hydrateRoot(App, context, ModernRender, ModernHydrate);
+    }
+    return ModernRender(App);
   }
+  throw Error(
+    '`render` function needs id in browser environment, it needs to be string or element',
+  );
 }
 
 async function renderWithReact18(
