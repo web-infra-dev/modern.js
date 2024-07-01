@@ -1,6 +1,7 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { parseQuery } from '@modern-js/runtime-utils/universal';
+import { Reporter } from '@modern-js/types';
 import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { SSRConfig } from '../shared';
@@ -11,6 +12,7 @@ export interface SSRDataCreatorOptions {
   request: Request;
   prefetchData: Record<string, any>;
   chunkSet: ChunkSet;
+  reporter?: Reporter;
   ssrConfig?: SSRConfig;
   routerContext?: StaticHandlerContext;
   nonce?: string;
@@ -40,7 +42,7 @@ export class SSRDataCollector implements Collector {
   }
 
   #getSSRData(request: Request): SSRContainer {
-    const { prefetchData, chunkSet, ssrConfig } = this.#options;
+    const { prefetchData, chunkSet, ssrConfig, reporter } = this.#options;
 
     const url = new URL(request.url);
     const query = parseQuery(request);
@@ -72,6 +74,9 @@ export class SSRDataCollector implements Collector {
           host,
           url: request.url,
           headers,
+        },
+        reporter: {
+          sessionId: reporter?.sessionId,
         },
       },
       mode: 'string',
