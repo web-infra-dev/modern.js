@@ -1,12 +1,10 @@
-import { ServerUserConfig } from '@modern-js/app-tools';
+import { RequestHandler, RequestHandlerOptions } from '@modern-js/app-tools';
 import {
   getPathname,
   parseCookie,
   parseHeaders,
   parseQuery,
 } from '@modern-js/runtime-utils/universal';
-import { ServerRoute } from '@modern-js/types';
-import { RouteManifest } from '../../router/runtime/types';
 import { createRoot } from '../react';
 import { RuntimeContext, getGlobalAppInit } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
@@ -16,26 +14,7 @@ import { SSRServerContext } from '../types';
 import { getSSRConfigByEntry, getSSRMode } from './utils';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
 
-export type Resource = {
-  loadableStats: Record<string, any>;
-  routeManifest: RouteManifest;
-  route: ServerRoute;
-  htmlTemplate: string;
-  entryName: string;
-};
-
-export type HandleRequestConfig = {
-  nonce?: string;
-  crossorigin?: boolean | 'anonymous' | 'use-credentials';
-  scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
-  enableInlineStyles?: boolean | RegExp;
-  enableInlineScripts?: boolean | RegExp;
-  disablePrerender?: boolean;
-  chunkLoadingGlobal?: string;
-  unsafeHeaders?: string[];
-  ssr?: ServerUserConfig['ssr'];
-  ssrByEntries?: ServerUserConfig['ssrByEntries'];
-};
+export type { RequestHandlerConfig as HandleRequestConfig } from '@modern-js/app-tools';
 
 export type HandleRequestOptions = Exclude<
   RequestHandlerOptions,
@@ -50,26 +29,6 @@ export type HandleRequest = (
   options: HandleRequestOptions,
 ) => Promise<Response>;
 
-type LoaderContext = Map<string, any>;
-
-export type RequestHandlerOptions = {
-  resource: Resource;
-  config: HandleRequestConfig;
-
-  loaderContext: LoaderContext;
-
-  /** @deprecated  */
-  staticGenerate?: boolean;
-
-  onError?: (err: unknown) => void;
-  onTiming?: (name: string, dur: number) => void;
-};
-
-export type RequestHandler = (
-  request: Request,
-  options: RequestHandlerOptions,
-) => Promise<Response>;
-
 export type CreateRequestHandler = (
   handleRequest: HandleRequest,
 ) => Promise<RequestHandler>;
@@ -78,8 +37,15 @@ function createSSRContext(
   request: Request,
   options: RequestHandlerOptions,
 ): SSRServerContext {
-  const { config, loaderContext, onError, onTiming, resource, staticGenerate } =
-    options;
+  const {
+    config,
+    loaderContext,
+    onError,
+    onTiming,
+    resource,
+    staticGenerate,
+    reporter,
+  } = options;
 
   const { nonce } = config;
 
@@ -136,6 +102,7 @@ function createSSRContext(
       },
       locals: {},
     },
+    reporter,
     mode: ssrMode,
     onError,
     onTiming,
@@ -155,7 +122,7 @@ export const createRequestHandler: CreateRequestHandler =
       const context: RuntimeContext = getInitialContext(
         runner,
         false,
-        routeManifest,
+        routeManifest as any,
       );
 
       const runInit = (_context: RuntimeContext) =>

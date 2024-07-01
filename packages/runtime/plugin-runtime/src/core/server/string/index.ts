@@ -81,6 +81,7 @@ export const renderString: RenderString = async (
         request,
         prefetchData,
         ssrConfig,
+        reporter: runtimeContext.ssrContext?.reporter,
         chunkSet,
         routerContext,
       }),
