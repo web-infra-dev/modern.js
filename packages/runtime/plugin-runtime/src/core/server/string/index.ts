@@ -48,7 +48,7 @@ export const renderString: RenderString = async (
     const { htmlTemplate, entryName } = resource;
 
     const chunkSet: ChunkSet = {
-      renderLevel: RenderLevel.SERVER_RENDER,
+      renderLevel: RenderLevel.CLIENT_RENDER,
       ssrScripts: '',
       jsChunk: '',
       cssChunk: '',
@@ -116,27 +116,29 @@ async function generateHtml(
   let html = '';
   let helmetData;
 
-  try {
-    const finalApp = collectors.reduce(
-      (pre, creator) => creator.collect?.(pre) || pre,
-      App,
-    );
+  if (chunkSet.renderLevel >= RenderLevel.SERVER_PREFETCH) {
+    try {
+      const finalApp = collectors.reduce(
+        (pre, creator) => creator.collect?.(pre) || pre,
+        App,
+      );
 
-    // react render to string
-    html = ReactDomServer.renderToString(finalApp);
+      // react render to string
+      html = ReactDomServer.renderToString(finalApp);
 
-    helmetData = ReactHelmet.renderStatic();
-    chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
+      helmetData = ReactHelmet.renderStatic();
+      chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
 
-    // collectors do effect
-    await Promise.all(collectors.map(component => component.effect()));
+      // collectors do effect
+      await Promise.all(collectors.map(component => component.effect()));
 
-    const cost = end();
+      const cost = end();
 
-    onTiming(SSRTimings.RENDER_HTML, cost);
-  } catch (e) {
-    chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
-    onError(SSRErrors.RENDER_HTML, e);
+      onTiming(SSRTimings.RENDER_HTML, cost);
+    } catch (e) {
+      chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
+      onError(SSRErrors.RENDER_HTML, e);
+    }
   }
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
