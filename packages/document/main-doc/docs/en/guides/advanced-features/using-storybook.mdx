@@ -38,7 +38,7 @@ To start, run `npm run storybook`.
 
 Rspack is known for its fast build speed. To use Rspack as a build tool in Modern.js, you only need to configure it as follows:
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -60,7 +60,7 @@ Note that in the above configuration, the reactDocgen configuration has been cha
 
 ## Configurations
 
-There are some configurations in `.storybook/main.js`.
+There are some configurations in `.storybook/main.ts`.
 
 ### configPath
 
@@ -71,7 +71,7 @@ Specify the path of Modern.js configuration.
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -93,7 +93,7 @@ Specify the underlying build tool to use either Webpack or Rspack.
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -115,7 +115,7 @@ To modify the configuration of build, which has a higher priority than the confi
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -166,7 +166,7 @@ The powerful build capabilities of Modern.js can be directly used in Storybook p
 
 2. If you find that the build performance is not good, please check if the Storybook automatic documentation generation feature is enabled. For optimal performance, configure it to use `react-docgen`. The difference between `react-docgen` and `react-docgen-typescript` is that the former is implemented based on Babel, while the latter is implemented based on TypeScript. The former has better performance but weaker type inference capabilities. If you are using Rspack for the build, only `react-docgen` is supported.
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   typescript: {
     reactDocgen: 'react-docgen',
@@ -214,7 +214,7 @@ Follow the official Storybook documentation to make the necessary updates for so
 
 Modern.js only support Storybook 7, so you need to upgrade from Storybook version 6 to version 7, please follow the steps outlined in the official Storybook documentation at [storybook migrate doc](https://storybook.js.org/docs/react/migration-guide).
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
 -  framework: '@storybook/react-webapck5',
 +  framework: {

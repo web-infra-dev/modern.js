@@ -9,7 +9,7 @@ sidebar_position: 3
 ## storybook
 
 :::warning
-**Deprecated**：该配置已过时，只适用于 StorybookV6，详情请看[使用Storybook](/guide/basic/using-storybook)。
+**Deprecated**：该配置已过时，只适用于 StorybookV6，详情请看[使用 Storybook](/guide/basic/using-storybook)。
 :::
 
 ### storybook.webpack
@@ -35,10 +35,10 @@ export default {
 
 #### 配置 Manager App
 
-对于 Storybook Manager App 部分的 webpack 配置，可以通过增加 `./config/storybook/main.js` 文件进行配置。
+对于 Storybook Manager App 部分的 webpack 配置，可以通过增加 `./config/storybook/main.ts` 文件进行配置。
 
 ```js
-// ./config/storybook/main.js
+// ./config/storybook/main.ts
 
 module.exports = {
   // it controls the Storybook manager app

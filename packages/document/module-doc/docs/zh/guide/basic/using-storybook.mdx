@@ -81,7 +81,7 @@ modern build --watch
 
 Rspack 构建速度非常快，只需要如下配置即可使用 Rspack 作为构建工具。
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -103,7 +103,7 @@ export default config;
 
 ### 配置
 
-在 `.storybook/main.js` 中包含一些独有的配置。
+在 `.storybook/main.ts` 中包含一些独有的配置。
 
 #### bundler
 
@@ -112,7 +112,7 @@ export default config;
 
 指定底层打包工具使用 Webpack 还是 Rspack。
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -132,7 +132,7 @@ export default config;
 
 Modern.js 的 Storybook 构建能力由 [Rsbuild](https://rsbuild.dev/) 提供，可通过 builderConfig 修改 Rsbuild 构建配置。
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
