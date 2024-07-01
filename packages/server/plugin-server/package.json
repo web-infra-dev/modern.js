@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.6-alpha.2",
+  "version": "2.54.5",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/cjs/cli.js",
@@ -71,7 +71,7 @@
     }
   },
   "dependencies": {
-    "@modern-js/runtime-utils": "^2.54.5",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"

@@ -3581,8 +3581,8 @@ importers:
   packages/server/plugin-server:
     dependencies:
       '@modern-js/runtime-utils':
-        specifier: ^2.54.5
-        version: 2.54.5(react-dom@18.2.0)(react@18.2.0)
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
@@ -15200,27 +15200,6 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/runtime-utils@2.54.5(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-zE4TtowQe4KnIIJDCPUleDfzeBEQHpyAb95dtPrFZx8M7kVSkn0Pagglp1NsGT2m/cPV0pM5RX/3IRJzznwMsA==}
-    peerDependencies:
-      react: '>=17.0.0'
-      react-dom: '>=17.0.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      '@modern-js/utils': 2.54.5
-      '@remix-run/router': 1.15.0
-      '@swc/helpers': 0.5.3
-      lru-cache: 6.0.0
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-router-dom: 6.22.0(react-dom@18.2.0)(react@18.2.0)
-      serialize-javascript: 6.0.2
-    dev: false
-
   /@modern-js/swc-plugins-darwin-arm64@0.6.6:
     resolution: {integrity: sha512-+Iz8/HkWyG97EcAWWAzSXI0nUAP1LOkuWjx6+anHIEhMW/pO2UowBM73j7FTIzuDgnREcF535v/3FLKzmD0I+w==}
     engines: {node: '>=14.12'}
@@ -15407,15 +15386,6 @@ packages:
       caniuse-lite: 1.0.30001633
       lodash: 4.17.21
       rslog: 1.2.1
-
-  /@modern-js/utils@2.54.5:
-    resolution: {integrity: sha512-pSczSIGLPc7rckMLIvq/gwM+8/mBv9P9OoAPrPbLrog1EZ+MvM4d4eDGx9m3HH4GR0liSAtTuY9qbvUGwUisoQ==}
-    dependencies:
-      '@swc/helpers': 0.5.3
-      caniuse-lite: 1.0.30001636
-      lodash: 4.17.21
-      rslog: 1.2.1
-    dev: false
 
   /@module-federation/runtime-tools@0.0.8:
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
