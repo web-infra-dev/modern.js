@@ -35498,7 +35498,7 @@ packages:
       esbuild: 0.18.20
       jest-worker: 27.5.1
       schema-utils: 3.3.0
-      serialize-javascript: 6.0.2
+      serialize-javascript: 6.0.1
       terser: 5.29.2
       webpack: 5.92.0(esbuild@0.18.20)
     dev: false
