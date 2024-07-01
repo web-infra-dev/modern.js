@@ -29,7 +29,8 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
   // get module list
   if (manifest?.getAppList) {
     const getAppList = await manifest?.getAppList(manifest);
-    if (getAppList.length > 0) {
+    // getAppList may be null
+    if (getAppList?.length > 0) {
       apps = getAppList;
     }
     logger('getAppList modules', apps);
