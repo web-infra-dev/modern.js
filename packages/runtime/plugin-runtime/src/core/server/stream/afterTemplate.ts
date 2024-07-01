@@ -40,6 +40,8 @@ function createReplaceSSRData(options: {
 }) {
   const { request, runtimeContext, nonce, renderLevel } = options;
 
+  const reporter = runtimeContext.ssrContext?.reporter;
+
   const url = new URL(request.url);
 
   const query = parseQuery(request);
@@ -53,8 +55,7 @@ function createReplaceSSRData(options: {
     },
     context: {
       reporter: {
-        // TODO: reporter sessionId,
-        // sessionId: tracker.sessionId,
+        sessionId: reporter?.sessionId,
       },
 
       request: {
