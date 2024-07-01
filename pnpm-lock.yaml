@@ -2938,9 +2938,6 @@ importers:
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@remix-run/web-fetch':
         specifier: ^4.1.3
         version: 4.3.2
@@ -3583,6 +3580,9 @@ importers:
 
   packages/server/plugin-server:
     dependencies:
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
@@ -5901,6 +5901,37 @@ importers:
       typescript:
         specifier: ^5
         version: 5.3.3
+
+  tests/integration/custom-file-system-entry:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.4.5
 
   tests/integration/custom-render:
     dependencies:
@@ -23738,6 +23769,7 @@ packages:
   /diff-sequences@29.4.3:
     resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    dev: true
 
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
@@ -27703,6 +27735,7 @@ packages:
       diff-sequences: 29.4.3
       jest-get-type: 29.6.3
       pretty-format: 29.7.0
+    dev: true
 
   /jest-diff@29.7.0:
     resolution: {integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw==}
@@ -27985,7 +28018,7 @@ packages:
       chalk: 4.1.2
       expect: 29.5.0
       graceful-fs: 4.2.11
-      jest-diff: 29.5.0
+      jest-diff: 29.7.0
       jest-get-type: 29.6.3
       jest-matcher-utils: 29.5.0
       jest-message-util: 29.5.0
