@@ -34,6 +34,14 @@
       "types": "./dist/types/server.d.ts",
       "jsnext:source": "./src/server.ts",
       "default": "./dist/cjs/server.js"
+    },
+    "./runtime": {
+      "types": "./dist/types/runtime/node.d.ts",
+      "default": "./dist/cjs/runtime/node.js"
+    },
+    "./runtime/worker": {
+      "types": "./dist/types/runtime/worker.d.ts",
+      "default": "./dist/esm-node/runtime/worker.js"
     }
   },
   "scripts": {
@@ -53,25 +61,32 @@
       ],
       "server": [
         "./dist/types/server.d.ts"
+      ],
+      "runtime": [
+        "./dist/types/runtime/node.d.ts"
+      ],
+      "runtime/worker": [
+        "./dist/types/runtime/worker.d.ts"
       ]
     }
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@scripts/build": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "typescript": "^5",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
-    "@scripts/jest-config": "workspace:*"
+    "typescript": "^5"
   },
   "sideEffects": [
     "*.css",

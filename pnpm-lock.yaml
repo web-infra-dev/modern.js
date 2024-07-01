@@ -3580,6 +3580,9 @@ importers:
 
   packages/server/plugin-server:
     dependencies:
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
