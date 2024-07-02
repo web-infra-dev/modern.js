@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import {
   createBrowserHistory,
@@ -153,9 +154,10 @@ export const routerPlugin = ({
                  */
                 return (
                   <Router history={history}>
-                    {createRoutes && <App Component={createRoutes()} />}
-                    {App && !finalRouteConfig?.routes ? (
-                      <App />
+                    {createRoutes ? (
+                      <App Component={createRoutes()} />
+                    ) : App && !finalRouteConfig?.routes ? (
+                      <App {...props} />
                     ) : (
                       renderRoutes(finalRouteConfig, props)
                     )}
@@ -187,9 +189,10 @@ export const routerPlugin = ({
                   location={location}
                   context={routerContext}
                 >
-                  {createRoutes && <App Component={createRoutes()} />}
-                  {App && !finalRouteConfig?.routes ? (
-                    <App />
+                  {createRoutes ? (
+                    <App Component={createRoutes()} />
+                  ) : App && !finalRouteConfig?.routes ? (
+                    <App {...props} />
                   ) : (
                     renderRoutes(finalRouteConfig, props)
                   )}

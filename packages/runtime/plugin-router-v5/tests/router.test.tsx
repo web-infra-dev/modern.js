@@ -41,10 +41,13 @@ describe('@modern-js/plugin-router-v5', () => {
           hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
-          routesConfig: { routes: [{ path: '/', component: App as any }] },
+          routesConfig: {
+            routes: [{ path: '/', component: App as any }],
+            globalApp: App,
+          },
         }),
       ],
-    })(App);
+    })();
 
     interface Props {
       test: number;
