@@ -2,20 +2,21 @@ import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal';
 import { createElement } from 'react';
 import { run } from '@modern-js/runtime-utils/node';
-
 import { RuntimeContext } from '../../context';
 import { HandleRequestConfig } from '../requestHandler';
-import { RenderStreaming } from '../shared';
+import type { RenderStreaming, SSRConfig } from '../shared';
 import {
   SSRErrors,
   SSRTimings,
   createOnError,
   createOnTiming,
 } from '../tracer';
+import { getSSRConfigByEntry } from '../utils';
 
 export type CreateReadableStreamFromElementOptions = {
   runtimeContext: RuntimeContext;
   config: HandleRequestConfig;
+  ssrConfig: SSRConfig;
   htmlTemplate: string;
   onShellReady?: () => void;
   onShellError?: (error: unknown) => void;
@@ -64,18 +65,25 @@ export function createRenderStreaming(
 
     return run(headersData, async () => {
       const end = time();
-      const { runtimeContext, config, resource } = options;
+      const { runtimeContext, config, resource, staticGenerate } = options;
 
       const onError = createOnError(options.onError);
       const onTiming = createOnTiming(options.onTiming);
 
-      const { htmlTemplate } = resource;
+      const { htmlTemplate, entryName } = resource;
 
       const rootElement = createElement(serverRoot, {
         context: Object.assign(runtimeContext || {}, {
           ssr: true,
         }),
       });
+
+      const ssrConfig = getSSRConfigByEntry(
+        entryName,
+        config.ssr,
+        config.ssrByEntries,
+        staticGenerate,
+      );
 
       const stream = await createReadableStreamFromElement(
         request,
@@ -84,6 +92,7 @@ export function createRenderStreaming(
           config,
           htmlTemplate,
           runtimeContext,
+          ssrConfig,
           onShellReady() {
             const cost = end();
             onTiming(SSRTimings.RENDER_SHELL, cost);

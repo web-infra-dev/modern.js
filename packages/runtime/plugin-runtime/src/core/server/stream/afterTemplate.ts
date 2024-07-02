@@ -1,8 +1,8 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
-import { parseQuery } from '@modern-js/runtime-utils/universal';
+import { HeadersData } from '@modern-js/runtime-utils/universal';
 import { attributesToString, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
-import { BuildHtmlCb, buildHtml } from '../shared';
+import { BuildHtmlCb, SSRConfig, buildHtml } from '../shared';
 import { RenderLevel } from '../../constants';
 import { SSRContainer } from '../../types';
 import { HandleRequestConfig } from '../requestHandler';
@@ -11,6 +11,7 @@ import { RuntimeContext } from '../../context';
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: RuntimeContext;
   renderLevel: RenderLevel;
+  ssrConfig: SSRConfig;
   request: Request;
   config: HandleRequestConfig;
 };
@@ -19,11 +20,12 @@ export function buildShellAfterTemplate(
   afterAppTemplate: string,
   options: BuildShellAfterTemplateOptions,
 ) {
-  const { request, config, runtimeContext, renderLevel } = options;
+  const { request, config, ssrConfig, runtimeContext, renderLevel } = options;
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceSSRData({
       request,
+      ssrConfig,
       nonce: config.nonce,
       runtimeContext,
       renderLevel,
@@ -35,18 +37,24 @@ export function buildShellAfterTemplate(
 function createReplaceSSRData(options: {
   request: Request;
   runtimeContext: RuntimeContext;
+  ssrConfig: SSRConfig;
   nonce?: string;
   renderLevel: RenderLevel;
 }) {
-  const { request, runtimeContext, nonce, renderLevel } = options;
+  const { runtimeContext, nonce, renderLevel, ssrConfig } = options;
 
-  const reporter = runtimeContext.ssrContext?.reporter;
+  const { request, reporter } = runtimeContext.ssrContext!;
 
-  const url = new URL(request.url);
-
-  const query = parseQuery(request);
-
-  const { pathname, host } = url;
+  const headers =
+    typeof ssrConfig === 'object' && ssrConfig.unsafeHeaders
+      ? Object.fromEntries(
+          Object.entries(request.headers as HeadersData).filter(([key, _]) => {
+            return ssrConfig.unsafeHeaders
+              ?.map(header => header.toLowerCase())
+              ?.includes(key.toLowerCase());
+          }),
+        )
+      : undefined;
 
   const ssrData: SSRContainer = {
     data: {
@@ -59,14 +67,12 @@ function createReplaceSSRData(options: {
       },
 
       request: {
-        query,
-        // TOOD: add params
-        params: {},
-        pathname,
-        host,
-        url: request.url,
-        /// TODO unsafeContext,
-        // ...(enableUnsafeCtx ? unsafeContext : {}),
+        query: request.query,
+        params: request.params,
+        pathname: request.pathname,
+        host: request.host,
+        url: request.raw.url,
+        headers,
       },
     },
     mode: 'stream',

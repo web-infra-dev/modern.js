@@ -76,8 +76,6 @@ export async function ssrRender(
 
   const requestHandler = await renderBundle[SERVER_RUNTIME_ENTRY];
 
-  loaderContext.set('privdate_locals', locals);
-
   const config = createRequestHandlerConfig(userConfig);
 
   const requestHandlerOptions: RequestHandlerOptions = {
@@ -92,9 +90,10 @@ export async function ssrRender(
     loaderContext,
     config,
 
+    locals,
     reporter,
-
     staticGenerate,
+
     onError,
     onTiming,
   };

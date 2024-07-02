@@ -14,7 +14,7 @@ import {
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   (request, rootElement, options) => {
-    const { runtimeContext, htmlTemplate, config } = options;
+    const { runtimeContext, htmlTemplate, config, ssrConfig } = options;
     let shellChunkStatus = ShellChunkStatus.START;
 
     let renderLevel = RenderLevel.SERVER_RENDER;
@@ -44,6 +44,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
           getTemplates(htmlTemplate, {
             request,
+            ssrConfig,
             renderLevel,
             runtimeContext,
             config,
@@ -97,6 +98,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
           // eslint-disable-next-line promise/no-promise-in-callback
           getTemplates(htmlTemplate, {
             request,
+            ssrConfig,
             renderLevel,
             runtimeContext,
             config,
