@@ -20,7 +20,7 @@ import {
   HiOutlineRectangleGroup,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
-import { parseQuery, resolveURL } from 'ufo';
+import { parseQuery, parseURL, resolveURL } from 'ufo';
 import { proxy, ref } from 'valtio';
 import type {
   MountPointFunctions,
@@ -47,10 +47,24 @@ const initializeMountPoint = async () => {
   return { remote, hooks };
 };
 
+class InitializeManifestError extends Error {
+  constructor(cause?: unknown) {
+    super();
+    this.name = 'InitializeManifestError';
+    this.cause = cause;
+    this.message = 'Failed to initialize manifest of DevTools';
+  }
+}
+
 const initializeManifest = async (url: string) => {
   const res = await fetch(url);
-  const json: ServerManifest = JSON.parse(await res.text(), reviver());
-  return json;
+  try {
+    const text = await res.text();
+    const json: ServerManifest = JSON.parse(text, reviver());
+    return json;
+  } catch (e) {
+    throw new InitializeManifestError(e);
+  }
 };
 
 const initializeServer = async (url: string, state: ServerManifest) => {
@@ -141,7 +155,7 @@ const initializeTabs = async () => {
 };
 
 const initializeState = async (url: string) => {
-  const query = parseQuery(url);
+  const query = parseQuery(parseURL(url).search);
   const manifestUrl = _.castArray(query.src)[0] ?? resolveURL(url, 'manifest');
 
   const $mountPoint = initializeMountPoint();

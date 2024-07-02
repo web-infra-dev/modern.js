@@ -1,6 +1,7 @@
 import { Plugin } from '../types';
 
 export const pluginCleanup: Plugin = {
+  name: 'cleanup',
   async setup(api) {
     let _done = false;
     const cleanup = async () => {

@@ -1,7 +1,7 @@
 /* eslint-disable node/prefer-global/url */
 /* eslint-disable node/no-unsupported-features/node-builtins */
 /// <reference lib="dom" />
-import { reviver, ServerManifest } from '@modern-js/devtools-kit/runtime';
+import { ServerManifest } from '@modern-js/devtools-kit/runtime';
 
 /**
  * Implement sync fetch based on XMLRequest.
@@ -54,10 +54,12 @@ const setup = () => {
   const cookieManifestUrl = document.cookie.match(
     /use_modernjs_devtools=([^;]+)/,
   )?.[1];
-  const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
+  const devtoolsUrl = injectedManifestUrl || cookieManifestUrl;
   if (!devtoolsUrl) return;
-  const manifest: ServerManifest = fetchSync(devtoolsUrl).json(reviver());
+  const manifest: ServerManifest = fetchSync(devtoolsUrl).json();
   manifest.source = devtoolsUrl;
+  // Skip if no client assets.
+  if (!manifest.client) return;
 
   // Inject JavaScript chunks to client.
   const template = document.createElement('template');

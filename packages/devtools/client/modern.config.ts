@@ -1,6 +1,7 @@
 import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
+import { DistPathConfig } from '@rsbuild/core';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
@@ -15,16 +16,44 @@ if (process.env.NODE_ENV === 'production') {
   globalVars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 }
 
+const assetPrefix = process.env.ASSET_PREFIX || ROUTE_BASENAME;
+const distPathTypes = [
+  'root',
+  'js',
+  'jsAsync',
+  'css',
+  'cssAsync',
+  'svg',
+  'font',
+  'html',
+  'wasm',
+  'image',
+  'media',
+  'server',
+  'worker',
+] as const;
+const distPath: DistPathConfig = { html: 'static/html' };
+for (const type of distPathTypes) {
+  const varName = `DIST_PATH_${type.toUpperCase()}`;
+  const value = process.env[varName];
+  value && (distPath[type] = value);
+}
+console.log('Build @modern-js/devtools-client with asset prefix:', assetPrefix);
+console.log(
+  'Build @modern-js/devtools-client with dist path config:',
+  JSON.stringify(distPath, null, 2),
+);
+
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: ROUTE_BASENAME,
+      supportHtml5History: false,
     },
   },
   dev: {
-    assetPrefix: ROUTE_BASENAME,
     port: 8780,
+    assetPrefix: 'http://localhost:8780',
   },
   source: {
     mainEntryName: 'client',
@@ -47,7 +76,8 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    assetPrefix: ROUTE_BASENAME,
+    distPath,
+    assetPrefix,
     disableInlineRuntimeChunk: true,
     disableSourceMap: process.env.NODE_ENV === 'production',
   },
