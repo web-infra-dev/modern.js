@@ -36,7 +36,14 @@ export const renderString: RenderString = async (
   const headersData = parseHeaders(request);
 
   return run(headersData, async () => {
-    const { resource, runtimeContext, config, onError, onTiming } = options;
+    const {
+      resource,
+      runtimeContext,
+      config,
+      onError,
+      onTiming,
+      staticGenerate,
+    } = options;
 
     const tracer: Tracer = {
       onError: createOnError(onError),
@@ -67,6 +74,7 @@ export const renderString: RenderString = async (
       entryName,
       config.ssr,
       config.ssrByEntries,
+      staticGenerate,
     );
 
     const collectors = [
@@ -81,7 +89,7 @@ export const renderString: RenderString = async (
         request,
         prefetchData,
         ssrConfig,
-        reporter: runtimeContext.ssrContext?.reporter,
+        ssrContext: runtimeContext.ssrContext!,
         chunkSet,
         routerContext,
       }),

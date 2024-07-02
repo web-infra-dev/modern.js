@@ -36,7 +36,7 @@ export interface SSRContainer {
       pathname: string;
       host: string;
       url: string;
-      headers?: Record<string, string>;
+      headers?: Record<string, string | undefined>;
     };
     reporter?: {
       sessionId?: string;

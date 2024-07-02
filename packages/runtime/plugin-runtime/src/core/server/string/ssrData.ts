@@ -1,18 +1,17 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
-import { parseQuery } from '@modern-js/runtime-utils/universal';
-import { Reporter } from '@modern-js/types';
+import { HeadersData } from '@modern-js/runtime-utils/universal';
 import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { SSRConfig } from '../shared';
-import { SSRContainer } from '../../types';
+import { SSRContainer, SSRServerContext } from '../../types';
 import { Collector, ChunkSet } from './types';
 
 export interface SSRDataCreatorOptions {
   request: Request;
   prefetchData: Record<string, any>;
   chunkSet: ChunkSet;
-  reporter?: Reporter;
+  ssrContext: SSRServerContext;
   ssrConfig?: SSRConfig;
   routerContext?: StaticHandlerContext;
   nonce?: string;
@@ -26,9 +25,9 @@ export class SSRDataCollector implements Collector {
   }
 
   effect() {
-    const { request, routerContext, chunkSet } = this.#options;
+    const { routerContext, chunkSet } = this.#options;
 
-    const ssrData = this.#getSSRData(request);
+    const ssrData = this.#getSSRData();
     const routerData = routerContext
       ? {
           loaderData: routerContext.loaderData,
@@ -41,38 +40,33 @@ export class SSRDataCollector implements Collector {
     chunkSet.ssrScripts = ssrDataScripts;
   }
 
-  #getSSRData(request: Request): SSRContainer {
-    const { prefetchData, chunkSet, ssrConfig, reporter } = this.#options;
+  #getSSRData(): SSRContainer {
+    const { prefetchData, chunkSet, ssrConfig, ssrContext } = this.#options;
 
-    const url = new URL(request.url);
-    const query = parseQuery(request);
-    const { pathname, host } = url;
+    const { reporter, request } = ssrContext;
 
-    let headers;
-
-    if (typeof ssrConfig === 'object') {
-      headers = ssrConfig.unsafeHeaders
+    const headers =
+      typeof ssrConfig === 'object' && ssrConfig.unsafeHeaders
         ? Object.fromEntries(
-            Array.from(request.headers.entries()).filter(([key, _]) => {
-              return ssrConfig.unsafeHeaders
-                ?.map(header => header.toLowerCase())
-                ?.includes(key.toLowerCase());
-            }),
+            Object.entries(request.headers as HeadersData).filter(
+              ([key, _]) => {
+                return ssrConfig.unsafeHeaders
+                  ?.map(header => header.toLowerCase())
+                  ?.includes(key.toLowerCase());
+              },
+            ),
           )
         : undefined;
-    }
 
     return {
       data: prefetchData,
       context: {
         request: {
-          // TODO: support params
-          //  confirm it is need?
-          params: {},
-          query,
-          pathname,
-          host,
-          url: request.url,
+          params: request.params,
+          query: request.query,
+          pathname: request.pathname,
+          host: request.host,
+          url: request.raw.url,
           headers,
         },
         reporter: {

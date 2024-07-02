@@ -21,7 +21,7 @@ data-styled.g1[id="sc-bczRLJ"]{content:"dgihId,"}/*!sc*/
     <div id="root"><div><h1>Hello Modern.js</h1><div class="sc-bczRLJ dgihId">Hello Modern.js-----</div></div></div>
 
     
-    <script>window._SSR_DATA = {"data":{},"context":{"request":{"params":{},"query":{},"pathname":"\\u002F","host":"localhost:8080","url":"http:\\u002F\\u002Flocalhost:8080"},"reporter":{}},"mode":"string","renderLevel":2}</script>
+    <script>window._SSR_DATA = {"data":{},"context":{"request":{"url":"http:\\u002F\\u002Flocalhost:8080"},"reporter":{}},"mode":"string","renderLevel":2}</script>
   </body>
 </html>
 "

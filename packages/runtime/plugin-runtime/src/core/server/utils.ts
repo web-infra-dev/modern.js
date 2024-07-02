@@ -74,7 +74,7 @@ export function getSSRConfigByEntry(
     return ssrByEntries[entryName];
   }
 
-  return ssr;
+  return ssr!;
 }
 
 export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {

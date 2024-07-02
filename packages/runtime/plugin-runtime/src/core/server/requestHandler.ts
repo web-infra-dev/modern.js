@@ -33,16 +33,26 @@ export type CreateRequestHandler = (
   handleRequest: HandleRequest,
 ) => Promise<RequestHandler>;
 
+type ResponseProxy = {
+  headers: Record<string, string>;
+  code: number;
+};
+
 function createSSRContext(
   request: Request,
-  options: RequestHandlerOptions,
+  options: RequestHandlerOptions & {
+    responseProxy: ResponseProxy;
+  },
 ): SSRServerContext {
   const {
     config,
     loaderContext,
     onError,
     onTiming,
+    locals,
     resource,
+    params,
+    responseProxy,
     staticGenerate,
     reporter,
   } = options;
@@ -87,20 +97,19 @@ function createSSRContext(
       cookieMap,
       pathname,
       query,
-      params: {},
+      params,
       headers: headersData,
       host: url.host,
       raw: request,
     },
     response: {
-      // TODO: support response
-      setHeader() {
-        //
+      setHeader(key, value) {
+        responseProxy.headers[key] = value;
       },
-      status(_code) {
-        //
+      status(code) {
+        responseProxy.code = code;
       },
-      locals: {},
+      locals,
     },
     reporter,
     mode: ssrMode,
@@ -136,7 +145,15 @@ export const createRequestHandler: CreateRequestHandler =
           },
         ) as any;
 
-      const ssrContext = createSSRContext(request, options);
+      const responseProxy: ResponseProxy = {
+        headers: {},
+        code: -1,
+      };
+
+      const ssrContext = createSSRContext(request, {
+        ...options,
+        responseProxy,
+      });
 
       Object.assign(context, {
         ssrContext,
@@ -192,10 +209,21 @@ export const createRequestHandler: CreateRequestHandler =
         `${CHUNK_CSS_PLACEHOLDER}</head>`,
       );
 
-      const response = handleRequest(request, serverRoot, {
+      const response = await handleRequest(request, serverRoot, {
         ...options,
         runtimeContext: context,
       });
+
+      Object.entries(responseProxy.headers).forEach(([key, value]) => {
+        response.headers.set(key, value);
+      });
+
+      if (responseProxy.code !== -1) {
+        return new Response(response.body, {
+          status: responseProxy.code,
+          headers: response.headers,
+        });
+      }
 
       return response;
     };
