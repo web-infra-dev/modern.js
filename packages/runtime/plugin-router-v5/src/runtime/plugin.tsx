@@ -124,11 +124,6 @@ export const routerPlugin = ({
           return next({ context });
         },
         hoc: ({ App, config }, next) => {
-          // can not get routes config, skip wrapping React Router.
-          // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig?.routes && !createRoutes) {
-            return next({ App, config });
-          }
           const getRouteApp = () => {
             if (isBrow) {
               const baseUrl =
@@ -158,8 +153,9 @@ export const routerPlugin = ({
                  */
                 return (
                   <Router history={history}>
-                    {createRoutes ? (
-                      <App Component={createRoutes()} />
+                    {createRoutes && <App Component={createRoutes()} />}
+                    {App && !finalRouteConfig?.routes ? (
+                      <App />
                     ) : (
                       renderRoutes(finalRouteConfig, props)
                     )}
@@ -191,8 +187,9 @@ export const routerPlugin = ({
                   location={location}
                   context={routerContext}
                 >
-                  {createRoutes ? (
-                    <App Component={createRoutes()} />
+                  {createRoutes && <App Component={createRoutes()} />}
+                  {App && !finalRouteConfig?.routes ? (
+                    <App />
                   ) : (
                     renderRoutes(finalRouteConfig, props)
                   )}
