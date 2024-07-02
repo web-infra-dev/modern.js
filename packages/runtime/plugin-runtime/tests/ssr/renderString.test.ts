@@ -21,22 +21,7 @@ describe('test render', () => {
   it('should render styledComponent correctly', async () => {
     const htmlTemplate = fs.readFileSync(htmlPath, 'utf8');
 
-    const renderOptions: RenderOptions = {
-      runtimeContext: getInitialContext({} as any, false),
-      resource: {
-        loadableStats: {},
-        route: {
-          urlPath: '/',
-          entryPath: 'main',
-        },
-        htmlTemplate,
-        entryName: 'main',
-        routeManifest: {} as any,
-      },
-      loaderContext: new Map(),
-      config: {},
-      onTiming,
-    };
+    const runtimeContext = getInitialContext({} as any, false);
 
     class Request {
       url: string;
@@ -48,6 +33,45 @@ describe('test render', () => {
       }
     }
     const request = new Request('http://localhost:8080');
+
+    runtimeContext.ssrContext = {
+      redirection: {},
+      htmlModifiers: [],
+      request: {
+        userAgent: request.headers.get('user-agent')!,
+        raw: request as any,
+      } as any,
+      response: {
+        setHeader() {
+          // ignore
+        },
+        status() {
+          // ignore
+        },
+        locals: {},
+      },
+      mode: 'string',
+    } as any;
+
+    const renderOptions: RenderOptions = {
+      runtimeContext,
+      resource: {
+        loadableStats: {},
+        route: {
+          urlPath: '/',
+          entryPath: 'main',
+        },
+        htmlTemplate,
+        entryName: 'main',
+        routeManifest: {} as any,
+      },
+      loaderContext: new Map(),
+      params: {},
+      config: {
+        ssr: true,
+      },
+      onTiming,
+    };
 
     const html = await renderString(request as any, App, renderOptions);
 

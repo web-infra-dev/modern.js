@@ -178,7 +178,6 @@ export async function getRenderHandler({
     routes,
     pwd,
     config,
-    // TODO: need static Genrate
     staticGenerate,
     cacheConfig,
     forceCSR,

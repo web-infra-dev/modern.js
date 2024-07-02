@@ -15,11 +15,12 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     let shellChunkStatus = ShellChunkStatus.START;
     const chunkVec: string[] = [];
 
-    const { htmlTemplate, runtimeContext, config } = options;
+    const { htmlTemplate, runtimeContext, config, ssrConfig } = options;
 
     const { shellBefore, shellAfter } = await getTemplates(htmlTemplate, {
       renderLevel: RenderLevel.SERVER_RENDER,
       runtimeContext,
+      ssrConfig,
       request,
       config,
     });

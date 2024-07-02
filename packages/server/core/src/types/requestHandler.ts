@@ -39,6 +39,9 @@ export type RequestHandlerOptions = {
   loaderContext: LoaderContext;
 
   /** @deprecated  */
+  locals?: Record<string, any>;
+
+  /** @deprecated  */
   staticGenerate?: boolean;
 
   /** @deprecated ssr runtime code need reporter instance */
