@@ -22,6 +22,10 @@ async function basicUsage(page: Page, appPort: number) {
 
   expect(body).toMatch(/<div hidden id="S:0">[\s\S]*<div>About content<\/div>/);
   expect(body).toMatch('reporter');
+
+  const headers = await res?.headers();
+
+  expect(headers).toHaveProperty('x-custom-key', '123');
 }
 
 async function deferredData(page: Page, appPort: number) {

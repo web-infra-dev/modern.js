@@ -1,15 +1,16 @@
 import { ServerTiming as ServerTimingInterafce } from '@modern-js/types';
 
-const SERVER_TIMING = 'Server-Timing';
-
 export class ServerTiming implements ServerTimingInterafce {
-  private headers: Headers;
+  private headerList: string[] = [];
 
   private meta: string;
 
-  constructor(headers: Headers, meta: string) {
+  constructor(meta: string) {
     this.meta = meta;
-    this.headers = headers;
+  }
+
+  get headers(): string[] {
+    return this.headerList;
   }
 
   addServeTiming(name: string, dur: number, desc?: string) {
@@ -18,7 +19,8 @@ export class ServerTiming implements ServerTimingInterafce {
 
     const value = `${_name};${desc ? `decs="${desc}";` : ''} dur=${dur}`;
 
-    this.headers.append(SERVER_TIMING, value);
+    this.headerList.push(value);
+
     return this;
   }
 }

@@ -18,7 +18,7 @@ import {
   useRouteMatch,
 } from '@modern-js/plugin-router-v5/runtime';
 import garfishPlugin from '../src/runtime';
-import { useModuleApps } from '../src';
+import { useModuleApps } from '../src/runtime';
 import {
   TABLE_LIST_ESCAPE_NODE,
   TABLE_LIST_HTML,

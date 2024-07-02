@@ -22,41 +22,16 @@ export interface ImportSpecifier {
   imported?: string;
 }
 
-export interface ImportStatement {
-  specifiers: ImportSpecifier[];
-  value: string;
-  initialize?: string;
-}
-
 export interface RuntimePlugin {
   name: string;
-  options: string;
-  args?: string;
+  path: string;
+  config: Record<string, any>;
 }
 
 export type AppToolsHooks<B extends Bundler = 'webpack'> = {
-  modifyEntryExport: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    exportStatement: string;
-  }>;
-  modifyEntryImports: AsyncWaterfall<{
-    imports: ImportStatement[];
-    entrypoint: Entrypoint;
-  }>;
-  modifyEntryRuntimePlugins: AsyncWaterfall<{
+  _internalRuntimePlugins: AsyncWaterfall<{
     entrypoint: Entrypoint;
     plugins: RuntimePlugin[];
-    bundlerConfigs?: B extends 'rspack'
-      ? Rspack.Configuration[]
-      : webpack.Configuration[];
-  }>;
-  modifyEntryRenderFunction: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    code: string;
-  }>;
-  modifyAsyncEntry: AsyncWaterfall<{
-    entrypoint: Entrypoint;
-    code: string;
   }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
@@ -72,6 +47,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     path: string;
     entry: false | string;
   }>;
+  generateEntryCode: AsyncWorkflow<{ entrypoints: Entrypoint[] }, void>;
   htmlPartials: AsyncWaterfall<{
     entrypoint: Entrypoint;
     partials: HtmlPartials;

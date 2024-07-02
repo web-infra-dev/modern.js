@@ -9,9 +9,9 @@ import {
   RouteObject,
   useHref,
 } from '@modern-js/runtime-utils/router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
@@ -49,7 +49,11 @@ export const routerPlugin = ({
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   let routes: RouteObject[] = [];
-  finalRouteConfig = routesConfig;
+  finalRouteConfig = {
+    routes: getGlobalRoutes(),
+    globalApp: getGlobalLayoutApp(),
+    ...routesConfig,
+  };
   window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
 
   return {
@@ -77,7 +81,7 @@ export const routerPlugin = ({
         hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig && !createRoutes) {
+          if (!finalRouteConfig.routes && !createRoutes) {
             return next({ App, config });
           }
 
@@ -88,7 +92,13 @@ export const routerPlugin = ({
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
               const _basename =
-                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+                baseUrl === '/'
+                  ? urlJoin(
+                      baseUrl,
+                      config?.router?.basename?.replace(/^\/*/, '/') ||
+                        basename,
+                    )
+                  : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
               const runtimeContext = useContext(RuntimeReactContext);
@@ -164,25 +174,10 @@ export const routerPlugin = ({
               beforeCreateRouter = false;
               const router = useCreateRouter(props);
 
-              return (
-                <App {...props}>
-                  <RouterProvider router={router} />
-                </App>
-              );
+              return <RouterProvider router={router} />;
             }) as React.FC<any>;
           };
-          let RouteApp = getRouteApp();
-
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
-
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
+          const RouteApp = getRouteApp();
 
           return next({
             App: RouteApp,

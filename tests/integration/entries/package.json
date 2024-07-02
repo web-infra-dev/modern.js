@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "entries-integration",
+  "version": "2.9.0",
+  "dependencies": {
+    "@types/jest": "^29",
+    "@types/node": "^14"
+  }
+}

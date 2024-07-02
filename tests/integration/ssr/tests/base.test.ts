@@ -89,7 +89,8 @@ describe('Traditional SSR', () => {
     await basicUsage(page, appPort);
   });
 
-  test(`should pass chunkLoadingGlobal`, async () => {
+  // We will not add chunkLoadingGlobal to entry(index.jsx)
+  test.skip(`should pass chunkLoadingGlobal`, async () => {
     await checkIsPassChunkLoadingGlobal();
   });
 

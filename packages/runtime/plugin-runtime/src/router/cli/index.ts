@@ -1,40 +1,58 @@
 import {
-  getEntryOptions,
   createRuntimeExportsUtils,
+  getEntryOptions,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { ServerRoute } from '@modern-js/types';
 import { isRouteEntry } from './entry';
-import { handleFileChange, handleModifyEntrypoints } from './handler';
+import {
+  handleFileChange,
+  handleGeneratorEntryCode,
+  handleModifyEntrypoints,
+} from './handler';
 
 export { isRouteEntry } from './entry';
 export { handleFileChange, handleModifyEntrypoints } from './handler';
-
-const PLUGIN_IDENTIFIER = 'router';
-
-const ROUTES_IDENTIFIER = 'routes';
 
 export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
-    const runtimeConfigMap = new Map<string, any>();
-
-    let pluginsExportsUtils: any;
-
     return {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
+        const { packageName, serverRoutes, metaName } = api.useAppContext();
+        const serverBase = serverRoutes
+          .filter(
+            (route: ServerRoute) => route.entryName === entrypoint.entryName,
+          )
+          .map(route => route.urlPath)
+          .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
+        const userConfig = api.useResolvedConfigContext();
+        const routerConfig = getEntryOptions(
+          entrypoint.entryName,
+          entrypoint.isMainEntry,
+          userConfig.runtime,
+          userConfig.runtimeByEntries,
+          packageName,
+        )?.router;
+        if (routerConfig && !isV5(userConfig)) {
+          plugins.push({
+            name: 'router',
+            path: `@${metaName}/runtime/router`,
+            config:
+              typeof routerConfig === 'boolean'
+                ? { serverBase }
+                : { ...routerConfig, serverBase },
+          });
+        }
+
+        return { entrypoint, plugins };
+      },
       checkEntryPoint({ path, entry }) {
         return { path, entry: entry || isRouteEntry(path) };
       },
       config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
         return {
           source: {
             include: [
@@ -45,9 +63,6 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
               /node_modules\/react-router-dom/,
               /node_modules\/@remix-run\/router/,
             ],
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
           },
         };
       },
@@ -55,74 +70,20 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
         const newEntryPoints = await handleModifyEntrypoints(api, entrypoints);
         return { entrypoints: newEntryPoints };
       },
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
-        const userConfig = api.useResolvedConfigContext();
-        const { packageName } = api.useAppContext();
-
-        const runtimeConfig = getEntryOptions(
-          entryName,
-          isMainEntry,
-          userConfig.runtime,
-          userConfig.runtimeByEntries,
-          packageName,
-        );
-
-        runtimeConfigMap.set(entryName, runtimeConfig);
-        if (runtimeConfig?.router) {
-          if (!isV5(userConfig)) {
-            imports.push({
-              value: '@modern-js/runtime/plugins',
-              specifiers: [{ imported: PLUGIN_IDENTIFIER }],
-            });
-          }
-        } else if (fileSystemRoutes) {
-          throw new Error(
-            `should enable runtime.router for entry ${entryName}`,
-          );
-        }
-        return {
-          entrypoint,
-          imports,
-        };
-      },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
-        const { serverRoutes } = api.useAppContext();
-        const userConfig = api.useResolvedConfigContext();
-        const runtimeConfig = runtimeConfigMap.get(entryName);
-        if (runtimeConfig.router && !isV5(userConfig)) {
-          // Todo: plugin-router best to only handle manage client route.
-          // here support base server route usage, part for compatibility
-          const serverBase = serverRoutes
-            .filter((route: ServerRoute) => route.entryName === entryName)
-            .map(route => route.urlPath)
-            .sort((a, b) => (a.length - b.length > 0 ? -1 : 1));
-
-          plugins.push({
-            name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify({
-              serverBase,
-              ...runtimeConfig.router,
-              routesConfig: fileSystemRoutes
-                ? `{ ${ROUTES_IDENTIFIER}, globalApp: App }`
-                : undefined,
-            }).replace(
-              /"routesConfig"\s*:\s*"((\S|\s)+)"/g,
-              '"routesConfig": $1,',
-            ),
-          });
-        }
-        return {
-          entrypoint,
-          plugins,
-        };
+      async generateEntryCode({ entrypoints }) {
+        await handleGeneratorEntryCode(api, entrypoints);
       },
       addRuntimeExports() {
         const userConfig = api.useResolvedConfigContext();
+        const { internalDirectory, metaName } = api.useAppContext();
+
+        const pluginsExportsUtils = createRuntimeExportsUtils(
+          internalDirectory,
+          'plugins',
+        );
         if (!isV5(userConfig)) {
           pluginsExportsUtils.addExport(
-            `export { default as router } from '@modern-js/runtime/router'`,
+            `export { default as router } from '@${metaName}/runtime/router'`,
           );
         }
       },

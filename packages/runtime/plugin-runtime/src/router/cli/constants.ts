@@ -23,6 +23,10 @@ export const FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP = /^\[(\S+)\]([*+?]?)$/;
 
 export const FILE_SYSTEM_ROUTES_COMPONENTS_DIR = 'internal_components';
 
+export const APP_CONFIG_NAME = 'config';
+
+export const APP_INIT_EXPORTED = 'init';
+
 export const NESTED_ROUTE = {
   LAYOUT_FILE: 'layout',
   LAYOUT_CONFIG_FILE: 'layout.config',

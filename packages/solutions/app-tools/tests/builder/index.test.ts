@@ -30,16 +30,12 @@ describe('create builder Options', () => {
       ],
       checkedEntries: ['main', 'next'],
       configFile: 'modern.config.ts',
+      appDirectory: 'appDirectory',
     };
     const options = createBuilderOptions(targets, appContext as any);
-    expect(options).toEqual({
-      target: targets,
-      frameworkConfigPath: 'modern.config.ts',
-      entry: {
-        main: ['./src/index.ts', './src/main.ts'],
-        next: ['./src/next.ts'],
-      },
-    });
+    expect(options.cwd).toBe('appDirectory');
+    expect(options.target).toEqual(targets);
+    expect(options.frameworkConfigPath).toBe('modern.config.ts');
   });
 });
 

@@ -7,6 +7,7 @@ export * from '@modern-js/runtime-utils/router';
 export type { SingleRouteConfig, RouterConfig };
 export { renderRoutes } from './utils';
 
+export { routerPlugin };
 export default routerPlugin;
 
 export { modifyRoutes } from './plugin';

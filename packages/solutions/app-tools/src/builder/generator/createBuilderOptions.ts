@@ -23,10 +23,27 @@ export function createBuilderOptions(
     }
   }
 
+  const serverEntries: Entries = {};
+  for (const entry in entries) {
+    const v = entries[entry];
+    serverEntries[entry] = v.map(entry =>
+      entry.replace('index.jsx', 'index.server.jsx'),
+    );
+  }
+
   return {
     cwd: appContext.appDirectory,
     target,
     frameworkConfigPath: appContext.configFile || undefined,
-    entry: entries,
+    entry({ target }) {
+      if (target === 'web') {
+        return entries;
+      }
+      if (target === 'node') {
+        return serverEntries;
+      }
+
+      return entries;
+    },
   };
 }

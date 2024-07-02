@@ -13,6 +13,10 @@ export type SourceLegacyUserConfig = {
   mainEntryName?: string;
   preEntry?: string | string[];
   enableAsyncEntry?: boolean;
+  /**
+   * support entry.tsx entry
+   */
+  enableCustomEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;
   configDir?: string;

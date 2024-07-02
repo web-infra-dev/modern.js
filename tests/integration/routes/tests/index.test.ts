@@ -315,6 +315,9 @@ const supportHandleLoaderError = async (
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
+
+  await page.waitForSelector('.loader-error-btn');
+
   await Promise.all([
     page.click('.loader-error-btn'),
     page.waitForSelector('.error-loader-page'),
@@ -384,7 +387,9 @@ const supportLoaderForSSRAndCSR = async (
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
-  await page.click('.user-btn');
+  await page.waitForSelector('.user-btn');
+  const button = await page.$('.user-btn');
+  await button?.click();
   await page.waitForSelector('.user-layout');
   const userLayout = await page.$(`.user-layout`);
   const text = await page.evaluate(el => {

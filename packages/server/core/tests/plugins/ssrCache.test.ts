@@ -1,6 +1,5 @@
 import { Container, CacheControl } from '@modern-js/types';
 import { getCacheResult } from '../../src/plugins/render/ssrCache';
-import type { SSRServerContext } from '../../src/types';
 
 function sleep(timeout: number) {
   return new Promise(resolve => {
@@ -34,8 +33,6 @@ class MyContainer implements Container {
 
 const container = new MyContainer();
 
-const ssrContext: SSRServerContext = {} as any;
-
 describe('test cacheManager', () => {
   it('should return cache', async () => {
     let counter = 0;
@@ -47,34 +44,45 @@ describe('test cacheManager', () => {
       headers: { ua: 'mock_ua' },
     });
 
-    const render = async () => `Hello_${counter++}`;
+    const requestHandler = () =>
+      Promise.resolve(new Response(`Hello_${counter++}`));
 
     const result1 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
 
-    expect(result1.data).toEqual(`Hello_0`);
+    const html1 = await result1.text();
+
+    expect(html1).toEqual(`Hello_0`);
 
     await sleep(50);
     const result2 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result2.data).toEqual(`Hello_0`);
+
+    const html2 = await result2.text();
+
+    expect(html2).toEqual(`Hello_0`);
 
     await sleep(100);
     const result3 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result3.data).toEqual(`Hello_0`);
+
+    const html3 = await result3.text();
+
+    expect(html3).toEqual(`Hello_0`);
+
+    expect(html3).toEqual(`Hello_0`);
   });
 
   it('should revalidate the cache', async () => {
@@ -86,33 +94,42 @@ describe('test cacheManager', () => {
     const req = new Request('http://localhost:8080/b', {
       headers: { ua: 'mock_ua' },
     });
-    const render = async () => `Hello_${counter++}`;
+    const requestHandler = () =>
+      Promise.resolve(new Response(`Hello_${counter++}`));
 
     const result1 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result1.data).toEqual(`Hello_0`);
+
+    const html1 = await result1.text();
+
+    expect(html1).toEqual(`Hello_0`);
 
     await sleep(150);
     const result2 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result2.data).toEqual(`Hello_0`);
+
+    const html2 = await result2.text();
+
+    expect(html2).toEqual(`Hello_0`);
 
     await sleep(50);
     const result3 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result3.data).toEqual(`Hello_1`);
+    const html3 = await result3.text();
+
+    expect(html3).toEqual(`Hello_1`);
   });
 
   it('should invalidate the ssr, then render on next req', async () => {
@@ -124,32 +141,43 @@ describe('test cacheManager', () => {
     const req = new Request('http://localhost:8080/c', {
       headers: { ua: 'mock_ua' },
     });
-    const render = async () => `Hello_${counter++}`;
+
+    const requestHandler = () =>
+      Promise.resolve(new Response(`Hello_${counter++}`));
 
     const result1 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result1.data).toEqual(`Hello_0`);
+
+    const html1 = await result1.text();
+
+    expect(html1).toEqual(`Hello_0`);
 
     await sleep(600);
     const result2 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result2.data).toEqual(`Hello_1`);
+
+    const html2 = await result2.text();
+
+    expect(html2).toEqual(`Hello_1`);
 
     await sleep(600);
     const result3 = await getCacheResult(req, {
       cacheControl,
-      render,
-      ssrContext,
+      requestHandler,
+      requestHandlerOptions: {} as any,
       container,
     });
-    expect(result3.data).toEqual(`Hello_2`);
+
+    const html3 = await result3.text();
+
+    expect(html3).toEqual(`Hello_2`);
   });
 });

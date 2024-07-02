@@ -39,8 +39,8 @@ describe('source build', () => {
     await page.goto(`http://localhost:${port}`);
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText).toMatch('Card Comp Title: App');
-    expect(targetText).toMatch('CARD COMP CONTENT:hello world');
+    expect(targetText).toMatch('Card-Comp Title: App');
+    expect(targetText).toMatch('CARD-COMP CONTENT:hello world');
   });
 
   test('update component project code', async () => {

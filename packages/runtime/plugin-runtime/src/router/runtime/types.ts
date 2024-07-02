@@ -37,7 +37,7 @@ export type RouterConfig = {
   mode?: 'react-router-5';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
-    routes: (NestedRoute | PageRoute)[];
+    routes?: (NestedRoute | PageRoute)[];
   };
   /**
    * You should not use it

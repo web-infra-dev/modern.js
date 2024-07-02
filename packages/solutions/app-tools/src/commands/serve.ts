@@ -56,7 +56,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       output: {
         path: userConfig.output.distPath?.root,
         ...(userConfig.output || {}),
-      },
+      } as any,
     },
     routes: serverRoutes,
     plugins: pluginInstances,

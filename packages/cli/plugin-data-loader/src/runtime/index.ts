@@ -1,9 +1,4 @@
-import type {
-  Logger,
-  NestedRoute,
-  Reporter,
-  ServerRoute,
-} from '@modern-js/types';
+import type { NestedRoute, Reporter, ServerRoute } from '@modern-js/types';
 import {
   createStaticHandler,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
@@ -61,12 +56,14 @@ export const handleRequest = async ({
   serverRoutes,
   routes: routesConfig,
   context,
+  onTiming,
 }: {
   request: Request;
   serverRoutes: ServerRoute[];
   routes: NestedRoute[];
+  onError?: (error: unknown) => void;
+  onTiming?: (name: string, dur: number) => void;
   context: {
-    logger: Logger;
     reporter?: Reporter;
   };
 }): Promise<Response | void> => {
@@ -133,7 +130,8 @@ export const handleRequest = async ({
           });
     }
     const cost = end();
-    reporter?.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
+
+    onTiming?.(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
     if (isResponse(error)) {
       error.headers.set('X-Modernjs-Catch', 'yes');

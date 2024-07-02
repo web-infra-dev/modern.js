@@ -8,11 +8,26 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import {
+  findExists,
+  fs,
+  getEntryOptions,
+  isSSGEntry,
+  slash,
+} from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
-import { TEMP_LOADERS_DIR } from '../constants';
-import { getServerLoadersFile } from './utils';
+import {
+  APP_CONFIG_NAME,
+  APP_INIT_EXPORTED,
+  TEMP_LOADERS_DIR,
+} from '../constants';
+import {
+  getPathWithoutExt,
+  getServerLoadersFile,
+  parseModule,
+  replaceWithAlias,
+} from './utils';
 
 export const routesForServer = ({
   routes,
@@ -117,6 +132,7 @@ const createMatchReg = (keyword: string) =>
   new RegExp(`("${keyword}":\\s)"([^\n]+)"`, 'g');
 
 export const fileSystemRoutes = async ({
+  metaName,
   routes,
   ssrMode,
   nestedRoutesEntry,
@@ -124,6 +140,7 @@ export const fileSystemRoutes = async ({
   internalDirectory,
   splitRouteChunks = true,
 }: {
+  metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
@@ -158,7 +175,7 @@ export const fileSystemRoutes = async ({
 
   const importLazyCode = `
     import { lazy } from "react";
-    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+    import loadable, { lazy as loadableLazy } from "@${metaName}/runtime/loadable"
   `;
 
   let rootLayoutCode = ``;
@@ -402,7 +419,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/router';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){
@@ -458,4 +475,75 @@ export function ssrLoaderCombinedModule(
   }
   return null;
 }
+
+export const runtimeGlobalContext = async ({
+  metaName,
+  srcDirectory,
+  nestedRoutesEntry,
+  internalSrcAlias,
+  globalApp,
+}: {
+  metaName: string;
+  srcDirectory: string;
+  nestedRoutesEntry?: string;
+  internalSrcAlias: string;
+  globalApp?: string | false;
+}) => {
+  const imports = [
+    `import { setGlobalContext } from '@${metaName}/runtime/context';`,
+  ];
+  if (nestedRoutesEntry) {
+    const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+    const rootLayoutFile = findExists(
+      ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
+    );
+    if (rootLayoutFile) {
+      const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+      const rootLayout = rootLayoutBuffer.toString();
+      const [, moduleExports] = await parseModule({
+        source: rootLayout.toString(),
+        filename: rootLayoutFile,
+      });
+      const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
+      const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
+      const layoutPath = getPathWithoutExt(
+        replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+      );
+      if (hasAppConfig) {
+        imports.push(`import { config as appConfig } from '${layoutPath}';`);
+      } else {
+        imports.push(`let appConfig;`);
+      }
+      if (hasAppInit) {
+        imports.push(`import { init as appInit } from '${layoutPath}';`);
+      } else {
+        imports.push(`let appInit;`);
+      }
+    }
+  } else {
+    imports.push(`let appConfig;`);
+    imports.push(`let appInit;`);
+  }
+
+  if (globalApp) {
+    imports.push(
+      `import layoutApp from '${globalApp.replace(
+        srcDirectory,
+        internalSrcAlias,
+      )}';`,
+    );
+  } else {
+    imports.push(`let layoutApp;`);
+  }
+  return `${imports.join('\n')}
+
+import { routes } from './routes.js';
+
+setGlobalContext({
+  layoutApp,
+  routes,
+  appInit,
+  appConfig,
+});`;
+};
 /* eslint-enable max-lines */

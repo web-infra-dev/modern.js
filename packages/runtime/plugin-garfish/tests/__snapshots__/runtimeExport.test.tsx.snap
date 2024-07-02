@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`plugin-garfish cli addRuntimeExports 1`] = `
-[
-  "export { hoistNonReactStatics } from '@modern-js/plugin-garfish/deps'",
-]
-`;

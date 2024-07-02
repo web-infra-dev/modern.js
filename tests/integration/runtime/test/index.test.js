@@ -30,7 +30,7 @@ describe('useLoader with SSR', () => {
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
-    page.on('pageerror', error => errors.push(error.text));
+    page.on('pageerror', error => errors.push(error.message));
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -117,7 +117,7 @@ describe('convention router', () => {
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
-    page.on('pageerror', error => errors.push(error.text));
+    page.on('pageerror', error => errors.push(error.message));
   });
 
   afterAll(async () => {

@@ -37,6 +37,11 @@ export interface SourceUserConfig
    */
   enableAsyncEntry?: boolean;
   /**
+   * Enable use entry.tsx to custom entry
+   * @default false
+   */
+  enableCustomEntry?: boolean;
+  /**
    * Used to disable the functionality of automatically identifying page entry points based on directory structure.
    * @default false
    */

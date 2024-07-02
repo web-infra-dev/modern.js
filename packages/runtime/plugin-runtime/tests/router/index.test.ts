@@ -1,4 +1,4 @@
-import { CliPlugin, manager } from '@modern-js/core';
+import { AppContext, CliPlugin, manager } from '@modern-js/core';
 import plugin, { useLocation, useParams } from '../../src/router';
 import { routerPlugin } from '../../src/router/cli';
 import { runtimePlugin } from '../../src/cli';
@@ -26,6 +26,7 @@ describe('cli-router', () => {
   });
 
   it('plugin-router cli config is defined', async () => {
+    AppContext.set({ metaName: 'modern-js' } as any);
     const config = await runner.config();
     expect(
       config.find(

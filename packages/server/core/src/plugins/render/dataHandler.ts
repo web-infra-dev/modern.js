@@ -8,7 +8,8 @@ export const dataHandler = async (
     routeInfo,
     serverRoutes,
     reporter,
-    logger,
+    onError,
+    onTiming,
     serverManifest,
   }: SSRRenderOptions & {
     serverRoutes: ServerRoute[];
@@ -26,9 +27,10 @@ export const dataHandler = async (
     request,
     serverRoutes,
     context: {
-      logger,
       reporter,
     },
+    onTiming,
+    onError,
     routes,
   })) as Response | void;
 

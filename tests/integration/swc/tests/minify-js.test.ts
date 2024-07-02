@@ -18,7 +18,7 @@ describe('swc js minify', () => {
     const files = getJsFiles(appDir);
     const mainFile = files.filter(filepath => filepath.startsWith('main'))[0];
 
-    expect(files.length).toBe(3);
+    expect(files.length).toBe(4);
     expect(
       readFileSync(path.resolve(appDir, `dist/static/js/${mainFile}`), 'utf8'),
     ).toContain('children:"helloworld"');

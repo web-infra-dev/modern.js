@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "app-custom",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
