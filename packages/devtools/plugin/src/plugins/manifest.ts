@@ -6,6 +6,7 @@ import {
 } from '@modern-js/devtools-kit/node';
 import { fs, logger, nanoid } from '@modern-js/utils';
 import createDeferred from 'p-defer';
+import pkgMeta from '../../package.json';
 import { Plugin } from '../types';
 
 declare global {
@@ -33,6 +34,7 @@ export const pluginManifest: Plugin = {
       const manifest: ServerManifest = {
         ...(api.vars.state as ExportedServerState),
         routeAssets: routesManifest.routeAssets,
+        version: pkgMeta.version,
       };
       const port = api.vars.http?.port;
       if (port) {

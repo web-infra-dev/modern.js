@@ -82,4 +82,6 @@ export interface ServerManifest extends ExportedServerState {
   client?: string;
   /** Route assets. */
   routeAssets: Record<string, RouteAsset>;
+  /** Semver of @modern-js/plugin-devtools. */
+  version: string;
 }
