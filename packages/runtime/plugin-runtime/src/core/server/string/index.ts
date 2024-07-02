@@ -42,6 +42,7 @@ export const renderString: RenderString = async (
       config,
       onError,
       onTiming,
+
       staticGenerate,
     } = options;
 
@@ -52,7 +53,7 @@ export const renderString: RenderString = async (
 
     const routerContext = runtimeContext.routerContext as StaticHandlerContext;
 
-    const { htmlTemplate, entryName } = resource;
+    const { htmlTemplate, entryName, loadableStats, routeManifest } = resource;
 
     const chunkSet: ChunkSet = {
       renderLevel: RenderLevel.CLIENT_RENDER,
@@ -80,6 +81,9 @@ export const renderString: RenderString = async (
     const collectors = [
       new StyledCollector(chunkSet),
       new LoadableCollector({
+        stats: loadableStats,
+        nonce: config.nonce,
+        routeManifest,
         template: htmlTemplate,
         entryName,
         chunkSet,
@@ -92,6 +96,7 @@ export const renderString: RenderString = async (
         ssrContext: runtimeContext.ssrContext!,
         chunkSet,
         routerContext,
+        nonce: config.nonce,
       }),
     ];
 
