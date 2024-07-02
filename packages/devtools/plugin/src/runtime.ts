@@ -54,7 +54,7 @@ const setup = () => {
   const cookieManifestUrl = document.cookie.match(
     /use_modernjs_devtools=([^;]+)/,
   )?.[1];
-  const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
+  const devtoolsUrl = injectedManifestUrl || cookieManifestUrl;
   if (!devtoolsUrl) return;
   const manifest: ServerManifest = fetchSync(devtoolsUrl).json();
   manifest.source = devtoolsUrl;
