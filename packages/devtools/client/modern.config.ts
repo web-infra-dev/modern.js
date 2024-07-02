@@ -38,6 +38,11 @@ for (const type of distPathTypes) {
   const value = process.env[varName];
   value && (distPath[type] = value);
 }
+console.log('Build @modern-js/devtools-client with asset prefix:', assetPrefix);
+console.log(
+  'Build @modern-js/devtools-client with dist path config:',
+  JSON.stringify(distPath, null, 2),
+);
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
