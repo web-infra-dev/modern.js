@@ -1,5 +1,17 @@
 # @modern-js/server
 
+## 2.54.6
+
+### Patch Changes
+
+- 35e119a: fix(ssr): hmr problem with ssr when using rspack
+  fix(ssr): 使用 rspack 时，ssr 的 hmr 问题
+  - @modern-js/server-core@2.54.6
+  - @modern-js/server-utils@2.54.6
+  - @modern-js/runtime-utils@2.54.6
+  - @modern-js/types@2.54.6
+  - @modern-js/utils@2.54.6
+
 ## 2.54.5
 
 ### Patch Changes
