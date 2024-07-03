@@ -17,4 +17,9 @@ declare module '@modern-js/runtime' {
   interface AppConfig {
     router?: RouterConfig | boolean;
   }
+
+  interface RuntimeConfig {
+    router?: RouterConfig;
+    routerByEntries?: RouterConfig;
+  }
 }

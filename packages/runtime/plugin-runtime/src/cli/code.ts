@@ -139,6 +139,7 @@ export const generateCode = async (
 
         // runtime-register.js
         const registerRuntimeCode = template.runtimeRegister({
+          entryName,
           srcDirectory,
           internalSrcAlias,
           metaName,
