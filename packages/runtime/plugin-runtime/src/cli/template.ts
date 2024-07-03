@@ -95,7 +95,7 @@ const getImportRuntimeConfigCode = (
   ) {
     return `import runtimeConfig from '${internalSrcAlias}/${runtimeConfigFile}';`;
   }
-  return `let runtimeConfig`;
+  return `let runtimeConfig;`;
 };
 
 const getRegisterRuntimePluginCode = (
