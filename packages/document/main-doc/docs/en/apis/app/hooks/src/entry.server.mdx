@@ -1,0 +1,52 @@
+---
+title: entry.server.[tj]sx
+sidebar_position: 5
+---
+
+# entry.server.[tj]sx
+
+When the project initiates `server.ssr`, Modern.js generates a default Server-Side entry. The sample code is as follows:
+
+```ts title="entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  const body = await renderString(request, serverRoot, options);
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## Add Custom Entry Points
+
+Users need to customize the Server-Side Rendering entry points, they can customize the server entry in `src/entry.server.ts` or `src/{entryName}/entry.server.ts`.
+
+```ts title="src/entry.server.tsx"
+import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
+import type { HandleRequest } from '@edenx/runtime/ssr/server';
+
+const handleRequest: HandleRequest = async (request, serverRoot, options) => {
+  // do something before rendering
+  const body = await renderString(request, serverRoot, options);
+
+  const newBody = body + '<div>Byte-Dance</div>';
+
+  return new Response(newBody, {
+    headers: {
+      'content-type': 'text/html; charset=UTF-8',
+      'x-custom-header': 'abc',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
