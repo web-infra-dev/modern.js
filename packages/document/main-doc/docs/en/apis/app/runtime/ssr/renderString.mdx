@@ -1,0 +1,62 @@
+---
+title: renderString
+---
+
+# renderString
+
+Used for React String SSR to render strings, used in conjunction with `createRequestHandler`.
+
+## Usage
+
+```ts title="src/entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  const body = await renderString(request, serverRoot, options);
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## Function Signature
+
+```ts
+export type RenderString = (
+  request: Request,
+  serverRoot: React.ComponentType<any>,
+  optinos: RenderOptions,
+) => Promise<string>;
+```
+
+## Example
+
+```ts title="src/entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  // do something before render
+  const body = await renderString(request, serverRoot, options);
+
+  const newBody = body + '<div>Byte-Dance</div>';
+
+  return new Response(newBody, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```

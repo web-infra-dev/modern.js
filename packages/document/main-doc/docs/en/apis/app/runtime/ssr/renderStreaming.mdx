@@ -1,0 +1,69 @@
+---
+title: renderStreaming
+---
+
+# renderStreaming
+
+Used for React v18+ Streaming SSR to render readable streams, used in conjunction with `createRequestHandler`.
+
+## Usage
+
+```ts title="src/entry.server.tsx"
+import {
+  renderStreaming,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  const stream = await renderStreaming(request, serverRoot, options);
+
+  return new Response(stream, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## Function Signature
+
+```ts
+export type RenderStreaming = (
+  request: Request,
+  serverRoot: React.ComponentType,
+  optinos: RenderOptions,
+) => Promise<ReadableStream>;
+```
+
+## Example
+
+```ts title="src/entry.server.tsx"
+import {
+  renderStreaming,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  // do something before render
+  const stream = await renderStreaming(request, serverRoot, options);
+
+  // docs: https://developer.mozilla.org/en-US/docs/Web/API/TransformStream
+  const transformStream = new TransformStream({
+    transform(chunk, controller) {
+      // do some transform
+    },
+  });
+
+  stream.pipeThrough(transformStream);
+
+  return new Response(transformStream.readable, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
