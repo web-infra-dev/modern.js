@@ -28,11 +28,16 @@ interface GlobalContext {
 
 const globalContext: GlobalContext = {};
 
-export function setGlobalContext(context: GlobalContext) {
+export function setGlobalContext(
+  context: Omit<GlobalContext, 'appConfig'> & { appConfig: () => AppConfig },
+) {
   globalContext.App = context.App;
   globalContext.routes = context.routes;
   globalContext.appInit = context.appInit;
-  globalContext.appConfig = context.appConfig;
+  globalContext.appConfig =
+    typeof context.appConfig === 'function'
+      ? context.appConfig()
+      : context.appConfig;
   globalContext.layoutApp = context.layoutApp;
 }
 
@@ -45,11 +50,19 @@ export function getGlobalRoutes(): undefined | (NestedRoute | PageRoute)[] {
 }
 
 export function getGlobalAppInit() {
-  return globalContext.appInit || (getGlobalApp() as any)?.init;
+  return (
+    globalContext.appInit ||
+    (getGlobalApp() as any)?.init ||
+    (getGlobalLayoutApp() as any)?.init
+  );
 }
 
 export function getGlobalAppConfig() {
-  return globalContext.appConfig || (getGlobalApp() as any)?.config;
+  return (
+    globalContext.appConfig ||
+    (getGlobalApp() as any)?.config ||
+    (getGlobalLayoutApp() as any)?.config
+  );
 }
 
 export function getGlobalLayoutApp() {
