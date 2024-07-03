@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'http';
-import type { Reporter, ServerRoute } from '@modern-js/types';
+import type { Reporter, ServerRoute, Logger, Metrics } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
 import {
   OnError,
@@ -23,6 +23,8 @@ export interface SSRRenderOptions {
   loaderContext: Map<string, unknown>;
 
   params: Params;
+  logger: Logger;
+  metrics?: Metrics;
   reporter?: Reporter;
   /** Produce by custom server hook */
   locals?: Record<string, any>;
@@ -49,6 +51,8 @@ export async function ssrRender(
     loaderContext,
     reporter,
     cacheConfig,
+    logger,
+    metrics,
     onError,
     onTiming,
   }: SSRRenderOptions,
@@ -93,6 +97,8 @@ export async function ssrRender(
     locals,
     reporter,
     staticGenerate,
+    logger,
+    metrics,
 
     onError,
     onTiming,

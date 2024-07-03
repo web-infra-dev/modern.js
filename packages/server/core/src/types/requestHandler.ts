@@ -1,4 +1,4 @@
-import { Reporter, ServerRoute } from '@modern-js/types';
+import { Metrics, Reporter, ServerRoute, Logger } from '@modern-js/types';
 import { ServerUserConfig } from './config';
 
 export type Resource = {
@@ -46,6 +46,12 @@ export type RequestHandlerOptions = {
 
   /** @deprecated ssr runtime code need reporter instance */
   reporter?: Reporter;
+
+  /** @deprecated */
+  logger: Logger;
+
+  /** @deprecated */
+  metrics?: Metrics;
 
   onError?: OnError;
   onTiming?: OnTiming;
