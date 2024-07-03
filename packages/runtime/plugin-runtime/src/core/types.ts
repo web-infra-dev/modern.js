@@ -54,6 +54,8 @@ export type SSRServerContext = Pick<
   | 'mode'
   | 'loaderContext'
   | 'reporter'
+  | 'logger'
+  | 'metrics'
   | 'routeManifest'
 > & {
   request: BaseSSRServerContext['request'] & {
