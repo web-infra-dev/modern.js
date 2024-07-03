@@ -1,0 +1,47 @@
+---
+title: createRequestHandler
+---
+
+# createRequestHandler
+
+用于自定义 Server-Side Rendering 入口返回 requestHandler
+
+## 使用
+
+```ts title="src/entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, serverRoot, options) => {
+  const body = await renderString(request, serverRoot, options);
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## 函数签名
+
+```ts
+export type HandleRequest = (
+  request: Request,
+  serverRoot: React.ComponentType,
+  options: HandleRequestOptions,
+) => Promise<Response>;
+
+export type RequestHandler = (
+  request: Request,
+  options: RequestHandlerOptions,
+) => Promise<Response>;
+
+export type CreateRequestHandler = (
+  handleRequest: HandleRequest,
+) => Promise<RequestHandler>;
+```
