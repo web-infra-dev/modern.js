@@ -99,20 +99,23 @@ const getImportRuntimeConfigCode = (
 };
 
 const getRegisterRuntimePluginCode = (
+  entryName: string,
   name: string,
   config: Record<string, any>,
 ) =>
   `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
     config,
-  )}, (runtimeConfig || {})['${name}'], (getGlobalAppConfig() || {})['${name}'])));`;
+  )}, (runtimeConfig || {})['${name}'], ((runtimeConfig || {})['${name}ByEntries'] || {})['${entryName}'], (getGlobalAppConfig() || {})['${name}'])));`;
 
 export const runtimeRegister = ({
+  entryName,
   srcDirectory,
   internalSrcAlias,
   metaName,
   runtimeConfigFile,
   runtimePlugins,
 }: {
+  entryName: string;
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
@@ -128,7 +131,7 @@ ${runtimePlugins
   .map(
     ({ name, path, config }) => `import { ${name}Plugin } from '${path}';
 
-${getRegisterRuntimePluginCode(name, config)}
+${getRegisterRuntimePluginCode(entryName, name, config)}
 `,
   )
   .join('\n')}
