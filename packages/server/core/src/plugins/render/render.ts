@@ -205,6 +205,8 @@ export async function createRender({
       reporter,
       serverRoutes: routes,
       params,
+      logger,
+      metrics,
       locals,
       serverManifest,
       loaderContext: loaderContext || new Map(),
