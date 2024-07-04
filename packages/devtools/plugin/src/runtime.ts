@@ -71,7 +71,11 @@ const setup = () => {
   document.head.appendChild(setupScript);
 
   // Inject styles.
-  for (const src of manifest.routeAssets.mount.assets) {
+  const routeAssets =
+    typeof manifest.routeAssets === 'object'
+      ? manifest.routeAssets
+      : fetchSync(manifest.routeAssets).json();
+  for (const src of routeAssets.mount.assets) {
     if (src.endsWith('.js')) {
       importScript(src);
     } else if (src.endsWith('.css')) {
