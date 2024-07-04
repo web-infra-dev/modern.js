@@ -74,7 +74,7 @@ const setup = () => {
   const routeAssets =
     typeof manifest.routeAssets === 'object'
       ? manifest.routeAssets
-      : fetchSync(manifest.routeAssets).json();
+      : fetchSync(manifest.routeAssets).json().routeAssets;
   for (const src of routeAssets.mount.assets) {
     if (src.endsWith('.js')) {
       importScript(src);
