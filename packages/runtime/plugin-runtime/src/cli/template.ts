@@ -10,6 +10,7 @@ const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
+  entry,
   customEntry,
   customBootstrap,
   mountId,
@@ -17,12 +18,13 @@ const genRenderCode = ({
   srcDirectory: string;
   internalSrcAlias: string;
   metaName: string;
-  customEntry?: string | false;
+  entry: string;
+  customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
 }) => {
   if (customEntry) {
-    return `import '${customEntry.replace(srcDirectory, internalSrcAlias)}'`;
+    return `import '${entry.replace(srcDirectory, internalSrcAlias)}'`;
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
@@ -50,6 +52,7 @@ export const index = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
+  entry,
   entryName,
   customEntry,
   customBootstrap,
@@ -60,7 +63,7 @@ export const index = ({
   metaName: string;
   entry: string;
   entryName: string;
-  customEntry?: string | false;
+  customEntry?: boolean;
   customBootstrap?: string | false;
   mountId?: string;
 }) =>
@@ -69,6 +72,7 @@ ${genRenderCode({
   srcDirectory,
   internalSrcAlias,
   metaName,
+  entry,
   customEntry,
   customBootstrap,
   mountId,
@@ -149,11 +153,12 @@ export const runtimeGlobalContext = ({
   internalSrcAlias: string;
   metaName: string;
   entry: string;
-  customEntry?: string | false;
+  customEntry?: boolean;
 }) => {
   return `import { setGlobalContext } from '@${metaName}/runtime/context'
 
 import App from '${
+    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
     customEntry
       ? entry
           .replace('entry.tsx', 'App.tsx')

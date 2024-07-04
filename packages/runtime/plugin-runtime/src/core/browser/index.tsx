@@ -70,7 +70,10 @@ export async function render(
 
     async function ModernRender(App: React.ReactElement) {
       const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-      return renderFunc(React.cloneElement(App, { context }), rootElement);
+      return renderFunc(
+        React.cloneElement(App, { _internal_context: context }),
+        rootElement,
+      );
     }
 
     async function ModernHydrate(

@@ -72,8 +72,8 @@ export const createApp = ({
       { App: WrapperComponent, config: globalProps || {} },
       {
         onLast: ({ App }: any) => {
-          const WrapComponent = ({ context, ...props }: any) => {
-            let contextValue = context;
+          const WrapComponent = ({ _internal_context, ...props }: any) => {
+            let contextValue = _internal_context;
 
             // We should construct the context, when root component is not passed into `bootstrap`.
             if (!contextValue?.runner) {
@@ -150,7 +150,7 @@ export const bootstrap: BootStrap = async (
   // don't mount the App, let user in charge of it.
   if (!id) {
     return React.createElement(App as React.ComponentType<any>, {
-      context,
+      _internal_context: context,
     });
   }
 
@@ -246,7 +246,9 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(React.createElement(App, { context } as any));
+      return ModernRender(
+        React.createElement(App, { _internal_context: context } as any),
+      );
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',

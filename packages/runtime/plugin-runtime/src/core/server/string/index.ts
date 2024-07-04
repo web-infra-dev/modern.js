@@ -101,7 +101,7 @@ export const renderString: RenderString = async (
     ];
 
     const App = React.createElement(serverRoot, {
-      context: Object.assign(runtimeContext, { ssr: true }),
+      _internal_context: Object.assign(runtimeContext, { ssr: true }),
     });
 
     const html = await generateHtml(

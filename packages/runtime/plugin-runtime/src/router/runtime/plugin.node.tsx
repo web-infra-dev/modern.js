@@ -43,7 +43,6 @@ export function createFetchHeaders(
 
 export const routerPlugin = ({
   basename = '',
-  originalBaseUrl = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -72,7 +71,7 @@ export const routerPlugin = ({
             nonce,
             loaderFailureMode = 'errorBoundary',
           } = context.ssrContext!;
-          const baseUrl = originalBaseUrl || request.baseUrl;
+          const { baseUrl } = request;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
           const { reporter } = context.ssrContext!;

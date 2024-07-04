@@ -16,9 +16,9 @@ export function createRoot(
     { App: App!, config: config || {} },
     {
       onLast: ({ App }: any) => {
-        const WrapComponent = ({ context, ...props }: any) => {
+        const WrapComponent = ({ _internal_context, ...props }: any) => {
           return (
-            <RuntimeReactContext.Provider value={context}>
+            <RuntimeReactContext.Provider value={_internal_context}>
               <App {...props} />
             </RuntimeReactContext.Provider>
           );

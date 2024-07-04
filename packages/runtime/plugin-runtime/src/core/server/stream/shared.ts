@@ -73,7 +73,7 @@ export function createRenderStreaming(
       const { htmlTemplate, entryName } = resource;
 
       const rootElement = createElement(serverRoot, {
-        context: Object.assign(runtimeContext || {}, {
+        _internal_context: Object.assign(runtimeContext || {}, {
           ssr: true,
         }),
       });

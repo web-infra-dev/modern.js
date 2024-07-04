@@ -94,7 +94,7 @@ const scanDir = (
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
-          customEntry: enableCustomEntry ? customEntryFile : false,
+          customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
         };
       }
       if (enableCustomEntry && customEntryFile) {
@@ -105,7 +105,7 @@ const scanDir = (
           customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: false,
-          customEntry: customEntryFile,
+          customEntry: Boolean(customEntryFile),
         };
       }
       throw Error('There is no valid entry point in the current project!');

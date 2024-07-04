@@ -123,16 +123,14 @@ export const routerPlugin = ({
         hoc: ({ App, config }, next) => {
           const getRouteApp = () => {
             if (isBrow) {
-              const baseUrl =
+              const baseUrl = (
+                config.router?.basename ||
                 window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname);
+                select(location.pathname)
+              ).replace(/^\/*/, '/');
               const basename =
                 baseUrl === '/'
-                  ? urlJoin(
-                      baseUrl,
-                      config.router?.basename?.replace(/^\/*/, '/') ||
-                        (historyOptions.basename as string),
-                    )
+                  ? urlJoin(baseUrl, historyOptions.basename as string)
                   : baseUrl;
               historyOptions.basename = basename;
               const history =
@@ -167,14 +165,13 @@ export const routerPlugin = ({
               const location = getLocation(ssrContext);
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
-              const baseUrl = request?.baseUrl as string;
+              const baseUrl = (
+                config.router?.basename || (request?.baseUrl as string)
+              )?.replace(/^\/*/, '/');
+
               const basename =
                 baseUrl === '/'
-                  ? urlJoin(
-                      baseUrl,
-                      config.router?.basename?.replace(/^\/*/, '/') ||
-                        (historyOptions.basename as string),
-                    )
+                  ? urlJoin(baseUrl, historyOptions.basename as string)
                   : baseUrl;
               const runner = (api as any).useHookRunners();
               const routes = runner.modifyRoutes(originRoutes);

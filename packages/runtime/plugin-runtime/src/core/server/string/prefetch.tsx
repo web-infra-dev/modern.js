@@ -30,10 +30,10 @@ export const prefetch = async (
             entrypoints: [entryName].filter(Boolean),
           });
           renderToStaticMarkup(
-            extractor.collectChunks(<App context={context} />),
+            extractor.collectChunks(<App _internal_context={context} />),
           );
         } else {
-          renderToStaticMarkup(<App context={context} />);
+          renderToStaticMarkup(<App _internal_context={context} />);
         }
 
         const cost = end();

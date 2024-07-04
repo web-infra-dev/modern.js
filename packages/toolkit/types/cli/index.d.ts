@@ -35,7 +35,7 @@ export interface Entrypoint {
    */
   customBootstrap?: string | false;
 
-  customEntry?: string | false;
+  customEntry?: boolean;
 
   customServerEntry?: string | false;
 

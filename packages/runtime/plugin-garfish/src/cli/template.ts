@@ -10,7 +10,7 @@ const genRenderCode = ({
   internalSrcAlias: string;
   metaName: string;
   entry: string;
-  customEntry?: string | false;
+  customEntry?: boolean;
   mountId?: string;
 }) =>
   customEntry
@@ -42,7 +42,7 @@ export const index = ({
   metaName: string;
   entry: string;
   entryName: string;
-  customEntry?: string | false;
+  customEntry?: boolean;
   mountId?: string;
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';

@@ -1,4 +1,5 @@
-import { createRoot, render } from '@modern-js/runtime';
+import { render } from '@modern-js/runtime/browser';
+import { createRoot } from '@modern-js/runtime/react';
 import type { Root } from 'react-dom/client';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
 

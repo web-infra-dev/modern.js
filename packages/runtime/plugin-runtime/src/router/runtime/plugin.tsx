@@ -40,9 +40,6 @@ export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   basename = '',
-  // when the current child app has multiple entries, there is a problem,
-  // so we have added a new parameter, the parameter will replace basename and baseUrl after the major version.
-  originalBaseUrl = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
@@ -87,18 +84,17 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
-              const baseUrl =
-                originalBaseUrl ||
+              /**
+               * config?.router?.basename: garfish plugin params, priority
+               * basename: modern config file config
+               */
+              const baseUrl = (
+                config?.router?.basename ||
                 window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname);
+                select(location.pathname)
+              ).replace(/^\/*/, '/');
               const _basename =
-                baseUrl === '/'
-                  ? urlJoin(
-                      baseUrl,
-                      config?.router?.basename?.replace(/^\/*/, '/') ||
-                        basename,
-                    )
-                  : baseUrl;
+                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
               const runtimeContext = useContext(RuntimeReactContext);

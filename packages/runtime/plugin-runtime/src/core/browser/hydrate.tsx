@@ -57,7 +57,7 @@ export function hydrateRoot(
       // callback: https://github.com/reactwg/react-18/discussions/5
       const SSRApp: React.FC = () => (
         <WithCallback callback={callback}>
-          {React.cloneElement(App, { context: hydrateContext })}
+          {React.cloneElement(App, { _internal_context: hydrateContext })}
         </WithCallback>
       );
       return ModernHydrate(<SSRApp />);
@@ -82,7 +82,7 @@ export function hydrateRoot(
             // callback: https://github.com/reactwg/react-18/discussions/5
             const SSRApp: React.FC = () => (
               <WithCallback callback={callback}>
-                {React.cloneElement(App, { context: hydrateContext })}
+                {React.cloneElement(App, { _internal_context: hydrateContext })}
               </WithCallback>
             );
             ModernHydrate(<SSRApp />).then(root => {
