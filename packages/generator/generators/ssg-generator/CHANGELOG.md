@@ -1,5 +1,11 @@
 # @modern-js/ssg-generator
 
+## 3.4.7
+
+### Patch Changes
+
+- @modern-js/utils@2.54.6
+
 ## 3.4.6
 
 ### Patch Changes
