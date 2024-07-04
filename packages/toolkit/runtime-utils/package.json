@@ -48,10 +48,10 @@
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
     },
-    "./universal": {
-      "jsnext:source": "./src/universal/index.ts",
-      "require": "./dist/cjs/universal/index.js",
-      "default": "./dist/esm/universal/index.js"
+    "./universal/request": {
+      "jsnext:source": "./src/universal/request.ts",
+      "require": "./dist/cjs/universal/request.js",
+      "default": "./dist/esm/universal/request.js"
     },
     "./parsed": {
       "jsnext:source": "./src/parsed.ts",
@@ -106,10 +106,10 @@
         "require": "./dist/cjs/node/router.js",
         "default": "./dist/esm/node/router.js"
       },
-      "./universal": {
-        "types": "./dist/universal/index.d.ts",
-        "require": "./dist/cjs/universal/index.js",
-        "default": "./dist/esm/universal/index.js"
+      "./universal/request": {
+        "types": "./dist/universal/request.d.ts",
+        "require": "./dist/cjs/universal/request.js",
+        "default": "./dist/esm/universal/request.js"
       },
       "./time": {
         "types": "./dist/types/time.d.ts",
@@ -155,8 +155,8 @@
       "node/router": [
         "./dist/types/node/router.d.ts"
       ],
-      "universal": [
-        "./dist/types/universal/index.d.ts"
+      "universal/request": [
+        "./dist/types/universal/request.d.ts"
       ],
       "time": [
         "./dist/types/time.d.ts"

@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
-import { parseHeaders } from '@modern-js/runtime-utils/universal';
+import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';

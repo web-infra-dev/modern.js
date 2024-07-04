@@ -1,5 +1,5 @@
 import { time } from '@modern-js/runtime-utils/time';
-import { parseHeaders } from '@modern-js/runtime-utils/universal';
+import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import { createElement } from 'react';
 import { run } from '@modern-js/runtime-utils/node';
 import { RuntimeContext } from '../../context';
