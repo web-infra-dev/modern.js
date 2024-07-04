@@ -126,6 +126,10 @@ describe('Traditional SSR', () => {
     });
     const content1 = await page.content();
     expect(content1).toMatch(result);
+
+    await page.goto(`http://localhost:${appPort}/?no-cache=1`);
+    const content2 = await page.content();
+    expect(content2).not.toMatch(result);
   });
 
   test('x-render-cache http header', async () => {
