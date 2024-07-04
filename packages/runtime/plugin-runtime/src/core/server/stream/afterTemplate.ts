@@ -1,5 +1,5 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
-import { HeadersData } from '@modern-js/runtime-utils/universal';
+import { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { attributesToString, safeReplace } from '../utils';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import { BuildHtmlCb, SSRConfig, buildHtml } from '../shared';

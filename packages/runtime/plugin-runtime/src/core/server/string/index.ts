@@ -4,7 +4,7 @@ import React from 'react';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { run } from '@modern-js/runtime-utils/node';
-import { parseHeaders } from '@modern-js/runtime-utils/universal';
+import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import { createReplaceHelemt } from '../helmet';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
 import {

@@ -4,7 +4,7 @@ import {
   parseCookie,
   parseHeaders,
   parseQuery,
-} from '@modern-js/runtime-utils/universal';
+} from '@modern-js/runtime-utils/universal/request';
 import { createRoot } from '../react';
 import { RuntimeContext, getGlobalAppInit } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
