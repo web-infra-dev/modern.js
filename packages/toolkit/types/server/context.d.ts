@@ -65,7 +65,7 @@ export interface ModernServerContext {
 export interface BaseResponseLike {
   setHeader: (key: string, value: string) => void;
   status: (code: number) => void;
-  locals?: Record<string, any>;
+  locals: Record<string, any>;
 }
 
 export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
