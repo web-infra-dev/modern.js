@@ -72,10 +72,6 @@ export type RouterConfig = Partial<HistoryConfig> & {
   history?: History;
   serverBase?: string[];
 };
-// eslint-disable-next-line import/no-mutable-exports
-export let finalRouteConfig: RouterConfig['routesConfig'] = {
-  routes: [],
-};
 
 export const routerPlugin = ({
   serverBase = [],
@@ -85,7 +81,7 @@ export const routerPlugin = ({
   createRoutes,
   historyOptions = {},
 }: RouterConfig): Plugin => {
-  finalRouteConfig = {
+  const finalRouteConfig = {
     routes: getGlobalRoutes() as SingleRouteConfig[],
     globalApp: getGlobalLayoutApp(),
     ...routesConfig,

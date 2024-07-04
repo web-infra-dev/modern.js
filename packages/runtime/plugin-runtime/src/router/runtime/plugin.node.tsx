@@ -41,11 +41,6 @@ export function createFetchHeaders(
   return headers;
 }
 
-// eslint-disable-next-line import/no-mutable-exports
-export let finalRouteConfig: RouterConfig['routesConfig'] = {
-  routes: [],
-};
-
 export const routerPlugin = ({
   basename = '',
   originalBaseUrl = '',
@@ -58,7 +53,7 @@ export const routerPlugin = ({
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
-      finalRouteConfig = {
+      const finalRouteConfig = {
         routes: getGlobalRoutes(),
         globalApp: getGlobalLayoutApp(),
         ...routesConfig,
