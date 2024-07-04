@@ -60,7 +60,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
               controller.close();
               return;
             }
-            if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
+            if (shellChunkStatus !== ShellChunkStatus.FINISH) {
               const chunk = new TextDecoder().decode(value);
 
               chunkVec.push(chunk);
@@ -72,7 +72,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                   '',
                 );
 
-                shellChunkStatus = ShellChunkStatus.FINIESH;
+                shellChunkStatus = ShellChunkStatus.FINISH;
 
                 controller.enqueue(
                   encodeForWebStream(

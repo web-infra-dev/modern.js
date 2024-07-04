@@ -53,7 +53,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             const body = new Transform({
               transform(chunk, _encoding, callback) {
                 try {
-                  if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
+                  if (shellChunkStatus !== ShellChunkStatus.FINISH) {
                     chunkVec.push(chunk.toString());
                     /**
                      * The shell content of App may be splitted by multiple chunks to transform,
@@ -68,7 +68,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
                         '',
                       );
 
-                      shellChunkStatus = ShellChunkStatus.FINIESH;
+                      shellChunkStatus = ShellChunkStatus.FINISH;
                       this.push(`${shellBefore}${concatedChunk}${shellAfter}`);
                     }
                   } else {

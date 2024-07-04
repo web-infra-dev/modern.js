@@ -32,7 +32,7 @@ export type CreateReadableStreamFromElement = (
 
 export enum ShellChunkStatus {
   START = 0,
-  FINIESH = 1,
+  FINISH = 1,
 }
 
 let encoder: TextEncoder;

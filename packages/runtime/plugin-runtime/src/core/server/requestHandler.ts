@@ -113,7 +113,7 @@ function createSSRContext(
       status(code) {
         responseProxy.code = code;
       },
-      locals,
+      locals: locals || {},
     },
     reporter,
     mode: ssrMode,
