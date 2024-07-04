@@ -1,6 +1,6 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
-import { HeadersData } from '@modern-js/runtime-utils/universal';
+import { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { attributesToString, serializeErrors } from '../utils';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { SSRConfig } from '../shared';

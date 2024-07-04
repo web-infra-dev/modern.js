@@ -134,9 +134,6 @@ export const routerPlugin = ({
           context.remixRouter = router;
           context.routerContext = routerContext;
           context.routes = routes;
-          // set routeManifest in context to be consistent with csr context
-          // context.routeManifest = context.ssrContext!
-          // .routeManifest as RouteManifest;
 
           return next({ context });
         },
