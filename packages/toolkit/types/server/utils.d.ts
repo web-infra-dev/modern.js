@@ -103,7 +103,7 @@ export type CacheControl = {
 
 export type CacheOptionProvider = (
   req: IncomingMessage,
-) => Promise<CacheControl> | CacheControl;
+) => Promise<CacheControl | false> | CacheControl | false;
 
 export type CacheOption =
   | false

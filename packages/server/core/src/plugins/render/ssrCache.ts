@@ -125,10 +125,12 @@ function computedKey(req: Request, cacheControl: CacheControl): string {
   }
 }
 
+type MaybeAsync<T> = Promise<T> | T;
+
 export function matchCacheControl(
   cacheOption?: CacheOption,
   req?: IncomingMessage,
-): CacheControl | Promise<CacheControl> | undefined {
+): MaybeAsync<CacheControl | undefined | false> {
   if (!cacheOption || !req) {
     return undefined;
   } else if (isCacheControl(cacheOption)) {
