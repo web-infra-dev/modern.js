@@ -10,14 +10,13 @@ export const pluginHtml: Plugin = {
       const config: UserConfig<AppTools> = {
         source: {
           preEntry: [require.resolve('../runtime')],
+          globalVars: {
+            'process.env.__USE_MODERNJS_DEVTOOLS__': port
+              ? `http://localhost:${port}/manifest`
+              : null,
+          },
         },
       };
-      if (port) {
-        config.source ||= {};
-        config.source.globalVars = {
-          'process.env.__USE_MODERNJS_DEVTOOLS__': `http://localhost:${port}/manifest`,
-        };
-      }
       return config;
     });
   },

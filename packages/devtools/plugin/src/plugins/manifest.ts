@@ -38,7 +38,9 @@ export const pluginManifest: Plugin = {
       const port = api.vars.http?.port;
       if (port) {
         manifest.client = `http://localhost:${port}/static/html/client/index.html`;
-        manifest.websocket = `ws://localhost:${port}/rpc`;
+        if (process.env.DEVTOOLS_RPC !== 'false') {
+          manifest.websocket = `ws://localhost:${port}/rpc`;
+        }
       }
 
       await api.hooks.callHook('createManifest', { manifest });

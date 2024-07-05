@@ -67,7 +67,10 @@ declare global {
 export const pluginHttp: Plugin = {
   name: 'http',
   async setup(api) {
-    if (process.env.NODE_ENV === 'production') return;
+    const disableHttpServer =
+      process.env.NODE_ENV === 'production' ||
+      process.env.DEVTOOLS_HTTP_SERVER === 'false';
+    if (disableHttpServer) return;
 
     const app = new Hono<{ Bindings: HttpBindings }>();
     app.use('*', cors());

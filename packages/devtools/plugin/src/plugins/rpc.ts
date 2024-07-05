@@ -28,7 +28,8 @@ export const pluginRpc: Plugin = {
   name: 'rpc',
   async setup(api) {
     const httpServer = api.vars.http;
-    if (!httpServer) return;
+    const disableRpc = process.env.DEVTOOLS_RPC === 'false';
+    if (!httpServer || disableRpc) return;
 
     const server = new SocketServer({ server: httpServer, path: '/rpc' });
     let handleMessage: null | ((data: RawData, isBinary: boolean) => void) =
