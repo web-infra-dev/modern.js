@@ -1,3 +1,5 @@
+import { formatImportPath } from '@modern-js/utils';
+
 const SERVER_ENTRY = `
 import {
   #render,
@@ -47,9 +49,8 @@ function genHandlerCode({
   internalSrcAlias,
 }: GenHandlerCodeOptions) {
   if (customServerEntry) {
-    return `export { default as requestHandler } from '${customServerEntry.replace(
-      srcDirectory,
-      internalSrcAlias,
+    return `export { default as requestHandler } from '${formatImportPath(
+      customServerEntry.replace(srcDirectory, internalSrcAlias),
     )}'`;
   } else {
     const serverEntry = transformServerEntry(SERVER_ENTRY, {
