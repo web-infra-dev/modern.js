@@ -448,7 +448,7 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
 - 功能：用于修改入口信息，针对于插件新增的入口，可以通过该钩子修改对应的 entrypoint 信息
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
 - Hook 模型：`AsyncWaterfall`
-- 类型：`AsyncWaterfall<{ entrypoints: Entrypoint[];}>`
+- 类型：`AsyncWaterfall<{ entrypoints: Entrypoint[]; }>`
 - 使用示例：
 
 ```ts
@@ -709,7 +709,7 @@ export const myPlugin = (): Plugin => ({
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
 - Hook 模型：`Pipeline`
-- 类型：`Pipeline<{App: React.ComponentType<any>;config: Record<string, any>;},React.ComponentType<any>>()`
+- 类型：`Pipeline<{ App: React.ComponentType<any>;config: Record<string, any>; },React.ComponentType<any>>`
 - 使用示例：
 
 :::note

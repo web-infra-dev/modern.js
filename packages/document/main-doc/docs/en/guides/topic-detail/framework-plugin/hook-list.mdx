@@ -448,7 +448,7 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
 - Function: Used for modifying the entry information, for the newly added entries of the plugin, the corresponding entrypoint information can be modified through this hook.
 - Execution stage: Before the entry file is generated, the [`prepare`](#prepare) phase triggers
 - Hook model: `AsyncWaterfall`
-- Type: `AsyncWaterfall<{ entrypoints: Entrypoint[];}>`
+- Type: `AsyncWaterfall<{ entrypoints: Entrypoint[]; }>`
 - Example:
 
 ```ts
@@ -707,7 +707,7 @@ export const myPlugin = (): Plugin => ({
 - Function: Modifies the components that need to be rendered.
 - Execution stage: Rendering (SSR/CSR).
 - Hook model: `Pipeline`
-- Type: `Pipeline<{App: React.ComponentType<any>;config: Record<string, any>;},React.ComponentType<any>>()`
+- Type: `Pipeline<{ App: React.ComponentType<any>;config: Record<string, any>; },React.ComponentType<any>>`
 - Example:
 
 :::note
