@@ -31,7 +31,7 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
           },
           source: {
             alias: {
-              '@modern-js/runtime/server': alias,
+              '@modern-js/runtime/server$': alias,
               '@modern-js/runtime/koa': alias,
             },
           },

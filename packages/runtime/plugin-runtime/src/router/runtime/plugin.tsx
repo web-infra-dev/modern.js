@@ -9,9 +9,9 @@ import {
   RouteObject,
   useHref,
 } from '@modern-js/runtime-utils/router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
@@ -40,16 +40,17 @@ export const routerPlugin = ({
   serverBase = [],
   supportHtml5History = true,
   basename = '',
-  // when the current child app has multiple entries, there is a problem,
-  // so we have added a new parameter, the parameter will replace basename and baseUrl after the major version.
-  originalBaseUrl = '',
   routesConfig,
   createRoutes,
 }: RouterConfig): Plugin => {
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   let routes: RouteObject[] = [];
-  finalRouteConfig = routesConfig;
+  finalRouteConfig = {
+    routes: getGlobalRoutes(),
+    globalApp: getGlobalLayoutApp(),
+    ...routesConfig,
+  };
   window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
 
   return {
@@ -77,16 +78,21 @@ export const routerPlugin = ({
         hoc: ({ App, config }, next) => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig && !createRoutes) {
+          if (!finalRouteConfig.routes && !createRoutes) {
             return next({ App, config });
           }
 
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
-              const baseUrl =
-                originalBaseUrl ||
+              /**
+               * config?.router?.basename: garfish plugin params, priority
+               * basename: modern config file config
+               */
+              const baseUrl = (
+                config?.router?.basename ||
                 window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname);
+                select(location.pathname)
+              ).replace(/^\/*/, '/');
               const _basename =
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
@@ -164,25 +170,10 @@ export const routerPlugin = ({
               beforeCreateRouter = false;
               const router = useCreateRouter(props);
 
-              return (
-                <App {...props}>
-                  <RouterProvider router={router} />
-                </App>
-              );
+              return <RouterProvider router={router} />;
             }) as React.FC<any>;
           };
-          let RouteApp = getRouteApp();
-
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
-
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
+          const RouteApp = getRouteApp();
 
           return next({
             App: RouteApp,

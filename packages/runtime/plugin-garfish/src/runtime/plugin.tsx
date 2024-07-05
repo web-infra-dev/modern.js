@@ -1,7 +1,6 @@
 import GarfishInstance from 'garfish';
 import React from 'react';
 import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
@@ -51,7 +50,7 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default garfishPlugin;
-export default (config: Config): Plugin => ({
+export const garfishPlugin = (config: Config): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: () => {
     setExternal();
@@ -122,10 +121,12 @@ export default (config: Config): Plugin => ({
         }
 
         return next({
-          App: hoistNonReactStatics(GetMicroFrontendApp, App),
+          App: GetMicroFrontendApp,
           config,
         });
       },
     };
   },
 });
+
+export default garfishPlugin;

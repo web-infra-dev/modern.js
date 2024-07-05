@@ -29,7 +29,16 @@ export interface Entrypoint {
   nestedRoutesEntry?: string;
   pageRoutesEntry?: string;
   isAutoMount?: boolean;
+  /**
+   * @deprecated
+   * Using customEntry instead.
+   */
   customBootstrap?: string | false;
+
+  customEntry?: boolean;
+
+  customServerEntry?: string | false;
+
   fileSystemRoutes?: {
     globalApp?: string | false;
     routes?: any[];

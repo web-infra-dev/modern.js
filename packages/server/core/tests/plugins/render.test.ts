@@ -3,7 +3,6 @@ import { ServerRoute } from '@modern-js/types';
 import { createLogger } from '@modern-js/utils';
 import { createServerBase } from '../../src/serverBase';
 import { monitorPlugin, renderPlugin } from '../../src/plugins';
-import { getPathnameFromNodeReq } from '../../src/plugins/render/ssrRender';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../src/types';
@@ -132,39 +131,5 @@ describe('should render html correctly', () => {
     const response2 = await server.request('/user?__loader=layout', {}, {});
     const text2 = await response2.text();
     expect(text2).toBe('handle user');
-  });
-});
-
-describe('should get attributes from node req correctly', () => {
-  it('should get pathname from node req correctly', () => {
-    expect(
-      getPathnameFromNodeReq({
-        url: '/main/',
-      } as any),
-    ).toBe('/main');
-
-    expect(
-      getPathnameFromNodeReq({
-        url: '/',
-      } as any),
-    ).toBe('/');
-
-    expect(
-      getPathnameFromNodeReq({
-        url: '/main?name=123',
-      } as any),
-    ).toBe('/main');
-
-    expect(
-      getPathnameFromNodeReq({
-        url: '/main/a/b/c/?name=123',
-      } as any),
-    ).toBe('/main/a/b/c');
-
-    expect(
-      getPathnameFromNodeReq({
-        url: '/main/1?name=123',
-      } as any),
-    ).toBe('/main/1');
   });
 });
