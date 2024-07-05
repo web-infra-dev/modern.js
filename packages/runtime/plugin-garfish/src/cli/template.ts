@@ -16,15 +16,9 @@ const genRenderCode = ({
   customEntry
     ? `import '${entry.replace(srcDirectory, internalSrcAlias)}'
 export * from '${entry.replace(srcDirectory, internalSrcAlias)}'`
-    : `import { createRoot } from '@${metaName}/runtime/react';
-import { render } from '@${metaName}/runtime/browser';
-import { isRenderGarfish, createProvider } from '@${metaName}/plugin-garfish/runtime';
+    : `import { garfishRender, createProvider } from '@${metaName}/plugin-garfish/runtime';
 
-if (!isRenderGarfish()) {
-  const ModernRoot = createRoot();
-
-  render(<ModernRoot />, '${mountId || 'root'}');
-}
+garfishRender('${mountId || 'root'}' )
 
 export const provider = createProvider();
 `;

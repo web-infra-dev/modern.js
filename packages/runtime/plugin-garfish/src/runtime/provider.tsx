@@ -1,7 +1,7 @@
-import { render } from '@modern-js/runtime/browser';
 import { createRoot } from '@modern-js/runtime/react';
 import type { Root } from 'react-dom/client';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
+import { garfishRender } from './render';
 
 export function createProvider(id?: string) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
@@ -11,14 +11,19 @@ export function createProvider(id?: string) {
         basename,
         dom,
         props,
+        appName,
       }: {
         basename: string;
         dom: HTMLElement;
         props: any;
+        appName?: string;
       }) {
-        const ModernRoot = createRoot(null, { router: { basename } });
-
-        root = await render(<ModernRoot basename={basename} {...props} />, dom);
+        root = await garfishRender(id || 'root', {
+          basename,
+          dom,
+          props,
+          appName,
+        });
       },
       destroy({ dom }: { dom: HTMLElement }) {
         const node = dom.querySelector(`#${id || 'root'}`) || dom;

@@ -1,14 +1,8 @@
-import { createRoot } from '@modern-js/runtime/react';
-import { render } from '@modern-js/runtime/browser';
 import {
   createProvider,
-  isRenderGarfish,
+  garfishRender,
 } from '@modern-js/plugin-garfish/runtime';
 
-if (!isRenderGarfish()) {
-  const ModernRoot = createRoot();
-
-  render(<ModernRoot />, 'root');
-}
+garfishRender();
 
 export const provider = createProvider();
