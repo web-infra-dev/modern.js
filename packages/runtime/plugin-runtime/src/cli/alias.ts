@@ -15,8 +15,9 @@ export const builderPluginAlias = ({
   name: 'runtime:alias',
   setup(api) {
     api.modifyRsbuildConfig((userConfig, { mergeRsbuildConfig }) => {
-      //   const { entrypoints, internalDirectory } = api.useAppContext();
       const entrypointsAlias: Record<string, string> = {};
+      // main entry alias need to be placed at the end of alias object
+      const mainEntrypointsAlias: Record<string, string> = {};
       entrypoints.forEach(entrypoint => {
         entrypointsAlias[
           `@${metaName}/runtime/registry/${entrypoint.entryName}`
@@ -26,7 +27,7 @@ export const builderPluginAlias = ({
           ENTRY_POINT_REGISTER_FILE_NAME,
         );
         if (entrypoint.isMainEntry) {
-          entrypointsAlias[`@${metaName}/runtime/registry`] = path.join(
+          mainEntrypointsAlias[`@${metaName}/runtime/registry`] = path.join(
             internalDirectory,
             entrypoint.entryName,
             ENTRY_POINT_REGISTER_FILE_NAME,
@@ -35,7 +36,7 @@ export const builderPluginAlias = ({
       });
       return mergeRsbuildConfig(userConfig, {
         source: {
-          alias: entrypointsAlias,
+          alias: { ...entrypointsAlias, ...mainEntrypointsAlias },
         },
       });
     });
