@@ -16,7 +16,7 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "0.7.10",
+    "@rsbuild/plugin-swc": "1.0.0-alpha.4",
     "@rsbuild/shared": "0.7.10",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/e2e": "workspace:*",
