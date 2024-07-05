@@ -10,10 +10,10 @@ export interface AppConfig {
 }
 
 export interface RuntimeConfig {
-  state: StateConfig;
-  stateByEntries: { [name: string]: StateConfig };
+  state?: StateConfig;
+  stateByEntries?: { [name: string]: StateConfig };
+  plugins?: Plugin[];
   [key: string]: any;
-  plugins: Plugin[];
 }
 
 export const JSX_SHELL_STREAM_END_MARK = '<!--<?- SHELL_STREAM_END ?>-->';
