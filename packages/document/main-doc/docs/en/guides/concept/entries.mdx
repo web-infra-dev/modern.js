@@ -82,11 +82,13 @@ By default, Modern.js scans the files under `src/` before starting the project, 
 
 :::
 
-Not all top-level directories under `src/` become project entries. The directory where the entry is located must meet one of the following three conditions:
+Not all top-level directories under `src/` become project entries. The directory where the entry is located must meet one of the following five conditions:
 
 1. Has a `routes/` directory.
 2. Has an `App.[jt]sx?` file.
-3. Has an `entry.[jt]sx?` file.
+3. Has an `index.[jt]sx?` file.
+4. Has a `pages/` directory (compatible with Modern.js 1.0).
+5. Has an `entry.[jt]sx?` file.
 
 When the `src/` directory meets the entry requirements, Modern.js considers the current project as a single entry application.
 
