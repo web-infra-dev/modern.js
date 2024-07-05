@@ -123,17 +123,44 @@ When Rspack is enabled for building through dev / build, the current version of 
 
 You can override Rspack to a specific version using the capbilities provided by package managers such as pnpm, yarn, npm.
 
-For example, if you are using pnpm, you can update the Rspack version with `overrides` as shown below:
+For example, if you are using pnpm, you can override the Rspack version with `overrides`. Assume that the version of Rspack needs to be specified as 0.7.5:
 
 ```json title=package.json
 {
   "pnpm": {
     "overrides": {
-      "@rspack/core": "nightly",
-      "@rspack/plugin-react-refresh": "nightly",
+      "@rspack/binding": "0.7.5",
+      "@rspack/core": "0.7.5",
+      "@rspack/plugin-react-refresh": "0.7.5"
     }
   }
 }
+```
+
+If you need to use the nightly/canary version of Rspack, the package name of the nightly/canary version of Rspack will be released after adding the `-canary` suffix, and needs to be modified to:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/binding": "npm:@rspack/binding-canary@nightly",
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh-canary@nightly"
+    },
+    "peerDependencyRules": {
+      "allowAny": [
+        "@rspack/*"
+      ]
+    }
+  }
+}
+```
+
+Rspack provides [install-rspack](https://github.com/rspack-contrib/install-rspack) tooling to quickly override versions:
+
+```sh
+npx install-rspack --version nightly # nightly npm tag
+npx install-rspack --version 0.7.5-canary-d614005-20240625082730 # A specific canary version
 ```
 
 :::tip What is Rspack Nightly Version

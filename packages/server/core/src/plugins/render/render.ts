@@ -145,7 +145,7 @@ export async function createRender({
     );
 
     const onError = async (e: unknown) => {
-      onErrorFn(logger, ErrorDigest.ERENDER, e as string | Error, req);
+      onErrorFn(ErrorDigest.ERENDER, e as string | Error, logger, req);
       await onFallback?.('error', e);
     };
 

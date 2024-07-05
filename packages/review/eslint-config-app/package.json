@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-app/eslint-config",
-  "version": "2.54.2",
+  "version": "2.54.6",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -25,8 +25,8 @@
     "@babel/core": "^7.23.2",
     "@babel/eslint-parser": "^7.22.15",
     "@babel/eslint-plugin": "^7.22.10",
-    "@rsbuild/babel-preset": "0.7.9",
-    "@rsbuild/core": "0.7.9",
+    "@rsbuild/babel-preset": "0.7.10",
+    "@rsbuild/core": "0.7.10",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "eslint": "^8.28.0",

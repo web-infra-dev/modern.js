@@ -1,5 +1,19 @@
 # @modern-js/module-tools-docs
 
+## 2.54.6
+
+## 2.54.5
+
+## 2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- aee1898: docs: remove module tools test doc
+
+  docs: 移除模块工程方案测试相关文档
+
 ## 2.54.2
 
 ## 2.54.1

@@ -36,7 +36,6 @@ export const devPlugin = <O extends ServerBaseOptions>(
         const {
           middlewares,
           distDirectory,
-          routes,
           nodeServer,
           apiDirectory,
           sharedDirectory,
@@ -49,7 +48,7 @@ export const devPlugin = <O extends ServerBaseOptions>(
 
         rsbuild?.onDevCompileDone(({ stats }) => {
           if (stats.toJson({ all: false }).name !== 'server') {
-            onRepack(distDirectory, runner, routes || []);
+            onRepack(distDirectory, runner);
           }
         });
 

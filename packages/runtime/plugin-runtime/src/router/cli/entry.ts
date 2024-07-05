@@ -38,7 +38,7 @@ export const modifyEntrypoints = (
     }
     const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
     const isHasPages = hasPages(entrypoint.absoluteEntryDir!);
-    if (!isHasNestedRoutes && !isHasPages) {
+    if (!isHasNestedRoutes && !isHasPages && !entrypoint.fileSystemRoutes) {
       return entrypoint;
     }
     // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.

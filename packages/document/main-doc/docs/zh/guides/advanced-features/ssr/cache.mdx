@@ -55,10 +55,10 @@ export interface CacheControl {
 ```ts
 export type CacheOptionProvider = (
   req: IncomingMessage,
-) => Promise<CacheControl> | CacheControl;
+) => Promise<CacheControl | false> | CacheControl | false;
 ```
 
-有时开发者需要通过 req 来自定义缓存 key，可以配置为函数的形式进行处理, 例如以下代码：
+有时开发者需要通过 req 来自定义缓存 key，或者特定 url 时缓存不生效，可以配置为函数的形式进行处理, 例如以下代码：
 
 ```ts title="server/cache.ts"
 
@@ -68,6 +68,10 @@ const provider: CacheOptionProvider = (req) => {
   const { url, headers, ... } = req;
 
   const key = computedKey(url, headers, ...);
+
+  if(url.includes('no-cache=1')) {
+    return false;
+  }
 
   return {
     maxAge: 500, // ms

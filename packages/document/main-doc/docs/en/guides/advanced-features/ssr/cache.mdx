@@ -53,10 +53,10 @@ In this, customKey is used for custom cache key. By default, Modern.js will use 
 ```ts
 export type CacheOptionProvider = (
   req: IncomingMessage,
-) => Promise<CacheControl> | CacheControl;
+) => Promise<CacheControl | false> | CacheControl | false;
 ```
 
-Sometimes developers need to customise the cache key through req, which can be handled using the function form, as shown in the following code:
+Sometimes developers need to customise the cache key through req or when caching does not work for specific URLs, which can be handled using the function form, as shown in the following code:
 
 ```ts title="server/cache.ts"
 import type { CacheOption, CacheOptionProvider } from '@modern-js/runtime/server';
@@ -65,6 +65,11 @@ const provider: CacheOptionProvider = (req) => {
   const { url, headers, ... } = req;
 
   const key = computedKey(url, headers, ...);
+
+  if(url.includes('no-cache=1')) {
+    return false;
+  }
+
 
   return {
     maxAge: 500, // ms

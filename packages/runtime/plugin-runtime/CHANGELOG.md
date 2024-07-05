@@ -1,5 +1,49 @@
 # @modern-js/runtime
 
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.6
+- @modern-js/plugin@2.54.6
+- @modern-js/runtime-utils@2.54.6
+- @modern-js/types@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- 5510104: fix: fix router info error when use custom file system routes entry
+
+  fix: 修复当使用自定义约定式路由入口时生成 router 信息问题
+
+  - @modern-js/plugin-data-loader@2.54.5
+  - @modern-js/plugin@2.54.5
+  - @modern-js/runtime-utils@2.54.5
+  - @modern-js/types@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.4
+- @modern-js/plugin@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/types@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.3
+- @modern-js/plugin@2.54.3
+- @modern-js/runtime-utils@2.54.3
+- @modern-js/types@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes
