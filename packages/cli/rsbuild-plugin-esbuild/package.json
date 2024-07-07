@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "@rsbuild/core": "0.7.10",
-    "@rsbuild/webpack": "0.7.10",
+    "@rsbuild/core": "1.0.0-alpha.5",
+    "@rsbuild/webpack": "1.0.0-alpha.5",
     "typescript": "^5.4.2"
   },
   "publishConfig": {
