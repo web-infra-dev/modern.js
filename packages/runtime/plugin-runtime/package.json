@@ -185,7 +185,7 @@
     "@babel/core": "^7.23.2",
     "@babel/types": "^7.23.0",
     "cookie": "0.5.0",
-    "isbot": "4",
+    "isbot": "3.7.1",
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",

@@ -2908,8 +2908,8 @@ importers:
         specifier: ^2.2.4
         version: 2.2.4
       isbot:
-        specifier: '4'
-        version: 4.4.0
+        specifier: 3.7.1
+        version: 3.7.1
       react-helmet:
         specifier: ^6.1.0
         version: 6.1.0(react@18.2.0)
@@ -3263,9 +3263,6 @@ importers:
       hono:
         specifier: ^3.12.2
         version: 3.12.12
-      isbot:
-        specifier: '4'
-        version: 4.4.0
       ts-deepmerge:
         specifier: 7.0.0
         version: 7.0.0
@@ -27539,9 +27536,9 @@ packages:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: false
 
-  /isbot@4.4.0:
-    resolution: {integrity: sha512-8ZvOWUA68kyJO4hHJdWjyreq7TYNWTS9y15IzeqVdKxR9pPr3P/3r9AHcoIv9M0Rllkao5qWz2v1lmcyKIVCzQ==}
-    engines: {node: '>=18'}
+  /isbot@3.7.1:
+    resolution: {integrity: sha512-JfqOaY3O1lcWt2nc+D6Mq231CNpwZrBboLa59Go0J8hjGH+gY/Sy0CA/YLUSIScINmAVwTdJZIsOTk4PfBtRuw==}
+    engines: {node: '>=12'}
     dev: false
 
   /isexe@2.0.0:
