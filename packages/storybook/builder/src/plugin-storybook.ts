@@ -28,14 +28,13 @@ import {
   type RsbuildPlugin,
   type RsbuildPluginAPI,
   type RsbuildConfig,
-  type WebpackConfig,
-  type RspackConfig,
-} from '@rsbuild/shared';
-import { mergeRsbuildConfig } from '@rsbuild/core';
+  type Rspack,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
 
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { UniBuilderConfig, WebpackConfig } from '@modern-js/uni-builder';
 import { BuilderConfig, BuilderOptions } from './types';
 import {
   toImportFn,
@@ -44,6 +43,8 @@ import {
   isDev,
 } from './utils';
 import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
+
+type RspackConfig = Rspack.Configuration;
 
 const STORIES_FILENAME = 'storybook-stories.js';
 const STORYBOOK_CONFIG_ENTRY = 'storybook-config-entry.js';
@@ -122,8 +123,8 @@ export const pluginStorybook: (
         addonAdapter(api, options);
 
         api.modifyWebpackConfig(modifyConfig);
-        api.modifyWebpackChain(async chain => {
-          await applyDocgenWebpack(chain, options);
+        api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+          await applyDocgenWebpack(chain, CHAIN_ID, options);
         });
       } else {
         api.modifyRspackConfig(async config => {

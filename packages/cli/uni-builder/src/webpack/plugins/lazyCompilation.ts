@@ -1,5 +1,4 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
-import type { DevConfig } from '@rsbuild/shared';
+import type { RsbuildPlugin, DevConfig } from '@rsbuild/core';
 
 type LazyCompilationOptions = DevConfig['lazyCompilation'];
 
