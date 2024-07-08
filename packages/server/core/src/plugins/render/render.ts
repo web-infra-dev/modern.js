@@ -19,7 +19,6 @@ import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
 import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
 import { SSRRenderOptions, ssrRender } from './ssrRender';
-import { ServerTiming } from './serverTiming';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -98,8 +97,6 @@ function getHeadersWithoutCookie(headers: Record<string, any>) {
   return _headers;
 }
 
-const SERVER_TIMING = 'Server-Timing';
-
 export async function createRender({
   routes,
   pwd,
@@ -116,12 +113,13 @@ export async function createRender({
     req,
     {
       logger,
-      nodeReq,
       reporter,
+      metrics,
+      monitors,
+      nodeReq,
       templates,
       serverManifest,
       locals,
-      metrics,
       loaderContext,
     },
   ) => {
@@ -164,10 +162,8 @@ export async function createRender({
 
     const headerData = parseHeaders(req);
 
-    const serverTimingInstance = new ServerTiming(metaName || 'modern');
-
     const onError = (e: unknown) => {
-      logger.error(
+      monitors?.error(
         `SSR Error - ${
           e instanceof Error ? e.name : e
         }, error = %s, req.url = %s, req.headers = %o`,
@@ -178,19 +174,17 @@ export async function createRender({
     };
 
     const onTiming = (name: string, dur: number) => {
-      // logger
-      logger.debug(
+      monitors?.debug(
         `SSR Debug - ${name}, cost = %s, req.url = %s`,
         dur,
         pathname,
       );
 
-      // server timing
-      serverTimingInstance.addServeTiming(name, dur);
+      monitors?.timing(name, dur);
     };
 
     const onBoundError = async (e: unknown) => {
-      onErrorFn(ErrorDigest.ERENDER, e as string | Error, logger, req);
+      onErrorFn(ErrorDigest.ERENDER, e as string | Error, monitors, req);
       await onFallback?.('error', e);
     };
 
@@ -234,11 +228,6 @@ export async function createRender({
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
-
-    // set server-timing
-    serverTimingInstance.headers.forEach(value => {
-      response.headers.append(SERVER_TIMING, value);
-    });
 
     return response;
   };
