@@ -1,14 +1,12 @@
 import type {
   NodeEnv,
   MetaOptions,
-  ConfigChain,
-  ConfigChainWithContext,
-  InlineChunkTest,
   RequestHandler,
-  MaybePromise,
   HtmlTagDescriptor,
 } from '@rsbuild/shared';
 import type {
+  ConfigChainWithContext,
+  ConfigChain,
   DevConfig,
   RsbuildConfig,
   RsbuildTarget,
@@ -17,6 +15,7 @@ import type {
   ServerConfig,
   RsbuildPluginAPI,
   SourceConfig,
+  OutputConfig,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -232,11 +231,11 @@ export type UniBuilderExtraConfig = {
     /**
      * @deprecated use `output.inlineScripts` instead
      */
-    enableInlineScripts?: boolean | InlineChunkTest;
+    enableInlineScripts?: OutputConfig['inlineScripts'];
     /**
      * @deprecated use `output.inlineStyles` instead
      */
-    enableInlineStyles?: boolean | InlineChunkTest;
+    enableInlineStyles?: OutputConfig['injectStyles'];
     /**
      * Configure the default export type of SVG files.
      */
@@ -376,7 +375,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => MaybePromise<any | void>,
+    ) => any | Promise<any>,
   ) => void;
 };
 
@@ -385,7 +384,7 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
+  setup: (api: UniBuilderPluginAPI) => void | Promise<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];

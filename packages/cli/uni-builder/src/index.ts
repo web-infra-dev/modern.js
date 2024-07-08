@@ -14,11 +14,7 @@ export type {
   UniBuilderWebpackInstance,
 };
 export type {
-  RspackChain,
-  RsbuildPlugin,
-  ConfigChain,
   CopyPluginOptions,
-  ChainIdentifier,
   NormalizedConfig,
   RspackConfig,
   CacheGroup,
@@ -34,6 +30,10 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
 
 export {
   logger,
+  type ConfigChain,
+  type RsbuildPlugin,
+  type ChainIdentifier,
+  type RspackChain,
   type Rspack,
   type RsbuildContext,
   type RsbuildConfig,

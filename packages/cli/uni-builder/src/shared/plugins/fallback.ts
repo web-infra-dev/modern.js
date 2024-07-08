@@ -1,7 +1,6 @@
 import { join } from 'path';
-import { JS_REGEX, type Rspack } from '@rsbuild/shared';
-import type { RsbuildPlugin } from '@rsbuild/core';
-import { TS_REGEX, getHash } from '../../shared/utils';
+import type { RsbuildPlugin, Rspack } from '@rsbuild/core';
+import { JS_REGEX, TS_REGEX, getHash } from '../../shared/utils';
 
 const HTML_REGEX = /\.html$/;
 
@@ -64,19 +63,19 @@ export const pluginFallback = (): RsbuildPlugin => ({
   name: 'uni-builder:fallback',
 
   setup(api) {
-    if (api.context.bundlerType === 'webpack') {
-      api.modifyBundlerChain(chain => {
-        const rsbuildConfig = api.getNormalizedConfig();
-        const { distPath, filename } = rsbuildConfig.output;
-        const distDir = distPath.media;
-        const mediaFilename =
-          filename.media ?? `[name]${getHash(rsbuildConfig)}[ext]`;
+    api.modifyBundlerChain(chain => {
+      const rsbuildConfig = api.getNormalizedConfig();
+      const { distPath, filename } = rsbuildConfig.output;
+      const distDir = distPath.media;
+      const mediaFilename =
+        filename.media ?? `[name]${getHash(rsbuildConfig)}[ext]`;
 
-        chain.output.merge({
-          assetModuleFilename: join(distDir, mediaFilename),
-        });
+      chain.output.merge({
+        assetModuleFilename: join(distDir, mediaFilename),
       });
+    });
 
+    if (api.context.bundlerType === 'webpack') {
       api.modifyWebpackConfig(config => {
         if (!config.module) {
           return;
@@ -87,15 +86,6 @@ export const pluginFallback = (): RsbuildPlugin => ({
       });
     } else {
       api.modifyRspackConfig(config => {
-        const rsbuildConfig = api.getNormalizedConfig();
-        const distDir = rsbuildConfig.output.distPath.media;
-        const filename =
-          rsbuildConfig.output.filename.media ??
-          `[name]${getHash(rsbuildConfig)}[ext]`;
-
-        config.output ||= {};
-        config.output.assetModuleFilename = join(distDir, filename);
-
         if (!config.module) {
           return;
         }
