@@ -10,6 +10,7 @@ import type {
 } from '@modern-js/types';
 import {
   findExists,
+  formatImportPath,
   fs,
   getEntryOptions,
   isSSGEntry,
@@ -506,8 +507,10 @@ export const runtimeGlobalContext = async ({
       });
       const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
       const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
-      const layoutPath = getPathWithoutExt(
-        replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+      const layoutPath = formatImportPath(
+        getPathWithoutExt(
+          replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+        ),
       );
       if (hasAppConfig) {
         imports.push(`import { config as appConfig } from '${layoutPath}';`);
@@ -527,9 +530,8 @@ export const runtimeGlobalContext = async ({
 
   if (globalApp) {
     imports.push(
-      `import layoutApp from '${globalApp.replace(
-        srcDirectory,
-        internalSrcAlias,
+      `import layoutApp from '${formatImportPath(
+        globalApp.replace(srcDirectory, internalSrcAlias),
       )}';`,
     );
   } else {
