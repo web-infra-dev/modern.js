@@ -2908,8 +2908,8 @@ importers:
         specifier: ^2.2.4
         version: 2.2.4
       isbot:
-        specifier: '4'
-        version: 4.4.0
+        specifier: 3.7.1
+        version: 3.7.1
       react-helmet:
         specifier: ^6.1.0
         version: 6.1.0(react@18.2.0)
@@ -27537,6 +27537,11 @@ packages:
 
   /isarray@1.0.0:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
+    dev: false
+
+  /isbot@3.7.1:
+    resolution: {integrity: sha512-JfqOaY3O1lcWt2nc+D6Mq231CNpwZrBboLa59Go0J8hjGH+gY/Sy0CA/YLUSIScINmAVwTdJZIsOTk4PfBtRuw==}
+    engines: {node: '>=12'}
     dev: false
 
   /isbot@4.4.0:
