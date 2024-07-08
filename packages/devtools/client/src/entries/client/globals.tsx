@@ -20,6 +20,11 @@ import {
   HiOutlineRectangleGroup,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
+import {
+  createBridge,
+  createStore,
+  initialize,
+} from 'react-devtools-inline/frontend';
 import { parseQuery, parseURL, resolveURL } from 'ufo';
 import { proxy, ref } from 'valtio';
 import type {
@@ -28,6 +33,7 @@ import type {
 } from '@/types/rpc';
 import { use } from '@/utils';
 import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
+import { WallAgent } from '@/utils/react-devtools';
 
 const initializeMountPoint = async () => {
   const channel = await MessagePortChannel.link(
@@ -154,6 +160,27 @@ const initializeTabs = async () => {
   return tabs;
 };
 
+const initializeReactDevtools = async (
+  mountPoint: Awaited<ReturnType<typeof initializeMountPoint>>,
+) => {
+  const wallAgent = new WallAgent();
+  const unreg = wallAgent.bindRemote(
+    mountPoint.remote,
+    'sendReactDevtoolsData',
+  );
+
+  await mountPoint.remote.activateReactDevtools();
+  const bridge = createBridge(window.parent, wallAgent);
+  // const _shutdownBridge = bridge.shutdown;
+  // Workaround for https://github.com/facebook/react/blob/77ec61885fb19607cdd116a6790095afa40b5a94/packages/react-devtools-shared/src/devtools/views/DevTools.js#L258-L267
+  bridge.shutdown = () => null;
+
+  const store = createStore(bridge);
+  const Renderer = initialize(window.parent, { bridge, store });
+
+  return { store, bridge, wallAgent, unreg, Renderer };
+};
+
 const initializeState = async (url: string) => {
   const query = parseQuery(parseURL(url).search);
   const manifestUrl = _.castArray(query.src)[0] ?? resolveURL(url, 'manifest');
@@ -170,13 +197,11 @@ const initializeState = async (url: string) => {
     return setupPlugins(runtimePlugins);
   });
   const $tabs = $setupPlugins.then(initializeTabs);
+  const $reactDevtools = $mountPoint.then(initializeReactDevtools);
 
-  const [mountPoint, exported, server, tabs] = await Promise.all([
-    $mountPoint,
-    $manifest,
-    $server,
-    $tabs,
-  ]);
+  const [mountPoint, exported, server, tabs, reactDevtools] = await Promise.all(
+    [$mountPoint, $manifest, $server, $tabs, $reactDevtools],
+  );
 
   return proxy({
     ...exported,
@@ -184,6 +209,15 @@ const initializeState = async (url: string) => {
     tabs,
     server: server ? ref(server) : null,
     mountPoint: ref(mountPoint),
+    react: {
+      devtools: {
+        store: ref(reactDevtools.store),
+        bridge: ref(reactDevtools.bridge),
+        wallAgent: ref(reactDevtools.wallAgent),
+        unreg: ref(reactDevtools.unreg),
+        Renderer: ref(reactDevtools.Renderer),
+      },
+    },
   });
 };
 
