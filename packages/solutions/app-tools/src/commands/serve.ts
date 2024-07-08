@@ -53,10 +53,11 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
+      // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
       output: {
         path: userConfig.output.distPath?.root,
         ...(userConfig.output || {}),
-      },
+      } as any,
     },
     routes: serverRoutes,
     plugins: pluginInstances,

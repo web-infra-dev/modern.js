@@ -1,4 +1,4 @@
-import { attributesToString } from '../../src/ssr/serverRender/utils';
+import { attributesToString } from '../../src/core/server/utils';
 
 describe('ssr utils', () => {
   it('should attributesToString return string correctly', async () => {

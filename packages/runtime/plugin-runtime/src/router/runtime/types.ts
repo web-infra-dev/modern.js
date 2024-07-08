@@ -37,7 +37,7 @@ export type RouterConfig = {
   mode?: 'react-router-5';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
-    routes: (NestedRoute | PageRoute)[];
+    routes?: (NestedRoute | PageRoute)[];
   };
   /**
    * You should not use it
@@ -45,7 +45,6 @@ export type RouterConfig = {
   oldVersion?: boolean;
   serverBase?: string[];
   supportHtml5History?: boolean;
-  originalBaseUrl?: string;
   basename?: string;
   createRoutes?: () => RouteObject[];
 };

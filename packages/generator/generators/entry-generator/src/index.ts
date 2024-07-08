@@ -55,7 +55,9 @@ const refactorSingleEntry = async (
       return (
         filePath !== '.eslintrc.json' &&
         filePath !== '.eslintrc.js' &&
-        filePath !== 'modern-app-env.d.ts'
+        filePath !== 'modern-app-env.d.ts' &&
+        filePath !== 'modern.runtime.ts' &&
+        filePath !== 'modern.runtime.js'
       );
     })
     .map(file =>

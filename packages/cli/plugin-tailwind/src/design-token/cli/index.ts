@@ -1,4 +1,4 @@
-import { lazyImport, createRuntimeExportsUtils } from '@modern-js/utils';
+import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
 import { DesignSystem } from '../../types';
 
@@ -8,7 +8,6 @@ export const designTokenPlugin = (
   name: '@modern-js/plugin-design-token',
 
   setup(api) {
-    let pluginsExportsUtils: any;
     const resolveConfig = lazyImport('tailwindcss/resolveConfig', require);
 
     const PLUGIN_IDENTIFIER = 'designToken';
@@ -31,52 +30,7 @@ export const designTokenPlugin = (
     };
 
     return {
-      config() {
-        const appContext = api.useAppContext();
-
-        pluginsExportsUtils = createRuntimeExportsUtils(
-          appContext.internalDirectory,
-          'plugins',
-        );
-
-        return {
-          source: {
-            alias: {
-              '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
-            },
-          },
-        };
-      },
-
-      modifyEntryImports({ entrypoint, imports }: any) {
-        const userConfig = api.useResolvedConfigContext();
-        const designSystem = userConfig.source?.designSystem ?? {};
-
-        if (
-          typeof designSystem === 'object' &&
-          designSystem.supportStyledComponents
-        ) {
-          const designTokens = getDesignTokens(userConfig.source.designSystem);
-          imports.push({
-            value: '@modern-js/runtime/plugins',
-            specifiers: [
-              {
-                imported: PLUGIN_IDENTIFIER,
-              },
-            ],
-            initialize: `
-  const designTokens = ${JSON.stringify(designTokens)};
-            `,
-          });
-        }
-
-        return {
-          entrypoint,
-          imports,
-        };
-      },
-
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      _internalRuntimePlugins({ entrypoint, plugins }) {
         const userConfig = api.useResolvedConfigContext();
         const designSystem = userConfig.source?.designSystem ?? {};
         let useSCThemeProvider = true;
@@ -84,25 +38,30 @@ export const designTokenPlugin = (
           // when designSystem exist, designToken.styledComponents`s default value is false.
           useSCThemeProvider = designSystem?.supportStyledComponents || false;
         }
-
         if (
           typeof designSystem === 'object' &&
           designSystem.supportStyledComponents
         ) {
+          const designTokens = getDesignTokens(userConfig.source.designSystem);
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options: `{token: designTokens, useStyledComponentsThemeProvider: ${
-              useSCThemeProvider ? 'true' : 'false'
-            }, useDesignTokenContext: false}`,
+            path: `${pluginName}/runtime-design-token`,
+            config: {
+              token: designTokens,
+              useStyledComponentsThemeProvider: Boolean(useSCThemeProvider),
+              useDesignTokenContext: false,
+            },
           });
         }
-        return {
-          entrypoint,
-          plugins,
-        };
+        return { entrypoint, plugins };
       },
-
       addRuntimeExports() {
+        const appContext = api.useAppContext();
+
+        const pluginsExportsUtils = createRuntimeExportsUtils(
+          appContext.internalDirectory,
+          'plugins',
+        );
         pluginsExportsUtils.addExport(
           `export { default as designToken } from '${pluginName}/runtime-design-token'`,
         );

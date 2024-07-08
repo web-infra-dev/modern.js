@@ -44,6 +44,9 @@ export type BaseHooks<
   >;
   commands: AsyncWorkflow<{ program: Command }, void>;
   beforeExit: Workflow<void, void>;
+  /**
+   * @deprecated
+   */
   addRuntimeExports: AsyncWaterfall<void>;
 };
 

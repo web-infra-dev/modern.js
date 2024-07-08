@@ -21,3 +21,4 @@ export * from './types/plugin';
 export * from './types/render';
 export * from '@modern-js/plugin';
 export * from './types/config';
+export * from './types/requestHandler';

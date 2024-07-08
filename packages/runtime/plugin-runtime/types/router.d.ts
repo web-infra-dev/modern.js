@@ -9,12 +9,17 @@ declare module '@modern-js/app-tools' {
 
 declare module '@modern-js/module-tools' {
   interface RuntimeUserConfig {
-    router?: RouterConfig | boolean;
+    router?: Partial<RouterConfig> | boolean;
   }
 }
 
 declare module '@modern-js/runtime' {
   interface AppConfig {
-    router?: RouterConfig | boolean;
+    router?: Partial<RouterConfig> | boolean;
+  }
+
+  interface RuntimeConfig {
+    router?: Partial<RouterConfig>;
+    routerByEntries?: { [name: string]: Partial<RouterConfig> };
   }
 }

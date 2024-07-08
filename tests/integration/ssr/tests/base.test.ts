@@ -89,7 +89,8 @@ describe('Traditional SSR', () => {
     await basicUsage(page, appPort);
   });
 
-  test(`should pass chunkLoadingGlobal`, async () => {
+  // We will not add chunkLoadingGlobal to entry(index.jsx)
+  test.skip(`should pass chunkLoadingGlobal`, async () => {
     await checkIsPassChunkLoadingGlobal();
   });
 
@@ -126,6 +127,10 @@ describe('Traditional SSR', () => {
     });
     const content1 = await page.content();
     expect(content1).toMatch(result);
+
+    await page.goto(`http://localhost:${appPort}/?no-cache=1`);
+    const content2 = await page.content();
+    expect(content2).not.toMatch(result);
   });
 
   test('x-render-cache http header', async () => {

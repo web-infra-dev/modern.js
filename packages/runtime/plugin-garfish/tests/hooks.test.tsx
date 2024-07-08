@@ -3,7 +3,8 @@ import { act, render } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import '@testing-library/jest-dom';
 
-import garfishPlugin, { useModuleApps } from '../src/runtime';
+import garfishPlugin from '../src/runtime/plugin';
+import { useModuleApps } from '../src/runtime/useModuleApps';
 
 global.React = React;
 

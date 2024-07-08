@@ -1,10 +1,18 @@
 import type { StateConfig } from './state';
+import type { Plugin } from './core/plugin';
 
 export const isBrowser = () =>
   typeof window !== 'undefined' && window.name !== 'nodejs';
 
 export interface AppConfig {
   state?: StateConfig | boolean;
+  [key: string]: any;
+}
+
+export interface RuntimeConfig {
+  state?: StateConfig;
+  stateByEntries?: { [name: string]: StateConfig };
+  plugins?: Plugin[];
   [key: string]: any;
 }
 

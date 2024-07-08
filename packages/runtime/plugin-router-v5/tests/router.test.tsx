@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { createBrowserHistory } from 'history';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
+import { setGlobalContext } from '@modern-js/runtime/context';
 import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
@@ -41,10 +41,13 @@ describe('@modern-js/plugin-router-v5', () => {
           hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
         })),
         createRouterPlugin({
-          routesConfig: { routes: [{ path: '/', component: App as any }] },
+          routesConfig: {
+            routes: [{ path: '/', component: App as any }],
+            globalApp: App,
+          },
         }),
       ],
-    })(App);
+    })();
 
     interface Props {
       test: number;
@@ -73,7 +76,7 @@ describe('@modern-js/plugin-router-v5', () => {
     }
 
     const mockCallback = jest.fn();
-    App.init = mockCallback;
+    setGlobalContext({ appInit: mockCallback });
 
     const runtime = createRuntime();
     const AppWrapper = createApp({
@@ -93,51 +96,6 @@ describe('@modern-js/plugin-router-v5', () => {
 
     render(<AppWrapper />);
     expect(mockCallback).toHaveBeenCalledTimes(1);
-  });
-
-  it('custom history', () => {
-    const history = createBrowserHistory();
-    const customHistory = {
-      ...history,
-      push: jest.fn(),
-    };
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          history: customHistory,
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      const _history = useHistory();
-      return (
-        <div>
-          App:{test}
-          <button
-            type="button"
-            onClick={() => {
-              _history.push('/');
-            }}
-            data-testid="nav"
-          >
-            Go
-          </button>
-        </div>
-      );
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toContain('App:1');
-    fireEvent.click(screen.getByTestId('nav'));
   });
 
   it('hash router could work', async () => {
@@ -237,6 +195,6 @@ describe('@modern-js/plugin-router-v5', () => {
     const { container } = render(<AppWrapper test={1} />);
 
     expect(container.firstChild?.textContent).toBe(`${expectedText}`);
-    expect(container.innerHTML).toBe(`<div>${expectedText}</div>`);
+    expect(container.innerHTML).toBe(expectedText);
   });
 });

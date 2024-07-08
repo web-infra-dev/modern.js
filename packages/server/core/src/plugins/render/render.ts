@@ -3,6 +3,7 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
   getPathname,
@@ -11,12 +12,14 @@ import {
   transformResponse,
   onError as onErrorFn,
   ErrorDigest,
+  parseHeaders,
 } from '../../utils';
-import type { CacheConfig, FallbackReason } from '../../types';
+import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
 import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
-import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
+import { SSRRenderOptions, ssrRender } from './ssrRender';
+import { ServerTiming } from './serverTiming';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -31,6 +34,7 @@ export type OnFallback = (
 interface CreateRenderOptions {
   pwd: string;
   routes: ServerRoute[];
+  config: UserConfig;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   onFallback?: OnFallback;
@@ -84,6 +88,18 @@ function matchRoute(
   return result || [];
 }
 
+function getHeadersWithoutCookie(headers: Record<string, any>) {
+  const _headers = {
+    ...headers,
+    cookie: undefined,
+  };
+  delete _headers.cookie;
+
+  return _headers;
+}
+
+const SERVER_TIMING = 'Server-Timing';
+
 export async function createRender({
   routes,
   pwd,
@@ -91,7 +107,7 @@ export async function createRender({
   staticGenerate,
   cacheConfig,
   forceCSR,
-  nonce,
+  config,
   onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
@@ -144,7 +160,36 @@ export async function createRender({
       onFallback,
     );
 
-    const onError = async (e: unknown) => {
+    const pathname = getPathname(req);
+
+    const headerData = parseHeaders(req);
+
+    const serverTimingInstance = new ServerTiming(metaName || 'modern');
+
+    const onError = (e: unknown) => {
+      logger.error(
+        `SSR Error - ${
+          e instanceof Error ? e.name : e
+        }, error = %s, req.url = %s, req.headers = %o`,
+        e instanceof Error ? e.stack || e.message : e,
+        pathname,
+        getHeadersWithoutCookie(headerData),
+      );
+    };
+
+    const onTiming = (name: string, dur: number) => {
+      // logger
+      logger.debug(
+        `SSR Debug - ${name}, cost = %s, req.url = %s`,
+        dur,
+        pathname,
+      );
+
+      // server timing
+      serverTimingInstance.addServeTiming(name, dur);
+    };
+
+    const onBoundError = async (e: unknown) => {
       onErrorFn(ErrorDigest.ERENDER, e as string | Error, logger, req);
       await onFallback?.('error', e);
     };
@@ -154,34 +199,48 @@ export async function createRender({
       html,
       routeInfo,
       staticGenerate: staticGenerate || false,
-      metaName: metaName || 'modern-js',
-      nonce,
-      logger,
+      config,
       nodeReq,
       cacheConfig,
       reporter,
       serverRoutes: routes,
       params,
+      logger,
+      metrics,
       locals,
       serverManifest,
-      metrics,
       loaderContext: loaderContext || new Map(),
+      onError,
+      onTiming,
     };
+
+    let response: Response;
 
     switch (renderMode) {
       case 'data':
-        // eslint-disable-next-line no-case-declarations
-        let response = await dataHandler(req, renderOptions);
-        if (!response) {
-          response = await renderHandler(req, renderOptions, 'ssr', onError);
-        }
-        return response;
+        response =
+          (await dataHandler(req, renderOptions)) ||
+          (await renderHandler(req, renderOptions, 'ssr', onBoundError));
+        break;
       case 'ssr':
       case 'csr':
-        return renderHandler(req, renderOptions, renderMode, onError);
+        response = await renderHandler(
+          req,
+          renderOptions,
+          renderMode,
+          onBoundError,
+        );
+        break;
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
+
+    // set server-timing
+    serverTimingInstance.headers.forEach(value => {
+      response.headers.append(SERVER_TIMING, value);
+    });
+
+    return response;
   };
 }
 

@@ -9,6 +9,7 @@ import createRouterPlugin, {
 import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
 import { createRuntime } from '../../src/core/plugin';
+import { setGlobalContext } from '../../src/core/context';
 
 beforeAll(() => {
   // use React 18
@@ -35,74 +36,6 @@ beforeAll(() => {
 });
 
 describe('@modern-js/plugin-router', () => {
-  it('base usage', () => {
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: App as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-          },
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      return <div>App:{test}</div>;
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toBe('App:1');
-    expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
-  it('pages', () => {
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: App as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-          },
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      return <div>App:{test}</div>;
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toBe('App:1');
-    expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
   it('pages with App.init', () => {
     const App = (props: { Component: React.FC }) => {
       const { Component, ...pageProps } = props;
@@ -118,7 +51,7 @@ describe('@modern-js/plugin-router', () => {
     }
 
     const mockCallback = jest.fn();
-    App.init = mockCallback;
+    setGlobalContext({ appInit: mockCallback });
     const runtime = createRuntime();
     const AppWrapper = createApp({
       runtime,

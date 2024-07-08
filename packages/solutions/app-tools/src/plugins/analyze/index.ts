@@ -1,7 +1,6 @@
 import * as path from 'path';
 import {
   createDebugger,
-  findExists,
   fs,
   isApiOnly,
   minimist,
@@ -10,19 +9,13 @@ import {
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { printInstructions } from '../../utils/printInstructions';
-import { generateRoutes, getPathWithoutExt } from '../../utils/routes';
+import { generateRoutes } from '../../utils/routes';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
 import { AppTools, webpack } from '../../types';
 import { initialNormalizedConfig } from '../../config';
 import { createBuilderGenerator } from '../../builder';
-import { checkIsBuildCommands, parseModule, replaceWithAlias } from './utils';
-import {
-  APP_CONFIG_NAME,
-  APP_INIT_EXPORTED,
-  APP_INIT_IMPORTED,
-} from './constants';
-import { generateIndexCode } from './generateCode';
+import { checkIsBuildCommands } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -32,7 +25,7 @@ export default ({
   bundler: 'webpack' | 'rspack';
 }): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-analyze',
-
+  post: ['@modern-js/runtime'],
   setup: api => {
     let pagesDir: string[] = [];
     let nestedRouteEntries: string[] = [];
@@ -74,17 +67,12 @@ export default ({
           return;
         }
 
-        const [
-          { getBundleEntry },
-          { getServerRoutes },
-          { generateCode },
-          { getHtmlTemplate },
-        ] = await Promise.all([
-          import('./getBundleEntry'),
-          import('./getServerRoutes'),
-          import('./generateCode'),
-          import('./getHtmlTemplate'),
-        ]);
+        const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
+          await Promise.all([
+            import('./getBundleEntry'),
+            import('./getServerRoutes'),
+            import('./getHtmlTemplate'),
+          ]);
 
         // get runtime entry points
         const { entrypoints } = await hookRunners.modifyEntrypoints({
@@ -125,13 +113,6 @@ export default ({
           .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
 
-        const { importsStatemets } = await generateCode(
-          appContext,
-          resolvedConfig,
-          entrypoints,
-          api,
-        );
-
         const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
           config: resolvedConfig,
@@ -164,6 +145,8 @@ export default ({
         api.setAppContext(appContext);
 
         if (checkIsBuildCommands()) {
+          await hookRunners.generateEntryCode({ entrypoints });
+
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
@@ -197,14 +180,6 @@ export default ({
 
           builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();
-            await generateIndexCode({
-              appContext,
-              config: resolvedConfig,
-              entrypoints,
-              api,
-              importsStatemets,
-              bundlerConfigs,
-            });
 
             // run modernjs framework `beforeCreateCompiler` hook
             await hookRunners.beforeCreateCompiler({
@@ -242,59 +217,6 @@ export default ({
         const config = initialNormalizedConfig(resolved, appContext, bundler);
         return {
           resolved: config,
-        };
-      },
-
-      // This logic is not in the router plugin to avoid having to include some dependencies in the utils package
-      async modifyEntryImports({ entrypoint, imports }) {
-        const appContext = api.useAppContext();
-        const { srcDirectory, internalSrcAlias } = appContext;
-        const { fileSystemRoutes, nestedRoutesEntry } = entrypoint;
-        if (fileSystemRoutes && nestedRoutesEntry) {
-          const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
-          const rootLayoutFile = findExists(
-            ['.js', '.ts', '.jsx', '.tsx'].map(
-              ext => `${rootLayoutPath}${ext}`,
-            ),
-          );
-          if (rootLayoutFile) {
-            const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
-            const rootLayout = rootLayoutBuffer.toString();
-            const [, moduleExports] = await parseModule({
-              source: rootLayout.toString(),
-              filename: rootLayoutFile,
-            });
-            const hasAppConfig = moduleExports.some(
-              e => e.n === APP_CONFIG_NAME,
-            );
-            const generateLayoutPath = getPathWithoutExt(
-              replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
-            );
-
-            if (hasAppConfig) {
-              imports.push({
-                value: generateLayoutPath,
-                specifiers: [{ imported: APP_CONFIG_NAME }],
-              });
-            }
-
-            const hasAppInit = moduleExports.some(
-              e => e.n === APP_INIT_EXPORTED,
-            );
-
-            if (hasAppInit) {
-              imports.push({
-                value: generateLayoutPath,
-                specifiers: [
-                  { imported: APP_INIT_EXPORTED, local: APP_INIT_IMPORTED },
-                ],
-              });
-            }
-          }
-        }
-        return {
-          entrypoint,
-          imports,
         };
       },
     };
