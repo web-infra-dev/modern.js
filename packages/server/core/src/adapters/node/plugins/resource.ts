@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import type { Monitors, ServerRoute } from '@modern-js/types';
+import type { Logger, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
@@ -57,12 +57,12 @@ const dynamicImport = (filePath: string) => {
   }
 };
 
-const loadBundle = async (filepath: string, monitors: Monitors) => {
+const loadBundle = async (filepath: string, logger: Logger) => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
   return dynamicImport(filepath).catch(e => {
-    monitors?.error(
+    logger?.error(
       `Load ${filepath} bundle failed, error = %s`,
       e instanceof Error ? e.stack || e.message : e,
     );
@@ -73,7 +73,7 @@ const loadBundle = async (filepath: string, monitors: Monitors) => {
 export async function getServerManifest(
   pwd: string,
   routes: ServerRoute[],
-  monitors: Monitors,
+  logger: Logger,
 ): Promise<ServerManifest> {
   const loaderBundles: Record<string, any> = {};
   const renderBundles: Record<string, any> = {};
@@ -90,8 +90,8 @@ export async function getServerManifest(
           `${entryName}-server-loaders.js`,
         );
 
-        const renderBundle = await loadBundle(renderBundlePath, monitors);
-        const loaderBundle = await loadBundle(loaderBundlePath, monitors);
+        const renderBundle = await loadBundle(renderBundlePath, logger);
+        const loaderBundle = await loadBundle(loaderBundlePath, logger);
 
         renderBundle && (renderBundles[entryName] = renderBundle);
         loaderBundle && (loaderBundles[entryName] = loaderBundle);
@@ -120,8 +120,8 @@ export function injectServerManifest(
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('serverManifest')) {
-      const monitors = c.get('monitors');
-      const serverManifest = await getServerManifest(pwd, routes, monitors);
+      const logger = c.get('logger');
+      const serverManifest = await getServerManifest(pwd, routes, logger);
 
       c.set('serverManifest', serverManifest);
     }
