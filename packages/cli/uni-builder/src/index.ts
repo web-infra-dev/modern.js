@@ -13,7 +13,7 @@ export type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 };
-export type { CopyPluginOptions, CacheGroup } from '@rsbuild/shared';
+export type { CacheGroup } from '@rsbuild/shared';
 export type {
   UniBuilderConfig,
   UniBuilderPlugin,
