@@ -100,12 +100,8 @@ export const renderString: RenderString = async (
       }),
     ];
 
-    const App = React.createElement(serverRoot, {
-      _internal_context: Object.assign(runtimeContext, { ssr: true }),
-    });
-
     const html = await generateHtml(
-      App,
+      serverRoot,
       htmlTemplate,
       chunkSet,
       collectors,

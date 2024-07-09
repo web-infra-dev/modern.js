@@ -3,8 +3,8 @@ import {
   renderString,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, serverRoot, options) => {
-  const html = await renderString(request, serverRoot, options);
+const handleRequest = async (request, ServerRoot, options) => {
+  const html = await renderString(request, <ServerRoot />, options);
 
   const newHtml = html.replace('</body>', '<div>Byte-Dance<div></body>');
 
