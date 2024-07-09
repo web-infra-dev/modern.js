@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@swc/helpers": "0.5.3",
-    "@rsbuild/shared": "0.7.10",
     "esbuild": "0.17.19",
     "webpack": "^5.92.0"
   },

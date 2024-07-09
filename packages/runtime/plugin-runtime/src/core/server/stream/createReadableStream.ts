@@ -2,7 +2,7 @@ import { Transform } from 'stream';
 import { renderToPipeableStream } from 'react-dom/server';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import { ServerStyleSheet } from 'styled-components';
-import { isbot as checkIsBot } from 'isbot';
+import checkIsBot from 'isbot';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { getTemplates } from './template';

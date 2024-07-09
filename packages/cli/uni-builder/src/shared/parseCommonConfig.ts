@@ -2,18 +2,17 @@
 /* eslint-disable complexity */
 import {
   NODE_MODULES_REGEX,
-  RsbuildTarget,
   OverrideBrowserslist,
   getBrowserslist,
-  castArray,
   isFunction,
   type HtmlTagHandler,
-  type SourceConfig,
 } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
+  type RsbuildTarget,
   type RsbuildPlugin,
   type RsbuildConfig,
+  type SourceConfig,
 } from '@rsbuild/core';
 import type {
   CreateBuilderCommonOptions,
@@ -36,6 +35,7 @@ import { pluginArco } from './plugins/arco';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { transformToRsbuildServerOptions } from './devServer';
+import { castArray } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;

@@ -1,14 +1,11 @@
 import type {
   NodeEnv,
-  MetaOptions,
-  ConfigChain,
-  ConfigChainWithContext,
-  InlineChunkTest,
   RequestHandler,
-  MaybePromise,
   HtmlTagDescriptor,
 } from '@rsbuild/shared';
 import type {
+  ConfigChainWithContext,
+  ConfigChain,
   DevConfig,
   RsbuildConfig,
   RsbuildTarget,
@@ -17,6 +14,8 @@ import type {
   ServerConfig,
   RsbuildPluginAPI,
   SourceConfig,
+  OutputConfig,
+  Rspack,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -40,6 +39,31 @@ import type TerserPlugin from 'terser-webpack-plugin';
 
 type ArrayOrNot<T> = T | T[];
 
+export type Stats = Omit<Rspack.Stats, '#private' | 'hash'>;
+
+export type RspackConfig = Rspack.Configuration;
+
+export type MultiStats = Omit<
+  Rspack.MultiStats,
+  '#private' | 'hash' | 'stats'
+> & {
+  stats: Stats[];
+};
+
+/**
+ * custom properties
+ * e.g. { name: 'viewport' content: 'width=500, initial-scale=1' }
+ * */
+type MetaAttrs = { [attrName: string]: string | boolean };
+
+export type MetaOptions = {
+  /**
+   * name content pair
+   * e.g. { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }`
+   * */
+  [name: string]: string | false | MetaAttrs;
+};
+
 export type CreateBuilderCommonOptions = {
   entry?: SourceConfig['entry'];
   frameworkConfigPath?: string;
@@ -48,8 +72,10 @@ export type CreateBuilderCommonOptions = {
   cwd: string;
 };
 
+export type BundlerType = 'rspack' | 'webpack';
+
 export type CreateUniBuilderOptions = {
-  bundlerType: 'rspack' | 'webpack';
+  bundlerType: BundlerType;
   config: UniBuilderConfig;
 } & Partial<CreateBuilderCommonOptions>;
 
@@ -232,11 +258,11 @@ export type UniBuilderExtraConfig = {
     /**
      * @deprecated use `output.inlineScripts` instead
      */
-    enableInlineScripts?: boolean | InlineChunkTest;
+    enableInlineScripts?: OutputConfig['inlineScripts'];
     /**
      * @deprecated use `output.inlineStyles` instead
      */
-    enableInlineStyles?: boolean | InlineChunkTest;
+    enableInlineStyles?: OutputConfig['injectStyles'];
     /**
      * Configure the default export type of SVG files.
      */
@@ -376,7 +402,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => MaybePromise<any | void>,
+    ) => any | Promise<any>,
   ) => void;
 };
 
@@ -385,7 +411,7 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
+  setup: (api: UniBuilderPluginAPI) => void | Promise<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];

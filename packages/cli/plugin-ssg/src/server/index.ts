@@ -43,8 +43,15 @@ export const createServer = (
         renderRoutes: ssgRoutes,
         routes: total,
         appContext: {
-          apiDirectory: appContext.apiDirectory,
-          lambdaDirectory: appContext.lambdaDirectory,
+          // Make sure that bff runs the product of the dist directory, because we dont register ts-node in the child process
+          apiDirectory: path.join(
+            appContext.distDirectory,
+            path.relative(appContext.appDirectory, appContext.apiDirectory),
+          ),
+          lambdaDirectory: path.join(
+            appContext.distDirectory,
+            path.relative(appContext.appDirectory, appContext.lambdaDirectory),
+          ),
           appDirectory: appContext.appDirectory,
         },
         plugins,

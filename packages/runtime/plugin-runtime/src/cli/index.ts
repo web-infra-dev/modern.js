@@ -150,7 +150,7 @@ export const runtimePlugin = (params?: {
         cleanRequireCache([
           require.resolve('../state/cli'),
           require.resolve('../router/cli'),
-          require.resolve('../ssr'),
+          require.resolve('./ssr'),
         ]);
       },
     };

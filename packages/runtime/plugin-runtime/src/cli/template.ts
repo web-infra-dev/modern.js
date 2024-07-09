@@ -1,5 +1,5 @@
 import path from 'path';
-import { JS_EXTENSIONS, findExists } from '@modern-js/utils';
+import { JS_EXTENSIONS, findExists, formatImportPath } from '@modern-js/utils';
 import type { RuntimePlugin } from '@modern-js/app-tools';
 import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
@@ -24,15 +24,16 @@ const genRenderCode = ({
   mountId?: string;
 }) => {
   if (customEntry) {
-    return `import '${entry.replace(srcDirectory, internalSrcAlias)}'`;
+    return `import '${formatImportPath(
+      entry.replace(srcDirectory, internalSrcAlias),
+    )}'`;
   }
   return `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
 ${
   customBootstrap
-    ? `import customBootstrap from '${customBootstrap.replace(
-        srcDirectory,
-        internalSrcAlias,
+    ? `import customBootstrap from '${formatImportPath(
+        customBootstrap.replace(srcDirectory, internalSrcAlias),
       )}';`
     : ''
 }
@@ -159,11 +160,13 @@ export const runtimeGlobalContext = ({
 
 import App from '${
     // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
-    customEntry
-      ? entry
-          .replace('entry.tsx', 'App.tsx')
-          .replace(srcDirectory, internalSrcAlias)
-      : entry.replace(srcDirectory, internalSrcAlias)
+    formatImportPath(
+      customEntry
+        ? entry
+            .replace('entry.tsx', 'App.tsx')
+            .replace(srcDirectory, internalSrcAlias)
+        : entry.replace(srcDirectory, internalSrcAlias),
+    )
   }';
 
 setGlobalContext({
