@@ -51,7 +51,11 @@ export const generateCode = async (
             internalDirectory,
             `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
           );
-          fs.outputFileSync(bootstrapFile, generateAsyncEntryCode(), 'utf8');
+          fs.outputFileSync(
+            bootstrapFile,
+            generateAsyncEntryCode(appendCode),
+            'utf8',
+          );
         }
       }
     }),
