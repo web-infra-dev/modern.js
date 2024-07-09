@@ -30,7 +30,7 @@ import { prefetch } from './prefetch';
 
 export const renderString: RenderString = async (
   request,
-  serverRoot,
+  ServerRoot,
   options,
 ) => {
   const headersData = parseHeaders(request);
@@ -65,7 +65,7 @@ export const renderString: RenderString = async (
     let prefetchData = {};
 
     try {
-      prefetchData = await prefetch(serverRoot, request, options, tracer);
+      prefetchData = await prefetch(ServerRoot, request, options, tracer);
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
@@ -100,12 +100,8 @@ export const renderString: RenderString = async (
       }),
     ];
 
-    const App = React.createElement(serverRoot, {
-      _internal_context: Object.assign(runtimeContext, { ssr: true }),
-    });
-
     const html = await generateHtml(
-      App,
+      ServerRoot,
       htmlTemplate,
       chunkSet,
       collectors,

@@ -5,6 +5,7 @@ import {
   parseHeaders,
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
+import React from 'react';
 import { createRoot } from '../react';
 import { RuntimeContext, getGlobalAppInit } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
@@ -25,7 +26,7 @@ export type HandleRequestOptions = Exclude<
 
 export type HandleRequest = (
   request: Request,
-  serverRoot: React.ComponentType, // App, routes,
+  ServerRoot: React.ReactElement, // App, routes,
   options: HandleRequestOptions,
 ) => Promise<Response>;
 
@@ -213,7 +214,11 @@ export const createRequestHandler: CreateRequestHandler =
         `${CHUNK_CSS_PLACEHOLDER}</head>`,
       );
 
-      const response = await handleRequest(request, serverRoot, {
+      const ServerRoot = React.createElement(serverRoot, {
+        _internal_context: Object.assign(context, { ssr: true }),
+      });
+
+      const response = await handleRequest(request, ServerRoot, {
         ...options,
         runtimeContext: context,
       });
