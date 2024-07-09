@@ -2,13 +2,14 @@
  * @jest-environment node
  */
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, createLogger } from '@modern-js/utils';
+import React from 'react';
 import {
   renderString,
   RenderOptions,
 } from '../../src/core/server/index.server';
 import { getInitialContext } from '../../src/core/context/runtime';
-import App from './fixtures/string-ssr/App';
+import app from './fixtures/string-ssr/App';
 
 const htmlPath = path.resolve(
   __dirname,
@@ -66,12 +67,17 @@ describe('test render', () => {
         routeManifest: {} as any,
       },
       loaderContext: new Map(),
+      logger: createLogger(),
       params: {},
       config: {
         ssr: true,
       },
       onTiming,
     };
+
+    const App = React.createElement(app, {
+      _internal_context: { ssr: true },
+    });
 
     const html = await renderString(request as any, App, renderOptions);
 
