@@ -72,8 +72,6 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
   name: '@modern-js/init-mointor',
 
   setup(api) {
-    const monitors = createMonitors();
-
     return {
       prepare() {
         const { middlewares } = api.useAppContext();
@@ -82,6 +80,7 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
           name: 'init-monitor',
           handler: async (c: Context<ServerEnv>, next) => {
             if (!c.get('monitors')) {
+              const monitors = createMonitors();
               c.set('monitors', monitors);
             }
 
