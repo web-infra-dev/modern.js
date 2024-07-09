@@ -1,5 +1,8 @@
-import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
-import { BundlerType } from '@rsbuild/shared';
+import {
+  createUniBuilder,
+  type UniBuilderInstance,
+  type BundlerType,
+} from '@modern-js/uni-builder';
 import { BuilderOptions } from '../shared';
 import { Bundler } from '../../types';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';

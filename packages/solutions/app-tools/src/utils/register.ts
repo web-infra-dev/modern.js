@@ -5,7 +5,7 @@ import {
   getAliasConfig,
   readTsConfigByFile,
 } from '@modern-js/utils';
-import { ConfigChain } from '@rsbuild/shared';
+import type { ConfigChain } from '@rsbuild/core';
 
 export const registerCompiler = async (
   appDir: string = process.cwd(),

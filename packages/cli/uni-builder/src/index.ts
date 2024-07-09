@@ -13,13 +13,16 @@ export type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 };
+export type { CopyPluginOptions, CacheGroup } from '@rsbuild/shared';
 export type {
-  CopyPluginOptions,
-  NormalizedConfig,
+  UniBuilderConfig,
+  UniBuilderPlugin,
+  BundlerType,
+  MetaOptions,
+  Stats,
+  MultiStats,
   RspackConfig,
-  CacheGroup,
-} from '@rsbuild/shared';
-export type { UniBuilderConfig, UniBuilderPlugin } from './types';
+} from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
@@ -37,6 +40,8 @@ export {
   type Rspack,
   type RsbuildContext,
   type RsbuildConfig,
+  type RsbuildTarget,
+  type NormalizedConfig,
 } from '@rsbuild/core';
 export type { webpack, WebpackConfig } from '@rsbuild/webpack';
-export { RUNTIME_CHUNK_NAME } from './shared/utils';
+export { RUNTIME_CHUNK_NAME, isHtmlDisabled, castArray } from './shared/utils';

@@ -19,6 +19,20 @@ export const castArray = <T>(arr?: T | T[]): T[] => {
   return Array.isArray(arr) ? arr : [arr];
 };
 
+export const isHtmlDisabled = (
+  config: NormalizedConfig,
+  target: RsbuildTarget,
+) => {
+  const { htmlPlugin } = config.tools as {
+    htmlPlugin: boolean | Array<unknown>;
+  };
+  return (
+    htmlPlugin === false ||
+    (Array.isArray(htmlPlugin) && htmlPlugin.includes(false)) ||
+    target !== 'web'
+  );
+};
+
 export const getHash = (config: NormalizedConfig) => {
   const { filenameHash } = config.output;
 

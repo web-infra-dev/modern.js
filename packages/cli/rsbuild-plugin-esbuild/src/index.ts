@@ -1,12 +1,66 @@
 import path from 'path';
-import { JS_REGEX, applyScriptCondition } from '@rsbuild/shared';
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type {
+  RsbuildPlugin,
+  RspackChain,
+  RsbuildContext,
+  NormalizedConfig,
+} from '@rsbuild/core';
 import type {
   LoaderOptions,
   MinifyPluginOptions,
 } from '../compiled/esbuild-loader';
 
+const JS_REGEX = /\.(?:js|mjs|cjs|jsx)$/;
 const TS_REGEX = /\.(?:ts|mts|cts|tsx)$/;
+const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
+const castArray = <T>(arr?: T | T[]): T[] => {
+  if (arr === undefined) {
+    return [];
+  }
+  return Array.isArray(arr) ? arr : [arr];
+};
+
+function applyScriptCondition({
+  rule,
+  chain,
+  config,
+  context,
+  includes,
+  excludes,
+}: {
+  rule: RspackChain.Rule;
+  chain: RspackChain;
+  config: NormalizedConfig;
+  context: RsbuildContext;
+  includes: (string | RegExp)[];
+  excludes: (string | RegExp)[];
+}): void {
+  // compile all folders in app directory, exclude node_modules
+  // which can be removed next version of rspack
+  rule.include.add({
+    and: [context.rootPath, { not: NODE_MODULES_REGEX }],
+  });
+
+  // Always compile TS and JSX files.
+  // Otherwise, it will lead to compilation errors and incorrect output.
+  rule.include.add(/\.(?:ts|tsx|jsx|mts|cts)$/);
+
+  // The Rsbuild runtime code is es2017 by default,
+  // transform the runtime code if user target < es2017
+  const target = castArray(chain.get('target'));
+  const legacyTarget = ['es5', 'es6', 'es2015', 'es2016'];
+  if (legacyTarget.some(item => target.includes(item))) {
+    rule.include.add(/[\\/]@rsbuild[\\/]core[\\/]dist[\\/]/);
+  }
+
+  for (const condition of [...includes, ...(config.source.include || [])]) {
+    rule.include.add(condition);
+  }
+
+  for (const condition of [...excludes, ...(config.source.exclude || [])]) {
+    rule.exclude.add(condition);
+  }
+}
 
 export interface PluginEsbuildOptions {
   loader?: false | LoaderOptions;

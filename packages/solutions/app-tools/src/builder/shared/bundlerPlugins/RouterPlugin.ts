@@ -7,7 +7,7 @@ import type {
   webpack,
   HtmlWebpackPlugin,
 } from '@modern-js/uni-builder';
-import type { ScriptLoading } from '@rsbuild/shared';
+import type { ScriptLoading } from '@rsbuild/core';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 

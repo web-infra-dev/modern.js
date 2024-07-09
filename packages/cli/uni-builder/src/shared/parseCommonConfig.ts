@@ -6,13 +6,13 @@ import {
   getBrowserslist,
   isFunction,
   type HtmlTagHandler,
-  type SourceConfig,
 } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
   type RsbuildTarget,
   type RsbuildPlugin,
   type RsbuildConfig,
+  type SourceConfig,
 } from '@rsbuild/core';
 import type {
   CreateBuilderCommonOptions,

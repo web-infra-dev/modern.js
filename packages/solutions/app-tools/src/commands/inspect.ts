@@ -1,5 +1,5 @@
 import { join } from 'path';
-import type { RsbuildMode } from '@rsbuild/shared';
+import type { RsbuildMode } from '@rsbuild/core';
 import type { PluginAPI } from '@modern-js/core';
 import type { InspectOptions } from '../utils/types';
 import type { AppTools } from '../types';
