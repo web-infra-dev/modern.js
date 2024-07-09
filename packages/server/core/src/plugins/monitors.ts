@@ -8,7 +8,6 @@ import type {
   Logger,
 } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { getMeta } from '@modern-js/utils';
 import { SERVER_TIMING, ServerReportTimings } from '../constants';
 import type { Context, Next, ServerEnv, ServerPlugin } from '../types';
 
@@ -140,8 +139,6 @@ export const injectServerTiming = (metaName = 'modern-js'): ServerPlugin => ({
       desc?: string;
     }
 
-    const meta = getMeta(metaName);
-
     return {
       prepare() {
         const { middlewares } = api.useAppContext();
@@ -169,7 +166,7 @@ export const injectServerTiming = (metaName = 'modern-js'): ServerPlugin => ({
 
               // TODO: Modern.js should't export anything about bytedance.
 
-              const _name = `bd-${meta}-${name}`;
+              const _name = `bd-${metaName}-${name}`;
 
               const value = `${_name};${
                 desc ? `decs="${desc}";` : ''
