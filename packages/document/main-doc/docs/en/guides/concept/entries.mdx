@@ -191,19 +191,6 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 };
 ```
 
-At this point, the generated file content of Modern.js is as follows:
-
-```tsx
-import '@modern-js/runtime/registry/main';
-import { createRoot } from '@modern-js/runtime/react';
-import { render } from '@modern-js/runtime/browser';
-import customBootstrap from '@_modern_js_src/index.tsx';
-
-const ModernRoot = createRoot();
-
-customBootstrap(ModernRoot, () => render(<ModernRoot />, 'root'));
-```
-
 ### Build Mode Entry
 
 Build mode refers to not using the Runtime capabilities provided by Modern.js, but rather having the developer define the entry of the page completely on their own.

@@ -192,19 +192,6 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 };
 ```
 
-此时，Modern.js 生成的文件内容如下：
-
-```tsx
-import '@modern-js/runtime/registry/main';
-import { createRoot } from '@modern-js/runtime/react';
-import { render } from '@modern-js/runtime/browser';
-import customBootstrap from '@_modern_js_src/index.tsx';
-
-const ModernRoot = createRoot();
-
-customBootstrap(ModernRoot, () => render(<ModernRoot />, 'root'));
-```
-
 ### 构建模式入口
 
 构建模式指的是不使用 Modern.js 提供的 Runtime 能力，而是完全由开发者自行定义页面的入口。
