@@ -39,7 +39,7 @@ export function createBuilderOptions(
       if (target === 'web') {
         return entries;
       }
-      if (target === 'node') {
+      if (['node', 'web-worker', 'service-worker'].includes(target)) {
         return serverEntries;
       }
 
