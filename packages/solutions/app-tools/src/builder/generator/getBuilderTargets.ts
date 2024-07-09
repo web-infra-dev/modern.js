@@ -1,4 +1,4 @@
-import type { RsbuildTarget } from '@rsbuild/shared';
+import type { RsbuildTarget } from '@rsbuild/core';
 import {
   isProd,
   isServiceWorker,
