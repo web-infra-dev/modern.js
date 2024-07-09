@@ -1,7 +1,7 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import type { RsbuildConfig } from '@rsbuild/shared';
+import type { RsbuildConfig } from '@rsbuild/core';
 
 function getCommonBuildConfig(cwd: string): RsbuildConfig {
   return {

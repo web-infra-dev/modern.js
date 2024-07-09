@@ -13,12 +13,7 @@ export type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 };
-export type {
-  CopyPluginOptions,
-  NormalizedConfig,
-  RspackConfig,
-  CacheGroup,
-} from '@rsbuild/shared';
+export type { CopyPluginOptions, CacheGroup } from '@rsbuild/shared';
 export type {
   UniBuilderConfig,
   UniBuilderPlugin,
@@ -26,6 +21,7 @@ export type {
   MetaOptions,
   Stats,
   MultiStats,
+  RspackConfig,
 } from './types';
 export type { StartDevServerOptions } from './shared/devServer';
 
@@ -45,6 +41,7 @@ export {
   type RsbuildContext,
   type RsbuildConfig,
   type RsbuildTarget,
+  type NormalizedConfig,
 } from '@rsbuild/core';
 export type { webpack, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME, isHtmlDisabled, castArray } from './shared/utils';

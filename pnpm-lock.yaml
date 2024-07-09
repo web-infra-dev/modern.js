@@ -213,9 +213,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rsbuild/shared':
-        specifier: 0.7.10
-        version: 0.7.10(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -629,9 +626,6 @@ importers:
 
   packages/cli/rsbuild-plugin-esbuild:
     dependencies:
-      '@rsbuild/shared':
-        specifier: 0.7.10
-        version: 0.7.10(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -2705,9 +2699,6 @@ importers:
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
-      '@rsbuild/shared':
-        specifier: 0.7.10
-        version: 0.7.10(@swc/helpers@0.5.3)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3936,9 +3927,6 @@ importers:
       '@rsbuild/plugin-node-polyfill':
         specifier: 0.7.10
         version: 0.7.10(@rsbuild/core@0.7.10)
-      '@rsbuild/shared':
-        specifier: 0.7.10
-        version: 0.7.10(@swc/helpers@0.5.3)
       '@swc/helpers':
         specifier: 0.5.3
         version: 0.5.3
@@ -5149,12 +5137,12 @@ importers:
       '@playwright/test':
         specifier: 1.33.0
         version: 1.33.0
+      '@rsbuild/core':
+        specifier: 0.7.10
+        version: 0.7.10
       '@rsbuild/plugin-swc':
         specifier: 0.7.10
         version: 0.7.10(@rsbuild/core@0.7.10)
-      '@rsbuild/shared':
-        specifier: 0.7.10
-        version: 0.7.10(@swc/helpers@0.5.3)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202

@@ -1,4 +1,4 @@
-import { type RsbuildPlugin } from '@rsbuild/shared';
+import { type RsbuildPlugin } from '@rsbuild/core';
 import { isPackageInstalled } from '@modern-js/utils';
 import { isServerTarget } from '../../shared/utils';
 
