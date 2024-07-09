@@ -26,7 +26,7 @@ export type HandleRequestOptions = Exclude<
 
 export type HandleRequest = (
   request: Request,
-  ServerRoot: React.ReactElement, // App, routes,
+  ServerRoot: React.ComponentType, // App, routes,
   options: HandleRequestOptions,
 ) => Promise<Response>;
 
@@ -127,7 +127,7 @@ function createSSRContext(
 export const createRequestHandler: CreateRequestHandler =
   async handleRequest => {
     const requestHandler: RequestHandler = async (request, options) => {
-      const serverRoot = createRoot();
+      const Root = createRoot();
 
       const runner = getGlobalRunner();
 
@@ -214,9 +214,11 @@ export const createRequestHandler: CreateRequestHandler =
         `${CHUNK_CSS_PLACEHOLDER}</head>`,
       );
 
-      const ServerRoot = React.createElement(serverRoot, {
-        _internal_context: Object.assign(context, { ssr: true }),
-      });
+      const ServerRoot = (props: any) =>
+        React.createElement(Root, {
+          ...props,
+          _internal_context: Object.assign(context, { ssr: true }),
+        });
 
       const response = await handleRequest(request, ServerRoot, {
         ...options,

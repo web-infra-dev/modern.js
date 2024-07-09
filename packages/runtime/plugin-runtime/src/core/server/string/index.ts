@@ -30,7 +30,7 @@ import { prefetch } from './prefetch';
 
 export const renderString: RenderString = async (
   request,
-  ServerRoot,
+  serverRoot,
   options,
 ) => {
   const headersData = parseHeaders(request);
@@ -65,7 +65,7 @@ export const renderString: RenderString = async (
     let prefetchData = {};
 
     try {
-      prefetchData = await prefetch(ServerRoot, request, options, tracer);
+      prefetchData = await prefetch(serverRoot, request, options, tracer);
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
@@ -101,7 +101,7 @@ export const renderString: RenderString = async (
     ];
 
     const html = await generateHtml(
-      ServerRoot,
+      serverRoot,
       htmlTemplate,
       chunkSet,
       collectors,

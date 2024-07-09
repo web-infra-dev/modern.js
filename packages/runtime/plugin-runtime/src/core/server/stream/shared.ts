@@ -59,7 +59,7 @@ export function getReadableStreamFromString(content: string): ReadableStream {
 export function createRenderStreaming(
   createReadableStreamFromElement: CreateReadableStreamFromElement,
 ): RenderStreaming {
-  return async (request, ServerRoot, options) => {
+  return async (request, serverRoot, options) => {
     const headersData = parseHeaders(request);
 
     return run(headersData, async () => {
@@ -80,7 +80,7 @@ export function createRenderStreaming(
 
       const stream = await createReadableStreamFromElement(
         request,
-        ServerRoot,
+        serverRoot,
         {
           config,
           htmlTemplate,
