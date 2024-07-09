@@ -14,8 +14,8 @@ import {
   createRequestHandler,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, serverRoot, options) => {
-  const stream = await renderStreaming(request, serverRoot, options);
+const handleRequest = async (request, ServerRoot, options) => {
+  const stream = await renderStreaming(request, <ServerRoot />, options);
 
   return new Response(stream, {
     headers: {
@@ -32,22 +32,22 @@ export default createRequestHandler(handleRequest);
 ```ts
 export type RenderStreaming = (
   request: Request,
-  serverRoot: React.ComponentType,
+  serverRoot: React.ReactElement,
   optinos: RenderOptions,
 ) => Promise<ReadableStream>;
 ```
 
 ## Example
 
-```ts title="src/entry.server.tsx"
+```tsx title="src/entry.server.tsx"
 import {
   renderStreaming,
   createRequestHandler,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, serverRoot, options) => {
+const handleRequest = async (request, ServerRoot, options) => {
   // do something before render
-  const stream = await renderStreaming(request, serverRoot, options);
+  const stream = await renderStreaming(request, <ServerRoot />, options);
 
   // docs: https://developer.mozilla.org/en-US/docs/Web/API/TransformStream
   const transformStream = new TransformStream({

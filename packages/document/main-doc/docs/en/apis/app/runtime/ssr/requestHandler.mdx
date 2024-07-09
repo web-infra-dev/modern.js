@@ -8,14 +8,14 @@ Used to customize the Server-Side Rendering entry to return the `requestHandler`
 
 ## Usage
 
-```ts title="src/entry.server.tsx"
+```tsx title="src/entry.server.tsx"
 import {
   renderString,
   createRequestHandler,
 } from '@modern-js/runtime/ssr/server';
 
-const handleRequest = async (request, serverRoot, options) => {
-  const body = await renderString(request, serverRoot, options);
+const handleRequest = async (request, ServerRoot, options) => {
+  const body = await renderString(request, <ServerRoot />, options);
 
   return new Response(body, {
     headers: {
@@ -32,7 +32,7 @@ export default createRequestHandler(handleRequest);
 ```ts
 export type HandleRequest = (
   request: Request,
-  serverRoot: React.ComponentType,
+  ServerRoot: React.ComponentType,
   options: HandleRequestOptions,
 ) => Promise<Response>;
 
