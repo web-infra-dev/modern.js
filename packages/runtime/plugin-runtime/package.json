@@ -80,9 +80,9 @@
       "default": "./dist/esm/core/server/index.js"
     },
     "./ssr/server": {
-      "types": "./dist/types/core/server/index.server.d.ts",
-      "jsnext:source": "./src/core/server/index.server.ts",
-      "default": "./dist/esm/core/server/index.server.js"
+      "types": "./dist/types/core/server/server.d.ts",
+      "jsnext:source": "./src/core/server/server.ts",
+      "default": "./dist/esm/core/server/server.js"
     },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
