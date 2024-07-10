@@ -25,7 +25,8 @@ export const generateCode = async (
     appContext;
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, entry, customEntry } = entrypoint;
+      const { entryName, isAutoMount, entry, customEntry, customBootstrap } =
+        entrypoint;
       const appendCode = await appendEntryCode({ entrypoint });
 
       if (isAutoMount) {
@@ -37,6 +38,7 @@ export const generateCode = async (
           entry,
           entryName,
           customEntry,
+          customBootstrap,
           mountId,
           appendCode,
         });

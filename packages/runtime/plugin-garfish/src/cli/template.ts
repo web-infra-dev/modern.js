@@ -1,9 +1,12 @@
+import { formatImportPath } from '@modern-js/utils';
+
 const genRenderCode = ({
   srcDirectory,
   internalSrcAlias,
   metaName,
   entry,
   customEntry,
+  customBootstrap,
   mountId,
 }: {
   srcDirectory: string;
@@ -11,6 +14,7 @@ const genRenderCode = ({
   metaName: string;
   entry: string;
   customEntry?: boolean;
+  customBootstrap?: string | false;
   mountId?: string;
 }) =>
   customEntry
@@ -18,9 +22,18 @@ const genRenderCode = ({
 export * from '${entry.replace(srcDirectory, internalSrcAlias)}'`
     : `import { garfishRender, createProvider } from '@${metaName}/plugin-garfish/runtime';
 
-garfishRender('${mountId || 'root'}' )
+${
+  customBootstrap
+    ? `import customBootstrap from '${formatImportPath(
+        customBootstrap.replace(srcDirectory, internalSrcAlias),
+      )}';`
+    : 'let customBootstrap;'
+}
+garfishRender('${mountId || 'root'}', customBootstrap)
 
-export const provider = createProvider();
+export const provider = createProvider(undefined, ${
+        customBootstrap ? 'customBootstrap' : undefined
+      });
 `;
 export const index = ({
   srcDirectory,
@@ -29,6 +42,7 @@ export const index = ({
   entry,
   entryName,
   customEntry,
+  customBootstrap,
   mountId,
   appendCode = [],
 }: {
@@ -38,6 +52,7 @@ export const index = ({
   entry: string;
   entryName: string;
   customEntry?: boolean;
+  customBootstrap?: string | false;
   mountId?: string;
   appendCode?: string[];
 }) =>
@@ -48,6 +63,7 @@ export const index = ({
     metaName,
     entry,
     customEntry,
+    customBootstrap,
     mountId,
   })}
   ${appendCode.join('\n')}
