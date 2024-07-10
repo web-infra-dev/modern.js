@@ -2,7 +2,7 @@ import path from 'path';
 import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { ensureDirSync, copySync } from 'fs-extra';
-import { RsbuildConfig, SourceConfig } from '@rsbuild/shared';
+import type { RsbuildConfig, SourceConfig } from '@rsbuild/core';
 
 export const cases: Parameters<typeof shareTest>[] = [
   [

@@ -1,5 +1,8 @@
-import type { CreateUniBuilderOptions } from '@modern-js/uni-builder';
-import type { RsbuildTarget } from '@rsbuild/shared';
+import type {
+  RsbuildTarget,
+  CreateUniBuilderOptions,
+} from '@modern-js/uni-builder';
+
 import type { IAppContext } from '@modern-js/core';
 
 export function createBuilderOptions(
@@ -39,7 +42,7 @@ export function createBuilderOptions(
       if (target === 'web') {
         return entries;
       }
-      if (target === 'node') {
+      if (['node', 'web-worker', 'service-worker'].includes(target)) {
         return serverEntries;
       }
 

@@ -1,4 +1,4 @@
-import type { MetaOptions } from '@rsbuild/shared';
+import type { MetaOptions } from '@modern-js/uni-builder';
 import type { SSGConfig } from '../config';
 
 type CrossOrigin = 'anonymous' | 'use-credentials';

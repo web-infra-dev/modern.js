@@ -1,10 +1,10 @@
-import {
-  isHtmlDisabled,
+import { isHtmlDisabled } from '@modern-js/uni-builder';
+import type {
   RsbuildPlugin,
   RspackChain,
   ChainIdentifier,
   RsbuildPluginAPI,
-} from '@rsbuild/shared';
+} from '@rsbuild/core';
 import {
   MAIN_ENTRY_NAME,
   getEntryOptions,

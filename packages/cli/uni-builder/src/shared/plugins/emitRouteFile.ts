@@ -1,9 +1,10 @@
-import { join } from 'path';
-import { type RsbuildPlugin, fse } from '@rsbuild/shared';
+import { join } from 'node:path';
+import fs from 'node:fs';
+import { type RsbuildPlugin } from '@rsbuild/core';
 
 export async function isFileExists(file: string) {
-  return fse.promises
-    .access(file, fse.constants.F_OK)
+  return fs.promises
+    .access(file, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
 }

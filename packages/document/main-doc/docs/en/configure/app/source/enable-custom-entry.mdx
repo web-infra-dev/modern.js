@@ -1,0 +1,41 @@
+---
+sidebar_label: enableCustomEntry
+---
+
+# source.enableCustomEntry
+
+- **Type:** `boolean`
+- **Default:** `false`
+
+This option is used for custom Modern.js entries.
+
+When this option is enabled, Modern.js will use the `src/entry.[jt]sx` file as the project's entry point. For more details, refer to [Entries](/guides/concept/entries.html).
+
+## Example
+
+First, enable this option in the configuration file:
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  source: {
+    enableCustomEntry: true,
+  },
+});
+```
+
+Create the `src/entry.tsx` file:
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```

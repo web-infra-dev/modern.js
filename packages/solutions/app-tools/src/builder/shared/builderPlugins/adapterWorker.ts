@@ -1,10 +1,10 @@
 import { posix } from 'path';
 
-import {
+import type {
   RsbuildPlugin,
   NormalizedConfig,
   DistPathConfig,
-} from '@rsbuild/shared';
+} from '@rsbuild/core';
 
 const getDistPath = (
   outputConfig: NormalizedConfig['output'],

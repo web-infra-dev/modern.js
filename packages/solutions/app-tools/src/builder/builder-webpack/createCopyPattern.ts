@@ -1,5 +1,5 @@
 import { removeTailSlash } from '@modern-js/utils';
-import { CopyPluginOptions, RspackChain } from '@modern-js/uni-builder';
+import type { Rspack, RspackChain } from '@rsbuild/core';
 import { createCopyInfo } from '../shared';
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
@@ -42,7 +42,7 @@ export function createPublicPattern(
 export function createUploadPattern<B extends Bundler>(
   appContext: IAppContext,
   config: AppNormalizedConfig<B>,
-): CopyPluginOptions['patterns']['0'] {
+): Rspack.CopyRspackPluginOptions['patterns']['0'] {
   const { uploadDir } = createCopyInfo(appContext, config);
   return {
     // rspack copy info structure is inconsistent with webpack, it only used in webpack mode

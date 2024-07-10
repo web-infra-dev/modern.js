@@ -7,7 +7,7 @@ describe('plugin-fallback', () => {
   const testPlugin: RsbuildPlugin = {
     name: 'test-plugin',
     setup(api) {
-      api.modifyWebpackChain(chain => {
+      api.modifyBundlerChain(chain => {
         chain.module
           .rule('mjs')
           .test(/\.m?js/)
@@ -36,6 +36,28 @@ describe('plugin-fallback', () => {
   it('should convert fallback rule correctly', async () => {
     const rsbuild = await createUniBuilder({
       bundlerType: 'webpack',
+      cwd: '',
+      config: {
+        plugins: [testPlugin],
+        output: {
+          enableAssetFallback: true,
+        },
+      },
+    });
+    const config = await unwrapConfig(rsbuild);
+
+    expect(config.module?.rules?.length).toBe(2);
+    expect(
+      matchRules({
+        config,
+        testFile: 'bar',
+      }),
+    ).toEqual([]);
+  });
+
+  it('should convert fallback rule correctly in rspack', async () => {
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'rspack',
       cwd: '',
       config: {
         plugins: [testPlugin],

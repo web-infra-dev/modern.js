@@ -1,13 +1,13 @@
-import {
-  StartDevServerOptions as RsbuildStartDevServerOptions,
-  deepmerge,
-  DevConfig,
-  ServerConfig,
-  isProd,
-} from '@rsbuild/shared';
-import { applyOptionsChain } from '@modern-js/utils';
+import { merge } from 'ts-deepmerge';
+import { applyOptionsChain, isProd } from '@modern-js/utils';
 
-import { type RsbuildInstance, logger } from '@rsbuild/core';
+import {
+  type RsbuildInstance,
+  logger,
+  type DevConfig,
+  type ServerConfig,
+  type Rspack,
+} from '@rsbuild/core';
 
 import type { ModernDevServerOptions } from '@modern-js/server';
 import type { Server } from 'node:http';
@@ -74,7 +74,7 @@ export const transformToRsbuildServerOptions = (
     },
     devServer,
     {},
-    deepmerge,
+    merge,
   );
 
   const rsbuildDev: DevConfig = {
@@ -137,13 +137,15 @@ const getDevServerOptions = async ({
 }> => {
   const defaultConfig = getServerOptions(builderConfig);
   const config = serverOptions.config
-    ? deepmerge(defaultConfig, serverOptions.config)
+    ? (merge(defaultConfig, serverOptions.config) as typeof defaultConfig)
     : defaultConfig;
 
   return { config };
 };
 
-export type StartDevServerOptions = RsbuildStartDevServerOptions & {
+export type StartDevServerOptions = {
+  compiler?: Rspack.Compiler | Rspack.MultiCompiler;
+  getPortSilently?: boolean;
   apiOnly?: boolean;
   serverOptions?: ServerOptions;
   applyPlugins?: ApplyPlugins;

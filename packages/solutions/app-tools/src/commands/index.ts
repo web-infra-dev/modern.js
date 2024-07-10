@@ -1,6 +1,6 @@
 import { PluginAPI } from '@modern-js/core';
 import { Command, newAction, upgradeAction } from '@modern-js/utils';
-import { castArray } from '@rsbuild/shared';
+import { castArray } from '@modern-js/uni-builder';
 import { AppTools } from '../types';
 import { i18n, localeKeys } from '../locale';
 import type {

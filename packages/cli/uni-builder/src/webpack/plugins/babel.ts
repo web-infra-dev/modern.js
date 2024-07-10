@@ -3,19 +3,18 @@ import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
 import type { BabelConfig } from '@rsbuild/babel-preset';
 import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
-import {
-  SCRIPT_REGEX,
-  applyScriptCondition,
-  getBrowserslistWithDefault,
-  type RsbuildPlugin,
-  type TransformImport,
-  type NormalizedConfig,
-} from '@rsbuild/shared';
+import { type RsbuildPlugin, type NormalizedConfig } from '@rsbuild/core';
+import { type TransformImport } from '@rsbuild/shared';
 import {
   getBabelUtils,
   getUseBuiltIns,
   type PluginBabelOptions,
 } from '@rsbuild/plugin-babel';
+import {
+  SCRIPT_REGEX,
+  applyScriptCondition,
+  getBrowserslistWithDefault,
+} from '../../shared/utils';
 
 /**
  * Plugin order:

@@ -1,6 +1,5 @@
 import path from 'path';
-import type { RsbuildPlugin } from '@rsbuild/core';
-import { type ConfigChain } from '@rsbuild/shared';
+import type { RsbuildPlugin, ConfigChain } from '@rsbuild/core';
 import type { ModuleScopes } from '../../types';
 
 const ensureAbsolutePath = (base: string, filePath: string): string =>

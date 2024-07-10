@@ -1,5 +1,5 @@
 import path from 'path';
-import type { RsbuildTarget } from '@rsbuild/shared';
+import type { RsbuildTarget } from '@rsbuild/core';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
 import { createBuilderOptions } from '../../src/builder/generator/createBuilderOptions';
