@@ -1,5 +1,4 @@
 import type {
-  MonitorEvent,
   Monitors,
   CoreMonitor,
   LogLevel,
@@ -57,10 +56,6 @@ function createMonitors(): Monitors {
           desc,
         },
       };
-      coreMonitors.forEach(monitor => monitor(event));
-    },
-
-    emit(event: MonitorEvent): void {
       coreMonitors.forEach(monitor => monitor(event));
     },
   };

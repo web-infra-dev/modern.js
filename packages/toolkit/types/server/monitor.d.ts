@@ -20,16 +20,7 @@ export interface TimingEvent {
   };
 }
 
-export interface StatsEvent {
-  type: 'counter';
-  payload: {
-    name: string;
-    value: number;
-    [key: string]: unknown;
-  };
-}
-
-export type MonitorEvent = LogEvent | TimingEvent | StatsEvent;
+export type MonitorEvent = LogEvent | TimingEvent;
 
 export type CoreMonitor = (event: MonitorEvent) => void;
 
@@ -42,6 +33,4 @@ export interface Monitors {
   info(message: string, ...args: any[]): void;
 
   timing(name: string, dur: number, desc?: string): void;
-
-  emit(event: MonitorEvent): void;
 }
