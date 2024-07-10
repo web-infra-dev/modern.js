@@ -3,7 +3,13 @@ import type { Root } from 'react-dom/client';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
 import { garfishRender } from './render';
 
-export function createProvider(id?: string) {
+export function createProvider(
+  id?: string,
+  customBootstrap?: (
+    App: React.ComponentType,
+    render: () => void,
+  ) => HTMLElement | null,
+) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
     let root: HTMLElement | Root | null = null;
     return {
@@ -18,7 +24,7 @@ export function createProvider(id?: string) {
         props: any;
         appName?: string;
       }) {
-        root = await garfishRender(id || 'root', {
+        root = await garfishRender(id || 'root', customBootstrap, {
           basename,
           dom,
           props,
