@@ -7,13 +7,13 @@ export type SSRConfig = NonNullable<ServerUserConfig['ssr']>;
 
 export type RenderStreaming = (
   request: Request,
-  serverRoot: React.ComponentType<any>,
+  serverRoot: React.ReactElement,
   optinos: RenderOptions,
 ) => Promise<ReadableStream>;
 
 export type RenderString = (
   request: Request,
-  serverRoot: React.ComponentType<any>,
+  serverRoot: React.ReactElement,
   optinos: RenderOptions,
 ) => Promise<string>;
 

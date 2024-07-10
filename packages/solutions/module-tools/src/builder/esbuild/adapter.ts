@@ -28,7 +28,7 @@ const globalNamespace = 'globals';
 
 const HTTP_PATTERNS = /^(https?:)?\/\//;
 const DATAURL_PATTERNS = /^data:/;
-const HASH_PATTERNS = /#[^#]+$/;
+const HASH_PATTERNS = /.#[^#]+$/;
 const DATAURL_JAVASCRIPT_PATTERNS = /^data:text\/javascript/;
 
 export const adapterPlugin = (compiler: ICompiler): Plugin => {

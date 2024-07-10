@@ -2,7 +2,8 @@
  * @jest-environment node
  */
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fs, createLogger } from '@modern-js/utils';
+import React from 'react';
 import {
   renderString,
   RenderOptions,
@@ -66,6 +67,7 @@ describe('test render', () => {
         routeManifest: {} as any,
       },
       loaderContext: new Map(),
+      logger: createLogger(),
       params: {},
       config: {
         ssr: true,
@@ -73,7 +75,11 @@ describe('test render', () => {
       onTiming,
     };
 
-    const html = await renderString(request as any, App, renderOptions);
+    const serverRoot = React.createElement(App, {
+      _internal_context: { ssr: true },
+    });
+
+    const html = await renderString(request as any, serverRoot, renderOptions);
 
     expect(html).toMatchSnapshot();
     expect(onTiming).toBeCalled();

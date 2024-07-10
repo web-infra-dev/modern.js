@@ -8,7 +8,7 @@ import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
 
 export const prefetch = async (
-  App: React.ComponentType<any>,
+  App: React.ReactElement,
   request: Request,
   options: HandleRequestOptions,
   { onError, onTiming }: Tracer,
@@ -29,11 +29,9 @@ export const prefetch = async (
             stats: loadableStats,
             entrypoints: [entryName].filter(Boolean),
           });
-          renderToStaticMarkup(
-            extractor.collectChunks(<App _internal_context={context} />),
-          );
+          renderToStaticMarkup(extractor.collectChunks(App));
         } else {
-          renderToStaticMarkup(<App _internal_context={context} />);
+          renderToStaticMarkup(App);
         }
 
         const cost = end();

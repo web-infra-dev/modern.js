@@ -1,5 +1,5 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { isProd } from '@rsbuild/shared';
+import { isProd } from '@modern-js/utils';
 import { getCssSupport } from '../getCssSupport';
 
 export const pluginPostcssLegacy = (

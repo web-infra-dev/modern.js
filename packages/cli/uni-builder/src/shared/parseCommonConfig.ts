@@ -1,15 +1,8 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
-import {
-  NODE_MODULES_REGEX,
-  OverrideBrowserslist,
-  getBrowserslist,
-  isFunction,
-  type HtmlTagHandler,
-} from '@rsbuild/shared';
+import { OverrideBrowserslist, type HtmlTagHandler } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
-  type RsbuildTarget,
   type RsbuildPlugin,
   type RsbuildConfig,
   type SourceConfig,
@@ -19,6 +12,7 @@ import type {
   UniBuilderConfig,
   DisableSourceMapOption,
 } from '../types';
+import { isFunction } from '@modern-js/utils';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
 import { pluginReact } from '@rsbuild/plugin-react';
@@ -35,7 +29,11 @@ import { pluginArco } from './plugins/arco';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { transformToRsbuildServerOptions } from './devServer';
-import { castArray } from './utils';
+import {
+  castArray,
+  NODE_MODULES_REGEX,
+  getBrowserslistWithDefault,
+} from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
@@ -56,42 +54,6 @@ function removeUndefinedKey(obj: { [key: string]: any }) {
   });
 
   return obj;
-}
-const DEFAULT_WEB_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
-
-const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
-  web: DEFAULT_WEB_BROWSERSLIST,
-  node: ['node >= 14'],
-  'web-worker': DEFAULT_WEB_BROWSERSLIST,
-  'service-worker': DEFAULT_WEB_BROWSERSLIST,
-};
-
-async function getBrowserslistWithDefault(
-  path: string,
-  config: { output?: { overrideBrowserslist?: OverrideBrowserslist } },
-  target: RsbuildTarget,
-): Promise<string[]> {
-  const { overrideBrowserslist: overrides = {} } = config?.output || {};
-
-  if (target === 'web' || target === 'web-worker') {
-    if (Array.isArray(overrides)) {
-      return overrides;
-    }
-    if (overrides[target]) {
-      return overrides[target]!;
-    }
-
-    const browserslistrc = await getBrowserslist(path);
-    if (browserslistrc) {
-      return browserslistrc;
-    }
-  }
-
-  if (!Array.isArray(overrides) && overrides[target]) {
-    return overrides[target]!;
-  }
-
-  return DEFAULT_BROWSERSLIST[target];
 }
 
 const isUseCssSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
