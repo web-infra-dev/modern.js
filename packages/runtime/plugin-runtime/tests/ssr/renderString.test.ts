@@ -4,10 +4,7 @@
 import path from 'path';
 import { fs, createLogger } from '@modern-js/utils';
 import React from 'react';
-import {
-  renderString,
-  RenderOptions,
-} from '../../src/core/server/index.server';
+import { renderString, RenderOptions } from '../../src/core/server/server';
 import { getInitialContext } from '../../src/core/context/runtime';
 import App from './fixtures/string-ssr/App';
 
