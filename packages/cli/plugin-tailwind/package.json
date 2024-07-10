@@ -26,6 +26,7 @@
         "jsnext:source": "./src/index.ts",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./cli": {
