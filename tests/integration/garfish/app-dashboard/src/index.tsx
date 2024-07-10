@@ -1,6 +1,6 @@
 const sleep = () =>
   new Promise(resolve => {
-    console.log('ddd');
+    console.log('custom bootstrap');
     setTimeout(resolve, 300);
   });
 
