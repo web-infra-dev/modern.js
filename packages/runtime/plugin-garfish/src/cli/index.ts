@@ -1,6 +1,12 @@
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
-import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
+import {
+  AsyncWorkflow,
+  createAsyncWorkflow,
+  type CliHookCallbacks,
+  type useConfigContext,
+} from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+import { Entrypoint } from '@modern-js/types';
 import { logger } from '../util';
 import { getRuntimeConfig, setRuntimeConfig } from './utils';
 import { generateCode } from './code';
@@ -33,9 +39,23 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export const garfishPlugin = (): CliPlugin<AppTools> => ({
+const appendEntryCode = createAsyncWorkflow<
+  { entrypoint: Entrypoint },
+  string
+>();
+
+export const garfishPlugin = (): CliPlugin<
+  AppTools & {
+    hooks: {
+      appendEntryCode: AsyncWorkflow<{ entrypoint: Entrypoint }, string>;
+    };
+  }
+> => ({
   name: '@modern-js/plugin-garfish',
   pre: ['@modern-js/runtime'],
+  registerHook: {
+    appendEntryCode,
+  },
   setup: api => {
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
@@ -214,7 +234,13 @@ export const garfishPlugin = (): CliPlugin<AppTools> => ({
         if (resolveOptions?.deploy?.microFrontend) {
           const appContext = api.useAppContext();
           const resolvedConfig = api.useResolvedConfigContext();
-          await generateCode(entrypoints, appContext, resolvedConfig);
+          const { appendEntryCode } = api.useHookRunners();
+          await generateCode(
+            entrypoints,
+            appContext,
+            resolvedConfig,
+            appendEntryCode,
+          );
         }
       },
     };

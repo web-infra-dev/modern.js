@@ -30,6 +30,7 @@ export const index = ({
   entryName,
   customEntry,
   mountId,
+  appendCode = [],
 }: {
   srcDirectory: string;
   internalSrcAlias: string;
@@ -38,6 +39,7 @@ export const index = ({
   entryName: string;
   customEntry?: boolean;
   mountId?: string;
+  appendCode?: string[];
 }) =>
   `import '@${metaName}/runtime/registry/${entryName}';
   ${genRenderCode({
@@ -48,4 +50,5 @@ export const index = ({
     customEntry,
     mountId,
   })}
+  ${appendCode.join('\n')}
   `;

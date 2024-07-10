@@ -25,7 +25,7 @@ export function setRuntimeConfig(
   return undefined;
 }
 
-export const generateAsyncEntryCode = () => {
+export const generateAsyncEntryCode = (appendCode: string[] = []) => {
   return `
       export const provider = async (...args) => {
         const exports = await import('./index.jsx');
@@ -35,5 +35,7 @@ export const generateAsyncEntryCode = () => {
       if (typeof __GARFISH_EXPORTS__ !== 'undefined') {
         __GARFISH_EXPORTS__.provider = provider;
       }
+
+      ${appendCode.join('\n')}
     `;
 };
