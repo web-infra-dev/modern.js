@@ -27,7 +27,7 @@ ${
     ? `import customBootstrap from '${formatImportPath(
         customBootstrap.replace(srcDirectory, internalSrcAlias),
       )}';`
-    : ''
+    : 'let customBootstrap;'
 }
 garfishRender('${mountId || 'root'}', customBootstrap)
 
