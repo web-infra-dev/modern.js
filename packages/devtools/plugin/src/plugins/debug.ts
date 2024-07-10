@@ -6,19 +6,21 @@ const logger = createLogger({
 });
 
 export const pluginDebug: Plugin = {
+  name: 'debug',
   async setup(api) {
     await api.setupFramework();
     logger.debug('setup framework api');
-    await api.setupBuilder();
-    logger.debug('setup builder api');
-    api.builderHooks.beforeEach(e => {
-      logger.debug('after builder hook:', e.name);
-    });
-    api.frameworkHooks.beforeEach(e => {
-      logger.debug('after framework hook:', e.name);
-    });
-    api.hooks.beforeEach(e => {
-      logger.debug('after hook:', e.name);
+    api.builderHooks.hook('setup', () => {
+      logger.debug('setup builder api');
+      api.builderHooks.beforeEach(e => {
+        logger.debug('after builder hook:', e.name);
+      });
+      api.frameworkHooks.beforeEach(e => {
+        logger.debug('after framework hook:', e.name);
+      });
+      api.hooks.beforeEach(e => {
+        logger.debug('after hook:', e.name);
+      });
     });
   },
 };

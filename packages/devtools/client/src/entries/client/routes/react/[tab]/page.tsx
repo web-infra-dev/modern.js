@@ -1,12 +1,7 @@
 import { useLocation, useNavigate, useParams } from '@modern-js/runtime/router';
 import { Box, useThemeContext } from '@radix-ui/themes';
-import React, { useEffect, useMemo } from 'react';
-import {
-  initialize,
-  createBridge,
-  createStore,
-} from 'react-devtools-inline/frontend';
-import { wallAgent } from '../state';
+import React, { useEffect } from 'react';
+import { useSnapshot } from 'valtio';
 import { useGlobals } from '@/entries/client/globals';
 
 const Page: React.FC = () => {
@@ -16,7 +11,7 @@ const Page: React.FC = () => {
   const navigate = useNavigate();
   const browserTheme = ctx.appearance === 'light' ? 'light' : 'dark';
 
-  const { mountPoint } = useGlobals();
+  const { mountPoint, react } = useSnapshot(useGlobals());
 
   useEffect(() => {
     mountPoint.remote.activateReactDevtools();
@@ -26,33 +21,24 @@ const Page: React.FC = () => {
     // 检查URL的hash部分
     if (location.hash === '#inspecting') {
       const startInspecting = () => {
-        wallAgent.send('startInspectingNative', null);
+        react.devtools.wallAgent.send('startInspectingNative', null);
         navigate(location.pathname, { replace: true });
       };
-      if (wallAgent.status === 'active') {
+      if (react.devtools.wallAgent.status === 'active') {
         startInspecting();
       } else {
-        wallAgent.hookOnce('active', startInspecting);
+        react.devtools.wallAgent.hookOnce('active', startInspecting);
       }
     }
   }, [location, navigate]);
 
-  const InnerView = useMemo(() => {
-    const bridge = createBridge(window.parent, wallAgent);
-    const store = createStore(bridge);
-    const ret = initialize(window.parent, { bridge, store });
-    return ret;
-  }, []);
-
   return (
     <Box width="100%" height="100%" pt="5">
-      {InnerView && (
-        <InnerView
-          browserTheme={browserTheme}
-          overrideTab={params.tab === 'profiler' ? 'profiler' : 'components'}
-          hideSettings={false}
-        />
-      )}
+      <react.devtools.Renderer
+        browserTheme={browserTheme}
+        overrideTab={params.tab === 'profiler' ? 'profiler' : 'components'}
+        hideSettings={false}
+      />
     </Box>
   );
 };

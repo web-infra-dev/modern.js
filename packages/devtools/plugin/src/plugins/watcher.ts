@@ -4,6 +4,7 @@ import { getConfigFilenames, loadConfigFiles } from '../utils/config';
 import { updateContext } from '../options';
 
 export const pluginWatcher: Plugin = {
+  name: 'watcher',
   async setup(api) {
     const frameworkApi = await api.setupFramework();
     const basename = `${api.context.def.name.shortName}.runtime.json`;
