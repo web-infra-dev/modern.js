@@ -1,5 +1,14 @@
 # @modern-js/core
 
+## 2.55.0
+
+### Patch Changes
+
+- 380c4a3: fix: add bff/tailwindcss/swc plugin exported types
+  fix: 添加 bff/tailwindcss/swc 插件的导出类型
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

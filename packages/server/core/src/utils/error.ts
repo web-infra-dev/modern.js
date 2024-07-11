@@ -1,4 +1,4 @@
-import type { Logger } from '@modern-js/types';
+import type { Monitors } from '@modern-js/types';
 import { parseHeaders } from './request';
 
 const ERROR_PAGE_TEXT: Record<number, string> = {
@@ -53,15 +53,15 @@ export enum ErrorDigest {
 export function onError(
   digest: ErrorDigest,
   error: Error | string,
-  logger?: Logger,
+  monitors?: Monitors,
   req?: Request,
 ) {
   const headerData = req && parseHeaders(req);
 
   headerData && delete headerData.cookie;
 
-  if (logger) {
-    logger.error(
+  if (monitors) {
+    monitors.error(
       req
         ? `Server Error - ${digest}, error = %s, req.url = %s, req.headers = %o`
         : `Server Error - ${digest}, error = %s`,

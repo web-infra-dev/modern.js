@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.55.0
+
+### Patch Changes
+
+- e0c2384: fix: cacheProvider support return false
+  fix: cacheProvider 支持返回 false
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

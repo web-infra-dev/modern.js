@@ -1,5 +1,12 @@
 # @modern-js/e2e
 
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

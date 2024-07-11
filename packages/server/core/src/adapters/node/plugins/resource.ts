@@ -62,7 +62,7 @@ const loadBundle = async (filepath: string, logger: Logger) => {
     return undefined;
   }
   return dynamicImport(filepath).catch(e => {
-    logger.error(
+    logger?.error(
       `Load ${filepath} bundle failed, error = %s`,
       e instanceof Error ? e.stack || e.message : e,
     );
