@@ -128,7 +128,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "@rsbuild/babel-preset": "0.7.10",
+    "@rsbuild/babel-preset": "1.0.0-alpha.9",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.4.0",
     "@types/testing-library__jest-dom": "^5.14.3",
