@@ -20,6 +20,12 @@ export class ServiceWorkerCompilerPlugin {
             serviceWorker: {
               output: {
                 target: 'web-worker',
+                filenameHash: false,
+                distPath: {
+                  root: './dist/public',
+                  js: '',
+                  jsAsync: '',
+                },
               },
             },
           },
@@ -29,9 +35,6 @@ export class ServiceWorkerCompilerPlugin {
               css: false,
             },
             cleanDistPath: false,
-            distPath: {
-              root: './dist/public',
-            },
           },
           tools: {
             bundlerChain(chain) {

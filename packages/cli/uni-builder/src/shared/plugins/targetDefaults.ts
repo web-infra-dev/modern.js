@@ -1,4 +1,4 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin, RsbuildConfig } from '@rsbuild/core';
 import type { DistPath } from '../../types';
 import { join } from 'node:path';
 import { getBrowserslistWithDefault } from '../utils';
@@ -10,49 +10,43 @@ export const pluginTargetDefaults = (
 
   setup(api) {
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+      const compatConfig: RsbuildConfig = {};
       if (config.environments?.serviceWorker) {
-        config = mergeRsbuildConfig(
-          {
-            environments: {
-              serviceWorker: {
-                output: {
-                  distPath: {
-                    root: join(
-                      distPath.root || 'dist',
-                      distPath.worker || 'worker',
-                    ),
-                  },
-                },
-              },
+        compatConfig.environments ??= {};
+        compatConfig.environments.serviceWorker = {
+          output: {
+            distPath: {
+              root: join(distPath.root || 'dist', distPath.worker || 'worker'),
+              js: '',
+              css: '',
+              jsAsync: '',
+              cssAsync: '',
             },
+            filenameHash: false,
           },
-          config,
-        );
+        };
       }
 
       if (config.environments?.node) {
-        config = mergeRsbuildConfig(
-          {
-            environments: {
-              node: {
-                output: {
-                  // no need to emit assets for SSR bundles
-                  emitAssets: false,
-                  distPath: {
-                    root: join(
-                      distPath.root || 'dist',
-                      distPath.server || 'bundles',
-                    ),
-                  },
-                },
-              },
+        compatConfig.environments ??= {};
+        compatConfig.environments.node = {
+          output: {
+            // no need to emit assets for SSR bundles
+            emitAssets: false,
+            distPath: {
+              root: join(distPath.root || 'dist', distPath.server || 'bundles'),
+              js: '',
+              css: '',
+              jsAsync: '',
+              cssAsync: '',
             },
           },
-          config,
-        );
+        };
       }
 
-      return config;
+      return compatConfig.environments
+        ? mergeRsbuildConfig(compatConfig, config)
+        : config;
     });
     api.modifyEnvironmentConfig(async (config, { name }) => {
       config.output.overrideBrowserslist ??= await getBrowserslistWithDefault(

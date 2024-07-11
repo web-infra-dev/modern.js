@@ -8,17 +8,6 @@ export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
     api.modifyBundlerChain((chain, { target, CHAIN_ID, environment }) => {
       const isServiceWorker = environment.name === 'serviceWorker';
 
-      // set bundler config name
-      if (target === 'node') {
-        chain.name('server');
-      } else if (isServiceWorker) {
-        chain.name('service-worker');
-      } else if (target === 'web-worker') {
-        chain.name('worker');
-      } else {
-        chain.name('client');
-      }
-
       // apply node compat
       if (target === 'node' || isServiceWorker) {
         applyNodeCompat(isServiceWorker, chain);
