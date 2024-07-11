@@ -17,7 +17,7 @@ export const REPLACE_REG = {
   },
 };
 
-export enum ServerReportTimings {
+export enum ServerTimings {
   SERVER_HANDLE_REQUEST = 'server-handle-request',
   SERVER_MIDDLEWARE = 'server-middleware',
   SERVER_HOOK_AFTER_RENDER = 'server-hook-after-render',

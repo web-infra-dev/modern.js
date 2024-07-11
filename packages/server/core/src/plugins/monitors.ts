@@ -7,7 +7,7 @@ import type {
   Logger,
 } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { SERVER_TIMING, ServerReportTimings } from '../constants';
+import { SERVER_TIMING, ServerTimings } from '../constants';
 import type { Context, Next, ServerEnv, ServerPlugin } from '../types';
 
 function createMonitors(): Monitors {
@@ -217,6 +217,6 @@ export function initReporter(entryName: string) {
     await next();
 
     const cost = getCost();
-    reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
+    reporter.reportTiming(ServerTimings.SERVER_HANDLE_REQUEST, cost);
   };
 }
