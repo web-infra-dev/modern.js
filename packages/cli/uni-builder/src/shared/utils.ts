@@ -8,6 +8,8 @@ import browserslist from 'browserslist';
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 
+export const SERVICE_WORKER_ENVIRONMENT_NAME = 'serviceWorker';
+
 export const JS_REGEX = /\.(?:js|mjs|cjs|jsx)$/;
 
 export const TS_REGEX = /\.(?:ts|mts|cts|tsx)$/;
@@ -20,11 +22,8 @@ export function isServerEnvironment(
   target: RsbuildTarget,
   environment: string,
 ) {
-  return target === 'node' || environment === 'serviceWorker';
+  return target === 'node' || environment === SERVICE_WORKER_ENVIRONMENT_NAME;
 }
-
-export const camelCase = (input: string): string =>
-  input.replace(/[-_](\w)/g, (_, c) => c.toUpperCase());
 
 export const castArray = <T>(arr?: T | T[]): T[] => {
   if (arr === undefined) {
@@ -36,9 +35,9 @@ export const castArray = <T>(arr?: T | T[]): T[] => {
 // using cache to avoid multiple calls to loadConfig
 const browsersListCache = new Map<string, string[]>();
 
-export async function getBrowserslist(path: string): Promise<string[] | null> {
+async function getBrowserslist(path: string): Promise<string[] | null> {
   const env = process.env.NODE_ENV;
-  const cacheKey = path + env;
+  const cacheKey = `${path}${env}`;
 
   if (browsersListCache.has(cacheKey)) {
     return browsersListCache.get(cacheKey)!;
@@ -144,7 +143,7 @@ export async function getBrowserslistWithDefault(
 ): Promise<string[]> {
   const { overrideBrowserslist: overrides } = config?.output || {};
 
-  // Rsbuild base overrideBrowserslist config is not works in node
+  // base overrideBrowserslist config should not works in node
   if (target === 'web' || target === 'web-worker') {
     if (overrides) {
       return overrides;

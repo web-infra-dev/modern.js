@@ -13,6 +13,7 @@ import type {
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import type { StartDevServerOptions } from '../shared/devServer';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -47,7 +48,7 @@ export async function parseConfig(
       '@rsbuild/plugin-styled-components'
     );
     const options = uniBuilderConfig.tools?.styledComponents || {};
-    if (uniBuilderConfig.environments?.serviceWorker) {
+    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
       options.ssr = true;
     }
     rsbuildPlugins.push(pluginStyledComponents(options));

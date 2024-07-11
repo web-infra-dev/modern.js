@@ -26,7 +26,7 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
-import { pluginTargetDefaults } from './plugins/targetDefaults';
+import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginLess } from '@rsbuild/plugin-less';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
@@ -143,6 +143,7 @@ export async function parseCommonConfig(
     html: htmlConfig,
     tools: toolsConfig,
     security: securityConfig,
+    environments,
   };
 
   const { html = {}, output = {}, source = {} } = rsbuildConfig;
@@ -202,8 +203,6 @@ export async function parseCommonConfig(
 
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
-
-  extraConfig.environments = environments;
 
   extraConfig.html.outputStructure = disableHtmlFolder ? 'flat' : 'nested';
 
@@ -315,7 +314,7 @@ export async function parseCommonConfig(
     pluginLess({
       lessLoaderOptions: less,
     }),
-    pluginTargetDefaults(distPath),
+    pluginEnvironmentDefaults(distPath),
     pluginHtmlMinifierTerser(),
   ];
 

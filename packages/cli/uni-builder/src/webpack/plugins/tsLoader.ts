@@ -1,6 +1,6 @@
 import { type ConfigChainWithContext } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
-import { PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
+import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';

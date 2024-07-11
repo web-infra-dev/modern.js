@@ -16,6 +16,7 @@ import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginBabel } from './plugins/babel';
 import { pluginReact } from './plugins/react';
 import type { StartDevServerOptions } from '../shared/devServer';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -73,7 +74,7 @@ export async function parseConfig(
       './plugins/styledComponents'
     );
     const options = uniBuilderConfig.tools?.styledComponents || {};
-    if (uniBuilderConfig.environments?.serviceWorker) {
+    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
       options.ssr = true;
     }
 

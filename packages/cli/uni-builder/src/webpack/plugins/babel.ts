@@ -13,6 +13,7 @@ import {
   SCRIPT_REGEX,
   getBrowserslistWithDefault,
   getUseBuiltIns,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
 } from '../../shared/utils';
 
 /**
@@ -88,7 +89,7 @@ export const pluginBabel = (
           const decoratorConfig = config.source.decorators;
 
           const baseBabelConfig =
-            isServer || name === 'serviceWorker'
+            isServer || name === SERVICE_WORKER_ENVIRONMENT_NAME
               ? getBabelConfigForNode({
                   presetEnv: {
                     targets: ['node >= 14'],

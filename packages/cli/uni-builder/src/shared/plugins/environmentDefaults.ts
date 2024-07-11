@@ -1,19 +1,22 @@
 import type { RsbuildPlugin, RsbuildConfig } from '@rsbuild/core';
 import type { DistPath } from '../../types';
 import { join } from 'node:path';
-import { getBrowserslistWithDefault } from '../utils';
+import {
+  getBrowserslistWithDefault,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+} from '../utils';
 
-export const pluginTargetDefaults = (
+export const pluginEnvironmentDefaults = (
   distPath: DistPath = {},
 ): RsbuildPlugin => ({
-  name: 'uni-builder:target-defaults-plugin',
+  name: 'uni-builder:environment-defaults-plugin',
 
   setup(api) {
     api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
       const compatConfig: RsbuildConfig = {};
-      if (config.environments?.serviceWorker) {
+      if (config.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
         compatConfig.environments ??= {};
-        compatConfig.environments.serviceWorker = {
+        compatConfig.environments[SERVICE_WORKER_ENVIRONMENT_NAME] = {
           output: {
             distPath: {
               root: join(distPath.root || 'dist', distPath.worker || 'worker'),
@@ -52,7 +55,9 @@ export const pluginTargetDefaults = (
       config.output.overrideBrowserslist ??= await getBrowserslistWithDefault(
         api.context.rootPath,
         config,
-        name === 'serviceWorker' ? 'node' : config.output.target,
+        name === SERVICE_WORKER_ENVIRONMENT_NAME
+          ? 'node'
+          : config.output.target,
       );
     });
   },

@@ -6,7 +6,7 @@ import {
   isUseSSRBundle,
 } from '@modern-js/utils';
 import type { IAppContext } from '@modern-js/core';
-
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 import type { AppNormalizedConfig } from '../../types';
 
 export function getBuilderEnvironments(
@@ -67,7 +67,7 @@ export function getBuilderEnvironments(
   const useWorkerTarget = isServiceWorker(normalizedConfig);
 
   if (useWorkerTarget) {
-    environments.serviceWorker = {
+    environments[SERVICE_WORKER_ENVIRONMENT_NAME] = {
       output: {
         target: 'web-worker',
       },

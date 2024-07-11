@@ -1,7 +1,11 @@
 import * as path from 'path';
 import { RsbuildPlugin, RspackChain, mergeRsbuildConfig } from '@rsbuild/core';
 import { fs, isUseSSRBundle } from '@modern-js/utils';
-import { type HtmlWebpackPlugin, isHtmlDisabled } from '@modern-js/uni-builder';
+import {
+  type HtmlWebpackPlugin,
+  isHtmlDisabled,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+} from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -60,7 +64,8 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           applySSRDataLoader(chain, options);
         }
 
-        const isServiceWorker = environment.name === 'serviceWorker';
+        const isServiceWorker =
+          environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
         if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({

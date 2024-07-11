@@ -1,12 +1,14 @@
 import path from 'path';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 
 export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',
 
   setup(api) {
     api.modifyBundlerChain((chain, { target, CHAIN_ID, environment }) => {
-      const isServiceWorker = environment.name === 'serviceWorker';
+      const isServiceWorker =
+        environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
       // apply node compat
       if (target === 'node' || isServiceWorker) {
