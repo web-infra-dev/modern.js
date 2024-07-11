@@ -214,13 +214,7 @@ export const createRequestHandler: CreateRequestHandler =
         `${CHUNK_CSS_PLACEHOLDER}</head>`,
       );
 
-      const ServerRoot = (props: any) =>
-        React.createElement(Root, {
-          ...props,
-          _internal_context: Object.assign(context, { ssr: true }),
-        });
-
-      const response = await handleRequest(request, ServerRoot, {
+      const response = await handleRequest(request, Root, {
         ...options,
         runtimeContext: context,
       });

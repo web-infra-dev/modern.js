@@ -100,8 +100,12 @@ export const renderString: RenderString = async (
       }),
     ];
 
+    const rootElement = React.cloneElement(serverRoot, {
+      _internal_context: Object.assign(runtimeContext, { ssr: true }),
+    });
+
     const html = await generateHtml(
-      serverRoot,
+      rootElement,
       htmlTemplate,
       chunkSet,
       collectors,
