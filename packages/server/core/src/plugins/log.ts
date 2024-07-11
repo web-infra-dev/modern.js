@@ -62,13 +62,14 @@ function log(
 function logHandler(): Middleware<ServerEnv> {
   return async function logger(c, next) {
     const { method } = c.req;
-    const logger = c.get('logger');
-    if (!logger) {
+    const monitors = c.get('monitors');
+
+    if (!monitors) {
       await next();
       return;
     }
     const path = getPathname(c.req.raw);
-    const logFn = logger.debug;
+    const logFn = monitors.debug;
     log(logFn, LogPrefix.Incoming, method, path);
     const start = Date.now();
     await next();

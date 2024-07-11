@@ -1,10 +1,8 @@
 import type { IncomingMessage } from 'node:http';
-import type { Logger, Metrics, Reporter } from '@modern-js/types';
+import type { Logger, Metrics, Monitors, Reporter } from '@modern-js/types';
 import type { ServerManifest } from './server';
 
 export interface RenderOptions {
-  logger: Logger;
-
   loaderContext?: Map<string, unknown>;
 
   /** ssr render html templates */
@@ -13,11 +11,19 @@ export interface RenderOptions {
   /** Communicating with custom server hook & modern ssr runtime. */
   locals?: Record<string, any>;
 
-  /** Metrics */
+  /** @deprecated  */
+  logger: Logger;
+
+  /** @deprecated */
   metrics?: Metrics;
 
-  serverManifest: ServerManifest;
+  /** @deprecated */
   reporter?: Reporter;
+
+  monitors?: Monitors;
+
+  serverManifest: ServerManifest;
+
   nodeReq?: IncomingMessage;
 }
 
