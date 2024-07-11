@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
+import { merge } from '../utils/merge';
 import { runtime, Plugin } from './base';
 import { setGlobalRunner } from './runner';
 
