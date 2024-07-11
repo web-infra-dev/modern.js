@@ -3,8 +3,8 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { DistPathConfig } from '@rsbuild/core';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
-import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
+import { serviceWorkerPlugin } from './plugins/framework/service-worker';
 
 const globalVars: Record<string, any> = {
   'process.env.VERSION': packageMeta.version,
@@ -107,12 +107,12 @@ export default defineConfig<'rspack'>({
         .rule('RADIX_TOKEN')
         .test(require.resolve('@radix-ui/themes/styles.css'))
         .use('RADIX_TOKEN')
-        .loader('./plugins/radix-token-transformer.js')
+        .loader('./plugins/bundler/radix-root-loader.js')
         .options({ root: '.theme-register' });
-      chain
-        .plugin('ServiceWorkerCompilerPlugin')
-        .use(ServiceWorkerCompilerPlugin);
     },
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' })],
+  plugins: [
+    appTools({ bundler: 'experimental-rspack' }),
+    serviceWorkerPlugin(),
+  ],
 });

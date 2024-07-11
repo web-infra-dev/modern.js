@@ -10,6 +10,7 @@ import {
   MountPointFunctions as ToClientFunctions,
 } from '@/types/rpc';
 import { WallAgent } from '@/utils/react-devtools';
+import { registerService, swClient } from '@/utils/service-agent';
 
 export const $clientChannel = MessagePortChannel.wait(
   window,
@@ -25,6 +26,22 @@ export const $client = $clientChannel.then(channel => {
   const definitions: ToClientFunctions = {
     async activateReactDevtools() {
       activate(window, { bridge });
+    },
+    async getServiceWorkerStatus() {
+      const res = await swClient.status.$get();
+      return res.json();
+    },
+    async registerService() {
+      await registerService();
+    },
+    async unregisterService() {
+      await swClient.unregister.$post();
+    },
+    async applyModifyHeaderRules(rules) {
+      rules && (await swClient.rules.$put({ json: { rules } }));
+      const rulesRes = await swClient.rules.$get();
+      const json = await rulesRes.json();
+      return json.rules;
     },
     async onFinishRender() {
       await hooks.callHook('onFinishRender');

@@ -73,13 +73,17 @@ export const pluginHttp: Plugin = {
     if (disableHttpServer) return;
 
     const app = new Hono<{ Bindings: HttpBindings }>();
+
     app.use('*', cors());
+
     app.all('/api/cookies', cookiesServiceHandler);
+
     app.use(
       '/static/*',
       // Workaround for https://github.com/honojs/node-server/blob/dd0e0cd160b0b8f18abbcb28c5f5c39b72105d98/src/serve-static.ts#L56
       serveStatic({ root: path.relative(process.cwd(), CLIENT_SERVE_DIR) }),
     );
+
     app.get(':filename{.+\\.hot-update\\.\\w+$}', hotUpdateHandler);
 
     app.get('/manifest', async c => {

@@ -1,7 +1,10 @@
 import { redirect } from '@modern-js/runtime/router';
-import { $state } from './state';
+import { $$globals } from '../../globals';
 
 export const loader = async () => {
-  const service = await $state.service;
-  return redirect(service.rules ? './editor' : './welcome');
+  const { mountPoint } = await $$globals;
+  const status = await mountPoint.remote
+    .getServiceWorkerStatus()
+    .catch(() => null);
+  return redirect(status ? './editor' : './welcome');
 };

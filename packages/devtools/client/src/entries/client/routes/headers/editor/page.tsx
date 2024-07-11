@@ -1,29 +1,28 @@
 import _ from 'lodash';
 import React, { useMemo } from 'react';
 import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
-import { proxy, useSnapshot } from 'valtio';
+import { proxy, snapshot, useSnapshot } from 'valtio';
 import { parseURL } from 'ufo';
-import { $state, registerService, unregisterService } from '../state';
+import { useLoaderData } from '@modern-js/runtime/router';
 import styles from './page.module.scss';
+import { LoaderData } from './page.data';
 import { PairsEditor } from '@/components/PairsEditor/Editor';
 import { ModifyHeaderRule } from '@/utils/service-agent';
+import { useGlobals } from '@/entries/client/globals';
 
 const Page: React.FC = () => {
-  const state = useSnapshot($state);
-  const isActive = Boolean(state.service.href);
+  const { mountPoint } = useSnapshot(useGlobals());
+  const sw = useLoaderData() as LoaderData;
+  const isActive = Boolean(sw);
   const $rules = useMemo(
-    () => proxy((_.cloneDeep(state.service.rules) as ModifyHeaderRule[]) ?? []),
+    () => proxy((_.cloneDeep(sw?.rules) as ModifyHeaderRule[]) ?? []),
     [],
   );
-  const rules = useSnapshot($rules);
   const statusText = isActive ? 'Active' : 'Offline';
-
   const handleRegister = async () => {
-    await registerService(rules.filter(rule => rule.key));
-  };
-
-  const handleUnregister = async () => {
-    await unregisterService();
+    await mountPoint.remote.registerService();
+    // TODO: wait utils service has being ready.
+    await mountPoint.remote.applyModifyHeaderRules(snapshot($rules) as any);
   };
 
   return (
@@ -34,9 +33,9 @@ const Page: React.FC = () => {
         <Text color="gray" size={'1'}>
           {statusText}
         </Text>
-        {state.service.href && (
-          <Link size="1" href={state.service.href} target="_blank">
-            {parseURL(state.service.href).pathname}
+        {sw?.href && (
+          <Link size="1" href={sw.href} target="_blank">
+            {parseURL(sw.href).pathname}
           </Link>
         )}
       </Flex>
@@ -48,7 +47,10 @@ const Page: React.FC = () => {
       />
       <Flex justify="end" gap="2">
         {isActive ? (
-          <Button color="red" onClick={handleUnregister}>
+          <Button
+            color="red"
+            onClick={() => mountPoint.remote.unregisterService()}
+          >
             Unregister
           </Button>
         ) : (
