@@ -1,5 +1,32 @@
 # @modern-js/plugin-garfish
 
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 2bd73f9: fix: garfish plugin use custom bootstrap not work
+
+  fix: 修复 garfish 插件使用 custom bootstrap 不生效问题
+
+- 96a6fa5: feat: garfish plugin support append entry code
+
+  feat: garfish 插件支持补充入口代码
+
+- Updated dependencies [1430c5d]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a38bb04]
+- Updated dependencies [1515ea9]
+- Updated dependencies [59e46ad]
+- Updated dependencies [283ac69]
+  - @modern-js/runtime@2.55.0
+  - @modern-js/utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

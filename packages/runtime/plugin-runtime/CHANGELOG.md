@@ -1,5 +1,37 @@
 # @modern-js/runtime
 
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 1430c5d: fix: isbot v4.x require nodev18, so we downgrade it into v3.x
+  fix: isbot v4.x 需要 nodev18, 所以我们把他降级为 v3.x
+- bbcf55a: fix: runtime template windows path
+
+  fix: 修复 runtime 模板 windows 路径不正确
+
+- a38bb04: feat: generator support runtime config file
+
+  feat: 生成器支持 modern.runtime 配置文件
+
+- 59e46ad: fix: ssr use-loader should set \_internal_context.ssr = false
+  fix: ssr use-loader 应该将 \_internal_context.ssr 为 false
+- 283ac69: fix: re-export runtime server
+  fix: 重导出 runtime server
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/plugin-data-loader@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

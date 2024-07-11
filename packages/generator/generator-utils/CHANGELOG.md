@@ -1,5 +1,14 @@
 # @modern-js/generator-utils
 
+## 3.4.8
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/plugin-i18n@2.55.0
+  - @modern-js/generator-common@3.4.8
+
 ## 3.4.7
 
 ### Patch Changes

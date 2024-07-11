@@ -1,5 +1,16 @@
 # @modern-js/main-doc
 
+## 2.55.0
+
+### Patch Changes
+
+- 8470dd6: feat: update entry doc
+
+  feat: 更新入口相关文档
+
+  - @modern-js/sandpack-react@2.55.0
+  - @modern-js/builder-doc@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes
