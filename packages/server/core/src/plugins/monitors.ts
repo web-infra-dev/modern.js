@@ -81,6 +81,8 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
 
             return next();
           },
+
+          order: 'pre',
         });
       },
     };
@@ -91,14 +93,6 @@ export const injectloggerPluigin = (logger: Logger): ServerPlugin => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
-    const loggerMonitor: CoreMonitor = event => {
-      if (event.type === 'log') {
-        const { level, message, args } = event.payload;
-
-        logger[level](message, ...(args || []));
-      }
-    };
-
     return {
       prepare() {
         const { middlewares } = api.useAppContext();
@@ -110,6 +104,35 @@ export const injectloggerPluigin = (logger: Logger): ServerPlugin => ({
             if (!c.get('logger')) {
               c.set('logger', logger);
             }
+
+            const pathname = c.req.path;
+
+            const loggerMonitor: CoreMonitor = event => {
+              if (event.type === 'log') {
+                const { level, message, args } = event.payload;
+
+                logger[level](message, ...(args || []));
+              }
+
+              if (event.type === 'timing') {
+                const { name, dur, desc } = event.payload;
+
+                if (desc) {
+                  logger.debug(
+                    `%s Debug - ${name}, cost: %s, req.url = %s `,
+                    desc,
+                    dur,
+                    pathname,
+                  );
+                } else {
+                  logger.debug(
+                    `Debug - ${name}, cost: %s, req.url = %s`,
+                    dur,
+                    pathname,
+                  );
+                }
+              }
+            };
 
             const monitors = c.get('monitors');
 

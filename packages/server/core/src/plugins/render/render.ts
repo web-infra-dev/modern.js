@@ -174,13 +174,7 @@ export async function createRender({
     };
 
     const onTiming = (name: string, dur: number) => {
-      monitors?.debug(
-        `SSR Debug - ${name}, cost = %s, req.url = %s`,
-        dur,
-        pathname,
-      );
-
-      monitors?.timing(name, dur);
+      monitors?.timing(name, dur, 'SSR');
     };
 
     const onBoundError = async (e: unknown) => {
