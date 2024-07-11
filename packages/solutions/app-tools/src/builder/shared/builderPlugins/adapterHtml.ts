@@ -3,7 +3,6 @@ import type {
   RsbuildPlugin,
   RspackChain,
   ChainIdentifier,
-  RsbuildPluginAPI,
 } from '@rsbuild/core';
 import {
   MAIN_ENTRY_NAME,
@@ -25,16 +24,19 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
   name: 'builder-plugin-adapter-modern-html',
   setup(api) {
     api.modifyBundlerChain(
-      async (chain, { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin }) => {
-        const builderConfig = api.getNormalizedConfig();
+      async (
+        chain,
+        { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin, environment },
+      ) => {
+        const builderConfig = environment.config;
 
         if (!isHtmlDisabled(builderConfig, target)) {
           applyBottomHtmlPlugin({
-            api,
             options,
             chain,
             CHAIN_ID,
             HtmlBundlerPlugin,
+            htmlPaths: environment.htmlPaths,
           });
 
           await injectAssetPrefix({
@@ -59,21 +61,21 @@ async function injectAssetPrefix({ chain }: { chain: RspackChain }) {
 
 /** inject bottom template */
 function applyBottomHtmlPlugin<B extends Bundler>({
-  api,
   chain,
   options,
   CHAIN_ID,
   HtmlBundlerPlugin,
+  htmlPaths,
 }: {
-  api: RsbuildPluginAPI;
   chain: RspackChain;
   options: BuilderOptions<B>;
   CHAIN_ID: ChainIdentifier;
   HtmlBundlerPlugin: any;
+  htmlPaths: Record<string, string>;
 }) {
   const { normalizedConfig: modernConfig, appContext } = options;
   // inject bottomTemplate into html-webpack-plugin
-  for (const entryName of Object.keys(api.context.entry)) {
+  for (const entryName of Object.keys(htmlPaths)) {
     const {
       source: { mainEntryName },
     } = modernConfig;

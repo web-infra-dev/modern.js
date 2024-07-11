@@ -1,8 +1,4 @@
-import type {
-  NodeEnv,
-  RequestHandler,
-  HtmlTagDescriptor,
-} from '@rsbuild/shared';
+import type { NodeEnv, HtmlTagDescriptor } from '@rsbuild/shared';
 import type {
   ConfigChainWithContext,
   ConfigChain,
@@ -13,9 +9,10 @@ import type {
   ScriptInject,
   ServerConfig,
   RsbuildPluginAPI,
-  SourceConfig,
   OutputConfig,
+  DistPathConfig,
   Rspack,
+  RequestHandler,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -39,7 +36,10 @@ import type TerserPlugin from 'terser-webpack-plugin';
 
 type ArrayOrNot<T> = T | T[];
 
-export type Stats = Omit<Rspack.Stats, '#private' | 'hash'>;
+export type Stats = Omit<
+  Rspack.Stats,
+  '#private' | 'hash' | 'startTime' | 'endTime'
+>;
 
 export type RspackConfig = Rspack.Configuration;
 
@@ -65,9 +65,7 @@ export type MetaOptions = {
 };
 
 export type CreateBuilderCommonOptions = {
-  entry?: SourceConfig['entry'];
   frameworkConfigPath?: string;
-  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd: string;
 };
@@ -374,7 +372,7 @@ export type OverridesUniBuilderInstance = {
 };
 
 export type UniBuilderContext = RsbuildPluginAPI['context'] & {
-  target: RsbuildPluginAPI['context']['targets'];
+  target: RsbuildTarget[];
   framework: string;
   srcPath: string;
   entry: Record<string, string | string[]>;
@@ -417,11 +415,20 @@ export type UniBuilderPlugin = {
   remove?: string[];
 };
 
+export type DistPath = DistPathConfig & {
+  server?: string;
+  worker?: string;
+};
+
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+  output?: Omit<
+    NonNullable<RsbuildConfig['output']>,
+    'polyfill' | 'distPath'
+  > & {
     polyfill?: Polyfill | 'ua';
+    distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
@@ -429,4 +436,5 @@ export type UniBuilderConfig = {
   source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildConfig['plugins'];
+  environments?: RsbuildConfig['environments'];
 } & UniBuilderExtraConfig;

@@ -80,7 +80,7 @@
     "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5",
-    "@rsbuild/core": "1.0.0-alpha.6"
+    "@rsbuild/core": "1.0.0-alpha.7"
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.54.6"

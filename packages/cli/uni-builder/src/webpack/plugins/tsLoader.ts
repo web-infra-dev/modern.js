@@ -1,10 +1,6 @@
 import { type ConfigChainWithContext } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
-import {
-  PluginBabelOptions,
-  getBabelUtils,
-  getUseBuiltIns,
-} from '@rsbuild/plugin-babel';
+import { PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
@@ -15,6 +11,7 @@ import {
   castArray,
   applyScriptCondition,
   getBrowserslistWithDefault,
+  getUseBuiltIns,
 } from '../../shared/utils';
 
 type OneOrMany<T> = T | T[];
@@ -51,8 +48,8 @@ export const pluginTsLoader = (
     setup(api) {
       api.modifyBundlerChain({
         order: 'pre',
-        handler: async (chain, { isProd, target, CHAIN_ID }) => {
-          const config = api.getNormalizedConfig();
+        handler: async (chain, { isProd, target, CHAIN_ID, environment }) => {
+          const { config } = environment;
           const { rootPath } = api.context;
           const browserslist = await getBrowserslistWithDefault(
             rootPath,

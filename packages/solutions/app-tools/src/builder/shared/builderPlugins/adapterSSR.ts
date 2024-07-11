@@ -38,9 +38,15 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     api.modifyBundlerChain(
       async (
         chain,
-        { target, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+        {
+          target,
+          isProd,
+          HtmlPlugin: HtmlBundlerPlugin,
+          isServer,
+          environment,
+        },
       ) => {
-        const builderConfig = api.getNormalizedConfig();
+        const builderConfig = environment.config;
         const { normalizedConfig } = options;
 
         applyRouterPlugin(
@@ -54,7 +60,9 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           applySSRDataLoader(chain, options);
         }
 
-        if (['node', 'service-worker'].includes(target)) {
+        const isServiceWorker = environment.name === 'serviceWorker';
+
+        if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,

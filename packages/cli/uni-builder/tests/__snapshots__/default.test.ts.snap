@@ -12,7 +12,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -118,7 +117,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.37",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -128,6 +127,19 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": false,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
@@ -160,12 +172,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -189,7 +195,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.37",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -199,6 +205,19 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": false,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
@@ -231,12 +250,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -524,7 +537,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.37",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -534,6 +547,19 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": false,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
@@ -566,12 +592,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": false,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -608,7 +628,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.37",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -618,6 +638,19 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": false,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
@@ -650,12 +683,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": false,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -704,7 +731,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -727,32 +754,27 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]lodash\\(-es\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -783,7 +805,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "ignoreOrder": true,
       },
     },
-    HtmlWebpackPlugin {
+    HtmlRspackPlugin {
       "options": {
         "base": false,
         "cache": true,
@@ -804,7 +826,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
@@ -827,15 +848,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
         "title": "",
       },
-      "version": 5,
+      "version": 6,
     },
     HtmlBasicPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
@@ -852,7 +873,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
     ProgressPlugin {
       "_options": {
-        "prefix": "Client",
+        "prefix": "web",
         "profile": false,
         "progressChars": "━━",
         "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
@@ -889,6 +910,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "include": [
           /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         ],
+        "overlay": false,
       },
     },
   ],
@@ -905,7 +927,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       ".mjs",
       ".json",
     ],
-    "tsConfigPath": "tsconfig.json",
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
   },
   "target": [
     "web",
@@ -938,10 +962,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:split-chunks",
   "rsbuild:open",
   "rsbuild:inline-chunk",
-  "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
   "rsbuild:resource-hints",
   "rsbuild:performance",
+  "rsbuild:bundle-analyzer",
   "rsbuild:server",
   "rsbuild:manifest",
   "rsbuild:module-federation",
@@ -959,6 +983,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "uni-builder:arco",
   "rsbuild:sass",
   "rsbuild:less",
+  "uni-builder:target-defaults-plugin",
+  "uni-builder:plugin-html-minifier-terser",
   "rsbuild:type-check",
   "uni-builder:runtime-chunk",
   "rsbuild:react",
@@ -981,7 +1007,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1087,7 +1112,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.37",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1097,6 +1122,19 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
@@ -1129,12 +1167,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -1158,7 +1190,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.37",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1168,6 +1200,19 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
@@ -1200,12 +1245,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -1493,7 +1532,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.37",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1503,6 +1542,19 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
@@ -1535,12 +1587,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": true,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -1577,7 +1623,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.37",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1587,6 +1633,19 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
@@ -1619,12 +1678,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": true,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -1673,20 +1726,25 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
         "_options": {
-          "compress": "{\\"passes\\":1,\\"pure_funcs\\":[],\\"drop_console\\":false}",
+          "compress": {
+            "passes": 1,
+          },
           "exclude": undefined,
           "extractComments": {
             "condition": "@preserve|@lic|@cc_on|^/**!",
           },
-          "format": "{\\"comments\\":false,\\"asciiOnly\\":true}",
+          "format": {
+            "asciiOnly": true,
+            "comments": false,
+          },
           "include": undefined,
-          "mangle": "{\\"keep_classnames\\":false,\\"keep_fnames\\":false}",
+          "mangle": true,
           "module": undefined,
           "test": undefined,
         },
@@ -1734,32 +1792,27 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]lodash\\(-es\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -1786,7 +1839,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "ignoreOrder": true,
       },
     },
-    HtmlWebpackPlugin {
+    HtmlRspackPlugin {
       "options": {
         "base": false,
         "cache": true,
@@ -1807,26 +1860,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
+        "minify": [Function],
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
@@ -1849,32 +1883,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
+        "minify": [Function],
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
         "title": "",
       },
-      "version": 5,
+      "version": 6,
     },
     InlineChunkHtmlPlugin {
       "distPath": {
@@ -1889,6 +1904,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "styleTests": [],
     },
     HtmlBasicPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
@@ -1905,7 +1921,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     },
     ProgressPlugin {
       "_options": {
-        "prefix": "Client",
+        "prefix": "web",
         "profile": false,
         "progressChars": "━━",
         "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
@@ -1948,7 +1964,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       ".mjs",
       ".json",
     ],
-    "tsConfigPath": "tsconfig.json",
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
   },
   "target": [
     "web",
@@ -2076,6 +2094,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -2152,7 +2171,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2273,7 +2292,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2652,7 +2671,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -2780,7 +2799,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -2864,7 +2883,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -2887,32 +2906,27 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]lodash\\(-es\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -2965,7 +2979,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
         "scriptLoading": "defer",
         "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
         "templateParameters": [Function],
@@ -2974,6 +2987,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "version": 5,
     },
     HtmlBasicPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
@@ -2991,7 +3005,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "dependenciesCount": 10000,
       "handler": [Function],
       "hasCompileErrors": false,
-      "id": "Client",
+      "id": "web",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -3192,6 +3206,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -3268,7 +3283,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3395,7 +3410,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3789,7 +3804,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -3932,7 +3947,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4016,7 +4031,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -4081,32 +4096,27 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]lodash\\(-es\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -4195,6 +4205,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "styleTests": [],
     },
     HtmlBasicPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
@@ -4212,7 +4223,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "dependenciesCount": 10000,
       "handler": [Function],
       "hasCompileErrors": false,
-      "id": "Client",
+      "id": "web",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,

@@ -2,9 +2,9 @@ import type {
   RsbuildTarget,
   RspackChain,
   RsbuildContext,
-  NormalizedConfig,
+  NormalizedEnvironmentConfig,
 } from '@rsbuild/core';
-import { OverrideBrowserslist, getBrowserslist } from '@rsbuild/shared';
+import browserslist from 'browserslist';
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 
@@ -16,17 +16,52 @@ export const SCRIPT_REGEX = /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts)$/;
 
 export const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 
-export function isServerTarget(target: RsbuildTarget[]) {
-  return (Array.isArray(target) ? target : [target]).some(item =>
-    ['node', 'service-worker'].includes(item),
-  );
+export function isServerEnvironment(
+  target: RsbuildTarget,
+  environment: string,
+) {
+  return target === 'node' || environment === 'serviceWorker';
 }
+
+export const camelCase = (input: string): string =>
+  input.replace(/[-_](\w)/g, (_, c) => c.toUpperCase());
 
 export const castArray = <T>(arr?: T | T[]): T[] => {
   if (arr === undefined) {
     return [];
   }
   return Array.isArray(arr) ? arr : [arr];
+};
+
+// using cache to avoid multiple calls to loadConfig
+const browsersListCache = new Map<string, string[]>();
+
+export async function getBrowserslist(path: string): Promise<string[] | null> {
+  const env = process.env.NODE_ENV;
+  const cacheKey = path + env;
+
+  if (browsersListCache.has(cacheKey)) {
+    return browsersListCache.get(cacheKey)!;
+  }
+
+  const result = browserslist.loadConfig({ path, env });
+
+  if (result) {
+    browsersListCache.set(cacheKey, result);
+    return result;
+  }
+
+  return null;
+}
+
+export const getUseBuiltIns = (
+  config: NormalizedEnvironmentConfig,
+): false | 'usage' | 'entry' => {
+  const { polyfill } = config.output;
+  if (polyfill === 'off') {
+    return false;
+  }
+  return polyfill;
 };
 
 export function applyScriptCondition({
@@ -39,7 +74,7 @@ export function applyScriptCondition({
 }: {
   rule: RspackChain.Rule;
   chain: RspackChain;
-  config: NormalizedConfig;
+  config: NormalizedEnvironmentConfig;
   context: RsbuildContext;
   includes: (string | RegExp)[];
   excludes: (string | RegExp)[];
@@ -72,7 +107,7 @@ export function applyScriptCondition({
 }
 
 export const isHtmlDisabled = (
-  config: NormalizedConfig,
+  config: NormalizedEnvironmentConfig,
   target: RsbuildTarget,
 ) => {
   const { htmlPlugin } = config.tools as {
@@ -85,7 +120,7 @@ export const isHtmlDisabled = (
   );
 };
 
-export const getHash = (config: NormalizedConfig) => {
+export const getHash = (config: NormalizedEnvironmentConfig) => {
   const { filenameHash } = config.output;
 
   if (typeof filenameHash === 'string') {
@@ -100,32 +135,25 @@ const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
   web: DEFAULT_WEB_BROWSERSLIST,
   node: ['node >= 14'],
   'web-worker': DEFAULT_WEB_BROWSERSLIST,
-  'service-worker': DEFAULT_WEB_BROWSERSLIST,
 };
 
 export async function getBrowserslistWithDefault(
   path: string,
-  config: { output?: { overrideBrowserslist?: OverrideBrowserslist } },
+  config: { output?: { overrideBrowserslist?: string[] } },
   target: RsbuildTarget,
 ): Promise<string[]> {
-  const { overrideBrowserslist: overrides = {} } = config?.output || {};
+  const { overrideBrowserslist: overrides } = config?.output || {};
 
+  // Rsbuild base overrideBrowserslist config is not works in node
   if (target === 'web' || target === 'web-worker') {
-    if (Array.isArray(overrides)) {
+    if (overrides) {
       return overrides;
-    }
-    if (overrides[target]) {
-      return overrides[target]!;
     }
 
     const browserslistrc = await getBrowserslist(path);
     if (browserslistrc) {
       return browserslistrc;
     }
-  }
-
-  if (!Array.isArray(overrides) && overrides[target]) {
-    return overrides[target]!;
   }
 
   return DEFAULT_BROWSERSLIST[target];

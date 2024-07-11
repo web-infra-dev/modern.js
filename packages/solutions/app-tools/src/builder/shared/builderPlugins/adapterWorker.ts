@@ -22,11 +22,12 @@ export const builderPluginAdapterWorker = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-worker',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { isServiceWorker }) => {
-      const config = api.getNormalizedConfig();
+    api.modifyBundlerChain(async (chain, { environment }) => {
+      const { config, name } = environment;
+      const isServiceWorker = name === 'serviceWorker';
 
       if (isServiceWorker) {
-        const workerPath = getDistPath(config.output, 'worker');
+        const workerPath = getDistPath(config.output, 'root');
         const filename = posix.join(workerPath, `[name].js`);
 
         chain.output

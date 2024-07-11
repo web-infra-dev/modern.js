@@ -3,17 +3,16 @@ import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
 import type { BabelConfig } from '@rsbuild/babel-preset';
 import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
-import { type RsbuildPlugin, type NormalizedConfig } from '@rsbuild/core';
-import { type TransformImport } from '@rsbuild/shared';
 import {
-  getBabelUtils,
-  getUseBuiltIns,
-  type PluginBabelOptions,
-} from '@rsbuild/plugin-babel';
+  type RsbuildPlugin,
+  type NormalizedEnvironmentConfig,
+  type TransformImport,
+} from '@rsbuild/core';
+import { getBabelUtils, type PluginBabelOptions } from '@rsbuild/plugin-babel';
 import {
   SCRIPT_REGEX,
-  applyScriptCondition,
   getBrowserslistWithDefault,
+  getUseBuiltIns,
 } from '../../shared/utils';
 
 /**
@@ -55,16 +54,16 @@ export const pluginBabel = (
       order: 'pre',
       handler: async (
         chain,
-        { CHAIN_ID, target, isProd, isServer, isServiceWorker },
+        { CHAIN_ID, target, isProd, isServer, environment },
       ) => {
-        const config = api.getNormalizedConfig();
+        const { config, name } = environment;
         const browserslist = await getBrowserslistWithDefault(
           api.context.rootPath,
           config,
           target,
         );
 
-        const getBabelOptions = (config: NormalizedConfig) => {
+        const getBabelOptions = (config: NormalizedEnvironmentConfig) => {
           // Create babel util function about include/exclude
           const includes: Array<string | RegExp> = [];
           const excludes: Array<string | RegExp> = [];
@@ -89,7 +88,7 @@ export const pluginBabel = (
           const decoratorConfig = config.source.decorators;
 
           const baseBabelConfig =
-            isServer || isServiceWorker
+            isServer || name === 'serviceWorker'
               ? getBabelConfigForNode({
                   presetEnv: {
                     targets: ['node >= 14'],
@@ -151,14 +150,13 @@ export const pluginBabel = (
         const { babelOptions, includes, excludes } = getBabelOptions(config);
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        applyScriptCondition({
-          chain,
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+        for (const condition of includes) {
+          rule.include.add(condition);
+        }
+
+        for (const condition of excludes) {
+          rule.exclude.add(condition);
+        }
 
         rule
           .test(SCRIPT_REGEX)

@@ -13,7 +13,7 @@ export type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 };
-export type { CacheGroup } from '@rsbuild/shared';
+
 export type {
   UniBuilderConfig,
   UniBuilderPlugin,
@@ -42,6 +42,7 @@ export {
   type RsbuildConfig,
   type RsbuildTarget,
   type NormalizedConfig,
+  type CacheGroup,
 } from '@rsbuild/core';
 export type { webpack, WebpackConfig } from '@rsbuild/webpack';
 export { RUNTIME_CHUNK_NAME, isHtmlDisabled, castArray } from './shared/utils';

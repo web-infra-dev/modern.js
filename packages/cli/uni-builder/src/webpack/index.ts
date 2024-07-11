@@ -72,9 +72,12 @@ export async function parseConfig(
     const { pluginStyledComponents } = await import(
       './plugins/styledComponents'
     );
-    rsbuildPlugins.push(
-      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-    );
+    const options = uniBuilderConfig.tools?.styledComponents || {};
+    if (uniBuilderConfig.environments?.serviceWorker) {
+      options.ssr = true;
+    }
+
+    rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
   return {

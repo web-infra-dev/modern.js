@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
-import { OverrideBrowserslist, type HtmlTagHandler } from '@rsbuild/shared';
+import { type HtmlTagHandler } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
   type RsbuildPlugin,
@@ -26,14 +26,12 @@ import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { pluginTargetDefaults } from './plugins/targetDefaults';
 import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginLess } from '@rsbuild/plugin-less';
+import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
 import { transformToRsbuildServerOptions } from './devServer';
-import {
-  castArray,
-  NODE_MODULES_REGEX,
-  getBrowserslistWithDefault,
-} from './utils';
+import { castArray, NODE_MODULES_REGEX } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
@@ -77,7 +75,7 @@ export async function parseCommonConfig(
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { cwd, frameworkConfigPath, entry, target } = options;
+  const { frameworkConfigPath } = options;
 
   const {
     plugins: [...plugins] = [],
@@ -102,6 +100,7 @@ export async function parseCommonConfig(
       disableMinimize,
       polyfill,
       dataUriLimit = 10000,
+      distPath = {},
       ...outputConfig
     } = {},
     html: {
@@ -126,6 +125,7 @@ export async function parseCommonConfig(
     dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
     tools: { devServer, tsChecker, minifyCss, less, sass, ...toolsConfig } = {},
+    environments = {},
   } = uniBuilderConfig;
 
   const rsbuildConfig: RsbuildConfig = {
@@ -151,6 +151,10 @@ export async function parseCommonConfig(
     source.decorators = {
       version: '2022-03',
     };
+  } else {
+    source.decorators ??= {
+      version: 'legacy',
+    };
   }
 
   if (disableMinimize) {
@@ -167,9 +171,10 @@ export async function parseCommonConfig(
     output.sourceMap.css = true;
   }
 
-  output.distPath ??= {};
+  const { server: _server, worker, ...rsbuildDistPath } = distPath;
+
+  output.distPath = rsbuildDistPath;
   output.distPath.html ??= 'html';
-  output.distPath.server ??= 'bundles';
 
   output.polyfill ??= 'entry';
 
@@ -187,22 +192,6 @@ export async function parseCommonConfig(
     output.injectStyles = disableCssExtract;
   }
 
-  const targets = Array.isArray(target) ? target : [target || 'web'];
-
-  output.targets = targets;
-
-  const overrideBrowserslist: OverrideBrowserslist = {};
-
-  for (const target of targets) {
-    // Incompatible with the scenario where target contains both 'web' and 'modern-web'
-    overrideBrowserslist[target] = await getBrowserslistWithDefault(
-      cwd,
-      uniBuilderConfig,
-      target,
-    );
-  }
-  output.overrideBrowserslist = overrideBrowserslist;
-
   if (enableInlineStyles) {
     output.inlineStyles = enableInlineStyles;
   }
@@ -213,6 +202,8 @@ export async function parseCommonConfig(
 
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
+
+  extraConfig.environments = environments;
 
   extraConfig.html.outputStructure = disableHtmlFolder ? 'flat' : 'nested';
 
@@ -307,11 +298,6 @@ export async function parseCommonConfig(
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 
-  if (entry) {
-    rsbuildConfig.source ??= {};
-    rsbuildConfig.source.entry = entry;
-  }
-
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
     pluginGlobalVars(globalVars),
@@ -329,6 +315,8 @@ export async function parseCommonConfig(
     pluginLess({
       lessLoaderOptions: less,
     }),
+    pluginTargetDefaults(distPath),
+    pluginHtmlMinifierTerser(),
   ];
 
   if (checkSyntax) {
@@ -434,8 +422,7 @@ export async function parseCommonConfig(
     }),
   );
 
-  targets.includes('web') &&
-    rsbuildPlugins.push(pluginPostcssLegacy(overrideBrowserslist.web!));
+  rsbuildPlugins.push(pluginPostcssLegacy());
 
   if (enableAssetManifest) {
     const { pluginManifest } = await import('./plugins/manifest');

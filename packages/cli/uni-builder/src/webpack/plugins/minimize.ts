@@ -2,14 +2,14 @@ import {
   type ChainIdentifier,
   type RspackChain,
   type RsbuildPlugin,
-  type NormalizedConfig,
+  type NormalizedEnvironmentConfig,
 } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
-  config: NormalizedConfig,
+  config: NormalizedEnvironmentConfig,
 ) {
   const { removeConsole } = config.performance;
   const compressOptions =
@@ -35,7 +35,7 @@ function applyRemoveConsole(
 
 async function applyJSMinimizer(
   chain: RspackChain,
-  config: NormalizedConfig,
+  config: NormalizedEnvironmentConfig,
   CHAIN_ID: ChainIdentifier,
   userTerserConfig?: ToolsTerserConfig,
 ) {
@@ -87,8 +87,8 @@ export const pluginMinimize = (
   name: 'uni-builder:minimize',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { isProd, CHAIN_ID }) => {
-      const config = api.getNormalizedConfig();
+    api.modifyBundlerChain(async (chain, { isProd, CHAIN_ID, environment }) => {
+      const { config } = environment;
       const { minify } = config.output;
 
       if (minify === false || !isProd) {
