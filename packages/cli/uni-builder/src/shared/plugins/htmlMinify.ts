@@ -74,7 +74,7 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
       const { minify } = await import('html-minifier-terser');
 
       const pluginRecord = chain.plugins.entries();
-      // TODO: tools.html.minify option should works
+      // TODO: tools.htmlPlugin.minify option should works
       const minifyOptions = getMinifyOptions(environment.config);
       const minifyFn = (html: string) => minify(html, minifyOptions);
 
