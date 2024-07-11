@@ -1,5 +1,12 @@
 # @modern-js/dependence-generator
 
+## 3.4.8
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
 ## 3.4.7
 
 ### Patch Changes

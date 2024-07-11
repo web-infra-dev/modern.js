@@ -1,5 +1,17 @@
 # @modern-js/prod-server
 
+## 2.55.0
+
+### Patch Changes
+
+- 35cddd7: fix: prod-server support source-map
+  fix: prod-server 支持 source-map
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/server-core@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

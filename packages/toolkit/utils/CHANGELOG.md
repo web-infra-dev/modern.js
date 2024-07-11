@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 2.55.0
+
+### Patch Changes
+
+- bbcf55a: fix: runtime template windows path
+
+  fix: 修复 runtime 模板 windows 路径不正确
+
 ## 2.54.6
 
 ## 2.54.5

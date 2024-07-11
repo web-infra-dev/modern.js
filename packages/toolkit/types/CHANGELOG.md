@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.55.0
+
+### Patch Changes
+
+- e0c2384: fix: cacheProvider support return false
+  fix: cacheProvider 支持返回 false
+
 ## 2.54.6
 
 ## 2.54.5
