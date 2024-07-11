@@ -6,6 +6,7 @@ import type {
   BaseSSRServerContext,
   ServerRoute,
   NestedRoute,
+  Monitors,
 } from '@modern-js/types';
 import {
   RequestHandler as BundleRequestHandler,
@@ -53,8 +54,16 @@ export type ServerManifest = {
 };
 
 type ServerVariables = {
+  /** @deprecated  */
   logger: Logger;
+
+  /** @deprecated  */
   reporter?: Reporter;
+
+  /** @deprecated  */
+  metrics?: Metrics;
+
+  monitors: Monitors;
   serverManifest?: ServerManifest;
   templates?: Record<string, string>;
   /**
@@ -64,7 +73,6 @@ type ServerVariables = {
    * Custom by ssrRuntime.
    */
   locals?: Record<string, any>;
-  metrics?: Metrics;
 };
 
 export type ServerEnv = {

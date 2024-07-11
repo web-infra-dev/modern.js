@@ -3,12 +3,13 @@ import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
+import React from 'react';
 import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
 
 export const prefetch = async (
-  App: React.ComponentType<any>,
+  App: React.ReactElement,
   request: Request,
   options: HandleRequestOptions,
   { onError, onTiming }: Tracer,
@@ -30,10 +31,18 @@ export const prefetch = async (
             entrypoints: [entryName].filter(Boolean),
           });
           renderToStaticMarkup(
-            extractor.collectChunks(<App _internal_context={context} />),
+            extractor.collectChunks(
+              React.cloneElement(App, {
+                _internal_context: Object.assign(context, { ssr: false }),
+              }),
+            ),
           );
         } else {
-          renderToStaticMarkup(<App _internal_context={context} />);
+          renderToStaticMarkup(
+            React.cloneElement(App, {
+              _internal_context: Object.assign(context, { ssr: false }),
+            }),
+          );
         }
 
         const cost = end();

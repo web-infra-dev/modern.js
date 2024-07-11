@@ -6,6 +6,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "client": {
       "overlay": false,
       "path": "/aaaa",
+      "port": "<port>",
     },
     "hmr": false,
     "liveReload": true,
@@ -64,6 +65,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -108,6 +110,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -157,6 +160,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -209,6 +213,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -258,6 +263,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -310,6 +316,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -359,6 +366,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -415,6 +423,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -464,6 +473,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -516,6 +526,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -565,6 +576,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -619,6 +631,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -670,6 +683,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -721,6 +735,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -772,6 +787,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -823,6 +839,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
@@ -868,6 +885,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,

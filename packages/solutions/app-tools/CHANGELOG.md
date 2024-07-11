@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 6e10341: fix: should use server-entires when target === 'node', 'web-worker', 'service-worker'
+  fix: 当 target 为 'node', 'web-worker', 'service-worker' 应该使用 server 入口.
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a0ac594]
+- Updated dependencies [e0c2384]
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/uni-builder@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/server-core@2.55.0
+  - @modern-js/core@2.55.0
+  - @modern-js/plugin-data-loader@2.55.0
+  - @modern-js/plugin-i18n@2.55.0
+  - @modern-js/plugin-lint@2.55.0
+  - @modern-js/server@2.55.0
+  - @modern-js/server-utils@2.55.0
+  - @modern-js/node-bundle-require@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/rsbuild-plugin-esbuild@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

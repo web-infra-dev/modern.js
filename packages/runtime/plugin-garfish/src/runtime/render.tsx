@@ -38,13 +38,25 @@ function canContinueRender({
   }
 }
 
-export async function garfishRender(mountId?: string, _params?: any) {
+export async function garfishRender(
+  mountId?: string,
+  customBootstrap?: (
+    App: React.ComponentType,
+    render: () => void,
+  ) => HTMLElement | null,
+  _params?: any,
+) {
   const { basename, props, dom, appName } =
     // eslint-disable-next-line prefer-rest-params
-    (typeof arguments[1] === 'object' && arguments[1]) || {};
+    (typeof arguments[2] === 'object' && arguments[2]) || {};
   if (canContinueRender({ dom, appName })) {
     const ModernRoot = createRoot(null, { router: { basename } });
-    return await render(
+    if (customBootstrap) {
+      return customBootstrap(ModernRoot, () =>
+        render(<ModernRoot basename={basename} {...props} />, dom || mountId),
+      );
+    }
+    return render(
       <ModernRoot basename={basename} {...props} />,
       dom || mountId,
     );

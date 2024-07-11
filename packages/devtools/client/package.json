@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.54.6",
+  "version": "2.55.0",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",

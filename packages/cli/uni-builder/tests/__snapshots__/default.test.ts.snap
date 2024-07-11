@@ -983,7 +983,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "uni-builder:arco",
   "rsbuild:sass",
   "rsbuild:less",
-  "uni-builder:target-defaults-plugin",
+  "uni-builder:environment-defaults-plugin",
   "uni-builder:plugin-html-minifier-terser",
   "rsbuild:type-check",
   "uni-builder:runtime-chunk",
@@ -993,6 +993,750 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "uni-builder:postcss-plugins",
   "rsbuild:styled-components",
 ]
+`;
+
+exports[`uni-builder rspack > should generator rspack config correctly when node 1`] = `
+{
+  "context": "",
+  "devtool": "source-map",
+  "entry": {
+    "index": [
+      "src/index.ts",
+    ],
+  },
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
+            "options": {
+              "id": "rsbuild-transform-0",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "id": "rsbuild-transform-1",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "named",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+  "name": "node",
+  "optimization": {
+    "minimize": true,
+    "minimizer": [
+      SwcJsMinimizerRspackPlugin {
+        "_options": {
+          "compress": {
+            "passes": 1,
+          },
+          "exclude": undefined,
+          "extractComments": {
+            "condition": "@preserve|@lic|@cc_on|^/**!",
+          },
+          "format": {
+            "asciiOnly": true,
+            "comments": false,
+          },
+          "include": undefined,
+          "mangle": true,
+          "module": undefined,
+          "test": undefined,
+        },
+        "affectedHooks": "compilation",
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
+    "splitChunks": false,
+  },
+  "output": {
+    "chunkFilename": "[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "library": {
+      "type": "commonjs2",
+    },
+    "path": "dist/bundles",
+    "pathinfo": false,
+    "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    RsbuildTransformPlugin {},
+    DefinePlugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+      "affectedHooks": "compilation",
+      "name": "DefinePlugin",
+    },
+    ProgressPlugin {
+      "_options": {
+        "prefix": "node",
+        "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
+      },
+      "affectedHooks": undefined,
+      "name": "ProgressPlugin",
+    },
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            [Function],
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "build": false,
+          "configFile": "tsconfig.json",
+          "memoryLimit": 8192,
+          "mode": "readonly",
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
+  "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
+  },
+  "target": "node",
+}
 `;
 
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
@@ -1971,6 +2715,749 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "target": [
     "web",
     "es5",
+  ],
+}
+`;
+
+exports[`uni-builder rspack > should generator rspack config correctly when service-worker 1`] = `
+{
+  "context": "",
+  "devtool": "hidden-source-map",
+  "entry": {
+    "index": [
+      "/datatext/javascript,import \\"core-js\\";",
+      "src/index.ts",
+    ],
+  },
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "parser": {
+      "javascript": {
+        "dynamicImportMode": "eager",
+        "exportsPresence": "error",
+      },
+    },
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+        },
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.37",
+                "mode": "entry",
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "alias": {
+            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          },
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "coreJs": "3.37",
+                "mode": "entry",
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/image/[name][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/media/[name][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/font/[name][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "id": "rsbuild-transform-1",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 3,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].svg",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.37",
+                    "mode": "entry",
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "coreJs": "3.37",
+                    "mode": "entry",
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "preserveAllComments": true,
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "named",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].svg",
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+  "name": "serviceWorker",
+  "optimization": {
+    "minimize": true,
+    "minimizer": [
+      SwcJsMinimizerRspackPlugin {
+        "_options": {
+          "compress": {
+            "passes": 1,
+          },
+          "exclude": undefined,
+          "extractComments": {
+            "condition": "@preserve|@lic|@cc_on|^/**!",
+          },
+          "format": {
+            "asciiOnly": true,
+            "comments": false,
+          },
+          "include": undefined,
+          "mangle": true,
+          "module": undefined,
+          "test": undefined,
+        },
+        "affectedHooks": "compilation",
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
+    "splitChunks": false,
+  },
+  "output": {
+    "chunkFilename": "[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "path": "dist/worker",
+    "pathinfo": false,
+    "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    DefinePlugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+      "affectedHooks": "compilation",
+      "name": "DefinePlugin",
+    },
+    ProgressPlugin {
+      "_options": {
+        "prefix": "serviceWorker",
+        "profile": false,
+        "progressChars": "━━",
+        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
+        "tick": undefined,
+      },
+      "affectedHooks": undefined,
+      "name": "ProgressPlugin",
+    },
+    RsbuildTransformPlugin {},
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            [Function],
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "build": false,
+          "configFile": "tsconfig.json",
+          "memoryLimit": 8192,
+          "mode": "readonly",
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
+  "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
+  },
+  "target": [
+    "webworker",
+    "es2018",
   ],
 }
 `;

@@ -6,9 +6,9 @@ import {
   createRequestHandler,
 } from '@#metaName/runtime/ssr/server';
 
-const handleRequest = async (request, serverRoot, options) => {
+const handleRequest = async (request, ServerRoot, options) => {
 
-  const body = await #render(request, serverRoot, options);
+  const body = await #render(request, <ServerRoot />, options);
 
   return new Response(body, {
     headers: {

@@ -1,5 +1,22 @@
 # @modern-js/plugin-router-v5
 
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

@@ -10,7 +10,7 @@ import {
   CacheConfig,
 } from '../../types';
 import { ServerNodeEnv } from '../../adapters/node/hono';
-import { initReporter } from '../monitor';
+import { initReporter } from '../monitors';
 import { sortRoutes } from '../../utils';
 import {
   getLoaderCtx,
@@ -123,6 +123,7 @@ function createRenderHandler(
   return async (c, _) => {
     const logger = c.get('logger');
     const reporter = c.get('reporter');
+    const monitors = c.get('monitors');
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
     const locals = c.get('locals');
@@ -133,8 +134,9 @@ function createRenderHandler(
     const nodeReq = c.env.node?.req;
 
     const res = await render(request, {
-      logger,
       nodeReq,
+      monitors,
+      logger,
       reporter,
       templates,
       metrics,

@@ -2,7 +2,11 @@ import path from 'path';
 import { ServerRoute } from '@modern-js/types';
 import { createLogger } from '@modern-js/utils';
 import { createServerBase } from '../../src/serverBase';
-import { monitorPlugin, renderPlugin } from '../../src/plugins';
+import {
+  renderPlugin,
+  initMonitorsPlugin,
+  injectloggerPluigin,
+} from '../../src/plugins';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../src/types';
@@ -25,9 +29,8 @@ async function createSSRServer(
   });
 
   server.addPlugins([
-    monitorPlugin({
-      logger: createLogger(),
-    }),
+    initMonitorsPlugin(),
+    injectloggerPluigin(createLogger()),
     injectResourcePlugin(),
     renderPlugin({}),
   ]);
@@ -54,9 +57,8 @@ describe('should render html correctly', () => {
     });
 
     server.addPlugins([
-      monitorPlugin({
-        logger: createLogger(),
-      }),
+      initMonitorsPlugin(),
+      injectloggerPluigin(createLogger()),
       injectResourcePlugin(),
       renderPlugin({}),
     ]);

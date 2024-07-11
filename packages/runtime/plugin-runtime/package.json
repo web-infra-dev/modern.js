@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.6",
+  "version": "2.55.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -80,9 +80,9 @@
       "default": "./dist/esm/core/server/index.js"
     },
     "./ssr/server": {
-      "types": "./dist/types/core/server/index.server.d.ts",
-      "jsnext:source": "./src/core/server/index.server.ts",
-      "default": "./dist/esm/core/server/index.server.js"
+      "types": "./dist/types/core/server/server.d.ts",
+      "jsnext:source": "./src/core/server/server.ts",
+      "default": "./dist/esm/core/server/server.js"
     },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
@@ -158,7 +158,7 @@
         "./dist/types/core/server/index.d.ts"
       ],
       "ssr/server": [
-        "./dist/types/core/server/index.server.d.ts"
+        "./dist/types/core/server/server.d.ts"
       ],
       "model": [
         "./types/model.d.ts"

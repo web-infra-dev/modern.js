@@ -3,7 +3,8 @@ import assert from 'assert';
 import http from 'http';
 import { URL } from 'url';
 import { Handler, Hono } from 'hono';
-import { getPort, fs } from '@modern-js/utils';
+import { cors } from 'hono/cors';
+import { getPort } from '@modern-js/utils';
 import { HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
@@ -57,23 +58,22 @@ const hotUpdateHandler: Handler = async c => {
   return newResp;
 };
 
-const fallbackHtmlHandler: Handler = async c => {
-  const filename = path.resolve(CLIENT_SERVE_DIR, 'html/client/index.html');
-  const content = await fs.readFile(filename, 'utf-8');
-  return c.html(content);
-};
-
 declare global {
   interface DevtoolsPluginVars {
-    http: http.Server;
+    http?: http.Server & { port: number };
   }
 }
 
 export const pluginHttp: Plugin = {
+  name: 'http',
   async setup(api) {
-    if (process.env.NODE_ENV === 'production') return;
+    const disableHttpServer =
+      process.env.NODE_ENV === 'production' ||
+      process.env.DEVTOOLS_HTTP_SERVER === 'false';
+    if (disableHttpServer) return;
 
     const app = new Hono<{ Bindings: HttpBindings }>();
+    app.use('*', cors());
     app.all('/api/cookies', cookiesServiceHandler);
     app.use(
       '/static/*',
@@ -89,8 +89,6 @@ export const pluginHttp: Plugin = {
       });
     });
 
-    app.get('*', fallbackHtmlHandler);
-
     const server = createAdaptorServer({
       fetch: app.fetch,
       hostname: '127.0.0.1', // https://stackoverflow.com/questions/77142563/nodejs-18-breaks-dns-resolution-of-localhost-from-127-0-0-1-to-1
@@ -98,25 +96,17 @@ export const pluginHttp: Plugin = {
         allowHTTP1: true,
       },
     });
+    const port = await getPort(8782, { slient: true });
     assert(server instanceof http.Server, 'instance should be http.Server');
-    api.vars.http = server;
+    server.listen(port);
+    api.vars.http = Object.assign(server, { port });
+
     api.frameworkHooks.hook('config', async () => {
-      const port = await getPort(8782, { slient: true });
-      server.listen(port);
       const proxy = {
         [ROUTE_BASENAME]: {
           target: `http://127.0.0.1:${port}`,
           pathRewrite: { [`^${ROUTE_BASENAME}`]: '' },
           ws: true,
-          onProxyReq(proxyReq, req) {
-            const addrInfo = req.socket.address();
-            if ('address' in addrInfo) {
-              const { address } = addrInfo;
-              proxyReq.setHeader('X-Forwarded-For', address);
-            } else {
-              proxyReq.removeHeader('X-Forwarded-For');
-            }
-          },
         },
       } as Record<string, ProxyDetail>;
       return { tools: { devServer: { proxy } } } as UserConfig<AppTools>;

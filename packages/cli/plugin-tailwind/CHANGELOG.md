@@ -1,5 +1,27 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 380c4a3: fix: add bff/tailwindcss/swc plugin exported types
+  fix: 添加 bff/tailwindcss/swc 插件的导出类型
+- Updated dependencies [1430c5d]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a38bb04]
+- Updated dependencies [1515ea9]
+- Updated dependencies [59e46ad]
+- Updated dependencies [283ac69]
+  - @modern-js/runtime@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/node-bundle-require@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

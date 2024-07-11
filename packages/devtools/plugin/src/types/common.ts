@@ -5,7 +5,7 @@ import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
 import { Hookable } from 'hookable';
-import { DevtoolsContext } from '@modern-js/devtools-kit/node';
+import { DevtoolsContext, ServerManifest } from '@modern-js/devtools-kit/node';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
@@ -53,6 +53,7 @@ export type $FrameworkHooks = CleanHooks<
 
 export interface FrameworkHooks extends $FrameworkHooks {
   config: () => void;
+  setup: (api: CliPluginAPI) => void;
 }
 
 type UnwrapBuilderHooks<T> = {
@@ -75,12 +76,14 @@ export type $BuilderHooks = UnwrapBuilderHooks<
   >
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BuilderHooks extends $BuilderHooks {}
+export interface BuilderHooks extends $BuilderHooks {
+  setup: (api: RsbuildPluginAPI) => void;
+}
 
 export interface DevtoolsHooks {
   cleanup: () => Promise<void> | void;
   settleState: () => Promise<void> | void;
+  createManifest: (arg: { manifest: ServerManifest }) => Promise<void> | void;
 }
 
 declare global {
@@ -99,5 +102,6 @@ export interface PluginApi {
 }
 
 export interface Plugin {
+  name: string;
   setup: (api: PluginApi) => Promise<void>;
 }
