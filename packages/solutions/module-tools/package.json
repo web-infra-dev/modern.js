@@ -87,7 +87,7 @@
     "style-inject": "0.3.0",
     "sucrase": "3.29.0",
     "tapable": "2.2.1",
-    "terser": "5.19.2",
+    "terser": "^5.31.1",
     "tsconfig-paths-webpack-plugin": "4.1.0"
   },
   "devDependencies": {
