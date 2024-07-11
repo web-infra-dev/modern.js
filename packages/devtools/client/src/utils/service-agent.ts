@@ -16,12 +16,17 @@ export const registerService = async () => {
   const reg = await navigator.serviceWorker.register(
     `${SERVICE_SCRIPT}?v=${Date.now()}`,
   );
-  reg.addEventListener('updatefound', () => {
-    const sw = reg.installing;
-    sw?.addEventListener('statechange', () => {
-      console.log('sw.state: ', sw.state);
+  return new Promise<void>(resolve => {
+    reg.addEventListener('updatefound', () => {
+      const sw = reg.installing;
+      if (!sw) throw new Error('No installing service worker');
+      const handleStateChange = () => {
+        if (sw.state === 'activated') {
+          resolve();
+          sw.removeEventListener('statechange', handleStateChange);
+        }
+      };
+      sw.addEventListener('statechange', handleStateChange);
     });
   });
-  await navigator.serviceWorker.ready;
-  return reg;
 };

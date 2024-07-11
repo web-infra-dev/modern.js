@@ -50,6 +50,10 @@ const routes = app
     async c => {
       const { rules } = c.req.valid('json');
       await storage.setItem('rules', rules);
+      console.log(
+        '[Modern.js DevTools] update header modifier rules by:',
+        rules,
+      );
       return c.json({ rules });
     },
   )

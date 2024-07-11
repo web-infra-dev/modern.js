@@ -67,6 +67,7 @@ export default defineConfig<'rspack'>({
     preEntry: [
       require.resolve('modern-normalize/modern-normalize.css'),
       require.resolve('@radix-ui/themes/styles.css'),
+      './src/styles/theme.scss',
     ],
     globalVars,
     alias: {
@@ -86,12 +87,19 @@ export default defineConfig<'rspack'>({
       strategy: 'split-by-experience',
       override: {
         cacheGroups: {
+          radix: {
+            test: /\/node_modules\/@radix-ui\//,
+            chunks: 'all',
+            name: 'lib-radix',
+            enforce: true,
+            priority: 9000,
+          },
           components: {
             test: /\/src\/components\/.*\.(scss|css)$/,
             chunks: 'all',
             name: 'components',
             enforce: true,
-            priority: 9999,
+            priority: 8000,
           },
         },
       },

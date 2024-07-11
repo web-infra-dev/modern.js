@@ -1,4 +1,4 @@
-import { Box, IconButton, TextField } from '@radix-ui/themes';
+import { Box, Flex, IconButton, TextField } from '@radix-ui/themes';
 import React from 'react';
 import { HiMinusSmall, HiPlusSmall } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
@@ -23,7 +23,7 @@ export const Pair: React.FC<PairProps> = ({
   const data = useSnapshot($data);
 
   return (
-    <Box key={data.id} className={styles.inputPair} aria-disabled={disabled}>
+    <Flex key={data.id} className={styles.inputPair} aria-disabled={disabled}>
       <TextField.Root
         value={data.key}
         disabled={disabled}
@@ -46,6 +46,6 @@ export const Pair: React.FC<PairProps> = ({
           <HiPlusSmall />
         </IconButton>
       </Box>
-    </Box>
+    </Flex>
   );
 };
