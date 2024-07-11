@@ -1,11 +1,11 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
-import { type HtmlTagHandler } from '@rsbuild/shared';
 import {
   mergeRsbuildConfig,
   type RsbuildPlugin,
   type RsbuildConfig,
   type SourceConfig,
+  type HtmlTagHandler,
 } from '@rsbuild/core';
 import type {
   CreateBuilderCommonOptions,

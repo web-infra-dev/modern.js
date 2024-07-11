@@ -1,4 +1,3 @@
-import type { NodeEnv, HtmlTagDescriptor } from '@rsbuild/shared';
 import type {
   ConfigChainWithContext,
   ConfigChain,
@@ -13,6 +12,8 @@ import type {
   DistPathConfig,
   Rspack,
   RequestHandler,
+  NodeEnv,
+  HtmlTagDescriptor,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';

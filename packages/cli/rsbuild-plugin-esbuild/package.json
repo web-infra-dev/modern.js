@@ -28,7 +28,7 @@
   "dependencies": {
     "@swc/helpers": "0.5.3",
     "esbuild": "0.17.19",
-    "webpack": "^5.92.0"
+    "webpack": "^5.92.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
