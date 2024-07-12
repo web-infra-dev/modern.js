@@ -32,21 +32,31 @@ export const modifyEntrypoints = (
     if (!entrypoint.isAutoMount) {
       return entrypoint;
     }
+    if (entrypoint?.isCustomSourceEntry) {
+      if (entrypoint.fileSystemRoutes) {
+        // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.
+        // At this time, the `routes` will be used by default, and react router v5 is not supported.
+        if (isRouterV5(config)) {
+          throw Error(
+            'Custom entries with conventional routing not support use react router v5!',
+          );
+        }
+        entrypoint.nestedRoutesEntry = entrypoint.entry;
+      }
+      return entrypoint;
+    }
     const isHasApp = hasApp(entrypoint.absoluteEntryDir!);
     if (isHasApp) {
       return entrypoint;
     }
-    const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
     const isHasPages = hasPages(entrypoint.absoluteEntryDir!);
-    if (!isHasNestedRoutes && !isHasPages && !entrypoint.fileSystemRoutes) {
-      return entrypoint;
-    }
-    // When the user configures a custom entry, and the entry path is a folder, fileSystemRoutes will be set to true during entry recognition.
-    // At this time, the `routes` will be used by default, and react router v5 is not supported.
-    if (entrypoint.fileSystemRoutes && !isRouterV5(config)) {
-      entrypoint.nestedRoutesEntry = entrypoint.entry;
-    } else if (!entrypoint.fileSystemRoutes) {
+    if (isHasPages) {
+      entrypoint.pageRoutesEntry = path.join(
+        entrypoint.absoluteEntryDir!,
+        PAGES_DIR_NAME,
+      );
       entrypoint.fileSystemRoutes = {
+        ...entrypoint.fileSystemRoutes,
         globalApp: findExists(
           JS_EXTENSIONS.map(ext =>
             path.resolve(
@@ -56,24 +66,14 @@ export const modifyEntrypoints = (
           ),
         ),
       };
-      if (isHasPages) {
-        entrypoint.pageRoutesEntry = path.join(
-          entrypoint.absoluteEntryDir!,
-          PAGES_DIR_NAME,
-        );
-      }
-      if (isHasNestedRoutes) {
-        entrypoint.nestedRoutesEntry = path.join(
-          entrypoint.absoluteEntryDir!,
-          NESTED_ROUTES_DIR,
-        );
-      }
-    } else {
-      throw Error(
-        'Custom entries with conventional routing not support use react router v5!',
+    }
+    const isHasNestedRoutes = hasNestedRoutes(entrypoint.absoluteEntryDir!);
+    if (isHasNestedRoutes) {
+      entrypoint.nestedRoutesEntry = path.join(
+        entrypoint.absoluteEntryDir!,
+        NESTED_ROUTES_DIR,
       );
     }
-
     return entrypoint;
   });
 };

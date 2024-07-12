@@ -34,7 +34,9 @@ export interface Entrypoint {
    * Using customEntry instead.
    */
   customBootstrap?: string | false;
-
+  /**
+   * use src/{entryName}/entry.tsx to custom entry
+   */
   customEntry?: boolean;
 
   customServerEntry?: string | false;
@@ -44,6 +46,10 @@ export interface Entrypoint {
     routes?: any[];
   };
   absoluteEntryDir?: string;
+  /**
+   * use source.entries to custom entry
+   */
+  isCustomSourceEntry?: boolean;
 }
 
 /**
