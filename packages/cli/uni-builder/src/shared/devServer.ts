@@ -57,7 +57,14 @@ export const transformToRsbuildServerOptions = (
   dev: DevConfig;
   server: ServerConfig;
 } => {
-  const { port = 8080, host, https, ...devConfig } = dev;
+  const {
+    port = 8080,
+    host,
+    https,
+    startUrl,
+    beforeStartUrl,
+    ...devConfig
+  } = dev;
 
   const newDevServerConfig = applyOptionsChain(
     {
@@ -123,6 +130,15 @@ export const transformToRsbuildServerOptions = (
         host,
         https: https ? (https as ServerConfig['https']) : undefined,
       };
+
+  if (!isProd() && startUrl) {
+    server.open = beforeStartUrl
+      ? {
+          target: startUrl === true ? '//localhost:<port>' : startUrl,
+          before: beforeStartUrl,
+        }
+      : startUrl;
+  }
 
   return { dev: rsbuildDev, server };
 };

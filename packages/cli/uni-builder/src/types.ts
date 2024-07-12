@@ -168,6 +168,10 @@ export type UniBuilderExtraConfig = {
     sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
+    /** Set the page URL to open when the server starts. */
+    startUrl?: boolean | string | string[];
+    /** Execute a callback function before opening the `startUrl`. */
+    beforeStartUrl?: () => Promise<void> | void;
     /**
      * Used to set the host of Dev Server.
      */

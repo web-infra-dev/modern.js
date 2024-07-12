@@ -12,10 +12,10 @@ const globalVars: Record<string, any> = {
   'process.env.DEVTOOLS_MARK': nanoid(),
 };
 
-const define: Record<string, string> = {};
+const define: Record<string, any> = {};
 
 if (process.env.NODE_ENV === 'production') {
-  define.__REACT_DEVTOOLS_GLOBAL_HOOK__ = '({ isDisabled: true })';
+  define.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 }
 
 const assetPrefix = process.env.ASSET_PREFIX || ROUTE_BASENAME;

@@ -25,7 +25,9 @@ export const pluginEnvironmentDefaults = (
               jsAsync: '',
               cssAsync: '',
             },
-            filenameHash: false,
+            filename: {
+              js: '[name].js',
+            },
           },
         };
       }

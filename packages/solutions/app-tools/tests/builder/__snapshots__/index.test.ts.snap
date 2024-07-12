@@ -1,5 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`create builder Options test create builder environments config 1`] = `
+{
+  "web": {
+    "output": {
+      "target": "web",
+    },
+    "source": {
+      "entry": {
+        "main": [
+          "src/index.ts",
+          "src/main.ts",
+        ],
+        "next": [
+          "src/next.ts",
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`create builder Options test create builder environments config 2`] = `
+{
+  "node": {
+    "output": {
+      "target": "node",
+    },
+    "source": {
+      "entry": {
+        "main": [
+          "src/index.ts",
+          "src/main.ts",
+        ],
+        "next": [
+          "src/next.ts",
+        ],
+      },
+    },
+  },
+  "web": {
+    "output": {
+      "target": "web",
+    },
+    "source": {
+      "entry": {
+        "main": [
+          "src/index.ts",
+          "src/main.ts",
+        ],
+        "next": [
+          "src/next.ts",
+        ],
+      },
+    },
+  },
+}
+`;
+
+exports[`create builder Options test create builder environments config 3`] = `
+{
+  "serviceWorker": {
+    "output": {
+      "target": "web-worker",
+    },
+    "source": {
+      "entry": {
+        "main": [
+          "src/index.ts",
+          "src/main.ts",
+        ],
+        "next": [
+          "src/next.ts",
+        ],
+      },
+    },
+  },
+  "web": {
+    "output": {
+      "target": "web",
+    },
+    "source": {
+      "entry": {
+        "main": [
+          "src/index.ts",
+          "src/main.ts",
+        ],
+        "next": [
+          "src/next.ts",
+        ],
+      },
+    },
+  },
+}
+`;
+
 exports[`create builder provider config should add default config 1`] = `
 {
   "dev": {
