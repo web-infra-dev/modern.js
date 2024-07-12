@@ -90,6 +90,7 @@ export const getBundleEntry = async (
           .isDirectory()
           ? {}
           : undefined,
+        isCustomSourceEntry: true,
       };
 
       if (!ifAlreadyExists(defaults, entrypoint)) {

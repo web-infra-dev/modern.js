@@ -50,12 +50,17 @@ export const generateCode = async (
   await Promise.all(entrypoints.map(generateEntryCode));
 
   async function generateEntryCode(entrypoint: Entrypoint) {
-    const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
-      entrypoint;
+    const {
+      entryName,
+      isMainEntry,
+      isAutoMount,
+      pageRoutesEntry,
+      nestedRoutesEntry,
+    } = entrypoint;
     const { metaName } = api.useAppContext();
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
-      if (fileSystemRoutes) {
+      if (pageRoutesEntry || nestedRoutesEntry) {
         let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
           [];
         let nestedRoutes: NestedRouteForCli | NestedRouteForCli[] | null = null;
