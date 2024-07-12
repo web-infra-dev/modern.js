@@ -73,7 +73,6 @@ export const modifyEntrypoints = (
         entrypoint.absoluteEntryDir!,
         NESTED_ROUTES_DIR,
       );
-      entrypoint.fileSystemRoutes = entrypoint.fileSystemRoutes || {};
     }
     return entrypoint;
   });
