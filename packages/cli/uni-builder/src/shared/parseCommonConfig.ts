@@ -6,6 +6,7 @@ import {
   type RsbuildConfig,
   type SourceConfig,
   type HtmlTagHandler,
+  type ToolsConfig,
 } from '@rsbuild/core';
 import type {
   CreateBuilderCommonOptions,
@@ -124,7 +125,15 @@ export async function parseCommonConfig(
     } = {},
     dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
-    tools: { devServer, tsChecker, minifyCss, less, sass, ...toolsConfig } = {},
+    tools: {
+      devServer,
+      tsChecker,
+      minifyCss,
+      less,
+      sass,
+      htmlPlugin,
+      ...toolsConfig
+    } = {},
     environments = {},
   } = uniBuilderConfig;
 
@@ -145,6 +154,8 @@ export async function parseCommonConfig(
     security: securityConfig,
     environments,
   };
+
+  rsbuildConfig.tools!.htmlPlugin = htmlPlugin as ToolsConfig['htmlPlugin'];
 
   const { html = {}, output = {}, source = {} } = rsbuildConfig;
 

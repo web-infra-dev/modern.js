@@ -63,6 +63,7 @@ function getMinifyOptions(config: NormalizedEnvironmentConfig) {
   };
 }
 
+// support html minify and tools.htmlPlugin minify option should works
 export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
   name: 'uni-builder:plugin-html-minifier-terser',
 

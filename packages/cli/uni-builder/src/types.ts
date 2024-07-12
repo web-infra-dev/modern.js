@@ -126,6 +126,7 @@ export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
 export type UniBuilderExtraConfig = {
   tools?: {
+    // tools.htmlPlugin minify option should works
     htmlPlugin?:
       | boolean
       | ConfigChainWithContext<
@@ -447,7 +448,7 @@ export type UniBuilderConfig = {
   };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
-  tools?: RsbuildConfig['tools'];
+  tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
   source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildConfig['plugins'];
