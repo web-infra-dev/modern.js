@@ -7,7 +7,7 @@ import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner, Context, Middleware, ServerEnv } from '../../types';
 import { transformResponse } from '../../utils';
-import { ServerReportTimings } from '../../constants';
+import { ServerTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { getLoaderCtx } from './loader';
 import {
@@ -66,7 +66,7 @@ export class CustomServer {
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
-      const reporter = c.get('reporter');
+      const monitors = c.get('monitors');
 
       const baseHookCtx = createBaseHookContext(c);
       const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
@@ -74,11 +74,8 @@ export class CustomServer {
       const getCost = time();
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
       const cost = getCost();
-      cost &&
-        reporter?.reportTiming(
-          ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
-          cost,
-        );
+
+      cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_MATCH, cost);
 
       const { url, status } = afterMatchCtx.router;
 
@@ -145,11 +142,8 @@ export class CustomServer {
         const getCost = time();
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
         const cost = getCost();
-        cost &&
-          reporter?.reportTiming(
-            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
-            cost,
-          );
+
+        cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_RENDER, cost);
 
         if ((afterRenderCtx.response as any).private_overrided) {
           return undefined;
@@ -180,7 +174,7 @@ export class CustomServer {
 
     // eslint-disable-next-line consistent-return
     return async (c, next) => {
-      const reporter = c.get('reporter');
+      const monitors = c.get('monitors');
 
       const locals: Record<string, any> = {};
 
@@ -197,8 +191,7 @@ export class CustomServer {
       const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
       const cost = getCost();
-      cost &&
-        reporter?.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
+      cost && monitors?.timing(ServerTimings.SERVER_MIDDLEWARE, cost);
 
       c.set('locals', locals);
 
