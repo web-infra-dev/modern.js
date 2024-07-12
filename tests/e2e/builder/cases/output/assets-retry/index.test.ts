@@ -2,8 +2,7 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
-// TODO tools.htmlPlugin.minify option should works
-test.skip('should inline assets retry runtime code to html by default', async () => {
+test('should inline assets retry runtime code to html by default', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
@@ -13,6 +12,8 @@ test.skip('should inline assets retry runtime code to html by default', async ()
       },
       tools: {
         htmlPlugin: (config: any) => {
+          // minify option should works
+          config.minify ??= {};
           // minifyJS will minify function name
           if (typeof config.minify === 'object') {
             config.minify.minifyJS = false;

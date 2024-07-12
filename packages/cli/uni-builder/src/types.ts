@@ -34,6 +34,7 @@ import type {
 } from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 
 type ArrayOrNot<T> = T | T[];
 
@@ -125,6 +126,15 @@ export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
 export type UniBuilderExtraConfig = {
   tools?: {
+    htmlPlugin?:
+      | boolean
+      | ConfigChainWithContext<
+          HTMLPluginOptions,
+          {
+            entryName: string;
+            entryValue: (string | string[] | Rspack.EntryDescription)[];
+          }
+        >;
     styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
     /**

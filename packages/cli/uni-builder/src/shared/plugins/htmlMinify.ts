@@ -1,5 +1,6 @@
 import type { NormalizedEnvironmentConfig, RsbuildPlugin } from '@rsbuild/core';
 import type { MinifyOptions as TerserOptions } from 'terser';
+import { merge } from 'ts-deepmerge';
 
 function applyRemoveConsole(
   options: TerserOptions,
@@ -67,16 +68,19 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { isProd, environment }) => {
-      if (!isProd || environment.config.output.minify === false) {
+      const {
+        output,
+        tools: { htmlPlugin },
+      } = environment.config;
+
+      if (!isProd || output.minify === false || htmlPlugin === false) {
         return;
       }
 
       const { minify } = await import('html-minifier-terser');
 
       const pluginRecord = chain.plugins.entries();
-      // TODO: tools.htmlPlugin.minify option should works
       const minifyOptions = getMinifyOptions(environment.config);
-      const minifyFn = (html: string) => minify(html, minifyOptions);
 
       for (const id of Object.keys(pluginRecord)) {
         if (!id.startsWith('html-')) {
@@ -96,6 +100,17 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
             if (!options.length) {
               return options;
             }
+
+            const userMinifyOption = options[0].minify;
+
+            const minifyFn = (html: string) =>
+              minify(
+                html,
+                userMinifyOption
+                  ? merge(minifyOptions, userMinifyOption)
+                  : minifyOptions,
+              );
+
             options[0].minify = minifyFn;
             return options;
           });
@@ -112,7 +127,11 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
             if (!options.length || options[0].minify) {
               return options;
             }
-            options[0].minify = minifyOptions;
+            const userMinifyOption = options[0].minify;
+
+            options[0].minify = userMinifyOption
+              ? merge(minifyOptions, userMinifyOption)
+              : minifyOptions;
             return options;
           });
         }
