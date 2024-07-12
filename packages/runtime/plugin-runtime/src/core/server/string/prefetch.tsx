@@ -7,21 +7,24 @@ import React from 'react';
 import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
+import { SSRConfig } from '../shared';
 
 export const prefetch = async (
   App: React.ReactElement,
   request: Request,
   options: HandleRequestOptions,
+  ssrConfig: SSRConfig,
   { onError, onTiming }: Tracer,
 ) => {
   const headersData = parseHeaders(request);
 
-  const { runtimeContext: context, resource, config } = options;
+  const { runtimeContext: context, resource } = options;
 
   const { entryName, loadableStats } = resource;
 
   return run(headersData, async () => {
-    if (!config.disablePrerender) {
+    console.log(typeof ssrConfig === 'boolean' || !ssrConfig.disablePrerender);
+    if (typeof ssrConfig === 'boolean' || !ssrConfig.disablePrerender) {
       try {
         const end = time();
         // disable renderToStaticMarkup when user configures disablePrerender

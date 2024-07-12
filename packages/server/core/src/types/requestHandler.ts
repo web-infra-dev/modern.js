@@ -17,8 +17,6 @@ export type RequestHandlerConfig = {
   scriptLoading?: 'defer' | 'blocking' | 'module' | 'async';
   enableInlineStyles?: boolean | RegExp;
   enableInlineScripts?: boolean | RegExp;
-  disablePrerender?: boolean;
-  chunkLoadingGlobal?: string;
   ssr?: ServerUserConfig['ssr'];
   ssrByEntries?: ServerUserConfig['ssrByEntries'];
 };

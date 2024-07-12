@@ -55,6 +55,13 @@ export const renderString: RenderString = async (
 
     const { htmlTemplate, entryName, loadableStats, routeManifest } = resource;
 
+    const ssrConfig = getSSRConfigByEntry(
+      entryName,
+      config.ssr,
+      config.ssrByEntries,
+      staticGenerate,
+    );
+
     const chunkSet: ChunkSet = {
       renderLevel: RenderLevel.CLIENT_RENDER,
       ssrScripts: '',
@@ -65,18 +72,17 @@ export const renderString: RenderString = async (
     let prefetchData = {};
 
     try {
-      prefetchData = await prefetch(serverRoot, request, options, tracer);
+      prefetchData = await prefetch(
+        serverRoot,
+        request,
+        options,
+        ssrConfig,
+        tracer,
+      );
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
     }
-
-    const ssrConfig = getSSRConfigByEntry(
-      entryName,
-      config.ssr,
-      config.ssrByEntries,
-      staticGenerate,
-    );
 
     const collectors = [
       new StyledCollector(chunkSet),
