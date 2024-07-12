@@ -12,8 +12,10 @@ const globalVars: Record<string, any> = {
   'process.env.DEVTOOLS_MARK': nanoid(),
 };
 
+const define: Record<string, string> = {};
+
 if (process.env.NODE_ENV === 'production') {
-  globalVars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+  define.__REACT_DEVTOOLS_GLOBAL_HOOK__ = '({ isDisabled: true })';
 }
 
 const assetPrefix = process.env.ASSET_PREFIX || ROUTE_BASENAME;
@@ -66,6 +68,7 @@ export default defineConfig<'rspack'>({
       require.resolve('modern-normalize/modern-normalize.css'),
       require.resolve('@radix-ui/themes/styles.css'),
     ],
+    define,
     globalVars,
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.

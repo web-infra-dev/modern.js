@@ -864,21 +864,21 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     },
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"development\\"",
-      },
+      "_args": [
+        {
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.NODE_ENV": "\\"development\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "web",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "web",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
@@ -1619,23 +1619,14 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
-        "_options": {
-          "compress": {
-            "passes": 1,
+        "_args": [
+          {
+            "extractComments": true,
+            "format": {
+              "asciiOnly": true,
+            },
           },
-          "exclude": undefined,
-          "extractComments": {
-            "condition": "@preserve|@lic|@cc_on|^/**!",
-          },
-          "format": {
-            "asciiOnly": true,
-            "comments": false,
-          },
-          "include": undefined,
-          "mangle": true,
-          "module": undefined,
-          "test": undefined,
-        },
+        ],
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
@@ -1680,21 +1671,21 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "plugins": [
     RsbuildTransformPlugin {},
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
+      "_args": [
+        {
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.NODE_ENV": "\\"production\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "node",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "node",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
@@ -2475,23 +2466,14 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
-        "_options": {
-          "compress": {
-            "passes": 1,
+        "_args": [
+          {
+            "extractComments": true,
+            "format": {
+              "asciiOnly": true,
+            },
           },
-          "exclude": undefined,
-          "extractComments": {
-            "condition": "@preserve|@lic|@cc_on|^/**!",
-          },
-          "format": {
-            "asciiOnly": true,
-            "comments": false,
-          },
-          "include": undefined,
-          "mangle": true,
-          "module": undefined,
-          "test": undefined,
-        },
+        ],
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
@@ -2656,21 +2638,21 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     },
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
+      "_args": [
+        {
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.NODE_ENV": "\\"production\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "web",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "web",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
@@ -3342,23 +3324,14 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
-        "_options": {
-          "compress": {
-            "passes": 1,
+        "_args": [
+          {
+            "extractComments": true,
+            "format": {
+              "asciiOnly": true,
+            },
           },
-          "exclude": undefined,
-          "extractComments": {
-            "condition": "@preserve|@lic|@cc_on|^/**!",
-          },
-          "format": {
-            "asciiOnly": true,
-            "comments": false,
-          },
-          "include": undefined,
-          "mangle": true,
-          "module": undefined,
-          "test": undefined,
-        },
+        ],
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
@@ -3399,21 +3372,21 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "plugins": [
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
+      "_args": [
+        {
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.NODE_ENV": "\\"production\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "serviceWorker",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "serviceWorker",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
