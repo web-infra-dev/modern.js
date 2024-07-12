@@ -125,7 +125,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
         })();
 
         return {
-          // TODO: is works?
           builderPlugins: [ssrBuilderPlugin(api)],
           source: {
             alias: {
