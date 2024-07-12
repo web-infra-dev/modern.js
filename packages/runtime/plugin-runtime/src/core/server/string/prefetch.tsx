@@ -23,7 +23,6 @@ export const prefetch = async (
   const { entryName, loadableStats } = resource;
 
   return run(headersData, async () => {
-    console.log(typeof ssrConfig === 'boolean' || !ssrConfig.disablePrerender);
     if (typeof ssrConfig === 'boolean' || !ssrConfig.disablePrerender) {
       try {
         const end = time();
