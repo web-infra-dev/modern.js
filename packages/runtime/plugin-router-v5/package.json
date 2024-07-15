@@ -73,7 +73,8 @@
   },
   "peerDependencies": {
     "react": ">=17",
-    "react-dom": ">=17"
+    "react-dom": ">=17",
+    "@modern-js/runtime": "workspace:^2.55.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

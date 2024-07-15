@@ -1,4 +1,4 @@
-import { createRoot } from '@modern-js/runtime/react';
+import { createRoot } from '@meta/runtime/react';
 import type { Root } from 'react-dom/client';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
 import { garfishRender } from './render';
