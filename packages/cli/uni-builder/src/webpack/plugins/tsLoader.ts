@@ -5,7 +5,7 @@ import {
   getBabelUtils,
   getUseBuiltIns,
 } from '@rsbuild/plugin-babel';
-import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
+import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
 import { getPresetReact } from './babel';
