@@ -12,14 +12,17 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./web": {
       "types": "./dist/web.d.ts",
+      "jsnext:source": "./src/web.ts",
       "default": "./dist/web.js"
     },
     "./node": {
       "types": "./dist/node.d.ts",
+      "jsnext:source": "./src/node.ts",
       "default": "./dist/node.js"
     }
   },
