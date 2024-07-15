@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.6",
+  "version": "2.55.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -36,12 +36,22 @@
     "./context": {
       "types": "./dist/types/core/context/index.d.ts",
       "jsnext:source": "./src/core/context/index.ts",
-      "default": "./dist/cjs/core/context/index.js"
+      "default": "./dist/esm/core/context/index.js"
     },
     "./plugin": {
       "types": "./dist/types/core/plugin/index.d.ts",
       "jsnext:source": "./src/core/plugin/index.ts",
-      "default": "./dist/cjs/core/plugin/index.js"
+      "default": "./dist/esm/core/plugin/index.js"
+    },
+    "./react": {
+      "types": "./dist/types/core/react/index.d.ts",
+      "jsnext:source": "./src/core/react/index.ts",
+      "default": "./dist/esm/core/react/index.js"
+    },
+    "./browser": {
+      "types": "./dist/types/core/browser/index.d.ts",
+      "jsnext:source": "./src/core/browser/index.ts",
+      "default": "./dist/esm/core/browser/index.js"
     },
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
@@ -64,24 +74,21 @@
       "node": "./dist/cjs/exports/server.js",
       "default": "./dist/esm/exports/server.js"
     },
+    "./ssr": {
+      "types": "./dist/types/core/server/index.d.ts",
+      "jsnext:source": "./src/core/server/index.ts",
+      "default": "./dist/esm/core/server/index.js"
+    },
+    "./ssr/server": {
+      "types": "./dist/types/core/server/server.d.ts",
+      "jsnext:source": "./src/core/server/server.ts",
+      "default": "./dist/esm/core/server/server.js"
+    },
     "./document": {
       "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/index.ts",
       "node": "./dist/cjs/document/index.js",
       "default": "./dist/esm/document/index.js"
-    },
-    "./document/cli": {
-      "types": "./dist/types/document/index.d.ts",
-      "jsnext:source": "./src/document/cli/index.ts",
-      "node": "./dist/cjs/document/cli/index.js",
-      "default": "./dist/esm/document/cli/index.js"
-    },
-    "./ssr": {
-      "types": "./dist/types/ssr/index.d.ts",
-      "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/esm/ssr/index.node.js",
-      "worker": "./dist/esm/ssr/index.node.js",
-      "default": "./dist/esm/ssr/index.js"
     },
     "./model": {
       "types": "./types/model.d.ts",
@@ -103,15 +110,10 @@
       "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
     },
-    "./router/cli": {
-      "types": "./dist/types/router/cli/index.d.ts",
-      "jsnext:source": "./src/router/cli/index.ts",
-      "default": "./dist/cjs/router/cli/index.js"
-    },
     "./loadable-bundler-plugin": {
-      "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
-      "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
-      "default": "./dist/cjs/ssr/cli/loadable-bundler-plugin.js"
+      "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",
+      "jsnext:source": "./src/cli/ssr/loadable-bundler-plugin.ts",
+      "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
     }
   },
   "typesVersions": {
@@ -134,6 +136,12 @@
       "plugin": [
         "./dist/types/core/plugin/index.d.ts"
       ],
+      "react": [
+        "./dist/types/core/react/index.d.ts"
+      ],
+      "browser": [
+        "./dist/types/core/browser/index.d.ts"
+      ],
       "head": [
         "./dist/types/exports/head.d.ts"
       ],
@@ -146,11 +154,11 @@
       "document": [
         "./dist/types/document/index.d.ts"
       ],
-      "document/cli": [
-        "./dist/types/document/cli/index.d.ts"
-      ],
       "ssr": [
-        "./dist/types/ssr/index.d.ts"
+        "./dist/types/core/server/index.d.ts"
+      ],
+      "ssr/server": [
+        "./dist/types/core/server/server.d.ts"
       ],
       "model": [
         "./types/model.d.ts"
@@ -161,11 +169,8 @@
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
       ],
-      "router/cli": [
-        "./dist/types/router/cli/index.d.ts"
-      ],
       "loadable-bundler-plugin": [
-        "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts"
+        "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
       ]
     }
   },
@@ -180,6 +185,7 @@
     "@babel/core": "^7.23.2",
     "@babel/types": "^7.23.0",
     "cookie": "0.5.0",
+    "isbot": "3.7.1",
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",
@@ -200,7 +206,6 @@
     "@types/styled-components": "^5.1.14",
     "esbuild": "0.17.19",
     "es-module-lexer": "^1.1.0",
-    "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",
     "react-is": "^18",
@@ -213,6 +218,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
+    "@rsbuild/core": "0.7.10",
     "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
@@ -221,6 +227,7 @@
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
     "@types/invariant": "^2.2.30",
+    "@types/loadable__server": "5.12.11",
     "@types/jest": "^29",
     "@types/loadable__webpack-plugin": "^5.7.3",
     "@types/node": "^14",

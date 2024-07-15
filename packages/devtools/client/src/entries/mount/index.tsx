@@ -1,4 +1,3 @@
-import './react-devtools-backend';
 import './state';
 import { createRoot } from 'react-dom/client';
 import styles from './index.module.scss';

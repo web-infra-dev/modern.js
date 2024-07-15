@@ -1,5 +1,16 @@
 # @modern-js/entry-generator
 
+## 3.4.8
+
+### Patch Changes
+
+- a38bb04: feat: generator support runtime config file
+
+  feat: 生成器支持 modern.runtime 配置文件
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
 ## 3.4.7
 
 ### Patch Changes

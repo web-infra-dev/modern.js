@@ -1,5 +1,4 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
-import type { RsbuildTarget } from '@rsbuild/shared';
+import type { RsbuildPlugin, RsbuildTarget } from '@rsbuild/core';
 
 export const pluginExtensionPrefix = (
   prefixInfo: string | Partial<Record<RsbuildTarget, string>>,

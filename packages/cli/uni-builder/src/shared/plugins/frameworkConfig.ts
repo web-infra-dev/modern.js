@@ -1,4 +1,4 @@
-import { fse } from '@rsbuild/shared';
+import fs from 'node:fs';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
 export const pluginFrameworkConfig = (configPath: string): RsbuildPlugin => ({
@@ -6,7 +6,7 @@ export const pluginFrameworkConfig = (configPath: string): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(chain => {
-      if (!fse.existsSync(configPath)) {
+      if (!fs.existsSync(configPath)) {
         return;
       }
 

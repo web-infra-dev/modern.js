@@ -29,12 +29,27 @@ export interface Entrypoint {
   nestedRoutesEntry?: string;
   pageRoutesEntry?: string;
   isAutoMount?: boolean;
+  /**
+   * @deprecated
+   * Using customEntry instead.
+   */
   customBootstrap?: string | false;
+  /**
+   * use src/{entryName}/entry.tsx to custom entry
+   */
+  customEntry?: boolean;
+
+  customServerEntry?: string | false;
+
   fileSystemRoutes?: {
     globalApp?: string | false;
     routes?: any[];
   };
   absoluteEntryDir?: string;
+  /**
+   * use source.entries to custom entry
+   */
+  isCustomSourceEntry?: boolean;
 }
 
 /**

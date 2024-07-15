@@ -9,7 +9,7 @@ import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createLoaderManager } from '../loader/loaderManager';
 import { PluginRunner, runtime } from '../plugin';
 import { RouteManifest } from '../../router/runtime/types';
-import { SSRServerContext } from '../../ssr/serverRender/types';
+import { SSRServerContext } from '../types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
@@ -57,10 +57,15 @@ export interface TRuntimeContext extends BaseTRuntimeContext {
   [key: string]: any;
 }
 
-export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
+export const getInitialContext = (
+  runner: PluginRunner,
+  isBrowser = true,
+  routeManifest?: RouteManifest,
+): RuntimeContext => ({
   loaderManager: createLoaderManager({}),
   runner,
-  isBrowser: true,
+  isBrowser,
   routeManifest:
-    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
+    routeManifest ||
+    (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
 });

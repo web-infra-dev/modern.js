@@ -8,33 +8,53 @@ import {
 import type { Entrypoint } from '@modern-js/types';
 import { CliHooksRunner } from '@modern-js/core';
 import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
-import { INDEX_FILE_NAME } from './constants';
+import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';
 
 export type { Entrypoint };
 
+// compatible index entry
 const hasIndex = (dir: string) =>
   findExists(
     JS_EXTENSIONS.map(ext => path.resolve(dir, `${INDEX_FILE_NAME}${ext}`)),
   );
 
+// new entry
+const hasEntry = (dir: string) =>
+  findExists(
+    JS_EXTENSIONS.map(ext => path.resolve(dir, `${ENTRY_FILE_NAME}${ext}`)),
+  );
+
+const hasServerEntry = (dir: string) =>
+  findExists(
+    JS_EXTENSIONS.map(ext =>
+      path.resolve(dir, `${ENTRY_FILE_NAME}.server${ext}`),
+    ),
+  );
+
 const isBundleEntry = async (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dir: string,
+  enableCustomEntry?: boolean,
 ) => {
-  return (
-    (
-      await hookRunners.checkEntryPoint({
-        path: dir,
-        entry: false,
-      })
-    ).entry || hasIndex(dir)
-  );
+  const { entry } = await hookRunners.checkEntryPoint({
+    path: dir,
+    entry: false,
+  });
+  if (entry) {
+    return entry;
+  }
+  const customEntry = hasEntry(dir);
+  if (enableCustomEntry && customEntry) {
+    return customEntry;
+  }
+  return hasIndex(dir);
 };
 
 const scanDir = (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dirs: string[],
+  enableCustomEntry?: boolean,
 ): Promise<Entrypoint[]> =>
   Promise.all(
     dirs.map(async (dir: string) => {
@@ -44,6 +64,8 @@ const scanDir = (
         : false;
 
       const entryName = path.basename(dir);
+      const customEntryFile = hasEntry(dir);
+      const customServerEntry = hasServerEntry(dir);
 
       if (indexFile && !customBootstrap) {
         return {
@@ -62,14 +84,28 @@ const scanDir = (
           entry: false,
         })
       ).entry;
+
       if (entryFile) {
         return {
           entryName,
           isMainEntry: false,
-          entry: entryFile,
+          entry: enableCustomEntry ? customEntryFile || entryFile : entryFile,
+          customServerEntry,
           absoluteEntryDir: path.resolve(dir),
           isAutoMount: true,
           customBootstrap,
+          customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
+        };
+      }
+      if (enableCustomEntry && customEntryFile) {
+        return {
+          entryName,
+          isMainEntry: false,
+          entry: customEntryFile,
+          customServerEntry,
+          absoluteEntryDir: path.resolve(dir),
+          isAutoMount: false,
+          customEntry: Boolean(customEntryFile),
         };
       }
       throw Error('There is no valid entry point in the current project!');
@@ -84,7 +120,7 @@ export const getFileSystemEntry = async (
   const { appDirectory } = appContext;
 
   const {
-    source: { entriesDir, disableEntryDirs },
+    source: { entriesDir, disableEntryDirs, enableCustomEntry },
   } = config;
 
   let disabledDirs: string[] = [];
@@ -97,8 +133,8 @@ export const getFileSystemEntry = async (
 
   if (fs.existsSync(src)) {
     if (fs.statSync(src).isDirectory()) {
-      if (await isBundleEntry(hookRunners, src)) {
-        return scanDir(hookRunners, [src]);
+      if (await isBundleEntry(hookRunners, src, enableCustomEntry)) {
+        return scanDir(hookRunners, [src], enableCustomEntry);
       }
       const dirs: string[] = [];
       await Promise.all(
@@ -106,14 +142,14 @@ export const getFileSystemEntry = async (
           const file = path.join(src, filename);
           if (
             fs.statSync(file).isDirectory() &&
-            (await isBundleEntry(hookRunners, file)) &&
+            (await isBundleEntry(hookRunners, file, enableCustomEntry)) &&
             !disabledDirs.includes(file)
           ) {
             dirs.push(file);
           }
         }),
       );
-      return scanDir(hookRunners, dirs);
+      return scanDir(hookRunners, dirs, enableCustomEntry);
     } else {
       throw Error(`source.entriesDir accept a directory.`);
     }

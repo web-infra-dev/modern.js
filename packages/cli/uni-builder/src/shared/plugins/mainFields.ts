@@ -1,6 +1,5 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin, RsbuildTarget } from '@rsbuild/core';
 import type { MainFields } from '../../types';
-import type { RsbuildTarget } from '@rsbuild/shared';
 
 export const pluginMainFields = (
   resolveMainFields: MainFields | Partial<Record<RsbuildTarget, MainFields>>,

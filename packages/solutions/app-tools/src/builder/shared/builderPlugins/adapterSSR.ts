@@ -1,8 +1,7 @@
 import * as path from 'path';
-import { isHtmlDisabled, RsbuildPlugin, RspackChain } from '@rsbuild/shared';
-import { mergeRsbuildConfig } from '@rsbuild/core';
+import { RsbuildPlugin, RspackChain, mergeRsbuildConfig } from '@rsbuild/core';
 import { fs, isUseSSRBundle } from '@modern-js/utils';
-import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
+import { type HtmlWebpackPlugin, isHtmlDisabled } from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
   Bundler,

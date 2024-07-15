@@ -1,5 +1,16 @@
 # @modern-js/plugin-ssg
 
+## 2.55.0
+
+### Patch Changes
+
+- 86a6333: fix: make sure that BFF run products of the dist when building with ssg
+  fix: make sure that BFF run products of the dist when building with ssg
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

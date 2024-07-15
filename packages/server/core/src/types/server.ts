@@ -6,7 +6,13 @@ import type {
   BaseSSRServerContext,
   ServerRoute,
   NestedRoute,
+  Monitors,
 } from '@modern-js/types';
+import {
+  RequestHandler as BundleRequestHandler,
+  OnError,
+  OnTiming,
+} from './requestHandler';
 
 export type SSRServerContext = BaseSSRServerContext & {
   staticGenerate?: boolean;
@@ -26,13 +32,18 @@ type ServerLoaderBundle = {
   handleRequest: (options: {
     request: Request;
     serverRoutes: ServerRoute[];
-    context: any;
     routes: NestedRoute[];
+    context: {
+      reporter?: Reporter;
+    };
+
+    onError?: OnError;
+    onTiming?: OnTiming;
   }) => Promise<any>;
 };
 
 type ServerRenderBundle = {
-  serverRender: () => any;
+  requestHandler: Promise<BundleRequestHandler>;
 };
 
 export type ServerManifest = {
@@ -43,8 +54,16 @@ export type ServerManifest = {
 };
 
 type ServerVariables = {
+  /** @deprecated  */
   logger: Logger;
+
+  /** @deprecated  */
   reporter?: Reporter;
+
+  /** @deprecated  */
+  metrics?: Metrics;
+
+  monitors: Monitors;
   serverManifest?: ServerManifest;
   templates?: Record<string, string>;
   /**
@@ -54,7 +73,6 @@ type ServerVariables = {
    * Custom by ssrRuntime.
    */
   locals?: Record<string, any>;
-  metrics?: Metrics;
 };
 
 export type ServerEnv = {

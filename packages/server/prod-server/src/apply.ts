@@ -4,7 +4,9 @@ import {
   createErrorHtml,
   faviconPlugin,
   logPlugin,
-  monitorPlugin,
+  initMonitorsPlugin,
+  injectloggerPluigin,
+  injectServerTiming,
   onError,
   processedByPlugin,
   renderPlugin,
@@ -52,8 +54,11 @@ export async function applyPlugins(
   });
 
   const plugins = [
+    ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
+    initMonitorsPlugin(),
+    injectloggerPluigin(getLogger()),
+    injectServerTiming(options.metaName),
     ...(options.plugins || []),
-    monitorPlugin({ logger: getLogger() }),
     processedByPlugin(),
     logPlugin(),
     injectResourcePlugin(),
@@ -64,10 +69,6 @@ export async function applyPlugins(
       cacheConfig,
     }),
   ];
-
-  if (nodeServer) {
-    plugins.unshift(injectNodeSeverPlugin({ nodeServer }));
-  }
 
   serverBase.addPlugins(plugins);
 }

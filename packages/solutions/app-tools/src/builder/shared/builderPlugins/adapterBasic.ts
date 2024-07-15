@@ -1,5 +1,5 @@
 import path from 'path';
-import { RsbuildPlugin, RspackChain } from '@rsbuild/shared';
+import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 
 export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',

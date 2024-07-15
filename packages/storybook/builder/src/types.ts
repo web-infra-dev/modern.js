@@ -1,4 +1,4 @@
-import type { RsbuildPlugin } from '@rsbuild/shared';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
 export type BundlerType = 'webpack' | 'rspack';

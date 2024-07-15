@@ -69,15 +69,23 @@ export class WallAgent extends Hookable<WallAgentHooks> implements Wall {
 
   bindRemote(remote: BirpcReturn<object, object>, methodName: string) {
     const _remote = remote as any;
-    _remote.$functions[methodName] = (
-      event: ReactDevtoolsWallEvent,
-      ...rest: unknown[]
-    ) => {
+
+    const handler = (event: ReactDevtoolsWallEvent, ...rest: unknown[]) => {
       this.callHook('receive', event, ...rest);
     };
-    this.hook('send', (...args) => {
-      _remote[methodName](...args);
-    });
-    return this;
+    _remote.$functions[methodName] = handler;
+
+    const listener: ReactDevtoolsWallListener = (event, ...rest) => {
+      _remote[methodName](event, ...rest);
+    };
+    this.hook('send', listener);
+
+    const unreg = () => {
+      if (_remote.$functions[methodName] === handler) {
+        delete _remote.$functions[methodName];
+      }
+      this.removeHook('send', listener);
+    };
+    return unreg;
   }
 }

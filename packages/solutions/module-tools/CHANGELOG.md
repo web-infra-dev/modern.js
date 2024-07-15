@@ -1,5 +1,23 @@
 # @modern-js/module-tools
 
+## 2.55.0
+
+### Patch Changes
+
+- 269a468: fix(module-tools): the imports field which is handled as url
+
+  fix(module-tools): imports field 被认为了 url
+
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/core@2.55.0
+  - @modern-js/plugin-changeset@2.55.0
+  - @modern-js/plugin-i18n@2.55.0
+  - @modern-js/plugin-lint@2.55.0
+  - @modern-js/plugin@2.55.0
+
 ## 2.54.6
 
 ### Patch Changes

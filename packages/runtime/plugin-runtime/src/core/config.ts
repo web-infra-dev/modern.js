@@ -1,7 +1,5 @@
 import type React from 'react';
-import { AppConfig } from '../common';
-
-import { Plugin } from './plugin';
+import { AppConfig, RuntimeConfig } from '../common';
 
 const APP_CONFIG_SYMBOL = 'config';
 export const getConfig = (
@@ -10,6 +8,10 @@ export const getConfig = (
   // @ts-expect-error
   Component[APP_CONFIG_SYMBOL];
 
+/**
+ * @deprecated
+ * define config in modern.runtime.ts file
+ */
 export const defineConfig = (
   Component: React.ComponentType<any>,
   config: AppConfig,
@@ -19,9 +21,6 @@ export const defineConfig = (
   return Component;
 };
 
-interface RuntimeConfig {
-  plugins: Plugin[];
-}
 /**
  * This function helps you to autocomplete configuration types.
  * It accepts a direct config object, or a function that returns a config.

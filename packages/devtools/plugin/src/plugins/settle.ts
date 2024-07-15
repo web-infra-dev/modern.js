@@ -2,6 +2,7 @@ import { Rspack, webpack } from '@modern-js/app-tools';
 import { Plugin } from '../types';
 
 export const pluginSettleState: Plugin = {
+  name: 'settle-state',
   async setup(api) {
     let _pendingCompiler = 0;
     const handleSettle = async () => {

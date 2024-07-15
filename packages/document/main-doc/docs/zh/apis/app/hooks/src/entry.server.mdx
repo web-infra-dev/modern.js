@@ -1,0 +1,52 @@
+---
+title: entry.server.[tj]sx
+sidebar_position: 5
+---
+
+# entry.server.[tj]sx
+
+当项目开启 `server.ssr` 时，Modern.js 生成一个默认的 Server-Side 入口。示例代码如下：
+
+```tsx title="entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, ServerRoot, options) => {
+  const body = await renderString(request, <ServerRoot />, options);
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## 添加自定义行为
+
+如果用户需自定义 Server-Side Rendering 入口，可以在 `src/entry.server.ts`、`src/{entryName}/entry.server.ts` 中自定义 server 入口
+
+```tsx title="src/entry.server.tsx"
+import { renderString, createRequestHandler } from '@edenx/runtime/ssr/server';
+import type { HandleRequest } from '@edenx/runtime/ssr/server';
+
+const handleRequest: HandleRequest = async (request, ServerRoot, options) => {
+  // do something before rendering
+  const body = await renderString(request, <ServerRoot />, options);
+
+  const newBody = body + '<div>Byte-Dance</div>';
+
+  return new Response(newBody, {
+    headers: {
+      'content-type': 'text/html; charset=UTF-8',
+      'x-custom-header': 'abc',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```

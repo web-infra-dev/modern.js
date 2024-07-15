@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.54.6",
+  "version": "2.55.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -39,7 +39,7 @@
     "@types/signale": "1.4.4",
     "@types/url-join": "4.0.1",
     "address": "1.1.2",
-    "browserslist": "4.20.2",
+    "browserslist": "4.23.1",
     "chalk": "4.1.2",
     "chokidar": "3.5.3",
     "commander": "10.0.0",

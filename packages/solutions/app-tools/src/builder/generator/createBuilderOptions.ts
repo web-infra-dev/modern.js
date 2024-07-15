@@ -1,5 +1,8 @@
-import type { CreateUniBuilderOptions } from '@modern-js/uni-builder';
-import type { RsbuildTarget } from '@rsbuild/shared';
+import type {
+  RsbuildTarget,
+  CreateUniBuilderOptions,
+} from '@modern-js/uni-builder';
+
 import type { IAppContext } from '@modern-js/core';
 
 export function createBuilderOptions(
@@ -23,10 +26,27 @@ export function createBuilderOptions(
     }
   }
 
+  const serverEntries: Entries = {};
+  for (const entry in entries) {
+    const v = entries[entry];
+    serverEntries[entry] = v.map(entry =>
+      entry.replace('index.jsx', 'index.server.jsx'),
+    );
+  }
+
   return {
     cwd: appContext.appDirectory,
     target,
     frameworkConfigPath: appContext.configFile || undefined,
-    entry: entries,
+    entry({ target }) {
+      if (target === 'web') {
+        return entries;
+      }
+      if (['node', 'web-worker', 'service-worker'].includes(target)) {
+        return serverEntries;
+      }
+
+      return entries;
+    },
   };
 }

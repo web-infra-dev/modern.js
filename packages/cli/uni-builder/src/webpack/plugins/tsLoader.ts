@@ -1,11 +1,4 @@
-import {
-  JS_REGEX,
-  castArray,
-  applyScriptCondition,
-  getBrowserslistWithDefault,
-  type FileFilterUtil,
-  type ConfigChainWithContext,
-} from '@rsbuild/shared';
+import { type ConfigChainWithContext } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import {
   PluginBabelOptions,
@@ -16,7 +9,17 @@ import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
 import { getPresetReact } from './babel';
-import { TS_REGEX } from '../../shared/utils';
+import {
+  JS_REGEX,
+  TS_REGEX,
+  castArray,
+  applyScriptCondition,
+  getBrowserslistWithDefault,
+} from '../../shared/utils';
+
+type OneOrMany<T> = T | T[];
+
+type FileFilterUtil = (items: OneOrMany<string | RegExp>) => void;
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 

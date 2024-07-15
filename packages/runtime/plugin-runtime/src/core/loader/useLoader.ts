@@ -107,7 +107,7 @@ const useLoader = <TData = any, Params = any, E = any>(
       // do not load data again in CSR hydrate stage if SSR data exists
       if (
         context._hydration &&
-        window?._SSR_DATA?.data?.loadersData[id]?.error === null
+        window?._SSR_DATA?.data?.loadersData?.[id]?.error === null
       ) {
         return undefined;
       }

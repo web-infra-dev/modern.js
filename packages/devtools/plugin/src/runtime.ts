@@ -1,7 +1,33 @@
 /* eslint-disable node/prefer-global/url */
 /* eslint-disable node/no-unsupported-features/node-builtins */
 /// <reference lib="dom" />
-import { reviver, ServerManifest } from '@modern-js/devtools-kit/runtime';
+import type { ServerManifest } from '@modern-js/devtools-kit/runtime';
+import { initialize } from 'react-devtools-inline/backend';
+
+if (process.env.NODE_ENV === 'development' && !window.opener) {
+  try {
+    // Delete existing devtools hooks registered by react devtools extension.
+    try {
+      // @ts-expect-error: Workaround for the importing `react` from `react-devtools-inline/backend` internally.
+      delete window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+    } catch {}
+    // Call this before importing React (or any other packages that might import React).
+    initialize(window);
+    // Deny react devtools extension to activate.
+    const originSubHook = window.__REACT_DEVTOOLS_GLOBAL_HOOK__.sub;
+    // @ts-expect-error
+    window.__REACT_DEVTOOLS_GLOBAL_HOOK__.sub = (e: any, handler) => {
+      if (e === 'devtools-backend-installed') {
+        return undefined;
+      }
+      return originSubHook(e, handler);
+    };
+  } catch (err) {
+    const e = new Error('Failed to inject React DevTools backend.');
+    e.cause = err;
+    console.error(e);
+  }
+}
 
 /**
  * Implement sync fetch based on XMLRequest.
@@ -34,6 +60,8 @@ const fetchSync = (
 const importScript = (url: string) => {
   const script = document.createElement('script');
   script.setAttribute('src', url);
+  script.async = false;
+  script.defer = false;
   document.head.appendChild(script);
 };
 
@@ -54,10 +82,12 @@ const setup = () => {
   const cookieManifestUrl = document.cookie.match(
     /use_modernjs_devtools=([^;]+)/,
   )?.[1];
-  const devtoolsUrl = cookieManifestUrl || injectedManifestUrl;
+  const devtoolsUrl = injectedManifestUrl || cookieManifestUrl;
   if (!devtoolsUrl) return;
-  const manifest: ServerManifest = fetchSync(devtoolsUrl).json(reviver());
+  const manifest: ServerManifest = fetchSync(devtoolsUrl).json();
   manifest.source = devtoolsUrl;
+  // Skip if no client assets.
+  if (!manifest.client) return;
 
   // Inject JavaScript chunks to client.
   const template = document.createElement('template');
@@ -69,7 +99,11 @@ const setup = () => {
   document.head.appendChild(setupScript);
 
   // Inject styles.
-  for (const src of manifest.routeAssets.mount.assets) {
+  const routeAssets =
+    typeof manifest.routeAssets === 'object'
+      ? manifest.routeAssets
+      : fetchSync(manifest.routeAssets).json().routeAssets;
+  for (const src of routeAssets.mount.assets) {
     if (src.endsWith('.js')) {
       importScript(src);
     } else if (src.endsWith('.css')) {

@@ -1,0 +1,43 @@
+---
+title: render
+---
+# render
+
+用于渲染项目组件。
+
+## 使用姿势
+
+```ts
+import { render } from '@modern-js/runtime/browser';
+
+render(<ModernRoot />);
+```
+
+## 函数签名
+
+```ts
+export function render(App: React.ReactElement, id?: HTMLElement | string): Promise<any>;
+```
+
+### 参数
+
+- `App`：通过 [`createRoot`](./create-root) 创建的 ReactElement 实例。
+- `id`：要挂载的 DOM 根元素 id，如 `"root"`。
+
+## 示例
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.6",
+  "version": "2.55.0",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -47,6 +47,11 @@
       "jsnext:source": "./src/time.ts",
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
+    },
+    "./universal/request": {
+      "jsnext:source": "./src/universal/request.ts",
+      "require": "./dist/cjs/universal/request.js",
+      "default": "./dist/esm/universal/request.js"
     },
     "./parsed": {
       "jsnext:source": "./src/parsed.ts",
@@ -101,6 +106,11 @@
         "require": "./dist/cjs/node/router.js",
         "default": "./dist/esm/node/router.js"
       },
+      "./universal/request": {
+        "types": "./dist/universal/request.d.ts",
+        "require": "./dist/cjs/universal/request.js",
+        "default": "./dist/esm/universal/request.js"
+      },
       "./time": {
         "types": "./dist/types/time.d.ts",
         "require": "./dist/cjs/time.js",
@@ -144,6 +154,9 @@
       ],
       "node/router": [
         "./dist/types/node/router.d.ts"
+      ],
+      "universal/request": [
+        "./dist/types/universal/request.d.ts"
       ],
       "time": [
         "./dist/types/time.d.ts"
