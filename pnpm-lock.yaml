@@ -2677,6 +2677,9 @@ importers:
 
   packages/runtime/plugin-garfish:
     dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../plugin-runtime
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -2708,9 +2711,6 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../plugin-router-v5
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../plugin-runtime
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
