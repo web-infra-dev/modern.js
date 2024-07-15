@@ -51,7 +51,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
