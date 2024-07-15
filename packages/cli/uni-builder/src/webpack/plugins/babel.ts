@@ -1,7 +1,7 @@
 import lodash from 'lodash';
-import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
-import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
-import type { BabelConfig } from '@rsbuild/babel-preset';
+import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
+import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
+import type { BabelConfig } from '@modern-js/babel-preset';
 import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
 import { type RsbuildPlugin, type NormalizedConfig } from '@rsbuild/core';
 import { type TransformImport } from '@rsbuild/shared';

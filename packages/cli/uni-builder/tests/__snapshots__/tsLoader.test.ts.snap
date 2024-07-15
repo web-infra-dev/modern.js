@@ -58,7 +58,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -142,7 +142,7 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -234,7 +234,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
               {
@@ -249,7 +249,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -337,7 +337,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
               {
@@ -352,7 +352,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

@@ -67,7 +67,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
+    "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.22.15",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",

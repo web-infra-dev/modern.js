@@ -26,7 +26,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.23.2",
+    "@babel/core": "^7.24.7",
     "@babel/plugin-syntax-jsx": "7.22.5",
     "@babel/plugin-syntax-typescript": "7.22.5",
     "@modern-js/plugin-module-babel": "workspace:*",

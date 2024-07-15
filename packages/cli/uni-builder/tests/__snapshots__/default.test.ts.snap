@@ -3515,7 +3515,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3562,7 +3562,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3642,7 +3642,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3683,7 +3683,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -4030,7 +4030,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4062,7 +4062,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4158,7 +4158,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4190,7 +4190,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4631,7 +4631,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4678,7 +4678,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -4758,7 +4758,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4805,7 +4805,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -5152,7 +5152,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -5199,7 +5199,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -5295,7 +5295,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -5342,7 +5342,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
