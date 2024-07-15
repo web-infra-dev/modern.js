@@ -1,13 +1,34 @@
-import { createCacheGroups, type SplitChunks } from '@rsbuild/shared';
 import { isPlainObject, isPackageInstalled } from '@modern-js/utils';
-import type { RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin, SplitChunks, CacheGroups } from '@rsbuild/core';
+
+const DEP_MATCH_TEMPLATE = /[\\/]node_modules[\\/](<SOURCES>)[\\/]/.source;
+
+const createDependenciesRegExp = (...dependencies: (string | RegExp)[]) => {
+  const sources = dependencies.map(d => (typeof d === 'string' ? d : d.source));
+  const expr = DEP_MATCH_TEMPLATE.replace('<SOURCES>', sources.join('|'));
+  return new RegExp(expr);
+};
+
+function createCacheGroups(group: Record<string, (string | RegExp)[]>) {
+  const experienceCacheGroup: CacheGroups = {};
+  for (const [name, pkgs] of Object.entries(group)) {
+    const key = `lib-${name}`;
+    experienceCacheGroup[key] = {
+      test: createDependenciesRegExp(...pkgs),
+      priority: 0,
+      name: key,
+      reuseExistingChunk: true,
+    };
+  }
+  return experienceCacheGroup;
+}
 
 export const pluginSplitChunks = (): RsbuildPlugin => ({
   name: 'uni-builder:split-chunks',
 
   setup(api) {
-    api.modifyBundlerChain(chain => {
-      const config = api.getNormalizedConfig();
+    api.modifyBundlerChain((chain, { environment }) => {
+      const { config } = environment;
       const { chunkSplit } = config.performance || {};
 
       if (chunkSplit?.strategy !== 'split-by-experience') {

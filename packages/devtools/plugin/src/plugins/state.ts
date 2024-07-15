@@ -146,9 +146,11 @@ export const pluginState: Plugin = {
         };
       });
 
-      const expectBundlerNum = _.castArray(builderApi.context.targets).length;
       const bundlerConfigs: JsonValue[] = [];
       const handleBundlerConfig = (config: any) => {
+        const expectBundlerNum = Object.keys(
+          builderApi.getNormalizedConfig().environments,
+        ).length;
         bundlerConfigs.push(config);
         if (bundlerConfigs.length >= expectBundlerNum) {
           api.vars.state.bundler.configs.resolved = _.cloneDeep(

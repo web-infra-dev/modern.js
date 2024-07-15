@@ -1,25 +1,18 @@
 import path from 'path';
 import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 
 export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',
 
   setup(api) {
-    api.modifyBundlerChain((chain, { target, CHAIN_ID }) => {
-      // set bundler config name
-      if (target === 'node') {
-        chain.name('server');
-      } else if (target === 'service-worker') {
-        chain.name('service-worker');
-      } else if (target === 'web-worker') {
-        chain.name('worker');
-      } else {
-        chain.name('client');
-      }
+    api.modifyBundlerChain((chain, { target, CHAIN_ID, environment }) => {
+      const isServiceWorker =
+        environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
       // apply node compat
-      if (target === 'node' || target === 'service-worker') {
-        applyNodeCompat(target, chain);
+      if (target === 'node' || isServiceWorker) {
+        applyNodeCompat(isServiceWorker, chain);
       }
 
       if (target === 'web') {
@@ -42,10 +35,7 @@ export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
 });
 
 /** compat some config, if target is `node` or `worker` */
-function applyNodeCompat(
-  target: 'node' | 'service-worker',
-  chain: RspackChain,
-) {
+function applyNodeCompat(isServiceWorker: boolean, chain: RspackChain) {
   const nodeExts = [
     '.node.js',
     '.node.jsx',
@@ -67,7 +57,7 @@ function applyNodeCompat(
     chain.resolve.extensions.prepend(ext);
   }
 
-  if (target === 'service-worker') {
+  if (isServiceWorker) {
     for (const ext of webWorkerExts) {
       chain.resolve.extensions.prepend(ext);
     }

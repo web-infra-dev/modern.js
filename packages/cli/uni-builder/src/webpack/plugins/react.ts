@@ -7,7 +7,7 @@ export const pluginReact = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(async (chain, utils) => {
-      const config = api.getNormalizedConfig();
+      const { config } = utils.environment;
 
       const usingHMR =
         !utils.isProd && config.dev.hmr && utils.target === 'web';

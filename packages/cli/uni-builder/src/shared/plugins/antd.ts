@@ -1,5 +1,5 @@
 import { type RsbuildPlugin } from '@rsbuild/core';
-import { isServerTarget } from '../utils';
+import { isServerEnvironment } from '../utils';
 
 const getAntdMajorVersion = (appDirectory: string) => {
   try {
@@ -17,9 +17,7 @@ const getAntdMajorVersion = (appDirectory: string) => {
 export const pluginAntd = (): RsbuildPlugin => ({
   name: 'uni-builder:antd',
   setup(api) {
-    api.modifyRsbuildConfig(rsbuildConfig => {
-      rsbuildConfig.source ??= {};
-
+    api.modifyEnvironmentConfig((rsbuildConfig, { name }) => {
       if (
         rsbuildConfig.source.transformImport === false ||
         rsbuildConfig.source.transformImport?.some(
@@ -29,18 +27,20 @@ export const pluginAntd = (): RsbuildPlugin => ({
         return;
       }
 
+      const useServerEnvironment = isServerEnvironment(
+        rsbuildConfig.output.target,
+        name,
+      );
+
       const antdMajorVersion = getAntdMajorVersion(api.context.rootPath);
       // antd >= v5 no longer need babel-plugin-import
       // see: https://ant.design/docs/react/migration-v5#remove-babel-plugin-import
       if (antdMajorVersion && antdMajorVersion < 5) {
-        rsbuildConfig.source ??= {};
         rsbuildConfig.source.transformImport = [
           ...(rsbuildConfig.source.transformImport || []),
           {
             libraryName: 'antd',
-            libraryDirectory: isServerTarget(api.context.targets)
-              ? 'lib'
-              : 'es',
+            libraryDirectory: useServerEnvironment ? 'lib' : 'es',
             style: true,
           },
         ];

@@ -2,15 +2,17 @@ import type { RsbuildPlugin } from '@rsbuild/core';
 import { isProd } from '@modern-js/utils';
 import { getCssSupport } from '../getCssSupport';
 
-export const pluginPostcssLegacy = (
-  webBrowserslist: string[],
-): RsbuildPlugin => ({
+export const pluginPostcssLegacy = (): RsbuildPlugin => ({
   name: 'uni-builder:postcss-plugins',
 
   setup(api) {
-    api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
+    api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
+      if (config.output.target !== 'web') {
+        return config;
+      }
+
       // only web target provides CSS outputs, so we can ignore other target
-      const cssSupport = getCssSupport(webBrowserslist);
+      const cssSupport = getCssSupport(config.output.overrideBrowserslist!);
       const enableExtractCSS = !config.output?.injectStyles;
 
       const enableCssMinify = !enableExtractCSS && isProd;
@@ -38,7 +40,7 @@ export const pluginPostcssLegacy = (
           : false,
       ].filter(Boolean);
 
-      return mergeRsbuildConfig(
+      return mergeEnvironmentConfig(
         {
           tools: {
             postcss: opts => {

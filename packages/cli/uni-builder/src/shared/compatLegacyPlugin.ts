@@ -30,18 +30,19 @@ export function compatLegacyPlugin(
         get(target, prop: keyof UniBuilderContext) {
           switch (prop) {
             case 'target':
-              addDeprecatedWarning(
-                plugin.name,
-                'context.target',
-                'context.targets',
+              throw new Error(
+                `Plugin(${plugin.name})'s api 'target' is deprecated, please use 'environment.config.output.target' instead.`,
               );
-              return target.targets;
             case 'srcPath':
               addDeprecatedWarning(plugin.name, 'context.srcPath');
               return join(extraInfo.cwd, 'src');
             case 'framework':
               addDeprecatedWarning(plugin.name, 'context.framework');
               return '';
+            case 'entry':
+              throw new Error(
+                `Plugin(${plugin.name})'s api 'entry' is deprecated, please use 'environment.entry' instead.`,
+              );
             default: {
               if (prop in target) {
                 return target[prop];

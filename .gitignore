@@ -51,3 +51,4 @@ playground/
 .output/
 .vercel/
 .netlify/
+.swc

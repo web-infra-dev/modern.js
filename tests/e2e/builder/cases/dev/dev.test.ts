@@ -81,7 +81,7 @@ test('dev.port & output.distPath', async ({ page }) => {
     },
     builderConfig: {
       dev: {
-        port: 3000,
+        port: 3030,
       },
       output: {
         distPath: {
@@ -94,7 +94,7 @@ test('dev.port & output.distPath', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  expect(builder.port).toBe(3000);
+  expect(builder.port).toBe(3030);
 
   expect(
     fs.existsSync(join(fixtures, 'basic/dist-1/html/main/index.html')),

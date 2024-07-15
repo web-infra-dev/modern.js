@@ -5,7 +5,9 @@ import type {
   ServerUserConfig,
   CliPlugin,
   AppTools,
+  PluginAPI,
 } from '@modern-js/app-tools';
+import type { RsbuildPlugin } from '@rsbuild/core';
 
 const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
@@ -39,6 +41,46 @@ const checkUseStringSSR = (config: AppNormalizedConfig): boolean => {
   // so we assumes use String SSR when using ssg.
   return Boolean(output?.ssg) || hasStringSSREntry(config);
 };
+
+const ssrBuilderPlugin = (modernAPI: PluginAPI<AppTools>): RsbuildPlugin => ({
+  name: '@modern-js/builder-plugin-ssr',
+
+  setup(api) {
+    api.modifyEnvironmentConfig((config, { name, mergeEnvironmentConfig }) => {
+      const isServerEnvironment =
+        config.output.target === 'node' || name === 'serviceWorker';
+      const userConfig = modernAPI.useResolvedConfigContext();
+
+      const useLoadablePlugin =
+        isUseSSRBundle(userConfig) &&
+        !isServerEnvironment &&
+        checkUseStringSSR(userConfig);
+
+      return mergeEnvironmentConfig(config, {
+        source: {
+          define: {
+            'process.env.MODERN_TARGET': isServerEnvironment
+              ? JSON.stringify('node')
+              : JSON.stringify('browser'),
+          },
+        },
+        tools: {
+          bundlerChain: useLoadablePlugin
+            ? chain => {
+                // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
+                chain
+                  .plugin('loadable')
+                  .use(LoadableBundlerPlugin, [
+                    { filename: LOADABLE_STATS_FILE },
+                  ]);
+              }
+            : undefined,
+        },
+      });
+    });
+  },
+});
 
 export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
@@ -83,6 +125,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
         })();
 
         return {
+          builderPlugins: [ssrBuilderPlugin(api)],
           source: {
             alias: {
               // ensure that all packages use the same storage in @modern-js/runtime-utils/node
@@ -90,32 +133,8 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 '@modern-js/runtime-utils/node',
               ),
             },
-            globalVars: (values, { target }) => {
-              values['process.env.MODERN_TARGET'] =
-                target === 'node' || target === 'service-worker'
-                  ? 'node'
-                  : 'browser';
-            },
           },
           tools: {
-            bundlerChain(chain, { isServer, isServiceWorker }) {
-              const userConfig = api.useResolvedConfigContext();
-
-              if (
-                isUseSSRBundle(userConfig) &&
-                !isServer &&
-                !isServiceWorker &&
-                checkUseStringSSR(userConfig)
-              ) {
-                // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
-                chain
-                  .plugin('loadable')
-                  .use(LoadableBundlerPlugin, [
-                    { filename: LOADABLE_STATS_FILE },
-                  ]);
-              }
-            },
             babel: babelHandler,
           },
         };
