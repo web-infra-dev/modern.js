@@ -8,7 +8,7 @@ export const pluginPostcssLegacy = (): RsbuildPlugin => ({
   setup(api) {
     api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
-        return config;
+        return;
       }
 
       // only web target provides CSS outputs, so we can ignore other target
