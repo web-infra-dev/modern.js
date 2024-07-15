@@ -1,0 +1,79 @@
+{
+  "name": "@modern-js/babel-preset",
+  "version": "2.55.0",
+  "description": "The babel config of Modern.js.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/uni-builder"
+  },
+  "license": "MIT",
+  "type": "commonjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./web": {
+      "types": "./dist/web.d.ts",
+      "default": "./dist/web.js"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "default": "./dist/node.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "web": [
+        "./dist/web.d.ts"
+      ],
+      "node": [
+        "./dist/node.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
+    "test": "vitest run",
+    "test:watch": "vitest dev"
+  },
+  "dependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/plugin-proposal-decorators": "^7.24.7",
+    "@babel/plugin-proposal-export-default-from": "^7.24.7",
+    "@babel/plugin-proposal-partial-application": "^7.24.7",
+    "@babel/plugin-proposal-pipeline-operator": "^7.24.7",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@babel/runtime": "^7.24.7",
+    "@babel/types": "^7.24.7",
+    "@rsbuild/plugin-babel": "0.7.10",
+    "@swc/helpers": "0.5.3",
+    "@types/babel__core": "^7.20.5",
+    "babel-plugin-dynamic-import-node": "2.3.3",
+    "core-js": "~3.37.1"
+  },
+  "devDependencies": {
+    "@modern-js/tsconfig": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
+    "@types/node": "18.x",
+    "typescript": "^5.3.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  }
+}

@@ -1,4 +1,4 @@
-import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
+import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import { ILibPresetOption } from './types';
 import { aliasPlugin } from './alias';
 

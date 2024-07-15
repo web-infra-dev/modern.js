@@ -171,7 +171,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -218,7 +218,7 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -313,7 +313,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/dist/pluginLockCorejsVersion.cjs",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -360,7 +360,7 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

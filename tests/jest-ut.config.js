@@ -32,6 +32,7 @@ module.exports = {
       ],
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/uni-builder/',
+        '<rootDir>/packages/cli/babel-preset/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/solutions/module-tools/compiled/',
         '<rootDir>/packages/toolkit/utils/compiled/',
@@ -40,6 +41,7 @@ module.exports = {
       ],
       testPathIgnorePatterns: [
         '<rootDir>/packages/uni-builder/',
+        '<rootDir>/packages/babel-preset/',
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/(server|solutions)/',
         '<rootDir>/packages/(server|solutions)/',
