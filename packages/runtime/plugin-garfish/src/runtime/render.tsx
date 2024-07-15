@@ -1,5 +1,5 @@
-import { render } from '@modern-js/runtime/browser';
-import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@meta/runtime/browser';
+import { createRoot } from '@meta/runtime/react';
 
 declare const __GARFISH_EXPORTS__: string;
 
