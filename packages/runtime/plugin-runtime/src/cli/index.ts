@@ -5,7 +5,6 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { rspack } from '@rsbuild/core';
 import { statePlugin } from '../state/cli';
 import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
@@ -133,7 +132,7 @@ export const runtimePlugin = (params?: {
                 ]);
               }
             },
-            rspack: (_config, { appendPlugins }) => {
+            rspack: (_config, { appendPlugins, rspack }) => {
               if (!isReact18) {
                 appendPlugins([
                   new rspack.IgnorePlugin({
