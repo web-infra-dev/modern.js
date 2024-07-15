@@ -6,7 +6,7 @@ const sleep = () =>
 
 export default (_App: React.ComponentType, bootstrap: () => void) => {
   // do something before bootstrap...
-  sleep().then(() => {
-    bootstrap();
+  return sleep().then(() => {
+    return bootstrap();
   });
 };
