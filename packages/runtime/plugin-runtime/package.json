@@ -218,7 +218,7 @@
     "react-dom": ">=17"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.0.0-alpha.9",
+    "@rsbuild/core": "1.0.1-beta.1",
     "@types/cookie": "0.5.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
@@ -237,7 +237,7 @@
     "react-dom": "^18",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.92.1"
+    "webpack": "^5.93.0"
   },
   "sideEffects": false,
   "publishConfig": {

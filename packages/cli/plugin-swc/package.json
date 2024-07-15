@@ -38,8 +38,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rsbuild/core": "1.0.0-alpha.9",
-    "@rsbuild/plugin-swc": "1.0.0-alpha.9",
+    "@rsbuild/core": "1.0.1-beta.1",
+    "@rsbuild/plugin-swc": "1.0.1-beta.1",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },

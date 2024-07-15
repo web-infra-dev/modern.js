@@ -86,7 +86,7 @@
     "memfs": "^3.5.1",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.92.1"
+    "webpack": "^5.93.0"
   },
   "sideEffects": false,
   "publishConfig": {

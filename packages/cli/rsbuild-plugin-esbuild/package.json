@@ -28,12 +28,12 @@
   "dependencies": {
     "@swc/helpers": "0.5.3",
     "esbuild": "0.17.19",
-    "webpack": "^5.92.1"
+    "webpack": "^5.93.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
-    "@rsbuild/core": "1.0.0-alpha.9",
-    "@rsbuild/webpack": "1.0.0-alpha.9",
+    "@rsbuild/core": "1.0.1-beta.1",
+    "@rsbuild/webpack": "1.0.1-beta.1",
     "typescript": "^5.4.2"
   },
   "publishConfig": {
