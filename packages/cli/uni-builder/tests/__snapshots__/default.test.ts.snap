@@ -829,29 +829,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateContent": false,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
-      },
-      "userOptions": {
-        "chunks": [
-          "index",
-        ],
-        "entryName": "index",
-        "filename": "html/index/index.html",
-        "inject": "head",
-        "meta": {
-          "charset": {
-            "charset": "UTF-8",
-          },
-          "viewport": "width=device-width, initial-scale=1.0",
-        },
-        "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateParameters": [Function],
-        "title": "",
       },
       "version": 6,
     },
@@ -860,7 +842,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
@@ -2590,30 +2574,11 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateContent": false,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
-      },
-      "userOptions": {
-        "chunks": [
-          "index",
-        ],
-        "entryName": "index",
-        "filename": "html/index/index.html",
-        "inject": "head",
-        "meta": {
-          "charset": {
-            "charset": "UTF-8",
-          },
-          "viewport": "width=device-width, initial-scale=1.0",
-        },
-        "minify": [Function],
-        "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateParameters": [Function],
-        "title": "",
       },
       "version": 6,
     },
@@ -2634,7 +2599,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
@@ -4440,7 +4407,8 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           "viewport": "width=device-width, initial-scale=1.0",
         },
         "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
       },
@@ -4451,7 +4419,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
@@ -5646,7 +5616,8 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "useShortDoctype": true,
         },
         "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
       },
@@ -5669,7 +5640,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "modifyTagsFn": [Function],
       "name": "HtmlBasicPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
