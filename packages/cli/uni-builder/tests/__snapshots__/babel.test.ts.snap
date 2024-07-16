@@ -266,7 +266,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -531,7 +531,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -673,7 +673,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -809,7 +809,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -917,7 +917,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -1028,7 +1028,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1155,7 +1155,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1290,7 +1290,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1430,7 +1430,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1576,7 +1576,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1712,7 +1712,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1847,7 +1847,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
