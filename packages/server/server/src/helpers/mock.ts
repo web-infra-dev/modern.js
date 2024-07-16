@@ -90,10 +90,17 @@ export const registerMockHandlers = async ({
     const { method, path } = parseKey(key);
     const methodName = method.toLowerCase() as keyof ServerBase;
     const handlerId = `${methodName}-${path}`;
-    mockHandlerRegistry.set(handlerId, {
-      handler,
-      isRegistered: false,
-    });
+
+    const mockInfo = mockHandlerRegistry.get(handlerId);
+    if (mockInfo) {
+      mockInfo.handler = handler;
+    } else {
+      mockHandlerRegistry.set(handlerId, {
+        handler,
+        isRegistered: false,
+      });
+    }
+
     if (typeof server[methodName] === 'function') {
       // eslint-disable-next-line consistent-return
       const mockHandler: ServerNodeMiddleware = async (c, next) => {

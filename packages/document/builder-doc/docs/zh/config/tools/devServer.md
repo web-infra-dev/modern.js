@@ -11,6 +11,10 @@ Modern.js 中并没有直接使用 [webpack-dev-server](https://webpack.js.org/a
 
 #### after
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
+:::
+
 - **类型：** `Array`
 - **默认值：** `[]`
 
@@ -53,6 +57,10 @@ export default {
 ```
 
 #### before
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
+:::
 
 - **类型：** `Array`
 - **默认值：** `[]`
@@ -132,6 +140,10 @@ export default {
 
 #### devMiddleware
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.writeToDisk](https://modernjs.dev/configure/app/dev/write-to-disk) 代替。
+:::
+
 - **类型：**
 
 ```js
@@ -190,12 +202,20 @@ export default {
 
 #### hot
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.hmr](https://modernjs.dev/configure/app/dev/hmr) 代替。
+:::
+
 - **类型：** `boolean`
 - **默认值：** `true`
 
 是否开启 [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) 热更新能力。
 
 #### https
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.https](https://modernjs.dev/configure/app/dev/https) 代替。
+:::
 
 - **类型：** `boolean | { key: string; cert: string }`
 - **默认值：** `false`
@@ -219,12 +239,20 @@ export default {
 
 #### liveReload
 
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.liveReload](https://modernjs.dev/configure/app/dev/live-reload) 代替。
+:::
+
 - **类型：** `boolean`
 - **默认值：** `true`
 
 默认情况下，当监听到文件变化时，DevServer 将会刷新页面（为使 liveReload 能够生效，`devServer.hot` 配置项应当禁用）。通过设置 `devServer.liveReload` 为 `false` 可以关闭该行为。
 
 #### setupMiddlewares
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 [dev.setupMiddlewares](https://modernjs.dev/configure/app/dev/setup-middlewares) 代替。
+:::
 
 - **类型：**
 

@@ -3567,7 +3567,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3694,7 +3694,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4082,7 +4082,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4210,7 +4210,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -4682,7 +4682,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -4809,7 +4809,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -5203,7 +5203,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -5346,7 +5346,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {

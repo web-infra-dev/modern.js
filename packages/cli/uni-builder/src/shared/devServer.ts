@@ -86,11 +86,14 @@ export const transformToRsbuildServerOptions = (
   );
 
   const rsbuildDev: DevConfig = {
-    ...devConfig,
     writeToDisk: newDevServerConfig.devMiddleware?.writeToDisk,
     hmr: newDevServerConfig.hot,
-    client: newDevServerConfig.client,
     liveReload: newDevServerConfig.liveReload,
+    ...devConfig,
+    client: {
+      ...newDevServerConfig.client,
+      ...(devConfig.client || {}),
+    },
   };
 
   // enable progress bar by default
