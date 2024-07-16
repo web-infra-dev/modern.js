@@ -94,6 +94,7 @@ export function startWatcher({
     // TODO: should delete this cache in onRepack
     if (filepath.includes('-server-loaders.js')) {
       delete require.cache[filepath];
+      return;
     } else {
       watcher.updateDepTree();
       watcher.cleanDepCache(filepath);
