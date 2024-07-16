@@ -11,6 +11,10 @@ Modern.js does not directly use [webpack-dev-server](https://webpack.js.org/api/
 
 #### after
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
+:::
+
 - **Type:** `Array`
 - **Default:** `[]`
 
@@ -53,6 +57,10 @@ export default {
 ```
 
 #### before
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
+:::
 
 - **Type:** `Array`
 - **Default:** `[]`
@@ -132,6 +140,10 @@ export default {
 
 #### devMiddleware
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.writeToDisk](https://modernjs.dev/en/configure/app/dev/write-to-disk) instead.
+:::
+
 - **Type:**
 
 ```js
@@ -190,12 +202,20 @@ For more options and information, see the [connect-history-api-fallback](https:/
 
 #### hot
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.hmr](https://modernjs.dev/en/configure/app/dev/hmr) instead.
+:::
+
 - **Type:** `boolean`
 - **Default:** `true`
 
 Enable [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) feature.
 
 #### https
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.https](https://modernjs.dev/en/configure/app/dev/https) instead.
+:::
 
 - **Type:** `boolean | { key: string; cert: string }`
 - **Default:** `false`
@@ -219,12 +239,20 @@ export default {
 
 #### liveReload
 
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.liveReload](https://modernjs.dev/en/configure/app/dev/live-reload) instead.
+:::
+
 - **Type:** `boolean`
 - **Default:** `true`
 
 By default, the DevServer will reload/refresh the page when file changes are detected (`devServer.hot` option must be disabled in order for liveReload to take effect). Disable `devServer.liveReload` by setting it to `false`.
 
 #### setupMiddlewares
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use [dev.setupMiddlewares](https://modernjs.dev/en/configure/app/dev/setup-middlewares) instead.
+:::
 
 - **Type:**
 

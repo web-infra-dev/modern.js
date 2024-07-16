@@ -1,0 +1,59 @@
+---
+sidebar_label: watchFiles
+---
+
+# dev.watchFiles
+
+- **类型：**
+
+```ts
+type WatchFiles = {
+  paths: string | string[];
+  //  chokidar 选项
+  options?: WatchOptions;
+};
+```
+
+- **默认值：** `undefined`
+
+监视指定文件和目录的变化。当文件发生变化时，页面将重新加载。
+
+如果 `dev.hmr` 和 `dev.liveReload` 都设置为 false，则 `watchFiles` 将被忽略。
+
+:::tip
+WatchFiles 中文件发生变化时，不会触发配置文件的重新加载及重新编译。
+:::
+
+### 示例
+
+你可以配置一个 glob 模式 / 目录 / 文件的列表，用于监视文件变化。
+
+```js
+export default {
+  dev: {
+    watchFiles: {
+      // 监视单个文件
+      paths: 'public/demo.txt',
+      // 使用 glob 模式
+      paths: 'src/**/*.txt',
+      // 监视多个文件路径
+      paths: ['src/**/*.txt', 'public/**/*'],
+    },
+  },
+};
+```
+
+你也可以通过传入一个包含 `paths` 和 `options` 属性的对象，来指定 [chokidar](https://github.com/paulmillr/chokidar#api) 选项。
+
+```js
+export default {
+  dev: {
+    watchFiles: {
+      paths: 'src/**/*.txt',
+      options: {
+        usePolling: false,
+      },
+    },
+  },
+};
+```
