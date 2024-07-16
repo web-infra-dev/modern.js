@@ -7,10 +7,10 @@ hero:
   actions:
     - theme: brand
       text: Introduction
-      link: /en/guide/introduction.html
+      link: /guide/introduction.html
     - theme: alt
       text: Quick Start
-      link: /en/guide/quick-start.html
+      link: /guide/quick-start.html
 
 features:
   - title: Rust Bundler
