@@ -50,7 +50,7 @@ export const getBabelConfigForWeb = (
     ]);
   }
 
-  config.plugins?.push(join(__dirname, './pluginLockCorejsVersion.cjs'));
+  config.plugins?.push(join(__dirname, './pluginLockCorejsVersion.js'));
 
   return config;
 };

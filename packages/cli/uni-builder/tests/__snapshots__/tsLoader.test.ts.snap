@@ -234,7 +234,7 @@ exports[`plugin-ts-loader > should set include/exclude 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
               {
@@ -337,7 +337,7 @@ exports[`plugin-ts-loader > should set ts-loader 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
               {
