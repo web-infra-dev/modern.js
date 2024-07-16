@@ -72,17 +72,17 @@ export const devPlugin = <O extends ServerBaseOptions>(
             });
           });
 
+        await registerMockHandlers({
+          pwd,
+          server: serverBase!,
+        });
+
         if (rsbuildMiddlewares) {
           middlewares.push({
             name: 'rsbuild-dev',
             handler: connectMid2HonoMid(rsbuildMiddlewares),
           });
         }
-
-        await registerMockHandlers({
-          pwd,
-          server: serverBase!,
-        });
 
         middlewares.push({
           name: 'init-file-reader',
