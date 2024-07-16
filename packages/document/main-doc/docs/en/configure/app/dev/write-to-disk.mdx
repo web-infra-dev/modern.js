@@ -1,0 +1,38 @@
+---
+sidebar_label: writeToDisk
+---
+
+# dev.writeToDisk
+
+- **Type:** `boolean | ((filename: string) => boolean)`
+- **Default:** `(file) => !file.includes('.hot-update.')`
+
+Used to control whether the build artifacts of the development environment are written to the disk.
+
+## Writing to Memory
+
+You can choose to save the build artifacts in the memory of the dev server, thereby reducing the overhead caused by file operations.
+
+Simply set the `dev.writeToDisk` option to `false`:
+
+```ts
+export default {
+  dev: {
+    writeToDisk: false,
+  },
+};
+```
+
+## Matching Specific Files
+
+You can also set `dev.writeToDisk` to a function to match only certain files. When the function returns `false`, the file will not be written; when it returns `true`, the file will be written to disk.
+
+For example, Modern.js by default write files to disk while excluding hot-update temporary files:
+
+```ts
+export default {
+  dev: {
+    writeToDisk: (file) => !file.includes('.hot-update.'),
+  },
+};
+```
