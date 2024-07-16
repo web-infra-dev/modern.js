@@ -1,6 +1,6 @@
 import { type RsbuildPlugin } from '@rsbuild/core';
 import { isPackageInstalled } from '@modern-js/utils';
-import { isServerTarget } from '../../shared/utils';
+import { isServerEnvironment } from '../utils';
 
 export const pluginArco = (): RsbuildPlugin => ({
   name: 'uni-builder:arco',
@@ -9,8 +9,8 @@ export const pluginArco = (): RsbuildPlugin => ({
     const ARCO_NAME = '@arco-design/web-react';
     const ARCO_ICON = `${ARCO_NAME}/icon`;
 
-    api.modifyRsbuildConfig(rsbuildConfig => {
-      const { transformImport = [] } = rsbuildConfig.source || {};
+    api.modifyEnvironmentConfig((rsbuildConfig, { name }) => {
+      const { transformImport = [] } = rsbuildConfig.source;
 
       if (
         transformImport === false ||
@@ -19,12 +19,15 @@ export const pluginArco = (): RsbuildPlugin => ({
         return;
       }
 
-      const isUseSSR = isServerTarget(api.context.targets);
+      const useServerEnvironment = isServerEnvironment(
+        rsbuildConfig.output.target,
+        name,
+      );
 
       if (!transformImport?.some(item => item.libraryName === ARCO_NAME)) {
         transformImport.push({
           libraryName: ARCO_NAME,
-          libraryDirectory: isUseSSR ? 'lib' : 'es',
+          libraryDirectory: useServerEnvironment ? 'lib' : 'es',
           camelToDashComponentName: false,
           style: true,
         });
@@ -33,12 +36,13 @@ export const pluginArco = (): RsbuildPlugin => ({
       if (!transformImport?.some(item => item.libraryName === ARCO_ICON)) {
         transformImport.push({
           libraryName: ARCO_ICON,
-          libraryDirectory: isUseSSR ? 'react-icon-cjs' : 'react-icon',
+          libraryDirectory: useServerEnvironment
+            ? 'react-icon-cjs'
+            : 'react-icon',
           camelToDashComponentName: false,
         });
       }
 
-      rsbuildConfig.source ||= {};
       rsbuildConfig.source.transformImport = transformImport;
     });
   },

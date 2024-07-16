@@ -63,8 +63,8 @@ export const pluginFallback = (): RsbuildPlugin => ({
   name: 'uni-builder:fallback',
 
   setup(api) {
-    api.modifyBundlerChain(chain => {
-      const rsbuildConfig = api.getNormalizedConfig();
+    api.modifyBundlerChain((chain, { environment }) => {
+      const rsbuildConfig = environment.config;
       const { distPath, filename } = rsbuildConfig.output;
       const distDir = distPath.media;
       const mediaFilename =

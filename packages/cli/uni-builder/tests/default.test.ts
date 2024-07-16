@@ -48,8 +48,15 @@ describe('uni-builder rspack', () => {
 
     const rsbuild = await createUniBuilder({
       bundlerType: 'rspack',
-      target: 'node',
-      config: {},
+      config: {
+        environments: {
+          node: {
+            output: {
+              target: 'node',
+            },
+          },
+        },
+      },
       cwd: '',
     });
 
@@ -68,8 +75,15 @@ describe('uni-builder rspack', () => {
 
     const rsbuild = await createUniBuilder({
       bundlerType: 'rspack',
-      target: 'service-worker',
-      config: {},
+      config: {
+        environments: {
+          serviceWorker: {
+            output: {
+              target: 'web-worker',
+            },
+          },
+        },
+      },
       cwd: '',
     });
 

@@ -1,9 +1,4 @@
 import type {
-  NodeEnv,
-  RequestHandler,
-  HtmlTagDescriptor,
-} from '@rsbuild/shared';
-import type {
   ConfigChainWithContext,
   ConfigChain,
   DevConfig,
@@ -13,9 +8,12 @@ import type {
   ScriptInject,
   ServerConfig,
   RsbuildPluginAPI,
-  SourceConfig,
   OutputConfig,
+  DistPathConfig,
   Rspack,
+  RequestHandler,
+  NodeEnv,
+  HtmlTagDescriptor,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -36,10 +34,14 @@ import type {
 } from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 
 type ArrayOrNot<T> = T | T[];
 
-export type Stats = Omit<Rspack.Stats, '#private' | 'hash'>;
+export type Stats = Omit<
+  Rspack.Stats,
+  '#private' | 'hash' | 'startTime' | 'endTime'
+>;
 
 export type RspackConfig = Rspack.Configuration;
 
@@ -65,9 +67,7 @@ export type MetaOptions = {
 };
 
 export type CreateBuilderCommonOptions = {
-  entry?: SourceConfig['entry'];
   frameworkConfigPath?: string;
-  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd: string;
 };
@@ -126,6 +126,16 @@ export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
 export type UniBuilderExtraConfig = {
   tools?: {
+    // tools.htmlPlugin minify option should works
+    htmlPlugin?:
+      | boolean
+      | ConfigChainWithContext<
+          HTMLPluginOptions,
+          {
+            entryName: string;
+            entryValue: (string | string[] | Rspack.EntryDescription)[];
+          }
+        >;
     styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
     /**
@@ -169,6 +179,10 @@ export type UniBuilderExtraConfig = {
     sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
+    /** Set the page URL to open when the server starts. */
+    startUrl?: boolean | string | string[];
+    /** Execute a callback function before opening the `startUrl`. */
+    beforeStartUrl?: () => Promise<void> | void;
     /**
      * Used to set the host of Dev Server.
      */
@@ -374,7 +388,7 @@ export type OverridesUniBuilderInstance = {
 };
 
 export type UniBuilderContext = RsbuildPluginAPI['context'] & {
-  target: RsbuildPluginAPI['context']['targets'];
+  target: RsbuildTarget[];
   framework: string;
   srcPath: string;
   entry: Record<string, string | string[]>;
@@ -417,16 +431,26 @@ export type UniBuilderPlugin = {
   remove?: string[];
 };
 
+export type DistPath = DistPathConfig & {
+  server?: string;
+  worker?: string;
+};
+
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+  output?: Omit<
+    NonNullable<RsbuildConfig['output']>,
+    'polyfill' | 'distPath'
+  > & {
     polyfill?: Polyfill | 'ua';
+    distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
-  tools?: RsbuildConfig['tools'];
+  tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
   source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildConfig['plugins'];
+  environments?: RsbuildConfig['environments'];
 } & UniBuilderExtraConfig;

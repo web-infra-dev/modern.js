@@ -1,5 +1,6 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
 import type { UniBuilderPlugin } from '@modern-js/uni-builder';
+import type { RsbuildConfig } from '@rsbuild/core';
 import type { Bundler } from '../utils';
 import type { OutputUserConfig } from './output';
 import type { SourceUserConfig } from './source';
@@ -43,6 +44,7 @@ export interface AppToolsUserConfig<B extends Bundler> {
   builderPlugins?: UniBuilderPlugin[];
   performance?: PerformanceUserConfig;
   devtools?: any;
+  environments?: RsbuildConfig['environments'];
 }
 
 interface SharedNormalizedConfig<RawConfig> {

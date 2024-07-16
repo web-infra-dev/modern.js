@@ -17,7 +17,7 @@
     "dts-packer": "0.0.3",
     "postcss": "^8.4.35",
     "typescript": "^5",
-    "webpack": "^5.92.0"
+    "webpack": "^5.93.0"
   },
   "devDependencies": {
     "@svgr/core": "8.1.0",

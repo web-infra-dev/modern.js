@@ -46,9 +46,9 @@ describe('plugin-manifest', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['node'],
       config: {
         output: {
+          target: 'node',
           enableAssetManifest: true,
         },
       },

@@ -237,8 +237,11 @@ describe('plugin-babel', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: 'node',
-      config: {},
+      config: {
+        output: {
+          target: 'node',
+        },
+      },
     });
     const config = await unwrapConfig(rsbuild);
 

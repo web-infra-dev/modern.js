@@ -47,6 +47,7 @@ export function transformNormalizedConfig(
     security: {},
     _raw: {},
     experiments: {},
+    environments: {},
     autoLoadPlugins,
     performance: {
       removeMomentLocale: true,

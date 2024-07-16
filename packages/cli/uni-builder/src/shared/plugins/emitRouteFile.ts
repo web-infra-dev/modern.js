@@ -16,10 +16,18 @@ export const pluginEmitRouteFile = (): RsbuildPlugin => ({
   name: 'uni-builder:emit-route-file',
 
   setup(api) {
-    api.onBeforeStartDevServer(async () => {
+    api.onBeforeStartDevServer(async ({ environments }) => {
       const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
       const routeFilePath = join(api.context.distPath, ROUTE_SPEC_FILE);
-      const htmlPaths = api.getHTMLPaths();
+
+      const htmlPaths = Object.values(environments).reduce<
+        Record<string, string>
+      >((prev, curr) => {
+        return {
+          ...prev,
+          ...curr.htmlPaths,
+        };
+      }, {});
 
       const routesInfo = Object.entries(htmlPaths).map(
         ([entryName, filename], index) => ({

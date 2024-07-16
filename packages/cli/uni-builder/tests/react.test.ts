@@ -35,8 +35,11 @@ describe('plugins/react', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['node'],
-      config: {},
+      config: {
+        output: {
+          target: 'node',
+        },
+      },
     });
 
     const config = await unwrapConfig(rsbuild);
@@ -48,8 +51,11 @@ describe('plugins/react', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['web-worker'],
-      config: {},
+      config: {
+        output: {
+          target: 'web-worker',
+        },
+      },
     });
 
     const config = await unwrapConfig(rsbuild);
