@@ -44,6 +44,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           "isModule": "unknown",
           "jsc": {
             "experimental": {
+              "cacheRoot": "node_modules/.cache/.swc",
               "plugins": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -140,6 +141,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           "isModule": "unknown",
           "jsc": {
             "experimental": {
+              "cacheRoot": "node_modules/.cache/.swc",
               "plugins": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
