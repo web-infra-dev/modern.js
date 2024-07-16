@@ -30,10 +30,13 @@ function getSSRData(): (SSRContainer & ExtraSSRContainer) | undefined {
       ...ssrData,
       context: {
         ...ssrData.context!,
-        cookieMap: cookieTool.parse(document.cookie || '') || {},
-        cookie: document.cookie || '',
-        userAgent: navigator.userAgent,
-        referer: document.referrer,
+        request: {
+          ...ssrData.context!.request,
+          cookieMap: cookieTool.parse(document.cookie || '') || {},
+          cookie: document.cookie || '',
+          userAgent: navigator.userAgent,
+          referer: document.referrer,
+        },
       },
     };
 
