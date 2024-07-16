@@ -1,12 +1,48 @@
 /* eslint-disable no-inner-declarations */
 import React from 'react';
+import cookieTool from 'cookie';
 import { getGlobalAppInit } from '../context';
 import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
+import { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
+
+type ExtraSSRContainer = {
+  context?: {
+    request: {
+      cookieMap?: Record<string, string>;
+      cookie?: string;
+      userAgent?: string;
+      referer?: string;
+    };
+  };
+};
+
+// eslint-disable-next-line consistent-return
+function getSSRData(): (SSRContainer & ExtraSSRContainer) | undefined {
+  const ssrData = window._SSR_DATA;
+
+  if (ssrData) {
+    const finalSSRData = {
+      ...ssrData,
+      context: {
+        ...ssrData.context!,
+        request: {
+          ...ssrData.context!.request,
+          cookieMap: cookieTool.parse(document.cookie || '') || {},
+          cookie: document.cookie || '',
+          userAgent: navigator.userAgent,
+          referer: document.referrer,
+        },
+      },
+    };
+
+    return finalSSRData;
+  }
+}
 
 function isClientArgs(id: unknown): id is HTMLElement | string {
   return (
@@ -34,7 +70,7 @@ export async function render(
     ) as any;
 
   if (isClientArgs(id)) {
-    const ssrData = window._SSR_DATA;
+    const ssrData = getSSRData();
     const loadersData = ssrData?.data?.loadersData || {};
 
     const initialLoadersState = Object.keys(loadersData).reduce(
