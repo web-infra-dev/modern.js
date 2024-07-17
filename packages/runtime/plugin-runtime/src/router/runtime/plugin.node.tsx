@@ -91,6 +91,8 @@ export const routerPlugin = ({
             basename: _basename,
           });
 
+          // We can't pass post request to query,due to post request would triger react-router submit action.
+          // But user maybe do not define action for page.
           const remixRequest = createRemixReuqest(
             context.ssrContext!.request.raw,
           );
