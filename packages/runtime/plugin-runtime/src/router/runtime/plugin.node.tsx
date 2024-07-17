@@ -14,7 +14,6 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
-import { SSRServerContext } from '../../core/types';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
@@ -31,26 +30,6 @@ function createRemixReuqest(request: Request) {
     headers,
     signal: controller.signal,
   });
-}
-
-export function createFetchHeaders(
-  requestHeaders: SSRServerContext['request']['headers'],
-): Headers {
-  const headers = new Headers();
-
-  for (const [key, values] of Object.entries(requestHeaders || {})) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
 }
 
 export const routerPlugin = ({
