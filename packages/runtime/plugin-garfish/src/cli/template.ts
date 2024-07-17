@@ -20,8 +20,9 @@ const genRenderCode = ({
   customEntry
     ? `import '${entry.replace(srcDirectory, internalSrcAlias)}'
 export * from '${entry.replace(srcDirectory, internalSrcAlias)}'`
-    : `import { garfishRender, createProvider } from '@${metaName}/plugin-garfish/runtime';
-
+    : `import { createRoot } from '@${metaName}/runtime/react';
+import { render } from '@${metaName}/runtime/browser';
+import { isRenderGarfish, createProvider } from '@${metaName}/plugin-garfish/runtime';
 ${
   customBootstrap
     ? `import customBootstrap from '${formatImportPath(
@@ -29,11 +30,20 @@ ${
       )}';`
     : 'let customBootstrap;'
 }
-garfishRender('${mountId || 'root'}', customBootstrap)
+if (!isRenderGarfish()) {
+  const ModernRoot = createRoot();
+  ${
+    customBootstrap
+      ? `customBootstrap(ModernRoot, () => render(<ModernRoot />, '${
+          mountId || 'root'
+        }'));`
+      : `render(<ModernRoot />, '${mountId || 'root'}');`
+  };
+}
 
-export const provider = createProvider(undefined, ${
-        customBootstrap ? 'customBootstrap' : undefined
-      });
+export const provider = createProvider('${
+        mountId || 'root'
+      }', { customBootstrap });
 `;
 export const index = ({
   srcDirectory,

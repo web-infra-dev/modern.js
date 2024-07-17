@@ -52,6 +52,8 @@ function isClientArgs(id: unknown): id is HTMLElement | string {
   );
 }
 
+export type RenderFunc = typeof render;
+
 export async function render(
   App: React.ReactElement,
   id?: HTMLElement | string,
