@@ -99,7 +99,7 @@
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/plugin-node-polyfill": "1.0.3",
-    "@rsbuild/core": "1.0.1-beta.2",
+    "@rsbuild/core": "1.0.1-beta.3",
     "@swc/helpers": "0.5.3",
     "@vercel/nft": "^0.26.4",
     "es-module-lexer": "^1.1.0",
@@ -110,7 +110,7 @@
     "std-env": "^3.7.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "1.0.1-beta.2",
+    "@rsbuild/plugin-swc": "1.0.1-beta.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "7.18.5",
