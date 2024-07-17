@@ -29,7 +29,7 @@ interface PrefetchHandlers {
 
 // TODO: 支持 rspack
 declare const __webpack_chunk_load__:
-  | ((chunkId: string) => Promise<void>)
+  | ((chunkId: string | number) => Promise<void>)
   | undefined;
 
 export function composeEventHandlers<
@@ -152,7 +152,7 @@ async function loadRouteModule(
   try {
     await Promise.all(
       chunkIds.map(chunkId => {
-        return __webpack_chunk_load__?.(String(chunkId));
+        return __webpack_chunk_load__?.(chunkId);
       }),
     );
   } catch (error) {
