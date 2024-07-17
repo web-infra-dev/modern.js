@@ -21,6 +21,18 @@ import { renderRoutes, urlJoin } from './utils';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import DeferredDataScripts from './DeferredDataScripts.node';
 
+function createRemixReuqest(request: Request) {
+  const method = 'GET';
+  const { headers } = request;
+  const controller = new AbortController();
+
+  return new Request(request.url, {
+    method,
+    headers,
+    signal: controller.signal,
+  });
+}
+
 export function createFetchHeaders(
   requestHeaders: SSRServerContext['request']['headers'],
 ): Headers {
@@ -100,7 +112,9 @@ export const routerPlugin = ({
             basename: _basename,
           });
 
-          const remixRequest = context.ssrContext!.request.raw;
+          const remixRequest = createRemixReuqest(
+            context.ssrContext!.request.raw,
+          );
 
           const end = time();
           const routerContext = await query(remixRequest, {
