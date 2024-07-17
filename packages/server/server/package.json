@@ -59,7 +59,7 @@
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "@modern-js/server-core": "workspace:*",
-    "ws": "^8.13.0"
+    "ws": "^8.17.1"
   },
   "devDependencies": {
     "@rsbuild/core": "1.0.1-beta.3",
