@@ -1,5 +1,11 @@
 # @modern-js/dependence-generator
 
+## 3.4.9
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+
 ## 3.4.8
 
 ### Patch Changes
