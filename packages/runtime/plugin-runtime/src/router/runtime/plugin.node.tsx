@@ -14,31 +14,22 @@ import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
-import { SSRServerContext } from '../../core/types';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import DeferredDataScripts from './DeferredDataScripts.node';
 
-export function createFetchHeaders(
-  requestHeaders: SSRServerContext['request']['headers'],
-): Headers {
-  const headers = new Headers();
+function createRemixReuqest(request: Request) {
+  const method = 'GET';
+  const { headers } = request;
+  const controller = new AbortController();
 
-  for (const [key, values] of Object.entries(requestHeaders || {})) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
+  return new Request(request.url, {
+    method,
+    headers,
+    signal: controller.signal,
+  });
 }
 
 export const routerPlugin = ({
@@ -100,7 +91,11 @@ export const routerPlugin = ({
             basename: _basename,
           });
 
-          const remixRequest = context.ssrContext!.request.raw;
+          // We can't pass post request to query,due to post request would triger react-router submit action.
+          // But user maybe do not define action for page.
+          const remixRequest = createRemixReuqest(
+            context.ssrContext!.request.raw,
+          );
 
           const end = time();
           const routerContext = await query(remixRequest, {
