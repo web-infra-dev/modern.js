@@ -1,5 +1,28 @@
 # @modern-js/plugin-garfish
 
+## 2.56.0
+
+### Patch Changes
+
+- 3912bdc: feat: the runtime path use the meta alias in garfish provider
+
+  feat: 在 garfish provider 函数中使用 runtime 别名路径
+
+- f27eaab: feat: garfish plugin support custom behavior before render
+
+  feat: garfish 插件支持在 render 前自定义行为
+
+- Updated dependencies [ced7039]
+- Updated dependencies [6fda6a2]
+- Updated dependencies [0f0a31e]
+- Updated dependencies [f27eaab]
+- Updated dependencies [32d31c3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d36f095]
+  - @modern-js/runtime@2.56.0
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Minor Changes

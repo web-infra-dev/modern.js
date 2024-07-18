@@ -1,5 +1,11 @@
 # @modern-js/builder-doc
 
+## 2.56.0
+
+### Patch Changes
+
+- dee8a8c: chore(deps): bump rspress to 1.26.1
+
 ## 2.55.0
 
 ## 2.54.6

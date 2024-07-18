@@ -1,5 +1,38 @@
 # @modern-js/runtime
 
+## 2.56.0
+
+### Patch Changes
+
+- ced7039: fix(prefetch): chunkId may be string or number
+  fix(prefetch): chunkId 可能是 sstring 或 number
+- 6fda6a2: feat: remove lodash dep from runtime mergeConfig function
+
+  feat: mergeConfig 函数移除 lodash 依赖
+
+- 0f0a31e: fix(plugin-runtime): failed to resolve @rsbuild/core
+- f27eaab: feat: garfish plugin support custom behavior before render
+
+  feat: garfish 插件支持在 render 前自定义行为
+
+- 32d31c3: fix: router plugin should receive request that method is GET
+  fix: router 插件应该获得请求方法为 GET 的请求
+- 9eee52a: fix: server runtime should get config.disablePrerender from ssr config
+  fix: server runtime 应该从 ssrconfig 获取 config.disablePrerender
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- d36f095: fix: ssrContext in browser should add document information
+  fix: 在浏览器中的 ssrContext 应该添加 document 的信息
+- Updated dependencies [bedbbb3]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/plugin@2.56.0
+
 ## 2.55.0
 
 ### Minor Changes

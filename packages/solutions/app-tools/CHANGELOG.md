@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [b912ca5]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/uni-builder@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/core@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+  - @modern-js/plugin-i18n@2.56.0
+  - @modern-js/plugin-lint@2.56.0
+  - @modern-js/rsbuild-plugin-esbuild@2.56.0
+  - @modern-js/node-bundle-require@2.56.0
+  - @modern-js/plugin@2.56.0
+
 ## 2.55.0
 
 ### Minor Changes
