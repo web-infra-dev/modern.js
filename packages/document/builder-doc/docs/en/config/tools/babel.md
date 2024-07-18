@@ -154,9 +154,22 @@ export default {
   tools: {
     babel(config, { modifyPresetEnvOptions }) {
       modifyPresetEnvOptions({
+        targets: "last 2 versions",
+      });
+    },
+  },
+};
+```
+
+```js
+export default {
+  tools: {
+    babel(config, { modifyPresetEnvOptions }) {
+      modifyPresetEnvOptions({
         targets: {
-          browsers: ['last 2 versions'],
-        },
+          chrome: "58",
+          ie: "11"
+        }
       });
     },
   },
