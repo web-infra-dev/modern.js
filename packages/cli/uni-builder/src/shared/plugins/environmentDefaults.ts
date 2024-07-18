@@ -53,6 +53,23 @@ export const pluginEnvironmentDefaults = (
         ? mergeRsbuildConfig(compatConfig, config)
         : config;
     });
+    // ensure environment order to avoid match unexpected environment resources
+    // https://github.com/web-infra-dev/rsbuild/issues/2956
+    api.modifyRsbuildConfig({
+      handler: config => {
+        const environmentNameOrder = ['web', 'node', 'serviceWorker'];
+
+        config.environments = Object.fromEntries(
+          Object.entries(config.environments!).sort((a1, a2) =>
+            environmentNameOrder.includes(a1[0])
+              ? environmentNameOrder.indexOf(a1[0]) -
+                environmentNameOrder.indexOf(a2[0])
+              : 1,
+          ),
+        );
+      },
+      order: 'post',
+    });
     api.modifyEnvironmentConfig(async (config, { name }) => {
       config.output.overrideBrowserslist ??= await getBrowserslistWithDefault(
         api.context.rootPath,
