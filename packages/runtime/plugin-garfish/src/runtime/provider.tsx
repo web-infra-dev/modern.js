@@ -13,7 +13,10 @@ export function createProvider(
       App: React.ComponentType,
       render: RenderFunc,
     ) => Promise<HTMLElement | Root>;
-    beforeRender?: (App: React.ComponentType) => Promise<any>;
+    beforeRender?: (
+      App: React.ComponentType,
+      props?: Record<string, any>,
+    ) => Promise<any>;
   } = {},
 ) {
   return ({ basename, dom }: { basename: string; dom: HTMLElement }) => {
@@ -37,7 +40,7 @@ export function createProvider(
           );
         } else {
           if (beforeRender) {
-            await beforeRender(ModernRoot);
+            await beforeRender(ModernRoot, { basename, ...props });
           }
           root = await render(
             <ModernRoot basename={basename} {...props} />,
