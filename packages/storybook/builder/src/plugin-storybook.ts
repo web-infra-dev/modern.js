@@ -352,7 +352,6 @@ function applyServerConfig(builderConfig: RsbuildConfig, options: Options) {
     port: options.port,
     host: 'localhost',
     htmlFallback: false,
-    strictPort: true,
     printUrls: false,
   };
 }
