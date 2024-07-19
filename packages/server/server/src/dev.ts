@@ -81,10 +81,10 @@ export const devPlugin = <O extends ServerBaseOptions>(
 
         const after: RequestHandler[] = [];
 
-        const { setupMiddlewares } = dev;
+        const { setupMiddlewares = [] } = dev;
 
         if (dev.after?.length || dev.before?.length) {
-          setupMiddlewares?.push(middlewares => {
+          setupMiddlewares.push(middlewares => {
             // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
             middlewares.unshift(...(dev.before || []));
 
@@ -92,7 +92,7 @@ export const devPlugin = <O extends ServerBaseOptions>(
           });
         }
 
-        setupMiddlewares?.forEach(handler => {
+        setupMiddlewares.forEach(handler => {
           handler(
             {
               unshift: (...handlers) => before.unshift(...handlers),
