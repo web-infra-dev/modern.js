@@ -727,12 +727,6 @@ importers:
       '@modern-js/babel-preset':
         specifier: workspace:*
         version: link:../babel-preset
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../server/prod-server
-      '@modern-js/server':
-        specifier: workspace:*
-        version: link:../../server/server
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -3849,9 +3843,9 @@ importers:
         specifier: ^8.13.0
         version: 8.13.0
     devDependencies:
-      '@rsbuild/core':
-        specifier: 1.0.1-beta.3
-        version: 1.0.1-beta.3
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../cli/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -25786,7 +25780,7 @@ packages:
       pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.2(@types/node@18.11.17)(typescript@5.4.5)
+      ts-node: 10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
 
@@ -25865,7 +25859,7 @@ packages:
       pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.2(@types/node@18.11.17)(typescript@5.4.5)
+      ts-node: 10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3)
     transitivePeerDependencies:
       - supports-color
 

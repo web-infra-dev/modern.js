@@ -12,7 +12,7 @@ import {
 } from '@modern-js/server-core';
 import Watcher, { WatchEvent, mergeWatchOptions } from '../dev-tools/watcher';
 import { debug } from './utils';
-import { registerMockHandlers } from './mock';
+import { initOrUpdateMockMiddlewares } from './mock';
 
 export * from './repack';
 export * from './devOptions';
@@ -35,10 +35,7 @@ async function onServerChange({
 
   const { runner } = server;
   if (filepath.startsWith(mockPath)) {
-    await registerMockHandlers({
-      pwd,
-      server,
-    });
+    await initOrUpdateMockMiddlewares(pwd);
     logger.info('Finish registering the mock handlers');
   } else {
     try {

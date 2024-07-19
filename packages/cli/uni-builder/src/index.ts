@@ -23,7 +23,6 @@ export type {
   MultiStats,
   RspackConfig,
 } from './types';
-export type { StartDevServerOptions } from './shared/devServer';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
   return options.bundlerType === 'rspack'

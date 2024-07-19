@@ -32,8 +32,6 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/types": "^7.24.7",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/server": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
     "@modern-js/babel-preset": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
     "@rsbuild/core": "1.0.1-beta.3",
