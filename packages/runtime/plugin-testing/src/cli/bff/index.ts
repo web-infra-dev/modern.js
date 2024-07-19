@@ -1,6 +1,7 @@
 import type { CliPlugin, IAppContext } from '@modern-js/core';
 import { isApiOnly } from '@modern-js/utils';
-import { ServerPlugin } from '@modern-js/prod-server';
+// must import from server-core, due to ts compiler error.
+import type { ServerPlugin } from '@modern-js/server-core';
 import { UserConfig } from '../../base/config';
 import {
   TestConfigOperator,
