@@ -76,8 +76,26 @@ function injectMessage(): UnstableMiddleware {
   };
 }
 
+function injectRequestBody(): UnstableMiddleware {
+  return async (c, next) => {
+    await next();
+
+    const { request, response } = c;
+
+    if (request.method.toUpperCase() === 'POST' && request.body) {
+      const requestBody = await request.text();
+
+      c.response = c.body(requestBody, {
+        status: response.status,
+        headers: response.headers,
+      });
+    }
+  };
+}
+
 export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
-  auth() as unknown as UnstableMiddleware,
+  injectRequestBody(),
   injectMessage(),
+  auth() as unknown as UnstableMiddleware,
 ];
