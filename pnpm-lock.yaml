@@ -7121,6 +7121,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
+      axios:
+        specifier: ^1.6.0
+        version: 1.6.7
       react:
         specifier: ^18
         version: 18.2.0
