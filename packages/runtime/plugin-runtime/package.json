@@ -189,7 +189,6 @@
     "@loadable/babel-plugin": "5.15.3",
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",
-    "@loadable/webpack-plugin": "5.15.2",
     "@modern-js-reduck/plugin-auto-actions": "^1.1.10",
     "@modern-js-reduck/plugin-devtools": "^1.1.10",
     "@modern-js-reduck/plugin-effects": "^1.1.10",

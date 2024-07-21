@@ -2923,9 +2923,6 @@ importers:
       '@loadable/server':
         specifier: 5.15.3
         version: 5.15.3(@loadable/component@5.15.3)(react@18.2.0)
-      '@loadable/webpack-plugin':
-        specifier: 5.15.2
-        version: 5.15.2(webpack@5.93.0)
       '@modern-js-reduck/plugin-auto-actions':
         specifier: ^1.1.10
         version: 1.1.10(@modern-js-reduck/store@1.1.10)
@@ -13043,16 +13040,6 @@ packages:
       '@loadable/component': 5.15.3(react@18.2.0)
       lodash: 4.17.21
       react: 18.2.0
-    dev: false
-
-  /@loadable/webpack-plugin@5.15.2(webpack@5.93.0):
-    resolution: {integrity: sha512-+o87jPHn3E8sqW0aBA+qwKuG8JyIfMGdz3zECv0t/JF0KHhxXtzIlTiqzlIYc5ZpFs/vKSQfjzGIR5tPJjoXDw==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      webpack: '>=4.6.0'
-    dependencies:
-      make-dir: 3.1.0
-      webpack: 5.93.0(esbuild@0.17.19)
     dev: false
 
   /@manypkg/find-root@1.1.0:
