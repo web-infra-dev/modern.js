@@ -44,5 +44,6 @@ jobs:
           --ignore-dep 'tailwindcss'
           --ignore-dep 'tsconfig-paths'
           --ignore-dep 'twin.macro'
+          --ignore-dep 'hono'
           --ignore-dep 'type-fest'
           --ignore-dep 'typescript'
