@@ -1,5 +1,18 @@
 # @modern-js/types
 
+## 2.56.0
+
+### Minor Changes
+
+- bedbbb3: feat: server monitors interface unity
+  feat: server 监控接口统一
+
+### Patch Changes
+
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
 ## 2.55.0
 
 ### Patch Changes

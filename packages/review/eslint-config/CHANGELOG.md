@@ -1,5 +1,11 @@
 # @modern-js/eslint-config
 
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js-app/eslint-config@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

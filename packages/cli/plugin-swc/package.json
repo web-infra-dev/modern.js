@@ -14,7 +14,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.55.0",
+  "version": "2.56.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -38,8 +38,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rsbuild/core": "1.0.1-beta.2",
-    "@rsbuild/plugin-swc": "1.0.1-beta.2",
+    "@rsbuild/core": "1.0.1-beta.3",
+    "@rsbuild/plugin-swc": "1.0.1-beta.3",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },

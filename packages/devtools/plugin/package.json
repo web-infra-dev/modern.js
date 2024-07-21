@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.55.0",
+  "version": "2.56.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -82,10 +82,10 @@
     "@types/react-devtools-inline": "^4.24.8",
     "type-fest": "^4.1.0",
     "typescript": "^5",
-    "@rsbuild/core": "1.0.1-beta.2"
+    "@rsbuild/core": "1.0.1-beta.3"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.55.0"
+    "@modern-js/runtime": "workspace:^2.56.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

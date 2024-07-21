@@ -1,5 +1,20 @@
 # @modern-js/server
 
+## 2.56.0
+
+### Patch Changes
+
+- d1eb8dc: fix: mockHandler should run before rsbuild middleware & mockHandler can't hmr correctly
+  fix: mockHandler 应该在 rsbuild middleware 之前跑 & mockHandler 不能正确的 hmr
+- Updated dependencies [bedbbb3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

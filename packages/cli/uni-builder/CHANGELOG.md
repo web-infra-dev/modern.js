@@ -1,5 +1,22 @@
 # @modern-js/uni-builder
 
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [53419a5]
+- Updated dependencies [119b9e1]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/babel-preset@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

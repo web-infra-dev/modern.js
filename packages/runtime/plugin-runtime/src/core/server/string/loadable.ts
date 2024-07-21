@@ -216,7 +216,7 @@ export class LoadableCollector implements Collector {
     );
 
     // filter empty string;
-    chunkSet.jsChunk += css.filter(css => Boolean(css)).join('');
+    chunkSet.cssChunk += css.filter(css => Boolean(css)).join('');
   }
 
   private generateAttributes(
