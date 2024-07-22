@@ -2,7 +2,6 @@ import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
 import { DistPathConfig } from '@rsbuild/core';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 
@@ -18,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
   define.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 }
 
-const assetPrefix = process.env.ASSET_PREFIX || ROUTE_BASENAME;
+const assetPrefix = process.env.ASSET_PREFIX || '/';
 const distPathTypes = [
   'root',
   'js',

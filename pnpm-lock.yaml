@@ -1154,8 +1154,8 @@ importers:
   packages/devtools/plugin:
     dependencies:
       '@hono/node-server':
-        specifier: ^1.11.2
-        version: 1.11.3
+        specifier: 1.12.0
+        version: 1.12.0
       '@modern-js/devtools-client':
         specifier: workspace:*
         version: link:../client
@@ -1178,8 +1178,8 @@ importers:
         specifier: ^3.2.9
         version: 3.2.9
       hono:
-        specifier: ^3.12.2
-        version: 3.12.12
+        specifier: 4.5.1
+        version: 4.5.1
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -12608,8 +12608,8 @@ packages:
       '@hapi/hoek': 9.3.0
     dev: true
 
-  /@hono/node-server@1.11.3:
-    resolution: {integrity: sha512-mFg3qlKkDtMWSalX5Gyh6Zd3MXay0biGobFlyJ49i6R1smBBS1CYkNZbvwLlw+4sSrHO4ZiH7kj4TcLpl2Jr3g==}
+  /@hono/node-server@1.12.0:
+    resolution: {integrity: sha512-e6oHjNiErRxsZRZBmc2KucuvY3btlO/XPncIpP2X75bRdTilF9GLjm3NHvKKunpJbbJJj31/FoPTksTf8djAVw==}
     engines: {node: '>=18.14.1'}
     dev: false
 
@@ -24617,6 +24617,11 @@ packages:
 
   /hono@3.12.12:
     resolution: {integrity: sha512-5IAMJOXfpA5nT+K0MNjClchzz0IhBHs2Szl7WFAhrFOsbtQsYmNynFyJRg/a3IPsmCfxcrf8txUGiNShXpK5Rg==}
+    engines: {node: '>=16.0.0'}
+    dev: false
+
+  /hono@4.5.1:
+    resolution: {integrity: sha512-6q8AugoWG5wlrjdGG8OFFiqEsPlPGjODjUik48sEJeko4Tae1UsLS2vUiYHLEJx1gJvOZa4BWkQC+urwDmkEvQ==}
     engines: {node: '>=16.0.0'}
     dev: false
 
