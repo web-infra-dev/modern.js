@@ -1,11 +1,13 @@
 import path from 'path';
 import {
   replacer,
+  RouteAsset,
   type ExportedServerState,
   type ServerManifest,
 } from '@modern-js/devtools-kit/node';
 import { fs, logger, nanoid } from '@modern-js/utils';
 import createDeferred from 'p-defer';
+import { joinURL } from 'ufo';
 import { Plugin } from '../types';
 
 declare global {
@@ -29,7 +31,21 @@ export const pluginManifest: Plugin = {
       const routesManifestName = require.resolve(
         '@modern-js/devtools-client/manifest',
       );
-      const routesManifest = await fs.readJSON(routesManifestName);
+      const routesManifest: { routeAssets: Record<string, RouteAsset> } =
+        await fs.readJSON(routesManifestName);
+      const { http } = api.vars;
+      if (process.env.NODE_ENV !== 'production' && http) {
+        const assetPrefix = `http://localhost:${http.port}`;
+        for (const routeAsset of Object.values(routesManifest.routeAssets)) {
+          routeAsset.assets = routeAsset.assets?.map(asset =>
+            joinURL(assetPrefix, asset),
+          );
+          routeAsset.referenceCssAssets = routeAsset.referenceCssAssets?.map(
+            asset =>
+              typeof asset === 'string' ? joinURL(assetPrefix, asset) : asset,
+          ) as [];
+        }
+      }
       const manifest: ServerManifest = {
         ...(api.vars.state as ExportedServerState),
         routeAssets: routesManifest.routeAssets,
