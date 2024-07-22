@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.56.1
+
+### Patch Changes
+
+- ad9e984: fix(ssr): Avoid the compilation problem with renderToPipeableStream and react 17
+  fix(ssr): 避免 react 17 下，使用 renderToPipeableStream 的编译问题
+- 137d387: fix: style assets should be add to cssChunk
+  fix: style 应该被添加到 cssChunks
+- 1696694: fix: remove unused @loadable/webpack-plugin dependency
+  - @modern-js/plugin-data-loader@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
 ## 2.56.0
 
 ### Patch Changes

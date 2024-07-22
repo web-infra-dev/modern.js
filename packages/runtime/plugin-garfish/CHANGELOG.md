@@ -1,5 +1,22 @@
 # @modern-js/plugin-garfish
 
+## 2.56.1
+
+### Patch Changes
+
+- 57f942e: fix: import plugin api from @modern-js/plugin instead @modern-js/core
+  fix: 从 @modern-js/plugin 导入插件 api 而不是 @modern-js/core
+- 4f3f200: feat: garfish beforeRender function support props params
+
+  feat: garfish beforeRender 函数支持 props 参数
+
+- Updated dependencies [ad9e984]
+- Updated dependencies [137d387]
+- Updated dependencies [1696694]
+  - @modern-js/runtime@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/utils@2.56.1
+
 ## 2.56.0
 
 ### Patch Changes
