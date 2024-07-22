@@ -1,5 +1,7 @@
 # @modern-js/module-tools-docs
 
+## 2.56.1
+
 ## 2.56.0
 
 ### Patch Changes
