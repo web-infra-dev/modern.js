@@ -36,7 +36,7 @@ async function onServerChange({
   const { runner } = server;
   if (filepath.startsWith(mockPath)) {
     await initOrUpdateMockMiddlewares(pwd);
-    logger.info('Finish registering the mock handlers');
+    logger.info('Finish update the mock handlers');
   } else {
     try {
       const fileChangeEvent: FileChangeEvent = {

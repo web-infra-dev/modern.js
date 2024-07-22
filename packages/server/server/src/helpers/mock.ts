@@ -155,7 +155,7 @@ export async function getMockMiddleware(pwd: string): Promise<Middleware> {
       const { handler } = matchedMockAPI;
 
       if (typeof handler === 'function') {
-        await connectMid2HonoMid(handler)(c, next);
+        return await connectMid2HonoMid(handler)(c, next);
       } else {
         return c.json(handler);
       }
