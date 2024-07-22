@@ -1,6 +1,6 @@
 import path from 'path';
-import { createServerBase } from '@modern-js/server-core';
-import { registerMockHandlers } from '../src/helpers';
+import { createServerBase, ServerPlugin } from '@modern-js/server-core';
+import { getMockMiddleware } from '../src/helpers';
 
 function getDefaultConfig() {
   return {
@@ -23,6 +23,26 @@ function getDefaultAppContext() {
   };
 }
 
+function createMockPlugin(pwd: string): ServerPlugin {
+  return {
+    name: 'mock-plugin',
+    setup(api) {
+      return {
+        async prepare() {
+          const mockMiddleware = await getMockMiddleware(pwd);
+          const { middlewares } = api.useAppContext();
+
+          middlewares.push({
+            name: 'mock',
+
+            handler: mockMiddleware,
+          });
+        },
+      };
+    },
+  };
+}
+
 describe('should mock middleware work correctly', () => {
   const pwd = path.join(__dirname, './fixtures/mock');
 
@@ -33,10 +53,9 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
     });
 
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'cjs'),
-    });
+    server.addPlugins([createMockPlugin(path.join(pwd, 'cjs'))]);
+
+    await server.init();
 
     const response = await server.request('/api/getInfo');
     const data = await response.json();
@@ -57,10 +76,11 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
       pwd: '',
     });
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'empty'),
-    });
+
+    server.addPlugins([createMockPlugin(path.join(pwd, 'empty'))]);
+
+    await server.init();
+
     const response = await server.request('/api/getInfo');
     expect(response.status).toBe(404);
   });
@@ -71,10 +91,11 @@ describe('should mock middleware work correctly', () => {
       appContext: getDefaultAppContext(),
       pwd: '',
     });
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'exist'),
-    });
+
+    server.addPlugins([createMockPlugin(path.join(pwd, 'exist'))]);
+
+    await server.init();
+
     const response = await server.request('/api/getInfo', {
       method: 'post',
     });
@@ -92,10 +113,11 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
       appContext: getDefaultAppContext(),
     });
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'exist'),
-    });
+
+    server.addPlugins([createMockPlugin(path.join(pwd, 'exist'))]);
+
+    await server.init();
+
     const response = await server.request('/api/xxx');
     expect(response.status).toBe(404);
   });
@@ -106,10 +128,11 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
       appContext: getDefaultAppContext(),
     });
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'disable'),
-    });
+
+    server.addPlugins([createMockPlugin(path.join(pwd, 'disable'))]);
+
+    await server.init();
+
     const response = await server.request('/api/getInfo');
     expect(response.status).toBe(404);
   });
@@ -120,10 +143,11 @@ describe('should mock middleware work correctly', () => {
       pwd: '',
       appContext: getDefaultAppContext(),
     });
-    await registerMockHandlers({
-      server,
-      pwd: path.join(pwd, 'disable-runtime'),
-    });
+
+    server.addPlugins([createMockPlugin(path.join(pwd, 'disable-runtime'))]);
+
+    await server.init();
+
     const response = await server.request('/api/getInfo', undefined, {
       node: {
         req: {},
@@ -140,10 +164,10 @@ describe('should mock middleware work correctly', () => {
         pwd: '',
         appContext: getDefaultAppContext(),
       });
-      await registerMockHandlers({
-        server,
-        pwd: path.join(pwd, 'module-error'),
-      });
+
+      server.addPlugins([createMockPlugin(path.join(pwd, 'module-error'))]);
+
+      await server.init();
     } catch (e: any) {
       expect(e.message).toMatch('parsed failed!');
     }
@@ -156,10 +180,10 @@ describe('should mock middleware work correctly', () => {
         pwd: '',
         appContext: getDefaultAppContext(),
       });
-      await registerMockHandlers({
-        server,
-        pwd: path.join(pwd, 'type-error'),
-      });
+
+      server.addPlugins([createMockPlugin(path.join(pwd, 'type-error'))]);
+
+      await server.init();
     } catch (e: any) {
       expect(e.message).toMatch('should be object or function, but got string');
     }
