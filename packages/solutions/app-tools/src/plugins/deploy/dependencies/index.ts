@@ -41,8 +41,9 @@ export const handleDependencies = async ({
     serverRootDir,
     base,
   );
-
   const currentProjectModules = path.join(appDir, 'node_modules');
+  // Because vercel/nft may find inaccurately, we limit the range of query of dependencies
+  const dependencySearchRoot = path.resolve(appDir, '../../../../../../');
 
   const tracedFiles: Record<string, TracedFile> = Object.fromEntries(
     (await Promise.all(
@@ -89,7 +90,7 @@ export const handleDependencies = async ({
             ? path.join(match[0], 'package.json')
             : await pkgUp({ cwd: path.dirname(filePath) });
 
-          if (packageJsonPath) {
+          if (packageJsonPath?.startsWith(dependencySearchRoot)) {
             const packageJson: PackageJson = await fse.readJSON(
               packageJsonPath,
             );
