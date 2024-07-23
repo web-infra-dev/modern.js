@@ -25,7 +25,7 @@ const defaultHtmlPluginOptions = {
 };
 ```
 
-The configs of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) or [@rspack/plugin-html](https://github.com/web-infra-dev/rspack/tree/main/packages/rspack-plugin-html) can be modified through `tools.htmlPlugin`.
+The configs of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) or [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) can be modified through `tools.htmlPlugin`.
 
 ### Object Type
 
