@@ -54,7 +54,6 @@ function createSSRContext(
     resource,
     params,
     responseProxy,
-    staticGenerate,
     logger,
     metrics,
     reporter,
@@ -80,7 +79,6 @@ function createSSRContext(
     entryName,
     config.ssr,
     config.ssrByEntries,
-    staticGenerate,
   );
 
   const ssrMode = getSSRMode(ssrConfig);
