@@ -16,12 +16,12 @@ export const contextPlugin = (): Plugin => {
     name: 'app-custom-plugin',
     setup: _api => {
       return {
-        init: async ({ context }, next) => {
+        beforeRender: async context => {
           const value = await getValue();
           context.custom = { test: value };
-          return next({ context });
+          return context;
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
           const getContextApp = () => {
             return () => {
               const context = useContext(RuntimeReactContext);
@@ -32,7 +32,7 @@ export const contextPlugin = (): Plugin => {
               );
             };
           };
-          return next({ App: getContextApp(), config });
+          return getContextApp();
         },
       };
     },

@@ -16,7 +16,7 @@ export const designTokenPlugin = (
   name: '@modern-js/plugin-design-token',
 
   setup: () => ({
-    hoc({ App, config }, next) {
+    wrapRoot(App) {
       const DesignTokenAppWrapper = (props: any) => {
         const {
           token = {},
@@ -50,10 +50,7 @@ export const designTokenPlugin = (
         }
       };
 
-      return next({
-        App: DesignTokenAppWrapper,
-        config,
-      });
+      return DesignTokenAppWrapper;
     },
   }),
 });

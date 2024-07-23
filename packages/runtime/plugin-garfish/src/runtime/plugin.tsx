@@ -59,7 +59,7 @@ export const garfishPlugin = (config: Config): Plugin => ({
     logger('createPlugin', config);
     const promise = initOptions(manifest, options);
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
         class GetMicroFrontendApp extends React.Component {
           state: {
             MApp: React.FC<MicroComponentProps>;
@@ -120,10 +120,7 @@ export const garfishPlugin = (config: Config): Plugin => ({
           }
         }
 
-        return next({
-          App: GetMicroFrontendApp,
-          config,
-        });
+        return GetMicroFrontendApp;
       },
     };
   },

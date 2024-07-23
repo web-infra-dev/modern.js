@@ -137,16 +137,15 @@ export const createRequestHandler: CreateRequestHandler =
         routeManifest as any,
       );
 
-      const runInit = (_context: RuntimeContext) =>
-        runner.init(
-          { context: _context },
-          {
-            onLast: ({ context: context1 }) => {
-              const init = getGlobalAppInit();
-              return init?.(context1);
-            },
-          },
-        ) as any;
+      const runBeforeRender = async (_context: RuntimeContext) => {
+        // when router is redirect, beforeRender when return a response
+        const context = await runner.beforeRender(_context);
+        if (typeof Response !== 'undefined' && context instanceof Response) {
+          return context;
+        }
+        const init = getGlobalAppInit();
+        return init?.(context);
+      };
 
       const responseProxy: ResponseProxy = {
         headers: {},
@@ -195,7 +194,7 @@ export const createRequestHandler: CreateRequestHandler =
         return undefined;
       };
 
-      const initialData = await runInit(context);
+      const initialData = await runBeforeRender(context);
 
       context.initialData = initialData;
 

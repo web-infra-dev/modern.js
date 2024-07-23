@@ -60,16 +60,11 @@ export async function render(
 ) {
   const runner = getGlobalRunner();
   const context: RuntimeContext = getInitialContext(runner);
-  const runInit = (_context: RuntimeContext) =>
-    runner.init(
-      { context: _context },
-      {
-        onLast: ({ context: context1 }) => {
-          const init = getGlobalAppInit();
-          return init?.(context1);
-        },
-      },
-    ) as any;
+  const runBeforeRender = async (_context: RuntimeContext) => {
+    const context = await runner.beforeRender(_context);
+    const init = getGlobalAppInit();
+    return init?.(context);
+  };
 
   if (isClientArgs(id)) {
     const ssrData = getSSRData();
@@ -93,11 +88,13 @@ export async function render(
       loaderManager: createLoaderManager(initialLoadersState, {
         skipStatic: true,
       }),
+      // garfish plugin params
+      _internalRouterBaseName: App.props.basename,
       ...(ssrData ? { ssrContext: ssrData?.context } : {}),
     });
 
     context.initialData = ssrData?.data?.initialData;
-    const initialData = await runInit(context);
+    const initialData = await runBeforeRender(context);
     if (initialData) {
       context.initialData = initialData;
     }

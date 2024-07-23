@@ -49,11 +49,11 @@ export const routerPlugin = ({
         ...routesConfig,
       };
       return {
-        async init({ context }, next) {
+        async beforeRender(context) {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return next({ context });
+            return context;
           }
 
           const {
@@ -124,19 +124,19 @@ export const routerPlugin = ({
           context.routerContext = routerContext;
           context.routes = routes;
 
-          return next({ context });
+          return context;
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig) {
-            return next({ App, config });
+            return App;
           }
 
           const getRouteApp = () => {
             return (() => {
-              const { remixRouter, routerContext, ssrContext } =
-                useContext(RuntimeReactContext);
+              const context = useContext(RuntimeReactContext);
+              const { remixRouter, routerContext, ssrContext } = context;
 
               const { nonce, mode } = ssrContext!;
               return (
@@ -153,19 +153,14 @@ export const routerPlugin = ({
             }) as React.FC<any>;
           };
 
-          const RouteApp = getRouteApp();
-
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
-        pickContext: ({ context, pickedContext }, next) => {
-          const { remixRouter } = context;
+        pickContext: pickedContext => {
+          const { remixRouter } = pickedContext;
 
           // remixRouter is not existed in conventional routes
           if (!remixRouter) {
-            return next({ context, pickedContext });
+            return pickedContext;
           }
 
           // only export partial common API from remix-router
@@ -176,13 +171,10 @@ export const routerPlugin = ({
             },
           };
 
-          return next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              router,
-            },
-          });
+          return {
+            ...pickedContext,
+            router,
+          };
         },
       };
     },

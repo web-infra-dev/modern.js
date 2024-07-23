@@ -1,7 +1,7 @@
 import {
   createManager,
-  createPipeline,
-  createAsyncPipeline,
+  createWaterfall,
+  createAsyncWaterfall,
   PluginOptions,
   Setup,
 } from '@modern-js/plugin';
@@ -11,32 +11,18 @@ import { RuntimeContext, TRuntimeContext } from '../context/runtime';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
 
-const hoc = createPipeline<
-  {
-    App: React.ComponentType<any>;
-    config: Record<string, any>;
-  },
-  React.ComponentType<any>
->();
+const wrapRoot = createWaterfall<React.ComponentType<any>>();
 
-const init = createAsyncPipeline<
-  {
-    context: RuntimeContext;
-  },
-  unknown
->();
+const beforeRender = createAsyncWaterfall<RuntimeContext>();
 
 /**
  * To add runtime info to runtime context
  */
-const pickContext = createPipeline<
-  { context: RuntimeContext; pickedContext: TRuntimeContext },
-  TRuntimeContext
->();
+const pickContext = createWaterfall<TRuntimeContext>();
 
 const runtimeHooks = {
-  hoc,
-  init,
+  beforeRender,
+  wrapRoot,
   pickContext,
 };
 

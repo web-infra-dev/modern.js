@@ -60,7 +60,7 @@ export const routerPlugin = ({
     },
     setup: api => {
       return {
-        init({ context }, next) {
+        beforeRender(context) {
           context.router = {
             useMatches,
             useLocation,
@@ -73,23 +73,24 @@ export const routerPlugin = ({
             },
           });
 
-          return next({ context });
+          return context;
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return next({ App, config });
+            return App;
           }
 
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
+              const runtimeContext = useContext(RuntimeReactContext);
               /**
-               * config?.router?.basename: garfish plugin params, priority
+               * _internalRouterBaseName: garfish plugin params, priority
                * basename: modern config file config
                */
               const baseUrl = (
-                config?.router?.basename ||
+                runtimeContext._internalRouterBaseName ||
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname)
               ).replace(/^\/*/, '/');
@@ -97,7 +98,6 @@ export const routerPlugin = ({
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
-              const runtimeContext = useContext(RuntimeReactContext);
 
               const { unstable_getBlockNavState: getBlockNavState } =
                 runtimeContext;
@@ -171,22 +171,18 @@ export const routerPlugin = ({
               const router = useCreateRouter(props);
 
               return <RouterProvider router={router} />;
-            }) as React.FC<any>;
+            }) as React.ComponentType<any>;
           };
-          const RouteApp = getRouteApp();
 
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
-        pickContext: ({ context, pickedContext }, next) => {
-          const { remixRouter } = context;
+        pickContext: pickedContext => {
+          const { remixRouter } = pickedContext;
 
           // two scenarios: 1. remixRouter is not existed in conventional routes;
           // 2. useRuntimeContext can be called by users before hoc hooks execute
           if (!remixRouter) {
-            return next({ context, pickedContext });
+            return pickedContext;
           }
 
           // only export partial common API from remix-router
@@ -197,13 +193,10 @@ export const routerPlugin = ({
             },
           };
 
-          return next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              router,
-            },
-          });
+          return {
+            ...pickedContext,
+            router,
+          };
         },
       };
     },

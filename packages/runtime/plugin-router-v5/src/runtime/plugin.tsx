@@ -102,7 +102,7 @@ export const routerPlugin = ({
     },
     setup: api => {
       return {
-        init({ context }, next) {
+        beforeRender(context) {
           context.router = {
             useRouteMatch,
             useLocation,
@@ -115,27 +115,28 @@ export const routerPlugin = ({
             },
           });
 
-          return next({ context });
+          return context;
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
           const getRouteApp = () => {
             if (isBrow) {
-              const baseUrl = (
-                config.router?.basename ||
-                window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname)
-              ).replace(/^\/*/, '/');
-              const basename =
-                baseUrl === '/'
-                  ? urlJoin(baseUrl, historyOptions.basename as string)
-                  : baseUrl;
-              historyOptions.basename = basename;
-              const history =
-                customHistory ||
-                (supportHtml5History
-                  ? createBrowserHistory(historyOptions)
-                  : createHashHistory(historyOptions));
               return (props: any) => {
+                const runtimeContext = useContext(RuntimeReactContext);
+                const baseUrl = (
+                  runtimeContext._internalRouterBaseName ||
+                  window._SERVER_DATA?.router.baseUrl ||
+                  select(location.pathname)
+                ).replace(/^\/*/, '/');
+                const basename =
+                  baseUrl === '/'
+                    ? urlJoin(baseUrl, historyOptions.basename as string)
+                    : baseUrl;
+                historyOptions.basename = basename;
+                const history =
+                  customHistory ||
+                  (supportHtml5History
+                    ? createBrowserHistory(historyOptions)
+                    : createHashHistory(historyOptions));
                 const runner = (api as any).useHookRunners();
                 routes = runner.modifyRoutes(originRoutes);
                 finalRouteConfig && (finalRouteConfig.routes = routes);
@@ -163,7 +164,8 @@ export const routerPlugin = ({
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
               const baseUrl = (
-                config.router?.basename || (request?.baseUrl as string)
+                runtimeContext._internalRouterBaseName ||
+                (request?.baseUrl as string)
               )?.replace(/^\/*/, '/');
 
               const basename =
@@ -191,12 +193,7 @@ export const routerPlugin = ({
             };
           };
 
-          const RouteApp = getRouteApp();
-
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
       };
     },

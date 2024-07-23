@@ -68,41 +68,28 @@ export const createApp = ({
       );
     };
 
-    const HOCApp = runner.hoc(
-      { App: WrapperComponent, config: globalProps || {} },
-      {
-        onLast: ({ App }: any) => {
-          const WrapComponent = ({ _internal_context, ...props }: any) => {
-            let contextValue = _internal_context;
+    const WrapperApp = runner.wrapRoot(WrapperComponent);
+    const WrapComponent = ({ _internal_context, ...props }: any) => {
+      let contextValue = _internal_context;
 
-            // We should construct the context, when root component is not passed into `bootstrap`.
-            if (!contextValue?.runner) {
-              contextValue = getInitialContext(runner);
+      // We should construct the context, when root component is not passed into `bootstrap`.
+      if (!contextValue?.runner) {
+        contextValue = getInitialContext(runner);
 
-              runner.init(
-                { context: contextValue },
-                {
-                  onLast: ({ context: context1 }) =>
-                    getGlobalAppInit()?.(context1),
-                },
-              );
-            }
+        runner?.beforeRender(contextValue);
+        getGlobalAppInit()?.(contextValue);
+      }
 
-            const mergedProps = { ...props, ...globalProps };
+      const mergedProps = { ...props, ...globalProps };
 
-            return (
-              <RuntimeReactContext.Provider value={contextValue}>
-                <App {...mergedProps} />
-              </RuntimeReactContext.Provider>
-            );
-          };
+      return (
+        <RuntimeReactContext.Provider value={contextValue}>
+          <WrapperApp {...mergedProps} />
+        </RuntimeReactContext.Provider>
+      );
+    };
 
-          return WrapComponent;
-        },
-      },
-    );
-
-    return HOCApp;
+    return WrapComponent;
   };
 };
 
@@ -136,16 +123,11 @@ export const bootstrap: BootStrap = async (
 
   const context: RuntimeContext = getInitialContext(runner);
 
-  const runInit = (_context: RuntimeContext) =>
-    runner.init(
-      { context: _context },
-      {
-        onLast: ({ context: context1 }) => {
-          const init = getGlobalAppInit();
-          return init?.(context1);
-        },
-      },
-    );
+  const runBeforeRender = async (_context: RuntimeContext) => {
+    const context = await runner.beforeRender(_context);
+    const init = getGlobalAppInit();
+    return init?.(context);
+  };
 
   // don't mount the App, let user in charge of it.
   if (!id) {
@@ -182,7 +164,7 @@ export const bootstrap: BootStrap = async (
       });
 
       context.initialData = ssrData?.data?.initialData;
-      const initialData = await runInit(context);
+      const initialData = await runBeforeRender(context);
       if (initialData) {
         context.initialData = initialData as Record<string, unknown>;
       }
@@ -263,20 +245,13 @@ export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
   const pickedContext: TRuntimeContext = {
-    initialData: context.initialData,
+    ...context,
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
   };
 
   const memoizedContext = useMemo(
-    () =>
-      context.runner.pickContext(
-        { context, pickedContext },
-        {
-          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
-            pickedContext,
-        },
-      ),
+    () => context.runner.pickContext(pickedContext),
     [context],
   );
 

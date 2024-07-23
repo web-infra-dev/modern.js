@@ -59,7 +59,7 @@ export const statePlugin = (config: StateConfig): Plugin => ({
   setup: () => {
     const storeConfig = getStoreConfig(config);
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
         const getStateApp = (props: any) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const context = useContext(RuntimeReactContext);
@@ -70,12 +70,9 @@ export const statePlugin = (config: StateConfig): Plugin => ({
             </Provider>
           );
         };
-        return next({
-          App: getStateApp,
-          config,
-        });
+        return getStateApp;
       },
-      init({ context }, next) {
+      beforeRender(context) {
         if (isBrowser()) {
           storeConfig.initialState =
             storeConfig.initialState ||
@@ -85,16 +82,7 @@ export const statePlugin = (config: StateConfig): Plugin => ({
 
         context.store = createStore(storeConfig);
 
-        return next({ context });
-      },
-      pickContext({ context, pickedContext }, next) {
-        return next({
-          context,
-          pickedContext: {
-            ...pickedContext,
-            store: context.store,
-          },
-        });
+        return context;
       },
     };
   },

@@ -57,7 +57,7 @@ describe('@modern-js/plugin-router', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App, config }, next) => next({ App, config }),
+          wrapRoot: App => App,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -109,7 +109,7 @@ describe('@modern-js/plugin-router', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App, config }, next) => next({ App, config }),
+          wrapRoot: App => App,
         })),
         createRouterPlugin({
           routesConfig: {
