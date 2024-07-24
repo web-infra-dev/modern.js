@@ -97,7 +97,7 @@ export const generateCode = async (
         );
 
         fs.outputFileSync(indexFile, indexCode, 'utf8');
-        // index.server.js
+
         const ssrMode = getSSRMode(entryName, config);
 
         if (enableAsyncEntry) {
@@ -105,6 +105,7 @@ export const generateCode = async (
             internalDirectory,
             `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
           );
+          // bootstrap.jsx
           fs.outputFileSync(
             bootstrapFile,
             `import('./${INDEX_FILE_NAME}');`,
@@ -117,6 +118,7 @@ export const generateCode = async (
           );
 
           if (ssrMode) {
+            // bootstrap.server.jsx
             fs.outputFileSync(
               bootstrapServerFile,
               `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
@@ -126,6 +128,7 @@ export const generateCode = async (
         }
 
         if (ssrMode) {
+          // index.server.js
           const indexServerCode = serverTemplate.serverIndex({
             entry,
             entryName,
