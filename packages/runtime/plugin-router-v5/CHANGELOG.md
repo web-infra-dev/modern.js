@@ -1,5 +1,23 @@
 # @modern-js/plugin-router-v5
 
+## 2.56.2
+
+### Patch Changes
+
+- dcbfa14: feat: router v5 and garfish runtime plugin use @meta/runtime path for @modern-js/runtime package
+
+  feat: router v5 和 garfish runtime 插件使用 @meta/runtime 路径导入 @modern-js/runtime
+
+- Updated dependencies [e9c724c]
+- Updated dependencies [9626370]
+- Updated dependencies [89e1df0]
+- Updated dependencies [c441e14]
+  - @modern-js/runtime@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/runtime-utils@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
 ## 2.56.1
 
 ### Patch Changes

@@ -1,5 +1,32 @@
 # @modern-js/app-tools
 
+## 2.56.2
+
+### Patch Changes
+
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- bdd6ac9: fix: handle the case of nft find for error dependencies
+  fix: 处理 nft 查找到错误依赖的情况
+- c441e14: fix: resolve.extensions should add .server.jsx when target = node
+  fix: resolve.extensions 应该添加上 .server.jsx 当 target 为 node 时
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/core@2.56.2
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin-i18n@2.56.2
+  - @modern-js/plugin-lint@2.56.2
+  - @modern-js/rsbuild-plugin-esbuild@2.56.2
+  - @modern-js/uni-builder@2.56.2
+  - @modern-js/server-core@2.56.2
+  - @modern-js/prod-server@2.56.2
+  - @modern-js/server@2.56.2
+  - @modern-js/server-utils@2.56.2
+  - @modern-js/node-bundle-require@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
 ## 2.56.1
 
 ### Patch Changes
