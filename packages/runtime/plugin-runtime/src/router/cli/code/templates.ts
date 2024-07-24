@@ -472,7 +472,20 @@ export function ssrLoaderCombinedModule(
     const combinedModule = `export * from "${slash(
       serverLoaderRuntime,
     )}"; export * from "${slash(serverLoadersFile)}"`;
-    return combinedModule;
+
+    if (!config.source.enableAsyncEntry) {
+      return combinedModule;
+    }
+    return `export default Promise.all([import("${slash(
+      serverLoaderRuntime,
+    )}"),import("${slash(serverLoadersFile)}")]).then(res=>{
+      return res.reduce((sum,cur)=>{
+        return {
+          ...sum,
+          ...cur
+        }
+     },{})
+    })`;
   }
   return null;
 }

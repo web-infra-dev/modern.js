@@ -1,5 +1,11 @@
 # @modern-js/generator-generator
 
+## 3.4.10
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
 ## 3.4.9
 
 ### Patch Changes

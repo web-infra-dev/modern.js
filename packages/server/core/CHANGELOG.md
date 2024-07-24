@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.56.1
+
+### Patch Changes
+
+- e0e29b3: fix: new server middleware support get body, if request.method is post
+  fix: 如果请求是 post, 新 server middlewares 可以拿到 body 数据
+  - @modern-js/plugin@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/utils@2.56.1
+
 ## 2.56.0
 
 ### Minor Changes

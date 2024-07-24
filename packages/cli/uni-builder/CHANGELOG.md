@@ -1,5 +1,18 @@
 # @modern-js/uni-builder
 
+## 2.56.1
+
+### Patch Changes
+
+- 4c0486a: fix: match unexpected environment resources when artifact with the same name in different environments
+
+  fix: 当存在同名产物时匹配到不符合预期的 environment 资源
+
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/server@2.56.1
+  - @modern-js/babel-preset@2.56.1
+  - @modern-js/utils@2.56.1
+
 ## 2.56.0
 
 ### Minor Changes

@@ -43,7 +43,7 @@ describe('devtools dev', () => {
         FAST_REFRESH: 'false',
       },
     );
-    const errors = [];
+    const errors: string[] = [];
 
     const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();

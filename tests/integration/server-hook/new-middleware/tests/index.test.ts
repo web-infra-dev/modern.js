@@ -1,11 +1,15 @@
 import path from 'path';
+import dns from 'node:dns';
 import puppeteer, { Browser, Page } from 'puppeteer';
+import axios from 'axios';
 import {
   launchApp,
   getPort,
   killApp,
   launchOptions,
 } from '../../../../utils/modernTestUtils';
+
+dns.setDefaultResultOrder('ipv4first');
 
 const appPath = path.resolve(__dirname, '../');
 
@@ -63,5 +67,19 @@ describe('test new middleware run correctly', () => {
     expect(body).toMatch(/lang="en"/);
 
     expect(headers).toHaveProperty('x-custom-value', 'modern');
+  });
+
+  test('should replace body when request is post', async () => {
+    const url = `http://localhost:${port}/`;
+
+    const message = 'Hello ABC';
+
+    const response = await axios.post(url, message, {
+      responseType: 'text',
+    });
+
+    const body = response.data;
+
+    expect(body).toMatch(message);
   });
 });
