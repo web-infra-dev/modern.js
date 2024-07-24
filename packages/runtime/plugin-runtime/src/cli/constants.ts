@@ -8,6 +8,8 @@ export const INDEX_FILE_NAME = 'index';
 
 export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 
+export const ENTRY_SERVER_BOOTSTRAP_FILE_NAME = 'bootstrap.server.jsx';
+
 export const ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME = 'runtime-register.js';
 
 export const ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME =

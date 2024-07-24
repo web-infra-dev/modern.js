@@ -42,7 +42,7 @@ function applyNodeCompat(isServiceWorker: boolean, chain: RspackChain) {
     '.node.ts',
     '.node.tsx',
     '.server.js',
-    '.server.ts',
+    '.server.jsx',
     '.server.ts',
     '.server.tsx',
   ];
