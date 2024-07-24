@@ -15,13 +15,10 @@ import {
   useLocation,
   useHistory,
 } from 'react-router-dom';
-import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
+import { RuntimeReactContext, isBrowser } from '@meta/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
-import {
-  getGlobalLayoutApp,
-  getGlobalRoutes,
-} from '@modern-js/runtime/context';
+import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
 

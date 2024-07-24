@@ -24,7 +24,11 @@ module.exports = {
           },
         ],
       },
-      moduleNameMapper: {},
+      moduleNameMapper: {
+        '^@meta/runtime$': '<rootDir>/packages/runtime/plugin-runtime/src',
+        '^@meta/runtime/context$':
+          '<rootDir>/packages/runtime/plugin-runtime/src/core/context',
+      },
       globals: {},
       resolver: '<rootDir>/tests/jest.resolver.js',
       transformIgnorePatterns: [

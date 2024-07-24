@@ -137,6 +137,7 @@ export const garfishPlugin = (): CliPlugin<
           source: {
             alias: {
               [`@${metaName}/runtime/garfish`]: `@${metaName}/plugin-garfish/runtime`,
+              '@meta/runtime': '@modern-js/runtime',
               '@meta/runtime/browser': '@modern-js/runtime/browser',
               '@meta/runtime/react': '@modern-js/runtime/react',
             },
