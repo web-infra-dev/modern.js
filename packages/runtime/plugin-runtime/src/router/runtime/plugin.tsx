@@ -154,6 +154,7 @@ export const routerPlugin = ({
                     return router;
                   },
                   configurable: true,
+                  enumerable: true,
                 });
 
                 return router;
