@@ -54,8 +54,8 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
           source: {
             alias: {
               [`@${metaName}/runtime/router-v5`]: routerExportsUtils.getPath(),
-              '@meta/runtime': '@modern-js/runtime',
               '@meta/runtime/context': '@modern-js/runtime/context',
+              '@meta/runtime': '@modern-js/runtime',
             },
           },
         };
