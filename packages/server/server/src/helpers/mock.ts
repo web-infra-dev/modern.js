@@ -63,7 +63,15 @@ const parseKey = (key: string): { method: string; path: string } => {
   };
 };
 
-const getMockModule = async (pwd: string): Promise<MockModule | undefined> => {
+const getMockModule = async (
+  pwd: string,
+): Promise<
+  | {
+      mockHandlers?: MockHandlers;
+      config?: MockConfig;
+    }
+  | undefined
+> => {
   const exts = ['.ts', '.js'];
   let mockFilePath = '';
 
@@ -97,7 +105,7 @@ const getMockModule = async (pwd: string): Promise<MockModule | undefined> => {
   }
 
   return {
-    default: mockHandlers,
+    mockHandlers,
     config,
   };
 };
@@ -123,19 +131,19 @@ export const getMatched = (request: InternalRequest, mockApis: MockAPI[]) => {
 export async function initOrUpdateMockMiddlewares(pwd: string) {
   const mockModule = await getMockModule(pwd);
 
-  const mockHandlers = mockModule?.default;
-
   mockConfig = mockModule?.config;
 
-  mockAPIs = Object.entries(mockHandlers || {}).map(([key, handler]) => {
-    const { method, path } = parseKey(key);
+  mockAPIs = Object.entries(mockModule?.mockHandlers || {}).map(
+    ([key, handler]) => {
+      const { method, path } = parseKey(key);
 
-    return {
-      method,
-      path,
-      handler,
-    };
-  });
+      return {
+        method,
+        path,
+        handler,
+      };
+    },
+  );
 }
 
 export async function getMockMiddleware(pwd: string): Promise<Middleware> {
