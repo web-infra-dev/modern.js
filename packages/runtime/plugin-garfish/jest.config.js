@@ -5,6 +5,6 @@ module.exports = {
   ...sharedConfig,
   rootDir: __dirname,
   moduleNameMapper: {
-    '^@meta/runtime$': '<rootDir>/node_modules/@modern-js/runtime',
+    '^@meta/runtime$': '<rootDir>/node_modules/@modern-js/runtime/src',
   },
 };
