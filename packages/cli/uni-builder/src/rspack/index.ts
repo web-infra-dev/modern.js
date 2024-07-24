@@ -12,7 +12,6 @@ import type {
 } from '../types';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
-import type { StartDevServerOptions } from '../shared/devServer';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
 
 export async function parseConfig(
@@ -90,11 +89,6 @@ export async function createRspackBuilder(
         return compatLegacyPlugin(plugin, { cwd });
       });
       rsbuild.addPlugins(warpedPlugins, options);
-    },
-    startDevServer: async (options: StartDevServerOptions = {}) => {
-      const { startDevServer } = await import('../shared/devServer');
-
-      return startDevServer(rsbuild, options, config);
     },
   };
 }

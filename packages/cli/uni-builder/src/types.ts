@@ -28,10 +28,6 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
-import type {
-  StartDevServerOptions,
-  UniBuilderStartServerResult,
-} from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
 import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -377,14 +373,6 @@ export type OverridesUniBuilderInstance = {
       before?: string;
     },
   ) => void;
-  /**
-   * should be used in conjunction with the upper-layer framework:
-   *
-   * missing route.json (required in modern server)
-   */
-  startDevServer: (
-    options: StartDevServerOptions,
-  ) => Promise<UniBuilderStartServerResult>;
 };
 
 export type UniBuilderContext = RsbuildPluginAPI['context'] & {

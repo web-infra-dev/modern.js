@@ -98,11 +98,17 @@ export const dev = async (
   };
 
   if (apiOnly) {
-    const app = await createDevServer(serverOptions as any, applyPlugins);
+    const server = await createDevServer(
+      {
+        ...serverOptions,
+        runCompile: false,
+      },
+      applyPlugins,
+    );
 
     const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
-    app.listen(
+    server.listen(
       {
         port,
         host,
@@ -112,11 +118,15 @@ export const dev = async (
       },
     );
   } else {
-    const { server } = await appContext.builder!.startDevServer({
-      serverOptions,
+    const server = await createDevServer(
+      {
+        ...serverOptions,
+        builder: appContext.builder,
+      },
       applyPlugins,
-    });
+    );
+
     // TODO: set correct server
-    setServer(server as any);
+    setServer(server);
   }
 };
