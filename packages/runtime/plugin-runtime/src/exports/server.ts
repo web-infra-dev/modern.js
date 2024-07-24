@@ -6,13 +6,24 @@ import {
 } from '@modern-js/types';
 
 export type {
+  // cache
   Container,
   CacheControl,
   CacheOptionProvider,
   CacheOption,
+
+  // middleware
   UnstableMiddlewareContext,
   UnstableMiddleware,
   UnstableNext,
+
+  // monitors
+  MonitorEvent,
+  Monitors,
+  CoreMonitor,
+  LogEvent,
+  LogLevel,
+  TimingEvent,
 } from '@modern-js/types';
 
 export const hook = (
