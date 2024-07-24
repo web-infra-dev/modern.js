@@ -28,9 +28,15 @@ export function hydrateRoot(
   const { ssrContext } = hydrateContext;
 
   const currentPathname = normalizePathname(window.location.pathname);
-  const initialPathname = normalizePathname(ssrContext!.request.pathname);
+  const initialPathname =
+    ssrContext?.request?.pathname &&
+    normalizePathname(ssrContext.request.pathname);
 
-  if (initialPathname !== currentPathname && context.router) {
+  if (
+    initialPathname &&
+    initialPathname !== currentPathname &&
+    context.router
+  ) {
     const errorMsg = `The initial URL ${initialPathname} and the URL ${currentPathname} to be hydrated do not match, reload.`;
     console.error(errorMsg);
     window.location.reload();
@@ -42,7 +48,6 @@ export function hydrateRoot(
   };
 
   // if render level not exist, use client render
-  // TODO: why can't get render level from hydrateContext.
   const renderLevel =
     window?._SSR_DATA?.renderLevel || RenderLevel.CLIENT_RENDER;
 
