@@ -5,7 +5,7 @@ const { cloneDeep } = lodash;
 
 export function filterRoutesForServer(
   routes: (NestedRouteForCli | PageRoute)[],
-): (NestedRouteForCli | PageRoute)[] {
+) {
   const clonedRoutes = cloneDeep(routes);
   const newRoutes = clonedRoutes
     .map(route => {
@@ -26,12 +26,10 @@ export function filterRoutesForServer(
     })
     .filter(route => route !== null);
 
-  return newRoutes;
+  return newRoutes as (NestedRouteForCli | PageRoute)[];
 }
 
-export function filterRoutesLoader(
-  routes: (NestedRouteForCli | PageRoute)[],
-): (NestedRouteForCli | PageRoute)[] {
+export function filterRoutesLoader(routes: (NestedRouteForCli | PageRoute)[]) {
   const clonedRoutes = cloneDeep(routes);
   const newRoutes = clonedRoutes
     .map(route => {
@@ -46,6 +44,8 @@ export function filterRoutesLoader(
 
       if (route.inValidSSRRoute) {
         delete route.loader;
+        delete route.data;
+        delete route.action;
       }
 
       return route;

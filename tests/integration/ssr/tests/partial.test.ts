@@ -81,4 +81,16 @@ describe('test partial ssr', () => {
     const text = await page.evaluate(el => el?.textContent, pageBElm);
     expect(text).toContain('PageB Data');
   });
+
+  test('should render nested route with CSR', async () => {
+    const res = await axios.get(`http://localhost:${appPort}/one/b/d`);
+    const content = res.data;
+    expect(content).not.toContain('root layout');
+
+    await page.goto(`http://localhost:${appPort}/one/b/d`);
+    await page.waitForSelector('#root');
+    const pageContent = await page.content();
+    expect(pageContent).toContain('root layout');
+    expect(pageContent).toContain('PageD Data');
+  });
 });
