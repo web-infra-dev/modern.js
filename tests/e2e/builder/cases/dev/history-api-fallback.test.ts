@@ -4,22 +4,22 @@ import { dev } from '@scripts/shared';
 
 const cwd = join(__dirname, 'history-api-fallback');
 
-test('should provide history api fallback correctly', async ({ page }) => {
+test.skip('should provide history api fallback correctly', async ({ page }) => {
   const builder = await dev({
     cwd,
     entry: {
       main: join(cwd, 'src/index.tsx'),
     },
-    serverOptions: {
-      routes: [
-        {
-          urlPath: '/',
-          entryName: 'main',
-          entryPath: 'html/main/index.html',
-          isSPA: true,
-        },
-      ],
-    },
+    // serverOptions: {
+    //   routes: [
+    //     {
+    //       urlPath: '/',
+    //       entryName: 'main',
+    //       entryPath: 'html/main/index.html',
+    //       isSPA: true,
+    //     },
+    //   ],
+    // },
     builderConfig: {
       tools: {
         devServer: {

@@ -5,7 +5,6 @@ import fs from '@modern-js/utils/fs-extra';
 import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
-  StartDevServerOptions,
 } from '@modern-js/uni-builder';
 
 type CreateBuilderOptions = Omit<
@@ -95,14 +94,12 @@ const updateConfigForTest = (
 };
 
 export async function dev({
-  serverOptions,
   builderConfig = {},
   entry,
   ...options
 }: CreateBuilderOptions & {
   entry: Record<string, string>;
   builderConfig?: UniBuilderConfig;
-  serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
 
@@ -110,9 +107,7 @@ export async function dev({
 
   const builder = await createUniBuilder(options, builderConfig);
 
-  return builder.startDevServer({
-    serverOptions,
-  });
+  return builder.startDevServer();
 }
 
 export async function build({
