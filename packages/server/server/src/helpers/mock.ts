@@ -2,12 +2,15 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 import { NextFunction } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
-import { AGGRED_DIR, type ServerBase } from '@modern-js/server-core';
 import {
-  ServerNodeMiddleware,
-  connectMid2HonoMid,
-} from '@modern-js/server-core/node';
+  AGGRED_DIR,
+  type Middleware,
+  InternalRequest,
+} from '@modern-js/server-core';
+import { connectMid2HonoMid } from '@modern-js/server-core/node';
+import { match } from 'path-to-regexp';
 
+/** Types: Mock  */
 type MockHandler =
   | {
       data: any;
@@ -18,9 +21,30 @@ type MockHandler =
       next: NextFunction,
     ) => Promise<void> | void);
 
-type MockConfig = Record<string, MockHandler>;
+type MockAPI = {
+  method: string;
 
-const parseKey = (key: string) => {
+  path: string;
+
+  handler: MockHandler;
+};
+
+type MockHandlers = Record<string, MockHandler>;
+
+type MockConfig = {
+  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
+};
+
+type MockModule = {
+  default: MockHandlers;
+  config?: MockConfig;
+};
+
+let mockAPIs: MockAPI[] = [];
+
+let mockConfig: MockConfig | undefined;
+
+const parseKey = (key: string): { method: string; path: string } => {
   const _blank = ' ';
   // 'Method /pathname' | '/pathname'
   const splitted = key.split(_blank).filter(Boolean);
@@ -39,22 +63,15 @@ const parseKey = (key: string) => {
   };
 };
 
-const mockHandlerRegistry = new Map<
-  string,
-  {
-    isRegistered: boolean;
-    handler: MockHandler;
-  }
->();
-
-export const registerMockHandlers = async ({
-  pwd,
-  server,
-}: {
-  pwd: string;
-  server: ServerBase;
-  // eslint-disable-next-line consistent-return
-}) => {
+const getMockModule = async (
+  pwd: string,
+): Promise<
+  | {
+      mockHandlers?: MockHandlers;
+      config?: MockConfig;
+    }
+  | undefined
+> => {
   const exts = ['.ts', '.js'];
   let mockFilePath = '';
 
@@ -67,10 +84,12 @@ export const registerMockHandlers = async ({
   }
 
   if (!mockFilePath) {
-    return null;
+    return undefined;
   }
 
-  const { default: mockModule, config } = await import(mockFilePath);
+  const { default: mockHandlers, config } = (await import(
+    mockFilePath
+  )) as MockModule;
 
   const enable = config?.enable as
     | boolean
@@ -78,53 +97,80 @@ export const registerMockHandlers = async ({
     | undefined;
 
   if (enable === false) {
-    // eslint-disable-next-line consistent-return
-    return;
+    return undefined;
   }
 
-  if (!mockModule) {
+  if (!mockHandlers) {
     throw new Error(`Mock file ${mockFilePath} parsed failed!`);
   }
 
-  Object.entries(mockModule as MockConfig).forEach(([key, handler]) => {
-    const { method, path } = parseKey(key);
-    const methodName = method.toLowerCase() as keyof ServerBase;
-    const handlerId = `${methodName}-${path}`;
+  return {
+    mockHandlers,
+    config,
+  };
+};
 
-    const mockInfo = mockHandlerRegistry.get(handlerId);
-    if (mockInfo) {
-      mockInfo.handler = handler;
-    } else {
-      mockHandlerRegistry.set(handlerId, {
-        handler,
-        isRegistered: false,
-      });
+export const getMatched = (request: InternalRequest, mockApis: MockAPI[]) => {
+  const { path: targetPathname, method: targetMethod } = request;
+
+  const matched = mockApis.find(mockApi => {
+    const { method, path: pathname } = mockApi;
+    if (method.toLowerCase() === targetMethod.toLowerCase()) {
+      return match(pathname, {
+        encode: encodeURI,
+        decode: decodeURIComponent,
+      })(targetPathname);
     }
 
-    if (typeof server[methodName] === 'function') {
-      // eslint-disable-next-line consistent-return
-      const mockHandler: ServerNodeMiddleware = async (c, next) => {
-        if (typeof enable === 'function') {
-          const isEnabled = enable(c.env.node.req, c.env.node.res);
-          if (!isEnabled) {
-            return next();
-          }
-        }
+    return false;
+  });
 
-        const handler = mockHandlerRegistry.get(handlerId)?.handler;
-        if (typeof handler === 'function') {
-          await connectMid2HonoMid(handler)(c, next);
-        } else {
-          return c.json(handler as any);
-        }
+  return matched;
+};
+
+export async function initOrUpdateMockMiddlewares(pwd: string) {
+  const mockModule = await getMockModule(pwd);
+
+  mockConfig = mockModule?.config;
+
+  mockAPIs = Object.entries(mockModule?.mockHandlers || {}).map(
+    ([key, handler]) => {
+      const { method, path } = parseKey(key);
+
+      return {
+        method,
+        path,
+        handler,
       };
+    },
+  );
+}
 
-      const handlerInfo = mockHandlerRegistry.get(handlerId);
-      if (handlerInfo && !handlerInfo?.isRegistered) {
-        // @ts-expect-error
-        server[methodName](path, mockHandler);
-        handlerInfo.isRegistered = true;
+export async function getMockMiddleware(pwd: string): Promise<Middleware> {
+  await initOrUpdateMockMiddlewares(pwd);
+
+  const mockMiddleware: Middleware = async (c, next) => {
+    if (typeof mockConfig?.enable === 'function') {
+      const isEnabled = mockConfig.enable(c.env.node.req, c.env.node.res);
+      if (!isEnabled) {
+        return next();
       }
     }
-  });
-};
+
+    const matchedMockAPI = getMatched(c.req, mockAPIs);
+
+    if (matchedMockAPI) {
+      const { handler } = matchedMockAPI;
+
+      if (typeof handler === 'function') {
+        return await connectMid2HonoMid(handler)(c, next);
+      } else {
+        return c.json(handler);
+      }
+    }
+
+    return next();
+  };
+
+  return mockMiddleware;
+}

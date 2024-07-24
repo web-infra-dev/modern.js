@@ -727,12 +727,6 @@ importers:
       '@modern-js/babel-preset':
         specifier: workspace:*
         version: link:../babel-preset
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../server/prod-server
-      '@modern-js/server':
-        specifier: workspace:*
-        version: link:../../server/server
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -3101,6 +3095,9 @@ importers:
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../../server/prod-server
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -3849,9 +3846,9 @@ importers:
         specifier: ^8.13.0
         version: 8.13.0
     devDependencies:
-      '@rsbuild/core':
-        specifier: 1.0.1-beta.3
-        version: 1.0.1-beta.3
+      '@modern-js/uni-builder':
+        specifier: workspace:*
+        version: link:../../cli/uni-builder
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build

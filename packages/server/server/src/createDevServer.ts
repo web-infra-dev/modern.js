@@ -1,6 +1,5 @@
-import { Server as NodeServer } from 'node:http';
 import path from 'node:path';
-import { ServerBaseOptions, createServerBase } from '@modern-js/server-core';
+import { createServerBase } from '@modern-js/server-core';
 import {
   createNodeServer,
   loadServerRuntimeConfig,
@@ -9,12 +8,10 @@ import { ApplyPlugins, ModernDevServerOptions } from './types';
 import { getDevOptions } from './helpers';
 import { devPlugin } from './dev';
 
-export type { ModernDevServerOptions } from './types';
-
-export const createDevServer = async <O extends ServerBaseOptions>(
-  options: ModernDevServerOptions<O>,
-  applyPlugins: ApplyPlugins<O>,
-): Promise<NodeServer> => {
+export async function createDevServer(
+  options: ModernDevServerOptions,
+  applyPlugins: ApplyPlugins,
+) {
   const { config, pwd, serverConfigFile, serverConfigPath } = options;
   const dev = getDevOptions(options);
 
@@ -56,5 +53,17 @@ export const createDevServer = async <O extends ServerBaseOptions>(
 
   await server.init();
 
+  nodeServer.listen(
+    {
+      host: dev.host || '127.0.0.1',
+      port: dev.port || '8080',
+    },
+    (err?: Error) => {
+      if (err) {
+        throw err;
+      }
+    },
+  );
+
   return nodeServer;
-};
+}
