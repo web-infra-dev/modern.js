@@ -33,9 +33,9 @@ export function getBuilderEnvironments(
   const serverEntries: Entries = {};
   for (const entry in entries) {
     const v = entries[entry];
-    serverEntries[entry] = v.map(entry =>
-      entry.replace('index.jsx', 'index.server.jsx'),
-    );
+    serverEntries[entry] = v
+      .map(entry => entry.replace('index.jsx', 'index.server.jsx'))
+      .map(entry => entry.replace('bootstrap.jsx', 'bootstrap.server.jsx'));
   }
 
   const environments: RsbuildConfig['environments'] = {
