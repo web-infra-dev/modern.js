@@ -3,6 +3,8 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import { matchRoutes } from '@modern-js/runtime-utils/router';
+import { NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
 import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
@@ -13,6 +15,7 @@ import {
   onError as onErrorFn,
   ErrorDigest,
   parseHeaders,
+  getRuntimeEnv,
 } from '../../utils';
 import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
@@ -241,9 +244,42 @@ async function renderHandler(
     },
   };
 
-  let response: Response;
+  let response: Response | null = null;
 
-  if (mode === 'ssr') {
+  const runtimeEnv = getRuntimeEnv();
+
+  const ssrByRouteIds = options.config.server?.ssrByRouteIds;
+
+  if (runtimeEnv === 'node' && ssrByRouteIds && ssrByRouteIds?.length > 0) {
+    const path = await import('node:path');
+    const nestedRoutesJson = await import(
+      path.join(options.pwd, NESTED_ROUTE_SPEC_FILE)
+    );
+    const routes = nestedRoutesJson[options.routeInfo.entryName!];
+    if (routes) {
+      // eslint-disable-next-line node/prefer-global/url
+      const url = new URL(request.url);
+      const matchedRoutes = matchRoutes(
+        routes,
+        url.pathname,
+        options.routeInfo.urlPath,
+      );
+
+      if (!matchedRoutes) {
+        response = csrRender(options.html);
+      } else {
+        const lastMatch = matchedRoutes[matchedRoutes.length - 1];
+        if (
+          !lastMatch?.route?.id ||
+          !ssrByRouteIds.includes(lastMatch.route.id)
+        ) {
+          response = csrRender(options.html);
+        }
+      }
+    }
+  }
+
+  if (mode === 'ssr' && !response) {
     try {
       response = await ssrRender(request, options);
     } catch (e) {

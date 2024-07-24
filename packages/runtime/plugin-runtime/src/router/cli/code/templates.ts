@@ -31,9 +31,9 @@ import {
 } from './utils';
 
 export const routesForServer = ({
-  routes,
+  routesForServerLoaderMatches,
 }: {
-  routes: (NestedRouteForCli | PageRoute)[];
+  routesForServerLoaderMatches: (NestedRouteForCli | PageRoute)[];
 }) => {
   const loaders: string[] = [];
   const actions: string[] = [];
@@ -89,7 +89,7 @@ export const routesForServer = ({
   let routesCode = `
   export const routes = [
   `;
-  for (const route of routes) {
+  for (const route of routesForServerLoaderMatches) {
     if ('type' in route) {
       const keywords = ['loader', 'action'];
       const regs = keywords.map(createMatchReg);
@@ -159,6 +159,7 @@ export const fileSystemRoutes = async ({
       routeId: string;
       loaderId: number;
       filePath: string;
+      inValidSSRRoute?: boolean;
       clientData?: boolean;
       inline: boolean;
       route: NestedRouteForCli;
@@ -186,22 +187,25 @@ export const fileSystemRoutes = async ({
     action,
     inline,
     routeId,
+    inValidSSRRoute,
   }: {
     loaderId: string;
     clientData?: boolean;
     action: string | false;
     inline: boolean;
     routeId: string;
+    inValidSSRRoute?: boolean;
   }) => {
     if (!ssrMode) {
       return '';
     }
 
     const clientDataStr = clientData ? `&clientData=${clientData}` : '';
+    const retain = inValidSSRRoute ?? false;
     if (nestedRoutesEntry) {
       return `?loaderId=${loaderId}${clientDataStr}&action=${
         action ? slash(action) : action
-      }&inline=${inline}&routeId=${routeId}`;
+      }&inline=${inline}&routeId=${routeId}&retain=${retain}`;
     }
     return '';
   };
@@ -218,7 +222,6 @@ export const fileSystemRoutes = async ({
     let config: string | undefined;
     let component = '';
     let lazyImport = null;
-
     if (route.type === 'nested') {
       if (route.loading) {
         loadings.push(route.loading);
@@ -236,6 +239,7 @@ export const fileSystemRoutes = async ({
         loadersMap[loader] = {
           loaderId,
           routeId: route.id!,
+          inValidSSRRoute: route.inValidSSRRoute,
           filePath: route.data || route.loader,
           clientData: Boolean(route.clientData),
           route,
@@ -385,6 +389,7 @@ export const fileSystemRoutes = async ({
           action: route.action,
           inline: loaderInfo.inline,
           routeId: loaderInfo.routeId,
+          inValidSSRRoute: loaderInfo.inValidSSRRoute,
         })}";\n`;
       } else {
         importLoadersCode += `import { loader as ${key} } from "${slash(
@@ -395,6 +400,7 @@ export const fileSystemRoutes = async ({
           action: false,
           inline: loaderInfo.inline,
           routeId: route.id!,
+          inValidSSRRoute: loaderInfo.inValidSSRRoute,
         })}";\n`;
       }
     } else {
@@ -406,6 +412,7 @@ export const fileSystemRoutes = async ({
         action: false,
         inline: loaderInfo.inline,
         routeId: loaderInfo.routeId,
+        inValidSSRRoute: loaderInfo.inValidSSRRoute,
       })}";\n`;
     }
   }
@@ -552,7 +559,7 @@ export const runtimeGlobalContext = async ({
   }
   return `${imports.join('\n')}
 
-import { routes } from './routes.js';
+import { routes } from './routes';
 
 setGlobalContext({
   layoutApp,
