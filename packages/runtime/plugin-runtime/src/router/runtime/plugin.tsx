@@ -187,6 +187,7 @@ export const routerPlugin = ({
 
           // only export partial common API from remix-router
           const router = {
+            ...pickedContext.router,
             navigate: remixRouter.navigate,
             get location() {
               return remixRouter.state.location;
