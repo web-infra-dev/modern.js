@@ -91,7 +91,7 @@ describe('fileSystemRoutes', () => {
 
 describe('routesForServer', () => {
   test('generate code for server', async () => {
-    const routes = [
+    const routesForServerLoaderMatches = [
       {
         path: '/',
         _component: '@_modern_js_src/routes/layout.tsx',
@@ -127,7 +127,7 @@ describe('routesForServer', () => {
       },
     ];
     const code = routesForServer({
-      routes,
+      routesForServerLoaderMatches,
     });
     expect(code).toMatchSnapshot();
   });
