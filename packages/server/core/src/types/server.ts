@@ -51,6 +51,7 @@ export type ServerManifest = {
   renderBundles?: Record<string, ServerRenderBundle>;
   loadableStats?: Record<string, any>;
   routeManifest?: Record<string, any>;
+  nestedRoutesJson?: Record<string, any>;
 };
 
 type ServerVariables = {

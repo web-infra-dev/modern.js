@@ -4,6 +4,7 @@ import type { Logger, ServerRoute } from '@modern-js/types';
 import {
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
+  NESTED_ROUTE_SPEC_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
   fs,
@@ -106,11 +107,16 @@ export async function getServerManifest(
 
   const routeManifest = await import(routesManifestUri).catch(_ => ({}));
 
+  const nestedRoutesJsonPath = path.join(pwd, NESTED_ROUTE_SPEC_FILE);
+
+  const nestedRoutesJson = await import(nestedRoutesJsonPath).catch(_ => ({}));
+
   return {
     loaderBundles,
     renderBundles,
     loadableStats,
     routeManifest,
+    nestedRoutesJson,
   };
 }
 

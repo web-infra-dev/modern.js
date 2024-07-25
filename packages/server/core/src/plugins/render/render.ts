@@ -4,7 +4,6 @@ import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
 import { matchRoutes } from '@modern-js/runtime-utils/router';
-import { NESTED_ROUTE_SPEC_FILE } from '@modern-js/utils';
 import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
@@ -247,15 +246,18 @@ async function renderHandler(
   let response: Response | null = null;
 
   const runtimeEnv = getRuntimeEnv();
+  const { serverManifest } = options;
 
   const ssrByRouteIds = options.config.server?.ssrByRouteIds;
 
-  if (runtimeEnv === 'node' && ssrByRouteIds && ssrByRouteIds?.length > 0) {
-    const path = await import('node:path');
-    const nestedRoutesJson = await import(
-      path.join(options.pwd, NESTED_ROUTE_SPEC_FILE)
-    );
-    const routes = nestedRoutesJson[options.routeInfo.entryName!];
+  if (
+    runtimeEnv === 'node' &&
+    serverManifest.nestedRoutesJson &&
+    ssrByRouteIds &&
+    ssrByRouteIds?.length > 0
+  ) {
+    const { nestedRoutesJson } = serverManifest;
+    const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
     if (routes) {
       // eslint-disable-next-line node/prefer-global/url
       const url = new URL(request.url);
