@@ -1,6 +1,11 @@
 import path from 'node:path';
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST, SERVER_DIR, getMeta } from '@modern-js/utils';
+import {
+  DEFAULT_DEV_HOST,
+  SERVER_DIR,
+  getMeta,
+  logger,
+} from '@modern-js/utils';
 import { createDevServer } from '@modern-js/server';
 import { applyPlugins } from '@modern-js/prod-server';
 import { loadServerPlugins } from '../utils/loadPlugins';
@@ -97,6 +102,8 @@ export const dev = async (
     ...devServerOptions,
   };
 
+  const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
+
   if (apiOnly) {
     const server = await createDevServer(
       {
@@ -105,8 +112,6 @@ export const dev = async (
       },
       applyPlugins,
     );
-
-    const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
     server.listen(
       {
@@ -126,7 +131,18 @@ export const dev = async (
       applyPlugins,
     );
 
-    // TODO: set correct server
+    server.listen(
+      {
+        port,
+        host,
+      },
+      (err?: Error) => {
+        if (err) {
+          logger.error('Occur error %s, when start dev server', err);
+        }
+      },
+    );
+
     setServer(server);
   }
 };

@@ -53,17 +53,5 @@ export async function createDevServer(
 
   await server.init();
 
-  nodeServer.listen(
-    {
-      host: dev.host || '127.0.0.1',
-      port: dev.port || '8080',
-    },
-    (err?: Error) => {
-      if (err) {
-        throw err;
-      }
-    },
-  );
-
   return nodeServer;
 }
