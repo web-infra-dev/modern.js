@@ -3,7 +3,7 @@ import { render } from '@modern-js/runtime/browser';
 import {
   createProvider,
   isRenderGarfish,
-} from '@modern-js/plugin-garfish/runtime';
+} from '@modern-js/plugin-garfish/tools';
 
 async function beforeRender() {
   return new Promise<void>(resolve => {

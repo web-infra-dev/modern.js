@@ -29,6 +29,9 @@
       "runtime": [
         "./dist/types/runtime/index.d.ts"
       ],
+      "tools": [
+        "./dist/types/runtime/tools.d.ts"
+      ],
       "types": [
         "./type.d.ts"
       ]
@@ -52,6 +55,11 @@
       "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
+    },
+    "./tools": {
+      "types": "./dist/types/runtime/tools.d.ts",
+      "jsnext:source": "./src/runtime/tools.ts",
+      "default": "./dist/esm/runtime/tools.js"
     }
   },
   "scripts": {
