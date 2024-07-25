@@ -14,7 +14,6 @@ import {
   onError as onErrorFn,
   ErrorDigest,
   parseHeaders,
-  getRuntimeEnv,
 } from '../../utils';
 import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
@@ -245,13 +244,11 @@ async function renderHandler(
 
   let response: Response | null = null;
 
-  const runtimeEnv = getRuntimeEnv();
   const { serverManifest } = options;
 
   const ssrByRouteIds = options.config.server?.ssrByRouteIds;
 
   if (
-    runtimeEnv === 'node' &&
     serverManifest.nestedRoutesJson &&
     ssrByRouteIds &&
     ssrByRouteIds?.length > 0
