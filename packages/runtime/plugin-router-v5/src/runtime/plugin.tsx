@@ -19,6 +19,7 @@ import { RuntimeReactContext, isBrowser } from '@meta/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
 
@@ -70,31 +71,9 @@ export type RouterConfig = Partial<HistoryConfig> & {
   serverBase?: string[];
 };
 
-export const routerPlugin = ({
-  serverBase = [],
-  history: customHistory,
-  supportHtml5History = true,
-  routesConfig,
-  createRoutes,
-  historyOptions = {},
-}: RouterConfig): Plugin => {
-  const finalRouteConfig = {
-    routes: getGlobalRoutes() as SingleRouteConfig[],
-    globalApp: getGlobalLayoutApp(),
-    ...routesConfig,
-  };
-  const originRoutes = finalRouteConfig?.routes;
-  const isBrow = isBrowser();
+let routes: SingleRouteConfig[] = [];
 
-  const select = (pathname: string) =>
-    serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-
-  let routes: SingleRouteConfig[] = [];
-
-  if (isBrow) {
-    window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
-  }
-
+export const routerPlugin = (originConfig: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
@@ -116,6 +95,30 @@ export const routerPlugin = ({
           });
         },
         wrapRoot: App => {
+          const userConfig = api.useRuntimeConfigContext();
+          const {
+            serverBase = [],
+            history: customHistory,
+            supportHtml5History = true,
+            routesConfig,
+            createRoutes,
+            historyOptions = {},
+          } = merge(originConfig, userConfig);
+          const finalRouteConfig = {
+            routes: getGlobalRoutes() as SingleRouteConfig[],
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
+          const originRoutes = finalRouteConfig?.routes;
+          const isBrow = isBrowser();
+
+          const select = (pathname: string) =>
+            serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+          if (isBrow) {
+            window._SERVER_DATA = parsedJSONFromElement(
+              '__MODERN_SERVER_DATA__',
+            );
+          }
           const getRouteApp = () => {
             if (isBrow) {
               return (props: any) => {

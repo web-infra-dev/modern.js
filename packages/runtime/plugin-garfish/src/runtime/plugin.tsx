@@ -1,6 +1,7 @@
 import GarfishInstance from 'garfish';
 import React from 'react';
 import type { Plugin } from '@modern-js/runtime';
+import { merge } from '@modern-js/runtime-utils/dist/types/merge';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
@@ -50,16 +51,18 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (config: Config): Plugin => ({
+export const garfishPlugin = (originConfig: Config): Plugin => ({
   name: '@modern-js/garfish-plugin',
-  setup: () => {
-    setExternal();
-
-    const { manifest, ...options } = config;
-    logger('createPlugin', config);
-    const promise = initOptions(manifest, options);
+  setup: api => {
     return {
       wrapRoot(App) {
+        const userConfig = api.useRuntimeConfigContext();
+        const config = merge(originConfig, userConfig);
+        setExternal();
+
+        const { manifest, ...options } = config;
+        logger('createPlugin', config);
+        const promise = initOptions(manifest, options);
         class GetMicroFrontendApp extends React.Component {
           state: {
             MApp: React.FC<MicroComponentProps>;

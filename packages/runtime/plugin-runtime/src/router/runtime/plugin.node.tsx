@@ -11,6 +11,7 @@ import {
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
@@ -32,24 +33,28 @@ function createRemixReuqest(request: Request) {
   });
 }
 
-export const routerPlugin = ({
-  basename = '',
-  routesConfig,
-  createRoutes,
-}: RouterConfig): Plugin => {
+let finalRouteConfig: any = {};
+
+export const routerPlugin = (originConfig: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
-      const finalRouteConfig = {
-        routes: getGlobalRoutes(),
-        globalApp: getGlobalLayoutApp(),
-        ...routesConfig,
-      };
       return {
         async beforeRender(context, interrupt) {
+          const userConfig = api.useRuntimeConfigContext();
+          const {
+            basename = '',
+            routesConfig,
+            createRoutes,
+          } = merge(originConfig, (userConfig as any)?.router || {});
+          finalRouteConfig = {
+            routes: getGlobalRoutes(),
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {

@@ -4,9 +4,17 @@ import {
   createAsyncInterruptWorkflow,
   PluginOptions,
   Setup,
+  createContext,
 } from '@modern-js/plugin';
 
 import { RuntimeContext, TRuntimeContext } from '../context/runtime';
+import type { RuntimeConfig } from './index';
+
+export const RuntimeConfigContext = createContext<
+  Omit<RuntimeConfig, 'plugins'>
+>({});
+
+export const useRuntimeConfigContext = () => RuntimeConfigContext.use().value;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
@@ -20,19 +28,32 @@ const beforeRender = createAsyncInterruptWorkflow<RuntimeContext, void>();
  */
 const pickContext = createWaterfall<TRuntimeContext>();
 
+const modifyRuntimeConfig = createWaterfall<Omit<RuntimeConfig, 'plugins'>>();
+
 const runtimeHooks = {
   beforeRender,
   wrapRoot,
   pickContext,
+  modifyRuntimeConfig,
+};
+
+const runtimePluginAPI = {
+  useRuntimeConfigContext,
 };
 
 /** All hooks of runtime plugin. */
 export type RuntimeHooks = typeof runtimeHooks;
 
-/** Plugin options of a runtime plugin. */
-export type Plugin = PluginOptions<RuntimeHooks, Setup<RuntimeHooks>>;
+export type RuntimePluginAPI = typeof runtimePluginAPI;
 
-export const createRuntime = () => createManager(runtimeHooks);
+/** Plugin options of a runtime plugin. */
+export type Plugin = PluginOptions<
+  RuntimeHooks,
+  Setup<RuntimeHooks, RuntimePluginAPI>
+>;
+
+export const createRuntime = () =>
+  createManager(runtimeHooks, runtimePluginAPI);
 
 export const runtime = createRuntime();
 
