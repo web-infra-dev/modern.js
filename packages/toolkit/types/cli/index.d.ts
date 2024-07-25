@@ -94,6 +94,7 @@ export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
   error?: T;
   isRoot?: boolean;
   config?: string | Record<string, any>;
+  inValidSSRRoute?: boolean;
 }
 
 export interface PageRoute extends Route {

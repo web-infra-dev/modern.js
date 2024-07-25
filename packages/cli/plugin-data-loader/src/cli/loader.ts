@@ -10,6 +10,7 @@ type Context = {
   action: boolean;
   inline: boolean;
   routeId: string;
+  retain: boolean;
 };
 
 export default async function loader(
@@ -42,7 +43,7 @@ export default async function loader(
       return pre;
     }, {} as Record<string, any>);
 
-  if (!options.loaderId) {
+  if (!options.loaderId || options.retain) {
     return source;
   }
 

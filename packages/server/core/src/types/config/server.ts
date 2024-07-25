@@ -50,6 +50,10 @@ export type SSRByEntries = Record<string, SSR>;
 
 export interface ServerUserConfig {
   routes?: Routes;
+  /**
+   * Experimenal, it is not recommended to use it now
+   */
+  ssrByRouteIds?: string[];
   publicRoutes?: Record<string, string>;
   ssr?: SSR;
   ssrByEntries?: SSRByEntries;

@@ -3,6 +3,7 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import { matchRoutes } from '@modern-js/runtime-utils/router';
 import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
@@ -241,9 +242,43 @@ async function renderHandler(
     },
   };
 
-  let response: Response;
+  let response: Response | null = null;
 
-  if (mode === 'ssr') {
+  const { serverManifest } = options;
+
+  const ssrByRouteIds = options.config.server?.ssrByRouteIds;
+
+  if (
+    serverManifest.nestedRoutesJson &&
+    ssrByRouteIds &&
+    ssrByRouteIds?.length > 0
+  ) {
+    const { nestedRoutesJson } = serverManifest;
+    const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
+    if (routes) {
+      // eslint-disable-next-line node/prefer-global/url
+      const url = new URL(request.url);
+      const matchedRoutes = matchRoutes(
+        routes,
+        url.pathname,
+        options.routeInfo.urlPath,
+      );
+
+      if (!matchedRoutes) {
+        response = csrRender(options.html);
+      } else {
+        const lastMatch = matchedRoutes[matchedRoutes.length - 1];
+        if (
+          !lastMatch?.route?.id ||
+          !ssrByRouteIds.includes(lastMatch.route.id)
+        ) {
+          response = csrRender(options.html);
+        }
+      }
+    }
+  }
+
+  if (mode === 'ssr' && !response) {
     try {
       response = await ssrRender(request, options);
     } catch (e) {
