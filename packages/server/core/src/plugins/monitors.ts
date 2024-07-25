@@ -89,10 +89,12 @@ export const initMonitorsPlugin = (): ServerPlugin => ({
   },
 });
 
-export const injectloggerPluigin = (logger: Logger): ServerPlugin => ({
+export const injectloggerPluigin = (inputLogger?: Logger): ServerPlugin => ({
   name: '@modern-js/inject-logger',
 
   setup(api) {
+    const logger: Logger = inputLogger || console;
+
     return {
       prepare() {
         const { middlewares } = api.useAppContext();
@@ -146,7 +148,7 @@ export const injectloggerPluigin = (logger: Logger): ServerPlugin => ({
   },
 });
 
-export const injectServerTiming = (metaName = 'modern-js'): ServerPlugin => ({
+export const injectServerTiming = (): ServerPlugin => ({
   name: '@modern-js/inject-server-timing',
 
   setup(api) {
@@ -158,7 +160,7 @@ export const injectServerTiming = (metaName = 'modern-js'): ServerPlugin => ({
 
     return {
       prepare() {
-        const { middlewares } = api.useAppContext();
+        const { middlewares, metaName } = api.useAppContext();
 
         middlewares.push({
           name: 'inject-server-timing',

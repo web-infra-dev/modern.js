@@ -1,9 +1,8 @@
+export { renderPlugin } from './render';
 export {
-  renderPlugin,
-  getRenderHandler,
-  type RenderPluginOptions,
-  type GetRenderHandlerOptions,
-} from './render';
+  injectRenderHandlerPlugin,
+  type InjectRenderHandlerOptions,
+} from './render/inject';
 export { faviconPlugin } from './favicon';
 export { processedByPlugin } from './processedBy';
 export { getLoaderCtx } from './customServer';
@@ -13,3 +12,7 @@ export {
   injectServerTiming,
   injectloggerPluigin,
 } from './monitors';
+export {
+  createDefaultPlugins,
+  type CreateDefaultPluginsOptions,
+} from './default';
