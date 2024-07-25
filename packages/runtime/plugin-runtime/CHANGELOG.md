@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.56.2
+
+### Patch Changes
+
+- e9c724c: feat: set async entry for data loader entry if enable source.enableAsyncEntry
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- 89e1df0: fix: ssrContext.request maybe a undefined
+  fix: ssrContext.request 可能是 undefined
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/runtime-utils@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
 ## 2.56.1
 
 ### Patch Changes

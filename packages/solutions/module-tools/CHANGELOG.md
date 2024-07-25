@@ -1,5 +1,17 @@
 # @modern-js/module-tools
 
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/core@2.56.2
+- @modern-js/plugin-changeset@2.56.2
+- @modern-js/plugin-i18n@2.56.2
+- @modern-js/plugin-lint@2.56.2
+- @modern-js/plugin@2.56.2
+- @modern-js/types@2.56.2
+- @modern-js/utils@2.56.2
+
 ## 2.56.1
 
 ### Patch Changes
