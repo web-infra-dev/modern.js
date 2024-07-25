@@ -52,6 +52,9 @@ export function injectTemplates(
 const dynamicImport = (filePath: string) => {
   try {
     const module = require(filePath);
+    if (module.default) {
+      return Promise.resolve(module.default);
+    }
     return Promise.resolve(module);
   } catch (e) {
     return Promise.reject(e);
