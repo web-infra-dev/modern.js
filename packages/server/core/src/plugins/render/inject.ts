@@ -46,7 +46,7 @@ export const injectRenderHandlerPlugin = ({
   },
 });
 
-interface GetRenderHandlerOptions {
+export interface GetRenderHandlerOptions {
   pwd: string;
   routes: ServerRoute[];
   config: UserConfig;
@@ -55,7 +55,7 @@ interface GetRenderHandlerOptions {
   metaName?: string;
 }
 
-async function getRenderHandler({
+export async function getRenderHandler({
   pwd,
   routes,
   config,
