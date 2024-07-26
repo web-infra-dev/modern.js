@@ -1,4 +1,4 @@
-import { merge } from '../../src/core/utils/merge';
+import { merge } from '../src/merge';
 
 describe('merge function', () => {
   test('should merge two simple objects', () => {

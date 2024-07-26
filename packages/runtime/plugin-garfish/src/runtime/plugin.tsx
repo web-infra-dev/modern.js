@@ -1,7 +1,7 @@
 import GarfishInstance from 'garfish';
 import React from 'react';
 import type { Plugin } from '@modern-js/runtime';
-import { merge } from '@modern-js/runtime-utils/dist/types/merge';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
