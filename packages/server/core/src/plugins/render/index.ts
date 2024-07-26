@@ -16,6 +16,8 @@ import {
   getServerMidFromUnstableMid,
 } from '../customServer';
 
+export * from './inject';
+
 export const renderPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 

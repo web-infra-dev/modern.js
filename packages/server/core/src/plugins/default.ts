@@ -3,7 +3,7 @@ import type { ServerPlugin } from '../types';
 import {
   InjectRenderHandlerOptions,
   injectRenderHandlerPlugin,
-} from './render/inject';
+} from './render';
 import {
   initMonitorsPlugin,
   injectloggerPluigin,
