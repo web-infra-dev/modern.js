@@ -17,7 +17,9 @@ export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
   logger?: Logger;
 };
 
-export function createDefaultPlugins(options: CreateDefaultPluginsOptions) {
+export function createDefaultPlugins(
+  options: CreateDefaultPluginsOptions = {},
+) {
   const plugins: ServerPlugin[] = [
     initMonitorsPlugin(),
     injectRenderHandlerPlugin(options),
