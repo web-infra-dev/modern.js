@@ -18,6 +18,7 @@ import type {
   ParallelWorkflow,
   AsyncInterruptWorkflow,
   AsyncInterruptWorker,
+  SyncParallelWorkflow,
 } from '../workflow';
 
 /** All hook types. */
@@ -27,6 +28,7 @@ export type Hook =
   | Workflow<any, any>
   | AsyncWorkflow<any, any>
   | ParallelWorkflow<any>
+  | SyncParallelWorkflow<any>
   | Pipeline<any, any>
   | AsyncPipeline<any, any>
   | AsyncInterruptWorkflow<any, any>;
@@ -40,6 +42,8 @@ export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? AsyncWorker<I, O>
   : P extends ParallelWorkflow<infer I, infer O>
   ? AsyncWorker<I, O>
+  : P extends SyncParallelWorkflow<infer I, infer O>
+  ? Worker<I, O>
   : P extends Waterfall<infer I>
   ? Brook<I>
   : P extends AsyncWaterfall<infer I>
@@ -72,6 +76,8 @@ export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? AsyncWorkflow<I, O>['run']
   : P extends ParallelWorkflow<infer I, infer O>
   ? ParallelWorkflow<I, O>['run']
+  : P extends SyncParallelWorkflow<infer I, infer O>
+  ? SyncParallelWorkflow<I, O>['run']
   : P extends Pipeline<infer I, infer O>
   ? Pipeline<I, O>['run']
   : P extends AsyncPipeline<infer I, infer O>

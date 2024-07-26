@@ -2,6 +2,7 @@ import {
   createManager,
   createWaterfall,
   createAsyncInterruptWorkflow,
+  createSyncParallelWorkflow,
   PluginOptions,
   Setup,
   createContext,
@@ -28,7 +29,10 @@ const beforeRender = createAsyncInterruptWorkflow<RuntimeContext, void>();
  */
 const pickContext = createWaterfall<TRuntimeContext>();
 
-const modifyRuntimeConfig = createWaterfall<Omit<RuntimeConfig, 'plugins'>>();
+const modifyRuntimeConfig = createSyncParallelWorkflow<
+  void,
+  Record<string, any>
+>();
 
 const runtimeHooks = {
   beforeRender,
