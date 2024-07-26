@@ -43,7 +43,12 @@
     "check-dependencies": "check-dependency-version-consistency .",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
-    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start"
+    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
+    "build:main_docs": "pnpm --filter @modern-js/main-doc... build && pnpm --filter @modern-js/main-doc build:doc",
+    "build:module_docs": "pnpm --filter @modern-js/module-tools-docs... build && pnpm --filter @modern-js/module-tools-docs build:doc",
+    "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/main-doc/doc_build/* ./doc_output && cp -r ./packages/document/module-doc/doc_build/ ./doc_output/module-tools",
+    "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs"
+
   },
   "engines": {
     "node": ">=14.17.6",
