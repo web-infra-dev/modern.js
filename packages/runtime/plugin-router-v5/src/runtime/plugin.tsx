@@ -73,7 +73,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
 
 let routes: SingleRouteConfig[] = [];
 
-export const routerPlugin = (originConfig: RouterConfig): Plugin => {
+export const routerPlugin = (userConfig: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
@@ -95,7 +95,8 @@ export const routerPlugin = (originConfig: RouterConfig): Plugin => {
           });
         },
         wrapRoot: App => {
-          const userConfig = api.useRuntimeConfigContext();
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
           const {
             serverBase = [],
             history: customHistory,
@@ -103,7 +104,7 @@ export const routerPlugin = (originConfig: RouterConfig): Plugin => {
             routesConfig,
             createRoutes,
             historyOptions = {},
-          } = merge(originConfig, userConfig);
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
           const finalRouteConfig = {
             routes: getGlobalRoutes() as SingleRouteConfig[],
             globalApp: getGlobalLayoutApp(),

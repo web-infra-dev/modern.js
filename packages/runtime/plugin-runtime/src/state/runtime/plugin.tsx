@@ -55,7 +55,7 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   return storeConfig;
 };
 
-export const statePlugin = (originConfig: StateConfig): Plugin => ({
+export const statePlugin = (userConfig: StateConfig): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: api => {
     let storeConfig: StoreConfig;
@@ -74,8 +74,8 @@ export const statePlugin = (originConfig: StateConfig): Plugin => ({
         return getStateApp;
       },
       beforeRender(context) {
-        const userConfig = api.useRuntimeConfigContext();
-        const config = merge(originConfig, userConfig);
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const config = merge(pluginConfig.state || {}, userConfig);
         storeConfig = getStoreConfig(config);
         if (isBrowser()) {
           storeConfig.initialState =

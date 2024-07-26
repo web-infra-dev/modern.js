@@ -35,7 +35,7 @@ function createRemixReuqest(request: Request) {
 
 let finalRouteConfig: any = {};
 
-export const routerPlugin = (originConfig: RouterConfig): Plugin => {
+export const routerPlugin = (userConfig: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
@@ -44,12 +44,13 @@ export const routerPlugin = (originConfig: RouterConfig): Plugin => {
     setup: api => {
       return {
         async beforeRender(context, interrupt) {
-          const userConfig = api.useRuntimeConfigContext();
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
           const {
             basename = '',
             routesConfig,
             createRoutes,
-          } = merge(originConfig, (userConfig as any)?.router || {});
+          } = merge(pluginConfig.router || {}, userConfig);
           finalRouteConfig = {
             routes: getGlobalRoutes(),
             globalApp: getGlobalLayoutApp(),

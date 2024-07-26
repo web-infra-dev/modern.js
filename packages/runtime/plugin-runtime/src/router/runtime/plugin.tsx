@@ -37,7 +37,7 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   }
 }
 
-export const routerPlugin = (originConfig: RouterConfig): Plugin => {
+export const routerPlugin = (userConfig: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
@@ -61,17 +61,15 @@ export const routerPlugin = (originConfig: RouterConfig): Plugin => {
           });
         },
         wrapRoot: App => {
-          const userConfig = api.useRuntimeConfigContext();
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
           const {
             serverBase = [],
             supportHtml5History = true,
             basename = '',
             routesConfig,
             createRoutes,
-          } = merge(
-            originConfig,
-            (userConfig as any)?.router || {},
-          ) as RouterConfig;
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
           const select = (pathname: string) =>
             serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
           finalRouteConfig = {

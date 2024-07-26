@@ -11,9 +11,7 @@ import {
 import { RuntimeContext, TRuntimeContext } from '../context/runtime';
 import type { RuntimeConfig } from './index';
 
-export const RuntimeConfigContext = createContext<
-  Omit<RuntimeConfig, 'plugins'>
->({});
+export const RuntimeConfigContext = createContext<RuntimeConfig>({});
 
 export const useRuntimeConfigContext = () => RuntimeConfigContext.use().value;
 

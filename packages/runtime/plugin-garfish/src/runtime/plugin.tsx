@@ -51,13 +51,13 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (originConfig: Config): Plugin => ({
+export const garfishPlugin = (userConfig: Config): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
     return {
       wrapRoot(App) {
-        const userConfig = api.useRuntimeConfigContext();
-        const config = merge(originConfig, userConfig);
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const config = merge(pluginConfig.garfish || {}, userConfig);
         setExternal();
 
         const { manifest, ...options } = config;

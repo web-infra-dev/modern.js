@@ -8,10 +8,10 @@ export interface RuntimeConfig {
   plugins?: Plugin[];
 }
 
-function setupConfigContext(runtimeConfig?: RuntimeConfig) {
+function setupConfigContext() {
   const runner = getGlobalRunner();
   const configs = runner.modifyRuntimeConfig();
-  RuntimeConfigContext.set(merge({}, ...configs, runtimeConfig || {}));
+  RuntimeConfigContext.set(merge({}, ...configs));
 }
 
 export function registerPlugin(
@@ -24,7 +24,7 @@ export function registerPlugin(
   const runner = (customRuntime || runtime).init();
   // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
   setGlobalRunner(runner);
-  setupConfigContext(runtimeConfig);
+  setupConfigContext();
   return runner;
 }
 
