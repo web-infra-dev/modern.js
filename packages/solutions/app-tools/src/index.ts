@@ -29,6 +29,7 @@ import {
 } from './commands';
 
 export { dev } from './commands/dev';
+export type { DevOptions } from './utils/types';
 
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';

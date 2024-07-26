@@ -6,7 +6,7 @@ import {
   getMeta,
   logger,
 } from '@modern-js/utils';
-import { createDevServer } from '@modern-js/server';
+import { ApplyPlugins, createDevServer } from '@modern-js/server';
 import { applyPlugins } from '@modern-js/prod-server';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
@@ -18,13 +18,13 @@ import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 
 export interface ExtraServerOptions {
-  useSSRWorker?: boolean;
+  applyPlugins?: ApplyPlugins;
 }
 
 export const dev = async (
   api: PluginAPI<AppTools<'shared'>>,
   options: DevOptions,
-  devServerOptions: ExtraServerOptions = {},
+  devServerOptions?: ExtraServerOptions,
 ) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
@@ -110,7 +110,7 @@ export const dev = async (
         ...serverOptions,
         runCompile: false,
       },
-      applyPlugins,
+      devServerOptions?.applyPlugins || applyPlugins,
     );
 
     server.listen(
@@ -128,7 +128,7 @@ export const dev = async (
         ...serverOptions,
         builder: appContext.builder,
       },
-      applyPlugins,
+      devServerOptions?.applyPlugins || applyPlugins,
     );
 
     server.listen(
