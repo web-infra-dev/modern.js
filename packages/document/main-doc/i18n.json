@@ -1,0 +1,110 @@
+{
+  "guide": {
+    "zh": "指南",
+    "en": "Guide"
+  },
+  "tutorials": {
+    "zh": "教程",
+    "en": "Tutorials"
+  },
+  "configure": {
+    "zh": "配置",
+    "en": "Config"
+  },
+  "apis": {
+    "zh": "API",
+    "en": "API"
+  },
+  "community": {
+    "zh": "社区",
+    "en": "Community"
+  },
+  "gettingStarted": {
+    "zh": "开始",
+    "en": "Start"
+  },
+  "concept": {
+    "zh": "核心概念",
+    "en": "Core Concept"
+  },
+  "basic": {
+    "zh": "基础功能",
+    "en": "Basic Features"
+  },
+  "advanced": {
+    "zh": "进阶功能",
+    "en": "Advanced Features"
+  },
+  "topic": {
+    "zh": "专题详解",
+    "en": "Topic Detail"
+  },
+  "troubleshooting": {
+    "zh": "常见问题",
+    "en": "FAQ"
+  },
+  "data-solution": {
+    "zh": "数据管理",
+    "en": "Data Solution"
+  },
+  "rendering": {
+    "zh": "渲染",
+    "en": "Rendering"
+  },
+  "use-bff": {
+    "zh": "使用 BFF",
+    "en": "Using BFF"
+  },
+  "use-ssr": {
+    "zh": "服务端渲染",
+    "en": "SSR"
+  },
+  "micro-frontend": {
+    "zh": "微前端",
+    "en": "Micro Frontend"
+  },
+  "framework-plugin": {
+    "zh": "框架插件",
+    "en": "Framework Plugin"
+  },
+  "reduck": {
+    "zh": "Reduck 状态管理",
+    "en": "Reduck State Manager"
+  },
+  "generator": {
+    "zh": "项目生成器",
+    "en": "Project Generator"
+  },
+  "new-command": {
+    "zh": "New 命令",
+    "en": "New Command"
+  },
+  "generator-plugin": {
+    "zh": "生成器插件",
+    "en": "Generator Plugin"
+  },
+  "examples": {
+    "zh": "示例",
+    "en": "Examples"
+  },
+  "first-app": {
+    "zh": "第一个应用",
+    "en": "First App"
+  },
+  "foundations": {
+    "zh": "基础",
+    "en": "Foundations"
+  },
+  "file-conventions": {
+    "zh": "文件约定",
+    "en": "File Conventions"
+  },
+  "runtime-api": {
+    "zh": "运行时",
+    "en": "Runtime"
+  },
+  "blog": {
+    "zh": "博客",
+    "en": "Blog"
+  }
+}

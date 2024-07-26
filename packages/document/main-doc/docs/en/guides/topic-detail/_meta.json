@@ -1,0 +1,26 @@
+[
+  {
+    "type": "dir",
+    "name": "micro-frontend",
+    "label": "micro-frontend",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "framework-plugin",
+    "label": "framework-plugin",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "model",
+    "label": "reduck",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "generator",
+    "label": "generator",
+    "collapsed": true
+  }
+]

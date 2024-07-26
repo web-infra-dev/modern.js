@@ -1,0 +1,50 @@
+[
+  {
+    "type": "dir",
+    "name": "core",
+    "label": "Core",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app",
+    "label": "App",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "router",
+    "label": "Router",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "model",
+    "label": "Model",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "ssr",
+    "label": "SSR",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "bff",
+    "label": "BFF",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "web-server",
+    "label": "Web Server",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "utility",
+    "label": "Utility",
+    "collapsed": true
+  }
+]

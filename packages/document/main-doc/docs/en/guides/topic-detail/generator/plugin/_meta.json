@@ -1,0 +1,11 @@
+[
+  "structure",
+  "category",
+  "use",
+  "context",
+  {
+    "type": "dir",
+    "name": "api",
+    "label": "API"
+  }
+]

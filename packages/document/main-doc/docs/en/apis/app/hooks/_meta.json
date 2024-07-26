@@ -1,0 +1,28 @@
+[
+  {
+    "type": "dir",
+    "name": "src",
+    "label": "src/",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "api",
+    "label": "api/",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "server",
+    "label": "server/",
+    "collapsed": true
+  },
+  "shared",
+  {
+    "type": "dir",
+    "name": "config",
+    "label": "config/",
+    "collapsed": true
+  },
+  "modern-config"
+]

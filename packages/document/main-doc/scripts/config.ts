@@ -12,7 +12,7 @@ const createMarkdown = (summary: Summary, lng: Language) => {
   const { name, dirname } = summary;
 
   return `---
-sidebar_label: ${name}
+title: ${name}
 ---
 
 # ${dirname}.${name}
