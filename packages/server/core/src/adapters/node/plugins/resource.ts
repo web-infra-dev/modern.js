@@ -55,7 +55,12 @@ const dynamicImport = (filePath: string) => {
     if (module.default) {
       return Promise.resolve(module.default);
     }
-    return Promise.resolve(module);
+    return Promise.resolve(module).then(m => {
+      if (m.default) {
+        return m.default;
+      }
+      return m;
+    });
   } catch (e) {
     return Promise.reject(e);
   }
