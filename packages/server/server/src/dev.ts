@@ -2,6 +2,7 @@ import { ServerPlugin, ServerBaseOptions } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import { RequestHandler } from '@modern-js/types';
+import { UniBuilderInstance } from '@modern-js/uni-builder';
 import { ModernDevServerOptions } from './types';
 import {
   startWatcher,
@@ -11,13 +12,19 @@ import {
   getMockMiddleware,
 } from './helpers';
 
-export const devPlugin = <O extends ServerBaseOptions>(
-  options: ModernDevServerOptions<O>,
-): ServerPlugin => ({
+type BuilderDevServer = Awaited<
+  ReturnType<UniBuilderInstance['createDevServer']>
+>;
+
+export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
+  builderDevServer?: BuilderDevServer;
+};
+
+export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
-    const { config, pwd, builder } = options;
+    const { config, pwd, builder, builderDevServer } = options;
 
     const closeCb: Array<(...args: []) => any> = [];
 
@@ -25,10 +32,6 @@ export const devPlugin = <O extends ServerBaseOptions>(
 
     return {
       async prepare() {
-        const builderDevServer = await builder?.createDevServer({
-          runCompile: options.runCompile,
-        });
-
         // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
         const {
           middlewares: builderMiddlewares,

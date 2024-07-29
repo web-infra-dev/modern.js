@@ -105,7 +105,7 @@ export const dev = async (
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
   if (apiOnly) {
-    const server = await createDevServer(
+    const { server } = await createDevServer(
       {
         ...serverOptions,
         runCompile: false,
@@ -123,7 +123,7 @@ export const dev = async (
       },
     );
   } else {
-    const server = await createDevServer(
+    const { server, afterListen } = await createDevServer(
       {
         ...serverOptions,
         builder: appContext.builder,
@@ -136,10 +136,14 @@ export const dev = async (
         port,
         host,
       },
-      (err?: Error) => {
+      async (err?: Error) => {
         if (err) {
           logger.error('Occur error %s, when start dev server', err);
         }
+
+        logger.debug('listen dev server done');
+
+        await afterListen();
       },
     );
 
