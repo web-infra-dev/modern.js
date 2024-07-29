@@ -36,15 +36,7 @@ export const renderString: RenderString = async (
   const headersData = parseHeaders(request);
 
   return run(headersData, async () => {
-    const {
-      resource,
-      runtimeContext,
-      config,
-      onError,
-      onTiming,
-
-      staticGenerate,
-    } = options;
+    const { resource, runtimeContext, config, onError, onTiming } = options;
 
     const tracer: Tracer = {
       onError: createOnError(onError),
@@ -59,7 +51,6 @@ export const renderString: RenderString = async (
       entryName,
       config.ssr,
       config.ssrByEntries,
-      staticGenerate,
     );
 
     const chunkSet: ChunkSet = {
@@ -82,6 +73,7 @@ export const renderString: RenderString = async (
       chunkSet.renderLevel = RenderLevel.SERVER_PREFETCH;
     } catch (e) {
       chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
+      tracer.onError(SSRErrors.PRERENDER, e);
     }
 
     const collectors = [

@@ -50,8 +50,8 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         const routes = readJSONSpec(buildDir);
 
         // filter all routes not web
-        const pageRoutes = routes.filter(route => !route.isApi);
-        const apiRoutes = routes.filter(route => route.isApi);
+        const pageRoutes = routes.filter(route => route.isSPA);
+        const apiRoutes = routes.filter(route => !route.isSPA);
 
         // if no web page route, skip ssg render
         if (pageRoutes.length === 0) {
