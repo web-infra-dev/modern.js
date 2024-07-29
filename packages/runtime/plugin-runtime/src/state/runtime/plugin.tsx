@@ -81,8 +81,6 @@ export const statePlugin = (config: StateConfig): Plugin => ({
         }
 
         context.store = createStore(storeConfig);
-
-        return context;
       },
     };
   },

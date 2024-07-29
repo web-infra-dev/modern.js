@@ -123,8 +123,8 @@ export const bootstrap: BootStrap = async (
 
   const context: RuntimeContext = getInitialContext(runner);
 
-  const runBeforeRender = async (_context: RuntimeContext) => {
-    const context = await runner.beforeRender(_context);
+  const runBeforeRender = async (context: RuntimeContext) => {
+    await runner.beforeRender(context);
     const init = getGlobalAppInit();
     return init?.(context);
   };

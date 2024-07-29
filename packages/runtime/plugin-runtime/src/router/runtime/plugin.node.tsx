@@ -49,11 +49,11 @@ export const routerPlugin = ({
         ...routesConfig,
       };
       return {
-        async beforeRender(context) {
+        async beforeRender(context, interrupt) {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return context;
+            return;
           }
 
           const {
@@ -107,7 +107,9 @@ export const routerPlugin = ({
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
-            return routerContext as any;
+
+            // eslint-disable-next-line consistent-return
+            return interrupt(routerContext);
           }
 
           if (
@@ -123,8 +125,6 @@ export const routerPlugin = ({
           context.remixRouter = router;
           context.routerContext = routerContext;
           context.routes = routes;
-
-          return context;
         },
         wrapRoot: App => {
           // can not get routes config, skip wrapping React Router.

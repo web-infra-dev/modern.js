@@ -137,11 +137,11 @@ export const createRequestHandler: CreateRequestHandler =
         routeManifest as any,
       );
 
-      const runBeforeRender = async (_context: RuntimeContext) => {
-        // when router is redirect, beforeRender when return a response
-        const context = await runner.beforeRender(_context);
-        if (typeof Response !== 'undefined' && context instanceof Response) {
-          return context;
+      const runBeforeRender = async (context: RuntimeContext) => {
+        // when router is redirect, beforeRender will return a response
+        const result = await runner.beforeRender(context);
+        if (typeof Response !== 'undefined' && result instanceof Response) {
+          return result;
         }
         const init = getGlobalAppInit();
         return init?.(context);

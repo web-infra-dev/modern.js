@@ -5,6 +5,7 @@ import {
   isWorkflow,
   isAsyncWorkflow,
   isParallelWorkflow,
+  createAsyncInterruptWorkflow,
 } from '../src/workflow';
 import { sleep } from './helpers';
 
@@ -118,6 +119,39 @@ describe('workflow', () => {
       expect(isParallelWorkflow({})).toBeFalsy();
       expect(isParallelWorkflow('test')).toBeFalsy();
       expect(isParallelWorkflow(null)).toBeFalsy();
+    });
+  });
+  describe('interrupt', () => {
+    it('should return interrupt value', async () => {
+      const workflow = createAsyncInterruptWorkflow();
+
+      let count = 0;
+
+      workflow.use(() => {
+        count = 1;
+      });
+
+      workflow.use(async () => {
+        await sleep(100);
+        count = 2;
+      });
+
+      // eslint-disable-next-line consistent-return
+      workflow.use((_, interrupt) => {
+        if (interrupt) {
+          return interrupt('test');
+        }
+        count = 3;
+      });
+
+      workflow.use(() => {
+        count = 4;
+      });
+
+      const result = await workflow.run();
+
+      expect(count).toBe(2);
+      expect(result).toBe('test');
     });
   });
 });

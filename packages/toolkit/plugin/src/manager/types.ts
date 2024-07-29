@@ -16,6 +16,8 @@ import type {
   AsyncWorker,
   AsyncWorkflow,
   ParallelWorkflow,
+  AsyncInterruptWorkflow,
+  AsyncInterruptWorker,
 } from '../workflow';
 
 /** All hook types. */
@@ -26,7 +28,8 @@ export type Hook =
   | AsyncWorkflow<any, any>
   | ParallelWorkflow<any>
   | Pipeline<any, any>
-  | AsyncPipeline<any, any>;
+  | AsyncPipeline<any, any>
+  | AsyncInterruptWorkflow<any, any>;
 
 export type HooksMap = Record<string, Hook>;
 
@@ -45,6 +48,8 @@ export type ToThread<P extends Hook> = P extends Workflow<infer I, infer O>
   ? Middleware<I, O>
   : P extends AsyncPipeline<infer I, infer O>
   ? Middleware<I, MaybeAsync<O>>
+  : P extends AsyncInterruptWorkflow<infer I, infer O>
+  ? AsyncInterruptWorker<I, O>
   : never;
 
 /** Extract types of callback function from hooks. */
@@ -71,6 +76,8 @@ export type RunnerFromHook<P extends Hook> = P extends Waterfall<infer I>
   ? Pipeline<I, O>['run']
   : P extends AsyncPipeline<infer I, infer O>
   ? AsyncPipeline<I, O>['run']
+  : P extends AsyncInterruptWorkflow<infer I, infer O>
+  ? AsyncInterruptWorkflow<I, O>['run']
   : never;
 
 /** Extract all run methods from hooks. */

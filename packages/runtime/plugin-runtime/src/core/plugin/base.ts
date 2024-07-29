@@ -1,7 +1,7 @@
 import {
   createManager,
   createWaterfall,
-  createAsyncWaterfall,
+  createAsyncInterruptWorkflow,
   PluginOptions,
   Setup,
 } from '@modern-js/plugin';
@@ -13,7 +13,7 @@ export interface AppProps {}
 
 const wrapRoot = createWaterfall<React.ComponentType<any>>();
 
-const beforeRender = createAsyncWaterfall<RuntimeContext>();
+const beforeRender = createAsyncInterruptWorkflow<RuntimeContext, void>();
 
 /**
  * To add runtime info to runtime context

@@ -72,8 +72,6 @@ export const routerPlugin = ({
               return routes;
             },
           });
-
-          return context;
         },
         wrapRoot: App => {
           // can not get routes config, skip wrapping React Router.

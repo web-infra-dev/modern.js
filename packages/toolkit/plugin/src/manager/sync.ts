@@ -12,6 +12,8 @@ import {
   createAsyncWorkflow,
   isParallelWorkflow,
   createParallelWorkflow,
+  isAsyncInterruptWorkflow,
+  createAsyncInterruptWorkflow,
 } from '../workflow';
 import {
   checkPlugins,
@@ -287,6 +289,10 @@ export const cloneHook = (hook: Hook): Hook => {
 
   if (isParallelWorkflow(hook)) {
     return createParallelWorkflow();
+  }
+
+  if (isAsyncInterruptWorkflow(hook)) {
+    return createAsyncInterruptWorkflow();
   }
 
   if (isPipeline(hook)) {

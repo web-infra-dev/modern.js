@@ -114,8 +114,6 @@ export const routerPlugin = ({
               return routes;
             },
           });
-
-          return context;
         },
         wrapRoot: App => {
           const getRouteApp = () => {

@@ -19,7 +19,6 @@ export const contextPlugin = (): Plugin => {
         beforeRender: async context => {
           const value = await getValue();
           context.custom = { test: value };
-          return context;
         },
         wrapRoot: App => {
           const getContextApp = () => {
