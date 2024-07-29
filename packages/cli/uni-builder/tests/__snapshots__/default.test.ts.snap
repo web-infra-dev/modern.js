@@ -352,6 +352,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -799,6 +800,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     HotModuleReplacementPlugin {
       "name": "HotModuleReplacementPlugin",
     },
@@ -870,7 +872,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -938,6 +939,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:clean-output",
   "rsbuild:asset",
   "rsbuild:html",
+  "rsbuild:app-icon",
   "rsbuild:wasm",
   "rsbuild:moment",
   "rsbuild:node-addons",
@@ -1288,6 +1290,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-0",
             },
           },
@@ -1299,6 +1302,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -1661,7 +1665,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "hints": false,
   },
   "plugins": [
-    RsbuildTransformPlugin {},
+    RsbuildCorePlugin {},
     DefinePlugin {
       "_args": [
         {
@@ -2074,6 +2078,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -2554,6 +2559,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].[contenthash:8].css",
@@ -2594,18 +2600,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "version": 6,
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
     HtmlBasicPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
@@ -2635,7 +2629,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2993,6 +2986,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -3354,6 +3348,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     DefinePlugin {
       "_args": [
         {
@@ -3373,7 +3368,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3871,6 +3865,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -4390,6 +4385,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     HotModuleReplacementPlugin {
       "options": {},
     },
@@ -4461,7 +4457,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -4992,6 +4987,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -5582,6 +5578,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -5639,18 +5636,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       "version": 5,
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
     HtmlBasicPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
@@ -5682,7 +5667,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showEntries": true,
       "showModules": true,
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {

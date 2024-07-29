@@ -353,6 +353,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
               "options": {
+                "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
               },
             },
@@ -800,6 +801,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
+      RsbuildCorePlugin {},
       HotModuleReplacementPlugin {
         "name": "HotModuleReplacementPlugin",
       },
@@ -871,7 +873,6 @@ exports[`uni-builder environment compat > should generator environment config co
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
       },
-      RsbuildTransformPlugin {},
       ReactRefreshRspackPlugin {
         "options": {
           "exclude": /node_modules/i,
@@ -1209,6 +1210,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
               "options": {
+                "getEnvironment": [Function],
                 "id": "rsbuild-transform-0",
               },
             },
@@ -1220,6 +1222,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
               "options": {
+                "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
               },
             },
@@ -1549,7 +1552,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
-      RsbuildTransformPlugin {},
+      RsbuildCorePlugin {},
       DefinePlugin {
         "_args": [
           {
@@ -1920,6 +1923,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
               "options": {
+                "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
               },
             },
@@ -2248,6 +2252,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "hints": false,
     },
     "plugins": [
+      RsbuildCorePlugin {},
       DefinePlugin {
         "_args": [
           {
@@ -2267,7 +2272,6 @@ exports[`uni-builder environment compat > should generator environment config co
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
       },
-      RsbuildTransformPlugin {},
     ],
     "resolve": {
       "alias": {
