@@ -1,6 +1,7 @@
 ---
 title: Hook
 ---
+
 # Hook
 
 Used to extend Modern.js built-in Web Server, all page requests are handled by these hooks.
@@ -37,6 +38,7 @@ type HookContext = {
   response: {
     set: (key: string, value: string) => void;
     status: (code: number) => void;
+    getStatus: () => number;
     cookies: {
       set: (key: string, value: string, options?: any) => void;
       clear: () => void;
