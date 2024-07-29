@@ -1,2 +1,2 @@
 export { createDevServer } from './createDevServer';
-export type { ModernDevServerOptions } from './types';
+export type { ModernDevServerOptions, ApplyPlugins } from './types';
