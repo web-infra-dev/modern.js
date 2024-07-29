@@ -6,7 +6,7 @@ import {
   isWebOnly,
   requireExistModule,
 } from '@modern-js/utils';
-import { getRenderHandler, type ServerPlugin } from '@modern-js/server-core';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import { API_APP_NAME } from './constants';
 
@@ -35,7 +35,7 @@ export default (): ServerPlugin => ({
     return {
       async prepare() {
         const appContext = api.useAppContext();
-        const { appDirectory, distDirectory } = appContext;
+        const { appDirectory, distDirectory, render } = appContext;
         const root = isProd() ? distDirectory : appDirectory;
         const apiPath = path.resolve(root || process.cwd(), API_DIR);
         apiAppPath = path.resolve(apiPath, API_APP_NAME);
@@ -57,11 +57,8 @@ export default (): ServerPlugin => ({
         const enableHandleWeb = config?.bff?.enableHandleWeb;
         const httpMethodDecider = config?.bff?.httpMethodDecider;
 
-        const {
-          distDirectory: pwd,
-          routes,
-          middlewares: globalMiddlewares,
-        } = api.useAppContext();
+        const { distDirectory: pwd, middlewares: globalMiddlewares } =
+          api.useAppContext();
 
         const webOnly = await isWebOnly();
 
@@ -74,13 +71,7 @@ export default (): ServerPlugin => ({
           };
         } else {
           const runner = api.useHookRunners();
-          const renderHandler = enableHandleWeb
-            ? await getRenderHandler({
-                pwd,
-                routes: routes || [],
-                config,
-              })
-            : null;
+          const renderHandler = enableHandleWeb ? render : null;
           handler = await runner.prepareApiServer(
             {
               pwd,

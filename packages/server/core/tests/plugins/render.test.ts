@@ -1,15 +1,25 @@
 import path from 'path';
-import { ServerRoute } from '@modern-js/types';
-import { createLogger } from '@modern-js/utils';
+import { Logger, ServerRoute } from '@modern-js/types';
 import { createServerBase } from '../../src/serverBase';
-import {
-  renderPlugin,
-  initMonitorsPlugin,
-  injectloggerPluigin,
-} from '../../src/plugins';
+import { renderPlugin, createDefaultPlugins } from '../../src/plugins';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
 import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 import { ServerUserConfig } from '../../src/types';
+
+const logger: Logger = {
+  error() {
+    // ignore
+  },
+  info() {
+    // ignore
+  },
+  warn() {
+    // ignore
+  },
+  debug() {
+    // ignore
+  },
+};
 
 async function createSSRServer(
   pwd: string,
@@ -29,10 +39,11 @@ async function createSSRServer(
   });
 
   server.addPlugins([
-    initMonitorsPlugin(),
-    injectloggerPluigin(createLogger()),
+    ...createDefaultPlugins({
+      logger,
+    }),
     injectResourcePlugin(),
-    renderPlugin({}),
+    renderPlugin(),
   ]);
 
   await server.init();
@@ -57,10 +68,11 @@ describe('should render html correctly', () => {
     });
 
     server.addPlugins([
-      initMonitorsPlugin(),
-      injectloggerPluigin(createLogger()),
+      ...createDefaultPlugins({
+        logger,
+      }),
       injectResourcePlugin(),
-      renderPlugin({}),
+      renderPlugin(),
     ]);
 
     await server.init();

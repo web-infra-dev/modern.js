@@ -158,6 +158,7 @@ declare module '@modern-js/types' {
   export interface ISAppContext {
     middlewares: Middleware[];
     metaName: string;
+    render?: Render;
     routes?: ServerRoute[];
     nodeServer?: NodeServer;
   }
