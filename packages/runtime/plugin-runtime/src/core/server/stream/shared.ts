@@ -65,7 +65,7 @@ export function createRenderStreaming(
 
     return run(headersData, async () => {
       const end = time();
-      const { runtimeContext, config, resource, staticGenerate } = options;
+      const { runtimeContext, config, resource } = options;
 
       const onError = createOnError(options.onError);
       const onTiming = createOnTiming(options.onTiming);
@@ -76,7 +76,6 @@ export function createRenderStreaming(
         entryName,
         config.ssr,
         config.ssrByEntries,
-        staticGenerate,
       );
 
       const rootElement = React.cloneElement(serverRoot, {

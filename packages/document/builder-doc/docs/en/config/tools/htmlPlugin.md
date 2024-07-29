@@ -25,43 +25,9 @@ const defaultHtmlPluginOptions = {
 };
 ```
 
-The configs of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) or [@rspack/plugin-html](https://github.com/web-infra-dev/rspack/tree/main/packages/rspack-plugin-html) can be modified through `tools.htmlPlugin`.
+The configs of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) or [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) can be modified through `tools.htmlPlugin`.
 
-### Object Type
-
-When `tools.htmlPlugin` is `Object` type, the value will be merged with the default config via `Object.assign`.
-
-```js
-export default {
-  tools: {
-    htmlPlugin: {
-      scriptLoading: 'blocking',
-    },
-  },
-};
-```
-
-### Function Type
-
-When `tools.htmlPlugin` is a Function:
-
-- The first parameter is the default config, which can be modified directly.
-- The second parameter is also an object, containing the entry name and the entry value.
-- The Function can return a new object as the final config.
-
-```js
-export default {
-  tools: {
-    htmlPlugin(config, { entryName, entryValue }) {
-      if (entryName === 'main') {
-        config.scriptLoading = 'blocking';
-      }
-    },
-  },
-};
-```
-
-### Boolean Type
+### Disable HTML
 
 The built-in `html-webpack-plugin` plugins can be disabled by set `tools.htmlPlugin` to `false`.
 
@@ -91,3 +57,5 @@ export default {
   },
 };
 ```
+
+For detailed usage, please refer to [Rsbuild - tools.html](https://rsbuild.dev/config/tools/html-plugin).
