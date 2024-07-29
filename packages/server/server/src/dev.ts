@@ -32,8 +32,6 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
 
     return {
       async prepare() {
-        // builderDevServer?.afterListen();
-
         // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
         const {
           middlewares: builderMiddlewares,
