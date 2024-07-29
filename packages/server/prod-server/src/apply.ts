@@ -2,15 +2,10 @@ import {
   ErrorDigest,
   ServerBase,
   createErrorHtml,
-  faviconPlugin,
-  logPlugin,
-  initMonitorsPlugin,
-  injectloggerPluigin,
-  injectServerTiming,
   onError,
-  processedByPlugin,
   renderPlugin,
   NodeServer,
+  createDefaultPlugins,
 } from '@modern-js/server-core';
 import {
   serverStaticPlugin,
@@ -55,19 +50,15 @@ export async function applyPlugins(
 
   const plugins = [
     ...(nodeServer ? [injectNodeSeverPlugin({ nodeServer })] : []),
-    initMonitorsPlugin(),
-    injectloggerPluigin(getLogger()),
-    injectServerTiming(options.metaName),
+    ...createDefaultPlugins({
+      cacheConfig,
+      staticGenerate: options.staticGenerate,
+      logger: getLogger(),
+    }),
     ...(options.plugins || []),
-    processedByPlugin(),
-    logPlugin(),
     injectResourcePlugin(),
     serverStaticPlugin(),
-    faviconPlugin(),
-    renderPlugin({
-      staticGenerate: options.staticGenerate,
-      cacheConfig,
-    }),
+    renderPlugin(),
   ];
 
   serverBase.addPlugins(plugins);
