@@ -12,7 +12,7 @@ export async function createDevServer(
   options: ModernDevServerOptions,
   applyPlugins: ApplyPlugins,
 ) {
-  const { config, pwd, serverConfigFile, serverConfigPath } = options;
+  const { config, pwd, serverConfigFile, serverConfigPath, builder } = options;
   const dev = getDevOptions(options);
 
   const distDir = path.resolve(pwd, config.output.path || 'dist');
@@ -47,11 +47,27 @@ export async function createDevServer(
     nodeServer = await createNodeServer(server.handle.bind(server));
   }
 
-  server.addPlugins([devPlugin(options)]);
+  const builderDevServer = await builder?.createDevServer({
+    runCompile: options.runCompile,
+  });
+
+  server.addPlugins([
+    devPlugin({
+      ...options,
+      builderDevServer,
+    }),
+  ]);
 
   await applyPlugins(server, prodServerOptions, nodeServer);
 
   await server.init();
 
-  return nodeServer;
+  const afterListen = async () => {
+    await builderDevServer?.afterListen();
+  };
+
+  return {
+    server: nodeServer,
+    afterListen,
+  };
 }
