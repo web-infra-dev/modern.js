@@ -1,6 +1,6 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
 import type { UniBuilderPlugin } from '@modern-js/uni-builder';
-import type { RsbuildConfig } from '@rsbuild/core';
+import type { RsbuildConfig, RsbuildPlugin } from '@rsbuild/core';
 import type { Bundler } from '../utils';
 import type { OutputUserConfig } from './output';
 import type { SourceUserConfig } from './source';
@@ -22,6 +22,11 @@ export interface RuntimeByEntriesUserConfig {
   [name: string]: RuntimeUserConfig;
 }
 
+// Support for registering any version Rsbuild plugins
+type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
+  setup: (api: any) => Promise<void> | void;
+};
+
 export interface AppToolsUserConfig<B extends Bundler> {
   server?: ServerUserConfig;
   source?: SourceUserConfig;
@@ -41,7 +46,7 @@ export interface AppToolsUserConfig<B extends Bundler> {
   tools?: ToolsUserConfig<B>;
   security?: SecurityUserConfig;
   testing?: TestingUserConfig;
-  builderPlugins?: UniBuilderPlugin[];
+  builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>[];
   performance?: PerformanceUserConfig;
   devtools?: any;
   environments?: RsbuildConfig['environments'];
