@@ -51,7 +51,7 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default garfishPlugin;
-export const garfishPlugin = (userConfig: Config): Plugin => ({
+export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
     return {

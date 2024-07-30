@@ -73,7 +73,7 @@ export type RouterConfig = Partial<HistoryConfig> & {
 
 let routes: SingleRouteConfig[] = [];
 
-export const routerPlugin = (userConfig: RouterConfig): Plugin => {
+export const routerPlugin = (userConfig: RouterConfig = {}): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {

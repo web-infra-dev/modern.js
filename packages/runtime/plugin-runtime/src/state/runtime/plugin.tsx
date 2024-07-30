@@ -55,7 +55,7 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   return storeConfig;
 };
 
-export const statePlugin = (userConfig: StateConfig): Plugin => ({
+export const statePlugin = (userConfig: StateConfig = {}): Plugin => ({
   name: '@modern-js/plugin-state',
   setup: api => {
     let storeConfig: StoreConfig;

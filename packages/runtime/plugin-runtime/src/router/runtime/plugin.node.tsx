@@ -35,7 +35,9 @@ function createRemixReuqest(request: Request) {
 
 let finalRouteConfig: any = {};
 
-export const routerPlugin = (userConfig: RouterConfig): Plugin => {
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {

@@ -37,7 +37,9 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   }
 }
 
-export const routerPlugin = (userConfig: RouterConfig): Plugin => {
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {

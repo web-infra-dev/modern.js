@@ -8,13 +8,15 @@ export const useDesignTokens = (): IDesignTokens =>
   useContext<IDesignTokens>(DesignTokenContext);
 
 interface DesignTokenConfig {
-  options: {
+  options?: {
     token?: Record<string, any>;
     useStyledComponentsThemeProvider?: boolean;
     useDesignTokenContext?: boolean;
   };
 }
-export const designTokenPlugin = (userConfig: DesignTokenConfig): Plugin => ({
+export const designTokenPlugin = (
+  userConfig: DesignTokenConfig = {},
+): Plugin => ({
   name: '@modern-js/plugin-design-token',
 
   setup: api => ({
