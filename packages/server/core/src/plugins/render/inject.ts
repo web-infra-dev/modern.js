@@ -1,9 +1,8 @@
-import type { ServerRoute } from '@modern-js/types';
 import type {
   CacheConfig,
+  GetRenderHandlerOptions,
   Render,
   ServerPlugin,
-  UserConfig,
 } from '../../types';
 import { createRender } from './render';
 
@@ -28,32 +27,26 @@ export const injectRenderHandlerPlugin = ({
           return;
         }
 
-        const render = await getRenderHandler({
+        const getRenderHandlerOptions: GetRenderHandlerOptions = {
           pwd,
           routes,
           config,
           metaName,
           cacheConfig: config.render?.cache || cacheConfig,
           staticGenerate,
-        });
+        };
+
+        const render = await getRenderHandler(getRenderHandlerOptions);
 
         api.setAppContext({
           ...api.useAppContext(),
           render,
+          getRenderOptions: getRenderHandlerOptions,
         });
       },
     };
   },
 });
-
-export interface GetRenderHandlerOptions {
-  pwd: string;
-  routes: ServerRoute[];
-  config: UserConfig;
-  cacheConfig?: CacheConfig;
-  staticGenerate?: boolean;
-  metaName?: string;
-}
 
 export async function getRenderHandler({
   pwd,
