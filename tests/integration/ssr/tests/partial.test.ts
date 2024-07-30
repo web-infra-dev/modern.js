@@ -54,6 +54,7 @@ describe('test partial ssr', () => {
 
     await page.goto(`http://localhost:${appPort}/one/a`);
     await page.waitForSelector('#root_layout');
+    await page.waitForSelector('.page-a');
     const pageContent = await page.content();
     expect(pageContent).toContain('root layout');
     expect(pageContent).toContain('PageA Data');
@@ -66,6 +67,8 @@ describe('test partial ssr', () => {
 
     await page.goto(`http://localhost:${appPort}/one/b`);
     await page.waitForSelector('#root_layout');
+    await page.waitForSelector('.page-b');
+
     const pageContent = await page.content();
     expect(pageContent).toContain('root layout');
     expect(pageContent).toContain('PageB Data');
@@ -89,8 +92,11 @@ describe('test partial ssr', () => {
 
     await page.goto(`http://localhost:${appPort}/one/b/d`);
     await page.waitForSelector('#root_layout');
+    await page.waitForSelector('.page-d');
+
     const pageContent = await page.content();
     expect(pageContent).toContain('root layout');
+
     expect(pageContent).toContain('PageD Data');
   });
 });

@@ -11,7 +11,6 @@ import {
 } from './monitors';
 import { processedByPlugin } from './processedBy';
 import { logPlugin } from './log';
-import { faviconPlugin } from './favicon';
 
 export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
   logger?: Logger;
@@ -27,7 +26,6 @@ export function createDefaultPlugins(
     injectServerTiming(),
     logPlugin(),
     processedByPlugin(),
-    faviconPlugin(),
   ];
 
   return plugins;
