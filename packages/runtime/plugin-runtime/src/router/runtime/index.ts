@@ -2,6 +2,7 @@ import { useRouteLoaderData as useRouteData } from '@modern-js/runtime-utils/rou
 import { routerPlugin } from './plugin';
 import type { RouterConfig, SingleRouteConfig } from './types';
 
+declare const MODERN_ROUTER_ID_PREFIX: string | undefined;
 export * from '@modern-js/runtime-utils/router';
 
 export type { SingleRouteConfig, RouterConfig };
@@ -18,7 +19,13 @@ export { Link, NavLink } from './PrefetchLink';
 export type { LinkProps, NavLinkProps } from './PrefetchLink';
 
 export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
-  const realRouteId = routeId.replace(/\[(.*?)\]/g, '($1)');
+  const routerIdPrefix =
+    typeof MODERN_ROUTER_ID_PREFIX === 'string' ? MODERN_ROUTER_ID_PREFIX : '';
+  let routeIdWithOutPrefix = routeId;
+  if (routeId.includes(routerIdPrefix)) {
+    routeIdWithOutPrefix = routeId.replace(routerIdPrefix, '');
+  }
+  const realRouteId = routeIdWithOutPrefix.replace(/\[(.*?)\]/g, '($1)');
   return useRouteData(realRouteId);
 };
 
