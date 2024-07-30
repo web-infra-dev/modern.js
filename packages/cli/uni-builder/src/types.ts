@@ -14,6 +14,7 @@ import type {
   RequestHandler,
   NodeEnv,
   HtmlTagDescriptor,
+  RsbuildPlugin,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -368,7 +369,7 @@ export type SriOptions = {
 
 export type OverridesUniBuilderInstance = {
   addPlugins: (
-    plugins: UniBuilderPlugin[],
+    plugins: Array<UniBuilderPlugin | LooseRsbuildPlugin>,
     options?: {
       before?: string;
     },
@@ -417,6 +418,11 @@ export type UniBuilderPlugin = {
   pre?: string[];
   post?: string[];
   remove?: string[];
+};
+
+// Support for registering any version Rsbuild plugins
+export type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
+  setup: (api: any) => Promise<void> | void;
 };
 
 export type DistPath = DistPathConfig & {
