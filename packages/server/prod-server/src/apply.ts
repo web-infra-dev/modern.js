@@ -6,6 +6,7 @@ import {
   renderPlugin,
   NodeServer,
   createDefaultPlugins,
+  faviconPlugin,
 } from '@modern-js/server-core';
 import {
   serverStaticPlugin,
@@ -58,6 +59,7 @@ export async function applyPlugins(
     ...(options.plugins || []),
     injectResourcePlugin(),
     serverStaticPlugin(),
+    faviconPlugin(),
     renderPlugin(),
   ];
 
