@@ -3,7 +3,7 @@ import { Link, Outlet, useLoaderData } from '@modern-js/runtime/router';
 export default () => {
   const data = useLoaderData() as string;
   return (
-    <div>
+    <div id="root_layout">
       {data}
       <Link to="a" className="a-btn">
         jupmp to A
