@@ -10,11 +10,8 @@ import {
 import { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitors';
 import { sortRoutes } from '../../utils';
-import {
-  getLoaderCtx,
-  CustomServer,
-  getServerMidFromUnstableMid,
-} from '../customServer';
+import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import { getLoaderCtx } from '../../helper';
 
 export * from './inject';
 

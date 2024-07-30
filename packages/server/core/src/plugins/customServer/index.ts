@@ -7,10 +7,10 @@ import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner, Context, Middleware, ServerEnv } from '../../types';
 import { transformResponse } from '../../utils';
+import { getLoaderCtx } from '../../helper';
 import { ServerTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import type * as streamModule from '../../adapters/node/polyfills/stream';
-import { getLoaderCtx } from './loader';
 import {
   getAfterMatchCtx,
   getAfterRenderCtx,
@@ -18,8 +18,6 @@ import {
   createAfterStreamingRenderContext,
 } from './context';
 import { ResArgs, createBaseHookContext } from './base';
-
-export { getLoaderCtx } from './loader';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
