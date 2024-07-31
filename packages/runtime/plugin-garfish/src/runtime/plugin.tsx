@@ -54,12 +54,11 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
   name: '@modern-js/garfish-plugin',
   setup: api => {
+    setExternal();
     return {
       wrapRoot(App) {
         const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
         const config = merge(pluginConfig.garfish || {}, userConfig);
-        setExternal();
-
         const { manifest, ...options } = config;
         logger('createPlugin', config);
         const promise = initOptions(manifest, options);

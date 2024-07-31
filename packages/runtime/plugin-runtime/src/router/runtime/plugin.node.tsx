@@ -33,8 +33,6 @@ function createRemixReuqest(request: Request) {
   });
 }
 
-let finalRouteConfig: any = {};
-
 export const routerPlugin = (
   userConfig: Partial<RouterConfig> = {},
 ): Plugin => {
@@ -44,6 +42,8 @@ export const routerPlugin = (
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      let finalRouteConfig: any = {};
+
       return {
         async beforeRender(context, interrupt) {
           const pluginConfig: Record<string, any> =
