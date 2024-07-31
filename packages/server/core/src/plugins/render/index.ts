@@ -6,38 +6,25 @@ import {
   Middleware,
   ServerEnv,
   Render,
-  UserConfig,
-  CacheConfig,
 } from '../../types';
 import { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitors';
 import { sortRoutes } from '../../utils';
-import {
-  getLoaderCtx,
-  CustomServer,
-  getServerMidFromUnstableMid,
-} from '../customServer';
-import { createRender } from './render';
+import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import { getLoaderCtx } from '../../helper';
 
-export interface RenderPluginOptions {
-  staticGenerate?: boolean;
-  cacheConfig?: CacheConfig;
-}
+export * from './inject';
 
-export const renderPlugin = (
-  options: RenderPluginOptions = {},
-): ServerPlugin => ({
+export const renderPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
-    const { staticGenerate, cacheConfig } = options;
-
     return {
       async prepare() {
         const {
           middlewares,
           routes,
-          metaName,
+          render,
           distDirectory: pwd,
           serverBase,
         } = api.useAppContext();
@@ -55,15 +42,6 @@ export const renderPlugin = (
           getServerMidFromUnstableMid(config.render.middleware);
 
         const pageRoutes = getPageRoutes(routes);
-
-        const render = await getRenderHandler({
-          pwd,
-          routes,
-          config,
-          metaName,
-          cacheConfig: config.render?.cache || cacheConfig,
-          staticGenerate,
-        });
 
         for (const route of pageRoutes) {
           const { urlPath: originUrlPath, entryName } = route;
@@ -97,11 +75,12 @@ export const renderPlugin = (
               handler: customServerMiddleware,
             });
 
-          middlewares.push({
-            name: `render`,
-            path: urlPath,
-            handler: createRenderHandler(render),
-          });
+          render &&
+            middlewares.push({
+              name: `render`,
+              path: urlPath,
+              handler: createRenderHandler(render),
+            });
         }
       },
     };
@@ -154,38 +133,4 @@ function createRenderHandler(
 
     return c.body(body, status, headersData);
   };
-}
-
-export interface GetRenderHandlerOptions {
-  pwd: string;
-  routes: ServerRoute[];
-  config: UserConfig;
-  cacheConfig?: CacheConfig;
-  staticGenerate?: boolean;
-  metaName?: string;
-}
-
-export async function getRenderHandler({
-  pwd,
-  routes,
-  config,
-  cacheConfig,
-  metaName,
-  staticGenerate,
-}: GetRenderHandlerOptions): Promise<Render> {
-  const ssrConfig = config.server?.ssr;
-  const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-
-  const render = createRender({
-    routes,
-    pwd,
-    config,
-    staticGenerate,
-    cacheConfig,
-    forceCSR,
-    nonce: config.security?.nonce,
-    metaName: metaName || 'modern-js',
-  });
-
-  return render;
 }

@@ -17,6 +17,7 @@ export type {
 export type {
   UniBuilderConfig,
   UniBuilderPlugin,
+  LooseRsbuildPlugin,
   BundlerType,
   MetaOptions,
   Stats,

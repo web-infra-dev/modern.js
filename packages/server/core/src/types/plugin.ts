@@ -154,10 +154,22 @@ type Middleware = {
   order?: MiddlewareOrder;
 };
 
+export interface GetRenderHandlerOptions {
+  pwd: string;
+  routes: ServerRoute[];
+  config: UserConfig;
+  cacheConfig?: CacheConfig;
+  staticGenerate?: boolean;
+  metaName?: string;
+}
+
 declare module '@modern-js/types' {
   export interface ISAppContext {
     middlewares: Middleware[];
     metaName: string;
+
+    getRenderOptions?: GetRenderHandlerOptions;
+    render?: Render;
     routes?: ServerRoute[];
     nodeServer?: NodeServer;
   }
