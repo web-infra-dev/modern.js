@@ -51,4 +51,10 @@ describe('merge function', () => {
     const result = merge({}, obj1, obj2, obj3);
     expect(result).toEqual({ a: 3 });
   });
+  test('should return right value when item is not object', () => {
+    expect(merge({}, true as any, { a: 1 })).toEqual({ a: 1 });
+    expect(merge({}, false as any, { a: 1 })).toEqual({ a: 1 });
+    expect(merge({}, 1 as any, { a: 1 })).toEqual({ a: 1 });
+    expect(merge({}, 'b' as any, { a: 1 })).toEqual({ a: 1 });
+  });
 });

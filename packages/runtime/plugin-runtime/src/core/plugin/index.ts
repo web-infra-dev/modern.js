@@ -32,5 +32,5 @@ export function mergeConfig(
   config: Record<string, any>,
   ...otherConfig: Record<string, any>[]
 ) {
-  return merge(config, ...otherConfig);
+  return merge({}, config, ...otherConfig);
 }
