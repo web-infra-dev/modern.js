@@ -5,6 +5,7 @@ import {
   type StoreConfig,
 } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { immer, effects, autoActions, devtools } from '../plugins';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
@@ -54,10 +55,10 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   return storeConfig;
 };
 
-export const statePlugin = (config: StateConfig): Plugin => ({
+export const statePlugin = (userConfig: StateConfig = {}): Plugin => ({
   name: '@modern-js/plugin-state',
-  setup: () => {
-    const storeConfig = getStoreConfig(config);
+  setup: api => {
+    let storeConfig: StoreConfig;
     return {
       wrapRoot(App) {
         const getStateApp = (props: any) => {
@@ -73,6 +74,9 @@ export const statePlugin = (config: StateConfig): Plugin => ({
         return getStateApp;
       },
       beforeRender(context) {
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const config = merge(pluginConfig.state || {}, userConfig);
+        storeConfig = getStoreConfig(config);
         if (isBrowser()) {
           storeConfig.initialState =
             storeConfig.initialState ||

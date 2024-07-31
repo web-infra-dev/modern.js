@@ -11,6 +11,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
@@ -36,29 +37,17 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   }
 }
 
-export const routerPlugin = ({
-  serverBase = [],
-  supportHtml5History = true,
-  basename = '',
-  routesConfig,
-  createRoutes,
-}: RouterConfig): Plugin => {
-  const select = (pathname: string) =>
-    serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-  let routes: RouteObject[] = [];
-  finalRouteConfig = {
-    routes: getGlobalRoutes(),
-    globalApp: getGlobalLayoutApp(),
-    ...routesConfig,
-  };
-  window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
-
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      let routes: RouteObject[] = [];
+      window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
       return {
         beforeRender(context) {
           context.router = {
@@ -74,6 +63,22 @@ export const routerPlugin = ({
           });
         },
         wrapRoot: App => {
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
+          const {
+            serverBase = [],
+            supportHtml5History = true,
+            basename = '',
+            routesConfig,
+            createRoutes,
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
+          const select = (pathname: string) =>
+            serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+          finalRouteConfig = {
+            routes: getGlobalRoutes(),
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {

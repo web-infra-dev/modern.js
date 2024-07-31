@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@types/debug": "4.1.7",
     "@types/react-loadable": "^5.5.6",
