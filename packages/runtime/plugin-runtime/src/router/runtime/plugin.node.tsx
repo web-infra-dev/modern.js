@@ -146,7 +146,12 @@ export const routerPlugin = ({
                     context={routerContext!}
                     hydrate={false}
                   />
-                  <DeferredDataScripts nonce={nonce} context={routerContext!} />
+                  {mode === 'stream' && (
+                    <DeferredDataScripts
+                      nonce={nonce}
+                      context={routerContext!}
+                    />
+                  )}
                   {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </>
               );
