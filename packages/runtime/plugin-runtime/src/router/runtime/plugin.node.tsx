@@ -146,7 +146,10 @@ export const routerPlugin = ({
                     context={routerContext!}
                     hydrate={false}
                   />
+
                   {mode === 'stream' && (
+                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                    // So we can inject it only when streaming ssr
                     <DeferredDataScripts
                       nonce={nonce}
                       context={routerContext!}
