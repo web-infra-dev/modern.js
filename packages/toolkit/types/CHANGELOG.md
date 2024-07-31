@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- 6cec127: fix: user can get status in afterRenderContext
+  fix: 用户可以从 afterRenderContext 上拿到 status
+
 ## 2.56.2
 
 ## 2.56.1

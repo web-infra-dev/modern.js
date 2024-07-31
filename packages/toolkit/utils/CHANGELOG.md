@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+
 ## 2.56.2
 
 ## 2.56.1

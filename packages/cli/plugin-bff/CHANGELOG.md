@@ -1,5 +1,23 @@
 # @modern-js/plugin-bff
 
+## 2.57.0
+
+### Patch Changes
+
+- 0e906a1: feat: inject renderHandler to appContext & add default serverPlugins
+  feat: 注入 renderHandler 到 appContext & 新增默认 serverPlugins
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [203c9eb]
+- Updated dependencies [604ad3a]
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/bff-core@2.57.0
+  - @modern-js/create-request@2.57.0
+  - @modern-js/server-utils@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes
