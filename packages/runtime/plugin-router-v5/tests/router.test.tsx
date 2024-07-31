@@ -14,7 +14,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({}),
       ],
@@ -38,7 +38,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -83,7 +83,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -128,7 +128,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -175,7 +175,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
           modifyRoutes(routes: RouteProps[]) {
             return modifyFn?.(routes);
           },

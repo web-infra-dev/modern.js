@@ -19,6 +19,7 @@ import { RuntimeReactContext, isBrowser } from '@meta/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
 
@@ -70,31 +71,9 @@ export type RouterConfig = Partial<HistoryConfig> & {
   serverBase?: string[];
 };
 
-export const routerPlugin = ({
-  serverBase = [],
-  history: customHistory,
-  supportHtml5History = true,
-  routesConfig,
-  createRoutes,
-  historyOptions = {},
-}: RouterConfig): Plugin => {
-  const finalRouteConfig = {
-    routes: getGlobalRoutes() as SingleRouteConfig[],
-    globalApp: getGlobalLayoutApp(),
-    ...routesConfig,
-  };
-  const originRoutes = finalRouteConfig?.routes;
-  const isBrow = isBrowser();
+let routes: SingleRouteConfig[] = [];
 
-  const select = (pathname: string) =>
-    serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-
-  let routes: SingleRouteConfig[] = [];
-
-  if (isBrow) {
-    window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
-  }
-
+export const routerPlugin = (userConfig: RouterConfig = {}): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
@@ -102,7 +81,7 @@ export const routerPlugin = ({
     },
     setup: api => {
       return {
-        init({ context }, next) {
+        beforeRender(context) {
           context.router = {
             useRouteMatch,
             useLocation,
@@ -114,28 +93,52 @@ export const routerPlugin = ({
               return routes;
             },
           });
-
-          return next({ context });
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
+          const {
+            serverBase = [],
+            history: customHistory,
+            supportHtml5History = true,
+            routesConfig,
+            createRoutes,
+            historyOptions = {},
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
+          const finalRouteConfig = {
+            routes: getGlobalRoutes() as SingleRouteConfig[],
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
+          const originRoutes = finalRouteConfig?.routes;
+          const isBrow = isBrowser();
+
+          const select = (pathname: string) =>
+            serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+          if (isBrow) {
+            window._SERVER_DATA = parsedJSONFromElement(
+              '__MODERN_SERVER_DATA__',
+            );
+          }
           const getRouteApp = () => {
             if (isBrow) {
-              const baseUrl = (
-                config.router?.basename ||
-                window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname)
-              ).replace(/^\/*/, '/');
-              const basename =
-                baseUrl === '/'
-                  ? urlJoin(baseUrl, historyOptions.basename as string)
-                  : baseUrl;
-              historyOptions.basename = basename;
-              const history =
-                customHistory ||
-                (supportHtml5History
-                  ? createBrowserHistory(historyOptions)
-                  : createHashHistory(historyOptions));
               return (props: any) => {
+                const runtimeContext = useContext(RuntimeReactContext);
+                const baseUrl = (
+                  runtimeContext._internalRouterBaseName ||
+                  window._SERVER_DATA?.router.baseUrl ||
+                  select(location.pathname)
+                ).replace(/^\/*/, '/');
+                const basename =
+                  baseUrl === '/'
+                    ? urlJoin(baseUrl, historyOptions.basename as string)
+                    : baseUrl;
+                historyOptions.basename = basename;
+                const history =
+                  customHistory ||
+                  (supportHtml5History
+                    ? createBrowserHistory(historyOptions)
+                    : createHashHistory(historyOptions));
                 const runner = (api as any).useHookRunners();
                 routes = runner.modifyRoutes(originRoutes);
                 finalRouteConfig && (finalRouteConfig.routes = routes);
@@ -163,7 +166,8 @@ export const routerPlugin = ({
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
               const baseUrl = (
-                config.router?.basename || (request?.baseUrl as string)
+                runtimeContext._internalRouterBaseName ||
+                (request?.baseUrl as string)
               )?.replace(/^\/*/, '/');
 
               const basename =
@@ -191,12 +195,7 @@ export const routerPlugin = ({
             };
           };
 
-          const RouteApp = getRouteApp();
-
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
       };
     },

@@ -32,7 +32,7 @@ export function createProvider(
         props: any;
         appName?: string;
       }) {
-        const ModernRoot = createRoot(null, { router: { basename } });
+        const ModernRoot = createRoot(null);
 
         if (customBootstrap) {
           root = await customBootstrap(ModernRoot, () =>
@@ -60,14 +60,14 @@ export function createProvider(
       },
       // 兼容旧版本
       SubModuleComponent: (props: any) => {
-        const ModernRoot = createRoot(null, { router: { basename } });
+        const ModernRoot = createRoot(null);
         return createPortal(
           <ModernRoot basename={basename} {...props} />,
           dom.querySelector(`#${id || 'root'}`) || dom,
         );
       },
       jupiter_submodule_app_key: (props: any) => {
-        const ModernRoot = createRoot(null, { router: { basename } });
+        const ModernRoot = createRoot(null);
 
         return createPortal(
           <ModernRoot basename={basename} {...props} />,
