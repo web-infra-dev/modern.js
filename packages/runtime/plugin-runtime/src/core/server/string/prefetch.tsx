@@ -8,6 +8,7 @@ import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
 import { SSRConfig } from '../shared';
+import { RuntimeReactContext } from '../../context';
 
 export const prefetch = async (
   App: React.ReactElement,
@@ -34,16 +35,20 @@ export const prefetch = async (
           });
           renderToStaticMarkup(
             extractor.collectChunks(
-              React.cloneElement(App, {
-                _internal_context: Object.assign(context, { ssr: false }),
-              }),
+              <RuntimeReactContext.Provider
+                value={Object.assign(context, { ssr: false })}
+              >
+                {App}
+              </RuntimeReactContext.Provider>,
             ),
           );
         } else {
           renderToStaticMarkup(
-            React.cloneElement(App, {
-              _internal_context: Object.assign(context, { ssr: false }),
-            }),
+            <RuntimeReactContext.Provider
+              value={Object.assign(context, { ssr: false })}
+            >
+              {App}
+            </RuntimeReactContext.Provider>,
           );
         }
 

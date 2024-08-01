@@ -1,6 +1,7 @@
 import React from 'react';
 import { runtime, Plugin } from '../../src/core/plugin';
 import { RuntimeReactContext } from '../../src/core/context';
+import { getInitialContext } from '../../src/core/context/runtime';
 
 export type WrapOptions = Record<string, unknown>;
 
@@ -11,6 +12,18 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
     App: React.ComponentType<P>,
     config: WrapOptions,
   ) => wrap(App, config, manager);
+};
+
+export const wrapRuntimeProvider = (
+  App: React.ComponentType<any>,
+  manager = runtime,
+) => {
+  return (props: any) =>
+    React.createElement(
+      RuntimeReactContext.Provider,
+      { value: getInitialContext(manager.init()) },
+      React.createElement(App, props),
+    );
 };
 
 export const wrap = <P = Record<string, unknown>>(
@@ -32,12 +45,10 @@ export const wrap = <P = Record<string, unknown>>(
 
   const WrapperRoot = runner.wrapRoot(WrapperComponent);
 
-  const WrapComponent = ({ _internal_context, ...props }: any) =>
+  return (props: any) =>
     React.createElement(
       RuntimeReactContext.Provider,
-      { value: _internal_context },
+      { value: getInitialContext(runner) },
       React.createElement(WrapperRoot, props),
     );
-
-  return WrapComponent;
 };

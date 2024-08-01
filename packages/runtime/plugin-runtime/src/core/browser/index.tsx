@@ -2,7 +2,11 @@
 import React from 'react';
 import cookieTool from 'cookie';
 import { getGlobalAppInit } from '../context';
-import { RuntimeContext, getInitialContext } from '../context/runtime';
+import {
+  RuntimeContext,
+  RuntimeReactContext,
+  getInitialContext,
+} from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
 import { SSRContainer } from '../types';
@@ -103,27 +107,39 @@ export async function render(
         ? id
         : document.getElementById(id || 'root')!;
 
-    async function ModernRender(App: React.ReactElement) {
+    async function ModernRender(
+      App: React.ReactElement,
+      contextValue: RuntimeContext,
+    ) {
       const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
       return renderFunc(
-        React.cloneElement(App, { _internal_context: context }),
+        <RuntimeReactContext.Provider value={contextValue}>
+          {App}
+        </RuntimeReactContext.Provider>,
         rootElement,
       );
     }
 
     async function ModernHydrate(
       App: React.ReactElement,
+      contextValue: RuntimeContext,
       callback?: () => void,
     ) {
       const hydrateFunc = IS_REACT18 ? hydrateWithReact18 : hydrateWithReact17;
-      return hydrateFunc(App, rootElement, callback);
+      return hydrateFunc(
+        <RuntimeReactContext.Provider value={context}>
+          {App}
+        </RuntimeReactContext.Provider>,
+        rootElement,
+        callback,
+      );
     }
 
     // we should hydateRoot only when ssr
     if (ssrData) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
-    return ModernRender(App);
+    return ModernRender(App, context);
   }
   throw Error(
     '`render` function needs id in browser environment, it needs to be string or element',

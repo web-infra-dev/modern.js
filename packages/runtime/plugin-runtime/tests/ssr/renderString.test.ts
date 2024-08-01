@@ -5,7 +5,10 @@ import path from 'path';
 import { fs, createLogger } from '@modern-js/utils';
 import React from 'react';
 import { renderString, RenderOptions } from '../../src/core/server/server';
-import { getInitialContext } from '../../src/core/context/runtime';
+import {
+  RuntimeReactContext,
+  getInitialContext,
+} from '../../src/core/context/runtime';
 import App from './fixtures/string-ssr/App';
 
 const htmlPath = path.resolve(
@@ -72,9 +75,13 @@ describe('test render', () => {
       onTiming,
     };
 
-    const serverRoot = React.createElement(App, {
-      _internal_context: { ssr: true },
-    });
+    const serverRoot = React.createElement(
+      RuntimeReactContext.Provider,
+      {
+        value: { ssr: true } as any,
+      },
+      React.createElement(App),
+    );
 
     const html = await renderString(request as any, serverRoot, renderOptions);
 

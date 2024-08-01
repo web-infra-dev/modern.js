@@ -69,9 +69,8 @@ export const createApp = ({
     };
 
     const WrapperApp = runner.wrapRoot(WrapperComponent);
-    const WrapComponent = ({ _internal_context, ...props }: any) => {
-      let contextValue = _internal_context;
-
+    const WrapComponent = (props: any) => {
+      let contextValue = useContext(RuntimeReactContext);
       // We should construct the context, when root component is not passed into `bootstrap`.
       if (!contextValue?.runner) {
         contextValue = getInitialContext(runner);
@@ -79,14 +78,8 @@ export const createApp = ({
         runner?.beforeRender(contextValue);
         getGlobalAppInit()?.(contextValue);
       }
-
       const mergedProps = { ...props, ...globalProps };
-
-      return (
-        <RuntimeReactContext.Provider value={contextValue}>
-          <WrapperApp {...mergedProps} />
-        </RuntimeReactContext.Provider>
-      );
+      return <WrapperApp {...mergedProps} />;
     };
 
     return WrapComponent;
@@ -131,9 +124,11 @@ export const bootstrap: BootStrap = async (
 
   // don't mount the App, let user in charge of it.
   if (!id) {
-    return React.createElement(App as React.ComponentType<any>, {
-      _internal_context: context,
-    });
+    return React.createElement(
+      RuntimeReactContext.Provider,
+      { value: context },
+      React.createElement(App as React.ComponentType<any>),
+    );
   }
 
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
@@ -176,15 +171,23 @@ export const bootstrap: BootStrap = async (
         throw Error('The `bootstrap` need provide `ReactDOM` parameter');
       }
       // https://react.dev/blog/2022/03/08/react-18-upgrade-guide
-      const ModernRender = (App: React.ReactElement) => {
+      const ModernRender = (
+        App: React.ReactElement,
+        contextValue: RuntimeContext,
+      ) => {
+        const WrapperApp = React.createElement(
+          RuntimeReactContext.Provider,
+          { value: contextValue },
+          App,
+        );
         if (IS_REACT18) {
           if (root) {
-            root.render(App);
+            root.render(WrapperApp);
             return root;
           }
           if (ReactDOM.createRoot) {
             const root = ReactDOM.createRoot(rootElement);
-            root.render(App);
+            root.render(WrapperApp);
             return root;
           } else {
             throw Error(
@@ -204,15 +207,21 @@ export const bootstrap: BootStrap = async (
 
       const ModernHydrate = (
         App: React.ReactElement,
+        contextValue: RuntimeContext,
         callback?: () => void,
       ): any => {
+        const WrapperApp = React.createElement(
+          RuntimeReactContext.Provider,
+          { value: contextValue },
+          App,
+        );
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(
               'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrateRoot` method',
             );
           }
-          ReactDOM.hydrateRoot(rootElement, App);
+          ReactDOM.hydrateRoot(rootElement, WrapperApp);
           return rootElement;
         }
         if (!ReactDOM.hydrate) {
@@ -220,7 +229,7 @@ export const bootstrap: BootStrap = async (
             'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
           );
         }
-        ReactDOM.hydrate(App, rootElement, callback);
+        ReactDOM.hydrate(WrapperApp, rootElement, callback);
         return rootElement;
       };
 
@@ -228,9 +237,7 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(
-        React.createElement(App, { _internal_context: context } as any),
-      );
+      return ModernRender(React.createElement(App), context);
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',
