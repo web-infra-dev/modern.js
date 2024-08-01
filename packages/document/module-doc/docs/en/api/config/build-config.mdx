@@ -997,9 +997,15 @@ We want to fix this issue, but it may break existing projects.
 
 Therefore, in **MAJOR_VERSION.58.0**, we provided `resolve.alias` to solve this problem. Additionally, `resolve.alias` removed the default value `{ "@": "./src"}` provided by [alias](#alias).
 
-If you need this feature, please use `resolve.alias` and avoid mixing it with [alias](#alias).
+If you need this feature, please use `resolve.alias`.
 
 In the next major version, `resolve.alias` will replace [alias](#alias).
+
+:::warning
+- Note that this configuration should not be mixed with [alias](#alias).
+- Ensure that this configuration specifies a relative path, such as `{ "@": "./src" }` rather than `{ "@": "src"}`.
+
+:::
 
 ### resolve.mainFields
 
