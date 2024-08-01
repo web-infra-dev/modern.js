@@ -1,5 +1,16 @@
 # @modern-js/plugin
 
+## 2.57.0
+
+### Patch Changes
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes
