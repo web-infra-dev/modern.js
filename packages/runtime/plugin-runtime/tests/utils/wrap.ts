@@ -46,9 +46,5 @@ export const wrap = <P = Record<string, unknown>>(
   const WrapperRoot = runner.wrapRoot(WrapperComponent);
 
   return (props: any) =>
-    React.createElement(
-      RuntimeReactContext.Provider,
-      { value: getInitialContext(runner) },
-      React.createElement(WrapperRoot, props),
-    );
+    React.createElement(wrapRuntimeProvider(WrapperRoot, runtime), props);
 };

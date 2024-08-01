@@ -1,14 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import {
-  Plugin,
-  RuntimeReactContext,
-  createApp,
-  useRuntimeContext,
-} from '../../src/core';
-import { initialWrapper } from '../utils';
+import { Plugin, createApp, useRuntimeContext } from '../../src/core';
+import { initialWrapper, wrapRuntimeProvider } from '../utils';
 import { createRuntime } from '../../src/core/plugin';
-import { getInitialContext } from '../../src/core/context/runtime';
 
 declare module '../../src/core' {
   interface RuntimeContext {
@@ -165,11 +159,7 @@ describe('create-app', () => {
       runtime,
     });
 
-    const AppWrapper = wrap(() => (
-      <RuntimeReactContext.Provider value={getInitialContext(runtime.init())}>
-        <App />
-      </RuntimeReactContext.Provider>
-    ));
+    const AppWrapper = wrap(wrapRuntimeProvider(App, runtime));
 
     const { container } = render(<AppWrapper />);
     expect(container.textContent).toBe(TEST_STRING);
