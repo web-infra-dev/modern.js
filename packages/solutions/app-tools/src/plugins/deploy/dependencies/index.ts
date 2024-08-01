@@ -14,6 +14,7 @@ import {
   findPackageParents,
   resolveTracedPath,
   readDirRecursive,
+  isSubPath,
 } from './utils';
 
 export const handleDependencies = async ({
@@ -54,9 +55,9 @@ export const handleDependencies = async ({
         const filePath = await resolveTracedPath(base, _path);
 
         if (
-          filePath.startsWith(serverRootDir) ||
-          (filePath.startsWith(appDir) &&
-            !filePath.startsWith(currentProjectModules))
+          isSubPath(serverRootDir, filePath) ||
+          (isSubPath(appDir, filePath) &&
+            !isSubPath(currentProjectModules, filePath))
         ) {
           return;
         }
@@ -90,7 +91,10 @@ export const handleDependencies = async ({
             ? path.join(match[0], 'package.json')
             : await pkgUp({ cwd: path.dirname(filePath) });
 
-          if (packageJsonPath?.startsWith(dependencySearchRoot)) {
+          if (
+            packageJsonPath &&
+            isSubPath(dependencySearchRoot, packageJsonPath)
+          ) {
             const packageJson: PackageJson = await fse.readJSON(
               packageJsonPath,
             );
@@ -113,8 +117,8 @@ export const handleDependencies = async ({
           parents,
           isDirectDep: parents.some(parent => {
             return (
-              parent.startsWith(appDir) &&
-              !parent.startsWith(currentProjectModules)
+              isSubPath(appDir, parent) &&
+              !isSubPath(currentProjectModules, parent)
             );
           }),
 
