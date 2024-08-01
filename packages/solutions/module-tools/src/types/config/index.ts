@@ -140,6 +140,17 @@ export type AliasOption =
 export type Resolve = {
   mainFields?: string[];
   jsExtensions?: string[];
+  /// The same as alias, but support module id as map value,
+  /// which previously unsupported and treat as relative path,
+  /// but now recognized as any path that doesn't start with "./" "../" and "/"
+  /// and this will remove the default alias for "@"
+  alias?: AliasOption;
+};
+
+export type ResolveOptions = {
+  mainFields: string[];
+  jsExtensions: string[];
+  alias: Record<string, string>;
 };
 
 export type BaseBuildConfig = Omit<
@@ -151,7 +162,7 @@ export type BaseBuildConfig = Omit<
   style: Style;
   alias: Record<string, string>;
   asset: Required<Asset>;
-  resolve: Required<Resolve>;
+  resolve: ResolveOptions;
 };
 
 export type PartialBaseBuildConfig = {

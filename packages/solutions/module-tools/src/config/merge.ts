@@ -25,6 +25,7 @@ export const mergeDefaultBaseConfig = async (
   };
   const mergedAlias = applyOptionsChain(defaultAlias, pConfig.alias);
 
+  const mergedResolveAlias = applyOptionsChain({}, pConfig.resolve?.alias);
   /**
    * Format alias value:
    * - Relative paths need to be turned into absolute paths.
@@ -109,6 +110,7 @@ export const mergeDefaultBaseConfig = async (
     mainFields: pConfig.resolve?.mainFields ?? defaultMainFields,
     jsExtensions:
       pConfig.resolve?.jsExtensions ?? defaultConfig.resolve.jsExtensions,
+    alias: mergedResolveAlias,
   };
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
