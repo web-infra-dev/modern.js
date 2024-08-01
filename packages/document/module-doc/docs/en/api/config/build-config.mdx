@@ -878,6 +878,7 @@ For more information about JSX Transform, you can refer to the following links:
 
 - [React Blog - Introducing the New JSX Transform](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
 - [esbuild - JSX](https://esbuild.github.io/api/#jsx).
+
 :::
 
 ## metafile
@@ -977,6 +978,28 @@ export default {
 ## resolve
 
 Custom module resolution options
+
+### resolve.alias
+
+The basic usage is the same as [alias](#alias).
+
+The issue with [alias](#alias) is that we incorrectly handled Module IDs in a bundleless scenario:
+```js
+import { createElement } from "react";
+```
+When we configure alias: `{ react: 'react-native' }`, the result becomes:
+```js
+import { createElement } from "./react-native";
+```
+A Module ID is incorrectly processed as a relative path, which is not expected.
+
+We want to fix this issue, but it may break existing projects.
+
+Therefore, in **MAJOR_VERSION.58.0**, we provided `resolve.alias` to solve this problem. Additionally, `resolve.alias` removed the default value `{ "@": "./src"}` provided by [alias](#alias).
+
+If you need this feature, please use `resolve.alias` and avoid mixing it with [alias](#alias).
+
+In the next major version, `resolve.alias` will replace [alias](#alias).
 
 ### resolve.mainFields
 

@@ -968,6 +968,27 @@ export default {
 
 自定义模块解析选项
 
+### resolve.alias
+
+基本用法和 [alias](#alias) 一致。
+
+[alias](#alias) 的问题在于我们在 bundleless 场景下错误的处理了 Module ID 的情况：
+```js
+import { createElement } from "react";
+```
+当我们配置了 `alias: { react: 'react-native' }` 后，结果会变成
+```js
+import { createElement } from "./react-native";
+```
+一个 Module ID 被错误的处理成了相对路径，显然这是不符合预期的。
+
+我们想要修复这个问题，但是这可能会破坏已有的项目，因此我们在 MAJOR_VERSION.58.0 版本提供了 `resolve.alias` 来解决这个问题。
+并且 `resolve.alias` 里移除了 [alias](#alias) 提供的默认值 `{ "@": "./src"}`
+
+如果你需要此功能，请使用 `resolve.alias`, 注意不要与 [alias](#alias) 混用。
+
+在下一个大版本，`resolve.alias` 将会取代 `alias` 。
+
 ### resolve.mainFields
 
 package.json 中，在解析包的入口点时尝试的字段列表。
@@ -1595,4 +1616,6 @@ export default defineConfig({
     },
   },
 });
-```
+```import { aliases } from '../../../../../../toolkit/utils/dist/compiled/browserslist';
+import { createElement } from 'react';
+
