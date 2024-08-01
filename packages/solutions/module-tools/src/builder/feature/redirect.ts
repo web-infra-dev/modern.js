@@ -38,6 +38,25 @@ type MatchModule = {
   end: number;
 }[];
 
+enum PathType {
+  Absolute,
+  Relative,
+  ModuleId,
+}
+
+function getTypeOfPath(path: string, compiler: ICompiler) {
+  const isSupportModuleIdAlias =
+    Object.keys(compiler.config.resolve.alias).length > 0;
+
+  if (isAbsolute(path)) {
+    return PathType.Absolute;
+  }
+  if (!path.startsWith('.') && isSupportModuleIdAlias) {
+    return PathType.ModuleId;
+  }
+  return PathType.Relative;
+}
+
 async function redirectImport(
   compiler: ICompiler,
   code: string,
@@ -85,12 +104,24 @@ async function redirectImport(
         }
 
         if (absoluteImportPath) {
-          const relativePath = relative(dirname(filePath), absoluteImportPath);
-          const relativeImportPath = normalizeSlashes(
-            relativePath.startsWith('..') ? relativePath : `./${relativePath}`,
-          );
-          str.overwrite(start, end, relativeImportPath);
-          name = relativeImportPath;
+          if (
+            getTypeOfPath(absoluteImportPath, compiler) === PathType.ModuleId
+          ) {
+            str.overwrite(start, end, absoluteImportPath);
+            name = absoluteImportPath;
+          } else {
+            const relativePath = relative(
+              dirname(filePath),
+              absoluteImportPath,
+            );
+            const relativeImportPath = normalizeSlashes(
+              relativePath.startsWith('..')
+                ? relativePath
+                : `./${relativePath}`,
+            );
+            str.overwrite(start, end, relativeImportPath);
+            name = relativeImportPath;
+          }
         }
       }
 
@@ -203,18 +234,22 @@ export const redirect = {
         return args;
       }
       const { code, path: id } = args;
-      const { format, alias, sourceDir, outDir, autoExtension } =
-        compiler.config;
+      const { format, sourceDir, outDir, autoExtension } = compiler.config;
       const { root } = compiler.context;
 
       if (!code || format === 'iife' || format === 'umd') {
         return args;
       }
 
+      const alias =
+        Object.keys(compiler.config.resolve.alias).length > 0
+          ? compiler.config.resolve.alias
+          : compiler.config.alias;
+
       // transform alias to absolute path
       const absoluteAlias = Object.entries(alias).reduce<typeof alias>(
         (result, [name, target]) => {
-          if (!isAbsolute(target)) {
+          if (getTypeOfPath(target, compiler) === PathType.Relative) {
             result[name] = resolve(compiler.context.root, target);
           } else {
             result[name] = target;

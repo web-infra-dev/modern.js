@@ -6686,6 +6686,10 @@ importers:
 
   tests/integration/module/fixtures/build/redirect: {}
 
+  tests/integration/module/fixtures/build/resolve/alias: {}
+
+  tests/integration/module/fixtures/build/resolve/alias-error: {}
+
   tests/integration/module/fixtures/build/resolve/data-url: {}
 
   tests/integration/module/fixtures/build/resolve/false: {}

@@ -46,6 +46,7 @@ export const getDefaultBuildConfig = () => {
     resolve: {
       mainFields: ['module', 'main'],
       jsExtensions: ['.jsx', '.tsx', '.js', '.ts', '.json'],
+      alias: {},
     },
     shims: false,
     sideEffects: undefined,
