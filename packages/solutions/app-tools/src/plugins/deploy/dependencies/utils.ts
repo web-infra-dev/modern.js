@@ -192,3 +192,12 @@ export const resolveTracedPath = async (
   base: string,
   p: string,
 ): Promise<string> => fse.realpath(path.resolve(base, p));
+
+export const isSubPath = (parentPath: string, childPath: string) => {
+  if (!parentPath || !childPath) {
+    return false;
+  }
+
+  const relative = path.relative(parentPath, childPath);
+  return relative && !relative.startsWith('..');
+};
