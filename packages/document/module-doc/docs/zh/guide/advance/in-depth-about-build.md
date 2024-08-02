@@ -95,6 +95,10 @@ Modern.js Module Hook 使用了 [tapable](https://github.com/webpack/tapable) �
 
 串行执行的 hooks，其结果会传递给下一个 tapped function
 
+### Hook 顺序
+
+Hook 的执行顺序和注册顺序保持一致，可以通过 `applyAfterBuiltIn` 来控制在 BuiltIn Hook 前或后注册。
+
 ### Hook API
 
 #### load

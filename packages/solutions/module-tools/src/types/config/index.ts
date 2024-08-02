@@ -19,6 +19,7 @@ export * from './copy';
 export type HookList = {
   name: string;
   apply: (compiler: ICompiler) => void;
+  applyAfterBuiltIn?: boolean;
 }[];
 
 export type EsbuildOptions = (options: BuildOptions) => BuildOptions;

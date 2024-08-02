@@ -744,6 +744,8 @@ export default defineConfig({
 type HookList = {
   name: string;
   apply: (compiler: ICompiler) => void;
+  // 是否在 buildIn 钩子之后执行
+  applyAfterBuiltIn?: boolean;
 };
 ```
 

@@ -109,8 +109,9 @@ export class EsbuildCompiler implements ICompiler {
       initWatcher(this);
     }
     const internal = await getInternalList(this.context);
-    const user = this.config.hooks;
-    this.hookList = [...user, ...internal];
+    const before = this.config.hooks.filter(hook => !hook.applyAfterBuiltIn);
+    const after = this.config.hooks.filter(hook => hook.applyAfterBuiltIn);
+    this.hookList = [...before, ...internal, ...after];
     await Promise.all(this.hookList.map(item => item.apply(this)));
   }
 
