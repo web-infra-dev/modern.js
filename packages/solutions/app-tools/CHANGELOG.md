@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 2.57.1
+
+### Patch Changes
+
+- ed22e10: fix(deploy): the subpath should be judged correctly
+  fix(deploy): 应该正确地判断子路径
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/plugin-data-loader@2.57.1
+  - @modern-js/prod-server@2.57.1
+  - @modern-js/server@2.57.1
+  - @modern-js/server-utils@2.57.1
+  - @modern-js/core@2.57.1
+  - @modern-js/plugin-i18n@2.57.1
+  - @modern-js/plugin-lint@2.57.1
+  - @modern-js/rsbuild-plugin-esbuild@2.57.1
+  - @modern-js/uni-builder@2.57.1
+  - @modern-js/node-bundle-require@2.57.1
+  - @modern-js/plugin@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
 ## 2.57.0
 
 ### Patch Changes

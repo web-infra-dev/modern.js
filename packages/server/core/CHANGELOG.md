@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.57.1
+
+### Patch Changes
+
+- bc565cd: fix: should use dynamic import to import matchRoutes
+  fix: 应该使用 动态 import 来引入 matchRoutes
+  - @modern-js/plugin@2.57.1
+  - @modern-js/runtime-utils@2.57.1
+  - @modern-js/utils@2.57.1
+
 ## 2.57.0
 
 ### Patch Changes
