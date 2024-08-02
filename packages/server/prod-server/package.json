@@ -54,7 +54,6 @@
     "source-map-support": "0.5.21"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
