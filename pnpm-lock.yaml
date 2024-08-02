@@ -6597,6 +6597,8 @@ importers:
 
   tests/integration/module/fixtures/build/alias/js: {}
 
+  tests/integration/module/fixtures/build/alias/module-id: {}
+
   tests/integration/module/fixtures/build/alias/ts: {}
 
   tests/integration/module/fixtures/build/asset/limit:
@@ -6677,6 +6679,10 @@ importers:
   tests/integration/module/fixtures/build/input: {}
 
   tests/integration/module/fixtures/build/jsx: {}
+
+  tests/integration/module/fixtures/build/loader/esbuild: {}
+
+  tests/integration/module/fixtures/build/loader/swc: {}
 
   tests/integration/module/fixtures/build/metafile: {}
 
