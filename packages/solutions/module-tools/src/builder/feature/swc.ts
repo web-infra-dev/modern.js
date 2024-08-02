@@ -1,6 +1,7 @@
-import { basename } from 'path';
+import { basename, extname } from 'path';
 import type { TransformConfig, JscTarget } from '@modern-js/swc-plugins';
 import { Compiler } from '@modern-js/swc-plugins';
+import { loaderMap } from '../../constants/loader';
 import type { ICompiler, Source, TsTarget, ITsconfig } from '../../types';
 import {
   isJsExt,
@@ -61,8 +62,12 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
       useDefineForClassFields = true;
     }
 
-    const { transformImport, transformLodash, externalHelpers } =
-      compiler.config;
+    const {
+      transformImport,
+      transformLodash,
+      externalHelpers,
+      loader: userLoader,
+    } = compiler.config;
 
     compiler.hooks.transform.tapPromise(
       { name },
@@ -70,10 +75,9 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
         const { path } = source;
         // Todo: emitDecoratorMetadata default value
         const isTs = isTsLoader(source.loader) || isTsExt(path);
-        const enableJsx =
-          source.loader === 'tsx' ||
-          source.loader === 'jsx' ||
-          /\.tsx$|\.jsx$/i.test(path);
+        const ext = extname(path);
+        const loader = source.loader ?? userLoader[ext] ?? loaderMap[ext];
+        const enableJsx = loader === 'tsx' || loader === 'jsx';
 
         if (isJsExt(path) || isJsLoader(source.loader)) {
           const { target, jsx } = compiler.config;

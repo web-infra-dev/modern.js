@@ -166,6 +166,10 @@ export type BaseBuildConfig = Omit<
 };
 
 export type PartialBaseBuildConfig = {
+  /**
+   * @experimental
+   */
+  loader?: Record<string, string>;
   shims?: boolean;
   autoExtension?: boolean;
   resolve?: Resolve;

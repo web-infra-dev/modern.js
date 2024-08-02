@@ -870,6 +870,22 @@ export default defineConfig({
 
 :::
 
+## loader
+
+**试验性功能**
+
+此选项用来更改给定输入文件的解释方式。例如你需要将 js 文件当做 jsx 处理
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    loader: {
+      '.js': 'jsx',
+    }
+  },
+});
+```
+
 ## metafile
 
 这个选项用于构建分析，开启该选项后，esbuild 会以 JSON 格式生成有关构建的一些元数据。

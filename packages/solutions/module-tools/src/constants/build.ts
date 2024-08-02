@@ -33,6 +33,7 @@ export const getDefaultBuildConfig = () => {
     hooks: [],
     input: ['src/index.ts'],
     jsx: 'automatic',
+    loader: {},
     metafile: false,
     minify: false,
     outDir: './dist',

@@ -881,6 +881,24 @@ For more information about JSX Transform, you can refer to the following links:
 
 :::
 
+
+## loader
+
+**Experimental**
+
+This option is used to change the interpretation method of the given input file.
+For example, you need to handle the js file as jsx.
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    loader: {
+      '.js': 'jsx',
+    }
+  },
+});
+```
+
 ## metafile
 
 This option is used for build analysis. When enabled, esbuild will generate metadata about the build in JSON format.
