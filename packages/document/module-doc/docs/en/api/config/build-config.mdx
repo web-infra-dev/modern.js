@@ -753,7 +753,8 @@ Build lifecycle hooks that allow custom logic to be injected at specific stages 
 ```ts
 type HookList = {
   name: string;
-  apply: (compiler: ICompiler) => void.
+  apply: (compiler: ICompiler) => void;
+  applyAfterBuiltIn?: boolean;
 }
 
 ```

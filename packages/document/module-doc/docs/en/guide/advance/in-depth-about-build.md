@@ -95,6 +95,10 @@ Serial hooks that stop the execution of other tapped functions if a tapped funct
 
 Serial hooks whose results are passed to the next tapped function.
 
+### Hook Order
+
+The execution order of hooks follows the registration order. You can control whether a hook is registered before or after the built-in hooks using `applyAfterBuiltIn`.
+
 ### Hook API
 
 #### load
