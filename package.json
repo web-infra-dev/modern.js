@@ -70,8 +70,6 @@
     "@biomejs/biome": "1.8.3",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
-    "@modern-js-app/eslint-config": "workspace:*",
-    "@modern-js/eslint-config": "workspace:*",
     "@modern-js/monorepo-tools": "workspace:*",
     "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
