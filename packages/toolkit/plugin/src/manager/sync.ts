@@ -19,6 +19,7 @@ import {
 } from '../workflow';
 import {
   checkPlugins,
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   hasOwnProperty,
   includePlugin,
   isObject,

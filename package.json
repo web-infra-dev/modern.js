@@ -60,19 +60,14 @@
     ]
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ]
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@modern-js"
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --files-ignore-unknown=true"
     ]
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.22.15",
+    "@biomejs/biome": "1.8.3",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@modern-js-app/eslint-config": "workspace:*",

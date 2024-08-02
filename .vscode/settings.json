@@ -1,8 +1,6 @@
 {
   "files.associations": {
     ".code-workspace": "jsonc",
-    ".eslintrc": "jsonc",
-    ".eslintrc*.json": "jsonc",
     ".stylelintrc": "jsonc",
     "stylelintrc": "jsonc",
     "README": "markdown"
@@ -25,16 +23,6 @@
   "files.insertFinalNewline": true,
   //
   "cSpell.diagnosticLevel": "Hint",
-  "eslint.run": "onType",
-  "eslint.probe": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact",
-    "vue"
-  ],
-  "eslint.format.enable": true,
-  "eslint.lintTask.enable": true,
   "javascript.validate.enable": false,
   "typescript.validate.enable": true,
   "css.validate": false,
@@ -54,10 +42,6 @@
     "editor.formatOnType": true,
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
-  },
-  //
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "javascript.format.enable": false,

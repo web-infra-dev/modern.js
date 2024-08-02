@@ -86,7 +86,6 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
           continue;
         }
 
-        // biome-ignore lint/suspicious/noExplicitAny: fix type
         const values = pluginRecord[id].values() as any[];
 
         const isHtmlRspackPlugin = values.some(item => {

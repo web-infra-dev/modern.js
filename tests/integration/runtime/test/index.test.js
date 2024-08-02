@@ -15,11 +15,11 @@ describe('useLoader with SSR', () => {
   let $data;
   let logs = [];
   let errors = [];
-  let app,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser;
+  let app;
+  /** @type {puppeteer.Page} */
+  let page;
+  /** @type {puppeteer.Browser} */
+  let browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'use-loader');
@@ -98,12 +98,12 @@ describe('useLoader with SSR', () => {
 describe('convention router', () => {
   const logs = [];
   const errors = [];
-  let app,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser,
-    appPort;
+  let app;
+  /** @type {puppeteer.Page} */
+  let page;
+  /** @type {puppeteer.Browser} */
+  let browser;
+  let appPort;
 
   const getUrl = str => `http://localhost:${appPort}/${str}`;
 
