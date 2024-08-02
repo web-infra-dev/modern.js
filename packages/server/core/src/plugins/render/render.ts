@@ -3,7 +3,6 @@ import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
-import { matchRoutes } from '@modern-js/runtime-utils/router';
 import type { Params } from '../../types/requestHandler';
 import {
   parseQuery,
@@ -256,6 +255,9 @@ async function renderHandler(
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
     if (routes) {
+      const { matchRoutes } = await import(
+        '@modern-js/runtime-utils/remix-router'
+      );
       // eslint-disable-next-line node/prefer-global/url
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(
