@@ -56,5 +56,4 @@ export const hasOwnProperty = <
 >(
   obj: X,
   prop: Y,
-// biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
 ): obj is X & Record<Y, unknown> => obj.hasOwnProperty(prop);
