@@ -1,12 +1,14 @@
 /* eslint-disable no-inner-declarations */
 import React from 'react';
 import cookieTool from 'cookie';
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import { getGlobalAppInit } from '../context';
 import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
 import { SSRContainer } from '../types';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
@@ -68,6 +70,14 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
+    // we should get data from HTMLElement when set ssr.inlineScript = false
+
+    window._SSR_DATA =
+      window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
+
+    const routeData = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+    window._ROUTER_DATA = window._ROUTER_DATA || routeData;
+
     const ssrData = getSSRData();
     const loadersData = ssrData?.data?.loadersData || {};
 
