@@ -3,6 +3,7 @@ import { fs as fse, pkgUp, semver } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { readPackageJSON } from 'pkg-types';
 import { parseNodeModulePath } from 'mlly';
+import type { NodeFileTraceOptions } from '@vercel/nft';
 import {
   linkPackage,
   writePackage,
@@ -17,6 +18,8 @@ import {
   isSubPath,
 } from './utils';
 
+export type { NodeFileTraceOptions } from '@vercel/nft';
+export { nodeFileTrace } from '@vercel/nft';
 export const handleDependencies = async ({
   appDir,
   serverRootDir,
@@ -25,6 +28,7 @@ export const handleDependencies = async ({
   entryFilter,
   modifyPackageJson,
   copyWholePackage,
+  traceOptions,
 }: {
   appDir: string;
   serverRootDir: string;
@@ -33,15 +37,17 @@ export const handleDependencies = async ({
   entryFilter?: (filePath: string) => boolean;
   modifyPackageJson?: (pkgJson: PackageJson) => PackageJson;
   copyWholePackage?: (pkgName: string) => boolean;
+  traceOptions?: NodeFileTraceOptions;
 }) => {
   const base = '/';
   const entryFiles = await findEntryFiles(serverRootDir, entryFilter);
 
-  const fileTrace = await traceFiles(
-    entryFiles.concat(includeEntries),
+  const fileTrace = await traceFiles({
+    entryFiles: entryFiles.concat(includeEntries),
     serverRootDir,
     base,
-  );
+    traceOptions,
+  });
   const currentProjectModules = path.join(appDir, 'node_modules');
   // Because vercel/nft may find inaccurately, we limit the range of query of dependencies
   const dependencySearchRoot = path.resolve(appDir, '../../../../../../');
