@@ -15,8 +15,8 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
 
 export const wrap = <P = Record<string, unknown>>(
   App: React.ComponentType<any>,
-  // eslint-disable-next-line no-empty-pattern
-  {}: WrapOptions,
+  // biome-ignore lint/correctness/noEmptyPattern: <explanation>
+    {}: WrapOptions,
   manager = runtime,
 ) => {
   const runner = manager.init();

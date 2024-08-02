@@ -49,10 +49,12 @@ export const includePlugin = <
 export const isObject = (obj: unknown): obj is Record<string, any> =>
   obj !== null && typeof obj === 'object';
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const hasOwnProperty = <
   X extends Record<string, unknown>,
   Y extends PropertyKey,
 >(
   obj: X,
   prop: Y,
+// biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
 ): obj is X & Record<Y, unknown> => obj.hasOwnProperty(prop);

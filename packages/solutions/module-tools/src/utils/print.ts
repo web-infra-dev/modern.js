@@ -86,7 +86,7 @@ const prettyBytes = (bytes: number) => {
   }
   const unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const exp = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, exp)).toFixed(1)} ${unit[exp]}`;
+  return `${(bytes / 1024 ** exp).toFixed(1)} ${unit[exp]}`;
 };
 
 const printBundleFiles = () => {
