@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import {
   StaticHandlerContext,
   type TrackedPromise,
@@ -235,4 +234,3 @@ const ErrorDeferredDataScript = ({
 
 export default DeferredDataScripts;
 
-/* eslint-enable react/no-danger */

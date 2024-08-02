@@ -200,7 +200,6 @@ async function main() {
     await runLintProject('mwa', tmpDir);
     await runNewMWAProject(repoDir, tmpDir, isLocal, isSimple);
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 }

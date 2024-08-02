@@ -11,7 +11,6 @@ import { CLOSE_SIGN } from './consts';
 
 process.on('message', async (chunk: string) => {
   if (chunk === CLOSE_SIGN) {
-    // eslint-disable-next-line no-process-exit
     process.exit();
   }
 

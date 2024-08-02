@@ -10,7 +10,6 @@ export function isArray(obj: unknown): obj is any[] {
   return Array.isArray(obj);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function isFunction(func: any): func is Function {
   return typeof func === 'function';
 }

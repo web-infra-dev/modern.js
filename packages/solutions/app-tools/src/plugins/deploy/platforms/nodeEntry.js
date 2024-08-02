@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/no-unlimited-disable */
-/* eslint-disable */
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { createProdServer } = require('@modern-js/prod-server');

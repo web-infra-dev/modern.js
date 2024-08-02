@@ -79,7 +79,6 @@ const config = createWaterfall<{
   babelConfig: BabelConfig;
 }>();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ExternalProgress {}
 
 // main process

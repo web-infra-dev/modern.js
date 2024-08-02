@@ -11,10 +11,8 @@ export const getRequire = (): NodeRequire => {
     ?.split('\n')[2]
     .match(/\s*at .+? \((.*)\)$/)?.[1];
   if (issuer && path.isAbsolute(issuer)) {
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins
     return module.createRequire(issuer);
   } else {
-    // eslint-disable-next-line node/no-unsupported-features/node-builtins
     return module.createRequire(process.cwd());
   }
 };

@@ -81,7 +81,6 @@ export const handleDependencies = async ({
           const parsed = parseNodeModulePath(filePath);
           baseDir = parsed.dir;
           pkgName = parsed.name;
-          // eslint-disable-next-line prefer-destructuring
           subpath = parsed.subpath;
           pkgPath = path.join(baseDir!, pkgName!);
         } else {
@@ -104,7 +103,6 @@ export const handleDependencies = async ({
             const packageJson: PackageJson = await fse.readJSON(
               packageJsonPath,
             );
-            // eslint-disable-next-line no-multi-assign
             pkgPath = baseDir = path.dirname(packageJsonPath);
             subpath = path.relative(baseDir, filePath);
             pkgName = packageJson.name;
@@ -133,7 +131,6 @@ export const handleDependencies = async ({
           pkgPath,
         } as TracedFile;
 
-        // eslint-disable-next-line consistent-return
         return [filePath, tracedFile];
       }),
     ).then(r => r.filter(Boolean))) as [string, TracedFile][],
@@ -146,7 +143,6 @@ export const handleDependencies = async ({
 
     let pkgJSON = await readPackageJSON(tracedFile.pkgPath, {
       cache: true,
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
     if (!pkgJSON) {
       pkgJSON = { name: pkgName, version: '0.0.0' } as PackageJson;
@@ -201,7 +197,6 @@ export const handleDependencies = async ({
     }
     multiVersionPkgs[tracedPackage.name] = {};
     for (const version of versions) {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       multiVersionPkgs[tracedPackage.name!][version!] = findPackageParents(
         tracedPackage,
         version,

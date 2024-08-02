@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/method-signature-style */
 /** Monitor Events  */
 export type LogLevel = 'warn' | 'error' | 'debug' | 'info';
 

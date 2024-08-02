@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable node/prefer-global/url */
 import { IncomingMessage, ServerResponse } from 'http';
 import qs from 'querystring';
 import path from 'path';

@@ -1,4 +1,3 @@
-/* eslint-disable max-classes-per-file */
 import type { ComponentType, ReactElement } from 'react';
 import logo from './logo';
 import type { Op } from './valtio';

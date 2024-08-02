@@ -14,7 +14,6 @@ const md5 = (data: string) =>
 export const createFileWatcher = async (
   appContext: IAppContext,
   hooksRunner: CliHooksRunner,
-  // eslint-disable-next-line consistent-return
 ) => {
   // only add fs watcher on dev mode.
   if (isDevCommand()) {

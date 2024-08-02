@@ -80,6 +80,7 @@
     "enabled": false
   },
   "files": {
+    "ignoreUnknown": true,
     "ignore": [
       ".vscode/**/*",
       ".nx/**/*",

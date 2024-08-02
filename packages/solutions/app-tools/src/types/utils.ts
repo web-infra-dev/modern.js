@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 export type UnwrapBuilderConfig<
   Config,
   Key extends keyof Config,

@@ -32,7 +32,6 @@ export const createRuntimeExportsUtils = memo(
     // };
 
     const addExport = (statement: string) => {
-      // eslint-disable-next-line no-param-reassign
       statement = normalizeOutputPath(statement);
       try {
         fs.ensureFileSync(entryExportFile);

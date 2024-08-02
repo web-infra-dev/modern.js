@@ -95,7 +95,6 @@ export async function rewriteCssUrls(
   let match: RegExpExecArray | null;
   let remaining = css;
   let rewritten = '';
-  // eslint-disable-next-line no-cond-assign
   while ((match = cssUrlRE.exec(remaining))) {
     rewritten += remaining.slice(0, match.index);
     const matched = match[0];

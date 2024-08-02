@@ -14,7 +14,6 @@ import {
   useResolvedConfigContext,
 } from './context';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const baseHooks: BaseHooks<{}> = {
   beforeConfig: createAsyncWorkflow(),
   config: createParallelWorkflow(),
@@ -27,7 +26,7 @@ const baseHooks: BaseHooks<{}> = {
   beforeExit: createWorkflow(),
   addRuntimeExports: createAsyncWaterfall(),
 };
-// eslint-disable-next-line @typescript-eslint/ban-types
+
 const pluginAPI: BasePluginAPI<{}> = {
   setAppContext,
   useAppContext,

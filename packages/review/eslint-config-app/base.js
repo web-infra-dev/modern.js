@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 const { jsExtensions } = require('./utils');
 
 module.exports = {
@@ -1282,4 +1281,3 @@ module.exports = {
     },
   ],
 };
-/* eslint-enable max-lines */

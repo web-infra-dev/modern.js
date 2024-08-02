@@ -33,10 +33,8 @@ export type { DevOptions } from './utils/types';
 
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
-// eslint-disable-next-line import/export
 export * from './types';
 
-// eslint-disable-next-line import/export
 export type { RuntimeUserConfig } from './types/config';
 
 export type AppToolsOptions = {

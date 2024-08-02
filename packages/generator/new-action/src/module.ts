@@ -94,7 +94,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   if (!hasOption) {
     smith.logger.warn('No option can be enabled, exit 1.', funcMap);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

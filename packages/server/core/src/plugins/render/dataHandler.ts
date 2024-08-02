@@ -34,6 +34,5 @@ export const dataHandler = async (
     routes,
   })) as Response | void;
 
-  // eslint-disable-next-line consistent-return
   return response;
 };

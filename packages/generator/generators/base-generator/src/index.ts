@@ -10,7 +10,6 @@ const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-
   let ans: Record<string, unknown> = {};
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
@@ -62,7 +61,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

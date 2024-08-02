@@ -36,7 +36,6 @@ export const generateClient = async ({
   httpMethodDecider,
 }: GenClientOptions): Promise<GenClientResult> => {
   if (!requestCreator) {
-    // eslint-disable-next-line no-param-reassign
     requestCreator = requireResolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
     ).replace(/\\/g, '/');
@@ -46,7 +45,6 @@ export const generateClient = async ({
     try {
       resolvedPath = path.dirname(requireResolve(requestCreator));
     } catch (error) {}
-    // eslint-disable-next-line no-param-reassign
     requestCreator = `${resolvedPath}${target ? `/${target}` : ''}`.replace(
       /\\/g,
       '/',

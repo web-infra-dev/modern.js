@@ -1,7 +1,6 @@
 import * as ptr from 'path-to-regexp';
 import * as mockAppModule from './app';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const mock_replaceUrlWithParams = (
   url: string,
   paramValues: (string | number)[],
@@ -22,7 +21,6 @@ const mock_replaceUrlWithParams = (
   });
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 const mock_getParamsAndPayload = (
   args: any[],
 ): [string[], Record<string, any>] => {

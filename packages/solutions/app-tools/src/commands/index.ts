@@ -119,7 +119,6 @@ export const deployCommand = (
 
       const { deploy } = await import('./deploy');
       await deploy(api, options);
-      // eslint-disable-next-line no-process-exit
       process.exit(0);
     });
 };

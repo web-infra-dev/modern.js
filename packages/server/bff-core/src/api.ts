@@ -67,7 +67,6 @@ export function Api<
         return inputs;
       },
       set inputs(val) {
-        // eslint-disable-next-line no-param-reassign
         inputs = val;
       },
     };

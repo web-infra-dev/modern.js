@@ -106,7 +106,6 @@ function usePrefetchBehavior(
     }
   };
 
-  // eslint-disable-next-line consistent-return
   React.useEffect(() => {
     if (maybePrefetch) {
       const id = setTimeout(() => {

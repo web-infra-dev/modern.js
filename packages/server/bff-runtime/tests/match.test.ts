@@ -124,7 +124,6 @@ describe('match', () => {
   });
 
   it('isHandler', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(isHandler(() => {})).toBeTruthy();
     expect(isHandler({})).toBeFalsy();
     expect(isHandler('test')).toBeFalsy();

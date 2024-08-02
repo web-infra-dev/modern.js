@@ -205,7 +205,6 @@ export class ApiRouter {
     if (!this.existLambdaDir) {
       return [];
     }
-    // eslint-disable-next-line no-multi-assign
     const apiFiles = (this.apiFiles = getFiles(this.lambdaDir, API_FILE_RULES));
     return apiFiles;
   }

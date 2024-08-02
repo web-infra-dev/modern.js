@@ -43,7 +43,6 @@ export default async function loader(
     .reduce((pre, cur) => {
       const [key, value] = cur.split('=');
       if (key && value) {
-        // eslint-disable-next-line no-nested-ternary
         pre[key] = value === 'true' ? true : value === 'false' ? false : value;
       }
       return pre;

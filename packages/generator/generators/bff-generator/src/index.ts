@@ -236,7 +236,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   commonI18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -247,7 +246,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   try {
     await handleTemplateFile(context, generator, appApi);
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

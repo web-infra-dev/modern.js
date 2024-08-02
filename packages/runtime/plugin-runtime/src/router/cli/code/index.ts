@@ -89,11 +89,9 @@ export const generateCode = async (
             oldVersion,
           );
           if (nestedRoutes) {
-            // eslint-disable-next-line max-depth
             if (!Array.isArray(nestedRoutes)) {
               nestedRoutes = [nestedRoutes];
             }
-            // eslint-disable-next-line max-depth
             for (const route of nestedRoutes) {
               (initialRoutes as Route[]).unshift(route);
             }
@@ -138,7 +136,6 @@ export const generateCode = async (
             logger.error(
               'Streaming ssr is not supported when pages dir exists',
             );
-            // eslint-disable-next-line no-process-exit
             process.exit(1);
           }
         }

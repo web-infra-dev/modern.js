@@ -39,7 +39,6 @@ async function processCache({
 }) {
   const response = await requestHandler(request, requestHandlerOptions);
 
-  // eslint-disable-next-line node/prefer-global/text-decoder
   const decoder: TextDecoder = new TextDecoder();
 
   if (response.body) {

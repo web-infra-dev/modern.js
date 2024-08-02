@@ -62,7 +62,6 @@ export const statePlugin = (userConfig: StateConfig = {}): Plugin => ({
     return {
       wrapRoot(App) {
         const getStateApp = (props: any) => {
-          // eslint-disable-next-line react-hooks/rules-of-hooks
           const context = useContext(RuntimeReactContext);
 
           return (

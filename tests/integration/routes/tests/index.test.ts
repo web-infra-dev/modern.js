@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import path from 'path';
 import puppeteer, { Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
@@ -1255,4 +1254,3 @@ describe('build with rspack', () => {
     await browser.close();
   });
 });
-/* eslint-enable max-lines */

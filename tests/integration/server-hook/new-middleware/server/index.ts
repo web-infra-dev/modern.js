@@ -13,9 +13,7 @@ function time(): UnstableMiddleware {
   };
 }
 
-// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url-search-params
 function parseQuery(request: Request): URLSearchParams {
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
   const url = new URL(request.url);
 
   return url.searchParams;
@@ -33,7 +31,7 @@ function auth(): UnstableMiddleware<Var> {
     };
   }
 
-  // eslint-disable-next-line consistent-return
+
   return async (c, next) => {
     if (c.request.url.includes('/login')) {
       return next();

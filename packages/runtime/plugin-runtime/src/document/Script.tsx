@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React from 'react';
 import {
   DOCUMENT_SCRIPT_PLACEHOLDER_START,

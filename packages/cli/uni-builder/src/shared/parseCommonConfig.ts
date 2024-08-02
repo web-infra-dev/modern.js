@@ -1,5 +1,3 @@
-/* eslint-disable max-lines */
-/* eslint-disable complexity */
 import {
   mergeRsbuildConfig,
   type RsbuildPlugin,

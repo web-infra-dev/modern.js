@@ -15,7 +15,6 @@ type PipeFunction<T> = (
 export const Pipe = <T>(func: PipeFunction<T>): Operator => {
   return {
     name: 'pipe',
-    // eslint-disable-next-line consistent-return
     async execute(executeHelper, next) {
       const { inputs } = executeHelper;
       const ctx = useContext();
@@ -28,7 +27,6 @@ export const Pipe = <T>(func: PipeFunction<T>): Operator => {
             value(res);
             return;
           }
-          // eslint-disable-next-line consistent-return
           return value;
         };
         const output = await func(inputs, end);
@@ -36,7 +34,6 @@ export const Pipe = <T>(func: PipeFunction<T>): Operator => {
           if (output) {
             return (executeHelper.result = output);
           } else {
-            // eslint-disable-next-line consistent-return
             return;
           }
         }
@@ -47,7 +44,6 @@ export const Pipe = <T>(func: PipeFunction<T>): Operator => {
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type Pipe = typeof Pipe;
 
 export const Middleware = (
@@ -63,5 +59,4 @@ export const Middleware = (
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type Middleware = typeof Middleware;

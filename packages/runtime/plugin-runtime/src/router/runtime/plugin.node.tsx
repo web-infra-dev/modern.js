@@ -116,7 +116,6 @@ export const routerPlugin = (
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
 
-            // eslint-disable-next-line consistent-return
             return interrupt(routerContext);
           }
 

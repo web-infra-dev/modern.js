@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/url */
 // Todo move this file to `runtime/` dir
 import { compile } from 'path-to-regexp';
 import { redirect } from '@modern-js/runtime-utils/router';
@@ -113,7 +112,6 @@ export const createActionRequest = (routeId: string) => {
         contentType &&
         /\bapplication\/x-www-form-urlencoded\b/.test(contentType)
       ) {
-        // eslint-disable-next-line node/prefer-global/url-search-params
         init.body = new URLSearchParams(await request.text());
       } else {
         init.body = await request.formData();

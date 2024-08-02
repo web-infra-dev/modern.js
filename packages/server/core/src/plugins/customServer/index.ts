@@ -19,7 +19,6 @@ import {
 } from './context';
 import { ResArgs, createBaseHookContext } from './base';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
 const isHtmlResponse = (response: Response) => {
@@ -61,7 +60,6 @@ export class CustomServer {
     entryName: string,
     routes: ServerRoute[],
   ): Middleware<ServerEnv> {
-    // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
@@ -167,11 +165,9 @@ export class CustomServer {
     }
 
     if (Array.isArray(serverMiddleware)) {
-      // eslint-disable-next-line consistent-return
       return getServerMidFromUnstableMid(serverMiddleware);
     }
 
-    // eslint-disable-next-line consistent-return
     return async (c, next) => {
       const monitors = c.get('monitors');
 
