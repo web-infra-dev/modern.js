@@ -15,7 +15,7 @@ export async function createDevServer(
   const { config, pwd, serverConfigFile, serverConfigPath, builder } = options;
   const dev = getDevOptions(options);
 
-  const distDir = path.resolve(pwd, config.output.path || 'dist');
+  const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
   const serverConfig = loadServerRuntimeConfig(
     distDir,

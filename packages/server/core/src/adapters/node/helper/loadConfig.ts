@@ -59,7 +59,10 @@ export function loadServerCliConfig(
 ): CliConfig {
   const cliConfigPath = ensureAbsolutePath(
     pwd,
-    path.join(defaultConfig.output?.path || 'dist', OUTPUT_CONFIG_FILE),
+    path.join(
+      defaultConfig.output?.distPath?.root || 'dist',
+      OUTPUT_CONFIG_FILE,
+    ),
   );
 
   let cliConfig: CliConfig = {
