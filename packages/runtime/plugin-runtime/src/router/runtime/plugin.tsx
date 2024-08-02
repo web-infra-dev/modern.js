@@ -11,6 +11,7 @@ import {
 } from '@modern-js/runtime-utils/router';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
@@ -36,31 +37,19 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   }
 }
 
-export const routerPlugin = ({
-  serverBase = [],
-  supportHtml5History = true,
-  basename = '',
-  routesConfig,
-  createRoutes,
-}: RouterConfig): Plugin => {
-  const select = (pathname: string) =>
-    serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-  let routes: RouteObject[] = [];
-  finalRouteConfig = {
-    routes: getGlobalRoutes(),
-    globalApp: getGlobalLayoutApp(),
-    ...routesConfig,
-  };
-  window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
-
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      let routes: RouteObject[] = [];
+      window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
       return {
-        init({ context }, next) {
+        beforeRender(context) {
           context.router = {
             useMatches,
             useLocation,
@@ -72,24 +61,39 @@ export const routerPlugin = ({
               return routes;
             },
           });
-
-          return next({ context });
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
+          const {
+            serverBase = [],
+            supportHtml5History = true,
+            basename = '',
+            routesConfig,
+            createRoutes,
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
+          const select = (pathname: string) =>
+            serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+          finalRouteConfig = {
+            routes: getGlobalRoutes(),
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return next({ App, config });
+            return App;
           }
 
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
+              const runtimeContext = useContext(RuntimeReactContext);
               /**
-               * config?.router?.basename: garfish plugin params, priority
+               * _internalRouterBaseName: garfish plugin params, priority
                * basename: modern config file config
                */
               const baseUrl = (
-                config?.router?.basename ||
+                runtimeContext._internalRouterBaseName ||
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname)
               ).replace(/^\/*/, '/');
@@ -97,7 +101,6 @@ export const routerPlugin = ({
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
-              const runtimeContext = useContext(RuntimeReactContext);
 
               const { unstable_getBlockNavState: getBlockNavState } =
                 runtimeContext;
@@ -154,6 +157,7 @@ export const routerPlugin = ({
                     return router;
                   },
                   configurable: true,
+                  enumerable: true,
                 });
 
                 return router;
@@ -171,39 +175,33 @@ export const routerPlugin = ({
               const router = useCreateRouter(props);
 
               return <RouterProvider router={router} />;
-            }) as React.FC<any>;
+            }) as React.ComponentType<any>;
           };
-          const RouteApp = getRouteApp();
 
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
-        pickContext: ({ context, pickedContext }, next) => {
-          const { remixRouter } = context;
+        pickContext: pickedContext => {
+          const { remixRouter } = pickedContext;
 
           // two scenarios: 1. remixRouter is not existed in conventional routes;
           // 2. useRuntimeContext can be called by users before hoc hooks execute
           if (!remixRouter) {
-            return next({ context, pickedContext });
+            return pickedContext;
           }
 
           // only export partial common API from remix-router
           const router = {
+            ...pickedContext.router,
             navigate: remixRouter.navigate,
             get location() {
               return remixRouter.state.location;
             },
           };
 
-          return next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              router,
-            },
-          });
+          return {
+            ...pickedContext,
+            router,
+          };
         },
       };
     },

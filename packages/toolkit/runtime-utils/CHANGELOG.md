@@ -1,5 +1,20 @@
 # @modern-js/runtime-utils
 
+## 2.57.0
+
+### Patch Changes
+
+- 916559a: fix: mergeConfig function to return an object when the first configuration is not an object
+
+  fix: 修复 mergeConfig 函数，使其在第一个配置非对象时返回对象
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes

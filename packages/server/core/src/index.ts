@@ -16,6 +16,7 @@ export type {
   ServerManifest,
 } from './types';
 
+export { getLoaderCtx } from './helper';
 export * from './plugins';
 export * from './types/plugin';
 export * from './types/render';

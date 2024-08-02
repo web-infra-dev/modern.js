@@ -3,6 +3,7 @@ import { fs as fse, pkgUp, semver } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { readPackageJSON } from 'pkg-types';
 import { parseNodeModulePath } from 'mlly';
+import type { NodeFileTraceOptions } from '@vercel/nft';
 import {
   linkPackage,
   writePackage,
@@ -14,8 +15,11 @@ import {
   findPackageParents,
   resolveTracedPath,
   readDirRecursive,
+  isSubPath,
 } from './utils';
 
+export type { NodeFileTraceOptions } from '@vercel/nft';
+export { nodeFileTrace } from '@vercel/nft';
 export const handleDependencies = async ({
   appDir,
   serverRootDir,
@@ -24,6 +28,7 @@ export const handleDependencies = async ({
   entryFilter,
   modifyPackageJson,
   copyWholePackage,
+  traceOptions,
 }: {
   appDir: string;
   serverRootDir: string;
@@ -32,15 +37,17 @@ export const handleDependencies = async ({
   entryFilter?: (filePath: string) => boolean;
   modifyPackageJson?: (pkgJson: PackageJson) => PackageJson;
   copyWholePackage?: (pkgName: string) => boolean;
+  traceOptions?: NodeFileTraceOptions;
 }) => {
   const base = '/';
   const entryFiles = await findEntryFiles(serverRootDir, entryFilter);
 
-  const fileTrace = await traceFiles(
-    entryFiles.concat(includeEntries),
+  const fileTrace = await traceFiles({
+    entryFiles: entryFiles.concat(includeEntries),
     serverRootDir,
     base,
-  );
+    traceOptions,
+  });
   const currentProjectModules = path.join(appDir, 'node_modules');
   // Because vercel/nft may find inaccurately, we limit the range of query of dependencies
   const dependencySearchRoot = path.resolve(appDir, '../../../../../../');
@@ -54,9 +61,9 @@ export const handleDependencies = async ({
         const filePath = await resolveTracedPath(base, _path);
 
         if (
-          filePath.startsWith(serverRootDir) ||
-          (filePath.startsWith(appDir) &&
-            !filePath.startsWith(currentProjectModules))
+          isSubPath(serverRootDir, filePath) ||
+          (isSubPath(appDir, filePath) &&
+            !isSubPath(currentProjectModules, filePath))
         ) {
           return;
         }
@@ -90,7 +97,10 @@ export const handleDependencies = async ({
             ? path.join(match[0], 'package.json')
             : await pkgUp({ cwd: path.dirname(filePath) });
 
-          if (packageJsonPath?.startsWith(dependencySearchRoot)) {
+          if (
+            packageJsonPath &&
+            isSubPath(dependencySearchRoot, packageJsonPath)
+          ) {
             const packageJson: PackageJson = await fse.readJSON(
               packageJsonPath,
             );
@@ -113,8 +123,8 @@ export const handleDependencies = async ({
           parents,
           isDirectDep: parents.some(parent => {
             return (
-              parent.startsWith(appDir) &&
-              !parent.startsWith(currentProjectModules)
+              isSubPath(appDir, parent) &&
+              !isSubPath(currentProjectModules, parent)
             );
           }),
 

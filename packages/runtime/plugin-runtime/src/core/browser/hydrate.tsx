@@ -96,7 +96,10 @@ export function hydrateRoot(
           });
         } else {
           loadableReady(() => {
-            ModernHydrate(App, callback).then(root => {
+            ModernHydrate(
+              React.cloneElement(App, { _internal_context: hydrateContext }),
+              callback,
+            ).then(root => {
               resolve(root);
             });
           });

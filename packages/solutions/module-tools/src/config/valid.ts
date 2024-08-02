@@ -36,4 +36,11 @@ export const validBuildConfig = (
   ) {
     throw new Error(`${config.tsconfig} does not exist in your project`);
   }
+
+  // valid duplicate alias
+  if (config.alias && config.resolve?.alias) {
+    throw new Error(
+      'alias and resolve.alias are not allowed to be used together, alias will be deprecated in the future, please use resolve.alias instead',
+    );
+  }
 };

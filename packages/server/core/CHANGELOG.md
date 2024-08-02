@@ -1,5 +1,28 @@
 # @modern-js/server-plugin
 
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- 0e906a1: feat: inject renderHandler to appContext & add default serverPlugins
+  feat: 注入 renderHandler 到 appContext & 新增默认 serverPlugins
+- 6cec127: fix: user can get status in afterRenderContext
+  fix: 用户可以从 afterRenderContext 上拿到 status
+- b5a48a8: fix: distPath should from output.distPath.root
+  fix: distPath 应该来自 output.distPath.root
+- 203c9eb: fix: we should export `getLoaderCtx` from server-core
+  fix: 我们应该从 server-core 导出 `getLoaderCtx`
+- 604ad3a: fix: faviconPlugin should after staticPlugin
+  fix: faviconPlugin 应该在 staticPlugin 之后
+- Updated dependencies [2515b00]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/plugin@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes

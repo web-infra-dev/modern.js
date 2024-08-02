@@ -30,19 +30,14 @@ export const wrap = <P = Record<string, unknown>>(
     return element;
   };
 
-  return runner.hoc(
-    { App: WrapperComponent, config: {} },
-    {
-      onLast: ({ App }) => {
-        const WrapComponent = ({ context, ...props }: any) =>
-          React.createElement(
-            RuntimeReactContext.Provider,
-            { value: context },
-            React.createElement(App, props),
-          );
+  const WrapperRoot = runner.wrapRoot(WrapperComponent);
 
-        return WrapComponent;
-      },
-    },
-  );
+  const WrapComponent = ({ _internal_context, ...props }: any) =>
+    React.createElement(
+      RuntimeReactContext.Provider,
+      { value: _internal_context },
+      React.createElement(WrapperRoot, props),
+    );
+
+  return WrapComponent;
 };

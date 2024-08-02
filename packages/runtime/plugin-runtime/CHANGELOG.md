@@ -1,5 +1,48 @@
 # @modern-js/runtime
 
+## 2.57.0
+
+### Minor Changes
+
+- dc736ef: feat: refactor runtime plugin hooks
+
+  feat: 重构 runtime 插件钩子函数
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- abad541: fix: more runtime plugin add alias not work
+
+  fix: 多个 runtime 插件添加 runtime 路径别名时不符合预期
+
+- 223d63b: fix: add deferedDataScripts only streaming ssr
+  fix: 只有在 streaming ssr 时才添加 deferedDataScripts
+- a9807e5: feat(ssg): support ssg with bff.enableHandleWeb
+  feat(ssg): 支持 ssg 和 bff.enableHandleWeb 一起使用
+- 916559a: fix: mergeConfig function to return an object when the first configuration is not an object
+
+  fix: 修复 mergeConfig 函数，使其在第一个配置非对象时返回对象
+
+- db43d8e: fix: react 17 ssr context error
+
+  fix: 修复 react 17 ssr 找不到 runtimeReactContext 报错
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+- Updated dependencies [ce9c43a]
+- Updated dependencies [6cec127]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/plugin-data-loader@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/plugin@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes

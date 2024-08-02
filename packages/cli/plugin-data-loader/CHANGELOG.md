@@ -1,5 +1,18 @@
 # @modern-js/plugin-data-loader
 
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- ce9c43a: fix: data loader support async-node target
+- Updated dependencies [2515b00]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+
 ## 2.56.2
 
 ### Patch Changes

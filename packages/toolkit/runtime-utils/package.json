@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.56.2",
+  "version": "2.57.0",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -73,6 +73,11 @@
       "jsnext:source": "./src/url.ts",
       "require": "./dist/cjs/url.js",
       "default": "./dist/esm/url.js"
+    },
+    "./merge": {
+      "jsnext:source": "./src/merge.ts",
+      "require": "./dist/cjs/merge.js",
+      "default": "./dist/esm/merge.js"
     }
   },
   "publishConfig": {
@@ -135,6 +140,11 @@
         "types": "./dist/types/url.d.ts",
         "require": "./dist/cjs/url.js",
         "default": "./dist/esm/url.js"
+      },
+      "./merge": {
+        "types": "./dist/types/merge.d.ts",
+        "require": "./dist/cjs/merge.js",
+        "default": "./dist/esm/merge.js"
       }
     }
   },
@@ -172,6 +182,9 @@
       ],
       "url": [
         "./dist/types/url.d.ts"
+      ],
+      "merge": [
+        "./dist/types/merge.d.ts"
       ]
     }
   },

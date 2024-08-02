@@ -5,6 +5,7 @@ import {
   type StoreConfig,
 } from '@modern-js-reduck/store';
 import { Provider } from '@modern-js-reduck/react';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { immer, effects, autoActions, devtools } from '../plugins';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
@@ -54,12 +55,12 @@ const getStoreConfig = (config: StateConfig): StoreConfig => {
   return storeConfig;
 };
 
-export const statePlugin = (config: StateConfig): Plugin => ({
+export const statePlugin = (userConfig: StateConfig = {}): Plugin => ({
   name: '@modern-js/plugin-state',
-  setup: () => {
-    const storeConfig = getStoreConfig(config);
+  setup: api => {
+    let storeConfig: StoreConfig;
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
         const getStateApp = (props: any) => {
           // eslint-disable-next-line react-hooks/rules-of-hooks
           const context = useContext(RuntimeReactContext);
@@ -70,12 +71,12 @@ export const statePlugin = (config: StateConfig): Plugin => ({
             </Provider>
           );
         };
-        return next({
-          App: getStateApp,
-          config,
-        });
+        return getStateApp;
       },
-      init({ context }, next) {
+      beforeRender(context) {
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const config = merge(pluginConfig.state || {}, userConfig);
+        storeConfig = getStoreConfig(config);
         if (isBrowser()) {
           storeConfig.initialState =
             storeConfig.initialState ||
@@ -84,17 +85,6 @@ export const statePlugin = (config: StateConfig): Plugin => ({
         }
 
         context.store = createStore(storeConfig);
-
-        return next({ context });
-      },
-      pickContext({ context, pickedContext }, next) {
-        return next({
-          context,
-          pickedContext: {
-            ...pickedContext,
-            store: context.store,
-          },
-        });
       },
     };
   },
