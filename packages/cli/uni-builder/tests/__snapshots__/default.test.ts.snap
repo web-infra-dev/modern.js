@@ -36,6 +36,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
@@ -60,6 +61,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -78,13 +86,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -397,6 +398,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -415,13 +423,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -474,6 +475,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -492,13 +500,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -1020,6 +1021,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
@@ -1027,7 +1029,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 0,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1330,7 +1332,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 3,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1372,7 +1374,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 1,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -1762,6 +1764,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
@@ -1786,6 +1789,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -1804,13 +1814,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -2123,6 +2126,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -2141,13 +2151,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -2200,6 +2203,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -2218,13 +2228,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -2710,6 +2713,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
@@ -2717,7 +2721,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 0,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -3014,7 +3018,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 3,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -3056,7 +3060,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 1,
               "modules": {
                 "auto": true,
                 "exportGlobals": false,
@@ -3461,6 +3465,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
@@ -3485,6 +3490,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -3503,13 +3515,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -3910,6 +3915,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -3928,13 +3940,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -3987,6 +3992,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -4005,13 +4017,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -4577,6 +4582,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
@@ -4601,6 +4607,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -4619,13 +4632,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -5032,6 +5038,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -5050,13 +5063,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -5109,6 +5115,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
                   {
                     "browsers": [
                       "> 0.01%",
@@ -5127,13 +5140,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,

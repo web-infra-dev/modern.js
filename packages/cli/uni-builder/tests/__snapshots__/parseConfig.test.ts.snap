@@ -55,6 +55,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -100,6 +101,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -150,6 +152,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -203,6 +206,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -253,6 +257,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -306,6 +311,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -356,6 +362,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -413,6 +420,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -463,6 +471,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -516,6 +525,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -566,6 +576,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -621,6 +632,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -673,6 +685,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -725,6 +738,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -777,6 +791,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -829,6 +844,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -875,6 +891,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -921,6 +938,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;

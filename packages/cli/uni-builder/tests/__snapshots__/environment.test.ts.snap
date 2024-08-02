@@ -37,6 +37,7 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
           "use": [
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
@@ -61,6 +62,13 @@ exports[`uni-builder environment compat > should generator environment config co
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
                     {
                       "browsers": [
                         "> 0.01%",
@@ -79,13 +87,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
                   ],
                 },
                 "sourceMap": true,
@@ -398,6 +399,13 @@ exports[`uni-builder environment compat > should generator environment config co
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
                     {
                       "browsers": [
                         "> 0.01%",
@@ -416,13 +424,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
                   ],
                 },
                 "sourceMap": true,
@@ -475,6 +476,13 @@ exports[`uni-builder environment compat > should generator environment config co
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
+                    [Function],
                     {
                       "browsers": [
                         "> 0.01%",
@@ -493,13 +501,6 @@ exports[`uni-builder environment compat > should generator environment config co
                       "postcssPlugin": "autoprefixer",
                       "prepare": [Function],
                     },
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
-                    [Function],
                   ],
                 },
                 "sourceMap": true,
@@ -940,6 +941,7 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
           "use": [
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
@@ -947,7 +949,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 1,
+                "importLoaders": 0,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,
@@ -1250,7 +1252,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 3,
+                "importLoaders": 2,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,
@@ -1292,7 +1294,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 2,
+                "importLoaders": 1,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,
@@ -1647,6 +1649,7 @@ exports[`uni-builder environment compat > should generator environment config co
           },
           "sideEffects": true,
           "test": /\\\\\\.css\\$/,
+          "type": "javascript/auto",
           "use": [
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
@@ -1654,7 +1657,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 1,
+                "importLoaders": 0,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,
@@ -1951,7 +1954,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 3,
+                "importLoaders": 2,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,
@@ -1993,7 +1996,7 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
               "options": {
-                "importLoaders": 2,
+                "importLoaders": 1,
                 "modules": {
                   "auto": true,
                   "exportGlobals": false,

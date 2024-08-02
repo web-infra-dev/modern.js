@@ -82,7 +82,7 @@
     "@types/react-devtools-inline": "^4.24.8",
     "type-fest": "^4.1.0",
     "typescript": "^5",
-    "@rsbuild/core": "1.0.1-beta.6"
+    "@rsbuild/core": "1.0.1-beta.9"
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.56.2"
