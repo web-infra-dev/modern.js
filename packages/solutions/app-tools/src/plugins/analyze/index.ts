@@ -154,7 +154,10 @@ export default ({
             appContext,
           });
 
-          builder.onBeforeBuild(async ({ bundlerConfigs }) => {
+          builder.onBeforeBuild(async ({ bundlerConfigs, isFirstCompile }) => {
+            if (!isFirstCompile) {
+              return;
+            }
             const hookRunners = api.useHookRunners();
             await generateRoutes(appContext);
             await hookRunners.beforeBuild({

@@ -22,7 +22,7 @@ import { pluginRuntimeChunk } from './plugins/runtimeChunk';
 import { pluginFrameworkConfig } from './plugins/frameworkConfig';
 import { pluginSplitChunks } from './plugins/splitChunk';
 import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
-import { pluginPostcssLegacy } from './plugins/postcssLegacy';
+import { pluginPostcss } from './plugins/postcss';
 import { pluginDevtool } from './plugins/devtools';
 import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginAntd } from './plugins/antd';
@@ -132,6 +132,7 @@ export async function parseCommonConfig(
       less,
       sass,
       htmlPlugin,
+      autoprefixer,
       ...toolsConfig
     } = {},
     environments = {},
@@ -156,6 +157,8 @@ export async function parseCommonConfig(
   };
 
   rsbuildConfig.tools!.htmlPlugin = htmlPlugin as ToolsConfig['htmlPlugin'];
+
+  rsbuildConfig.tools!.lightningcssLoader ??= false;
 
   const { html = {}, output = {}, source = {} } = rsbuildConfig;
 
@@ -432,7 +435,11 @@ export async function parseCommonConfig(
     }),
   );
 
-  rsbuildPlugins.push(pluginPostcssLegacy());
+  rsbuildPlugins.push(
+    pluginPostcss({
+      autoprefixer,
+    }),
+  );
 
   if (enableAssetManifest) {
     const { pluginManifest } = await import('./plugins/manifest');

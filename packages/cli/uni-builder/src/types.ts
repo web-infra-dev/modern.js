@@ -32,6 +32,7 @@ import type { AliasOption } from '@modern-js/utils';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
 import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
+import type { Options as AutoprefixerOptions } from 'autoprefixer';
 
 type ArrayOrNot<T> = T | T[];
 
@@ -121,8 +122,14 @@ export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
 
 export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
+export type ToolsAutoprefixerConfig = ConfigChain<AutoprefixerOptions>;
+
 export type UniBuilderExtraConfig = {
   tools?: {
+    /**
+     * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
+     */
+    autoprefixer?: ToolsAutoprefixerConfig;
     // tools.htmlPlugin minify option should works
     htmlPlugin?:
       | boolean

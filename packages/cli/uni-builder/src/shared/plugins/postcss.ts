@@ -1,14 +1,22 @@
 import type { RsbuildPlugin } from '@rsbuild/core';
-import { isProd } from '@modern-js/utils';
+import type { ToolsAutoprefixerConfig } from '../../types';
+import { isProd, applyOptionsChain } from '@modern-js/utils';
 import { getCssSupport } from '../getCssSupport';
 
-export const pluginPostcssLegacy = (): RsbuildPlugin => ({
+// enable autoprefixer and  support compat legacy browsers
+export const pluginPostcss = ({
+  autoprefixer,
+}: {
+  autoprefixer?: ToolsAutoprefixerConfig;
+}): RsbuildPlugin => ({
   name: 'uni-builder:postcss-plugins',
+
+  pre: ['uni-builder:environment-defaults-plugin'],
 
   setup(api) {
     api.modifyEnvironmentConfig((config, { mergeEnvironmentConfig }) => {
       if (config.output.target !== 'web') {
-        return;
+        return config;
       }
 
       // only web target provides CSS outputs, so we can ignore other target
@@ -16,6 +24,8 @@ export const pluginPostcssLegacy = (): RsbuildPlugin => ({
       const enableExtractCSS = !config.output?.injectStyles;
 
       const enableCssMinify = !enableExtractCSS && isProd;
+
+      const enableAutoprefixer = config.tools.lightningcssLoader === false;
 
       const plugins = [
         require('postcss-flexbugs-fixes'),
@@ -38,13 +48,26 @@ export const pluginPostcssLegacy = (): RsbuildPlugin => ({
               ],
             })
           : false,
+        // The last insert autoprefixer
+        enableAutoprefixer &&
+          require('autoprefixer')(
+            applyOptionsChain(
+              {
+                flexbox: 'no-2009',
+                overrideBrowserslist: config.output.overrideBrowserslist!,
+              },
+              autoprefixer,
+            ),
+          ),
       ].filter(Boolean);
 
       return mergeEnvironmentConfig(
         {
           tools: {
-            postcss: opts => {
-              opts.postcssOptions!.plugins!.push(...plugins);
+            postcss: {
+              postcssOptions: {
+                plugins,
+              },
             },
           },
         },

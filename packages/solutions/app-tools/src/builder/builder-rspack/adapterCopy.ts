@@ -9,7 +9,7 @@ export const builderPluginAdpaterCopy = (
 ): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-rspack-copy',
   setup(api) {
-    let publicPath: string | undefined;
+    let publicPath: string | undefined | ((...args: any[]) => string);
     api.modifyBundlerChain((chain, { CHAIN_ID }) => {
       chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
         {
@@ -31,7 +31,7 @@ export const builderPluginAdpaterCopy = (
       await transformHtmlFiles();
     });
 
-    /** tramsform public/*.html manaully */
+    /** transform public/*.html manaully */
     async function transformHtmlFiles() {
       const { normalizedConfig } = options;
       const publicDir = path.resolve(
@@ -54,7 +54,7 @@ export const builderPluginAdpaterCopy = (
           .filter(file => HTML_REGEXP.test(file))
           .map(async file => {
             const content = await fs.readFile(file, 'utf-8');
-            if (publicPath) {
+            if (publicPath && typeof publicPath === 'string') {
               await fs.writeFile(
                 file,
                 content.replace(
@@ -64,7 +64,7 @@ export const builderPluginAdpaterCopy = (
               );
             } else {
               logger.warn(
-                'Expect get a string from `publicPath`, but receive `undefined`.',
+                `Expect get a string from \`publicPath\`, but receive \`${typeof publicPath}\`.`,
               );
               await fs.writeFile(
                 file,
