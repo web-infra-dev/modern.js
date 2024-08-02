@@ -6597,6 +6597,8 @@ importers:
 
   tests/integration/module/fixtures/build/alias/js: {}
 
+  tests/integration/module/fixtures/build/alias/module-id: {}
+
   tests/integration/module/fixtures/build/alias/ts: {}
 
   tests/integration/module/fixtures/build/asset/limit:
