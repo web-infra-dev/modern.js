@@ -635,6 +635,9 @@ importers:
       '@modern-js/node-bundle-require':
         specifier: workspace:*
         version: link:../../toolkit/node-bundle-require
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -2747,6 +2750,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -6594,6 +6600,8 @@ importers:
 
   tests/integration/module/fixtures/build/alias/js: {}
 
+  tests/integration/module/fixtures/build/alias/module-id: {}
+
   tests/integration/module/fixtures/build/alias/ts: {}
 
   tests/integration/module/fixtures/build/asset/limit:
@@ -6675,6 +6683,10 @@ importers:
 
   tests/integration/module/fixtures/build/jsx: {}
 
+  tests/integration/module/fixtures/build/loader/esbuild: {}
+
+  tests/integration/module/fixtures/build/loader/swc: {}
+
   tests/integration/module/fixtures/build/metafile: {}
 
   tests/integration/module/fixtures/build/minify: {}
@@ -6682,6 +6694,10 @@ importers:
   tests/integration/module/fixtures/build/platform: {}
 
   tests/integration/module/fixtures/build/redirect: {}
+
+  tests/integration/module/fixtures/build/resolve/alias: {}
+
+  tests/integration/module/fixtures/build/resolve/alias-error: {}
 
   tests/integration/module/fixtures/build/resolve/data-url: {}
 
@@ -6887,6 +6903,21 @@ importers:
   tests/integration/runtime: {}
 
   tests/integration/runtime-plugin/fixtures/custom-runtime-plugin:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/runtime-plugin/fixtures/runtime-custom-config-plugin:
     dependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
