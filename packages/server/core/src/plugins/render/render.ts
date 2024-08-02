@@ -255,7 +255,9 @@ async function renderHandler(
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
     if (routes) {
-      const { matchRoutes } = await import('@modern-js/runtime-utils/router');
+      const { matchRoutes } = await import(
+        '@modern-js/runtime-utils/remix-router'
+      );
       // eslint-disable-next-line node/prefer-global/url
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(
