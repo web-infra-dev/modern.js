@@ -97,7 +97,6 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
 
         onShellError(error: unknown) {
           renderLevel = RenderLevel.CLIENT_RENDER;
-          // eslint-disable-next-line promise/no-promise-in-callback
           getTemplates(htmlTemplate, {
             request,
             ssrConfig,

@@ -1,4 +1,3 @@
-/* eslint-disable node/no-unsupported-features/es-builtins */
 import type { Buffer } from 'buffer';
 import { BaseHooks } from '@modern-js/core';
 import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
@@ -87,7 +86,6 @@ export interface DevtoolsHooks {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DevtoolsPluginVars extends Record<string, unknown> {}
 }
 

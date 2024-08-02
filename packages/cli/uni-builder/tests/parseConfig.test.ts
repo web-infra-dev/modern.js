@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { describe, afterAll, test, expect } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 

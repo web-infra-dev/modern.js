@@ -337,7 +337,6 @@ export class RouterPlugin {
                 const scriptUrl = `${publicPath}${scriptPath}`;
 
                 const scriptLoadingAttr =
-                  // eslint-disable-next-line no-nested-ternary
                   scriptLoading === 'defer'
                     ? scriptLoading
                     : scriptLoading === 'module'

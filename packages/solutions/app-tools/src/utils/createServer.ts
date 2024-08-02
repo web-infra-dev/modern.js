@@ -23,7 +23,6 @@ export const createServer = async (
   if (server) {
     server.close();
   }
-  // eslint-disable-next-line prefer-destructuring
   server = (await createDevServer(options, applyPlugins)).server;
 
   return server;

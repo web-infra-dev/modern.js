@@ -64,7 +64,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage(locale);
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

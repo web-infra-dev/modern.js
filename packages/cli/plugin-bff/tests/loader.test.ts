@@ -12,10 +12,8 @@ expect.addSnapshotSerializer({
       val.includes('node_modules') ||
       val.includes(root)),
   print: val =>
-    // eslint-disable-next-line no-nested-ternary
     typeof val === 'string'
-      ? // eslint-disable-next-line no-nested-ternary
-        val.includes('node_modules')
+      ? val.includes('node_modules')
         ? `"${val.replace(/'.+node_modules/, `'`)}"`
         : val.includes('modern.js')
         ? `"${val.replace(/'.+modern\.js/, `'`)}"`
@@ -33,6 +31,7 @@ describe('bff loader', () => {
       port: 80,
       target: 'client',
       requestCreator: path.resolve(__dirname, './fixtures/requestCreator'),
+      appDir: ''
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;
 

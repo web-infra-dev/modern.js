@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import path from 'path';
 import { logger } from '@modern-js/utils';
 import type {
@@ -464,5 +463,3 @@ export const createUserConfigFromLegacy = async (
 
   return createConfigByDefault(config);
 };
-
-/* eslint-enable max-lines */

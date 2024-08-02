@@ -41,7 +41,6 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   port: number,
   httpMethodDecider = 'functionName',
   // 后续可能要修改，暂时先保留
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = nodeFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -97,7 +96,6 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
             : payload.body;
       } else if (payload.body) {
         headers['Content-Type'] = 'text/plain';
-        // eslint-disable-next-line prefer-destructuring
         body = payload.body;
       } else if (payload.formData) {
         body = payload.formData;

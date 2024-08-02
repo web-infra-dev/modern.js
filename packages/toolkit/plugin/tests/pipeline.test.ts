@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {
   createContext,
   createPipeline,
@@ -383,7 +382,6 @@ describe('createPipeline', () => {
       });
 
       pipeline.use(async (input, next) => {
-        // eslint-disable-next-line @typescript-eslint/await-thenable
         const count = await ++i;
         return next(input + count);
       });

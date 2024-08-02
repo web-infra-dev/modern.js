@@ -139,7 +139,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
                 }
                 curDir = dirname(curDir);
               }
-              // eslint-disable-next-line prefer-destructuring
               sideEffects = JSON.parse(
                 fs.readFileSync(pkgPath, 'utf-8'),
               ).sideEffects;

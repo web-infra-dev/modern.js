@@ -45,7 +45,6 @@ export const runBuildTask = async (
       await task(buildConfig, api, { watch, dts });
     });
   } else {
-    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (dts && dts.only) {
       return;
     }

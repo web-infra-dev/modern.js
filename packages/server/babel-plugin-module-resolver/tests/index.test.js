@@ -1120,7 +1120,6 @@ describe('module-resolver', () => {
 
     describe('missing package.json in path (uses cwd)', () => {
       jest.mock('pkg-up', () => ({
-        // eslint-disable-next-line func-name-matching
         sync: function pkgUpSync() {
           return null;
         },

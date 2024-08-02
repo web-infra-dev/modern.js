@@ -185,7 +185,6 @@ export const createManager = <
     };
 
     const createPlugin: Manager<Hooks, API>['createPlugin'] = (
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       setup = () => {},
       options = {},
     ) => {

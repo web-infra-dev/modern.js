@@ -41,7 +41,6 @@ async function run() {
 
   if (result.some(Boolean)) {
     logger.fatal('Lint package.json failed, please fix the errors.');
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   } else {
     logger.success('Lint package.json passed.');

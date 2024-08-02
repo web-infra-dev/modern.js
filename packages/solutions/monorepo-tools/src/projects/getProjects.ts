@@ -152,7 +152,6 @@ const syncGetProjectsByPackagesMatch = (
 
 const checkFindProjectsMode = (
   config: IFindSubProjectConfig,
-  // eslint-disable-next-line consistent-return
 ): FindProjectsMode | undefined => {
   if (config.packagesMatchs && Array.isArray(config.packagesMatchs)) {
     return FindProjectsMode.Rough;

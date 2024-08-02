@@ -28,7 +28,6 @@ export type RequestFormDataType = {
   formData?: FormData;
 };
 export type RequestFormUrlencodedType = {
-  // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
   formUrlencoded?: URLSearchParams | Record<string, string> | string;
 };
 export type PureRequestFormUrlencodedType = {

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
 import {
   slash,

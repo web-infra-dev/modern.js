@@ -107,7 +107,6 @@ export const compileByTs: CompileFunc = async (
       ),
     );
     if (typeof noEmitOnError === 'undefined' || noEmitOnError === true) {
-      // eslint-disable-next-line no-process-exit
       process.exit(1);
     }
   }

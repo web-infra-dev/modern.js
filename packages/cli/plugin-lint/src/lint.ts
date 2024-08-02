@@ -57,6 +57,5 @@ export default () => {
     stdio: 'inherit',
   });
 
-  // eslint-disable-next-line no-process-exit
   childprocess.on('exit', code => process.exit(code || 0));
 };

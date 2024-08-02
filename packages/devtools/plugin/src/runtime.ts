@@ -1,5 +1,3 @@
-/* eslint-disable node/prefer-global/url */
-/* eslint-disable node/no-unsupported-features/node-builtins */
 /// <reference lib="dom" />
 import type { ServerManifest } from '@modern-js/devtools-kit/runtime';
 import { initialize } from 'react-devtools-inline/backend';

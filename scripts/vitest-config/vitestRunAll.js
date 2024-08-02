@@ -37,7 +37,6 @@ const restArgv = process.argv.slice(2);
     }
   } catch (err) {
     console.error(err);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 })();

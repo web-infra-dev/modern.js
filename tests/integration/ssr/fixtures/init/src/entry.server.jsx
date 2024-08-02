@@ -8,7 +8,6 @@ const handleRequest = async (request, ServerRoot, options) => {
 
   const newHtml = html.replace('</body>', '<div>Byte-Dance<div></body>');
 
-  // eslint-disable-next-line no-undef
   return new Response(newHtml, {
     headers: {
       'x-custom-value': 'abc',

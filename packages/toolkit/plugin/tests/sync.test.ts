@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {
   createPipeline,
   createAsyncPipeline,
@@ -73,7 +72,6 @@ describe('sync manager', () => {
     const foo = createWaterfall<number>();
     const manager = createManager({ foo });
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const plugin = manager.createPlugin(() => {});
     manager.usePlugin(plugin);
 
@@ -258,10 +256,8 @@ describe('sync manager', () => {
     it('should throw error when attaching rival plugin', () => {
       const manager = createManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const plugin1 = manager.createPlugin(() => {}, { name: 'plugin1' });
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const plugin2 = manager.createPlugin(() => {}, { rivals: ['plugin1'] });
 
       manager.usePlugin(plugin1);
@@ -273,7 +269,6 @@ describe('sync manager', () => {
     it('should not throw error without attaching rival plugin', () => {
       const manager = createManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -301,7 +296,6 @@ describe('sync manager', () => {
     it('should throw error when it is without required plugin', () => {
       const manager = createManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const plugin0 = manager.createPlugin(() => {}, {
         name: 'plugin0',
         required: ['plugin1'],
@@ -315,7 +309,6 @@ describe('sync manager', () => {
     it('should not throw error without attaching rival plugin', () => {
       const manager = createManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -407,7 +400,6 @@ describe('sync manager', () => {
     const manager0 = createAsyncManager();
     const manager1 = createManager();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const plugin = manager0.createPlugin(() => {});
 
     expect(manager0.isPlugin(plugin)).toBeTruthy();
@@ -512,7 +504,6 @@ describe('sync manager', () => {
   it('should throw error when progress is illegal', () => {
     const manager = createManager({ test: '' as any });
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const plugin = manager.createPlugin(() => {});
 
     manager.usePlugin(plugin);
@@ -565,7 +556,6 @@ describe('sync manager', () => {
 
       const manager = createAsyncManager<TestHooks, API>(
         {},
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         { foo: () => {} },
       );
 

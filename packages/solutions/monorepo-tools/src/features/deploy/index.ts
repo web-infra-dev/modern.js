@@ -130,7 +130,6 @@ const checkAndRunDeployCommand = async (
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const installDependency = async (
   deployDir: string,
   packageManager: PackageManagerType,

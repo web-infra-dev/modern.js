@@ -9,7 +9,6 @@ import { logger } from './logger';
  * @param strictPort - Whether to throw an error when the port is occupied.
  * @returns Available port number.
  */
-/* eslint-disable no-param-reassign, @typescript-eslint/no-loop-func */
 export const getPort = async (
   port: string | number,
   {
@@ -74,4 +73,3 @@ export const getPort = async (
 
   return port;
 };
-/* eslint-enable no-param-reassign, @typescript-eslint/no-loop-func */

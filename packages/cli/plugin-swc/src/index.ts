@@ -48,7 +48,6 @@ export function applyBuilderSwcConfig(
 ): PluginSwcOptions {
   // common configuration
   if (isSSR) {
-    // eslint-disable-next-line no-param-reassign
     swc = applyConfig(swc, config => {
       config.extensions ??= {};
       config.extensions.loadableComponents = true;

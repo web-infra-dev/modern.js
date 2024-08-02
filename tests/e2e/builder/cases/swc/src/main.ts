@@ -2,7 +2,6 @@ import { get } from 'lodash';
 import './override';
 
 class Person {
-  // eslint-disable-next-line @typescript-eslint/no-parameter-properties
   constructor(public name: string, public age: number) {}
 }
 

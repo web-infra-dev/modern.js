@@ -17,7 +17,6 @@ export type RouterSchemaDescriptor =
   | (new () => Schema.ObjectType)
   | (new () => Schema.StructType);
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type MarkReadOnlyDeep<T> = T extends {} | any[]
   ? {
       readonly [key in keyof T]: MarkReadOnlyDeep<T[key]>;

@@ -14,7 +14,6 @@ async function request(
 }> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // eslint-disable-next-line prefer-promise-reject-errors
       reject(`timeout: ${options?.timeout || 3000}`);
     }, options?.timeout || 3000);
     const req = http.request(url, res => {

@@ -156,7 +156,6 @@ export const createAsyncManager = <
     };
 
     const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       setup = () => {},
       options = {},
     ) => {

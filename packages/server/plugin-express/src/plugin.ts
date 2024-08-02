@@ -20,7 +20,6 @@ import { run } from './context';
 import registerRoutes from './registerRoutes';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       __honoRequest: InternalRequest;
@@ -118,7 +117,6 @@ const createApp = async ({
   }
 
   if (render) {
-    // eslint-disable-next-line consistent-return
     app.use(async (req, res, next) => {
       const response = await render(req.__honoRequest.raw, {
         logger,
