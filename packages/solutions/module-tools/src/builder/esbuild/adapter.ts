@@ -320,9 +320,8 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           if (value.type === 'chunk' && config.sourceMap) {
             context.addSourceMap(context.genPluginId('adapter'), value.map);
           }
-          const processedResult = await compiler.hooks.renderChunk.promise(
-            value,
-          );
+          const processedResult =
+            await compiler.hooks.renderChunk.promise(value);
           if (processedResult.type === 'chunk' && config.sourceMap) {
             processedResult.map = context.getSourceMap();
           }

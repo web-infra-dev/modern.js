@@ -82,7 +82,7 @@ describe('match', () => {
         request: { data: { foo: Number } },
         response: { foo: String },
       },
-      input => ({ foo: input.data.foo } as any),
+      input => ({ foo: input.data.foo }) as any,
     );
 
     const result = await foo({ data: { foo: 0 } });
@@ -100,7 +100,7 @@ describe('match', () => {
         request: { data: { foo: Number } },
         response: { foo: String },
       },
-      input => ({ foo: input.data.foo } as any),
+      input => ({ foo: input.data.foo }) as any,
     );
 
     const result = await foo({ data: { foo: 0 } });

@@ -5,12 +5,12 @@ type Path = string | RegExp | Array<string | RegExp>;
 export type TypeOfRouterRequestField<T> = T extends string | string[]
   ? string
   : T extends Path
-  ? string
-  : T extends Schema.FieldDescriptor
-  ? Schema.TypeOfFieldDescriptor<T>
-  : T extends Schema.FieldDescriptors
-  ? Schema.TypeOfFieldDescriptors<T>
-  : never;
+    ? string
+    : T extends Schema.FieldDescriptor
+      ? Schema.TypeOfFieldDescriptor<T>
+      : T extends Schema.FieldDescriptors
+        ? Schema.TypeOfFieldDescriptors<T>
+        : never;
 
 export type RouterSchemaDescriptor =
   | Schema.FieldDescriptors

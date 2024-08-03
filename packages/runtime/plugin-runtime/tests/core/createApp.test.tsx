@@ -36,8 +36,7 @@ describe('create-app', () => {
         runtime.createPlugin(() => ({
           wrapRoot:
             App1 =>
-            ({ test }: Props) =>
-              <App1 test={test + 1} />,
+            ({ test }: Props) => <App1 test={test + 1} />,
         })),
       ],
       runtime,

@@ -17,8 +17,9 @@ describe('plugin-sri', () => {
     const config = await unwrapConfig(rsbuild);
     expect(config.output?.crossOriginLoading).toBe('anonymous');
 
-    expect(matchPlugins(config, 'SubresourceIntegrityPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'SubresourceIntegrityPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         SubresourceIntegrityPlugin {
           "options": {
@@ -56,8 +57,9 @@ describe('plugin-sri', () => {
     const config = await unwrapConfig(rsbuild);
     expect(config.output?.crossOriginLoading).toBe('anonymous');
 
-    expect(matchPlugins(config, 'SubresourceIntegrityPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'SubresourceIntegrityPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         SubresourceIntegrityPlugin {
           "options": {

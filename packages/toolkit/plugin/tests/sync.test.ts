@@ -554,10 +554,7 @@ describe('sync manager', () => {
     it('should allow to register extra api', done => {
       type API = { foo: () => void };
 
-      const manager = createAsyncManager<TestHooks, API>(
-        {},
-        { foo: () => {} },
-      );
+      const manager = createAsyncManager<TestHooks, API>({}, { foo: () => {} });
 
       const plugin: PluginOptions<TestHooks, Setup<TestHooks, API>> = {
         name: 'plugin',

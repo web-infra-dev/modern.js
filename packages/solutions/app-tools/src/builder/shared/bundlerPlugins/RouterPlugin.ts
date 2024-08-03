@@ -260,16 +260,16 @@ export class RouterPlugin {
             const injectedContent = `
             ;(function(){
               window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
-              if (
-                (k === 'assets' || k === 'referenceCssAssets') &&
-                Array.isArray(v)
-              ) {
-                return v.map(item => {
-                  return item.replace(publicPath, '');
-                });
-              }
-              return v;
-            })};
+                if (
+                  (k === 'assets' || k === 'referenceCssAssets') &&
+                  Array.isArray(v)
+                ) {
+                  return v.map(item => {
+                    return item.replace(publicPath, '');
+                  });
+                }
+                return v;
+              })};
             })();
           `;
 
@@ -325,8 +325,8 @@ export class RouterPlugin {
                   scriptLoading === 'defer'
                     ? scriptLoading
                     : scriptLoading === 'module'
-                    ? `type="module"`
-                    : '';
+                      ? `type="module"`
+                      : '';
 
                 const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"></script>`;
 

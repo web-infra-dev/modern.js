@@ -47,12 +47,12 @@ export type RequestSchema = RequestBaseSchema & RequestDataSchema;
 export type TypeOfRequestField<T> = T extends string
   ? string
   : T extends FormData
-  ? FormData
-  : T extends FieldDescriptor
-  ? TypeOfFieldDescriptor<T>
-  : T extends FieldDescriptors
-  ? TypeOfFieldDescriptors<T>
-  : never;
+    ? FormData
+    : T extends FieldDescriptor
+      ? TypeOfFieldDescriptor<T>
+      : T extends FieldDescriptors
+        ? TypeOfFieldDescriptors<T>
+        : never;
 
 export type TypeOfRequestDataSchema<T extends RequestDataSchema> =
   MarkReadOnlyDeep<

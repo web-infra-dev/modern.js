@@ -1,7 +1,21 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
   "formatter": {
-    "enabled": false
+    "enabled": true,
+    "indentStyle": "space",
+    "ignore": [
+      "package.json",
+      "packages/document/main-doc/scripts/summary.en.json",
+      "packages/document/main-doc/scripts/summary.zh.json"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded",
+      "jsxQuoteStyle": "double",
+      "lineWidth": 80
+    }
   },
   "linter": {
     "enabled": true,

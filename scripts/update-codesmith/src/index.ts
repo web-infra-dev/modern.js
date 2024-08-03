@@ -11,9 +11,8 @@ async function run() {
     const { dependencies, devDependencies, peerDependencies } = packageJson;
     packageJson.dependencies = await updateCodesmithVersion(dependencies);
     packageJson.devDependencies = await updateCodesmithVersion(devDependencies);
-    packageJson.peerDependencies = await updateCodesmithVersion(
-      peerDependencies,
-    );
+    packageJson.peerDependencies =
+      await updateCodesmithVersion(peerDependencies);
     fs.writeJSONSync(path.join(dir, 'package.json'), packageJson, {
       spaces: 2,
     });

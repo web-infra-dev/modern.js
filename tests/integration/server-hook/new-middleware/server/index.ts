@@ -31,7 +31,6 @@ function auth(): UnstableMiddleware<Var> {
     };
   }
 
-
   return async (c, next) => {
     if (c.request.url.includes('/login')) {
       return next();

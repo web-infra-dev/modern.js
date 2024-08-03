@@ -95,8 +95,8 @@ export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
   ? First extends PromiseLike<infer PromiseValue>
     ? PromiseValue
     : First extends object
-    ? Merge<First, ArrayToObject<Rest, R>>
-    : ArrayToObject<Rest, R>
+      ? Merge<First, ArrayToObject<Rest, R>>
+      : ArrayToObject<Rest, R>
   : R;
 
 export type AsyncFunction = (...args: any[]) => Promise<any>;

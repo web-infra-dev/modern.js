@@ -50,8 +50,8 @@ declare namespace hoistNonReactStatics {
       S extends React.MemoExoticComponent<any>
         ? keyof MEMO_STATICS | keyof C
         : S extends React.ForwardRefExoticComponent<any>
-        ? keyof FORWARD_REF_STATICS | keyof C
-        : keyof REACT_STATICS | keyof KNOWN_STATICS | keyof C
+          ? keyof FORWARD_REF_STATICS | keyof C
+          : keyof REACT_STATICS | keyof KNOWN_STATICS | keyof C
     >]: S[key];
   };
 }

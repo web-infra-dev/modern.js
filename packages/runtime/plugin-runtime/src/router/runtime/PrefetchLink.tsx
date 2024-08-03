@@ -271,8 +271,8 @@ const PrefetchDataLinks: React.FC<{
 type InputLinkProps<T> = T extends typeof RouterNavLink
   ? NavLinkProps
   : T extends typeof RouterLink
-  ? LinkProps
-  : never;
+    ? LinkProps
+    : never;
 
 const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
   Link: T,

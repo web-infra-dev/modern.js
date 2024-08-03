@@ -18,5 +18,5 @@ export type FromConfig<
 > = B extends 'shared'
   ? Config['shared']
   : B extends 'rspack'
-  ? Config['rspack']
-  : Config['webpack'];
+    ? Config['rspack']
+    : Config['webpack'];

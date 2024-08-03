@@ -100,9 +100,8 @@ export const handleDependencies = async ({
             packageJsonPath &&
             isSubPath(dependencySearchRoot, packageJsonPath)
           ) {
-            const packageJson: PackageJson = await fse.readJSON(
-              packageJsonPath,
-            );
+            const packageJson: PackageJson =
+              await fse.readJSON(packageJsonPath);
             pkgPath = baseDir = path.dirname(packageJsonPath);
             subpath = path.relative(baseDir, filePath);
             pkgName = packageJson.name;
@@ -218,7 +217,7 @@ export const handleDependencies = async ({
   );
 
   const projectPkgJson = await readPackageJSON(serverRootDir).catch(
-    () => ({} as PackageJson),
+    () => ({}) as PackageJson,
   );
 
   for (const [pkgName, pkgVersions] of Object.entries(multiVersionPkgs)) {
