@@ -37,9 +37,7 @@ export const getProjectTsconfig = async (
 
   // recursively resolve extended tsconfig
   // "extends" may be a string or string array (extending many tsconfigs)
-  const extendsResolutionTarget = Array.isArray(tsConfig.extends)
-    ? tsConfig.extends
-    : [tsConfig.extends];
+  const extendsResolutionTarget =Array.isArray(tsConfig.extends) ? tsConfig.extends : [tsConfig.extends];
 
   const resolveParentTsConfigPromises = extendsResolutionTarget.map(
     async target => {
@@ -138,117 +136,119 @@ export const processDtsFilesAfterTsc = async (config: GeneratorDtsConfig) => {
   );
 
   await Promise.all(
-    dtsFilesPath.flatMap(filePath => {
-      const code = fs.readFileSync(filePath, 'utf8');
-      const str: MagicString = new MagicString(code);
-      const originalFilePath = resolve(
-        absoluteBaseUrl,
-        userTsconfig?.compilerOptions?.rootDir || 'src',
-        relative(distPath, filePath),
-      );
-      try {
-        // js can override more case than ts
-        const sgNode = js.parse(code).root();
-        const matcher = {
-          rule: {
-            kind: 'string_fragment',
-            any: [
-              {
-                inside: {
-                  stopBy: 'end',
-                  kind: 'import_statement',
-                  field: 'source',
-                },
-              },
-              {
-                inside: {
-                  stopBy: 'end',
-                  kind: 'export_statement',
-                  field: 'source',
-                },
-              },
-              {
-                inside: {
-                  kind: 'string',
+    dtsFilesPath
+      .map(filePath => {
+        const code = fs.readFileSync(filePath, 'utf8');
+        const str: MagicString = new MagicString(code);
+        const originalFilePath = resolve(
+          absoluteBaseUrl,
+          userTsconfig?.compilerOptions?.rootDir || 'src',
+          relative(distPath, filePath),
+        );
+        try {
+          // js can override more case than ts
+          const sgNode = js.parse(code).root();
+          const matcher = {
+            rule: {
+              kind: 'string_fragment',
+              any: [
+                {
                   inside: {
-                    kind: 'arguments',
+                    stopBy: 'end',
+                    kind: 'import_statement',
+                    field: 'source',
+                  },
+                },
+                {
+                  inside: {
+                    stopBy: 'end',
+                    kind: 'export_statement',
+                    field: 'source',
+                  },
+                },
+                {
+                  inside: {
+                    kind: 'string',
                     inside: {
-                      kind: 'call_expression',
-                      has: {
-                        field: 'function',
-                        regex: '^(import|require)$',
+                      kind: 'arguments',
+                      inside: {
+                        kind: 'call_expression',
+                        has: {
+                          field: 'function',
+                          regex: '^(import|require)$',
+                        },
                       },
                     },
                   },
                 },
-              },
-            ],
-          },
-        };
-        const matchModule = sgNode.findAll(matcher).map(matchNode => {
-          return {
-            name: matchNode.text(),
-            start: matchNode.range().start.index,
-            end: matchNode.range().end.index,
+              ],
+            },
           };
-        });
-        matchModule.forEach(module => {
-          if (!module.name) {
-            return;
-          }
-          const { start, end, name } = module;
-          // same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/feature/redirect.ts#L52
-          const absoluteImportPath = matchPath(name, undefined, undefined, [
-            '.jsx',
-            '.tsx',
-            '.js',
-            '.ts',
-          ]);
-          if (absoluteImportPath) {
-            const relativePath = relative(
-              dirname(originalFilePath),
-              absoluteImportPath,
-            );
-            const relativeImportPath = normalizeSlashes(
-              relativePath.startsWith('..')
-                ? relativePath
-                : `./${relativePath}`,
-            );
-            str.overwrite(start, end, relativeImportPath);
-          }
-        });
-      } catch (e) {
-        logger.error('[parse error]', e);
-      }
+          const matchModule = sgNode.findAll(matcher).map(matchNode => {
+            return {
+              name: matchNode.text(),
+              start: matchNode.range().start.index,
+              end: matchNode.range().end.index,
+            };
+          });
+          matchModule.forEach(module => {
+            if (!module.name) {
+              return;
+            }
+            const { start, end, name } = module;
+            // same as https://github.com/web-infra-dev/modern.js/blob/main/packages/solutions/module-tools/src/builder/feature/redirect.ts#L52
+            const absoluteImportPath = matchPath(name, undefined, undefined, [
+              '.jsx',
+              '.tsx',
+              '.js',
+              '.ts',
+            ]);
+            if (absoluteImportPath) {
+              const relativePath = relative(
+                dirname(originalFilePath),
+                absoluteImportPath,
+              );
+              const relativeImportPath = normalizeSlashes(
+                relativePath.startsWith('..')
+                  ? relativePath
+                  : `./${relativePath}`,
+              );
+              str.overwrite(start, end, relativeImportPath);
+            }
+          });
+        } catch (e) {
+          logger.error('[parse error]', e);
+        }
 
-      // add banner and footer
-      banner && str.prepend(`${banner}\n`);
-      footer && str.append(`\n${footer}\n`);
+        // add banner and footer
+        banner && str.prepend(`${banner}\n`);
+        footer && str.append(`\n${footer}\n`);
 
-      // rewrite dts file
-      const content = str.toString();
-      const finalPath =
-        // We confirm that users will not mix ts and c(m)ts files in their projects.
-        // If a mix is required, please configure separate buildConfig to handle different inputs.
-        // So we don't replace .d.(c|m)ts that generated by tsc directly, this can confirm that
-        // users can use c(m)ts directly rather than enable autoExtension, in this condition,
-        // users need to set esbuild out-extensions like { '.js': '.mjs' }
-        filePath.replace(/\.d\.ts/, dtsExtension);
-      const writeTask = () => {
-        return fs.writeFile(
-          // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
-          finalPath,
-          content,
-        );
-      };
-      const removeTask = () => {
-        return fs.remove(filePath);
-      };
-      // if write the new file, remove the old file, and the two tasks do not conflict and can run parallel
-      return dtsExtension === '.d.ts'
-        ? [writeTask()]
-        : [writeTask(), removeTask()];
-    }),
+        // rewrite dts file
+        const content = str.toString();
+        const finalPath =
+          // We confirm that users will not mix ts and c(m)ts files in their projects.
+          // If a mix is required, please configure separate buildConfig to handle different inputs.
+          // So we don't replace .d.(c|m)ts that generated by tsc directly, this can confirm that
+          // users can use c(m)ts directly rather than enable autoExtension, in this condition,
+          // users need to set esbuild out-extensions like { '.js': '.mjs' }
+          filePath.replace(/\.d\.ts/, dtsExtension);
+        const writeTask = () => {
+          return fs.writeFile(
+            // only replace .d.ts, if tsc generate .d.m(c)ts, keep.
+            finalPath,
+            content,
+          );
+        };
+        const removeTask = () => {
+          return fs.remove(filePath);
+        };
+        // if write the new file, remove the old file, and the two tasks do not conflict and can run parallel
+        return dtsExtension === '.d.ts'
+          ? [writeTask()]
+          : [writeTask(), removeTask()];
+      })
+      .flat(),
   );
 };
 

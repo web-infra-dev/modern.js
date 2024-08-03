@@ -16,7 +16,7 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
 export const wrap = <P = Record<string, unknown>>(
   App: React.ComponentType<any>,
   // biome-ignore lint/correctness/noEmptyPattern: <explanation>
-    {}: WrapOptions,
+  {}: WrapOptions,
   manager = runtime,
 ) => {
   const runner = manager.init();
