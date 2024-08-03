@@ -2,10 +2,9 @@
 
 import { Command } from '@modern-js/utils/commander';
 
+import { getSolutionFromDependance } from '@modern-js/generator-utils';
 import { MWANewAction } from './mwa';
 import { ModuleNewAction } from './module';
-
-import { getSolutionByDependance } from './utils';
 
 const main = async () => {
   const program = new Command();
@@ -15,7 +14,8 @@ const main = async () => {
     .option('--root-path <rootPath>', 'project root path', '')
     .action(async params => {
       if (!params.solution) {
-        params.solution = getSolutionByDependance();
+        const { solution } = getSolutionFromDependance();
+        params.solution = solution;
       }
 
       const { solution, config: configStr, rootPath } = params;

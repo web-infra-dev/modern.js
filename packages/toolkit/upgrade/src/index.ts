@@ -2,6 +2,7 @@ import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { Command } from '@modern-js/utils/commander';
 import type { Options } from './upgrade';
 import { i18n, localeKeys } from './locale';
+import { upgradeAction } from './upgrade';
 
 export type { Options };
 
@@ -19,13 +20,13 @@ export function defineCommand(program: Command) {
     .option('--cwd <cwd>', i18n.t(localeKeys.command.cwd), '')
     .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
     .action(async params => {
-      const { upgradeAction } = await import('./upgrade');
-      return upgradeAction(params);
+      await upgradeAction(params);
     });
 }
 
 export default () => {
   const program = new Command();
   defineCommand(program);
+
   program.parse(process.argv);
 };
