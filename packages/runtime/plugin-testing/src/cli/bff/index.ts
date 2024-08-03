@@ -74,12 +74,15 @@ export const setJestConfigForBFF = async ({
 
   // 这三个配置不能设置在 projects 中，需要设置在外层(https://github.com/facebook/jest/issues/9696)
   const configFields = ['coverage', 'collectCoverage', 'testTimeout'];
-  const commonConfig = configFields.reduce((obj, field) => {
-    if (jestConfig.hasOwnProperty(field)) {
-      obj[field] = jestConfig[field as keyof typeof jestConfig];
-    }
-    return obj;
-  }, {} as Record<string, unknown>);
+  const commonConfig = configFields.reduce(
+    (obj, field) => {
+      if (jestConfig.hasOwnProperty(field)) {
+        obj[field] = jestConfig[field as keyof typeof jestConfig];
+      }
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
 
   if (!apiOnly) {
     utils.setJestConfig(

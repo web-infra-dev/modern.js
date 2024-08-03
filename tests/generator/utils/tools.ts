@@ -37,6 +37,6 @@ export function getPackageManager(projectName: string) {
   return projectName.includes('pnpm')
     ? 'pnpm'
     : projectName.includes('yarn')
-    ? 'yarn'
-    : 'npm';
+      ? 'yarn'
+      : 'npm';
 }

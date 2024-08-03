@@ -42,12 +42,18 @@ async function main() {
 
   const app = await createProdServer(prodServerOptions);
   const port = process.env.PORT || 8080;
-  app.listen({
-    host: '::',
-    port
-  }, () => {
-    console.log(`\x1b[32mServer is listening on http://[::]:${port}`, '\x1b[0m');
-  });
+  app.listen(
+    {
+      host: '::',
+      port,
+    },
+    () => {
+      console.log(
+        `\x1b[32mServer is listening on http://[::]:${port}`,
+        '\x1b[0m',
+      );
+    },
+  );
 }
 
 main();

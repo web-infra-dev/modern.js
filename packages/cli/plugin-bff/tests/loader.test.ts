@@ -16,8 +16,8 @@ expect.addSnapshotSerializer({
       ? val.includes('node_modules')
         ? `"${val.replace(/'.+node_modules/, `'`)}"`
         : val.includes('modern.js')
-        ? `"${val.replace(/'.+modern\.js/, `'`)}"`
-        : `"${val.replace(root, '')}"`
+          ? `"${val.replace(/'.+modern\.js/, `'`)}"`
+          : `"${val.replace(root, '')}"`
       : (val as string),
 });
 
@@ -31,7 +31,7 @@ describe('bff loader', () => {
       port: 80,
       target: 'client',
       requestCreator: path.resolve(__dirname, './fixtures/requestCreator'),
-      appDir: ''
+      appDir: '',
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;
 

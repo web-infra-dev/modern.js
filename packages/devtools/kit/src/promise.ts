@@ -135,10 +135,10 @@ type DeepToResolversIgnore =
 export type DeepToResolvers<T> = T extends DeepToResolversIgnore
   ? T
   : T extends Promise<unknown>
-  ? PromiseResolvers<Awaited<T>>
-  : T extends object
-  ? { [K in keyof T]: DeepToResolvers<T[K]> }
-  : T;
+    ? PromiseResolvers<Awaited<T>>
+    : T extends object
+      ? { [K in keyof T]: DeepToResolvers<T[K]> }
+      : T;
 
 export const withResolvers = <T>() => {
   const resolvers = {} as PromiseResolvers<T>;

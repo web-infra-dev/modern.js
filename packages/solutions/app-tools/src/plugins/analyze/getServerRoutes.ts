@@ -122,7 +122,9 @@ const collectHtmlRoutes = (
   const {
     source: { mainEntryName },
     html: { disableHtmlFolder },
-    output: { distPath: { html: htmlPath } = {} },
+    output: {
+      distPath: { html: htmlPath } = {},
+    },
     server: { baseUrl, routes, ssr, ssrByEntries },
     deploy,
   } = config;

@@ -8,12 +8,15 @@ const mock_replaceUrlWithParams = (
 ) => {
   const keys: any[] = [];
   ptr.pathToRegexp(url, keys);
-  const params = keys.reduce((cur, key, index) => {
-    if (paramValues[index]) {
-      cur[key.name] = paramValues[index];
-    }
-    return cur;
-  }, {} as Record<string | number, any>);
+  const params = keys.reduce(
+    (cur, key, index) => {
+      if (paramValues[index]) {
+        cur[key.name] = paramValues[index];
+      }
+      return cur;
+    },
+    {} as Record<string | number, any>,
+  );
   const getFinalPath = ptr.compile(url, { encode: encodeURIComponent });
   return getFinalPath({
     ...params,

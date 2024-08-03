@@ -41,5 +41,4 @@ export const createParallelWorkflow = <
 
 const mapParallelWorkerToAsyncMiddleware =
   <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O>[]> =>
-  (input, next) =>
-    [worker(input), ...next(input)];
+  (input, next) => [worker(input), ...next(input)];

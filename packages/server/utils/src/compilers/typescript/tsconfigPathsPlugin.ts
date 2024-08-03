@@ -16,17 +16,20 @@ const resolveAliasPath = (baseUrl: string, filePath: string) => {
 };
 
 const createAliasMatcher = (baseUrl: string, alias: Record<string, string>) => {
-  const aliasPairs = Object.keys(alias).reduce((o, key) => {
-    if (isRegExpKey(key)) {
-      const regexp = new RegExp(key);
-      const aliasPath = resolveAliasPath(baseUrl, alias[key]);
-      o.push([regexp, aliasPath]);
-    } else {
-      const aliasPath = resolveAliasPath(baseUrl, alias[key]);
-      o.push([key, aliasPath]);
-    }
-    return o;
-  }, [] as [string | RegExp, string][]);
+  const aliasPairs = Object.keys(alias).reduce(
+    (o, key) => {
+      if (isRegExpKey(key)) {
+        const regexp = new RegExp(key);
+        const aliasPath = resolveAliasPath(baseUrl, alias[key]);
+        o.push([regexp, aliasPath]);
+      } else {
+        const aliasPath = resolveAliasPath(baseUrl, alias[key]);
+        o.push([key, aliasPath]);
+      }
+      return o;
+    },
+    [] as [string | RegExp, string][],
+  );
 
   const cacheMap = new Map<string, string>();
 
