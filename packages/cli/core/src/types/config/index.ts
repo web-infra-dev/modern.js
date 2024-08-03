@@ -6,12 +6,10 @@ export type UserConfig<
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
   } = {},
-
   ExtendHooks extends Record<string, any> = {},
   ExtendUserConfig extends {
     [property: string]: any;
   } = {},
-
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
   plugins?: PluginConfig;
