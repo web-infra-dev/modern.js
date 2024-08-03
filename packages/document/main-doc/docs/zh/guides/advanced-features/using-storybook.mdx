@@ -38,7 +38,7 @@ $ npx modern new
 
 Rspack 构建速度非常快，在 Modern.js 中只需要如下配置即可使用 Rspack 作为构建工具。
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -60,7 +60,7 @@ export default config;
 
 ## 配置
 
-在 `.storybook/main.js` 中包含一些配置。
+在 `.storybook/main.ts` 中包含一些配置。
 
 ### configPath
 
@@ -71,7 +71,7 @@ export default config;
 
 例如
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -93,7 +93,7 @@ export default config;
 
 例如
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -115,7 +115,7 @@ export default config;
 
 例如
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -166,7 +166,7 @@ Modern.js 的构建能力和配置都可以直接在 Storybook 项目中使用�
 
 2. 如果发现构建速度很慢，请检查是否开启了自动文档生成功能，如果想要最高的性能，请配置为 `react-docgen`。`react-docgen` 和 `react-docgen-typescript` 的区别是，前者基于 Babel 实现，后者基于 TypeScript 实现，前者性能会更好，但类型推断能力更弱。如果使用 Rspack 构建，则只支持 `react-docgen`。
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   typescript: {
     reactDocgen: 'react-docgen',
@@ -214,7 +214,7 @@ export default config;
 
 若当前 Storybook 版本还是 6，需要先按照 Storybook 官网文档升级到版本 7，参考 [storybook 迁移文档](https://storybook.js.org/docs/react/migration-guide)。
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
 -  framework: '@storybook/react-webapck5',
 +  framework: {

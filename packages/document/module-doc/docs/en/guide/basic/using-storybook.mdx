@@ -80,7 +80,7 @@ For npm and Yarn projects, the `types` value of `package.json` can only be modif
 
 Rspack is known for its fast build speed. To use Rspack as a build tool in Modern.js, you only need to configure it as follows:
 
-```diff filename='.storybook/main.js'
+```diff filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -102,7 +102,7 @@ Note that in the above configuration, the reactDocgen configuration has been cha
 
 ### Configurations
 
-There are some separate configurations in `.storybook/main.js`.
+There are some separate configurations in `.storybook/main.ts`.
 
 #### bundler
 
@@ -113,7 +113,7 @@ Specify the underlying bundler to use either Webpack or Rspack.
 
 Example:
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
@@ -133,7 +133,7 @@ export default config;
 
 The Storybook build capability of Modern.js is provided by [Rsbuild](https://rsbuild.dev/), and the Rsbuild configuration can be modified through builderConfig.
 
-```javascript filename='.storybook/main.js'
+```javascript filename='.storybook/main.ts'
 const config = {
   framework: {
     name: '@modern-js/storybook',
