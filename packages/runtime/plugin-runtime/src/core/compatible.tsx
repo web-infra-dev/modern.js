@@ -12,6 +12,7 @@ import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
 import { getGlobalAppInit } from './context';
 import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
+import { wrapRuntimeContextProvider } from './react/wrapper';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -124,11 +125,7 @@ export const bootstrap: BootStrap = async (
 
   // don't mount the App, let user in charge of it.
   if (!id) {
-    return React.createElement(
-      RuntimeReactContext.Provider,
-      { value: context },
-      React.createElement(App as React.ComponentType<any>),
-    );
+    return wrapRuntimeContextProvider(<App />, context);
   }
 
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
@@ -171,23 +168,15 @@ export const bootstrap: BootStrap = async (
         throw Error('The `bootstrap` need provide `ReactDOM` parameter');
       }
       // https://react.dev/blog/2022/03/08/react-18-upgrade-guide
-      const ModernRender = (
-        App: React.ReactElement,
-        contextValue: RuntimeContext,
-      ) => {
-        const WrapperApp = React.createElement(
-          RuntimeReactContext.Provider,
-          { value: contextValue },
-          App,
-        );
+      const ModernRender = (App: React.ReactElement) => {
         if (IS_REACT18) {
           if (root) {
-            root.render(WrapperApp);
+            root.render(App);
             return root;
           }
           if (ReactDOM.createRoot) {
             const root = ReactDOM.createRoot(rootElement);
-            root.render(WrapperApp);
+            root.render(App);
             return root;
           } else {
             throw Error(
@@ -207,21 +196,15 @@ export const bootstrap: BootStrap = async (
 
       const ModernHydrate = (
         App: React.ReactElement,
-        contextValue: RuntimeContext,
         callback?: () => void,
       ): any => {
-        const WrapperApp = React.createElement(
-          RuntimeReactContext.Provider,
-          { value: contextValue },
-          App,
-        );
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(
               'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrateRoot` method',
             );
           }
-          ReactDOM.hydrateRoot(rootElement, WrapperApp);
+          ReactDOM.hydrateRoot(rootElement, App);
           return rootElement;
         }
         if (!ReactDOM.hydrate) {
@@ -229,7 +212,7 @@ export const bootstrap: BootStrap = async (
             'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
           );
         }
-        ReactDOM.hydrate(WrapperApp, rootElement, callback);
+        ReactDOM.hydrate(App, rootElement, callback);
         return rootElement;
       };
 
@@ -237,7 +220,7 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(React.createElement(App), context);
+      return ModernRender(wrapRuntimeContextProvider(<App />, context));
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',

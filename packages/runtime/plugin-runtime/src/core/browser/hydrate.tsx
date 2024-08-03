@@ -4,6 +4,7 @@ import React from 'react';
 import { Root } from 'react-dom/client';
 import { RuntimeContext } from '../context';
 import { RenderLevel } from '../constants';
+import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
 export const isReact18 = () => process.env.IS_REACT18 === 'true';
@@ -11,13 +12,9 @@ export const isReact18 = () => process.env.IS_REACT18 === 'true';
 export function hydrateRoot(
   App: React.ReactElement,
   context: RuntimeContext,
-  ModernRender: (
-    App: React.ReactElement,
-    contextValue: RuntimeContext,
-  ) => Promise<HTMLElement | Root>,
+  ModernRender: (App: React.ReactElement) => Promise<HTMLElement | Root>,
   ModernHydrate: (
     App: React.ReactElement,
-    contextValue: RuntimeContext,
     callback?: () => void,
   ) => Promise<HTMLElement | Root>,
 ) {
@@ -67,9 +64,11 @@ export function hydrateRoot(
       const SSRApp: React.FC = () => (
         <WithCallback callback={callback}>{App}</WithCallback>
       );
-      return ModernHydrate(<SSRApp />, hydrateContext);
+      return ModernHydrate(
+        wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+      );
     } else {
-      return ModernRender(App, context);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     }
   }
 
@@ -81,7 +80,7 @@ export function hydrateRoot(
       renderLevel === RenderLevel.CLIENT_RENDER ||
       renderLevel === RenderLevel.SERVER_PREFETCH
     ) {
-      return ModernRender(App, context);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
       return new Promise<Root | HTMLElement>(resolve => {
         if (isReact18()) {
@@ -90,13 +89,18 @@ export function hydrateRoot(
             const SSRApp: React.FC = () => (
               <WithCallback callback={callback}>{App}</WithCallback>
             );
-            ModernHydrate(<SSRApp />, hydrateContext).then(root => {
+            ModernHydrate(
+              wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+            ).then(root => {
               resolve(root);
             });
           });
         } else {
           loadableReady(() => {
-            ModernHydrate(App, hydrateContext, callback).then(root => {
+            ModernHydrate(
+              wrapRuntimeContextProvider(App, hydrateContext),
+              callback,
+            ).then(root => {
               resolve(root);
             });
           });
@@ -105,7 +109,7 @@ export function hydrateRoot(
     } else {
       // unknown renderlevel or renderlevel is server prefetch.
       console.warn(`unknow render level: ${renderLevel}, execute render()`);
-      return ModernRender(App, context);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     }
   }
 }

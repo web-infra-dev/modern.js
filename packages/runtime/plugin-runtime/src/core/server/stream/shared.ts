@@ -2,7 +2,8 @@ import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import { run } from '@modern-js/runtime-utils/node';
 import React from 'react';
-import { RuntimeContext, RuntimeReactContext } from '../../context';
+import { wrapRuntimeContextProvider } from '../../react/wrapper';
+import { RuntimeContext } from '../../context';
 import { HandleRequestConfig } from '../requestHandler';
 import type { RenderStreaming, SSRConfig } from '../shared';
 import {
@@ -78,12 +79,9 @@ export function createRenderStreaming(
         config.ssrByEntries,
       );
 
-      const rootElement = React.createElement(
-        RuntimeReactContext.Provider,
-        {
-          value: Object.assign(runtimeContext, { ssr: true }),
-        },
+      const rootElement = wrapRuntimeContextProvider(
         serverRoot,
+        Object.assign(runtimeContext, { ssr: true }),
       );
 
       const stream = await createReadableStreamFromElement(

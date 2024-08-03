@@ -5,7 +5,7 @@ import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { run } from '@modern-js/runtime-utils/node';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
-import { RuntimeReactContext } from '../../context';
+import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import { createReplaceHelemt } from '../helmet';
 import { getSSRConfigByEntry, safeReplace } from '../utils';
 import {
@@ -99,12 +99,9 @@ export const renderString: RenderString = async (
       }),
     ];
 
-    const rootElement = React.createElement(
-      RuntimeReactContext.Provider,
-      {
-        value: Object.assign(runtimeContext, { ssr: true }),
-      },
+    const rootElement = wrapRuntimeContextProvider(
       serverRoot,
+      Object.assign(runtimeContext, { ssr: true }),
     );
 
     const html = await generateHtml(

@@ -4,11 +4,11 @@ import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import React from 'react';
+import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import { LoaderResult } from '../../loader/loaderManager';
 import { HandleRequestOptions } from '../requestHandler';
 import { SSRErrors, SSRTimings, Tracer } from '../tracer';
 import { SSRConfig } from '../shared';
-import { RuntimeReactContext } from '../../context';
 
 export const prefetch = async (
   App: React.ReactElement,
@@ -35,20 +35,18 @@ export const prefetch = async (
           });
           renderToStaticMarkup(
             extractor.collectChunks(
-              <RuntimeReactContext.Provider
-                value={Object.assign(context, { ssr: false })}
-              >
-                {App}
-              </RuntimeReactContext.Provider>,
+              wrapRuntimeContextProvider(
+                App,
+                Object.assign(context, { ssr: false }),
+              ),
             ),
           );
         } else {
           renderToStaticMarkup(
-            <RuntimeReactContext.Provider
-              value={Object.assign(context, { ssr: false })}
-            >
-              {App}
-            </RuntimeReactContext.Provider>,
+            wrapRuntimeContextProvider(
+              App,
+              Object.assign(context, { ssr: false }),
+            ),
           );
         }
 

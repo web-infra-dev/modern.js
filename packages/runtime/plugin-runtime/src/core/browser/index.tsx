@@ -2,14 +2,11 @@
 import React from 'react';
 import cookieTool from 'cookie';
 import { getGlobalAppInit } from '../context';
-import {
-  RuntimeContext,
-  RuntimeReactContext,
-  getInitialContext,
-} from '../context/runtime';
+import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
 import { SSRContainer } from '../types';
+import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
@@ -107,39 +104,24 @@ export async function render(
         ? id
         : document.getElementById(id || 'root')!;
 
-    async function ModernRender(
-      App: React.ReactElement,
-      contextValue: RuntimeContext,
-    ) {
+    async function ModernRender(App: React.ReactElement) {
       const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-      return renderFunc(
-        <RuntimeReactContext.Provider value={contextValue}>
-          {App}
-        </RuntimeReactContext.Provider>,
-        rootElement,
-      );
+      return renderFunc(App, rootElement);
     }
 
     async function ModernHydrate(
       App: React.ReactElement,
-      contextValue: RuntimeContext,
       callback?: () => void,
     ) {
       const hydrateFunc = IS_REACT18 ? hydrateWithReact18 : hydrateWithReact17;
-      return hydrateFunc(
-        <RuntimeReactContext.Provider value={context}>
-          {App}
-        </RuntimeReactContext.Provider>,
-        rootElement,
-        callback,
-      );
+      return hydrateFunc(App, rootElement, callback);
     }
 
     // we should hydateRoot only when ssr
     if (ssrData) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
-    return ModernRender(App, context);
+    return ModernRender(wrapRuntimeContextProvider(App, context));
   }
   throw Error(
     '`render` function needs id in browser environment, it needs to be string or element',

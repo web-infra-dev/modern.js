@@ -1,7 +1,7 @@
 import React from 'react';
 import { runtime, Plugin } from '../../src/core/plugin';
-import { RuntimeReactContext } from '../../src/core/context';
 import { getInitialContext } from '../../src/core/context/runtime';
+import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
 
 export type WrapOptions = Record<string, unknown>;
 
@@ -19,10 +19,9 @@ export const wrapRuntimeProvider = (
   manager = runtime,
 ) => {
   return (props: any) =>
-    React.createElement(
-      RuntimeReactContext.Provider,
-      { value: getInitialContext(manager.init()) },
+    wrapRuntimeContextProvider(
       React.createElement(App, props),
+      getInitialContext(manager.init()),
     );
 };
 
