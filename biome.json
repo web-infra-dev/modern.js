@@ -1,12 +1,19 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "defaultBranch": "main",
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
     "ignore": [
       "package.json",
       "packages/document/main-doc/scripts/summary.en.json",
-      "packages/document/main-doc/scripts/summary.zh.json"
+      "packages/document/main-doc/scripts/summary.zh.json",
+      "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json"
     ]
   },
   "javascript": {
