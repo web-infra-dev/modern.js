@@ -4,6 +4,7 @@ import React from 'react';
 import { Root } from 'react-dom/client';
 import { RuntimeContext } from '../context';
 import { RenderLevel } from '../constants';
+import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';
 
 export const isReact18 = () => process.env.IS_REACT18 === 'true';
@@ -61,13 +62,13 @@ export function hydrateRoot(
     if (renderLevel === RenderLevel.SERVER_RENDER) {
       // callback: https://github.com/reactwg/react-18/discussions/5
       const SSRApp: React.FC = () => (
-        <WithCallback callback={callback}>
-          {React.cloneElement(App, { _internal_context: hydrateContext })}
-        </WithCallback>
+        <WithCallback callback={callback}>{App}</WithCallback>
       );
-      return ModernHydrate(<SSRApp />);
+      return ModernHydrate(
+        wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+      );
     } else {
-      return ModernRender(App);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     }
   }
 
@@ -79,25 +80,25 @@ export function hydrateRoot(
       renderLevel === RenderLevel.CLIENT_RENDER ||
       renderLevel === RenderLevel.SERVER_PREFETCH
     ) {
-      return ModernRender(App);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     } else if (renderLevel === RenderLevel.SERVER_RENDER) {
       return new Promise<Root | HTMLElement>(resolve => {
         if (isReact18()) {
           loadableReady(() => {
             // callback: https://github.com/reactwg/react-18/discussions/5
             const SSRApp: React.FC = () => (
-              <WithCallback callback={callback}>
-                {React.cloneElement(App, { _internal_context: hydrateContext })}
-              </WithCallback>
+              <WithCallback callback={callback}>{App}</WithCallback>
             );
-            ModernHydrate(<SSRApp />).then(root => {
+            ModernHydrate(
+              wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+            ).then(root => {
               resolve(root);
             });
           });
         } else {
           loadableReady(() => {
             ModernHydrate(
-              React.cloneElement(App, { _internal_context: hydrateContext }),
+              wrapRuntimeContextProvider(App, hydrateContext),
               callback,
             ).then(root => {
               resolve(root);
@@ -108,7 +109,7 @@ export function hydrateRoot(
     } else {
       // unknown renderlevel or renderlevel is server prefetch.
       console.warn(`unknow render level: ${renderLevel}, execute render()`);
-      return ModernRender(App);
+      return ModernRender(wrapRuntimeContextProvider(App, context));
     }
   }
 }

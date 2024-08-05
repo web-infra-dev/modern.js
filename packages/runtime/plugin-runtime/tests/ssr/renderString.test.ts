@@ -6,6 +6,7 @@ import { fs, createLogger } from '@modern-js/utils';
 import React from 'react';
 import { renderString, RenderOptions } from '../../src/core/server/server';
 import { getInitialContext } from '../../src/core/context/runtime';
+import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
 import App from './fixtures/string-ssr/App';
 
 const htmlPath = path.resolve(
@@ -72,9 +73,9 @@ describe('test render', () => {
       onTiming,
     };
 
-    const serverRoot = React.createElement(App, {
-      _internal_context: { ssr: true },
-    });
+    const serverRoot = wrapRuntimeContextProvider(React.createElement(App), {
+      ssr: true,
+    } as any);
 
     const html = await renderString(request as any, serverRoot, renderOptions);
 

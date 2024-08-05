@@ -12,6 +12,7 @@ import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
 import { getGlobalAppInit } from './context';
 import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
+import { wrapRuntimeContextProvider } from './react/wrapper';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -69,24 +70,9 @@ export const createApp = ({
     };
 
     const WrapperApp = runner.wrapRoot(WrapperComponent);
-    const WrapComponent = ({ _internal_context, ...props }: any) => {
-      let contextValue = _internal_context;
-
-      // We should construct the context, when root component is not passed into `bootstrap`.
-      if (!contextValue?.runner) {
-        contextValue = getInitialContext(runner);
-
-        runner?.beforeRender(contextValue);
-        getGlobalAppInit()?.(contextValue);
-      }
-
+    const WrapComponent = (props: any) => {
       const mergedProps = { ...props, ...globalProps };
-
-      return (
-        <RuntimeReactContext.Provider value={contextValue}>
-          <WrapperApp {...mergedProps} />
-        </RuntimeReactContext.Provider>
-      );
+      return <WrapperApp {...mergedProps} />;
     };
 
     return WrapComponent;
@@ -131,9 +117,7 @@ export const bootstrap: BootStrap = async (
 
   // don't mount the App, let user in charge of it.
   if (!id) {
-    return React.createElement(App as React.ComponentType<any>, {
-      _internal_context: context,
-    });
+    return wrapRuntimeContextProvider(<App />, context);
   }
 
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
@@ -228,9 +212,7 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(
-        React.createElement(App, { _internal_context: context } as any),
-      );
+      return ModernRender(wrapRuntimeContextProvider(<App />, context));
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',

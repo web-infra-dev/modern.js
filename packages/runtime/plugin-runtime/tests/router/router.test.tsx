@@ -9,7 +9,6 @@ import createRouterPlugin, {
 import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
 import { createRuntime } from '../../src/core/plugin';
-import { setGlobalContext } from '../../src/core/context';
 
 beforeAll(() => {
   // use React 18
@@ -36,49 +35,6 @@ beforeAll(() => {
 });
 
 describe('@modern-js/plugin-router', () => {
-  it('pages with App.init', () => {
-    const App = (props: { Component: React.FC }) => {
-      const { Component, ...pageProps } = props;
-      return (
-        <div>
-          <Component {...pageProps} />
-        </div>
-      );
-    };
-
-    function RouterApp() {
-      return <div>Router App</div>;
-    }
-
-    const mockCallback = jest.fn();
-    setGlobalContext({ appInit: mockCallback });
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App => App,
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: RouterApp as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-            globalApp: App,
-          },
-        }),
-      ],
-    })();
-
-    render(<AppWrapper />);
-    expect(mockCallback).toHaveBeenCalledTimes(1);
-  });
-
   it('hash router could work', async () => {
     function App() {
       const navigate = useNavigate();

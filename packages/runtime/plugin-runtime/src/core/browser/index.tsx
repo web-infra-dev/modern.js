@@ -6,6 +6,7 @@ import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
 import { SSRContainer } from '../types';
+import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
@@ -105,10 +106,7 @@ export async function render(
 
     async function ModernRender(App: React.ReactElement) {
       const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-      return renderFunc(
-        React.cloneElement(App, { _internal_context: context }),
-        rootElement,
-      );
+      return renderFunc(App, rootElement);
     }
 
     async function ModernHydrate(
@@ -123,7 +121,7 @@ export async function render(
     if (ssrData) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
-    return ModernRender(App);
+    return ModernRender(wrapRuntimeContextProvider(App, context));
   }
   throw Error(
     '`render` function needs id in browser environment, it needs to be string or element',

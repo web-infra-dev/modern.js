@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { useLoader, createApp } from '../../src/core';
+import { wrapRuntimeProvider } from '../utils';
+import { createRuntime } from '../../src/core/plugin';
 
 const loaderCount = jest.fn();
 const sleep = (t: number): Promise<void> =>
@@ -93,8 +95,11 @@ beforeEach(() => loaderCount.mockReset());
 
 describe('test useLoader', () => {
   test('userLoader return data、loading、error', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(App);
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     expect(result.asFragment()).toMatchSnapshot();
 
@@ -106,8 +111,11 @@ describe('test useLoader', () => {
   });
 
   test('reload should works', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(App);
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     await act(() => sleep(1000));
 
@@ -119,13 +127,16 @@ describe('test useLoader', () => {
   });
 
   test('same loader will integrate to one', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(() => (
       <>
         <App />
         <App1 />
       </>
     ));
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     await act(() => sleep(1000));
     expect(result.asFragment()).toMatchSnapshot();
@@ -139,6 +150,7 @@ describe('test useLoader', () => {
   });
 
   test('it should exec loader two times when has two different key', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(() => (
       <>
         <App />
@@ -146,7 +158,9 @@ describe('test useLoader', () => {
         <App2 />
       </>
     ));
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     await act(() => sleep(1000));
 
@@ -168,12 +182,15 @@ describe('test useLoader', () => {
   });
 
   test('should re-execute loader when params updated', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(() => (
       <>
         <App2 />
       </>
     ));
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     await act(() => sleep(1000));
     fireEvent.click(result.getByText('update params'));
@@ -182,8 +199,11 @@ describe('test useLoader', () => {
   });
 
   test('reload can pass params', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(() => <App3 />);
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     await act(() => sleep(1000));
     fireEvent.click(result.getByText('reload3'));
@@ -192,8 +212,11 @@ describe('test useLoader', () => {
   });
 
   test('reloading should be true when reload', async () => {
+    const runtime = createRuntime();
     const AppWrapper = createApp({ plugins: [] })(() => <App />);
-    const result = render(<AppWrapper />);
+    const result = render(
+      React.createElement(wrapRuntimeProvider(AppWrapper, runtime)),
+    );
 
     expect(result.asFragment()).toMatchSnapshot();
     await act(() => sleep(1000));

@@ -6679,6 +6679,8 @@ importers:
 
   tests/integration/module/fixtures/build/format/umd: {}
 
+  tests/integration/module/fixtures/build/hook: {}
+
   tests/integration/module/fixtures/build/input: {}
 
   tests/integration/module/fixtures/build/jsx: {}

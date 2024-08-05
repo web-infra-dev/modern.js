@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
-import { setGlobalContext } from '@modern-js/runtime/context';
 import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
@@ -59,43 +58,6 @@ describe('@modern-js/plugin-router-v5', () => {
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toBe('App:1');
     expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
-  it('pages with App.init', () => {
-    const App = (props: { Component: React.FC }) => {
-      const { Component, ...pageProps } = props;
-      return (
-        <div>
-          <Component {...pageProps} />
-        </div>
-      );
-    };
-
-    function RouterApp() {
-      return <div>Router App</div>;
-    }
-
-    const mockCallback = jest.fn();
-    setGlobalContext({ appInit: mockCallback });
-
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          wrapRoot: App1 => App1,
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [{ path: '/', component: RouterApp as any }],
-            globalApp: App,
-          },
-        }),
-      ],
-    })();
-
-    render(<AppWrapper />);
-    expect(mockCallback).toHaveBeenCalledTimes(1);
   });
 
   it('hash router could work', async () => {
