@@ -674,17 +674,17 @@ export const myPlugin = (): ServerPlugin => ({
 ## Runtime
 
 :::note
-The Runtime plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
+Currently, the Runtime plugin is not fully open, and the API does not guarantee stability. Use with caution.
 :::
 
-The Runtime plugin is mainly used for developers to modify the component that need to be rendered.
+The Runtime plugin is mainly used by developers to add behaviors before application rendering and to modify components that need to be rendered.
 
-### `init`
+### `beforeRender`
 
-- Function: Executes `App.init`.
+- Function: Add behaviors before application rendering
 - Execution stage: Rendering (SSR/CSR).
-- Hook model: `AsyncPipeline`
-- Type: `AsyncPipeline<{ context: RuntimeContext; }, unknown>`
+- Hook model: `AsyncWorkflow`
+- Type: `AsyncWorkflow<RuntimeContext, void>`
 - Example:
 
 ```ts
@@ -693,26 +693,21 @@ import type { Plugin } from '@modern-js/runtime';
 export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
-      init({ context }, next) {
+      beforeRender(context) {
         // do something
-        return next({ context });
       },
     };
   },
 });
 ```
 
-### `hoc`
+### `wrapRoot`
 
-- Function: Modifies the components that need to be rendered.
+- Function: Modify components that need to be rendered
 - Execution stage: Rendering (SSR/CSR).
-- Hook model: `Pipeline`
-- Type: `Pipeline<{ App: React.ComponentType<any>;config: Record<string, any>; },React.ComponentType<any>>`
+- Hook model: `Waterfall`
+- Type: `Waterfall<React.ComponentType<any>>`
 - Example:
-
-:::note
-When using the hoc hook, you need to copy the static properties of the original App component to the new component and pass through the props.
-:::
 
 ```ts
 import { createContext } from 'react';
@@ -722,18 +717,15 @@ export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
         const AppWrapper = (props: any) => {
           return (
-            <FooContext.Provider store={'test'}>
+            <FooContext.Provider value={'test'}>
               <App {...props} />
             </FooContext.Provider>
           );
         };
-        return next({
-          App: AppWrapper,
-          config
-        });
+        return AppWrapper;
       },
     };
   },
