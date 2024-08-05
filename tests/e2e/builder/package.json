@@ -16,8 +16,8 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "1.0.1-beta.9",
-    "@rsbuild/core": "1.0.1-beta.9",
+    "@rsbuild/plugin-swc": "1.0.1-beta.10",
+    "@rsbuild/core": "1.0.1-beta.10",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
