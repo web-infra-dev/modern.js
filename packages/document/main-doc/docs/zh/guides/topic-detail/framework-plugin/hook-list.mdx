@@ -680,12 +680,12 @@ export const myPlugin = (): ServerPlugin => ({
 
 :::
 
-Runtime 插件主要用于开发者修改需要渲染的组件。
+Runtime 插件主要用于开发者自定义应用渲染前行为和修改需要渲染的组件。
 
 ### `beforeRender`
 
 - 功能：在应用渲染之前增加行为
-- 执行阶段：渲染前（SSR/CSR）
+- 执行阶段：渲染（SSR/CSR）
 - Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<RuntimeContext， void>`
 - 使用示例：
