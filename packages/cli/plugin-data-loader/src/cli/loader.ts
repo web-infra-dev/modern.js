@@ -35,13 +35,6 @@ export default async function loader(
     return source;
   }
 
-  if (
-    target === 'async-node' ||
-    (Array.isArray(target) && target.includes('async-node'))
-  ) {
-    return source;
-  }
-
   const { resourceQuery } = this;
   // parse options from resouceQuery
   const options = resourceQuery
