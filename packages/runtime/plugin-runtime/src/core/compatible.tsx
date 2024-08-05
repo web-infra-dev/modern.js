@@ -71,14 +71,6 @@ export const createApp = ({
 
     const WrapperApp = runner.wrapRoot(WrapperComponent);
     const WrapComponent = (props: any) => {
-      let contextValue = useContext(RuntimeReactContext);
-      // We should construct the context, when root component is not passed into `bootstrap`.
-      if (!contextValue?.runner) {
-        contextValue = getInitialContext(runner);
-
-        runner?.beforeRender(contextValue);
-        getGlobalAppInit()?.(contextValue);
-      }
       const mergedProps = { ...props, ...globalProps };
       return <WrapperApp {...mergedProps} />;
     };

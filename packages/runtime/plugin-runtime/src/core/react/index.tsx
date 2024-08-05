@@ -10,8 +10,5 @@ export function createRoot(UserApp?: React.ComponentType | null) {
    * when use routes entry, after running router plugin, the App will be define
    */
   const WrapperApp = runner.wrapRoot(App!);
-  const WrapComponent = (props: any) => {
-    return <WrapperApp {...props} />;
-  };
-  return WrapComponent;
+  return WrapperApp;
 }
