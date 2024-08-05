@@ -6679,6 +6679,8 @@ importers:
 
   tests/integration/module/fixtures/build/format/umd: {}
 
+  tests/integration/module/fixtures/build/hook: {}
+
   tests/integration/module/fixtures/build/input: {}
 
   tests/integration/module/fixtures/build/jsx: {}
@@ -7699,7 +7701,7 @@ importers:
         specifier: ^5
         version: 5.4.5
 
-  tests/integration/ssr/fixtures/preload:
+  tests/integration/ssr/fixtures/scriptLoading:
     dependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -7714,7 +7716,7 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
 
-  tests/integration/ssr/fixtures/scriptLoading:
+  tests/integration/ssr/fixtures/ssr-config-merge:
     dependencies:
       '@modern-js/app-tools':
         specifier: workspace:*

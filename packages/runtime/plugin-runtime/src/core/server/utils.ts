@@ -3,6 +3,7 @@ import {
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
 import { ServerUserConfig } from '@modern-js/app-tools';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { SSRConfig } from './shared';
 
 export function attributesToString(attributes: Record<string, any>) {
@@ -65,6 +66,13 @@ export function getSSRConfigByEntry(
   ssr?: ServerUserConfig['ssr'],
   ssrByEntries?: ServerUserConfig['ssrByEntries'],
 ) {
+  if (
+    typeof ssr === 'object' &&
+    typeof ssrByEntries?.[entryName] === 'object'
+  ) {
+    return merge({}, ssr, ssrByEntries[entryName] as Record<string, any>);
+  }
+
   if (ssrByEntries?.[entryName]) {
     return ssrByEntries[entryName];
   }

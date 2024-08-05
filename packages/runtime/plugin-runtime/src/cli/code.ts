@@ -6,7 +6,7 @@ import type {
   NormalizedConfig,
   RuntimePlugin,
 } from '@modern-js/app-tools';
-import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
+import { MAIN_ENTRY_NAME, fs, lodash } from '@modern-js/utils';
 import { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
 import {
@@ -32,9 +32,21 @@ function getSSRMode(
     return 'string';
   }
 
-  return checkSSRMode(ssrByEntries?.[entry] || ssr);
+  return checkSSRMode();
 
-  function checkSSRMode(ssr: AppNormalizedConfig['server']['ssr']) {
+  function checkSSRMode() {
+    if (typeof ssr === 'object' && typeof ssrByEntries?.[entry] === 'object') {
+      const ssrConfig = lodash.merge({}, ssr, ssrByEntries?.[entry]);
+
+      return ssrConfig.mode === 'stream' ? 'stream' : 'string';
+    }
+
+    return checkSSRModeFromSSRConfig(ssrByEntries?.[entry] || ssr);
+  }
+
+  function checkSSRModeFromSSRConfig(
+    ssr: AppNormalizedConfig['server']['ssr'],
+  ) {
     if (!ssr) {
       return false;
     }

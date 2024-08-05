@@ -1,6 +1,5 @@
 import http, { OutgoingHttpHeaders } from 'http';
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -35,12 +34,10 @@ async function request(
   });
 }
 
-// we would remove ssr preload features.
-// so skip the test here
-describe.skip('SSR preload', () => {
+describe('SSR Config should be merged', () => {
   let app: any;
   let appPort: number;
-  const appDir = path.join(fixtureDir, 'preload');
+  const appDir = path.join(fixtureDir, 'ssr-config-merge');
 
   beforeAll(async () => {
     appPort = await getPort();
@@ -53,22 +50,11 @@ describe.skip('SSR preload', () => {
     }
   });
 
-  test(`should add Links to response headers`, async () => {
+  test(`should merge ssr config correctly`, async () => {
     const url = `http://127.0.0.1:${appPort}`;
-    const { headers, body } = await request(url);
+    const { body } = await request(url);
 
-    const links = (headers.link as string).split(', ');
-    // the vendors chunk include hash, would fail in CI
-    // so filtration the vendors chunk,
-    expect(links.filter(link => !link.includes('vendors'))).toMatchSnapshot();
-    expect(body).toMatch('"renderLevel":2');
-  });
-
-  test('should set routes.stream is true', async () => {
-    const routePath = path.resolve(appDir, 'dist', 'route.json');
-
-    const content = JSON.parse(fs.readFileSync(routePath, 'utf-8'));
-
-    expect(content.routes[0].isStream).toBeTruthy();
+    expect(body).toMatch('stream');
+    expect(body).toMatch('host');
   });
 });
