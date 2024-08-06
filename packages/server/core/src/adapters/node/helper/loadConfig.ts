@@ -8,6 +8,7 @@ import {
   OUTPUT_CONFIG_FILE,
   lodash as _,
 } from '@modern-js/utils';
+import { fromJSON } from 'flatted';
 import { CliConfig, ServerConfig, UserConfig } from '../../../types';
 
 const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
@@ -78,7 +79,9 @@ export function loadServerCliConfig(
   };
 
   try {
-    cliConfig = require(cliConfigPath);
+    const content = fs.readFileSync(cliConfigPath, 'utf-8');
+
+    cliConfig = fromJSON(content);
   } catch (_) {
     // ignore
   }
