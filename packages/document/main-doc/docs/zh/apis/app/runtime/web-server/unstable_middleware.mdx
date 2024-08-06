@@ -91,7 +91,7 @@ import {
 } from '@modern-js/runtime/server';
 import type { Vars } from '../shared/index';
 
-const setPayload: UnstableMiddleware = async (
+const setPayload: UnstableMiddleware<Vars> = async (
   c: UnstableMiddlewareContext<Vars>,
   next,
 ) => {
@@ -100,7 +100,7 @@ const setPayload: UnstableMiddleware = async (
   await next();
 };
 
-export const unstableMiddleware: UnstableMiddleware[] = [setPayload];
+export const unstableMiddleware: UnstableMiddleware<Vars>[] = [setPayload];
 ```
 
 ```ts title="src/routes/page.data.ts"
