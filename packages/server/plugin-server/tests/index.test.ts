@@ -8,7 +8,7 @@ describe('plugin-server', () => {
     expect(cliPlugin().name).toBe('@modern-js/plugin-server');
   });
 
-  it('should new server hook work correctly', () => {
+  it('should new server hook work correctly', async () => {
     expect(serverPlugin).toBeDefined();
     const plugin = serverPlugin();
     expect(plugin.name).toBe('@modern-js/plugin-server');
@@ -19,12 +19,12 @@ describe('plugin-server', () => {
       }),
     } as any);
 
-    hooks.prepare();
+    await hooks.prepare();
     const sign = { status: 0 };
 
-    hooks.afterMatch(sign);
-    hooks.afterRender(sign);
-    hooks.reset();
+    await hooks.afterMatch(sign);
+    await hooks.afterRender(sign);
+    await hooks.reset();
     expect(sign.status).toBe(4);
   });
 });

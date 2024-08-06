@@ -23,6 +23,7 @@
   "exports": {
     "./types": "./types.d.ts",
     ".": {
+      "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
@@ -39,6 +40,7 @@
       "default": "./dist/esm/index.js"
     },
     "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
       "default": "./dist/cjs/runtime/index.js"
     }
   },

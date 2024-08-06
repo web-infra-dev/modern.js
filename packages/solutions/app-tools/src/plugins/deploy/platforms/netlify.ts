@@ -29,8 +29,15 @@ export const createNetlifyPreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
-    appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    entrypoints,
+    serverPlugins,
+    moduleType,
+  } = appContext;
+
+  const isEsmProject = moduleType === 'module';
 
   // TODO: support serverPlugin apply options.
   const plugins = serverPlugins.map(plugin => plugin.name);
@@ -38,6 +45,7 @@ export const createNetlifyPreset: CreatePreset = (
   const netlifyOutput = path.join(appDirectory, '.netlify');
   const funcsDirectory = path.join(netlifyOutput, 'functions');
   const entryFilePath = path.join(funcsDirectory, 'index.js');
+  const handlerFilePath = path.join(funcsDirectory, 'netlify-handler.cjs');
   return {
     async prepare() {
       await fse.remove(netlifyOutput);
@@ -98,7 +106,9 @@ export const createNetlifyPreset: CreatePreset = (
           prefix: modernConfig?.bff?.prefix,
         },
         output: {
-          path: '.',
+          distPath: {
+            root: '.',
+          },
         },
       };
 
@@ -114,14 +124,14 @@ export const createNetlifyPreset: CreatePreset = (
         })
         .join(',')}]`;
 
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './netlifyEntry.js'))
+      let handlerCode = (
+        await fse.readFile(path.join(__dirname, './netlify-handler.js'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
-      entryCode = entryCode
-        .replace('p_genPluginImportsCode', pluginImportCode)
+      handlerCode = handlerCode
+        .replace('handlerCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
         .replace('p_plugins', pluginsCode)
@@ -129,7 +139,19 @@ export const createNetlifyPreset: CreatePreset = (
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
+      await fse.writeFile(handlerFilePath, handlerCode);
+      if (isEsmProject) {
+        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
+        await fse.copy(
+          path.join(__dirname, './netlify-entry.mjs'),
+          entryFilePath,
+        );
+      } else {
+        await fse.copy(
+          path.join(__dirname, './netlify-entry.js'),
+          entryFilePath,
+        );
+      }
     },
     async end() {
       if (process.env.NODE_ENV !== 'development') {

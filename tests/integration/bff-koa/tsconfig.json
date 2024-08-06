@@ -3,6 +3,10 @@
   "compilerOptions": {
     "declaration": false,
     "jsx": "preserve",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
@@ -11,5 +15,12 @@
     },
     "types": ["jest"]
   },
-  "include": ["src", "shared", "config", "api", "modern.config.ts"]
+  "include": [
+    "src",
+    "shared",
+    "config",
+    "api",
+    "modern.config.ts",
+    "api/index.ts"
+  ]
 }

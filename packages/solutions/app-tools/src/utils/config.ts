@@ -35,7 +35,7 @@ export const buildServerConfig = async ({
       `${filepath.replace(
         new RegExp(CONFIG_FILE_EXTENSIONS.join('|')),
         '',
-      )}.js`,
+      )}.cjs`,
     );
 
   if (configFilePath) {

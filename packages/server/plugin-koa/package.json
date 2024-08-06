@@ -40,6 +40,7 @@
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
+      "types": "./dist/types/runtime/index.d.ts",
       "jsnext:source": "./src/runtime.ts",
       "default": "./dist/cjs/runtime.js"
     },

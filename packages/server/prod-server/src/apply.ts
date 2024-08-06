@@ -35,7 +35,7 @@ export async function applyPlugins(
   const { pwd, appContext } = options;
 
   const loadCachePwd = isProd() ? pwd : appContext.appDirectory || pwd;
-  const cacheConfig = loadCacheConfig(loadCachePwd);
+  const cacheConfig = await loadCacheConfig(loadCachePwd);
 
   serverBase.notFound(c => {
     const logger = c.get('logger');

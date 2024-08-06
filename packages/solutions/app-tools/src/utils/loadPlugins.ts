@@ -30,7 +30,7 @@ export async function loadServerPlugins(
 ): Promise<ServerPluginInstance[]> {
   const plugins = await getServerPlugins(api, metaName);
 
-  const instances = loadServerPluginInstances(plugins, appDirectory);
+  const instances = await loadServerPluginInstances(plugins, appDirectory);
 
   return instances;
 }

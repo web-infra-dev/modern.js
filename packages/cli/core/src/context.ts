@@ -78,6 +78,7 @@ export const initAppContext = ({
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,
+    moduleType: require(path.resolve(appDirectory, './package.json')).type,
     srcDirectory: path.resolve(appDirectory, srcDir),
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),

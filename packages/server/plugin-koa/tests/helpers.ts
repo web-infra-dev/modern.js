@@ -38,7 +38,7 @@ export const APIPlugin: ServerPlugin = {
 
   setup(api) {
     return {
-      prepareApiServer(props, next) {
+      async prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
@@ -49,7 +49,7 @@ export const APIPlugin: ServerPlugin = {
           httpMethodDecider,
         });
         const apiMode = apiRouter.getApiMode();
-        const apiHandlerInfos = apiRouter.getApiHandlers();
+        const apiHandlerInfos = await apiRouter.getApiHandlers();
         const middleware = props.config?.middleware;
 
         api.setAppContext({

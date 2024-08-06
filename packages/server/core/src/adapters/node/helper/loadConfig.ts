@@ -1,27 +1,29 @@
 import path from 'path';
 import {
-  compatRequire,
   fs,
   DEFAULT_SERVER_CONFIG,
   requireExistModule,
   ensureAbsolutePath,
   OUTPUT_CONFIG_FILE,
   lodash as _,
+  compatibleRequire,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
 import type { CliConfig, ServerConfig, UserConfig } from '../../../types';
 
-const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
+const requireConfig = async (
+  serverConfigPath: string,
+): Promise<ServerConfig | undefined> => {
   if (fs.pathExistsSync(serverConfigPath)) {
-    return compatRequire(serverConfigPath);
+    return compatibleRequire(serverConfigPath);
   }
   return undefined;
 };
 
-function loadServerConfigNew(
+async function loadServerConfigNew(
   serverConfigPath: string,
-): ServerConfig | undefined {
-  const mod: ServerConfig | null = requireExistModule(serverConfigPath);
+): Promise<ServerConfig | undefined> {
+  const mod: ServerConfig | null = await requireExistModule(serverConfigPath);
 
   if (mod) {
     return mod;
@@ -29,28 +31,28 @@ function loadServerConfigNew(
   return undefined;
 }
 
-function loadServerConfigOld(
+async function loadServerConfigOld(
   pwd: string,
   configFile: string,
-): ServerConfig | undefined {
+): Promise<ServerConfig | undefined> {
   const serverConfigPath = path.join(pwd, `${configFile}.js`);
-  const serverConfig = requireConfig(serverConfigPath);
+  const serverConfig = await requireConfig(serverConfigPath);
   return serverConfig;
 }
 
-export function loadServerRuntimeConfig(
+export async function loadServerRuntimeConfig(
   pwd: string,
   oldServerFile: string = DEFAULT_SERVER_CONFIG,
   newServerConfigPath?: string,
 ) {
   const newServerConfig =
-    newServerConfigPath && loadServerConfigNew(newServerConfigPath);
+    newServerConfigPath && (await loadServerConfigNew(newServerConfigPath));
 
   if (newServerConfig) {
     return newServerConfig;
   }
 
-  const oldServerConfig = loadServerConfigOld(pwd, oldServerFile);
+  const oldServerConfig = await loadServerConfigOld(pwd, oldServerFile);
   return oldServerConfig;
 }
 

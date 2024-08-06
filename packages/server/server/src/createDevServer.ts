@@ -17,7 +17,7 @@ export async function createDevServer(
 
   const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = loadServerRuntimeConfig(
+  const serverConfig = await loadServerRuntimeConfig(
     distDir,
     serverConfigFile,
     serverConfigPath,

@@ -36,6 +36,7 @@ export const runCli = async (options: {
     );
     return { code: 0, success: true, error: null };
   } catch (e) {
+    console.error(e);
     return { code: 1, success: false, error: e as Error };
   }
 };

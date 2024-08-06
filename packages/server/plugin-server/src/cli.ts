@@ -27,7 +27,7 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
     },
 
     async afterBuild() {
-      const { appDirectory, distDirectory } = api.useAppContext();
+      const { appDirectory, distDirectory, moduleType } = api.useAppContext();
 
       if (checkHasCache(appDirectory)) {
         // If the has server/cache.ts or server/cache.js
@@ -44,11 +44,11 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
       const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
 
       const sourceDirs = [];
-      if (fs.existsSync(serverDir)) {
+      if (await fs.pathExists(serverDir)) {
         sourceDirs.push(serverDir);
 
         // compile the sharedDir only when serverDir exists
-        if (fs.existsSync(sharedDir)) {
+        if (await fs.pathExists(sharedDir)) {
           sourceDirs.push(sharedDir);
         }
       }
@@ -56,7 +56,6 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
       const { server } = modernConfig;
       const { alias } = modernConfig.source;
       const { babel } = modernConfig.tools;
-
       if (sourceDirs.length > 0) {
         await compile(
           appDirectory,
@@ -69,6 +68,7 @@ export const serverPlugin = (): CliPlugin<AppTools> => ({
             sourceDirs,
             distDir,
             tsconfigPath,
+            moduleType,
           },
         );
       }

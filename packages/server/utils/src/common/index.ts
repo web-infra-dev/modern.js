@@ -23,12 +23,13 @@ export interface CompileOptions {
   sourceDirs: string[];
   distDir: string;
   tsconfigPath?: string;
+  moduleType? : 'module' | 'commonjs'
 }
 
 export type CompileFunc = (
   appDirectory: string,
   modernConfig: IConfig,
-  compileOptions: CompileOptions,
+  compileOptions: CompileOptions
 ) => Promise<void>;
 
 export const FILE_EXTENSIONS = ['.js', '.ts', '.mjs', '.ejs'];

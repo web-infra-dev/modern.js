@@ -1,16 +1,9 @@
 import path from 'path';
-import {
-  fs,
-  API_DIR,
-  normalizeOutputPath,
-  SHARED_DIR,
-  isProd,
-} from '@modern-js/utils';
+import { fs, API_DIR, normalizeOutputPath, SHARED_DIR } from '@modern-js/utils';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
 import { ApiRouter } from '@modern-js/bff-core';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { registerModernRuntimePath } from './helper';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
@@ -18,7 +11,6 @@ const TS_CONFIG_FILENAME = 'tsconfig.json';
 export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
-    let unRegisterResolveRuntimePath: (() => void) | null = null;
     return {
       config() {
         return {
@@ -126,21 +118,14 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         return { plugins };
       },
 
-      async beforeBuild() {
-        // help esbuild-register resolve @modern-js/server/runtime
-        if (isProd()) {
-          const { internalDirectory } = api.useAppContext();
-          unRegisterResolveRuntimePath =
-            registerModernRuntimePath(internalDirectory);
-        }
-      },
-
       async afterBuild() {
-        if (unRegisterResolveRuntimePath) {
-          unRegisterResolveRuntimePath();
-        }
-        const { appDirectory, distDirectory, apiDirectory, sharedDirectory } =
-          api.useAppContext();
+        const {
+          appDirectory,
+          distDirectory,
+          apiDirectory,
+          sharedDirectory,
+          moduleType,
+        } = api.useAppContext();
         const modernConfig = api.useResolvedConfigContext();
 
         const distDir = path.resolve(distDirectory);
@@ -150,11 +135,11 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);
 
         const sourceDirs = [];
-        if (fs.existsSync(apiDir)) {
+        if (await fs.pathExists(apiDir)) {
           sourceDirs.push(apiDir);
         }
 
-        if (fs.existsSync(sharedDir)) {
+        if (await fs.pathExists(sharedDir)) {
           sourceDirs.push(sharedDir);
         }
 
@@ -174,6 +159,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
               sourceDirs,
               distDir,
               tsconfigPath,
+              moduleType,
             },
           );
         }

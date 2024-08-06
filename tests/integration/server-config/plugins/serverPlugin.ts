@@ -20,14 +20,14 @@ export default (): ServerPlugin => ({
   name: 'serverPlugin1',
   setup: api => {
     return {
-      prepare() {
+      async prepare() {
         const { appDirectory, distDirectory } = api.useAppContext();
 
         const root = isProd() ? distDirectory : appDirectory;
 
         const apiPath = path.resolve(root || process.cwd(), API_DIR);
         const apiAppPath = path.resolve(apiPath, API_APP_NAME);
-        requireExistModule(apiAppPath);
+        await requireExistModule(apiAppPath);
       },
       config(serverConfig) {
         if (serverConfig.bff?.proxy) {
