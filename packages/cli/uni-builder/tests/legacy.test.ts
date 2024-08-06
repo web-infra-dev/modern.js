@@ -16,8 +16,6 @@ describe('uni-builder legacy plugins', () => {
           api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
             const builderConfig = api.getBuilderConfig();
 
-            expect(api.context.target).toBe(api.context.targets);
-
             expect(builderConfig.source).toBeDefined();
 
             return mergeBuilderConfig(config, {

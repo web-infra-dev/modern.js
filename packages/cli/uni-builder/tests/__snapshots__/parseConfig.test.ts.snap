@@ -6,12 +6,14 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "client": {
       "overlay": false,
       "path": "/aaaa",
+      "port": "<port>",
     },
     "hmr": false,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -20,22 +22,11 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -58,9 +49,13 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -71,12 +66,14 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -85,19 +82,8 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -109,9 +95,13 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -122,12 +112,14 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "favicon": [Function],
     "outputStructure": "nested",
@@ -137,22 +129,11 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -165,9 +146,13 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -178,12 +163,14 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "favicon": [
       "/https/www.foo.com/default.ico",
@@ -196,22 +183,11 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -224,9 +200,13 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -237,12 +217,14 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "inject": [Function],
     "outputStructure": "nested",
@@ -252,22 +234,11 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -280,9 +251,13 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -293,12 +268,14 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "inject": [
       "body",
@@ -311,22 +288,11 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -339,9 +305,13 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -352,12 +322,14 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "meta": [Function],
     "outputStructure": "nested",
@@ -367,22 +339,11 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -395,9 +356,13 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -408,12 +373,14 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "meta": [
       {
@@ -430,22 +397,11 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -458,9 +414,13 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -471,12 +431,14 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "template": [Function],
@@ -486,22 +448,11 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -514,9 +465,13 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -527,12 +482,14 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "template": [
@@ -545,22 +502,11 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -573,9 +519,13 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -586,12 +536,14 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "templateParameters": [Function],
@@ -601,22 +553,11 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -629,9 +570,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -642,12 +587,14 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "templateParameters": [
@@ -662,22 +609,11 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -690,9 +626,13 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -703,12 +643,14 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": [
@@ -720,22 +662,11 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -748,9 +679,13 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -761,12 +696,14 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": [
@@ -778,22 +715,11 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -806,9 +732,13 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -819,12 +749,14 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -836,22 +768,11 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -864,9 +785,13 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -877,12 +802,14 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -894,22 +821,11 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
-    },
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
     },
     "polyfill": "entry",
     "sourceMap": {
       "css": true,
     },
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -922,9 +838,13 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -935,12 +855,14 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -949,20 +871,9 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
     },
     "inlineScripts": true,
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
-    },
     "polyfill": "entry",
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -974,9 +885,13 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;
@@ -987,12 +902,14 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "client": {
       "overlay": false,
       "path": "/webpack-hmr",
+      "port": "<port>",
     },
     "hmr": true,
     "liveReload": true,
     "progressBar": true,
     "writeToDisk": [Function],
   },
+  "environments": {},
   "html": {
     "outputStructure": "nested",
     "title": "",
@@ -1001,20 +918,9 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
-      "server": "bundles",
     },
     "inlineStyles": true,
-    "overrideBrowserslist": {
-      "web": [
-        "> 0.01%",
-        "not dead",
-        "not op_mini all",
-      ],
-    },
     "polyfill": "entry",
-    "targets": [
-      "web",
-    ],
   },
   "performance": {},
   "plugins": [],
@@ -1026,9 +932,13 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   },
   "source": {
     "alias": undefined,
+    "decorators": {
+      "version": "legacy",
+    },
   },
   "tools": {
     "htmlPlugin": [Function],
+    "lightningcssLoader": false,
   },
 }
 `;

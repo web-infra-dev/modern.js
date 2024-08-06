@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: Welcome
-      link: /en/guide/intro/welcome
+      link: /guide/intro/welcome
     - theme: alt
       text: Quick Start
-      link: /en/guide/intro/getting-started
+      link: /guide/intro/getting-started
 
 features:
   - title: 'esbuild: The High Performance JS Bundler'

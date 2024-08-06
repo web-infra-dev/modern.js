@@ -680,14 +680,14 @@ export const myPlugin = (): ServerPlugin => ({
 
 :::
 
-Runtime 插件主要用于开发者修改需要渲染的组件。
+Runtime 插件主要用于开发者自定义应用渲染前行为和修改需要渲染的组件。
 
-### `init`
+### `beforeRender`
 
-- 功能：执行 `App.init`
+- 功能：在应用渲染之前增加行为
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：`AsyncPipeline`
-- 类型：`AsyncPipeline<{ context: RuntimeContext; }, unknown>`
+- Hook 模型：`AsyncWorkflow`
+- 类型：`AsyncWorkflow<RuntimeContext， void>`
 - 使用示例：
 
 ```ts
@@ -696,26 +696,21 @@ import type { Plugin } from '@modern-js/runtime';
 export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
-      init({ context }, next) {
+      beforeRender(context) {
         // do something
-        return next({ context });
       },
     };
   },
 });
 ```
 
-### `hoc`
+### `wrapRoot`
 
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：`Pipeline`
-- 类型：`Pipeline<{ App: React.ComponentType<any>;config: Record<string, any>; },React.ComponentType<any>>`
+- Hook 模型：`Waterfall`
+- 类型：`Waterfall<React.ComponentType<any>>`
 - 使用示例：
-
-:::note
-使用 hoc 钩子时，需要把原来的 App 组件的静态属性拷贝到新的组件上，并透传 props.
-:::
 
 ```ts
 import { createContext } from 'react';
@@ -725,7 +720,7 @@ export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
         const AppWrapper = (props: any) => {
           return (
             <FooContext.Provider store={'test'}>
@@ -733,10 +728,7 @@ export const myPlugin = (): Plugin => ({
             </FooContext.Provider>
           );
         };
-        return next({
-          App: AppWrapper,
-          config
-        });
+        return AppWrapper
       },
     };
   },

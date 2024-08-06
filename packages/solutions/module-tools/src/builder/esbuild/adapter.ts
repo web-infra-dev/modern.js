@@ -264,7 +264,10 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
 
         const ext = extname(args.path);
 
-        const loader = (transformResult.loader ?? loaderMap[ext]) as Loader;
+        // Priority: transform result > user loader > default loader
+        const loader = (transformResult.loader ??
+          compiler.config.loader[ext] ??
+          loaderMap[ext]) as Loader;
 
         const inlineSourceMap = context.getInlineSourceMap();
 

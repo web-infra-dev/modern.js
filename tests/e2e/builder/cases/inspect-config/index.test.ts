@@ -4,6 +4,14 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { createUniBuilder } from '@scripts/shared';
 
 const builderConfig = path.resolve(__dirname, './dist/rsbuild.config.mjs');
+const builderWebConfig = path.resolve(
+  __dirname,
+  './dist/rsbuild.config.web.mjs',
+);
+const builderNodeConfig = path.resolve(
+  __dirname,
+  './dist/rsbuild.config.node.mjs',
+);
 const bundlerConfig = path.resolve(
   __dirname,
   `./dist/${process.env.PROVIDE_TYPE || 'webpack'}.config.web.mjs`,
@@ -17,11 +25,14 @@ test('should generate config files when writeToDisk is true', async () => {
   const builder = await createUniBuilder(
     {
       cwd: __dirname,
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
+    },
+    {
+      source: {
+        entry: {
+          index: path.resolve(__dirname, './src/index.js'),
+        },
       },
     },
-    {},
   );
   await builder.inspectConfig({
     writeToDisk: true,
@@ -38,22 +49,35 @@ test('should generate bundler config for node when target contains node', async 
   const builder = await createUniBuilder(
     {
       cwd: __dirname,
-      target: ['web', 'node'],
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
+    },
+    {
+      source: {
+        entry: {
+          index: path.resolve(__dirname, './src/index.js'),
+        },
+      },
+      environments: {
+        web: {},
+        node: {
+          output: {
+            target: 'node',
+          },
+        },
       },
     },
-    {},
   );
   await builder.inspectConfig({
     writeToDisk: true,
   });
 
-  expect(fs.existsSync(builderConfig)).toBeTruthy();
+  expect(fs.existsSync(builderWebConfig)).toBeTruthy();
+  expect(fs.existsSync(builderNodeConfig)).toBeTruthy();
+
   expect(fs.existsSync(bundlerConfig)).toBeTruthy();
   expect(fs.existsSync(bundlerNodeConfig)).toBeTruthy();
 
-  fs.removeSync(builderConfig);
+  fs.removeSync(builderWebConfig);
+  fs.removeSync(builderNodeConfig);
   fs.removeSync(bundlerConfig);
   fs.removeSync(bundlerNodeConfig);
 });
@@ -62,11 +86,14 @@ test('should not generate config files when writeToDisk is false', async () => {
   const builder = await createUniBuilder(
     {
       cwd: __dirname,
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
+    },
+    {
+      source: {
+        entry: {
+          index: path.resolve(__dirname, './src/index.js'),
+        },
       },
     },
-    {},
   );
   await builder.inspectConfig({
     writeToDisk: false,

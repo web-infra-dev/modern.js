@@ -11,58 +11,57 @@ import {
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
-import { SSRServerContext } from '../../core/types';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import DeferredDataScripts from './DeferredDataScripts.node';
 
-export function createFetchHeaders(
-  requestHeaders: SSRServerContext['request']['headers'],
-): Headers {
-  const headers = new Headers();
+function createRemixReuqest(request: Request) {
+  const method = 'GET';
+  const { headers } = request;
+  const controller = new AbortController();
 
-  for (const [key, values] of Object.entries(requestHeaders || {})) {
-    if (values) {
-      if (Array.isArray(values)) {
-        for (const value of values) {
-          headers.append(key, value);
-        }
-      } else {
-        headers.set(key, values);
-      }
-    }
-  }
-
-  return headers;
+  return new Request(request.url, {
+    method,
+    headers,
+    signal: controller.signal,
+  });
 }
 
-export const routerPlugin = ({
-  basename = '',
-  routesConfig,
-  createRoutes,
-}: RouterConfig): Plugin => {
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
-      const finalRouteConfig = {
-        routes: getGlobalRoutes(),
-        globalApp: getGlobalLayoutApp(),
-        ...routesConfig,
-      };
+      let finalRouteConfig: any = {};
+
       return {
-        async init({ context }, next) {
+        async beforeRender(context, interrupt) {
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
+          const {
+            basename = '',
+            routesConfig,
+            createRoutes,
+          } = merge(pluginConfig.router || {}, userConfig);
+          finalRouteConfig = {
+            routes: getGlobalRoutes(),
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
-            return next({ context });
+            return;
           }
 
           const {
@@ -100,7 +99,11 @@ export const routerPlugin = ({
             basename: _basename,
           });
 
-          const remixRequest = context.ssrContext!.request.raw;
+          // We can't pass post request to query,due to post request would triger react-router submit action.
+          // But user maybe do not define action for page.
+          const remixRequest = createRemixReuqest(
+            context.ssrContext!.request.raw,
+          );
 
           const end = time();
           const routerContext = await query(remixRequest, {
@@ -112,7 +115,9 @@ export const routerPlugin = ({
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
-            return routerContext as any;
+
+            // eslint-disable-next-line consistent-return
+            return interrupt(routerContext);
           }
 
           if (
@@ -128,20 +133,18 @@ export const routerPlugin = ({
           context.remixRouter = router;
           context.routerContext = routerContext;
           context.routes = routes;
-
-          return next({ context });
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig) {
-            return next({ App, config });
+            return App;
           }
 
           const getRouteApp = () => {
             return (() => {
-              const { remixRouter, routerContext, ssrContext } =
-                useContext(RuntimeReactContext);
+              const context = useContext(RuntimeReactContext);
+              const { remixRouter, routerContext, ssrContext } = context;
 
               const { nonce, mode } = ssrContext!;
               return (
@@ -151,26 +154,29 @@ export const routerPlugin = ({
                     context={routerContext!}
                     hydrate={false}
                   />
-                  <DeferredDataScripts nonce={nonce} context={routerContext!} />
+
+                  {mode === 'stream' && (
+                    // ROUTER_DATA will inject in `packages/runtime/plugin-runtime/src/core/server/string/ssrData.ts` in string ssr
+                    // So we can inject it only when streaming ssr
+                    <DeferredDataScripts
+                      nonce={nonce}
+                      context={routerContext!}
+                    />
+                  )}
                   {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </>
               );
             }) as React.FC<any>;
           };
 
-          const RouteApp = getRouteApp();
-
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
-        pickContext: ({ context, pickedContext }, next) => {
-          const { remixRouter } = context;
+        pickContext: pickedContext => {
+          const { remixRouter } = pickedContext;
 
           // remixRouter is not existed in conventional routes
           if (!remixRouter) {
-            return next({ context, pickedContext });
+            return pickedContext;
           }
 
           // only export partial common API from remix-router
@@ -181,13 +187,10 @@ export const routerPlugin = ({
             },
           };
 
-          return next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              router,
-            },
-          });
+          return {
+            ...pickedContext,
+            router,
+          };
         },
       };
     },

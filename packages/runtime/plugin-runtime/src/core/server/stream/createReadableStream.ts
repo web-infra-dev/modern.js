@@ -1,5 +1,4 @@
 import { Transform } from 'stream';
-import { renderToPipeableStream } from 'react-dom/server';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
 import { ServerStyleSheet } from 'styled-components';
 import checkIsBot from 'isbot';
@@ -13,7 +12,8 @@ import {
 } from './shared';
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
-  (request, rootElement, options) => {
+  async (request, rootElement, options) => {
+    const { renderToPipeableStream } = await import('react-dom/server');
     const { runtimeContext, htmlTemplate, config, ssrConfig } = options;
     let shellChunkStatus = ShellChunkStatus.START;
 

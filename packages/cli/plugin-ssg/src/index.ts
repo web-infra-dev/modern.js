@@ -1,7 +1,8 @@
 import path from 'path';
-import { logger } from '@modern-js/utils';
+import { filterRoutesForServer, logger } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { generatePath } from 'react-router-dom';
+import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
 import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 import {
   flattenRoutes,
@@ -27,7 +28,9 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
         const { entryName } = entrypoint;
-        const flattedRoutes = flattenRoutes(routes);
+        const flattedRoutes = flattenRoutes(
+          filterRoutesForServer(routes as (NestedRouteForCli | PageRoute)[]),
+        );
         agreedRouteMap[entryName] = flattedRoutes;
 
         return { entrypoint, routes };
@@ -47,8 +50,8 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         const routes = readJSONSpec(buildDir);
 
         // filter all routes not web
-        const pageRoutes = routes.filter(route => !route.isApi);
-        const apiRoutes = routes.filter(route => route.isApi);
+        const pageRoutes = routes.filter(route => route.isSPA);
+        const apiRoutes = routes.filter(route => !route.isSPA);
 
         // if no web page route, skip ssg render
         if (pageRoutes.length === 0) {

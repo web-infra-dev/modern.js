@@ -1,5 +1,42 @@
 # @modern-js/main-doc
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.57.1
+- @modern-js/sandpack-react@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.57.0
+- @modern-js/builder-doc@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.56.2
+- @modern-js/sandpack-react@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.56.1
+- @modern-js/sandpack-react@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- dee8a8c: chore(deps): bump rspress to 1.26.1
+- Updated dependencies [dee8a8c]
+  - @modern-js/builder-doc@2.56.0
+  - @modern-js/sandpack-react@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

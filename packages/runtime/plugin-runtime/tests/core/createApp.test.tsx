@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { Plugin, createApp, useRuntimeContext } from '../../src/core';
-import { initialWrapper } from '../utils';
+import { initialWrapper, wrapRuntimeProvider } from '../utils';
 import { createRuntime } from '../../src/core/plugin';
 
 declare module '../../src/core' {
@@ -34,8 +34,8 @@ describe('create-app', () => {
     const wrap = initialWrapper(
       [
         runtime.createPlugin(() => ({
-          hoc:
-            ({ App: App1 }) =>
+          wrapRoot:
+            App1 =>
             ({ test }: Props) =>
               <App1 test={test + 1} />,
         })),
@@ -62,8 +62,7 @@ describe('create-app', () => {
     const wrap = initialWrapper(
       [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-          client: ({ App: App1 }, next) => next({ App: App1 } as any),
+          wrapRoot: App1 => App1,
         })),
       ],
       runtime,
@@ -88,8 +87,7 @@ describe('create-app', () => {
     const wrap = createApp({
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-          client: ({ App: App1 }, next) => next({ App: App1 } as any),
+          wrapRoot: App1 => App1,
         })),
       ],
     });
@@ -115,8 +113,7 @@ describe('create-app', () => {
   it('createApp with plugin options', () => {
     const plugin = (): Plugin => ({
       setup: () => ({
-        hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        client: ({ App: App1 }, next) => next({ App: App1 } as any),
+        wrapRoot: App1 => App1,
       }),
     });
 
@@ -139,6 +136,7 @@ describe('create-app', () => {
   });
 
   it('useRuntimeContext', () => {
+    const runtime = createRuntime();
     const TEST_STRING = 'this is a test context';
 
     function App() {
@@ -149,22 +147,19 @@ describe('create-app', () => {
     // a custom plugin just for inject context
     const plugin = (): Plugin => ({
       setup: () => ({
-        pickContext: ({ context, pickedContext }, next) =>
-          next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              test: TEST_STRING, // check this
-            },
-          }),
+        pickContext: pickedContext => ({
+          ...pickedContext,
+          test: TEST_STRING, // check this
+        }),
       }),
     });
 
     const wrap = createApp({
       plugins: [plugin()],
+      runtime,
     });
 
-    const AppWrapper = wrap(App);
+    const AppWrapper = wrap(wrapRuntimeProvider(App, runtime));
 
     const { container } = render(<AppWrapper />);
     expect(container.textContent).toBe(TEST_STRING);

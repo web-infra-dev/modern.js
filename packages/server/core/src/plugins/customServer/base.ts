@@ -168,6 +168,10 @@ class BaseHookResponse implements ModernResponse {
     this.#resArgs && (this.#resArgs.status = code);
   }
 
+  getStatus(): number {
+    return this.#c.res.status;
+  }
+
   get cookies() {
     const setCookie = (key: string, value: string) => {
       this.#c.header('set-cookie', `${key}=${value}`, {

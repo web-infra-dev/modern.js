@@ -1,9 +1,4 @@
 import type {
-  NodeEnv,
-  RequestHandler,
-  HtmlTagDescriptor,
-} from '@rsbuild/shared';
-import type {
   ConfigChainWithContext,
   ConfigChain,
   DevConfig,
@@ -13,9 +8,13 @@ import type {
   ScriptInject,
   ServerConfig,
   RsbuildPluginAPI,
-  SourceConfig,
   OutputConfig,
+  DistPathConfig,
   Rspack,
+  RequestHandler,
+  NodeEnv,
+  HtmlTagDescriptor,
+  RsbuildPlugin,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
@@ -30,16 +29,17 @@ import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
-import type {
-  StartDevServerOptions,
-  UniBuilderStartServerResult,
-} from './shared/devServer';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
 import type TerserPlugin from 'terser-webpack-plugin';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
+import type { Options as AutoprefixerOptions } from 'autoprefixer';
 
 type ArrayOrNot<T> = T | T[];
 
-export type Stats = Omit<Rspack.Stats, '#private' | 'hash'>;
+export type Stats = Omit<
+  Rspack.Stats,
+  '#private' | 'hash' | 'startTime' | 'endTime'
+>;
 
 export type RspackConfig = Rspack.Configuration;
 
@@ -65,9 +65,7 @@ export type MetaOptions = {
 };
 
 export type CreateBuilderCommonOptions = {
-  entry?: SourceConfig['entry'];
   frameworkConfigPath?: string;
-  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd: string;
 };
@@ -124,8 +122,24 @@ export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
 
 export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
+export type ToolsAutoprefixerConfig = ConfigChain<AutoprefixerOptions>;
+
 export type UniBuilderExtraConfig = {
   tools?: {
+    /**
+     * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
+     */
+    autoprefixer?: ToolsAutoprefixerConfig;
+    // tools.htmlPlugin minify option should works
+    htmlPlugin?:
+      | boolean
+      | ConfigChainWithContext<
+          HTMLPluginOptions,
+          {
+            entryName: string;
+            entryValue: (string | string[] | Rspack.EntryDescription)[];
+          }
+        >;
     styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
     /**
@@ -169,6 +183,10 @@ export type UniBuilderExtraConfig = {
     sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
+    /** Set the page URL to open when the server starts. */
+    startUrl?: boolean | string | string[];
+    /** Execute a callback function before opening the `startUrl`. */
+    beforeStartUrl?: () => Promise<void> | void;
     /**
      * Used to set the host of Dev Server.
      */
@@ -358,23 +376,15 @@ export type SriOptions = {
 
 export type OverridesUniBuilderInstance = {
   addPlugins: (
-    plugins: UniBuilderPlugin[],
+    plugins: Array<UniBuilderPlugin | LooseRsbuildPlugin>,
     options?: {
       before?: string;
     },
   ) => void;
-  /**
-   * should be used in conjunction with the upper-layer framework:
-   *
-   * missing route.json (required in modern server)
-   */
-  startDevServer: (
-    options: StartDevServerOptions,
-  ) => Promise<UniBuilderStartServerResult>;
 };
 
 export type UniBuilderContext = RsbuildPluginAPI['context'] & {
-  target: RsbuildPluginAPI['context']['targets'];
+  target: RsbuildTarget[];
   framework: string;
   srcPath: string;
   entry: Record<string, string | string[]>;
@@ -417,16 +427,31 @@ export type UniBuilderPlugin = {
   remove?: string[];
 };
 
+// Support for registering any version Rsbuild plugins
+export type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
+  setup: (api: any) => Promise<void> | void;
+};
+
+export type DistPath = DistPathConfig & {
+  server?: string;
+  worker?: string;
+};
+
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
   html?: RsbuildConfig['html'];
-  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+  output?: Omit<
+    NonNullable<RsbuildConfig['output']>,
+    'polyfill' | 'distPath'
+  > & {
     polyfill?: Polyfill | 'ua';
+    distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
-  tools?: RsbuildConfig['tools'];
+  tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
   source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildConfig['plugins'];
+  environments?: RsbuildConfig['environments'];
 } & UniBuilderExtraConfig;

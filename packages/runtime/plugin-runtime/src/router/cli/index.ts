@@ -1,10 +1,18 @@
+import path from 'node:path';
 import {
   createRuntimeExportsUtils,
+  filterRoutesForServer,
+  fs,
   getEntryOptions,
   isRouterV5 as isV5,
+  NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { ServerRoute } from '@modern-js/types';
+import type {
+  NestedRouteForCli,
+  PageRoute,
+  ServerRoute,
+} from '@modern-js/types';
 import { isRouteEntry } from './entry';
 import {
   handleFileChange,
@@ -19,6 +27,8 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {
+    const nestedRoutes: Record<string, unknown> = {};
+    const nestedRoutesForServer: Record<string, unknown> = {};
     return {
       _internalRuntimePlugins({ entrypoint, plugins }) {
         const { packageName, serverRoutes, metaName } = api.useAppContext();
@@ -89,6 +99,32 @@ export const routerPlugin = (): CliPlugin<AppTools<'shared'>> => ({
       },
       async fileChange(e) {
         await handleFileChange(api, e);
+      },
+
+      async modifyFileSystemRoutes({ entrypoint, routes }) {
+        nestedRoutes[entrypoint.entryName] = routes;
+        nestedRoutesForServer[entrypoint.entryName] = filterRoutesForServer(
+          routes as (NestedRouteForCli | PageRoute)[],
+        );
+
+        return {
+          entrypoint,
+          routes,
+        };
+      },
+
+      async beforeGenerateRoutes({ entrypoint, code }) {
+        const { distDirectory } = api.useAppContext();
+
+        await fs.outputJSON(
+          path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
+          nestedRoutesForServer,
+        );
+
+        return {
+          entrypoint,
+          code,
+        };
       },
     };
   },

@@ -1,5 +1,48 @@
 # @modern-js/plugin-ssg
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- a9807e5: feat(ssg): support ssg with bff.enableHandleWeb
+  feat(ssg): 支持 ssg 和 bff.enableHandleWeb 一起使用
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [604ad3a]
+  - @modern-js/utils@2.57.0
+  - @modern-js/prod-server@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/prod-server@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

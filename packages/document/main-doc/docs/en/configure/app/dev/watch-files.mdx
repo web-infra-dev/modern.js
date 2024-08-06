@@ -1,0 +1,59 @@
+---
+sidebar_label: watchFiles
+---
+
+# dev.watchFiles
+
+- **Type:**
+
+```ts
+type WatchFiles = {
+  paths: string | string[];
+  // watch options for chokidar
+  options?: WatchOptions;
+};
+```
+
+- **Default:** `undefined`
+
+Watch files and directories for changes. When a file changes, the page will be reloaded.
+
+If both `dev.hmr` and `dev.liveReload` are set to false, `watchFiles` will be ignored.
+
+:::tip
+When files in WatchFiles change, reloading and recompilation of the configuration file will not be triggered.
+:::
+
+### Example
+
+You can configure a list of globs/directories/files to watch for file changes.
+
+```js
+export default {
+  dev: {
+    watchFiles: {
+      // watch a single file
+      paths: 'public/demo.txt',
+      // use a glob pattern
+      paths: 'src/**/*.txt',
+      // watch multiple file paths
+      paths: ['src/**/*.txt', 'public/**/*'],
+    },
+  },
+};
+```
+
+You can also specify [chokidar](https://github.com/paulmillr/chokidar#api) watcher options by passing an object with `paths` and `options` properties.
+
+```js
+export default {
+  dev: {
+    watchFiles: {
+      paths: 'src/**/*.txt',
+      options: {
+        usePolling: false,
+      },
+    },
+  },
+};
+```

@@ -10,6 +10,7 @@ type Context = {
   action: boolean;
   inline: boolean;
   routeId: string;
+  retain: boolean;
 };
 
 export default async function loader(
@@ -18,12 +19,18 @@ export default async function loader(
 ) {
   this.cacheable();
   const target = this._compiler?.options.target;
-  if (target === 'node' || (Array.isArray(target) && target.includes('node'))) {
-    return source;
-  }
+
+  const shouldSkip = (compileTarget: string) => {
+    return (
+      target === compileTarget ||
+      (Array.isArray(target) && target.includes(compileTarget))
+    );
+  };
+
   if (
-    target === 'webworker' ||
-    (Array.isArray(target) && target.includes('webworker'))
+    shouldSkip('node') ||
+    shouldSkip('webworker') ||
+    shouldSkip('async-node')
   ) {
     return source;
   }
@@ -42,7 +49,7 @@ export default async function loader(
       return pre;
     }, {} as Record<string, any>);
 
-  if (!options.loaderId) {
+  if (!options.loaderId || options.retain) {
     return source;
   }
 

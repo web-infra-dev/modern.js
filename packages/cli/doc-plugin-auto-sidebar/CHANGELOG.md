@@ -1,5 +1,37 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- dee8a8c: chore(deps): bump rspress to 1.26.1
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

@@ -34,20 +34,21 @@ export async function createBuilder(
       ) as BuilderConfig)
     : finalConfig || {};
 
+  uniBuilderConfig.source ??= {};
+  uniBuilderConfig.source.entry = {
+    main: entries,
+  };
+
   const bundlerType = bundler || 'webpack';
 
   const builder = await createUniBuilder({
     bundlerType,
     cwd,
-    target: 'web',
     frameworkConfigPath: res?.path ? res.path : undefined,
     config:
       bundlerType === 'webpack'
         ? await addonBabelAdapter(uniBuilderConfig, options)
         : uniBuilderConfig,
-    entry: {
-      main: entries,
-    },
   });
 
   builder.addPlugins([

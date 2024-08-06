@@ -3,11 +3,11 @@ import {
   type UniBuilderInstance,
   type BundlerType,
 } from '@modern-js/uni-builder';
+import { mergeRsbuildConfig } from '@rsbuild/core';
 import { BuilderOptions } from '../shared';
 import { Bundler } from '../../types';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
-import { getBuilderTargets } from './getBuilderTargets';
-import { createBuilderOptions } from './createBuilderOptions';
+import { getBuilderEnvironments } from './getBuilderEnvironments';
 
 /**
  * @param options BuilderOptions
@@ -26,10 +26,15 @@ export async function generateBuilder<B extends Bundler>(
     appContext,
   );
 
-  const target = getBuilderTargets(normalizedConfig);
-  const builderOptions = createBuilderOptions(target, appContext);
+  const environments = getBuilderEnvironments(normalizedConfig, appContext);
+
+  builderConfig.environments = builderConfig.environments
+    ? mergeRsbuildConfig(environments, builderConfig.environments)
+    : environments;
+
   const builder = await createUniBuilder({
-    ...builderOptions,
+    cwd: appContext.appDirectory,
+    frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
     config: builderConfig,
   });

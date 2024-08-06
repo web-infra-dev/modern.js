@@ -5,6 +5,7 @@ import type {
   NormalizedConfig,
   DistPathConfig,
 } from '@rsbuild/core';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 
 const getDistPath = (
   outputConfig: NormalizedConfig['output'],
@@ -22,11 +23,12 @@ export const builderPluginAdapterWorker = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-worker',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { isServiceWorker }) => {
-      const config = api.getNormalizedConfig();
+    api.modifyBundlerChain(async (chain, { environment }) => {
+      const { config, name } = environment;
+      const isServiceWorker = name === SERVICE_WORKER_ENVIRONMENT_NAME;
 
       if (isServiceWorker) {
-        const workerPath = getDistPath(config.output, 'worker');
+        const workerPath = getDistPath(config.output, 'root');
         const filename = posix.join(workerPath, `[name].js`);
 
         chain.output

@@ -29,7 +29,7 @@ interface GlobalContext {
 const globalContext: GlobalContext = {};
 
 export function setGlobalContext(
-  context: Omit<GlobalContext, 'appConfig'> & { appConfig: () => AppConfig },
+  context: Omit<GlobalContext, 'appConfig'> & { appConfig?: () => AppConfig },
 ) {
   globalContext.App = context.App;
   globalContext.routes = context.routes;

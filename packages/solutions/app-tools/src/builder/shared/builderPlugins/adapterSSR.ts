@@ -1,7 +1,11 @@
 import * as path from 'path';
 import { RsbuildPlugin, RspackChain, mergeRsbuildConfig } from '@rsbuild/core';
 import { fs, isUseSSRBundle } from '@modern-js/utils';
-import { type HtmlWebpackPlugin, isHtmlDisabled } from '@modern-js/uni-builder';
+import {
+  type HtmlWebpackPlugin,
+  isHtmlDisabled,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+} from '@modern-js/uni-builder';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -38,9 +42,15 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     api.modifyBundlerChain(
       async (
         chain,
-        { target, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+        {
+          target,
+          isProd,
+          HtmlPlugin: HtmlBundlerPlugin,
+          isServer,
+          environment,
+        },
       ) => {
-        const builderConfig = api.getNormalizedConfig();
+        const builderConfig = environment.config;
         const { normalizedConfig } = options;
 
         applyRouterPlugin(
@@ -54,7 +64,10 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           applySSRDataLoader(chain, options);
         }
 
-        if (['node', 'service-worker'].includes(target)) {
+        const isServiceWorker =
+          environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+        if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,

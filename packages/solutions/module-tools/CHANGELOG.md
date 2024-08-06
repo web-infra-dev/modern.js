@@ -1,5 +1,70 @@
 # @modern-js/module-tools
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/core@2.57.1
+- @modern-js/plugin-changeset@2.57.1
+- @modern-js/plugin-i18n@2.57.1
+- @modern-js/plugin-lint@2.57.1
+- @modern-js/plugin@2.57.1
+- @modern-js/types@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [6cec127]
+- Updated dependencies [dc736ef]
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/plugin@2.57.0
+  - @modern-js/core@2.57.0
+  - @modern-js/plugin-changeset@2.57.0
+  - @modern-js/plugin-i18n@2.57.0
+  - @modern-js/plugin-lint@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/core@2.56.2
+- @modern-js/plugin-changeset@2.56.2
+- @modern-js/plugin-i18n@2.56.2
+- @modern-js/plugin-lint@2.56.2
+- @modern-js/plugin@2.56.2
+- @modern-js/types@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/core@2.56.1
+- @modern-js/plugin-changeset@2.56.1
+- @modern-js/plugin-i18n@2.56.1
+- @modern-js/plugin-lint@2.56.1
+- @modern-js/plugin@2.56.1
+- @modern-js/types@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/core@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/plugin-changeset@2.56.0
+  - @modern-js/plugin-i18n@2.56.0
+  - @modern-js/plugin-lint@2.56.0
+  - @modern-js/plugin@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

@@ -1,8 +1,23 @@
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
 import {
   createProvider,
-  garfishRender,
-} from '@modern-js/plugin-garfish/runtime';
+  isRenderGarfish,
+} from '@modern-js/plugin-garfish/tools';
 
-garfishRender();
+async function beforeRender() {
+  return new Promise<void>(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+}
 
-export const provider = createProvider();
+if (!isRenderGarfish()) {
+  const ModernRoot = createRoot();
+  beforeRender().then(() => {
+    render(<ModernRoot />, 'root');
+  });
+}
+
+export const provider = createProvider('root', { beforeRender });

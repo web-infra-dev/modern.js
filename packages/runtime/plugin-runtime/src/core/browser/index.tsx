@@ -1,12 +1,51 @@
 /* eslint-disable no-inner-declarations */
 import React from 'react';
+import cookieTool from 'cookie';
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import { getGlobalAppInit } from '../context';
 import { RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
+import { SSRContainer } from '../types';
+import { wrapRuntimeContextProvider } from '../react/wrapper';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
+
+type ExtraSSRContainer = {
+  context?: {
+    request: {
+      cookieMap?: Record<string, string>;
+      cookie?: string;
+      userAgent?: string;
+      referer?: string;
+    };
+  };
+};
+
+// eslint-disable-next-line consistent-return
+function getSSRData(): (SSRContainer & ExtraSSRContainer) | undefined {
+  const ssrData = window._SSR_DATA;
+
+  if (ssrData) {
+    const finalSSRData = {
+      ...ssrData,
+      context: {
+        ...ssrData.context!,
+        request: {
+          ...ssrData.context!.request,
+          cookieMap: cookieTool.parse(document.cookie || '') || {},
+          cookie: document.cookie || '',
+          userAgent: navigator.userAgent,
+          referer: document.referrer,
+        },
+      },
+    };
+
+    return finalSSRData;
+  }
+}
 
 function isClientArgs(id: unknown): id is HTMLElement | string {
   return (
@@ -16,25 +55,30 @@ function isClientArgs(id: unknown): id is HTMLElement | string {
   );
 }
 
+export type RenderFunc = typeof render;
+
 export async function render(
   App: React.ReactElement,
   id?: HTMLElement | string,
 ) {
   const runner = getGlobalRunner();
   const context: RuntimeContext = getInitialContext(runner);
-  const runInit = (_context: RuntimeContext) =>
-    runner.init(
-      { context: _context },
-      {
-        onLast: ({ context: context1 }) => {
-          const init = getGlobalAppInit();
-          return init?.(context1);
-        },
-      },
-    ) as any;
+  const runBeforeRender = async (context: RuntimeContext) => {
+    await runner.beforeRender(context);
+    const init = getGlobalAppInit();
+    return init?.(context);
+  };
 
   if (isClientArgs(id)) {
-    const ssrData = window._SSR_DATA;
+    // we should get data from HTMLElement when set ssr.inlineScript = false
+
+    window._SSR_DATA =
+      window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
+
+    const routeData = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+    window._ROUTER_DATA = window._ROUTER_DATA || routeData;
+
+    const ssrData = getSSRData();
     const loadersData = ssrData?.data?.loadersData || {};
 
     const initialLoadersState = Object.keys(loadersData).reduce(
@@ -55,11 +99,13 @@ export async function render(
       loaderManager: createLoaderManager(initialLoadersState, {
         skipStatic: true,
       }),
+      // garfish plugin params
+      _internalRouterBaseName: App.props.basename,
       ...(ssrData ? { ssrContext: ssrData?.context } : {}),
     });
 
     context.initialData = ssrData?.data?.initialData;
-    const initialData = await runInit(context);
+    const initialData = await runBeforeRender(context);
     if (initialData) {
       context.initialData = initialData;
     }
@@ -70,10 +116,7 @@ export async function render(
 
     async function ModernRender(App: React.ReactElement) {
       const renderFunc = IS_REACT18 ? renderWithReact18 : renderWithReact17;
-      return renderFunc(
-        React.cloneElement(App, { _internal_context: context }),
-        rootElement,
-      );
+      return renderFunc(App, rootElement);
     }
 
     async function ModernHydrate(
@@ -88,7 +131,7 @@ export async function render(
     if (ssrData) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
-    return ModernRender(App);
+    return ModernRender(wrapRuntimeContextProvider(App, context));
   }
   throw Error(
     '`render` function needs id in browser environment, it needs to be string or element',

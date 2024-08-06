@@ -64,17 +64,12 @@ export function getSSRConfigByEntry(
   entryName: string,
   ssr?: ServerUserConfig['ssr'],
   ssrByEntries?: ServerUserConfig['ssrByEntries'],
-  staticGenerate?: boolean,
 ) {
-  if (staticGenerate) {
-    return true;
-  }
-
   if (ssrByEntries?.[entryName]) {
     return ssrByEntries[entryName];
   }
 
-  return ssr!;
+  return ssr || true;
 }
 
 export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {

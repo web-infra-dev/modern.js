@@ -1,5 +1,123 @@
 # @modern-js/runtime
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.57.1
+- @modern-js/plugin@2.57.1
+- @modern-js/runtime-utils@2.57.1
+- @modern-js/types@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Minor Changes
+
+- dc736ef: feat: refactor runtime plugin hooks
+
+  feat: 重构 runtime 插件钩子函数
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- abad541: fix: more runtime plugin add alias not work
+
+  fix: 多个 runtime 插件添加 runtime 路径别名时不符合预期
+
+- 223d63b: fix: add deferedDataScripts only streaming ssr
+  fix: 只有在 streaming ssr 时才添加 deferedDataScripts
+- a9807e5: feat(ssg): support ssg with bff.enableHandleWeb
+  feat(ssg): 支持 ssg 和 bff.enableHandleWeb 一起使用
+- 916559a: fix: mergeConfig function to return an object when the first configuration is not an object
+
+  fix: 修复 mergeConfig 函数，使其在第一个配置非对象时返回对象
+
+- db43d8e: fix: react 17 ssr context error
+
+  fix: 修复 react 17 ssr 找不到 runtimeReactContext 报错
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+- Updated dependencies [ce9c43a]
+- Updated dependencies [6cec127]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/plugin-data-loader@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/plugin@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- e9c724c: feat: set async entry for data loader entry if enable source.enableAsyncEntry
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- 89e1df0: fix: ssrContext.request maybe a undefined
+  fix: ssrContext.request 可能是 undefined
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/runtime-utils@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- ad9e984: fix(ssr): Avoid the compilation problem with renderToPipeableStream and react 17
+  fix(ssr): 避免 react 17 下，使用 renderToPipeableStream 的编译问题
+- 137d387: fix: style assets should be add to cssChunk
+  fix: style 应该被添加到 cssChunks
+- 1696694: fix: remove unused @loadable/webpack-plugin dependency
+  - @modern-js/plugin-data-loader@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- ced7039: fix(prefetch): chunkId may be string or number
+  fix(prefetch): chunkId 可能是 sstring 或 number
+- 6fda6a2: feat: remove lodash dep from runtime mergeConfig function
+
+  feat: mergeConfig 函数移除 lodash 依赖
+
+- 0f0a31e: fix(plugin-runtime): failed to resolve @rsbuild/core
+- f27eaab: feat: garfish plugin support custom behavior before render
+
+  feat: garfish 插件支持在 render 前自定义行为
+
+- 32d31c3: fix: router plugin should receive request that method is GET
+  fix: router 插件应该获得请求方法为 GET 的请求
+- 9eee52a: fix: server runtime should get config.disablePrerender from ssr config
+  fix: server runtime 应该从 ssrconfig 获取 config.disablePrerender
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- d36f095: fix: ssrContext in browser should add document information
+  fix: 在浏览器中的 ssrContext 应该添加 document 的信息
+- Updated dependencies [bedbbb3]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/plugin@2.56.0
+
 ## 2.55.0
 
 ### Minor Changes

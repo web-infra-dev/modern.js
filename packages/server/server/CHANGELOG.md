@@ -1,5 +1,78 @@
 # @modern-js/server
 
+## 2.57.1
+
+### Patch Changes
+
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/server-utils@2.57.1
+  - @modern-js/runtime-utils@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 5c144a3: fix: dev server should call rsbuild.afterListen when listen
+  fix: dev server 应该在 listen 时，调用 rsbuild.afterListen
+- b5a48a8: fix: distPath should from output.distPath.root
+  fix: distPath 应该来自 output.distPath.root
+- 7e0835f: feat: reexport new dev options
+  feat: 重导出 dev 配置
+- 5dc8460: fix: `createDevServer` should not listen port by default
+  fix: `createDevServer` 默认不应该监听端口
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [203c9eb]
+- Updated dependencies [916559a]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/server-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.56.2
+- @modern-js/server-utils@2.56.2
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/types@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [e0e29b3]
+  - @modern-js/server-core@2.56.1
+  - @modern-js/server-utils@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- d1eb8dc: fix: mockHandler should run before rsbuild middleware & mockHandler can't hmr correctly
+  fix: mockHandler 应该在 rsbuild middleware 之前跑 & mockHandler 不能正确的 hmr
+- Updated dependencies [bedbbb3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

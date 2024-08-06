@@ -12,6 +12,7 @@ import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
 import { getGlobalAppInit } from './context';
 import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
+import { wrapRuntimeContextProvider } from './react/wrapper';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -68,41 +69,13 @@ export const createApp = ({
       );
     };
 
-    const HOCApp = runner.hoc(
-      { App: WrapperComponent, config: globalProps || {} },
-      {
-        onLast: ({ App }: any) => {
-          const WrapComponent = ({ _internal_context, ...props }: any) => {
-            let contextValue = _internal_context;
+    const WrapperApp = runner.wrapRoot(WrapperComponent);
+    const WrapComponent = (props: any) => {
+      const mergedProps = { ...props, ...globalProps };
+      return <WrapperApp {...mergedProps} />;
+    };
 
-            // We should construct the context, when root component is not passed into `bootstrap`.
-            if (!contextValue?.runner) {
-              contextValue = getInitialContext(runner);
-
-              runner.init(
-                { context: contextValue },
-                {
-                  onLast: ({ context: context1 }) =>
-                    getGlobalAppInit()?.(context1),
-                },
-              );
-            }
-
-            const mergedProps = { ...props, ...globalProps };
-
-            return (
-              <RuntimeReactContext.Provider value={contextValue}>
-                <App {...mergedProps} />
-              </RuntimeReactContext.Provider>
-            );
-          };
-
-          return WrapComponent;
-        },
-      },
-    );
-
-    return HOCApp;
+    return WrapComponent;
   };
 };
 
@@ -136,22 +109,15 @@ export const bootstrap: BootStrap = async (
 
   const context: RuntimeContext = getInitialContext(runner);
 
-  const runInit = (_context: RuntimeContext) =>
-    runner.init(
-      { context: _context },
-      {
-        onLast: ({ context: context1 }) => {
-          const init = getGlobalAppInit();
-          return init?.(context1);
-        },
-      },
-    );
+  const runBeforeRender = async (context: RuntimeContext) => {
+    await runner.beforeRender(context);
+    const init = getGlobalAppInit();
+    return init?.(context);
+  };
 
   // don't mount the App, let user in charge of it.
   if (!id) {
-    return React.createElement(App as React.ComponentType<any>, {
-      _internal_context: context,
-    });
+    return wrapRuntimeContextProvider(<App />, context);
   }
 
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
@@ -182,7 +148,7 @@ export const bootstrap: BootStrap = async (
       });
 
       context.initialData = ssrData?.data?.initialData;
-      const initialData = await runInit(context);
+      const initialData = await runBeforeRender(context);
       if (initialData) {
         context.initialData = initialData as Record<string, unknown>;
       }
@@ -246,9 +212,7 @@ export const bootstrap: BootStrap = async (
       if (ssrData) {
         return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
       }
-      return ModernRender(
-        React.createElement(App, { _internal_context: context } as any),
-      );
+      return ModernRender(wrapRuntimeContextProvider(<App />, context));
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',
@@ -263,20 +227,13 @@ export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
   const pickedContext: TRuntimeContext = {
-    initialData: context.initialData,
+    ...context,
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
   };
 
   const memoizedContext = useMemo(
-    () =>
-      context.runner.pickContext(
-        { context, pickedContext },
-        {
-          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
-            pickedContext,
-        },
-      ),
+    () => context.runner.pickContext(pickedContext),
     [context],
   );
 

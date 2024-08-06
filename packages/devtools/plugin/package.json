@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.55.0",
+  "version": "2.57.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -50,7 +50,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@hono/node-server": "^1.11.2",
+    "@hono/node-server": "1.12.0",
     "@modern-js/devtools-client": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -58,7 +58,7 @@
     "clipboardy": "^4.0.0",
     "cookie-es": "^1.0.0",
     "flatted": "^3.2.9",
-    "hono": "^3.12.2",
+    "hono": "4.5.1",
     "open": "^10.1.0",
     "p-defer": "^3.0.0",
     "ufo": "^1.3.0",
@@ -82,10 +82,10 @@
     "@types/react-devtools-inline": "^4.24.8",
     "type-fest": "^4.1.0",
     "typescript": "^5",
-    "@rsbuild/core": "0.7.10"
+    "@rsbuild/core": "1.0.1-beta.9"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.55.0"
+    "@modern-js/runtime": "workspace:^2.57.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

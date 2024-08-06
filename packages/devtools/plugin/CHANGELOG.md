@@ -1,5 +1,73 @@
 # @modern-js/plugin-devtools
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/devtools-client@2.57.1
+- @modern-js/devtools-kit@2.57.1
+- @modern-js/runtime@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [abad541]
+- Updated dependencies [223d63b]
+- Updated dependencies [a9807e5]
+- Updated dependencies [916559a]
+- Updated dependencies [db43d8e]
+- Updated dependencies [dc736ef]
+- Updated dependencies [dc736ef]
+  - @modern-js/runtime@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/devtools-client@2.57.0
+  - @modern-js/devtools-kit@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- Updated dependencies [e9c724c]
+- Updated dependencies [9626370]
+- Updated dependencies [89e1df0]
+- Updated dependencies [c441e14]
+  - @modern-js/runtime@2.56.2
+  - @modern-js/devtools-client@2.56.2
+  - @modern-js/devtools-kit@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [ad9e984]
+- Updated dependencies [137d387]
+- Updated dependencies [1696694]
+  - @modern-js/runtime@2.56.1
+  - @modern-js/devtools-kit@2.56.1
+  - @modern-js/devtools-client@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [ced7039]
+- Updated dependencies [6fda6a2]
+- Updated dependencies [0f0a31e]
+- Updated dependencies [f27eaab]
+- Updated dependencies [32d31c3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d36f095]
+  - @modern-js/runtime@2.56.0
+  - @modern-js/devtools-client@2.56.0
+  - @modern-js/devtools-kit@2.56.0
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

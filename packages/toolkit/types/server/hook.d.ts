@@ -16,6 +16,7 @@ export interface ModernResponse {
   get: (key: string) => string | number | string[] | undefined;
   set: (key: string, value: string | number) => void;
   status: (code: number) => void;
+  getStatus: () => number;
   cookies: CookieAPI;
   raw: (
     body: string,

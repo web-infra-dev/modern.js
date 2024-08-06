@@ -12,7 +12,6 @@ export interface OutputUserConfig {
   };
   enableInlineRouteManifests?: boolean;
   disableInlineRouteManifests?: boolean;
-  path?: string;
   assetPrefix?: string;
   polyfill?: 'entry' | 'usage' | 'ua' | 'off';
 

@@ -7,9 +7,10 @@ import { time } from '@modern-js/runtime-utils/time';
 import { ServerBase } from '../../serverBase';
 import { ServerHookRunner, Context, Middleware, ServerEnv } from '../../types';
 import { transformResponse } from '../../utils';
+import { getLoaderCtx } from '../../helper';
 import { ServerTimings } from '../../constants';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
-import { getLoaderCtx } from './loader';
+import type * as streamModule from '../../adapters/node/polyfills/stream';
 import {
   getAfterMatchCtx,
   getAfterRenderCtx,
@@ -17,8 +18,6 @@ import {
   createAfterStreamingRenderContext,
 } from './context';
 import { ResArgs, createBaseHookContext } from './base';
-
-export { getLoaderCtx } from './loader';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -218,7 +217,7 @@ export function getServerMidFromUnstableMid(
 ): Array<Middleware<ServerNodeEnv & ServerEnv>> {
   return serverMiddleware.map(middleware => {
     return async (c, next) => {
-      const context = createMiddlewareContextFromHono(c);
+      const context = await createMiddlewareContextFromHono(c as Context);
 
       return middleware(context, next);
     };
@@ -229,14 +228,37 @@ function isRedirect(headers: Headers, code?: number) {
   return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
 }
 
-function createMiddlewareContextFromHono(
-  c: Context,
-): UnstableMiddlewareContext {
-  const loaderContext = getLoaderCtx(c);
+async function createMiddlewareContextFromHono(
+  c: Context<ServerNodeEnv>,
+): Promise<UnstableMiddlewareContext> {
+  const loaderContext = getLoaderCtx(c as Context);
+
+  let rawRequest = c.req.raw;
+
+  const method = rawRequest.method.toUpperCase();
+
+  if (!['GET', 'HEAD'].includes(method) && !rawRequest.body && c.env.node.req) {
+    const streamPath = '../../adapters/node/polyfills/stream';
+
+    const { createReadableStreamFromReadable } = (await import(
+      streamPath
+    )) as typeof streamModule;
+
+    const init: RequestInit = {
+      body: createReadableStreamFromReadable(c.env.node.req),
+      headers: rawRequest.headers,
+      signal: rawRequest.signal,
+      method: rawRequest.method,
+    };
+
+    (init as { duplex: 'half' }).duplex = 'half';
+
+    rawRequest = new Request(rawRequest.url, init);
+  }
 
   return {
     get request() {
-      return c.req.raw;
+      return rawRequest;
     },
 
     get response() {

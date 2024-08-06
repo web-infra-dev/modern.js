@@ -3,7 +3,7 @@ import os from 'node:os';
 import { fs as fse } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { parseNodeModulePath } from 'mlly';
-import { nodeFileTrace } from '@vercel/nft';
+import { nodeFileTrace, NodeFileTraceOptions } from '@vercel/nft';
 
 export type TracedPackage = {
   name: string;
@@ -177,14 +177,21 @@ export const findPackageParents = (
   return parentPkgs.filter(parentPkg => parentPkg) as string[];
 };
 
-export const traceFiles = async (
-  entryFiles: string[],
-  serverRootDir: string,
+export const traceFiles = async ({
+  entryFiles,
+  serverRootDir,
   base = '/',
-) => {
+  traceOptions,
+}: {
+  entryFiles: string[];
+  serverRootDir: string;
+  base?: string;
+  traceOptions?: NodeFileTraceOptions;
+}) => {
   return await nodeFileTrace(entryFiles, {
     base,
     processCwd: serverRootDir,
+    ...traceOptions,
   });
 };
 
@@ -192,3 +199,12 @@ export const resolveTracedPath = async (
   base: string,
   p: string,
 ): Promise<string> => fse.realpath(path.resolve(base, p));
+
+export const isSubPath = (parentPath: string, childPath: string) => {
+  if (!parentPath || !childPath) {
+    return false;
+  }
+
+  const relative = path.relative(parentPath, childPath);
+  return relative && !relative.startsWith('..');
+};

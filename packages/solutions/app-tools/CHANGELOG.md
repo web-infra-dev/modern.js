@@ -1,5 +1,146 @@
 # @modern-js/app-tools
 
+## 2.57.1
+
+### Patch Changes
+
+- ed22e10: fix(deploy): the subpath should be judged correctly
+  fix(deploy): 应该正确地判断子路径
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/plugin-data-loader@2.57.1
+  - @modern-js/prod-server@2.57.1
+  - @modern-js/server@2.57.1
+  - @modern-js/server-utils@2.57.1
+  - @modern-js/core@2.57.1
+  - @modern-js/plugin-i18n@2.57.1
+  - @modern-js/plugin-lint@2.57.1
+  - @modern-js/rsbuild-plugin-esbuild@2.57.1
+  - @modern-js/uni-builder@2.57.1
+  - @modern-js/node-bundle-require@2.57.1
+  - @modern-js/plugin@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- f19b9dc: fix: type error when registering Rsbuild plugins
+- 5c144a3: fix: dev server should call rsbuild.afterListen when listen
+  fix: dev server 应该在 listen 时，调用 rsbuild.afterListen
+- 7e0835f: feat: reexport new dev options
+  feat: 重导出 dev 配置
+- 5dc8460: fix: `createDevServer` should not listen port by default
+  fix: `createDevServer` 默认不应该监听端口
+- Updated dependencies [2515b00]
+- Updated dependencies [ce9c43a]
+- Updated dependencies [0e906a1]
+- Updated dependencies [5c144a3]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [7e0835f]
+- Updated dependencies [203c9eb]
+- Updated dependencies [5dc8460]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/plugin-data-loader@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/prod-server@2.57.0
+  - @modern-js/server@2.57.0
+  - @modern-js/plugin@2.57.0
+  - @modern-js/core@2.57.0
+  - @modern-js/plugin-i18n@2.57.0
+  - @modern-js/plugin-lint@2.57.0
+  - @modern-js/uni-builder@2.57.0
+  - @modern-js/server-utils@2.57.0
+  - @modern-js/node-bundle-require@2.57.0
+  - @modern-js/rsbuild-plugin-esbuild@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- bdd6ac9: fix: handle the case of nft find for error dependencies
+  fix: 处理 nft 查找到错误依赖的情况
+- c441e14: fix: resolve.extensions should add .server.jsx when target = node
+  fix: resolve.extensions 应该添加上 .server.jsx 当 target 为 node 时
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/core@2.56.2
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin-i18n@2.56.2
+  - @modern-js/plugin-lint@2.56.2
+  - @modern-js/rsbuild-plugin-esbuild@2.56.2
+  - @modern-js/uni-builder@2.56.2
+  - @modern-js/server-core@2.56.2
+  - @modern-js/prod-server@2.56.2
+  - @modern-js/server@2.56.2
+  - @modern-js/server-utils@2.56.2
+  - @modern-js/node-bundle-require@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [e0e29b3]
+- Updated dependencies [4c0486a]
+  - @modern-js/server-core@2.56.1
+  - @modern-js/uni-builder@2.56.1
+  - @modern-js/plugin-data-loader@2.56.1
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/server@2.56.1
+  - @modern-js/server-utils@2.56.1
+  - @modern-js/core@2.56.1
+  - @modern-js/plugin-i18n@2.56.1
+  - @modern-js/plugin-lint@2.56.1
+  - @modern-js/rsbuild-plugin-esbuild@2.56.1
+  - @modern-js/node-bundle-require@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [b912ca5]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/uni-builder@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/core@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+  - @modern-js/plugin-i18n@2.56.0
+  - @modern-js/plugin-lint@2.56.0
+  - @modern-js/rsbuild-plugin-esbuild@2.56.0
+  - @modern-js/node-bundle-require@2.56.0
+  - @modern-js/plugin@2.56.0
+
 ## 2.55.0
 
 ### Minor Changes

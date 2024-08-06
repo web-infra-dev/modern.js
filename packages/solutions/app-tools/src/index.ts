@@ -5,8 +5,6 @@ import {
   emptyDir,
   getCommand,
   getArgv,
-  fs,
-  NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
@@ -31,6 +29,7 @@ import {
 } from './commands';
 
 export { dev } from './commands/dev';
+export type { DevOptions } from './utils/types';
 
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
@@ -90,7 +89,6 @@ export const appTools = (
       ...appContext,
       toolsType: 'app-tools',
     });
-    const nestedRoutes: Record<string, unknown> = {};
 
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
@@ -169,29 +167,6 @@ export const appTools = (
 
       async beforeRestart() {
         cleanRequireCache([require.resolve('./plugins/analyze')]);
-      },
-
-      async modifyFileSystemRoutes({ entrypoint, routes }) {
-        nestedRoutes[entrypoint.entryName] = routes;
-
-        return {
-          entrypoint,
-          routes,
-        };
-      },
-
-      async beforeGenerateRoutes({ entrypoint, code }) {
-        const { distDirectory } = api.useAppContext();
-
-        await fs.outputJSON(
-          path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
-          nestedRoutes,
-        );
-
-        return {
-          entrypoint,
-          code,
-        };
       },
     };
   },

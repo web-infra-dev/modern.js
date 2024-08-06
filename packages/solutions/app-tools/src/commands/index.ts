@@ -165,7 +165,11 @@ export const inspectCommand = (
       i18n.t(localeKeys.command.inspect.env),
       'development',
     )
-    .option('--output <output>', i18n.t(localeKeys.command.inspect.output), '/')
+    .option(
+      '--output <output>',
+      i18n.t(localeKeys.command.inspect.output),
+      './',
+    )
     .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async (options: InspectOptions) => {

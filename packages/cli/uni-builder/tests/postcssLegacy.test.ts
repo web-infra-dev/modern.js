@@ -26,8 +26,15 @@ describe('plugin-postcssLegacy', () => {
       bundlerType: 'rspack',
       config: {
         tools: {
-          postcss(config) {
-            config.postcssOptions!.plugins = [];
+          postcss: {
+            postcssOptions: {
+              plugins: [
+                {
+                  postcssPlugin: 'postcss-plugin-test',
+                  AtRule: {},
+                },
+              ],
+            },
           },
         },
       },

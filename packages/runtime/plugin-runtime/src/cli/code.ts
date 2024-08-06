@@ -17,6 +17,7 @@ import {
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
   SERVER_ENTRY_POINT_FILE_NAME,
+  ENTRY_SERVER_BOOTSTRAP_FILE_NAME,
 } from './constants';
 import * as template from './template';
 import * as serverTemplate from './template.server';
@@ -96,22 +97,38 @@ export const generateCode = async (
         );
 
         fs.outputFileSync(indexFile, indexCode, 'utf8');
+
+        const ssrMode = getSSRMode(entryName, config);
+
         if (enableAsyncEntry) {
           const bootstrapFile = path.resolve(
             internalDirectory,
             `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
           );
+          // bootstrap.jsx
           fs.outputFileSync(
             bootstrapFile,
             `import('./${INDEX_FILE_NAME}');`,
             'utf8',
           );
+
+          const bootstrapServerFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_SERVER_BOOTSTRAP_FILE_NAME}`,
+          );
+
+          if (ssrMode) {
+            // bootstrap.server.jsx
+            fs.outputFileSync(
+              bootstrapServerFile,
+              `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
+              'utf8',
+            );
+          }
         }
 
-        // index.server.js
-        const ssrMode = getSSRMode(entryName, config);
-
         if (ssrMode) {
+          // index.server.js
           const indexServerCode = serverTemplate.serverIndex({
             entry,
             entryName,

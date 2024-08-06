@@ -16,17 +16,25 @@ export class ServiceWorkerCompilerPlugin {
             entry: { 'sw-proxy': path.resolve(cwd, './src/service.worker.ts') },
             define: { 'process.env.VERSION': JSON.stringify(version) },
           },
+          environments: {
+            serviceWorker: {
+              output: {
+                target: 'web-worker',
+                filenameHash: false,
+                distPath: {
+                  root: './dist/public',
+                  js: '',
+                  jsAsync: '',
+                },
+              },
+            },
+          },
           output: {
-            targets: ['service-worker'],
             sourceMap: {
               js: false,
               css: false,
             },
             cleanDistPath: false,
-            distPath: {
-              root: './dist',
-              worker: './public',
-            },
           },
           tools: {
             bundlerChain(chain) {

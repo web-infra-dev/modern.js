@@ -40,7 +40,7 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
 export const ServerRouterContext = createContext({} as any);
 
-export interface BaseTRuntimeContext {
+export interface BaseTRuntimeContext extends Partial<BaseRuntimeContext> {
   initialData?: Record<string, unknown>;
   // ssr type
   request?: SSRServerContext['request'];

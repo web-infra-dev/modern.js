@@ -5,7 +5,6 @@ import fs from '@modern-js/utils/fs-extra';
 import type {
   UniBuilderConfig,
   CreateUniBuilderOptions,
-  StartDevServerOptions,
 } from '@modern-js/uni-builder';
 
 type CreateBuilderOptions = Omit<
@@ -53,12 +52,18 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
   }
 }
 
-const updateConfigForTest = (config: UniBuilderConfig) => {
+const updateConfigForTest = (
+  config: UniBuilderConfig,
+  entry?: Record<string, string>,
+) => {
   // make devPort random to avoid port conflict
   config.dev = {
     ...(config.dev || {}),
     port: getRandomPort(config.dev?.port),
   };
+  config.source ??= {};
+
+  config.source.entry = entry;
 
   config.dev!.progressBar = config.dev!.progressBar || false;
 
@@ -89,37 +94,37 @@ const updateConfigForTest = (config: UniBuilderConfig) => {
 };
 
 export async function dev({
-  serverOptions,
   builderConfig = {},
+  entry,
   ...options
 }: CreateBuilderOptions & {
+  entry: Record<string, string>;
   builderConfig?: UniBuilderConfig;
-  serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
 
-  updateConfigForTest(builderConfig);
+  updateConfigForTest(builderConfig, entry);
 
   const builder = await createUniBuilder(options, builderConfig);
 
-  return builder.startDevServer({
-    serverOptions,
-  });
+  return builder.startDevServer();
 }
 
 export async function build({
   plugins,
   runServer = false,
   builderConfig = {},
+  entry,
   ...options
 }: CreateBuilderOptions & {
+  entry?: Record<string, string>;
   plugins?: any[];
   runServer?: boolean;
   builderConfig?: UniBuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
-  updateConfigForTest(builderConfig);
+  updateConfigForTest(builderConfig, entry);
 
   const builder = await createUniBuilder(options, builderConfig);
 

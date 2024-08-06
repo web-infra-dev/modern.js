@@ -1,5 +1,57 @@
 # @modern-js/uni-builder
 
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+  - @modern-js/babel-preset@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- 4c0486a: fix: match unexpected environment resources when artifact with the same name in different environments
+
+  fix: 当存在同名产物时匹配到不符合预期的 environment 资源
+
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/server@2.56.1
+  - @modern-js/babel-preset@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [53419a5]
+- Updated dependencies [119b9e1]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/babel-preset@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/utils@2.56.0
+
 ## 2.55.0
 
 ### Patch Changes

@@ -1,5 +1,3 @@
-import type { Merge } from 'type-fest';
-
 import type { Config as JestConfigTypes } from '@jest/types';
 
 export type JestConfig = JestConfigTypes.Config;
@@ -64,54 +62,48 @@ export type RouteLegacy = {
   parent?: RouteLegacy;
 };
 
-export type Route = Partial<{
-  caseSensitive: boolean;
-  path: string;
-  id: string;
-  loader: any;
-  action: any;
-  hasErrorBoundary: boolean;
-  shouldRevalidate: any;
-  handle: any;
-  index: boolean;
-  children: Route[] | undefined;
-  element: React.ReactNode | null;
-  errorElement: React.ReactNode | null;
-}> & {
+export interface Route {
+  caseSensitive?: boolean;
+  path?: string;
+  id?: string;
+  loader?: any;
+  action?: any;
+  hasErrorBoundary?: boolean;
+  shouldRevalidate?: any;
+  handle?: any;
+  index?: boolean;
+  children?: Route[] | undefined;
+  element?: React.ReactNode | null;
+  errorElement?: React.ReactNode | null;
   type: string;
-};
+}
 
 export type NestedRouteForCli = NestedRoute<string>;
 
-export type NestedRoute<T = string | (() => JSX.Element)> = Merge<
-  Route,
-  {
-    type: 'nested';
-    parentId?: string;
-    data?: string;
-    clientData?: string;
-    children?: NestedRoute<T>[];
-    filename?: string;
-    _component?: string;
-    component?: T;
-    lazyImport?: () => Promise<any>;
-    loading?: T;
-    error?: T;
-    isRoot?: boolean;
-    config?: string | Record<string, any>;
-  }
->;
+export interface NestedRoute<T = string | (() => JSX.Element)> extends Route {
+  type: 'nested';
+  parentId?: string;
+  data?: string;
+  clientData?: string;
+  children?: NestedRoute<T>[];
+  filename?: string;
+  _component?: string;
+  component?: T;
+  lazyImport?: () => Promise<any>;
+  loading?: T;
+  error?: T;
+  isRoot?: boolean;
+  config?: string | Record<string, any>;
+  inValidSSRRoute?: boolean;
+}
 
-export type PageRoute = Merge<
-  Route,
-  {
-    type: 'page';
-    parent?: PageRoute;
-    _component: string;
-    component: string;
-    children?: PageRoute[];
-  }
->;
+export interface PageRoute extends Route {
+  type: 'page';
+  parent?: PageRoute;
+  _component: string;
+  component: string;
+  children?: PageRoute[];
+}
 
 /**
  * custom html partials.

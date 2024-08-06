@@ -6,6 +6,8 @@ import {
   isSSGEntry,
   isUseSSRBundle,
   logger,
+  filterRoutesForServer,
+  filterRoutesLoader,
 } from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
@@ -17,6 +19,7 @@ import type {
   NestedRouteForCli,
 } from '@modern-js/types';
 import { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
+import { cloneDeep } from '@modern-js/utils/lodash';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import * as templates from './templates';
@@ -97,12 +100,23 @@ export const generateCode = async (
           }
         }
 
+        const config = api.useResolvedConfigContext();
+        const ssrByRouteIds = config.server.ssrByRouteIds || [];
+        const clonedRoutes = cloneDeep(initialRoutes);
+
+        const markedRoutes =
+          ssrByRouteIds.length > 0
+            ? markRoutes(
+                clonedRoutes as (NestedRouteForCli | PageRoute)[],
+                ssrByRouteIds,
+              )
+            : initialRoutes;
+
         const { routes } = await hookRunners.modifyFileSystemRoutes({
           entrypoint,
-          routes: initialRoutes,
+          routes: markedRoutes,
         });
 
-        const config = api.useResolvedConfigContext();
         const ssr = getEntryOptions(
           entryName,
           isMainEntry,
@@ -149,12 +163,35 @@ export const generateCode = async (
             entryName,
           );
 
+          const filtedRoutesForServer = filterRoutesForServer(
+            routes as (NestedRouteForCli | PageRoute)[],
+          );
+          const routesForServerLoaderMatches = filterRoutesLoader(
+            routes as (NestedRouteForCli | PageRoute)[],
+          );
+
           const code = templates.routesForServer({
-            routes: routes as (NestedRouteForCli | PageRoute)[],
+            routesForServerLoaderMatches,
           });
 
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
+
+          const serverRoutesCode = await templates.fileSystemRoutes({
+            metaName,
+            routes: filtedRoutesForServer,
+            ssrMode: useSSG ? 'string' : mode,
+            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+            entryName: entrypoint.entryName,
+            internalDirectory,
+            splitRouteChunks: config?.output?.splitRouteChunks,
+          });
+
+          await fs.outputFile(
+            path.resolve(internalDirectory, `./${entryName}/routes.server.js`),
+            serverRoutesCode,
+            'utf8',
+          );
         }
 
         const serverLoaderCombined = templates.ssrLoaderCombinedModule(
@@ -172,7 +209,7 @@ export const generateCode = async (
           await fs.outputFile(serverLoaderFile, serverLoaderCombined);
         }
 
-        fs.outputFileSync(
+        await fs.outputFile(
           path.resolve(
             internalDirectory,
             `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
@@ -184,6 +221,34 @@ export const generateCode = async (
     }
   }
 };
+
+function markRoutes(
+  routes: (NestedRouteForCli | PageRoute)[],
+  routeIds: string[],
+): (NestedRouteForCli | PageRoute)[] {
+  return routes.map(route => {
+    if (route.type !== 'nested') {
+      return route;
+    }
+
+    if (route.children && route.children.length > 0) {
+      route.children = markRoutes(
+        route.children,
+        routeIds,
+      ) as NestedRouteForCli[];
+    }
+
+    if (route.children && route.children.length > 0) {
+      route.inValidSSRRoute = route.children.every(
+        child => child.inValidSSRRoute ?? false,
+      );
+    } else if (route.id) {
+      route.inValidSSRRoute = !routeIds.includes(route.id);
+    }
+
+    return route;
+  });
+}
 
 export function generatorRegisterCode(
   internalDirectory: string,

@@ -5,7 +5,6 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { rspack } from '@rsbuild/core';
 import { statePlugin } from '../state/cli';
 import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
@@ -110,6 +109,10 @@ export const runtimePlugin = (params?: {
                * Compatible with the reference path of the old version of the plugin.
                */
               [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
+              '@meta/runtime/browser': '@modern-js/runtime/browser',
+              '@meta/runtime/react': '@modern-js/runtime/react',
+              '@meta/runtime/context': '@modern-js/runtime/context',
+              '@meta/runtime': '@modern-js/runtime',
             },
             globalVars: {
               'process.env.IS_REACT18': process.env.IS_REACT18,
@@ -133,7 +136,7 @@ export const runtimePlugin = (params?: {
                 ]);
               }
             },
-            rspack: (_config, { appendPlugins }) => {
+            rspack: (_config, { appendPlugins, rspack }) => {
               if (!isReact18) {
                 appendPlugins([
                   new rspack.IgnorePlugin({

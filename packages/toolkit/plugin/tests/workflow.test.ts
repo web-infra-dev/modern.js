@@ -2,9 +2,12 @@ import {
   createWorkflow,
   createAsyncWorkflow,
   createParallelWorkflow,
+  createSyncParallelWorkflow,
   isWorkflow,
   isAsyncWorkflow,
   isParallelWorkflow,
+  createAsyncInterruptWorkflow,
+  isSyncParallelWorkflow,
 } from '../src/workflow';
 import { sleep } from './helpers';
 
@@ -118,6 +121,81 @@ describe('workflow', () => {
       expect(isParallelWorkflow({})).toBeFalsy();
       expect(isParallelWorkflow('test')).toBeFalsy();
       expect(isParallelWorkflow(null)).toBeFalsy();
+    });
+  });
+  describe('interrupt', () => {
+    it('should return interrupt value', async () => {
+      const workflow = createAsyncInterruptWorkflow();
+
+      let count = 0;
+
+      workflow.use(() => {
+        count = 1;
+      });
+
+      workflow.use(async () => {
+        await sleep(100);
+        count = 2;
+      });
+
+      // eslint-disable-next-line consistent-return
+      workflow.use((_, interrupt) => {
+        if (interrupt) {
+          return interrupt('test');
+        }
+        count = 3;
+      });
+
+      workflow.use(() => {
+        count = 4;
+      });
+
+      const result = await workflow.run();
+
+      expect(count).toBe(2);
+      expect(result).toBe('test');
+    });
+  });
+  describe('sync parallel', () => {
+    it('should run without stable order', async () => {
+      const workflow = createSyncParallelWorkflow();
+
+      let count = 0;
+
+      workflow.use(() => {
+        count = 1;
+        return {
+          a: 1,
+        };
+      });
+
+      workflow.use(() => {
+        count = 2;
+        return {
+          b: 2,
+        };
+      });
+
+      workflow.use(() => {
+        count = 3;
+        return {
+          c: 3,
+        };
+      });
+
+      const result = workflow.run();
+
+      expect(count).toBe(3);
+      expect(result).toEqual([{ a: 1 }, { b: 2 }, { c: 3 }]);
+    });
+
+    it('isSyncParallelWorkflow', () => {
+      const workflow = createSyncParallelWorkflow();
+
+      expect(isSyncParallelWorkflow(workflow)).toBeTruthy();
+      expect(isSyncParallelWorkflow({})).toBeFalsy();
+      expect(isSyncParallelWorkflow('test')).toBeFalsy();
+      expect(isSyncParallelWorkflow(null)).toBeFalsy();
     });
   });
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { runtime, Plugin } from '../../src/core/plugin';
-import { RuntimeReactContext } from '../../src/core/context';
+import { getInitialContext } from '../../src/core/context/runtime';
+import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
 
 export type WrapOptions = Record<string, unknown>;
 
@@ -11,6 +12,17 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
     App: React.ComponentType<P>,
     config: WrapOptions,
   ) => wrap(App, config, manager);
+};
+
+export const wrapRuntimeProvider = (
+  App: React.ComponentType<any>,
+  manager = runtime,
+) => {
+  return (props: any) =>
+    wrapRuntimeContextProvider(
+      React.createElement(App, props),
+      getInitialContext(manager.init()),
+    );
 };
 
 export const wrap = <P = Record<string, unknown>>(
@@ -30,19 +42,8 @@ export const wrap = <P = Record<string, unknown>>(
     return element;
   };
 
-  return runner.hoc(
-    { App: WrapperComponent, config: {} },
-    {
-      onLast: ({ App }) => {
-        const WrapComponent = ({ context, ...props }: any) =>
-          React.createElement(
-            RuntimeReactContext.Provider,
-            { value: context },
-            React.createElement(App, props),
-          );
+  const WrapperRoot = runner.wrapRoot(WrapperComponent);
 
-        return WrapComponent;
-      },
-    },
-  );
+  return (props: any) =>
+    React.createElement(wrapRuntimeProvider(WrapperRoot, runtime), props);
 };

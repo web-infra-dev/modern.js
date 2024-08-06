@@ -1,5 +1,36 @@
 # @modern-js/base-generator
 
+## 3.4.13
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+
+## 3.4.12
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
+## 3.4.11
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+
+## 3.4.10
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
+## 3.4.9
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+
 ## 3.4.8
 
 ### Patch Changes

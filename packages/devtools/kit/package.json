@@ -21,7 +21,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.55.0",
+  "version": "2.57.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
@@ -75,9 +75,9 @@
     "@rsdoctor/utils": "^0.2.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.22.15",
-    "@babel/preset-typescript": "^7.22.15",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",

@@ -4,6 +4,9 @@ import { getPublicPath } from '../testUtils';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 let app: unknown;
+declare global {
+  const __GARFISH__: unknown;
+}
 
 test.beforeAll(async () => {
   test.setTimeout(90 * 1000);
@@ -23,6 +26,12 @@ test('independent access', async ({ page }) => {
   await link?.click();
 
   expect(await page.textContent('body')).toContain('Dashboard detail page');
+
+  // it should not inject window.__GARFISH__ while independent access
+  const garfishExists = await page.evaluate(
+    () => typeof window.__GARFISH__ !== 'undefined',
+  );
+  expect(garfishExists).toBe(false);
 
   await killApp(app);
 });
