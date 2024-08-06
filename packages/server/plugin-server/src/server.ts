@@ -79,14 +79,14 @@ export default (): ServerPlugin => ({
     const transformAPI = createTransformAPI(storage);
     const pwd = isProd() ? distDirectory : appDirectory;
 
-    const loadMod = () => {
-      const { middleware: unstableMiddleware } = loadMiddleware(pwd);
+    const loadMod = async () => {
+      const { middleware: unstableMiddleware } = await loadMiddleware(pwd);
       const {
         defaultExports,
         hooks,
         middleware,
         unstableMiddleware: unstableMiddlewares,
-      } = loadServerMod(pwd);
+      } = await loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
@@ -112,12 +112,12 @@ export default (): ServerPlugin => ({
     let factory: ReturnType<typeof compose>;
 
     return {
-      prepare() {
-        loadMod();
+      async prepare() {
+        await loadMod();
       },
-      reset() {
+      async reset() {
         storage.reset();
-        loadMod();
+        await loadMod();
         factory = getFactory(storage);
       },
       afterMatch(context, next) {

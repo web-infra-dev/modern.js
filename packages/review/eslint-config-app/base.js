@@ -1219,23 +1219,6 @@ module.exports = {
     'node/no-deprecated-api': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/HEAD/docs/rules/exports-style.md
     'node/exports-style': 'off',
-    // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/file-extension-in-import.md
-    'node/file-extension-in-import': [
-      'error',
-      'always',
-      {
-        '.js': 'never',
-        '.jsx': 'never',
-        '.ts': 'never',
-        '.d.ts': 'never',
-        '.tsx': 'never',
-        '.mjs': 'never',
-        '.mjsx': 'never',
-        '.cjs': 'never',
-        '.cjsx': 'never',
-        tryExtensions: [...jsExtensions, '.json', '.node'],
-      },
-    ],
     // https://github.com/mysticatea/eslint-plugin-node/blob/v9.0.0/docs/rules/prefer-promises/dns.md
     'node/prefer-promises/dns': 'off',
     // https://github.com/mysticatea/eslint-plugin-node/blob/v9.0.0/docs/rules/prefer-promises/fs.md

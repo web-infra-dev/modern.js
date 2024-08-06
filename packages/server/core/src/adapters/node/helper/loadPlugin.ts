@@ -1,28 +1,28 @@
 import { ServerPlugin } from '@modern-js/types';
-import { compatRequire, tryResolve } from '@modern-js/utils';
+import { compatibleRequire, tryResolve } from '@modern-js/utils';
 import { ServerPlugin as ServerPluginInstance } from '../../../types';
 
-function resolveServerPlugin(
+async function resolveServerPlugin(
   plugin: ServerPlugin,
   appDirectory: string,
-): ServerPluginInstance {
+): Promise<ServerPluginInstance> {
   const { name, options } = plugin;
 
   const pluginPath = tryResolve(name, appDirectory);
 
-  const module = compatRequire(pluginPath);
+  const module = await compatibleRequire(pluginPath);
 
   const pluginInstance = module(options);
 
   return pluginInstance;
 }
 
-export function loadServerPlugins(
+export async function loadServerPlugins(
   serverPlugins: ServerPlugin[],
   appDirectory: string,
-): ServerPluginInstance[] {
-  const instances = serverPlugins.map(plugin =>
-    resolveServerPlugin(plugin, appDirectory),
+): Promise<ServerPluginInstance[]> {
+  const instances = await Promise.all(
+    serverPlugins.map(plugin => resolveServerPlugin(plugin, appDirectory)),
   );
 
   return instances;

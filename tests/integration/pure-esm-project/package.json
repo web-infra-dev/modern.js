@@ -1,0 +1,39 @@
+{
+  "private": true,
+  "name": "pure-esm-project",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
+    "build": "modern build",
+    "serve": "modern serve",
+    "start:bff": "modern serve --api-only",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-koa": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "lodash-es": "^4.17.21",
+    "react": "^18",
+    "react-dom": "^18",
+    "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/jest": "^29",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18"
+  }
+}

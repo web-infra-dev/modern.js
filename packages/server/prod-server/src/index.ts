@@ -36,7 +36,7 @@ export const createProdServer = async (options: ProdServerOptions) => {
     serverBaseOptions.config = serverCliConfig;
   }
 
-  const serverRuntimeConfig = loadServerRuntimeConfig(
+  const serverRuntimeConfig = await loadServerRuntimeConfig(
     options.pwd,
     options.serverConfigFile,
     options.serverConfigPath,

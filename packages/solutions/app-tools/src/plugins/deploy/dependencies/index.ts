@@ -286,6 +286,7 @@ export const handleDependencies = async ({
     name: `${projectPkgJson.name || 'modernjs-project'}-prod`,
     version: projectPkgJson.version || '0.0.0',
     private: true,
+    type: projectPkgJson.type || 'commonjs',
     dependencies: Object.fromEntries(
       [
         ...Object.values(tracedPackages).map(pkg => [

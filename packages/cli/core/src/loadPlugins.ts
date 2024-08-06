@@ -2,9 +2,9 @@ import { InternalPlugins } from '@modern-js/types';
 import {
   tryResolve,
   createDebugger,
-  compatRequire,
   getInternalPlugins,
   dynamicImport,
+  compatibleRequire,
 } from '@modern-js/utils';
 import type {
   CliPlugin,
@@ -26,7 +26,7 @@ const resolveCliPlugin = async (
   const path = tryResolve(pkg, appDirectory);
   let module;
   try {
-    module = compatRequire(path);
+    module = await compatibleRequire(path);
   } catch (e) {
     // load esm module
     ({ default: module } = await dynamicImport(path));

@@ -36,15 +36,15 @@ export const runCli = async (options: {
     );
     return { code: 0, success: true, error: null };
   } catch (e) {
+    console.error(e);
     return { code: 1, success: false, error: e as Error };
   }
 };
 
 export const initBeforeTest = () => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   global.setImmediate = setTimeout;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
   // @ts-expect-error
   global.clearImmediate = clearTimeout;
   jest.setTimeout(50000);

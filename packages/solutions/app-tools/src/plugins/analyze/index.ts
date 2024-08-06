@@ -69,9 +69,9 @@ export default ({
 
         const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
           await Promise.all([
-            import('./getBundleEntry'),
-            import('./getServerRoutes'),
-            import('./getHtmlTemplate'),
+            import('./getBundleEntry.js'),
+            import('./getServerRoutes.js'),
+            import('./getHtmlTemplate.js'),
           ]);
 
         // get runtime entry points

@@ -10,7 +10,8 @@ import { handleDependencies } from '../dependencies';
 import { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
-  const { appDirectory, distDirectory, serverPlugins } = appContext;
+  const { appDirectory, distDirectory, serverPlugins, moduleType } = appContext;
+  const isEsmProject = moduleType === 'module';
 
   // TODO: support serverPlugin apply options.
   const plugins = serverPlugins.map(plugin => plugin.name);
@@ -34,7 +35,9 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
           prefix: config?.bff?.prefix,
         },
         output: {
-          path: '.',
+          distPath: {
+            root: '.',
+          },
         },
       };
 
@@ -51,7 +54,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .join(',')}]`;
 
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './nodeEntry.js'))
+        await fse.readFile(path.join(__dirname, './node-entry.js'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
@@ -65,7 +68,14 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
+      if (isEsmProject) {
+        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
+        const cjsEntryFilePath = path.join(outputDirectory, 'index.cjs');
+        await fse.writeFile(cjsEntryFilePath, entryCode);
+        await fse.writeFile(entryFilePath, `import('./index.cjs');`);
+      } else {
+        await fse.writeFile(entryFilePath, entryCode);
+      }
     },
     async end() {
       console.log(

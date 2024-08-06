@@ -7,6 +7,23 @@ import {
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
 
+const registerEsbuild = async ({
+  isTsProject,
+  tsConfig,
+  distDir,
+}: {
+  isTsProject: boolean;
+  tsConfig: Record<string, any>;
+  distDir: string;
+}) => {
+  const esbuildRegister = await import('esbuild-register/dist/node');
+  esbuildRegister.register({
+    tsconfigRaw: isTsProject ? tsConfig : undefined,
+    hookIgnoreNodeModules: true,
+    hookMatcher: fileName => !fileName.startsWith(distDir),
+  });
+};
+
 export const registerCompiler = async (
   appDir: string = process.cwd(),
   distDir: string,
@@ -23,6 +40,18 @@ export const registerCompiler = async (
 
   const tsPaths = Object.keys(paths).reduce((o, key) => {
     let tsPath = paths[key];
+    // Do some special handling for Modern.js's internal alias, we can drop it in the next version
+    if (
+      typeof tsPath === 'string' &&
+      key.startsWith('@') &&
+      tsPath.startsWith('@')
+    ) {
+      try {
+        tsPath = require.resolve(tsPath, {
+          paths: [process.cwd(), ...module.paths],
+        });
+      } catch {}
+    }
     if (typeof tsPath === 'string' && path.isAbsolute(tsPath)) {
       tsPath = path.relative(absoluteBaseUrl, tsPath);
     }
@@ -40,33 +69,43 @@ export const registerCompiler = async (
     tsConfig = readTsConfigByFile(tsconfigPath);
   }
 
-  try {
-    const tsNode = await import('ts-node');
-    const tsNodeOptions = tsConfig['ts-node'];
-    if (isTsProject) {
-      tsNode.register({
-        project: tsconfigPath,
-        scope: true,
-        // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-        files: true,
-        transpileOnly: true,
-        ignore: [
-          '(?:^|/)node_modules/',
-          `(?:^|/)${path.relative(appDir, distDir)}/`,
-        ],
-        ...tsNodeOptions,
+  const { MODERN_NODE_LOADER } = process.env;
+  if (MODERN_NODE_LOADER !== 'esbuild') {
+    try {
+      const tsNode = await import('ts-node');
+      const tsNodeOptions = tsConfig['ts-node'];
+      if (isTsProject) {
+        tsNode.register({
+          project: tsconfigPath,
+          scope: true,
+          // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
+          files: true,
+          transpileOnly: true,
+          ignore: [
+            '(?:^|/)node_modules/',
+            `(?:^|/)${path.relative(appDir, distDir)}/`,
+          ],
+          ...tsNodeOptions,
+        });
+      }
+    } catch (error) {
+      await registerEsbuild({
+        isTsProject,
+        tsConfig,
+        distDir,
       });
     }
-  } catch (error) {
-    const esbuildRegister = await import('esbuild-register/dist/node');
-    esbuildRegister.register({
-      tsconfigRaw: isTsProject ? tsConfig : undefined,
-      hookIgnoreNodeModules: true,
-      hookMatcher: fileName => !fileName.startsWith(distDir),
+  } else {
+    // required by esbuild-register/loader, see the source code
+    await registerEsbuild({
+      isTsProject,
+      tsConfig,
+      distDir,
     });
   }
 
-  const tsConfigPaths = await import('@modern-js/utils/tsconfig-paths');
+  const tsConfigPaths = (await import('@modern-js/utils/tsconfig-paths'))
+    .default;
   if (await fs.pathExists(appDir)) {
     const loaderRes = tsConfigPaths.loadConfig(appDir);
     if (loaderRes.resultType === 'success') {
