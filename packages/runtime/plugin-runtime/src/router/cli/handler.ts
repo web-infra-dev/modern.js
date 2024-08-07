@@ -24,7 +24,7 @@ export async function handleGeneratorEntryCode(
   const appContext = api.useAppContext();
   const { internalDirectory } = api.useAppContext();
   const resolvedConfig = api.useResolvedConfigContext();
-  const { generatorRegisterCode, generateCode } = await import('./code/index.js');
+  const { generatorRegisterCode, generateCode } = await import('./code');
   originEntrypoints = cloneDeep(entrypoints);
   await generateCode(appContext, resolvedConfig, entrypoints, api);
   await Promise.all(
