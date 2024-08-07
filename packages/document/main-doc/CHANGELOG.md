@@ -1,5 +1,16 @@
 # @modern-js/main-doc
 
+## 2.58.0
+
+### Patch Changes
+
+- 2b4086f: feat: update runtime plugin hook doc
+
+  feat: 更行 runtime 插件 hook 函数文档
+
+  - @modern-js/builder-doc@2.58.0
+  - @modern-js/sandpack-react@2.58.0
+
 ## 2.57.1
 
 ### Patch Changes

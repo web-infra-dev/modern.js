@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.58.0
+
+### Minor Changes
+
+- 58f2868: feat: bump rsbuild 1.0.1-beta.9
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.58.0
+- @modern-js/utils@2.58.0
+
 ## 2.57.1
 
 ### Patch Changes

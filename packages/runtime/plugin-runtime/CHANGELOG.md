@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.58.0
+
+### Patch Changes
+
+- 7188385: fix: we should get ssr data from HTMLElement when set ssr.inlineScript = false
+  fix: 当 ssr.inlineScript = false 时，我们应该从 HTMLElement 获取 SSR Data
+- cc74dba: feat: move wrap runtime context provider to render function
+
+  feat: 将包裹 runtime context provider 的逻辑移动到 render 函数中
+
+  - @modern-js/plugin-data-loader@2.58.0
+  - @modern-js/plugin@2.58.0
+  - @modern-js/runtime-utils@2.58.0
+  - @modern-js/types@2.58.0
+  - @modern-js/utils@2.58.0
+
 ## 2.57.1
 
 ### Patch Changes
