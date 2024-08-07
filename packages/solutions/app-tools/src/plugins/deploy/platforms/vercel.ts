@@ -134,7 +134,7 @@ export const createVercelPreset: CreatePreset = (
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
       let handlerCode = (
-        await fse.readFile(path.join(__dirname, './vercel-handler.cjs'))
+        await fse.readFile(path.join(__dirname, './vercel-handler.js'))
       ).toString();
 
       handlerCode = handlerCode
