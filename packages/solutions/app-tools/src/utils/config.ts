@@ -8,7 +8,7 @@ import {
   CONFIG_FILE_EXTENSIONS,
 } from '@modern-js/utils';
 import type { ServerConfig } from '@modern-js/server-core';
-import { toJSON } from 'flatted';
+import { stringify } from 'flatted';
 import type { AppNormalizedConfig } from '../types';
 
 export const defineServerConfig = (config: ServerConfig): ServerConfig =>
@@ -85,7 +85,7 @@ export const emitResolvedConfig = async (
     ),
   );
 
-  const output = toJSON(resolvedConfig);
+  const output: string = stringify(resolvedConfig);
 
   await fs.writeFile(outputPath, output, {
     encoding: 'utf-8',
