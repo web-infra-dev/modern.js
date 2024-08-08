@@ -24,7 +24,7 @@ test('should throw error when exist syntax errors', async () => {
         },
       },
     }),
-  ).rejects.toThrowError('[Syntax Checker]');
+  ).rejects.toThrowError('incompatible syntax');
 });
 
 test('should not throw error when the file is excluded', async () => {
@@ -80,7 +80,7 @@ test('should throw error when using optional chaining and target is es6 browsers
         },
       },
     }),
-  ).rejects.toThrowError('[Syntax Checker]');
+  ).rejects.toThrowError('incompatible syntax');
 });
 
 test('should not throw error when using optional chaining and ecmaVersion is 2020', async () => {

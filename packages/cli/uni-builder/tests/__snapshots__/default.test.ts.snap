@@ -844,10 +844,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
       "version": 6,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
           "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -2603,10 +2603,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
       "version": 6,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
           "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -4431,10 +4431,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       },
       "version": 5,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
           "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
@@ -5642,10 +5642,10 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
       "version": 5,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
       "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
         "index": {
           "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
