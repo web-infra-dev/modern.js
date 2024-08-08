@@ -3342,6 +3342,9 @@ importers:
       '@web-std/stream':
         specifier: ^1.0.3
         version: 1.0.3
+      flatted:
+        specifier: ^3.2.9
+        version: 3.3.1
       hono:
         specifier: ^3.12.2
         version: 3.12.12
@@ -4039,6 +4042,9 @@ importers:
       esbuild-register:
         specifier: ^3.5.0
         version: 3.5.0(esbuild@0.17.19)
+      flatted:
+        specifier: ^3.2.9
+        version: 3.3.1
       mlly:
         specifier: ^1.6.1
         version: 1.7.0
@@ -20051,7 +20057,7 @@ packages:
       '@vitest/utils': 0.33.0
       fast-glob: 3.3.1
       fflate: 0.8.0
-      flatted: 3.2.9
+      flatted: 3.3.1
       pathe: 1.1.1
       picocolors: 1.0.1
       sirv: 2.0.3
@@ -25114,7 +25120,7 @@ packages:
     resolution: {integrity: sha512-dm9s5Pw7Jc0GvMYbshN6zchCA9RgQlzzEZX3vylR9IqFfS8XciblUXOKfW6SiuJ0e13eDYZoZV5wdrev7P3Nwg==}
     engines: {node: ^10.12.0 || >=12.0.0}
     dependencies:
-      flatted: 3.2.9
+      flatted: 3.3.1
       rimraf: 3.0.2
 
   /flat@5.0.2:
@@ -25124,6 +25130,9 @@ packages:
 
   /flatted@3.2.9:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
+
+  /flatted@3.3.1:
+    resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
 
   /flexsearch@0.6.32:
     resolution: {integrity: sha512-EF1BWkhwoeLtbIlDbY/vDSLBen/E5l/f1Vg7iX5CDymQCamcx1vhlc3tIZxIDplPjgi0jhG37c67idFbjg+v+Q==}
