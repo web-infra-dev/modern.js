@@ -75,6 +75,7 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     host: string;
+    url: string;
     [propsName: string]: any;
   };
   response: BaseResponseLike;
