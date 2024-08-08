@@ -28,7 +28,6 @@ const layoutNameAbbr = (filePath: string) => {
 
 const parents: RouteLegacy[] = [];
 
-/* eslint-disable no-param-reassign */
 const recursiveReadDirLegacy = ({
   dir,
   routes,
@@ -139,7 +138,6 @@ const recursiveReadDirLegacy = ({
     parents.pop();
   }
 };
-/* eslint-enable  no-param-reassign */
 
 const normalizeNestedRoutes = (
   nested: RouteLegacy[],
@@ -164,7 +162,6 @@ const normalizeNestedRoutes = (
       `import ${lastComponent} from '${route._component}'`,
     ];
 
-    // eslint-disable-next-line no-param-reassign, no-cond-assign
     while ((route = route.parent!)) {
       const layoutComponent = route.component;
       const layoutComponentAbbr = layoutNameAbbr(route._component);

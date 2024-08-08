@@ -12,7 +12,7 @@ const isCrossMargin = (a: string, b: string) =>
     bottom: ['left', 'right'],
     left: ['top', 'bottom'],
     right: ['top', 'bottom'],
-  }[a]?.includes(b) ?? false);
+  })[a]?.includes(b) ?? false;
 
 interface DraggingState {
   el: HTMLElement;

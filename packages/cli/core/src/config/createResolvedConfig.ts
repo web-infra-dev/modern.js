@@ -6,7 +6,6 @@ import { createDefaultConfig } from './createDefaultConfig';
 const debug = createDebugger('resolve-config');
 
 export const createResolveConfig = async (
-  // eslint-disable-next-line @typescript-eslint/ban-types
   loaded: LoadedConfig<{}>,
   configs: UserConfig[],
 ): Promise<NormalizedConfig> => {

@@ -13,7 +13,7 @@ declare module '@modern-js/runtime' {
   interface RuntimeConfig {
     garfish?: Config;
     garfishByEntries?: {
-      [name: string]: Config
+      [name: string]: Config;
     };
   }
 }

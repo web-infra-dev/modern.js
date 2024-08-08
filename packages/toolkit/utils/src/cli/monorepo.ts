@@ -42,7 +42,6 @@ export const findMonorepoRoot = (
       inMonorepo = true;
       break;
     }
-    // eslint-disable-next-line no-param-reassign
     appDirectory = path.dirname(appDirectory);
   }
 

@@ -37,6 +37,5 @@ async function main() {
 
 main().catch(err => {
   console.error('Failed to detect CI skip', err);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 });

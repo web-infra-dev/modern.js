@@ -9,9 +9,7 @@ import { Link } from '../../src/router';
 import { RuntimeReactContext } from '../../src';
 
 declare global {
-  // eslint-disable-next-line no-inner-declarations, no-var
   var __webpack_chunk_load__: ((chunkId: string) => Promise<void>) | undefined;
-  // eslint-disable-next-line no-inner-declarations, no-var
   var _SSR_DATA: unknown;
 }
 
@@ -24,7 +22,6 @@ const mockRoutes = [
   {
     id: 'aa',
     path: 'aa',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     loader: ({ request }: LoaderFunctionArgs) => null,
     element: <h1>idk</h1>,
   },
@@ -107,7 +104,6 @@ describe('prefetch', () => {
       {
         id: 'aa',
         path: 'aa',
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         loader: ({ request }: LoaderFunctionArgs) => null,
         element: <h1>idk</h1>,
       },

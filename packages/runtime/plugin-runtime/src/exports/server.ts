@@ -11,12 +11,10 @@ export type {
   CacheControl,
   CacheOptionProvider,
   CacheOption,
-
   // middleware
   UnstableMiddlewareContext,
   UnstableMiddleware,
   UnstableNext,
-
   // monitors
   MonitorEvent,
   Monitors,

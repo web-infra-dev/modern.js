@@ -40,14 +40,17 @@ export default async function loader(
   const options = resourceQuery
     .slice(1)
     .split('&')
-    .reduce((pre, cur) => {
-      const [key, value] = cur.split('=');
-      if (key && value) {
-        // eslint-disable-next-line no-nested-ternary
-        pre[key] = value === 'true' ? true : value === 'false' ? false : value;
-      }
-      return pre;
-    }, {} as Record<string, any>);
+    .reduce(
+      (pre, cur) => {
+        const [key, value] = cur.split('=');
+        if (key && value) {
+          pre[key] =
+            value === 'true' ? true : value === 'false' ? false : value;
+        }
+        return pre;
+      },
+      {} as Record<string, any>,
+    );
 
   if (!options.loaderId || options.retain) {
     return source;

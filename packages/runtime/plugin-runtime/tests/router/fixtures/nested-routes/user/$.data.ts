@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const loader = () => {};
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function, import/no-mutable-exports, no-var
+// biome-ignore lint/style/noVar: <explanation>
 export var action = () => {};
 
 export { loader };

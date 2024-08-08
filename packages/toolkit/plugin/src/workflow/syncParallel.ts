@@ -45,5 +45,4 @@ export const createSyncParallelWorkflow = <
 
 const mapSyncParallelWorkerToMiddleware =
   <I, O>(worker: Worker<I, O>): Middleware<I, O[]> =>
-  (input, next) =>
-    [worker(input), ...next(input)];
+  (input, next) => [worker(input), ...next(input)];

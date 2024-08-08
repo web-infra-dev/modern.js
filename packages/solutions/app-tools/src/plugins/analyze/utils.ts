@@ -50,7 +50,6 @@ export const parseModule = async ({
     content = result.code;
   }
 
-  // eslint-disable-next-line @typescript-eslint/await-thenable
   return await parse(content);
 };
 

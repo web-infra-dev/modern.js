@@ -37,8 +37,8 @@ export interface ToolsUserConfig<B extends Bundler = 'webpack'>
   swc?: B extends 'shared'
     ? undefined
     : B extends 'webpack'
-    ? PluginSwcOptions<'outer'>
-    : BuilderToolsConfig['swc'];
+      ? PluginSwcOptions<'outer'>
+      : BuilderToolsConfig['swc'];
 
   /**
    * Used to custom Esbuild configurations.

@@ -104,7 +104,6 @@ export const createCli = () => {
             console.trace('Unknown Error', err);
           }
           process.nextTick(() => {
-            // eslint-disable-next-line no-process-exit
             process.exit(1);
           });
         });

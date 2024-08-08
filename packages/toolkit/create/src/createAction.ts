@@ -53,7 +53,6 @@ function getDefaultConfig(
   } catch (e) {
     logger.error('config parameter format is incorrect');
     logger.debug('parse initial config error: ', e);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -98,7 +97,6 @@ function getDefaultConfig(
   } catch (e) {
     logger.error('packages parameter format is incorrect');
     logger.debug('parse packages error: ', e);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -140,7 +138,6 @@ export async function createAction(projectDir: string, options: Options) {
     smith.logger.error(
       i18n.t(localeKeys.tooltip.dir_exists, { dirName: projectDir }),
     );
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -173,7 +170,6 @@ export async function createAction(projectDir: string, options: Options) {
       pwd,
     });
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

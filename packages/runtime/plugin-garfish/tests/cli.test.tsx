@@ -130,7 +130,6 @@ describe('plugin-garfish cli', () => {
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
@@ -181,7 +180,6 @@ describe('plugin-garfish cli', () => {
     await runner.prepare();
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 

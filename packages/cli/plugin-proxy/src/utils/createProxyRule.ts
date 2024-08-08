@@ -37,7 +37,6 @@ export const createProxyRule = (appDirectory: string, proxyOptions: any) => {
       const target = proxyOptions[pattern];
       if (!target || typeof target !== 'string') {
         logger.error(`dev.proxy.${pattern} value should be string type`);
-        // eslint-disable-next-line no-process-exit
         process.exit(1);
       }
       rules.push({ pattern, target });

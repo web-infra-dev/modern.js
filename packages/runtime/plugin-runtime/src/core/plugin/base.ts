@@ -15,7 +15,6 @@ export const RuntimeConfigContext = createContext<RuntimeConfig>({});
 
 export const useRuntimeConfigContext = () => RuntimeConfigContext.use().value;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppProps {}
 
 const wrapRoot = createWaterfall<React.ComponentType<any>>();

@@ -28,7 +28,6 @@ describe('config', () => {
   let schemas: any[] = [];
   let configs: any[] = [];
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const _getResolvedConfig = async () =>
     createResolveConfig(loaded, configs, schemas);
 

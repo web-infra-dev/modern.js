@@ -72,7 +72,6 @@ class StreamPump {
   enqueue(chunk: Uint8Array | string) {
     if (this.controller) {
       try {
-        // eslint-disable-next-line node/prefer-global/buffer
         const bytes = chunk instanceof Uint8Array ? chunk : Buffer.from(chunk);
 
         const available = (this.controller.desiredSize || 0) - bytes.byteLength;

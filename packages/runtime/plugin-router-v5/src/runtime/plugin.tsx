@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import React, { useContext } from 'react';
 import {
   createBrowserHistory,

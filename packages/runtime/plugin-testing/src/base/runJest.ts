@@ -73,7 +73,6 @@ const readResultsAndExit = (
       );
     }
 
-    // eslint-disable-next-line no-process-exit
     process.exit(code);
   } else if (!globalConfig.detectOpenHandles) {
     setTimeout(() => {
@@ -106,7 +105,6 @@ export async function runJest(
   } catch (e: any) {
     console.error(chalk.red(e?.stack || e));
 
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 }

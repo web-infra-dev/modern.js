@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import 'reflect-metadata';
 import {
   HttpMethod,
@@ -29,7 +28,6 @@ const handleResponseMeta = (res: Response, handler: Handler) => {
       const metaValue = meta.value;
       switch (metaType) {
         case ResponseMetaType.Headers:
-          // eslint-disable-next-line @typescript-eslint/ban-types
           for (const [key, value] of Object.entries(metaValue as {})) {
             res.append(key, value as string);
           }

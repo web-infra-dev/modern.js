@@ -1,12 +1,10 @@
 import { RequestPayload } from './context';
 
 interface Set<V extends Record<string>> {
-  // eslint-disable-next-line @typescript-eslint/prefer-function-type
   <Key extends keyof V>(key: Key, value: V[Key]): void;
 }
 
 interface Get<V extends Record<string, unknown>> {
-  // eslint-disable-next-line @typescript-eslint/prefer-function-type
   <Key extends keyof V>(key: Key): V[Key];
 }
 

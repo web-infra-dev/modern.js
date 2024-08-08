@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { RouteLegacy } from '@modern-js/types/cli';
 import {
   fileSystemRoutes,

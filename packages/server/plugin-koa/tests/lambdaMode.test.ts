@@ -131,7 +131,6 @@ describe('add middlewares', () => {
       await next();
     });
 
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const [mock_fakeMiddleware, mock_fakeMiddleware2] = [
       fakeMiddleware,
       fakeMiddleware2,

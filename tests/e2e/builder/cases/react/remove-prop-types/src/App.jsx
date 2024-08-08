@@ -12,7 +12,6 @@ App.propTypes = {
   testPropTypes: PropTypes.string,
 };
 
-// eslint-disable-next-line no-undef
 window.testAppPropTypes = App.propTypes;
 
 export default App;

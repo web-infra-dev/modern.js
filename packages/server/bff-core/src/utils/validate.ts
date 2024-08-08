@@ -24,7 +24,6 @@ export const getTypeErrorMessage = (actual: unknown) => {
   return msg;
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 export class ERR_INVALID_ARG_TYPE extends Error {
   constructor(funcName: string, expectedType: string, actual: unknown) {
     const message = `[ERR_INVALID_ARG_TYPE]: The '${funcName}' argument must be of type ${expectedType}${getTypeErrorMessage(

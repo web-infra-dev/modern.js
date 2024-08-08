@@ -10,13 +10,9 @@ export type CliPlugin<
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = PluginOptions<
   BaseHooks<Extends>,

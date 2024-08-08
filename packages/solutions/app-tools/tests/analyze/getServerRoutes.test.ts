@@ -318,7 +318,6 @@ describe('get server routes', () => {
       } as any,
     );
 
-    // eslint-disable-next-line max-lines
     expect(routes).toMatchObject([
       {
         urlPath: '/page-a',

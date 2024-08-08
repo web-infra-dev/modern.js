@@ -50,7 +50,6 @@ export async function upgradeAction(options: Options) {
       pwd: cwd,
     });
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 }

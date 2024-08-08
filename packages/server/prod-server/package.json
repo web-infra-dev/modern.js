@@ -54,7 +54,6 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@types/merge-deep": "^3.0.0",

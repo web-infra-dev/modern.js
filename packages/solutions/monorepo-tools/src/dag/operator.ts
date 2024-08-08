@@ -104,7 +104,6 @@ export class DagOperator {
       }
       await pMap(
         projects,
-        // eslint-disable-next-line @typescript-eslint/no-loop-func
         async project => {
           if (!finishTaskHash[project.name]) {
             finishTaskHash[project.name] = true;

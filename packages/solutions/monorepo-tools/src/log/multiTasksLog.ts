@@ -38,12 +38,10 @@ const createListenHandler = (
 ) => {
   // const sb = new StringBuilder();
   const logger = createLogger(name, config);
-  // eslint-disable-next-line node/prefer-global/buffer
   const stdout = (chunk: Buffer) => {
     // console.info(chunk.toString().split(/\r\n|\n\r|\r|\n/g).length);
     logger.info(formatLog(chunk.toString()));
   };
-  // eslint-disable-next-line node/prefer-global/buffer
   const stderr = (chunk: Buffer) => {
     logger.error(chunk.toString());
     // logger.log('#####################');

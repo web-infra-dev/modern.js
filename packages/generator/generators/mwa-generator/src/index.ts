@@ -207,7 +207,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -220,7 +219,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
     generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -237,7 +235,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await appApi.runGitAndInstall(context.config.gitCommitMessage);
   } catch (e) {
     generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

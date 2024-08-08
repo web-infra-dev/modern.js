@@ -5,15 +5,11 @@ export type UserConfig<
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
   ExtendUserConfig extends {
     [property: string]: any;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
   plugins?: PluginConfig;
@@ -31,19 +27,14 @@ export type NormalizedConfig<
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
   ExtendNormalizedConfig extends {
     [property: string]: any;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
   plugins: PluginConfig;
-
   /**
    * Auto load plugin that exist in the package.json
    *
@@ -56,11 +47,8 @@ export type LoadedConfig<
   Extends extends {
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends {} = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
 > = {
   config: UserConfig<Extends>;

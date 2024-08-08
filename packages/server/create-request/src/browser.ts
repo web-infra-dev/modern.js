@@ -9,7 +9,6 @@ import type {
 } from './types';
 
 let realRequest: typeof fetch;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let realAllowedHeaders: string[];
 
 const originFetch = (...params: Parameters<typeof fetch>) => {
@@ -39,7 +38,6 @@ export const createRequest: RequestCreator = (
   port,
   httpMethodDecider = 'functionName',
   // 后续可能要修改，暂时先保留
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = originFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -97,7 +95,6 @@ export const createRequest: RequestCreator = (
             : payload.body;
       } else if (payload.body) {
         headers['Content-Type'] = 'text/plain';
-        // eslint-disable-next-line prefer-destructuring
         body = payload.body;
       } else if (payload.formData) {
         body = payload.formData;
@@ -109,7 +106,6 @@ export const createRequest: RequestCreator = (
         if (
           typeof payload.formUrlencoded === 'object' &&
           // @ts-expect-error
-          // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
           !(payload.formUrlencoded instanceof URLSearchParams)
         ) {
           body = stringify(payload.formUrlencoded);

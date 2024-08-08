@@ -13,7 +13,6 @@ export const compatRequire = (filePath: string, interop = true) => {
 };
 
 // Avoid `import` to be tranpiled to `require` by babel/tsc/rollup
-// eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
 export const dynamicImport = new Function(
   'modulePath',
   'return import(modulePath)',

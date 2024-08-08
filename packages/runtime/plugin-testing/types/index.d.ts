@@ -1,7 +1,7 @@
-import "@testing-library/react"
-import "@testing-library/jest-dom"
-import "../dist/types/runtime-testing"
-import "../dist/types/runtime-testing/bff"
+import '@testing-library/react';
+import '@testing-library/jest-dom';
+import '../dist/types/runtime-testing';
+import '../dist/types/runtime-testing/bff';
 
 declare module '@modern-js/runtime/testing' {
   export * from '@testing-library/react';

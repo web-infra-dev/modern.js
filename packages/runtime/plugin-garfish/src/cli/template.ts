@@ -41,9 +41,7 @@ if (!isRenderGarfish()) {
   };
 }
 
-export const provider = createProvider('${
-        mountId || 'root'
-      }', { customBootstrap });
+export const provider = createProvider('${mountId || 'root'}', { customBootstrap });
 `;
 export const index = ({
   srcDirectory,

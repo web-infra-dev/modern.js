@@ -63,7 +63,6 @@ describe('test api function', () => {
 
     const { query, data } = res;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type Case = Expect<Assert<typeof data, typeof outputsExpectedData>>;
 
     expect(query).toEqual(expectedQuery);
@@ -115,9 +114,7 @@ describe('test api function', () => {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type Case = Expect<Assert<z.input<typeof DataSchema>, { stars: string }>>;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type Case2 = Expect<
       Assert<z.output<typeof DataSchema>, { stars: { test: number } }>
     >;
@@ -170,7 +167,6 @@ describe('test api function', () => {
     const response = await getResponse(reqData);
     expect(response.data).toEqual(reqData.data);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type Case2 = Expect<Assert<typeof response.data, CircularDataSchemaData>>;
   });
 
@@ -189,7 +185,6 @@ describe('test api function', () => {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type Case2 = Expect<
       Assert<z.infer<typeof DataSchema>, Record<string, number>>
     >;
