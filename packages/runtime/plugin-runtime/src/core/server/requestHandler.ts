@@ -75,6 +75,11 @@ function createSSRContext(
 
   const url = new URL(request.url);
 
+  const host =
+    request.headers.get('X-Forwarded-Host') ||
+    request.headers.get('host') ||
+    url.host;
+
   const ssrConfig = getSSRConfigByEntry(
     entryName,
     config.ssr,
@@ -94,6 +99,7 @@ function createSSRContext(
     logger,
     metrics,
     request: {
+      url: request.url.replace(url.host, host),
       baseUrl: route.urlPath,
       userAgent: request.headers.get('user-agent')!,
       cookie: cookie!,
@@ -102,7 +108,7 @@ function createSSRContext(
       query,
       params,
       headers: headersData,
-      host: url.host,
+      host,
       raw: request,
     },
     response: {
