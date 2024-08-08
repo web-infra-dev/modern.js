@@ -1,5 +1,27 @@
 # @modern-js/app-tools
 
+## 2.58.0
+
+### Patch Changes
+
+- b984554: feat(deploy): export nodeFileTrace and traceOptions
+  feat(deploy): 暴露 nodeFileTrace 和 traceOptions
+- Updated dependencies [58f2868]
+  - @modern-js/uni-builder@2.58.0
+  - @modern-js/core@2.58.0
+  - @modern-js/server@2.58.0
+  - @modern-js/plugin-data-loader@2.58.0
+  - @modern-js/plugin-i18n@2.58.0
+  - @modern-js/plugin-lint@2.58.0
+  - @modern-js/rsbuild-plugin-esbuild@2.58.0
+  - @modern-js/server-core@2.58.0
+  - @modern-js/prod-server@2.58.0
+  - @modern-js/server-utils@2.58.0
+  - @modern-js/node-bundle-require@2.58.0
+  - @modern-js/plugin@2.58.0
+  - @modern-js/types@2.58.0
+  - @modern-js/utils@2.58.0
+
 ## 2.57.1
 
 ### Patch Changes
