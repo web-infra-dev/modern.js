@@ -1,0 +1,11 @@
+[
+  "showcase",
+  "team",
+  "releases",
+  "contributing-guide",
+  {
+    "type": "dir",
+    "name": "blog",
+    "label": "blog"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  "css",
+  "routes",
+  {
+    "type": "dir",
+    "name": "data",
+    "label": "data-solution",
+    "collapsed": true
+  },
+  "alias",
+  "mock",
+  "proxy",
+  "env-vars",
+  "html",
+  "output-files",
+  "static-assets",
+  "svg-assets",
+  "json-files",
+  "wasm-assets",
+  "css-modules",
+  "deploy"
+]

@@ -1,0 +1,26 @@
+[
+  "rspack-start",
+  {
+    "type": "dir",
+    "name": "bff",
+    "label": "use-bff",
+    "collapsed": true
+  },
+  "code-split",
+  {
+    "type": "dir",
+    "name": "ssr",
+    "label": "use-ssr",
+    "collapsed": true
+  },
+  "ssg",
+  "compatibility",
+  "eslint",
+  "low-level",
+  "source-build",
+  "build-performance",
+  "inline-assets",
+  "optimize-bundle",
+  "using-storybook",
+  "web-server"
+]

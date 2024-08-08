@@ -1,0 +1,27 @@
+[
+  {
+    "text": "guide",
+    "link": "/guides/get-started/introduction",
+    "activeMatch": "/guides/"
+  },
+  {
+    "text": "tutorials",
+    "link": "/tutorials/foundations/introduction",
+    "activeMatch": "/tutorials/"
+  },
+  {
+    "text": "configure",
+    "link": "/configure/app/usage",
+    "activeMatch": "/configure/"
+  },
+  {
+    "text": "apis",
+    "link": "/apis/app/commands",
+    "activeMatch": "/apis/"
+  },
+  {
+    "text": "community",
+    "link": "/community/showcase",
+    "activeMatch": "/community/"
+  }
+]

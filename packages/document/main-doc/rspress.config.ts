@@ -1,15 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'rspress/config';
 import { NavItem } from '@rspress/shared';
-import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
-
-const rootCategories = [
-  'tutorials',
-  'guides',
-  'apis/app',
-  'configure/app',
-  'community',
-];
 
 const { version } = require('./package.json');
 
@@ -104,7 +95,7 @@ export default defineConfig({
         title: 'Modern.js',
         description:
           'A Progressive React Framework for modern web development.',
-        nav: getNavbar('zh'),
+        // nav: getNavbar('zh'),
         label: '简体中文',
       },
       {
@@ -112,7 +103,7 @@ export default defineConfig({
         title: 'Modern.js',
         description:
           'A Progressive React Framework for modern web development.',
-        nav: getNavbar('en'),
+        // nav: getNavbar('en'),
         label: 'English',
       },
     ],
@@ -157,13 +148,5 @@ export default defineConfig({
         '@site': require('path').resolve(__dirname),
       },
     },
-  },
-  plugins: [
-    pluginAutoSidebar({
-      root: docPath,
-      categories: ['zh', 'en'].flatMap(lang =>
-        rootCategories.map(category => `${lang}/${category}`),
-      ),
-    }),
-  ],
+  }
 });

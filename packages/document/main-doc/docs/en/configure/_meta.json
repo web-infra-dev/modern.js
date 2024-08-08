@@ -1,0 +1,78 @@
+[
+  "app/usage",
+  {
+    "type": "dir",
+    "name": "app/dev",
+    "label": "dev",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/bff",
+    "label": "bff",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/html",
+    "label": "html",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/tools",
+    "label": "tools",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/source",
+    "label": "source",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/server",
+    "label": "server",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/output",
+    "label": "output",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/deploy",
+    "label": "deploy",
+    "collapsed": true
+  },
+  "app/plugins",
+  {
+    "type": "dir",
+    "name": "app/security",
+    "label": "security",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/runtime",
+    "label": "runtime",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/performance",
+    "label": "performance",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "app/experiments",
+    "label": "experiments",
+    "collapsed": true
+  },
+  "app/builder-plugins",
+  "app/auto-load-plugin"
+]
