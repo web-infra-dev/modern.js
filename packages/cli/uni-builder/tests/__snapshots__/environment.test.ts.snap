@@ -845,10 +845,10 @@ exports[`uni-builder environment compat > should generator environment config co
         },
         "version": 6,
       },
-      HtmlBasicPlugin {
+      RsbuildHtmlPlugin {
         "getEnvironment": [Function],
         "modifyTagsFn": [Function],
-        "name": "HtmlBasicPlugin",
+        "name": "RsbuildHtmlPlugin",
         "options": {
           "index": {
             "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
