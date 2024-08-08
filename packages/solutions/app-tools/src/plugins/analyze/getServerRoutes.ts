@@ -143,8 +143,7 @@ const collectHtmlRoutes = (
       const isWorker = Boolean(workerSSR);
       // The http would open stream when stream ssr or enable ssr.preload
       const isStream =
-        typeof entryOptions === 'object' &&
-        (entryOptions.mode === 'stream' || Boolean(entryOptions.preload));
+        typeof entryOptions === 'object' && entryOptions.mode === 'stream';
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {

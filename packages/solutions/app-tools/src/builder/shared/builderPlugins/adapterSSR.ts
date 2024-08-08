@@ -31,10 +31,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         server: {
           // the http-compression can't handler stream http.
           // so we disable compress when user use stream ssr temporarily.
-          compress:
-            isStreamingSSR(normalizedConfig) || isSSRPreload(normalizedConfig)
-              ? false
-              : undefined,
+          compress: isStreamingSSR(normalizedConfig) ? false : undefined,
         },
       });
     });
@@ -86,20 +83,6 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     );
   },
 });
-
-const isSSRPreload = (userConfig: AppNormalizedConfig<'shared'>) => {
-  const {
-    server: { ssr, ssrByEntries },
-  } = userConfig;
-
-  const checkUsePreload = (ssr?: ServerUserConfig['ssr']) =>
-    typeof ssr === 'object' && Boolean(ssr.preload);
-
-  return (
-    checkUsePreload(ssr) ||
-    Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
-  );
-};
 
 const isStreamingSSR = (userConfig: AppNormalizedConfig<'shared'>): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
