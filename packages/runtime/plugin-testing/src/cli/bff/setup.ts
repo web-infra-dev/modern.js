@@ -26,7 +26,7 @@ const setup = () => {
       prefix,
       httpMethodDecider,
     });
-    const apiInfos = apiRouter.getApiHandlers();
+    const apiInfos = await apiRouter.getApiHandlers();
 
     const apiInfosByFile = apiInfos.reduce<Record<string, APIHandlerInfo[]>>(
       (res, apiInfo) => {

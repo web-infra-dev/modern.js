@@ -3,7 +3,7 @@ import os from 'node:os';
 import { fs as fse } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { parseNodeModulePath } from 'mlly';
-import { nodeFileTrace, NodeFileTraceOptions } from '@vercel/nft';
+import { nodeFileTrace, NodeFileTraceOptions, resolve } from '@vercel/nft';
 
 export type TracedPackage = {
   name: string;
@@ -191,6 +191,15 @@ export const traceFiles = async ({
   return await nodeFileTrace(entryFiles, {
     base,
     processCwd: serverRootDir,
+    resolve: async (id, parent, job, isCjs) => {
+      if (id.startsWith('@modern-js/prod-server')) {
+        return require.resolve(id, {
+          paths: [require.resolve('@modern-js/app-tools')],
+        });
+      } else {
+        return resolve(id, parent, job, isCjs);
+      }
+    },
     ...traceOptions,
   });
 };

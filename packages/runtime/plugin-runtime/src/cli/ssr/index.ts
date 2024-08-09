@@ -88,6 +88,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
   required: ['@modern-js/runtime'],
 
   setup: api => {
+    const appContext = api.useAppContext();
     return {
       // for bundle
       config() {
@@ -136,6 +137,20 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           },
           tools: {
             babel: babelHandler,
+            bundlerChain: (chain, { isServer }) => {
+              if (isServer && appContext.moduleType === 'module') {
+                chain.output
+                  .libraryTarget('module')
+                  .set('chunkFormat', 'module');
+                chain.output.library({
+                  type: 'module',
+                });
+                chain.experiments({
+                  ...chain.get('experiments'),
+                  outputModule: true,
+                });
+              }
+            },
           },
         };
       },

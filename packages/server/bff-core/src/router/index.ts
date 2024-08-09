@@ -89,8 +89,8 @@ export class ApiRouter {
     return false;
   }
 
-  public getSingleModuleHandlers(filename: string) {
-    const moduleInfo = this.getModuleInfo(filename);
+  public async getSingleModuleHandlers(filename: string) {
+    const moduleInfo = await this.getModuleInfo(filename);
     if (moduleInfo) {
       return this.getModuleHandlerInfos(moduleInfo);
     }
@@ -220,9 +220,9 @@ export class ApiRouter {
     return this.loadApiFiles();
   }
 
-  public getApiHandlers() {
+  public async getApiHandlers() {
     const filenames = this.getApiFiles();
-    const moduleInfos = this.getModuleInfos(filenames);
+    const moduleInfos = await this.getModuleInfos(filenames);
     const apiHandlers = this.getHandlerInfos(moduleInfos);
     debug('apiHandlers', apiHandlers.length, apiHandlers);
     return apiHandlers;
@@ -274,15 +274,17 @@ export class ApiRouter {
     return originLambdaDir || path.join(apiDir, FRAMEWORK_MODE_LAMBDA_DIR);
   };
 
-  private getModuleInfos(filenames: string[]): ModuleInfo[] {
-    return filenames
-      .map(filename => this.getModuleInfo(filename))
-      .filter(moduleInfo => Boolean(moduleInfo)) as ModuleInfo[];
+  private async getModuleInfos(filenames: string[]): Promise<ModuleInfo[]> {
+    return Promise.all(
+      filenames
+        .map(filename => this.getModuleInfo(filename))
+        .filter(moduleInfo => Boolean(moduleInfo)),
+    ) as unknown as ModuleInfo[];
   }
 
-  private getModuleInfo(filename: string) {
+  private async getModuleInfo(filename: string) {
     try {
-      const module = requireHandlerModule(filename);
+      const module = await requireHandlerModule(filename);
       return {
         filename,
         module,

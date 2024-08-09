@@ -5,7 +5,7 @@ import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
-import { fs, compatRequire, logger } from '@modern-js/utils';
+import { compatibleRequire, fs, logger } from '@modern-js/utils';
 import type {
   Render,
   ServerManifest,
@@ -35,24 +35,25 @@ const findAppModule = async (apiDir: string) => {
     if (await fs.pathExists(filename)) {
       // 每次获取 app.ts 的时候，避免使用缓存的 app.ts
       delete require.cache[filename];
-      return compatRequire(filename);
+      return compatibleRequire(filename);
     }
   }
 
   return null;
 };
 
-const initMiddlewares = (
+const initMiddlewares = async (
   middleware: (Middleware | string)[],
   app: Application,
 ) => {
-  middleware.forEach(middlewareItem => {
+  for (const middlewareItem of middleware) {
     const middlewareFunc =
       typeof middlewareItem === 'string'
-        ? compatRequire(middlewareItem)
+        ? await compatibleRequire(middlewareItem)
         : middlewareItem;
+
     app.use(middlewareFunc);
-  });
+  }
 };
 
 const defaultErrorHandler: Middleware = async (ctx, next) => {
@@ -97,7 +98,7 @@ const createApp = async ({
     }
 
     if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
+      await initMiddlewares(middlewares, app);
     }
 
     app.use(run);
@@ -111,7 +112,7 @@ const createApp = async ({
       }),
     );
     if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
+      await initMiddlewares(middlewares, app);
     }
     app.use(run);
     registerRoutes(router, apiHandlerInfos);

@@ -8,6 +8,7 @@ export interface AliasOption {
 export interface ILibPresetOption {
   appDirectory: string;
   alias?: AliasOption;
+  isEsm?: boolean;
 }
 
 export type JsxTransformRuntimeType = 'automatic' | 'classic';

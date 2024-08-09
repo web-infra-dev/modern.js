@@ -28,7 +28,7 @@ export const devCommand = async (
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('--web-only', i18n.t(localeKeys.command.dev.webOnly))
     .action(async (options: DevOptions) => {
-      const { dev } = await import('./dev');
+      const { dev } = await import('./dev.js');
       await dev(api, options);
     });
 
@@ -65,7 +65,7 @@ export const buildCommand = async (
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .option('--analyze', i18n.t(localeKeys.command.shared.analyze))
     .action(async (options: BuildOptions) => {
-      const { build } = await import('./build');
+      const { build } = await import('./build.js');
       await build(api, options);
     });
 
@@ -96,7 +96,7 @@ export const serverCommand = (
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async () => {
-      const { start } = await import('./serve');
+      const { start } = await import('./serve.js');
       await start(api);
     });
 };
@@ -113,11 +113,11 @@ export const deployCommand = (
     .description(i18n.t(localeKeys.command.deploy.describe))
     .action(async (options: DeployOptions) => {
       if (!options.skipBuild) {
-        const { build } = await import('./build');
+        const { build } = await import('./build.js');
         await build(api);
       }
 
-      const { deploy } = await import('./deploy');
+      const { deploy } = await import('./deploy.js');
       await deploy(api, options);
       // eslint-disable-next-line no-process-exit
       process.exit(0);
@@ -173,7 +173,7 @@ export const inspectCommand = (
     .option('--verbose', i18n.t(localeKeys.command.inspect.verbose))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async (options: InspectOptions) => {
-      const { inspect } = await import('./inspect');
+      const { inspect } = await import('./inspect.js');
       inspect(api, options);
     });
 };

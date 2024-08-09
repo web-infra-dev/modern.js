@@ -45,6 +45,8 @@ export interface IAppContext {
   port?: number;
   /** Name of the current project's package.json */
   packageName: string;
+  /** Type field of package.json */
+  moduleType: 'module' | 'commonjs';
   /** Currently registered plugins */
   plugins: any[];
   /** Information for entry points */

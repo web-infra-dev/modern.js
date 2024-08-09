@@ -61,7 +61,7 @@ export const generateClient = async ({
     httpMethodDecider,
   });
 
-  const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
+  const handlerInfos = await apiRouter.getSingleModuleHandlers(resourcePath);
   if (!handlerInfos) {
     return Err(`generate client error: Cannot require module ${resourcePath}`);
   }

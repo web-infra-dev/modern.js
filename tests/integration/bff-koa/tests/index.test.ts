@@ -1,4 +1,5 @@
 import path from 'path';
+import dns from 'node:dns';
 import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   getPort,
@@ -11,7 +12,7 @@ import {
 import 'isomorphic-fetch';
 
 const appDir = path.resolve(__dirname, '../');
-
+dns.setDefaultResultOrder('ipv4first');
 describe('bff koa in dev', () => {
   let port = 8080;
   const host = `http://localhost`;
@@ -35,16 +36,30 @@ describe('bff koa in dev', () => {
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
-  // TODO fix
-  test.skip('stream ssr with bff handle web, client nav', async () => {
+  test('stream ssr with bff handle web, client nav', async () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
     await page.click('#home-btn');
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const text = await page.$eval('#item', el => el?.textContent);
+    await page.waitForSelector('#data');
+    const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
+
+  test('api service should serve normally', async () => {
+    try {
+      const res = await fetch(`${host}:${port}/api/info`);
+      const data = await res.json();
+      expect(data).toEqual({
+        company: 'bytedance',
+        addRes: 3,
+        url: '/api/info',
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  })
 
   afterAll(async () => {
     await killApp(app);
@@ -78,16 +93,25 @@ describe('bff koa in prod', () => {
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
-  // TODO fix
-  test.skip('stream ssr with bff handle web, client nav', async () => {
+  test('stream ssr with bff handle web, client nav', async () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
     await page.click('#home-btn');
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    const text = await page.$eval('#item', el => el?.textContent);
+    await page.waitForSelector('#data');
+    const text = await page.$eval('#data', el => el?.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
+
+  test('api service should serve normally', async () => {
+    const res = await fetch(`${host}:${port}/api/info`);
+    const data = await res.json();
+    expect(data).toEqual({
+      company: 'bytedance',
+      addRes: 3,
+      url: '/api/info',
+    });
+  })
 
   afterAll(async () => {
     await killApp(app);

@@ -20,10 +20,10 @@ export type ServerMod = {
 };
 
 // load server/_middleware file middlewares
-export const loadMiddleware = (pwd: string = process.cwd()) => {
+export const loadMiddleware = async (pwd: string = process.cwd()) => {
   const middlewarePath = path.resolve(pwd, SERVER_DIR, '_middleware');
 
-  const middlewareMode = requireExistModule(middlewarePath, {
+  const middlewareMode = await requireExistModule(middlewarePath, {
     interop: false,
   });
 
@@ -34,9 +34,9 @@ export const loadMiddleware = (pwd: string = process.cwd()) => {
 };
 
 // load server/index file hooks and middlewares
-export const loadServerMod = (pwd: string = process.cwd()) => {
+export const loadServerMod = async (pwd: string = process.cwd()) => {
   const webAppPath = path.resolve(pwd, SERVER_DIR, WEB_APP_NAME);
-  const mod: ServerMod = requireExistModule(webAppPath, {
+  const mod: ServerMod = await requireExistModule(webAppPath, {
     interop: false,
   });
   const {

@@ -2,15 +2,33 @@ import { findExists } from './fs';
 
 /**
  * Require function compatible with esm and cjs module.
- * @param filePath - File to required.
+ * @param path - File to required.
  * @returns module export object.
  */
-export const compatRequire = (filePath: string, interop = true) => {
-  const mod = require(filePath);
-  const rtnESMDefault = interop && mod?.__esModule;
+export async function compatibleRequire(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (path.endsWith('.json')) {
+    return require(path);
+  }
 
-  return rtnESMDefault ? mod.default : mod;
-};
+  let requiredModule;
+  try {
+    requiredModule = require(path);
+  } catch (err: any) {
+    if (err.code === 'ERR_REQUIRE_ESM' || err instanceof SyntaxError) {
+      requiredModule = await import(path);
+    } else {
+      throw err;
+    }
+  }
+
+  return interop && requiredModule?.__esModule
+    ? requiredModule.default
+    : requiredModule;
+  // return origin ? requiredModule : requiredModule.default;
+}
 
 // Avoid `import` to be tranpiled to `require` by babel/tsc/rollup
 // eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
@@ -19,7 +37,7 @@ export const dynamicImport = new Function(
   'return import(modulePath)',
 );
 
-export const requireExistModule = (
+export const requireExistModule = async (
   filename: string,
   opt?: {
     extensions?: string[];
@@ -36,7 +54,7 @@ export const requireExistModule = (
     return null;
   }
 
-  return compatRequire(exist, final.interop);
+  return compatibleRequire(exist, final.interop);
 };
 
 export const cleanRequireCache = (filelist: string[]) => {
