@@ -208,7 +208,7 @@ export class RouterPlugin {
             }
           }
 
-          // Ensure that the corresponding sync resources have been processed
+          // Ensure that the corresponding sync resources have been processed, so wo merge here
           if (asyncEntryNames.length > 0) {
             for (const asyncEntryName of asyncEntryNames) {
               const syncEntryName = asyncEntryName.replace('async-', '');
