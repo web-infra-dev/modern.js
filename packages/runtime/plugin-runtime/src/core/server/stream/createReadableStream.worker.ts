@@ -15,7 +15,8 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
     let shellChunkStatus = ShellChunkStatus.START;
     const chunkVec: string[] = [];
 
-    const { htmlTemplate, runtimeContext, config, ssrConfig } = options;
+    const { htmlTemplate, runtimeContext, config, ssrConfig, entryName } =
+      options;
 
     const { shellBefore, shellAfter } = await getTemplates(htmlTemplate, {
       renderLevel: RenderLevel.SERVER_RENDER,
@@ -23,6 +24,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
       ssrConfig,
       request,
       config,
+      entryName,
     });
 
     try {

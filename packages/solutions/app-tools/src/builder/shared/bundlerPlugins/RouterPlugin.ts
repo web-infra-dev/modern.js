@@ -1,5 +1,5 @@
 import { createHash } from 'crypto';
-import { mergeWith } from '@modern-js/utils/lodash';
+import { merge, mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type {
@@ -168,7 +168,12 @@ export class RouterPlugin {
           const prevManifest: { routeAssets: RouteAssets } =
             JSON.parse(prevManifestStr);
 
+          const asyncEntryNames = [];
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
+            if (name.startsWith('async-')) {
+              asyncEntryNames.push(name);
+            }
+
             type ChunkGroupLike = {
               assets: { name: string; [prop: string]: any }[];
               [prop: string]: any;
@@ -200,6 +205,16 @@ export class RouterPlugin {
                   return Object.assign(source, obj);
                 },
               );
+            }
+          }
+
+          // Ensure that the corresponding sync resources have been processed
+          if (asyncEntryNames.length > 0) {
+            for (const asyncEntryName of asyncEntryNames) {
+              const syncEntryName = asyncEntryName.replace('async-', '');
+              const syncEntry = routeAssets[syncEntryName];
+              const asyncEntry = routeAssets[asyncEntryName];
+              merge(syncEntry, asyncEntry);
             }
           }
 

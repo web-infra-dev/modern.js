@@ -38,6 +38,7 @@ const checkIsInline = (
 
 export interface BuildShellBeforeTemplateOptions {
   runtimeContext: RuntimeContext;
+  entryName: string;
   config: HandleRequestConfig;
   styledComponentsStyleTags?: string;
 }
@@ -46,19 +47,22 @@ export async function buildShellBeforeTemplate(
   beforeAppTemplate: string,
   options: BuildShellBeforeTemplateOptions,
 ) {
-  const { config, runtimeContext, styledComponentsStyleTags } = options;
+  const { config, runtimeContext, styledComponentsStyleTags, entryName } =
+    options;
+
   const helmetData: HelmetData = ReactHelmet.renderStatic();
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceHelemt(helmetData),
     // @TODO: prefetch scripts of lazy component
-    template => injectCss(template, styledComponentsStyleTags),
+    template => injectCss(template, entryName, styledComponentsStyleTags),
   ];
 
   return buildHtml(beforeAppTemplate, callbacks);
 
   async function injectCss(
     template: string,
+    entryName: string,
     styledComponentsStyleTags?: string,
   ) {
     let css = await getCssChunks();
@@ -74,23 +78,34 @@ export async function buildShellBeforeTemplate(
       }
 
       const { routeAssets } = routeManifest;
-      const cssChunks: string[] = [];
 
       const matches = matchRoutes(
         routes,
         routerContext.location,
         routerContext.basename,
       );
-      matches?.forEach((match, index) => {
-        // root layout css chunks should't be loaded
-        if (!index) {
-          return;
-        }
+      const matchedRouteManifests = matches
+        // eslint-disable-next-line array-callback-return
+        ?.map((match, index) => {
+          if (!index) {
+            return;
+          }
 
-        const routeId = match.route.id;
-        if (routeId) {
-          const routeManifest = routeAssets[routeId];
-          if (routeManifest) {
+          const routeId = match.route.id;
+          if (routeId) {
+            const routeManifest = routeAssets[routeId];
+            // eslint-disable-next-line consistent-return
+            return routeManifest;
+          }
+        })
+        .filter(Boolean);
+      const asyncEntry = routeAssets[`async-${entryName}`];
+      if (asyncEntry) {
+        matchedRouteManifests?.push(asyncEntry);
+      }
+
+      const cssChunks: string[] = matchedRouteManifests
+        ? matchedRouteManifests?.reduce((chunks, routeManifest) => {
             const { referenceCssAssets = [] } = routeManifest as {
               referenceCssAssets?: string[];
             };
@@ -98,10 +113,9 @@ export async function buildShellBeforeTemplate(
               (asset?: string) =>
                 asset?.endsWith('.css') && !template.includes(asset),
             );
-            cssChunks.push(..._cssChunks);
-          }
-        }
-      });
+            return [...chunks, ..._cssChunks];
+          }, [] as string[])
+        : [];
 
       const { enableInlineStyles } = config;
 
