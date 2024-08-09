@@ -13,6 +13,7 @@ export type BuildShellAfterTemplateOptions = {
   renderLevel: RenderLevel;
   ssrConfig: SSRConfig;
   request: Request;
+  entryName: string;
   config: HandleRequestConfig;
 };
 
@@ -20,7 +21,8 @@ export function buildShellAfterTemplate(
   afterAppTemplate: string,
   options: BuildShellAfterTemplateOptions,
 ) {
-  const { request, config, ssrConfig, runtimeContext, renderLevel } = options;
+  const { request, config, ssrConfig, runtimeContext, renderLevel, entryName } =
+    options;
 
   const callbacks: BuildHtmlCb[] = [
     createReplaceSSRData({
@@ -30,7 +32,28 @@ export function buildShellAfterTemplate(
       runtimeContext,
       renderLevel,
     }),
+    template => injectJs(template, entryName, config.nonce),
   ];
+
+  async function injectJs(template: string, entryName: string, nonce?: string) {
+    const { routeManifest } = runtimeContext;
+    const { routeAssets } = routeManifest;
+    const asyncEntry = routeAssets[`async-${entryName}`];
+    if (asyncEntry) {
+      const { assets } = asyncEntry;
+      const jsChunkStr = assets
+        ?.filter(asset => asset.endsWith('.js'))
+        ?.map(asset => {
+          return `<script src=${asset} nonce="${nonce}"></script>`;
+        })
+        .join(' ');
+      if (jsChunkStr) {
+        return safeReplace(template, '<!--<?- chunksMap.js ?>-->', jsChunkStr);
+      }
+    }
+    return template;
+  }
+
   return buildHtml(afterAppTemplate, callbacks);
 }
 

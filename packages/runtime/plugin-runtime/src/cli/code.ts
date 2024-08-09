@@ -108,7 +108,7 @@ export const generateCode = async (
           // bootstrap.jsx
           fs.outputFileSync(
             bootstrapFile,
-            `import('./${INDEX_FILE_NAME}');`,
+            `import(/* webpackChunkName: "async-${entryName}" */ './${INDEX_FILE_NAME}');`,
             'utf8',
           );
 

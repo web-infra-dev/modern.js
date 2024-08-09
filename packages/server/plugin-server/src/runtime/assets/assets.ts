@@ -46,6 +46,14 @@ export const getAssets = (
     return acc;
   }, [] as string[]);
 
+  const asyncEntry = routeAssets?.[`async-${entryName}`];
+  if (asyncEntry) {
+    const asyncAssets = asyncEntry.assets;
+    if (Array.isArray(asyncAssets)) {
+      assets?.push(...asyncAssets);
+    }
+  }
+
   const cssAssets = assets
     ?.filter(asset => asset.endsWith('.css'))
     .filter(asset => !html.includes(asset));

@@ -14,7 +14,8 @@ import {
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {
     const { renderToPipeableStream } = await import('react-dom/server');
-    const { runtimeContext, htmlTemplate, config, ssrConfig } = options;
+    const { runtimeContext, htmlTemplate, config, ssrConfig, entryName } =
+      options;
     let shellChunkStatus = ShellChunkStatus.START;
 
     let renderLevel = RenderLevel.SERVER_RENDER;
@@ -48,6 +49,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             renderLevel,
             runtimeContext,
             config,
+            entryName,
             styledComponentsStyleTags,
           }).then(({ shellAfter, shellBefore }) => {
             const body = new Transform({
@@ -101,6 +103,7 @@ export const createReadableStreamFromElement: CreateReadableStreamFromElement =
             ssrConfig,
             renderLevel,
             runtimeContext,
+            entryName,
             config,
           }).then(({ shellAfter, shellBefore }) => {
             const fallbackHtml = `${shellBefore}${shellAfter}`;

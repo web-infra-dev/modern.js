@@ -19,6 +19,7 @@ export type CreateReadableStreamFromElementOptions = {
   config: HandleRequestConfig;
   ssrConfig: SSRConfig;
   htmlTemplate: string;
+  entryName: string;
   onShellReady?: () => void;
   onShellError?: (error: unknown) => void;
   onAllReady?: () => void;
@@ -92,6 +93,7 @@ export function createRenderStreaming(
           htmlTemplate,
           runtimeContext,
           ssrConfig,
+          entryName,
           onShellReady() {
             const cost = end();
             onTiming(SSRTimings.RENDER_SHELL, cost);
