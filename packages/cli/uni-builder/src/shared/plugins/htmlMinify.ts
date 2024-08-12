@@ -73,10 +73,8 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
         output,
         tools: { htmlPlugin },
       } = environment.config;
-
-      if (!isProd || output.minify === false || htmlPlugin === false) {
-        return;
-      }
+      const disableHtmlMinify =
+        !isProd || output.minify === false || htmlPlugin === false;
 
       const { minify } = await import('html-minifier-terser');
 
@@ -96,7 +94,7 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
           return name === 'HtmlRspackPlugin';
         });
 
-        if (isHtmlRspackPlugin) {
+        if (isHtmlRspackPlugin && !disableHtmlMinify) {
           chain.plugin(id).tap(options => {
             if (!options.length) {
               return options;
@@ -126,6 +124,11 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
         if (isHtmlWebpackPlugin) {
           chain.plugin(id).tap(options => {
             if (!options.length || options[0].minify) {
+              return options;
+            }
+
+            if (disableHtmlMinify) {
+              options[0].minify = false;
               return options;
             }
             const userMinifyOption = options[0].minify;

@@ -128,3 +128,25 @@ describe('plugin-minimize', () => {
     process.env.NODE_ENV = 'test';
   });
 });
+
+describe('html minify', () => {
+  it('should not apply html minify in production when disableMinimize', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'webpack',
+      cwd: '',
+      config: {
+        output: {
+          disableMinimize: true,
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(config.plugins).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
+});
