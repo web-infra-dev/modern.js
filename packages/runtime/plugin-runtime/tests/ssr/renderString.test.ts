@@ -37,6 +37,7 @@ describe('test render', () => {
       redirection: {},
       htmlModifiers: [],
       request: {
+        url: 'http://localhost:8080',
         userAgent: request.headers.get('user-agent')!,
         raw: request as any,
       } as any,
