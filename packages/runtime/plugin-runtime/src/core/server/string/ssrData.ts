@@ -66,7 +66,7 @@ export class SSRDataCollector implements Collector {
           query: request.query,
           pathname: request.pathname,
           host: request.host,
-          url: request.raw.url,
+          url: request.url,
           headers,
         },
         reporter: {
