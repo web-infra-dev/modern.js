@@ -4423,6 +4423,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
+        "minify": false,
         "scriptLoading": "defer",
         "template": "",
         "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",

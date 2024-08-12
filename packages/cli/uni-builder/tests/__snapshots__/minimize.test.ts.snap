@@ -1,5 +1,100 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`html minify > should not apply html minify in production when disableMinimize 1`] = `
+[
+  RsbuildCorePlugin {},
+  MiniCssExtractPlugin {
+    "_sortedModulesCache": WeakMap {},
+    "options": {
+      "chunkFilename": "static/css/async/[name].[contenthash:8].css",
+      "experimentalUseImportModule": undefined,
+      "filename": "static/css/[name].[contenthash:8].css",
+      "ignoreOrder": true,
+      "runtime": true,
+    },
+    "runtimeOptions": {
+      "attributes": undefined,
+      "insert": undefined,
+      "linkType": "text/css",
+    },
+  },
+  HtmlWebpackPlugin {
+    "userOptions": {
+      "chunks": [
+        "index",
+      ],
+      "entryName": "index",
+      "filename": "html/index/index.html",
+      "inject": "head",
+      "meta": {
+        "charset": {
+          "charset": "UTF-8",
+        },
+        "viewport": "width=device-width, initial-scale=1.0",
+      },
+      "minify": false,
+      "scriptLoading": "defer",
+      "template": "",
+      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateParameters": [Function],
+      "title": "",
+    },
+    "version": 5,
+  },
+  RsbuildHtmlPlugin {
+    "getEnvironment": [Function],
+    "modifyTagsFn": [Function],
+    "name": "RsbuildHtmlPlugin",
+    "options": {
+      "index": {
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      },
+    },
+  },
+  DefinePlugin {
+    "definitions": {
+      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.NODE_ENV": "\\"production\\"",
+    },
+  },
+  ProgressPlugin {
+    "compileTime": null,
+    "dependenciesCount": 10000,
+    "handler": [Function],
+    "hasCompileErrors": false,
+    "id": "web",
+    "modulesCount": 5000,
+    "name": "ProgressPlugin",
+    "percentBy": null,
+    "profile": false,
+    "showActiveModules": false,
+    "showDependencies": true,
+    "showEntries": true,
+    "showModules": true,
+  },
+  ForkTsCheckerWebpackPlugin {
+    "options": {
+      "issue": {
+        "exclude": [
+          [Function],
+        ],
+      },
+      "logger": {
+        "error": [Function],
+        "log": [Function],
+      },
+      "typescript": {
+        "build": false,
+        "configFile": "tsconfig.json",
+        "memoryLimit": 8192,
+        "mode": "readonly",
+        "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+      },
+    },
+  },
+]
+`;
+
 exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
 [
   SwcMinimizerPlugin {
