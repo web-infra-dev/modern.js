@@ -71,7 +71,7 @@ function createReplaceSSRData(options: {
         params: request.params,
         pathname: request.pathname,
         host: request.host,
-        url: request.raw.url,
+        url: request.url,
         headers,
       },
     },
