@@ -20,6 +20,6 @@ describe('generate async entry', () => {
         path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.jsx`),
         'utf8',
       ),
-    ).toContain(`import('./index');`);
+    ).toContain(`import(/* webpackChunkName: "async-main" */ './index');`);
   });
 });
