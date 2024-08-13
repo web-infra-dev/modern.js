@@ -93,8 +93,23 @@ function injectRequestBody(): UnstableMiddleware {
   };
 }
 
+function modifyRequest(): UnstableMiddleware {
+  return async (c, next) => {
+    const { request } = c;
+
+    if (request.url.includes('modify=1')) {
+      c.request = new Request(
+        request.url.replace('http', 'https').replace('modify=1', 'modify=222'),
+      );
+    }
+
+    await next();
+  };
+}
+
 export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
+  modifyRequest(),
   injectRequestBody(),
   injectMessage(),
   auth() as unknown as UnstableMiddleware,

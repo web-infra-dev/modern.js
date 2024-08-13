@@ -63,7 +63,9 @@ function createSSRContext(
 
   const { entryName, route } = resource;
 
-  const cookie = request.headers.get('cookie');
+  const { headers } = request;
+
+  const cookie = headers.get('cookie') || '';
 
   const cookieMap = parseCookie(request);
 
@@ -76,9 +78,13 @@ function createSSRContext(
   const url = new URL(request.url);
 
   const host =
-    request.headers.get('X-Forwarded-Host') ||
-    request.headers.get('host') ||
-    url.host;
+    headers.get('X-Forwarded-Host') || headers.get('host') || url.host;
+
+  // The protocal including the final `:`.
+  // Follow: https://developer.mozilla.org/en-US/docs/Web/API/URL/protocol
+  const protocal = `${
+    headers.get('X-Forwarded-Proto') || url.protocol || 'http'
+  }:`;
 
   const ssrConfig = getSSRConfigByEntry(
     entryName,
@@ -99,10 +105,10 @@ function createSSRContext(
     logger,
     metrics,
     request: {
-      url: request.url.replace(url.host, host),
+      url: request.url.replace(url.host, host).replace(url.protocol, protocal),
       baseUrl: route.urlPath,
-      userAgent: request.headers.get('user-agent')!,
-      cookie: cookie!,
+      userAgent: headers.get('user-agent')!,
+      cookie,
       cookieMap,
       pathname,
       query,
