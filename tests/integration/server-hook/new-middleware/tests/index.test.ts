@@ -82,4 +82,18 @@ describe('test new middleware run correctly', () => {
 
     expect(body).toMatch(message);
   });
+
+  test('should replace request url when request url contains modify=1', async () => {
+    const url = `http://localhost:${port}/?modify=1`;
+
+    const message = '?modify=222';
+
+    const response = await axios.get(url, {
+      responseType: 'text',
+    });
+
+    const body = response.data;
+
+    expect(body).toMatch(message);
+  });
 });

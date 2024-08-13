@@ -233,7 +233,7 @@ async function createMiddlewareContextFromHono(
 ): Promise<UnstableMiddlewareContext> {
   const loaderContext = getLoaderCtx(c as Context);
 
-  let rawRequest = c.req.raw;
+  const rawRequest = c.req.raw;
 
   const method = rawRequest.method.toUpperCase();
 
@@ -253,12 +253,16 @@ async function createMiddlewareContextFromHono(
 
     (init as { duplex: 'half' }).duplex = 'half';
 
-    rawRequest = new Request(rawRequest.url, init);
+    c.req.raw = new Request(rawRequest.url, init);
   }
 
   return {
     get request() {
-      return rawRequest;
+      return c.req.raw;
+    },
+
+    set request(request: Request) {
+      c.req.raw = request;
     },
 
     get response() {
