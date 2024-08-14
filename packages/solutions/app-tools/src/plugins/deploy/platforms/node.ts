@@ -35,6 +35,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         },
         output: {
           path: '.',
+          assetPrefix: config?.output?.assetPrefix,
         },
       };
 
