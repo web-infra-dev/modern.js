@@ -107,10 +107,12 @@ const getRegisterRuntimePluginCode = (
   entryName: string,
   name: string,
   config: Record<string, any>,
-) =>
-  `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
+) => {
+  const configName = name === 'garfish' ? 'masterApp' : name;
+  return `plugins.push(${name}Plugin(mergeConfig(${JSON.stringify(
     config,
-  )}, (runtimeConfig || {})['${name}'], ((runtimeConfig || {})['${name}ByEntries'] || {})['${entryName}'], (getGlobalAppConfig() || {})['${name}'])));`;
+  )}, (runtimeConfig || {})['${configName}'], ((runtimeConfig || {})['${configName}ByEntries'] || {})['${entryName}'], (getGlobalAppConfig() || {})['${configName}'])));`;
+};
 
 export const runtimeRegister = ({
   entryName,
