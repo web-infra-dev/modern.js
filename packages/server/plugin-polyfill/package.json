@@ -54,25 +54,25 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
     "@modern-js/polyfill-lib": "^1.0.0",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.3",
     "lru-cache": "^6.0.0",
-    "ua-parser-js": "^0.7.33",
-    "@swc/helpers": "0.5.3"
+    "ua-parser-js": "^0.7.33"
   },
   "devDependencies": {
-    "@modern-js/server-core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^14",
     "@types/ua-parser-js": "^0.7.36",
-    "typescript": "^5",
-    "@modern-js/core": "workspace:*",
-    "@scripts/build": "workspace:*",
     "jest": "^29",
-    "@scripts/jest-config": "workspace:*"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "publishConfig": {

@@ -16,16 +16,16 @@
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "1.0.1-beta.10",
-    "@rsbuild/core": "1.0.1-beta.10",
-    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/e2e": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@types/node": "^14",
+    "@playwright/test": "1.33.0",
+    "@rsbuild/core": "1.0.1-beta.13",
+    "@rsbuild/plugin-swc": "1.0.1-beta.13",
     "@types/lodash": "^4.14.202",
+    "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@playwright/test": "1.33.0",
     "typescript": "^5"
   }
 }

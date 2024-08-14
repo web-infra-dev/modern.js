@@ -12,7 +12,6 @@ import type {
   DistPathConfig,
   Rspack,
   RequestHandler,
-  NodeEnv,
   HtmlTagDescriptor,
   RsbuildPlugin,
 } from '@rsbuild/core';
@@ -82,7 +81,7 @@ export type GlobalVars = Record<string, any>;
 export type ChainedGlobalVars = ConfigChainWithContext<
   GlobalVars,
   {
-    env: NodeEnv;
+    env: string;
     target: RsbuildTarget;
   }
 >;

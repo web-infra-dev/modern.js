@@ -65,14 +65,14 @@
   "dependencies": {
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@rsdoctor/types": "^0.2.4",
+    "@rsdoctor/utils": "^0.2.4",
     "birpc": "0.2.13",
+    "cookie-es": "^1.0.0",
+    "flatted": "^3.2.9",
     "hookable": "^5.5.3",
     "ufo": "^1.3.0",
-    "flatted": "^3.2.9",
-    "ws": "^8.13.0",
-    "cookie-es": "^1.0.0",
-    "@rsdoctor/types": "^0.2.4",
-    "@rsdoctor/utils": "^0.2.4"
+    "ws": "^8.13.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",
@@ -84,11 +84,11 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@swc/helpers": "0.5.3",
     "@types/jest": "^29",
     "@types/node": "^14",
     "@types/ws": "^8.5.5",
-    "@scripts/jest-config": "workspace:*",
     "jest": "^29",
     "nanoid": "3.3.4",
     "react": "~18.2.0",

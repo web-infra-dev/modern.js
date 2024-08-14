@@ -36,8 +36,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3"
   },

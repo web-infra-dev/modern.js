@@ -43,7 +43,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 1,
                 "modules": {
@@ -57,8 +57,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
               "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
@@ -119,7 +120,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.37",
+                  "coreJs": "3.38",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -198,7 +199,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.37",
+                  "coreJs": "3.38",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -380,7 +381,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 3,
                 "modules": {
@@ -394,8 +395,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
               "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
@@ -457,7 +459,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 2,
                 "modules": {
@@ -471,8 +473,9 @@ exports[`uni-builder environment compat > should generator environment config co
               },
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
               "options": {
+                "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
                 "postcssOptions": {
                   "config": false,
                   "plugins": [
@@ -542,7 +545,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.37",
+                      "coreJs": "3.38",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -634,7 +637,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.37",
+                      "coreJs": "3.38",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -858,8 +861,10 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
+            "import.meta.env.DEV": true,
+            "import.meta.env.MODE": "\\"development\\"",
+            "import.meta.env.PROD": false,
             "process.env.ASSET_PREFIX": "\\"\\"",
-            "process.env.NODE_ENV": "\\"development\\"",
           },
         ],
         "affectedHooks": "compilation",
@@ -947,7 +952,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 0,
                 "modules": {
@@ -1250,7 +1255,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 2,
                 "modules": {
@@ -1292,7 +1297,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 1,
                 "modules": {
@@ -1558,8 +1563,10 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
+            "import.meta.env.DEV": true,
+            "import.meta.env.MODE": "\\"development\\"",
+            "import.meta.env.PROD": false,
             "process.env.ASSET_PREFIX": "\\"\\"",
-            "process.env.NODE_ENV": "\\"development\\"",
           },
         ],
         "affectedHooks": "compilation",
@@ -1655,7 +1662,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 0,
                 "modules": {
@@ -1695,7 +1702,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.37",
+                  "coreJs": "3.38",
                   "mode": "entry",
                   "targets": [
                     "node >= 14",
@@ -1772,7 +1779,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.37",
+                  "coreJs": "3.38",
                   "mode": "entry",
                   "targets": [
                     "node >= 14",
@@ -1952,7 +1959,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 2,
                 "modules": {
@@ -1994,7 +2001,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
             },
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
                 "importLoaders": 1,
                 "modules": {
@@ -2044,7 +2051,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.37",
+                      "coreJs": "3.38",
                       "mode": "entry",
                       "targets": [
                         "node >= 14",
@@ -2134,7 +2141,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.37",
+                      "coreJs": "3.38",
                       "mode": "entry",
                       "targets": [
                         "node >= 14",
@@ -2259,8 +2266,10 @@ exports[`uni-builder environment compat > should generator environment config co
       DefinePlugin {
         "_args": [
           {
+            "import.meta.env.DEV": true,
+            "import.meta.env.MODE": "\\"development\\"",
+            "import.meta.env.PROD": false,
             "process.env.ASSET_PREFIX": "\\"\\"",
-            "process.env.NODE_ENV": "\\"development\\"",
           },
         ],
         "affectedHooks": "compilation",

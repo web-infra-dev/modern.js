@@ -14,7 +14,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 1,
           "modules": {
@@ -28,8 +28,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [
@@ -85,7 +86,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 3,
           "modules": {
@@ -99,8 +100,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [
@@ -171,7 +173,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 2,
           "modules": {
@@ -185,8 +187,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [
@@ -256,7 +259,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 1,
           "modules": {
@@ -270,8 +273,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [
@@ -315,7 +319,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 3,
           "modules": {
@@ -329,8 +333,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [
@@ -389,7 +394,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
           "importLoaders": 2,
           "modules": {
@@ -403,8 +408,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
         },
       },
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
         "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
           "postcssOptions": {
             "config": false,
             "plugins": [

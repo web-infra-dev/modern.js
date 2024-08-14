@@ -17,8 +17,8 @@
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-server": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "typescript": "^5",
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "typescript": "^5"
   }
 }

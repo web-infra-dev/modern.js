@@ -11,8 +11,8 @@
     "@types/fs-extra": "9.0.13",
     "chalk": "4.1.2",
     "consola": "^2.15.3",
-    "fs-extra": "^10.1.0",
-    "fast-glob": "3.2.11"
+    "fast-glob": "3.2.11",
+    "fs-extra": "^10.1.0"
   },
   "devDependencies": {
     "tsx": "^3.12.7"

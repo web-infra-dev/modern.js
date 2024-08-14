@@ -52,19 +52,19 @@
   "dependencies": {
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
+    "@swc/helpers": "0.5.3",
     "cookie-parser": "^1.4.5",
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "reflect-metadata": "^0.1.13",
-    "type-is": "^1.6.18",
-    "@swc/helpers": "0.5.3"
+    "type-is": "^1.6.18"
   },
   "devDependencies": {
-    "@modern-js/core": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/cookie-parser": "^1.4.2",

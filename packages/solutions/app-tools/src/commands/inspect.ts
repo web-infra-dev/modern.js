@@ -14,7 +14,7 @@ export const inspect = async (
     );
   }
   return appContext.builder.inspectConfig({
-    env: options.env as RsbuildMode,
+    mode: options.env as RsbuildMode,
     verbose: options.verbose,
     outputPath: options.output,
     writeToDisk: true,

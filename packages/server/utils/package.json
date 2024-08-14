@@ -44,9 +44,9 @@
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.24.7",
     "@modern-js/babel-compiler": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/babel-plugin-module-resolver": "workspace:*",
     "@modern-js/babel-preset": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3",
     "babel-plugin-transform-typescript-metadata": "^0.3.2"
   },

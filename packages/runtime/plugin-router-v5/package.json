@@ -62,14 +62,14 @@
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/runtime-utils": "workspace:*",
+    "@swc/helpers": "0.5.3",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.8",
     "history": "^4.7.9",
-    "react-router-dom": "^5.3.4",
-    "@swc/helpers": "0.5.3"
+    "react-router-dom": "^5.3.4"
   },
   "peerDependencies": {
     "react": ">=17",

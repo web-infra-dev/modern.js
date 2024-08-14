@@ -49,6 +49,7 @@
     "@babel/core": "^7.24.7",
     "@babel/register": "^7.22.15",
     "@modern-js/runtime-utils": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -58,7 +59,6 @@
     "http-compression": "1.0.6",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "@modern-js/server-core": "workspace:*",
     "ws": "^8.13.0"
   },
   "devDependencies": {

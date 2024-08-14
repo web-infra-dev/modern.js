@@ -211,10 +211,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@swc/helpers": "0.5.3",
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
-    "rslog": "^1.1.0",
-    "@swc/helpers": "0.5.3"
+    "rslog": "^1.1.0"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
