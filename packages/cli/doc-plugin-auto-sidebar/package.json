@@ -42,12 +42,12 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
+    "@rspress/shared": "1.27.0",
     "@scripts/build": "workspace:*",
     "@types/node": "^18.11.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/yaml-front-matter": "^4.1.0",
-    "@rspress/shared": "1.27.0",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
     "prettier": "^2.8.1",

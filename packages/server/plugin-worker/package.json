@@ -49,21 +49,21 @@
     }
   },
   "dependencies": {
+    "@modern-js/prod-server": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "typescript": "^5",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
-    "@scripts/jest-config": "workspace:*"
+    "typescript": "^5"
   },
   "sideEffects": [
     "*.css",

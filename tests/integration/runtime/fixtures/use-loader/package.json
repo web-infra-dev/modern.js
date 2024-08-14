@@ -3,9 +3,9 @@
   "name": "use-loader",
   "version": "2.9.0",
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
+    "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "@modern-js/app-tools": "workspace:*"
+    "react": "^18",
+    "react-dom": "^18"
   }
 }

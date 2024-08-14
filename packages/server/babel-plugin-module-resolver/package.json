@@ -38,11 +38,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@swc/helpers": "0.5.3",
     "glob": "^8.0.3",
     "pkg-up": "3.1.0",
     "reselect": "^4.1.7",
-    "resolve": "^1.22.1",
-    "@swc/helpers": "0.5.3"
+    "resolve": "^1.22.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.7",

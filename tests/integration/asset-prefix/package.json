@@ -7,8 +7,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
     "@types/jest": "^29",
-    "@types/node": "^14",
-    "@modern-js/app-tools": "workspace:*"
+    "@types/node": "^14"
   }
 }

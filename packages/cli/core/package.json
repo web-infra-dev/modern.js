@@ -83,14 +83,14 @@
     "@swc/helpers": "0.5.3"
   },
   "devDependencies": {
-    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "tsm": "2.3.0",
     "jest": "^29",
+    "tsm": "2.3.0",
     "typescript": "^5"
   },
   "sideEffects": false,

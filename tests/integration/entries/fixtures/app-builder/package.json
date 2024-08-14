@@ -6,8 +6,8 @@
     "dev": "modern dev"
   },
   "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
     "react": "^18",
-    "react-dom": "^18",
-    "@modern-js/app-tools": "workspace:*"
+    "react-dom": "^18"
   }
 }

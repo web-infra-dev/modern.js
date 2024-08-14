@@ -63,14 +63,14 @@
   "license": "MIT",
   "dependencies": {
     "@modern-js/storybook-builder": "workspace:*",
-    "@storybook/react": "~7.6.1",
     "@modern-js/utils": "workspace:*",
+    "@storybook/react": "~7.6.1",
     "storybook": "~7.6.1"
   },
   "devDependencies": {
     "@storybook/types": "~7.6.12",
-    "typescript": "^5.2.2",
-    "@types/node": "^20.5.6"
+    "@types/node": "^20.5.6",
+    "typescript": "^5.2.2"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

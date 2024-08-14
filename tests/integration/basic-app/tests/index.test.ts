@@ -77,7 +77,11 @@ describe('test build', () => {
   });
 
   test(`should not use babel-loader`, async () => {
-    const configPath = path.join(appDir, 'dist', 'rspack.config.web.mjs');
+    const configPath = path.join(
+      appDir,
+      'dist',
+      '.rsbuild/rspack.config.web.mjs',
+    );
     const configContent = fs.readFileSync(configPath, { encoding: 'utf-8' });
 
     expect(configContent.includes('babel-loader')).toBeFalsy();

@@ -53,8 +53,10 @@ exports[`html minify > should not apply html minify in production when disableMi
   },
   DefinePlugin {
     "definitions": {
+      "import.meta.env.DEV": false,
+      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.PROD": true,
       "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"production\\"",
     },
   },
   ProgressPlugin {

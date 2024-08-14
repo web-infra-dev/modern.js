@@ -33,7 +33,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.37",
+            "coreJs": "3.38",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -130,7 +130,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.37",
+            "coreJs": "3.38",
             "mode": "entry",
             "targets": [
               "> 0.01%",
