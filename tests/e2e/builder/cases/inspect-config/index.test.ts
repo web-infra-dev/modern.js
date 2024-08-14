@@ -3,22 +3,25 @@ import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { createUniBuilder } from '@scripts/shared';
 
-const builderConfig = path.resolve(__dirname, './dist/rsbuild.config.mjs');
+const builderConfig = path.resolve(
+  __dirname,
+  './dist/.rsbuild/rsbuild.config.mjs',
+);
 const builderWebConfig = path.resolve(
   __dirname,
-  './dist/rsbuild.config.web.mjs',
+  './dist/.rsbuild/rsbuild.config.web.mjs',
 );
 const builderNodeConfig = path.resolve(
   __dirname,
-  './dist/rsbuild.config.node.mjs',
+  './dist/.rsbuild/rsbuild.config.node.mjs',
 );
 const bundlerConfig = path.resolve(
   __dirname,
-  `./dist/${process.env.PROVIDE_TYPE || 'webpack'}.config.web.mjs`,
+  `./dist/.rsbuild/${process.env.PROVIDE_TYPE || 'webpack'}.config.web.mjs`,
 );
 const bundlerNodeConfig = path.resolve(
   __dirname,
-  `./dist/${process.env.PROVIDE_TYPE || 'webpack'}.config.node.mjs`,
+  `./dist/.rsbuild/${process.env.PROVIDE_TYPE || 'webpack'}.config.node.mjs`,
 );
 
 test('should generate config files when writeToDisk is true', async () => {
