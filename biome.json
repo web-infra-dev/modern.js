@@ -120,12 +120,10 @@
       "packages/runtime/plugin-garfish/tests/**/*",
       "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_main.html.js",
-      "tests/integration/ssr/fixtures/partial/src/one/routes/b/layout.tsx",
       "packages/server/core/tests/fixtures/mock/cjs/config/mock/**/*",
       "packages/server/server/tests/fixtures/mock/cjs/config/mock/**/*",
       "tests/integration/ssr/fixtures/preload/**/*",
-      "tests/integration/module/plugins/vue/**/*",
-      "loader.cjs"
+      "tests/integration/module/plugins/vue/**/*"
     ]
   }
 }
