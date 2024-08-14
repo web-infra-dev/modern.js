@@ -2,7 +2,6 @@
   "recommendations": [
     "styled-components.vscode-styled-components",
     "EditorConfig.editorconfig",
-    "esbenp.prettier-vscode",
     "streetsidesoftware.code-spell-checker",
     "codezombiech.gitignore",
     "aaron-bond.better-comments",
