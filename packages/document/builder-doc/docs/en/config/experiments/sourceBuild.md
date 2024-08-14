@@ -16,7 +16,7 @@ More detail can see ["Source Code Build Mode"](https://modernjs.dev/en/guides/ad
 
 ### Options
 
-`experiments.sourceBuild` is implemented based on Rsbuild's [Source Build plugin](https://rsbuild.dev/plugins/list/plugin-source-build#options). You can pass plugin options like this:
+`experiments.sourceBuild` is implemented based on [@rsbuild/plugin-source-build](https://github.com/rspack-contrib/rsbuild-plugin-source-build?tab=readme-ov-file#options). You can pass plugin options like this:
 
 ```ts
 export default {

@@ -16,7 +16,7 @@ export default {
 
 ### 选项
 
-`experiments.sourceBuild` 底层基于 Rsbuild 的 [Source Build 插件](https://rsbuild.dev/plugins/list/plugin-source-build#options) 实现，你可以传入插件选项，比如：
+`experiments.sourceBuild` 底层基于 [@rsbuild/plugin-source-build](https://github.com/rspack-contrib/rsbuild-plugin-source-build?tab=readme-ov-file#options) 实现，你可以传入插件选项，比如：
 
 ```ts
 export default {
