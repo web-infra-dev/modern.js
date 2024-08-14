@@ -85,7 +85,6 @@ export async function buildShellBeforeTemplate(
         routerContext.basename,
       );
       const matchedRouteManifests = matches
-        // eslint-disable-next-line array-callback-return
         ?.map((match, index) => {
           if (!index) {
             return;
@@ -94,7 +93,6 @@ export async function buildShellBeforeTemplate(
           const routeId = match.route.id;
           if (routeId) {
             const routeManifest = routeAssets[routeId];
-            // eslint-disable-next-line consistent-return
             return routeManifest;
           }
         })
