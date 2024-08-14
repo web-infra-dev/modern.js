@@ -24,7 +24,7 @@
   //
   "cSpell.diagnosticLevel": "Hint",
   "javascript.validate.enable": false,
-  "typescript.validate.enable": false,
+  "typescript.validate.enable": true,
   "css.validate": false,
   "scss.validate": false,
   "less.validate": false,
