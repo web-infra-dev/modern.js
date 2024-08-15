@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 2.58.1
+
+### Patch Changes
+
+- b0aff52: chore(workflow): no need to build websites
+- e0e1abc: chore(workflow): use taze to update rsbuild and rspress
+  - @modern-js/utils@2.58.1
+  - @modern-js/node-bundle-require@2.58.1
+  - @modern-js/plugin@2.58.1
+
 ## 2.58.0
 
 ### Patch Changes

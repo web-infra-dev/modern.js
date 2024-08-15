@@ -1,5 +1,18 @@
 # @modern-js/main-doc
 
+## 2.58.1
+
+### Patch Changes
+
+- 1d2465e: docs: update Rsbuild plugin links
+- d86d999: docs: avoid confusing version number
+- 3824a0e: refactor(website): refactor modern.js docs to latest usage of rspress
+  refactor(website): 重构 modern.js 文档，使用最新 rspress 的用法
+- Updated dependencies [1d2465e]
+- Updated dependencies [3824a0e]
+  - @modern-js/builder-doc@2.58.1
+  - @modern-js/sandpack-react@2.58.1
+
 ## 2.58.0
 
 ### Patch Changes

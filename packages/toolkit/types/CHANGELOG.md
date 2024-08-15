@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.58.1
+
+### Patch Changes
+
+- 2482a6b: fix: ssr context in runtime should get host from X-Forwarded-Host first
+  fix: ssr context 应该优先从 X-Forwarded-Host 获取
+
 ## 2.58.0
 
 ## 2.57.1

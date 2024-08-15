@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.4.14",
+  "version": "3.4.15",
   "jsnext:source": "./src/index.ts",
   "main": "./dist/index.js",
   "files": [
