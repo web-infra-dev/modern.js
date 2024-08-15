@@ -1,5 +1,28 @@
 # @modern-js/runtime
 
+## 2.58.1
+
+### Patch Changes
+
+- ec01bad: feat(runtime): adapt to some features for async entries
+  feat(runtime): 为异步入口适配某些功能
+- 2482a6b: fix: ssr context in runtime should get host from X-Forwarded-Host first
+  fix: ssr context 应该优先从 X-Forwarded-Host 获取
+- 7a88ae9: fix: ssrData should get request.url from ssrContext
+  fix: ssrData 应该从 ssrContext 获取 url
+- c904ee2: fix: ssrContext get protocal from x-forwarded-proto first, then new server middleware support rewrite request
+  fix: ssrContext 优先从 x-forwarded-proto 取协议, 另外新 server middleware 支持重写 request
+- 9db73d7: fix: garfish config name when use app.config
+
+  fix: 修复 garfish 配置名称
+
+- Updated dependencies [2482a6b]
+  - @modern-js/types@2.58.1
+  - @modern-js/plugin-data-loader@2.58.1
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/plugin@2.58.1
+
 ## 2.58.0
 
 ### Patch Changes

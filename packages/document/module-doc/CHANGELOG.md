@@ -1,5 +1,12 @@
 # @modern-js/module-tools-docs
 
+## 2.58.1
+
+### Patch Changes
+
+- 3824a0e: refactor(website): refactor modern.js docs to latest usage of rspress
+  refactor(website): 重构 modern.js 文档，使用最新 rspress 的用法
+
 ## 2.58.0
 
 ## 2.57.1

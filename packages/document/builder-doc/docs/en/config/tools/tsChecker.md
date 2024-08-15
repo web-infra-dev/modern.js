@@ -29,9 +29,9 @@ const defaultOptions = {
 },
 ```
 
-By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
+By default, the [@rsbuild/plugin-type-check](https://rsbuild.dev/plugins/list/plugin-type-check) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
 
-### Object Type
+## Example
 
 When the value of `tsChecker` is of type Object, it will be deeply merged with the default configuration.
 
@@ -40,25 +40,11 @@ export default {
   tools: {
     tsChecker: {
       issue: {
-        exclude: [{ file: '**/some-folder/**/*.ts' }],
+        exclude: [({ file = '' }) => /[\\/]some-folder[\\/]/.test(file)],
       },
     },
   },
 };
 ```
 
-### Function Type
-
-When the value of `tsChecker` is of type Function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
-
-```ts
-export default {
-  tools: {
-    tsChecker(options) {
-      (options?.issue?.exclude as unknown[]).push({
-        file: '**/some-folder/**/*.ts',
-      });
-    },
-  },
-};
-```
+> Please refer to [@rsbuild/plugin-type-check](https://rsbuild.dev/plugins/list/plugin-type-check) for more details.
