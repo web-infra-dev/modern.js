@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 2.58.1
+
+### Patch Changes
+
+- ec01bad: feat(runtime): adapt to some features for async entries
+  feat(runtime): 为异步入口适配某些功能
+- a214ea8: fix: use flatted instead of safeReplacer
+  fix: 使用 flated 而不是使用 safeReplacer
+- cd6e3a1: feat(deps): bump Rsbuild 1.0.1-beta.13
+- Updated dependencies [b0aff52]
+- Updated dependencies [bf8810a]
+- Updated dependencies [2482a6b]
+- Updated dependencies [e0e1abc]
+- Updated dependencies [c904ee2]
+- Updated dependencies [a214ea8]
+  - @modern-js/core@2.58.1
+  - @modern-js/uni-builder@2.58.1
+  - @modern-js/types@2.58.1
+  - @modern-js/server-core@2.58.1
+  - @modern-js/plugin-data-loader@2.58.1
+  - @modern-js/plugin-lint@2.58.1
+  - @modern-js/server@2.58.1
+  - @modern-js/prod-server@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/server-utils@2.58.1
+  - @modern-js/plugin-i18n@2.58.1
+  - @modern-js/rsbuild-plugin-esbuild@2.58.1
+  - @modern-js/node-bundle-require@2.58.1
+  - @modern-js/plugin@2.58.1
+
 ## 2.58.0
 
 ### Patch Changes

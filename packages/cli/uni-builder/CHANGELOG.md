@@ -1,5 +1,16 @@
 # @modern-js/uni-builder
 
+## 2.58.1
+
+### Patch Changes
+
+- bf8810a: fix: should not minify html when disableMinimize in webpack mode
+
+  fix: webpack 模式下，当配置 disableMinimize 时不开启 html 压缩
+
+  - @modern-js/utils@2.58.1
+  - @modern-js/babel-preset@2.58.1
+
 ## 2.58.0
 
 ### Minor Changes

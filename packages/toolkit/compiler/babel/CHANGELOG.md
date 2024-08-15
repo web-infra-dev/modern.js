@@ -1,5 +1,11 @@
 # @modern-js/babel-compiler
 
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+
 ## 2.58.0
 
 ### Patch Changes
