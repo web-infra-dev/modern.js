@@ -131,7 +131,7 @@ export const createNetlifyPreset: CreatePreset = (
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
       handlerCode = handlerCode
-        .replace('handlerCode', pluginImportCode)
+        .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
         .replace('p_plugins', pluginsCode)
