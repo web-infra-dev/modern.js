@@ -105,7 +105,6 @@ export const optimizeRoute = (
   }
 };
 
-// eslint-disable-next-line complexity
 export const walk = async (
   dirname: string,
   rootDir: string,
@@ -350,7 +349,6 @@ export const walk = async (
     delete finalRoute.path;
   }
 
-  // eslint-disable-next-line no-multi-assign
   const childRoutes = (finalRoute.children = finalRoute.children?.filter(
     childRoute => childRoute,
   ));

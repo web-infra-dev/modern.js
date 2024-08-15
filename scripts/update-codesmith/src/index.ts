@@ -11,9 +11,8 @@ async function run() {
     const { dependencies, devDependencies, peerDependencies } = packageJson;
     packageJson.dependencies = await updateCodesmithVersion(dependencies);
     packageJson.devDependencies = await updateCodesmithVersion(devDependencies);
-    packageJson.peerDependencies = await updateCodesmithVersion(
-      peerDependencies,
-    );
+    packageJson.peerDependencies =
+      await updateCodesmithVersion(peerDependencies);
     fs.writeJSONSync(path.join(dir, 'package.json'), packageJson, {
       spaces: 2,
     });
@@ -44,6 +43,5 @@ const updateCodesmithVersion = async (
 
 run().catch(e => {
   console.error(e);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 });

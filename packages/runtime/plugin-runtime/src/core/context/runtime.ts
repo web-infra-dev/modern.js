@@ -28,7 +28,6 @@ export interface BaseRuntimeContext {
   /**
    * private
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   unstable_getBlockNavState?: () => boolean;
 }
 

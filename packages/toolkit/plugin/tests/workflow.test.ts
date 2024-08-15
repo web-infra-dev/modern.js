@@ -138,7 +138,6 @@ describe('workflow', () => {
         count = 2;
       });
 
-      // eslint-disable-next-line consistent-return
       workflow.use((_, interrupt) => {
         if (interrupt) {
           return interrupt('test');

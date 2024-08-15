@@ -100,8 +100,9 @@ export function createStaticMiddleware(
   const { pwd, routes } = options;
   const prefix = options.output.assetPrefix || '/';
 
-  const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
-    options.output;
+  const {
+    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
+  } = options.output;
   const { favicon, faviconByEntries } = options.html;
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));

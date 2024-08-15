@@ -67,7 +67,6 @@ const ssrBuilderPlugin = (modernAPI: PluginAPI<AppTools>): RsbuildPlugin => ({
         tools: {
           bundlerChain: useLoadablePlugin
             ? chain => {
-                // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
                   .plugin('loadable')
@@ -92,7 +91,6 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
       // for bundle
       config() {
         const { bundlerType = 'webpack' } = api.useAppContext();
-        // eslint-disable-next-line consistent-return
         const babelHandler = (() => {
           // In webpack build, we should let `useLoader` support CSR & SSR both.
           if (bundlerType === 'webpack') {

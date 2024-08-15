@@ -18,11 +18,9 @@ import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
-// eslint-disable-next-line import/no-mutable-exports
 export let finalRouteConfig: RouterConfig['routesConfig'] = {
   routes: [],
 };
-// eslint-disable-next-line import/no-mutable-exports
 export let beforeCreateRouter = true;
 // support csr only, it is not allowed to use in ssr app.
 export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
@@ -146,7 +144,6 @@ export const routerPlugin = (
                     if (blockRoute) {
                       return;
                     }
-                    // eslint-disable-next-line consistent-return
                     return listener(...args);
                   };
                   return originSubscribe(wrapedListener);

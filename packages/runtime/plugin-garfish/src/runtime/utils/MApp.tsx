@@ -1,5 +1,4 @@
 import React from 'react';
-// eslint-disable-next-line import/no-named-as-default
 import Garfish from 'garfish';
 import { Manifest, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';

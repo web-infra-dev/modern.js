@@ -1,0 +1,129 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "vcs": {
+    "enabled": true,
+    "defaultBranch": "main",
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "ignore": [
+      "package.json",
+      "packages/document/main-doc/scripts/summary.en.json",
+      "packages/document/main-doc/scripts/summary.zh.json",
+      "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
+      "packages/generator/sandpack-react/src/templates/**",
+      "packages/document/main-doc/docs/**/*/_meta.json"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded",
+      "jsxQuoteStyle": "double",
+      "lineWidth": 80
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useNodejsImportProtocol": "off",
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off",
+        "useImportType": "off",
+        "noUselessElse": "off",
+        "useNumberNamespace": "off",
+        "useDefaultParameterLast": "off",
+        "noInferrableTypes": "off",
+        "useEnumInitializers": "off",
+        "noParameterAssign": "off",
+        "useExportType": "off",
+        "useTemplate": "off",
+        "useSelfClosingElements": "off",
+        "noArguments": "off",
+        "useShorthandFunctionType": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noConfusingVoidType": "off",
+        "noImplicitAnyLet": "off",
+        "noAssignInExpressions": "off",
+        "noPrototypeBuiltins": "off",
+        "noRedeclare": "off",
+        "noConstEnum": "off",
+        "noArrayIndexKey": "off",
+        "noFocusedTests": "off",
+        "noEmptyInterface": "off",
+        "noExportsInTest": "off",
+        "noThenProperty": "off",
+        "noAsyncPromiseExecutor": "off",
+        "noSuspiciousSemicolonInJsx": "off"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "useArrowFunction": "off",
+        "useFlatMap": "off",
+        "noBannedTypes": "off",
+        "noUselessSwitchCase": "off",
+        "useOptionalChain": "off",
+        "useLiteralKeys": "off",
+        "noUselessConstructor": "off",
+        "useRegexLiterals": "off",
+        "noStaticOnlyClass": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useAltText": "off",
+        "useHtmlLang": "off",
+        "useKeyWithClickEvents": "off",
+        "noBlankTarget": "off",
+        "useButtonType": "off",
+        "useIframeTitle": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off",
+        "noUnnecessaryContinue": "off",
+        "noUnreachable": "off",
+        "noInvalidUseBeforeDeclaration": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": false
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": [
+      ".vscode/**/*",
+      ".nx/**/*",
+      "coverage/**/*",
+      "node_modules/**/*",
+      "dist/**/*",
+      "dist-1/**/*",
+      "output/**/*",
+      ".output/**/*",
+      ".netlify/**/*",
+      "lib/**/*",
+      "compiled/**/*",
+      ".rpt2_cache/**/*",
+      "packages/runtime/plugin-garfish/tests/**/*",
+      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
+      "packages/runtime/plugin-runtime/tests/document/feature/document/_main.html.js",
+      "packages/server/core/tests/fixtures/mock/cjs/config/mock/**/*",
+      "packages/server/server/tests/fixtures/mock/cjs/config/mock/**/*",
+      "tests/integration/ssr/fixtures/preload/**/*",
+      "tests/integration/module/plugins/vue/**/*"
+    ]
+  }
+}

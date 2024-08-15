@@ -1,5 +1,3 @@
-/* eslint-disable node/prefer-global/url */
-/* eslint-disable no-undef */
 // taking from https://github.com/egoist/tsup/blob/dev/assets/cjs_shims.js
 
 // Shim globals in cjs bundle

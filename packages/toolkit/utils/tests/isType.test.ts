@@ -37,7 +37,6 @@ describe('validate type', () => {
     expect(isObject('1')).toBeFalsy();
     expect(isObject(undefined)).toBeFalsy();
     expect(isObject(null)).toBeFalsy();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(isObject(() => {})).toBeFalsy();
     expect(isObject({})).toBeTruthy();
     expect(isObject([])).toBeTruthy();
@@ -49,7 +48,6 @@ describe('validate type', () => {
     expect(isPlainObject('1')).toBeFalsy();
     expect(isPlainObject(undefined)).toBeFalsy();
     expect(isPlainObject(null)).toBeFalsy();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(isPlainObject(() => {})).toBeFalsy();
     expect(isPlainObject({})).toBeTruthy();
     expect(isPlainObject([])).toBeFalsy();

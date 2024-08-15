@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const loader0 = async () => {
   return {
     message: 'loader0',
@@ -17,7 +16,6 @@ const loader3 = async ({ params }) => {
 
 const loader4 = () => {
   throw new Error('throw error by loader4');
-  // eslint-disable-next-line no-unreachable
   return new Response('loader4');
 };
 

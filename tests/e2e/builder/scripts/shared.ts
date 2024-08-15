@@ -20,7 +20,6 @@ export const getHrefByEntryName = (entryName: string, port: number) => {
   return homeUrl.href;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
 export const createUniBuilder = async (

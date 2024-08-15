@@ -1,6 +1,6 @@
 import './index.css';
 
-const Index = (): JSX.Element => (
+const Index = () => (
   <div className="container-box">
     <main>
       <div className="title">

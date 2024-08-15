@@ -104,7 +104,6 @@ const handleResponseError = (e: unknown, res: NodeResponse) => {
 };
 
 const getRequestListener = (handler: RequestHandler) => {
-  // eslint-disable-next-line consistent-return
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);

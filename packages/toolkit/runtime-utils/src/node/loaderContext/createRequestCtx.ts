@@ -11,7 +11,6 @@ interface Set<P extends Record<string, unknown>> {
   <T>(key: LoaderContext<T>, value: T): void;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type RequestContext<P extends Record<string, unknown> = {}> = {
   get: Get<P & RequestPayload>;
   set: Set<P & RequestPayload>;

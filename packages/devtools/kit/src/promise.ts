@@ -42,7 +42,6 @@ export class PromiseStub<T> implements PromiseLike<T> {
 
   promise!: Promise<T>;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected constructor() {}
 
   then<TResult1 = T, TResult2 = never>(
@@ -105,7 +104,7 @@ export const applySettled = <T = unknown>(promise: PromiseLike<T>) => {
       settled.rejected = err;
     });
   }
-  // eslint-disable-next-line no-async-promise-executor
+
   return new Promise(async (resolve, reject) => {
     await Promise.resolve();
     if ('rejected' in settled) {
@@ -136,10 +135,10 @@ type DeepToResolversIgnore =
 export type DeepToResolvers<T> = T extends DeepToResolversIgnore
   ? T
   : T extends Promise<unknown>
-  ? PromiseResolvers<Awaited<T>>
-  : T extends object
-  ? { [K in keyof T]: DeepToResolvers<T[K]> }
-  : T;
+    ? PromiseResolvers<Awaited<T>>
+    : T extends object
+      ? { [K in keyof T]: DeepToResolvers<T[K]> }
+      : T;
 
 export const withResolvers = <T>() => {
   const resolvers = {} as PromiseResolvers<T>;

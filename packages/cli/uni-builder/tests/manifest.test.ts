@@ -16,8 +16,9 @@ describe('plugin-manifest', () => {
 
     const config = await unwrapConfig(rsbuild);
 
-    expect(matchPlugins(config, 'WebpackManifestPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'WebpackManifestPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         WebpackManifestPlugin {
           "options": {
@@ -56,8 +57,9 @@ describe('plugin-manifest', () => {
 
     const config = await unwrapConfig(rsbuild);
 
-    expect(matchPlugins(config, 'WebpackManifestPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'WebpackManifestPlugin'),
+    ).toMatchInlineSnapshot(`
         [
           WebpackManifestPlugin {
             "options": {

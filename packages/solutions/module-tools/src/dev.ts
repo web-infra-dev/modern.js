@@ -57,7 +57,6 @@ export const dev = async (
     );
 
     logger.info(noDevToolsLog);
-    // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
 

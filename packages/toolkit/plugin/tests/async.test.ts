@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import {
   createPipeline,
   createAsyncPipeline,
@@ -103,7 +102,6 @@ describe('async manager', () => {
     const foo = createWaterfall<number>();
     const manager = createAsyncManager({ foo });
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const plugin = manager.createPlugin(() => {});
     manager.usePlugin(plugin);
 
@@ -288,7 +286,6 @@ describe('async manager', () => {
     it('should throw error when attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -314,7 +311,6 @@ describe('async manager', () => {
     it('should not throw error without attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -342,7 +338,6 @@ describe('async manager', () => {
     it('should throw error when it is without required plugin', async () => {
       const manager = createAsyncManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       const plugin0 = manager.createPlugin(() => {}, {
         name: 'plugin0',
         required: ['plugin1'],
@@ -356,7 +351,6 @@ describe('async manager', () => {
     it('should not throw error without attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -436,7 +430,6 @@ describe('async manager', () => {
     const manager0 = createManager();
     const manager1 = createAsyncManager();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const plugin = manager0.createPlugin(() => {});
 
     expect(manager0.isPlugin(plugin)).toBeTruthy();
@@ -584,7 +577,6 @@ describe('async manager', () => {
 
       const manager = createAsyncManager<TestAsyncHooks, API>(
         {},
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         { foo: () => {} },
       );
 

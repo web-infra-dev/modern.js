@@ -41,5 +41,4 @@ type Paramter<F extends (i: any) => any> = F extends (i: infer P) => any
   : never;
 
 export const register = (initializer: Paramter<typeof fooMain.createPlugin>) =>
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useFooPlugin(createFooPlugin(initializer));

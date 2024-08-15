@@ -61,7 +61,6 @@ type ConnectMiddleware =
     ) => void)
   | ((req: NodeRequest, res: NodeResponse) => void);
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
 export const connectMid2HonoMid = (handler: ConnectMiddleware): Middleware => {

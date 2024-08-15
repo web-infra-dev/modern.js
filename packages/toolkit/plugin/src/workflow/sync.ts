@@ -39,5 +39,4 @@ export const isWorkflow = (input: any): input is Workflow<unknown, unknown> =>
 
 const mapWorkerToMiddleware =
   <I, O>(worker: Worker<I, O>): Middleware<I, O[]> =>
-  (input, next) =>
-    [worker(input), ...next(input)];
+  (input, next) => [worker(input), ...next(input)];

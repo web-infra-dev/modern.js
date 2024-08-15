@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import path from 'path';
 import type {
   Entrypoint,
@@ -568,4 +567,3 @@ setGlobalContext({
   appConfig,
 });`;
 };
-/* eslint-enable max-lines */

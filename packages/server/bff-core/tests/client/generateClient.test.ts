@@ -10,7 +10,6 @@ describe('client', () => {
       '@modern-js/create-request',
       () => ({
         __esModule: true,
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         createRequest: () => {},
       }),
       { virtual: true },

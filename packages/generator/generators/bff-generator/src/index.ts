@@ -79,9 +79,7 @@ export const handleTemplateFile = async (
 
   if (framework === Framework.Express || framework === Framework.Koa) {
     updateInfo = {
-      [`devDependencies.@types/${
-        framework as string
-      }`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
+      [`devDependencies.@types/${framework as string}`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
     };
   }
 
@@ -101,9 +99,7 @@ export const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-bff': `${await getBffPluginVersion(
             '@modern-js/plugin-bff',
           )}`,
-          [`dependencies.@modern-js/plugin-${
-            framework as string
-          }`]: `${await getBffPluginVersion(
+          [`dependencies.@modern-js/plugin-${framework as string}`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
           'devDependencies.ts-node': '~10.8.1',
@@ -236,7 +232,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   commonI18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -247,7 +242,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   try {
     await handleTemplateFile(context, generator, appApi);
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 

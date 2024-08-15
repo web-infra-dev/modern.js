@@ -84,16 +84,12 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       {
         collapsible: false,
         text: getText('优化', 'Optimization'),
-        items: [
-          getLink('/guide/optimization/split-chunk'),
-        ],
+        items: [getLink('/guide/optimization/split-chunk')],
       },
       {
         collapsible: false,
         text: getText('调试', 'Debug'),
-        items: [
-          getLink('/guide/debug/debug-mode'),
-        ],
+        items: [getLink('/guide/debug/debug-mode')],
       },
       {
         collapsible: false,

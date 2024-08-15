@@ -148,5 +148,5 @@ export default defineConfig({
         '@site': require('path').resolve(__dirname),
       },
     },
-  }
+  },
 });

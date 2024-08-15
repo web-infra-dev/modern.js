@@ -82,7 +82,7 @@ describe('match', () => {
         request: { data: { foo: Number } },
         response: { foo: String },
       },
-      input => ({ foo: input.data.foo } as any),
+      input => ({ foo: input.data.foo }) as any,
     );
 
     const result = await foo({ data: { foo: 0 } });
@@ -100,7 +100,7 @@ describe('match', () => {
         request: { data: { foo: Number } },
         response: { foo: String },
       },
-      input => ({ foo: input.data.foo } as any),
+      input => ({ foo: input.data.foo }) as any,
     );
 
     const result = await foo({ data: { foo: 0 } });
@@ -124,7 +124,6 @@ describe('match', () => {
   });
 
   it('isHandler', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(isHandler(() => {})).toBeTruthy();
     expect(isHandler({})).toBeFalsy();
     expect(isHandler('test')).toBeFalsy();

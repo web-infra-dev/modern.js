@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/no-unlimited-disable */
-/* eslint-disable */
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { createProdServer } = require('@modern-js/prod-server');
@@ -44,12 +42,18 @@ async function main() {
 
   const app = await createProdServer(prodServerOptions);
   const port = process.env.PORT || 8080;
-  app.listen({
-    host: '::',
-    port
-  }, () => {
-    console.log(`\x1b[32mServer is listening on http://[::]:${port}`, '\x1b[0m');
-  });
+  app.listen(
+    {
+      host: '::',
+      port,
+    },
+    () => {
+      console.log(
+        `\x1b[32mServer is listening on http://[::]:${port}`,
+        '\x1b[0m',
+      );
+    },
+  );
 }
 
 main();

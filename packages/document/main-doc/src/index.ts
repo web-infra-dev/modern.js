@@ -6,5 +6,4 @@ export default {
   HomeLayout,
 };
 
-// eslint-disable-next-line import/export
 export * from 'rspress/theme';

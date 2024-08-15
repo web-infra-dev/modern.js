@@ -2,6 +2,7 @@ import { generateRunner, DEFAULT_OPTIONS } from './sync';
 import {
   checkPlugins,
   isObject,
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   hasOwnProperty,
   sortPlugins,
   includePlugin,
@@ -155,7 +156,6 @@ export const createAsyncManager = <
     };
 
     const createPlugin: AsyncManager<Hooks, API>['createPlugin'] = (
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       setup = () => {},
       options = {},
     ) => {

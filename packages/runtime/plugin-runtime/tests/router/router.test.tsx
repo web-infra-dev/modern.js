@@ -122,7 +122,7 @@ describe('@modern-js/plugin-router', () => {
                 routes[0].element = <App2>{routes[0].element}</App2>;
                 return routes;
               },
-            } as any),
+            }) as any,
         ),
         createRouterPlugin({
           routesConfig: {

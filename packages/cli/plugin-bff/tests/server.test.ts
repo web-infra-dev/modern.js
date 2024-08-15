@@ -7,7 +7,6 @@ import {
 import plugin from '../src/server';
 import './helper';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = () => {};
 
 const pwd = path.resolve(__dirname, './fixtures/function');
@@ -45,7 +44,6 @@ describe('bff server plugin', () => {
           return {
             prepareApiServer(props, next) {
               const appContext = api.useAppContext();
-              // eslint-disable-next-line prefer-destructuring
               apiHandlerInfos = appContext.apiHandlerInfos;
               return next(props);
             },
@@ -77,7 +75,6 @@ describe('bff server plugin', () => {
           return {
             prepareApiServer(props, next) {
               const appContext = api.useAppContext();
-              // eslint-disable-next-line prefer-destructuring
               apiHandlerInfos = appContext.apiHandlerInfos;
               return next(props);
             },

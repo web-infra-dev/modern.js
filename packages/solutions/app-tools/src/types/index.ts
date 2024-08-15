@@ -19,7 +19,6 @@ export type {
   BffNormalizedConfig,
   SSR,
   SSRByEntries,
-
   // render request handler
   Resource,
   Params,

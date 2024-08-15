@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 // puppeteer_environment.js
 const { readFile } = require('fs').promises;
 const os = require('os');
@@ -41,4 +40,3 @@ class PuppeteerEnvironment extends NodeEnvironment {
 }
 
 module.exports = PuppeteerEnvironment;
-/* eslint-enable no-useless-constructor */

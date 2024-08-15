@@ -258,7 +258,6 @@ async function renderHandler(
       const { matchRoutes } = await import(
         '@modern-js/runtime-utils/remix-router'
       );
-      // eslint-disable-next-line node/prefer-global/url
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(
         routes,

@@ -1,4 +1,3 @@
-/* eslint-disable no-inner-declarations */
 import React from 'react';
 import cookieTool from 'cookie';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
@@ -24,7 +23,6 @@ type ExtraSSRContainer = {
   };
 };
 
-// eslint-disable-next-line consistent-return
 function getSSRData(): (SSRContainer & ExtraSSRContainer) | undefined {
   const ssrData = window._SSR_DATA;
 

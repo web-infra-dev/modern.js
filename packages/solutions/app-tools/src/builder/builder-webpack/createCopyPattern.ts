@@ -23,7 +23,6 @@ export function createPublicPattern(
     to: 'public',
     context: publicDir,
     noErrorOnMissing: true,
-    // eslint-disable-next-line node/prefer-global/buffer
     transform: (content: Buffer, absoluteFrom: string) => {
       if (!/\.html?$/.test(absoluteFrom)) {
         return content;

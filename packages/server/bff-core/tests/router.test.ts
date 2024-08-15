@@ -45,7 +45,6 @@ describe('test api router', () => {
   test('support get http method from function name', () => {
     const mockFileName = '/api/repo.ts';
     const mockFuncName = 'del';
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const del = () => {};
 
     const handlerInfo = apiRouter.getHandlerInfo(

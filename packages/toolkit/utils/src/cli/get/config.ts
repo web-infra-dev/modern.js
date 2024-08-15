@@ -15,7 +15,6 @@ export const getEntryOptions = <T>(
       optionsByEntry = getOptionsByEntryName(packageName, optionsByEntries);
     }
 
-    // eslint-disable-next-line no-nested-ternary
     return optionsByEntry !== undefined
       ? isPlainObject(optionsByEntry) && isPlainObject(baseOptions)
         ? { ...baseOptions, ...optionsByEntry }

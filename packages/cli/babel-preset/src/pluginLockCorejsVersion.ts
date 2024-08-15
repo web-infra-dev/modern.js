@@ -12,7 +12,7 @@ const REWRITE_TARGETS: Record<string, string> = {
 };
 
 const matchedKey = (value: string) =>
-  Object.keys(REWRITE_TARGETS).find((name) => value.startsWith(`${name}/`));
+  Object.keys(REWRITE_TARGETS).find(name => value.startsWith(`${name}/`));
 
 export const getCoreJsVersion = (): string => {
   try {

@@ -30,7 +30,6 @@ const FETCH_STATUS_RETRY = 3;
 const FETCH_STATUS_TIMEOUT = 300;
 
 export const fetchServiceStatus = async (): Promise<Partial<ServiceStatus>> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   for (const _i of _.times(FETCH_STATUS_RETRY)) {
     try {
       const signal = AbortSignal.timeout(FETCH_STATUS_TIMEOUT);

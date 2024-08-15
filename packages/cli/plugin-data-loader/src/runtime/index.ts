@@ -67,7 +67,6 @@ export const handleRequest = async ({
     reporter?: Reporter;
   };
 }): Promise<Response | void> => {
-  // eslint-disable-next-line node/prefer-global/url
   const url = new URL(request.url);
   const routeId = url.searchParams.get(LOADER_ID_PARAM) as string;
   const entry = matchEntry(url.pathname, serverRoutes);
@@ -154,6 +153,5 @@ export const handleRequest = async ({
     }
   }
 
-  // eslint-disable-next-line consistent-return
   return response as unknown as Response;
 };

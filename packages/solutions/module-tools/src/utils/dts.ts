@@ -37,8 +37,9 @@ export const getProjectTsconfig = async (
 
   // recursively resolve extended tsconfig
   // "extends" may be a string or string array (extending many tsconfigs)
-  const extendsResolutionTarget =
-    tsConfig.extends instanceof Array ? tsConfig.extends : [tsConfig.extends];
+  const extendsResolutionTarget = Array.isArray(tsConfig.extends)
+    ? tsConfig.extends
+    : [tsConfig.extends];
 
   const resolveParentTsConfigPromises = extendsResolutionTarget.map(
     async target => {

@@ -1,6 +1,5 @@
 /// <reference path="./dist/types/index.d.ts" />
 declare module '@modern-js/runtime/koa' {
-
   import { Context, Middleware } from 'koa';
 
   export type { Middleware as RequestHandler };
@@ -12,9 +11,12 @@ declare module '@modern-js/runtime/koa' {
 
 // Todo: remove on next version
 declare module '@modern-js/runtime/server' {
-
   import { Context, Middleware } from 'koa';
-  import type { AfterMatchContext, AfterRenderContext, NextFunction } from '@modern-js/types';
+  import type {
+    AfterMatchContext,
+    AfterRenderContext,
+    NextFunction,
+  } from '@modern-js/types';
 
   export type AfterRenderHook = (
     context: AfterRenderContext,
@@ -25,7 +27,6 @@ declare module '@modern-js/runtime/server' {
     context: AfterMatchContext,
     next: NextFunction,
   ) => void;
-
 
   type KoaOptions = {
     addMiddleware: (...input: Middleware[]) => void;

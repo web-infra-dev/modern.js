@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/buffer */
 /**
  * The following code is modified based on
  * https://github.com/remix-run/remix/blob/f7defe0b46c50947f6269d5ab5b6e3fe59339054/packages/remix-node/stream.ts#L3
@@ -16,7 +15,7 @@ export async function writeReadableStreamToWritable(
   writable: Writable,
 ) {
   const reader = stream.getReader();
-  // eslint-disable-next-line @typescript-eslint/ban-types
+
   const flushable = writable as { flush?: Function };
 
   try {
