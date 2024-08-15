@@ -27,7 +27,6 @@ export async function compatibleRequire(
   return interop && requiredModule?.__esModule
     ? requiredModule.default
     : requiredModule;
-  // return origin ? requiredModule : requiredModule.default;
 }
 
 // Avoid `import` to be tranpiled to `require` by babel/tsc/rollup
