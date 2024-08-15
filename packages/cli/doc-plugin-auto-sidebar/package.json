@@ -42,7 +42,7 @@
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@rspress/shared": "1.27.0",
+    "@rspress/shared": "1.28.0",
     "@scripts/build": "workspace:*",
     "@types/node": "^18.11.17",
     "@types/react": "^18",
