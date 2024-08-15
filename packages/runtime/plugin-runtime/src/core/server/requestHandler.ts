@@ -80,11 +80,17 @@ function createSSRContext(
   const host =
     headers.get('X-Forwarded-Host') || headers.get('host') || url.host;
 
+  let protocol = (
+    headers.get('X-Forwarded-Proto') ||
+    url.protocol ||
+    'http'
+  ).split(/\s*,\s*/, 1)[0];
+
   // The protocal including the final `:`.
   // Follow: https://developer.mozilla.org/en-US/docs/Web/API/URL/protocol
-  const protocal = `${
-    headers.get('X-Forwarded-Proto') || url.protocol || 'http'
-  }:`;
+  if (!protocol.endsWith(':')) {
+    protocol += ':';
+  }
 
   const ssrConfig = getSSRConfigByEntry(
     entryName,
@@ -105,7 +111,7 @@ function createSSRContext(
     logger,
     metrics,
     request: {
-      url: request.url.replace(url.host, host).replace(url.protocol, protocal),
+      url: request.url.replace(url.host, host).replace(url.protocol, protocol),
       baseUrl: route.urlPath,
       userAgent: headers.get('user-agent')!,
       cookie,

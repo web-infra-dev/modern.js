@@ -23,26 +23,51 @@ type ExtraSSRContainer = {
   };
 };
 
-function getSSRData(): (SSRContainer & ExtraSSRContainer) | undefined {
+const getQuery = () =>
+  window.location.search
+    .substring(1)
+    .split('&')
+    .reduce<Record<string, string>>((res, item) => {
+      const [key, value] = item.split('=');
+
+      if (key) {
+        res[key] = value;
+      }
+      return res;
+    }, {});
+
+function getSSRData(): SSRContainer & ExtraSSRContainer {
   const ssrData = window._SSR_DATA;
 
-  if (ssrData) {
-    const finalSSRData = {
-      ...ssrData,
-      context: {
-        ...ssrData.context!,
-        request: {
-          ...ssrData.context!.request,
-          cookieMap: cookieTool.parse(document.cookie || '') || {},
-          cookie: document.cookie || '',
-          userAgent: navigator.userAgent,
-          referer: document.referrer,
-        },
-      },
-    };
+  const ssrRequest = ssrData?.context?.request;
 
-    return finalSSRData;
-  }
+  const finalSSRData: SSRContainer & ExtraSSRContainer = {
+    ...(ssrData || {
+      renderLevel: 0,
+      mode: 'string',
+    }),
+    context: {
+      ...(ssrData?.context || {}),
+      request: {
+        ...(ssrData?.context?.request || {}),
+        params: ssrRequest?.params || {},
+        host: ssrRequest?.host || location.host,
+        pathname: ssrRequest?.pathname || location.pathname,
+        headers: ssrRequest?.headers || {},
+        cookieMap: cookieTool.parse(document.cookie || '') || {},
+        cookie: document.cookie || '',
+        userAgent: ssrRequest?.headers?.['user-agent'] || navigator.userAgent,
+        referer: document.referrer,
+        query: {
+          ...getQuery(),
+          ...(ssrRequest?.query || {}),
+        },
+        url: location.href,
+      },
+    },
+  };
+
+  return finalSSRData;
 }
 
 function isClientArgs(id: unknown): id is HTMLElement | string {
