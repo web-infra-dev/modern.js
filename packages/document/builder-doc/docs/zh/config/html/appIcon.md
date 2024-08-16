@@ -1,4 +1,14 @@
-- **类型：** `string`
+- **类型：**
+
+```ts
+type AppIconItem = { src: string; size: number };
+
+type AppIcon = string | {
+  name?: string;
+  icons: AppIconItem[];
+};
+```
+
 - **默认值：** `undefined`
 
 设置 iOS 系统下的 apple-touch-icon 图标的文件路径，可以设置为相对于项目根目录的相对路径，也可以设置为文件的绝对路径。暂不支持设置为 CDN URL。
@@ -34,3 +44,27 @@ export default {
 ```html
 <link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
 ```
+
+### 字符串形式
+
+`string` 类型的 `appIcon` 配置是对象类型的一个语法糖。
+
+```js
+export default {
+  html: {
+    appIcon: './src/assets/icon.png',
+  },
+};
+```
+
+以上配置相当于下面配置的语法糖：
+
+```js
+export default {
+  html: {
+    appIcon: { icons: [{ src: './src/assets/icon.png', size: 180 }] }
+  },
+};
+```
+
+详细用法可参考 [Rsbuild - html.appIcon](https://rsbuild.dev/zh/config/html/app-icon)。
