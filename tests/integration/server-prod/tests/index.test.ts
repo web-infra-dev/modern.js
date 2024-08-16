@@ -44,13 +44,13 @@ describe('test basic usage', () => {
     const mediaPath = `static/image/icon.png`;
 
     expect(fs.readFileSync(mainEntry, 'utf-8')).toMatch(
-      `<link rel="apple-touch-icon" sizes="180*180" href="/${mediaPath}">`,
+      `<link rel="apple-touch-icon" sizes="180x180" href="/${mediaPath}">`,
     );
     expect(fs.readFileSync(activityEntry, 'utf-8')).toMatch(
       '<link rel="icon" href="/favicon.ico">',
     );
     expect(fs.readFileSync(activityEntry, 'utf-8')).toMatch(
-      `<link rel="apple-touch-icon" sizes="180*180" href="/${mediaPath}">`,
+      `<link rel="apple-touch-icon" sizes="180x180" href="/${mediaPath}">`,
     );
   });
 

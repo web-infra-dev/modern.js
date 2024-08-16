@@ -42,7 +42,7 @@ export default {
 重新编译后，HTML 中自动生成了以下标签：
 
 ```html
-<link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/static/image/icon.png" />
 ```
 
 ### 字符串形式

@@ -42,7 +42,7 @@ export default {
 After recompiling, the following tags are automatically generated in the HTML:
 
 ```html
-<link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/static/image/icon.png" />
 ```
 
 ### AppIcon string
