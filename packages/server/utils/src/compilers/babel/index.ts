@@ -61,7 +61,7 @@ export const resolveBabelConfig = (
   const defaultBabelConfig = getBabelConfig({
     appDirectory,
     alias: aliasConfig,
-    isEsm
+    isEsm,
   });
 
   return applyUserBabelConfig(defaultBabelConfig, babelConfig);
@@ -76,9 +76,14 @@ export const compileByBabel: CompileFunc = async (
   const isEsm = moduleType === 'module';
   const results = await Promise.all(
     sourceDirs.map(async sourceDir => {
-      const babelConfig = resolveBabelConfig(appDirectory, config, {
-        tsconfigPath: tsconfigPath ? tsconfigPath : '',
-      }, isEsm);
+      const babelConfig = resolveBabelConfig(
+        appDirectory,
+        config,
+        {
+          tsconfigPath: tsconfigPath ? tsconfigPath : '',
+        },
+        isEsm,
+      );
       if (await fs.pathExists(sourceDir)) {
         const basename = path.basename(sourceDir);
         const targetDir = path.join(distDir, basename);

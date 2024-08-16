@@ -59,7 +59,7 @@ describe('pure-esm-project in dev', () => {
       console.error(error);
       throw error;
     }
-  })
+  });
 
   afterAll(async () => {
     await killApp(app);
@@ -111,7 +111,7 @@ describe('pure-esm-project in prod', () => {
       addRes: 3,
       url: '/api/info',
     });
-  })
+  });
 
   afterAll(async () => {
     await killApp(app);

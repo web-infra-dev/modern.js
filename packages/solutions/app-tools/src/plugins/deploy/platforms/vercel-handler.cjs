@@ -65,9 +65,11 @@ async function createHandler() {
 
 createHandler();
 
-export const handler = async (req, res) => {
+const handler = async (req, res) => {
   if (!requestHandler) {
     await createHandler();
   }
   return requestHandler(req, res);
 };
+
+module.exports = { handler };
