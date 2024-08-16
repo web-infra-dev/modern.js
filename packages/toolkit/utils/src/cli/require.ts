@@ -19,6 +19,7 @@ export async function compatibleRequire(
   } catch (err: any) {
     if (err.code === 'ERR_REQUIRE_ESM' || err instanceof SyntaxError) {
       requiredModule = await import(path);
+      return interop ? requiredModule.default : requiredModule;
     } else {
       throw err;
     }

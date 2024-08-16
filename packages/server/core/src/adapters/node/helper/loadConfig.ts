@@ -35,7 +35,7 @@ async function loadServerConfigOld(
   pwd: string,
   configFile: string,
 ): Promise<ServerConfig | undefined> {
-  const serverConfigPath = path.join(pwd, `${configFile}.js`);
+  const serverConfigPath = path.join(pwd, `${configFile}.cjs`);
   const serverConfig = await requireConfig(serverConfigPath);
   return serverConfig;
 }
