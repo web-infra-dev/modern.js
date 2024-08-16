@@ -15,6 +15,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },
@@ -75,6 +76,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },
@@ -121,6 +123,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "favicon": [Function],
     "outputStructure": "nested",
     "title": "",
@@ -172,6 +175,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "favicon": [
       "/https/www.foo.com/default.ico",
       [Function],
@@ -226,6 +230,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "inject": [Function],
     "outputStructure": "nested",
     "title": "",
@@ -277,6 +282,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "inject": [
       "body",
       [Function],
@@ -331,6 +337,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "meta": [Function],
     "outputStructure": "nested",
     "title": "",
@@ -382,6 +389,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "meta": [
       {
         "charset": {
@@ -440,6 +448,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "template": [Function],
     "title": "",
@@ -491,6 +500,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "template": [
       "static/index.html",
@@ -545,6 +555,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "templateParameters": [Function],
     "title": "",
@@ -596,6 +607,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "templateParameters": [
       {
@@ -652,6 +664,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": [
       "",
@@ -705,6 +718,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": [
       "Default",
@@ -758,6 +772,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },
@@ -811,6 +826,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },
@@ -864,6 +880,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },
@@ -911,6 +928,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
   },
   "environments": {},
   "html": {
+    "appIcon": undefined,
     "outputStructure": "nested",
     "title": "",
   },

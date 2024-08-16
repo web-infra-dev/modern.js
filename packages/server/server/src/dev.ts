@@ -36,7 +36,7 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
         const {
           middlewares: builderMiddlewares,
           close,
-          onHTTPUpgrade,
+          connectWebSocket,
         } = builderDevServer || {};
 
         close && closeCb.push(close);
@@ -50,7 +50,9 @@ export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
           serverBase,
         } = api.useAppContext();
 
-        onHTTPUpgrade && nodeServer?.on('upgrade', onHTTPUpgrade);
+        connectWebSocket &&
+          nodeServer &&
+          connectWebSocket({ server: nodeServer });
 
         const runner = api.useHookRunners();
 

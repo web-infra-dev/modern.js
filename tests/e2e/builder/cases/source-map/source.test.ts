@@ -80,7 +80,7 @@ test('source-map', async () => {
 
   expect(originalPositions[1]).toEqual({
     source: 'src/index.js',
-    line: 6,
+    line: 5,
     column: 0,
     name: 'window',
   });

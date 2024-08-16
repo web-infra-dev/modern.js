@@ -2,6 +2,7 @@ import type {
   ConfigChainWithContext,
   ConfigChain,
   DevConfig,
+  HtmlConfig,
   RsbuildConfig,
   RsbuildTarget,
   Polyfill,
@@ -298,6 +299,7 @@ export type UniBuilderExtraConfig = {
     disableCssExtract?: boolean;
   };
   html?: {
+    appIcon?: string | HtmlConfig['appIcon'];
     /**
      * Remove the folder of the HTML files.
      * When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
@@ -438,7 +440,7 @@ export type DistPath = DistPathConfig & {
 
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
-  html?: RsbuildConfig['html'];
+  html?: Omit<NonNullable<RsbuildConfig['html']>, 'appIcon'>;
   output?: Omit<
     NonNullable<RsbuildConfig['output']>,
     'polyfill' | 'distPath'
