@@ -18,16 +18,17 @@ export function initHtmlConfig(
   ) {
     const { appIcon } = config.html;
     const { configDir } = config.source;
-    const defaultAppIcon = findExists(
-      ICON_EXTENSIONS.map(ext =>
-        path.resolve(
-          appContext.appDirectory,
-          configDir || './config',
-          `icon.${ext}`,
+    const getDefaultAppIcon = () =>
+      findExists(
+        ICON_EXTENSIONS.map(ext =>
+          path.resolve(
+            appContext.appDirectory,
+            configDir || './config',
+            `icon.${ext}`,
+          ),
         ),
-      ),
-    );
-    return appIcon || defaultAppIcon || undefined;
+      );
+    return appIcon || getDefaultAppIcon() || undefined;
   }
   function createBuilderFavicon(
     config: AppNormalizedConfig<'shared'>,
@@ -35,16 +36,17 @@ export function initHtmlConfig(
   ) {
     const { configDir } = config.source;
     const { favicon } = config.html;
-    const defaultFavicon = findExists(
-      ICON_EXTENSIONS.map(ext =>
-        path.resolve(
-          appContext.appDirectory,
-          configDir || './config',
-          `favicon.${ext}`,
+    const getDefaultFavicon = () =>
+      findExists(
+        ICON_EXTENSIONS.map(ext =>
+          path.resolve(
+            appContext.appDirectory,
+            configDir || './config',
+            `favicon.${ext}`,
+          ),
         ),
-      ),
-    );
-    return favicon || defaultFavicon || undefined;
+      );
+    return favicon || getDefaultFavicon() || undefined;
   }
 }
 

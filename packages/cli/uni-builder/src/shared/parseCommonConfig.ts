@@ -111,6 +111,7 @@ export async function parseCommonConfig(
       templateByEntries,
       templateParametersByEntries,
       tagsByEntries,
+      appIcon,
       tags,
       ...htmlConfig
     } = {},
@@ -246,6 +247,11 @@ export async function parseCommonConfig(
       ...(templateParametersByEntries[entryName] || {}),
     });
   }
+
+  html.appIcon =
+    typeof appIcon === 'string'
+      ? { icons: [{ src: appIcon, size: 180 }] }
+      : appIcon;
 
   if (tags) {
     // The function will be executed at the end of the HTML processing flow

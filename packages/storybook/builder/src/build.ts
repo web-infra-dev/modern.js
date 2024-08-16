@@ -90,7 +90,8 @@ export const start: StorybookBuilder['start'] = async ({
   server = rsbuildServer;
 
   router.use(rsbuildServer.middlewares);
-  storybookServer.on('upgrade', rsbuildServer.onHTTPUpgrade);
+
+  rsbuildServer.connectWebSocket({ server: storybookServer });
 
   await rsbuildServer.afterListen();
 
