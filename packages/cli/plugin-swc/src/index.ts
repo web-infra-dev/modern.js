@@ -31,10 +31,12 @@ export function factory(
         );
 
         context.builder.addPlugins([
-          pluginSwc({
-            ...finalConfig,
-            transformLodash: config.performance.transformLodash ?? true,
-          }),
+          pluginSwc(
+            applyConfig(finalConfig, swcConfig => {
+              swcConfig.transformLodash =
+                config.performance.transformLodash ?? true;
+            }),
+          ),
         ]);
       },
     }),
