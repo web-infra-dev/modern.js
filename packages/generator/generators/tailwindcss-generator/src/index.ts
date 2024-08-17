@@ -1,11 +1,13 @@
+import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n,
   Language,
   DependenceGenerator,
 } from '@modern-js/generator-common';
-import { isTsProject, getGeneratorPath } from '@modern-js/generator-utils';
+import { isTsProject, getGeneratorPath, readTsConfigByFile } from '@modern-js/generator-utils';
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -13,6 +15,7 @@ export const handleTemplateFile = async (
   appApi: AppAPI,
 ) => {
   const appDir = context.materials.default.basePath;
+  const jsonAPI = new JsonAPI(generator);
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
 
   if (language === Language.TS) {
@@ -21,6 +24,22 @@ export const handleTemplateFile = async (
       undefined,
       resourceKey => resourceKey.replace('templates/ts-template/', ''),
     );
+
+    const tsconfigJSON = readTsConfigByFile(path.join(appDir, 'tsconfig.json'));
+
+    if (!(tsconfigJSON.include || []).includes('tailwind.config.ts')) {
+      await jsonAPI.update(
+        context.materials.default.get(path.join(appDir, 'tsconfig.json')),
+        {
+          query: {},
+          update: {
+            $set: {
+              include: [...(tsconfigJSON.include || []), 'tailwind.config.ts'],
+            },
+          },
+        },
+      );
+    }
   } else {
     appApi.forgeTemplate('templates/js-template/**/*', undefined, resourceKey =>
       resourceKey.replace('templates/js-template/', ''),

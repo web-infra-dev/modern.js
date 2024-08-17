@@ -2158,6 +2158,9 @@ importers:
       '@modern-js/codesmith-api-app':
         specifier: 2.4.0
         version: 2.4.0(@modern-js/codesmith@2.4.0)(typescript@5.3.3)
+      '@modern-js/codesmith-api-json':
+        specifier: 2.4.0
+        version: 2.4.0
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
