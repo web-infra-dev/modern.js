@@ -52,7 +52,15 @@ export function injectTemplates(
 const dynamicImport = (filePath: string) => {
   try {
     const module = require(filePath);
-    return Promise.resolve(module);
+    if (module.default) {
+      return Promise.resolve(module.default);
+    }
+    return Promise.resolve(module).then(m => {
+      if (m.default) {
+        return m.default;
+      }
+      return m;
+    });
   } catch (e) {
     return Promise.reject(e);
   }
