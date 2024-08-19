@@ -54,7 +54,7 @@ process.on('message', async (chunk: string) => {
       config: options as any,
       appContext,
       routes,
-      plugins: loadServerPlugins(
+      plugins: await loadServerPlugins(
         plugins,
         appContext.appDirectory || distDirectory,
       ),

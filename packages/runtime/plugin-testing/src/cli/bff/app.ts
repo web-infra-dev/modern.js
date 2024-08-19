@@ -17,7 +17,7 @@ const createApp = async (
 ) => {
   if (!server) {
     config.output.path = './';
-    const pluginInstances = loadServerPlugins(plugins, pwd);
+    const pluginInstances = await loadServerPlugins(plugins, pwd);
     server = await createProdServer({
       pwd,
       config,

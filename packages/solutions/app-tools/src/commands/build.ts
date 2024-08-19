@@ -23,6 +23,15 @@ export const build = async (
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
 
+  if (appContext.moduleType && appContext.moduleType === 'module') {
+    const { registerEsm } = await import('../esm/register-esm.mjs');
+    await registerEsm({
+      appDir: appContext.appDirectory,
+      distDir: appContext.distDirectory,
+      alias: resolvedConfig.source?.alias,
+    });
+  }
+
   await registerCompiler(
     appContext.appDirectory,
     appContext.distDirectory,

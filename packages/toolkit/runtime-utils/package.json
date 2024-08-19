@@ -19,46 +19,55 @@
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
+      "types": "./dist/types/router.d.ts",
       "jsnext:source": "./src/router.ts",
       "require": "./dist/cjs/router.js",
       "default": "./dist/esm/router.js"
     },
     "./remix-router": {
+       "types": "./dist/types/remixRouter.d.ts",
       "jsnext:source": "./src/remixRouter.ts",
       "require": "./dist/cjs/remixRouter.js",
       "default": "./dist/esm/remixRouter.js"
     },
     "./browser": {
+      "types": "./dist/types/browser/index.d.ts",
       "jsnext:source": "./src/browser/index.ts",
       "require": "./dist/cjs/browser/index.js",
       "default": "./dist/esm/browser/index.js"
     },
     "./node": {
+      "types": "./dist/types/node/index.d.ts",
       "jsnext:source": "./src/node/index.ts",
       "require": "./dist/cjs/node/index.js",
       "default": "./dist/esm/node/index.js"
     },
     "./node/router": {
+      "types": "./dist/types/node/router.d.ts",
       "jsnext:source": "./src/node/router.ts",
       "require": "./dist/cjs/node/router.js",
       "default": "./dist/esm/node/router.js"
     },
     "./time": {
+      "types": "./dist/types/time.d.ts",
       "jsnext:source": "./src/time.ts",
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
     },
     "./universal/request": {
+      "types": "./dist/universal/request.d.ts",
       "jsnext:source": "./src/universal/request.ts",
       "require": "./dist/cjs/universal/request.js",
       "default": "./dist/esm/universal/request.js"
     },
     "./parsed": {
+      "types": "./dist/types/parsed.d.ts",
       "jsnext:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
     },
     "./storer": {
+      "types": "./dist/types/node/storer/index.d.ts",
       "jsnext:source": "./src/node/storer/index.ts",
       "require": "./dist/cjs/node/storer/index.js",
       "default": "./dist/esm/node/storer/index.js"
@@ -70,11 +79,13 @@
       "default": "./dist/esm/node/fileReader.js"
     },
     "./url": {
+      "types": "./dist/types/url.d.ts",
       "jsnext:source": "./src/url.ts",
       "require": "./dist/cjs/url.js",
       "default": "./dist/esm/url.js"
     },
     "./merge": {
+      "types": "./dist/types/merge.d.ts",
       "jsnext:source": "./src/merge.ts",
       "require": "./dist/cjs/merge.js",
       "default": "./dist/esm/merge.js"
@@ -97,6 +108,7 @@
         "default": "./dist/esm/remixRouter.js"
       },
       "./browser": {
+        "types": "./dist/types/browser/index.d.ts",
         "jsnext:source": "./src/browser/index.d.ts",
         "require": "./dist/cjs/browser/index.js",
         "default": "./dist/esm/browser/index.js"

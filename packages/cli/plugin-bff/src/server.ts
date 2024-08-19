@@ -40,7 +40,7 @@ export default (): ServerPlugin => ({
         const apiPath = path.resolve(root || process.cwd(), API_DIR);
         apiAppPath = path.resolve(apiPath, API_APP_NAME);
 
-        const apiMod = requireExistModule(apiAppPath);
+        const apiMod = await requireExistModule(apiAppPath);
         if (apiMod && typeof apiMod === 'function') {
           apiMod(transformAPI);
         }
@@ -102,10 +102,10 @@ export default (): ServerPlugin => ({
           });
         }
       },
-      reset({ event }) {
+      async reset({ event }) {
         storage.reset();
         const appContext = api.useAppContext();
-        const newApiModule = requireExistModule(apiAppPath);
+        const newApiModule = await requireExistModule(apiAppPath);
         if (newApiModule && typeof newApiModule === 'function') {
           newApiModule(transformAPI);
         }
@@ -117,7 +117,7 @@ export default (): ServerPlugin => ({
         });
 
         if (event.type === 'file-change') {
-          const apiHandlerInfos = apiRouter.getApiHandlers();
+          const apiHandlerInfos = await apiRouter.getApiHandlers();
           const appContext = api.useAppContext();
           api.setAppContext({
             ...appContext,
@@ -126,7 +126,7 @@ export default (): ServerPlugin => ({
         }
       },
 
-      prepareApiServer(props, next) {
+      async prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
@@ -139,7 +139,8 @@ export default (): ServerPlugin => ({
           httpMethodDecider,
         });
         const apiMode = apiRouter.getApiMode();
-        const apiHandlerInfos = apiRouter.getApiHandlers();
+
+        const apiHandlerInfos = await apiRouter.getApiHandlers();
         api.setAppContext({
           ...appContext,
           apiRouter,

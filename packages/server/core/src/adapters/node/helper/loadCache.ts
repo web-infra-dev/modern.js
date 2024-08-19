@@ -10,11 +10,16 @@ interface CacheMod {
   cacheOption?: CacheOption;
 }
 
-export function loadCacheConfig(pwd: string): CacheConfig | undefined {
+export async function loadCacheConfig(
+  pwd: string,
+): Promise<CacheConfig | undefined> {
   const serverCacheFilepath = path.resolve(pwd, SERVER_DIR, CACHE_FILENAME);
-  const mod: CacheMod | undefined = requireExistModule(serverCacheFilepath, {
-    interop: false,
-  });
+  const mod: CacheMod | undefined = await requireExistModule(
+    serverCacheFilepath,
+    {
+      interop: false,
+    },
+  );
 
   if (mod?.cacheOption) {
     return {
