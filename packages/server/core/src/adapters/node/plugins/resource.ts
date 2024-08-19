@@ -107,7 +107,9 @@ export async function getServerManifest(
 
   const nestedRoutesJsonPath = path.join(pwd, NESTED_ROUTE_SPEC_FILE);
 
-  const nestedRoutesJson = await import(nestedRoutesJsonPath).catch(_ => ({}));
+  const nestedRoutesJson = await compatibleRequire(nestedRoutesJsonPath).catch(
+    _ => ({}),
+  );
 
   return {
     loaderBundles,

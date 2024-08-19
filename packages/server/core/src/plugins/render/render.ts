@@ -19,6 +19,7 @@ import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
 import type { Render } from '../../types';
 import { dataHandler } from './dataHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
+import { compatibleRequire } from '@modern-js/utils';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -255,9 +256,11 @@ async function renderHandler(
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
     if (routes) {
-      const { matchRoutes } = await import(
-        '@modern-js/runtime-utils/remix-router'
+      const { matchRoutes } = await compatibleRequire(
+        require.resolve('@modern-js/runtime-utils/remix-router'),
+        false,
       );
+
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(
         routes,

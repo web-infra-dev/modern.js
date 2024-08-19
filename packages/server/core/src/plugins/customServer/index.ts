@@ -239,10 +239,8 @@ async function createMiddlewareContextFromHono(
   const method = rawRequest.method.toUpperCase();
 
   if (!['GET', 'HEAD'].includes(method) && !rawRequest.body && c.env.node.req) {
-    const streamPath = '../../adapters/node/polyfills/stream';
-
     const { createReadableStreamFromReadable } = (await import(
-      streamPath
+      '../../adapters/node/polyfills/stream.js'
     )) as typeof streamModule;
 
     const init: RequestInit = {

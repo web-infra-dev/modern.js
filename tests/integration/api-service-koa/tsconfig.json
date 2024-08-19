@@ -9,8 +9,6 @@
       "@shared/*": ["./shared/*"],
       "@api/*": ["./api/*"]
     },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
     "types": ["jest"]
   },
   "include": ["src", "shared", "config", "api"]
