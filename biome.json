@@ -42,8 +42,7 @@
         "noParameterAssign": "off",
         "useTemplate": "off",
         "useSelfClosingElements": "off",
-        "noArguments": "off",
-        "useShorthandFunctionType": "off"
+        "noArguments": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

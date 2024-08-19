@@ -1,12 +1,13 @@
 import type { RequestPayload } from './context';
 
-interface Set<V extends Record<string>> {
-  <Key extends keyof V>(key: Key, value: V[Key]): void;
-}
+type Set<V extends Record<string>> = <Key extends keyof V>(
+  key: Key,
+  value: V[Key],
+) => void;
 
-interface Get<V extends Record<string, unknown>> {
-  <Key extends keyof V>(key: Key): V[Key];
-}
+type Get<V extends Record<string, unknown>> = <Key extends keyof V>(
+  key: Key,
+) => V[Key];
 
 type Body = ReadableStream | ArrayBuffer | string | null;
 
