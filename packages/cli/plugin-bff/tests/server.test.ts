@@ -7,7 +7,7 @@ import {
 import plugin from '../src/server';
 import './helper';
 
-export const noop = () => {};
+const noop = () => {};
 
 const pwd = path.resolve(__dirname, './fixtures/function');
 
@@ -56,10 +56,9 @@ describe('bff server plugin', () => {
       await runner.prepareApiServer(
         {
           pwd,
-          mode: 'function',
           prefix: '/',
         },
-        { onLast: () => noop },
+        { onLast: () => noop as any },
       );
 
       expect(apiHandlerInfos).toMatchSnapshot();
@@ -85,8 +84,8 @@ describe('bff server plugin', () => {
       const runner = await createRunner([plugin(), mockApiPlugin]);
 
       await runner.prepareApiServer(
-        { pwd, mode: 'function', prefix: '/api' },
-        { onLast: () => noop },
+        { pwd, prefix: '/api' },
+        { onLast: () => noop as any },
       );
       expect(apiHandlerInfos).toMatchSnapshot();
     });
