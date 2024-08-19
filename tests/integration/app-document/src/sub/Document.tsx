@@ -34,17 +34,17 @@ export default function Document(): React.ReactElement {
         </Comment>
         {/* comment should be render to html by Comment.comment */}
         <Comment comment="!== COMMENT BY APP in inline ==" />
-        <link href="/ababad"></link>
+        <link href="/ababad" />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.b = 22`,
           }}
-        ></script>
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `var a = function() {console.log('sss')}; a();`,
           }}
-        ></script>
+        />
       </Head>
       <Body {...{ dir: 'ltr' }}>
         <Root {...{ class: 'root' }}>
