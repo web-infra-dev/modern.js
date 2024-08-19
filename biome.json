@@ -49,8 +49,7 @@
         "noForEach": "off",
         "useArrowFunction": "off",
         "useFlatMap": "off",
-        "noBannedTypes": "off",
-        "noUselessSwitchCase": "off"
+        "noBannedTypes": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
