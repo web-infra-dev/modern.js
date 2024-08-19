@@ -53,8 +53,7 @@
         "noUselessSwitchCase": "off",
         "useOptionalChain": "off",
         "useLiteralKeys": "off",
-        "noUselessConstructor": "off",
-        "useRegexLiterals": "off"
+        "noUselessConstructor": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
