@@ -52,8 +52,7 @@
         "noBannedTypes": "off",
         "noUselessSwitchCase": "off",
         "useOptionalChain": "off",
-        "useLiteralKeys": "off",
-        "noUselessConstructor": "off"
+        "useLiteralKeys": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
