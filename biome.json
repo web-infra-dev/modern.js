@@ -43,8 +43,7 @@
         "noImplicitAnyLet": "off",
         "noAssignInExpressions": "off",
         "noPrototypeBuiltins": "off",
-        "noRedeclare": "off",
-        "noConstEnum": "off"
+        "noRedeclare": "off"
       },
       "complexity": {
         "noForEach": "off",
