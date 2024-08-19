@@ -1,7 +1,7 @@
-import React from 'react';
+import type React from 'react';
 import { Select } from '@radix-ui/themes';
 import {
-  NavigateOptions,
+  type NavigateOptions,
   matchPath,
   useLocation,
   useNavigate,

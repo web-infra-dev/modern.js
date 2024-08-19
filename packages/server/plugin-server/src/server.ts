@@ -1,7 +1,12 @@
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { MiddlewareContext, NextFunction } from '@modern-js/types';
 import { isProd, logger } from '@modern-js/utils';
-import { Hook, Middleware, loadMiddleware, loadServerMod } from './utils';
+import {
+  type Hook,
+  type Middleware,
+  loadMiddleware,
+  loadServerMod,
+} from './utils';
 
 export { loadMiddleware, loadServerMod };
 export type { Hook, Middleware };

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { manager, CliPlugin } from '@modern-js/core';
+import { manager, type CliPlugin } from '@modern-js/core';
 import plugin from '../../src/plugins/analyze';
 import { appTools } from '../../src';
 

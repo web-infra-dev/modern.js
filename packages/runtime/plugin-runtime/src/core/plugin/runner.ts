@@ -1,4 +1,4 @@
-import { PluginRunner, runtime } from './base';
+import { type PluginRunner, runtime } from './base';
 
 let globalRunner: PluginRunner;
 

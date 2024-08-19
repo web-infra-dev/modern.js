@@ -1,6 +1,6 @@
-import { ServerPlugin } from '@modern-js/types';
+import type { ServerPlugin } from '@modern-js/types';
 import { compatRequire, tryResolve } from '@modern-js/utils';
-import { ServerPlugin as ServerPluginInstance } from '../../../types';
+import type { ServerPlugin as ServerPluginInstance } from '../../../types';
 
 function resolveServerPlugin(
   plugin: ServerPlugin,

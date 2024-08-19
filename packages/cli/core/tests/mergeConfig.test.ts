@@ -1,6 +1,6 @@
 import { mergeConfig } from '../src';
 import { assignPkgConfig } from '../src/config';
-import { UserConfig, UserConfigExport } from '../src/types';
+import type { UserConfig, UserConfigExport } from '../src/types';
 
 describe('merge config', () => {
   test('should replace property deeply', () => {

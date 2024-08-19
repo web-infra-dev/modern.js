@@ -1,5 +1,5 @@
 import { errorLog } from '../log/error';
-import { Package } from '../package';
+import type { Package } from '../package';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import {
   getProjectsByPackageConfig,

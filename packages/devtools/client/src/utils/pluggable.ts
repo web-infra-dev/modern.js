@@ -1,7 +1,7 @@
 import {
-  GlobalHooks,
+  type GlobalHooks,
   RUNTIME_GLOBALS,
-  RuntimeGlobals,
+  type RuntimeGlobals,
 } from '@modern-js/devtools-kit/runtime';
 import { Hookable } from 'hookable';
 

@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, globby, isArray, slash } from '@modern-js/utils';
-import { Input } from '../types';
+import type { Input } from '../types';
 
 export const getDefaultIndexEntry = async ({
   isTsProject,

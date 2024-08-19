@@ -1,7 +1,7 @@
 import { proxy } from 'valtio';
-import { ReadonlyDeep } from 'type-fest';
+import type { ReadonlyDeep } from 'type-fest';
 import _ from 'lodash';
-import { ModifyHeaderRule, ServiceStatus } from '@/utils/service-agent';
+import type { ModifyHeaderRule, ServiceStatus } from '@/utils/service-agent';
 
 const SERVICE_SCRIPT = '/sw-proxy.js';
 

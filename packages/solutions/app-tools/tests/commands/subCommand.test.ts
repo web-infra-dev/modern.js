@@ -1,6 +1,6 @@
 import path from 'path';
 import { runCli, initBeforeTest } from '../helper';
-import { CliPlugin, AppTools } from '@/types';
+import type { CliPlugin, AppTools } from '@/types';
 
 const buildAction = jest.fn();
 const devAction = jest.fn();

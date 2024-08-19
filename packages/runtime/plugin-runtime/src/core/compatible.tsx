@@ -4,10 +4,10 @@ import type { hydrateRoot, createRoot } from 'react-dom/client';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import {
   RuntimeReactContext,
-  RuntimeContext,
-  TRuntimeContext,
+  type RuntimeContext,
+  type TRuntimeContext,
 } from './context/runtime';
-import { Plugin, registerPlugin, runtime } from './plugin';
+import { type Plugin, registerPlugin, type runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
 import { getGlobalRunner } from './plugin/runner';
 import { getGlobalAppInit } from './context';

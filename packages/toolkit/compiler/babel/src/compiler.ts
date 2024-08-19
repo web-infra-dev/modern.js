@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as babel from '@babel/core';
 import { logger, fs } from '@modern-js/utils';
 import * as utils from './utils';
-import { BabelOptions, IVirtualDist } from './type';
+import type { BabelOptions, IVirtualDist } from './type';
 import { defaultDistFileExtMap } from './constants';
 
 export interface ISingleFileCompilerOption {

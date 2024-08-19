@@ -1,4 +1,4 @@
-import { Response as NodeResponse } from 'node-fetch';
+import type { Response as NodeResponse } from 'node-fetch';
 
 const handleRes = async (res: Response | NodeResponse) => {
   const contentType = res.headers.get('content-type');

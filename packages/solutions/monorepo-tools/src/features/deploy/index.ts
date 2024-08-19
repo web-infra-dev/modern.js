@@ -1,7 +1,7 @@
 import * as path from 'path';
 import {
   FileSystem,
-  IPackageJson,
+  type IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
 import {
@@ -13,10 +13,10 @@ import {
   getPnpmVersion,
 } from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
-import { IPnpmWorkSpace } from '../../type';
-import { DagOperator } from '../../dag/operator';
-import { IProjectNode } from '../../projects/getProjects';
-import { PackageManagerType } from '../../parse-config';
+import type { IPnpmWorkSpace } from '../../type';
+import type { DagOperator } from '../../dag/operator';
+import type { IProjectNode } from '../../projects/getProjects';
+import type { PackageManagerType } from '../../parse-config';
 
 interface IDeployConfig {
   rootPath: string;

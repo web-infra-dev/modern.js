@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import convertSourceMap from 'convert-source-map';
-import { Chunk, ICompiler } from '../../types';
+import type { Chunk, ICompiler } from '../../types';
 
 const SOURCE_MAPPING_URL = 'sourceMappingURL';
 let preOutputChunk: Map<string, Chunk> | null = null;

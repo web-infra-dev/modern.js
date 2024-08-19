@@ -1,11 +1,16 @@
-import {
+import type {
   ServerRoute,
   UnstableMiddlewareContext,
   UnstableMiddleware,
 } from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { ServerBase } from '../../serverBase';
-import { ServerHookRunner, Context, Middleware, ServerEnv } from '../../types';
+import type { ServerBase } from '../../serverBase';
+import type {
+  ServerHookRunner,
+  Context,
+  Middleware,
+  ServerEnv,
+} from '../../types';
 import { transformResponse } from '../../utils';
 import { getLoaderCtx } from '../../helper';
 import { ServerTimings } from '../../constants';
@@ -17,7 +22,7 @@ import {
   createCustomMiddlewaresCtx,
   createAfterStreamingRenderContext,
 } from './context';
-import { ResArgs, createBaseHookContext } from './base';
+import { type ResArgs, createBaseHookContext } from './base';
 
 const noop = () => {};
 

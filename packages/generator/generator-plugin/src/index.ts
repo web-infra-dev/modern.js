@@ -1,21 +1,25 @@
 import path from 'path';
-import EventEmitter from 'events';
-import { GeneratorCore, ILogger, getPackageInfo } from '@modern-js/codesmith';
+import type EventEmitter from 'events';
+import {
+  type GeneratorCore,
+  type ILogger,
+  getPackageInfo,
+} from '@modern-js/codesmith';
 import { fs, i18n as utilsI18n } from '@modern-js/generator-utils';
 import {
-  Solution,
+  type Solution,
   SolutionSchemas,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
 import { isFunction, merge } from '@modern-js/utils/lodash';
-import { Schema } from '@modern-js/codesmith-formily';
+import type { Schema } from '@modern-js/codesmith-formily';
 import {
   LifeCycle,
-  PluginAfterForgedFunc,
+  type PluginAfterForgedFunc,
   PluginContext,
-  PluginForgedFunc,
+  type PluginForgedFunc,
 } from './context';
-import { ICustomInfo } from './common';
+import type { ICustomInfo } from './common';
 import { getPackageMeta, installPlugins } from './utils';
 import { i18n, localeKeys } from './locale';
 

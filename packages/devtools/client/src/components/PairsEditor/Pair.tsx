@@ -1,9 +1,9 @@
 import { Box, IconButton, TextField } from '@radix-ui/themes';
-import React from 'react';
+import type React from 'react';
 import { HiMinusSmall, HiPlusSmall } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
 import styles from './Pair.module.scss';
-import { PairModel } from './types';
+import type { PairModel } from './types';
 
 export interface PairProps {
   $data: PairModel;

@@ -1,4 +1,7 @@
-import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
+import {
+  createUniBuilder,
+  type UniBuilderInstance,
+} from '@modern-js/uni-builder';
 import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/core';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';

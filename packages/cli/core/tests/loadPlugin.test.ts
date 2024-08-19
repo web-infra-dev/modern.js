@@ -1,5 +1,5 @@
 import path from 'path';
-import { CliPlugin } from '../src';
+import type { CliPlugin } from '../src';
 import { isOldPluginConfig, loadPlugins } from '../src/loadPlugins';
 
 describe('load plugins', () => {

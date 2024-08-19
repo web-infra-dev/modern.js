@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import clsx from 'clsx';
 import { Box, Flex } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';

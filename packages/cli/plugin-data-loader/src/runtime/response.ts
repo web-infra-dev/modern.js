@@ -8,9 +8,9 @@
  * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/LICENSE.md
  */
 import { TextEncoder } from 'util';
-import {
-  type UNSAFE_DeferredData as DeferredData,
-  type TrackedPromise,
+import type {
+  UNSAFE_DeferredData as DeferredData,
+  TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
 import { serializeJson } from '@modern-js/runtime-utils/node';
 

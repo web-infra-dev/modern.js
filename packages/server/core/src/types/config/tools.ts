@@ -1,5 +1,5 @@
-import { BabelTransformOptions } from '@modern-js/types/common';
-import { ConfigChain } from './share';
+import type { BabelTransformOptions } from '@modern-js/types/common';
+import type { ConfigChain } from './share';
 
 type ToolsBabelConfig = ConfigChain<BabelTransformOptions, any>;
 

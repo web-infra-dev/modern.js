@@ -6,7 +6,7 @@ import type {
   PartialBaseBuildConfig,
 } from '../types';
 import type { LegacyBaseBuildConfig } from '../types/legacyConfig/output';
-import {
+import type {
   PostCSSFunction,
   PostCSSLoaderOptions,
 } from '../types/legacyConfig/tools';

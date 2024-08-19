@@ -1,8 +1,8 @@
 import path from 'path';
 import { json5, semver } from '@modern-js/utils';
 import {
-  ActionFunction,
-  ActionRefactor,
+  type ActionFunction,
+  type ActionRefactor,
   Solution,
   SolutionToolsMap,
 } from '@modern-js/generator-common';

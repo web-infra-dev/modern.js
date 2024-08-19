@@ -16,7 +16,7 @@ import {
   requireHandlerModule,
   sortRoutes,
 } from './utils';
-import { ModuleInfo, ApiHandler, APIHandlerInfo } from './types';
+import type { ModuleInfo, ApiHandler, APIHandlerInfo } from './types';
 
 export * from './types';
 export * from './constants';

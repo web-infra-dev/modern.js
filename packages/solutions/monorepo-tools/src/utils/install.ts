@@ -2,7 +2,7 @@ import * as path from 'path';
 import { fs, execa } from '@modern-js/utils';
 import { LOCK_FILE } from '../constants';
 
-import { PackageManagerType } from '../parse-config';
+import type { PackageManagerType } from '../parse-config';
 
 export const removeLockFile = (
   rootPath: string,

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { defineConfig, UserConfigExport } from 'vitest/config';
+import { defineConfig, type UserConfigExport } from 'vitest/config';
 import { createSnapshotSerializer } from './utils';
 import { applyMatcherReplacement } from './pathSerializer';
 

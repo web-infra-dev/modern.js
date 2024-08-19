@@ -7,7 +7,7 @@ import {
 import { isMainEntry } from '../../../utils/routes';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
-import { CreatePreset } from './platform';
+import type { CreatePreset } from './platform';
 
 export const createVercelPreset: CreatePreset = (
   appContext,

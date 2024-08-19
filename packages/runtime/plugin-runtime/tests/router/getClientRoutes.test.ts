@@ -1,11 +1,15 @@
 import path from 'path';
 import {
-  CliHooksRunner,
-  CliPlugin,
+  type CliHooksRunner,
+  type CliPlugin,
   manager,
   type IAppContext,
 } from '@modern-js/core';
-import { AppNormalizedConfig, AppTools, appTools } from '@modern-js/app-tools';
+import {
+  type AppNormalizedConfig,
+  type AppTools,
+  appTools,
+} from '@modern-js/app-tools';
 import {
   getClientRoutes,
   getClientRoutesLegacy,

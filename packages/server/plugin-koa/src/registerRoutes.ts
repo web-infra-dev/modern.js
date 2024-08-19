@@ -1,5 +1,5 @@
-import { APIHandlerInfo } from '@modern-js/bff-core';
-import Router from 'koa-router';
+import type { APIHandlerInfo } from '@modern-js/bff-core';
+import type Router from 'koa-router';
 import { createRouteHandler } from './utils';
 
 const registerRoutes = (router: Router, handlerInfos: APIHandlerInfo[]) => {

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { ApiRouter } from '../router';
-import { Result, Ok, Err } from './result';
+import { type Result, Ok, Err } from './result';
 
 export type GenClientResult = Result<string>;
 

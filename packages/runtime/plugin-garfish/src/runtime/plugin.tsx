@@ -5,7 +5,7 @@ import { merge } from '@modern-js/runtime-utils/merge';
 import { logger } from '../util';
 import { GarfishProvider } from './utils/Context';
 import setExternal from './utils/setExternal';
-import {
+import type {
   Config,
   Manifest,
   MicroComponentProps,
@@ -13,7 +13,7 @@ import {
   Options,
 } from './useModuleApps';
 import { generateMApp } from './utils/MApp';
-import { AppMap, generateApps } from './utils/apps';
+import { type AppMap, generateApps } from './utils/apps';
 
 async function initOptions(manifest: Manifest = {}, options: Options) {
   let apps: ModulesInfo = options.apps || [];

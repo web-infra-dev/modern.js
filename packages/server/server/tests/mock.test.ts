@@ -1,5 +1,5 @@
 import path from 'path';
-import { createServerBase, ServerPlugin } from '@modern-js/server-core';
+import { createServerBase, type ServerPlugin } from '@modern-js/server-core';
 import { getMockMiddleware } from '../src/helpers';
 
 function getDefaultConfig() {

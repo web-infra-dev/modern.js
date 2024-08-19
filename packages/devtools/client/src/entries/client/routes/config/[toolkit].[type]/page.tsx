@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { useParams } from '@modern-js/runtime/router';
 import { useSnapshot } from 'valtio';
 import { useGlobals } from '@/entries/client/globals';

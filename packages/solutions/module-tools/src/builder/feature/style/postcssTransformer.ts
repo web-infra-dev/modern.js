@@ -1,5 +1,5 @@
 import postcss from 'postcss';
-import { ICompiler } from '../../../types';
+import type { ICompiler } from '../../../types';
 import { getHash, normalizeSlashes } from '../../../utils';
 import { postcssUrlPlugin } from './postcssUrlPlugin';
 

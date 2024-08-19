@@ -1,6 +1,6 @@
 import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import { SSRRenderOptions } from './ssrRender';
+import type { SSRRenderOptions } from './ssrRender';
 
 export const dataHandler = async (
   request: Request,

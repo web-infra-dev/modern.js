@@ -1,4 +1,4 @@
-import { CliPlugin, manager } from '@modern-js/core';
+import { type CliPlugin, manager } from '@modern-js/core';
 import { runtimePlugin } from '../src/cli';
 
 describe('plugin runtime cli', () => {

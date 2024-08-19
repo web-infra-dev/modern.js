@@ -1,7 +1,7 @@
-import { PluginAPI } from '@modern-js/core';
-import { Command, newAction, upgradeAction } from '@modern-js/utils';
+import type { PluginAPI } from '@modern-js/core';
+import { type Command, newAction, upgradeAction } from '@modern-js/utils';
 import { castArray } from '@modern-js/uni-builder';
-import { AppTools } from '../types';
+import type { AppTools } from '../types';
 import { i18n, localeKeys } from '../locale';
 import type {
   BuildOptions,

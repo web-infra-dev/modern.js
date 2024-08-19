@@ -1,4 +1,4 @@
-import { ShortenAlias } from './client';
+import type { ShortenAlias } from './client';
 
 export function applyShortenAliases(
   resource: string,

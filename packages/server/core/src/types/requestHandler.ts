@@ -1,5 +1,5 @@
-import { Metrics, Reporter, ServerRoute, Logger } from '@modern-js/types';
-import { ServerUserConfig } from './config';
+import type { Metrics, Reporter, ServerRoute, Logger } from '@modern-js/types';
+import type { ServerUserConfig } from './config';
 
 export type Resource = {
   loadableStats: Record<string, any>;

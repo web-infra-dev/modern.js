@@ -3,10 +3,10 @@ import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
 import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import type { BabelConfig } from '@modern-js/babel-preset';
 import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
-import {
-  type RsbuildPlugin,
-  type NormalizedEnvironmentConfig,
-  type TransformImport,
+import type {
+  RsbuildPlugin,
+  NormalizedEnvironmentConfig,
+  TransformImport,
 } from '@rsbuild/core';
 import { getBabelUtils, type PluginBabelOptions } from '@rsbuild/plugin-babel';
 import {

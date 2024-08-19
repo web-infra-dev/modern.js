@@ -1,6 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'rspress/config';
-import { NavItem } from '@rspress/shared';
+import type { NavItem } from '@rspress/shared';
 
 const { version } = require('./package.json');
 

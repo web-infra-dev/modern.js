@@ -1,10 +1,11 @@
-import { Box, BoxProps } from '@radix-ui/themes';
+import { Box, type BoxProps } from '@radix-ui/themes';
 import { nanoid } from 'nanoid';
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 import styles from './Editor.module.scss';
 import { Pair } from './Pair';
-import { PairModel } from './types';
+import type { PairModel } from './types';
 
 export type PairsEditorProps = BoxProps & {
   $data?: PairModel[];

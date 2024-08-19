@@ -1,4 +1,4 @@
-import { Middleware } from '@modern-js/runtime/server';
+import type { Middleware } from '@modern-js/runtime/server';
 
 export const middleware: Middleware = (ctx, next) => {
   const { request } = ctx;

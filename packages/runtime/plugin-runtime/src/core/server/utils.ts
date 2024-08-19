@@ -1,9 +1,9 @@
 import {
-  StaticHandlerContext,
+  type StaticHandlerContext,
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
-import { ServerUserConfig } from '@modern-js/app-tools';
-import { SSRConfig } from './shared';
+import type { ServerUserConfig } from '@modern-js/app-tools';
+import type { SSRConfig } from './shared';
 
 export function attributesToString(attributes: Record<string, any>) {
   // Iterate through the properties and convert them into a string, only including properties that are not undefined.

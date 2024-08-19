@@ -3,7 +3,7 @@ import os from 'node:os';
 import { fs as fse } from '@modern-js/utils';
 import type { PackageJson } from 'pkg-types';
 import { parseNodeModulePath } from 'mlly';
-import { nodeFileTrace, NodeFileTraceOptions } from '@vercel/nft';
+import { nodeFileTrace, type NodeFileTraceOptions } from '@vercel/nft';
 
 export type TracedPackage = {
   name: string;

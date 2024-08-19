@@ -1,6 +1,6 @@
-import { CliPlugin, IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { CliPlugin, IAppContext, NormalizedConfig } from '@modern-js/core';
 import { provider } from 'std-env';
-import { AppTools } from '../../types';
+import type { AppTools } from '../../types';
 import { getProjectUsage } from './utils';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';

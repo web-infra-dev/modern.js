@@ -1,6 +1,6 @@
 import { dirname, resolve, extname, sep } from 'path';
 import module from 'module';
-import { ImportKind, Loader, Plugin } from 'esbuild';
+import type { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
 import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';

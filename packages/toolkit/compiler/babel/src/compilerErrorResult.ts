@@ -1,4 +1,4 @@
-import { ICompilerResult, ICompilerMessageDetail } from './type';
+import type { ICompilerResult, ICompilerMessageDetail } from './type';
 
 export class CompilerErrorResult {
   _messageDetails!: ICompilerMessageDetail[];

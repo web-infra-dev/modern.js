@@ -1,6 +1,6 @@
 import { join, relative, dirname } from 'path';
-import { Plugin } from 'postcss';
-import { ICompiler } from '../../../types';
+import type { Plugin } from 'postcss';
+import type { ICompiler } from '../../../types';
 import { getAssetContents } from '../asset';
 import { rewriteCssUrls } from './utils';
 

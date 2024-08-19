@@ -1,5 +1,5 @@
 import type { AppTools } from '@modern-js/app-tools';
-import { CliPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 
 export const cliPlugin1 = (): CliPlugin<AppTools> => ({
   name: 'cliPlugin1',

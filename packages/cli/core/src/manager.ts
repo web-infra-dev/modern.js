@@ -5,8 +5,8 @@ import {
   createAsyncWaterfall,
   createParallelWorkflow,
 } from '@modern-js/plugin';
-import { BaseHooks } from './types/hooks';
-import { BasePluginAPI } from './types';
+import type { BaseHooks } from './types/hooks';
+import type { BasePluginAPI } from './types';
 import {
   setAppContext,
   useAppContext,

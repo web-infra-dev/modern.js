@@ -1,17 +1,20 @@
-import { RequestHandler, RequestHandlerOptions } from '@modern-js/app-tools';
+import type {
+  RequestHandler,
+  RequestHandlerOptions,
+} from '@modern-js/app-tools';
 import {
   getPathname,
   parseCookie,
   parseHeaders,
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
-import React from 'react';
+import type React from 'react';
 import { createRoot } from '../react';
-import { RuntimeContext, getGlobalAppInit } from '../context';
+import { type RuntimeContext, getGlobalAppInit } from '../context';
 import { getGlobalRunner } from '../plugin/runner';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
-import { SSRServerContext } from '../types';
+import type { SSRServerContext } from '../types';
 import { getSSRConfigByEntry, getSSRMode } from './utils';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
 

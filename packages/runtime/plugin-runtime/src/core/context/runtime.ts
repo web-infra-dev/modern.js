@@ -1,15 +1,15 @@
-import { Store } from '@modern-js-reduck/store';
-import {
-  type StaticHandlerContext,
-  type Router,
-  type RouterState,
+import type { Store } from '@modern-js-reduck/store';
+import type {
+  StaticHandlerContext,
+  Router,
+  RouterState,
 } from '@modern-js/runtime-utils/remix-router';
 import { createContext } from 'react';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import { createLoaderManager } from '../loader/loaderManager';
-import { PluginRunner, runtime } from '../plugin';
-import { RouteManifest } from '../../router/runtime/types';
-import { SSRServerContext } from '../types';
+import type { PluginRunner, runtime } from '../plugin';
+import type { RouteManifest } from '../../router/runtime/types';
+import type { SSRServerContext } from '../types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;

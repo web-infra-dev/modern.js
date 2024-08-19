@@ -1,8 +1,11 @@
-import React from 'react';
+import type React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
-import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
+import createRouterPlugin, {
+  type RouteProps,
+  useLocation,
+} from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 

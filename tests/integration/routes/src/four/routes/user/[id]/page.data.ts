@@ -1,4 +1,4 @@
-import { LoaderFunction } from '@modern-js/runtime/router';
+import type { LoaderFunction } from '@modern-js/runtime/router';
 
 export const loader: LoaderFunction = ({ params }) => {
   return {

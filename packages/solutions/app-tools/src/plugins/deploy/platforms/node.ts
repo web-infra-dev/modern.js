@@ -7,7 +7,7 @@ import {
 } from '@modern-js/utils';
 import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
-import { CreatePreset } from './platform';
+import type { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
   const { appDirectory, distDirectory, serverPlugins } = appContext;

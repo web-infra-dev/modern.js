@@ -1,4 +1,4 @@
-import { RouteMatch, RouteObject } from '@modern-js/runtime/router';
+import type { RouteMatch, RouteObject } from '@modern-js/runtime/router';
 import { createContext } from 'react';
 
 export const MatchRemixRouteContext = createContext<

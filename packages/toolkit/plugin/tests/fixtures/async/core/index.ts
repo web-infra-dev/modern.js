@@ -3,8 +3,8 @@ import {
   createWaterfall,
   createWorkflow,
   createContext,
-  PluginOptions,
-  AsyncSetup,
+  type PluginOptions,
+  type AsyncSetup,
 } from '../../../../src';
 
 export type CTX = Record<string, unknown>;

@@ -1,4 +1,5 @@
-import garfish, { interfaces as GarfishInterfaces } from 'garfish';
+import type garfish from 'garfish';
+import type { interfaces as GarfishInterfaces } from 'garfish';
 import React, { useContext } from 'react';
 import { logger } from '../util';
 import { GarfishContext } from './utils/Context';

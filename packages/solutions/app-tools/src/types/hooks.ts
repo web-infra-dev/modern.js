@@ -19,7 +19,7 @@ import type {
   Stats,
   MultiStats,
 } from '@modern-js/uni-builder';
-import { Bundler } from './utils';
+import type { Bundler } from './utils';
 
 export interface ImportSpecifier {
   local?: string;

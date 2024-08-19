@@ -1,4 +1,4 @@
-import { InternalPlugins } from '@modern-js/types';
+import type { InternalPlugins } from '@modern-js/types';
 
 export {
   NESTED_ROUTE_SPEC_FILE,

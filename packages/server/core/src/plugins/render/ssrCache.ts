@@ -7,7 +7,7 @@ import type {
 } from '@modern-js/types';
 import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import { X_RENDER_CACHE } from '../../constants';
-import {
+import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '../../types/requestHandler';

@@ -1,10 +1,10 @@
 import path from 'path';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
-import { GeneratorCore, FsMaterial } from '@modern-js/codesmith';
+import { type GeneratorCore, FsMaterial } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
 import {
-  AddFileParams,
-  AddManyFilesParams,
+  type AddFileParams,
+  type AddManyFilesParams,
   addFile,
   addManyFiles,
   fileExists,

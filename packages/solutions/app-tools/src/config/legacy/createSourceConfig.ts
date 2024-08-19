@@ -1,4 +1,7 @@
-import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
+import type {
+  AppLegacyNormalizedConfig,
+  AppNormalizedConfig,
+} from '../../types';
 
 export function createSourceConfig(
   config: AppLegacyNormalizedConfig,

@@ -1,5 +1,5 @@
 import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
-import { ILibPresetOption } from './types';
+import type { ILibPresetOption } from './types';
 import { aliasPlugin } from './alias';
 
 export const getBabelConfig = (libPresetOption: ILibPresetOption) => {

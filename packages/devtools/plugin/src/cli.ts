@@ -4,14 +4,14 @@ import {
   type CliPlugin,
   type UserConfig,
 } from '@modern-js/app-tools';
-import { ClientDefinition } from '@modern-js/devtools-kit/node';
+import type { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
 import createDeferred from 'p-defer';
 import { createHooks } from 'hookable';
 import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
 import { proxy } from 'valtio';
-import { DevtoolsPluginOptions, resolveContext } from './options';
-import { CliPluginAPI, Plugin, PluginApi } from './types';
+import { type DevtoolsPluginOptions, resolveContext } from './options';
+import type { CliPluginAPI, Plugin, PluginApi } from './types';
 import { pluginDebug } from './plugins/debug';
 import { pluginHttp } from './plugins/http';
 import { pluginState } from './plugins/state';

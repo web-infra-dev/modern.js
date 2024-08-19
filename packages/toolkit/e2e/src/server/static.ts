@@ -1,4 +1,4 @@
-import http from 'http';
+import type http from 'http';
 import serveStaticImpl from 'serve-static';
 
 export type ServeStaticOptions<

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 
 import {
   launchApp,

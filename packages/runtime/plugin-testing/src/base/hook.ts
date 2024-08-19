@@ -1,5 +1,5 @@
 import { createAsyncPipeline, createParallelWorkflow } from '@modern-js/plugin';
-import { TestConfigOperator } from './config/testConfigOperator';
+import type { TestConfigOperator } from './config/testConfigOperator';
 
 export const jestConfigHook = createAsyncPipeline<
   TestConfigOperator,

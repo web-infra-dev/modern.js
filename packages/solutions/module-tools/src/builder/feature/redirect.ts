@@ -16,10 +16,10 @@ import MagicString from 'magic-string';
 import {
   createMatchPath,
   loadConfig,
-  MatchPath,
+  type MatchPath,
 } from '@modern-js/utils/tsconfig-paths';
 import { fs, logger } from '@modern-js/utils';
-import { ICompiler } from '../../types';
+import type { ICompiler } from '../../types';
 import { assetExt } from '../../constants/file';
 import {
   normalizeSlashes,

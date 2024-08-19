@@ -1,5 +1,5 @@
-import { PackageManagerType } from './parse-config';
-import { hooks } from './hooks';
+import type { PackageManagerType } from './parse-config';
+import type { hooks } from './hooks';
 
 export interface IPnpmWorkSpace {
   packages: string[];

@@ -1,4 +1,8 @@
-import { MaybeAsync, createPipeline, Middleware } from '../farrow-pipeline';
+import {
+  type MaybeAsync,
+  createPipeline,
+  type Middleware,
+} from '../farrow-pipeline';
 import type { AsyncWorker, AsyncWorkers } from './async';
 
 const PARALLEL_WORKFLOW_SYMBOL = Symbol.for('MODERN_PARALLEL_WORKFLOW');

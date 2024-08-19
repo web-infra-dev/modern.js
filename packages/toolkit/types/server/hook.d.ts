@@ -1,6 +1,10 @@
-import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
-import { Reporter } from './utils';
-import { ServerRoute } from './route';
+import type {
+  IncomingMessage,
+  ServerResponse,
+  IncomingHttpHeaders,
+} from 'http';
+import type { Reporter } from './utils';
+import type { ServerRoute } from './route';
 
 export type CookieAPI = {
   /**

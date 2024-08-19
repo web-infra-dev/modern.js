@@ -1,4 +1,4 @@
-import { IProjectNode } from '../../projects/getProjects';
+import type { IProjectNode } from '../../projects/getProjects';
 
 // TODO: 第一个参数是否也需要为一个string[]
 export type BuildWatchCmdsType =

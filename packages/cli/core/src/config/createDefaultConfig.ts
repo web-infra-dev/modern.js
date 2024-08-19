@@ -1,4 +1,4 @@
-import { UserConfig } from '../types';
+import type { UserConfig } from '../types';
 
 export function createDefaultConfig(): UserConfig {
   return {

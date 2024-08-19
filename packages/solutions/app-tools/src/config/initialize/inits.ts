@@ -1,6 +1,6 @@
 import path, { isAbsolute } from 'path';
 import { findExists } from '@modern-js/utils';
-import { AppNormalizedConfig, IAppContext } from '../../types';
+import type { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function initHtmlConfig(
   config: AppNormalizedConfig<'shared'>,

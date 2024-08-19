@@ -1,4 +1,4 @@
-import { RouterConfig } from '../dist/types';
+import type { RouterConfig } from '../dist/types';
 import '../dist/types/router';
 
 declare module '@modern-js/app-tools' {

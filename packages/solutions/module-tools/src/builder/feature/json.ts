@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { ICompiler } from '../../types';
+import type { ICompiler } from '../../types';
 
 const isJsonExt = (path: string) => {
   return path.endsWith('.json');

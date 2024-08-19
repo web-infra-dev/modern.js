@@ -1,11 +1,11 @@
-import { CommonAPI } from '@modern-js/plugin';
+import type { CommonAPI } from '@modern-js/plugin';
 import type {
   setAppContext,
   useAppContext,
   useResolvedConfigContext,
   useConfigContext,
 } from '../context';
-import { BaseHooks } from './hooks';
+import type { BaseHooks } from './hooks';
 
 export type BasePluginAPI<
   Extends extends {

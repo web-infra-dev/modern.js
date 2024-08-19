@@ -12,7 +12,7 @@ import { printInstructions } from '../../utils/printInstructions';
 import { generateRoutes } from '../../utils/routes';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
-import { AppTools, webpack } from '../../types';
+import type { AppTools, webpack } from '../../types';
 import { initialNormalizedConfig } from '../../config';
 import { createBuilderGenerator } from '../../builder';
 import { checkIsBuildCommands } from './utils';

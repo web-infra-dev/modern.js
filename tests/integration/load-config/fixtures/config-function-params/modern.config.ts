@@ -1,6 +1,10 @@
 import path from 'path';
 import { writeFileSync } from 'fs';
-import { AppTools, CliPlugin, defineConfig } from '@modern-js/app-tools';
+import {
+  type AppTools,
+  type CliPlugin,
+  defineConfig,
+} from '@modern-js/app-tools';
 import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
 export default defineConfig<'rspack'>(params => {

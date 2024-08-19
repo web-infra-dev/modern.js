@@ -1,4 +1,4 @@
-import { ISAppContext, ServerRoute } from '@modern-js/types';
+import type { ISAppContext, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
 import { createContext } from '@modern-js/plugin';
 import type {

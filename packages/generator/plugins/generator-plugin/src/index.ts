@@ -1,6 +1,6 @@
 import {
-  IPluginContext,
-  ForgedAPI,
+  type IPluginContext,
+  type ForgedAPI,
   FileType,
   PluginType,
 } from '@modern-js/generator-plugin';

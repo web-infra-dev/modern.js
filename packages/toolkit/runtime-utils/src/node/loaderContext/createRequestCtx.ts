@@ -1,5 +1,5 @@
-import { RequestPayload } from '@modern-js/types';
-import { LoaderContext } from './createLoaderCtx';
+import type { RequestPayload } from '@modern-js/types';
+import type { LoaderContext } from './createLoaderCtx';
 
 interface Get<P extends Record<string, unknown>> {
   <Key extends keyof P>(key: Key): P[Key];

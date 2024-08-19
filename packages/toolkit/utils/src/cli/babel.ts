@@ -1,5 +1,5 @@
 import { isAbsolute, sep } from 'path';
-import {
+import type {
   BabelConfig,
   BabelConfigUtils,
   BabelTransformOptions,
