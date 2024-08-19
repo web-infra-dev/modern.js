@@ -38,8 +38,7 @@
         "useNumberNamespace": "off",
         "useDefaultParameterLast": "off",
         "noInferrableTypes": "off",
-        "useEnumInitializers": "off",
-        "noParameterAssign": "off"
+        "useEnumInitializers": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",
