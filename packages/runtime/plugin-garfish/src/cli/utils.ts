@@ -14,11 +14,11 @@ export function setRuntimeConfig(
   key: string,
   value: any,
 ): undefined {
-  if (config?.runtime?.features && config?.runtime?.features[key]) {
+  if (config?.runtime?.features?.[key]) {
     config.runtime.features[key] = value;
     return undefined;
   }
-  if (config?.runtime && config?.runtime[key]) {
+  if (config?.runtime?.[key]) {
     config.runtime[key] = value;
     return undefined;
   }

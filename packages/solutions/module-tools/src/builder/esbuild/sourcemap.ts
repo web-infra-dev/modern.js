@@ -51,7 +51,7 @@ export class SourcemapContext implements ISourcemapContext {
 
   public getSourceMapChain() {
     return this.sourceMapChain.filter((m): m is SourceMap =>
-      Boolean(m && m.mappings),
+      Boolean(m?.mappings),
     );
   }
 

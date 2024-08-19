@@ -17,7 +17,7 @@ async function main() {
   }).toString();
   const changedFiles = changedFilesOutput
     .split('\n')
-    .map(file => file && file.trim())
+    .map(file => file?.trim())
     .filter(Boolean);
 
   const shouldNotSkipCI =

@@ -45,7 +45,7 @@ function runModernCommand(argv, options = {}) {
       }
       stdoutOutput += chunk;
       const message = chunk.toString();
-      if (marker && marker.test(message)) {
+      if (marker?.test(message)) {
         resolve({
           code: 0,
           stdout: stdoutOutput,

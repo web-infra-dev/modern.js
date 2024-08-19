@@ -50,8 +50,7 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
 
 export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
   const hasPlugin =
-    extra?.customPlugin &&
-    extra.customPlugin[extra?.solution] &&
+    extra?.customPlugin?.[extra?.solution] &&
     extra.customPlugin[extra?.solution].length > 0;
   return {
     type: 'object',

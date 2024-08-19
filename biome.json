@@ -50,8 +50,7 @@
         "useArrowFunction": "off",
         "useFlatMap": "off",
         "noBannedTypes": "off",
-        "noUselessSwitchCase": "off",
-        "useOptionalChain": "off"
+        "noUselessSwitchCase": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
