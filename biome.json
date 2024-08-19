@@ -45,8 +45,7 @@
         "noPrototypeBuiltins": "off",
         "noRedeclare": "off",
         "noConstEnum": "off",
-        "noArrayIndexKey": "off",
-        "noFocusedTests": "off"
+        "noArrayIndexKey": "off"
       },
       "complexity": {
         "noForEach": "off",
