@@ -7,7 +7,11 @@ import {
   Language,
   DependenceGenerator,
 } from '@modern-js/generator-common';
-import { isTsProject, getGeneratorPath, readTsConfigByFile } from '@modern-js/generator-utils';
+import {
+  isTsProject,
+  getGeneratorPath,
+  readTsConfigByFile,
+} from '@modern-js/generator-utils';
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
