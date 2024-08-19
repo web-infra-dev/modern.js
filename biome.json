@@ -40,7 +40,6 @@
         "noInferrableTypes": "off",
         "useEnumInitializers": "off",
         "noParameterAssign": "off",
-        "useExportType": "off",
         "useTemplate": "off",
         "useSelfClosingElements": "off",
         "noArguments": "off",
