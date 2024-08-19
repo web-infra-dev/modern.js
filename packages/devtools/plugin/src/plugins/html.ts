@@ -1,6 +1,6 @@
 import type { AppTools } from '@modern-js/app-tools';
 import type { UserConfig } from '@modern-js/core';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 
 export const pluginHtml: Plugin = {
   name: 'html',

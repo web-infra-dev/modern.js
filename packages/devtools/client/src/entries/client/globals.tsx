@@ -1,9 +1,9 @@
 import {
-  ServerManifest,
+  type ServerManifest,
   MessagePortChannel,
-  ServerFunctions,
-  Tab,
-  ClientFunctions as ToServerFunctions,
+  type ServerFunctions,
+  type Tab,
+  type ClientFunctions as ToServerFunctions,
   WebSocketChannel,
   applyOperation,
   reviver,

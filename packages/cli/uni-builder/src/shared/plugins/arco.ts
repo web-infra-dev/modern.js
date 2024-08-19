@@ -1,4 +1,4 @@
-import { type RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import { isPackageInstalled } from '@modern-js/utils';
 import { isServerEnvironment } from '../utils';
 

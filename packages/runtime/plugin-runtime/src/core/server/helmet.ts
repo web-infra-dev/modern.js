@@ -1,6 +1,6 @@
 // 用于 react-helmet 正则替换
 import { EOL } from 'os';
-import { HelmetData } from 'react-helmet';
+import type { HelmetData } from 'react-helmet';
 import { safeReplace } from './utils';
 
 const RE_HTML_ATTR = /<html[^>]*>/;

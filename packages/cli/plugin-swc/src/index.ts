@@ -2,8 +2,8 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { isSSR } from '@modern-js/utils';
 import {
   pluginSwc,
-  ObjPluginSwcOptions,
-  PluginSwcOptions,
+  type ObjPluginSwcOptions,
+  type PluginSwcOptions,
 } from '@rsbuild/plugin-swc';
 import { logger } from '@modern-js/utils/logger';
 import type { ToolsUserConfig } from '@modern-js/app-tools/src/types/config/tools';
@@ -49,14 +49,15 @@ export function applyBuilderSwcConfig(
   isSSR: boolean,
 ): PluginSwcOptions {
   // common configuration
+  let swcConfig = swc;
   if (isSSR) {
-    swc = applyConfig(swc, config => {
+    swcConfig = applyConfig(swc, config => {
       config.extensions ??= {};
       config.extensions.loadableComponents = true;
     });
   }
 
-  return applyConfig(swc, config => {
+  return applyConfig(swcConfig, config => {
     if (esbuild) {
       if (config.jsMinify !== false && esbuild.minimize !== false) {
         logger.warn(

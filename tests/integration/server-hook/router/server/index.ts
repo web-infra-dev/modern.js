@@ -1,4 +1,4 @@
-import { AfterMatchHook } from '@modern-js/runtime/server';
+import type { AfterMatchHook } from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (ctx, next) => {
   const { request, router } = ctx;

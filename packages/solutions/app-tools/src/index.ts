@@ -6,13 +6,13 @@ import {
   getCommand,
   getArgv,
 } from '@modern-js/utils';
-import { CliPlugin } from '@modern-js/core';
+import type { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import initializePlugin from './plugins/initialize';
 import analyzePlugin from './plugins/analyze';
 import serverBuildPlugin from './plugins/serverBuild';
 import deployPlugin from './plugins/deploy';
-import { AppTools } from './types';
+import type { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
 

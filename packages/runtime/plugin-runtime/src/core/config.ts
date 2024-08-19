@@ -1,5 +1,5 @@
 import type React from 'react';
-import { AppConfig, RuntimeConfig } from '../common';
+import type { AppConfig, RuntimeConfig } from '../common';
 
 const APP_CONFIG_SYMBOL = 'config';
 export const getConfig = (

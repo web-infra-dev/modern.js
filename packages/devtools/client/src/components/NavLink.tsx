@@ -1,6 +1,6 @@
 import {
   NavLink as RouterNavLink,
-  NavLinkProps as RouterNavLinkProps,
+  type NavLinkProps as RouterNavLinkProps,
 } from '@modern-js/runtime/router';
 import { Link as BaseLink } from '@radix-ui/themes';
 import type { LinkProps as BaseLinkProps } from '@radix-ui/themes';

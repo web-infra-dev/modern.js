@@ -1,4 +1,4 @@
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 
 export const pluginCleanup: Plugin = {
   name: 'cleanup',

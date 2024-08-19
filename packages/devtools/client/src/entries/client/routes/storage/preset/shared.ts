@@ -1,4 +1,4 @@
-import {
+import type {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';

@@ -1,5 +1,5 @@
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
-import { ServerHookRunner } from '@modern-js/server-core';
+import type { ServerHookRunner } from '@modern-js/server-core';
 
 const cleanSSRCache = (distDir: string) => {
   Object.keys(require.cache).forEach(key => {

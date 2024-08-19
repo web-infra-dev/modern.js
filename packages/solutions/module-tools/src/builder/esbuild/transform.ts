@@ -1,4 +1,4 @@
-import { ITransformContext, CacheValue } from '../../types';
+import type { ITransformContext, CacheValue } from '../../types';
 import { SourcemapContext } from './sourcemap';
 
 export class TransformContext

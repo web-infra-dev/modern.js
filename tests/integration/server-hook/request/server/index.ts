@@ -1,4 +1,4 @@
-import { AfterRenderHook } from '@modern-js/runtime/server';
+import type { AfterRenderHook } from '@modern-js/runtime/server';
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   const { cookies, pathname, query, host, headers } = ctx.request;

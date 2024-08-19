@@ -1,5 +1,5 @@
 import path from 'path';
-import { Sidebar, NavItem } from '@rspress/shared';
+import type { Sidebar, NavItem } from '@rspress/shared';
 import { defineConfig } from 'rspress/config';
 
 function getI18nHelper(lang: 'zh' | 'en') {

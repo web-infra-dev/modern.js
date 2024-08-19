@@ -1,6 +1,6 @@
-import { IncomingMessage } from 'http';
+import type { IncomingMessage } from 'http';
 import WebSocket from 'ws';
-import { BufferLike } from '../types';
+import type { BufferLike } from '../types';
 
 export interface SendMessageOptions {
   mask?: boolean | undefined;

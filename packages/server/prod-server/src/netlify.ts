@@ -3,7 +3,7 @@ import {
   loadServerEnv,
 } from '@modern-js/server-core/node';
 import { createServerBase } from '@modern-js/server-core';
-import { BaseEnv, ProdServerOptions } from './types';
+import type { BaseEnv, ProdServerOptions } from './types';
 import { applyPlugins } from './apply';
 
 export type { ProdServerOptions, BaseEnv } from './types';

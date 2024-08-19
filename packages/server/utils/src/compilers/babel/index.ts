@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, json5, getAliasConfig } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
-import { CompileFunc, FILE_EXTENSIONS } from '../../common';
+import { type CompileFunc, FILE_EXTENSIONS } from '../../common';
 import { getBabelConfig, applyUserBabelConfig } from './preset';
 
 export * from '@babel/core';
@@ -48,6 +48,7 @@ export const resolveBabelConfig = (
   appDirectory: string,
   config: Parameters<CompileFunc>[1],
   option: IPackageModeValue,
+  isEsm?: boolean,
 ): any => {
   const { alias, babelConfig } = config;
   // alias config
@@ -60,6 +61,7 @@ export const resolveBabelConfig = (
   const defaultBabelConfig = getBabelConfig({
     appDirectory,
     alias: aliasConfig,
+    isEsm,
   });
 
   return applyUserBabelConfig(defaultBabelConfig, babelConfig);
@@ -70,12 +72,18 @@ export const compileByBabel: CompileFunc = async (
   config,
   compileOptions,
 ) => {
-  const { sourceDirs, distDir, tsconfigPath } = compileOptions;
+  const { sourceDirs, distDir, tsconfigPath, moduleType } = compileOptions;
+  const isEsm = moduleType === 'module';
   const results = await Promise.all(
     sourceDirs.map(async sourceDir => {
-      const babelConfig = resolveBabelConfig(appDirectory, config, {
-        tsconfigPath: tsconfigPath ? tsconfigPath : '',
-      });
+      const babelConfig = resolveBabelConfig(
+        appDirectory,
+        config,
+        {
+          tsconfigPath: tsconfigPath ? tsconfigPath : '',
+        },
+        isEsm,
+      );
       if (await fs.pathExists(sourceDir)) {
         const basename = path.basename(sourceDir);
         const targetDir = path.join(distDir, basename);

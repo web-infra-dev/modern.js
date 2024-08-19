@@ -1,4 +1,7 @@
-import { defineConfig, RenderMiddleware } from '@modern-js/app-tools/server';
+import {
+  defineConfig,
+  type RenderMiddleware,
+} from '@modern-js/app-tools/server';
 import plugin1 from '../plugins/serverPlugin';
 
 const timing: RenderMiddleware = async (c, next) => {

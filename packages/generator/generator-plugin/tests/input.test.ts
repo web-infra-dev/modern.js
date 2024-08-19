@@ -1,5 +1,5 @@
 import { isObject } from '@modern-js/utils/lodash';
-import { Schema, PluginInputContext } from '../src/context/input';
+import { type Schema, PluginInputContext } from '../src/context/input';
 
 describe('PluginInputContext Test', () => {
   test('Add Input', () => {

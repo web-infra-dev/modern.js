@@ -1,14 +1,14 @@
 import {
-  HttpMethod,
+  type HttpMethod,
   httpMethods,
-  APIHandlerInfo,
+  type APIHandlerInfo,
   isWithMetaHandler,
-  ResponseMeta,
+  type ResponseMeta,
   ResponseMetaType,
   HttpMetadata,
 } from '@modern-js/bff-core';
-import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
-import { Context } from 'koa';
+import { isSchemaHandler, type InputType } from '@modern-js/bff-runtime';
+import type { Context } from 'koa';
 import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];

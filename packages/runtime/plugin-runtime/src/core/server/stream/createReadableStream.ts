@@ -6,7 +6,7 @@ import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
 import { getTemplates } from './template';
 import {
-  CreateReadableStreamFromElement,
+  type CreateReadableStreamFromElement,
   ShellChunkStatus,
   getReadableStreamFromString,
 } from './shared';

@@ -1,3 +1,3 @@
 console.info('');
 
-export {};
+export type {};

@@ -1,6 +1,6 @@
 import path from 'path';
 import { existsSync } from 'fs';
-import { CliPlugin, IAppContext, manager } from '@modern-js/core';
+import { type CliPlugin, type IAppContext, manager } from '@modern-js/core';
 
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';

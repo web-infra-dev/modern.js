@@ -11,7 +11,11 @@ import {
   createAsyncWorkflow,
   createParallelWorkflow,
 } from '../src/workflow';
-import { main, TestAsyncHooks, TestAsyncPlugin } from './fixtures/async/core';
+import {
+  main,
+  type TestAsyncHooks,
+  type TestAsyncPlugin,
+} from './fixtures/async/core';
 import foo from './fixtures/async/base/foo';
 import bar, { getBar } from './fixtures/async/base/bar';
 import dFoo from './fixtures/async/dynamic/foo';

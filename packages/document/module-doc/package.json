@@ -17,7 +17,7 @@
     "preview": "rspress preview"
   },
   "devDependencies": {
-    "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
+    "@modern-js/doc-plugin-auto-sidebar": "2.58.1",
     "@rspress/shared": "1.27.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { createApp } from '@modern-js/runtime';
 import type { UserConfig } from '@modern-js/core';
 import { MODERNJS_CONFIG_KEY } from '../constant';

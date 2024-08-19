@@ -81,10 +81,12 @@ export const registerPaths = (paths: Paths) => {
     if (!isCoreModule) {
       const matched = matchPath(request);
       if (matched) {
+        // biome-ignore lint/style/noArguments: <explanation>
         const modifiedArguments = [matched, ...[].slice.call(arguments, 1)]; // Passes all arguments. Even those that is not specified above.
         return originalResolveFilename.apply(this, modifiedArguments);
       }
     }
+    // biome-ignore lint/style/noArguments: <explanation>
     return originalResolveFilename.apply(this, arguments);
   };
 

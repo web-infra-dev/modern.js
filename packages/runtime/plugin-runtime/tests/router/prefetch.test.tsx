@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   createMemoryRouter,
-  LoaderFunctionArgs,
+  type LoaderFunctionArgs,
   RouterProvider,
 } from '@modern-js/runtime-utils/router';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';

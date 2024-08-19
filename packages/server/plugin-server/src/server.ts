@@ -1,7 +1,12 @@
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { MiddlewareContext, NextFunction } from '@modern-js/types';
 import { isProd, logger } from '@modern-js/utils';
-import { Hook, Middleware, loadMiddleware, loadServerMod } from './utils';
+import {
+  type Hook,
+  type Middleware,
+  loadMiddleware,
+  loadServerMod,
+} from './utils';
 
 export { loadMiddleware, loadServerMod };
 export type { Hook, Middleware };
@@ -79,14 +84,14 @@ export default (): ServerPlugin => ({
     const transformAPI = createTransformAPI(storage);
     const pwd = isProd() ? distDirectory : appDirectory;
 
-    const loadMod = () => {
-      const { middleware: unstableMiddleware } = loadMiddleware(pwd);
+    const loadMod = async () => {
+      const { middleware: unstableMiddleware } = await loadMiddleware(pwd);
       const {
         defaultExports,
         hooks,
         middleware,
         unstableMiddleware: unstableMiddlewares,
-      } = loadServerMod(pwd);
+      } = await loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
@@ -112,12 +117,12 @@ export default (): ServerPlugin => ({
     let factory: ReturnType<typeof compose>;
 
     return {
-      prepare() {
-        loadMod();
+      async prepare() {
+        await loadMod();
       },
-      reset() {
+      async reset() {
         storage.reset();
-        loadMod();
+        await loadMod();
         factory = getFactory(storage);
       },
       afterMatch(context, next) {

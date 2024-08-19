@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { ApiRouter } from '../router';
-import { Result, Ok, Err } from './result';
+import { type Result, Ok, Err } from './result';
 
 export type GenClientResult = Result<string>;
 
@@ -59,7 +59,7 @@ export const generateClient = async ({
     httpMethodDecider,
   });
 
-  const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
+  const handlerInfos = await apiRouter.getSingleModuleHandlers(resourcePath);
   if (!handlerInfos) {
     return Err(`generate client error: Cannot require module ${resourcePath}`);
   }

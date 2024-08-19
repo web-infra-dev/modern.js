@@ -7,7 +7,7 @@ import type {
   RuntimePlugin,
 } from '@modern-js/app-tools';
 import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
-import { Entrypoint } from '@modern-js/types';
+import type { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
 import {
   INDEX_FILE_NAME,
@@ -23,7 +23,7 @@ import * as template from './template';
 import * as serverTemplate from './template.server';
 
 function getSSRMode(
-  entry: string = MAIN_ENTRY_NAME,
+  entry: string,
   config: AppNormalizedConfig,
 ): 'string' | 'stream' | false {
   const { ssr, ssrByEntries } = config.server;

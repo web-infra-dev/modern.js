@@ -1,5 +1,5 @@
 import path from 'path';
-import { AppNormalizedConfig, IAppContext } from '../../types';
+import type { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function createCopyInfo(
   appContext: IAppContext,

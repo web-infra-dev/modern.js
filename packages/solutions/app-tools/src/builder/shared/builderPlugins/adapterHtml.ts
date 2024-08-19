@@ -10,8 +10,8 @@ import {
   removeTailSlash,
 } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
-import { Bundler } from '../../../types';
-import { HtmlUserConfig } from '../../../types/config/html';
+import type { Bundler } from '../../../types';
+import type { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
 

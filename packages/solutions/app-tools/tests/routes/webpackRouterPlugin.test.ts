@@ -1,10 +1,10 @@
 import path from 'path';
-import { Compilation, Compiler } from 'webpack';
+import { Compilation, type Compiler } from 'webpack';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { HtmlWebpackPlugin } from '@modern-js/uni-builder';
 import {
   RouterPlugin,
-  RouteAssets,
+  type RouteAssets,
 } from '../../src/builder/shared/bundlerPlugins';
 import { compiler } from './compiler';
 

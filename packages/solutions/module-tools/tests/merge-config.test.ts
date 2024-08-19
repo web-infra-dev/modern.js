@@ -1,5 +1,5 @@
 import { mergeConfig } from '../src/config/normalize';
-import { DTSOptions, PartialBaseBuildConfig } from '../src/types';
+import type { DTSOptions, PartialBaseBuildConfig } from '../src/types';
 
 const defaultConfig: PartialBaseBuildConfig[] = [
   {

@@ -1,10 +1,10 @@
 import {
-  Setup,
+  type Setup,
   createManager,
   createWaterfall,
   createWorkflow,
   createContext,
-  PluginOptions,
+  type PluginOptions,
 } from '../../../../src';
 
 export type CTX = Record<string, unknown>;

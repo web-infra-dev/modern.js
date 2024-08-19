@@ -1,4 +1,4 @@
-import { Plugin } from '../plugin';
+import type { Plugin } from '../plugin';
 
 // react component
 export { PreRender, NoSSR } from './react';

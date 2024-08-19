@@ -1,4 +1,5 @@
-import React, { useContext, useMemo } from 'react';
+import type React from 'react';
+import { useContext, useMemo } from 'react';
 import {
   createBrowserRouter,
   createHashRouter,
@@ -6,14 +7,14 @@ import {
   createRoutesFromElements,
   useMatches,
   useLocation,
-  RouteObject,
+  type RouteObject,
   useHref,
 } from '@modern-js/runtime-utils/router';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
 import { merge } from '@modern-js/runtime-utils/merge';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
-import { Plugin, RuntimeReactContext } from '../../core';
+import { type Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';

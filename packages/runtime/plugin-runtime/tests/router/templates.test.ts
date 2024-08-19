@@ -1,4 +1,4 @@
-import { RouteLegacy } from '@modern-js/types/cli';
+import type { RouteLegacy } from '@modern-js/types/cli';
 import {
   fileSystemRoutes,
   routesForServer,

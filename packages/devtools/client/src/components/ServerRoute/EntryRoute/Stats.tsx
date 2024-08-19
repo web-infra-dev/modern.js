@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import _ from 'lodash';
 import type { ServerRoute } from '@modern-js/types';
 import { Box, Flex, Strong, Text } from '@radix-ui/themes';

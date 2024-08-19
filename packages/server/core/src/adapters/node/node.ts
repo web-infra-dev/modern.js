@@ -1,6 +1,6 @@
-import { Server as NodeServer, ServerResponse } from 'node:http';
+import { type Server as NodeServer, ServerResponse } from 'node:http';
 import type { Server as NodeHttpsServer } from 'node:https';
-import { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import type { NodeRequest, NodeResponse, RequestHandler } from '../../types';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,

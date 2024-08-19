@@ -1,10 +1,10 @@
-import {
+import type {
   TypeOfFieldDescriptor,
   TypeOfFieldDescriptors,
   FieldDescriptor,
   FieldDescriptors,
 } from 'farrow-schema';
-import { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
+import type { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
 
 export type RequestBaseSchema = {
   params?: RouterSchemaDescriptor;

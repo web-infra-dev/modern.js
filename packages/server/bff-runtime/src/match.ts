@@ -1,25 +1,25 @@
 import {
-  FieldDescriptors,
-  SchemaCtorInput,
+  type FieldDescriptors,
+  type SchemaCtorInput,
   toSchemaCtor,
   Struct,
   NonStrict,
 } from 'farrow-schema';
-import { MaybeAsync } from 'farrow-pipeline';
+import type { MaybeAsync } from 'farrow-pipeline';
 import {
   createSchemaValidator,
-  Validator,
-  ValidationError,
+  type Validator,
+  type ValidationError,
 } from 'farrow-schema/validator';
 import type { TypeOfRouterRequestField } from './types';
 
-import {
+import type {
   RequestSchema,
   TypeOfRequestSchema,
   PureTypeOfRequestSchema,
 } from './request';
 import {
-  HandleResult,
+  type HandleResult,
   HandleSuccess,
   InputValidationError,
   OutputValidationError,

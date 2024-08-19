@@ -1,4 +1,4 @@
-import { PluginConfig } from '../plugin';
+import type { PluginConfig } from '../plugin';
 
 export type UserConfig<
   Extends extends {

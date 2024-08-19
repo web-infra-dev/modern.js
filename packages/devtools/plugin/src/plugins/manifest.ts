@@ -1,14 +1,14 @@
 import path from 'path';
 import {
   replacer,
-  RouteAsset,
+  type RouteAsset,
   type ExportedServerState,
   type ServerManifest,
 } from '@modern-js/devtools-kit/node';
 import { fs, logger, nanoid } from '@modern-js/utils';
 import createDeferred from 'p-defer';
 import { joinURL } from 'ufo';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 
 declare global {
   interface DevtoolsPluginVars {

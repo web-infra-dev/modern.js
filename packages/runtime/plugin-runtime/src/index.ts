@@ -22,4 +22,4 @@ export {
   useRuntimeContext,
 } from './core';
 
-export { StateConfig, RouterConfig };
+export type { StateConfig, RouterConfig };

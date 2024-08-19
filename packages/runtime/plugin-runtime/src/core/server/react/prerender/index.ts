@@ -6,7 +6,7 @@ import {
   exist,
   aggMatchesFromPropsList,
 } from './util';
-import { GeneralizedProps, SprProps } from './type';
+import type { GeneralizedProps, SprProps } from './type';
 
 const PROP_NAMES = {
   INTERVAL: 'interval',

@@ -1,5 +1,5 @@
 import { logger } from '@modern-js/utils';
-import { ICompilerOptions, ICompilerResult } from './type';
+import type { ICompilerOptions, ICompilerResult } from './type';
 
 export const sourceDirAndFileNamesValidMessage =
   'At least one of the sourceDir and filenames configurations must be configured';

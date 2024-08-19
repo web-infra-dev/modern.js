@@ -1,4 +1,4 @@
-import webpack, { Configuration } from 'webpack';
+import webpack, { type Configuration } from 'webpack';
 
 // compiler needs setImmediate
 // @ts-expect-error

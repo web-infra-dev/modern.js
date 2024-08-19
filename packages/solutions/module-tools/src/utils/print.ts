@@ -9,7 +9,7 @@ import {
   reportFile1LineText,
   reportFile2LineText,
 } from '../constants/log';
-import { Chunk } from '../types';
+import type { Chunk } from '../types';
 
 type Files = {
   name: string;

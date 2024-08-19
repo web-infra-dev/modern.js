@@ -16,10 +16,10 @@ import MagicString from 'magic-string';
 import {
   createMatchPath,
   loadConfig,
-  MatchPath,
+  type MatchPath,
 } from '@modern-js/utils/tsconfig-paths';
 import { fs, logger } from '@modern-js/utils';
-import { ICompiler } from '../../types';
+import type { ICompiler } from '../../types';
 import { assetExt } from '../../constants/file';
 import {
   normalizeSlashes,
@@ -39,9 +39,9 @@ type MatchModule = {
 }[];
 
 enum PathType {
-  Absolute,
-  Relative,
-  ModuleId,
+  Absolute = 0,
+  Relative = 1,
+  ModuleId = 2,
 }
 
 function getTypeOfPath(path: string, compiler: ICompiler) {

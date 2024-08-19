@@ -8,7 +8,7 @@ import type {
   NormalizedConfig,
 } from '@modern-js/app-tools';
 import { createDebugger, findExists, fs } from '@modern-js/utils';
-import { Entrypoint } from '@modern-js/types/cli';
+import type { Entrypoint } from '@modern-js/types/cli';
 
 import { DocumentContext } from '../DocumentContext';
 import {

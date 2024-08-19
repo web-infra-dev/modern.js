@@ -1,6 +1,6 @@
 import {
   ClientDefinition,
-  DevtoolsContext,
+  type DevtoolsContext,
 } from '@modern-js/devtools-kit/node';
 
 export interface DevtoolsPluginOptions {

@@ -1,5 +1,5 @@
 import {
-  ShouldRevalidateFunction,
+  type ShouldRevalidateFunction,
   useLoaderData,
 } from '@modern-js/runtime/router';
 

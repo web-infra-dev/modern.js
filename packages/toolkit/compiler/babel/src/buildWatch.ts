@@ -1,6 +1,11 @@
 import * as path from 'path';
 import * as Event from 'events';
-import { logger, watch, FSWatcher, WatchChangeType } from '@modern-js/utils';
+import {
+  logger,
+  watch,
+  type FSWatcher,
+  WatchChangeType,
+} from '@modern-js/utils';
 import { build } from './build';
 import { CompilerErrorResult } from './compilerErrorResult';
 import type {
@@ -35,6 +40,7 @@ export class BuildWatchEmitter extends Event.EventEmitter {
 
 export const runBuildWatch = async (
   option: IFinaleCompilerOptions,
+  // biome-ignore lint/style/useDefaultParameterLast: <explanation>
   babelConfig: BabelOptions = {},
   emitter: BuildWatchEmitter,
 ) => {

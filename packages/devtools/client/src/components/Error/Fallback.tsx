@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { FallbackProps } from 'react-error-boundary';
+import type React from 'react';
+import { useEffect } from 'react';
+import type { FallbackProps } from 'react-error-boundary';
 import { useRouteError } from '@modern-js/runtime/router';
 import { Box, Heading, Text, TextArea } from '@radix-ui/themes';
 

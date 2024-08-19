@@ -1,4 +1,4 @@
-import { program, Command } from '@modern-js/utils';
+import { program, type Command } from '@modern-js/utils';
 
 export function initCommandsMap() {
   if (!program.hasOwnProperty('commandsMap')) {

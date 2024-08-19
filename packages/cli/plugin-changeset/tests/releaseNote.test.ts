@@ -1,7 +1,7 @@
 import {
   getReleaseInfo,
   getReleaseNoteLine,
-  Commit,
+  type Commit,
   CommitType,
 } from '../src/commands';
 

@@ -1,4 +1,4 @@
-import { SourceMap, ISourcemapContext } from '../../types';
+import type { SourceMap, ISourcemapContext } from '../../types';
 import { mergeMaps } from '../../utils';
 
 export class SourcemapContext implements ISourcemapContext {

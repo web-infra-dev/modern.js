@@ -1,4 +1,4 @@
-import { generateClient, GenClientOptions } from '@modern-js/bff-core';
+import { generateClient, type GenClientOptions } from '@modern-js/bff-core';
 import type { HttpMethodDecider } from '@modern-js/types';
 import type { LoaderContext } from 'webpack';
 import { logger } from '@modern-js/utils';

@@ -1,4 +1,4 @@
-import { createPipeline, Middleware } from '../farrow-pipeline';
+import { createPipeline, type Middleware } from '../farrow-pipeline';
 
 const WATERFALL_SYMBOL = Symbol.for('MODERN_WATERFALL');
 

@@ -5,7 +5,7 @@ import './App.css';
 const App = () => (
   <div className="container">
     <main>
-      <Card title="App" content="hello world"></Card>
+      <Card title="App" content="hello world" />
       <Button>click</Button>
     </main>
   </div>

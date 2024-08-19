@@ -6,7 +6,7 @@ import {
   applyOptionsChain,
   logger,
 } from '@modern-js/utils';
-import { CompileOptions } from '@storybook/mdx2-csf';
+import type { CompileOptions } from '@storybook/mdx2-csf';
 import type {
   CoreConfig,
   DocsOptions,
@@ -34,7 +34,7 @@ import {
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
 import type { UniBuilderConfig, WebpackConfig } from '@modern-js/uni-builder';
-import { BuilderConfig, BuilderOptions } from './types';
+import type { BuilderConfig, BuilderOptions } from './types';
 import {
   toImportFn,
   virtualModule,

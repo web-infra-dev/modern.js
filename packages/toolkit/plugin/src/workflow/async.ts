@@ -1,6 +1,6 @@
 import {
-  MaybeAsync,
-  Middleware,
+  type MaybeAsync,
+  type Middleware,
   createAsyncPipeline,
 } from '../farrow-pipeline';
 

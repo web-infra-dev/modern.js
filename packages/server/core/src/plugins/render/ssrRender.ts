@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'http';
 import type { Reporter, ServerRoute, Logger, Metrics } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import {
+import type {
   OnError,
   OnTiming,
   Params,
@@ -9,7 +9,7 @@ import {
   RequestHandlerOptions,
 } from '../../types/requestHandler';
 import { parseHeaders, getPathname } from '../../utils';
-import { CacheConfig, ServerManifest, UserConfig } from '../../types';
+import type { CacheConfig, ServerManifest, UserConfig } from '../../types';
 import { X_MODERNJS_RENDER } from '../../constants';
 import { matchCacheControl, getCacheResult } from './ssrCache';
 

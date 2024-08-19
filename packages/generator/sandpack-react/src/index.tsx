@@ -4,9 +4,9 @@ import {
   SandpackFileExplorer,
   SandpackCodeEditor,
   OpenInCodeSandboxButton,
-  SandpackSetup,
-  SandpackFiles,
-  SandpackThemeProp,
+  type SandpackSetup,
+  type SandpackFiles,
+  type SandpackThemeProp,
 } from '@codesandbox/sandpack-react';
 import { ModernTemplates } from './templates';
 

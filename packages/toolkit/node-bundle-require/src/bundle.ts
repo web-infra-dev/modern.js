@@ -6,7 +6,13 @@ import {
   CONFIG_CACHE_DIR,
   createDebugger,
 } from '@modern-js/utils';
-import { build, context, Loader, Plugin, BuildOptions } from 'esbuild';
+import {
+  build,
+  context,
+  type Loader,
+  type Plugin,
+  type BuildOptions,
+} from 'esbuild';
 
 const debug = createDebugger('node-bundle');
 

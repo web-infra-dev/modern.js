@@ -1,4 +1,4 @@
-import { HttpMethod } from '../types';
+import type { HttpMethod } from '../types';
 
 export type ModuleInfo = {
   filename: string;

@@ -1,5 +1,5 @@
 import path from 'path';
-import { NavItem } from '@rspress/shared';
+import type { NavItem } from '@rspress/shared';
 import { defineConfig } from 'rspress/config';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 

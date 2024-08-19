@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { Theme as OriginalTheme, ThemeProps } from '@radix-ui/themes';
+import type React from 'react';
+import { useEffect } from 'react';
+import { Theme as OriginalTheme, type ThemeProps } from '@radix-ui/themes';
 import { useThemeAppearance } from '@/utils/theme';
 
 export const Theme: React.FC<

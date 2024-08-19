@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
-import {
+import type {
   DevtoolsConfig,
   DevtoolsContext,
   StoragePresetWithIdent,

@@ -12,7 +12,7 @@ import { printInstructions } from '../../utils/printInstructions';
 import { generateRoutes } from '../../utils/routes';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
-import { AppTools, webpack } from '../../types';
+import type { AppTools, webpack } from '../../types';
 import { initialNormalizedConfig } from '../../config';
 import { createBuilderGenerator } from '../../builder';
 import { checkIsBuildCommands } from './utils';
@@ -69,9 +69,9 @@ export default ({
 
         const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
           await Promise.all([
-            import('./getBundleEntry'),
-            import('./getServerRoutes'),
-            import('./getHtmlTemplate'),
+            import('./getBundleEntry.js'),
+            import('./getServerRoutes.js'),
+            import('./getHtmlTemplate.js'),
           ]);
 
         // get runtime entry points

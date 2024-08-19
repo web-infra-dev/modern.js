@@ -1,4 +1,4 @@
-import { GeneralizedProps, MetaKeyMap, MetaKeyMatch } from './type';
+import type { GeneralizedProps, MetaKeyMap, MetaKeyMatch } from './type';
 
 const REQUEST_META = ['header', 'query'];
 

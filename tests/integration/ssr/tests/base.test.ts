@@ -1,6 +1,6 @@
 import dns from 'node:dns';
 import path, { join } from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import { fs } from '@modern-js/utils';
 import axios from 'axios';
 import {

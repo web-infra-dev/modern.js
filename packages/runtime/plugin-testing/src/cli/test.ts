@@ -2,8 +2,8 @@ import path from 'path';
 import { compiler } from '@modern-js/babel-compiler';
 import type { PluginAPI } from '@modern-js/core';
 import { runTest } from '../base';
-import { Hooks } from '../base/hook';
-import { UserConfig } from '../base/config';
+import type { Hooks } from '../base/hook';
+import type { UserConfig } from '../base/config';
 
 const test = async (
   api: PluginAPI<{

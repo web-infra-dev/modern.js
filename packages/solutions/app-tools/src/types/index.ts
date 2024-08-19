@@ -5,7 +5,7 @@ import type {
   AppToolsLegacyUserConfig,
   AppToolsLegacyNormalizedConfig,
 } from './legacyConfig';
-import { Bundler } from './utils';
+import type { Bundler } from './utils';
 
 export * from './hooks';
 export * from './config';

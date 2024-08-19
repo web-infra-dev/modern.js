@@ -1,5 +1,6 @@
 import { Flex, Theme } from '@radix-ui/themes';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { useAsync, useEvent, useToggle } from 'react-use';
 import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
 import Visible from '../Visible';
@@ -9,7 +10,7 @@ import { DevtoolsCapsuleButton } from './Button';
 import { useStickyDraggable } from '@/utils/draggable';
 import { $client, wallAgent } from '@/entries/mount/state';
 import { pTimeout } from '@/utils/promise';
-import { ReactDevtoolsWallListener } from '@/utils/react-devtools';
+import type { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 import { useThemeAppearance } from '@/utils/theme';
 
 const parseDeepLink = (url = window.location) => {

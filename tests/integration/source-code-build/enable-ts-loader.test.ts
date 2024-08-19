@@ -1,6 +1,6 @@
 import path from 'path';
 import getPort from 'get-port';
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { type Browser } from 'puppeteer';
 import { fs } from '@modern-js/utils';
 import {
   launchApp,

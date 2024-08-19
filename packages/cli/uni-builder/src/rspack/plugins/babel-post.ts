@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { type RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import { getDefaultBabelOptions } from '@rsbuild/plugin-babel';
 
 /**

@@ -5,7 +5,7 @@ import {
   i18n,
   getModuleNewActionSchema,
   ModuleActionFunctions,
-  ActionFunction,
+  type ActionFunction,
   ModuleActionFunctionsDependencies,
   ModuleActionFunctionsDevDependencies,
   ModuleActionFunctionsPeerDependencies,

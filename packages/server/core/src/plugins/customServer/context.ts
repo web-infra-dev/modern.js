@@ -1,4 +1,4 @@
-import {
+import type {
   AfterMatchContext,
   AfterRenderContext,
   MiddlewareContext,
@@ -7,11 +7,11 @@ import {
   HookContext,
   ModernResponse,
 } from '@modern-js/types';
-import { Context, ServerEnv } from '../../types';
+import type { Context, ServerEnv } from '../../types';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { RouterAPI } from './routerApi';
 import { TemplateApi } from './template';
-import { ResArgs, createBaseHookContext } from './base';
+import { type ResArgs, createBaseHookContext } from './base';
 
 export function getAfterMatchCtx(
   entryName: string,

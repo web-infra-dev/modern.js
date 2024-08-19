@@ -1,5 +1,10 @@
 import path from 'path';
-import { fs, chokidar, FSWatcher, WatchOptions } from '@modern-js/utils';
+import {
+  fs,
+  chokidar,
+  type FSWatcher,
+  type WatchOptions,
+} from '@modern-js/utils';
 import { DependencyTree } from './dependencyTree';
 import { StatsCache } from './statsCache';
 

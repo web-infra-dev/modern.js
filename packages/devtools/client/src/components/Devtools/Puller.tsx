@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from '@modern-js/runtime/router';
 import { $$globals, useGlobals } from '@/entries/client/globals';
 

@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import {
   HiMiniClipboard,
   HiMiniClipboardDocumentList,
@@ -13,9 +13,9 @@ import {
   IconButton,
   Text,
   Tooltip,
-  FlexProps,
+  type FlexProps,
 } from '@radix-ui/themes';
-import {
+import type {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';
@@ -24,10 +24,10 @@ import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
 import {
   applyStorage,
   STORAGE_TYPES,
-  StorageStatus,
-  StorageType,
+  type StorageStatus,
+  type StorageType,
   unwindRecord,
-  UnwindStorageRecord,
+  type UnwindStorageRecord,
 } from '../shared';
 import styles from './page.module.scss';
 import { useGlobals } from '@/entries/client/globals';

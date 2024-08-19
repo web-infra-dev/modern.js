@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import {
-  HttpMethod,
+  type HttpMethod,
   httpMethods,
   isWithMetaHandler,
   isInputParamsDeciderHandler,
-  ResponseMeta,
+  type ResponseMeta,
   HttpMetadata,
   ResponseMetaType,
   ValidationError,

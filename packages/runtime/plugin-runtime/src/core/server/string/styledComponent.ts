@@ -1,5 +1,5 @@
 import { ServerStyleSheet } from 'styled-components';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import type { ChunkSet, Collector } from './types';
 
 export class StyledCollector implements Collector {

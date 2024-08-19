@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 
 export const useProxyFrom = <T extends object>(initializer: () => T) => {

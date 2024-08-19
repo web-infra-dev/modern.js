@@ -1,5 +1,9 @@
 import * as path from 'path';
-import { RsbuildPlugin, RspackChain, mergeRsbuildConfig } from '@rsbuild/core';
+import {
+  type RsbuildPlugin,
+  type RspackChain,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
 import { fs, isUseSSRBundle } from '@modern-js/utils';
 import {
   type HtmlWebpackPlugin,

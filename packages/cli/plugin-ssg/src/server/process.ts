@@ -1,9 +1,12 @@
-import { Server, request } from 'http';
-import { ServerRoute as ModernRoute, ServerPlugin } from '@modern-js/types';
+import { type Server, request } from 'http';
+import type {
+  ServerRoute as ModernRoute,
+  ServerPlugin,
+} from '@modern-js/types';
 import portfinder from 'portfinder';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
-  ProdServerOptions,
+  type ProdServerOptions,
   createProdServer,
   loadServerPlugins,
 } from '@modern-js/prod-server';
@@ -51,7 +54,7 @@ process.on('message', async (chunk: string) => {
       config: options as any,
       appContext,
       routes,
-      plugins: loadServerPlugins(
+      plugins: await loadServerPlugins(
         plugins,
         appContext.appDirectory || distDirectory,
       ),

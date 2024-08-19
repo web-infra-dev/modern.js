@@ -1,4 +1,4 @@
-import { ServerPlugin } from '../types';
+import type { ServerPlugin } from '../types';
 
 export const processedByPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-processed',

@@ -1,5 +1,5 @@
 import { type Chunk, ChunkExtractor } from '@loadable/server';
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import { attributesToString, checkIsNode } from '../utils';
 import type { Collector, ChunkSet } from './types';
 

@@ -1,11 +1,11 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
-import { NextFunction } from '@modern-js/types';
+import type { NextFunction } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import {
   AGGRED_DIR,
   type Middleware,
-  InternalRequest,
+  type InternalRequest,
 } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import { match } from 'path-to-regexp';

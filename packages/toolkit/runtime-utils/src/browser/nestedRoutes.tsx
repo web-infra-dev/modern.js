@@ -1,15 +1,16 @@
 /**
  * runtime utils for nested routes generating
  */
-import React, { Suspense } from 'react';
+import type React from 'react';
+import { Suspense } from 'react';
 import type { NestedRoute, Reporter } from '@modern-js/types';
 import {
   createRoutesFromElements,
-  LoaderFunction,
-  LoaderFunctionArgs,
+  type LoaderFunction,
+  type LoaderFunctionArgs,
   Outlet,
   Route,
-  RouteProps,
+  type RouteProps,
 } from 'react-router-dom';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { time } from '../time';

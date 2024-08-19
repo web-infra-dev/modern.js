@@ -5,9 +5,9 @@ import {
   isSingleEntry,
   SERVER_BUNDLE_DIRECTORY,
 } from '@modern-js/utils';
-import { ServerRoute as ModernRoute } from '@modern-js/types';
-import { ServerUserConfig } from '@modern-js/app-tools';
-import {
+import type { ServerRoute as ModernRoute } from '@modern-js/types';
+import type { ServerUserConfig } from '@modern-js/app-tools';
+import type {
   SsgRoute,
   SSGConfig,
   EntryPoint,

@@ -1,5 +1,5 @@
 import { createBuilderModuleScope } from '../../src/config/initialize/inits';
-import { AppNormalizedConfig } from '../../src/types';
+import type { AppNormalizedConfig } from '../../src/types';
 
 describe('test createBuilderModuleScope', () => {
   it('should return undefined when moduleScope = undefined', () => {

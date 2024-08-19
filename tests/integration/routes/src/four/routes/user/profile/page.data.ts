@@ -1,4 +1,4 @@
-import { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
+import type { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
 import { modernTestActionName } from '@/common/utils';
 
 export const loader: LoaderFunction = () => {

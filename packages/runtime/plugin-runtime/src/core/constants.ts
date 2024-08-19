@@ -1,7 +1,7 @@
 export enum RenderLevel {
-  CLIENT_RENDER,
-  SERVER_PREFETCH,
-  SERVER_RENDER,
+  CLIENT_RENDER = 0,
+  SERVER_PREFETCH = 1,
+  SERVER_RENDER = 2,
 }
 
 export const SSR_DATA_JSON_ID = '__MODERN_SSR_DATA__';

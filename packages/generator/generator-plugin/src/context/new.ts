@@ -1,6 +1,6 @@
 import {
-  ActionElement,
-  ActionFunction,
+  type ActionElement,
+  type ActionFunction,
   ActionType,
   ModuleActionFunctions,
   MWAActionElements,

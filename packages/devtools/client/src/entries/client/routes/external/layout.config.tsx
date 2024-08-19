@@ -1,4 +1,4 @@
-import { Location } from '@modern-js/runtime/router';
+import type { Location } from '@modern-js/runtime/router';
 import _ from 'lodash';
 import { $$globals } from '@/entries/client/globals';
 import { use } from '@/utils';

@@ -1,6 +1,6 @@
 import path from 'path';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
-import { IAppContext, InternalPlugins } from '@modern-js/core';
+import type { IAppContext, InternalPlugins } from '@modern-js/core';
 import { testingBffPlugin, setJestConfigForBFF } from '../../src/cli/bff';
 
 initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });

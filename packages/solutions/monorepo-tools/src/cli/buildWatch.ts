@@ -1,6 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
 import type { Command } from '@modern-js/utils';
-import { buildWatch, IBuildWatchCommandOption } from '../commands';
+import { buildWatch, type IBuildWatchCommandOption } from '../commands';
 
 export const buildWatchCli = (program: Command, api: PluginAPI) => {
   program

@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/codesmith-formily';
+import type { Schema } from '@modern-js/codesmith-formily';
 import { isFunction } from '@modern-js/utils/lodash';
 
 export type { Schema };

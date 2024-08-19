@@ -3,12 +3,12 @@ import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
-import React from 'react';
+import type React from 'react';
 import { wrapRuntimeContextProvider } from '../../react/wrapper';
-import { LoaderResult } from '../../loader/loaderManager';
-import { HandleRequestOptions } from '../requestHandler';
-import { SSRErrors, SSRTimings, Tracer } from '../tracer';
-import { SSRConfig } from '../shared';
+import type { LoaderResult } from '../../loader/loaderManager';
+import type { HandleRequestOptions } from '../requestHandler';
+import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
+import type { SSRConfig } from '../shared';
 
 export const prefetch = async (
   App: React.ReactElement,

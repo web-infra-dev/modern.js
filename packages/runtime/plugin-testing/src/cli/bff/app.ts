@@ -1,7 +1,7 @@
 import { AsyncLocalStorage } from 'async_hooks';
 import path from 'node:path';
 import { createProdServer, loadServerPlugins } from '@modern-js/prod-server';
-import { ServerPlugin } from '@modern-js/types';
+import type { ServerPlugin } from '@modern-js/types';
 
 const store = new AsyncLocalStorage();
 type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
@@ -17,7 +17,7 @@ const createApp = async (
 ) => {
   if (!server) {
     config.output.path = './';
-    const pluginInstances = loadServerPlugins(plugins, pwd);
+    const pluginInstances = await loadServerPlugins(plugins, pwd);
     server = await createProdServer({
       pwd,
       config,

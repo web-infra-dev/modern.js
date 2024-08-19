@@ -1,4 +1,4 @@
-import {
+import type {
   CookieAPI,
   HookContext,
   ModernRequest,
@@ -131,7 +131,7 @@ class BaseHookResponse implements ModernResponse {
    *
    * Don't use this attribute.
    * */
-  private_overrided: boolean = false;
+  private_overrided = false;
 
   #c: Context;
 

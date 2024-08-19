@@ -1,5 +1,5 @@
 import { useParameter } from '@storybook/preview-api';
-import { DecoratorFunction } from '@storybook/types';
+import type { DecoratorFunction } from '@storybook/types';
 import { WrapProviders } from './components/modern';
 import type { IConfig } from './type';
 

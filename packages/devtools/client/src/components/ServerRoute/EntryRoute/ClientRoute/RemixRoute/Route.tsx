@@ -1,5 +1,6 @@
-import React, { useContext, useRef } from 'react';
-import { RouteObject } from '@modern-js/runtime/router';
+import type React from 'react';
+import { useContext, useRef } from 'react';
+import type { RouteObject } from '@modern-js/runtime/router';
 import { Box, Flex, Link, Code } from '@radix-ui/themes';
 import _ from 'lodash';
 import { resolveURL } from 'ufo';

@@ -1,4 +1,4 @@
-import { type ConfigChainWithContext } from '@rsbuild/core';
+import type { ConfigChainWithContext } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
 import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';

@@ -1,8 +1,8 @@
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
-import { type CliHookCallbacks, type useConfigContext } from '@modern-js/core';
+import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import { type AsyncWorkflow, createAsyncWorkflow } from '@modern-js/plugin';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { Entrypoint } from '@modern-js/types';
+import type { Entrypoint } from '@modern-js/types';
 import { logger } from '../util';
 import { getRuntimeConfig, setRuntimeConfig } from './utils';
 import { generateCode } from './code';

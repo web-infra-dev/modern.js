@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Select, Tooltip, Text, Box } from '@radix-ui/themes';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
 import _ from 'lodash';

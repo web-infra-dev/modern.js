@@ -1,5 +1,5 @@
 import type { NestedRoute, PageRoute } from '@modern-js/types';
-import { AppConfig } from '../../common';
+import type { AppConfig } from '../../common';
 
 export {
   RuntimeReactContext,

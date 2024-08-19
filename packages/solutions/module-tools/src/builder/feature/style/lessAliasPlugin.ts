@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { ICompiler } from '../../../types';
+import type { ICompiler } from '../../../types';
 import { rebaseUrls } from './utils';
 
 interface Options {

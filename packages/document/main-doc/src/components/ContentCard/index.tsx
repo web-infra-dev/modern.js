@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import cl from 'classnames';
 import { withBase } from 'rspress/runtime';
 import styles from './index.module.scss';

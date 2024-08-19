@@ -1,7 +1,7 @@
 import path from 'path';
 import { Api } from '../src';
 import { Put } from '../src/operators/http';
-import { APIHandlerInfo, ApiRouter } from '../src/router';
+import { type APIHandlerInfo, ApiRouter } from '../src/router';
 import { HttpMethod } from '../src/types';
 import { getPathFromFilename } from '../src/router/utils';
 
@@ -90,14 +90,14 @@ describe('test api router', () => {
     expect(handlerInfo.routePath).toBe(mockRoute);
   });
 
-  test('getSingleModuleHandlers', () => {
+  test('getSingleModuleHandlers', async () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiFile = path.join(apiDir, 'normal/origin/index');
     const apiRouter = new ApiRouter({
       apiDir,
       prefix: '/',
     });
-    const handlerInfos = apiRouter.getSingleModuleHandlers(apiFile);
+    const handlerInfos = await apiRouter.getSingleModuleHandlers(apiFile);
     const methods = handlerInfos?.map(handlerInfo => handlerInfo.httpMethod);
     expect(methods?.length).toBe(3);
     expect(methods).toEqual(['GET', 'DELETE', 'PUT']);
@@ -113,13 +113,13 @@ describe('test api router', () => {
     expect(filenames.length).toBe(7);
   });
 
-  test('getAllApiHandlers', () => {
+  test('getAllApiHandlers', async () => {
     const apiDir = path.join(__dirname, 'fixtures', 'function');
     const apiRouter = new ApiRouter({
       apiDir,
       prefix: '/',
     });
-    const handlerInfos = apiRouter.getApiHandlers();
+    const handlerInfos = await apiRouter.getApiHandlers();
     const routePaths = handlerInfos.map(handlerInfo => handlerInfo.routePath);
     expect(routePaths).toMatchSnapshot();
     expect(handlerInfos.length).toBe(15);

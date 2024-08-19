@@ -1,4 +1,4 @@
-import { BuilderOptions } from '../shared';
+import type { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
 import { builderPluginAdapterModern } from './adapterModern';
 

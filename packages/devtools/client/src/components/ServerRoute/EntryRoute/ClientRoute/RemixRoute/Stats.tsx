@@ -1,11 +1,12 @@
 import {
-  RouteMatch,
-  RouteObject,
+  type RouteMatch,
+  type RouteObject,
   matchRoutes as matchRemixRoutes,
 } from '@modern-js/runtime/router';
 import type { ServerRoute } from '@modern-js/types';
 import { Flex } from '@radix-ui/themes';
-import React, { useContext, useMemo } from 'react';
+import type React from 'react';
+import { useContext, useMemo } from 'react';
 import { cleanDoubleSlashes } from 'ufo';
 import { MatchUrlContext } from '../../../Context';
 import { MatchRemixRouteContext } from './Context';

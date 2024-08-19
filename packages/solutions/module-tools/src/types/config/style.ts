@@ -4,7 +4,7 @@ import type {
   Plugin,
 } from 'postcss';
 import type { Options as sassOptions } from '../../../compiled/sass';
-import Less from '../../../compiled/less';
+import type Less from '../../../compiled/less';
 
 type LocalsConventionFunction = (
   originalClassName: string,

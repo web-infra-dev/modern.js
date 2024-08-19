@@ -1,5 +1,5 @@
 import { errorLog } from '../log/error';
-import { Package } from '../package';
+import type { Package } from '../package';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import {
   getProjectsByPackageConfig,
@@ -47,8 +47,8 @@ export interface IProjectNode {
 export type IMonorepoSubProject = IProjectNode;
 
 enum FindProjectsMode {
-  Rough,
-  Precise,
+  Rough = 0,
+  Precise = 1,
 }
 
 const getProjectsByProjectsConfig = (

@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/codesmith-formily';
+import type { Schema } from '@modern-js/codesmith-formily';
 import { getBaseSchema } from './base';
 import { Solution } from './common';
 import { ModuleDefaultConfig, getModuleSchema } from './module';

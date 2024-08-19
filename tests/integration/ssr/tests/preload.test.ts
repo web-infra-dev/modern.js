@@ -1,4 +1,4 @@
-import http, { OutgoingHttpHeaders } from 'http';
+import http, { type OutgoingHttpHeaders } from 'http';
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';

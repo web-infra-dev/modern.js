@@ -1,6 +1,6 @@
-import { AliasOption } from '@modern-js/utils';
-import { JestConfig } from '@modern-js/types';
-import { TestConfig } from '../types';
+import type { AliasOption } from '@modern-js/utils';
+import type { JestConfig } from '@modern-js/types';
+import type { TestConfig } from '../types';
 import { applyPatches } from './patches';
 import { TestConfigOperator } from './testConfigOperator';
 

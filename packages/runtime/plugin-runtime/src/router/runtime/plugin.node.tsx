@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import type React from 'react';
+import { useContext } from 'react';
 import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
 import {
   createStaticRouter,

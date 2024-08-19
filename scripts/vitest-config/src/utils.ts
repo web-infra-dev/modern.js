@@ -3,7 +3,7 @@ import path from 'path';
 import {
   applyMatcherReplacement,
   createDefaultPathMatchers,
-  PathMatcher,
+  type PathMatcher,
 } from './pathSerializer';
 import { isPathString, normalizeToPosixPath } from './path';
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
 import type {
   Reporter,
@@ -12,7 +12,7 @@ import {
   type Router,
 } from '@modern-js/runtime-utils/remix-router';
 import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
-import { RouterConfig } from './types';
+import type { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
 

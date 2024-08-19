@@ -7,9 +7,9 @@ import type {
   ImportKind,
 } from 'esbuild';
 import type { AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
-import { FSWatcher } from '@modern-js/utils';
-import { BaseBuildConfig } from './config';
-import { ModuleTools, PluginAPI } from '.';
+import type { FSWatcher } from '@modern-js/utils';
+import type { BaseBuildConfig } from './config';
+import type { ModuleTools, PluginAPI } from '.';
 
 export interface SourceMap {
   mappings: string;

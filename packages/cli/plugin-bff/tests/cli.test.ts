@@ -2,8 +2,8 @@ import path from 'path';
 import {
   manager,
   AppContext,
-  CliPlugin,
-  ToRunners,
+  type CliPlugin,
+  type ToRunners,
   createAsyncWaterfall,
   ResolvedConfigContext,
 } from '@modern-js/core';

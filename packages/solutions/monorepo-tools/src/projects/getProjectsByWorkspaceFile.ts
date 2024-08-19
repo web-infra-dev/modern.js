@@ -2,7 +2,7 @@ import * as path from 'path';
 import { FileSystem, JsonFile } from '@rushstack/node-core-library';
 import { fs, yaml } from '@modern-js/utils';
 import { getWorkspaceFile } from '../parse-config/monorepo';
-import { IPnpmWorkSpace } from '../type';
+import type { IPnpmWorkSpace } from '../type';
 import { WORKSPACE_FILE } from '../constants';
 import {
   getProjectsByPackageConfig,

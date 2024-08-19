@@ -2,9 +2,9 @@
  * modified from https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline
  * license at https://github.com/farrow-js/farrow/blob/master/LICENSE
  */
-import { createContext, Context } from './context';
+import { createContext, type Context } from './context';
 
-import { Next, createCounter } from './counter';
+import { type Next, createCounter } from './counter';
 
 export type { Next };
 

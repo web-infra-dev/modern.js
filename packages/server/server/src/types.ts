@@ -1,7 +1,7 @@
 import type { UniBuilderInstance } from '@modern-js/uni-builder';
 import type { DevServerOptions, DevServerHttpsOptions } from '@modern-js/types';
 
-import {
+import type {
   NodeServer,
   ServerBase,
   ServerBaseOptions,

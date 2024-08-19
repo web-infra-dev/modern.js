@@ -1,6 +1,6 @@
 import path from 'path';
-import { PartialMessage } from 'esbuild';
-import { ICompiler, Source } from '../../../types';
+import type { PartialMessage } from 'esbuild';
+import type { ICompiler, Source } from '../../../types';
 import { postcssTransformer } from './postcssTransformer';
 import { lessRender } from './lessRender';
 import { sassRender } from './sassRender';

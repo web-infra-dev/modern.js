@@ -1,5 +1,5 @@
 import type { IncomingMessage } from 'http';
-import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
@@ -16,9 +16,10 @@ import {
 } from '../../utils';
 import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
-import { Render } from '../../types';
+import type { Render } from '../../types';
 import { dataHandler } from './dataHandler';
-import { SSRRenderOptions, ssrRender } from './ssrRender';
+import { type SSRRenderOptions, ssrRender } from './ssrRender';
+import { compatibleRequire } from '@modern-js/utils';
 
 export type OnFallback = (
   reason: FallbackReason,
@@ -255,9 +256,11 @@ async function renderHandler(
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
     if (routes) {
-      const { matchRoutes } = await import(
-        '@modern-js/runtime-utils/remix-router'
+      const { matchRoutes } = await compatibleRequire(
+        require.resolve('@modern-js/runtime-utils/remix-router'),
+        false,
       );
+
       const url = new URL(request.url);
       const matchedRoutes = matchRoutes(
         routes,

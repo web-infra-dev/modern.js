@@ -21,5 +21,5 @@ const config: StorybookConfig = {
 export default config;
 
 function getAbs(packageName: string) {
-  return path.dirname(require.resolve(packageName + '/package.json'));
+  return path.dirname(require.resolve(`${packageName}/package.json`));
 }

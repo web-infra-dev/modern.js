@@ -11,7 +11,7 @@ import {
   isPlainObject,
   CONFIG_FILE_EXTENSIONS,
 } from '@modern-js/utils';
-import { LoadedConfig, UserConfig, UserConfigExport } from '../types';
+import type { LoadedConfig, UserConfig, UserConfigExport } from '../types';
 import { mergeConfig } from '../utils';
 import {
   loadConfig,

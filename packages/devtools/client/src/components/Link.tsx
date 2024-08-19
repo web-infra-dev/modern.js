@@ -1,6 +1,6 @@
 import {
   Link as RouterLink,
-  LinkProps as RouterLinkProps,
+  type LinkProps as RouterLinkProps,
 } from '@modern-js/runtime/router';
 import { Link as BaseLink } from '@radix-ui/themes';
 import type { LinkProps as BaseLinkProps } from '@radix-ui/themes/dist/esm/components/link';

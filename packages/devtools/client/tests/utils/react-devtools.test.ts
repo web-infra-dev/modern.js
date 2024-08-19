@@ -1,8 +1,8 @@
 import { createBirpc } from 'birpc';
 import {
   MessagePortChannel,
-  PostMessageListener,
-  PostMessageTarget,
+  type PostMessageListener,
+  type PostMessageTarget,
 } from '@modern-js/devtools-kit/runtime';
 import { WallAgent } from '../../src/utils/react-devtools';
 

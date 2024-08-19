@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 import { createFsFromVolume, Volume } from 'memfs';
-import { APILoaderOptions } from '../src/loader';
+import type { APILoaderOptions } from '../src/loader';
 
 // globby needs setImmediate
 // @ts-expect-error

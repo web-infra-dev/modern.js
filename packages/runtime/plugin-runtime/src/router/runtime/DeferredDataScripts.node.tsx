@@ -1,6 +1,6 @@
-import {
+import type {
   StaticHandlerContext,
-  type TrackedPromise,
+  TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
 import { Suspense, useEffect, useRef, useMemo } from 'react';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';

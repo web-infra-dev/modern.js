@@ -6,9 +6,9 @@ import type {
   PluginAPI,
   AppTools,
 } from '@modern-js/app-tools';
-import { ServerRoute as ModernRoute } from '@modern-js/types';
+import type { ServerRoute as ModernRoute } from '@modern-js/types';
 import { openRouteSSR } from '../libs/util';
-import { SsgRoute } from '../types';
+import type { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (

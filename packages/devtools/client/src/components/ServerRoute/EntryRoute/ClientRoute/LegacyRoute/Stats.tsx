@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Text } from '@radix-ui/themes';
 
 export const LegacyRouteStats: React.FC = () => {

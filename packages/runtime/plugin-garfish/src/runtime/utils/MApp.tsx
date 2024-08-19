@@ -1,9 +1,9 @@
 import React from 'react';
 import Garfish from 'garfish';
-import { Manifest, ModulesInfo } from '../useModuleApps';
+import type { Manifest, ModulesInfo } from '../useModuleApps';
 import { logger, generateSubAppContainerKey } from '../../util';
-import { Loadable, MicroProps } from '../loadable';
-import { Provider } from './apps';
+import { Loadable, type MicroProps } from '../loadable';
+import type { Provider } from './apps';
 
 declare global {
   interface Window {

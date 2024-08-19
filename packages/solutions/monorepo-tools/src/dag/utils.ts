@@ -1,4 +1,4 @@
-import { IProjectNode } from '../projects/getProjects';
+import type { IProjectNode } from '../projects/getProjects';
 import { errorLog } from '../log/error';
 import { EdgeManager } from './edgeManager';
 

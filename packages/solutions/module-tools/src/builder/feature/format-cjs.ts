@@ -1,5 +1,5 @@
 import { transform } from 'sucrase';
-import { ICompiler } from '../../types';
+import type { ICompiler } from '../../types';
 
 const name = 'format-cjs';
 const apply = (compiler: ICompiler) => {

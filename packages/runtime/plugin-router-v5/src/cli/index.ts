@@ -5,7 +5,7 @@ import {
 } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import './types';
-import { ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 
 export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',

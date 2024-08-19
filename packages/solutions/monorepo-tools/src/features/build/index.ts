@@ -2,7 +2,7 @@ import os from 'os';
 import { execa, signale } from '@modern-js/utils';
 import type { IProjectNode } from '../../projects/getProjects';
 import type { ICommandConfig } from '../../type';
-import { DagOperator } from '../../dag/operator';
+import type { DagOperator } from '../../dag/operator';
 import {
   checkProjectChangeByGit,
   checkProjectChangeByContent,
@@ -12,7 +12,7 @@ import { MultitasksLogger } from '../../log/multiTasksLog';
 
 const createTask = (
   config: IBuildConfig,
-  taskCmds = defaultBuildCmds,
+  taskCmds: string[],
   taskLogger: MultitasksLogger,
 ) => {
   const {

@@ -1,7 +1,7 @@
-import { Logger } from '@modern-js/types';
+import type { Logger } from '@modern-js/types';
 import type { ServerPlugin } from '../types';
 import {
-  InjectRenderHandlerOptions,
+  type InjectRenderHandlerOptions,
   injectRenderHandlerPlugin,
 } from './render';
 import {

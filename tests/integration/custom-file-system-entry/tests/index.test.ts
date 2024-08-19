@@ -1,5 +1,5 @@
 import path from 'path';
-import puppeteer, { Browser } from 'puppeteer';
+import puppeteer, { type Browser } from 'puppeteer';
 
 import type { Page } from 'puppeteer';
 import {

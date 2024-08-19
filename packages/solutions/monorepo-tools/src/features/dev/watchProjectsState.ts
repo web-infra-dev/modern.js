@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { globby } from '@modern-js/utils';
-import { IProjectNode } from '../../projects/getProjects';
-import { IBuildWatchConfig } from '.';
+import type { IProjectNode } from '../../projects/getProjects';
+import type { IBuildWatchConfig } from '.';
 
 export class WatchedProjectsState {
   private readonly _config: IBuildWatchConfig;

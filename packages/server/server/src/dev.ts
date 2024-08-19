@@ -1,9 +1,9 @@
-import { ServerPlugin, ServerBaseOptions } from '@modern-js/server-core';
+import type { ServerPlugin, ServerBaseOptions } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
-import { RequestHandler } from '@modern-js/types';
-import { UniBuilderInstance } from '@modern-js/uni-builder';
-import { ModernDevServerOptions } from './types';
+import type { RequestHandler } from '@modern-js/types';
+import type { UniBuilderInstance } from '@modern-js/uni-builder';
+import type { ModernDevServerOptions } from './types';
 import {
   startWatcher,
   onRepack,

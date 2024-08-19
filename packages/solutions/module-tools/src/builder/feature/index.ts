@@ -1,4 +1,4 @@
-import { HookList, Context } from '../../types';
+import type { HookList, Context } from '../../types';
 import { getProjectTsconfig } from '../../utils/dts';
 import { formatCjs } from './format-cjs';
 import { css } from './style';

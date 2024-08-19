@@ -1,6 +1,6 @@
-import { AsyncSetup, PluginOptions } from '@modern-js/plugin';
-import { BaseHooks } from './hooks';
-import { BasePluginAPI } from './pluginAPI';
+import type { AsyncSetup, PluginOptions } from '@modern-js/plugin';
+import type { BaseHooks } from './hooks';
+import type { BasePluginAPI } from './pluginAPI';
 
 export type { InternalPlugins } from '@modern-js/types';
 

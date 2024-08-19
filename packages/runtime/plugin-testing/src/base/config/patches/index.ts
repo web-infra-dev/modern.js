@@ -1,4 +1,4 @@
-import { TestConfigOperator } from '../testConfigOperator';
+import type { TestConfigOperator } from '../testConfigOperator';
 import { patchTransformer } from './transformer';
 import { patchAssetsModule } from './assetsModule';
 

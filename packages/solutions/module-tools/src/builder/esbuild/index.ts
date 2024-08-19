@@ -1,20 +1,20 @@
 import path from 'path';
 import {
-  BuildResult,
-  BuildOptions,
-  BuildContext,
+  type BuildResult,
+  type BuildOptions,
+  type BuildContext,
   context,
   build,
-  OnLoadArgs,
-  ImportKind,
+  type OnLoadArgs,
+  type ImportKind,
   formatMessages,
-  Format,
-  BuildFailure,
+  type Format,
+  type BuildFailure,
 } from 'esbuild';
 import * as tapable from 'tapable';
-import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
+import { type FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
 import { withLogTitle, getDefaultOutExtension } from '../../utils';
-import {
+import type {
   BaseBuildConfig,
   BuilderHooks,
   Chunk,

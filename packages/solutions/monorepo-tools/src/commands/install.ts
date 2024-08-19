@@ -9,7 +9,7 @@ export interface IInstallCommandOption {
 }
 
 export const install = async (
-  projectNames: string[] = [],
+  projectNames: string[],
   option: IInstallCommandOption,
   api: PluginAPI,
 ) => {

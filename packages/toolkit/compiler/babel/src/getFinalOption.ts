@@ -1,6 +1,6 @@
-import { glob, GlobOptions } from '@modern-js/utils';
+import { glob, type GlobOptions } from '@modern-js/utils';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
-import {
+import type {
   Extensions,
   ExtensionsFunc,
   ICompilerOptions,

@@ -1,5 +1,5 @@
 import { proxy } from 'valtio';
-import { StorageStatus } from './shared';
+import type { StorageStatus } from './shared';
 
 export const $storage = proxy<StorageStatus>({
   cookie: {
