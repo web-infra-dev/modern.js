@@ -23,7 +23,7 @@ import * as template from './template';
 import * as serverTemplate from './template.server';
 
 function getSSRMode(
-  entry: string = MAIN_ENTRY_NAME,
+  entry: string,
   config: AppNormalizedConfig,
 ): 'string' | 'stream' | false {
   const { ssr, ssrByEntries } = config.server;

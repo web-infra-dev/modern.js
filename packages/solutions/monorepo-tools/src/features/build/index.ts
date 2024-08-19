@@ -12,7 +12,7 @@ import { MultitasksLogger } from '../../log/multiTasksLog';
 
 const createTask = (
   config: IBuildConfig,
-  taskCmds = defaultBuildCmds,
+  taskCmds: string[],
   taskLogger: MultitasksLogger,
 ) => {
   const {

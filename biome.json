@@ -35,8 +35,7 @@
         "noNonNullAssertion": "off",
         "noUnusedTemplateLiteral": "off",
         "noUselessElse": "off",
-        "useNumberNamespace": "off",
-        "useDefaultParameterLast": "off"
+        "useNumberNamespace": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

@@ -40,6 +40,7 @@ export class BuildWatchEmitter extends Event.EventEmitter {
 
 export const runBuildWatch = async (
   option: IFinaleCompilerOptions,
+  // biome-ignore lint/style/useDefaultParameterLast: <explanation>
   babelConfig: BabelOptions = {},
   emitter: BuildWatchEmitter,
 ) => {

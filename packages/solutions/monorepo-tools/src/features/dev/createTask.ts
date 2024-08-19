@@ -39,7 +39,7 @@ const getFinalTaskCmds = (
 
 export const createDependenciesTask = (
   config: IBuildWatchConfig,
-  taskCmds: BuildWatchCmdsType = defaultBuildWatchCmds,
+  taskCmds: BuildWatchCmdsType,
   taskLogger: MultitasksLogger,
 ) => {
   const { packageManager } = config;
@@ -80,6 +80,7 @@ export const createDependenciesTask = (
 
 export const createDevTask = (
   config: IBuildWatchConfig,
+  // biome-ignore lint/style/useDefaultParameterLast: <explanation>
   taskCmds: BuildWatchCmdsType = defaultBuildWatchCmds,
   taskLogger: MultitasksLogger,
 ) => {

@@ -48,7 +48,7 @@ const createLoader = (
     data: undefined,
     error: undefined,
   },
-  loaderFn: () => Promise<any>,
+  loaderFn: () => Promise<any> = () => Promise.resolve(),
   skip = false,
 ) => {
   let promise: Promise<any> | null;

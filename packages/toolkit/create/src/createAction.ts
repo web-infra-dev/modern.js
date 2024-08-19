@@ -7,7 +7,7 @@ import { createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  module: boolean;
+  module?: boolean;
   debug?: boolean;
   config?: string;
   packages?: string;
@@ -29,8 +29,8 @@ const REPO_GENERATOR = '@modern-js/repo-generator';
 
 function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
-  options: Options,
-  logger: Logger,
+  options: Options = {},
+  logger?: Logger,
 ) {
   const {
     mwa,
@@ -51,8 +51,8 @@ function getDefaultConfig(
       initialConfig = JSON.parse(config);
     }
   } catch (e) {
-    logger.error('config parameter format is incorrect');
-    logger.debug('parse initial config error: ', e);
+    logger!.error('config parameter format is incorrect');
+    logger!.debug('parse initial config error: ', e);
     process.exit(1);
   }
 
@@ -95,8 +95,8 @@ function getDefaultConfig(
       initialConfig.packagesInfo = packagesInfo;
     }
   } catch (e) {
-    logger.error('packages parameter format is incorrect');
-    logger.debug('parse packages error: ', e);
+    logger!.error('packages parameter format is incorrect');
+    logger!.debug('parse packages error: ', e);
     process.exit(1);
   }
 
