@@ -50,8 +50,7 @@
         "noEmptyInterface": "off",
         "noExportsInTest": "off",
         "noThenProperty": "off",
-        "noAsyncPromiseExecutor": "off",
-        "noSuspiciousSemicolonInJsx": "off"
+        "noAsyncPromiseExecutor": "off"
       },
       "complexity": {
         "noForEach": "off",
