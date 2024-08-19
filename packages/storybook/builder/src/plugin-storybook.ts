@@ -176,11 +176,11 @@ async function prepareStorybookModules(
   const storybookPaths: Record<string, string> = {
     ...(componentsPath
       ? {
-          [`@storybook/components`]: componentsPath,
+          '@storybook/components': componentsPath,
         }
       : {}),
-    ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
-    ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
+    ...(routerPath ? { '@storybook/router': routerPath } : {}),
+    ...(themingPath ? { '@storybook/theming': themingPath } : {}),
   };
 
   const [mappingsAlias, write] = await virtualModule(tempDir, cwd, mappings);

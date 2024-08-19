@@ -2,7 +2,7 @@ import { useParams } from '@modern-js/runtime/router';
 
 const Page = () => {
   const params = useParams<{
-    ['*']: string;
+    '*': string;
   }>();
 
   return (

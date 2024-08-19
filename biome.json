@@ -51,8 +51,7 @@
         "useFlatMap": "off",
         "noBannedTypes": "off",
         "noUselessSwitchCase": "off",
-        "useOptionalChain": "off",
-        "useLiteralKeys": "off"
+        "useOptionalChain": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",
