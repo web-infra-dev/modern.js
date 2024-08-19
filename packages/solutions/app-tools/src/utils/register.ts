@@ -25,7 +25,7 @@ const registerEsbuild = async ({
 };
 
 export const registerCompiler = async (
-  appDir: string = process.cwd(),
+  appDir: string,
   distDir: string,
   alias?: ConfigChain<Alias>,
 ) => {

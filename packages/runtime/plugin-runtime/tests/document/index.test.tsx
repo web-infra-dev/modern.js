@@ -21,8 +21,8 @@ describe('plugin-document', () => {
   it('should render correct document', () => {
     const document = (
       <Html>
-        <Head></Head>
-        <Body></Body>
+        <Head />
+        <Body />
       </Html>
     );
     const docHtml = ReactDomServer.renderToString(document);
@@ -34,7 +34,7 @@ describe('plugin-document', () => {
   it('should throw error when document not include some child', () => {
     const document = (
       <Html>
-        <Head></Head>
+        <Head />
         <div>abc</div>
       </Html>
     );
@@ -50,9 +50,9 @@ describe('plugin-document', () => {
     };
     const document = (
       <Html>
-        <Head></Head>
-        <Body></Body>
-        <Script content={fn}></Script>
+        <Head />
+        <Body />
+        <Script content={fn} />
       </Html>
     );
     const docHtml = ReactDomServer.renderToString(document);
@@ -79,11 +79,11 @@ describe('plugin-document', () => {
         }}
       >
         <Html>
-          <Head></Head>
+          <Head />
           <Body>
             <H1D />
-            <Root rootId="abc"></Root>
-            <Scripts></Scripts>
+            <Root rootId="abc" />
+            <Scripts />
           </Body>
         </Html>
       </DocumentContext.Provider>
@@ -103,10 +103,10 @@ describe('plugin-document', () => {
         }}
       >
         <Html>
-          <Head></Head>
+          <Head />
           <Body>
-            <Root rootId="abc"></Root>
-            <Scripts></Scripts>
+            <Root rootId="abc" />
+            <Scripts />
           </Body>
         </Html>
       </DocumentContext.Provider>

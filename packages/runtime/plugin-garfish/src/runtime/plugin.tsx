@@ -15,7 +15,7 @@ import type {
 import { generateMApp } from './utils/MApp';
 import { type AppMap, generateApps } from './utils/apps';
 
-async function initOptions(manifest: Manifest = {}, options: Options) {
+async function initOptions(manifest: Manifest = {}, options: Options = {}) {
   let apps: ModulesInfo = options.apps || [];
 
   // use manifest modules

@@ -177,7 +177,7 @@ declare module '@modern-js/types' {
 export type NodeRequest = IncomingMessage;
 export type NodeResponse = ServerResponse;
 
-export { NodeServer };
+export type { NodeServer };
 
 export type AppContext = ReturnType<typeof createContext<ISAppContext>>;
 export type ConfigContext = ReturnType<typeof createContext<ServerConfig>>;

@@ -48,7 +48,7 @@ const App = (props: {
           component={() => {
             return <div>throw Error</div>;
           }}
-        ></Route>
+        />
         <Route path="*">
           <div>404</div>
         </Route>

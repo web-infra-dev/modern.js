@@ -11,7 +11,7 @@ class Person {
 class Student extends Person {
   school: string;
 
-  id: number = 1;
+  id = 1;
 
   constructor(name: string, age: number, school: string) {
     super(name, age);

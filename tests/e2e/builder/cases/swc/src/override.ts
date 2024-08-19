@@ -1,5 +1,5 @@
 class Foo {
-  bar: number = 1;
+  bar = 1;
 }
 
 const foo = new Foo();

@@ -26,9 +26,9 @@ export interface IUpdateJSONFileParams {
 }
 
 export class PluginFileAPI {
-  private projectPath: string = '';
+  private projectPath = '';
 
-  private templatePath: string = '';
+  private templatePath = '';
 
   private readonly handlebarAPI: PluginHandlebarsAPI =
     new PluginHandlebarsAPI();

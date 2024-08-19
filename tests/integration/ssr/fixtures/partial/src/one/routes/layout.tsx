@@ -11,7 +11,7 @@ export default () => {
       <Link to="b" className="b-btn">
         jupmp to B
       </Link>
-      <Outlet></Outlet>
+      <Outlet />
     </div>
   );
 };

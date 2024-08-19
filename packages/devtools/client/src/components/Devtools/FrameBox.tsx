@@ -20,7 +20,7 @@ export const FrameBox: React.FC<FrameBoxProps> = ({
   const display = loaded ? 'none' : undefined;
   return (
     <Box className={styles.container} {...props}>
-      <iframe className={styles.frame} src={src}></iframe>
+      <iframe className={styles.frame} src={src} />
       <HiMiniXMark className={styles.closeButton} onClick={onClose} />
       <div className={styles.backdrop} style={{ display }}>
         <Loading />

@@ -35,16 +35,7 @@
         "noNonNullAssertion": "off",
         "noUnusedTemplateLiteral": "off",
         "noUselessElse": "off",
-        "useNumberNamespace": "off",
-        "useDefaultParameterLast": "off",
-        "noInferrableTypes": "off",
-        "useEnumInitializers": "off",
-        "noParameterAssign": "off",
-        "useExportType": "off",
-        "useTemplate": "off",
-        "useSelfClosingElements": "off",
-        "noArguments": "off",
-        "useShorthandFunctionType": "off"
+        "useNumberNamespace": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

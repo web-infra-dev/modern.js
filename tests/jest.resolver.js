@@ -11,7 +11,7 @@ module.exports = function (request, options) {
     request.endsWith('.js') &&
     (request.startsWith('.') || request.startsWith('..'))
   ) {
-    // eslint-disable-next-line no-param-reassign
+    // biome-ignore lint/style/noParameterAssign: <explanation>
     request = request.replace('.js', '');
   }
   return resolver(options.basedir, request);

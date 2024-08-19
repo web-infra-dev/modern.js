@@ -104,7 +104,7 @@ export default function Home() {
   return (
     <div>
       <Helmet>
-        <html className="dark"></html>
+        <html className="dark" />
         <script>window.MODERN_THEME = 'dark';</script>
         <style type="text/css">{`
           .rspress-doc-appearance {

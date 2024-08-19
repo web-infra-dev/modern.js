@@ -8,9 +8,9 @@ export interface ITaskRunnerConfig {
 export type TaskFunType<T = undefined> = (stopTask?: () => void) => Promise<T>;
 
 export class TaskRunner<S> extends EventEmitter {
-  static DefaultConcurrency: number = 10;
+  static DefaultConcurrency = 10;
 
-  static TASK_FINISH: string = 'task-finish';
+  static TASK_FINISH = 'task-finish';
 
   _tasks: TaskFunType<S>[];
 
