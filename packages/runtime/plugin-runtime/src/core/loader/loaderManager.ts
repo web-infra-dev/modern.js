@@ -26,10 +26,10 @@ const createGetId = () => {
 };
 
 export enum LoaderStatus {
-  idle,
-  loading,
-  fulfilled,
-  rejected,
+  idle = 0,
+  loading = 1,
+  fulfilled = 2,
+  rejected = 3,
 }
 
 export type LoaderResult = {

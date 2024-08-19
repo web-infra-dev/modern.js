@@ -47,8 +47,8 @@ export interface IProjectNode {
 export type IMonorepoSubProject = IProjectNode;
 
 enum FindProjectsMode {
-  Rough,
-  Precise,
+  Rough = 0,
+  Precise = 1,
 }
 
 const getProjectsByProjectsConfig = (

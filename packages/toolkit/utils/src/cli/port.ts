@@ -10,7 +10,7 @@ import { logger } from './logger';
  * @returns Available port number.
  */
 export const getPort = async (
-  port: string | number,
+  expectPort: string | number,
   {
     tryLimits = 20,
     strictPort = false,
@@ -21,6 +21,7 @@ export const getPort = async (
     slient?: boolean;
   } = {},
 ): Promise<number> => {
+  let port = expectPort;
   if (typeof port === 'string') {
     port = parseInt(port, 10);
   }

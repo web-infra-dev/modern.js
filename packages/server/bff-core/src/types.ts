@@ -1,12 +1,12 @@
 import type { Merge } from 'type-fest';
 
 export enum OperatorType {
-  Trigger,
-  Middleware,
+  Trigger = 0,
+  Middleware = 1,
 }
 
 export enum TriggerType {
-  Http,
+  Http = 0,
 }
 
 export enum HttpMetadata {
@@ -19,9 +19,9 @@ export enum HttpMetadata {
 }
 
 export enum ResponseMetaType {
-  StatusCode,
-  Redirect,
-  Headers,
+  StatusCode = 0,
+  Redirect = 1,
+  Headers = 2,
 }
 
 export enum HttpMethod {

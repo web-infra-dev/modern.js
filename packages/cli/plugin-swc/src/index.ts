@@ -49,14 +49,15 @@ export function applyBuilderSwcConfig(
   isSSR: boolean,
 ): PluginSwcOptions {
   // common configuration
+  let swcConfig = swc;
   if (isSSR) {
-    swc = applyConfig(swc, config => {
+    swcConfig = applyConfig(swc, config => {
       config.extensions ??= {};
       config.extensions.loadableComponents = true;
     });
   }
 
-  return applyConfig(swc, config => {
+  return applyConfig(swcConfig, config => {
     if (esbuild) {
       if (config.jsMinify !== false && esbuild.minimize !== false) {
         logger.warn(

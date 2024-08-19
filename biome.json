@@ -37,8 +37,7 @@
         "noUselessElse": "off",
         "useNumberNamespace": "off",
         "useDefaultParameterLast": "off",
-        "noInferrableTypes": "off",
-        "useEnumInitializers": "off"
+        "noInferrableTypes": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

@@ -164,7 +164,7 @@ const normalizeNestedRoutes = (
       `import React from 'react';`,
       `import ${lastComponent} from '${route._component}'`,
     ];
-
+    // biome-ignore lint/style/noParameterAssign: <explanation>
     while ((route = route.parent!)) {
       const layoutComponent = route.component;
       const layoutComponentAbbr = layoutNameAbbr(route._component);

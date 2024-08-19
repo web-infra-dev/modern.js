@@ -39,9 +39,9 @@ type MatchModule = {
 }[];
 
 enum PathType {
-  Absolute,
-  Relative,
-  ModuleId,
+  Absolute = 0,
+  Relative = 1,
+  ModuleId = 2,
 }
 
 function getTypeOfPath(path: string, compiler: ICompiler) {
