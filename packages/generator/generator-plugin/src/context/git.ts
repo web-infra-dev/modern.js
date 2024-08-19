@@ -2,7 +2,7 @@ import { GitAPI } from '@modern-js/codesmith-api-git';
 import type { GeneratorCore } from '@modern-js/codesmith';
 
 export class PluginGitAPI {
-  gitMessage: string = '';
+  gitMessage = '';
 
   private gitApi?: GitAPI;
 

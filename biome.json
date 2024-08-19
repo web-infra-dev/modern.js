@@ -36,8 +36,7 @@
         "noUnusedTemplateLiteral": "off",
         "noUselessElse": "off",
         "useNumberNamespace": "off",
-        "useDefaultParameterLast": "off",
-        "noInferrableTypes": "off"
+        "useDefaultParameterLast": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",

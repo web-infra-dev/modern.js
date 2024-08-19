@@ -8,13 +8,13 @@ export interface ClientFunctions {
 }
 
 export class NameDefinition {
-  formalName: string = 'Modern.js';
+  formalName = 'Modern.js';
 
-  casualName: string = 'modern.js';
+  casualName = 'modern.js';
 
-  prefixName: string = '_modern_js';
+  prefixName = '_modern_js';
 
-  shortName: string = 'modern';
+  shortName = 'modern';
 }
 
 export interface ShortenAlias {
@@ -23,7 +23,7 @@ export interface ShortenAlias {
 }
 
 export class PackageDefinition {
-  appTools: string = '@modern-js/app-tools';
+  appTools = '@modern-js/app-tools';
 }
 
 export class AssetDefinition {
@@ -31,16 +31,16 @@ export class AssetDefinition {
 }
 
 export class AnnouncementDefinition {
-  src: string =
+  src =
     'https://raw.githubusercontent.com/web-infra-dev/modern.js/main/ANNOUNCEMENT.md';
 
-  fallback: string = 'https://modernjs.dev/';
+  fallback = 'https://modernjs.dev/';
 }
 
 export class DoctorDefinition {
-  home: string = 'https://rsdoctor.dev';
+  home = 'https://rsdoctor.dev';
 
-  quickStart: string = 'https://rsdoctor.dev/guide/start/quick-start';
+  quickStart = 'https://rsdoctor.dev/guide/start/quick-start';
 }
 
 export class ClientDefinition {

@@ -10,7 +10,7 @@ describe('parseCommonConfig', () => {
 
   test('merge config', async () => {
     class A {
-      a: number = 1;
+      a = 1;
 
       apply() {
         return this.a;

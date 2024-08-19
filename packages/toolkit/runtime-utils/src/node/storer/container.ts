@@ -13,13 +13,13 @@ interface MemoryContainerOptions {
  * It has a Time to Live, by default as 1 hour.
  */
 export class MemoryContainer<K, V = unknown> implements Container<K, V> {
-  private static BYTE: number = 1;
+  private static BYTE = 1;
 
   private static KB: number = 1024 * this.BYTE;
 
   private static MB: number = 1024 * this.KB;
 
-  private static ms: number = 1;
+  private static ms = 1;
 
   private static second: number = this.ms * 1000;
 
