@@ -85,7 +85,6 @@ export const runPatterns = async (
         globOptions.dot = true;
       }
       break;
-    case 'glob':
     default: {
       glob = path.isAbsolute(from)
         ? from

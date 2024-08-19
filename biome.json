@@ -49,13 +49,7 @@
         "noForEach": "off",
         "useArrowFunction": "off",
         "useFlatMap": "off",
-        "noBannedTypes": "off",
-        "noUselessSwitchCase": "off",
-        "useOptionalChain": "off",
-        "useLiteralKeys": "off",
-        "noUselessConstructor": "off",
-        "useRegexLiterals": "off",
-        "noStaticOnlyClass": "off"
+        "noBannedTypes": "off"
       },
       "a11y": {
         "noSvgWithoutTitle": "off",

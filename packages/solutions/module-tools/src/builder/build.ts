@@ -47,6 +47,7 @@ export const runBuildTask = async (
       await task(buildConfig, api, { watch, dts });
     });
   } else {
+    // biome-ignore lint/complexity/useOptionalChain: <explanation>
     if (dts && dts.only) {
       return;
     }
