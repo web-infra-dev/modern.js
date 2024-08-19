@@ -103,8 +103,8 @@ export default function Footer() {
     },
   ];
 
-  const Links = links.map((linkItem, i) => (
-    <div className={styles.linkWrapper} key={i}>
+  const Links = links.map(linkItem => (
+    <div className={styles.linkWrapper} key={linkItem.title}>
       <div className={styles.linkTitle}>{linkItem.title}</div>
       <ul className={styles.items}>
         {linkItem.items.map((item, key) => (

@@ -44,8 +44,7 @@
         "noAssignInExpressions": "off",
         "noPrototypeBuiltins": "off",
         "noRedeclare": "off",
-        "noConstEnum": "off",
-        "noArrayIndexKey": "off"
+        "noConstEnum": "off"
       },
       "complexity": {
         "noForEach": "off",
