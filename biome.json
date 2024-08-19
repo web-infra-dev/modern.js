@@ -39,8 +39,7 @@
         "useDefaultParameterLast": "off",
         "noInferrableTypes": "off",
         "useEnumInitializers": "off",
-        "noParameterAssign": "off",
-        "useTemplate": "off"
+        "noParameterAssign": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",
