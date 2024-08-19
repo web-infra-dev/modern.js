@@ -46,8 +46,7 @@
         "noRedeclare": "off",
         "noConstEnum": "off",
         "noArrayIndexKey": "off",
-        "noFocusedTests": "off",
-        "noEmptyInterface": "off"
+        "noFocusedTests": "off"
       },
       "complexity": {
         "noForEach": "off",
