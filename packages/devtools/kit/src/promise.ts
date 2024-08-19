@@ -105,6 +105,7 @@ export const applySettled = <T = unknown>(promise: PromiseLike<T>) => {
     });
   }
 
+  // biome-ignore lint/suspicious/noAsyncPromiseExecutor: <explanation>
   return new Promise(async (resolve, reject) => {
     await Promise.resolve();
     if ('rejected' in settled) {

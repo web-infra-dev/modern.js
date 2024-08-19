@@ -49,8 +49,7 @@
         "noFocusedTests": "off",
         "noEmptyInterface": "off",
         "noExportsInTest": "off",
-        "noThenProperty": "off",
-        "noAsyncPromiseExecutor": "off"
+        "noThenProperty": "off"
       },
       "complexity": {
         "noForEach": "off",
