@@ -41,8 +41,7 @@
         "useEnumInitializers": "off",
         "noParameterAssign": "off",
         "useTemplate": "off",
-        "useSelfClosingElements": "off",
-        "noArguments": "off"
+        "useSelfClosingElements": "off"
       },
       "suspicious": {
         "noExplicitAny": "off",
