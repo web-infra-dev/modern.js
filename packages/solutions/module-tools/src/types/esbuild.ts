@@ -135,7 +135,7 @@ export type JsChunk = {
 
 export type Chunk = AssetChunk | JsChunk;
 
-export const enum ChunkType {
+export enum ChunkType {
   chunk = 'chunk',
   asset = 'asset',
 }

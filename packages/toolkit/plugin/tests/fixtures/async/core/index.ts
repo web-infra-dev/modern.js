@@ -79,6 +79,7 @@ const config = createWaterfall<{
   babelConfig: BabelConfig;
 }>();
 
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 export interface ExternalProgress {}
 
 // main process

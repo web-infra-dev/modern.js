@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div>
       Error page
-      <div>never shown</div>;
+      <div>never shown</div>
     </div>
   );
 }

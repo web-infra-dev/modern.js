@@ -1,3 +1,3 @@
-export const enum Animals {
+export enum Animals {
   Fish = 0,
 }

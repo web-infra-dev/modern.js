@@ -44,6 +44,7 @@ export class PromiseStub<T> implements PromiseLike<T> {
 
   protected constructor() {}
 
+  // biome-ignore lint/suspicious/noThenProperty: <explanation>
   then<TResult1 = T, TResult2 = never>(
     onfulfilled?:
       | ((value: T) => TResult1 | PromiseLike<TResult1>)
@@ -105,6 +106,7 @@ export const applySettled = <T = unknown>(promise: PromiseLike<T>) => {
     });
   }
 
+  // biome-ignore lint/suspicious/noAsyncPromiseExecutor: <explanation>
   return new Promise(async (resolve, reject) => {
     await Promise.resolve();
     if ('rejected' in settled) {

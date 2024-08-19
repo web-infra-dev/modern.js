@@ -54,6 +54,7 @@ describe('module-resolver', () => {
         ],
       };
 
+      // biome-ignore lint/suspicious/noFocusedTests: <explanation>
       it.only('should resolve the file path', () => {
         testWithImport(
           'app',

@@ -43,15 +43,7 @@
         "noImplicitAnyLet": "off",
         "noAssignInExpressions": "off",
         "noPrototypeBuiltins": "off",
-        "noRedeclare": "off",
-        "noConstEnum": "off",
-        "noArrayIndexKey": "off",
-        "noFocusedTests": "off",
-        "noEmptyInterface": "off",
-        "noExportsInTest": "off",
-        "noThenProperty": "off",
-        "noAsyncPromiseExecutor": "off",
-        "noSuspiciousSemicolonInJsx": "off"
+        "noRedeclare": "off"
       },
       "complexity": {
         "noForEach": "off",

@@ -4,7 +4,7 @@ export default () => {
   return (
     <div>
       B Layout
-      <Outlet />;
+      <Outlet />
     </div>
   );
 };
