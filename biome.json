@@ -48,8 +48,7 @@
         "noArrayIndexKey": "off",
         "noFocusedTests": "off",
         "noEmptyInterface": "off",
-        "noExportsInTest": "off",
-        "noThenProperty": "off"
+        "noExportsInTest": "off"
       },
       "complexity": {
         "noForEach": "off",

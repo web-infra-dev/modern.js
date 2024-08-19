@@ -44,6 +44,7 @@ export class PromiseStub<T> implements PromiseLike<T> {
 
   protected constructor() {}
 
+  // biome-ignore lint/suspicious/noThenProperty: <explanation>
   then<TResult1 = T, TResult2 = never>(
     onfulfilled?:
       | ((value: T) => TResult1 | PromiseLike<TResult1>)
