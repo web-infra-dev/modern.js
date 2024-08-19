@@ -1,7 +1,7 @@
 import path from 'path';
-import { Entrypoint } from '@modern-js/types';
-import { PluginAPI } from '@modern-js/core';
-import { AppTools } from '@modern-js/app-tools';
+import type { Entrypoint } from '@modern-js/types';
+import type { PluginAPI } from '@modern-js/core';
+import type { AppTools } from '@modern-js/app-tools';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { modifyEntrypoints } from './entry';
 import { isPageComponentFile } from './code/utils';

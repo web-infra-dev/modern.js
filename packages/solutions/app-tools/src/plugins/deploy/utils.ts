@@ -1,7 +1,7 @@
 import path from 'path';
 import { ROUTE_SPEC_FILE, fs as fse, isDepExists } from '@modern-js/utils';
-import { ServerRoute } from '@modern-js/types';
-import { IAppContext } from '@modern-js/core';
+import type { ServerRoute } from '@modern-js/types';
+import type { IAppContext } from '@modern-js/core';
 
 export type ServerAppContext = {
   sharedDirectory: string;

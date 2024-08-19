@@ -1,5 +1,5 @@
-import { Box, BoxProps } from '@radix-ui/themes';
-import React from 'react';
+import { Box, type BoxProps } from '@radix-ui/themes';
+import type React from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
 import { Loading } from '../Loading';

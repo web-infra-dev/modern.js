@@ -9,7 +9,7 @@ import {
   SERVER_BUNDLE_DIRECTORY,
   fs,
 } from '@modern-js/utils';
-import {
+import type {
   Middleware,
   ServerEnv,
   ServerManifest,

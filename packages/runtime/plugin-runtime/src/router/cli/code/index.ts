@@ -9,7 +9,7 @@ import {
   filterRoutesForServer,
   filterRoutesLoader,
 } from '@modern-js/utils';
-import { IAppContext, PluginAPI } from '@modern-js/core';
+import type { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
   Entrypoint,
   Route,
@@ -18,7 +18,7 @@ import type {
   SSRMode,
   NestedRouteForCli,
 } from '@modern-js/types';
-import { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
+import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';

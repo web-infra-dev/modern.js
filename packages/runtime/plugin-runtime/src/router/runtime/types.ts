@@ -3,7 +3,7 @@ import type {
   RouteObject,
   Params,
 } from '@modern-js/runtime-utils/router';
-import { PageRoute, NestedRoute } from '@modern-js/types';
+import type { PageRoute, NestedRoute } from '@modern-js/types';
 import type { RequestContext } from '@modern-js/runtime-utils/node';
 
 declare global {

@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import type React from 'react';
+import { useContext } from 'react';
 import { omit } from '@modern-js/utils/lodash';
 import { DocumentContext } from './DocumentContext';
 import { DOCUMENT_SSR_PLACEHOLDER } from './constants';

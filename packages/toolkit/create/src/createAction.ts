@@ -1,5 +1,5 @@
 import path from 'path';
-import { CodeSmith, Logger } from '@modern-js/codesmith';
+import { CodeSmith, type Logger } from '@modern-js/codesmith';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';

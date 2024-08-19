@@ -1,15 +1,16 @@
-import React, { useContext } from 'react';
+import type React from 'react';
+import { useContext } from 'react';
 import {
   createBrowserHistory,
   createHashHistory,
-  History,
-  BrowserHistoryBuildOptions,
-  HashHistoryBuildOptions,
+  type History,
+  type BrowserHistoryBuildOptions,
+  type HashHistoryBuildOptions,
 } from 'history';
 import {
   Router,
   StaticRouter,
-  RouteProps,
+  type RouteProps,
   useRouteMatch,
   useLocation,
   useHistory,

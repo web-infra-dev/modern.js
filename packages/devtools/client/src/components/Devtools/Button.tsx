@@ -1,6 +1,6 @@
-import React from 'react';
+import type React from 'react';
 import { useAsyncFn } from 'react-use';
-import { Promisable } from 'type-fest';
+import type { Promisable } from 'type-fest';
 import styles from './Button.module.scss';
 
 export interface DevtoolsCapsuleButtonProps extends React.PropsWithChildren {

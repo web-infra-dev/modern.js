@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { SsgRoute } from '../types';
+import type { SsgRoute } from '../types';
 
 export function writeHtmlFile(
   htmlAry: string[],

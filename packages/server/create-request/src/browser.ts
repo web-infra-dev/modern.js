@@ -1,4 +1,4 @@
-import { compile, pathToRegexp, Key } from 'path-to-regexp';
+import { compile, pathToRegexp, type Key } from 'path-to-regexp';
 import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {

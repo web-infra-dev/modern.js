@@ -1,5 +1,5 @@
 import { chokidar } from '@modern-js/utils';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 import { getConfigFilenames, loadConfigFiles } from '../utils/config';
 import { updateContext } from '../options';
 

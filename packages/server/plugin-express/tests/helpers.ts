@@ -1,6 +1,6 @@
 import path from 'path';
 import {
-  ServerPlugin,
+  type ServerPlugin,
   PluginManager,
   createContext,
 } from '@modern-js/server-core';

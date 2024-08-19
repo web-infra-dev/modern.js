@@ -1,4 +1,4 @@
-import { Container } from '@modern-js/types';
+import type { Container } from '@modern-js/types';
 import { MemoryContainer } from './container';
 import { Storage } from './storage';
 

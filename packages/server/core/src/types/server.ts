@@ -8,7 +8,7 @@ import type {
   NestedRoute,
   Monitors,
 } from '@modern-js/types';
-import {
+import type {
   RequestHandler as BundleRequestHandler,
   OnError,
   OnTiming,

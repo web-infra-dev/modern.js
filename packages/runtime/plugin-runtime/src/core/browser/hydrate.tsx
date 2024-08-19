@@ -1,8 +1,8 @@
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import { loadableReady } from '@loadable/component';
-import React from 'react';
-import { Root } from 'react-dom/client';
-import { RuntimeContext } from '../context';
+import type React from 'react';
+import type { Root } from 'react-dom/client';
+import type { RuntimeContext } from '../context';
 import { RenderLevel } from '../constants';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
 import { WithCallback } from './withCallback';

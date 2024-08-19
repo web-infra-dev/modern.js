@@ -1,5 +1,5 @@
-import { RsbuildPlugin } from '@modern-js/uni-builder';
-import { BuilderOptions } from '../shared';
+import type { RsbuildPlugin } from '@modern-js/uni-builder';
+import type { BuilderOptions } from '../shared';
 import { createPublicPattern } from './createCopyPattern';
 
 /**

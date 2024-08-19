@@ -1,6 +1,6 @@
-import { ExternalTabView, Tab } from '@modern-js/devtools-kit/runtime';
+import type { ExternalTabView, Tab } from '@modern-js/devtools-kit/runtime';
 import { Route, Routes } from '@modern-js/runtime/router';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { useSnapshot } from 'valtio';
 import { useGlobals } from '@/entries/client/globals';
 

@@ -6,7 +6,7 @@ import {
   runBuildWatch,
   BuildWatchEvent,
 } from '../src/buildWatch';
-import { ICompilerResult } from '../src/type';
+import type { ICompilerResult } from '../src/type';
 
 const projectDir = path.join(__dirname, './fixtures/buildWatch');
 const srcDir = path.join(projectDir, 'src');

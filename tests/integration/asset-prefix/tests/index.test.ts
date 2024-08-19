@@ -1,6 +1,6 @@
 import path from 'path';
 import { readFileSync } from 'fs';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
   launchApp,
   killApp,

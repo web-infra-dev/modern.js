@@ -1,14 +1,14 @@
 import {
   findManifest,
   parseManifest,
-  ServerState,
+  type ServerState,
   type AppContext,
   type DoctorManifestOverview,
 } from '@modern-js/devtools-kit/node';
 import _ from '@modern-js/utils/lodash';
 import type { JsonValue } from 'type-fest';
 import { proxy } from 'valtio';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 import { requireModule } from '../utils/module';
 
 declare global {

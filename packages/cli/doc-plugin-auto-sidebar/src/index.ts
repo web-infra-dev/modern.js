@@ -2,7 +2,7 @@ import path, { dirname } from 'path';
 import { sync } from '@modern-js/utils/globby';
 import { readJSON, readFile, writeFile } from '@modern-js/utils/fs-extra';
 import { loadFront } from 'yaml-front-matter';
-import { type RspressPlugin } from '@rspress/shared';
+import type { RspressPlugin } from '@rspress/shared';
 
 const DEFAULT_COLLAPSED = true;
 

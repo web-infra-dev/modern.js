@@ -1,7 +1,7 @@
 import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
-import { DistPathConfig } from '@rsbuild/core';
+import type { DistPathConfig } from '@rsbuild/core';
 import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 import packageMeta from './package.json';
 

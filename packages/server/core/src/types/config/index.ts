@@ -1,11 +1,11 @@
-import { BffNormalizedConfig, BffUserConfig } from './bff';
-import { DevNormalizedConfig, DevUserConfig } from './dev';
-import { HtmlNormalizedConfig, HtmlUserConfig } from './html';
-import { OutputNormalizedConfig, OutputUserConfig } from './output';
-import { SecurityNormalizedConfig, SecurityUserConfig } from './security';
-import { ServerNormalizedConfig, ServerUserConfig } from './server';
-import { SourceNormalizedConfig, SourceUserConfig } from './source';
-import { ToolsNormalizedConfig, ToolsUserConfig } from './tools';
+import type { BffNormalizedConfig, BffUserConfig } from './bff';
+import type { DevNormalizedConfig, DevUserConfig } from './dev';
+import type { HtmlNormalizedConfig, HtmlUserConfig } from './html';
+import type { OutputNormalizedConfig, OutputUserConfig } from './output';
+import type { SecurityNormalizedConfig, SecurityUserConfig } from './security';
+import type { ServerNormalizedConfig, ServerUserConfig } from './server';
+import type { SourceNormalizedConfig, SourceUserConfig } from './source';
+import type { ToolsNormalizedConfig, ToolsUserConfig } from './tools';
 
 export * from './bff';
 export * from './html';

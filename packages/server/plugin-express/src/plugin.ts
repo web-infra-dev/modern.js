@@ -1,9 +1,9 @@
 import * as path from 'path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import express, { RequestHandler, Express } from 'express';
+import express, { type RequestHandler, type Express } from 'express';
 import type { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
-import { APIHandlerInfo } from '@modern-js/bff-core';
+import type { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire, logger } from '@modern-js/utils';
 import finalhandler from 'finalhandler';
 import type {

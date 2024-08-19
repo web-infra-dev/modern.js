@@ -8,7 +8,7 @@ import {
   readTsConfigByFile,
   getModernConfigFile,
 } from '@modern-js/generator-utils';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {

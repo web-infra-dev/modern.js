@@ -1,4 +1,5 @@
-import React, { PropsWithChildren } from 'react';
+import type React from 'react';
+import type { PropsWithChildren } from 'react';
 import { Box, Flex, Heading } from '@radix-ui/themes';
 import { HiExclamationCircle } from 'react-icons/hi2';
 import styles from './FeatureDisabled.module.scss';

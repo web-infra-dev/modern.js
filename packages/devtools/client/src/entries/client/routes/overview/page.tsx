@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Kbd, Link, Text, Theme } from '@radix-ui/themes';
-import React from 'react';
+import type React from 'react';
 import {
   HiLink,
   HiOutlineClock,

@@ -1,6 +1,6 @@
-import { BirpcReturn } from 'birpc';
+import type { BirpcReturn } from 'birpc';
 import { Hookable } from 'hookable';
-import { Wall, AnyFn } from 'react-devtools-inline';
+import type { Wall, AnyFn } from 'react-devtools-inline';
 
 export interface ReactDevtoolsWallEvent {
   event: string;

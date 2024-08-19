@@ -1,5 +1,5 @@
-import { Hookable } from 'hookable';
-import { Tab } from './node';
+import type { Hookable } from 'hookable';
+import type { Tab } from './node';
 
 declare global {
   interface Window {

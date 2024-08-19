@@ -1,9 +1,10 @@
-import { FileSystemRoutes } from '@modern-js/devtools-kit/runtime';
+import type { FileSystemRoutes } from '@modern-js/devtools-kit/runtime';
 import type { RouteLegacy, ServerRoute } from '@modern-js/types';
 import _ from 'lodash';
-import React, { Suspense } from 'react';
+import type React from 'react';
+import { Suspense } from 'react';
 import { proxy, useSnapshot } from 'valtio';
-import { Promisable } from 'type-fest';
+import type { Promisable } from 'type-fest';
 import { LegacyRouteStats } from './LegacyRoute/Stats';
 import { RemixRouteStats } from './RemixRoute/Stats';
 import { useGlobals } from '@/entries/client/globals';

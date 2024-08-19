@@ -4,7 +4,7 @@ import { initDAG } from '../dag';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { getProjects } from '../projects/getProjects';
 import { deploy as runDeployTask } from '../features/deploy';
-import { MonorepoTools } from '../type';
+import type { MonorepoTools } from '../type';
 
 export interface IDeployCommandOption {
   deployPath?: string;

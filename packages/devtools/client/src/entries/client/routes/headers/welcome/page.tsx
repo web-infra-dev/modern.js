@@ -1,6 +1,6 @@
 import { useNavigate } from '@modern-js/runtime/router';
 import { Box, Button, Heading, Text, Link } from '@radix-ui/themes';
-import React from 'react';
+import type React from 'react';
 
 const Page: React.FC = () => {
   const navigate = useNavigate();

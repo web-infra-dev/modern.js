@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, redirect } from '@modern-js/runtime/router';
+import { type LoaderFunctionArgs, redirect } from '@modern-js/runtime/router';
 
 export default ({ params }: LoaderFunctionArgs) => {
   if (!params.toolkit || !params.type) {

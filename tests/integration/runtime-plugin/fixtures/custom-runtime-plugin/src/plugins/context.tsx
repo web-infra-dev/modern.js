@@ -1,4 +1,4 @@
-import { Plugin, RuntimeReactContext } from '@modern-js/runtime';
+import { type Plugin, RuntimeReactContext } from '@modern-js/runtime';
 import { createContext, useContext } from 'react';
 
 interface ContextValue {

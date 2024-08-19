@@ -1,6 +1,6 @@
 import path from 'path';
-import { IncomingMessage, ServerResponse } from 'http';
-import { ApiRouter, APIHandlerInfo } from '@modern-js/bff-core';
+import type { IncomingMessage, ServerResponse } from 'http';
+import { ApiRouter, type APIHandlerInfo } from '@modern-js/bff-core';
 import { bff_info_key } from './constant';
 import mockAPI from './mockAPI';
 import { createApp, closeServer } from './app';

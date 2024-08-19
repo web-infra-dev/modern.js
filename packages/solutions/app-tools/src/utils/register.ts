@@ -1,6 +1,6 @@
 import path from 'node:path';
 import {
-  Alias,
+  type Alias,
   fs,
   getAliasConfig,
   readTsConfigByFile,

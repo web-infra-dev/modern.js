@@ -1,4 +1,7 @@
-import { AfterRenderHook, AfterMatchHook } from '@modern-js/runtime/server';
+import type {
+  AfterRenderHook,
+  AfterMatchHook,
+} from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (c, next) => {
   (c as any).payload = 'modern_payload';

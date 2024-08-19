@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'http';
 import { Readable } from 'stream';
 import httpMocks from 'node-mocks-http';
 

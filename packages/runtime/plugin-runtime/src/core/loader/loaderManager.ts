@@ -1,5 +1,5 @@
 import invariant from 'invariant';
-import { LoaderOptions } from './useLoader';
+import type { LoaderOptions } from './useLoader';
 
 /**
  * Calc id from string or object

@@ -1,4 +1,4 @@
-import { AfterRenderHook } from '@modern-js/runtime/server';
+import type { AfterRenderHook } from '@modern-js/runtime/server';
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   ctx.template.appendHead('<meta name="text-append" content="hello modern">');

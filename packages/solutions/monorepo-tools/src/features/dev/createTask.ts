@@ -3,7 +3,7 @@ import type { IProjectNode } from '../../projects/getProjects';
 import { errorLog } from '../../log/error';
 import * as timeLog from '../../log/time';
 import type { MultitasksLogger } from '../../log/multiTasksLog';
-import { defaultBuildWatchCmds, BuildWatchCmdsType } from './cmds';
+import { defaultBuildWatchCmds, type BuildWatchCmdsType } from './cmds';
 import type { IBuildWatchConfig } from '.';
 
 const getFinalTaskCmds = (

@@ -1,10 +1,11 @@
 import '@/styles/theme.scss';
-import React, { FC, useEffect } from 'react';
+import type React from 'react';
+import { type FC, useEffect } from 'react';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
 import { Box, Flex, Tooltip } from '@radix-ui/themes';
 import { HiOutlineMoon, HiOutlineSun, HiMiniGlobeAlt } from 'react-icons/hi2';
-import { Tab } from '@modern-js/devtools-kit/runtime';
+import type { Tab } from '@modern-js/devtools-kit/runtime';
 import { useSnapshot } from 'valtio';
 import styles from './layout.module.scss';
 import { useGlobals } from '@/entries/client/globals';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { runtime, Plugin } from '../../src/core/plugin';
+import { runtime, type Plugin } from '../../src/core/plugin';
 import { getInitialContext } from '../../src/core/context/runtime';
 import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
 

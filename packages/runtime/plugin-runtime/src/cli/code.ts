@@ -7,7 +7,7 @@ import type {
   RuntimePlugin,
 } from '@modern-js/app-tools';
 import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
-import { Entrypoint } from '@modern-js/types';
+import type { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
 import {
   INDEX_FILE_NAME,

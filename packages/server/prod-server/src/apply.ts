@@ -1,10 +1,10 @@
 import {
   ErrorDigest,
-  ServerBase,
+  type ServerBase,
   createErrorHtml,
   onError,
   renderPlugin,
-  NodeServer,
+  type NodeServer,
   createDefaultPlugins,
   faviconPlugin,
 } from '@modern-js/server-core';
@@ -15,7 +15,7 @@ import {
   injectNodeSeverPlugin,
 } from '@modern-js/server-core/node';
 import { createLogger, isProd } from '@modern-js/utils';
-import { ProdServerOptions } from './types';
+import type { ProdServerOptions } from './types';
 
 function getLogger() {
   if (process.env.DEBUG || process.env.NODE_ENV === 'production') {

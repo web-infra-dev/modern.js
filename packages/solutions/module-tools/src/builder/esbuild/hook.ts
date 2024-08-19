@@ -1,6 +1,6 @@
 import { promisify } from 'util';
 import * as tapable from 'tapable';
-import { Source, Chunk, ICompiler } from '../../types';
+import type { Source, Chunk, ICompiler } from '../../types';
 
 export function createTransformHook(compiler: ICompiler) {
   const hook = new tapable.AsyncSeriesWaterfallHook<Source>(['args']);

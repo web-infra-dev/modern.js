@@ -1,4 +1,4 @@
-import { ICompilerOptions, ICompilerOptionsWithDefault } from './type';
+import type { ICompilerOptions, ICompilerOptionsWithDefault } from './type';
 import { defaultDistFileExtMap } from './constants';
 
 const defaultOptions = {

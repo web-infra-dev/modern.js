@@ -1,5 +1,5 @@
 import { createLogger } from '@modern-js/utils';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 
 const logger = createLogger({
   level: (process.env.LOG_LEVEL as any) || 'info',

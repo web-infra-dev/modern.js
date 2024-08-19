@@ -1,11 +1,11 @@
-import {
-  type ChainIdentifier,
-  type RspackChain,
-  type RsbuildPlugin,
-  type NormalizedEnvironmentConfig,
+import type {
+  ChainIdentifier,
+  RspackChain,
+  RsbuildPlugin,
+  NormalizedEnvironmentConfig,
 } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
-import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
+import type { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,

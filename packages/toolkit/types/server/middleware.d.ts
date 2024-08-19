@@ -1,4 +1,4 @@
-import { RequestPayload } from './context';
+import type { RequestPayload } from './context';
 
 interface Set<V extends Record<string>> {
   <Key extends keyof V>(key: Key, value: V[Key]): void;

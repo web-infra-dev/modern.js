@@ -1,7 +1,7 @@
 import ReactHelmet from 'react-helmet';
 import ReactDomServer from 'react-dom/server';
-import React from 'react';
-import { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
+import type React from 'react';
+import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import { time } from '@modern-js/runtime-utils/time';
 import { run } from '@modern-js/runtime-utils/node';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
@@ -14,18 +14,18 @@ import {
   HTML_PLACEHOLDER,
   SSR_DATA_PLACEHOLDER,
 } from '../constants';
-import { BuildHtmlCb, RenderString, buildHtml } from '../shared';
+import { type BuildHtmlCb, type RenderString, buildHtml } from '../shared';
 import {
   SSRErrors,
   SSRTimings,
-  Tracer,
+  type Tracer,
   createOnError,
   createOnTiming,
 } from '../tracer';
 import { RenderLevel } from '../../constants';
 import { SSRDataCollector } from './ssrData';
 import { LoadableCollector } from './loadable';
-import { Collector, ChunkSet } from './types';
+import type { Collector, ChunkSet } from './types';
 import { StyledCollector } from './styledComponent';
 import { prefetch } from './prefetch';
 

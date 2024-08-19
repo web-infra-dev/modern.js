@@ -1,6 +1,6 @@
 import path from 'path';
 import dns from 'node:dns';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import axios from 'axios';
 import {
   launchApp,

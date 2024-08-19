@@ -1,5 +1,5 @@
 import { isObject } from '@modern-js/utils';
-import { ModuleContext } from '../types';
+import type { ModuleContext } from '../types';
 import type {
   BaseBuildConfig,
   PartialBaseBuildConfig,

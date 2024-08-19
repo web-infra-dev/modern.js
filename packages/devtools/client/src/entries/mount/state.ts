@@ -5,7 +5,7 @@ import createDeferred from 'p-defer';
 import { proxy } from 'valtio';
 import { activate, createBridge } from 'react-devtools-inline/backend';
 import _ from 'lodash';
-import {
+import type {
   ClientFunctions,
   MountPointFunctions as ToClientFunctions,
 } from '@/types/rpc';

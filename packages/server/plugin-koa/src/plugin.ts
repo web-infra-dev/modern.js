@@ -1,17 +1,17 @@
 import * as path from 'path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import Koa, { Middleware } from 'koa';
+import Koa, { type Middleware } from 'koa';
 import type Application from 'koa';
 import Router from 'koa-router';
 import koaBody from 'koa-body';
-import { APIHandlerInfo } from '@modern-js/bff-core';
+import type { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire, logger } from '@modern-js/utils';
 import type {
   Render,
   ServerManifest,
   ServerPlugin,
 } from '@modern-js/server-core';
-import { InternalRequest } from '@modern-js/server-core';
+import type { InternalRequest } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,

@@ -1,6 +1,6 @@
 import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
-import { DesignSystem } from '../../types';
+import type { DesignSystem } from '../../types';
 
 export const designTokenPlugin = (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },

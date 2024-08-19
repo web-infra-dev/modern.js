@@ -3,7 +3,7 @@ import { filterRoutesForServer, logger } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { generatePath } from 'react-router-dom';
 import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
-import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
+import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 import {
   flattenRoutes,
   formatOutput,

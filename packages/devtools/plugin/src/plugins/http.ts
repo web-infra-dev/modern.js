@@ -2,15 +2,15 @@ import path from 'path';
 import assert from 'assert';
 import http from 'http';
 import { URL } from 'url';
-import { Handler, Hono } from 'hono';
+import { type Handler, Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { getPort } from '@modern-js/utils';
-import { HttpBindings, createAdaptorServer } from '@hono/node-server';
+import { type HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import type { ProxyDetail } from '@modern-js/types';
-import { Plugin } from '../types';
+import type { Plugin } from '../types';
 
 const CLIENT_SERVE_DIR = path.resolve(
   require.resolve('@modern-js/devtools-client/package.json'),

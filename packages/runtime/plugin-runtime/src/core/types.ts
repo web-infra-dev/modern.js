@@ -1,4 +1,4 @@
-import { BaseSSRServerContext } from '@modern-js/types';
+import type { BaseSSRServerContext } from '@modern-js/types';
 import type { LoaderResult } from './loader/loaderManager';
 import type { RenderLevel } from './constants';
 

@@ -1,4 +1,4 @@
-import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { generateRoutes } from '../utils/routes';

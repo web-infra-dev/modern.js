@@ -1,4 +1,4 @@
-import { cli, ToRunners } from '@modern-js/core';
+import { cli, type ToRunners } from '@modern-js/core';
 import {
   chalk,
   clearConsole,
@@ -6,7 +6,7 @@ import {
   logger,
   program,
 } from '@modern-js/utils';
-import { AppToolsHooks } from '../types/hooks';
+import type { AppToolsHooks } from '../types/hooks';
 
 export async function restart(
   hooksRunner: ToRunners<AppToolsHooks>,

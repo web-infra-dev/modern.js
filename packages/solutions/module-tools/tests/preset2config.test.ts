@@ -1,5 +1,5 @@
 import { presetToConfig } from '../src/config/normalize';
-import { BuildPreset } from '../src/types';
+import type { BuildPreset } from '../src/types';
 
 describe('presetToConfig', () => {
   it('extendPreset', async () => {

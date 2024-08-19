@@ -1,5 +1,5 @@
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
-import { AppTools } from '../../../types';
+import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { AppTools } from '../../../types';
 
 export type CreatePreset = (
   appContext: IAppContext,

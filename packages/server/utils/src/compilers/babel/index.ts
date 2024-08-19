@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { fs, json5, getAliasConfig } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
-import { CompileFunc, FILE_EXTENSIONS } from '../../common';
+import { type CompileFunc, FILE_EXTENSIONS } from '../../common';
 import { getBabelConfig, applyUserBabelConfig } from './preset';
 
 export * from '@babel/core';

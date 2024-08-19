@@ -34,7 +34,6 @@
         "useNodejsImportProtocol": "off",
         "noNonNullAssertion": "off",
         "noUnusedTemplateLiteral": "off",
-        "useImportType": "off",
         "noUselessElse": "off",
         "useNumberNamespace": "off",
         "useDefaultParameterLast": "off",

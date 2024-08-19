@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, matchPath } from 'react-router-dom';
 import { DefaultNotFound } from './DefaultNotFound';
-import { RouterConfig } from './plugin';
+import type { RouterConfig } from './plugin';
 
 export function renderRoutes(
   routesConfig?: RouterConfig['routesConfig'],

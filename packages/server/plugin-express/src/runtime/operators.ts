@@ -1,5 +1,5 @@
-import { Operator } from '@modern-js/bff-core';
-import { NextFunction } from '@modern-js/types';
+import type { Operator } from '@modern-js/bff-core';
+import type { NextFunction } from '@modern-js/types';
 import type { Request, Response } from 'express';
 import { useContext } from '../context';
 

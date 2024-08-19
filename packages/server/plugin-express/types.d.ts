@@ -1,7 +1,7 @@
 /// <reference path="./dist/types/index.d.ts" />
 
 declare module '@modern-js/runtime/express' {
-  import { Request, Response, RequestHandler } from 'express';
+  import type { Request, Response, RequestHandler } from 'express';
 
   type Context = { req: Request; res: Response };
 
@@ -18,7 +18,7 @@ declare module '@modern-js/runtime/express' {
 // Todo: remove on next version
 // For use with BFF, it will be removed on next version, and use @modern-js/runtime/express instead?
 declare module '@modern-js/runtime/server' {
-  import { Request, Response, RequestHandler } from 'express';
+  import type { Request, Response, RequestHandler } from 'express';
 
   import type {
     AfterMatchContext,

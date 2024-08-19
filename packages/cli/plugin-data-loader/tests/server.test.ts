@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'http';
 import qs from 'querystring';
 import path from 'path';
 import type { ServerRoute } from '@modern-js/types';

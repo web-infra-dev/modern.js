@@ -1,4 +1,4 @@
-import { Signale, SignaleOptions } from '@modern-js/utils';
+import { Signale, type SignaleOptions } from '@modern-js/utils';
 
 export const initTimeLog = (option: SignaleOptions = {}) =>
   new Signale({ interactive: true, scope: 'time-log', ...option });

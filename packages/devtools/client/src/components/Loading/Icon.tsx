@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import styles from './Icon.module.scss';
 
 export const LoadingIcon: React.FC<React.SVGProps<SVGSVGElement>> = props => (

@@ -1,5 +1,5 @@
-import { INodePackageJson } from '@rushstack/node-core-library';
-import { IProjectNode } from '../projects/getProjects';
+import type { INodePackageJson } from '@rushstack/node-core-library';
+import type { IProjectNode } from '../projects/getProjects';
 
 const initProjectDependencyAndDependent = (
   project: IProjectNode,

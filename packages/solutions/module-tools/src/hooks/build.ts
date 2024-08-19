@@ -3,7 +3,7 @@ import {
   createAsyncWaterfall,
 } from '@modern-js/plugin';
 import type { RegisterBuildPlatformResult } from '@modern-js/core';
-import { BuildCommandOptions } from '../types';
+import type { BuildCommandOptions } from '../types';
 import type {
   BuildTaskResult,
   BuildResult,

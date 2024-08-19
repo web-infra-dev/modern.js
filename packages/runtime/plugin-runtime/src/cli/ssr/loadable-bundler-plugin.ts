@@ -12,7 +12,7 @@
 // So that we write a `loadable-bundler-plugin` based on it.
 
 import path from 'path';
-import { Rspack, webpack } from '@modern-js/app-tools';
+import type { Rspack, webpack } from '@modern-js/app-tools';
 import { fs } from '@modern-js/utils';
 
 interface LoadablePluginOptions {

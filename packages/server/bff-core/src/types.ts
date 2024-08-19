@@ -1,4 +1,4 @@
-import { Merge } from 'type-fest';
+import type { Merge } from 'type-fest';
 
 export enum OperatorType {
   Trigger,

@@ -1,7 +1,7 @@
 import path from 'path';
 import { globby } from '@modern-js/utils';
 import { INDEX_SUFFIX } from './constants';
-import { APIHandlerInfo } from './types';
+import type { APIHandlerInfo } from './types';
 
 type MaybeAsync<I> = I | Promise<I>;
 export type NormalHandler = (...args: any[]) => any;

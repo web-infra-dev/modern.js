@@ -1,13 +1,13 @@
-import { ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import {
+import type {
   ServerPlugin,
   Context,
   Middleware,
   ServerEnv,
   Render,
 } from '../../types';
-import { ServerNodeEnv } from '../../adapters/node/hono';
+import type { ServerNodeEnv } from '../../adapters/node/hono';
 import { initReporter } from '../monitors';
 import { sortRoutes } from '../../utils';
 import { CustomServer, getServerMidFromUnstableMid } from '../customServer';

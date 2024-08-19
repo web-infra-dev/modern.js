@@ -1,6 +1,6 @@
 import type { Buffer } from 'buffer';
 import Fs from '@modern-js/utils/fs-extra';
-import { Storage } from './storer/storage';
+import type { Storage } from './storer/storage';
 import { createMemoryStorage } from './storer';
 
 export class FileReader {

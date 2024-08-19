@@ -7,7 +7,7 @@ import {
 import type { CliPlugin } from '@modern-js/core';
 import {
   testingHooks,
-  TestConfigOperator,
+  type TestConfigOperator,
   getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
 } from '../base';

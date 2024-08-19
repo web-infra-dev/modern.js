@@ -5,7 +5,7 @@ import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { i18n } from './locale';
 import { newCli, deployCli, clearCli, upgradeCli } from './cli';
 import { hooks } from './hooks';
-import { MonorepoTools } from './type';
+import type { MonorepoTools } from './type';
 
 export * from './projects/getProjects';
 

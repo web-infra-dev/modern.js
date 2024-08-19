@@ -6,7 +6,7 @@ import {
   JS_EXTENSIONS,
 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
-import { CliHooksRunner } from '@modern-js/core';
+import type { CliHooksRunner } from '@modern-js/core';
 import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
 import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';

@@ -1,4 +1,4 @@
-import { type RsbuildPlugin } from '@rsbuild/core';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import { isServerEnvironment } from '../utils';
 
 const getAntdMajorVersion = (appDirectory: string) => {

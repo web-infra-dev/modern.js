@@ -1,10 +1,10 @@
-import {
+import type {
   ServerBaseOptions,
   CreateDefaultPluginsOptions,
   ServerPlugin,
 } from '@modern-js/server-core';
-import { Reporter } from '@modern-js/types';
-import { Logger } from '@modern-js/utils';
+import type { Reporter } from '@modern-js/types';
+import type { Logger } from '@modern-js/utils';
 
 interface ProdServerExtraOptions {
   logger?: Logger;

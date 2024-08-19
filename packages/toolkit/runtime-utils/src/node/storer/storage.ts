@@ -1,4 +1,4 @@
-import { Container } from '@modern-js/types';
+import type { Container } from '@modern-js/types';
 
 export class Storage<V = unknown> {
   private namespace: string;

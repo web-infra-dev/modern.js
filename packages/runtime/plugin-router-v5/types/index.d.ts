@@ -1,4 +1,4 @@
-import { RouterConfig } from '../dist/types';
+import type { RouterConfig } from '../dist/types';
 import '../dist/types/runtime';
 
 declare module '@modern-js/runtime/router-v5' {

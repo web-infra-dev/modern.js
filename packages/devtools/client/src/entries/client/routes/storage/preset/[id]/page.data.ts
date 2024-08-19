@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, redirect } from '@modern-js/runtime/router';
+import { type LoaderFunctionArgs, redirect } from '@modern-js/runtime/router';
 import _ from 'lodash';
 import { $$globals } from '@/entries/client/globals';
 

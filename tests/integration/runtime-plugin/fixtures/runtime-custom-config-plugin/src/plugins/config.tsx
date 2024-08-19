@@ -1,4 +1,4 @@
-import { Plugin } from '@modern-js/runtime';
+import type { Plugin } from '@modern-js/runtime';
 
 export const configPlugin = (): Plugin => {
   return {

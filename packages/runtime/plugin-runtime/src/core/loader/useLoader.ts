@@ -8,7 +8,7 @@ import {
 } from 'react';
 import invariant from 'invariant';
 import { RuntimeReactContext } from '../context/runtime';
-import { Loader, LoaderStatus } from './loaderManager';
+import { type Loader, LoaderStatus } from './loaderManager';
 
 type LoaderFn<P = any, T = any> = (context: any, params: P) => Promise<T>;
 

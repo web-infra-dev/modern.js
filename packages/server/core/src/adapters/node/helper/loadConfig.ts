@@ -9,7 +9,7 @@ import {
   lodash as _,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
-import { CliConfig, ServerConfig, UserConfig } from '../../../types';
+import type { CliConfig, ServerConfig, UserConfig } from '../../../types';
 
 const requireConfig = (serverConfigPath: string): ServerConfig | undefined => {
   if (fs.pathExistsSync(serverConfigPath)) {

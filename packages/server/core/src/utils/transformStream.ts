@@ -1,4 +1,4 @@
-import { MaybeAsync } from '@modern-js/plugin';
+import type { MaybeAsync } from '@modern-js/plugin';
 
 type TransformCb = (tempalte: string) => MaybeAsync<string>;
 

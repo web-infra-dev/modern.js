@@ -1,7 +1,7 @@
-import { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
+import type { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
-import { ServerPlugin } from '@modern-js/types';
-import { AppTools, PluginAPI } from '../types';
+import type { ServerPlugin } from '@modern-js/types';
+import type { AppTools, PluginAPI } from '../types';
 
 export async function getServerPlugins(
   api: PluginAPI<AppTools<'shared'>>,

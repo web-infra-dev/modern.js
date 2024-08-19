@@ -1,4 +1,4 @@
-import { Readable, Stream } from 'stream';
+import { type Readable, Stream } from 'stream';
 
 export const createReadableStreamFromReadable = (
   source: Readable & { readableHighWaterMark?: number },

@@ -3,12 +3,12 @@ import {
   createWaterfall,
   createAsyncInterruptWorkflow,
   createSyncParallelWorkflow,
-  PluginOptions,
-  Setup,
+  type PluginOptions,
+  type Setup,
   createContext,
 } from '@modern-js/plugin';
 
-import { RuntimeContext, TRuntimeContext } from '../context/runtime';
+import type { RuntimeContext, TRuntimeContext } from '../context/runtime';
 import type { RuntimeConfig } from './index';
 
 export const RuntimeConfigContext = createContext<RuntimeConfig>({});

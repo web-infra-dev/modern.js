@@ -4,7 +4,7 @@ import type {
   IncomingMessage,
   ServerResponse,
 } from 'http';
-import {
+import type {
   AsyncWaterfall,
   ParallelWorkflow,
   ToRunners,
@@ -15,7 +15,7 @@ import {
   createContext,
   AsyncPipeline,
 } from '@modern-js/plugin';
-import {
+import type {
   AfterMatchContext,
   AfterRenderContext,
   AfterStreamingRenderContext,
@@ -30,9 +30,9 @@ import {
   ServerRoute,
   UnstableMiddleware,
 } from '@modern-js/types';
-import { MiddlewareHandler } from 'hono';
-import { UserConfig } from './config';
-import { Render } from './render';
+import type { MiddlewareHandler } from 'hono';
+import type { UserConfig } from './config';
+import type { Render } from './render';
 
 export type ChangeEvent = 'add' | 'change' | 'unlink';
 

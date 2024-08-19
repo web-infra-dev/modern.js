@@ -1,4 +1,4 @@
-import { createPipeline, Middleware } from '../farrow-pipeline';
+import { createPipeline, type Middleware } from '../farrow-pipeline';
 import type { Worker, Workers } from './sync';
 
 const SYNC_PARALLEL_WORKFLOW_SYMBOL = Symbol.for(

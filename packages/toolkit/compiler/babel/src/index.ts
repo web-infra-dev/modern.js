@@ -1,7 +1,7 @@
-import { ICompilerOptions, ICompilerResult, BabelOptions } from './type';
+import type { ICompilerOptions, ICompilerResult, BabelOptions } from './type';
 import { getFinalCompilerOption } from './getFinalOption';
 import { build } from './build';
-import { buildWatch, BuildWatchEmitter } from './buildWatch';
+import { buildWatch, type BuildWatchEmitter } from './buildWatch';
 import { validate } from './validate';
 
 export async function compiler(

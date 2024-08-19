@@ -5,19 +5,19 @@ import type {
   TouchEventHandler,
 } from 'react';
 import {
-  LinkProps as RouterLinkProps,
-  RouteObject,
+  type LinkProps as RouterLinkProps,
+  type RouteObject,
   Link as RouterLink,
   matchRoutes,
   useResolvedPath,
   useHref,
   useMatches,
   NavLink as RouterNavLink,
-  NavLinkProps as RouterNavLinkProps,
-  Path,
+  type NavLinkProps as RouterNavLinkProps,
+  type Path,
 } from '@modern-js/runtime-utils/router';
 import { RuntimeReactContext } from '../../core';
-import { RouteAssets, RouteManifest } from './types';
+import type { RouteAssets, RouteManifest } from './types';
 
 interface PrefetchHandlers {
   onFocus?: FocusEventHandler<Element>;

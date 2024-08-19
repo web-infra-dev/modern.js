@@ -1,4 +1,4 @@
-import { TestConfigOperator } from '../testConfigOperator';
+import type { TestConfigOperator } from '../testConfigOperator';
 /**
  * Merge config from testConfig.jest
  */

@@ -1,5 +1,5 @@
-import { UnstableMiddleware } from '@modern-js/runtime/server';
-import { Var } from '../shared';
+import type { UnstableMiddleware } from '@modern-js/runtime/server';
+import type { Var } from '../shared';
 
 function time(): UnstableMiddleware {
   return async (c, next) => {

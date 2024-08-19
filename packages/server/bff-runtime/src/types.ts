@@ -1,4 +1,4 @@
-import * as Schema from 'farrow-schema';
+import type * as Schema from 'farrow-schema';
 
 type Path = string | RegExp | Array<string | RegExp>;
 

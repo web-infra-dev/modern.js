@@ -1,9 +1,9 @@
 import path from 'path';
 import {
-  ServerPlugin,
+  type ServerPlugin,
   PluginManager,
   createContext,
-  ServerConfig,
+  type ServerConfig,
 } from '@modern-js/server-core';
 import { ApiRouter, API_DIR } from '@modern-js/bff-core';
 

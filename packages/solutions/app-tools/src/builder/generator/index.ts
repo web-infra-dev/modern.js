@@ -4,8 +4,8 @@ import {
   type BundlerType,
 } from '@modern-js/uni-builder';
 import { mergeRsbuildConfig } from '@rsbuild/core';
-import { BuilderOptions } from '../shared';
-import { Bundler } from '../../types';
+import type { BuilderOptions } from '../shared';
+import type { Bundler } from '../../types';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
 import { getBuilderEnvironments } from './getBuilderEnvironments';
 

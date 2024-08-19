@@ -1,5 +1,5 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   i18n as commonI18n,
@@ -8,7 +8,7 @@ import {
   Solution,
   getModuleSchema,
   Language,
-  PackageManager,
+  type PackageManager,
   PackagesGenerator,
 } from '@modern-js/generator-common';
 import {

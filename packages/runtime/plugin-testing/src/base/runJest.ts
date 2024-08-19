@@ -6,13 +6,13 @@
  * https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21
  */
 
-import { Config } from '@jest/types';
+import type { Config } from '@jest/types';
 import yargs from 'yargs/yargs';
 import { runCLI } from 'jest';
 import { chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import { getJestUtils, patchConfig, UserConfig } from './config';
-import { TestConfig } from './types';
+import { getJestUtils, patchConfig, type UserConfig } from './config';
+import type { TestConfig } from './types';
 import type { Hooks } from './hook';
 import { debug } from './utils';
 
