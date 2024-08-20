@@ -1,4 +1,6 @@
+import { isAbsolute } from 'node:path';
 import { findExists } from './fs';
+import { pathToFileURL } from 'node:url';
 
 /**
  * Require function compatible with esm and cjs module.
@@ -8,18 +10,23 @@ import { findExists } from './fs';
 export async function compatibleRequire(
   path: string,
   interop = true,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 ): Promise<any> {
   if (path.endsWith('.json')) {
     return require(path);
   }
 
+  // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
   let requiredModule;
   try {
     requiredModule = require(path);
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (err: any) {
     if (err.code === 'ERR_REQUIRE_ESM' || err instanceof SyntaxError) {
-      requiredModule = await import(path);
+      const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
+      requiredModule = await import(modulePath);
       return interop ? requiredModule.default : requiredModule;
+      // biome-ignore lint/style/noUselessElse: <explanation>
     } else {
       throw err;
     }
