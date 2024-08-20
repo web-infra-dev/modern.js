@@ -123,6 +123,16 @@ export const runtimePlugin = (params?: {
               // https://github.com/styled-components/babel-plugin-styled-components/issues/287
               topLevelImportPaths: ['@modern-js/runtime/styled'],
             },
+            bundlerChain: chain => {
+              chain.module
+                .rule('modern-entry')
+                .test([/\.js$/, /\.jsx$/])
+                .include.add(
+                  path.resolve(appDirectory, 'node_modules', `.${metaName}`),
+                )
+                .end()
+                .sideEffects(true);
+            },
             /**
              * Add IgnorePlugin to fix react-dom/client import error when use react17
              */
