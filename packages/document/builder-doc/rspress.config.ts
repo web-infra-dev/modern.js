@@ -25,7 +25,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
     },
     {
       text: getText('插件', 'Plugins'),
-      link: getLink('/plugins/introduction'),
+      link: getLink('/plugins/list'),
       activeMatch: '/plugins/',
     },
   ];
@@ -51,12 +51,10 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         collapsible: false,
         text: getText('基础', 'Basic'),
         items: [
-          getLink('/guide/basic/builder-config'),
           getLink('/guide/basic/build-target'),
           getLink('/guide/basic/css-usage'),
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/typescript'),
-          getLink('/guide/basic/builder-cli'),
         ],
       },
       {
@@ -75,21 +73,8 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       },
       {
         collapsible: false,
-        text: getText('框架', 'Framework'),
-        items: [
-          getLink('/guide/framework/vue3'),
-          getLink('/guide/framework/vue2'),
-        ],
-      },
-      {
-        collapsible: false,
         text: getText('优化', 'Optimization'),
         items: [getLink('/guide/optimization/split-chunk')],
-      },
-      {
-        collapsible: false,
-        text: getText('调试', 'Debug'),
-        items: [getLink('/guide/debug/debug-mode')],
       },
       {
         collapsible: false,
@@ -104,10 +89,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
     ],
     [getLink('/api/')]: [
       {
-        text: getText('API 总览', 'API Reference'),
-        link: getLink('/api/'),
-      },
-      {
         text: getText('配置', 'Config'),
         collapsible: false,
         items: [
@@ -121,34 +102,13 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/api/config-experiments'),
         ],
       },
-      {
-        text: getText('Node API', 'Node API'),
-        collapsible: false,
-        items: [
-          getLink('/api/builder-core'),
-          getLink('/api/builder-instance'),
-          getLink('/api/builder-types'),
-        ],
-      },
-      {
-        text: getText('Plugin API', 'Plugin API'),
-        collapsible: false,
-        items: [getLink('/api/plugin-core'), getLink('/api/plugin-hooks')],
-      },
     ],
     [getLink('/plugins')]: [
-      {
-        collapsible: false,
-        text: getText('指南', 'Guide'),
-        items: [getLink('/plugins/introduction')],
-      },
       {
         collapsible: false,
         text: getText('列表', 'List'),
         items: [
           getLink('/plugins/list'),
-          getLink('/plugins/plugin-vue'),
-          getLink('/plugins/plugin-vue2'),
           getLink('/plugins/plugin-stylus'),
           getLink('/plugins/plugin-node-polyfill'),
           getLink('/plugins/plugin-image-compress'),
