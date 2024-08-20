@@ -1,5 +1,5 @@
-import type React from 'react';
-import { useContext } from 'react';
+// biome-ignore lint/style/useImportType: <explanation>
+import React, { useContext } from 'react';
 import {
   BODY_PARTICALS_SEPARATOR,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
