@@ -203,7 +203,7 @@ export default {
 
 ### 调试 Babel 配置
 
-当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [Builder 调试模式](https://modernjs.dev/builder/guide/debug/debug-mode.html) 下查看最终生成的配置。
+当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [Builder 调试模式](https://rsbuild.dev/zh/guide/debug/debug-mode) 下查看最终生成的配置。
 
 首先通过 `DEBUG=builder` 参数开启调试模式：
 

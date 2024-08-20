@@ -2,8 +2,6 @@
 
 Builder supports build multiple target types for running in different target environments. After setting the correct target type, Builder will optimize the build results for the environment, and enable some plugins or configs for the target environment during the build process.
 
-You can set the type through the `target` parameter of the [createBuilder](/en/api/builder-core.html#createbuilder) method.
-
 ## Default Target
 
 By default, the build target is `'web'`, and the build result can run in a browser environment.

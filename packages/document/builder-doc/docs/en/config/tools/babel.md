@@ -204,7 +204,7 @@ Deprecated, please use [source.exclude](https://modernjs.dev/en/configure/app/so
 
 ### Debugging Babel Configuration
 
-After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Builder debug mode](https://modernjs.dev/builder/en/guide/debug/debug-mode.html).
+After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Builder debug mode](https://rsbuild.dev/guide/debug/debug-mode).
 
 First, enable debug mode by using the `DEBUG=builder` parameter:
 

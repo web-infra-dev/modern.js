@@ -2,8 +2,6 @@
 
 ## 官方插件
 
-- [@modern-js/builder-plugin-vue](/plugins/plugin-vue.html)：用于构建 Vue 3 应用。
-- [@modern-js/builder-plugin-vue2](/plugins/plugin-vue2.html)：用于构建 Vue 2 应用。
 - [@modern-js/builder-plugin-stylus](/plugins/plugin-stylus.html)：使用 Stylus 作为 CSS 预处理器。
 - [@modern-js/builder-plugin-node-polyfill](/plugins/plugin-node-polyfill.html)：注入 Node 核心模块在浏览器端的 Polyfills。
 - [@modern-js/builder-plugin-image-compress](/plugins/plugin-image-compress.html)：将项目中用到的图片资源进行压缩处理。
