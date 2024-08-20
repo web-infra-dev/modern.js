@@ -1,6 +1,10 @@
+---
+sidebar_position: 2
+---
+
 # SWC 插件
 
-import SWC from '@zh/shared/swc.md';
+import SWC from '@modern-js/builder-doc/docs/zh/shared/swc.md';
 
 <SWC />
 
@@ -22,7 +26,7 @@ import SWC from '@zh/shared/swc.md';
 
 - `@babel/preset-env`: 使用 [presetEnv](#presetenv) 代替。
 - `@babel/preset-react`: 使用 [presetReact](#presetreact) 代替。
-- `babel-plugin-import`：使用 [source.transformImport](/api/config-source.html#sourcetransformimport) 代替。
+- `babel-plugin-import`：使用 [source.transformImport](/configure/app/source/transform-import) 代替。
 - `babel-plugin-lodash`：使用 [extensions.lodash](#extensionslodash) 代替。
 - `@emotion/babel-plugin`：使用 [extensions.emotion](#extensionsemotion) 代替。
 - `babel-plugin-styled-components`：使用 [extensions.styledComponents](#extensionsstyledcomponents) 代替。
@@ -42,32 +46,9 @@ import SWC from '@zh/shared/swc.md';
 
 Modern.js 框架对 Builder 的 SWC 插件进行了封装，你可以通过以下方式来使用：
 
-import EnableSWC from '@zh/shared/enableSwc.md';
+import EnableSWC from '@modern-js/builder-doc/docs/zh/shared/enableSwc.md';
 
 <EnableSWC />
-
-### 通过 Node API 使用
-
-如果你直接使用了 Builder 的 Node API，那么需要手动安装和注册 Builder 的 SWC 插件。
-
-#### 安装插件
-
-你可以通过如下的命令安装插件:
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @modern-js/builder-plugin-swc -D" />
-
-#### 注册插件
-
-通过 `addPlugins` 方法来注册 SWC 插件：
-
-```js
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-// 往 builder 实例上添加插件
-builder.addPlugins([builderPluginSwc()]);
-```
 
 That's it! 现在你可以在项目中无缝使用 SWC 的转译和压缩能力了。
 
@@ -297,7 +278,7 @@ boolean | {
 #### extensions.pluginImport
 
 :::tip
-Builder 提供了 [source.transformImport](/api/config-source.html#sourcetransformimport) 配置项，因此你不需要手动配置 `extensions.pluginImport`。
+Builder 提供了 [source.transformImport](/configure/app/source/transform-import) 配置项，因此你不需要手动配置 `extensions.pluginImport`。
 :::
 
 移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持一致。

@@ -1,13 +1,17 @@
+---
+sidebar_position: 3
+---
+
 # Esbuild Plugin
 
 :::warning
 **The esbuild feature in the current document is no longer maintained**, we recommend using the Rspack + SWC solution, because Rspack + SWC provide better build performance, richer features, and better compatibility.
 
-Please refer to [「Use Rspack」](/guide/advanced/rspack-start.html) for more information.
+Please refer to [「Use Rspack」](guides/advanced-features/rspack-start) for more information.
 
 :::
 
-import Esbuild from '@en/shared/esbuild.md';
+import Esbuild from '@modern-js/builder-doc/docs/en/shared/esbuild.md';
 
 <Esbuild />
 
@@ -30,29 +34,6 @@ export default defineConfig({
     },
   },
 });
-```
-
-### Use via the Node API
-
-If you use the Builder's Node API, you need to manually install and register the esbuild plugin.
-
-#### Install
-
-You can install the plugin with the following command:
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @modern-js/builder-plugin-esbuild -D" />
-
-#### Register
-
-Register esbuild plugin through the `addPlugins` method:
-
-```js
-import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
-
-// add the plugin to the builder instance
-builder.addPlugins([builderPluginEsbuild()]);
 ```
 
 ## Config
