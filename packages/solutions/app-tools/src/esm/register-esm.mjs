@@ -1,5 +1,6 @@
 import path from 'node:path';
-import { fs, readTsConfigByFile } from '@modern-js/utils';
+import { fs, readTsConfigByFile, isVersionAtLeast1819 } from '@modern-js/utils';
+import assert from 'node:assert';
 
 const checkDep = async dep => {
   try {
@@ -13,12 +14,13 @@ const checkDep = async dep => {
 export const registerEsm = async ({ appDir, distDir, alias }) => {
   const nodeVersion = process.versions.node;
   const versionArr = nodeVersion.split('.').map(Number);
-  if (versionArr[0] < 18 || (versionArr[0] === 18 && versionArr[1] < 19)) {
-    throw new Error(
-      `The node version of the esm project must be greater than 18.19.0, current version is ${nodeVersion}`,
-    );
-  }
+
+  assert(
+    isVersionAtLeast1819(nodeVersion),
+    `The node version of the esm project must be greater than 18.19.0, current version is ${nodeVersion}`,
+  );
   const hasTsNode = await checkDep('ts-node');
+  // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const hasTsconfig = await fs.pathExists(tsconfigPath);
