@@ -25,8 +25,24 @@ jobs:
           node-version: "18"
           cache: 'pnpm'
 
+      - name: Nx Cache
+        id: nx-cache
+        uses: actions/cache@v3
+        with:
+          path: .nx/cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            nx-${{ github.ref_name }}-
+            nx-
+
       - name: Install Dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts --frozen-lockfile
+
+      - name: Prepare
+        run: pnpm run prepare
+
+      - name: Install Puppeteer
+        run: cd ./tests/node_modules/puppeteer && npm run postinstall && cd ../..
 
       - name: Test
         run: cd ./tests && pnpm run test:module-tools
