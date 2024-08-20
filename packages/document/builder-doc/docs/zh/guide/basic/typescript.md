@@ -30,7 +30,7 @@ export default {
 
 **SWC**
 
-如果想要更快的项目构建速度，并且项目没有依赖某些自定义的 Babel 插件，那么也可以选择 SWC 来对 JavaScript 和 TypeScript 进行转译和压缩。Builder 的 SWC 插件默认支持 TypeScript, TSX, Decorator，使用方式可见 [SWC 插件](/plugins/plugin-swc.html)。
+如果想要更快的项目构建速度，并且项目没有依赖某些自定义的 Babel 插件，那么也可以选择 SWC 来对 JavaScript 和 TypeScript 进行转译和压缩。Builder 的 SWC 插件默认支持 TypeScript, TSX, Decorator，使用方式可见 SWC 插件。
 
 ### 为什么默认使用 Babel
 

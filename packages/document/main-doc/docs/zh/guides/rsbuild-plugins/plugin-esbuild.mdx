@@ -1,13 +1,17 @@
+---
+sidebar_position: 3
+---
+
 # Esbuild 插件
 
 :::warning
 **当前文档中的 esbuild 功能已停止迭代**，我们更推荐使用 Rspack + SWC 的方案，因为 Rspack + SWC 具备更好的构建性能、功能丰富度和产物兼容性。
 
-请参考[「使用 Rspack」](/guide/advanced/rspack-start.html)了解更多。
+请参考[「使用 Rspack」](guides/advanced-features/rspack-start)了解更多。
 
 :::
 
-import Esbuild from '@zh/shared/esbuild.md';
+import Esbuild from '@modern-js/builder-doc/docs/zh/shared/esbuild.md';
 
 <Esbuild />
 
@@ -15,7 +19,7 @@ import Esbuild from '@zh/shared/esbuild.md';
 
 ### 在 Modern.js 框架中使用
 
-Modern.js 框架默认集成了 Builder 的 esbuild 插件，因此，你不需要手动安装和注册插件，只需要使用 [tools.esbuild](https://modernjs.dev/configure/app/tools/esbuild.html) 配置项即可：
+Modern.js 框架默认集成了 Builder 的 esbuild 插件，因此，你不需要手动安装和注册插件，只需要使用 [tools.esbuild](/configure/app/tools/esbuild.html) 配置项即可：
 
 ```js
 export default defineConfig({
@@ -30,29 +34,6 @@ export default defineConfig({
     },
   },
 });
-```
-
-### 通过 Node API 使用
-
-如果你直接使用了 Builder 的 Node API，那么需要手动安装和注册 esbuild 插件。
-
-#### 安装插件
-
-你可以通过如下的命令安装插件:
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @modern-js/builder-plugin-esbuild -D" />
-
-#### 注册插件
-
-通过 `addPlugins` 方法来注册 esbuild 插件：
-
-```js
-import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
-
-// 往 builder 实例上添加插件
-builder.addPlugins([builderPluginEsbuild()]);
 ```
 
 ## 配置

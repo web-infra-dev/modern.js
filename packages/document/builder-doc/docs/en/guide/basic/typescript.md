@@ -36,7 +36,7 @@ If ts-loader is enabled with default configuration, it does not have type checki
 
 If you want a super fast compiler, and you don't need some custom Babel plugins, then you can use SWC for compilation and minification.
 
-SWC plugin in Builder supports TypeScript, TSX and legacy decorator, you can check [SWC plugin](/en/plugins/plugin-swc.html).
+SWC plugin in Builder supports TypeScript, TSX and legacy decorator, you can check SWC plugin.
 
 ### Why Babel is the default option
 

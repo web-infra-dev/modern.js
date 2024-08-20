@@ -1,6 +1,10 @@
+---
+sidebar_position: 2
+---
+
 # SWC Plugin
 
-import SWC from '@en/shared/swc.md';
+import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
 
 <SWC />
 
@@ -22,7 +26,7 @@ For most common Babel plugins, you can find corresponding replacements in SWC, s
 
 - `@babel/preset-env`: use [presetEnv](#presetenv) instead.
 - `@babel/preset-react`: use [presetReact](#presetreact) instead.
-- `babel-plugin-import`: use [source.transformImport](/api/config-source.html#sourcetransformimport) instead.
+- `babel-plugin-import`: use [source.transformImport](/configure/app/source/transform-import) instead.
 - `babel-plugin-lodash`: use [extensions.lodash](#extensionslodash) instead.
 - `@emotion/babel-plugin`: use [extensions.emotion](#extensionsemotion) instead.
 - `babel-plugin-styled-components`: use [extensions.styledComponents](#extensionsstyledcomponents) instead.
@@ -42,32 +46,9 @@ For a detailed comparison between minifiers, see [minification-benchmarks](https
 
 The Modern.js framework integrates the Builder's SWC plugin, and you can use it in the following ways:
 
-import EnableSWC from '@en/shared/enableSwc.md';
+import EnableSWC from '@modern-js/builder-doc/docs/en/shared/enableSwc.md';
 
 <EnableSWC />
-
-### Use via the Node API
-
-If you use the Builder's Node API, you need to manually install and register the SWC plugin of Builder.
-
-#### Install
-
-You can install the plugin with the following command:
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs command="add @modern-js/builder-plugin-swc -D" />
-
-#### Register
-
-Register SWC plugin through the `addPlugins` method:
-
-```js
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-// add the plugin to the builder instance
-builder.addPlugins([builderPluginSwc()]);
-```
 
 That's it! Now you can use SWC transformation and minification in your project.
 
@@ -309,7 +290,7 @@ This is ported by Next.js team from [@emotion/babel-plugin](https://www.npmjs.co
 #### extensions.pluginImport
 
 :::tip
-Builder provides the [source.transformImport](/api/config-source.html#sourcetransformimport) config, so you don't need to configure `extensions.pluginImport` manually.
+Builder provides the [source.transformImport](/configure/app/source/transform-import) config, so you don't need to configure `extensions.pluginImport` manually.
 :::
 
 Ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import), configurations are the same.
