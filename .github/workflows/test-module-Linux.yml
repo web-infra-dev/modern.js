@@ -41,5 +41,8 @@ jobs:
       - name: Prepare
         run: pnpm run prepare
 
+      - name: Install Puppeteer
+        run: cd ./tests/node_modules/puppeteer && npm run postinstall && cd ../..
+
       - name: Test
         run: cd ./tests && pnpm run test:module-tools
