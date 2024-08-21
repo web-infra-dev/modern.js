@@ -25,7 +25,7 @@
       "default": "./dist/esm/router.js"
     },
     "./remix-router": {
-       "types": "./dist/types/remixRouter.d.ts",
+      "types": "./dist/types/remixRouter.d.ts",
       "jsnext:source": "./src/remixRouter.ts",
       "require": "./dist/cjs/remixRouter.js",
       "default": "./dist/esm/remixRouter.js"
