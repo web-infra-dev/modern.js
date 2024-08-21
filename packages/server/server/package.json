@@ -54,7 +54,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.3",
-    "axios": "^1.6.0",
+    "axios": "^1.7.4",
     "connect-history-api-fallback": "^2.0.0",
     "http-compression": "1.0.6",
     "minimatch": "^3.0.4",
