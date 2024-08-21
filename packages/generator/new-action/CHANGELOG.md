@@ -1,5 +1,19 @@
 # @modern-js/new-action
 
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [7715b6d]
+- Updated dependencies [a1a9373]
+  - @modern-js/generator-common@3.4.16
+  - @modern-js/generator-utils@3.4.16
+  - @modern-js/utils@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

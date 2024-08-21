@@ -1,5 +1,13 @@
 # @modern-js-app/eslint-config
 
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+  - @modern-js/babel-preset@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

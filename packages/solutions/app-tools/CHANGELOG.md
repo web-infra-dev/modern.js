@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- a1a9373: fix: fix compatibleRequire problem on windows
+  fix: 修复 windows 下 compatibleRequire 的问题
+- Updated dependencies [1ff0304]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/server-core@2.58.2
+  - @modern-js/plugin-i18n@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin-data-loader@2.58.2
+  - @modern-js/prod-server@2.58.2
+  - @modern-js/server@2.58.2
+  - @modern-js/server-utils@2.58.2
+  - @modern-js/core@2.58.2
+  - @modern-js/plugin-lint@2.58.2
+  - @modern-js/uni-builder@2.58.2
+  - @modern-js/node-bundle-require@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/rsbuild-plugin-esbuild@2.58.2
+  - @modern-js/types@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

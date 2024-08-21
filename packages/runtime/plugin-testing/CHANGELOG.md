@@ -1,5 +1,26 @@
 # @modern-js/plugin-testing
 
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- Updated dependencies [9bbb0a0]
+- Updated dependencies [1ff0304]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+- Updated dependencies [81829b0]
+  - @modern-js/runtime@2.58.2
+  - @modern-js/server-core@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/prod-server@2.58.2
+  - @modern-js/bff-core@2.58.2
+  - @modern-js/babel-compiler@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/babel-preset@2.58.2
+  - @modern-js/types@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

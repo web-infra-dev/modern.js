@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.58.2
+
+### Patch Changes
+
+- a1a9373: fix: fix compatibleRequire problem on windows
+  fix: 修复 windows 下 compatibleRequire 的问题
+
 ## 2.58.1
 
 ## 2.58.0
