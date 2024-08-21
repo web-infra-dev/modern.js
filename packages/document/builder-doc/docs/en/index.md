@@ -4,13 +4,6 @@ pageType: home
 hero:
   name: Modern.js Builder
   tagline: A Build Engine for web development.
-  actions:
-    - theme: brand
-      text: Introduction
-      link: /guide/introduction.html
-    - theme: alt
-      text: Quick Start
-      link: /guide/quick-start.html
 
 features:
   - title: Rust Bundler

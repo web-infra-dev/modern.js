@@ -11,22 +11,12 @@ function getI18nHelper(lang: 'zh' | 'en') {
 }
 
 function getNavbar(lang: 'zh' | 'en'): NavItem[] {
-  const { getLink, getText } = getI18nHelper(lang);
+  const { getLink } = getI18nHelper(lang);
   return [
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guide/introduction'),
-      activeMatch: '/guide/',
-    },
     {
       text: 'API',
       link: getLink('/api/'),
       activeMatch: '/api/',
-    },
-    {
-      text: getText('插件', 'Plugins'),
-      link: getLink('/plugins/list'),
-      activeMatch: '/plugins/',
     },
   ];
 }
@@ -35,58 +25,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
   const { getLink, getText } = getI18nHelper(lang);
 
   return {
-    [getLink('/guide/')]: [
-      {
-        collapsed: false,
-        collapsible: false,
-        text: getText('开始', 'Getting Started'),
-        items: [
-          getLink('/guide/introduction'),
-          getLink('/guide/quick-start'),
-          getLink('/guide/glossary'),
-          getLink('/guide/features'),
-        ],
-      },
-      {
-        collapsible: false,
-        text: getText('基础', 'Basic'),
-        items: [
-          getLink('/guide/basic/build-target'),
-          getLink('/guide/basic/css-usage'),
-          getLink('/guide/basic/html-template'),
-          getLink('/guide/basic/typescript'),
-        ],
-      },
-      {
-        collapsible: false,
-        text: getText('进阶', 'Advanced'),
-        items: [
-          getLink('/guide/advanced/rspack-start'),
-          getLink('/guide/advanced/define'),
-          getLink('/guide/advanced/hmr'),
-          getLink('/guide/advanced/rem'),
-          getLink('/guide/advanced/browserslist'),
-          getLink('/guide/advanced/browser-compatibility'),
-          getLink('/guide/advanced/custom-webpack-config'),
-          getLink('/guide/advanced/storybook'),
-        ],
-      },
-      {
-        collapsible: false,
-        text: getText('优化', 'Optimization'),
-        items: [getLink('/guide/optimization/split-chunk')],
-      },
-      {
-        collapsible: false,
-        text: getText('常见问题', 'FAQ'),
-        items: [
-          getLink('/guide/faq/general'),
-          getLink('/guide/faq/features'),
-          getLink('/guide/faq/exceptions'),
-          getLink('/guide/faq/hmr'),
-        ],
-      },
-    ],
     [getLink('/api/')]: [
       {
         text: getText('配置', 'Config'),
@@ -100,18 +38,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/api/config-tools'),
           getLink('/api/config-performance'),
           getLink('/api/config-experiments'),
-        ],
-      },
-    ],
-    [getLink('/plugins')]: [
-      {
-        collapsible: false,
-        text: getText('列表', 'List'),
-        items: [
-          getLink('/plugins/list'),
-          getLink('/plugins/plugin-stylus'),
-          getLink('/plugins/plugin-node-polyfill'),
-          getLink('/plugins/plugin-image-compress'),
         ],
       },
     ],
