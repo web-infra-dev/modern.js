@@ -11,7 +11,7 @@ import type {
   UniBuilderConfig,
   DisableSourceMapOption,
 } from '../types';
-import { isFunction } from '@modern-js/utils';
+import { isProd, isFunction } from '@modern-js/utils';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
 import { pluginReact } from '@rsbuild/plugin-react';
@@ -199,7 +199,7 @@ export async function parseCommonConfig(
   }
 
   if (enableInlineScripts) {
-    output.inlineScripts = enableInlineScripts;
+    output.inlineScripts ??= isProd() && enableInlineScripts;
   }
 
   if (disableCssExtract) {
@@ -207,7 +207,7 @@ export async function parseCommonConfig(
   }
 
   if (enableInlineStyles) {
-    output.inlineStyles = enableInlineStyles;
+    output.inlineStyles ??= isProd() && enableInlineStyles;
   }
 
   if (disableFilenameHash !== undefined) {
@@ -377,7 +377,9 @@ export async function parseCommonConfig(
   }
 
   rsbuildPlugins.push(
-    pluginRuntimeChunk(uniBuilderConfig.output?.disableInlineRuntimeChunk),
+    pluginRuntimeChunk(
+      isProd() ? uniBuilderConfig.output?.disableInlineRuntimeChunk : true,
+    ),
   );
 
   const { sourceBuild } = uniBuilderConfig.experiments || {};
