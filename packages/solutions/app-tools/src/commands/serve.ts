@@ -20,6 +20,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const {
     distDirectory,
     appDirectory,
+    internalDirectory,
     port,
     metaName,
     serverRoutes,
@@ -65,6 +66,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     serverConfigPath,
     appContext: {
       appDirectory,
+      internalDirectory,
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,

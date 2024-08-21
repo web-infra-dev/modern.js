@@ -26,6 +26,7 @@ export type ServerBaseOptions = {
   metaName?: string;
   routes?: ServerRoute[];
   appContext: {
+    internalDirectory?: string;
     appDirectory?: string;
     sharedDirectory?: string;
     apiDirectory?: string;
