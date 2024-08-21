@@ -4,13 +4,6 @@ pageType: home
 hero:
   name: Modern.js Builder
   tagline: 基于 Rspack 的 Web 构建工具
-  actions:
-    - theme: brand
-      text: 介绍
-      link: /guide/introduction.html
-    - theme: alt
-      text: 快速上手
-      link: /guide/quick-start.html
 
 features:
   - title: Rust 构建
