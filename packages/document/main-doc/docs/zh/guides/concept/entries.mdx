@@ -10,13 +10,13 @@ sidebar_position: 1
 
 **入口（Entry）指的是一个页面的起始模块。**
 
-在 Modern.js 项目中，每一个入口对应一个独立的页面，也对应一条服务端路由。默认情况下，Modern.js 会基于目录约定来自动确定页面的入口，同时也支持通过配置项来自定义入口。
+在 Modern.js 应用中，每一个入口对应一个独立的页面，也对应一条服务端路由。默认情况下，Modern.js 会基于目录约定来自动确定页面的入口，同时也支持通过配置项来自定义入口。
 
 Modern.js 提供的很多配置项都是以入口为维度进行划分的，比如页面标题、HTML 模板、页面 Meta 信息、是否开启 SSR/SSG、服务端路由规则等。
 
 ## 单入口与多入口
 
-Modern.js 初始化的项目是单入口的（SPA），项目结构如下：
+Modern.js 初始化的应用是单入口的，应用结构如下：
 
 ```
 .
@@ -30,7 +30,7 @@ Modern.js 初始化的项目是单入口的（SPA），项目结构如下：
 └── tsconfig.json
 ```
 
-在 Modern.js 项目中，你可以很方便的将单入口切换成多入口，直接在项目下执行 `pnpm run new`，根据提示创建入口即可：
+在 Modern.js 应用中，你可以很方便的将单入口切换成多入口。在应用目录下执行 `pnpm run new`，根据提示即可创建入口：
 
 ```bash
 ? 请选择你想要的操作 创建工程元素
@@ -56,13 +56,12 @@ Modern.js 初始化的项目是单入口的（SPA），项目结构如下：
 
 原本的入口代码被移动到了和 `package.json` 中 `name` 同名的目录下，并创建了 `new-entry` 入口目录。
 
+Modern.js 会将与 `package.json` 文件中 `name` 字段同名的入口作为主入口，主入口的路由为 `/`，其他入口的路由为 `/{entryName}`。比如，`package.json` 中的 `name` 为 `myapp` 时，`src/myapp` 会作为应用的主入口。
+
 你可以执行 `pnpm run dev` 启动开发服务，此时可以看到新增了一条名为 `/new-entry` 的路由，并且原有页面的路由并未发生变化。
 
-:::tip
-Modern.js 会将与 `package.json` 文件中 `name` 字段同名的入口作为主入口，主入口的路由为 `/`，其他入口的路由为 `/{entryName}`。
-
-比如，`package.json` 中的 `name` 为 `myapp` 时，`src/myapp` 会作为项目的主入口。
-
+:::note
+**单入口/多入口** 和 **SPA/MPA** 的概念并不等价。前者是关于如何配置和打包应用，而后者是组织前端应用的模式，每个入口都可以是 SPA 或非 SPA 的。
 :::
 
 ## 入口类型
@@ -73,39 +72,32 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 <EntryMode />
 
-默认情况下，Modern.js 启动项目前会对 `src/` 下的文件进行扫描，识别入口，并生成对应的服务端路由。
+默认情况下，Modern.js 启动应用前会对 `src/` 下的文件进行扫描，识别入口，并生成对应的服务端路由。
 
 :::tip
-- 你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改页面入口的识别目录。
-- 如果你需要自定义入口，请参考 [自定义入口](#自定义入口)。
-
+你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改识别入口的目录。
 :::
 
-并非 `src/` 下所有的一级目录都会成为项目入口, 入口所在目录必须满足以下五个条件之一：
+入口所在目录必须满足以下三个条件之一：
 
 1. 具有 `routes/` 目录。
 2. 具有 `App.[jt]sx?` 文件。
-3. 具有 `entry.[jt]sx?` 文件 (需要开启 `source.enableCustomEntry` 使用)。
-4. 具有 `index.[jt]sx?` 文件（即将废弃）。
-5. 具有 `pages/` 目录（兼容 Modern.js 1.0）(即将废弃)。
+3. 具有 `entry.[jt]sx?` 文件 (需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry) 使用)。
 
 
-当 `src/` 目录满足入口特征时，Modern.js 会认为当前项目为单入口应用。
+当 `src/` 目录满足入口特征时，Modern.js 会认为当前应用为单入口应用。否则，Modern.js 会扫描 `src/` 下的一级目录，并进一步判断是否为入口，此时应用通常为多入口应用。
 
 :::tip
 在单入口应用中，默认的入口名为 `main`。
-
 :::
-
-当项目不是单入口应用时，Modern.js 会进一步查看 `src/` 下的一级目录。
 
 ### 框架模式入口
 
-框架模式指的是需要使用 Modern.js 的框架能力，例如嵌套路由、SSR、一体化调用等。这类入口约定下，开发者定义的入口并不是真正的编译入口。Modern.js 在启动时会生成一个封装过的入口，可以在 `node_modules/.modern/[entryName]/index.js` 找到真正的入口。
+框架模式指的是需要使用 Modern.js 的框架能力，例如约定式路由、SSR、一体化调用等。这类入口约定下，应用中的入口并不是真正的编译入口。Modern.js 在启动时会生成一个封装过的入口，可以在 `node_modules/.modern/[entryName]/index.js` 找到真正的入口。
 
 #### 约定式路由
 
-如果入口中存在 `routes/` 目录，Modern.js 会在启动时扫描 `routes/` 下的文件，基于文件约定，自动生成客户端路由（react-router）。例如：
+如果入口中存在 `routes/` 目录，我们称该入口为约定式路由。Modern.js 会在启动时扫描 `routes/` 下的文件，基于文件约定，自动生成客户端路由（react-router）。例如：
 
 ```bash
 .
@@ -121,9 +113,17 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 #### 自控式路由
 
-如果入口中存在 `App.[jt]sx?` 文件，开发者可以在这个文件中通过代码的方式，设置客户端路由，或者不设置客户端路由。
+如果入口中存在 `App.[jt]sx?` 文件，我们称为该入口为自控式路由。例如：
 
-```tsx
+```bash
+.
+├── src
+│   └── App.tsx
+```
+
+你可以在这个文件中通过代码的方式，设置客户端路由，或者不设置客户端路由。
+
+```tsx title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
 export default () => {
@@ -142,11 +142,13 @@ export default () => {
 
 #### 自定义入口
 
-如果入口中存在 `entry.[jt]sx` 文件，需要开发者在 `entry.[jt]sx` 文件中调用 `createRoot` 和 `render` 函数，完成项目入口逻辑。
-
 :::info
-使用该文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
+使用该功能需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
 :::
+
+默认情况下，使用约定式路由或自控式路由时，Modern.js 会自动完成渲染。如果你希望自定义这个行为，可以通过自定义入口文件的方式来实现。
+
+如果入口中存在 `entry.[jt]sx` 文件，则 Modern.js 不再控制应用的渲染流程，你可以在 `entry.[jt]sx` 文件中调用 `createRoot` 和 `render` 函数，完成应用入口逻辑。
 
 ```tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -158,7 +160,7 @@ render(<ModernRoot />);
 
 ```
 
-比如在 render 执行前，需要做一些其他操作，可以这样实现：
+上述代码中，`createRoot` 函数返回的组件为 `routes/` 目录生成或 `App.tsx` 导出的组件，`render` 函数用于处理渲染与挂载组件。例如，你希望在渲染前执行某些异步任务，可以这样实现：
 
 ```tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -167,7 +169,7 @@ import { render } from '@modern-js/runtime/browser';
 const ModernRoot = createRoot();
 
 async function beforeRender() {
-   // todo
+   // some async request
 }
 
 beforeRender().then(() => {
@@ -175,34 +177,15 @@ beforeRender().then(() => {
 });
 ```
 
-#### 自定义 Bootstrap
-
-:::warning
-即将废弃，推荐使用自定义入口
-:::
-
-如果入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
-
-```tsx
-export default (App: React.ComponentType, bootstrap: () => void) => {
-  // do something before bootstrap...
-  initSomething().then(() => {
-    bootstrap();
-  });
-};
-```
-
 ### 构建模式入口
 
-构建模式指的是不使用 Modern.js 提供的 Runtime 能力，而是完全由开发者自行定义页面的入口。
-
-当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数或者入口目录存在 `entry.[jt]sx` 并且未安装 `@modern-js/runtime` 依赖时，对应文件就会被识别为 webpack 或 Rspack 的 entry 模块。
-
 :::info
-使用 `entry.[jt]sx` 文件需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
+使用该功能需要开启需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry)。
 :::
 
-此时 Modern.js 不会自动生成入口代码，因此需要你自行将组件挂载到 DOM 节点上，例如:
+构建模式指的是不使用 Modern.js 提供的 Runtime 能力，只使用 Modern.js 构建能力的开发模式。当应用中未安装 `@modern-js/runtime` 依赖时，Modern.js 会认为当前应用所有的入口都是构建模式入口。
+
+此时，如果入口中存在 `entry.[jt]sx`，则该文件会被识别为 webpack 或 Rspack 的构建入口。此时，Modern.js 不会自动生成入口代码，你需要自行将组件挂载到 DOM 节点上，例如:
 
 ```js title=src/entry.tsx
 import React from 'react';
@@ -212,18 +195,21 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-这种方式等价于开启 Modern.js 的 [source.entries.disableMount](/configure/app/source/entries) 选项。当你使用这种方式时，**将无法使用 Modern.js 框架的运行时能力**，比如 `modern.config.js` 文件中的 `runtime` 配置将不会再生效。
+在构建模式入口中，**将无法使用 Modern.js 框架的运行时能力**，比如：
+- 约定式路由，即基于 `src/routes` 下文件的路由
+- 服务端渲染（SSR）
+- `modern.config.js` 文件中的 `runtime` 配置将不会再生效
 
-## 自定义入口配置
+## 在配置文件中指定入口
 
 在某些情况下，你可能需要自定义入口配置，而不是使用 Modern.js 提供的入口约定。
 
-比如你需要将一个非 Modern.js 项目迁移到 Modern.js，它并不是按照 Modern.js 的目录结构来搭建的。如果你要将它改成 Modern.js 约定的目录结构，可能会存在一定的迁移成本。这种情况下，你就可以使用自定义入口。
+比如你需要将一个非 Modern.js 应用迁移到 Modern.js，它并不是按照 Modern.js 的目录结构来搭建的。如果你要将它改成 Modern.js 约定的目录结构，会存在一定的迁移成本。这种情况下，你就可以使用自定义入口。
 
 Modern.js 提供了以下配置项，你可以在 [modern.config.ts](/configure/app/usage) 中配置它们：
 
 - [source.entries](/configure/app/source/entries)：用于设置自定义的入口对象。
-- [source.disableDefaultEntries](/configure/app/source/disable-default-entries)：用于关闭 Modern.js 默认的入口扫描行为。当你使用自定义入口时，项目的部分结构可能会恰巧命中 Modern.js 约定的目录结构，但你可能不希望 Modern.js 为你自动生成入口配置，开启该选项可以避免这个问题。
+- [source.disableDefaultEntries](/configure/app/source/disable-default-entries)：用于关闭 Modern.js 默认的入口扫描行为。当你使用自定义入口时，应用的部分结构可能会恰巧命中 Modern.js 约定的目录结构，但你可能不希望 Modern.js 为你自动生成入口配置，开启该选项可以避免这个问题。
 
 ### 示例
 
@@ -247,4 +233,37 @@ export default defineConfig({
 });
 ```
 
-注意，当你开启 `disableMount` 时，**将无法使用 Modern.js 框架的运行时能力**，比如 `modern.config.ts` 文件中的 `runtime` 配置将不会再生效。
+值得注意的是，默认情况下，Modern.js 认为通过配置指定的入口是**框架模式入口**，将自动生成真正的编译入口。如果你的应用是从 Webpack 或 Vite 等构建工具迁移到 Modern.js 框架时，你通常需要在入口配置中开启 `disableMount` 选项，此时 Modern.js 认为该入口是**构建模式入口**。
+
+
+## 弃用功能
+
+目前，如果入口所在的目录满足以下条件，也会成为应用入口。
+
+1. 具有 `index.[jt]sx?` 文件。
+2. 具有 `pages/` 目录。
+
+
+`pages/` 目录为 Modern.js 旧版本中的约定式路由，新版本中推荐使用 `routes/` 目录。
+
+`index.[jt]sx?` 在旧版本中支持应用自定义 Bootstrap 逻辑和构建模式入口，新版本中推荐使用 `entry.[jt]sx?` 代替。
+
+### 自定义 Bootstrap
+
+当入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### 构建模式入口
+
+当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数时，该入口也将被认为是构建模式入口。
+
+
+

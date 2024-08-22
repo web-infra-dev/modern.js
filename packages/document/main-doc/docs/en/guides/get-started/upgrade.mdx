@@ -37,9 +37,23 @@ import ReleaseNote from '@site-docs-en/components/release-note';
 <ReleaseNote />
 
 :::tip
-When upgrading, you need to upgrade all packages provided by Modern.js, instead of upgrading a single dependency.
-
+When upgrading, you need to upgrade all packages provided by Modern.js, rather than upgrading some dependencies.
 :::
+
+## Version Management Strategy
+
+In Modern.js projects, we recommend that all officially provided dependencies use fixed version, and avoid using `^` or `~` for range declarations. For example:
+
+```json
+{
+  "dependencies": {
+    "@modern-js/app-tools": "x.y.z"
+  }
+}
+```
+
+This ensures that the versions of dependencies are fully determined, thereby guaranteeing build consistency and predictability.
+
 
 ## Lock nested dependency
 

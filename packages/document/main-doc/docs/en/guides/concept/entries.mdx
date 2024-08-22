@@ -16,7 +16,7 @@ Many configuration options provided by Modern.js are divided by entry, such as p
 
 ## Single Entry and Multiple Entries
 
-The project initialized by Modern.js is a single entry (SPA) project, with the following structure:
+The project initialized by Modern.js is a single entry project, with the following structure:
 
 ```
 .
@@ -56,13 +56,12 @@ After running the command, Modern.js will automatically generate a new entry dir
 
 The original entry code has been moved to a directory with the same name as the `name` field in `package.json`, and a `new-entry` entry directory has been created.
 
-You can run `pnpm run dev` to start the development server. At this point, you will see a new route named `/new-entry` added, and the existing page routes remain unchanged.
-
-:::tip
 Modern.js will use the entry with the same name as the `name` field in `package.json` as the main entry. The route of the main entry is `/`, and the route of other entries is `/{entryName}`.
 
-For example, when the `name` field in `package.json` is `myapp`, `src/myapp` will be the main entry of the project.
+You can run `pnpm run dev` to start the development server. At this point, you will see a new route named `/new-entry` added, and the existing page routes remain unchanged.
 
+:::note
+The concepts of **single entry/multiple entry** and **SPA/MPA** are not equivalent. The former pertains to how to configure and package the application, while the latter is about the patterns for organizing front-end applications. Each entry point can be either an SPA or a non-SPA.
 :::
 
 ## Entry Types
@@ -82,30 +81,26 @@ By default, Modern.js scans the files under `src/` before starting the project, 
 
 :::
 
-Not all top-level directories under `src/` become project entries. The directory where the entry is located must meet one of the following five conditions:
+The entry directory must meet one of the following three conditions:
 
 1. Has a `routes/` directory.
 2. Has an `App.[jt]sx?` file.
-3. Has an `index.[jt]sx?` file.
-4. Has a `pages/` directory (compatible with Modern.js 1.0).
-5. Has an `entry.[jt]sx?` file.
+5. Has an `entry.[jt]sx?` file.(Requires [source.enableCustomEntry](/configure/app/source/enable-custom-entry) to be enabled)
 
-When the `src/` directory meets the entry requirements, Modern.js considers the current project as a single entry application.
+When the `src/` directory meets the conditions of an entry, Modern.js will consider the current application to be a single-entry application. Otherwise, Modern.js will scan the first-level directories under `src/` and further determine if they are entries. In this case, the application is typically a multi-entry application.
 
 :::tip
 In a single entry application, the default entry name is `main`.
 
 :::
 
-When the project is not a single entry application, Modern.js will further look at the top-level directories under `src/`.
-
 ### Framework Mode Entry
 
-The framework mode refers to the need to use the framework capabilities of Modern.js, such as nested routing, SSR, and integrated BFF, etc. Under this kind of entry convention, the entry defined by the developer is not the actual compilation entry. When Modern.js is launched, it generates a wrapped entry, and the real entry can be found at `node_modules/.modern/[entryName]/index.js`.
+Framework mode refers to using Modern.js's framework capabilities, such as convention routing, SSR (Server-Side Rendering), and integrated calls. Under this type of entry convention, the entries in the application are not the actual compilation entries. Modern.js will generate a wrapped entry during startup, which you can find in `node_modules/.modern/[entryName]/index.js`.
 
 #### Conventional Routing
 
-If there is a `routes/` directory in the entry, Modern.js will scan the files under `routes/` during startup, and automatically generate client-side routes (react-router) based on file conventions. For example:
+If there is a `routes/` directory within the entry, we refer to this entry as a convention-based route. Modern.js will scan the files under `routes/` during startup and automatically generate client-side routes (react-router) based on file conventions. For example:
 
 ```bash
 .
@@ -121,7 +116,15 @@ For more information, please refer to [Conventional Routing](/guides/basic-featu
 
 #### Self-controlled Routing
 
-If there is an `App.[jt]sx?` file in the entry, developers can set the client-side route in this file through code, or not set the client-side route.
+If there is an `App.[jt]sx?` file within the entry, we refer to this entry as a self-controlled route. For example:
+
+```bash
+.
+├── src
+│   └── App.tsx
+```
+
+In this file, you can define client-side routes or  not to set any client-side routes.
 
 ```tsx
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
@@ -142,11 +145,13 @@ For more information, please refer to [Self-controlled Routing](/guides/basic-fe
 
 #### Custom Entry
 
-If there is an `entry.[jt]sx` file in the entry, developers need to call the `createRoot` and `render` functions in the `entry.[jt]sx` file to complete the project's entry logic.
-
 :::info
-Using this file requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
+Using this features requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
 :::
+
+By default, whether you use convention routing or self-controlled routing, Modern.js will automatically handle rendering. If you wish to customize this behavior, you can creating a custom entry file.
+
+If there is an `entry.[jt]sx` file within the entry, Modern.js will no longer control the application's rendering process. You can call the `createRoot` and `render` functions within the `entry.[jt]sx` file to complete the entry logic for your application.
 
 ```tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -157,7 +162,9 @@ const ModernRoot = createRoot();
 render(<ModernRoot />);
 ```
 
-For example, if some other operations need to be performed before render is executed, it can be implemented in this way:
+In the code above, the component returned by the `createRoot` function is either the component generated from the `routes/` directory or the component exported by `App.tsx`. 
+
+The `render` function is used to handle rendering and mounting of the component. For example, if you want to execute some asynchronous tasks before rendering, you can achieve it like this:
 
 ```tsx
 import { createRoot } from '@modern-js/runtime/react';
@@ -166,7 +173,7 @@ import { render } from '@modern-js/runtime/browser';
 const ModernRoot = createRoot();
 
 async function beforeRender() {
-   // todo
+  // some async request
 }
 
 beforeRender().then(() => {
@@ -174,34 +181,15 @@ beforeRender().then(() => {
 });
 ```
 
-#### Custom Bootstrap
-
-:::warning
-Soon to be deprecated, it is recommended to use a custom entry.
-:::
-
-If there is an `index.[jt]sx` file in the entry, and the file exports a function by default, Modern.js will pass the default `bootstrap` function as a parameter and use the exported function to replace the default `bootstrap`. This way, developers can customize how components are mounted to DOM nodes or add custom behavior before mounting. For example:
-
-```tsx
-export default (App: React.ComponentType, bootstrap: () => void) => {
-  // do something before bootstrap...
-  initSomething().then(() => {
-    bootstrap();
-  });
-};
-```
-
 ### Build Mode Entry
 
-Build mode refers to not using the Runtime capabilities provided by Modern.js, but rather having the developer define the entry of the page completely on their own.
-
-When the entry directory contains `index.[jt]sx` (soon to be deprecated) and does not export a function via `export default`, or when there is an `entry.[jt]sx` file in the entry directory and the `@modern-js/runtime` dependency is not installed, the corresponding file will be identified as the entry module of webpack or Rspack.
-
 :::info
-Using the `entry.[jt]sx` file requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
+Using this features requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
 :::
 
-In this case, Modern.js will not generate the entry code automatically. Therefore, you need to manually mount the component to the DOM node, for example:
+Build mode refers to the development mode that does not use Modern.js's runtime capabilities and only utilizes Modern.js's build capabilities. When the `@modern-js/runtime` dependency is not installed in the application, Modern.js will treat all entries as build mode entries.
+
+In this case, if there is an `entry.[jt]sx` file within the entry, this file will be recognized as the build entry for webpack or Rspack. Modern.js will not automatically generate entry code at this time, and you need to mount the component to the DOM node yourself. For example:
 
 ```js title=src/entry.tsx
 import React from 'react';
@@ -211,9 +199,13 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-This approach is equivalent to enabling the [source.entries.disableMount](/configure/app/source/entries) option in Modern.js. When you use this approach, **you will not be able to use the runtime capabilities of the Modern.js framework**, such as the `runtime` configuration in the `modern.config.js` file will no longer take effect.
+In build mode, the application **will not be able to use Modern.js's runtime capabilities**, such as:
+- Convention routing, the routing based on the files under `src/routes`
+- Server-Side Rendering (SSR)
+- The `runtime` configuration in the `modern.config.js` file will no longer take effect
 
-## Custom Entries Config
+
+## Specify entry in the configuration file
 
 In some cases, you may need to customize the entry configuration instead of using the entry conventions provided by Modern.js.
 
@@ -246,4 +238,36 @@ export default defineConfig({
 });
 ```
 
-Note that when you enable `disableMount`, **you won't be able to use the runtime capabilities of the Modern.js framework**, such as the `runtime` configuration in the `modern.config.ts` file.
+It is worth noting that, by default, Modern.js considers entries specified through the configuration as **framework mode entries** and will automatically generate the actual compilation entry. 
+
+If your application is migrating from build tools like Webpack or Vite to the Modern.js framework, you typically need to enable the `disableMount` option in the entry configuration. In this case, Modern.js will treat the entry as a **build mode entry**.
+
+## Deprecated
+
+Currently, if the entry directory meets the following conditions, it will also be considered an application entry:
+
+1. Has an `index.[jt]sx?` file.
+2. Has a `pages/` directory.
+
+The `pages/` directory was the convention routing in older versions of Modern.js. Now, it is recommended to use the `routes/` directory.
+
+The `index.[jt]sx?` file supported **Custom Bootstrap** and **Build Mode Entry** in older versions. Now, it is recommended to use `entry.[jt]sx?` instead.
+
+### Custom Bootstrap
+
+When there is an `index.[jt]sx` file in the entry, and  the file's default export is a function, Modern.js will pass the default `bootstrap` function as an argument and use the exported function to replace the default `bootstrap`. 
+
+This allows developers to customize mounting components to DOM or add custom behaviors before mounting. For example:
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### Build Mode Entry
+
+When an `index.[jt]sx` file exists in the entry directory and does not export a function via export default, this entry will also be considered a build mode entry.

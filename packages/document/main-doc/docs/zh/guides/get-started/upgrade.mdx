@@ -38,8 +38,22 @@ import ReleaseNote from '@site-docs/components/release-note';
 
 :::tip
 当升级时，需要对 Modern.js 官方提供的所有包做统一升级，而不是升级单个依赖。
-
 :::
+
+## 版本管理策略
+
+在 Modern.js 项目中，我们推荐所有官方提供的依赖都使用固定版本号，不使用 `^` 或 `~` 进行范围声明。例如：
+
+```json
+{
+  "dependencies": {
+    "@modern-js/app-tools": "x.y.z"
+  }
+}
+```
+
+这样可以确保依赖的版本是完全确定的，从而保证构建的一致性和可预测性。
+
 
 ## 锁定子依赖
 
