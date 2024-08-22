@@ -78,9 +78,8 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
 
 function matchRoute(
   router: Router<ServerRoute>,
-  request: Request,
+  pathname: string,
 ): [ServerRoute, Params] {
-  const pathname = getPathname(request);
   const matched = router.match('*', pathname);
 
   const result = matched[0][0];
@@ -121,10 +120,13 @@ export async function createRender({
       templates,
       serverManifest,
       locals,
+      matchPathname,
       loaderContext,
     },
   ) => {
-    const [routeInfo, params] = matchRoute(router, req);
+    const forMatchpathname = matchPathname ?? getPathname(req);
+
+    const [routeInfo, params] = matchRoute(router, forMatchpathname);
 
     const onFallback = async (reason: FallbackReason, error?: unknown) => {
       return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
@@ -169,7 +171,7 @@ export async function createRender({
           e instanceof Error ? e.name : e
         }, error = %s, req.url = %s, req.headers = %o`,
         e instanceof Error ? e.stack || e.message : e,
-        pathname,
+        forMatchpathname,
         getHeadersWithoutCookie(headerData),
       );
     };
@@ -183,7 +185,9 @@ export async function createRender({
       await onFallback?.('error', e);
     };
 
-    const renderOptions = {
+    const renderOptions: SSRRenderOptions & {
+      serverRoutes: ServerRoute[];
+    } = {
       pwd,
       html,
       routeInfo,
