@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.58.2
+
+### Patch Changes
+
+- 1ff0304: fix: custom server route rewrite should carry honoContext.env
+  fix: custom server 路由重写应该带上 honoContext.env
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

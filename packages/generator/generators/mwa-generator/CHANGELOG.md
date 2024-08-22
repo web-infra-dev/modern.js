@@ -1,5 +1,16 @@
 # @modern-js/mwa-generator
 
+## 3.4.16
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
 ## 3.4.15
 
 ### Patch Changes

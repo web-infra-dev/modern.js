@@ -1,5 +1,26 @@
 # @modern-js/runtime
 
+## 2.58.2
+
+### Patch Changes
+
+- 9bbb0a0: fix: we should inject ssrData & window's data when ssr failed,
+  fix: 当 ssr 降级时，我们应该注入 ssrData 和 window's data 给 runtimeContext.ssrContext
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- 81829b0: fix: add sideEffect rules for `.modern-js` dir
+
+  fix: 对 `.modern-js` 目录添加 sideEffects 配置
+
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin-data-loader@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/types@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

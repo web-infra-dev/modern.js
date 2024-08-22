@@ -1,5 +1,13 @@
 # @modern-js/core
 
+## 2.58.2
+
+### Patch Changes
+
+- 9e1ce1f: fix(plugin-swc): function config not works
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes

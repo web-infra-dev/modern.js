@@ -1,5 +1,18 @@
 # @modern-js/runtime-utils
 
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
 ## 2.58.1
 
 ### Patch Changes
