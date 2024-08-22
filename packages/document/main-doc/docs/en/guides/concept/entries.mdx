@@ -241,3 +241,33 @@ export default defineConfig({
 It is worth noting that, by default, Modern.js considers entries specified through the configuration as **framework mode entries** and will automatically generate the actual compilation entry. 
 
 If your application is migrating from build tools like Webpack or Vite to the Modern.js framework, you typically need to enable the `disableMount` option in the entry configuration. In this case, Modern.js will treat the entry as a **build mode entry**.
+
+## Deprecated
+
+Currently, if the entry directory meets the following conditions, it will also be considered an application entry:
+
+1. Has an `index.[jt]sx?` file.
+2. Has a `pages/` directory.
+
+The `pages/` directory was the convention routing in older versions of Modern.js. Now, it is recommended to use the `routes/` directory.
+
+The `index.[jt]sx?` file supported **Custom Bootstrap** and **Build Mode Entry** in older versions. Now, it is recommended to use `entry.[jt]sx?` instead.
+
+### Custom Bootstrap
+
+When there is an `index.[jt]sx` file in the entry, and  the file's default export is a function, Modern.js will pass the default `bootstrap` function as an argument and use the exported function to replace the default `bootstrap`. 
+
+This allows developers to customize mounting components to DOM or add custom behaviors before mounting. For example:
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### Build Mode Entry
+
+When an `index.[jt]sx` file exists in the entry directory and does not export a function via export default, this entry will also be considered a build mode entry.

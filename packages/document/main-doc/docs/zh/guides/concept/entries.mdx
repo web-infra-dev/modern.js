@@ -236,3 +236,34 @@ export default defineConfig({
 值得注意的是，默认情况下，Modern.js 认为通过配置指定的入口是**框架模式入口**，将自动生成真正的编译入口。如果你的应用是从 Webpack 或 Vite 等构建工具迁移到 Modern.js 框架时，你通常需要在入口配置中开启 `disableMount` 选项，此时 Modern.js 认为该入口是**构建模式入口**。
 
 
+## 弃用功能
+
+目前，如果入口所在的目录满足以下条件，也会成为应用入口。
+
+1. 具有 `index.[jt]sx?` 文件。
+2. 具有 `pages/` 目录。
+
+
+`pages/` 目录为 Modern.js 旧版本中的约定式路由，新版本中推荐使用 `routes/` 目录。
+
+`index.[jt]sx?` 在旧版本中支持应用自定义 Bootstrap 逻辑和构建模式入口，新版本中推荐使用 `entry.[jt]sx?` 代替。
+
+### 自定义 Bootstrap
+
+当入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### 构建模式入口
+
+当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数时，该入口也将被认为是构建模式入口。
+
+
+
