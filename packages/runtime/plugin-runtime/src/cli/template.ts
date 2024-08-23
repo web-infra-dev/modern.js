@@ -165,7 +165,7 @@ import App from '${
     formatImportPath(
       customEntry
         ? entry
-            .replace('entry.tsx', 'App.tsx')
+            .replace('entry.tsx', 'App')
             .replace(srcDirectory, internalSrcAlias)
         : entry.replace(srcDirectory, internalSrcAlias),
     )
