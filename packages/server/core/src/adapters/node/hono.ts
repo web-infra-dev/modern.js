@@ -16,7 +16,9 @@ type NodeBindings = {
       __templates?: Record<string, string>;
       __serverManifest?: ServerManifest;
     };
-    res: NodeResponse;
+    res: NodeResponse & {
+      _modernBodyPiped?: boolean;
+    };
   };
 };
 
@@ -34,18 +36,26 @@ type Handler = (req: NodeRequest, res: NodeResponse) => void | Promise<void>;
 export const httpCallBack2HonoMid = (handler: Handler) => {
   return async (context: Context<ServerNodeEnv & ServerEnv>, next: Next) => {
     const { req, res } = context.env.node;
+    const onPipe = () => {
+      res._modernBodyPiped = true;
+    };
+    res.once('pipe', onPipe);
     // for bff.enableHandleWeb
     req.__honoRequest = context.req;
     req.__templates = context.get('templates') || {};
     req.__serverManifest = context.get('serverManifest') || {};
-    await handler(req, res);
-    // make sure res.headersSent is set, because when using pipe, headersSent is not set immediately
-    await new Promise(resolve => setTimeout(resolve, 0));
-    // Avoid memory leaks in node versions 18 and 20
-    delete req.__honoRequest;
-    delete req.__templates;
-    delete req.__serverManifest;
-    if (res.headersSent) {
+
+    try {
+      await handler(req, res);
+    } finally {
+      // Avoid memory leaks in node versions 18 and 20
+      delete req.__honoRequest;
+      delete req.__templates;
+      delete req.__serverManifest;
+      res.removeListener('pipe', onPipe);
+    }
+
+    if (res.headersSent || res._modernBodyPiped) {
       context.finalized = true;
     } else {
       await next();

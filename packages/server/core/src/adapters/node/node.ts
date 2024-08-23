@@ -129,7 +129,11 @@ const getRequestListener = (handler: RequestHandler) => {
        * ```
        */
 
-      if (!res.headersSent && !(response as any).res) {
+      if (
+        !res.headersSent &&
+        !(response as any).res &&
+        !(res as any)._modernBodyPiped
+      ) {
         await sendResponse(response, res);
       }
     } catch (error) {
