@@ -217,6 +217,14 @@ export const createRequestHandler: CreateRequestHandler =
 
       const initialData = await runBeforeRender(context);
 
+      // Support data loader to return status code
+      if (
+        context.routerContext?.statusCode &&
+        context.routerContext?.statusCode !== 200
+      ) {
+        context.ssrContext?.response.status(context.routerContext?.statusCode);
+      }
+
       context.initialData = initialData;
 
       const redirectResponse = getRedirectResponse(initialData);

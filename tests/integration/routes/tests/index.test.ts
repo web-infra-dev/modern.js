@@ -366,9 +366,13 @@ const supportThrowResponse = async (
   errors: string[],
   appPort: number,
 ) => {
-  await page.goto(`http://localhost:${appPort}/three/error/response`, {
-    waitUntil: ['domcontentloaded'],
-  });
+  const response = await page.goto(
+    `http://localhost:${appPort}/three/error/response`,
+    {
+      waitUntil: ['domcontentloaded'],
+    },
+  );
+  expect(response?.status()).toBe(255);
   const errorStatusElm = await page.$('.response-status');
   const text = await page.evaluate(el => el?.textContent, errorStatusElm);
   expect(text?.includes('255')).toBeTruthy();
