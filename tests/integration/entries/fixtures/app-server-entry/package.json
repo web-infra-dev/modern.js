@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "app-entry-server",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}
