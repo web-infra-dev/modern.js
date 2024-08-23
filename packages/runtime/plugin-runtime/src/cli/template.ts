@@ -167,7 +167,7 @@ import App from '${
         ? entry
             .replace('entry.tsx', 'App')
             .replace(srcDirectory, internalSrcAlias)
-        : entry.replace(srcDirectory, internalSrcAlias),
+        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
     )
   }';
 

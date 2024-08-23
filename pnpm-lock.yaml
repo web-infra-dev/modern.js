@@ -6168,6 +6168,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      axios:
+        specifier: ^1.7.4
+        version: 1.7.4
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -6255,6 +6258,24 @@ importers:
       react-dom:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
+
+  tests/integration/entries/fixtures/app-server-entry:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../../../../packages/toolkit/runtime-utils
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.3.1(react@18.2.0)
 
   tests/integration/esbuild:
     dependencies:
