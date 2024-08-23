@@ -6168,6 +6168,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      axios:
+        specifier: ^1.7.4
+        version: 1.7.4
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:

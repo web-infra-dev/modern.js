@@ -1,10 +1,10 @@
 export const routes = [
   {
     path: '/',
-    element: <div>Index</div>,
+    element: <div id="text">Index</div>,
   },
   {
     path: '/about',
-    element: <div>About</div>,
+    element: <div id="text">About</div>,
   },
 ];

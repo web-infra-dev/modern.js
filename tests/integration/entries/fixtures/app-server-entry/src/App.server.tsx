@@ -20,7 +20,6 @@ function createFetchRequest(request: Request) {
 
 let routerContext: any;
 const App = () => {
-  console.log('===', routes, routerContext);
   const router = createStaticRouter(routes, routerContext);
   return <StaticRouterProvider router={router} context={routerContext} />;
 };
