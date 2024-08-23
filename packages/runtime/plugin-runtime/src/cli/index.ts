@@ -126,7 +126,7 @@ export const runtimePlugin = (params?: {
             bundlerChain: chain => {
               chain.module
                 .rule('modern-entry')
-                .test([/\.js$/, /\.jsx$/])
+                .test(/\.jsx?$/)
                 .include.add(
                   path.resolve(appDirectory, 'node_modules', `.${metaName}`),
                 )
