@@ -73,3 +73,5 @@ export default {
   },
 };
 ```
+
+For detailed usage, please refer to [rsbuild-plugin-rem](https://github.com/rspack-contrib/rsbuild-plugin-rem).
