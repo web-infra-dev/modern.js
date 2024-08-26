@@ -20,6 +20,13 @@ export default function Layout() {
       <Link to="error/loader" className="loader-error-btn" prefetch="intent">
         /error/loader
       </Link>
+      <Link
+        to="error/response"
+        className="loader-error-response"
+        prefetch="intent"
+      >
+        /error/response
+      </Link>
       <Link to="redirect" className="redirect-btn" prefetch="intent">
         /redirect
       </Link>
