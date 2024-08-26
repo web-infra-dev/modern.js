@@ -1,32 +1,18 @@
 ---
-title: Data Fetching
 sidebar_position: 3
 ---
 
 # Data Fetching
 
-Modern.js provides out-of-the-box data fetching capabilities,developers can fetch data in the project through these APIs.
+Modern.js provides out-of-the-box data fetching capabilities. Developers can use these APIs to fetch data in their projects. It's important to note that these APIs do not help the application make requests but assist developers in managing data better and improving project performance.
 
-It should be noted that these APIs do not help applications initiate requests, but rather help developers better manage data and improve project performance.
+## What is Data Loader
 
-## Data Loader (Recommended)
-
-Modern.js recommends using [conventional routing](/guides/basic-features/routes) for routing management. Through Modern.js's [conventional (nested) routing](/guides/basic-features/routes#conventional-routing), each routing component (`layout.ts` or `page.ts`) can have a same-named `loader` file. The `loader` file needs to export a function that will be executed before the component is rendered to provide data for the routing component.
-
-:::info
-Modern.js v1 supports fetching data via [useLoader](</guides/basic-features/data/data-fetch.html#useloader-(old-version)>), which is no longer the recommended usage. We do not recommend mixing the two except during the migration process.
-
+:::note
+In Modern.js v1 projects, data was fetched using `useLoader`. This is no longer the recommended approach; we suggest migrating to Data Loader.
 :::
 
-:::warning
-- In the previous version, Modern.js Data Loader was defined in the `loader` file. In later versions, we recommend defining it in the `data` file, while we will maintain compatibility with the `loader` file.
-- In the `data` file, the corresponding `loader` needs to be exported with a name。
-
-:::
-
-### Basic Example
-
-Routing components such as `layout.ts` or `page.ts` can define a same-named `loader` file. The function exported by the `data` file provides the data required by the component, and then the data is obtained in the routing component through the `useLoaderData` function, as shown in the following example:
+Modern.js recommends managing routes using [conventional routing](/guides/basic-features/routes). Each route component (`layout.ts`, `page.ts`, or `$.tsx`) can have a same-named `.data` file. These files can export a `loader` function, known as Data Loader, which executes before the corresponding route component renders to provide data for the component. Here is an example:
 
 ```bash
 .
@@ -39,17 +25,7 @@ Routing components such as `layout.ts` or `page.ts` can define a same-named `loa
         └── page.data.ts
 ```
 
-Define the following code in the file:
-
-```ts title="routes/user/page.tsx"
-import { useLoaderData } from '@modern-js/runtime/router';
-import type { ProfileData } from './page.data.ts';
-
-export default function UserPage() {
-  const profileData = useLoaderData() as ProfileData;
-  return <div>{profileData}</div>;
-}
-```
+In the `routes/user/page.data.ts` file, you can export a Data Loader function:
 
 ```ts title="routes/user/page.data.ts"
 export type ProfileData = {
@@ -62,52 +38,69 @@ export const loader = async (): Promise<ProfileData> => {
 };
 ```
 
+:::warning Compatibility
+- In previous versions, Data Loader was defined in a `.loader` file. In the current version, we recommend defining it in a `.data` file, while maintaining compatibility with `.loader` files.
+- In `.loader` files, the Data Loader can be exported as default. In `.data` files, it should be named `loader` export.
+```ts
+  // xxx.loader.ts
+export default () => {}
+
+// xxx.data.ts
+export const loader = () => {}
+```
+:::
+
+In the route component, you can use the `useLoaderData` function to fetch data:
+
+```ts title="routes/user/page.tsx"
+import { useLoaderData } from '@modern-js/runtime/router';
+import type { ProfileData } from './page.data.ts';
+
+export default function UserPage() {
+  const profileData = useLoaderData() as ProfileData;
+  return <div>{profileData}</div>;
+}
+```
+
 :::caution
-Here, routing components and `data` files share a type, so the `import type` syntax should be used.
-
+Route components and `.data` files share types. Use `import type` to avoid unexpected side effects.
 :::
 
-In the CSR environment, the `loader` function is executed on the client and can use browser APIs (although it is not necessary and not recommended).
+In a CSR environment, the `loader` function executes on the browser side and can use browser APIs (though it's usually unnecessary and not recommended).
 
-In the SSR environment, whether it is the first screen or client navigation, the `loader` function will only be executed on the server, and any Node.js API can be called here. Also, any dependencies and code used here will not be included in the client's bundle.
+In an SSR environment, the `loader` function only executes on the server side for initial page loads and when navigating. Here it can call any Node.js APIs, and any dependencies or code used won't be included in the client-side bundle.
 
-:::info
-In future versions, Modern.js may support running the `loader` function on the server in the CSR environment to improve performance and security. Therefore, it is recommended to ensure that the `loader` function is as pure as possible and only used for data fetching scenarios.
-
+:::tip
+In future versions, Modern.js may support running `loader` functions on the server side even in CSR environments to improve performance and security. Therefore, it is advisable to keep the `loader` function pure, handling only data fetching scenarios.
 :::
 
-When navigating on the client based on Modern.js's [conventional routing](/guides/basic-features/routes), all `loader` functions will be executed in parallel (requested). That is, when accessing `/user/profile`, the loader functions under `/user` and `/user/profile` will be executed in parallel (requested) to improve the performance of the client.
+When navigating on the client side, based on [conventional routing](/guides/basic-features/routes), Modern.js supports parallel execution (requests) of all `loader` functions. For example, when visiting `/user/profile`, the `loader` functions under `/user` and `/user/profile` will execute in parallel, solving the request-render waterfall issue and significantly improving page performance.
 
-### The `loader` Function
+## `loader` Function
 
-The `loader` function has two input parameters:
+The `loader` function has two parameters used for getting route parameters and request information.
 
-#### `params`
+### params
 
-When the route file is accessed through `[]`, it is used as [dynamic routing](/guides/basic-features/routes#dynamic-routing), and the dynamic routing fragment is passed as a parameter to the `loader` function:
+`params` is the dynamic route segments when the route is a [dynamic route](/guides/basic-features/routes#dynamic-routes), which passed as parameters to the `loader` function:
 
-```tsx
-// routes/user/[id]/page.data.tsx
+```tsx title="routes/user/[id]/page.data.ts"
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
-export default async ({ params }: LoaderFunctionArgs) => {
+// When visiting /user/123, the function parameter is `{ params: { id: '123' } }`
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();
 };
 ```
 
-When accessing `/user/123`, the parameter of the `loader` function is `{ params: { id: '123' } }`.
+### request
 
-#### `request`
-
-`request` is a [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) instance.
-
-A common usage scenario is to get query parameters through `request`:
+`request` is an instance of [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request). A common use case is to get query parameters from `request`:
 
 ```tsx
-// routes/user/[id]/page.data.ts
-import { LoaderFunctionArgs } from '@modern-js/runtime/router';
+import { LoaderFunctionArgs } from '@modern-js/runtime/router;
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -116,9 +109,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 ```
 
-#### Return Value
+### Return Value
 
-The return value of the `loader` function can be any serializable content or a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance:
+The return value of the `loader` function **must be one of two data structures**: a serializable data object or an instance of [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response).
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -129,7 +122,7 @@ const loader = async (): Promise<ProfileData> => {
 export default loader;
 ```
 
-By default, the `Content-type` of the response returned by the `loader` is `application/json`, and the `status` is 200. You can customize the `Response` to set it:
+By default, the `loader` response's `Content-type` is `application/json`, and its `status` is 200. You can customize the `Response` to change these:
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -143,25 +136,41 @@ const loader = async (): Promise<ProfileData> => {
 };
 ```
 
-### Request API
+## Using Data Loader in Different Environments
 
-Modern.js provides a polyfill for the `fetch` API to make requests. This API is consistent with the browser's `fetch` API, but can also be used to make requests on the server. This means that whether it is CSR or SSR, a unified `fetch` API can be used to get data:
+The `loader` function may run on the server or client. When it runs on the server, it's called a Server Loader; when it runs on the client, it's called a Client Loader.
+
+In CSR applications, the `loader` function runs on the client, hence it is a Client Loader by default.
+
+In SSR applications, the `loader` function runs only on the server, hence it is a Server Loader by default. During SSR rendering, Modern.js will directly call the `loader` function on the server side. When navigating on the client side, Modern.js sends an HTTP request to the SSR service, also triggering the `loader` function on the server side.
+
+:::note
+Having the `loader` function run only on the server in SSR applications brings several benefits:
+- **Simplifies usage**: Guarantees consistent data-fetching methods in SSR applications, so developers don't have to distinguish between client and server code.
+- **Reduces client bundle size**: Moves logic code and dependencies from the client to the server.
+- **Improves maintainability**: Less direct influence of data logic on front-end UI and avoids issues of accidentally including server dependencies in the client bundle or vice versa.
+:::
+
+We recommend using the `fetch` API in `loader` functions to make requests. Modern.js provides a default polyfill for the `fetch` API, allowing it to be used on the server. This means you can fetch data in a consistent manner whether in CSR or SSR:
 
 ```tsx
-function loader() {
-  const res = await fetch('https://api/user/profile');
+export async function loader() {
+  const res = await fetch('URL_ADDRESS');
+  return {
+    message: res.message
+  }
 }
 ```
 
-### Error Handling
+## Error Handling
 
-#### Basic Usage
+### Basic Usage
 
-In the `loader` function, errors can be handled by throwing an `error` or a `response`. When an error is thrown in the `loader` function, Modern.js will stop executing the code in the current `loader` and switch the front-end UI to the defined [`ErrorBoundary`](/guides/basic-features/routes#error-handling) component:
+In a `loader` function, you can handle errors by using `throw error` or `throw response`. When an error is thrown in the `loader` function, Modern.js will stop executing the remaining code in the current `loader` and switch the front-end UI to the defined [`ErrorBoundary`](/guides/basic-features/routes#error-handling) component:
 
 ```tsx
-// routes/user/profile/page.data.tsx
-export const loader = async function loader() {
+// routes/user/profile/page.data.ts
+export async function loader() {
   const res = await fetch('https://api/user/profile');
   if (!res.ok) {
     throw res;
@@ -184,11 +193,11 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-#### Practice
+### Modify HTTP Code
 
-In an SSR project you can control the status code of a page and display the corresponding UI by `throw response` in the data loader, as in the following example, where there is one loader for the entire routing route
+In SSR projects, you can control the page status code by throwing a response in the `loader` function and display the corresponding UI.
 
-For example, if there is a loader in the entire routing route that throws a response, the status code of the page will be consistent with this `response` and the UI of the page will switch to `ErrorBoundary`.
+In the following example, the page's status code will match this `response`, and the page will display the `ErrorBoundary` UI:
 
 ```ts
 // routes/user/profile/page.data.ts
@@ -201,7 +210,7 @@ export async function loader() {
 }
 
 // routes/error.tsx
-import { useRouteError } from '@modern-js/runtime/router';
+import { useRouteError } from '@modern-js/runtime/router;
 const ErrorBoundary = () => {
   const error = useRouteError() as { data: string };
   return <div className="error">{error.data}</div>;
@@ -210,16 +219,16 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-### Get data from parent component
+## Accessing Data from Upper Components
 
-In many cases, child components need to access data in the parent component `loader`. You can easily get the data from the parent component using `useRouteLoaderData`:
+In many scenarios, child components need to access data from the upper component's `loader`. You can use the `useRouteLoaderData` function to easily get data from the upper component:
 
 ```tsx
 // routes/user/profile/page.tsx
 import { useRouteLoaderData } from '@modern-js/runtime/router';
 
-export default function UserLayout() {
-  // Get the data returned by the loader in routes/user/layout.data.ts
+export function UserLayout() {
+  // Get data returned by the `loader` in routes/user/layout.data.ts
   const data = useRouteLoaderData('user/layout');
   return (
     <div>
@@ -230,9 +239,9 @@ export default function UserLayout() {
 }
 ```
 
-The `useRouteLoaderData` function accepts a parameter `routeId`. When using [conventional routing](/guides/basic-features/routes), Modern.js will automatically generate the `routeId` for you. The value of `routeId` is the path of the corresponding component relative to `src/routes`. For example, in the above example, if the child component wants to get the data returned by the loader in `routes/user/layout.tsx`, the value of `routeId` is `user/layout`.
+`useRouteLoaderData` accepts a parameter `routeId`. In conventional routing, Modern.js automatically generates the `routeId`, which is the path of the corresponding component relative to `src/routes`. In the example above, the `routeId` for fetching data from `routes/user/layout.tsx`'s loader is `user/layout`.
 
-In a multi-entry (MPA) scenario, the value of `routeId` needs to include the name of the corresponding entry. Unless specified, the entry name is generally the name of the entry directory. For example, in the following directory structure:
+In a multi-entry scenario, the `routeId` value needs to include the corresponding entry name, which is typically the directory name if not explicitly specified. For example, with the following directory structure:
 
 ```bash
 .
@@ -245,12 +254,12 @@ In a multi-entry (MPA) scenario, the value of `routeId` needs to include the nam
                 └── layout.tsx
 ```
 
-If you want to get the data returned by the `loader` in `entry1/routes/layout.tsx`, the value of `routeId` is `entry1_layout`.
+To get data returned by the loader in `entry1/routes/layout.tsx`, the `routeId` value would be `entry1_layout`.
 
-### Loading UI (Experimental)
+## Loading UI (Experimental)
 
-:::info
-This feature is currently experimental and the API may change in the future.
+:::info Experimental
+This feature is currently experimental, and its API may change in the future.
 :::
 
 Create `user/layout.data.ts` and add the following code:
@@ -269,76 +278,62 @@ export const loader = () =>
       }, 1000);
     }),
   });
-
 ```
 
 Add the following code in `user/layout.tsx`:
 
 ```tsx title="routes/user/layout.tsx"
-import {
-  Await,
-  defer,
-  useLoaderData,
-  Outlet
-} from '@modern-js/runtime/router';
+import { Await, defer, useLoaderData, Outlet } from '@modern-js/runtime/router';
 
 export default function UserLayout() {
-  const { userInfo } = useLoaderData() as {userInfo: Promise<UserInfo>};
+  const { userInfo } = useLoaderData() as { userInfo: Promise<UserInfo> };
   return (
     <div>
-      <React.Suspense
-        fallback={<p>Loading...</p>}
-      >
-        <Await resolve={userInfo} children={userInfo => (
-          <div>
-            <span>{userInfo.name}</span>
-            <span>{userInfo.age}</span>
-            <Outlet/>
-          </div>
-        )}>
-        </Await>
+      <React.Suspense fallback={<p>Loading...</p>}>
+        <Await
+          resolve={userInfo}
+          children={userInfo => (
+            <div>
+              <span>{userInfo.name}</span>
+              <span>{userInfo.age}</span>
+              <Outlet />
+            </div>
+          )}
+        ></Await>
       </React.Suspense>
     </div>
   );
 }
 ```
 
-:::info
-For details on how to use the Await component, please refer to [Await](https://reactrouter.com/en/main/components/await).
-
-For details on how to use defer, please refer to [defer](https://reactrouter.com/en/main/guides/deferred).
+:::tip
+For more details on `<Await>`, refer to the [Await](https://reactrouter.com/en/main/components/await) documentation. For more details on `defer`, refer to the [defer](https://reactrouter.com/en/main/guides/deferred) documentation.
 :::
 
-### Data Cache
+## Data Caching
 
-In routing navigation, Modern.js will only load the data of the changed part of the route.
-For example, the current route is `a/b`, and the Data Loader corresponding to the `a` path has been executed.
-When jumping from `/a/b` to `/a/c`, the Data Loader corresponding to `a` path will not be re-executed,
-and the Data Loader corresponding to `c` path will execute and fetch the data.
+During route navigation, Modern.js will only load data for the parts of the route that change. For example, if the current route is `a/b`, and the Data Loader for the `a` path has already executed, then when transitioning from `/a/b` to `/a/c`, the Data Loader for the `a` path will not re-execute, but the Data Loader for the `c` path will execute and fetch the data.
 
-It is mean that Modern.js will only load the data for the routing change portion of the data load,
-and this default optimization strategy avoids invalid duplicate data requests.
+This default optimization strategy avoids redundant data requests. However, you might wonder how to update the data for the `a` path's Data Loader?
 
-You may ask, how to update the data of the `a` path corresponding to the Data Loader?
+In Modern.js, the Data Loader for a specific path will reload in the following scenarios:
 
-In Modern.js, Modern.js will reload the data of the corresponding routing path in the following cases:
+1. After triggering a [Data Action](/guides/basic-features/data/data-write.md)
+2. When URL parameters change
+3. When the user clicks a link that matches the current page URL
+4. When the route component defines a [`shouldRevalidate`](#/shouldrevalidate) function that returns `true`
 
-1. After [Data Action](/guides/basic-features/data/data-write.md) is triggered
-2. The search params on the url have changed.
-3. The link clicked by the user is the same as the URL of the current page.
-4. The [`shouldRevalidate`](#/shouldrevalidate) function is defined in the routing component, which returns true
-
-:::info
-If you define the [`shouldRevalidate`](#/shouldrevalidate) function on the route, the function will be checked first to determine whether the data needs to be reloaded.
+:::tip
+If you define a [`shouldRevalidate`](#/shouldrevalidate) function for a route, this function will be checked first to determine whether data reloads.
 :::
 
 ### `shouldRevalidate`
 
 :::warning
-Currently `shouldRevalidate` works under csr and streaming ssr.
+Currently, `shouldRevalidate` only takes effect in CSR and Streaming SSR.
 :::
 
-In each routing component (`layout.tsx`, `page.tsx`, `$.tsx`), we can export a `shouldRevalidate` function, which is triggered each time a route changes in the project. This function controls which routes' data are reloaded, and when it returns true, the data for the corresponding route is reloaded. data of the corresponding route will be reloaded.
+In route components (`layout.tsx`, `page.tsx`, `$.tsx`), you can export a `shouldRevalidate` function. This function is triggered on each route change in the project and can control which route data to reload. If this function returns `true`, Modern.js will reload the corresponding route data.
 
 ```ts title="routes/user/layout.tsx"
 import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';
@@ -358,48 +353,29 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 };
 ```
 
-:::info
-For more details about the `shouldRevalidate` function, please refer to [react-router](https://reactrouter.com/en/main/route/should-revalidate)
+:::tip
+For more details on the `shouldRevalidate` function, refer to the [react-router](https://reactrouter.com/en/main/route/should-revalidate) documentation.
 :::
 
-### Client Loader
+## Incorrect Usages
 
-:::info
-1. This feature requires version x.36.0 or above, and it‘s recommended to use the latest version of the framework.
-2. Only SSR projects have Client Loaders, while in CSR projects, it can be considered as the default Client Loader.
-3. This feature can be used progressively and not every project needs it. For specific information, please refer to the explanation of applicable scenarios in the document below.
-
-:::
-
-#### Applicable scenarios
-
-In the SSR project, the code in Data Loader will only be executed on the server side when the client performs SPA navigation.
-The framework will send an HTTP request to the SSR service to trigger the execution of Data Loader.
-However, in some scenarios, we may expect that requests sent by clients do not go through the SSR service and directly request data sources.
-
-:::info
-Why the Data Loader is only executed server-side in SSR projects can be found in [FAQ](#faq)
-
-:::
-
-For example, the following scenarios:
-
-1. During SSR degradation, it is not desired for the framework to send requests to the SSR service to obtain data. Instead, direct requests to the data source are preferred.
-2. There is some cache on the client side, and we don't want to request SSR service to fetch data.
-
-In these scenarios, we can use Client Loader. After adding the Client Loader, in the following scenarios, the code in the Client Loader will be called instead of sending requests to SSR services:
-
-1. After SSR is downgraded to CSR, when fetch data on the client side, Client Loader will be executed instead of the framework sending requests to Data Loader (Server) to fetch data.
-2. When performing SPA navigation in SSR projects and fetch data, Client Loader will be executed.
-
-
-### Incorrect usage
-
-1. The `loader` can only return serializable data. In the SSR environment, the return value of the `loader` function will be serialized as a JSON string and then deserialized into an object on the client side. Therefore, the `loader` function cannot return non-serializable data (such as functions).
+1. The `loader` can only return serializable data. In an SSR environment, the return value of the `loader` function will be serialized as a JSON string and then deserialized as an object on the client side. Therefore, the `loader` function should not return non-serializable data such as functions.
 
 :::warning
-Currently, there is no such restriction under CSR, but we strongly recommend that you follow this restriction, and we may also add this restriction under CSR in the future.
+This limitation currently does not exist in CSR, but we strongly recommend adhering to it, as future versions may enforce this restriction in CSR as well.
 :::
+
+```ts
+// This won't work!
+export default () => {
+  return {
+    user: {},
+    method: () => {},
+  };
+};
+```
+
+2. Modern.js will call the `loader` function for you, and you should not call it yourself:
 
 ```ts
 // This won't work!
@@ -414,22 +390,7 @@ export default function RouteComp() {
 }
 ```
 
-2. Modern.js will call the `loader` function for you, so you should not call the `loader` function yourself:
-
-```tsx
-// This won't work!
-export const loader = async () => {
-  const res = fetch('https://api/user/profile');
-  return res.json();
-};
-
-import { loader } from './page.data.ts';
-export default function RouteComp() {
-  const data = loader();
-}
-```
-
-3. You should not import the loader file from the route component, and you should also avoid importing variables from the route component into the loader file. If you need to share types, you should use `import type`.
+3. Do not import `loader` files from route components, and do not import variables from route components into `loader` files. If you need to share types, use `import type`.
 
 ```ts
 // Not allowed
@@ -445,85 +406,23 @@ export default function UserPage() {
 }
 
 // routes/layout.data.ts
-import { fetch } from './layout.tsx'; // should not be imported from the routing component
+import { fetch } from './layout.tsx'; // should not be imported from the route component
 export type ProfileData = {
   /*  some types */
 };
 
-export default async (): Promise<ProfileData> => {
+export const loader = async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
   return await res.json();
 };
 ```
 
-4. When running on the server, the `loader` function will be bundled into a unified bundle, so we do not recommend using `__filename` and `__dirname` in server-side code.
+4. When running on the server, `loader` functions are packaged into a single bundle. Therefore, we do not recommend using `__filename` and `__dirname` in server code.
 
-### FAQ
+## Frequently Asked Questions
 
-1. Relationship between `loader` and BFF functions
+1. What is the relationship between `loader` and BFF functions?
 
-In CSR projects, `loader` is executed on the client side, and the BFF function can be called directly in the `loader` to make interface requests.
+In CSR projects, the `loader` executes on the client side and can directly call BFF functions to make API requests.
 
-In SSR projects, each `loader` is also a server-side interface. We recommend using the `loader` instead of the BFF function with an http method of `get` as the interface layer to avoid an extra layer of forwarding and execution.
-
-2. Why is the Data Loader only executed on the server-side in SSR projects?
-
-The Data Loader in our SSR project is designed to only run on the server side. The main reasons for sending requests from the client to the server during client-side rendering are as follows:
-
-- **Simplified usage**, when using a server loader, the data fetching code for both the SSR and CSR phases is in the server loader (the real calls are made by the framework layer), and the code in the server loader doesn't need to care whether it's in a browser environment or a server-side environment.
-- **Reducing data for network requests**, The server loader can be used as a BFF layer, which reduces the amount of data that needs to be fetched by the front-end at runtime.
-- **Reduce client-side bundle size**, moving the logic code and its dependencies from the client to the server.
-- **Improve maintainability**, moving the logic code to the server side reduces the direct impact of data logic on the front-end UI. In addition, the problem of mistakenly introducing server-side dependencies in the client-side bundle or client-side dependencies in the server-side bundle is also avoided.
-
-
-## useLoader (old version)
-
-**`useLoader`** is a legacy API in Modern.js v1. This API is a React Hook designed specifically for SSR applications, allowing developers to fetch data in components in isomorphic development.
-
-:::tip
-It is not necessary to use `useLoader` to fetch data in CSR projects, and `useLoader` is not supported when using Rspack as the bundler.
-:::
-
-Here is the simplest example:
-
-```tsx
-import { useLoader } from '@modern-js/runtime';
-
-export default () => {
-  const { data } = useLoader(async () => {
-    console.log('fetch in useLoader');
-
-    // No real request is sent here, just a hard coding data is returned.
-    // In a real project, the data obtained from the remote end should be returned.
-    return {
-      name: 'Modern.js',
-    };
-  });
-
-  return <div>Hello, {data?.name}</div>;
-};
-```
-
-After running the above code, when you access the page, you can see that logs are output to the terminal, but not printed in the browser console.
-
-This is because Modern.js collects the data returned by `useLoader` during server-side rendering and injects it into the corresponding HTML. If the SSR rendering is successful, you can see the following code snippet in the HTML:
-
-```html
-<script>
-  window._SSR_DATA = {};
-</script>
-```
-
-This global variable is used to record data, and during the browser-side rendering process, this data is used first. If the data does not exist, the `useLoader` function will be executed again.
-
-:::note
-During the build phase, Modern.js will automatically generate a Loader ID for each `useLoader` and inject it into the SSR and CSR JS Bundles to associate the Loader with the data.
-:::
-
-Compared to `getServerSideProps` in Next.js, which fetches data before rendering, using `useLoader` allows you to get data required for local UI in the component without passing data through multiple layers. Similarly, you don't have to add redundant logic to the outermost data acquisition function because different routes require different data requests. Of course, `useLoader` also has some issues, such as difficulties in server-side code tree shaking and the need for an additional pre-rendering step on the server.
-
-In the new version of Modern.js, a new Loader solution has been designed. The new solution solves these problems and can be optimized for page performance in conjunction with [conventional routing](/guides/basic-features/routes).
-
-:::note
-For detailed API information, see [useLoader](/apis/app/runtime/core/use-loader).
-:::
+In SSR projects, each `loader` is also a server-side API. We recommend using `loader` instead of BFF functions with an HTTP method of `get` to avoid an extra layer of forwarding and execution.

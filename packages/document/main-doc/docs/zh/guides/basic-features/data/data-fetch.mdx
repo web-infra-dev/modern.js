@@ -5,28 +5,15 @@ sidebar_position: 3
 
 # 数据获取
 
-Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在项目中获取数据。
+Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在项目中获取数据。需要注意的是，这些 API 并不帮助应用发起请求，而是帮助开发者更好地管理数据，提升项目的性能。
 
-需要注意的是，这些 API 并不帮助应用发起请求，而是帮助开发者更好地管理数据，提升项目的性能。
+## 什么是 Data Loader
 
-## Data Loader(推荐)
-
-Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以有一个同名的 `data` 文件，该 `data` 文件可以导出一个 `loader` 函数，函数会在组件渲染之前执行，为路由组件提供数据。
-
-:::info
-Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这已经不是我们推荐的用法。除迁移过程外，不推荐两者混用。
-
+:::note
+Modern.js v1 项目通过 `useLoader` 获取数据，这已经不是我们推荐的用法，建议迁移到 Data Loader。
 :::
 
-:::warning
-- 在之前的版本中，Modern.js Data Loader 是定义在 `loader` 文件中的，在之后的版本中，我们推荐定义在 `data` 文件中，同时我们会保持对 `loader` 文件的兼容。
-- 在 `data` 文件中，对应的 `loader` 需要具名导出。
-
-:::
-
-### 基础示例
-
-路由组件如 `layout.ts` 或 `page.ts`，可以定义同名的 `data` 文件，`data` 文件中导出一个 `loader` 函数，该函数提供组件所需的数据，然后在路由组件中通过 `useLoaderData` 函数获取数据，如下面示例：
+Modern.js 推荐使用[约定式路由](/guides/basic-features/routes)做路由的管理，每个路由组件（`layout.ts`，`page.ts` 或 `$.tsx`）都可以有一个同名的 `.data` 文件。这些文件可以导出一个 `loader` 函数，我们称为 Data Loader，它会在对应的路由组件渲染之前执行，为组件提供数据。如下面示例：
 
 ```bash
 .
@@ -39,17 +26,7 @@ Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这
         └── page.data.ts
 ```
 
-在文件中定义以下代码：
-
-```ts title="routes/user/page.tsx"
-import { useLoaderData } from '@modern-js/runtime/router';
-import type { ProfileData } from './page.data.ts';
-
-export default function UserPage() {
-  const profileData = useLoaderData() as ProfileData;
-  return <div>{profileData}</div>;
-}
-```
+在 `routes/user/page.data.ts` 文件中，可以导出一个 `loader` 函数：
 
 ```ts title="routes/user/page.data.ts"
 export type ProfileData = {
@@ -62,34 +39,57 @@ export const loader = async (): Promise<ProfileData> => {
 };
 ```
 
-:::caution
-这里路由组件和 `data` 文件共享类型，要使用 `import type` 语法。
+:::warning 兼容性
+- 在之前的版本中，Data Loader 是定义在 `.loader` 文件中的。当前版本中，我们推荐定义在 `.data` 文件中，同时我们会保持对 `.loader` 文件的兼容。
+- 在 `.loader` 文件中，Data Loader 可以默认导出。但在 `data` 文件中，Data Loader 需要以 `loader` 具名导出。
+```ts
+  // xxx.loader.ts
+export default () => {}
 
+// xxx.data.ts
+export const loader = () => {}
+```
+:::
+
+
+在路由组件中，你可以通过 `useLoaderData` 函数获取数据：
+
+```ts title="routes/user/page.tsx"
+import { useLoaderData } from '@modern-js/runtime/router';
+import type { ProfileData } from './page.data.ts';
+
+export default function UserPage() {
+  const profileData = useLoaderData() as ProfileData;
+  return <div>{profileData}</div>;
+}
+```
+
+:::caution
+路由组件和 `.data` 文件共享类型，要使用 `import type` 语法，避免引入预期之外的副作用。
 :::
 
 在 CSR 项目中，`loader` 函数会在客户端执行，`loader` 函数内可以使用浏览器的 API（但通常不需要，也不推荐）。
 
 在 SSR 项目中，不管是首屏，还是在客户端的导航，`loader` 函数只会在服务端执行，这里可以调用任意的 Node.js API，同时这里使用的任何依赖和代码都不会包含在客户端的 bundle 中。
 
-:::info
+:::tip
 在以后的版本中，Modern.js 可能会支持在 CSR 环境下，`loader` 函数也在服务端运行，以提高性能和安全性，所以这里建议尽可能地保证 `loader` 的纯粹，只做数据获取的场景。
-
 :::
 
-当在客户端导航时，基于 Modern.js 的[约定式路由](/guides/basic-features/routes)，所有的 `loader` 函数会并行执行（请求），即当访问 `/user/profile` 时，`/user` 和 `/user/profile` 下的 loader 函数都会并行执行（请求），以提高客户端的性能。
+当在浏览器端导航时，基于[约定式路由](/guides/basic-features/routes)，Modern.js 能够支持所有的 `loader` 函数并行执行（请求）。即当访问 `/user/profile` 时，`/user` 和 `/user/profile` 下的 `loader` 函数都会并行执行（请求），这种方式解决了部分请求、渲染瀑布流的问题，较大的提升了页面性能。
 
-### `loader` 函数
+## `loader` 函数
 
-`loader` 函数有两个入参：
+`loader` 函数有两个入参，分别用于获取路由参数和请求信息。
 
-#### `params`
+### params
 
-当路由文件通过 `[]` 时，会作为[动态路由](/guides/basic-features/routes#动态路由)，动态路由片段会作为参数传入 `loader` 函数：
+`params` 是当路由为[动态路由](/guides/basic-features/routes#动态路由)时的动态路由片段，会作为参数传入 `loader` 函数：
 
-```tsx
-// routes/user/[id]/page.data.ts
+```tsx title="routes/user/[id]/page.data.ts"
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
+// 访问 /user/123 时，函数的参数为 `{ params: { id: '123' } }`
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
@@ -97,16 +97,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 ```
 
-当访问 `/user/123` 时，`loader` 函数的参数为 `{ params: { id: '123' } }`。
+### request
 
-#### `request`
-
-`request` 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。
-
-一个常见的使用场景是通过 `request` 获取查询参数：
+`request` 是一个 [Fetch Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) 实例。一个常见的使用场景是通过 `request` 获取查询参数：
 
 ```tsx
-// routes/user/[id]/page.data.ts
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
@@ -116,9 +111,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 ```
 
-#### 返回值
+### 返回值
 
-`loader` 函数的返回值可以是任何可序列化的内容，也可以是一个 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例：
+`loader` 函数的返回值**只能是两种数据结构之一**，可序列化的数据对象或者 [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) 实例。
 
 ```tsx
 const loader = async (): Promise<ProfileData> => {
@@ -143,19 +138,37 @@ const loader = async (): Promise<ProfileData> => {
 };
 ```
 
-### 请求 API
+## 在不同环境使用 Data Loader
 
-Modern.js 对 `fetch` API 做了 polyfill, 用于发起请求，该 API 与浏览器的 `fetch` API 一致，但是在服务端也能使用该 API 发起请求，这意味着不管是 CSR 还是 SSR，都可以使用统一的 `fetch` API 进行数据获取：
+`loader` 函数可能会在服务端或浏览器端执行。在服务端执行的 `loader` 函数，我们称为 Server Loader，在浏览器端执行的称为 Client Loader。
+
+在 CSR 应用中，`loader` 函数会在浏览器端执行，即默认都是 Client Loader。
+
+在 SSR 应用中，`loader` 函数只会在服务端执行，即默认都是 Server Loader。在 SSR 渲染时，Modern.js 会直接在服务端调用对应的 `loader` 函数。在浏览器端切换路由时，Modern.js 会发送一个 http 请求到 SSR 服务，同样在服务端触发 `loader` 函数。
+
+:::note
+SSR 应用的 `loader` 函数只在服务端执行可以带来以下好处：
+
+- **简化使用方式**：保证 SSR 应用获取数据的方式是同构的，开发者无需根据环境区分 `loader` 函数执行的代码。
+- **减少浏览器端 bundle 体积**：将逻辑代码及其依赖，从浏览器端移动到了服务端。
+- **提高可维护性**：将逻辑代码移动到服务端，减少了数据逻辑对前端 UI 的直接影响。此外，也避免了浏览器端 bundle 中误引入服务端依赖，或服务端 bundle 中误引入浏览器端依赖的问题。
+
+:::
+
+我们推荐在 `loader` 函数中使用 `fetch` API 发起请求。在 Modern.js 中默认对 `fetch` API 做了 polyfill，允许服务端使用该 API 发起请求，这意味你都可以在 CSR 和 SSR 时同构的获取数据：
 
 ```tsx
 export async function loader() {
-  const res = await fetch('https://api/user/profile');
+  const res = await fetch('URL_ADDRESS');
+  return {
+    message: res.message
+  }
 }
 ```
 
-### 错误处理
+## 错误处理
 
-#### 基本用法
+### 基本用法
 
 在 `loader` 函数中，可以通过 `throw error` 或者 `throw response` 的方式处理错误，当 `loader` 函数中有错误被抛出时，Modern.js 会停止执行当前 `loader` 中的代码，并将前端 UI 切换到定义的 [`ErrorBoundary`](/guides/basic-features/routes#错误处理) 组件：
 
@@ -184,10 +197,11 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-#### 实践
+### 修改 HTTP 状态码
 
-在 SSR 项目中你可以通过在 data loader 中 `throw response` 的方式，控制页面的状态码，展示对应的 UI，如以下示例，整条路由路线中有一个 loader
-throw response，页面的状态码将与这个 `response` 保持一致，页面的 UI 也会切换为 `ErrorBoundary`:
+在 SSR 项目中你可以通过在 `loader` 函数中 `throw response` 的方式，控制页面的状态码，展示对应的 UI。
+
+如以下示例，页面的状态码将与这个 `response` 保持一致，页面也会展示为 `ErrorBoundary` 的 UI:
 
 ```ts
 // routes/user/profile/page.data.ts
@@ -209,9 +223,9 @@ const ErrorBoundary = () => {
 export default ErrorBoundary;
 ```
 
-### 获取上层组件的数据
+## 获取上层组件的数据
 
-很多场景下，子组件需要获取到祖先组件 `loader` 中的数据，你可以通过 `useRouteLoaderData` 方便地获取到祖先组件的数据：
+很多场景下，子组件需要获取到上层组件 `loader` 中的数据，你可以通过 `useRouteLoaderData` 方便地获取到上层组件的数据：
 
 ```tsx
 // routes/user/profile/page.tsx
@@ -229,9 +243,9 @@ export function UserLayout() {
 }
 ```
 
-`userRouteLoaderData` 接受一个参数 `routeId`，在使用约定式路由时，Modern.js 会为你自动生成`routeId`，`routeId` 的值是对应组件相对于 `src/routes` 的路径，如上面的例子中，子组件想要获取 `routes/user/layout.tsx` 中 loader 返回的数据，`routeId` 的值就是 `user/layout`。
+`userRouteLoaderData` 接受一个参数 `routeId`。在使用约定式路由时，Modern.js 会为你自动生成 `routeId`，`routeId` 的值是对应组件相对于 `src/routes` 的路径，如上面的例子中，子组件想要获取 `routes/user/layout.tsx` 中 loader 返回的数据，`routeId` 的值就是 `user/layout`。
 
-在多入口（MPA） 场景下，`routeId` 的值需要加上对应入口的名称，入口名称非指定情况下一般是入口的目录名，如以下目录结构：
+在多入口场景下，`routeId` 的值需要加上对应入口的名称，入口名称非指定情况下一般是入口的目录名，如以下目录结构：
 
 ```bash
 .
@@ -247,11 +261,10 @@ export function UserLayout() {
 如果想获取 `entry1/routes/layout.tsx` 中 `loader` 返回的数据，`routeId` 的值就是 `entry1_layout`。
 
 
-### Loading UI (Experimental)
+## Loading UI (Experimental)
 
-:::info
-此功能目前是实验性质，后续 API 可能有调整。
-
+:::info Experimental
+此功能当前是实验性功能，后续 API 可能有调整。
 :::
 
 创建 `user/layout.data.ts`，并添加以下代码：
@@ -298,39 +311,34 @@ export default function UserLayout() {
 }
 ```
 
-:::info
-Await 组件的具体用法请查看 [Await](https://reactrouter.com/en/main/components/await)
-
-defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/deferred)
-
+:::tip
+`<Await>` 组件的具体用法请查看 [Await](https://reactrouter.com/en/main/components/await)，`defer` 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/deferred)。
 :::
 
-### 数据缓存
+## 数据缓存
 
-在路由导航时，Modern.js 只会加载路由变化的部分的数据，如当前路由是 `a/b`，`a` 路径对应的 Data Loader 已经执行过，当从 `/a/b` 跳转到 `/a/c`时，`a` 路径对应的 Data Loader 不会重新执行，`c` 路径对应的 Data Loader 会执行，并获取了数据。
+在路由导航时，Modern.js 只会加载路由变化的部分的数据。如当前路由是 `a/b`，`a` 路径对应的 Data Loader 已经执行过，当从 `/a/b` 跳转到 `/a/c`时，`a` 路径对应的 Data Loader 不会重新执行，`c` 路径对应的 Data Loader 会执行，并获取了数据。
 
-即 Modern.js 在数据加载时，只会加载路由变化部分的数据，这种默认的优化策略避免了无效重复数据的请求。
-
-你可能会问，如何更新 `a` 路径对应 Data Loader 的数据？
+这种默认的优化策略避免了无效重复数据的请求。此时你可能会疑惑，如何更新 `a` 路径对应 Data Loader 的数据？
 
 在 Modern.js 中，以下几种情况，Modern.js 会重新加载对应路由路径的数据：
 
 1. 在 [Data Action](/guides/basic-features/data/data-write.md) 触发后
-2. URL 上搜索参数发生了变化
+2. URL 参数发生变化后
 3. 用户点击的链接与当前页面的 URL 相同
-4. 在路由组件中定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，该函数返回 true
+4. 在路由组件中定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，该函数返回 `true`
 
-:::info
+:::tip
 如果你在路由上定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，会先检查该函数，判断是否需要重新加载数据。
 :::
 
 ### `shouldRevalidate`
 
 :::warning
-目前 `shouldRevalidate` 会在 csr 和 streaming ssr 下生效。
+目前 `shouldRevalidate` 只会在 CSR 和 Streaming SSR 下生效。
 :::
 
-在每个路由组件(`layout.tsx`，`page.tsx`, `$.tsx`)中，我们可以导出一个 `shouldRevalidate` 函数，在每次项目中的路由变化时，这个函数会触发，该函数可以控制要重新加载哪些路由中的数据，当这个函数返回 true， 对应路由的数据就会重新加载。
+在路由组件（`layout.tsx`，`page.tsx`，`$.tsx`）中，我们可以导出一个 `shouldRevalidate` 函数。每次项目中的路由变化时，这个函数会被触发，该函数可以控制要重新加载哪些路由中的数据。如果这个函数返回 `true`，Modern.js 就会重新加载对应路由的数据。
 
 ```ts title="routes/user/layout.tsx"
 import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';
@@ -350,71 +358,13 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 };
 ```
 
-:::info
-`shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/en/main/route/should-revalidate)
+:::tip
+`shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/en/main/route/should-revalidate)。
 :::
 
-### Client Loader
+## 错误用法
 
-:::info
-1. 这个 feature 需要 x.36.0 以上版本，推荐使用框架最新版本
-2. 只有 SSR 项目中有 Client Loader，CSR 项目中可以认为默认就是 Client Loader
-3. 这个特性可以渐进使用，并不是每个项目都需要，具体可以看下面文档适用场景的说明
-
-:::
-
-#### 适用场景
-
-在 SSR 项目中，Data Loader 中的代码只会在服务端执行，当客户端进行 SPA 导航时，
-框架会发送一个 http 请求到 SSR 服务，触发 Data Loader 的执行，
-但有些场景下，我们可能期望在客户端发送的请求不经过 SSR 服务，直接请求数据源。
-
-:::info
-为什么 SSR 项目中 Data Loader 只会在服务端执行可参考 [常见问题](#常见问题)
-
-:::
-
-例如以下场景：
-
-1. 在 SSR 降级时，不希望框架向 SSR 服务发送请求获取数据，希望能直接请求后端服务。
-2. 在客户端有一些缓存，不希望请求 SSR 服务获取数据。
-
-这些场景下，我们可以使用 Client Loader。添加 Client Loader 后，会调用 Client Loader 中的代码，而不再像 SSR 服务发送请求：
-
-1. SSR 降级为 CSR 后，在客户端获取数据时，会执行 Client Loader 代替框架发送请求到 Data Loader（Server） 获取数据。
-2. SSR 项目进行 SPA 跳转时，获取数据，会执行 Clinet Loader。
-
-
-#### 使用方式
-
-:::warning
-要使用  client loader，必须有对应的 server loader(data loader)
-:::
-
-1. 如果原有项目中 loader 是以 `.loader.ts` 文件为约定的，需要修改 `.loader.ts` 为 `.data.ts`（如果 loader 是在 `.data.ts` 文件中定义，忽略这个步骤）。
-
-  - 将 `.loader.ts` 文件重命名为 `.data.ts`
-  - 将文件中的代码做以下改动：
-  ```ts
-    // xxx.loader.ts
-  export default () => {}
-
-  // xxx.data.ts
-  export const loader = () => {}
-  ```
-
-
-2. 添加 client loader，client loader API 中的入参和 data loader 是一致的。
-
-```
-// xxx.data.client.ts
-export const loader = () => {}
-```
-
-
-### 错误用法
-
-1. `loader` 中只能返回可序列化的数据，在 SSR 环境下，`loader` 函数的返回值会被序列化为 JSON 字符串，然后在客户端被反序列化为对象。因此，`loader` 函数中不能返回不可序列化的数据（如函数）。
+1. `loader` 中只能返回可序列化的数据，在 SSR 环境下，`loader` 函数的返回值会被序列化为 JSON 字符串，然后在浏览器端被反序列化为对象。因此，`loader` 函数中不能返回不可序列化的数据（如函数）。
 
 :::warning
 目前 CSR 下没有这个限制，但我们强烈推荐你遵循该限制，且未来我们可能在 CSR 下也加上该限制。
@@ -475,75 +425,10 @@ export const loader = async (): Promise<ProfileData> => {
 
 4. 在服务端运行时，`loader` 函数会被打包为一个统一的 bundle，所以我们不推荐服务端的代码使用 `__filename` 和 `__dirname`。
 
-### 常见问题
+## 常见问题
 
-1. `loader` 和 BFF 函数的关系
+1. `loader` 和 BFF 函数的关系是什么？
 
-在 CSR 项目中，`loader` 在客户端执行，在 `loader` 可以直接调用 BFF 函数进行接口请求。
+在 CSR 项目中，`loader` 在浏览器端执行，在 `loader` 可以直接调用 BFF 函数进行接口请求。
 
-在 SSR 项目中，每个 `loader` 也是一个服务端接口，我们推荐使用 `loader` 替代 http method 为 `get` 的 BFF 函数，作为接口层，避免多一层转发和执行。
-
-
-2. 为什么 SSR 项目中 Data Loader 只会在服务端执行？
-
-我们设计 SSR 项目中 Data Loader 只会在服务端，在客户端渲染时，由框架发送请求到服务端主要有以下原因：
-
-- **简化使用方式**，有 server loader 后，SSR 阶段和  CSR 阶段数据获取的操作都可以放在 server loader 中（真实的调用由框架层去做），server  loader 中的代码无需关心是在浏览器环境中还是服务端环境中。
-- **减少网络请求的数据**，作为 BFF 层，可以减少前端运行时需要获取的数据。
-- **减少客户端 bundle 体积**，将逻辑代码及其依赖，从客户端移动到了服务端。
-- **提高可维护性**，将逻辑代码移动到服务端，减少了数据逻辑对前端 UI 的直接影响。此外，也避免了客户端 bundle 中误引入服务端依赖，或服务端 bundle 中误引入客户端依赖的问题。
-
-
-## useLoader（旧版）
-
-**`useLoader`** 是 Modern.js 老版本中的 API。该 API 是一个 React Hook，专门提供给 SSR 应用使用，让开发者能同构的在组件中获取数据。
-
-:::tip
-CSR 的项目没有必要使用 `useLoader` 获取数据，且在使用 Rspack 作为打包工具时，`useLoader` 不支持使用。
-:::
-
-以下是一个最简单的例子：
-
-```tsx
-import { useLoader } from '@modern-js/runtime';
-
-export default () => {
-  const { data } = useLoader(async () => {
-    console.log('fetch in useLoader');
-
-    // 这里没有发送真实的请求，只是返回了一个写死的数据。
-    // 真实项目中，应该返回从远端获取的数据。
-    return {
-      name: 'Modern.js',
-    };
-  });
-
-  return <div>Hello, {data?.name}</div>;
-};
-```
-
-上述代码启动后，访问页面。可以看到在终端输出了日志，而在浏览器终端却没有打印日志。
-
-这是因为 Modern.js 在服务端渲染时，在会收集 `useLoader` 返回的数据，并将数据注入到响应的 HTML 中。如果 SSR 渲染成功，在 HTML 中可以看到如下代码片段：
-
-```html
-<script>
-  window._SSR_DATA = {};
-</script>
-```
-
-在这全局变量中，记录了每一份数据，而在浏览器端渲染的过程中，会优先使用这份数据。如果数据不存在，则会重新执行 `useLoader` 函数。
-
-:::note
-在构建阶段，Modern.js 会自动为每个 `useLoader` 生成一个 Loader ID，并注入到 SSR 和 CSR 的 JS Bundle 中，用来关联 Loader 和数据。
-
-:::
-
-相比于 Next.js 中的 `getServerSideProps`，在渲染前预先获取数据。使用 `useLoader`，可以在组件中获取局部 UI 所需要的数据，而不用将数据层层传递。同样，也不会因为不同路由需要不同数据请求，而在最外层的数据获取函数中添加冗余的逻辑。当然 `useLoader` 也存在一些问题，例如服务端代码 Treeshaking 困难，服务端需要多一次预渲染等。
-
-Modern.js 在新版本中，设计了全新的 Loader 方案。新方案解决了这些问题，并能够配合**嵌套路由**，对页面性能做优化。
-
-:::note
-详细 API 可以查看 [useLoader](/apis/app/runtime/core/use-loader)。
-
-:::
+在 SSR 项目中，每个 `loader` 也是一个服务端接口。我们推荐使用 `loader` 替代 http method 为 `get` 的 BFF 函数，避免多一层转发和执行。

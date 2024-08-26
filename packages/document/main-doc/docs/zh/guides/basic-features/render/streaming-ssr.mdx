@@ -1,11 +1,8 @@
 ---
-sidebar_position: 2
-title: 流式渲染
+title: 服务端流式渲染（Streaming SSR）
 ---
 
-# 流式渲染
-
-## 概述
+# 服务端流式渲染（Streaming SSR）
 
 流式渲染是一种新的渲染方式，它可以在用户与页面交互时，实时地更新页面内容，从而提高用户体验。
 
@@ -18,7 +15,7 @@ title: 流式渲染
 - 拥有更好的性能控制：流式渲染可以让开发者更好地控制页面加载的优先级和顺序，从而更好地优化性能和用户体验。
 - 更好的适应性：流式渲染可以更好地适应不同网络速度和设备性能，使得页面在各种环境下都能有更好的表现。
 
-## 使用
+## 开启流式渲染
 
 Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 
@@ -40,9 +37,9 @@ Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 - [`Await`](https://reactrouter.com/en/main/components/await)：用于渲染 Data Loader 返回的异步数据。
 - [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value)：用于从最近的父级 `Await` 组件中获取数据。
 
-### 异步获取数据
+## 获取数据
 
-```ts title="page.data.ts"
+```ts title="user/[id]/page.data.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -70,14 +67,11 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
 };
 ```
 
-`user` 是一个 Promise 类型的对象，表示需要异步获取的数据，通过 `defer` 处理需要异步获取的 `user`。注意，`defer` 必须接收一个对象类型的参数，
-因此， 传入 `defer` 的参数为：`{ data: user }`
+`user` 是一个 Promise 类型的对象，表示需要异步获取的数据，通过 `defer` 处理需要异步获取的 `user`。注意，`defer` 必须接收一个对象类型的参数，不能直接传递 Promise 对象。
 
-`defer` 还可以同时接收异步数据和同步数据。例如：
+另外，`defer` 还可以同时接收异步数据和同步数据。在下述例子中，我们等待部分耗时较短的请求，在响应后通过对象数据返回，而耗时较长时间的请求，则通过 Promise 返回：
 
-```ts title="page.data.ts"
-// 省略部分代码
-
+```ts title="user/[id]/page.data.ts"
 export const loader = ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
@@ -87,7 +81,7 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
         name: `user-${userId}`,
         age: 18,
       });
-    }, 200);
+    }, 2000);
   });
 
   const otherData = new Promise<string>(resolve => {
@@ -103,13 +97,13 @@ export const loader = ({ params }: LoaderFunctionArgs) => {
 };
 ```
 
-`otherData` 前加了 `await`，所以是同步获取的数据，它可以和异步获取的数据 `user` 同时传入 `defer`。
+这样，应用无需等待最耗时的数据请求响应后才展示页面内容，可以优先展示部分有数据的页面内容
 
-### 渲染异步数据
+## 渲染数据
 
 通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
 
-```tsx title="page.tsx"
+```tsx title="user/[id]/page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.data';
@@ -143,22 +137,16 @@ export default Page;
 `Suspense` 组件 `fallback` 属性设置的内容。
 
 :::warning 注意
-从 Data Loader 文件导入类型时，需要使用 import type 语法，保证只导入类型信息，这样可以避免 Data Loader 的代码打包到前端产物的 bundle 文件中。
-
-所以，这里的导入方式为：`import type { Data } from './page.data'`;
-
+从 `page.data.ts` 文件导入类型时，需要使用 `import type` 语法，保证只导入类型信息，避免 Data Loader 的代码打包到前端产物中。
 :::
 
-也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
+在组件中，你也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
 
 ```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
 
-// 省略部分代码
-
 const UserInfo = () => {
   const user = useAsyncValue();
-
   return (
     <div>
       name: {user.name}, age: {user.age}
@@ -168,7 +156,6 @@ const UserInfo = () => {
 
 const Page = () => {
   const data = useLoaderData() as Data;
-
   return (
     <div>
       User info:
@@ -184,10 +171,9 @@ const Page = () => {
 export default Page;
 ```
 
-### 错误处理
+## 错误处理
 
-`Await` 组件的 `errorElement` 属性，可以用来处理当 Data Loader 执行时，或者子组件渲染时抛出的错误。
-例如，我们故意在 Data Loader 函数中抛出错误：
+`Await` 组件的 `errorElement` 属性，可以用来处理 Data Loader 或者子组件渲染时的报错。例如，我们故意在 Data Loader 函数中抛出错误：
 
 ```ts title="page.loader.ts"
 import { defer } from '@modern-js/runtime/router';
@@ -238,15 +224,14 @@ function ErrorElement() {
 
 然而，当一个爬虫访问该页面时，它可能需要先加载所有内容，直接输出整个 HTML，而不是渐进式地加载它。
 
-Modern.js 使用 [isbot](https://www.npmjs.com/package/isbot) 对请求的 `uesr-agent`, 以判断请求是否来自爬虫。
+Modern.js 使用 [isbot](https://www.npmjs.com/package/isbot) 对请求的 `uesr-agent`，以判断请求是否来自爬虫。
 
-:::info 补充信息
-
-1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
-2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
-
-:::
 
 import StreamSSRPerformance from '@site-docs/components/stream-ssr-performance';
 
 <StreamSSRPerformance />
+
+## 相关文档
+
+1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
+2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)

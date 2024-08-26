@@ -52,7 +52,7 @@ function useLoader(loaderFn: LoaderFn, options: Options): ReturnData;
   - `initialData`：首次执行前的初始数据，对应返回值中的 `data` 字段。
   - `skip`：当值为 `true` 时，函数不执行。
   - `params`：当 `params` 序列化结果发生改变时，函数会重新执行。同时，`params` 也会作为函数的第二个参数被传入。
-  - `static`：当值为 `true` 时，`useLoader` 用于 [SSG](/guides/advanced-features/ssg) 编译阶段数据的获取。
+  - `static`：当值为 `true` 时，`useLoader` 用于 [SSG](/guides/basic-features/render/ssg) 编译阶段数据的获取。
 
 ### 返回值
 

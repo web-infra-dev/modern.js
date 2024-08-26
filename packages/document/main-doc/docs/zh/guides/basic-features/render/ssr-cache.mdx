@@ -1,21 +1,20 @@
 ---
-sidebar_position: 3
-title: Cache
+title: 渲染缓存
 ---
 
-# Render Cache
+# 渲染缓存
 
-Sometimes we cache computation results, such as with the React useMemo, useCallback Hook. By caching, we can reduce the number of computations, thus reducing CPU resource usage and enhancing the user experience.
+在开发应用时，有时我们会将计算结果进行缓存，例如使用 React `useMemo`、`useCallback` 等 Hook。通过缓存我们可以减少计算的次数来减少 CPU 资源占用，提高用户体验。
 
-Caching the results of server-side rendering (SSR) can reduce the computation and rendering time for each server request, enabling faster page load speeds and improving the user experience. It also lowers the server load, saves computational resources, and speeds up user access.
+Modern.js 支持将服务器端渲染（SSR）结果进行缓存，减少服务器每次请求时的计算和渲染时间，从而加速页面加载速度，提高用户体验。同时，缓存也能降低服务端负载，节省计算资源，提高用户访问速度。
 
-:::info
-Need x.43.0+
+:::tip
+需要 x.43.0+
 :::
 
-## Configuration
+## 配置方式
 
-You can enable caching by configuring it in `server/cache.[t|j]s`:
+在应用中创建 `server/cache.[t|j]s` 文件，并导出 `cacheOption` 配置缓存即可开启 SSR 渲染缓存：
 
 ```ts title="server/cache.ts"
 import type { CacheOption } from '@modern-js/runtime/server';
@@ -26,29 +25,27 @@ export const cacheOption: CacheOption = {
 };
 ```
 
-## Configuration Explanation
+## 配置说明
 
-### Cache Configuration
+### 缓存配置
 
-The caching policy is implemented based on [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control).
+缓存策略参考 [stale-while-revalidate](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control) 进行实现。
 
-During the `maxAge` period, cache content will be returned directly. After `maxAge` but within `staleWhileRevalidate`, the cache content will also be returned directly, but at the same time, re-rendering will be executed asynchronously.
+在 `maxAge` 时间内会直接返回缓存内容，超过 `maxAge` 但在 `staleWhileRevalidate` 内也会直接返回缓存内容，但同时会异步做一次重新渲染。
 
-**Object type**
+**Object 类型**
 
 ```ts
 export interface CacheControl {
   maxAge: number;
-
   staleWhileRevalidate: number;
-
   customKey?: string | ((pathname: string) => string);
 }
 ```
 
-In this, customKey is used for custom cache key. By default, Modern.js will use the request pathname as key for caching, but in some cases, this may not meet your needs, so developers can customise it.
+其中 `customKey` 为自定义缓存 key。默认情况下 Modern.js 将会把请求 `pathname` 作为 key 进行缓存，但在某些情况下这不能满足你的需求，开发者可以进行自定义。
 
-**Function type**
+**Function 类型**
 
 ```ts
 export type CacheOptionProvider = (
@@ -56,21 +53,19 @@ export type CacheOptionProvider = (
 ) => Promise<CacheControl | false> | CacheControl | false;
 ```
 
-Sometimes developers need to customise the cache key through req or when caching does not work for specific URLs, which can be handled using the function form, as shown in the following code:
+有时开发者需要通过 `req` 来自定义缓存 key，或者特定 URL 时缓存不生效，可以配置为函数的形式进行处理, 例如以下代码：
 
 ```ts title="server/cache.ts"
+
 import type { CacheOption, CacheOptionProvider } from '@modern-js/runtime/server';
 
 const provider: CacheOptionProvider = (req) => {
   const { url, headers, ... } = req;
-
-  const key = computedKey(url, headers, ...);
-
   if(url.includes('no-cache=1')) {
     return false;
   }
 
-
+  const key = computedKey(url, headers, ...);
   return {
     maxAge: 500, // ms
     staleWhileRevalidate: 1000, // ms
@@ -81,13 +76,13 @@ const provider: CacheOptionProvider = (req) => {
 export const cacheOption: CacheOption = provider;
 ```
 
-**Mapping type**
+**Mapping 类型**
 
 ```ts
 export type CacheOptions = Record<string, CacheControl | CacheOptionProvider>;
 ```
 
-Sometimes, developers need to apply different caching policies for different routes. We also provide a mapping way for configuration, as shown in example below:
+有时开发者面对不同的路由需要应用不同的缓存策略。我们也提供一种映射的方式进行配置, 以下列代码为例：
 
 ```ts title="server/cache.ts"
 import type { CacheOption } from '@modern-js/runtime/server';
@@ -101,7 +96,7 @@ export const cacheOption: CacheOption = {
     maxAge: 1000 * 60 * 60 * 24, // one day
     staleWhileRevalidate: 1000 * 60 * 60 * 24 * 2 // two day
   },
-  '*': (req) => { // If the above routes cannot be matched, it will match to '*'
+  '*': (req) => { // 若上述路由无法匹配，则会匹配到 '*'
     const { url, headers, ... } = req;
     const key = computedKey(url, headers, ...);
 
@@ -114,18 +109,17 @@ export const cacheOption: CacheOption = {
 }
 ```
 
-- The route `http://xxx/home` will apply the first rule.
-- The route `http://xxx/about` will apply the second rule.
-- The route `http://xxx/abc` will apply the last rule.
+- 路由 `http://xxx/home` 将会应用第一条规则。
+- 路由 `http://xxx/about` 将会应用第二条规则。
+- 路由 `http://xxx/abc` 将会应用最后一条规则。
 
-The above-mentioned `/home` and `/about` will be used as patterns for matching, which means that `/home/abc` will also comply with this rule.
-Simultaneously, you can also include regular expression syntax in it, such as `/home/.+`.
+上述 `/home` 和 `/about` 将会作为模式进行匹配，这意味着 `/home/abc` 也会匹配上该规则。同时，你也可以在其中编写正则语法：`/home/.+`
 
-### Cache Container
+### 缓存容器
 
-By default, Server will use memory for caching. But typically, services will be deployed on serverless. Each service access may be a new process, so caching cannot be applied every time.
+默认情况下，Server 将会使用内存进行缓存。但通常情况下服务将会部署在 Serverless 容器上。每一次的服务访问可能都是一个新的进程，这样每次访问都不能应用缓存。
 
-Therefore, developers can also customise the cache container, which needs to implement the `Container` interface.
+因此，Modern.js 支持开发者自定义缓存容器，容器需实现接口 `Container`：
 
 ```ts
 export interface Container<K = string, V = string> {
@@ -154,7 +148,7 @@ export interface Container<K = string, V = string> {
 }
 ```
 
-As an example in the following code, a developer can implement a Redis container.
+以下面代码为例，开发者可实现一个 redis 缓存容器。
 
 ```ts
 import type { Container, CacheOption } from '@modern-js/runtime/server';
@@ -190,11 +184,9 @@ export const cacheOption: CacheOption = {
 };
 ```
 
-## Cache Identification
+## 缓存标识
 
-When the rendering cache is activated, Modern.js will identify the cache status of the current request through the response header `x-render-cache`.
-
-The following is an example of a response.
+当开启渲染缓存后，Modern.js 将通过响应头 `x-render-cache` 来标识当前请求的缓存状态。下面是一个响应示例：
 
 ```bash
 < HTTP/1.1 200 OK
@@ -207,11 +199,11 @@ The following is an example of a response.
 < Content-Length: 2937
 ```
 
-The `x-render-cache` may have the following values.
+`x-render-cache` 可能会有以下几种值：
 
-| Name    | Description                                                                |
-| ------- | -------------------------------------------------------------------------- |
-| hit     | Cache hit, returns cached content                                          |
-| stale   | Cache hit, but data is stale, returns cached content while rendering again |
-| expired | Cache hit, returns rendering result after re-rendering                     |
-| miss    | Cache miss                                                                 |
+| 名称    | 说明                                               |
+| ------- | -------------------------------------------------- |
+| hit     | 缓存命中，返回缓存内容                             |
+| stale   | 缓存命中，但数据陈旧，返回缓存内容的同时做重新渲染 |
+| expired | 缓存命中，重新渲染后返回渲染结果                   |
+| miss    | 缓存未命中                                         |
