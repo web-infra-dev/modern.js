@@ -1,0 +1,112 @@
+# Playwright
+
+Playwright 是一个测试框架，它允许你使用单一的 API，自动的在 Chromium、Firefox 和 WebKit 环境中运行测试用例，你可以使用它来**编写 E2E 测试**。
+
+在 Modern.js 中使用 Playwright 需要先安装依赖，可以执行以下命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ npm: "npm init playwright", yarn: "yarn create playwright", pnpm: "pnpm create playwright" }} />
+
+
+上述命令会自动安装 Playwright 依赖，并通过一系列提示帮助你在项目中安装和配置，包括添加一个 `playwright.config.ts` 文件。
+
+:::info
+参考 Playwright 官方文档，[安装 Playwright](https://playwright.dev/docs/intro#installation) 查阅更详细的指南。
+:::
+
+按照默认配置创建后，可以在项目中看到以下文件：
+
+```ts title="tests/example.spec.ts"
+import { test, expect } from '@playwright/test';
+
+test('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
+});
+
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(
+    page.getByRole('heading', { name: 'Installation' }),
+  ).toBeVisible();
+});
+```
+
+这是默认的测试文件，现在创建一些新的页面，并测试它们。
+
+## 创建 E2E 测试
+
+首先创建两张 Modern.js 的页面。
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+```tsx title="routes/about/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>About</h1>
+    <Link to="/">Home</Link>
+  </div>
+);
+
+export default Index;
+```
+
+接下来，添加测试用例，来保证你页面的链接能够正常工作。
+
+```ts title="tests/example.spec.ts"
+import { test, expect } from '@playwright/test'
+ 
+test('should navigate to the about page', async ({ page }) => {
+  // Start from the index page (the baseURL is set via the webServer in the playwright.config.ts)
+  await page.goto('http://localhost:8080/')
+  // Find an element with the text 'About' and click on it
+  await page.click('text=About')
+  // The new URL should be "/about" (baseURL is used there)
+  await expect(page).toHaveURL('http://localhost:8080/about')
+  // The new page should contain an h1 with "About"
+  await expect(page.locator('h1')).toContainText('About')
+})
+```
+
+## 运行测试用例
+
+Playwright 需要你的 Modern.js 服务器保持运行。我们推荐在生产环境产物下运行你的测试用例，你可以执行 `pnpm run build` 和 `pnpm run serve` 在本地模拟生产环境。
+
+```bash
+info    Starting production server...
+
+  > Local:    http://localhost:8080/
+  > Network:  http://10.94.59.30:8080/
+```
+
+当项目正常构建运行后，可以在另一个终端内执行 `npx playwright test`，运行 Playwright 用例：
+
+```bash
+Running 3 tests using 3 workers
+  3 passed (2.0s)
+
+To open last HTML report run:
+
+  npx playwright show-report
+```

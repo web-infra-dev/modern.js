@@ -12,17 +12,33 @@
     "label": "rendering",
     "collapsed": true
   },
-  "css",
-  "alias",
-  "mock",
-  "proxy",
-  "env-vars",
+  {
+    "type": "dir",
+    "name": "css",
+    "label": "css-solution",
+    "collapsed": true
+  },
   "html",
+  {
+    "type": "dir",
+    "name": "debug",
+    "label": "debug",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "static-assets",
+    "label": "static-assets",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "testing",
+    "label": "testing",
+    "collapsed": true
+  },
+  "alias",
+  "env-vars",
   "output-files",
-  "static-assets",
-  "svg-assets",
-  "json-files",
-  "wasm-assets",
-  "css-modules",
   "deploy"
 ]

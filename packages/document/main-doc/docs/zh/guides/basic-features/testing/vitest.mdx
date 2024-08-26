@@ -1,0 +1,100 @@
+# Vitest
+
+Vitest 是由 Vite 驱动的测试框架，和 React Testing Library 配合可以用于单元测试。
+
+在 Modern.js 中使用 Vitest 需要先安装依赖，可以执行以下命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom", 
+  yarn: "yarn add -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom", 
+  pnpm: "pnpm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom",
+  bun: "bun add -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom"
+}} />
+
+接下来，你需要创建一个 Vitest 配置文件 `vitest.config.ts`，内容如下：
+
+```ts title="vitest.config.ts"
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+ 
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+  },
+})
+```
+
+更多关于 Vitest 配置的信息，可以参考 [Vitest 配置文档](https://vitest.dev/config/#configuration)。
+
+你可以选择性的将 `vitest` 命令添加到 `package.json` 中：
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+运行该命令后，Vitest 会自动监听你的文件变化，并重新运行用例。
+
+## 创建单元测试
+
+首先，创建一个简单的页面用于测试：
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+添加测试用例，检测页面中是否有预期的文本：
+
+```tsx title="__tests__/page.test.tsx"
+import { expect, test } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+test('Page', () => {
+  render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+  expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
+});
+```
+
+上述用例中，我们从 `@modern-js/runtime/router` 引入了 `<Router>` 组件，这是因为 React Router 在渲染部分路由相关组件时，必须要有对应的上下文。
+
+:::note
+直接在 Modern.js 应用中运行时，`<Router>` 组件会自动注入。
+:::
+
+## 运行测试用例
+
+执行上述 `test` 命令，运行测试用例：
+
+```bash
+✓ src/__tests__/page.test.tsx (1)
+  ✓ Page
+
+Test Files  1 passed (1)
+    Tests  1 passed (1)
+  Start at  15:37:12
+  Duration  999ms (transform 119ms, setup 0ms, collect 365ms, tests 33ms, environment 421ms, prepare 44ms)
+
+
+PASS  Waiting for file changes...
+```

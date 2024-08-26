@@ -51,13 +51,25 @@
     "zh": "渲染",
     "en": "Rendering"
   },
+  "css-solution": {
+    "zh": "样式开发",
+    "en": "Styling"
+  },
+  "debug": {
+    "zh": "调试",
+    "en": "Debug"
+  },
+  "static-assets": {
+    "zh": "引用静态资源",
+    "en": "Import Static Assets"
+  },
+  "testing": {
+    "zh": "测试",
+    "en": "Testing"
+  },
   "use-bff": {
     "zh": "使用 BFF",
     "en": "Using BFF"
-  },
-  "use-ssr": {
-    "zh": "服务端渲染",
-    "en": "SSR"
   },
   "micro-frontend": {
     "zh": "微前端",

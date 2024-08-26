@@ -1,7 +1,3 @@
----
-sidebar_position: 10
----
-
 # 引用静态资源
 
 Modern.js 支持在代码中引用图片、字体、媒体类型的静态资源。
@@ -21,7 +17,7 @@ Modern.js 支持在代码中引用图片、字体、媒体类型的静态资源�
 如果你需要引用其他格式的静态资源，请参考 [扩展静态资源类型](#扩展静态资源类型)。
 
 :::tip SVG 图片
-SVG 图片是一种特殊情况，Modern.js 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见 [引用 SVG 资源](/guides/basic-features/svg-assets.html)。
+SVG 图片是一种特殊情况，Modern.js 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见 [引用 SVG 资源](/guides/basic-features/static-assets/svg-assets.html)。
 :::
 
 ## 在 JS 文件中引用
@@ -162,4 +158,4 @@ console.log(myFile); // "/static/myFile.6c12aba3.pdf"
 | PNG  | 无损压缩，不会丢失图片细节，不失真，支持半透明                   | 不适合色表复杂的图片                   | 适合颜色数量少，边界层次分明的图片，适合用在 logo、icon、透明图等场景        |
 | JPG  | 颜色丰富                                                         | 有损压缩，会导致图片失真，不支持透明度 | 适合颜色数量多，颜色带有渐变、过度复杂的图片，适合用在人像照片、风景图等场景 |
 | WebP | 同时支持有损压缩与无损压缩，支持透明度，体积比 PNG 和 JPG 小很多 | iOS 兼容性不好                         | 几乎任何场景的像素图片，支持 WebP 的宿主环境，都应该首选 WebP 图片格式       |
-| SVG  | 无损格式，不失真,支持透明度                                      | 不适合复杂图形                         | 适合矢量图,适合用于 icon                                                     |
+| SVG  | 无损格式，不失真，支持透明度                                      | 不适合复杂图形                         | 适合矢量图，适合用于 icon                                                     |

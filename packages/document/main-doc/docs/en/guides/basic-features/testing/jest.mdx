@@ -1,0 +1,148 @@
+# Jest
+
+Jest is a JavaScript testing framework that is primarily used with React Testing Library for unit testing and Snapshot testing.
+
+To use Jest in Modern.js, you need to install the dependencies first. You can run the following commands:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+  pnpm: "pnpm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom"
+}} />
+
+Next, you can run the following commands to automatically initialize Jest in your project and generate a basic `jest.config.[jt]s` configuration:
+
+<PackageManagerTabs command={{ 
+  npm: "npm init jest@latest", 
+  yarn: "yarn create jest@latest", 
+  pnpm: "pnpm create jest@latest"
+}} />
+
+## Configuration File
+
+:::note
+This section will use `.ts` files for Jest testing.
+:::
+
+Compared to other testing frameworks, Jest requires more configuration at the build level, such as handling JSX and ESM syntax. Therefore, you need to install some additional dependencies:
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+  pnpm: "pnpm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript"
+}} />
+
+### Configure Jest
+
+You need to further configure the `jest.config.ts` file to allow Jest to correctly compile and run test cases. Here is a basic configuration:
+
+```ts title="jest.config.ts"
+import type { Config } from 'jest';
+
+const config: Config = {
+  coverageProvider: 'babel',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
+  transformIgnorePatterns: [],
+};
+
+export default config;
+```
+
+In the configuration, the `transformIgnorePatterns` is set to an empty array, meaning that all files will be compiled. If you want to speed up the test run, you can configure it as needed.
+
+The `setupFilesAfterEnv` will be executed at startup. In `jest.setup.ts`, you can import `@testing-library/jest-dom`, which includes a set of convenient custom matchers, such as `.toBeInTheDocument()`, to make writing tests easier:
+
+```ts title="jest.setup.ts"
+import '@testing-library/jest-dom';
+```
+
+### Configure Babel
+
+You need to configure Babel to allow Jest to automatically compile JSX and other syntax. Here is a basic configuration:
+
+```js title="babel.config.js"
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    ['@babel/preset-react', { runtime: 'automatic' }],
+    '@babel/preset-typescript',
+  ],
+};
+```
+
+## Writing Test Cases
+
+Now, you can start writing tests. First, add a `test` command in `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+Create a simple page for testing:
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+Add a test case to check if the page has the expected text:
+
+```tsx title="__tests__/page.test.tsx"
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+describe('Page', () => {
+  it('renders a heading', () => {
+    render(
+      <Router>
+        <Page />
+      </Router>,
+    );
+
+    const heading = screen.getByRole('heading', { level: 1 });
+
+    expect(heading).toBeInTheDocument();
+  });
+});
+```
+
+In the above test case, we imported the `<Router>` component from `@modern-js/runtime/router` because React Router requires the corresponding context when rendering some route-related components.
+
+:::note
+When running directly in the Modern.js application, the `<Router>` component will be automatically injected.
+:::
+
+## Run Test Cases
+
+Execute the above `test` command to run the test cases:
+
+```bash
+ PASS  src/__tests__/page.test.tsx
+  Page
+    ✓ renders a heading (31 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.959 s, estimated 1 s
+```
