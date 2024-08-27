@@ -61,7 +61,12 @@ class BaseHookRequest implements ModernRequest {
 
   get url(): string {
     // compat old middlwares,
-    return this.#req.path;
+
+    const query = this.#c.req.query();
+    const q = Object.entries(query)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+    return q ? `${this.#c.req.path}?${q}` : this.#c.req.path;
   }
 
   // TODO: remove next major version
