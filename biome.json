@@ -92,11 +92,11 @@
       "compiled/**/*",
       ".rpt2_cache/**/*",
       "packages/runtime/plugin-garfish/tests/**/*",
-      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_main.html.js",
       "packages/server/core/tests/fixtures/mock/cjs/config/mock/**/*",
       "packages/server/server/tests/fixtures/mock/cjs/config/mock/**/*",
       "tests/integration/ssr/fixtures/preload/**/*",
+      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "tests/integration/module/plugins/vue/**/*"
     ]
   }
