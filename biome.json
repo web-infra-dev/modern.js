@@ -11,6 +11,7 @@
     "indentStyle": "space",
     "ignore": [
       "package.json",
+      "packages/document/main-doc/scripts/summary.*.json",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
       "packages/generator/sandpack-react/src/templates/**"
     ]

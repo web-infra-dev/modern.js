@@ -20,7 +20,6 @@ export const registerEsm = async ({ appDir, distDir, alias }) => {
     `The node version of the esm project must be greater than 18.19.0, current version is ${nodeVersion}`,
   );
   const hasTsNode = await checkDep('ts-node');
-  // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
   const TS_CONFIG_FILENAME = `tsconfig.json`;
   const tsconfigPath = path.resolve(appDir, TS_CONFIG_FILENAME);
   const hasTsconfig = await fs.pathExists(tsconfigPath);
