@@ -481,7 +481,7 @@ The Data Loader in our SSR project is designed to only run on the server side. T
 **`useLoader`** is a legacy API in Modern.js v1. This API is a React Hook designed specifically for SSR applications, allowing developers to fetch data in components in isomorphic development.
 
 :::tip
-It is not necessary to use `useLoader` to fetch data in CSR projects.
+It is not necessary to use `useLoader` to fetch data in CSR projects, and `useLoader` is not supported when using Rspack as the bundler.
 :::
 
 Here is the simplest example:

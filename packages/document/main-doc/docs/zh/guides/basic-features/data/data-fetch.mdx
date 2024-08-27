@@ -499,8 +499,7 @@ export const loader = async (): Promise<ProfileData> => {
 **`useLoader`** 是 Modern.js 老版本中的 API。该 API 是一个 React Hook，专门提供给 SSR 应用使用，让开发者能同构的在组件中获取数据。
 
 :::tip
-CSR 的项目没有必要使用 `useLoader` 获取数据。
-
+CSR 的项目没有必要使用 `useLoader` 获取数据，且在使用 Rspack 作为打包工具时，`useLoader` 不支持使用。
 :::
 
 以下是一个最简单的例子：

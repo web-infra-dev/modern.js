@@ -13,7 +13,7 @@ Each key passed into options is an identifier or multiple identifiers joined wit
 For more information please visit [webpack - DefinePlugin](https://webpack.js.org/plugins/define-plugin/).
 
 :::tip
-When using Rspack as the bundler, the supported types can be found in [Rspack.builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine).
+When using Rspack as the bundler, the supported types can be found in [Rspack - DefinePlugin](https://rspack.dev/plugins/webpack/define-plugin).
 :::
 
 ### Example
