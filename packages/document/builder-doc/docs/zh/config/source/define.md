@@ -13,7 +13,7 @@
 更多细节参考 [webpack - DefinePlugin](https://webpack.js.org/plugins/define-plugin/)。
 
 :::tip
-在使用 Rspack 作为打包工具时，支持的类型可参考 [Rspack.builtins.define](https://www.rspack.dev/zh/config/builtins.html#builtinsdefine)
+在使用 Rspack 作为打包工具时，支持的类型可参考 [Rspack - DefinePlugin](https://rspack.dev/zh/plugins/webpack/define-plugin)。
 :::
 
 ### 示例

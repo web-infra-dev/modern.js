@@ -22,13 +22,6 @@ import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
 After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
 
-:::tip
-When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
-
-- The usage of [useLoader](/guides/basic-features/data/data-fetch.html) in Client Side Rendering
-
-:::
-
 ## Enable Rspack build
 
 Since Modern.js MAJOR_VERSION.46.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
@@ -85,7 +78,7 @@ For unsupported configurations, we have marked `Bundler: only support webpack` o
 
 ## Modify transpile configuration
 
-Modern.js uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader.html) for code translation in Rspack mode.
+Modern.js uses Rspack [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) for code translation in Rspack mode.
 
 Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import).
 
