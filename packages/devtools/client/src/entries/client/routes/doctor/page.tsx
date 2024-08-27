@@ -1,4 +1,5 @@
-import type { FC } from 'react';
+import { Card, CardColumn } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
 import {
   Box,
   Flex,
@@ -8,6 +9,9 @@ import {
   Text,
   Theme,
 } from '@radix-ui/themes';
+import clsx from 'clsx';
+import _ from 'lodash';
+import type { FC } from 'react';
 import {
   HiChartBar,
   HiLink,
@@ -16,14 +20,10 @@ import {
   HiMiniInboxStack,
   HiMiniRectangleStack,
 } from 'react-icons/hi2';
-import _ from 'lodash';
 import { parseURL } from 'ufo';
-import clsx from 'clsx';
 import { useSnapshot } from 'valtio';
-import logo from './rsdoctor-large.png';
 import styles from './page.module.scss';
-import { Card, CardColumn } from '@/components/Card';
-import { useGlobals } from '@/entries/client/globals';
+import logo from './rsdoctor-large.png';
 
 interface SummaryCostsData {
   title: string;

@@ -1,6 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
-import { getServerPlugins } from '../utils/loadPlugins';
 import type { AppTools } from '../types';
+import { getServerPlugins } from '../utils/loadPlugins';
 
 export const deploy = async (
   api: PluginAPI<AppTools<'shared'>>,

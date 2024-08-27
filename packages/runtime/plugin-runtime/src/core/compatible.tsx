@@ -1,17 +1,17 @@
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
-import type { hydrateRoot, createRoot } from 'react-dom/client';
-import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import type { createRoot, hydrateRoot } from 'react-dom/client';
+import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
+import { getGlobalAppInit } from './context';
 import {
-  RuntimeReactContext,
   type RuntimeContext,
+  RuntimeReactContext,
   type TRuntimeContext,
 } from './context/runtime';
-import { type Plugin, registerPlugin, type runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
+import { type Plugin, registerPlugin, type runtime } from './plugin';
 import { getGlobalRunner } from './plugin/runner';
-import { getGlobalAppInit } from './context';
-import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
 import { wrapRuntimeContextProvider } from './react/wrapper';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';

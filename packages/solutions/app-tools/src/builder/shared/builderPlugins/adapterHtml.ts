@@ -1,15 +1,15 @@
 import { isHtmlDisabled } from '@modern-js/uni-builder';
-import type {
-  RsbuildPlugin,
-  RspackChain,
-  ChainIdentifier,
-} from '@rsbuild/core';
 import {
   MAIN_ENTRY_NAME,
   getEntryOptions,
   removeTailSlash,
 } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import type {
+  ChainIdentifier,
+  RsbuildPlugin,
+  RspackChain,
+} from '@rsbuild/core';
 import type { Bundler } from '../../../types';
 import type { HtmlUserConfig } from '../../../types/config/html';
 import { BottomTemplatePlugin } from '../bundlerPlugins';

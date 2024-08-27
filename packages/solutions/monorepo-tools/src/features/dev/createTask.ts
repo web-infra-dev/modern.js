@@ -1,10 +1,10 @@
 import { execa, logger } from '@modern-js/utils';
-import type { IProjectNode } from '../../projects/getProjects';
-import { errorLog } from '../../log/error';
-import * as timeLog from '../../log/time';
-import type { MultitasksLogger } from '../../log/multiTasksLog';
-import { defaultBuildWatchCmds, type BuildWatchCmdsType } from './cmds';
 import type { IBuildWatchConfig } from '.';
+import { errorLog } from '../../log/error';
+import type { MultitasksLogger } from '../../log/multiTasksLog';
+import * as timeLog from '../../log/time';
+import type { IProjectNode } from '../../projects/getProjects';
+import { type BuildWatchCmdsType, defaultBuildWatchCmds } from './cmds';
 
 const getFinalTaskCmds = (
   taskCmds: BuildWatchCmdsType,

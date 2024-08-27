@@ -1,8 +1,8 @@
+import type { ServerUserConfig } from '@modern-js/app-tools';
 import {
   type StaticHandlerContext,
   isRouteErrorResponse,
 } from '@modern-js/runtime-utils/remix-router';
-import type { ServerUserConfig } from '@modern-js/app-tools';
 import type { SSRConfig } from './shared';
 
 export function attributesToString(attributes: Record<string, any>) {

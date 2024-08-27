@@ -1,7 +1,7 @@
 import type { NormalizedConfig } from '@modern-js/core';
 import { createServerBase } from '@modern-js/server-core';
-import cliPlugin from '../src/cli';
 import serverPlugin from '../src';
+import cliPlugin from '../src/cli';
 import { defaultPolyfill } from '../src/const';
 
 function getDefaultConfig() {

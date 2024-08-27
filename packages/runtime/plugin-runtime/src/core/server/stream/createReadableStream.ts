@@ -1,15 +1,15 @@
 import { Transform } from 'stream';
 import { createReadableStreamFromReadable } from '@modern-js/runtime-utils/node';
-import { ServerStyleSheet } from 'styled-components';
 import checkIsBot from 'isbot';
+import { ServerStyleSheet } from 'styled-components';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
 import { RenderLevel } from '../../constants';
-import { getTemplates } from './template';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,
   getReadableStreamFromString,
 } from './shared';
+import { getTemplates } from './template';
 
 export const createReadableStreamFromElement: CreateReadableStreamFromElement =
   async (request, rootElement, options) => {

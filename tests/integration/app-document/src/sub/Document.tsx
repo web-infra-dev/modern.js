@@ -1,15 +1,15 @@
+import {
+  Body,
+  Comment,
+  DocumentContext,
+  Head,
+  Html,
+  Root,
+  Style,
+} from '@modern-js/runtime/document';
 // biome-ignore lint/style/useImportType: <explanation>
 import React from 'react';
 import { useContext } from 'react';
-import {
-  Html,
-  Root,
-  Head,
-  DocumentContext,
-  Body,
-  Style,
-  Comment,
-} from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {
   // props: Record<string, unknown>,

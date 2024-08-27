@@ -1,7 +1,7 @@
 import path from 'path';
 import { globby, slash } from '@modern-js/utils';
-import { runCli, initBeforeTest } from '../../utils';
 import { bundleDistPath, bundlelessDistPath } from '../../constants';
+import { initBeforeTest, runCli } from '../../utils';
 
 initBeforeTest();
 

@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 import path from 'path';
-import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import type { NestedRouteForCli } from '@modern-js/types';
+import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { optimizeRoute, walk } from '../../src/router/cli/code/nestedRoutes';
 
 const fixtures = path.join(__dirname, 'fixtures');

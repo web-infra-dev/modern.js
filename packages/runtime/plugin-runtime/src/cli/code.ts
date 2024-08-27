@@ -1,23 +1,23 @@
 import path from 'path';
 import type {
+  AppNormalizedConfig,
   AppTools,
   IAppContext,
-  AppNormalizedConfig,
   NormalizedConfig,
   RuntimePlugin,
 } from '@modern-js/app-tools';
-import { MAIN_ENTRY_NAME, fs } from '@modern-js/utils';
-import type { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
+import type { Entrypoint } from '@modern-js/types';
+import { fs, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import {
-  INDEX_FILE_NAME,
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
   ENTRY_POINT_REGISTER_FILE_NAME,
   ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME,
   ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME,
-  SERVER_ENTRY_POINT_FILE_NAME,
   ENTRY_SERVER_BOOTSTRAP_FILE_NAME,
+  INDEX_FILE_NAME,
+  SERVER_ENTRY_POINT_FILE_NAME,
 } from './constants';
 import * as template from './template';
 import * as serverTemplate from './template.server';

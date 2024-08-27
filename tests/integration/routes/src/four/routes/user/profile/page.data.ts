@@ -1,5 +1,5 @@
-import type { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
 import { modernTestActionName } from '@/common/utils';
+import type { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
 
 export const loader: LoaderFunction = () => {
   const value = sessionStorage.getItem(modernTestActionName);

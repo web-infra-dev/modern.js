@@ -1,9 +1,9 @@
 import path from 'path';
 import {
-  replacer,
-  type RouteAsset,
   type ExportedServerState,
+  type RouteAsset,
   type ServerManifest,
+  replacer,
 } from '@modern-js/devtools-kit/node';
 import { fs, logger, nanoid } from '@modern-js/utils';
 import createDeferred from 'p-defer';

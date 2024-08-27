@@ -1,11 +1,11 @@
-import { URL } from 'url';
 import assert from 'assert';
 import { join } from 'path';
-import fs from '@modern-js/utils/fs-extra';
+import { URL } from 'url';
 import type {
-  UniBuilderConfig,
   CreateUniBuilderOptions,
+  UniBuilderConfig,
 } from '@modern-js/uni-builder';
+import fs from '@modern-js/utils/fs-extra';
 
 type CreateBuilderOptions = Omit<
   CreateUniBuilderOptions,

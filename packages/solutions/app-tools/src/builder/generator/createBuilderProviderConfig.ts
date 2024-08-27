@@ -1,4 +1,4 @@
-import type { Bundler, IAppContext, AppNormalizedConfig } from '../../types';
+import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 import { createUploadPattern } from '../builder-webpack/createCopyPattern';
 
 function modifyOutputConfig<B extends Bundler>(

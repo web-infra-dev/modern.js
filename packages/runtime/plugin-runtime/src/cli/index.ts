@@ -1,18 +1,18 @@
 import path from 'path';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   isReact18 as checkIsReact18,
   cleanRequireCache,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import { statePlugin } from '../state/cli';
-import { routerPlugin } from '../router/cli';
 import { documentPlugin } from '../document/cli';
-import { ssrPlugin } from './ssr';
-import { isRuntimeEntry } from './entry';
-import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
-import { generateCode } from './code';
+import { routerPlugin } from '../router/cli';
+import { statePlugin } from '../state/cli';
 import { builderPluginAlias } from './alias';
+import { generateCode } from './code';
+import { ENTRY_BOOTSTRAP_FILE_NAME, ENTRY_POINT_FILE_NAME } from './constants';
+import { isRuntimeEntry } from './entry';
+import { ssrPlugin } from './ssr';
 
 export { isRuntimeEntry } from './entry';
 export { statePlugin, ssrPlugin, routerPlugin, documentPlugin };

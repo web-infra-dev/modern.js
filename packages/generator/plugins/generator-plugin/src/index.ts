@@ -1,14 +1,14 @@
 import {
-  type IPluginContext,
-  type ForgedAPI,
-  FileType,
-  PluginType,
-} from '@modern-js/generator-plugin';
-import {
   Solution,
   SolutionText,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  FileType,
+  type ForgedAPI,
+  type IPluginContext,
+  PluginType,
+} from '@modern-js/generator-plugin';
 import { i18n, localeKeys } from './locale';
 
 export default function (context: IPluginContext) {

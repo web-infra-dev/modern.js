@@ -1,9 +1,11 @@
 import path from 'path';
-import { filterRoutesForServer, logger } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { generatePath } from 'react-router-dom';
 import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
-import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
+import { filterRoutesForServer, logger } from '@modern-js/utils';
+import { generatePath } from 'react-router-dom';
+import { makeRoute } from './libs/make';
+import { writeHtmlFile } from './libs/output';
+import { replaceRoute } from './libs/replace';
 import {
   flattenRoutes,
   formatOutput,
@@ -13,9 +15,7 @@ import {
   writeJSONSpec,
 } from './libs/util';
 import { createServer } from './server';
-import { writeHtmlFile } from './libs/output';
-import { replaceRoute } from './libs/replace';
-import { makeRoute } from './libs/make';
+import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 
 export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',

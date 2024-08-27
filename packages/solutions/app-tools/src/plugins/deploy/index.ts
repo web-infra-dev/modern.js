@@ -1,10 +1,10 @@
 import type { CliPlugin, IAppContext, NormalizedConfig } from '@modern-js/core';
 import { provider } from 'std-env';
 import type { AppTools } from '../../types';
-import { getProjectUsage } from './utils';
+import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
-import { createNetlifyPreset } from './platforms/netlify';
+import { getProjectUsage } from './utils';
 
 type DeployPresetCreators = {
   node: typeof createNodePreset;

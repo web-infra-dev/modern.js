@@ -1,6 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { change, bump, pre, release, status, genReleaseNote } from './commands';
+import { bump, change, genReleaseNote, pre, release, status } from './commands';
 import { i18n, localeKeys } from './locale';
 
 export * from './commands';

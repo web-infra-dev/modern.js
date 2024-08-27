@@ -1,4 +1,4 @@
-import { join, relative, dirname } from 'path';
+import { dirname, join, relative } from 'path';
 import type { Plugin } from 'postcss';
 import type { ICompiler } from '../../../types';
 import { getAssetContents } from '../asset';

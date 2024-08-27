@@ -4,9 +4,9 @@ import type {
   IAppContext,
   NormalizedConfig,
 } from '@modern-js/app-tools';
-import { fs } from '@modern-js/utils';
-import type { Entrypoint } from '@modern-js/types';
 import type { MaybeAsync } from '@modern-js/plugin';
+import type { Entrypoint } from '@modern-js/types';
+import { fs } from '@modern-js/utils';
 import * as template from './template';
 import { generateAsyncEntryCode } from './utils';
 

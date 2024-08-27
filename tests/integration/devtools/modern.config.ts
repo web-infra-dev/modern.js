@@ -1,5 +1,5 @@
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { devtoolsPlugin } from '@modern-js/plugin-devtools';
-import { defineConfig, appTools } from '@modern-js/app-tools';
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
 
 const disableClientServer = !process.env.DOCTOR_SERVER;

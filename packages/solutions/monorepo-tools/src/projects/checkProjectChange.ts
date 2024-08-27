@@ -1,7 +1,7 @@
 import * as path from 'path';
+import { globby } from '@modern-js/utils';
 import { FileSystem, JsonFile, Sort } from '@rushstack/node-core-library';
 import { getGitHashForFiles } from '@rushstack/package-deps-hash';
-import { globby } from '@modern-js/utils';
 import md5 from 'md5';
 import type { IProjectNode } from './getProjects';
 

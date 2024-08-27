@@ -1,7 +1,7 @@
-import type { RsbuildMode } from '@rsbuild/core';
 import type { PluginAPI } from '@modern-js/core';
-import type { InspectOptions } from '../utils/types';
+import type { RsbuildMode } from '@rsbuild/core';
 import type { AppTools } from '../types';
+import type { InspectOptions } from '../utils/types';
 
 export const inspect = async (
   api: PluginAPI<AppTools<'shared'>>,

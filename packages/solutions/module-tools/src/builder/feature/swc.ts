@@ -1,8 +1,8 @@
 import { basename, extname } from 'path';
-import type { TransformConfig, JscTarget } from '@modern-js/swc-plugins';
+import type { JscTarget, TransformConfig } from '@modern-js/swc-plugins';
 import { Compiler } from '@modern-js/swc-plugins';
 import { loaderMap } from '../../constants/loader';
-import type { ICompiler, Source, TsTarget, ITsconfig } from '../../types';
+import type { ICompiler, ITsconfig, Source, TsTarget } from '../../types';
 import {
   isJsExt,
   isJsLoader,

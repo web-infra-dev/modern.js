@@ -1,11 +1,11 @@
 import {
-  createManager,
-  createWaterfall,
-  createAsyncInterruptWorkflow,
-  createSyncParallelWorkflow,
   type PluginOptions,
   type Setup,
+  createAsyncInterruptWorkflow,
   createContext,
+  createManager,
+  createSyncParallelWorkflow,
+  createWaterfall,
 } from '@modern-js/plugin';
 
 import type { RuntimeContext, TRuntimeContext } from '../context/runtime';

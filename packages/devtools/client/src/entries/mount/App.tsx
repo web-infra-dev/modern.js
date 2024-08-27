@@ -1,6 +1,6 @@
+import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
 import type { ServerManifest } from '@modern-js/devtools-kit/runtime';
 import type { FC } from 'react';
-import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
 
 declare global {
   interface Window {

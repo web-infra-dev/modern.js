@@ -1,6 +1,6 @@
 import path from 'path';
-import { fs, findExists } from '@modern-js/utils';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
+import { fs, findExists } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   AppTools,

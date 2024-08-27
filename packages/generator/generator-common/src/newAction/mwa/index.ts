@@ -1,4 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
+import { i18n, localeKeys } from '../../locale';
 import { Framework } from '../../mwa/common';
 import {
   ActionElement,
@@ -11,7 +12,6 @@ import {
   ActionTypeQuestionText,
   ActionTypeText,
 } from '../common';
-import { i18n, localeKeys } from '../../locale';
 
 export const MWAActionTypes = [
   ActionType.Element,

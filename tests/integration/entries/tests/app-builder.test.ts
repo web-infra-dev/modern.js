@@ -1,6 +1,6 @@
 import path from 'path';
-import { modernBuild } from '../../../utils/modernTestUtils';
 import { existsSync } from '../../../../packages/toolkit/utils/compiled/fs-extra';
+import { modernBuild } from '../../../utils/modernTestUtils';
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 

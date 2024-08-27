@@ -1,26 +1,26 @@
-import type React from 'react';
-import { useContext } from 'react';
-import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
+import { merge } from '@modern-js/runtime-utils/merge';
 import {
-  createStaticRouter,
-  StaticRouterProvider,
-} from '@modern-js/runtime-utils/node/router';
-import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
-import {
-  reporterCtx,
   createRequestContext,
+  reporterCtx,
 } from '@modern-js/runtime-utils/node';
+import {
+  StaticRouterProvider,
+  createStaticRouter,
+} from '@modern-js/runtime-utils/node/router';
+import { createStaticHandler } from '@modern-js/runtime-utils/remix-router';
+import { createRoutesFromElements } from '@modern-js/runtime-utils/router';
 import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
-import { merge } from '@modern-js/runtime-utils/merge';
+import type React from 'react';
+import { useContext } from 'react';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
+import DeferredDataScripts from './DeferredDataScripts.node';
+import { modifyRoutes as modifyRoutesHook } from './hooks';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
-import { modifyRoutes as modifyRoutesHook } from './hooks';
-import DeferredDataScripts from './DeferredDataScripts.node';
 
 function createRemixReuqest(request: Request) {
   const method = 'GET';

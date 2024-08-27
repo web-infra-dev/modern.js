@@ -1,8 +1,8 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { type BundlerChain, RUNTIME_CHUNK_NAME } from '@modern-js/uni-builder';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { type BundlerChain, RUNTIME_CHUNK_NAME } from '@modern-js/uni-builder';
 
 // Rspack will not output builder runtime source map, but it not necessary
 // Identify whether the builder runtime chunk is included through some specific code snippets

@@ -1,7 +1,7 @@
-import type React from 'react';
-import { Select, Tooltip, Text, Box } from '@radix-ui/themes';
 import { useLocation, useNavigate } from '@modern-js/runtime/router';
+import { Box, Select, Text, Tooltip } from '@radix-ui/themes';
 import _ from 'lodash';
+import type React from 'react';
 import styles from './layout.module.scss';
 
 const TooltipSelectItem: React.FC<{ name: string; describe: string[] }> = ({

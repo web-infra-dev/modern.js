@@ -1,11 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import qs from 'querystring';
 import path from 'path';
+import qs from 'querystring';
+import { createWebRequest, sendResponse } from '@modern-js/server-core/node';
 import type { ServerRoute } from '@modern-js/types';
 import request from 'supertest';
-import { createWebRequest, sendResponse } from '@modern-js/server-core/node';
-import { handleRequest } from '../src/runtime';
 import { LOADER_ID_PARAM } from '../src/common/constants';
+import { handleRequest } from '../src/runtime';
 
 describe('handleRequest', () => {
   const serverLoaders = path.join(

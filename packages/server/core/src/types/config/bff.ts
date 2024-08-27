@@ -1,5 +1,5 @@
-import type { Options } from 'http-proxy-middleware';
 import type { HttpMethodDecider } from '@modern-js/types';
+import type { Options } from 'http-proxy-middleware';
 
 export interface BffUserConfig {
   prefix?: string;

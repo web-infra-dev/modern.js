@@ -1,21 +1,21 @@
 import path from 'node:path';
 import { fs as fse, pkgUp, semver } from '@modern-js/utils';
+import type { NodeFileTraceOptions } from '@vercel/nft';
+import { parseNodeModulePath } from 'mlly';
 import type { PackageJson } from 'pkg-types';
 import { readPackageJSON } from 'pkg-types';
-import { parseNodeModulePath } from 'mlly';
-import type { NodeFileTraceOptions } from '@vercel/nft';
 import {
-  linkPackage,
-  writePackage,
-  isFile,
-  type TracedPackage,
   type TracedFile,
-  findEntryFiles,
+  type TracedPackage,
   traceFiles as defaultTraceFiles,
+  findEntryFiles,
   findPackageParents,
-  resolveTracedPath,
-  readDirRecursive,
+  isFile,
   isSubPath,
+  linkPackage,
+  readDirRecursive,
+  resolveTracedPath,
+  writePackage,
 } from './utils';
 
 export type { NodeFileTraceOptions } from '@vercel/nft';

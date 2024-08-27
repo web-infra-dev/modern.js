@@ -1,16 +1,16 @@
 import path from 'path';
-import { fs, CONFIG_CACHE_DIR, globby, slash } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import { designTokenPlugin } from './design-token/cli';
+import { fs, CONFIG_CACHE_DIR, globby, slash } from '@modern-js/utils';
 import { getTailwindConfig, loadConfigFile } from './config';
-import { getTailwindPath, getTailwindVersion } from './utils';
+import { designTokenPlugin } from './design-token/cli';
 import {
-  template,
   checkTwinMacroExist,
-  getTwinMacroMajorVersion,
   getRandomTwConfigFileName,
+  getTwinMacroMajorVersion,
+  template,
 } from './macro';
+import { getTailwindPath, getTailwindVersion } from './utils';
 
 export const tailwindcssPlugin = (
   { pluginName } = {

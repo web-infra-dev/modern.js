@@ -5,8 +5,8 @@ import type {
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import { getHost } from '../../utils';
 import type { Context, HonoRequest, ServerEnv } from '../../types';
+import { getHost } from '../../utils';
 
 export type ResArgs = {
   status?: number;

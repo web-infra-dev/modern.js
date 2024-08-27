@@ -1,15 +1,15 @@
+import type { FSWatcher } from '@modern-js/utils';
 import type {
   BuildContext,
   BuildOptions,
-  OnLoadArgs,
-  OnLoadResult,
   BuildResult,
   ImportKind,
+  OnLoadArgs,
+  OnLoadResult,
 } from 'esbuild';
 import type { AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
-import type { FSWatcher } from '@modern-js/utils';
-import type { BaseBuildConfig } from './config';
 import type { ModuleTools, PluginAPI } from '.';
+import type { BaseBuildConfig } from './config';
 
 export interface SourceMap {
   mappings: string;

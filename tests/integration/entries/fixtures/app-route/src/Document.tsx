@@ -1,14 +1,14 @@
-// biome-ignore lint/style/useImportType: <explanation>
-import React from 'react';
-import { useContext } from 'react';
 import {
-  Html,
-  Root,
-  Head,
   Body,
   Comment,
   DocumentContext,
+  Head,
+  Html,
+  Root,
 } from '@modern-js/runtime/document';
+// biome-ignore lint/style/useImportType: <explanation>
+import React from 'react';
+import { useContext } from 'react';
 
 export default function Document(): React.ReactElement {
   // DocumentContext 提供一些构建时的参数

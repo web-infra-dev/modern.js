@@ -1,13 +1,13 @@
 import type {
-  Workflow,
-  ParallelWorkflow,
   AsyncWaterfall,
   AsyncWorkflow,
+  ParallelWorkflow,
   ToRunners,
   ToThreads,
+  Workflow,
 } from '@modern-js/plugin';
 import type { Command } from '@modern-js/utils';
-import type { UserConfig, NormalizedConfig } from './config';
+import type { NormalizedConfig, UserConfig } from './config';
 
 export type BaseHooks<
   Extends extends {

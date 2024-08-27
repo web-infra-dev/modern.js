@@ -1,6 +1,6 @@
 import type { TestConfigOperator } from '../testConfigOperator';
-import { patchTransformer } from './transformer';
 import { patchAssetsModule } from './assetsModule';
+import { patchTransformer } from './transformer';
 
 type Patch = (testConfig: TestConfigOperator) => any;
 

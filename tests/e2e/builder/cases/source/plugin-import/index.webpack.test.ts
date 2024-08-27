@@ -1,8 +1,8 @@
 import path from 'path';
-import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { pluginSwc } from '@rsbuild/plugin-swc';
-import { findEntry, copyPkgToNodeModules, cases, shareTest } from './helper';
+import { build } from '@scripts/shared';
+import { cases, copyPkgToNodeModules, findEntry, shareTest } from './helper';
 
 /* webpack can receive Function type configuration */
 test('should import with function customName', async () => {

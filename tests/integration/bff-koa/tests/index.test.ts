@@ -1,13 +1,13 @@
+import dns from 'node:dns';
 import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
-import dns from 'node:dns';
 import {
   getPort,
-  launchApp,
   killApp,
+  launchApp,
+  launchOptions,
   modernBuild,
   modernServe,
-  launchOptions,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 import { isVersionAtLeast1819 } from '@modern-js/utils';

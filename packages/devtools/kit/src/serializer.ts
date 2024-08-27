@@ -1,4 +1,4 @@
-import { isPromiseLike, PromiseStub } from './promise';
+import { PromiseStub, isPromiseLike } from './promise';
 
 export function replacer() {
   const memo = new WeakSet();

@@ -1,7 +1,7 @@
 import * as path from 'path';
+import type { AppTools } from '@modern-js/app-tools';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import type { AppTools } from '@modern-js/app-tools';
 
 export const expressPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',

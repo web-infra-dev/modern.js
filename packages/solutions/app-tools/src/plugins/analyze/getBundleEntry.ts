@@ -1,13 +1,13 @@
 import path from 'path';
-import {
-  ensureAbsolutePath,
-  fs,
-  findExists,
-  MAIN_ENTRY_NAME,
-  JS_EXTENSIONS,
-} from '@modern-js/utils';
-import type { Entrypoint } from '@modern-js/types';
 import type { CliHooksRunner } from '@modern-js/core';
+import type { Entrypoint } from '@modern-js/types';
+import {
+  fs,
+  JS_EXTENSIONS,
+  MAIN_ENTRY_NAME,
+  ensureAbsolutePath,
+  findExists,
+} from '@modern-js/utils';
 import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { isSubDirOrEqual } from './utils';

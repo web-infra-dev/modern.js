@@ -1,10 +1,8 @@
-import GarfishInstance from 'garfish';
-import React from 'react';
 import type { Plugin } from '@modern-js/runtime';
 import { merge } from '@modern-js/runtime-utils/merge';
+import GarfishInstance from 'garfish';
+import React from 'react';
 import { logger } from '../util';
-import { GarfishProvider } from './utils/Context';
-import setExternal from './utils/setExternal';
 import type {
   Config,
   Manifest,
@@ -12,8 +10,10 @@ import type {
   ModulesInfo,
   Options,
 } from './useModuleApps';
+import { GarfishProvider } from './utils/Context';
 import { generateMApp } from './utils/MApp';
 import { type AppMap, generateApps } from './utils/apps';
+import setExternal from './utils/setExternal';
 
 async function initOptions(manifest: Manifest = {}, options: Options = {}) {
   let apps: ModulesInfo = options.apps || [];

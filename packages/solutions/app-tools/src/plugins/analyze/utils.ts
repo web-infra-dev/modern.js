@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import {
-  normalizeToPosixPath,
-  getCommand,
   JS_EXTENSIONS,
+  getCommand,
+  normalizeToPosixPath,
 } from '@modern-js/utils';
+import { parse } from 'es-module-lexer';
 import type { Loader } from 'esbuild';
 import { transform } from 'esbuild';
-import { parse } from 'es-module-lexer';
 
 export const walkDirectory = (dir: string): string[] =>
   fs.readdirSync(dir).reduce<string[]>((previous, filename) => {

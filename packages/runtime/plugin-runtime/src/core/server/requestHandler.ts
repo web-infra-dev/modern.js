@@ -9,14 +9,14 @@ import {
   parseQuery,
 } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
-import { createRoot } from '../react';
 import { type RuntimeContext, getGlobalAppInit } from '../context';
-import { getGlobalRunner } from '../plugin/runner';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
+import { getGlobalRunner } from '../plugin/runner';
+import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
-import { getSSRConfigByEntry, getSSRMode } from './utils';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
+import { getSSRConfigByEntry, getSSRMode } from './utils';
 
 export type { RequestHandlerConfig as HandleRequestConfig } from '@modern-js/app-tools';
 

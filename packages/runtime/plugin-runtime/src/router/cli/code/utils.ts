@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import {
-  normalizeToPosixPath,
-  fs as fse,
   JS_EXTENSIONS,
+  fs as fse,
+  normalizeToPosixPath,
 } from '@modern-js/utils';
+import { parse } from 'es-module-lexer';
 import type { Loader } from 'esbuild';
 import { transform } from 'esbuild';
-import { parse } from 'es-module-lexer';
 import { ACTION_EXPORT_NAME, LOADER_EXPORT_NAME } from '../constants';
 
 export const walkDirectory = (dir: string): string[] =>

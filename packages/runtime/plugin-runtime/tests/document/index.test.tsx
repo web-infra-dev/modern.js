@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import ReactDomServer from 'react-dom/server';
 
 import {
-  Html,
-  Scripts,
   Body,
-  Head,
-  Root,
   DocumentContext,
+  Head,
+  Html,
+  Root,
   Script,
+  Scripts,
 } from '../../src/document';
 import cliPlugin from '../../src/document/cli';
 

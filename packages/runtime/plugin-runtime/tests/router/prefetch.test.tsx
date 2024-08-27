@@ -1,12 +1,12 @@
-import React from 'react';
 import {
-  createMemoryRouter,
   type LoaderFunctionArgs,
   RouterProvider,
+  createMemoryRouter,
 } from '@modern-js/runtime-utils/router';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
-import { Link } from '../../src/router';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import React from 'react';
 import { RuntimeReactContext } from '../../src';
+import { Link } from '../../src/router';
 
 declare global {
   var __webpack_chunk_load__: ((chunkId: string) => Promise<void>) | undefined;

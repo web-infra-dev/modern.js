@@ -1,13 +1,13 @@
 import * as path from 'path';
 import { bundle } from '@modern-js/node-bundle-require';
+import type { ServerConfig } from '@modern-js/server-core';
 import {
   fs,
-  getServerConfig,
-  ensureAbsolutePath,
-  OUTPUT_CONFIG_FILE,
   CONFIG_FILE_EXTENSIONS,
+  OUTPUT_CONFIG_FILE,
+  ensureAbsolutePath,
+  getServerConfig,
 } from '@modern-js/utils';
-import type { ServerConfig } from '@modern-js/server-core';
 import { stringify } from 'flatted';
 import type { AppNormalizedConfig } from '../types';
 

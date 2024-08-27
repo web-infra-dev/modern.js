@@ -1,6 +1,6 @@
-import path from 'node:path';
-import { fs, readTsConfigByFile, isVersionAtLeast1819 } from '@modern-js/utils';
 import assert from 'node:assert';
+import path from 'node:path';
+import { fs, isVersionAtLeast1819, readTsConfigByFile } from '@modern-js/utils';
 
 const checkDep = async dep => {
   try {

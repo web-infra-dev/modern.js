@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import type { ServerRoute as ModernRoute } from '@modern-js/types';
-import { exist, replaceRoute } from '../src/libs/replace';
 import { makeRoute } from '../src/libs/make';
+import { exist, replaceRoute } from '../src/libs/replace';
 
 describe('test functional function', () => {
   it('should check route exist correctly', () => {

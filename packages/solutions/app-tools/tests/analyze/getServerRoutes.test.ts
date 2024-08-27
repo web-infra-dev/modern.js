@@ -1,8 +1,8 @@
 import path from 'path';
 import type { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
-import { getServerRoutes } from '../../src/plugins/analyze/getServerRoutes';
 import type { Entrypoint } from '../../src/plugins/analyze/getFileSystemEntry';
+import { getServerRoutes } from '../../src/plugins/analyze/getServerRoutes';
 import type { AppNormalizedConfig } from '../../src/types';
 
 describe('get server routes', () => {

@@ -1,7 +1,7 @@
 import type {
+  HtmlWebpackPlugin,
   Rspack,
   webpack,
-  HtmlWebpackPlugin,
 } from '@modern-js/uni-builder';
 
 export class HtmlAsyncChunkPlugin {

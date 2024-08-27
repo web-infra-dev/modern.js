@@ -1,5 +1,5 @@
-import type { ICompilerOptions, ICompilerOptionsWithDefault } from './type';
 import { defaultDistFileExtMap } from './constants';
+import type { ICompilerOptions, ICompilerOptionsWithDefault } from './type';
 
 const defaultOptions = {
   enableWatch: false,

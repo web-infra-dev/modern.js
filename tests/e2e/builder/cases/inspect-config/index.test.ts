@@ -1,6 +1,6 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { fs } from '@modern-js/utils';
 import { createUniBuilder } from '@scripts/shared';
 
 const builderConfig = path.resolve(

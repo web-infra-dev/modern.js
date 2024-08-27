@@ -1,8 +1,8 @@
 import {
+  getHost,
+  getPathname,
   parseHeaders,
   parseQuery,
-  getPathname,
-  getHost,
 } from '../../src/utils';
 
 describe('test utils.request', () => {

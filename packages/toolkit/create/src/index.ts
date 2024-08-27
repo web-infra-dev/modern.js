@@ -1,8 +1,8 @@
-import { Command } from '@modern-js/utils/commander';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { Command } from '@modern-js/utils/commander';
+import { cleanCacheAction } from './cleanCacheAction';
 import { createAction } from './createAction';
 import { i18n, localeKeys } from './locale';
-import { cleanCacheAction } from './cleanCacheAction';
 
 export default function () {
   // initial cli language

@@ -1,5 +1,5 @@
 import { createDebugger } from '@modern-js/utils';
-import type { UserConfig, NormalizedConfig, LoadedConfig } from '../types';
+import type { LoadedConfig, NormalizedConfig, UserConfig } from '../types';
 import { mergeConfig } from '../utils/mergeConfig';
 import { createDefaultConfig } from './createDefaultConfig';
 

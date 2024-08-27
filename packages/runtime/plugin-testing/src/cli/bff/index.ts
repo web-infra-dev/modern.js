@@ -1,13 +1,13 @@
 import type { CliPlugin, IAppContext } from '@modern-js/core';
-import { isApiOnly } from '@modern-js/utils';
 // must import from server-core, due to ts compiler error.
 import type { ServerPlugin } from '@modern-js/server-core';
-import type { UserConfig } from '../../base/config';
+import { isApiOnly } from '@modern-js/utils';
 import {
+  DEFAULT_RESOLVER_PATH,
   type TestConfigOperator,
   getModuleNameMapper,
-  DEFAULT_RESOLVER_PATH,
 } from '../../base';
+import type { UserConfig } from '../../base/config';
 import type { Hooks } from '../../base/hook';
 import { bff_info_key } from './constant';
 import { isBFFProject } from './utils';

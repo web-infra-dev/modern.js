@@ -1,8 +1,8 @@
 import type { PluginAPI } from '@modern-js/core';
 import { chalk, inquirer, logger } from '@modern-js/utils';
+import type { DevToolData, ModuleTools } from './types';
 import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
-import type { DevToolData, ModuleTools } from './types';
 
 export const showMenu = async (
   metas: DevToolData[],

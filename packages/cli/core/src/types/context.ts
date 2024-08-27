@@ -1,9 +1,9 @@
 import type {
   Entrypoint,
-  ServerRoute,
-  HtmlTemplates,
   HtmlPartials,
+  HtmlTemplates,
   ServerPlugin,
+  ServerRoute,
 } from '@modern-js/types';
 import type {
   UniBuilderInstance,

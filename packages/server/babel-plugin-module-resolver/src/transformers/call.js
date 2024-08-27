@@ -1,5 +1,5 @@
-import { matchesPattern, isImportCall } from '../utils';
 import mapPathString from '../mapPath';
+import { isImportCall, matchesPattern } from '../utils';
 
 export default function transformCall(nodePath, state) {
   if (state.moduleResolverVisited.has(nodePath)) {

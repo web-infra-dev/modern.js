@@ -1,6 +1,6 @@
 import { createContext } from '@modern-js/plugin';
-import type { ServerConfig, ServerPlugin } from '../src/types';
 import { PluginManager } from '../src/pluginManager';
+import type { ServerConfig, ServerPlugin } from '../src/types';
 import { getDefaultConfig } from './helpers';
 
 function createPluginManager() {

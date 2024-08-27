@@ -1,10 +1,10 @@
+import { join } from 'path';
+import { type RsbuildPlugin, logger } from '@rsbuild/core';
 import type {
+  UniBuilderContext,
   UniBuilderPlugin,
   UniBuilderPluginAPI,
-  UniBuilderContext,
 } from '../types';
-import { type RsbuildPlugin, logger } from '@rsbuild/core';
-import { join } from 'path';
 
 function addDeprecatedWarning(
   pluginName: string,

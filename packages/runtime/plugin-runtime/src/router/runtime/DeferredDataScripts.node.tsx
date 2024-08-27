@@ -1,10 +1,10 @@
+import { serializeJson } from '@modern-js/runtime-utils/node';
 import type {
   StaticHandlerContext,
   TrackedPromise,
 } from '@modern-js/runtime-utils/remix-router';
-import { Suspense, useEffect, useRef, useMemo } from 'react';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
-import { serializeJson } from '@modern-js/runtime-utils/node';
+import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { serializeErrors } from './utils';
 
 /**

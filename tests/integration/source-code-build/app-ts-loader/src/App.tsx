@@ -1,4 +1,4 @@
-import { VERSION, type Plugin } from '@source-code-build/common';
+import { type Plugin, VERSION } from '@source-code-build/common';
 import { Button } from 'antd';
 import './App.css';
 

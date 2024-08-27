@@ -1,24 +1,24 @@
 import type {
-  Pipeline,
+  AsyncPipeline,
   MaybeAsync,
   Middleware,
-  AsyncPipeline,
+  Pipeline,
 } from '../farrow-pipeline';
 import type {
-  Brook,
-  Waterfall,
   AsyncBrook,
   AsyncWaterfall,
+  Brook,
+  Waterfall,
 } from '../waterfall';
 import type {
-  Worker,
-  Workflow,
+  AsyncInterruptWorker,
+  AsyncInterruptWorkflow,
   AsyncWorker,
   AsyncWorkflow,
   ParallelWorkflow,
-  AsyncInterruptWorkflow,
-  AsyncInterruptWorker,
   SyncParallelWorkflow,
+  Worker,
+  Workflow,
 } from '../workflow';
 
 /** All hook types. */

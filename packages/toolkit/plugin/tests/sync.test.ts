@@ -1,21 +1,21 @@
+import type { PluginOptions, Setup } from '../src';
 import {
-  createPipeline,
   createAsyncPipeline,
   createContext,
+  createPipeline,
 } from '../src/farrow-pipeline';
-import type { PluginOptions, Setup } from '../src';
-import { createManager, createAsyncManager } from '../src/manager';
-import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
+import { createAsyncManager, createManager } from '../src/manager';
+import { createAsyncWaterfall, createWaterfall } from '../src/waterfall';
 import {
-  createWorkflow,
   createAsyncWorkflow,
   createParallelWorkflow,
+  createWorkflow,
 } from '../src/workflow';
-import { main, type TestHooks, type TestPlugin } from './fixtures/sync/core';
-import foo from './fixtures/sync/base/foo';
 import bar, { getBar } from './fixtures/sync/base/bar';
-import dFoo from './fixtures/sync/dynamic/foo';
+import foo from './fixtures/sync/base/foo';
+import { type TestHooks, type TestPlugin, main } from './fixtures/sync/core';
 import dBar, { getNumber, setNumber } from './fixtures/sync/dynamic/bar';
+import dFoo from './fixtures/sync/dynamic/foo';
 
 describe('sync manager', () => {
   it('base usage', () => {

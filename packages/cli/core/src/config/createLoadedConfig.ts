@@ -1,22 +1,22 @@
 import path from 'path';
-import { mergeWith } from '@modern-js/utils/lodash';
 import {
   fs,
+  CONFIG_FILE_EXTENSIONS,
   chalk,
-  logger,
+  findExists,
   getCommand,
   getNodeEnv,
-  findExists,
   isDevCommand,
   isPlainObject,
-  CONFIG_FILE_EXTENSIONS,
+  logger,
 } from '@modern-js/utils';
+import { mergeWith } from '@modern-js/utils/lodash';
 import type { LoadedConfig, UserConfig, UserConfigExport } from '../types';
 import { mergeConfig } from '../utils';
 import {
-  loadConfig,
-  getConfigFilePath,
   LOCAL_CONFIG_FILE_NAME,
+  getConfigFilePath,
+  loadConfig,
 } from './loadConfig';
 
 /**

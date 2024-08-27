@@ -1,27 +1,27 @@
 import type { AppTools, IAppContext, UserConfig } from '@modern-js/app-tools';
-import type {
-  RsbuildContext,
-  NormalizedConfig as NormalizedBuilderConfig,
-  RsbuildConfig,
-  webpack,
-  Rspack,
-  WebpackConfig,
-  RspackConfig,
-} from '@modern-js/uni-builder';
 import type { NormalizedConfig } from '@modern-js/core';
 import type {
-  RouteLegacy,
   NestedRouteForCli,
   PageRoute,
+  RouteLegacy,
 } from '@modern-js/types';
+import type {
+  NormalizedConfig as NormalizedBuilderConfig,
+  RsbuildConfig,
+  RsbuildContext,
+  Rspack,
+  RspackConfig,
+  WebpackConfig,
+  webpack,
+} from '@modern-js/uni-builder';
 import type { Manifest } from '@rsdoctor/types';
+import type { ClientDefinition } from './client';
+import type { ExportedServerState } from './state';
 import type {
   StoragePresetConfig,
   StoragePresetContext,
   StoragePresetWithIdent,
 } from './storage-preset';
-import type { ExportedServerState } from './state';
-import type { ClientDefinition } from './client';
 
 export type BuilderContext = RsbuildContext;
 

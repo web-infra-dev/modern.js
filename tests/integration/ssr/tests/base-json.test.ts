@@ -1,9 +1,9 @@
 import path, { join } from 'path';
 import puppeteer, { type Page, type Browser } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 

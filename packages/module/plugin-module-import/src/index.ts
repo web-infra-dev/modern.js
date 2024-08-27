@@ -1,7 +1,7 @@
 import type {
+  BaseBuildConfig,
   CliPlugin,
   ModuleTools,
-  BaseBuildConfig,
 } from '@modern-js/module-tools';
 
 /**

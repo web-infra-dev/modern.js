@@ -1,8 +1,8 @@
 import { relative, resolve } from 'path';
-import { chalk, logger, fastGlob, slash } from '@modern-js/utils';
+import { chalk, fastGlob, logger, slash } from '@modern-js/utils';
 import type {
-  RollupOutput,
   OutputChunk,
+  RollupOutput,
 } from '../../compiled/rollup/types/rollup';
 import {
   buildSuccessText,

@@ -1,4 +1,4 @@
-import { describe, afterAll, test, expect } from 'vitest';
+import { afterAll, describe, expect, test } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 
 describe('parseCommonConfig', () => {

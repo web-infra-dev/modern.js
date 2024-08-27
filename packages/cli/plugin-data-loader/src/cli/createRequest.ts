@@ -1,11 +1,11 @@
+import type { UNSAFE_DeferredData as DeferredData } from '@modern-js/runtime-utils/remix-router';
+import { redirect } from '@modern-js/runtime-utils/router';
 // Todo move this file to `runtime/` dir
 import { compile } from 'path-to-regexp';
-import { redirect } from '@modern-js/runtime-utils/router';
-import type { UNSAFE_DeferredData as DeferredData } from '@modern-js/runtime-utils/remix-router';
 import {
-  LOADER_ID_PARAM,
-  DIRECT_PARAM,
   CONTENT_TYPE_DEFERRED,
+  DIRECT_PARAM,
+  LOADER_ID_PARAM,
 } from '../common/constants';
 import { parseDeferredReadableStream } from './data';
 

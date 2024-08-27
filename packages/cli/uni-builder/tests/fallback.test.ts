@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
-import { unwrapConfig, matchRules } from './helper';
+import { matchRules, unwrapConfig } from './helper';
 
 describe('plugin-fallback', () => {
   const testPlugin: RsbuildPlugin = {

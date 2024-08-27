@@ -1,6 +1,6 @@
 import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
-import type { ILibPresetOption } from './types';
 import { aliasPlugin } from './alias';
+import type { ILibPresetOption } from './types';
 
 export const getBabelConfig = (libPresetOption: ILibPresetOption) => {
   const { isEsm } = libPresetOption;

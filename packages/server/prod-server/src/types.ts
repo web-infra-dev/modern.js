@@ -1,6 +1,6 @@
 import type {
-  ServerBaseOptions,
   CreateDefaultPluginsOptions,
+  ServerBaseOptions,
   ServerPlugin,
 } from '@modern-js/server-core';
 import type { Reporter } from '@modern-js/types';

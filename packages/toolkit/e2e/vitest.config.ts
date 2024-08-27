@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitest/config';
 import { withTestPreset } from '@scripts/vitest-config';
+import { defineConfig } from 'vitest/config';
 
 const config = defineConfig({
   test: {

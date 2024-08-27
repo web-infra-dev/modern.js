@@ -1,5 +1,5 @@
-import { useLoader } from '@modern-js/runtime';
 import hello from '@api/index';
+import { useLoader } from '@modern-js/runtime';
 
 const App = () => {
   const { data } = useLoader(async () => {

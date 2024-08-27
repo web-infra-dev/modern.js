@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, globby, slash } from '@modern-js/utils';
-import { runCli, initBeforeTest } from '../../utils';
+import { initBeforeTest, runCli } from '../../utils';
 
 initBeforeTest();
 

@@ -1,7 +1,7 @@
 import path from 'path';
-import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { cases, shareTest, copyPkgToNodeModules, findEntry } from './helper';
+import { build } from '@scripts/shared';
+import { cases, copyPkgToNodeModules, findEntry, shareTest } from './helper';
 
 test('should import with template config', async () => {
   copyPkgToNodeModules();

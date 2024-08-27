@@ -1,4 +1,4 @@
-import { cli, type ToRunners } from '@modern-js/core';
+import { type ToRunners, cli } from '@modern-js/core';
 import {
   chalk,
   clearConsole,

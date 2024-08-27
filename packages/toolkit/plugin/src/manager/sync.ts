@@ -1,21 +1,21 @@
-import { isPipeline, createPipeline } from '../farrow-pipeline';
+import { createPipeline, isPipeline } from '../farrow-pipeline';
 import {
-  isWaterfall,
+  createAsyncWaterfall,
   createWaterfall,
   isAsyncWaterfall,
-  createAsyncWaterfall,
+  isWaterfall,
 } from '../waterfall';
 import {
-  isWorkflow,
-  createWorkflow,
-  isAsyncWorkflow,
-  createAsyncWorkflow,
-  isParallelWorkflow,
-  createParallelWorkflow,
-  isAsyncInterruptWorkflow,
   createAsyncInterruptWorkflow,
-  isSyncParallelWorkflow,
+  createAsyncWorkflow,
+  createParallelWorkflow,
   createSyncParallelWorkflow,
+  createWorkflow,
+  isAsyncInterruptWorkflow,
+  isAsyncWorkflow,
+  isParallelWorkflow,
+  isSyncParallelWorkflow,
+  isWorkflow,
 } from '../workflow';
 import {
   checkPlugins,
@@ -26,11 +26,11 @@ import {
   sortPlugins,
 } from './shared';
 import type {
-  Hook,
   CommonAPI,
+  Hook,
+  PluginOptions,
   ToRunners,
   ToThreads,
-  PluginOptions,
 } from './types';
 
 /** Setup function of sync plugin. */

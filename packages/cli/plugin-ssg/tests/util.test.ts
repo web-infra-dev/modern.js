@@ -1,12 +1,12 @@
 import {
   formatOutput,
   formatPath,
-  isDynamicUrl,
-  getUrlPrefix,
   getOutput,
+  getUrlPrefix,
+  isDynamicUrl,
+  openRouteSSR,
   replaceWithAlias,
   standardOptions,
-  openRouteSSR,
 } from '../src/libs/util';
 
 describe('test ssg util function', () => {

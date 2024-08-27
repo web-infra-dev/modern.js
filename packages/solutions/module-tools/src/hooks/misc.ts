@@ -1,4 +1,4 @@
-import { createAsyncWaterfall, createAsyncPipeline } from '@modern-js/plugin';
+import { createAsyncPipeline, createAsyncWaterfall } from '@modern-js/plugin';
 import type { ModuleUserConfig } from '../types';
 
 export const miscHooks = {

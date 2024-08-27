@@ -1,6 +1,6 @@
 import type {
-  TransformOptions as BabelTransformOptions,
   PluginItem as BabelPlugin,
+  TransformOptions as BabelTransformOptions,
 } from '@babel/core';
 
 export type {

@@ -1,4 +1,4 @@
-import type { Metrics, Reporter, ServerRoute, Logger } from '@modern-js/types';
+import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import type { ServerUserConfig } from './config';
 
 export type Resource = {

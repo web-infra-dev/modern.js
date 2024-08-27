@@ -1,6 +1,6 @@
 import { isAbsolute } from 'node:path';
-import { findExists } from './fs';
 import { pathToFileURL } from 'node:url';
+import { findExists } from './fs';
 
 /**
  * Require function compatible with esm and cjs module.

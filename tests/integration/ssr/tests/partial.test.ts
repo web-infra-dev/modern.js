@@ -1,12 +1,12 @@
 import dns from 'node:dns';
 import path, { join } from 'path';
-import puppeteer, { type Browser, type Page } from 'puppeteer';
 import axios from 'axios';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
-  launchOptions,
   killApp,
+  launchApp,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 dns.setDefaultResultOrder('ipv4first');

@@ -8,9 +8,9 @@ import type {
 import type { AddFileParams, AddManyFilesParams } from '../utils/file';
 import { PluginFileAPI } from './file';
 import { PluginGitAPI } from './git';
-import { type Schema, PluginInputContext } from './input';
-import { PluginNpmAPI } from './npm';
+import { PluginInputContext, type Schema } from './input';
 import { PluginNewAPI } from './new';
+import { PluginNpmAPI } from './npm';
 
 export * from './input';
 export * from './file';

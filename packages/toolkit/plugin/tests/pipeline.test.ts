@@ -1,7 +1,7 @@
 import {
+  createAsyncPipeline,
   createContext,
   createPipeline,
-  createAsyncPipeline,
   isPipeline,
 } from '../src';
 import { sleep } from './helpers';

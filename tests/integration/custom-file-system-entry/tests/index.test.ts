@@ -3,9 +3,9 @@ import puppeteer, { type Browser } from 'puppeteer';
 
 import type { Page } from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 

@@ -1,5 +1,5 @@
-import { defineRuntimeConfig } from '@modern-js/runtime';
 import garfishPlugin from '@modern-js/plugin-garfish/runtime';
+import { defineRuntimeConfig } from '@modern-js/runtime';
 
 export default defineRuntimeConfig({
   plugins: [

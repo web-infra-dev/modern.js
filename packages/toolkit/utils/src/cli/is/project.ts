@@ -1,7 +1,7 @@
 import path from 'path';
 import pkgUp from '../../../compiled/pkg-up';
-import { getArgv } from '../commands';
 import { fs, minimist, semver } from '../../compiled';
+import { getArgv } from '../commands';
 import { createDebugger } from '../common';
 import { ensureArray } from '../ensure';
 

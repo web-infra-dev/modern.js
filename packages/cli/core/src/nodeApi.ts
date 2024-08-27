@@ -1,4 +1,4 @@
-import { cli, type CoreOptions } from '.';
+import { type CoreOptions, cli } from '.';
 
 export const dev = (options?: CoreOptions, commandOptions: string[] = []) => {
   cli.runCommand('dev', commandOptions, options);

@@ -1,24 +1,24 @@
 import * as path from 'path';
 import {
+  type HtmlWebpackPlugin,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+  isHtmlDisabled,
+} from '@modern-js/uni-builder';
+import { fs, isUseSSRBundle } from '@modern-js/utils';
+import {
   type RsbuildPlugin,
   type RspackChain,
   mergeRsbuildConfig,
 } from '@rsbuild/core';
-import { fs, isUseSSRBundle } from '@modern-js/utils';
-import {
-  type HtmlWebpackPlugin,
-  isHtmlDisabled,
-  SERVICE_WORKER_ENVIRONMENT_NAME,
-} from '@modern-js/uni-builder';
+import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
-  ServerUserConfig,
   SSGMultiEntryOptions,
+  ServerUserConfig,
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
-import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,

@@ -1,8 +1,8 @@
 import {
-  getReleaseInfo,
-  getReleaseNoteLine,
   type Commit,
   CommitType,
+  getReleaseInfo,
+  getReleaseNoteLine,
 } from '../src/commands';
 
 describe('release note function test', () => {

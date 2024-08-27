@@ -1,15 +1,15 @@
-import { MessagePortChannel } from '@modern-js/devtools-kit/runtime';
-import { createBirpc } from 'birpc';
-import { createHooks } from 'hookable';
-import createDeferred from 'p-defer';
-import { proxy } from 'valtio';
-import { activate, createBridge } from 'react-devtools-inline/backend';
-import _ from 'lodash';
 import type {
   ClientFunctions,
   MountPointFunctions as ToClientFunctions,
 } from '@/types/rpc';
 import { WallAgent } from '@/utils/react-devtools';
+import { MessagePortChannel } from '@modern-js/devtools-kit/runtime';
+import { createBirpc } from 'birpc';
+import { createHooks } from 'hookable';
+import _ from 'lodash';
+import createDeferred from 'p-defer';
+import { activate, createBridge } from 'react-devtools-inline/backend';
+import { proxy } from 'valtio';
 
 export const $clientChannel = MessagePortChannel.wait(
   window,

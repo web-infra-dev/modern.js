@@ -1,6 +1,6 @@
 import { promisify } from 'util';
-import type { LoaderContext } from 'webpack';
 import { logger } from '@modern-js/utils/logger';
+import type { LoaderContext } from 'webpack';
 import { generateClient } from './generateClient';
 
 type Context = {

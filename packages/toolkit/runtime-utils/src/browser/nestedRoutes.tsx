@@ -1,18 +1,18 @@
+import type { NestedRoute, Reporter } from '@modern-js/types';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 /**
  * runtime utils for nested routes generating
  */
 import type React from 'react';
 import { Suspense } from 'react';
-import type { NestedRoute, Reporter } from '@modern-js/types';
 import {
-  createRoutesFromElements,
   type LoaderFunction,
   type LoaderFunctionArgs,
   Outlet,
   Route,
   type RouteProps,
+  createRoutesFromElements,
 } from 'react-router-dom';
-import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { time } from '../time';
 
 export const transformNestedRoutes = (

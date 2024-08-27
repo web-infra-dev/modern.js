@@ -1,5 +1,5 @@
-import { execa } from '@modern-js/generator-utils';
 import { timeoutPromise } from '@modern-js/codesmith';
+import { execa } from '@modern-js/generator-utils';
 
 export const NPM_API_TIMEOUT = 30000;
 

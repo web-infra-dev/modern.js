@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
-import { unwrapConfig, matchRules } from './helper';
+import { matchRules, unwrapConfig } from './helper';
 
 describe('plugin-postcssLegacy', () => {
   it('should register postcss plugin by browserslist', async () => {

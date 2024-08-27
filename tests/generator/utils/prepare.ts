@@ -1,5 +1,5 @@
-import path from 'path';
 import os from 'os';
+import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import { execaWithStreamLog } from './tools';
 

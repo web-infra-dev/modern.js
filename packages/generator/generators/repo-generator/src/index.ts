@@ -1,17 +1,17 @@
-import { merge } from '@modern-js/utils/lodash';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  i18n,
-  getSolutionSchema,
-  SolutionGenerator,
+  BaseGenerator,
   type Solution,
   SolutionDefaultConfig,
-  BaseGenerator,
+  SolutionGenerator,
   getScenesSchema,
+  getSolutionSchema,
+  i18n,
 } from '@modern-js/generator-common';
-import { getGeneratorPath } from '@modern-js/generator-utils';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
+import { getGeneratorPath } from '@modern-js/generator-utils';
+import { merge } from '@modern-js/utils/lodash';
 
 const mergeDefaultConfig = (context: GeneratorContext) => {
   const { defaultSolution } = context.config;

@@ -1,10 +1,10 @@
+import { createServerBase } from '@modern-js/server-core';
 import {
   loadServerCliConfig,
   loadServerEnv,
 } from '@modern-js/server-core/node';
-import { createServerBase } from '@modern-js/server-core';
-import type { BaseEnv, ProdServerOptions } from './types';
 import { applyPlugins } from './apply';
+import type { BaseEnv, ProdServerOptions } from './types';
 
 export type { ProdServerOptions, BaseEnv } from './types';
 

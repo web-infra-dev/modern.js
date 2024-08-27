@@ -1,7 +1,7 @@
 import path from 'path';
-import { build } from '@scripts/shared';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { pluginSwc } from '@rsbuild/plugin-swc';
+import { build } from '@scripts/shared';
 
 const commonConfig = {
   cwd: __dirname,

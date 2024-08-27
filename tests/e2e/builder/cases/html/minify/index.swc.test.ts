@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build, getHrefByEntryName } from '@scripts/shared';
 import { pluginSwc } from '@rsbuild/plugin-swc';
+import { build, getHrefByEntryName } from '@scripts/shared';
 
 const fixtures = __dirname;
 

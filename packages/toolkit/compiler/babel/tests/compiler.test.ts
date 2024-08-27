@@ -1,11 +1,11 @@
 import * as path from 'path';
-import { fs } from '@modern-js/utils';
 import * as babel from '@babel/core';
+import { fs } from '@modern-js/utils';
 import {
-  isRes,
-  getDistFilePath,
-  resolveSourceMap,
   compiler,
+  getDistFilePath,
+  isRes,
+  resolveSourceMap,
 } from '../src/compiler';
 import { defaultDistFileExtMap } from '../src/constants';
 

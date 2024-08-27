@@ -1,6 +1,6 @@
+import { applyOptionsChain, isProd } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import type { ToolsAutoprefixerConfig } from '../../types';
-import { isProd, applyOptionsChain } from '@modern-js/utils';
 import { getCssSupport } from '../getCssSupport';
 
 // enable autoprefixer and  support compat legacy browsers

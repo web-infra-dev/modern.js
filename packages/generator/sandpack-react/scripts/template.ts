@@ -1,9 +1,9 @@
 import path from 'path';
-import recursive from 'recursive-readdir';
-import fs from '@modern-js/utils/fs-extra';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
-import { getModernVersion } from '@modern-js/generator-utils';
 import { Solution } from '@modern-js/generator-common';
+import { getModernVersion } from '@modern-js/generator-utils';
+import fs from '@modern-js/utils/fs-extra';
+import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
   '.nvmrc',

@@ -1,11 +1,11 @@
 import path from 'path';
-import type { Entrypoint } from '@modern-js/types';
-import type { PluginAPI } from '@modern-js/core';
 import type { AppTools } from '@modern-js/app-tools';
+import type { PluginAPI } from '@modern-js/core';
+import type { Entrypoint } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { modifyEntrypoints } from './entry';
-import { isPageComponentFile } from './code/utils';
 import * as templates from './code/templates';
+import { isPageComponentFile } from './code/utils';
+import { modifyEntrypoints } from './entry';
 
 let originEntrypoints: any[] = [];
 

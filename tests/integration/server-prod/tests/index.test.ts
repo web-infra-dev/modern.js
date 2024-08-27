@@ -1,11 +1,11 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import axios from 'axios';
 import {
-  modernBuild,
-  modernServe,
   getPort,
   killApp,
+  modernBuild,
+  modernServe,
 } from '../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');

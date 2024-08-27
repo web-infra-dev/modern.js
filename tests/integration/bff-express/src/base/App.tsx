@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import hello, { postHello } from '@api/index';
 import { configure } from '@modern-js/runtime/bff';
+import { useEffect, useState } from 'react';
 
 configure({
   interceptor(request) {

@@ -1,10 +1,10 @@
 import type { CliPlugin } from '@modern-js/core';
 import { changesetPlugin } from '@modern-js/plugin-changeset';
-import { lintPlugin } from '@modern-js/plugin-lint';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { i18n } from './locale';
-import { newCli, deployCli, clearCli, upgradeCli } from './cli';
+import { lintPlugin } from '@modern-js/plugin-lint';
+import { clearCli, deployCli, newCli, upgradeCli } from './cli';
 import { hooks } from './hooks';
+import { i18n } from './locale';
 import type { MonorepoTools } from './type';
 
 export * from './projects/getProjects';

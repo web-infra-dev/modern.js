@@ -1,8 +1,8 @@
-import React from 'react';
 import Garfish from 'garfish';
-import type { Manifest, ModulesInfo } from '../useModuleApps';
-import { logger, generateSubAppContainerKey } from '../../util';
+import React from 'react';
+import { generateSubAppContainerKey, logger } from '../../util';
 import { Loadable, type MicroProps } from '../loadable';
+import type { Manifest, ModulesInfo } from '../useModuleApps';
 import type { Provider } from './apps';
 
 declare global {

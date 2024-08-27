@@ -1,7 +1,7 @@
 import { type Chunk, ChunkExtractor } from '@loadable/server';
 import type { ReactElement } from 'react';
 import { attributesToString, checkIsNode } from '../utils';
-import type { Collector, ChunkSet } from './types';
+import type { ChunkSet, Collector } from './types';
 
 declare module '@loadable/server' {
   export interface ChunkExtractor {

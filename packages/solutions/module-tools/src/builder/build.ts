@@ -1,19 +1,19 @@
-import { slash, logger, fs } from '@modern-js/utils';
-import {
-  withLogTitle,
-  getDefaultOutExtension,
-  getProjectTsconfig,
-} from '../utils';
-import type {
-  BuildCommandOptions,
-  BaseBuildConfig,
-  ModuleTools,
-  PluginAPI,
-  DTSOptions,
-  ModuleContext,
-} from '../types';
+import { fs, logger, slash } from '@modern-js/utils';
 import pMap from '../../compiled/p-map';
 import { debug, label } from '../debug';
+import type {
+  BaseBuildConfig,
+  BuildCommandOptions,
+  DTSOptions,
+  ModuleContext,
+  ModuleTools,
+  PluginAPI,
+} from '../types';
+import {
+  getDefaultOutExtension,
+  getProjectTsconfig,
+  withLogTitle,
+} from '../utils';
 import { copyTask } from './copy';
 import { createCompiler } from './esbuild';
 

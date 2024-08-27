@@ -1,6 +1,6 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
-import { getFrameworkSchema, Framework } from './common';
+import { Framework, getFrameworkSchema } from './common';
 
 export enum BFFType {
   Func = 'func',

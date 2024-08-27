@@ -1,13 +1,13 @@
 import path from 'path';
-import fs from '@modern-js/utils/fs-extra';
 import type {
   DevtoolsConfig,
   DevtoolsContext,
-  StoragePresetWithIdent,
-  StoragePresetContext,
   StoragePresetConfig,
+  StoragePresetContext,
+  StoragePresetWithIdent,
 } from '@modern-js/devtools-kit';
 import { logger, nanoid } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
 
 export function getConfigFilenames(base: string, dir = process.cwd()) {
   const files: string[] = [];

@@ -1,27 +1,27 @@
 import {
-  mergeConfig,
   type AppTools,
   type CliPlugin,
   type UserConfig,
+  mergeConfig,
 } from '@modern-js/app-tools';
 import type { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
-import createDeferred from 'p-defer';
-import { createHooks } from 'hookable';
 import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
+import { createHooks } from 'hookable';
+import createDeferred from 'p-defer';
 import { proxy } from 'valtio';
 import { type DevtoolsPluginOptions, resolveContext } from './options';
-import type { CliPluginAPI, Plugin, PluginApi } from './types';
+import { pluginCleanup } from './plugins/cleanup';
 import { pluginDebug } from './plugins/debug';
+import { pluginHtml } from './plugins/html';
 import { pluginHttp } from './plugins/http';
+import { pluginManifest } from './plugins/manifest';
+import { pluginRpc } from './plugins/rpc';
+import { pluginServiceWorker } from './plugins/service-worker';
+import { pluginSettleState } from './plugins/settle';
 import { pluginState } from './plugins/state';
 import { pluginWatcher } from './plugins/watcher';
-import { pluginServiceWorker } from './plugins/service-worker';
-import { pluginHtml } from './plugins/html';
-import { pluginRpc } from './plugins/rpc';
-import { pluginCleanup } from './plugins/cleanup';
-import { pluginSettleState } from './plugins/settle';
-import { pluginManifest } from './plugins/manifest';
+import type { CliPluginAPI, Plugin, PluginApi } from './types';
 
 export type { DevtoolsPluginOptions };
 

@@ -1,5 +1,4 @@
 import path from 'path';
-import { json5, semver } from '@modern-js/utils';
 import {
   type ActionFunction,
   type ActionRefactor,
@@ -7,6 +6,7 @@ import {
   SolutionToolsMap,
 } from '@modern-js/generator-common';
 import { fs, getModernPluginVersion } from '@modern-js/generator-utils';
+import { json5, semver } from '@modern-js/utils';
 
 const swap = (obj: Record<string, string>) => {
   return Object.keys(obj).reduce<Record<string, string>>((acc, key) => {

@@ -1,12 +1,12 @@
 import path from 'node:path';
 import {
-  ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
+  ROUTE_SPEC_FILE,
   fs as fse,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
+import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import type { CreatePreset } from './platform';
 
 async function cleanDistDirectory(dir: string) {

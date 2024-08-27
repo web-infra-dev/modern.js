@@ -1,9 +1,9 @@
-import { PackageManager } from '@modern-js/generator-common';
 import {
   npmInstall,
   pnpmInstall,
   yarnInstall,
 } from '@modern-js/codesmith-api-npm';
+import { PackageManager } from '@modern-js/generator-common';
 
 export class PluginNpmAPI {
   private readonly projectPath: string = '';

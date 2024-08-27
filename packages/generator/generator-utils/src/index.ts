@@ -1,18 +1,18 @@
 import path from 'path';
+import type { GeneratorContext } from '@modern-js/codesmith';
+import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import {
   fs,
-  ora,
-  execa,
-  getMonorepoPackages,
   canUseNpm,
   canUsePnpm,
+  execa,
+  getMonorepoPackages,
+  ora,
 } from '@modern-js/utils';
-import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
-import type { GeneratorContext } from '@modern-js/codesmith';
-import { stripAnsi } from './utils/stripAnsi';
 import { i18n, localeKeys } from './locale';
-import { getAvailableVersion, isPackageExist } from './utils/package';
 import { fileExist } from './utils/fsExist';
+import { getAvailableVersion, isPackageExist } from './utils/package';
+import { stripAnsi } from './utils/stripAnsi';
 
 export * from './utils';
 

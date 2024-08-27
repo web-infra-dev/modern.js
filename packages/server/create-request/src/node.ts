@@ -1,13 +1,13 @@
-import nodeFetch from 'node-fetch';
-import { compile, pathToRegexp, type Key } from 'path-to-regexp';
 import { useHeaders } from '@modern-js/runtime-utils/node';
+import nodeFetch from 'node-fetch';
+import { type Key, compile, pathToRegexp } from 'path-to-regexp';
 import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
-  Sender,
-  RequestCreator,
   IOptions,
+  RequestCreator,
+  Sender,
 } from './types';
 
 type Fetch = typeof nodeFetch;

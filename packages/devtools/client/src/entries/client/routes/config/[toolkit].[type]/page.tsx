@@ -1,8 +1,8 @@
-import type React from 'react';
-import { useParams } from '@modern-js/runtime/router';
-import { useSnapshot } from 'valtio';
-import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
+import { useGlobals } from '@/entries/client/globals';
+import { useParams } from '@modern-js/runtime/router';
+import type React from 'react';
+import { useSnapshot } from 'valtio';
 
 const Page: React.FC = () => {
   const globals = useGlobals();

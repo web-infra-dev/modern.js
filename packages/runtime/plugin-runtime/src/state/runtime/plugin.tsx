@@ -1,15 +1,15 @@
-import { useContext } from 'react';
+import { Provider } from '@modern-js-reduck/react';
 import {
-  createStore,
   type Model,
   type StoreConfig,
+  createStore,
 } from '@modern-js-reduck/store';
-import { Provider } from '@modern-js-reduck/react';
 import { merge } from '@modern-js/runtime-utils/merge';
-import { immer, effects, autoActions, devtools } from '../plugins';
+import { useContext } from 'react';
+import { isBrowser } from '../../common';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
-import { isBrowser } from '../../common';
+import { autoActions, devtools, effects, immer } from '../plugins';
 
 type StatePluginType = 'immer' | 'effects' | 'autoActions' | 'devtools';
 type StateExtraType = {

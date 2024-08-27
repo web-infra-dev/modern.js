@@ -1,6 +1,6 @@
 import assert from 'assert';
+import { Any, isHandler, isSchemaHandler, match } from '../src';
 import { baseMatch } from '../src/match';
-import { match, isHandler, isSchemaHandler, Any } from '../src';
 
 describe('match', () => {
   it('should work well', async () => {

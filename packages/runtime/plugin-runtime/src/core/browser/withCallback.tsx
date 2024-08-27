@@ -1,6 +1,6 @@
 // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
 import type React from 'react';
-import { useRef, useLayoutEffect } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 export const WithCallback: React.FC<{
   callback: () => void;

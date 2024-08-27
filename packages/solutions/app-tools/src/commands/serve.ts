@@ -1,16 +1,16 @@
 import path from 'path';
-import {
-  logger,
-  isApiOnly,
-  getTargetDir,
-  getMeta,
-  SERVER_DIR,
-} from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
-import { printInstructions } from '../utils/printInstructions';
+import {
+  SERVER_DIR,
+  getMeta,
+  getTargetDir,
+  isApiOnly,
+  logger,
+} from '@modern-js/utils';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
+import { printInstructions } from '../utils/printInstructions';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();

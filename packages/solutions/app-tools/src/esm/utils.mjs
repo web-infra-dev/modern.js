@@ -1,7 +1,7 @@
-import path from 'path';
 import { createRequire } from 'module';
-import tsConfigPaths from '@modern-js/utils/tsconfig-paths';
+import path from 'path';
 import { getAliasConfig } from '@modern-js/utils';
+import tsConfigPaths from '@modern-js/utils/tsconfig-paths';
 
 const require = createRequire(import.meta.url);
 export function createMatchPath({ alias, appDir, tsconfigPath }) {

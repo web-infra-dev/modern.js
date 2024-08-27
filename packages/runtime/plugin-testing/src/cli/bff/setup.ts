@@ -1,9 +1,9 @@
-import path from 'path';
 import type { IncomingMessage, ServerResponse } from 'http';
-import { ApiRouter, type APIHandlerInfo } from '@modern-js/bff-core';
+import path from 'path';
+import { type APIHandlerInfo, ApiRouter } from '@modern-js/bff-core';
+import { closeServer, createApp } from './app';
 import { bff_info_key } from './constant';
 import mockAPI from './mockAPI';
-import { createApp, closeServer } from './app';
 
 let uped = false;
 

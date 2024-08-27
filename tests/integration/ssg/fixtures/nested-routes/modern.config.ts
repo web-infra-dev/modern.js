@@ -1,4 +1,4 @@
-import { defineConfig, appTools } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({

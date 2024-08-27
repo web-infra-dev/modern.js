@@ -1,13 +1,13 @@
-import { join, dirname, relative, resolve } from 'path';
-import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
-import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
-import MagicString from 'magic-string';
-import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
+import { dirname, join, relative, resolve } from 'path';
 import { js } from '@ast-grep/napi';
+import { fs, chalk, globby, json5, logger } from '@modern-js/utils';
+import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
+import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
+import MagicString from 'magic-string';
 import type {
-  ITsconfig,
-  GeneratorDtsConfig,
   BuildType,
+  GeneratorDtsConfig,
+  ITsconfig,
   TsTarget,
 } from '../types';
 import { normalizeSlashes } from './builder';

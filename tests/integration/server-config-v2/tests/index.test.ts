@@ -2,8 +2,8 @@ import dns from 'node:dns';
 import path from 'path';
 import {
   getPort,
-  launchApp,
   killApp,
+  launchApp,
   modernBuild,
   modernServe,
 } from '../../../utils/modernTestUtils';

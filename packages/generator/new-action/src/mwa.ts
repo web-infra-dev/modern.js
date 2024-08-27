@@ -1,35 +1,35 @@
-import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { FormilyAPI } from '@modern-js/codesmith-formily';
 import {
-  getMWANewActionSchema,
-  MWAActionFunctions,
-  MWAActionReactors,
   type ActionFunction,
-  MWAActionFunctionsDependencies,
-  MWAActionFunctionsAppendTypeContent,
-  MWAActionReactorAppendTypeContent,
-  MWAActionFunctionsDevDependencies,
-  MWANewActionGenerators,
-  ActionType,
-  i18n,
-  Solution,
   type ActionRefactor,
+  ActionType,
+  MWAActionFunctions,
+  MWAActionFunctionsAppendTypeContent,
+  MWAActionFunctionsDependencies,
+  MWAActionFunctionsDevDependencies,
+  MWAActionReactorAppendTypeContent,
+  MWAActionReactors,
   MWAActionRefactorDependencies,
-  MWANewActionPluginName,
+  MWANewActionGenerators,
   MWANewActionPluginDependence,
+  MWANewActionPluginName,
+  Solution,
+  getMWANewActionSchema,
+  i18n,
 } from '@modern-js/generator-common';
 import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
+import { merge } from '@modern-js/utils/lodash';
+import { enableAlreadyText } from './constants';
 import {
   alreadyRepo,
   getGeneratorPath,
   hasEnabledFunction,
   usePluginNameExport,
 } from './utils';
-import { enableAlreadyText } from './constants';
 
 interface IMWANewActionOption {
   locale?: string;

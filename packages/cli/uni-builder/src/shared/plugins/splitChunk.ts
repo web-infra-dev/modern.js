@@ -1,5 +1,5 @@
-import { isPlainObject, isPackageInstalled } from '@modern-js/utils';
-import type { RsbuildPlugin, SplitChunks, CacheGroups } from '@rsbuild/core';
+import { isPackageInstalled, isPlainObject } from '@modern-js/utils';
+import type { CacheGroups, RsbuildPlugin, SplitChunks } from '@rsbuild/core';
 
 const DEP_MATCH_TEMPLATE = /[\\/]node_modules[\\/](<SOURCES>)[\\/]/.source;
 

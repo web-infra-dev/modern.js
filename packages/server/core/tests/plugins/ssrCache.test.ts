@@ -1,4 +1,4 @@
-import type { Container, CacheControl } from '@modern-js/types';
+import type { CacheControl, Container } from '@modern-js/types';
 import { getCacheResult } from '../../src/plugins/render/ssrCache';
 
 function sleep(timeout: number) {

@@ -1,11 +1,11 @@
-import type React from 'react';
-import { Select } from '@radix-ui/themes';
 import {
   type NavigateOptions,
   matchPath,
   useLocation,
   useNavigate,
 } from '@modern-js/runtime/router';
+import { Select } from '@radix-ui/themes';
+import type React from 'react';
 
 export interface SelectLinkProps {
   items: { to: string; options?: NavigateOptions; title: string }[];

@@ -1,6 +1,6 @@
 import type { Stats } from 'fs';
 import path from 'path';
-import { chalk, logger, chokidar } from '@modern-js/utils';
+import { chalk, chokidar, logger } from '@modern-js/utils';
 import type { ICompiler } from '../../types';
 
 export const initWatcher = (compiler: ICompiler) => {

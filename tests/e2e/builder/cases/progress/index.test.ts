@@ -1,8 +1,8 @@
 import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
+import { logger } from '@modern-js/uni-builder';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
-import { logger } from '@modern-js/uni-builder';
 
 webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   process.stdout.isTTY = false;

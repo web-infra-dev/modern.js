@@ -1,8 +1,8 @@
 // biome-ignore lint/style/useImportType: <explanation>
 import React from 'react';
 import {
-  DOCUMENT_STYLE_PLACEHOLDER_START,
   DOCUMENT_STYLE_PLACEHOLDER_END,
+  DOCUMENT_STYLE_PLACEHOLDER_START,
 } from './constants';
 
 export function Style(

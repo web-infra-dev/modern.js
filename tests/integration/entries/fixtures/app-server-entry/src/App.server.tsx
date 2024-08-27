@@ -1,10 +1,10 @@
+import type { RuntimeContext } from '@modern-js/runtime';
 import {
+  StaticRouterProvider,
   createStaticHandler,
   createStaticRouter,
-  StaticRouterProvider,
 } from '@modern-js/runtime-utils/node/router';
 import { routes } from './routes';
-import type { RuntimeContext } from '@modern-js/runtime';
 
 function createFetchRequest(request: Request) {
   const method = 'GET';

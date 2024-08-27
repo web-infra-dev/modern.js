@@ -1,14 +1,14 @@
 import type { z } from 'zod';
+import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
+  HttpMethod,
+  type MetadataHelper,
   type Operator,
   OperatorType,
-  HttpMethod,
-  TriggerType,
   ResponseMetaType,
-  type MetadataHelper,
+  TriggerType,
 } from '../types';
-import { ValidationError } from '../errors/http';
 
 export interface ResponseMeta {
   type: ResponseMetaType;

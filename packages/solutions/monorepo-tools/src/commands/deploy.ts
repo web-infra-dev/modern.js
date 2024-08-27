@@ -1,9 +1,9 @@
-import { logger } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import { logger } from '@modern-js/utils';
 import { initDAG } from '../dag';
+import { deploy as runDeployTask } from '../features/deploy';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { getProjects } from '../projects/getProjects';
-import { deploy as runDeployTask } from '../features/deploy';
 import type { MonorepoTools } from '../type';
 
 export interface IDeployCommandOption {

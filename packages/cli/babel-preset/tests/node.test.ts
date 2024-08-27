@@ -1,5 +1,5 @@
+import { expect, test } from 'vitest';
 import { getBabelConfigForNode } from '../src/node';
-import { test, expect } from 'vitest';
 
 test('should provide node preset as expected', () => {
   expect(getBabelConfigForNode()).toMatchSnapshot();

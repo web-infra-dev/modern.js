@@ -1,9 +1,9 @@
-import { merge } from 'ts-deepmerge';
 import { applyOptionsChain, isProd } from '@modern-js/utils';
+import { merge } from 'ts-deepmerge';
 
 import type { DevConfig, ServerConfig } from '@rsbuild/core';
 
-import type { UniBuilderConfig, ToolsDevServerConfig } from '../types';
+import type { ToolsDevServerConfig, UniBuilderConfig } from '../types';
 
 const transformDevSetupMiddlewares = (
   seuptMiddlewares: DevConfig['setupMiddlewares'],

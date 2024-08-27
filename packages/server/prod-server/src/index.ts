@@ -1,13 +1,13 @@
+import { createServerBase } from '@modern-js/server-core';
 import {
   createNodeServer,
-  loadServerRuntimeConfig,
   loadServerCliConfig,
   loadServerEnv,
+  loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import { createServerBase } from '@modern-js/server-core';
 import sourceMapSupport from 'source-map-support';
-import type { BaseEnv, ProdServerOptions } from './types';
 import { applyPlugins } from './apply';
+import type { BaseEnv, ProdServerOptions } from './types';
 
 sourceMapSupport.install();
 

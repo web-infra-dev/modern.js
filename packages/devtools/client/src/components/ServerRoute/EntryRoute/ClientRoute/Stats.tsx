@@ -1,13 +1,13 @@
+import { useGlobals } from '@/entries/client/globals';
 import type { FileSystemRoutes } from '@modern-js/devtools-kit/runtime';
 import type { RouteLegacy, ServerRoute } from '@modern-js/types';
 import _ from 'lodash';
 import type React from 'react';
 import { Suspense } from 'react';
-import { proxy, useSnapshot } from 'valtio';
 import type { Promisable } from 'type-fest';
+import { proxy, useSnapshot } from 'valtio';
 import { LegacyRouteStats } from './LegacyRoute/Stats';
 import { RemixRouteStats } from './RemixRoute/Stats';
-import { useGlobals } from '@/entries/client/globals';
 
 export const $fileSystemRoutes = proxy<
   Record<string, Promisable<FileSystemRoutes>>

@@ -1,5 +1,5 @@
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
-import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
 

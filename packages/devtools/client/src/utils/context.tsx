@@ -1,6 +1,6 @@
-import { createContext, type FC, useContext, useMemo } from 'react';
-import { proxy } from 'valtio';
+import { type FC, createContext, useContext, useMemo } from 'react';
 import type { Promisable } from 'type-fest';
+import { proxy } from 'valtio';
 
 export function createStoreContext<T extends object>(
   initializer: () => Promisable<T>,

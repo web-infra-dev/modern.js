@@ -1,16 +1,16 @@
-import { Box, Flex, TextField } from '@radix-ui/themes';
-import type React from 'react';
-import { useState } from 'react';
-import { parseURL, withTrailingSlash } from 'ufo';
-import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
-import { useSnapshot } from 'valtio';
-import styles from './page.module.scss';
-import { useGlobals } from '@/entries/client/globals';
 import {
   type MatchServerRouteValue,
   MatchUrlContext,
 } from '@/components/ServerRoute/Context';
 import { ServerRoute } from '@/components/ServerRoute/Route';
+import { useGlobals } from '@/entries/client/globals';
+import { Box, Flex, TextField } from '@radix-ui/themes';
+import type React from 'react';
+import { useState } from 'react';
+import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
+import { parseURL, withTrailingSlash } from 'ufo';
+import { useSnapshot } from 'valtio';
+import styles from './page.module.scss';
 
 const Page: React.FC = () => {
   const $globals = useGlobals();

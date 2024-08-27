@@ -2,8 +2,8 @@ import path from 'path';
 import { Api } from '../src';
 import { Put } from '../src/operators/http';
 import { type APIHandlerInfo, ApiRouter } from '../src/router';
-import { HttpMethod } from '../src/types';
 import { getPathFromFilename } from '../src/router/utils';
+import { HttpMethod } from '../src/types';
 
 const PWD = path.resolve(__dirname, '../fixtures/function');
 

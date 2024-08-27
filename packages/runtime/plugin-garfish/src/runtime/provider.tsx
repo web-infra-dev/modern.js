@@ -1,7 +1,7 @@
-import { createRoot } from '@meta/runtime/react';
 import { type RenderFunc, render } from '@meta/runtime/browser';
-import type { Root } from 'react-dom/client';
+import { createRoot } from '@meta/runtime/react';
 import { createPortal, unmountComponentAtNode } from 'react-dom';
+import type { Root } from 'react-dom/client';
 
 export function createProvider(
   id?: string,

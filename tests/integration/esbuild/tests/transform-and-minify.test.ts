@@ -1,5 +1,5 @@
+import { existsSync, readFileSync, rmdirSync } from 'fs';
 import path from 'path';
-import { readFileSync, rmdirSync, existsSync } from 'fs';
 import { modernBuild } from '../../../utils/modernTestUtils';
 import { fixtures, getJsFiles } from './utils';
 

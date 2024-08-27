@@ -1,5 +1,5 @@
-import { join } from 'node:path';
 import fs from 'node:fs';
+import { join } from 'node:path';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
 export async function isFileExists(file: string) {

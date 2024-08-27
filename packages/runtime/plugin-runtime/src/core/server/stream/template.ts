@@ -1,11 +1,11 @@
 import {
-  buildShellBeforeTemplate,
-  type BuildShellBeforeTemplateOptions,
-} from './beforeTemplate';
-import {
-  buildShellAfterTemplate,
   type BuildShellAfterTemplateOptions,
+  buildShellAfterTemplate,
 } from './afterTemplate';
+import {
+  type BuildShellBeforeTemplateOptions,
+  buildShellBeforeTemplate,
+} from './beforeTemplate';
 
 export type InjectTemplate = {
   shellBefore: string;

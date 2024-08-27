@@ -1,14 +1,14 @@
 import { isObject } from '@modern-js/utils';
+import { getDefaultBuildConfig } from '../constants/build';
 import type { ModuleContext } from '../types';
 import type {
   BaseBuildConfig,
-  PartialBaseBuildConfig,
+  BuildCommandOptions,
   DTSOptions,
   ModuleLegacyUserConfig,
-  BuildCommandOptions,
+  PartialBaseBuildConfig,
 } from '../types';
-import { normalizeInput, getAllDeps } from '../utils';
-import { getDefaultBuildConfig } from '../constants/build';
+import { getAllDeps, normalizeInput } from '../utils';
 
 export const mergeDefaultBaseConfig = async (
   pConfig: PartialBaseBuildConfig,

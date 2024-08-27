@@ -1,16 +1,16 @@
 import type { Logger } from '@modern-js/types';
 import type { ServerPlugin } from '../types';
+import { logPlugin } from './log';
+import {
+  initMonitorsPlugin,
+  injectServerTiming,
+  injectloggerPluigin,
+} from './monitors';
+import { processedByPlugin } from './processedBy';
 import {
   type InjectRenderHandlerOptions,
   injectRenderHandlerPlugin,
 } from './render';
-import {
-  initMonitorsPlugin,
-  injectloggerPluigin,
-  injectServerTiming,
-} from './monitors';
-import { processedByPlugin } from './processedBy';
-import { logPlugin } from './log';
 
 export type CreateDefaultPluginsOptions = InjectRenderHandlerOptions & {
   logger?: Logger;

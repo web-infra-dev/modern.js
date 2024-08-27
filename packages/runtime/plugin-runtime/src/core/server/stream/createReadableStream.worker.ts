@@ -1,7 +1,7 @@
-import { renderToReadableStream } from 'react-dom/server';
 import checkIsBot from 'isbot';
-import { RenderLevel } from '../../constants';
+import { renderToReadableStream } from 'react-dom/server';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
+import { RenderLevel } from '../../constants';
 import {
   type CreateReadableStreamFromElement,
   ShellChunkStatus,

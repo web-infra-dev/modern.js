@@ -1,13 +1,13 @@
-import { generateRunner, DEFAULT_OPTIONS } from './sync';
 import {
   checkPlugins,
-  isObject,
   // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   hasOwnProperty,
-  sortPlugins,
   includePlugin,
+  isObject,
+  sortPlugins,
 } from './shared';
-import type { ToRunners, ToThreads, CommonAPI, PluginOptions } from './types';
+import { DEFAULT_OPTIONS, generateRunner } from './sync';
+import type { CommonAPI, PluginOptions, ToRunners, ToThreads } from './types';
 
 /** Setup function of async plugin. */
 export type AsyncSetup<Hooks, API = Record<string, never>> = (

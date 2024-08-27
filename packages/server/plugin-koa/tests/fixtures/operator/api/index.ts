@@ -3,11 +3,11 @@ import {
   Api,
   Data,
   Get,
+  Headers,
   HttpCode,
   Post,
   Query,
   Redirect,
-  Headers,
   SetHeaders,
 } from '../../../../src/runtime';
 

@@ -1,10 +1,10 @@
-import path, { join } from 'path';
 import dns from 'node:dns';
+import path, { join } from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 

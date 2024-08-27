@@ -1,10 +1,10 @@
+import { $inner } from '@/entries/mount/state';
 import { Box, type BoxProps } from '@radix-ui/themes';
 import type React from 'react';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { useSnapshot } from 'valtio';
 import { Loading } from '../Loading';
 import styles from './FrameBox.module.scss';
-import { $inner } from '@/entries/mount/state';
 
 export type FrameBoxProps = BoxProps & {
   src?: string;

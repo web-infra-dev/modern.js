@@ -1,14 +1,14 @@
+import { Request, Response, fetch } from '@remix-run/web-fetch';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import { fetch, Request, Response } from '@remix-run/web-fetch';
 import { createApp } from '../../src/core';
+import { createRuntime } from '../../src/core/plugin';
+import { useNavigate } from '../../src/router';
 import createRouterPlugin, {
   Outlet,
   useLocation,
 } from '../../src/router/runtime';
-import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
-import { createRuntime } from '../../src/core/plugin';
 
 beforeAll(() => {
   // use React 18

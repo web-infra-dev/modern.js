@@ -1,5 +1,5 @@
-import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
+import type { Command } from '@modern-js/utils';
 import { deploy } from '../commands';
 import type { IDeployCommandOption } from '../commands';
 import type { MonorepoTools } from '../type';

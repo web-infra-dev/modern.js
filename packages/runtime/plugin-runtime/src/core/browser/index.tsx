@@ -1,13 +1,13 @@
-import type React from 'react';
-import cookieTool from 'cookie';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import cookieTool from 'cookie';
+import type React from 'react';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { getGlobalAppInit } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
 import { getGlobalRunner } from '../plugin/runner';
-import type { SSRContainer } from '../types';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
-import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
+import type { SSRContainer } from '../types';
 import { hydrateRoot } from './hydrate';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  _joinPathParts,
   compilePathMatcherRegExp,
   upwardPaths,
-  _joinPathParts,
 } from '../src/path';
 
 describe('upwardPaths', () => {

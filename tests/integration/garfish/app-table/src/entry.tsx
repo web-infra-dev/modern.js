@@ -1,9 +1,9 @@
-import { createRoot } from '@modern-js/runtime/react';
-import { render } from '@modern-js/runtime/browser';
 import {
   createProvider,
   isRenderGarfish,
 } from '@modern-js/plugin-garfish/tools';
+import { render } from '@modern-js/runtime/browser';
+import { createRoot } from '@modern-js/runtime/react';
 
 async function beforeRender() {
   return new Promise<void>(resolve => {

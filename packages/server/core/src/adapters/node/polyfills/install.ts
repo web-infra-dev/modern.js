@@ -1,15 +1,15 @@
 import {
+  FormData as NodeFormData,
+  Headers as NodeHeaders,
   Request as NodeRequest,
   Response as NodeResponse,
-  Headers as NodeHeaders,
-  FormData as NodeFormData,
 } from '@web-std/fetch';
+import { Blob as NodeBlob, File as NodeFile } from '@web-std/file';
 import {
-  TransformStream as NodeTransformStream,
   ReadableStream as NodeReadableStream,
+  TransformStream as NodeTransformStream,
   WritableStream as NodeWritableStream,
 } from '@web-std/stream';
-import { File as NodeFile, Blob as NodeBlob } from '@web-std/file';
 
 /**
  * In the Response of @web-std/fetch, headers will be created

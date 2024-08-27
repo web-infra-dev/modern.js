@@ -1,6 +1,6 @@
-import type React from 'react';
-import { createApp } from '@modern-js/runtime';
 import type { UserConfig } from '@modern-js/core';
+import { createApp } from '@modern-js/runtime';
+import type React from 'react';
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import resolvePlugins from './resolvePlugins';
 

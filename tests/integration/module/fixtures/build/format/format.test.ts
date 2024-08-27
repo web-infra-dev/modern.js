@@ -1,13 +1,13 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import {
+  IIFE_REGEX,
+  IMPORT_FROM_REGEX,
+  REQUIRE_REGEX,
   bundleDistPath,
   bundlelessDistPath,
-  REQUIRE_REGEX,
-  IMPORT_FROM_REGEX,
-  IIFE_REGEX,
 } from '../../constants';
-import { runCli, initBeforeTest } from '../../utils';
+import { initBeforeTest, runCli } from '../../utils';
 
 initBeforeTest();
 

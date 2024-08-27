@@ -1,10 +1,10 @@
+import { applyOptionsChain } from '@modern-js/utils';
 import type {
   ChainIdentifier,
-  RspackChain,
-  RsbuildPlugin,
   NormalizedEnvironmentConfig,
+  RsbuildPlugin,
+  RspackChain,
 } from '@rsbuild/core';
-import { applyOptionsChain } from '@modern-js/utils';
 import type { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
 function applyRemoveConsole(

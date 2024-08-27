@@ -1,10 +1,10 @@
-import { basename, relative, resolve, dirname, join } from 'path';
-import { fs, logger, chalk } from '@modern-js/utils';
+import { basename, dirname, join, relative, resolve } from 'path';
+import { fs, chalk, logger } from '@modern-js/utils';
 
-import type { BaseBuildConfig } from '../types';
-import { i18n, localeKeys } from '../locale';
-import { getProjectTsconfig } from '../utils';
 import { debug } from '../debug';
+import { i18n, localeKeys } from '../locale';
+import type { BaseBuildConfig } from '../types';
+import { getProjectTsconfig } from '../utils';
 
 export const clearBuildConfigPaths = async (
   configs: BaseBuildConfig[],

@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
   launchOptions,
   modernBuild,
 } from '../../../utils/modernTestUtils';

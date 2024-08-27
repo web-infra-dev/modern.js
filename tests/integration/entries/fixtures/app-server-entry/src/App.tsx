@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from '@modern-js/runtime/router';
+import { RouterProvider, createBrowserRouter } from '@modern-js/runtime/router';
 import { routes } from './routes';
 
 const App = () => {

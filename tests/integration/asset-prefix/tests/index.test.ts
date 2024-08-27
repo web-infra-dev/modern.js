@@ -1,10 +1,10 @@
-import path from 'path';
 import { readFileSync } from 'fs';
+import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 

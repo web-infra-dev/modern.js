@@ -1,7 +1,7 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import vuePlugin from 'esbuild-plugin-vue3';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 import type { VueJSXPluginOptions } from '@vue/babel-plugin-jsx';
+import vuePlugin from 'esbuild-plugin-vue3';
 
 export const modulePluginVue = (options?: {
   vueJsxPluginOptions?: VueJSXPluginOptions;

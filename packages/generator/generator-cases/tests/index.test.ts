@@ -1,7 +1,7 @@
 import {
   getMWACases,
-  getModuleCases,
   getMWANewCases,
+  getModuleCases,
   getModuleNewCases,
 } from '../src';
 

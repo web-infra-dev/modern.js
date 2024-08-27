@@ -1,11 +1,11 @@
 import path from 'path';
-import type { AcceptedPlugin } from 'postcss';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { AcceptedPlugin } from 'postcss';
 import type {
+  LessOptions,
   PartialBaseBuildConfig,
   PostCSSConfigUtils,
   PostcssOptions,
-  LessOptions,
   SassOptions,
 } from '../types';
 

@@ -1,8 +1,8 @@
 import {
-  appTools,
-  mergeConfig,
   type AppTools,
   type UserConfig,
+  appTools,
+  mergeConfig,
 } from '@modern-js/app-tools';
 
 export const applyBaseConfig = (

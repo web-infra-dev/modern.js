@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 import { identifier } from 'safe-identifier';
+import type { ICompiler, Source } from '../../../types';
 import { isStyleExt, resolvePathAndQuery } from '../../../utils';
-import type { Source, ICompiler } from '../../../types';
 import { transformStyle } from './transformStyle';
 
 const name = 'css';

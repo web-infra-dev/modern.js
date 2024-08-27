@@ -1,11 +1,11 @@
-import path from 'path';
 import dns from 'node:dns';
-import puppeteer, { type Browser, type Page } from 'puppeteer';
+import path from 'path';
 import axios from 'axios';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../../utils/modernTestUtils';
 

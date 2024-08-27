@@ -1,10 +1,10 @@
-import type {
-  RouteProps,
-  RouteObject,
-  Params,
-} from '@modern-js/runtime-utils/router';
-import type { PageRoute, NestedRoute } from '@modern-js/types';
 import type { RequestContext } from '@modern-js/runtime-utils/node';
+import type {
+  Params,
+  RouteObject,
+  RouteProps,
+} from '@modern-js/runtime-utils/router';
+import type { NestedRoute, PageRoute } from '@modern-js/types';
 
 declare global {
   interface Window {

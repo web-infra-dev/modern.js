@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import logger from 'consola';
-import { formatPath } from '../utils';
 import type { PackageJSON } from '..';
+import { formatPath } from '../utils';
 
 /**
  * Using "workspace:*" rather than "workspace:^a.b.c" in "devDependencies".

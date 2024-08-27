@@ -1,14 +1,14 @@
 import path from 'path';
 import {
+  fs,
   JS_EXTENSIONS,
   createDebugger,
   findExists,
-  fs,
 } from '@modern-js/utils';
 import {
-  FILE_SYSTEM_ROUTES_LAYOUT,
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,
   FILE_SYSTEM_ROUTES_IGNORED_REGEX,
+  FILE_SYSTEM_ROUTES_LAYOUT,
 } from '../../constants';
 
 const debug = createDebugger('get-client-routes');

@@ -2,21 +2,21 @@ import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import 'reflect-metadata';
 import type { HttpMethodDecider } from '@modern-js/types';
-import { HttpMethod, httpMethods, OperatorType, TriggerType } from '../types';
-import { debug, INPUT_PARAMS_DECIDER } from '../utils';
+import { HttpMethod, OperatorType, TriggerType, httpMethods } from '../types';
+import { INPUT_PARAMS_DECIDER, debug } from '../utils';
 import {
   APIMode,
-  FRAMEWORK_MODE_LAMBDA_DIR,
   API_FILE_RULES,
   FRAMEWORK_MODE_APP_DIR,
+  FRAMEWORK_MODE_LAMBDA_DIR,
 } from './constants';
+import type { APIHandlerInfo, ApiHandler, ModuleInfo } from './types';
 import {
   getFiles,
   getPathFromFilename,
   requireHandlerModule,
   sortRoutes,
 } from './utils';
-import type { ModuleInfo, ApiHandler, APIHandlerInfo } from './types';
 
 export * from './types';
 export * from './constants';

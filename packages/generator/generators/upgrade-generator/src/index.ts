@@ -3,22 +3,22 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  ora,
-  getAvailableVersion,
-  getModernVersion,
-  getPackageManager,
-  getPackageObj,
-  semver,
-  fs,
-  isPackageExist,
-  getPackageVersion,
-} from '@modern-js/generator-utils';
-import {
   PackageManager,
   type Solution,
   SolutionText,
   SolutionToolsMap,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  getAvailableVersion,
+  getModernVersion,
+  getPackageManager,
+  getPackageObj,
+  getPackageVersion,
+  isPackageExist,
+  ora,
+  semver,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 // Special modern.js dependencies, the plugin version maybe not same with other modern.js plugin

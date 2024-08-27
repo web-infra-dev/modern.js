@@ -1,6 +1,6 @@
-import { nanoid } from 'nanoid';
-import * as flatted from 'flatted';
 import type { ChannelOptions } from 'birpc';
+import * as flatted from 'flatted';
+import { nanoid } from 'nanoid';
 import { replacer, reviver } from './serializer';
 
 export class WebSocketChannel implements ChannelOptions {

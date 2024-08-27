@@ -1,5 +1,5 @@
-import { useLoaderData } from '@modern-js/runtime/router';
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+import { useLoaderData } from '@modern-js/runtime/router';
 
 export default function Layout() {
   const { Dashboard } = useModuleApps();

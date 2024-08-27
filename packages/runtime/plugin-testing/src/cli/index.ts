@@ -1,19 +1,19 @@
 import path from 'path';
-import {
-  isApiOnly,
-  mergeAlias,
-  createRuntimeExportsUtils,
-} from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import {
-  testingHooks,
+  createRuntimeExportsUtils,
+  isApiOnly,
+  mergeAlias,
+} from '@modern-js/utils';
+import {
+  DEFAULT_RESOLVER_PATH,
   type TestConfigOperator,
   getModuleNameMapper,
-  DEFAULT_RESOLVER_PATH,
+  testingHooks,
 } from '../base';
-import { MODERNJS_CONFIG_KEY } from '../constant';
-import type { Hooks } from '../base/hook';
 import type { UserConfig } from '../base/config';
+import type { Hooks } from '../base/hook';
+import { MODERNJS_CONFIG_KEY } from '../constant';
 import { testingBffPlugin } from './bff';
 import test from './test';
 

@@ -1,18 +1,18 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import type { IAppContext } from '@modern-js/core';
+import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import {
-  urlJoin,
+  SERVER_BUNDLE_DIRECTORY,
+  SERVER_WORKER_BUNDLE_DIRECTORY,
+  getEntryOptions,
   isPlainObject,
   removeLeadingSlash,
-  getEntryOptions,
-  SERVER_BUNDLE_DIRECTORY,
   removeTailSlash,
-  SERVER_WORKER_BUNDLE_DIRECTORY,
+  urlJoin,
 } from '@modern-js/utils';
-import type { Entrypoint, ServerRoute } from '@modern-js/types';
-import { isMainEntry } from '../../utils/routes';
 import type { AppNormalizedConfig } from '../../types';
+import { isMainEntry } from '../../utils/routes';
 import { walkDirectory } from './utils';
 
 /**

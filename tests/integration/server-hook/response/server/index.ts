@@ -1,6 +1,6 @@
 import type {
-  AfterRenderHook,
   AfterMatchHook,
+  AfterRenderHook,
 } from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (c, next) => {

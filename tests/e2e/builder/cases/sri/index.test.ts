@@ -1,7 +1,7 @@
 import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
-import { build, getHrefByEntryName } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
+import { build, getHrefByEntryName } from '@scripts/shared';
 
 webpackOnlyTest('security.sri', async ({ page }) => {
   const builder = await build({

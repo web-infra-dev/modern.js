@@ -1,5 +1,5 @@
-import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
+import type { StateConfig } from './state';
 
 export type { Plugin } from './core';
 export type { AppConfig, RuntimeConfig } from './common';

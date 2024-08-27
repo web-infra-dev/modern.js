@@ -1,11 +1,11 @@
 import { type Server as NodeServer, ServerResponse } from 'node:http';
 import type { Server as NodeHttpsServer } from 'node:https';
 import type { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import { installGlobals } from './polyfills/install';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,
 } from './polyfills/stream';
-import { installGlobals } from './polyfills/install';
 
 export { writeReadableStreamToWritable } from './polyfills';
 

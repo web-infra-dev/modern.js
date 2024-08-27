@@ -1,11 +1,11 @@
 import path from 'path';
 import type {
   CliPlugin,
-  ModuleTools,
   EsbuildOptions,
   ICompiler,
+  ModuleTools,
 } from '@modern-js/module-tools';
-import { excludeObjectKeys, addResolveFallback } from './utils';
+import { addResolveFallback, excludeObjectKeys } from './utils';
 
 export interface NodePolyfillPluginOptions {
   // like https://github.com/Richienb/node-polyfill-webpack-plugin#excludealiases

@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 import type { ICompiler, Style } from '../../../types';
-import { loadProcessor, rebaseUrls } from './utils';
 import type { PreprocessRender } from './transformStyle';
+import { loadProcessor, rebaseUrls } from './utils';
 
 export const sassRender: PreprocessRender = async function (
   this: ICompiler,

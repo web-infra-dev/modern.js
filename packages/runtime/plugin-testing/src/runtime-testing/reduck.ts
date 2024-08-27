@@ -1,7 +1,7 @@
-import { createStore as originCreateStore } from '@modern-js-reduck/store';
-import effectsPlugin from '@modern-js-reduck/plugin-effects';
 import autoActionsPlugin from '@modern-js-reduck/plugin-auto-actions';
+import effectsPlugin from '@modern-js-reduck/plugin-effects';
 import immerPlugin from '@modern-js-reduck/plugin-immutable';
+import { createStore as originCreateStore } from '@modern-js-reduck/store';
 import { MODERNJS_CONFIG_KEY } from '../constant';
 
 export const effects = () => effectsPlugin;

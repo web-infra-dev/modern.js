@@ -1,6 +1,6 @@
 import path from 'path';
-import fs from '@modern-js/utils/fs-extra';
 import { getTemplatePath } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
 
 const resolveFixturePackage = (id: string, cwd = process.cwd()) => {
   if (id.startsWith('.')) {

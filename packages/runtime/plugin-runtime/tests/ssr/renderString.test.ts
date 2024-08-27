@@ -4,9 +4,9 @@
 import path from 'path';
 import { fs, createLogger } from '@modern-js/utils';
 import React from 'react';
-import { renderString, type RenderOptions } from '../../src/core/server/server';
 import { getInitialContext } from '../../src/core/context/runtime';
 import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
+import { type RenderOptions, renderString } from '../../src/core/server/server';
 import App from './fixtures/string-ssr/App';
 
 const htmlPath = path.resolve(

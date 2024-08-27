@@ -4,10 +4,10 @@ import type {
   AppNormalizedConfig,
   AppUserConfig,
 } from '../../types';
-import { createToolsConfig } from './createToolsConfig';
-import { createSourceConfig } from './createSourceConfig';
-import { createOutputConfig } from './createOutputConfig';
 import { createHtmlConfig } from './createHtmlConfig';
+import { createOutputConfig } from './createOutputConfig';
+import { createSourceConfig } from './createSourceConfig';
+import { createToolsConfig } from './createToolsConfig';
 
 export function transformNormalizedConfig(
   config: AppLegacyNormalizedConfig,

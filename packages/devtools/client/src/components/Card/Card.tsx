@@ -1,8 +1,8 @@
-import type { FC } from 'react';
-import clsx from 'clsx';
 import { Box, Flex } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
 import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
+import clsx from 'clsx';
+import type { FC } from 'react';
 import styles from './Card.module.scss';
 
 export interface CardProps

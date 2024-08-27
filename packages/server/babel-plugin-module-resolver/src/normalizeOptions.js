@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { createSelector } from 'reselect';
 import glob from 'glob';
 import pkgUp from 'pkg-up';
+import { createSelector } from 'reselect';
 
 import { escapeRegExp } from './utils';
 

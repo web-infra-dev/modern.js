@@ -1,4 +1,4 @@
-import { isSSR, isTest, isEmpty, isUseSSRBundle, isSSGEntry } from '../src';
+import { isEmpty, isSSGEntry, isSSR, isTest, isUseSSRBundle } from '../src';
 
 describe('validate', () => {
   it('should validate empty object correctly', () => {

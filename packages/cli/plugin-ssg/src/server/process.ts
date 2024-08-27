@@ -1,15 +1,15 @@
 import { type Server, request } from 'http';
-import type {
-  ServerRoute as ModernRoute,
-  ServerPlugin,
-} from '@modern-js/types';
-import portfinder from 'portfinder';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
   type ProdServerOptions,
   createProdServer,
   loadServerPlugins,
 } from '@modern-js/prod-server';
+import type {
+  ServerRoute as ModernRoute,
+  ServerPlugin,
+} from '@modern-js/types';
+import portfinder from 'portfinder';
 import { CLOSE_SIGN } from './consts';
 
 process.on('message', async (chunk: string) => {

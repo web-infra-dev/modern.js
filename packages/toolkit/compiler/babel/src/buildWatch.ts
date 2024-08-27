@@ -1,17 +1,17 @@
-import * as path from 'path';
 import * as Event from 'events';
+import * as path from 'path';
 import {
-  logger,
-  watch,
   type FSWatcher,
   WatchChangeType,
+  logger,
+  watch,
 } from '@modern-js/utils';
 import { build } from './build';
 import { CompilerErrorResult } from './compilerErrorResult';
 import type {
-  IFinaleCompilerOptions,
   BabelOptions,
   ICompilerResult,
+  IFinaleCompilerOptions,
 } from './type';
 
 export const BuildWatchEvent = {

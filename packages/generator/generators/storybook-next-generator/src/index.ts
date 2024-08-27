@@ -3,19 +3,19 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  isTsProject,
-  getPackageManager,
-  fs,
-  isReact18,
-  getPackageVersion,
-  getPackageManagerText,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
-import {
   DependenceGenerator,
-  i18n as commonI18n,
   Language,
+  i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  getGeneratorPath,
+  getPackageManager,
+  getPackageManagerText,
+  getPackageVersion,
+  isReact18,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 import { getMajorVersion } from './utils';
 

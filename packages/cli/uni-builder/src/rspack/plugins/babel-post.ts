@@ -1,6 +1,6 @@
-import lodash from 'lodash';
 import type { RsbuildPlugin } from '@rsbuild/core';
 import { getDefaultBabelOptions } from '@rsbuild/plugin-babel';
+import lodash from 'lodash';
 
 /**
  * should not set babel-loader when babel config not modified

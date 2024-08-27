@@ -1,9 +1,9 @@
 import path from 'path';
-import { fs, API_DIR, normalizeOutputPath, SHARED_DIR } from '@modern-js/utils';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { ApiRouter } from '@modern-js/bff-core';
 import { compile } from '@modern-js/server-utils';
 import type { ServerRoute } from '@modern-js/types';
-import { ApiRouter } from '@modern-js/bff-core';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { fs, API_DIR, SHARED_DIR, normalizeOutputPath } from '@modern-js/utils';
 
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';

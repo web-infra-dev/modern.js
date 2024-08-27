@@ -1,7 +1,7 @@
 import path from 'path';
 import type { RsbuildPlugin } from '@modern-js/uni-builder';
-import fs from '@modern-js/utils/fs-extra';
 import { logger, removeTailSlash } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
 import { type BuilderOptions, createCopyInfo } from '../shared';
 
 export const builderPluginAdpaterCopy = (

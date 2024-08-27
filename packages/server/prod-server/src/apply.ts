@@ -1,18 +1,18 @@
 import {
   ErrorDigest,
+  type NodeServer,
   type ServerBase,
+  createDefaultPlugins,
   createErrorHtml,
+  faviconPlugin,
   onError,
   renderPlugin,
-  type NodeServer,
-  createDefaultPlugins,
-  faviconPlugin,
 } from '@modern-js/server-core';
 import {
-  serverStaticPlugin,
+  injectNodeSeverPlugin,
   injectResourcePlugin,
   loadCacheConfig,
-  injectNodeSeverPlugin,
+  serverStaticPlugin,
 } from '@modern-js/server-core/node';
 import { createLogger, isProd } from '@modern-js/utils';
 import type { ProdServerOptions } from './types';
