@@ -11,11 +11,8 @@
     "indentStyle": "space",
     "ignore": [
       "package.json",
-      "packages/document/main-doc/scripts/summary.en.json",
-      "packages/document/main-doc/scripts/summary.zh.json",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
-      "packages/generator/sandpack-react/src/templates/**",
-      "packages/document/main-doc/docs/**/*/_meta.json"
+      "packages/generator/sandpack-react/src/templates/**"
     ]
   },
   "javascript": {
