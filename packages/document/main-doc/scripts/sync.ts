@@ -4,6 +4,7 @@ import ora from 'ora';
 import { diff, gen } from './config';
 import { cloneRsbuildRepo } from './repo';
 import { camelize, replaceRsbuildLink } from './utils';
+import { ExcludeRsbuildConfigGroups, ExcludeRsbuildConfig } from './constants';
 
 const walk = (dir: string, { root, lng }: { root: boolean; lng: string }) => {
   const fl: string[] = [];
@@ -24,12 +25,18 @@ const summary = (rebuildWebsiteDir: string, lng: string) => {
     root: true,
     lng,
   });
-  const json = fl.map(fpath => {
-    return {
-      name: camelize(basename(fpath).replace(extname(fpath), '')),
-      dirname: basename(dirname(fpath)),
-    };
-  });
+  const json = fl
+    .map(fpath => {
+      return {
+        name: camelize(basename(fpath).replace(extname(fpath), '')),
+        dirname: basename(dirname(fpath)),
+      };
+    })
+    .filter(
+      ({ name, dirname }) =>
+        !ExcludeRsbuildConfigGroups.includes(dirname) &&
+        !ExcludeRsbuildConfig.includes(`${dirname}.${name}`),
+    );
 
   return json;
 };

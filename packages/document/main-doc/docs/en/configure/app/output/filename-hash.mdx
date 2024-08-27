@@ -2,38 +2,6 @@
 title: filenameHash
 ---
 
-# output.filenameHash
+import Main from '@rsbuild-docs/en/config/output/filename-hash.mdx';
 
-- **Type:** `boolean | string`
-- **Default:** `true`
-
-Whether to add a hash value to the filename after the production build.
-
-### Example
-
-By default, the filename of the output files will include a hash value:
-
-```bash
-dist/static/css/index.7879e19d.css
-dist/static/js/index.18a568e5.js
-```
-
-You can set `output.filenameHash` to false to disable this behavior:
-
-```js
-export default {
-  output: {
-    filenameHash: false,
-  },
-};
-```
-
-After rebuilding, the output filenames becomes:
-
-```bash
-dist/static/css/index.css
-dist/static/js/index.js
-```
-
-For detailed usage, please refer to [Rsbuild - output.filenameHash](https://rsbuild.dev/config/output/filename-hash).
-
+<Main />
