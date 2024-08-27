@@ -37,11 +37,6 @@ local-test-project/*
 # Dynamically generated
 .runtime-exports/
 
-# website
-.docusaurus
-website/main/build
-website/**/.temp
-
 .wireit/
 .nx-cache/
 .nx/
