@@ -1,8 +1,8 @@
 import type {
+  NormalizedEnvironmentConfig,
+  RsbuildContext,
   RsbuildTarget,
   RspackChain,
-  RsbuildContext,
-  NormalizedEnvironmentConfig,
 } from '@rsbuild/core';
 import browserslist from 'browserslist';
 

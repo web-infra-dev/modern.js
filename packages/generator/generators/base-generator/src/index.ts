@@ -1,7 +1,7 @@
 import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { getBaseSchema, PackageManager } from '@modern-js/generator-common';
+import { PackageManager, getBaseSchema } from '@modern-js/generator-common';
 import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (

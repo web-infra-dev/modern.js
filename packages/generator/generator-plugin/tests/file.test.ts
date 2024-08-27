@@ -5,8 +5,8 @@ import {
   MaterialsManager,
 } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
-import { FileType } from '../src/utils/file';
 import { PluginFileAPI } from '../src/context/file';
+import { FileType } from '../src/utils/file';
 
 describe('test file api', () => {
   const smith = new CodeSmith({});

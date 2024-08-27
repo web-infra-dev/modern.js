@@ -1,8 +1,8 @@
-import os from 'os';
 import { isIPv6 } from 'net';
+import os from 'os';
 import { chalk } from '../compiled';
-import { isDev, isSingleEntry } from './is';
 import { DEFAULT_DEV_HOST } from './constants';
+import { isDev, isSingleEntry } from './is';
 
 // TODO: type
 interface EntryPoint {

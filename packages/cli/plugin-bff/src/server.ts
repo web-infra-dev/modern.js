@@ -1,13 +1,13 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
+import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,
   isProd,
   isWebOnly,
   requireExistModule,
 } from '@modern-js/utils';
-import type { ServerPlugin } from '@modern-js/server-core';
-import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import { API_APP_NAME } from './constants';
 
 type SF = (args: any) => void;

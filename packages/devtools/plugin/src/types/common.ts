@@ -1,13 +1,13 @@
 import type { Buffer } from 'buffer';
-import type { BaseHooks } from '@modern-js/core';
 import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
-import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
-import type { RsbuildPluginAPI } from '@rsbuild/core';
-import type { Hookable } from 'hookable';
+import type { BaseHooks } from '@modern-js/core';
 import type {
   DevtoolsContext,
   ServerManifest,
 } from '@modern-js/devtools-kit/node';
+import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
+import type { RsbuildPluginAPI } from '@rsbuild/core';
+import type { Hookable } from 'hookable';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>

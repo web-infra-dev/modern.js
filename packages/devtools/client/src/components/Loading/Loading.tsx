@@ -1,6 +1,6 @@
-import type { FC } from 'react';
 import { Box } from '@radix-ui/themes';
 import type { BoxProps } from '@radix-ui/themes/dist/cjs/components/box';
+import type { FC } from 'react';
 import { LoadingIcon } from './Icon';
 import styles from './Loading.module.scss';
 

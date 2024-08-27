@@ -1,9 +1,9 @@
-import path from 'path';
 import os from 'node:os';
+import path from 'path';
 import { fs as fse } from '@modern-js/utils';
-import type { PackageJson } from 'pkg-types';
+import { type NodeFileTraceOptions, nodeFileTrace, resolve } from '@vercel/nft';
 import { parseNodeModulePath } from 'mlly';
-import { nodeFileTrace, type NodeFileTraceOptions, resolve } from '@vercel/nft';
+import type { PackageJson } from 'pkg-types';
 
 export type TracedPackage = {
   name: string;

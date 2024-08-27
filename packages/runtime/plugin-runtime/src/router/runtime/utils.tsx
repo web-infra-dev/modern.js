@@ -1,20 +1,20 @@
-import type React from 'react';
-import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
-import type {
-  Reporter,
-  NestedRoute,
-  PageRoute,
-  SSRMode,
-} from '@modern-js/types';
+import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
 import {
   UNSAFE_ErrorResponseImpl as ErrorResponseImpl,
-  type StaticHandlerContext,
   type Router,
+  type StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
-import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
-import type { RouterConfig } from './types';
+import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
+import type {
+  NestedRoute,
+  PageRoute,
+  Reporter,
+  SSRMode,
+} from '@modern-js/types';
+import type React from 'react';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
+import type { RouterConfig } from './types';
 
 export function getRouteComponents(
   routes: (NestedRoute | PageRoute)[],

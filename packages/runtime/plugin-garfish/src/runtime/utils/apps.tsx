@@ -1,16 +1,16 @@
-// The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
-import type React from 'react';
-import { useContext, useState, useEffect, useRef } from 'react';
 import { RuntimeReactContext } from '@meta/runtime';
 import Garfish, { type interfaces } from 'garfish';
+// The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
+import type React from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { generateSubAppContainerKey, logger } from '../../util';
+import { Loadable, type MicroProps } from '../loadable';
 // import Loadable from 'react-loadable';
 import type {
   Manifest,
   MicroComponentProps,
   ModulesInfo,
 } from '../useModuleApps';
-import { logger, generateSubAppContainerKey } from '../../util';
-import { Loadable, type MicroProps } from '../loadable';
 
 export interface Provider extends interfaces.Provider {
   SubModuleComponent?: React.ComponentType<any>;

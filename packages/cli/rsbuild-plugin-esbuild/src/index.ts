@@ -1,9 +1,9 @@
 import path from 'path';
 import type {
+  NormalizedEnvironmentConfig,
+  RsbuildContext,
   RsbuildPlugin,
   RspackChain,
-  RsbuildContext,
-  NormalizedEnvironmentConfig,
 } from '@rsbuild/core';
 import type {
   LoaderOptions,

@@ -1,6 +1,6 @@
-import React from 'react';
-import postcss from 'postcss';
 import path from 'path-browserify';
+import postcss from 'postcss';
+import React from 'react';
 
 export const main = async () => {
   console.info(React.version);

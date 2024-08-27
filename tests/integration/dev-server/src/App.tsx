@@ -1,4 +1,4 @@
-import { BrowserRouter, Link, Route, Routes, Outlet } from 'react-router-dom';
+import { BrowserRouter, Link, Outlet, Route, Routes } from 'react-router-dom';
 
 const App = () => (
   <BrowserRouter>

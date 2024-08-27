@@ -1,10 +1,10 @@
 import path from 'path';
-import { logger, getAliasConfig, fs } from '@modern-js/utils';
-import type { Program, ParseConfigFileHost } from 'typescript';
+import { fs, getAliasConfig, logger } from '@modern-js/utils';
+import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { TypescriptLoader } from './typescriptLoader';
 import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
+import { TypescriptLoader } from './typescriptLoader';
 
 const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
   const parsedCmd = tsInstance.getParsedCommandLineOfConfigFile(

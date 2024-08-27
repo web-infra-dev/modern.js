@@ -1,9 +1,9 @@
 import type { Server } from 'node:http';
+import { applyPlugins } from '@modern-js/prod-server';
 import {
   type ModernDevServerOptions,
   createDevServer,
 } from '@modern-js/server';
-import { applyPlugins } from '@modern-js/prod-server';
 
 let server: Server | null = null;
 

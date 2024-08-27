@@ -1,5 +1,5 @@
 // logical reference to https://github.com/jamiebuilds/react-loadable/blob/6201c5837b212d6244c57f3748f2b1375096beeb/src/index.js
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { logger } from '../util';
 import type { LoadableConfig, MicroComponentProps } from './useModuleApps';
 

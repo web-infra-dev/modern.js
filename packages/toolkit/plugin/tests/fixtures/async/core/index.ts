@@ -1,10 +1,10 @@
 import {
+  type AsyncSetup,
+  type PluginOptions,
   createAsyncManager,
+  createContext,
   createWaterfall,
   createWorkflow,
-  createContext,
-  type PluginOptions,
-  type AsyncSetup,
 } from '../../../../src';
 
 export type CTX = Record<string, unknown>;

@@ -1,5 +1,5 @@
 import path from 'path';
-import { logger, fs } from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
 // FIXME: import DevProxyOptions from somewhere
 // import type { DevProxyOptions } from '@modern-js/core';
 

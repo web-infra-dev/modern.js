@@ -1,5 +1,5 @@
-import os from 'os';
 import http from 'http';
+import os from 'os';
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import execSync from './execSync';

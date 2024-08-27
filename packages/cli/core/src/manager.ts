@@ -1,18 +1,18 @@
 import {
-  createWorkflow,
   createAsyncManager,
-  createAsyncWorkflow,
   createAsyncWaterfall,
+  createAsyncWorkflow,
   createParallelWorkflow,
+  createWorkflow,
 } from '@modern-js/plugin';
-import type { BaseHooks } from './types/hooks';
-import type { BasePluginAPI } from './types';
 import {
   setAppContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
 } from './context';
+import type { BasePluginAPI } from './types';
+import type { BaseHooks } from './types/hooks';
 
 const baseHooks: BaseHooks<{}> = {
   beforeConfig: createAsyncWorkflow(),

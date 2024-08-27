@@ -1,10 +1,10 @@
-import type React from 'react';
-import _ from 'lodash';
+import { useGlobals } from '@/entries/client/globals';
 import type { ServerRoute } from '@modern-js/types';
 import { Box, Flex, Strong, Text } from '@radix-ui/themes';
+import _ from 'lodash';
+import type React from 'react';
 import { useSnapshot } from 'valtio';
 import styles from './Stats.module.scss';
-import { useGlobals } from '@/entries/client/globals';
 
 export interface EntryStatsProps {
   route: ServerRoute;

@@ -1,8 +1,8 @@
+import { run } from '@modern-js/runtime-utils/node';
 /**
  * @jest-environment node
  */
 import nock from 'nock';
-import { run } from '@modern-js/runtime-utils/node';
 // 如果通过 default 引入会报 "Property exprName of TSTypeQuery expected node to be of a type ["TSEntityName","TSImportType"] but instead got "MemberExpression"
 import * as fetch from 'node-fetch';
 import { Response } from 'node-fetch';

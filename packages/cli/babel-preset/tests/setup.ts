@@ -1,6 +1,6 @@
 import { Console } from 'console';
-import { expect } from 'vitest';
 import { createSnapshotSerializer } from '@scripts/vitest-config';
+import { expect } from 'vitest';
 
 global.console.Console = Console;
 

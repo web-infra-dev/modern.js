@@ -1,8 +1,8 @@
 import type {
-  TypeOfFieldDescriptor,
-  TypeOfFieldDescriptors,
   FieldDescriptor,
   FieldDescriptors,
+  TypeOfFieldDescriptor,
+  TypeOfFieldDescriptors,
 } from 'farrow-schema';
 import type { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
 

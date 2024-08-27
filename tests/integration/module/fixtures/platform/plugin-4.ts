@@ -1,6 +1,6 @@
 import path from 'path';
-import fs from 'fs-extra';
 import type { CliPlugin, ModuleTools } from '@modern-js/self';
+import fs from 'fs-extra';
 
 export const plugin4 = (): CliPlugin<ModuleTools> => {
   return {

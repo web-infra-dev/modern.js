@@ -1,11 +1,11 @@
-import { Badge, Box, Flex, Text } from '@radix-ui/themes';
-import type { FC } from 'react';
-import _ from 'lodash';
-import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import { Card } from '@/components/Card';
 import { useLoaderData } from '@modern-js/runtime/router';
+import { Badge, Box, Flex, Text } from '@radix-ui/themes';
+import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import _ from 'lodash';
+import type { FC } from 'react';
 import styles from './page.module.scss';
 import type { StorageStatus } from './shared';
-import { Card } from '@/components/Card';
 
 interface UnwindStorageRecord {
   id: string;

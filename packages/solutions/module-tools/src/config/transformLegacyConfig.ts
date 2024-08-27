@@ -1,8 +1,9 @@
 import path from 'path';
 import { logger } from '@modern-js/utils';
+import { legacyPresets } from '../constants/legacy-preset';
 import type {
-  ModuleUserConfig,
   ModuleToolsLegacyUserConfig,
+  ModuleUserConfig,
   PartialBaseBuildConfig,
 } from '../types';
 import type { LegacyBaseBuildConfig } from '../types/legacyConfig/output';
@@ -10,7 +11,6 @@ import type {
   PostCSSFunction,
   PostCSSLoaderOptions,
 } from '../types/legacyConfig/tools';
-import { legacyPresets } from '../constants/legacy-preset';
 
 /**
  * transform `tools` to buildConfig

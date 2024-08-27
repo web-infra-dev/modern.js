@@ -1,9 +1,9 @@
-import type { HookList, Context } from '../../types';
+import type { Context, HookList } from '../../types';
 import { getProjectTsconfig } from '../../utils/dts';
+import { asset } from './asset';
 import { formatCjs } from './format-cjs';
 import { css } from './style';
 import { minify } from './terser';
-import { asset } from './asset';
 
 export async function getInternalList(context: Context): Promise<HookList> {
   const internal = [];

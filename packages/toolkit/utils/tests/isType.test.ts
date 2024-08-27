@@ -1,11 +1,11 @@
 import {
   isArray,
   isObject,
-  isString,
-  isRegExp,
-  isPromise,
-  isUndefined,
   isPlainObject,
+  isPromise,
+  isRegExp,
+  isString,
+  isUndefined,
 } from '../src';
 
 describe('validate type', () => {

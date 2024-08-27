@@ -2,11 +2,11 @@ import path from 'path';
 import {
   fs,
   DEFAULT_SERVER_CONFIG,
-  requireExistModule,
-  ensureAbsolutePath,
   OUTPUT_CONFIG_FILE,
   lodash as _,
   compatibleRequire,
+  ensureAbsolutePath,
+  requireExistModule,
 } from '@modern-js/utils';
 import { parse } from 'flatted';
 import type { CliConfig, ServerConfig, UserConfig } from '../../../types';

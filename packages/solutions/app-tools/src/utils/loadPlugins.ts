@@ -1,5 +1,5 @@
-import type { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
+import type { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/types';
 import type { AppTools, PluginAPI } from '../types';
 

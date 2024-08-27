@@ -1,9 +1,9 @@
 import path from 'path';
-import { watch, fs, chalk, logger, globby, fastGlob } from '@modern-js/utils';
-import type { CopyOptions, CopyPattern } from '../types/config/copy';
-import type { BaseBuildConfig } from '../types/config';
+import { fs, chalk, fastGlob, globby, logger, watch } from '@modern-js/utils';
 import pMap from '../../compiled/p-map';
 import { debug } from '../debug';
+import type { BaseBuildConfig } from '../types/config';
+import type { CopyOptions, CopyPattern } from '../types/config/copy';
 
 const watchMap = new Map<string, string>();
 

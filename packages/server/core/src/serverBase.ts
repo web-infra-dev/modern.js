@@ -1,6 +1,7 @@
+import { createContext } from '@modern-js/plugin';
 import type { ISAppContext, ServerRoute } from '@modern-js/types';
 import { Hono } from 'hono';
-import { createContext } from '@modern-js/plugin';
+import { PluginManager } from './pluginManager';
 import type {
   AppContext,
   Env,
@@ -10,7 +11,6 @@ import type {
   ServerPlugin,
 } from './types';
 import type { CliConfig } from './types/config';
-import { PluginManager } from './pluginManager';
 
 declare module '@modern-js/types' {
   interface ISAppContext {

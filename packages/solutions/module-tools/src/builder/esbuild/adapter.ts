@@ -1,12 +1,12 @@
-import { dirname, resolve, extname, sep } from 'path';
 import module from 'module';
-import type { ImportKind, Loader, Plugin } from 'esbuild';
+import { dirname, extname, resolve, sep } from 'path';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
-import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
+import type { ImportKind, Loader, Plugin } from 'esbuild';
 import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
-import type { SideEffects, ICompiler } from '../../types';
+import type { ICompiler, SideEffects } from '../../types';
+import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
 import { writeFile } from './write-file';
 
 /**

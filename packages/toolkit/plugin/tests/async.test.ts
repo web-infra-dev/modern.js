@@ -1,25 +1,25 @@
+import type { AsyncSetup, PluginOptions } from '../src';
 import {
-  createPipeline,
   createAsyncPipeline,
   createContext,
+  createPipeline,
 } from '../src/farrow-pipeline';
-import type { PluginOptions, AsyncSetup } from '../src';
-import { createManager, createAsyncManager } from '../src/manager';
-import { createWaterfall, createAsyncWaterfall } from '../src/waterfall';
+import { createAsyncManager, createManager } from '../src/manager';
+import { createAsyncWaterfall, createWaterfall } from '../src/waterfall';
 import {
-  createWorkflow,
   createAsyncWorkflow,
   createParallelWorkflow,
+  createWorkflow,
 } from '../src/workflow';
+import bar, { getBar } from './fixtures/async/base/bar';
+import foo from './fixtures/async/base/foo';
 import {
-  main,
   type TestAsyncHooks,
   type TestAsyncPlugin,
+  main,
 } from './fixtures/async/core';
-import foo from './fixtures/async/base/foo';
-import bar, { getBar } from './fixtures/async/base/bar';
-import dFoo from './fixtures/async/dynamic/foo';
 import dBar, { getNumber } from './fixtures/async/dynamic/bar';
+import dFoo from './fixtures/async/dynamic/foo';
 import { sleep } from './helpers';
 
 describe('async manager', () => {

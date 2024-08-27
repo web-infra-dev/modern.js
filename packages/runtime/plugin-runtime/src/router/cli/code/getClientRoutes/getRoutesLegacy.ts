@@ -1,15 +1,15 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import type { Entrypoint, RouteLegacy } from '@modern-js/types';
+import { fs } from '@modern-js/utils';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
   FILE_SYSTEM_ROUTES_INDEX,
   FILE_SYSTEM_ROUTES_LAYOUT,
 } from '../../constants';
-import { replaceWithAlias } from '../utils';
 import { makeLegalIdentifier } from '../makeLegalIdentifier';
-import { debug, findLayout, shouldSkip, getRouteWeight } from './utils';
+import { replaceWithAlias } from '../utils';
+import { debug, findLayout, getRouteWeight, shouldSkip } from './utils';
 
 export type { RouteLegacy as Route };
 

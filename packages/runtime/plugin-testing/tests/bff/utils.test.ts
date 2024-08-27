@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 import * as path from 'path';
-import { isBFFProject } from '../../src/cli/bff/utils';
 import mockAPI from '../../src/cli/bff/mockAPI';
+import { isBFFProject } from '../../src/cli/bff/utils';
 
 describe('testing-plugin-bff utils', () => {
   test('isBFFProject', () => {

@@ -1,7 +1,7 @@
 import './state';
 import { createRoot } from 'react-dom/client';
-import styles from './index.module.scss';
 import { App } from './App';
+import styles from './index.module.scss';
 
 const setup = () => {
   const outer = document.createElement('div');

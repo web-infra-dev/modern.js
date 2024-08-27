@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { minimist, lodash, logger } from '@modern-js/utils';
-import { cli, type CoreOptions } from '.';
+import { lodash, logger, minimist } from '@modern-js/utils';
+import { type CoreOptions, cli } from '.';
 
 export const run = async (
   otherCoreOptions: CoreOptions = {},

@@ -9,9 +9,9 @@ import {
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
 import '@/components/Card/Card.module.scss';
-import styles from './page.module.scss';
-import { useGlobals } from '@/entries/client/globals';
 import { Card, CardColumn } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
+import styles from './page.module.scss';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',

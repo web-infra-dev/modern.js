@@ -1,20 +1,20 @@
 import * as path from 'path';
-import {
-  createDebugger,
-  fs,
-  isApiOnly,
-  minimist,
-  isDevCommand,
-  getArgv,
-} from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
-import { printInstructions } from '../../utils/printInstructions';
-import { generateRoutes } from '../../utils/routes';
+import {
+  fs,
+  createDebugger,
+  getArgv,
+  isApiOnly,
+  isDevCommand,
+  minimist,
+} from '@modern-js/utils';
+import { createBuilderGenerator } from '../../builder';
+import { initialNormalizedConfig } from '../../config';
+import type { AppTools, webpack } from '../../types';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
-import type { AppTools, webpack } from '../../types';
-import { initialNormalizedConfig } from '../../config';
-import { createBuilderGenerator } from '../../builder';
+import { printInstructions } from '../../utils/printInstructions';
+import { generateRoutes } from '../../utils/routes';
 import { checkIsBuildCommands } from './utils';
 
 const debug = createDebugger('plugin-analyze');

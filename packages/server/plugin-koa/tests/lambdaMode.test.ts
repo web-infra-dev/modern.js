@@ -1,8 +1,8 @@
 import * as path from 'path';
-import request from 'supertest';
 import Koa from 'koa';
-import Router from 'koa-router';
 import koaBody from 'koa-body';
+import Router from 'koa-router';
+import request from 'supertest';
 import plugin from '../src/plugin';
 import { APIPlugin, createPluginManager } from './helpers';
 

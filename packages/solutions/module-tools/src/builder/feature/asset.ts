@@ -1,14 +1,14 @@
-import { basename, join, extname, relative, dirname, resolve } from 'path';
 import fs from 'fs';
+import { basename, dirname, extname, join, relative, resolve } from 'path';
 import _ from '@modern-js/utils/lodash';
-import type { Loader } from 'esbuild';
 import { createFilter } from '@rollup/pluginutils';
+import type { Loader } from 'esbuild';
 import { transform } from '../../../compiled/@svgr/core';
-import svgo from '../../../compiled/@svgr/plugin-svgo';
 import jsx from '../../../compiled/@svgr/plugin-jsx';
-import type { ICompiler, SvgrOptions, Asset } from '../../types';
+import svgo from '../../../compiled/@svgr/plugin-svgo';
 import { assetExt } from '../../constants/file';
-import { normalizeSlashes, getHash } from '../../utils';
+import type { Asset, ICompiler, SvgrOptions } from '../../types';
+import { getHash, normalizeSlashes } from '../../utils';
 
 const name = 'asset';
 const SVG_REGEXP = /\.svg$/;

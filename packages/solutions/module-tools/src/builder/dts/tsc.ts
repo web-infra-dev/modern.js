@@ -1,16 +1,16 @@
 import type { ChildProcess } from 'child_process';
 import path from 'path';
-import { execa, logger, chalk } from '@modern-js/utils';
-import type { GeneratorDtsConfig, PluginAPI, ModuleTools } from '../../types';
+import { chalk, execa, logger } from '@modern-js/utils';
+import { watchDoneText } from '../../constants/dts';
+import type { GeneratorDtsConfig, ModuleTools, PluginAPI } from '../../types';
 import {
+  addDtsFiles,
+  detectTSVersion,
   getTscBinPath,
   printOrThrowDtsErrors,
-  addDtsFiles,
-  withLogTitle,
   processDtsFilesAfterTsc,
-  detectTSVersion,
+  withLogTitle,
 } from '../../utils';
-import { watchDoneText } from '../../constants/dts';
 
 export const removeTscLogTime = (log: string) => log.replace(/\[.*\]\s/, '');
 

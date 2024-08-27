@@ -1,6 +1,6 @@
-import type React from 'react';
 import type { ServerRoute as IServerRoute } from '@modern-js/types';
 import _ from 'lodash';
+import type React from 'react';
 import { EntryRoute } from './EntryRoute';
 import { UnknownRoute } from './Unknown';
 

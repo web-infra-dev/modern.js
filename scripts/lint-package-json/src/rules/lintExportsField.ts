@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import logger from 'consola';
-import { formatPath, isArrayEqual } from '../utils';
 import type { PackageJSON } from '..';
+import { formatPath, isArrayEqual } from '../utils';
 
 /**
  * Make sure "exports" and "publishConfig.exports" contains same keys.

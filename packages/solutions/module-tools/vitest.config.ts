@@ -1,6 +1,6 @@
-import { defineConfig } from 'vitest/config';
-import { withTestPreset } from '@scripts/vitest-config';
 import path from 'path';
+import { withTestPreset } from '@scripts/vitest-config';
+import { defineConfig } from 'vitest/config';
 
 const config = defineConfig({
   resolve: {

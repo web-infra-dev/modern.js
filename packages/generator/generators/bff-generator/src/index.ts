@@ -1,27 +1,27 @@
 import path from 'path';
-import {
-  fs,
-  chalk,
-  getPackageVersion,
-  getModernPluginVersion,
-  isTsProject,
-  readTsConfigByFile,
-  getModernConfigFile,
-} from '@modern-js/generator-utils';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  getBFFSchema,
-  BFFType,
-  i18n as commonI18n,
-  Framework,
-  Language,
-  FrameworkAppendTypeContent,
-  Solution,
-  BFFPluginName,
   BFFPluginDependence,
+  BFFPluginName,
+  BFFType,
+  Framework,
+  FrameworkAppendTypeContent,
+  Language,
+  Solution,
+  i18n as commonI18n,
+  getBFFSchema,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  chalk,
+  getModernConfigFile,
+  getModernPluginVersion,
+  getPackageVersion,
+  isTsProject,
+  readTsConfigByFile,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 function isEmptyApiDir(apiDir: string) {

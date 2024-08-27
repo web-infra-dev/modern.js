@@ -1,19 +1,19 @@
-import lodash from 'lodash';
-import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
-import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import type { BabelConfig } from '@modern-js/babel-preset';
-import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
+import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
+import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
+import { applyOptionsChain, isBeyondReact17 } from '@modern-js/utils';
 import type {
-  RsbuildPlugin,
   NormalizedEnvironmentConfig,
+  RsbuildPlugin,
   TransformImport,
 } from '@rsbuild/core';
-import { getBabelUtils, type PluginBabelOptions } from '@rsbuild/plugin-babel';
+import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
+import lodash from 'lodash';
 import {
   SCRIPT_REGEX,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
   getBrowserslistWithDefault,
   getUseBuiltIns,
-  SERVICE_WORKER_ENVIRONMENT_NAME,
 } from '../../shared/utils';
 
 /**

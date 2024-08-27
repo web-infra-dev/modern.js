@@ -1,6 +1,6 @@
 import path from 'path';
-import { JS_EXTENSIONS, findExists, fs, isRouterV5 } from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
+import { fs, JS_EXTENSIONS, findExists, isRouterV5 } from '@modern-js/utils';
 import { hasApp } from '../../cli/entry';
 import {
   FILE_SYSTEM_ROUTES_GLOBAL_LAYOUT,

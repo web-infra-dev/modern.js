@@ -1,4 +1,4 @@
-import { moduleTools, defineConfig, legacyPresets } from '../src';
+import { defineConfig, legacyPresets, moduleTools } from '../src';
 
 describe('index', () => {
   it('defineConfig', () => {

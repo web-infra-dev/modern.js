@@ -1,9 +1,9 @@
 import path from 'path';
-import type { CliPlugin } from '@modern-js/core';
 import type { AppTools } from '@modern-js/app-tools';
-import fs from '@modern-js/utils/fs-extra';
-import { SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
+import type { CliPlugin } from '@modern-js/core';
 import { compile } from '@modern-js/server-utils';
+import { SERVER_DIR, SHARED_DIR } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
 
 function checkHasCache(appDir: string) {
   const tsFilepath = path.resolve(appDir, 'server', 'cache.ts');

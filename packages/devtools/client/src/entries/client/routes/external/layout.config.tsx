@@ -1,7 +1,7 @@
-import type { Location } from '@modern-js/runtime/router';
-import _ from 'lodash';
 import { $$globals } from '@/entries/client/globals';
 import { use } from '@/utils';
+import type { Location } from '@modern-js/runtime/router';
+import _ from 'lodash';
 
 export const handle = {
   breadcrumb(params: any) {

@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import fs from 'fs-extra';
-import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
+import { DIST_DIR, PACKAGES_DIR, TASKS } from './constant';
 import type { ParsedTask } from './types';
 
 export function findDepPath(name: string) {

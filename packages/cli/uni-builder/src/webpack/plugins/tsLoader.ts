@@ -1,18 +1,18 @@
-import type { ConfigChainWithContext } from '@rsbuild/core';
-import { applyOptionsChain } from '@modern-js/utils';
-import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
+import { applyOptionsChain } from '@modern-js/utils';
+import type { ConfigChainWithContext } from '@rsbuild/core';
 import type { RsbuildPlugin } from '@rsbuild/core';
+import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
-import { getPresetReact } from './babel';
 import {
   JS_REGEX,
   TS_REGEX,
-  castArray,
   applyScriptCondition,
+  castArray,
   getBrowserslistWithDefault,
   getUseBuiltIns,
 } from '../../shared/utils';
+import { getPresetReact } from './babel';
 
 type OneOrMany<T> = T | T[];
 

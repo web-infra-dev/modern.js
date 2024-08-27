@@ -2,11 +2,11 @@ import { isAbsolute, sep } from 'path';
 import type {
   BabelConfig,
   BabelConfigUtils,
-  BabelTransformOptions,
   BabelPlugin,
+  BabelPluginOptions,
+  BabelTransformOptions,
   PresetEnvOptions,
   PresetReactOptions,
-  BabelPluginOptions,
 } from '@modern-js/types';
 import { applyOptionsChain } from './applyOptionsChain';
 import { ensureArray } from './ensure';

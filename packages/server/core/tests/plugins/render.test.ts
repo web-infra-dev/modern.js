@@ -1,10 +1,10 @@
 import path from 'path';
 import type { Logger, ServerRoute } from '@modern-js/types';
-import { createServerBase } from '../../src/serverBase';
-import { renderPlugin, createDefaultPlugins } from '../../src/plugins';
 import { injectResourcePlugin } from '../../src/adapters/node/plugins';
-import { getDefaultAppContext, getDefaultConfig } from '../helpers';
+import { createDefaultPlugins, renderPlugin } from '../../src/plugins';
+import { createServerBase } from '../../src/serverBase';
 import type { ServerUserConfig } from '../../src/types';
+import { getDefaultAppContext, getDefaultConfig } from '../helpers';
 
 const logger: Logger = {
   error() {

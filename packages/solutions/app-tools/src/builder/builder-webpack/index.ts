@@ -1,5 +1,5 @@
-import type { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
+import type { BuilderOptions } from '../shared';
 import { builderPluginAdapterModern } from './adapterModern';
 
 export async function createWebpackBuilderForModern(

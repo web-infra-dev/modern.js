@@ -2,15 +2,15 @@ import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  fs,
-  chalk,
-  getModernConfigFile,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
-import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  chalk,
+  getGeneratorPath,
+  getModernConfigFile,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const ReactRouter6Type = `/// <reference types='@modern-js/runtime/types/router' />`;

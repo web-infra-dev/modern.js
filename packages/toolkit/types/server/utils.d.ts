@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
 import type {
-  Options as ProxyOptions,
   Filter as ProxyFilter,
+  Options as ProxyOptions,
 } from 'http-proxy-middleware';
 
 export interface Metrics {

@@ -1,16 +1,16 @@
 import path from 'path';
-import puppeteer, { type Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import puppeteer, { type Browser } from 'puppeteer';
 
 import type { Page } from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
+  launchOptions,
   modernBuild,
   modernServe,
-  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');

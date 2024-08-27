@@ -1,11 +1,11 @@
 import { join } from 'path';
-import glob from 'fast-glob';
 import logger from 'consola';
+import glob from 'fast-glob';
 import fs from 'fs-extra';
-import { ROOT } from './utils';
 import { lintExportsField } from './rules/lintExportsField';
 import { lintWorkspaceProtocol } from './rules/lintWorkspaceProtocol';
 import { noCyclicWorkspaceDependencies } from './rules/noCyclicWorkspaceDependencies';
+import { ROOT } from './utils';
 
 export type PackageJSON = {
   path: string;

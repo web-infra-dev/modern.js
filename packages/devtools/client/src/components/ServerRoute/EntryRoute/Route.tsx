@@ -1,10 +1,10 @@
+import type { ServerRoute } from '@modern-js/types';
+import { Badge, Flex, ScrollArea } from '@radix-ui/themes';
 import type React from 'react';
 import { Suspense } from 'react';
-import { Badge, Flex, ScrollArea } from '@radix-ui/themes';
-import type { ServerRoute } from '@modern-js/types';
 import { BaseRoute } from '../Base';
-import { EntryStats } from './Stats';
 import { ClientRouteStats } from './ClientRoute';
+import { EntryStats } from './Stats';
 
 export interface EntryRouteProps {
   route: ServerRoute;

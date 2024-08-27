@@ -2,9 +2,9 @@ import path from 'path';
 import { logger } from '@modern-js/utils';
 import execSync from './execSync';
 import {
-  isRootCAExists,
-  generateRootCA,
   defaultRootCA,
+  generateRootCA,
+  isRootCAExists,
   trustRootCA,
 } from './macCAManager';
 

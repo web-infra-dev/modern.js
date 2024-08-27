@@ -1,3 +1,4 @@
+import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AsyncWaterfall,
   AsyncWorkflow,
@@ -12,12 +13,11 @@ import type {
   ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
-import type { RegisterBuildPlatformResult, DevToolData } from '@modern-js/core';
 import type {
-  Rspack,
-  webpack,
-  Stats,
   MultiStats,
+  Rspack,
+  Stats,
+  webpack,
 } from '@modern-js/uni-builder';
 import type { Bundler } from './utils';
 

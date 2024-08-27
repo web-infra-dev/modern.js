@@ -1,6 +1,6 @@
 import { ensureArray, isOverriddenConfigKey } from '@modern-js/utils';
-import { mergeWith, isFunction } from '@modern-js/utils/lodash';
-import type { UserConfig, NormalizedConfig } from '../types';
+import { isFunction, mergeWith } from '@modern-js/utils/lodash';
+import type { NormalizedConfig, UserConfig } from '../types';
 
 export const mergeConfig = <ExtendConfig extends Record<string, any>>(
   configs: Array<UserConfig<ExtendConfig> | NormalizedConfig<ExtendConfig>>,

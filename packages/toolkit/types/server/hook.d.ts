@@ -1,10 +1,10 @@
 import type {
+  IncomingHttpHeaders,
   IncomingMessage,
   ServerResponse,
-  IncomingHttpHeaders,
 } from 'http';
-import type { Reporter } from './utils';
 import type { ServerRoute } from './route';
+import type { Reporter } from './utils';
 
 export type CookieAPI = {
   /**

@@ -1,10 +1,10 @@
-import { createRspackBuilder, type UniBuilderInstance } from './rspack';
-import {
-  createWebpackBuilder,
-  type UniBuilderWebpackInstance,
-} from './webpack';
-import type { CreateUniBuilderOptions } from './types';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { type UniBuilderInstance, createRspackBuilder } from './rspack';
+import type { CreateUniBuilderOptions } from './types';
+import {
+  type UniBuilderWebpackInstance,
+  createWebpackBuilder,
+} from './webpack';
 
 export { HtmlWebpackPlugin };
 

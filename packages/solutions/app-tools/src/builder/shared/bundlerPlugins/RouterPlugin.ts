@@ -1,12 +1,12 @@
 import { createHash } from 'crypto';
-import { merge, mergeWith } from '@modern-js/utils/lodash';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
-import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type {
+  HtmlWebpackPlugin,
   Rspack,
   webpack,
-  HtmlWebpackPlugin,
 } from '@modern-js/uni-builder';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import { merge, mergeWith } from '@modern-js/utils/lodash';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { ScriptLoading } from '@rsbuild/core';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';

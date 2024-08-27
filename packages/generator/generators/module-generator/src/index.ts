@@ -2,24 +2,24 @@ import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  i18n as commonI18n,
   BaseGenerator,
   ChangesetGenerator,
-  Solution,
-  getModuleSchema,
   Language,
   type PackageManager,
   PackagesGenerator,
+  Solution,
+  i18n as commonI18n,
+  getModuleSchema,
 } from '@modern-js/generator-common';
 import {
-  i18n as utilsI18n,
   getAllPackages,
-  validatePackagePath,
-  validatePackageName,
+  getGeneratorPath,
+  getModernVersion,
   getModuleProjectPath,
   getPackageManagerText,
-  getModernVersion,
-  getGeneratorPath,
+  i18n as utilsI18n,
+  validatePackageName,
+  validatePackagePath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 

@@ -1,14 +1,14 @@
 import os from 'os';
 import type { PluginAPI } from '@modern-js/core';
 import { chalk, logger } from '@modern-js/utils';
-import type { ModuleContext } from '../types/context';
-import type {
-  BuildCommandOptions,
-  BaseBuildConfig,
-  ModuleTools,
-} from '../types';
 import pMap from '../../compiled/p-map';
 import { debug } from '../debug';
+import type {
+  BaseBuildConfig,
+  BuildCommandOptions,
+  ModuleTools,
+} from '../types';
+import type { ModuleContext } from '../types/context';
 import { runBuildTask } from './build';
 import { clearBuildConfigPaths } from './clear';
 

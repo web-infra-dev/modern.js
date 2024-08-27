@@ -2,9 +2,9 @@ import {
   type ActionElement,
   type ActionFunction,
   ActionType,
-  ModuleActionFunctions,
   MWAActionElements,
   MWAActionFunctions,
+  ModuleActionFunctions,
   Solution,
 } from '@modern-js/generator-common';
 import { MWANewAction, ModuleNewAction } from '@modern-js/new-action';

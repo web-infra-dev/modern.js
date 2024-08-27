@@ -1,12 +1,12 @@
-import type { RsbuildConfig } from '@rsbuild/core';
-import {
-  isProd,
-  isServiceWorker,
-  isSSR,
-  isUseSSRBundle,
-} from '@modern-js/utils';
 import type { IAppContext } from '@modern-js/core';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
+import {
+  isProd,
+  isSSR,
+  isServiceWorker,
+  isUseSSRBundle,
+} from '@modern-js/utils';
+import type { RsbuildConfig } from '@rsbuild/core';
 import type { AppNormalizedConfig } from '../../types';
 
 export function getBuilderEnvironments(

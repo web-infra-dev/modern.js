@@ -1,7 +1,14 @@
+import type {
+  MountPointFunctions,
+  ClientFunctions as ToMountPointFunctions,
+} from '@/types/rpc';
+import { use } from '@/utils';
+import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
+import { WallAgent } from '@/utils/react-devtools';
 import {
-  type ServerManifest,
   MessagePortChannel,
   type ServerFunctions,
+  type ServerManifest,
   type Tab,
   type ClientFunctions as ToServerFunctions,
   WebSocketChannel,
@@ -12,6 +19,11 @@ import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
 import _ from 'lodash';
 import {
+  createBridge,
+  createStore,
+  initialize,
+} from 'react-devtools-inline/frontend';
+import {
   HiMiniCircleStack,
   HiOutlineAcademicCap,
   HiOutlineAdjustmentsHorizontal,
@@ -20,20 +32,8 @@ import {
   HiOutlineRectangleGroup,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
-import {
-  createBridge,
-  createStore,
-  initialize,
-} from 'react-devtools-inline/frontend';
 import { parseQuery, parseURL, resolveURL } from 'ufo';
 import { proxy, ref } from 'valtio';
-import type {
-  MountPointFunctions,
-  ClientFunctions as ToMountPointFunctions,
-} from '@/types/rpc';
-import { use } from '@/utils';
-import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
-import { WallAgent } from '@/utils/react-devtools';
 
 const initializeMountPoint = async () => {
   const channel = await MessagePortChannel.link(

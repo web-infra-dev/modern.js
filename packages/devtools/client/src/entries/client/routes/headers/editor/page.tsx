@@ -1,13 +1,13 @@
+import { PairsEditor } from '@/components/PairsEditor/Editor';
+import type { ModifyHeaderRule } from '@/utils/service-agent';
+import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
 import _ from 'lodash';
 import type React from 'react';
 import { useMemo } from 'react';
-import { Box, Button, Flex, Heading, Link, Text } from '@radix-ui/themes';
-import { proxy, useSnapshot } from 'valtio';
 import { parseURL } from 'ufo';
+import { proxy, useSnapshot } from 'valtio';
 import { $state, registerService, unregisterService } from '../state';
 import styles from './page.module.scss';
-import { PairsEditor } from '@/components/PairsEditor/Editor';
-import type { ModifyHeaderRule } from '@/utils/service-agent';
 
 const Page: React.FC = () => {
   const state = useSnapshot($state);

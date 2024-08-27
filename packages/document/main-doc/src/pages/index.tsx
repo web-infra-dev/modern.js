@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
 import clsx from 'clsx';
-import { useLang, Helmet, useLocation } from 'rspress/runtime';
 import { useEffect } from 'react';
+import { Helmet, useLang, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
-import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';
+import SecondaryTitle from '../components/SecondaryTitle';
 import { useI18n, useUrl } from '../i18n';
 import styles from './index.module.scss';
 

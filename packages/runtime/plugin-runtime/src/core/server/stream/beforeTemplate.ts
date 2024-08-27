@@ -1,12 +1,12 @@
-import ReactHelmet, { type HelmetData } from 'react-helmet';
 // Todo: This import will introduce router code, like remix, even if router config is false
 import { matchRoutes } from '@modern-js/runtime-utils/router';
-import { createReplaceHelemt } from '../helmet';
-import { CHUNK_CSS_PLACEHOLDER } from '../constants';
-import { checkIsNode, safeReplace } from '../utils';
-import { type BuildHtmlCb, buildHtml } from '../shared';
+import ReactHelmet, { type HelmetData } from 'react-helmet';
 import type { RuntimeContext } from '../../context';
+import { CHUNK_CSS_PLACEHOLDER } from '../constants';
+import { createReplaceHelemt } from '../helmet';
 import type { HandleRequestConfig } from '../requestHandler';
+import { type BuildHtmlCb, buildHtml } from '../shared';
+import { checkIsNode, safeReplace } from '../utils';
 
 const readAsset = async (chunk: string) => {
   // working node env

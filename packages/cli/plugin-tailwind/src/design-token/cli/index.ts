@@ -1,5 +1,5 @@
-import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
+import { createRuntimeExportsUtils, lazyImport } from '@modern-js/utils';
 import type { DesignSystem } from '../../types';
 
 export const designTokenPlugin = (

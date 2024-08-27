@@ -1,7 +1,7 @@
 import _ from 'lodash';
-import { defineConfig, type UserConfigExport } from 'vitest/config';
-import { createSnapshotSerializer } from './utils';
+import { type UserConfigExport, defineConfig } from 'vitest/config';
 import { applyMatcherReplacement } from './pathSerializer';
+import { createSnapshotSerializer } from './utils';
 
 export const testPreset = defineConfig({
   test: {

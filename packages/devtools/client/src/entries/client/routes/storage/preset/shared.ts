@@ -1,9 +1,9 @@
+import { $$globals } from '@/entries/client/globals';
 import type {
   StoragePresetContext,
   StoragePresetWithIdent,
 } from '@modern-js/devtools-kit/runtime';
 import _ from 'lodash';
-import { $$globals } from '@/entries/client/globals';
 
 export const STORAGE_TYPES = [
   'cookie',

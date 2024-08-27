@@ -1,13 +1,13 @@
-import anymatch from 'anymatch';
 import { chokidar } from '@modern-js/utils';
-import type { ICommandConfig } from '../../type';
-import { MultitasksLogger } from '../../log/multiTasksLog';
+import anymatch from 'anymatch';
 import type { DagOperator } from '../../dag/operator';
+import { MultitasksLogger } from '../../log/multiTasksLog';
 import type { IProjectNode } from '../../projects/getProjects';
+import type { ICommandConfig } from '../../type';
 import type { Argu } from '../../utils/types';
-import { WatchedProjectsState } from './watchProjectsState';
-import { defaultBuildWatchCmds, type BuildWatchCmdsType } from './cmds';
+import { type BuildWatchCmdsType, defaultBuildWatchCmds } from './cmds';
 import { createDependenciesTask, createDevTask } from './createTask';
+import { WatchedProjectsState } from './watchProjectsState';
 
 export interface IBuildWatchConfig extends ICommandConfig {
   onlySelf?: boolean;

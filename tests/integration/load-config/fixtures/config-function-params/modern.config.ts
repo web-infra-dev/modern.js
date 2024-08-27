@@ -1,5 +1,5 @@
-import path from 'path';
 import { writeFileSync } from 'fs';
+import path from 'path';
 import {
   type AppTools,
   type CliPlugin,

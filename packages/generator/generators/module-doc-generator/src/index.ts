@@ -1,15 +1,15 @@
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  getPackageManager,
-  getPackageManagerText,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
-import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
-import { localeKeys, i18n } from './locale';
+import {
+  getGeneratorPath,
+  getPackageManager,
+  getPackageManagerText,
+} from '@modern-js/generator-utils';
+import { i18n, localeKeys } from './locale';
 
 const handleTemplateFile = async (
   context: GeneratorContext,

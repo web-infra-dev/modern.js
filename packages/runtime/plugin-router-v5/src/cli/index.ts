@@ -1,9 +1,9 @@
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   createRuntimeExportsUtils,
   getEntryOptions,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import './types';
 import type { ServerRoute } from '@modern-js/types';
 

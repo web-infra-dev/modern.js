@@ -1,7 +1,7 @@
 import {
-  createAsyncPipeline,
-  type Middleware,
   type MaybeAsync,
+  type Middleware,
+  createAsyncPipeline,
 } from '../farrow-pipeline';
 
 const ASYNC_WATERFALL_SYMBOL = Symbol.for('MODERN_ASYNC_WATERFALL');

@@ -1,38 +1,38 @@
+import type { AliasOption } from '@modern-js/utils';
 import type {
-  ConfigChainWithContext,
   ConfigChain,
+  ConfigChainWithContext,
   DevConfig,
+  DistPathConfig,
   HtmlConfig,
-  RsbuildConfig,
-  RsbuildTarget,
+  HtmlTagDescriptor,
+  OutputConfig,
   Polyfill,
+  RequestHandler,
+  RsbuildConfig,
+  RsbuildPlugin,
+  RsbuildPluginAPI,
+  RsbuildTarget,
+  Rspack,
   ScriptInject,
   ServerConfig,
-  RsbuildPluginAPI,
-  OutputConfig,
-  DistPathConfig,
-  Rspack,
-  RequestHandler,
-  HtmlTagDescriptor,
-  RsbuildPlugin,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
-import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import type { PluginRemOptions } from '@rsbuild/plugin-rem';
-import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
-import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
-import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
-import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
-import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
-import type { PluginPugOptions } from '@rsbuild/plugin-pug';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
-import type { PluginSassOptions } from '@rsbuild/plugin-sass';
+import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
+import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
 import type { PluginLessOptions } from '@rsbuild/plugin-less';
-import type { AliasOption } from '@modern-js/utils';
+import type { PluginPugOptions } from '@rsbuild/plugin-pug';
+import type { PluginRemOptions } from '@rsbuild/plugin-rem';
+import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
-import type TerserPlugin from 'terser-webpack-plugin';
-import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
+import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
+import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
+import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
 import type { Options as AutoprefixerOptions } from 'autoprefixer';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
+import type TerserPlugin from 'terser-webpack-plugin';
+import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 type ArrayOrNot<T> = T | T[];
 

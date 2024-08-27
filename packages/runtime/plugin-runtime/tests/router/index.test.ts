@@ -1,7 +1,7 @@
 import { AppContext, type CliPlugin, manager } from '@modern-js/core';
+import { runtimePlugin } from '../../src/cli';
 import plugin, { useLocation, useParams } from '../../src/router';
 import { routerPlugin } from '../../src/router/cli';
-import { runtimePlugin } from '../../src/cli';
 
 describe('plugin-router', () => {
   it('default', () => {

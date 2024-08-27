@@ -1,10 +1,10 @@
 import path from 'path';
+import { API_DIR, ApiRouter } from '@modern-js/bff-core';
 import {
-  type ServerPlugin,
   PluginManager,
+  type ServerPlugin,
   createContext,
 } from '@modern-js/server-core';
-import { ApiRouter, API_DIR } from '@modern-js/bff-core';
 
 export function createPluginManager() {
   const appContext = createContext<any>({});

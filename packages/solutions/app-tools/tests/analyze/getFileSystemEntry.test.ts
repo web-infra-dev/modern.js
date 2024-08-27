@@ -1,14 +1,14 @@
 import path from 'path';
 import {
+  type CliHooksRunner,
+  type CliPlugin,
   type IAppContext,
   manager,
-  type CliPlugin,
-  type CliHooksRunner,
 } from '@modern-js/core';
+import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
+import { appTools } from '../../src/index';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
 import type { AppNormalizedConfig, AppTools } from '../../src/types';
-import { appTools } from '../../src/index';
-import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 
 async function getRunner() {
   const main = manager

@@ -1,4 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
+import { i18n, localeKeys } from '../../locale';
 import {
   ActionFunction,
   ActionFunctionText,
@@ -6,7 +7,6 @@ import {
   ActionTypeQuestionText,
   ActionTypeText,
 } from '../common';
-import { i18n, localeKeys } from '../../locale';
 
 export const ModuleActionTypes = [ActionType.Function];
 export const ModuleActionFunctions = [

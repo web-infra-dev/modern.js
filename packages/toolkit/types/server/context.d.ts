@@ -1,12 +1,12 @@
 import type {
+  Server as HttpServer,
+  IncomingHttpHeaders,
   IncomingMessage,
   ServerResponse,
-  IncomingHttpHeaders,
-  Server as HttpServer,
 } from 'http';
 import type qs from 'querystring';
 import type { SSRMode } from 'common';
-import type { Metrics, Logger, Reporter, ServerTiming } from './utils';
+import type { Logger, Metrics, Reporter, ServerTiming } from './utils';
 
 export interface RequestPayload {
   [key: string]: unknown;

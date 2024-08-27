@@ -1,11 +1,11 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { StaticHandlerContext } from '@modern-js/runtime-utils/remix-router';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
-import { attributesToString, serializeErrors } from '../utils';
-import type { SSRConfig } from '../shared';
-import type { SSRContainer, SSRServerContext } from '../../types';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
-import type { Collector, ChunkSet } from './types';
+import type { SSRContainer, SSRServerContext } from '../../types';
+import type { SSRConfig } from '../shared';
+import { attributesToString, serializeErrors } from '../utils';
+import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
   request: Request;

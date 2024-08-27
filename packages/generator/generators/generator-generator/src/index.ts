@@ -3,19 +3,19 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  i18n as commonI18n,
-  getGeneratorSchema,
   Solution,
   SolutionGenerator,
+  i18n as commonI18n,
+  getGeneratorSchema,
 } from '@modern-js/generator-common';
 import {
   fs,
-  i18n as utilsI18n,
   getAllPackages,
-  validatePackagePath,
-  validatePackageName,
-  getModuleProjectPath,
   getGeneratorPath,
+  getModuleProjectPath,
+  i18n as utilsI18n,
+  validatePackageName,
+  validatePackagePath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 

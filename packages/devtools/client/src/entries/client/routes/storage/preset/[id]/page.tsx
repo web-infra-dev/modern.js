@@ -1,38 +1,38 @@
-import { type FC, useEffect } from 'react';
-import {
-  HiMiniClipboard,
-  HiMiniClipboardDocumentList,
-  HiMiniFolderOpen,
-  HiMiniFire,
-} from 'react-icons/hi2';
+import { Card } from '@/components/Card';
+import { useToast } from '@/components/Toast';
+import { useGlobals } from '@/entries/client/globals';
+import type {
+  StoragePresetContext,
+  StoragePresetWithIdent,
+} from '@modern-js/devtools-kit/runtime';
 import { useLoaderData, useRevalidator } from '@modern-js/runtime/router';
 import {
   Badge,
   Box,
   Flex,
+  type FlexProps,
   IconButton,
   Text,
   Tooltip,
-  type FlexProps,
 } from '@radix-ui/themes';
-import type {
-  StoragePresetContext,
-  StoragePresetWithIdent,
-} from '@modern-js/devtools-kit/runtime';
-import { subscribe } from 'valtio';
 import type { BadgeProps } from '@radix-ui/themes/dist/cjs/components/badge';
+import { type FC, useEffect } from 'react';
 import {
-  applyStorage,
+  HiMiniClipboard,
+  HiMiniClipboardDocumentList,
+  HiMiniFire,
+  HiMiniFolderOpen,
+} from 'react-icons/hi2';
+import { subscribe } from 'valtio';
+import {
   STORAGE_TYPES,
   type StorageStatus,
   type StorageType,
-  unwindRecord,
   type UnwindStorageRecord,
+  applyStorage,
+  unwindRecord,
 } from '../shared';
 import styles from './page.module.scss';
-import { useGlobals } from '@/entries/client/globals';
-import { useToast } from '@/components/Toast';
-import { Card } from '@/components/Card';
 
 type PresetToolbarProps = FlexProps & {
   onCopyAction?: () => void;

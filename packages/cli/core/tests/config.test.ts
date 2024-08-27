@@ -1,14 +1,14 @@
 import path from 'path';
 import { isDev } from '@modern-js/utils';
-import { createResolveConfig, createLoadedConfig } from '../src/config';
 import {
   cli,
+  createPlugin,
   initAppContext,
   initAppDir,
   manager,
-  createPlugin,
   registerHook,
 } from '../src';
+import { createLoadedConfig, createResolveConfig } from '../src/config';
 
 jest.mock('@modern-js/utils', () => ({
   __esModule: true,

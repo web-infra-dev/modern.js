@@ -1,6 +1,6 @@
 import path from 'path';
-import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
+import type { RsbuildPlugin, RspackChain } from '@rsbuild/core';
 
 export const builderPluginAdapterBasic = (): RsbuildPlugin => ({
   name: 'builder-plugin-adapter-modern-basic',

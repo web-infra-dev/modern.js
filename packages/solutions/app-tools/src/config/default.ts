@@ -1,6 +1,6 @@
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
+import type { AppLegacyUserConfig, AppUserConfig, IAppContext } from '../types';
 import { getAutoInjectEnv } from '../utils/env';
-import type { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
 // Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(

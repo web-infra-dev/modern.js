@@ -1,12 +1,12 @@
-import type {
-  Monitors,
-  CoreMonitor,
-  LogLevel,
-  LogEvent,
-  TimingEvent,
-  Logger,
-} from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
+import type {
+  CoreMonitor,
+  LogEvent,
+  LogLevel,
+  Logger,
+  Monitors,
+  TimingEvent,
+} from '@modern-js/types';
 import { SERVER_TIMING, ServerTimings } from '../constants';
 import type { Context, Next, ServerEnv, ServerPlugin } from '../types';
 

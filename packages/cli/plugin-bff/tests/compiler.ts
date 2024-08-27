@@ -1,6 +1,6 @@
 import path from 'path';
+import { Volume, createFsFromVolume } from 'memfs';
 import webpack from 'webpack';
-import { createFsFromVolume, Volume } from 'memfs';
 import type { APILoaderOptions } from '../src/loader';
 
 // globby needs setImmediate

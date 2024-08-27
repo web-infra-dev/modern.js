@@ -1,7 +1,7 @@
 import { isObject, lodash } from '@modern-js/utils';
 import {
-  minify as terserMinify,
   type MinifyOptions as TerserMinifyOptions,
+  minify as terserMinify,
 } from 'terser';
 import { ChunkType, type ICompiler } from '../../types';
 import { normalizeSourceMap } from '../../utils';

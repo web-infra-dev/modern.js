@@ -1,5 +1,5 @@
+import { readFileSync, readdirSync } from 'fs';
 import path from 'path';
-import { readdirSync, readFileSync } from 'fs';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
 const fixtures = path.resolve(__dirname, '../fixtures');

@@ -1,6 +1,6 @@
 import imageIco from './image.ico';
-import imagePng from './image.png';
 import imageJpeg from './image.jpeg';
+import imagePng from './image.png';
 
 const images = [imageIco, imagePng, imageJpeg];
 

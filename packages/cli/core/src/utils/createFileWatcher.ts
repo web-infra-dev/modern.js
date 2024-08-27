@@ -1,7 +1,7 @@
 import crypto from 'crypto';
-import * as path from 'path';
 import * as fs from 'fs';
-import { createDebugger, chokidar, isDevCommand } from '@modern-js/utils';
+import * as path from 'path';
+import { chokidar, createDebugger, isDevCommand } from '@modern-js/utils';
 import type { CliHooksRunner, IAppContext } from '../types';
 
 const debug = createDebugger('watch-files');

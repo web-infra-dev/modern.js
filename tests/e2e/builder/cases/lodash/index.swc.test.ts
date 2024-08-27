@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build } from '@scripts/shared';
 import { pluginSwc } from '@rsbuild/plugin-swc';
+import { build } from '@scripts/shared';
 
 test('should optimize lodash bundle size when using SWC plugin', async () => {
   const builder = await build({

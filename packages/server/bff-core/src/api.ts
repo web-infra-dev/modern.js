@@ -3,14 +3,14 @@ import compose from 'koa-compose';
 import type {
   ApiRunner,
   ArrayToObject,
+  ExecuteHelper,
   ExtractInputType,
   ExtractOuputType,
-  MetadataHelper,
-  ExecuteHelper,
-  Operator,
   MaybeAsync,
+  MetadataHelper,
+  Operator,
 } from './types';
-import { validateFunction, HANDLER_WITH_META } from './utils';
+import { HANDLER_WITH_META, validateFunction } from './utils';
 
 interface Runner {
   (inputs: any): Promise<any>;

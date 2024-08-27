@@ -1,5 +1,5 @@
-import type { InternalPlugins } from './plugin';
 import type { UserConfig } from './config';
+import type { InternalPlugins } from './plugin';
 
 export interface CoreOptions {
   cwd?: string;

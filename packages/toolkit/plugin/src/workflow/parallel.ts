@@ -1,7 +1,7 @@
 import {
   type MaybeAsync,
-  createPipeline,
   type Middleware,
+  createPipeline,
 } from '../farrow-pipeline';
 import type { AsyncWorker, AsyncWorkers } from './async';
 

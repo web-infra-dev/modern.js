@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { killApp, launchApp } from '../../../utils/modernTestUtils';
 import { getPublicPath, webpackOnlyTest } from '../testUtils';
-import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 let app: unknown;
 let subApp1: unknown;

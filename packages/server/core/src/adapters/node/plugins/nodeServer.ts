@@ -1,4 +1,4 @@
-import type { ServerPlugin, NodeServer } from '../../../types';
+import type { NodeServer, ServerPlugin } from '../../../types';
 
 export const injectNodeSeverPlugin = ({
   nodeServer,

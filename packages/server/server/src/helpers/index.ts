@@ -1,21 +1,21 @@
 import path from 'path';
 import {
+  AGGRED_DIR,
+  type FileChangeEvent,
+  type ServerBase,
+} from '@modern-js/server-core';
+import {
   SERVER_BUNDLE_DIRECTORY,
   SERVER_DIR,
   type WatchOptions,
   logger,
 } from '@modern-js/utils';
-import {
-  AGGRED_DIR,
-  type ServerBase,
-  type FileChangeEvent,
-} from '@modern-js/server-core';
 import Watcher, {
   type WatchEvent,
   mergeWatchOptions,
 } from '../dev-tools/watcher';
-import { debug } from './utils';
 import { initOrUpdateMockMiddlewares } from './mock';
+import { debug } from './utils';
 
 export * from './repack';
 export * from './devOptions';

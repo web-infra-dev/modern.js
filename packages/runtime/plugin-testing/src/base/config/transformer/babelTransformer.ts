@@ -1,5 +1,5 @@
-import babelJest from 'babel-jest';
 import { isBeyondReact17 } from '@modern-js/utils';
+import babelJest from 'babel-jest';
 
 const isNewJsx = isBeyondReact17(process.cwd());
 

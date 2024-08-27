@@ -1,7 +1,7 @@
 import type { DevToolData as BaseDevToolData } from '@modern-js/core';
 import type { registerHook } from '../hooks';
+import type { BuildCommandOptions, DevCommandOptions } from './command';
 import type { BaseBuildConfig, BuildConfig, BuildType } from './config';
-import type { DevCommandOptions, BuildCommandOptions } from './command';
 
 export interface BuildTaskResult {
   status: 'success' | 'fail';

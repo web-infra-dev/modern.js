@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { killApp, launchApp } from '../../../utils/modernTestUtils';
 import { getPublicPath } from '../testUtils';
-import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 let app: unknown;
 declare global {

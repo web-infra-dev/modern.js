@@ -1,12 +1,12 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import {
   BooleanConfig,
+  Language,
+  PackageManager,
+  getLanguageSchema,
+  getPackageManagerSchema,
   getPackageNameSchema,
   getPackagePathSchema,
-  Language,
-  getLanguageSchema,
-  PackageManager,
-  getPackageManagerSchema,
 } from '../common';
 import { BuildTools, getBuildToolsSchema } from './common';
 

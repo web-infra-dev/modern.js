@@ -1,8 +1,8 @@
 import type { PluginAPI } from '@modern-js/core';
-import type { MonorepoTools } from '../type';
-import { getProjects } from '../projects/getProjects';
-import { getMonorepoBaseData } from '../parse-config/monorepo';
 import { runClearTask } from '../features/clear';
+import { getMonorepoBaseData } from '../parse-config/monorepo';
+import { getProjects } from '../projects/getProjects';
+import type { MonorepoTools } from '../type';
 
 export interface IClearCommandOption {
   removeDirs?: string[];

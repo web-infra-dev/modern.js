@@ -1,11 +1,11 @@
 import path from 'path';
+import { fs } from '@modern-js/utils';
 import getPort from 'get-port';
 import puppeteer, { type Browser } from 'puppeteer';
-import { fs } from '@modern-js/utils';
 import {
+  killApp,
   launchApp,
   launchOptions,
-  killApp,
   sleep,
 } from '../../utils/modernTestUtils';
 

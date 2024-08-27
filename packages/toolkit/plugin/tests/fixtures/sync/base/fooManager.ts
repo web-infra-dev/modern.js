@@ -1,8 +1,8 @@
 import {
   createContext,
+  createManager,
   createWaterfall,
   createWorkflow,
-  createManager,
 } from '../../../../src';
 
 // foo plugin

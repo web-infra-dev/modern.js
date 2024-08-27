@@ -1,21 +1,21 @@
 import path from 'path';
 import {
-  type CliHooksRunner,
-  type CliPlugin,
-  manager,
-  type IAppContext,
-} from '@modern-js/core';
-import {
   type AppNormalizedConfig,
   type AppTools,
   appTools,
 } from '@modern-js/app-tools';
 import {
+  type CliHooksRunner,
+  type CliPlugin,
+  type IAppContext,
+  manager,
+} from '@modern-js/core';
+import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
+import { runtimePlugin } from '../../src/cli';
+import {
   getClientRoutes,
   getClientRoutesLegacy,
 } from '../../src/router/cli/code/getClientRoutes';
-import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
-import { runtimePlugin } from '../../src/cli';
 import { modifyEntrypoints } from '../../src/router/cli/entry';
 
 type GetClientRoutesFunc =

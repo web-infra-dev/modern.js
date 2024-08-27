@@ -1,8 +1,8 @@
 import type { Schema } from '@modern-js/codesmith-formily';
 import {
   Language,
-  getLanguageSchema,
   PackageManager,
+  getLanguageSchema,
   getPackageManagerSchema,
   getPackageNameSchema,
   getPackagePathSchema,

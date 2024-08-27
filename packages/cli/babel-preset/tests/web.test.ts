@@ -1,5 +1,5 @@
+import { expect, test } from 'vitest';
 import { getBabelConfigForWeb } from '../src/web';
-import { test, expect } from 'vitest';
 
 test('should provide web preset as expected', () => {
   expect(

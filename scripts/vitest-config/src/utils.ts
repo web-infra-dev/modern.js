@@ -1,11 +1,11 @@
 import assert from 'assert';
 import path from 'path';
+import { isPathString, normalizeToPosixPath } from './path';
 import {
+  type PathMatcher,
   applyMatcherReplacement,
   createDefaultPathMatchers,
-  type PathMatcher,
 } from './pathSerializer';
-import { isPathString, normalizeToPosixPath } from './path';
 
 export const debug: typeof console.log = (...args) => {
   process.env.DEBUG_MODERNJS_VITEST && console.log(...args);

@@ -1,17 +1,17 @@
 import path from 'path';
-import _ from '@modern-js/utils/lodash';
 import { ensureArray } from '@modern-js/utils';
-import type {
-  ModuleUserConfig,
-  ModuleLegacyUserConfig,
-  BaseBuildConfig,
-  BuildPreset,
-  PartialBuildConfig,
-  PartialBaseBuildConfig,
-  ModuleContext,
-  BuildCommandOptions,
-} from '../types';
+import _ from '@modern-js/utils/lodash';
 import { internalPreset, presetList } from '../constants/preset';
+import type {
+  BaseBuildConfig,
+  BuildCommandOptions,
+  BuildPreset,
+  ModuleContext,
+  ModuleLegacyUserConfig,
+  ModuleUserConfig,
+  PartialBaseBuildConfig,
+  PartialBuildConfig,
+} from '../types';
 import { isLegacyUserConfig, mergeDefaultBaseConfig } from './merge';
 import { validPartialBuildConfig } from './valid';
 

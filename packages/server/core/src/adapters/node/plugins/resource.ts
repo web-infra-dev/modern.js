@@ -2,12 +2,12 @@ import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Logger, ServerRoute } from '@modern-js/types';
 import {
+  fs,
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
   NESTED_ROUTE_SPEC_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
-  fs,
   compatibleRequire,
 } from '@modern-js/utils';
 import type {

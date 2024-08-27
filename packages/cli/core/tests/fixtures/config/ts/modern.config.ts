@@ -1,4 +1,4 @@
-import { source, runtime } from './dep-a';
+import { runtime, source } from './dep-a';
 
 const config = {
   source,

@@ -1,13 +1,13 @@
 import {
-  createWorkflow,
+  createAsyncInterruptWorkflow,
   createAsyncWorkflow,
   createParallelWorkflow,
   createSyncParallelWorkflow,
-  isWorkflow,
+  createWorkflow,
   isAsyncWorkflow,
   isParallelWorkflow,
-  createAsyncInterruptWorkflow,
   isSyncParallelWorkflow,
+  isWorkflow,
 } from '../src/workflow';
 import { sleep } from './helpers';
 

@@ -1,6 +1,6 @@
+import { $$globals } from '@/entries/client/globals';
 import { type LoaderFunctionArgs, redirect } from '@modern-js/runtime/router';
 import _ from 'lodash';
-import { $$globals } from '@/entries/client/globals';
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { id } = params;

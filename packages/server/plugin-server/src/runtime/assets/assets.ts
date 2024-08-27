@@ -1,5 +1,5 @@
-import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
 import { matchEntry } from '@modern-js/runtime-utils/node';
+import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
 
 const createScript = (href: string, nonce?: string) =>
   `<script defer src="${href}"${nonce ? ` nonce="${nonce}"` : ''}></script>`;

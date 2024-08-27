@@ -1,12 +1,12 @@
 import { fs, logger } from '@modern-js/utils';
-import { defaultDistFileExtMap } from './constants';
 import { compiler } from './compiler';
+import { defaultDistFileExtMap } from './constants';
 import type {
-  IFinaleCompilerOptions,
   BabelOptions,
-  ICompilerResult,
-  IVirtualDist,
   ICompilerMessageDetail,
+  ICompilerResult,
+  IFinaleCompilerOptions,
+  IVirtualDist,
 } from './type';
 
 export const build = async (

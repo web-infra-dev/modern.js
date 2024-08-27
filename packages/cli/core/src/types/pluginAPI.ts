@@ -2,8 +2,8 @@ import type { CommonAPI } from '@modern-js/plugin';
 import type {
   setAppContext,
   useAppContext,
-  useResolvedConfigContext,
   useConfigContext,
+  useResolvedConfigContext,
 } from '../context';
 import type { BaseHooks } from './hooks';
 

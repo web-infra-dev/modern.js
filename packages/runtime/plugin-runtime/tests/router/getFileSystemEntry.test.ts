@@ -1,14 +1,14 @@
 import path from 'path';
-import {
-  type IAppContext,
-  manager,
-  type CliPlugin,
-  type CliHooksRunner,
-} from '@modern-js/core';
 import appTools, {
   type AppNormalizedConfig,
   type AppTools,
 } from '@modern-js/app-tools';
+import {
+  type CliHooksRunner,
+  type CliPlugin,
+  type IAppContext,
+  manager,
+} from '@modern-js/core';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { getFileSystemEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getFileSystemEntry';
 import { modifyEntrypoints } from '../../src/router/cli/entry';

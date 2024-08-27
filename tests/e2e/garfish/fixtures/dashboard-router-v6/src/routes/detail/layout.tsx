@@ -1,4 +1,4 @@
-import { useLoaderData, Outlet } from '@modern-js/runtime/router';
+import { Outlet, useLoaderData } from '@modern-js/runtime/router';
 
 export default function Layout() {
   const data = useLoaderData() as { message: string };

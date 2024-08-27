@@ -1,37 +1,37 @@
 import path from 'path';
+import { fs, type FSWatcher, chalk, lodash, logger } from '@modern-js/utils';
 import {
-  type BuildResult,
-  type BuildOptions,
   type BuildContext,
-  context,
-  build,
-  type OnLoadArgs,
-  type ImportKind,
-  formatMessages,
-  type Format,
   type BuildFailure,
+  type BuildOptions,
+  type BuildResult,
+  type Format,
+  type ImportKind,
+  type OnLoadArgs,
+  build,
+  context,
+  formatMessages,
 } from 'esbuild';
 import * as tapable from 'tapable';
-import { type FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
-import { withLogTitle, getDefaultOutExtension } from '../../utils';
+import { cssExtensions } from '../../constants/build';
 import type {
   BaseBuildConfig,
   BuilderHooks,
   Chunk,
+  Context,
+  HookList,
   ICompiler,
   LoadResult,
   ModuleTools,
   PluginAPI,
-  Context,
-  HookList,
 } from '../../types';
+import { getDefaultOutExtension, withLogTitle } from '../../utils';
 import { getInternalList } from '../feature';
-import { cssExtensions } from '../../constants/build';
 import { adapterPlugin } from './adapter';
-import { TransformContext } from './transform';
-import { SourcemapContext } from './sourcemap';
 import { createRenderChunkHook, createTransformHook } from './hook';
-import { createJsResolver, createCssResolver } from './resolve';
+import { createCssResolver, createJsResolver } from './resolve';
+import { SourcemapContext } from './sourcemap';
+import { TransformContext } from './transform';
 import { initWatcher } from './watch';
 
 export class EsbuildCompiler implements ICompiler {

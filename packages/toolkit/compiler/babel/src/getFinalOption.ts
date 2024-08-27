@@ -1,12 +1,12 @@
-import { glob, type GlobOptions } from '@modern-js/utils';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
+import { type GlobOptions, glob } from '@modern-js/utils';
+import { mergeDefaultOption } from './defaults';
 import type {
   Extensions,
   ExtensionsFunc,
   ICompilerOptions,
   IFinaleCompilerOptions,
 } from './type';
-import { mergeDefaultOption } from './defaults';
 
 export const getGlobPattern = (dir: string, extensions: Extensions) => {
   if (extensions.length > 1) {

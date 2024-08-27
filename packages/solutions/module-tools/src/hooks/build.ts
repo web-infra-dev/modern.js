@@ -1,16 +1,16 @@
-import {
-  createParallelWorkflow,
-  createAsyncWaterfall,
-} from '@modern-js/plugin';
 import type { RegisterBuildPlatformResult } from '@modern-js/core';
+import {
+  createAsyncWaterfall,
+  createParallelWorkflow,
+} from '@modern-js/plugin';
 import type { BuildCommandOptions } from '../types';
 import type {
-  BuildTaskResult,
-  BuildResult,
+  BaseBuildConfig,
   BuildPlatformResult,
+  BuildResult,
+  BuildTaskResult,
   WatchDtsHookContext,
   WatchJsHookContext,
-  BaseBuildConfig,
 } from '../types';
 
 export const buildHooks = {

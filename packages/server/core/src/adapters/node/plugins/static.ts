@@ -1,13 +1,13 @@
 import path from 'path';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import type { ServerRoute } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
-import type { ServerRoute } from '@modern-js/types';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type {
-  OutputNormalizedConfig,
-  HtmlNormalizedConfig,
   HonoRequest,
+  HtmlNormalizedConfig,
   Middleware,
+  OutputNormalizedConfig,
   ServerPlugin,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';

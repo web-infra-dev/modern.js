@@ -3,31 +3,31 @@
  * Taking from https://github.com/ice-lab/icepkg/blob/main/packages/pkg/src/plugins/transform/alias.ts
  */
 import {
-  isAbsolute,
-  resolve,
-  relative,
-  join,
+  basename,
   dirname,
   extname,
-  basename,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
 } from 'path';
 import { js } from '@ast-grep/napi';
-import MagicString from 'magic-string';
+import { fs, logger } from '@modern-js/utils';
 import {
+  type MatchPath,
   createMatchPath,
   loadConfig,
-  type MatchPath,
 } from '@modern-js/utils/tsconfig-paths';
-import { fs, logger } from '@modern-js/utils';
-import type { ICompiler } from '../../types';
+import MagicString from 'magic-string';
 import { assetExt } from '../../constants/file';
+import type { ICompiler } from '../../types';
 import {
-  normalizeSlashes,
+  getDefaultOutExtension,
   isJsExt,
   isJsLoader,
-  resolvePathAndQuery,
-  getDefaultOutExtension,
   isTsExt,
+  normalizeSlashes,
+  resolvePathAndQuery,
 } from '../../utils';
 import { getAssetContents } from './asset';
 import { isCssModule } from './style/postcssTransformer';

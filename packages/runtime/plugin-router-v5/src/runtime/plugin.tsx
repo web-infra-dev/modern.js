@@ -1,27 +1,27 @@
+import { RuntimeReactContext, isBrowser } from '@meta/runtime';
+import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
+import type { Plugin } from '@modern-js/runtime';
+import { merge } from '@modern-js/runtime-utils/merge';
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
+import {
+  type BrowserHistoryBuildOptions,
+  type HashHistoryBuildOptions,
+  type History,
+  createBrowserHistory,
+  createHashHistory,
+} from 'history';
 import type React from 'react';
 import { useContext } from 'react';
 import {
-  createBrowserHistory,
-  createHashHistory,
-  type History,
-  type BrowserHistoryBuildOptions,
-  type HashHistoryBuildOptions,
-} from 'history';
-import {
+  type RouteProps,
   Router,
   StaticRouter,
-  type RouteProps,
-  useRouteMatch,
-  useLocation,
   useHistory,
+  useLocation,
+  useRouteMatch,
 } from 'react-router-dom';
-import { RuntimeReactContext, isBrowser } from '@meta/runtime';
-import type { Plugin } from '@modern-js/runtime';
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
-import { getGlobalLayoutApp, getGlobalRoutes } from '@meta/runtime/context';
-import { merge } from '@modern-js/runtime-utils/merge';
-import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
+import { getLocation, renderRoutes, urlJoin } from './utils';
 
 declare global {
   interface Window {

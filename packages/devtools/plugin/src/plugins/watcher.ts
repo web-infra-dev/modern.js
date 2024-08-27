@@ -1,7 +1,7 @@
 import { chokidar } from '@modern-js/utils';
+import { updateContext } from '../options';
 import type { Plugin } from '../types';
 import { getConfigFilenames, loadConfigFiles } from '../utils/config';
-import { updateContext } from '../options';
 
 export const pluginWatcher: Plugin = {
   name: 'watcher',

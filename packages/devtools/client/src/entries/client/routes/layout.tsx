@@ -1,18 +1,18 @@
 import '@/styles/theme.scss';
-import type React from 'react';
-import { type FC, useEffect } from 'react';
-import * as ToastPrimitive from '@radix-ui/react-toast';
-import { NavLink, Outlet } from '@modern-js/runtime/router';
-import { Box, Flex, Tooltip } from '@radix-ui/themes';
-import { HiOutlineMoon, HiOutlineSun, HiMiniGlobeAlt } from 'react-icons/hi2';
-import type { Tab } from '@modern-js/devtools-kit/runtime';
-import { useSnapshot } from 'valtio';
-import styles from './layout.module.scss';
-import { useGlobals } from '@/entries/client/globals';
-import { Theme } from '@/components/Theme';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Puller } from '@/components/Devtools/Puller';
+import { Theme } from '@/components/Theme';
+import { useGlobals } from '@/entries/client/globals';
 import { useThemeAppearance } from '@/utils/theme';
+import type { Tab } from '@modern-js/devtools-kit/runtime';
+import { NavLink, Outlet } from '@modern-js/runtime/router';
+import * as ToastPrimitive from '@radix-ui/react-toast';
+import { Box, Flex, Tooltip } from '@radix-ui/themes';
+import type React from 'react';
+import { type FC, useEffect } from 'react';
+import { HiMiniGlobeAlt, HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
+import { useSnapshot } from 'valtio';
+import styles from './layout.module.scss';
 
 const NavigateButton: React.FC<{ tab: Tab }> = ({ tab }) => {
   let to = '';

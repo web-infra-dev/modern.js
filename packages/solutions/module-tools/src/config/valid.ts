@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { PartialBuildConfig, PartialBaseBuildConfig } from '../types';
+import type { PartialBaseBuildConfig, PartialBuildConfig } from '../types';
 
 export const validPartialBuildConfig = (
   config: PartialBuildConfig,

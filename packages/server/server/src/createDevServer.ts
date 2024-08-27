@@ -4,9 +4,9 @@ import {
   createNodeServer,
   loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import type { ApplyPlugins, ModernDevServerOptions } from './types';
-import { getDevOptions } from './helpers';
 import { devPlugin } from './dev';
+import { getDevOptions } from './helpers';
+import type { ApplyPlugins, ModernDevServerOptions } from './types';
 
 export async function createDevServer(
   options: ModernDevServerOptions,

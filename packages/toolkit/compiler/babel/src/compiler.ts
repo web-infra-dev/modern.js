@@ -1,9 +1,9 @@
 import * as path from 'path';
 import * as babel from '@babel/core';
-import { logger, fs } from '@modern-js/utils';
-import * as utils from './utils';
-import type { BabelOptions, IVirtualDist } from './type';
+import { fs, logger } from '@modern-js/utils';
 import { defaultDistFileExtMap } from './constants';
+import type { BabelOptions, IVirtualDist } from './type';
+import * as utils from './utils';
 
 export interface ISingleFileCompilerOption {
   filepath: string;

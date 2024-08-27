@@ -1,15 +1,15 @@
-import path from 'path';
 import assert from 'assert';
 import http from 'http';
+import path from 'path';
 import { URL } from 'url';
-import { type Handler, Hono } from 'hono';
-import { cors } from 'hono/cors';
-import { getPort } from '@modern-js/utils';
 import { type HttpBindings, createAdaptorServer } from '@hono/node-server';
 import { serveStatic } from '@hono/node-server/serve-static';
 import type { AppTools, UserConfig } from '@modern-js/app-tools';
 import { ROUTE_BASENAME } from '@modern-js/devtools-kit/node';
 import type { ProxyDetail } from '@modern-js/types';
+import { getPort } from '@modern-js/utils';
+import { type Handler, Hono } from 'hono';
+import { cors } from 'hono/cors';
 import type { Plugin } from '../types';
 
 const CLIENT_SERVE_DIR = path.resolve(

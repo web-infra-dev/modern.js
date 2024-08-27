@@ -2,8 +2,8 @@
 
 import { Command } from '@modern-js/utils/commander';
 
-import { MWANewAction } from './mwa';
 import { ModuleNewAction } from './module';
+import { MWANewAction } from './mwa';
 
 import { getSolutionByDependance } from './utils';
 

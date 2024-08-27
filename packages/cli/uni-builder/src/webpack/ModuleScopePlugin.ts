@@ -6,8 +6,8 @@
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/ModuleScopePlugin.js
  */
 import { dirname, relative, resolve } from 'path';
-import color from 'picocolors';
 import { isRegExp, isString } from '@modern-js/utils';
+import color from 'picocolors';
 
 export class ModuleScopePlugin {
   scopes: Array<string | RegExp>;

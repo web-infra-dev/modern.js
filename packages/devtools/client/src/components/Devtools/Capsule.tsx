@@ -1,17 +1,17 @@
-import { Flex, Theme } from '@radix-ui/themes';
-import type React from 'react';
-import { useEffect, useState } from 'react';
-import { useAsync, useEvent, useToggle } from 'react-use';
-import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
-import Visible from '../Visible';
-import styles from './Capsule.module.scss';
-import { FrameBox } from './FrameBox';
-import { DevtoolsCapsuleButton } from './Button';
-import { useStickyDraggable } from '@/utils/draggable';
 import { $client, wallAgent } from '@/entries/mount/state';
+import { useStickyDraggable } from '@/utils/draggable';
 import { pTimeout } from '@/utils/promise';
 import type { ReactDevtoolsWallListener } from '@/utils/react-devtools';
 import { useThemeAppearance } from '@/utils/theme';
+import { Flex, Theme } from '@radix-ui/themes';
+import type React from 'react';
+import { useEffect, useState } from 'react';
+import { HiMiniCursorArrowRipple } from 'react-icons/hi2';
+import { useAsync, useEvent, useToggle } from 'react-use';
+import Visible from '../Visible';
+import { DevtoolsCapsuleButton } from './Button';
+import styles from './Capsule.module.scss';
+import { FrameBox } from './FrameBox';
 
 const parseDeepLink = (url = window.location) => {
   // Expected: #/__devtools/doctor

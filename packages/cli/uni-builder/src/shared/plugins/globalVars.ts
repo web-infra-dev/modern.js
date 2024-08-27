@@ -1,5 +1,5 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import type { ChainedGlobalVars } from '../../types';
 
 export const pluginGlobalVars = (

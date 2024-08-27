@@ -1,5 +1,5 @@
 import { merge } from '@modern-js/runtime-utils/merge';
-import { runtime, type Plugin, RuntimeConfigContext } from './base';
+import { type Plugin, RuntimeConfigContext, runtime } from './base';
 import { getGlobalRunner, setGlobalRunner } from './runner';
 
 export * from './base';

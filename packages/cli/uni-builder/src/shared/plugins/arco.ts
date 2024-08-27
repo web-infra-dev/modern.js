@@ -1,5 +1,5 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
 import { isPackageInstalled } from '@modern-js/utils';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import { isServerEnvironment } from '../utils';
 
 export const pluginArco = (): RsbuildPlugin => ({

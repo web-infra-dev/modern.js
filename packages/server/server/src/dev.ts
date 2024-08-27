@@ -1,16 +1,16 @@
-import type { ServerPlugin, ServerBaseOptions } from '@modern-js/server-core';
+import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
-import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import type { RequestHandler } from '@modern-js/types';
 import type { UniBuilderInstance } from '@modern-js/uni-builder';
-import type { ModernDevServerOptions } from './types';
+import { API_DIR, SHARED_DIR } from '@modern-js/utils';
 import {
-  startWatcher,
-  onRepack,
   getDevOptions,
-  initFileReader,
   getMockMiddleware,
+  initFileReader,
+  onRepack,
+  startWatcher,
 } from './helpers';
+import type { ModernDevServerOptions } from './types';
 
 type BuilderDevServer = Awaited<
   ReturnType<UniBuilderInstance['createDevServer']>

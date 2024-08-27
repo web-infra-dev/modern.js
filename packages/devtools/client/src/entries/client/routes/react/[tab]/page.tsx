@@ -1,9 +1,9 @@
+import { useGlobals } from '@/entries/client/globals';
 import { useLocation, useNavigate, useParams } from '@modern-js/runtime/router';
 import { Box, useThemeContext } from '@radix-ui/themes';
 import type React from 'react';
 import { useEffect } from 'react';
 import { useSnapshot } from 'valtio';
-import { useGlobals } from '@/entries/client/globals';
 
 const Page: React.FC = () => {
   const params = useParams();

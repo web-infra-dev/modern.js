@@ -3,13 +3,13 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  i18n,
-  Language,
   DependenceGenerator,
+  Language,
+  i18n,
 } from '@modern-js/generator-common';
 import {
-  isTsProject,
   getGeneratorPath,
+  isTsProject,
   readTsConfigByFile,
 } from '@modern-js/generator-utils';
 

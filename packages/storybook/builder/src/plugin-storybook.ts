@@ -1,12 +1,28 @@
 import { isAbsolute, join, resolve } from 'path';
+import type { PluginItem } from '@babel/core';
 import {
+  applyOptionsChain,
+  globby,
+  logger,
   slash,
   watch,
-  globby,
-  applyOptionsChain,
-  logger,
 } from '@modern-js/utils';
+import {
+  type RsbuildConfig,
+  type RsbuildPlugin,
+  type RsbuildPluginAPI,
+  type Rspack,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
+import {
+  handlebars,
+  loadPreviewOrConfigFile,
+  normalizeStories,
+  readTemplate,
+  stringifyProcessEnvs,
+} from '@storybook/core-common';
 import type { CompileOptions } from '@storybook/mdx2-csf';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type {
   CoreConfig,
   DocsOptions,
@@ -14,34 +30,18 @@ import type {
   PreviewAnnotation,
   StoriesEntry,
 } from '@storybook/types';
-import {
-  normalizeStories,
-  stringifyProcessEnvs,
-  handlebars,
-  readTemplate,
-  loadPreviewOrConfigFile,
-} from '@storybook/core-common';
-import { globalsNameReferenceMap } from '@storybook/preview/globals';
-import type { PluginItem } from '@babel/core';
-import {
-  type RsbuildPlugin,
-  type RsbuildPluginAPI,
-  type RsbuildConfig,
-  type Rspack,
-  mergeRsbuildConfig,
-} from '@rsbuild/core';
 
+import type { UniBuilderConfig, WebpackConfig } from '@modern-js/uni-builder';
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
-import type { UniBuilderConfig, WebpackConfig } from '@modern-js/uni-builder';
+import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
 import type { BuilderConfig, BuilderOptions } from './types';
 import {
+  isDev,
+  maybeGetAbsolutePath,
   toImportFn,
   virtualModule,
-  maybeGetAbsolutePath,
-  isDev,
 } from './utils';
-import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
 
 type RspackConfig = Rspack.Configuration;
 

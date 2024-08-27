@@ -1,6 +1,6 @@
-import { expect, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
-import { matchPlugins, unwrapConfig, matchRules } from './helper';
+import { matchPlugins, matchRules, unwrapConfig } from './helper';
 
 describe('plugins/react', () => {
   it('should work with babel-loader', async () => {

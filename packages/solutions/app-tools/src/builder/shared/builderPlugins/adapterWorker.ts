@@ -1,11 +1,11 @@
 import { posix } from 'path';
 
-import type {
-  RsbuildPlugin,
-  NormalizedConfig,
-  DistPathConfig,
-} from '@rsbuild/core';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
+import type {
+  DistPathConfig,
+  NormalizedConfig,
+  RsbuildPlugin,
+} from '@rsbuild/core';
 
 const getDistPath = (
   outputConfig: NormalizedConfig['output'],

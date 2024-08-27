@@ -1,6 +1,6 @@
 import path from 'path';
-import { createRsbuild, type Rspack } from '@rsbuild/core';
 import { logger } from '@modern-js/utils/logger';
+import { type Rspack, createRsbuild } from '@rsbuild/core';
 import { version } from '../package.json';
 
 export class ServiceWorkerCompilerPlugin {

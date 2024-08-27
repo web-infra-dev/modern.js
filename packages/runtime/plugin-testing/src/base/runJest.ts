@@ -7,13 +7,13 @@
  */
 
 import type { Config } from '@jest/types';
-import yargs from 'yargs/yargs';
-import { runCLI } from 'jest';
-import { chalk } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
-import { getJestUtils, patchConfig, type UserConfig } from './config';
-import type { TestConfig } from './types';
+import { chalk } from '@modern-js/utils';
+import { runCLI } from 'jest';
+import yargs from 'yargs/yargs';
+import { type UserConfig, getJestUtils, patchConfig } from './config';
 import type { Hooks } from './hook';
+import type { TestConfig } from './types';
 import { debug } from './utils';
 
 type Argv = Omit<Config.Argv, '_' | '$0'>;

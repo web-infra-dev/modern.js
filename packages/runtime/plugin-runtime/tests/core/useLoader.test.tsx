@@ -1,8 +1,8 @@
+import { act, fireEvent, render } from '@testing-library/react';
 import React, { useRef, useState } from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
-import { useLoader, createApp } from '../../src/core';
-import { wrapRuntimeProvider } from '../utils';
+import { createApp, useLoader } from '../../src/core';
 import { createRuntime } from '../../src/core/plugin';
+import { wrapRuntimeProvider } from '../utils';
 
 const loaderCount = jest.fn();
 const sleep = (t: number): Promise<void> =>

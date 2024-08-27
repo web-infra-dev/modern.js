@@ -1,11 +1,11 @@
-import { compile, pathToRegexp, type Key } from 'path-to-regexp';
+import { type Key, compile, pathToRegexp } from 'path-to-regexp';
 import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
+  IOptions,
   RequestCreator,
   Sender,
-  IOptions,
 } from './types';
 
 let realRequest: typeof fetch;

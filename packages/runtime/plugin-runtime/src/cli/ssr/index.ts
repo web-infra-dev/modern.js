@@ -1,12 +1,12 @@
 import path from 'path';
-import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
-  ServerUserConfig,
-  CliPlugin,
   AppTools,
+  CliPlugin,
   PluginAPI,
+  ServerUserConfig,
 } from '@modern-js/app-tools';
+import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
 const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {

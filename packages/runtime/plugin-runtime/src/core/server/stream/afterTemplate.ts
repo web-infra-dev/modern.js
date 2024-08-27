@@ -1,12 +1,12 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
-import { attributesToString, safeReplace } from '../utils';
-import { SSR_DATA_PLACEHOLDER } from '../constants';
-import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
 import type { RenderLevel } from '../../constants';
-import type { SSRContainer } from '../../types';
-import type { HandleRequestConfig } from '../requestHandler';
 import type { RuntimeContext } from '../../context';
+import type { SSRContainer } from '../../types';
+import { SSR_DATA_PLACEHOLDER } from '../constants';
+import type { HandleRequestConfig } from '../requestHandler';
+import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
+import { attributesToString, safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: RuntimeContext;

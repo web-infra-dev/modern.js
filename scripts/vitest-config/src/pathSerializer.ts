@@ -3,8 +3,8 @@ import os from 'os';
 import _ from 'lodash';
 import {
   compilePathMatcherRegExp,
-  normalizeToPosixPath,
   getRealTemporaryDirectory,
+  normalizeToPosixPath,
   splitPathString,
   upwardPaths,
 } from './path';

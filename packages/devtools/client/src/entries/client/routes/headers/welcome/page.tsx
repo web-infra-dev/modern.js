@@ -1,5 +1,5 @@
 import { useNavigate } from '@modern-js/runtime/router';
-import { Box, Button, Heading, Text, Link } from '@radix-ui/themes';
+import { Box, Button, Heading, Link, Text } from '@radix-ui/themes';
 import type React from 'react';
 
 const Page: React.FC = () => {

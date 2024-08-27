@@ -1,8 +1,8 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 import { type Plugin, createApp, useRuntimeContext } from '../../src/core';
-import { initialWrapper, wrapRuntimeProvider } from '../utils';
 import { createRuntime } from '../../src/core/plugin';
+import { initialWrapper, wrapRuntimeProvider } from '../utils';
 
 declare module '../../src/core' {
   interface RuntimeContext {

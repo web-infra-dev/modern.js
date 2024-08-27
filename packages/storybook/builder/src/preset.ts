@@ -1,6 +1,6 @@
 import { join, resolve } from 'path';
-import type { Options } from '@storybook/types';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
+import type { Options } from '@storybook/types';
 import { STORYBOOK_CONFIG_ENTRY } from './utils';
 
 export const previewMainTemplate = () => {

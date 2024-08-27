@@ -1,10 +1,10 @@
 import * as path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import {
-  buildWatch,
   BuildWatchEmitter,
-  runBuildWatch,
   BuildWatchEvent,
+  buildWatch,
+  runBuildWatch,
 } from '../src/buildWatch';
 import type { ICompilerResult } from '../src/type';
 

@@ -1,36 +1,36 @@
-import {
-  mergeRsbuildConfig,
-  type RsbuildPlugin,
-  type RsbuildConfig,
-  type SourceConfig,
-  type HtmlTagHandler,
-  type ToolsConfig,
-} from '@rsbuild/core';
-import type {
-  CreateBuilderCommonOptions,
-  UniBuilderConfig,
-  DisableSourceMapOption,
-} from '../types';
 import { isFunction } from '@modern-js/utils';
+import {
+  type HtmlTagHandler,
+  type RsbuildConfig,
+  type RsbuildPlugin,
+  type SourceConfig,
+  type ToolsConfig,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
+import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
+import { pluginLess } from '@rsbuild/plugin-less';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
-import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginGlobalVars } from './plugins/globalVars';
-import { pluginRuntimeChunk } from './plugins/runtimeChunk';
-import { pluginFrameworkConfig } from './plugins/frameworkConfig';
-import { pluginSplitChunks } from './plugins/splitChunk';
-import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
-import { pluginPostcss } from './plugins/postcss';
-import { pluginDevtool } from './plugins/devtools';
-import { pluginEmitRouteFile } from './plugins/emitRouteFile';
+import type {
+  CreateBuilderCommonOptions,
+  DisableSourceMapOption,
+  UniBuilderConfig,
+} from '../types';
+import { transformToRsbuildServerOptions } from './devServer';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
+import { pluginDevtool } from './plugins/devtools';
+import { pluginEmitRouteFile } from './plugins/emitRouteFile';
 import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
-import { pluginSass } from '@rsbuild/plugin-sass';
-import { pluginLess } from '@rsbuild/plugin-less';
+import { pluginFrameworkConfig } from './plugins/frameworkConfig';
+import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
-import { transformToRsbuildServerOptions } from './devServer';
-import { castArray, NODE_MODULES_REGEX } from './utils';
+import { pluginPostcss } from './plugins/postcss';
+import { pluginRuntimeChunk } from './plugins/runtimeChunk';
+import { pluginSplitChunks } from './plugins/splitChunk';
+import { NODE_MODULES_REGEX, castArray } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;

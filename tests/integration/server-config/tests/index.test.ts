@@ -3,8 +3,8 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import {
   getPort,
-  launchApp,
   killApp,
+  launchApp,
   modernBuild,
   modernServe,
 } from '../../../utils/modernTestUtils';

@@ -1,6 +1,6 @@
 import hello from '@api/index';
-import { configure } from '@modern-js/runtime/bff';
 import { useLoader } from '@modern-js/runtime';
+import { configure } from '@modern-js/runtime/bff';
 
 configure({
   interceptor(request) {

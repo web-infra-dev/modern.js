@@ -1,7 +1,7 @@
 import path from 'path';
-import fs from 'fs-extra';
 import { getPackages } from '@manypkg/get-packages';
 import { getPackageVersion } from '@modern-js/generator-utils';
+import fs from 'fs-extra';
 
 async function run() {
   const cwd = process.cwd();

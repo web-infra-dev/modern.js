@@ -1,10 +1,10 @@
 import * as os from 'os';
 import path, { dirname, posix } from 'path';
-import * as ts from 'typescript';
 import {
-  createMatchPath,
   type MatchPath,
+  createMatchPath,
 } from '@modern-js/utils/tsconfig-paths';
+import * as ts from 'typescript';
 
 const isRegExpKey = (str: string) => {
   return str.startsWith('^') || str.endsWith('$');

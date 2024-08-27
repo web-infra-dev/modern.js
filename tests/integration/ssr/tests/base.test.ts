@@ -1,12 +1,12 @@
 import dns from 'node:dns';
 import path, { join } from 'path';
-import puppeteer, { type Browser, type Page } from 'puppeteer';
 import { fs } from '@modern-js/utils';
 import axios from 'axios';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 

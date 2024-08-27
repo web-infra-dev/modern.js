@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { readTsConfigByFile } from './get';
 import { applyOptionsChain } from './applyOptionsChain';
+import { readTsConfigByFile } from './get';
 
 export type Alias = Record<string, string | string[]>;
 

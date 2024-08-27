@@ -1,5 +1,5 @@
-import path from 'path';
 import type { ChildProcess } from 'child_process';
+import path from 'path';
 import getPort from 'get-port';
 import { runModernCommandDev } from '../../../utils/modernTestUtils';
 

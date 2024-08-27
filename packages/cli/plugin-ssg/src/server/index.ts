@@ -1,12 +1,12 @@
 import childProcess from 'child_process';
 import path from 'path';
-import { logger } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
-  PluginAPI,
   AppTools,
+  PluginAPI,
 } from '@modern-js/app-tools';
 import type { ServerRoute as ModernRoute } from '@modern-js/types';
+import { logger } from '@modern-js/utils';
 import { openRouteSSR } from '../libs/util';
 import type { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';

@@ -1,3 +1,5 @@
+import { Card } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
 import {
   Outlet,
   useLoaderData,
@@ -15,11 +17,9 @@ import styles from './page.module.scss';
 import {
   STORAGE_TYPE_PALETTE,
   type StorageStatus,
-  unwindPreset,
   type UnwindPreset,
+  unwindPreset,
 } from './shared';
-import { useGlobals } from '@/entries/client/globals';
-import { Card } from '@/components/Card';
 
 type CardButtonProps = FlexProps & {
   selected?: boolean;

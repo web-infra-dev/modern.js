@@ -1,9 +1,9 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { AppToolsUserConfig, AppToolsNormalizedConfig } from './config';
+import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
-  AppToolsLegacyUserConfig,
   AppToolsLegacyNormalizedConfig,
+  AppToolsLegacyUserConfig,
 } from './legacyConfig';
 import type { Bundler } from './utils';
 

@@ -1,5 +1,5 @@
-import { shared } from '@shared/index';
 import { useContext } from '@modern-js/runtime/server';
+import { shared } from '@shared/index';
 
 const api = () => {
   const msg = useContext();

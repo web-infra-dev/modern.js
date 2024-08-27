@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  DOCUMENT_COMMENT_PLACEHOLDER_START,
   DOCUMENT_COMMENT_PLACEHOLDER_END,
+  DOCUMENT_COMMENT_PLACEHOLDER_START,
 } from './constants';
 
 export function Comment(props: { comment?: string; children?: string }) {

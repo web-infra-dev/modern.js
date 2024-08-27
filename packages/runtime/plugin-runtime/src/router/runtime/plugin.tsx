@@ -1,23 +1,23 @@
-import type React from 'react';
-import { useContext, useMemo } from 'react';
-import {
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-  createRoutesFromElements,
-  useMatches,
-  useLocation,
-  type RouteObject,
-  useHref,
-} from '@modern-js/runtime-utils/router';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
-import { merge } from '@modern-js/runtime-utils/merge';
-import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
+import {
+  type RouteObject,
+  RouterProvider,
+  createBrowserRouter,
+  createHashRouter,
+  createRoutesFromElements,
+  useHref,
+  useLocation,
+  useMatches,
+} from '@modern-js/runtime-utils/router';
+import type React from 'react';
+import { useContext, useMemo } from 'react';
 import { type Plugin, RuntimeReactContext } from '../../core';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
-import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
+import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 
 export let finalRouteConfig: RouterConfig['routesConfig'] = {
   routes: [],

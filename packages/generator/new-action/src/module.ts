@@ -1,31 +1,31 @@
-import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { FormilyAPI } from '@modern-js/codesmith-formily';
 import {
-  i18n,
-  getModuleNewActionSchema,
-  ModuleActionFunctions,
   type ActionFunction,
+  ActionType,
+  ModuleActionFunctions,
   ModuleActionFunctionsDependencies,
   ModuleActionFunctionsDevDependencies,
   ModuleActionFunctionsPeerDependencies,
   ModuleNewActionGenerators,
-  ActionType,
-  Solution,
-  ModuleNewActionPluginName,
   ModuleNewActionPluginDependence,
+  ModuleNewActionPluginName,
+  Solution,
+  getModuleNewActionSchema,
+  i18n,
 } from '@modern-js/generator-common';
 import {
-  getPackageManager,
   getModernPluginVersion,
+  getPackageManager,
 } from '@modern-js/generator-utils';
+import { merge } from '@modern-js/utils/lodash';
+import { enableAlreadyText } from './constants';
 import {
   alreadyRepo,
   getGeneratorPath,
   hasEnabledFunction,
   usePluginNameExport,
 } from './utils';
-import { enableAlreadyText } from './constants';
 
 interface IModuleNewActionOption {
   locale?: string;

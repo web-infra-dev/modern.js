@@ -1,20 +1,20 @@
 import path from 'path';
 import { logger } from '@modern-js/utils';
 import ts from 'typescript';
+import jsonPlugin from '../../../compiled/@rollup/plugin-json';
 import type {
   InputOptions,
   OutputOptions,
   Plugin,
   RollupWatcher,
 } from '../../../compiled/rollup';
+import dtsPlugin from '../../../compiled/rollup-plugin-dts';
 import type {
   GeneratorDtsConfig,
   Input,
-  PluginAPI,
   ModuleTools,
+  PluginAPI,
 } from '../../types';
-import jsonPlugin from '../../../compiled/@rollup/plugin-json';
-import dtsPlugin from '../../../compiled/rollup-plugin-dts';
 import { mapValue, transformUndefineObject, withLogTitle } from '../../utils';
 
 export type { RollupWatcher };

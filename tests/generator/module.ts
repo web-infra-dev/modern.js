@@ -1,18 +1,18 @@
 import path from 'path';
 import { getModuleCases, getModuleNewCases } from '@modern-js/generator-cases';
-import { fs, nanoid, semver } from '@modern-js/utils';
 import { ModuleNewAction } from '@modern-js/new-action';
+import { fs, nanoid, semver } from '@modern-js/utils';
+import {
+  runCreteCommand,
+  runInstallAndBuildProject,
+  runLintProject,
+} from './utils/command';
 import { prepare } from './utils/prepare';
 import {
   execaWithStreamLog,
   getPackageManager,
   usingTempDir,
 } from './utils/tools';
-import {
-  runLintProject,
-  runCreteCommand,
-  runInstallAndBuildProject,
-} from './utils/command';
 
 async function createAllModuleProject(
   repoDir: string,

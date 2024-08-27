@@ -1,7 +1,7 @@
 import path from 'node:path';
 import {
-  type Alias,
   fs,
+  type Alias,
   getAliasConfig,
   readTsConfigByFile,
 } from '@modern-js/utils';

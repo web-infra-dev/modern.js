@@ -1,22 +1,22 @@
 import * as path from 'path';
 import {
+  fs,
+  chalk,
+  execa,
+  getPnpmVersion,
+  logger,
+  yaml,
+} from '@modern-js/utils';
+import {
   FileSystem,
   type IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import {
-  fs,
-  yaml,
-  execa,
-  logger,
-  chalk,
-  getPnpmVersion,
-} from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
-import type { IPnpmWorkSpace } from '../../type';
 import type { DagOperator } from '../../dag/operator';
-import type { IProjectNode } from '../../projects/getProjects';
 import type { PackageManagerType } from '../../parse-config';
+import type { IProjectNode } from '../../projects/getProjects';
+import type { IPnpmWorkSpace } from '../../type';
 
 interface IDeployConfig {
   rootPath: string;

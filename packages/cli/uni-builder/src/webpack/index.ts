@@ -1,21 +1,21 @@
 import {
-  createRsbuild,
   type RsbuildConfig,
-  type RsbuildPlugin,
   type RsbuildInstance,
+  type RsbuildPlugin,
+  createRsbuild,
 } from '@rsbuild/core';
-import type {
-  UniBuilderConfig,
-  CreateUniBuilderOptions,
-  CreateBuilderCommonOptions,
-  OverridesUniBuilderInstance,
-} from '../types';
-import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
-import { pluginModuleScopes } from './plugins/moduleScopes';
-import { pluginBabel } from './plugins/babel';
-import { pluginReact } from './plugins/react';
+import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
+import type {
+  CreateBuilderCommonOptions,
+  CreateUniBuilderOptions,
+  OverridesUniBuilderInstance,
+  UniBuilderConfig,
+} from '../types';
+import { pluginBabel } from './plugins/babel';
+import { pluginModuleScopes } from './plugins/moduleScopes';
+import { pluginReact } from './plugins/react';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,

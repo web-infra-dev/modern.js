@@ -1,4 +1,5 @@
 import path from 'path';
+import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -8,15 +9,14 @@ import type {
   SSRMode,
 } from '@modern-js/types';
 import {
+  fs,
   findExists,
   formatImportPath,
-  fs,
   getEntryOptions,
   isSSGEntry,
   slash,
 } from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,

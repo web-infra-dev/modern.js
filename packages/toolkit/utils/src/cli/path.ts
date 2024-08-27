@@ -1,6 +1,6 @@
-import path from 'path';
-import os from 'os';
 import fs from 'fs';
+import os from 'os';
+import path from 'path';
 import { nanoid, upath } from '../compiled';
 
 export const isPathString = (test: string): boolean =>

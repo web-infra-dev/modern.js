@@ -11,10 +11,10 @@ import {
   transformNormalizedConfig,
 } from '../../config';
 import type {
-  CliPlugin,
   AppTools,
   AppToolsNormalizedConfig,
   AppUserConfig,
+  CliPlugin,
 } from '../../types';
 
 export default ({

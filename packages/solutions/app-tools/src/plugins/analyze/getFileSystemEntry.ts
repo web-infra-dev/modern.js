@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import {
-  findExists,
-  ensureAbsolutePath,
-  JS_EXTENSIONS,
-} from '@modern-js/utils';
-import type { Entrypoint } from '@modern-js/types';
 import type { CliHooksRunner } from '@modern-js/core';
+import type { Entrypoint } from '@modern-js/types';
+import {
+  JS_EXTENSIONS,
+  ensureAbsolutePath,
+  findExists,
+} from '@modern-js/utils';
 import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
 import { ENTRY_FILE_NAME, INDEX_FILE_NAME } from './constants';
 import { isDefaultExportFunction } from './isDefaultExportFunction';

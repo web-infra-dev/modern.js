@@ -1,7 +1,7 @@
 import { removeTailSlash } from '@modern-js/utils';
 import type { Rspack, RspackChain } from '@rsbuild/core';
-import { createCopyInfo } from '../shared';
 import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import { createCopyInfo } from '../shared';
 
 const minifiedJsRexExp = /\.min\.js/;
 const info = (file: { sourceFilename: string }) => ({

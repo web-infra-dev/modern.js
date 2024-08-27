@@ -1,14 +1,14 @@
-import { renderToStaticMarkup } from 'react-dom/server';
-import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
+import { run } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
 import { parseHeaders } from '@modern-js/runtime-utils/universal/request';
 import type React from 'react';
-import { wrapRuntimeContextProvider } from '../../react/wrapper';
+import { renderToStaticMarkup } from 'react-dom/server';
 import type { LoaderResult } from '../../loader/loaderManager';
+import { wrapRuntimeContextProvider } from '../../react/wrapper';
 import type { HandleRequestOptions } from '../requestHandler';
-import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 import type { SSRConfig } from '../shared';
+import { SSRErrors, SSRTimings, type Tracer } from '../tracer';
 
 export const prefetch = async (
   App: React.ReactElement,

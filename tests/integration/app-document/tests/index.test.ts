@@ -3,11 +3,11 @@ import path from 'path';
 import puppeteer, { type Browser, type Page } from 'puppeteer';
 
 import {
-  launchApp,
-  killApp,
   getPort,
-  modernBuild,
+  killApp,
+  launchApp,
   launchOptions,
+  modernBuild,
 } from '../../../utils/modernTestUtils';
 import { SequenceWait } from '../../../utils/testInSequence';
 

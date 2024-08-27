@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { useLoader } from '@modern-js/runtime';
+import { useState } from 'react';
 
 function App() {
   const [count, setCount] = useState(0);

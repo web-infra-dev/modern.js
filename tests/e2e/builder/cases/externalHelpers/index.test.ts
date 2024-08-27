@@ -1,8 +1,8 @@
 import path from 'path';
-import { build } from '@scripts/shared';
-import { providerType } from '@scripts/helper';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { pluginSwc } from '@rsbuild/plugin-swc';
+import { providerType } from '@scripts/helper';
+import { build } from '@scripts/shared';
 
 test('should externalHelpers by default', async () => {
   const builder = await build({

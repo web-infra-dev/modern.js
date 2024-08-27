@@ -1,11 +1,11 @@
 import path from 'path';
-import { address } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
+import { address } from '@modern-js/utils';
 import type {
   CliPlugin,
-  UserConfig,
   IAppContext,
   NormalizedConfig,
+  UserConfig,
 } from './types';
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);

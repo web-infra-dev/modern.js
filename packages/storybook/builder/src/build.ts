@@ -1,10 +1,10 @@
 import { dirname, join, parse } from 'path';
-import serveStatic from 'serve-static';
-import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
-import type { BuilderOptions } from './types';
+import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
+import serveStatic from 'serve-static';
 import { createBuilder } from './core';
 import { finalize } from './plugin-storybook';
+import type { BuilderOptions } from './types';
 
 export type StorybookBuilder = RawStorybookBuilder<BuilderOptions, Stats>;
 

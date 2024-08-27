@@ -1,6 +1,6 @@
 import { time } from '@modern-js/runtime-utils/time';
-import plugin from '../../src/core/server/index';
 import cliPlugin from '../../src/cli/ssr';
+import plugin from '../../src/core/server/index';
 
 describe('plugin-ssr', () => {
   it('default', () => {

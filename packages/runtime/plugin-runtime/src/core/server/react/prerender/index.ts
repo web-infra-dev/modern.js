@@ -1,12 +1,12 @@
-import withSideEffect from 'react-side-effect';
 import React, { createElement } from 'react';
-import {
-  getOutermostProperty,
-  aggKeysFromPropsList,
-  exist,
-  aggMatchesFromPropsList,
-} from './util';
+import withSideEffect from 'react-side-effect';
 import type { GeneralizedProps, SprProps } from './type';
+import {
+  aggKeysFromPropsList,
+  aggMatchesFromPropsList,
+  exist,
+  getOutermostProperty,
+} from './util';
 
 const PROP_NAMES = {
   INTERVAL: 'interval',

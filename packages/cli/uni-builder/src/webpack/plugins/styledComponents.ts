@@ -1,6 +1,6 @@
-import type { RsbuildPlugin, ConfigChain } from '@rsbuild/core';
-import { PLUGIN_SWC_NAME } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { ConfigChain, RsbuildPlugin } from '@rsbuild/core';
+import { PLUGIN_SWC_NAME } from '@rsbuild/core';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
 import { isServerEnvironment } from '../../shared/utils';
 

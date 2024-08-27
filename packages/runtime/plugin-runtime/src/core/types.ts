@@ -1,6 +1,6 @@
 import type { BaseSSRServerContext } from '@modern-js/types';
-import type { LoaderResult } from './loader/loaderManager';
 import type { RenderLevel } from './constants';
+import type { LoaderResult } from './loader/loaderManager';
 
 declare global {
   interface Window {

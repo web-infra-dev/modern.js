@@ -1,6 +1,6 @@
+import garfish from 'garfish';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import garfish from 'garfish';
 import { logger } from '../../util';
 
 export default () => {

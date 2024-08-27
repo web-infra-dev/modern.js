@@ -1,19 +1,19 @@
 import type { InternalPlugins } from '@modern-js/types';
 import {
-  tryResolve,
-  createDebugger,
-  getInternalPlugins,
-  dynamicImport,
   compatibleRequire,
+  createDebugger,
+  dynamicImport,
+  getInternalPlugins,
+  tryResolve,
 } from '@modern-js/utils';
+import { createPlugin } from './manager';
 import type {
   CliPlugin,
-  UserConfig,
   OldPluginConfig,
   PluginConfig,
   PluginItem,
+  UserConfig,
 } from './types';
-import { createPlugin } from './manager';
 
 const debug = createDebugger('load-plugins');
 

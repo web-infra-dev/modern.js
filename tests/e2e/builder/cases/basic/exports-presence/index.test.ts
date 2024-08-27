@@ -1,7 +1,7 @@
 import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
-import { build } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
+import { build } from '@scripts/shared';
 
 // TODO: needs rspack exportsPresence error
 webpackOnlyTest(

@@ -1,12 +1,12 @@
-import type React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type React from 'react';
+import { useHistory } from '../src';
 import createRouterPlugin, {
   type RouteProps,
   useLocation,
 } from '../src/runtime';
-import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router-v5', () => {

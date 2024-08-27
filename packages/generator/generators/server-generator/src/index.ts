@@ -1,20 +1,20 @@
 import path from 'path';
-import {
-  fs,
-  getModernPluginVersion,
-  isTsProject,
-  readTsConfigByFile,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   DependenceGenerator,
-  i18n,
   Language,
   Solution,
+  i18n,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  getGeneratorPath,
+  getModernPluginVersion,
+  isTsProject,
+  readTsConfigByFile,
+} from '@modern-js/generator-utils';
 
 function isEmptyServerDir(serverDir: string) {
   const files = fs.readdirSync(serverDir);

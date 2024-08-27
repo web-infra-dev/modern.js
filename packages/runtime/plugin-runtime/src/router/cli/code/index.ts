@@ -1,31 +1,31 @@
 import path from 'path';
+import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
+import type { IAppContext, PluginAPI } from '@modern-js/core';
+import type {
+  Entrypoint,
+  NestedRouteForCli,
+  PageRoute,
+  Route,
+  RouteLegacy,
+  SSRMode,
+} from '@modern-js/types';
 import {
   fs,
+  filterRoutesForServer,
+  filterRoutesLoader,
   getEntryOptions,
   isRouterV5,
   isSSGEntry,
   isUseSSRBundle,
   logger,
-  filterRoutesForServer,
-  filterRoutesLoader,
 } from '@modern-js/utils';
-import type { IAppContext, PluginAPI } from '@modern-js/core';
-import type {
-  Entrypoint,
-  Route,
-  RouteLegacy,
-  PageRoute,
-  SSRMode,
-  NestedRouteForCli,
-} from '@modern-js/types';
-import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
-import * as templates from './templates';
+import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
-import { getServerLoadersFile, getServerCombinedModueFile } from './utils';
 import { walk } from './nestedRoutes';
+import * as templates from './templates';
+import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 
 export const generateCode = async (
   appContext: IAppContext,

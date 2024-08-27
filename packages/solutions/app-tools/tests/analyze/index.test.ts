@@ -1,7 +1,7 @@
 import * as path from 'path';
-import { manager, type CliPlugin } from '@modern-js/core';
-import plugin from '../../src/plugins/analyze';
+import { type CliPlugin, manager } from '@modern-js/core';
 import { appTools } from '../../src';
+import plugin from '../../src/plugins/analyze';
 
 describe('analyze', () => {
   afterAll(() => {

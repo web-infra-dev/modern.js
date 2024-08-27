@@ -1,5 +1,5 @@
-import path, { dirname, join } from 'path';
 import { createRequire } from 'node:module';
+import path, { dirname, join } from 'path';
 import { fs, logger } from '@modern-js/utils';
 
 export const VIRTUAL_MODULE_BASE = '.MODERN_STORYBOOK';

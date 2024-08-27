@@ -1,14 +1,14 @@
 import path from 'path';
+import type { AppToolsHooks } from '@modern-js/app-tools';
 import {
-  manager,
   AppContext,
   type CliPlugin,
+  ResolvedConfigContext,
   type ToRunners,
   createAsyncWaterfall,
-  ResolvedConfigContext,
+  manager,
 } from '@modern-js/core';
 import Chain from '@modern-js/utils/webpack-chain';
-import type { AppToolsHooks } from '@modern-js/app-tools';
 import plugin from '../src/cli';
 import './helper';
 

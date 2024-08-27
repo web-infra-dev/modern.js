@@ -1,6 +1,6 @@
-import type { Options } from '@storybook/types';
 import { logger } from '@modern-js/utils';
-import type { Rspack, RspackChain, ChainIdentifier } from '@rsbuild/core';
+import type { ChainIdentifier, Rspack, RspackChain } from '@rsbuild/core';
+import type { Options } from '@storybook/types';
 
 export type DocgenOptions = {
   reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;

@@ -1,7 +1,7 @@
+import type { Middleware, ServerEnv, ServerPlugin } from '../types';
 // The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
 // license at https://github.com/honojs/hono/blob/main/LICENSE
 import { getPathname } from '../utils';
-import type { Middleware, ServerEnv, ServerPlugin } from '../types';
 
 enum LogPrefix {
   Outgoing = '-->',

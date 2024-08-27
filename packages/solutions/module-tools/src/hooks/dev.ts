@@ -1,6 +1,6 @@
 import {
-  createParallelWorkflow,
   createAsyncWaterfall,
+  createParallelWorkflow,
 } from '@modern-js/plugin';
 import type { QuestionCollection } from '@modern-js/utils/compiled/inquirer';
 import type { DevToolData, PromptResult } from '../types/hooks';

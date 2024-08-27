@@ -1,6 +1,6 @@
 import path, { join } from 'path';
 import { fs } from '@modern-js/utils';
-import { modernBuild, killApp } from '../../../utils/modernTestUtils';
+import { killApp, modernBuild } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 

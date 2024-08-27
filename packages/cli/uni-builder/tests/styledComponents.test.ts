@@ -1,5 +1,5 @@
-import { expect, describe, it } from 'vitest';
 import { pluginSwc } from '@rsbuild/plugin-swc';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 

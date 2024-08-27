@@ -1,10 +1,10 @@
-import path from 'node:path';
 import fs from 'fs';
+import path from 'node:path';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import {
   NESTED_ROUTE_SPEC_FILE,
   ROUTE_SPEC_FILE,
 } from '@modern-js/utils/universal/constants';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { getAssetsTags, injectAssetsTags } from './assets';
 
 export { getAssetsTags, getAssets } from './assets';

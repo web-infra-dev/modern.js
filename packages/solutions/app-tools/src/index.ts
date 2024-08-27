@@ -1,23 +1,21 @@
 import path from 'path';
+import type { CliPlugin } from '@modern-js/core';
+import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,
-  getCommand,
   getArgv,
+  getCommand,
 } from '@modern-js/utils';
-import type { CliPlugin } from '@modern-js/core';
-import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import initializePlugin from './plugins/initialize';
-import analyzePlugin from './plugins/analyze';
-import serverBuildPlugin from './plugins/serverBuild';
-import deployPlugin from './plugins/deploy';
-import type { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
+import analyzePlugin from './plugins/analyze';
+import deployPlugin from './plugins/deploy';
+import initializePlugin from './plugins/initialize';
+import serverBuildPlugin from './plugins/serverBuild';
+import type { AppTools } from './types';
 
-import { restart } from './utils/restart';
-import { generateWatchFiles } from './utils/generateWatchFiles';
 import {
   buildCommand,
   deployCommand,
@@ -27,6 +25,8 @@ import {
   serverCommand,
   upgradeCommand,
 } from './commands';
+import { generateWatchFiles } from './utils/generateWatchFiles';
+import { restart } from './utils/restart';
 
 export { dev } from './commands/dev';
 export type { DevOptions } from './utils/types';

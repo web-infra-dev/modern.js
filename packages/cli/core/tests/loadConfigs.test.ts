@@ -1,8 +1,8 @@
 import path from 'path';
 import {
-  loadConfig,
-  getDependencies,
   getConfigFilePath,
+  getDependencies,
+  loadConfig,
 } from '../src/config/loadConfig';
 
 // globby needs setImmediate

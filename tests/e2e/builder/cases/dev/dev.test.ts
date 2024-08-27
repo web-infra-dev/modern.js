@@ -1,6 +1,6 @@
 import { join } from 'path';
-import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { fs } from '@modern-js/utils';
 import { dev, getHrefByEntryName } from '@scripts/shared';
 
 const fixtures = __dirname;

@@ -1,6 +1,6 @@
 import {
-  defineConfig,
   type RenderMiddleware,
+  defineConfig,
 } from '@modern-js/app-tools/server';
 import plugin1 from '../plugins/serverPlugin';
 

@@ -1,21 +1,21 @@
 import path from 'node:path';
 import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { applyPlugins } from '@modern-js/prod-server';
+import { type ApplyPlugins, createDevServer } from '@modern-js/server';
 import {
   DEFAULT_DEV_HOST,
   SERVER_DIR,
   getMeta,
   logger,
 } from '@modern-js/utils';
-import { type ApplyPlugins, createDevServer } from '@modern-js/server';
-import { applyPlugins } from '@modern-js/prod-server';
-import { loadServerPlugins } from '../utils/loadPlugins';
-import { registerCompiler } from '../utils/register';
-import { printInstructions } from '../utils/printInstructions';
+import type { AppTools } from '../types';
+import { buildServerConfig } from '../utils/config';
 import { setServer } from '../utils/createServer';
+import { loadServerPlugins } from '../utils/loadPlugins';
+import { printInstructions } from '../utils/printInstructions';
+import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
-import { buildServerConfig } from '../utils/config';
-import type { AppTools } from '../types';
 
 export interface ExtraServerOptions {
   applyPlugins?: ApplyPlugins;
