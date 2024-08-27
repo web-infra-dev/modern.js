@@ -11,11 +11,9 @@
     "indentStyle": "space",
     "ignore": [
       "package.json",
-      "packages/document/main-doc/scripts/summary.en.json",
-      "packages/document/main-doc/scripts/summary.zh.json",
+      "packages/document/main-doc/scripts/summary.*.json",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
-      "packages/generator/sandpack-react/src/templates/**",
-      "packages/document/main-doc/docs/**/*/_meta.json"
+      "packages/generator/sandpack-react/src/templates/**"
     ]
   },
   "javascript": {
@@ -94,11 +92,11 @@
       "compiled/**/*",
       ".rpt2_cache/**/*",
       "packages/runtime/plugin-garfish/tests/**/*",
-      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_main.html.js",
       "packages/server/core/tests/fixtures/mock/cjs/config/mock/**/*",
       "packages/server/server/tests/fixtures/mock/cjs/config/mock/**/*",
       "tests/integration/ssr/fixtures/preload/**/*",
+      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "tests/integration/module/plugins/vue/**/*"
     ]
   }
