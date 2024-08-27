@@ -91,7 +91,10 @@ export async function getServerManifest(
         const loaderBundle = await loadBundle(loaderBundlePath, logger);
 
         renderBundle && (renderBundles[entryName] = renderBundle);
-        loaderBundle && (loaderBundles[entryName] = loaderBundle);
+        loaderBundle &&
+          (loaderBundles[entryName] = loaderBundle?.loadModules
+            ? await loaderBundle?.loadModules()
+            : loaderBundle);
       }),
   );
 
