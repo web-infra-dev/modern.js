@@ -7654,21 +7654,6 @@ importers:
         specifier: ^5
         version: 5.4.5
 
-  tests/integration/ssr/fixtures/preload:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
   tests/integration/ssr/fixtures/scriptLoading:
     dependencies:
       '@modern-js/app-tools':
