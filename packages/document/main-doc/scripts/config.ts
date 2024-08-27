@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
+import { hyphenate } from './utils';
 
 export type Summary = {
   name: string;
@@ -15,17 +16,10 @@ const createMarkdown = (summary: Summary, lng: Language) => {
 title: ${name}
 ---
 
-# ${dirname}.${name}
-
-import Main from '@modern-js/builder-doc/docs/${lng}/config/${dirname}/${name}.md';
+import Main from '@rsbuild-docs/${lng}/config/${dirname}/${hyphenate(name)}.mdx';
 
 <Main />
 `;
-};
-
-const hyphenateRE = /\B([A-Z]+)/g;
-const hyphenate = function (str: string) {
-  return str.replace(hyphenateRE, '-$1').toLowerCase();
 };
 
 const configPath = 'configure/app';
