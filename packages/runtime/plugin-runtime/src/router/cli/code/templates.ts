@@ -482,16 +482,22 @@ export function ssrLoaderCombinedModule(
     if (!config.source.enableAsyncEntry) {
       return combinedModule;
     }
-    return `export default Promise.all([import("${slash(
-      serverLoaderRuntime,
-    )}"),import("${slash(serverLoadersFile)}")]).then(res=>{
-      return res.reduce((sum,cur)=>{
-        return {
-          ...sum,
-          ...cur
-        }
-     },{})
-    })`;
+
+    return `
+    async function loadModules() {
+      const [moduleA, moduleB] = await Promise.all([
+        import("${slash(serverLoaderRuntime)}"),
+        import("${slash(serverLoadersFile)}")
+      ]);
+
+      return {
+        ...moduleA,
+        ...moduleB
+      };
+    }
+
+    export { loadModules };
+    `;
   }
   return null;
 }
