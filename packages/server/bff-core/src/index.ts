@@ -13,3 +13,4 @@ export {
   createStorage,
   registerPaths,
 } from './utils';
+export type * from './compatible';
