@@ -60,10 +60,6 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           options,
           HtmlBundlerPlugin as unknown as typeof HtmlWebpackPlugin,
         );
-        if (isUseSSRBundle(normalizedConfig)) {
-          await applySSRLoaderEntry(chain, options, isServer);
-          applySSRDataLoader(chain, options);
-        }
 
         const isServiceWorker =
           environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
@@ -74,6 +70,11 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
             chain,
             appNormalizedConfig: normalizedConfig,
           });
+        }
+
+        if (isUseSSRBundle(normalizedConfig)) {
+          await applySSRLoaderEntry(chain, options, isServer);
+          applySSRDataLoader(chain, options);
         }
 
         if (!isHtmlDisabled(builderConfig, target)) {
