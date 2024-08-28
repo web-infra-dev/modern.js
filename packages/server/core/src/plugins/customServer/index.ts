@@ -91,21 +91,7 @@ export class CustomServer {
       if (current !== entryName) {
         const rewriteRoute = routes.find(route => route.entryName === current);
         if (rewriteRoute) {
-          const { headers, method, signal } = c.req.raw;
-
-          const url = new URL(c.req.url);
-
-          const newUrl = new URL(rewriteRoute.urlPath, url.origin);
-
-          return this.serverBase.request(
-            newUrl,
-            {
-              headers,
-              method,
-              signal,
-            },
-            c.env,
-          );
+          c.set('matchPathname', rewriteRoute.urlPath);
         }
       }
 

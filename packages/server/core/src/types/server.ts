@@ -65,8 +65,12 @@ type ServerVariables = {
   metrics?: Metrics;
 
   monitors: Monitors;
+
   serverManifest?: ServerManifest;
+
   templates?: Record<string, string>;
+
+  matchPathname?: string;
   /**
    * Communicating with custom server hook & modern ssrContext.
    *

@@ -20,6 +20,9 @@ export interface RenderOptions {
   /** @deprecated */
   reporter?: Reporter;
 
+  /** For compat rewrite MPA, while not modify request  */
+  matchPathname?: string;
+
   monitors?: Monitors;
 
   serverManifest: ServerManifest;

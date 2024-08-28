@@ -107,6 +107,7 @@ function createRenderHandler(
     const serverManifest = c.get('serverManifest') || {};
     const locals = c.get('locals');
     const metrics = c.get('metrics');
+    const matchPathname = c.get('matchPathname');
     const loaderContext = getLoaderCtx(c as Context);
 
     const request = c.req.raw;
@@ -122,6 +123,7 @@ function createRenderHandler(
       serverManifest,
       loaderContext,
       locals,
+      matchPathname,
     });
 
     const { body, status, headers } = res;
