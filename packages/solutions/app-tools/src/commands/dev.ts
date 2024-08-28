@@ -98,6 +98,7 @@ export const dev = async (
     },
     appContext: {
       appDirectory,
+      internalDirecory: appContext.internalDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
