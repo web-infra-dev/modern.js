@@ -1,5 +1,23 @@
 # @modern-js/server-plugin
 
+## 2.58.3
+
+### Patch Changes
+
+- 36ccad3: fix: custom server hook context request.path should carray query str
+  fix: custom server hook context request.path 应该带上 query 字符串
+- 0b581a4: fix: remove ssr.preload config
+  fix: 移除 ssr.preload 配置
+- 610554c: chore: add internal directory to server plugin context
+  chore: 在 server 插件上下文中增加 internal 目录
+- 59fba90: fix(data-loader): compatible with asyncEntry for data loader
+  fix(data-loader): data loader 的导出兼容 asyncEntry
+- 9e82b00: fix(server): if res was piped, res should be treated as sent
+  fix(server): 如果响应被 pipe，响应应该被当作已经发送
+  - @modern-js/plugin@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/utils@2.58.3
+
 ## 2.58.2
 
 ### Patch Changes

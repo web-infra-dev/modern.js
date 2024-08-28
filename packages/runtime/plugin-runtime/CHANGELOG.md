@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 2.58.3
+
+### Patch Changes
+
+- 6b0a5c4: fix: should remove extensions for entry file in real entry file, cause developer may use [.server] for ssr bundle entry
+  fix: 需要移除入口文件的扩展名，因为开发者可能使用 [.server] 作为 ssr 产物的入口文件
+- 59fba90: fix(data-loader): compatible with asyncEntry for data loader
+  fix(data-loader): data loader 的导出兼容 asyncEntry
+- f624878: fix: modern-entry build rules not use array
+
+  fix: modern-entry 构建规则不使用数组
+
+- e0cb246: fix(runtime): status code should be controlled by data loader
+  fix(runtime): 状态码应该能被 data loader 控制
+  - @modern-js/plugin-data-loader@2.58.3
+  - @modern-js/plugin@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
 ## 2.58.2
 
 ### Patch Changes
