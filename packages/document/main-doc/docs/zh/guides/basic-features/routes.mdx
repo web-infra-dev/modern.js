@@ -381,7 +381,7 @@ export default () => {
 
 `routes/` 下每一层目录中，开发者同样可以定义一个 `error.tsx` 文件，默认导出一个 `<ErrorBoundary>` 组件。
 
-当有路由目录下存在该组件时，组件渲染出错会被 `ErrorBoundary` 组件捕获。当目录未定义 `layout.tsx` 文件时，`<ErrorBoundary>` 组件不会生效。
+当有路由目录下存在该组件时，组件渲染出错会被 `ErrorBoundary` 组件捕获。
 
 `<ErrorBoundary>` 可以返回出错时的 UI 视图，当前层级未声明 `<ErrorBoundary>` 组件时，错误会向上冒泡到更上层的组件，直到被捕获或抛出错误。同时，当组件出错时，只会影响捕获到该错误的路由组件及子组件，其他组件的状态和视图不受影响，可以继续交互。
 

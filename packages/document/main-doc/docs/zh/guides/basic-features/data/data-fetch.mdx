@@ -67,9 +67,9 @@ export const loader = async (): Promise<ProfileData> => {
 
 :::
 
-在 CSR 环境下，`loader` 函数会在客户端执行，`loader` 函数内可以使用浏览器的 API（但通常不需要，也不推荐）。
+在 CSR 项目中，`loader` 函数会在客户端执行，`loader` 函数内可以使用浏览器的 API（但通常不需要，也不推荐）。
 
-在 SSR 环境下，不管是首屏，还是在客户端的导航，`loader` 函数只会在服务端执行，这里可以调用任意的 Node.js API，同时这里使用的任何依赖和代码都不会包含在客户端的 bundle 中。
+在 SSR 项目中，不管是首屏，还是在客户端的导航，`loader` 函数只会在服务端执行，这里可以调用任意的 Node.js API，同时这里使用的任何依赖和代码都不会包含在客户端的 bundle 中。
 
 :::info
 在以后的版本中，Modern.js 可能会支持在 CSR 环境下，`loader` 函数也在服务端运行，以提高性能和安全性，所以这里建议尽可能地保证 `loader` 的纯粹，只做数据获取的场景。

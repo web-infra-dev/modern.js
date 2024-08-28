@@ -380,7 +380,7 @@ export default () => {
 
 In each directory under `routes/`, developers can also define an `error.tsx` file that exports an `<ErrorBoundary>` component by default.
 
-When this component exists in the routes directory, any rendering errors will be caught by the `ErrorBoundary` component. When the `layout.tsx` file is not defined in the directory, the `<ErrorBoundary>` component will not take effect.
+When this component exists in the routes directory, any rendering errors will be caught by the `ErrorBoundary` component.
 
 `<ErrorBoundary>` can return the UI view when an error occurs. When the `<ErrorBoundary>` component is not declared in the current level, the error will bubble up to a higher-level component until it is caught or thrown. At the same time, when a component has an error, it will only affect the route component and its child components that catch the error. The status and view of other components are not affected and can continue to interact.
 
