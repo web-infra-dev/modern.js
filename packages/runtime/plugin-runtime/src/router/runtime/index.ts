@@ -19,13 +19,7 @@ export { Link, NavLink } from './PrefetchLink';
 export type { LinkProps, NavLinkProps } from './PrefetchLink';
 
 export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
-  const routerIdPrefix =
-    typeof MODERN_ROUTER_ID_PREFIX === 'string' ? MODERN_ROUTER_ID_PREFIX : '';
-  let routeIdWithOutPrefix = routeId;
-  if (routeId.includes(routerIdPrefix)) {
-    routeIdWithOutPrefix = routeId.replace(routerIdPrefix, '');
-  }
-  const realRouteId = routeIdWithOutPrefix.replace(/\[(.*?)\]/g, '($1)');
+  const realRouteId = routeId.replace(/\[(.*?)\]/g, '($1)');
   return useRouteData(realRouteId);
 };
 
