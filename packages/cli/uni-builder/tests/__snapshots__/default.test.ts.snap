@@ -2696,7 +2696,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "devtool": "hidden-source-map",
   "entry": {
     "index": [
-      "/datatext/javascript,import \\"core-js\\";",
       "src/index.ts",
     ],
   },
@@ -2761,11 +2760,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
         ],
-        "resolve": {
-          "alias": {
-            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-          },
-        },
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -2773,8 +2767,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
-                "mode": "entry",
+                "mode": undefined,
                 "targets": [
                   "node >= 14",
                 ],
@@ -2840,9 +2833,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           ],
         },
         "resolve": {
-          "alias": {
-            "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-          },
           "fullySpecified": false,
         },
         "use": [
@@ -2850,8 +2840,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
-                "mode": "entry",
+                "mode": undefined,
                 "targets": [
                   "node >= 14",
                 ],
@@ -3122,8 +3111,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
-                    "mode": "entry",
+                    "mode": undefined,
                     "targets": [
                       "node >= 14",
                     ],
@@ -3212,8 +3200,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
-                    "mode": "entry",
+                    "mode": undefined,
                     "targets": [
                       "node >= 14",
                     ],
@@ -3359,6 +3346,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "chunkFilename": "[name].js",
     "filename": "[name].js",
     "hashFunction": "xxhash64",
+    "libraryTarget": "commonjs2",
     "path": "dist/worker",
     "pathinfo": false,
     "publicPath": "/",
