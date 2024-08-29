@@ -82,7 +82,7 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 1. 具有 `routes/` 目录。
 2. 具有 `App.[jt]sx?` 文件。
-3. 具有 `entry.[jt]sx?` 文件 (需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry) 使用)。
+3. 具有 `entry.[jt]sx?` 文件（需要开启 [source.enableCustomEntry](/configure/app/source/enable-custom-entry) 使用）。
 
 
 当 `src/` 目录满足入口特征时，Modern.js 会认为当前应用为单入口应用。否则，Modern.js 会扫描 `src/` 下的一级目录，并进一步判断是否为入口，此时应用通常为多入口应用。
@@ -121,7 +121,8 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 │   └── App.tsx
 ```
 
-你可以在这个文件中通过代码的方式，设置客户端路由，或者不设置客户端路由。
+
+以 `src/App.tsx` 为约定的入口，Modern.js 不会对路由做额外的操作，开发者可以使用 [React Router 6](https://reactrouter.com/en/main) 的 API 设置客户端路由，或不设置客户端路由。例如以下代码，在应用中自行设置了客户端路由：
 
 ```tsx title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
@@ -138,7 +139,9 @@ export default () => {
 };
 ```
 
-详细内容可以参考[路由方案](/guides/basic-features/routes#自控式路由)。
+:::note
+我们推荐开发者使用约定式路由，Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力。而在使用自控路由时，这些能力都需要开发者自行封装。
+:::
 
 #### 自定义入口
 

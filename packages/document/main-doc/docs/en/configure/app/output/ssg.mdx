@@ -4,46 +4,24 @@ title: ssg
 
 # output.ssg
 
-- **Type:** `boolean` | `object` | `function`
-- **Default:** `undefined`
+- **Type:** `boolean` | `object`
+- **Default Value:** `undefined`
 
-Enable the SSG for **Self-controlled Routing** or **Conventional Routing**.
+Configuration to enable the application’s SSG (Static Site Generation) feature.
 
-:::info Enable SSG
-This configuration will only be available when the SSG feature is enabled. Please read the [Static Site Generation](/guides/advanced-features/ssg) documentation to learn how to enable the SSG feature.
+:::tip Enabling SSG
+This configuration takes effect only when SSG is enabled. Please read the [Static Site Generation](/guides/basic-features/render/ssg) documentation to understand how to enable SSG and its use cases.
 :::
 
-:::info
-For more routes detail, see [Routing](/guides/basic-features/routes).
-
+:::info Recommended Reading
+The SSG feature is closely related to routing. It is recommended to understand the [routing solution](/guides/basic-features/routes) before using SSG.
 :::
 
-## Example
+## Boolean Type
 
-### Single Entry
+When this configuration is set to `true`, the SSG feature will be enabled for all entries by default. For **manual routing**, the root route of the entry will be rendered. For **conventional routing**, each route in the entry will be rendered.
 
-When the configuration is set to `true`, the SSG of all entries will be enabled by default.
-
-For **self-controlled routing**, the root route of the entry will be rendered. For **convention routing**, every route in the entry will be rendered.
-
-For example, the `src/` directory has the following file structure that satisfies **conventional routing**:
-
-```bash
-.
-├── src
-│   └── routes
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── user
-│           ├── layout.tsx
-│           ├── page.tsx
-│           └── profile
-│               └── page.tsx
-```
-
-Make the following config in `modern.config.[tj]s`:
-
-```ts
+```js
 export default defineConfig({
   output: {
     ssg: true,
@@ -51,39 +29,20 @@ export default defineConfig({
 });
 ```
 
-After executing `pnpm build` to build the application. The `dist/` directory will generate three HTML for each of the three routes (only one HTML if SSG not enabled), and all HTML has been rendered.
+`output.ssg` can also be configured per entry, with the rules for effective configurations determined by the entry's routing method.
 
-For example the following **self-controlled routing**:
-
-import SelfRouteExample from "@site-docs/components/self-route-example";
-
-<SelfRouteExample />
-
-Also using the above configuration, after executing `pnpm run build`, only the entry route `/` will generate the rendered HTML.
-
-### Multi Entries
-
-`output.ssg` can also be configured according to the entries, and the rules that the configuration takes effect are also determined by the entries routing method.
-
-For example the following directory structure:
+For example, given the following directory structure, there are conventional routing entry `entryA` and manual routing entry `entryB`:
 
 ```bash
 .
-├── src
-│   ├── entryA
-│   │   └── routes
-│   │       ├── layout.tsx
-│   │       ├── page.tsx
-│   │       └── user
-│   │           ├── layout.tsx
-│   │           ├── page.tsx
-│   │           └── profile
-│   │               └── page.tsx
-│   └── entryB
-│       └── App.tsx
+└── src
+    ├── entryA
+    │   └── routes
+    └── entryB
+        └── App.tsx
 ```
 
-By default, all entryA entrances are rendered at build time after setting `output.ssg` to `true`. You can configure `false` to cancel the default behavior of the specified entries. For example, to cancel the rendering of the `entryA` at build time:
+You can specify different SSG configurations for `entryA` and `entryB`:
 
 ```js
 export default defineConfig({
@@ -96,107 +55,59 @@ export default defineConfig({
 });
 ```
 
-### Configure Route
-
-As mentioned above, **Self-Controlled Routing** only enables SSG configuration for entries route by default.
-
-Set specific routes in `output.ssg` can tell Modern.js to enable the SSG of these client side routes. For example, the content of the above `src/App.tsx` file is:
-
-<SelfRouteExample />
-
-
-When set like this in `modern.config.[jt]s`, the `/about` route will also enable SSG:
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      routes: ['/', '/about'],
-    },
-  },
-});
-```
-
-Modern.js will automatically concat the complete URL according to the entry and hand it over to the SSG plugin to complete the rendering.
-
-Request headers can also be configured for specific entries or routes, for example:
-
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      headers: {},
-      routes: [
-        '/',
-        {
-          url: '/about',
-          headers: {},
-        },
-      ],
-    },
-  },
-});
-```
-
 :::info
-The `headers` set in the route override the `headers` set in the entry.
-
+For more information on the default behavior of **conventional routing** and **manual routing** after enabling SSG, please read [Static Site Generation](/guides/basic-features/render/ssg).
 :::
 
-### Prevent Default
+## Object Type
 
-By default, **Conventional Routing** all turn on SSG. Modern.js provides another field to prevent the default SSG behavior.
+When the value type is `Object`, the following attributes can be configured.
 
-For example, the following directory structure , `/`、`/user` and `/user/profle` all have SSG enabled:
+### Configuration Type
 
-```bash
-.
-├── src
-│   └── routes
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── user
-│           ├── layout.tsx
-│           ├── page.tsx
-│           └── profile
-│               └── page.tsx
+
+```ts
+type SSGRouteOptions = string | {
+  url: string;
+  params?: Record<string, any>[];
+  headers?: Record<string, any>;
+};
+
+type SSGOptions = {
+  preventDefault?: string[];
+  headers?: Record<string, any>;
+  routes?: SSGRouteOptions[];
+};
 ```
 
-You can set this to disable the default behavior of a client-side route:
+### Example
 
-```js
-export default defineConfig({
-  output: {
-    ssg: {
-      preventDefault: ['/user'],
-    },
-  },
-});
-```
+In the example configuration below, SSG will render the pages corresponding to the `/`, `/about`, and `/user/:id` routes.
 
-### Dynamic Params
+For the `/user/:id` route, `cookies` will be added to the request headers, and the `id` in `params` will be replaced with `modernjs`.
 
-Some routes may be dynamic, such as the `/user/:id` in a self-controlled route or the route generated by the `user/[id]/page.tsx` file in a conventional route.
-
-configure specific parameters in `output.ssg` to render the route of the specified parameters, for example:
-
-```js
+```ts title="modern.config.ts"
 export default defineConfig({
   output: {
     ssg: {
       routes: [
+        '/', 
+        '/about',         
         {
           url: '/user/:id',
-          params: [
-            {
-              id: 'modernjs',
-            },
-          ],
-        },
+          headers: {
+            cookies: "name=modernjs"
+          },
+          params: [{
+            id: 'modernjs',
+          }],
+        }
       ],
-    },
-  },
+    }
+  }
 });
 ```
 
-The features of dynamic routing and SSG is useful when generating static pages in real time based on CMS system.
+:::note
+The configuration method for multiple entries is the same as for a single entry, so it will not be explained further here.
+:::

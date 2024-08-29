@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
-    "@rspress/shared": "1.27.0",
+    "@rspress/shared": "1.28.2",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16",
     "classnames": "^2",
@@ -43,7 +43,7 @@
     "fs-extra": "^10",
     "react": "^18",
     "react-dom": "^18",
-    "rspress": "1.27.0",
+    "rspress": "1.28.2",
     "ts-node": "^10.9.1",
     "typescript": "^5"
   }

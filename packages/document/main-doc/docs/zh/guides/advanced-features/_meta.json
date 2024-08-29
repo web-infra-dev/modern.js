@@ -7,13 +7,6 @@
     "collapsed": true
   },
   "code-split",
-  {
-    "type": "dir",
-    "name": "ssr",
-    "label": "use-ssr",
-    "collapsed": true
-  },
-  "ssg",
   "compatibility",
   "eslint",
   "low-level",

@@ -116,6 +116,8 @@ For more information, please refer to [Conventional Routing](/guides/basic-featu
 
 #### Self-controlled Routing
 
+## Manual Routing
+
 If there is an `App.[jt]sx?` file within the entry, we refer to this entry as a self-controlled route. For example:
 
 ```bash
@@ -124,7 +126,9 @@ If there is an `App.[jt]sx?` file within the entry, we refer to this entry as a 
 │   └── App.tsx
 ```
 
-In this file, you can define client-side routes or  not to set any client-side routes.
+For entry points defined as `src/App.tsx`, Modern.js does not perform any additional routing operations. Developers can use the [React Router 6](https://reactrouter.com/en/main) API for development, define client-side routes or not to set any client-side routes.
+
+for example, define client-side routes in application:
 
 ```tsx
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
@@ -141,7 +145,10 @@ export default () => {
 };
 ```
 
-For more information, please refer to [Self-controlled Routing](/guides/basic-features/routes.html#self-controlled-routing).
+:::note
+We recommend that developers use conventional routing. Modern.js provides a series of optimizations in resource loading and rendering for conventional routing by default and offers built-in SSR capabilities. When using manual routing, these capabilities need to be encapsulated by developers themselves.
+:::
+
 
 #### Custom Entry
 
