@@ -18,6 +18,7 @@ export const pluginEnvironmentDefaults = (
         compatConfig.environments ??= {};
         compatConfig.environments[SERVICE_WORKER_ENVIRONMENT_NAME] = {
           output: {
+            polyfill: 'off',
             distPath: {
               root: join(distPath.root || 'dist', distPath.worker || 'worker'),
               js: '',
@@ -78,6 +79,15 @@ export const pluginEnvironmentDefaults = (
           ? 'node'
           : config.output.target,
       );
+    });
+
+    api.modifyBundlerChain(async (chain, { environment }) => {
+      const isServiceWorker =
+        environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+      if (isServiceWorker) {
+        chain.output.libraryTarget('commonjs2');
+      }
     });
   },
 });
