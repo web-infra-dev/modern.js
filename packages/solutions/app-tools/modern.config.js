@@ -1,16 +1,14 @@
 const path = require('path');
 const { universalBuildConfig } = require('@scripts/build');
 
-universalBuildConfig[0] = {
-  ...universalBuildConfig[0],
-  esbuildOptions: options => {
-    options.supported = {
+const commonConfig = {
+  esbuildOptions: options => ({
+    ...options,
+    supported: {
       ...options.supported,
       'dynamic-import': true,
-    };
-
-    return options;
-  },
+    },
+  }),
   copy: {
     patterns: [
       {
@@ -23,49 +21,12 @@ universalBuildConfig[0] = {
   input: ['src', '!**/*.mjs'],
 };
 
-universalBuildConfig[1] = {
-  ...universalBuildConfig[0],
-  esbuildOptions: options => {
-    options.supported = {
-      ...options.supported,
-      'dynamic-import': true,
-    };
-
-    return options;
-  },
-  copy: {
-    patterns: [
-      {
-        from: '**/*.mjs',
-        context: path.join(__dirname, './src'),
-        to: '',
-      },
-    ],
-  },
-  input: ['src', '!**/*.mjs'],
-};
-
-universalBuildConfig[2] = {
-  ...universalBuildConfig[0],
-  esbuildOptions: options => {
-    options.supported = {
-      ...options.supported,
-      'dynamic-import': true,
-    };
-
-    return options;
-  },
-  copy: {
-    patterns: [
-      {
-        from: '**/*.mjs',
-        context: path.join(__dirname, './src'),
-        to: '',
-      },
-    ],
-  },
-  input: ['src', '!**/*.mjs'],
-};
+for (let i = 0; i < 3; i++) {
+  universalBuildConfig[i] = {
+    ...universalBuildConfig[i],
+    ...commonConfig,
+  };
+}
 
 module.exports = {
   buildConfig: universalBuildConfig,
