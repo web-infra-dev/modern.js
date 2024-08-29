@@ -4,6 +4,7 @@ import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
 import { applyOptionsChain, isBeyondReact17 } from '@modern-js/utils';
 import type {
   NormalizedEnvironmentConfig,
+  NormalizedSourceConfig,
   RsbuildPlugin,
   TransformImport,
 } from '@rsbuild/core';
@@ -12,6 +13,7 @@ import lodash from 'lodash';
 import {
   SCRIPT_REGEX,
   SERVICE_WORKER_ENVIRONMENT_NAME,
+  castArray,
   getBrowserslistWithDefault,
   getUseBuiltIns,
 } from '../../shared/utils';
@@ -198,12 +200,32 @@ function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
   }
 }
 
+const reduceTransformImportConfig = (
+  options: NormalizedSourceConfig['transformImport'],
+): TransformImport[] => {
+  if (!options) {
+    return [];
+  }
+
+  let imports: TransformImport[] = [];
+  for (const item of castArray(options)) {
+    if (typeof item === 'function') {
+      imports = item(imports) ?? imports;
+    } else {
+      imports.push(item);
+    }
+  }
+  return imports;
+};
+
 function applyPluginImport(
   config: BabelConfig,
-  pluginImport?: false | TransformImport[],
+  pluginImport?: NormalizedSourceConfig['transformImport'],
 ) {
-  if (pluginImport !== false && pluginImport) {
-    for (const item of pluginImport) {
+  const finalPluginImport = reduceTransformImportConfig(pluginImport);
+
+  if (finalPluginImport?.length) {
+    for (const item of finalPluginImport) {
       const name = item.libraryName;
 
       const option: TransformImport & {

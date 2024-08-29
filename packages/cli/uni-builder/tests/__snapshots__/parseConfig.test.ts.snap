@@ -20,6 +20,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -53,6 +54,7 @@ exports[`parseCommonConfig > dev.xxx 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -81,6 +83,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -100,6 +103,7 @@ exports[`parseCommonConfig > dev.xxx 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -129,6 +133,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -152,6 +157,7 @@ exports[`parseCommonConfig > html.faviconByEntries 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -184,6 +190,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -207,6 +214,7 @@ exports[`parseCommonConfig > html.faviconByEntries 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -236,6 +244,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -259,6 +268,7 @@ exports[`parseCommonConfig > html.faviconByEntries 3`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -291,6 +301,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -314,6 +325,7 @@ exports[`parseCommonConfig > html.faviconByEntries 4`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -343,6 +355,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -366,6 +379,7 @@ exports[`parseCommonConfig > html.metaByEntries 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -402,6 +416,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -425,6 +440,7 @@ exports[`parseCommonConfig > html.metaByEntries 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -454,6 +470,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -477,6 +494,7 @@ exports[`parseCommonConfig > html.templateByEntries 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -509,6 +527,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -532,6 +551,7 @@ exports[`parseCommonConfig > html.templateByEntries 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -561,6 +581,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -584,6 +605,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -618,6 +640,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -641,6 +664,7 @@ exports[`parseCommonConfig > html.templateParametersByEntries 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -672,6 +696,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     ],
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -695,6 +720,7 @@ exports[`parseCommonConfig > html.titleByEntries 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -726,6 +752,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     ],
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -749,6 +776,7 @@ exports[`parseCommonConfig > html.titleByEntries 2`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -777,6 +805,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "cssModules": {
       "localIdentName": "[local]-[hash:base64:6]",
     },
@@ -803,6 +832,7 @@ exports[`parseCommonConfig > output.cssModuleLocalIdentName 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -831,6 +861,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "cssModules": {
       "auto": [Function],
     },
@@ -857,6 +888,7 @@ exports[`parseCommonConfig > output.disableCssModuleExtension 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -885,6 +917,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -905,6 +938,7 @@ exports[`parseCommonConfig > output.enableInlineScripts 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],
@@ -933,6 +967,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "title": "",
   },
   "output": {
+    "charset": "ascii",
     "dataUriLimit": 10000,
     "distPath": {
       "html": "html",
@@ -953,6 +988,7 @@ exports[`parseCommonConfig > output.enableInlineStyles 1`] = `
     "decorators": {
       "version": "legacy",
     },
+    "transformImport": undefined,
   },
   "tools": {
     "htmlPlugin": [Function],

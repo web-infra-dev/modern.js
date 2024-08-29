@@ -1742,14 +1742,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "camel2DashComponentName": true,
-                "libraryName": "foo",
-              },
-              "foo",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -1765,6 +1757,14 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+              {
+                "camel2DashComponentName": true,
+                "libraryName": "foo",
+              },
+              "foo",
             ],
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
@@ -1877,14 +1877,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
-                "camel2DashComponentName": true,
-                "libraryName": "foo",
-              },
-              "foo",
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
                 "camel2DashComponentName": false,
                 "libraryDirectory": "es",
                 "libraryName": "@arco-design/web-react",
@@ -1900,6 +1892,14 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+              {
+                "camel2DashComponentName": true,
+                "libraryName": "foo",
+              },
+              "foo",
             ],
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",

@@ -16,7 +16,8 @@ type Config =
       transformToDefaultImport?: boolean;
       customName?: ((member: string) => string | undefined) | string;
       customStyleName?: ((member: string) => string | undefined) | string;
-    }>;
+    }>
+  | Function;
 ```
 
 - **默认值：**
@@ -92,6 +93,18 @@ import 'antd/es/button/style';
 export default {
   source: {
     transformImport: false,
+  },
+};
+```
+
+你也可以使用 `transformImport` 的 [function 用法](https://rsbuild.dev/zh/config/source/transform-import#function-%E7%B1%BB%E5%9E%8B) 对默认配置进行自定义修改。
+
+```js
+export default {
+  source: {
+    transformImport: (imports) => {
+      return imports.filter(data => data.libraryName !== 'antd');
+    },
   },
 };
 ```

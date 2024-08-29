@@ -120,6 +120,7 @@ export async function parseCommonConfig(
       globalVars,
       resolveMainFields,
       resolveExtensionPrefix,
+      transformImport,
       ...sourceConfig
     } = {},
     dev,
@@ -161,6 +162,9 @@ export async function parseCommonConfig(
 
   const { html = {}, output = {}, source = {} } = rsbuildConfig;
 
+  source.transformImport =
+    transformImport === false ? () => [] : transformImport;
+
   if (enableLatestDecorators) {
     source.decorators = {
       version: '2022-03',
@@ -170,6 +174,8 @@ export async function parseCommonConfig(
       version: 'legacy',
     };
   }
+
+  output.charset ??= 'ascii';
 
   if (disableMinimize) {
     output.minify ||= false;
@@ -324,8 +330,8 @@ export async function parseCommonConfig(
     pluginEmitRouteFile(),
     pluginToml(),
     pluginYaml(),
-    pluginAntd(),
-    pluginArco(),
+    pluginAntd(transformImport),
+    pluginArco(transformImport),
     pluginSass({
       sassLoaderOptions: sass,
     }),

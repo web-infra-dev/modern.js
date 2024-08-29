@@ -16,7 +16,8 @@ type Config =
       transformToDefaultImport?: boolean;
       customName?: ((member: string) => string | undefined) | string;
       customStyleName?: ((member: string) => string | undefined) | string;
-    }>;
+    }>
+    | Function;
 ```
 
 - **Default:**
@@ -92,6 +93,18 @@ You can manually set `transformImport: false` to disable the default config.
 export default {
   source: {
     transformImport: false,
+  },
+};
+```
+
+You can also use the [function usage](https://rsbuild.dev/config/source/transform-import#function-type) of `transformImport` to modify the default configuration.
+
+```js
+export default {
+  source: {
+    transformImport: (imports) => {
+      return imports.filter(data => data.libraryName !== 'antd');
+    },
   },
 };
 ```

@@ -787,7 +787,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         },
       },
       "chunks": "all",
-      "enforceSizeThreshold": 50000,
     },
   },
   "output": {
@@ -2560,7 +2559,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         },
       },
       "chunks": "all",
-      "enforceSizeThreshold": 50000,
     },
   },
   "output": {
