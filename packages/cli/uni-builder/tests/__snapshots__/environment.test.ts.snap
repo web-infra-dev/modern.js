@@ -1624,7 +1624,6 @@ exports[`uni-builder environment compat > should generator environment config co
     "devtool": "cheap-module-source-map",
     "entry": {
       "index": [
-        "/datatext/javascript,import \\"core-js\\";",
         "src/index.ts",
       ],
     },
@@ -1689,11 +1688,6 @@ exports[`uni-builder environment compat > should generator environment config co
             },
             /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
           ],
-          "resolve": {
-            "alias": {
-              "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-            },
-          },
           "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
           "type": "javascript/auto",
           "use": [
@@ -1701,8 +1695,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.38",
-                  "mode": "entry",
+                  "mode": undefined,
                   "targets": [
                     "node >= 14",
                   ],
@@ -1768,9 +1761,6 @@ exports[`uni-builder environment compat > should generator environment config co
             ],
           },
           "resolve": {
-            "alias": {
-              "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-            },
             "fullySpecified": false,
           },
           "use": [
@@ -1778,8 +1768,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.38",
-                  "mode": "entry",
+                  "mode": undefined,
                   "targets": [
                     "node >= 14",
                   ],
@@ -2050,8 +2039,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.38",
-                      "mode": "entry",
+                      "mode": undefined,
                       "targets": [
                         "node >= 14",
                       ],
@@ -2140,8 +2128,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.38",
-                      "mode": "entry",
+                      "mode": undefined,
                       "targets": [
                         "node >= 14",
                       ],
@@ -2252,6 +2239,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "[name].js",
       "hashFunction": "xxhash64",
+      "libraryTarget": "commonjs2",
       "path": "dist/worker",
       "pathinfo": false,
       "publicPath": "/",

@@ -52,14 +52,12 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterBasic,
     builderPluginAdapterHtml,
     builderPluginAdapterSSR,
-    builderPluginAdapterWorker,
   } = await import('../shared/builderPlugins/index.js');
 
   builder.addPlugins([
     builderPluginAdapterBasic(),
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
-    builderPluginAdapterWorker(),
   ]);
 
   const { normalizedConfig } = options;
