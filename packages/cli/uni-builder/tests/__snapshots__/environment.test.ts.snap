@@ -788,7 +788,6 @@ exports[`uni-builder environment compat > should generator environment config co
           },
         },
         "chunks": "all",
-        "enforceSizeThreshold": 50000,
       },
     },
     "output": {

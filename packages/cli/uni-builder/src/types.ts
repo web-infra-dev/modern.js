@@ -16,6 +16,7 @@ import type {
   Rspack,
   ScriptInject,
   ServerConfig,
+  SourceConfig,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
@@ -201,6 +202,7 @@ export type UniBuilderExtraConfig = {
     port?: number;
   };
   source?: {
+    transformImport?: SourceConfig['transformImport'] | false;
     // TODO: need to support rsbuild alias type in server/utils
     alias?: AliasOption;
     /**
@@ -451,7 +453,10 @@ export type UniBuilderConfig = {
   performance?: RsbuildConfig['performance'];
   security?: RsbuildConfig['security'];
   tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
-  source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
+  source?: Omit<
+    NonNullable<RsbuildConfig['source']>,
+    'alias' | 'transformImport'
+  >;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildConfig['plugins'];
   environments?: RsbuildConfig['environments'];

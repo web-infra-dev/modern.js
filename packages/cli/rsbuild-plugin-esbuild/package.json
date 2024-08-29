@@ -28,7 +28,7 @@
   "dependencies": {
     "@swc/helpers": "0.5.3",
     "esbuild": "0.17.19",
-    "webpack": "^5.93.0"
+    "webpack": "^5.94.0"
   },
   "devDependencies": {
     "@rsbuild/core": "1.0.1-rc.0",

@@ -121,7 +121,7 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5",
-    "webpack": "^5.93.0"
+    "webpack": "^5.94.0"
   },
   "sideEffects": false,
   "publishConfig": {
