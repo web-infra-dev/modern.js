@@ -1,5 +1,35 @@
 # @modern-js/app-tools
 
+## 2.58.3
+
+### Patch Changes
+
+- 0b581a4: fix: remove ssr.preload config
+  fix: 移除 ssr.preload 配置
+- 610554c: chore: add internal directory to server plugin context
+  chore: 在 server 插件上下文中增加 internal 目录
+- d76dbef: fix: filter entries by ssr or ssg should not apply the sigle entry
+  fix: 筛选入口不应该应用于单入口情况
+- Updated dependencies [36ccad3]
+- Updated dependencies [0b581a4]
+- Updated dependencies [610554c]
+- Updated dependencies [59fba90]
+- Updated dependencies [9e82b00]
+  - @modern-js/server-core@2.58.3
+  - @modern-js/plugin-data-loader@2.58.3
+  - @modern-js/prod-server@2.58.3
+  - @modern-js/server@2.58.3
+  - @modern-js/server-utils@2.58.3
+  - @modern-js/core@2.58.3
+  - @modern-js/plugin-i18n@2.58.3
+  - @modern-js/plugin-lint@2.58.3
+  - @modern-js/rsbuild-plugin-esbuild@2.58.3
+  - @modern-js/uni-builder@2.58.3
+  - @modern-js/node-bundle-require@2.58.3
+  - @modern-js/plugin@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
 ## 2.58.2
 
 ### Patch Changes

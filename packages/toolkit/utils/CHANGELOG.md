@@ -1,5 +1,7 @@
 # @modern-js/utils
 
+## 2.58.3
+
 ## 2.58.2
 
 ### Patch Changes
