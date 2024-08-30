@@ -1,7 +1,5 @@
-import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import cookieTool from 'cookie';
 import type React from 'react';
-import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../constants';
 import { getGlobalAppInit } from '../context';
 import { type RuntimeContext, getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -93,14 +91,6 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
-    // we should get data from HTMLElement when set ssr.inlineScript = false
-
-    window._SSR_DATA =
-      window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
-
-    const routeData = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
-    window._ROUTER_DATA = window._ROUTER_DATA || routeData;
-
     const ssrData = getSSRData();
     const loadersData = ssrData?.data?.loadersData || {};
 
