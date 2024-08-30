@@ -51,12 +51,12 @@ const isBundleEntry = async (
   return hasIndex(dir);
 };
 
-const scanDir = (
+const scanDir = async (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,
   dirs: string[],
   enableCustomEntry?: boolean,
-): Promise<Entrypoint[]> =>
-  Promise.all(
+): Promise<Entrypoint[]> => {
+  const entries = await Promise.all(
     dirs.map(async (dir: string) => {
       const indexFile = hasIndex(dir);
       const customBootstrap = isDefaultExportFunction(indexFile)
@@ -108,9 +108,14 @@ const scanDir = (
           customEntry: Boolean(customEntryFile),
         };
       }
-      throw Error('There is no valid entry point in the current project!');
+      return false;
     }),
-  );
+  ).then(entries => entries.filter(Boolean) as Entrypoint[]);
+  if (entries.length === 0) {
+    throw Error('There is no valid entry point in the current project!');
+  }
+  return entries;
+};
 
 export const getFileSystemEntry = async (
   hookRunners: CliHooksRunner<AppTools<'shared'>>,

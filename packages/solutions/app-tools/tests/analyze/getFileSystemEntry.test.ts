@@ -93,13 +93,11 @@ describe('get entrypoints from file system', () => {
     const appContext = { appDirectory: path.resolve(fixtures, './no-entry') };
 
     expect(
-      (
-        await getFileSystemEntry(
-          await getRunner(),
-          appContext as IAppContext,
-          config as AppNormalizedConfig<'shared'>,
-        )
-      ).length,
-    ).toBe(0);
+      getFileSystemEntry(
+        await getRunner(),
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
+    ).rejects.toThrow('There is no valid entry point in the current project!');
   });
 });
