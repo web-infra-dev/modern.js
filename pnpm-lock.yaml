@@ -6184,6 +6184,18 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
 
+  tests/integration/entries/fixtures/app-builder-index:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.3.1(react@18.2.0)
+
   tests/integration/entries/fixtures/app-custom:
     dependencies:
       '@modern-js/app-tools':
