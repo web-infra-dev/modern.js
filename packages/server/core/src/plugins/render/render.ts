@@ -1,6 +1,5 @@
 import type { IncomingMessage } from 'http';
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
-import { compatibleRequire } from '@modern-js/utils';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
@@ -12,6 +11,7 @@ import {
   ErrorDigest,
   createErrorHtml,
   getPathname,
+  getRuntimeEnv,
   onError as onErrorFn,
   parseHeaders,
   parseQuery,
@@ -164,8 +164,6 @@ export async function createRender({
       onFallback,
     );
 
-    const pathname = getPathname(req);
-
     const headerData = parseHeaders(req);
 
     const onError = (e: unknown) => {
@@ -265,10 +263,10 @@ async function renderHandler(
   ) {
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
-    if (routes) {
-      const { matchRoutes } = await compatibleRequire(
-        require.resolve('@modern-js/runtime-utils/remix-router'),
-        false,
+    const runtimeEnv = getRuntimeEnv();
+    if (routes && runtimeEnv === 'node') {
+      const { matchRoutes } = await import(
+        require.resolve('@modern-js/runtime-utils/remix-router')
       );
 
       const url = new URL(request.url);
