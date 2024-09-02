@@ -49,10 +49,7 @@ export const injectRenderHandlerPlugin = ({
           onFallback,
         };
 
-        const render = await getRenderHandler({
-          ...getRenderHandlerOptions,
-          onFallback,
-        });
+        const render = await getRenderHandler(getRenderHandlerOptions);
 
         api.setAppContext({
           ...api.useAppContext(),
