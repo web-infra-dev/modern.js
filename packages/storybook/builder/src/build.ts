@@ -82,7 +82,7 @@ export const start: StorybookBuilder['start'] = async ({
       if (!isFirstCompile) {
         return;
       }
-      resolve(stats);
+      resolve(stats as Stats);
     });
   });
 

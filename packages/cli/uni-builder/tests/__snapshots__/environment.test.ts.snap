@@ -766,11 +766,6 @@ exports[`uni-builder environment compat > should generator environment config co
             "priority": 0,
             "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
           },
-          "lib-lodash": {
-            "name": "lib-lodash",
-            "priority": 0,
-            "test": /node_modules\\[\\\\\\\\/\\]lodash\\(-es\\)\\?\\[\\\\\\\\/\\]/,
-          },
           "lib-polyfill": {
             "name": "lib-polyfill",
             "priority": 0,
