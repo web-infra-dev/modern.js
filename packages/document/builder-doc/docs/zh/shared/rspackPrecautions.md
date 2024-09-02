@@ -1,9 +1,6 @@
 ## 注意事项
 
-在使用 Rspack 之前，请留意 Rspack 当前还处于快速迭代阶段。因此，你需要预先了解以下事项：
+在使用 Rspack 前，你需要了解以下事项：
 
-- Rspack 的 API 和配置项尚未完全稳定，因此在后续的非 major 版本中，可能会引入个别不兼容更新。
-- Rspack 目前基于 SWC 进行代码编译和压缩，由于 SWC 的成熟度不及 babel 和 terser，因此你可能会遇到 SWC 在边界场景下的 bug。
-- Rspack 模式兼容了大部分 webpack 生态的插件和 loaders，但仍有少部分插件和 loaders 暂时无法使用。
-
-Rspack 正在积极改善上述问题，并计划在未来的版本中逐步解决它们。在决定是否使用 Rspack 之前，我们建议你评估项目需求和风险承受能力。如果你的项目对稳定性和性能要求较高，可以先选择更成熟的 webpack。如果你愿意尝试新的开发体验并为其发展做出贡献，我们欢迎你使用 Rspack，并提供反馈和报告问题，以帮助改进它的稳定性和功能。
+- Rspack 能够兼容大部分 webpack 插件和几乎所有的 loaders，但仍有少数 webpack 插件暂时无法使用，详见 [Plugin 兼容](https://rspack.dev/zh/guide/compatibility/plugin)。
+- Rspack 默认基于 [SWC](https://rspack.dev/zh/guide/features/builtin-swc-loader) 进行代码编译和压缩，在个别情况下，你可能会遇到 SWC 在边界场景的 bug，可以通过 [SWC 的 issue](https://github.com/swc-project/swc/issues) 反馈。

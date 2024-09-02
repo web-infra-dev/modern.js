@@ -8,7 +8,7 @@ import Rspack from '@modern-js/builder-doc/docs/en/shared/rspackTip.mdx';
 
 <Rspack />
 
-**Modern.js provides out-of-the-box Rspack support**, so you can switch between the stable Webpack and the faster Rspack.
+**Modern.js provides out-of-the-box Rspack support**, so you can switch between the stable webpack and the faster Rspack.
 
 This document will show you how to enable Rspack build mode in Modern.js.
 
@@ -71,7 +71,7 @@ export default {
 ```
 
 :::tip
-After turning on the Rspack build capability, there are currently a small number of configurations that are not supported in Rspack, such as [source.moduleScopes](/configure/app/source/module-scopes), [security.sri](/configure/app/security/sri) etc.
+After using Rspack for build, there are currently a few configs that are not supported in Rspack, such as [source.moduleScopes](/configure/app/source/module-scopes).
 
 For unsupported configurations, we have marked `Bundler: only support webpack` or `Bundler: only support Rspack` in the document. Please refer to the specific configuration introduction.
 :::
@@ -141,9 +141,7 @@ If you need to use the nightly/canary version of Rspack, the package name of the
       "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh-canary@nightly"
     },
     "peerDependencyRules": {
-      "allowAny": [
-        "@rspack/*"
-      ]
+      "allowAny": ["@rspack/*"]
     }
   }
 }

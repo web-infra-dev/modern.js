@@ -8,7 +8,7 @@ import Rspack from '@modern-js/builder-doc/docs/zh/shared/rspackTip.mdx';
 
 <Rspack />
 
-**Modern.js 提供开箱即用的 Rspack 支持**，你可以在成熟的 Webpack 和更快的 Rspack 之间进行切换。
+**Modern.js 提供开箱即用的 Rspack 支持**，你可以在成熟的 webpack 和更快的 Rspack 之间进行切换。
 
 这篇文档会向你介绍如何在 Modern.js 中开启 Rspack 构建模式。
 
@@ -70,11 +70,10 @@ export default {
 };
 ```
 
-
 :::tip
-开启 Rspack 构建能力后，目前有小部分配置在 Rspack 中还不支持使用，如 [source.moduleScopes](/configure/app/source/module-scopes)、[security.sri](/configure/app/security/sri) 等。
+开启 Rspack 构建后，目前有个别配置暂不支持在 Rspack 中使用，如 [source.moduleScopes](/configure/app/source/module-scopes)。
 
-对于不支持的配置，我们在文档中有标注 `打包工具： 仅支持 webpack` 或 `打包工具： 仅支持 rspack`，可参考具体配置介绍。
+对于不支持的配置，我们在文档中有标注 `打包工具：仅支持 webpack` 或 `打包工具：仅支持 rspack`，可参考具体配置介绍。
 :::
 
 ## 修改转译配置
@@ -105,7 +104,7 @@ export default defineConfig<'rspack'>({
 
 通常情况下，Modern.js 内会集成 Rspack 的最新版本，通过 `npx modern upgrade` 即可将当前项目中的 Modern.js 相关依赖以及内置的 Rspack 更新至最新版本。
 
-但 Modern.js 对于 Rspack 的依赖方式为锁版本方式(非自动升级)，由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
+但 Modern.js 对于 Rspack 的依赖方式为锁版本方式（非自动升级），由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
 
 当你执行 dev / build 命令时，Modern.js 会在[开启调试模式时](https://rsbuild.dev/zh/guide/debug/debug-mode)自动打印当前使用的 Rspack 版本：
 
@@ -140,9 +139,7 @@ export default defineConfig<'rspack'>({
       "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh@nightly"
     },
     "peerDependencyRules": {
-      "allowAny": [
-        "@rspack/*"
-      ]
+      "allowAny": ["@rspack/*"]
     }
   }
 }
