@@ -36,6 +36,14 @@ test('should optimize lodash bundle size', async ({ page }) => {
     plugins: [pluginSwc()],
     runServer: true,
     builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'split-by-experience',
+          forceSplitting: {
+            'lib-lodash': /node_modules[\\/]lodash(-es)?[\\/]/,
+          },
+        },
+      },
       output: {
         polyfill: 'entry',
       },
