@@ -68,6 +68,7 @@ export async function getRenderHandler({
   cacheConfig,
   metaName,
   staticGenerate,
+  onFallback,
 }: GetRenderHandlerOptions): Promise<Render> {
   const ssrConfig = config.server?.ssr;
   const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
@@ -81,6 +82,7 @@ export async function getRenderHandler({
     forceCSR,
     nonce: config.security?.nonce,
     metaName: metaName || 'modern-js',
+    onFallback,
   });
 
   return render;
