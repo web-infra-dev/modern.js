@@ -1,10 +1,11 @@
 import type {
   CacheConfig,
   GetRenderHandlerOptions,
+  OnFallback,
   Render,
   ServerPlugin,
 } from '../../types';
-import { type OnFallback, createRender } from './render';
+import { createRender } from './render';
 
 export interface InjectRenderHandlerOptions {
   staticGenerate?: boolean;
@@ -29,15 +30,6 @@ export const injectRenderHandlerPlugin = ({
           return;
         }
 
-        const getRenderHandlerOptions: GetRenderHandlerOptions = {
-          pwd,
-          routes,
-          config,
-          metaName,
-          cacheConfig: config.render?.cache || cacheConfig,
-          staticGenerate,
-        };
-
         const onFallback: OnFallback = async (reason, utils, error) => {
           // For other framework can report ssr fallback reason & error.
           await hookRunner.fallback({
@@ -45,6 +37,16 @@ export const injectRenderHandlerPlugin = ({
             ...utils,
             error,
           });
+        };
+
+        const getRenderHandlerOptions: GetRenderHandlerOptions = {
+          pwd,
+          routes,
+          config,
+          metaName,
+          cacheConfig: config.render?.cache || cacheConfig,
+          staticGenerate,
+          onFallback,
         };
 
         const render = await getRenderHandler({
@@ -69,9 +71,7 @@ export async function getRenderHandler({
   cacheConfig,
   metaName,
   staticGenerate,
-}: GetRenderHandlerOptions & {
-  onFallback?: OnFallback;
-}): Promise<Render> {
+}: GetRenderHandlerOptions): Promise<Render> {
   const ssrConfig = config.server?.ssr;
   const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
 
