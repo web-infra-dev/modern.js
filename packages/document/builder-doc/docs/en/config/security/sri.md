@@ -5,13 +5,13 @@ type SRIOptions =
   | {
       hashFuncNames?: string[];
       enabled?: 'auto' | boolean;
+      // only works for webpack
       hashLoading?: 'eager' | 'lazy';
     }
   | boolean;
 ```
 
 - **Default:** `undefined`
-- **Bundler:** `only support webpack`
 
 Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
 
@@ -27,7 +27,7 @@ For more on subresource integrity, see [Subresource Integrity - MDN](https://dev
 
 #### Example
 
-By default, `SRI` is not turned on, and when it is, its default configuration is as follows:
+By default, `SRI` is not enabled, and when it is, its default configuration is as follows:
 
 ```js
 {

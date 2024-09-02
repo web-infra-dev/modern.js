@@ -446,7 +446,7 @@ export type UniBuilderConfig = {
     distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
-  security?: RsbuildConfig['security'];
+  security?: Omit<RsbuildConfig['security'], 'sri'>;
   tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
   source?: Omit<
     NonNullable<RsbuildConfig['source']>,

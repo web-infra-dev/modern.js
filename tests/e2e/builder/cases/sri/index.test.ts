@@ -1,9 +1,8 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
-import { webpackOnlyTest } from '@scripts/helper';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
-webpackOnlyTest('security.sri', async ({ page }) => {
+test('security.sri', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
