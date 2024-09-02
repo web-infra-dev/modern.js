@@ -51,7 +51,6 @@ Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制�
 - `lib-polyfill.js`：包含 `core-js`，`@babel/runtime`，`@swc/helpers`，`tslib`。
 - `lib-react.js`：包含 `react`，`react-dom`。
 - `lib-router.js`：包含 `react-router`，`react-router-dom`，`history`，`@remix-run/router`。
-- `lib-lodash.js`：包含 `lodash`，`lodash-es`。
 - `lib-antd.js`：包含 `antd`。
 - `lib-arco.js`：包含 `@arco-design/web-react`。
 - `lib-semi.js`：包含 `@douyinfe/semi-ui`。

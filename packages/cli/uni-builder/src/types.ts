@@ -44,12 +44,7 @@ export type Stats = Omit<
 
 export type RspackConfig = Rspack.Configuration;
 
-export type MultiStats = Omit<
-  Rspack.MultiStats,
-  '#private' | 'hash' | 'stats'
-> & {
-  stats: Stats[];
-};
+export type MultiStats = Rspack.MultiStats;
 
 /**
  * custom properties
