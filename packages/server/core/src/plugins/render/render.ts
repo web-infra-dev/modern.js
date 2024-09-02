@@ -125,10 +125,13 @@ export async function createRender({
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
-
     const [routeInfo, params] = matchRoute(router, forMatchpathname);
+    const framework = metaName || 'modern-js';
+    const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
+    let fallbackReason = null;
 
     const onFallback = async (reason: FallbackReason, error?: unknown) => {
+      fallbackReason = reason;
       return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
     };
 
@@ -154,7 +157,7 @@ export async function createRender({
 
     const renderMode = await getRenderMode(
       req,
-      metaName || 'modern-js',
+      fallbackHeader,
       routeInfo.isSSR,
       forceCSR,
       nodeReq,
@@ -227,7 +230,10 @@ export async function createRender({
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
-
+    // inject ssr fallback header info
+    if (fallbackReason) {
+      response.headers.set(fallbackHeader, `1;reason=${fallbackReason}`);
+    }
     return response;
   };
 }
@@ -313,15 +319,13 @@ async function renderHandler(
 
 async function getRenderMode(
   req: Request,
-  framework: string,
+  fallbackHeader: string,
   isSSR?: boolean,
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
   onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
 ): Promise<'ssr' | 'csr' | 'data'> {
   const query = parseQuery(req);
-
-  const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
 
   if (isSSR) {
     if (query.__loader) {
