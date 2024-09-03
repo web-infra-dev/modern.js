@@ -41,6 +41,7 @@ export const transformToRsbuildServerOptions = (
     https,
     startUrl,
     beforeStartUrl,
+    setupMiddlewares,
     ...devConfig
   } = dev;
 
@@ -57,6 +58,7 @@ export const transformToRsbuildServerOptions = (
         port: '<port>',
         ...(devConfig.client || {}),
       },
+      setupMiddlewares,
     },
     devServer,
     {},
