@@ -267,7 +267,8 @@ async function renderHandler(
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
 
     if (routes) {
-      const { pathToFileURL } = await import('node:url');
+      const urlPath = 'node:url';
+      const { pathToFileURL } = await import(urlPath);
       const { matchRoutes } = await import(
         pathToFileURL(require.resolve('@modern-js/runtime-utils/remix-router'))
           .href
