@@ -1,6 +1,6 @@
 import Buffer from 'buffer';
-import console from 'console-browserify';
 import processBrowser from 'process/browser';
+import console from 'console-browserify';
 
 const buffer = {
   Buffer,
