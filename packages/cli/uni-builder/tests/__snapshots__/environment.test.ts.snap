@@ -892,9 +892,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "extensions": [
         ".ts",
         ".tsx",
+        ".mjs",
         ".js",
         ".jsx",
-        ".mjs",
         ".json",
       ],
       "tsConfig": {
@@ -1603,9 +1603,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "extensions": [
         ".ts",
         ".tsx",
+        ".mjs",
         ".js",
         ".jsx",
-        ".mjs",
         ".json",
       ],
       "tsConfig": {
@@ -2274,9 +2274,9 @@ exports[`uni-builder environment compat > should generator environment config co
       "extensions": [
         ".ts",
         ".tsx",
+        ".mjs",
         ".js",
         ".jsx",
-        ".mjs",
         ".json",
       ],
       "tsConfig": {
