@@ -85,7 +85,7 @@ export const ZH_LOCALE = {
   },
   buildTools: {
     self: '请选择构建工具',
+    rspack: 'Rspack',
     webpack: 'webpack',
-    rspack: 'Rspack (实验性)',
   },
 };

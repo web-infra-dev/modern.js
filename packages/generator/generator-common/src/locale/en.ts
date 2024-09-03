@@ -85,7 +85,7 @@ export const EN_LOCALE = {
   },
   buildTools: {
     self: 'Please select the bundler:',
+    rspack: 'Rspack',
     webpack: 'webpack',
-    rspack: 'Rspack (experimental)',
   },
 };

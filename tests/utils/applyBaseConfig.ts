@@ -17,10 +17,7 @@ export const applyBaseConfig = (
       },
       plugins: [
         appTools({
-          bundler:
-            process.env.BUNDLER === 'webpack'
-              ? 'webpack'
-              : 'experimental-rspack',
+          bundler: process.env.BUNDLER === 'webpack' ? 'webpack' : 'rspack',
         }),
       ],
     },

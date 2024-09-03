@@ -6,7 +6,7 @@ export default defineConfig({
   },
   plugins: [
     AppToolsPlugin({
-      bundler: 'experimental-rspack',
+      bundler: 'rspack',
     }),
   ],
 });

@@ -112,8 +112,8 @@ export const handleTemplateFile = async (
 
   const bundler =
     buildTools === BuildTools.Rspack
-      ? `'experimental-rspack',`
-      : `'webpack', // Set to 'experimental-rspack' to enable rspack ⚡️🦀`;
+      ? `'rspack',`
+      : `'webpack', // Set to 'rspack' to enable rspack ⚡️🦀`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
