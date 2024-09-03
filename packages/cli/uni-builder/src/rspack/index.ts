@@ -31,6 +31,24 @@ export async function parseConfig(
       uniBuilderConfig.experiments.lazyCompilation;
   }
 
+  const { sri } = uniBuilderConfig.security || {};
+  if (sri) {
+    if (sri === true) {
+      rsbuildConfig.security!.sri = {
+        enable: 'auto',
+      };
+    } else {
+      const algorithm = Array.isArray(sri.hashFuncNames)
+        ? (sri.hashFuncNames[0] as 'sha256' | 'sha384' | 'sha512')
+        : undefined;
+
+      rsbuildConfig.security!.sri = {
+        enable: sri.enabled,
+        algorithm,
+      };
+    }
+  }
+
   if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');

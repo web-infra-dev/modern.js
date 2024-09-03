@@ -12,11 +12,14 @@ import type {
   RsbuildConfig,
   RsbuildPlugin,
   RsbuildPluginAPI,
+  RsbuildPlugins,
   RsbuildTarget,
   Rspack,
   ScriptInject,
+  SecurityConfig,
   ServerConfig,
   SourceConfig,
+  ToolsConfig,
 } from '@rsbuild/core';
 import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
@@ -437,22 +440,16 @@ export type DistPath = DistPathConfig & {
 
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
-  html?: Omit<NonNullable<RsbuildConfig['html']>, 'appIcon'>;
-  output?: Omit<
-    NonNullable<RsbuildConfig['output']>,
-    'polyfill' | 'distPath'
-  > & {
+  html?: Omit<HtmlConfig, 'appIcon'>;
+  output?: Omit<OutputConfig, 'polyfill' | 'distPath'> & {
     polyfill?: Polyfill | 'ua';
     distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
-  security?: RsbuildConfig['security'];
-  tools?: Omit<NonNullable<RsbuildConfig['tools']>, 'htmlPlugin'>;
-  source?: Omit<
-    NonNullable<RsbuildConfig['source']>,
-    'alias' | 'transformImport'
-  >;
+  security?: Omit<SecurityConfig, 'sri'>;
+  tools?: Omit<ToolsConfig, 'htmlPlugin'>;
+  source?: Omit<SourceConfig, 'alias' | 'transformImport'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
-  plugins?: RsbuildConfig['plugins'];
+  plugins?: RsbuildPlugins;
   environments?: RsbuildConfig['environments'];
 } & UniBuilderExtraConfig;
