@@ -93,6 +93,7 @@ export class ServerBase<E extends Env = any> {
       middlewares: [],
       appDirectory: context?.appDirectory || '',
       apiDirectory: context?.apiDirectory,
+      internalDirectory: context?.internalDirectory || '',
       lambdaDirectory: context?.lambdaDirectory,
       sharedDirectory: context?.sharedDirectory || '',
       distDirectory: pwd,
