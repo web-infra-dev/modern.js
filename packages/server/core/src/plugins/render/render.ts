@@ -255,18 +255,22 @@ async function renderHandler(
   const { serverManifest } = options;
 
   const ssrByRouteIds = options.config.server?.ssrByRouteIds;
+  const runtimeEnv = getRuntimeEnv();
 
   if (
     serverManifest.nestedRoutesJson &&
     ssrByRouteIds &&
-    ssrByRouteIds?.length > 0
+    ssrByRouteIds?.length > 0 &&
+    runtimeEnv === 'node'
   ) {
     const { nestedRoutesJson } = serverManifest;
     const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
-    const runtimeEnv = getRuntimeEnv();
-    if (routes && runtimeEnv === 'node') {
+
+    if (routes) {
+      const { pathToFileURL } = await import('node:url');
       const { matchRoutes } = await import(
-        require.resolve('@modern-js/runtime-utils/remix-router')
+        pathToFileURL(require.resolve('@modern-js/runtime-utils/remix-router'))
+          .href
       );
 
       const url = new URL(request.url);
