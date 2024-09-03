@@ -117,6 +117,7 @@ export interface ServerInitHookContext {
 
 export interface ISAppContext {
   appDirectory: string;
+  internalDirectory: string;
   apiDirectory?: string;
   lambdaDirectory?: string;
   distDirectory: string;
