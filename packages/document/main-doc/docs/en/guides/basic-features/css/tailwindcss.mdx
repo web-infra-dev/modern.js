@@ -1,65 +1,4 @@
----
-sidebar_position: 1
----
-
-# Styling
-
-Modern.js has built-in a variety of commonly used CSS solutions, including Less / Sass / Stylus preprocessors, PostCSS, CSS Modules, CSS-in-JS, and Tailwind CSS.
-
-## Using Less, Sass and Stylus
-
-Modern.js has built-in popular community CSS preprocessors, including Less and Sass.
-
-By default, you don't need to configure Less and Sass. If you have custom loader configuration requirements, you can set them up by configuring [tools.less](/configure/app/tools/less) and [tools.sass](/configure/app/tools/sass).
-
-You can also use Stylus in Modern.js by installing the Stylus plugin provided by Rsbuild. For usage, please refer to [Stylus Plugin](https://rsbuild.dev/plugins/list/plugin-stylus).
-
-## Using PostCSS
-
-Modern.js has built-in [PostCSS](https://postcss.org/) to transform CSS code.
-
-Please refer to [Rsbuild - Using PostCSS](https://rsbuild.dev/guide/basic/css-usage#using-postcss) for detailed usage.
-
-## Using CSS Modules
-
-Please read the [Using CSS Modules](/guides/basic-features/css-modules) section to learn about the complete usage of CSS Modules.
-
-## Using CSS-in-JS
-
-CSS-in-JS is a technique that allows you to write CSS styles in JS files.
-
-Modern.js integrates the popular CSS-in-JS implementation library [styled-components](https://styled-components.com/), which uses the new JavaScript feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles. You can directly import the API of [styled-components](https://styled-components.com/) from `@modern-js/runtime/styled` for use.
-
-When you need to write a `div` component with an internal font color of red, you can implement it as follows:
-
-```js
-import styled from '@modern-js/runtime/styled';
-
-const RedDiv = styled.div`
-  color: red;
-`;
-```
-
-If you need to dynamically set component styles based on the component's `props`, for example, the `primary` property of `props` is `true`, the button color is white, otherwise it is red, you can implement the code as follows:
-
-```js
-import styled from '@modern-js/runtime/styled';
-
-const Button = styled.button`
-  color: ${props => (props.primary ? 'white' : 'red')};
-  font-size: 1em;
-`;
-```
-
-For more usage of styled-components, please refer to [styled-components official website](https://styled-components.com/).
-
-Modern.js integrates Babel's [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) plugin internally, and you can configure the plugin through [tools.styledComponents](/configure/app/tools/styled-components).
-
-:::tip
-If you need to use other CSS-in-JS libraries such as [styled-jsx](https://www.npmjs.com/package/styled-jsx) and [Emotion](https://emotion.sh/), you need to install the corresponding dependencies first. For specific usage, please refer to the library's official website.
-:::
-
-## Using Tailwind CSS
+# Using Tailwind CSS
 
 [Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
@@ -112,7 +51,7 @@ const Hello = () => (
 );
 ```
 
-### Configuring Tailwind CSS
+## Configuring Tailwind CSS
 
 In Modern.js, you have two ways to configure Tailwind CSS:
 
@@ -144,7 +83,7 @@ export default {
 
 If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
 
-### Tailwind CSS Autocomplete
+## Tailwind CSS Autocomplete
 
 Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
 
@@ -153,7 +92,7 @@ You can follow the steps below to enable the autocomplete feature:
 1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
 2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
 
-### Tailwind CSS Version
+## Tailwind CSS Version
 
 Modern.js supports both Tailwind CSS v2 and v3 versions, and the framework will recognize the version of the `tailwindcss` dependency in the project `package.json` file and enable the corresponding configuration. By default, we will install Tailwind CSS v3 version for you.
 
@@ -162,7 +101,7 @@ If your project is still using Tailwind CSS v2, we recommend that you upgrade to
 - [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
 - [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
 
-### Browser Compatibility
+## Browser Compatibility
 
 Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
 
