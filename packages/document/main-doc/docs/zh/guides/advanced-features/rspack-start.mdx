@@ -14,7 +14,7 @@ import Rspack from '@modern-js/builder-doc/docs/zh/shared/rspackTip.mdx';
 
 ## 初始化 Rspack 项目
 
-Modern.js 生成器会提供一个可交互的问答界面，只需将构建工具选择为 **Rspack**，即可创建一个 Rspack 项目:
+Modern.js 新项目已默认启用 Rspack 构建，只需执行 [初始化项目](/guides/get-started/quick-start.html#初始化项目)，即可创建一个 Rspack 项目:
 
 import InitRspackApp from '@site-docs/components/init-rspack-app';
 
@@ -24,7 +24,7 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 
 ## 开启 Rspack 构建
 
-从 Modern.js MAJOR_VERSION.46.0 版本起，在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
+从 Modern.js MAJOR_VERSION.59.0 版本起，在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -32,14 +32,14 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   plugins: [
     appTools({
-+     bundler: 'experimental-rspack',
++     bundler: 'rspack',
     }),
   ],
 });
 ```
 
 :::tip
-如果你当前版本低于 MAJOR_VERSION.46.0, 可通过执行 `npx modern upgrade` 进行升级。
+如果你当前版本低于 MAJOR_VERSION.59.0, 可通过执行 `npx modern upgrade` 进行升级。
 :::
 
 import RspackPrecautions from '@modern-js/builder-doc/docs/zh/shared/rspackPrecautions.md';
@@ -69,12 +69,6 @@ export default {
   },
 };
 ```
-
-:::tip
-开启 Rspack 构建后，目前有个别配置暂不支持在 Rspack 中使用，如 [source.moduleScopes](/configure/app/source/module-scopes)。
-
-对于不支持的配置，我们在文档中有标注 `打包工具：仅支持 webpack` 或 `打包工具：仅支持 rspack`，可参考具体配置介绍。
-:::
 
 ## 修改转译配置
 

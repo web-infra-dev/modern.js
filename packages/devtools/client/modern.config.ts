@@ -114,5 +114,5 @@ export default defineConfig<'rspack'>({
         .use(ServiceWorkerCompilerPlugin);
     },
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' })],
+  plugins: [appTools({ bundler: 'rspack' })],
 });

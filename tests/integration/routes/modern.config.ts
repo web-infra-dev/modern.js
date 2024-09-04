@@ -5,7 +5,7 @@ const bundler = process.env.BUNDLER;
 export default defineConfig({
   plugins: [
     appTools({
-      bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',
+      bundler: bundler === 'rspack' ? 'rspack' : 'webpack',
     }),
   ],
   runtime: {

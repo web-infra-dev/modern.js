@@ -3,7 +3,6 @@ import {
   ActionFunction,
   BFFType,
   BooleanConfig,
-  BuildTools,
   Framework,
   Language,
   MWAActionTypes,
@@ -20,12 +19,10 @@ export const PackageManagerValues = Object.values(PackageManager);
 export const BooleanConfigValues = Object.values(BooleanConfig);
 export const FrameworkValues = Object.values(Framework);
 export const BFFTypeValues = Object.values(BFFType);
-export const BuildToolsValues = Object.values(BuildTools);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  buildTools: BuildToolsValues,
 };
 
 export const ModuleValueMap: Record<string, string[]> = {

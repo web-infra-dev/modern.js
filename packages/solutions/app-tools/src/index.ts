@@ -42,13 +42,14 @@ export type AppToolsOptions = {
    * Specify which bundler to use for the build.
    * @default `webpack`
    * */
-  bundler?: 'experimental-rspack' | 'webpack';
+  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
 /**
  * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
  */
 export const appTools = (
   options: AppToolsOptions = {
+    // default webpack to be compatible with original projects
     bundler: 'webpack',
   },
 ): CliPlugin<AppTools<'shared'>> => ({
@@ -70,11 +71,17 @@ export const appTools = (
   usePlugins: [
     initializePlugin({
       bundler:
-        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+        options?.bundler &&
+        ['rspack', 'experimental-rspack'].includes(options.bundler)
+          ? 'rspack'
+          : 'webpack',
     }),
     analyzePlugin({
       bundler:
-        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+        options?.bundler &&
+        ['rspack', 'experimental-rspack'].includes(options.bundler)
+          ? 'rspack'
+          : 'webpack',
     }),
     serverBuildPlugin(),
     lintPlugin(),

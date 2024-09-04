@@ -14,7 +14,7 @@ This document will show you how to enable Rspack build mode in Modern.js.
 
 ## Initializing an Rspack project
 
-The Modern.js generator provides an interactive question-and-answer interface to initialize a project. To create an Rspack project, simply select the **Rspack** build tool by running:
+The Modern.js new project has enabled Rspack by default. Just execute [Initialize Project](/guides/get-started/quick-start.html#initialize) to create an Rspack project:
 
 import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
@@ -24,7 +24,7 @@ After the project is created, you can experience the project by running `pnpm ru
 
 ## Enable Rspack build
 
-Since Modern.js MAJOR_VERSION.46.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
+Since Modern.js MAJOR_VERSION.59.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -32,14 +32,14 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   plugins: [
     appTools({
-+     bundler: 'experimental-rspack',
++     bundler: 'rspack',
     }),
   ],
 });
 ```
 
 :::tip
-If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
+If your current version is lower than MAJOR_VERSION.59.0, you can upgrade by executing `npx modern upgrade`.
 :::
 
 import RspackPrecautions from '@modern-js/builder-doc/docs/en/shared/rspackPrecautions.md';
@@ -69,12 +69,6 @@ export default {
   },
 };
 ```
-
-:::tip
-After using Rspack for build, there are currently a few configs that are not supported in Rspack, such as [source.moduleScopes](/configure/app/source/module-scopes).
-
-For unsupported configurations, we have marked `Bundler: only support webpack` or `Bundler: only support Rspack` in the document. Please refer to the specific configuration introduction.
-:::
 
 ## Modify transpile configuration
 

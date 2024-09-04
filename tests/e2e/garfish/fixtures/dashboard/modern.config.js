@@ -44,10 +44,7 @@ module.exports = defineConfig({
   },
   plugins: [
     appTools({
-      bundler:
-        process.env.PROVIDE_TYPE === 'rspack'
-          ? 'experimental-rspack'
-          : 'webpack',
+      bundler: process.env.PROVIDE_TYPE === 'rspack' ? 'rspack' : 'webpack',
     }),
     routerPlugin(),
     garfishPlugin(),

@@ -3,7 +3,6 @@ import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
   BaseGenerator,
-  BuildTools,
   EntryGenerator,
   Language,
   PackagesGenerator,
@@ -108,12 +107,9 @@ export const handleTemplateFile = async (
   generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
 
   const { packageName, packagePath, language, packageManager } = ans;
-  const { packagesInfo, buildTools } = context.config;
+  const { packagesInfo } = context.config;
 
-  const bundler =
-    buildTools === BuildTools.Rspack
-      ? `'experimental-rspack',`
-      : `'webpack', // Set to 'experimental-rspack' to enable rspack ⚡️🦀`;
+  const bundler = `'rspack', // Set to 'webpack' to enable webpack`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
