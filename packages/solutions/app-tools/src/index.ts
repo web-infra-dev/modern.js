@@ -157,7 +157,7 @@ export const appTools = (
         const { filename, eventType, isPrivate } = e;
 
         if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
-          const { closeServer } = await import('./utils/createServer');
+          const { closeServer } = await import('./utils/createServer.js');
           await closeServer();
           await restart(api.useHookRunners(), filename);
         }
