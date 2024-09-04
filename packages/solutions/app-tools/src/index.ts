@@ -49,6 +49,7 @@ export type AppToolsOptions = {
  */
 export const appTools = (
   options: AppToolsOptions = {
+    // default webpack to be compatible with original projects
     bundler: 'webpack',
   },
 ): CliPlugin<AppTools<'shared'>> => ({

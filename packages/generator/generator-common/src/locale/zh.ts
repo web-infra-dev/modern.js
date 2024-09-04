@@ -83,9 +83,4 @@ export const ZH_LOCALE = {
       framework: '框架模式',
     },
   },
-  buildTools: {
-    self: '请选择构建工具',
-    rspack: 'Rspack',
-    webpack: 'webpack',
-  },
 };
