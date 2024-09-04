@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.59.0
+
+### Patch Changes
+
+- a156893: refactor: improve framework routes,data-solutions,render docs
+  refactor: 优化框架的路由、数据解决方案、渲染文档
+- 0c48595: docs: update Rspack precautions
+
 ## 2.58.3
 
 ## 2.58.2

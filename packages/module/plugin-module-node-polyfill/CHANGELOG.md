@@ -1,5 +1,13 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.59.0
+
+### Patch Changes
+
+- 77bd2a2: fix: node polyfill globals.js should use correct import order
+  fix: node polyfill 插件需要使用正确的引入顺序
+  - @modern-js/module-tools@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes

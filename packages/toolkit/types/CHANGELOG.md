@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.59.0
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+
 ## 2.58.3
 
 ## 2.58.2

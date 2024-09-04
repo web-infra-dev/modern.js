@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.59.0
+
+### Patch Changes
+
+- 553924c: fix: move parse window ssr data to createRoot
+
+  fix: 移动解析 window ssr data 到 createRoot 方法
+
+- 6c084da: feat: add WithRouterProps params type
+- Updated dependencies [539d72b]
+  - @modern-js/types@2.59.0
+  - @modern-js/plugin-data-loader@2.59.0
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/plugin@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/main-doc
 
+## 2.59.0
+
+### Patch Changes
+
+- 3142215: chore: refeactor structure for basic features docs
+  chore: 重构基础用法文档结构
+- a156893: refactor: improve framework routes,data-solutions,render docs
+  refactor: 优化框架的路由、数据解决方案、渲染文档
+- 0c48595: docs: update Rspack precautions
+- Updated dependencies [a156893]
+- Updated dependencies [0c48595]
+  - @modern-js/builder-doc@2.59.0
+  - @modern-js/sandpack-react@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.5.0
+
+### Minor Changes
+
+- 2f6d4e9: feat: enable Rspack by default in new project
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.59.0
+
 ## 3.4.17
 
 ### Patch Changes
