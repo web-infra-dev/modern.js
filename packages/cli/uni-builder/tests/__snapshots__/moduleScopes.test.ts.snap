@@ -5,9 +5,9 @@ exports[`plugin-module-scopes > should set entry correctly 1`] = `
   "extensions": [
     ".ts",
     ".tsx",
+    ".mjs",
     ".js",
     ".jsx",
-    ".mjs",
     ".json",
   ],
   "plugins": [
@@ -17,9 +17,9 @@ exports[`plugin-module-scopes > should set entry correctly 1`] = `
       "extensions": [
         ".ts",
         ".tsx",
+        ".mjs",
         ".js",
         ".jsx",
-        ".mjs",
         ".json",
       ],
       "log": {

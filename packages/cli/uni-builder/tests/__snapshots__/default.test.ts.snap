@@ -911,9 +911,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "tsConfig": {
@@ -1718,9 +1718,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "tsConfig": {
@@ -2664,9 +2664,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "tsConfig": {
@@ -3396,9 +3396,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "tsConfig": {
@@ -4493,9 +4493,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "plugins": [
@@ -4505,9 +4505,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "extensions": [
           ".ts",
           ".tsx",
+          ".mjs",
           ".js",
           ".jsx",
-          ".mjs",
           ".json",
         ],
         "log": {
@@ -5695,9 +5695,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "plugins": [
@@ -5707,9 +5707,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "extensions": [
           ".ts",
           ".tsx",
+          ".mjs",
           ".js",
           ".jsx",
-          ".mjs",
           ".json",
         ],
         "log": {
