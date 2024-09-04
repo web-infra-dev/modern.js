@@ -62,6 +62,16 @@ type FallbackInput = {
   reporter?: Reporter;
 };
 
+export type OnFallback = (
+  reason: FallbackReason,
+  utils: {
+    logger: Logger;
+    metrics?: Metrics;
+    reporter?: Reporter;
+  },
+  error?: unknown,
+) => Promise<void>;
+
 export type APIServerStartInput = {
   pwd: string;
   prefix?: string;
@@ -157,6 +167,7 @@ export interface GetRenderHandlerOptions {
   pwd: string;
   routes: ServerRoute[];
   config: UserConfig;
+  onFallback?: OnFallback;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   metaName?: string;

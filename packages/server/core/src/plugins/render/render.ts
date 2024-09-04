@@ -4,7 +4,12 @@ import { cutNameByHyphen } from '@modern-js/utils/universal';
 import type { Router } from 'hono/router';
 import { TrieRouter } from 'hono/router/trie-router';
 import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
-import type { CacheConfig, FallbackReason, UserConfig } from '../../types';
+import type {
+  CacheConfig,
+  FallbackReason,
+  OnFallback,
+  UserConfig,
+} from '../../types';
 import type { Render } from '../../types';
 import type { Params } from '../../types/requestHandler';
 import {
@@ -20,16 +25,6 @@ import {
 } from '../../utils';
 import { dataHandler } from './dataHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
-
-export type OnFallback = (
-  reason: FallbackReason,
-  utils: {
-    logger: Logger;
-    metrics?: Metrics;
-    reporter?: Reporter;
-  },
-  error?: unknown,
-) => Promise<void>;
 
 interface CreateRenderOptions {
   pwd: string;
