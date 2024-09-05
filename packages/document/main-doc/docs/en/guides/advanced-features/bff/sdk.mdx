@@ -1,81 +1,70 @@
----
-sidebar_position: 4
-title: Custom request SDK
----
-# Custom request SDK
+# Extend Request SDK
 
-Modernjs's BFF is isomorphic in CSR and SSR.In the browser side rely on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)，On the server relies on the [node-fetch](https://www.npmjs.com/package/node-fetch).However, in many business scenarios we need to do some additional processing of the request or response, for example:
+The unified invocation of BFF functions is isomorphic in both CSR and SSR. The request SDK encapsulated by Modern.js relies on the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) on the browser side, and on [node-fetch](https://www.npmjs.com/package/node-fetch) on the server side. However, in actual business scenarios, additional processing may be required for requests or responses, such as:
 
-- Write auth information in the request header
-- Uniform processing of response data or errors
-- The browser's native fetch function is not available for a particular platform, and other methods of sending requests are required
+- Writing authentication information in the request headers
+- Uniform handling of response data or errors
+- Using other methods to send requests when the native fetch function is unavailable on specific platforms
 
-For the above scenario, Modern.js provides the `configure` function，the customization capabilities range from low to high and can be used to configure ssr pass-through request headers, interceptors, and request SDKs..
+To address these scenarios, Modern.js provides the `configure` function, which offers a series of extension capabilities. You can use it to configure SSR passthrough request headers, add interceptors, or customize the request SDK.
 
-:::caution
-The `configure` function call needs to be called before all BFF requests are sent, to ensure that the default request configuration is overridden.
-
+:::caution Note
+The `configure` function needs to be called before all BFF requests are sent to ensure that the default request configuration is overridden.
 :::
 
-
-```ts title="App.tsx"
+```tsx title="routes/page.tsx"
 import { configure } from '@modern-js/runtime/bff';
 
 configure({
-  request: customRequest
+  // ...
 })
+
+const Index = () => <div>Hello world</div>
+export default Index;
 ```
 
-## Configure ssr pass-through request headers
+## Configuring SSR Passthrough Request Headers
 
-In scenarios where both Modern.js SSR and BFF are used, it is often necessary to pass some request headers on SSR page requests to the BFF service.
+When using both Modern.js SSR and BFF, it is often necessary to pass some request header information from the SSR page request to the BFF service.
 
-For example, the project has a page address `https://website.com`, which is an SSR page, and the API interface `https://website.com/api/info` will be called in the component, which requires the user's cookie information for authentication. When the page requests this API interface, it needs to pass the `cookie` requested by the SSR page to BFF.
+For example, imagine a project with a page URL `https://website.com`. This page is rendered using SSR, and in the component, it will call the API endpoint `https://website.com/api/info`, which requires the user's cookie information for authentication. The page needs to pass the `cookie` of the SSR page request to the BFF when requesting this API endpoint.
 
-Currently the following request headers are automatically passed through in Modern.js:
+Currently, the following request headers are automatically passed through in Modern.js:
 
-- cookie
-- x-tt-logid
-- user-agent
-- x-tt-stress
+```ts
+['cookie', 'user-agent', 'x-tt-logid', 'x-tt-stress']
+```
 
-The request header can be configured via `configure`. For example, in the following example, Modern.js will automatically pass the cookie information of the SSR page request to the BFF service:
+You can configure additional request headers using `configure`. For example, in the following snippet, Modern.js will automatically pass the `x-uid` information from the SSR page request to the BFF service:
 
-```tsx title="App.tsx"
-import { configure } from '@modern-js/runtime/bff';
-
+```tsx
 configure({
   allowedHeaders: ['x-uid']
 })
 ```
 
-## Configuring Interceptors
+## Adding Interceptors
 
-In certain business scenarios, there is a requirement for unified processing of requests and responses, and interceptors can be configured to fulfill these requirements in such scenarios.
+In some business scenarios, you may need to handle requests and responses uniformly. This can be achieved by **configuring interceptors**:
 
-```tsx title="App.tsx"
+```tsx
 configure({
-  // The request here is the default request sdk for bff, and the interceptor function needs to return a new request.
-  // The return value of the new request must be the result of the parse body
-  interceptor(request){
-    return async(url, params) => {
+  // The `request` here is the default request tool for unified invocation. The `interceptor` function needs to return a new request.
+  // The output of the new request must be the parsed body result.
+  interceptor(request) {
+    return async (url, params) => {
       const res = await request(url, params);
       return res.json();
     };
-  };
+  }
 });
 ```
 
-## Configure custom request SDK
+## Customizing the Request SDK
 
-If the requirements cannot be met by configuring interceptors alone  and need to further customize the request SDK, you can configure the custom request SDK by using the `configure` function:
+If configuring interceptors alone cannot meet your needs and you want to customize the request function, you can also configure it using `configure`:
 
-:::caution
-Send a request to the BFF service when the server side renders, Modern.js will find the BFF service intranet IP via **service discovery** and send requests via IP to improve performance. This optimization is **lost** if a custom request SDK is used.
-
-:::
-
-```tsx title="App.tsx"
+```tsx
 import nodeFetch from 'node-fetch';
 
 const customFetch = (input: RequestInfo | URL, init: RequestInit) => {
@@ -92,13 +81,13 @@ configure({
 });
 ```
 
-The configuration custom request SDK has the following conventions:
+There are some conventions when configuring custom request functions:
 
-- The `configure` function allows you to configure a `request` function whose input is the same as the Fetch or node-fetch in the browser, and all BFF functions will send requests through this function
-- The return value of the `request` function must be the actual data returned by the interface, not a Promise, otherwise the BFF function will not return data properly.
-- In the case of SSR projects, `request` must support both browser-side and server-side sending of requests.
+- The function's parameters should align with the Fetch API or node-fetch in the browser. All unified invocations of BFF functions will send requests via this function.
+- The function's output must be the actual data returned by the API, not a Promise, otherwise, the BFF function will not return data correctly.
+- If it's an SSR project, the function must support sending requests on both the browser and server sides.
 
-Example of custom request SDK using axios:
+Below is an example of using axios to customize a request function:
 
 ```tsx title="App.tsx"
 import { configure } from '@modern-js/runtime/bff';
@@ -108,7 +97,7 @@ configure({
   async request(...config: Parameters<typeof fetch>) {
     const [url, params] = config;
     const res = await axios({
-      url: url as string,  // Here, because of some incompatibility between fetch and axios types, you need to use `as`
+      url: url as string,  // Here we need to use `as` because fetch and axios types are somewhat incompatible
       method: params?.method as Method,
       data: params?.body,
       headers: params?.headers as Headers,
