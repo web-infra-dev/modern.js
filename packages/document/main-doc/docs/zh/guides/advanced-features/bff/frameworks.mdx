@@ -1,17 +1,12 @@
----
-sidebar_position: 3
-title: 运行时框架
----
+# Runtime Framework
 
-# 运行时框架
+Modern.js BFF supports different runtime frameworks. Currently, Modern.js BFF supports two runtime frameworks: [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/).
 
-Modern.js 的 BFF 支持不同的运行时框架，当前 Modern.js 的 BFF 支持两种运行时框架 [Express.js](https://expressjs.com/) 和 [Koa.js](https://koajs.com/)。
+When using different runtime frameworks, some APIs may differ.
 
-使用不同运行时框架时，有部分 API 会存在差异。
+## Accessing Request Context
 
-## 获取请求上下文
-
-在 BFF 函数中，有时需要获取请求上下文，来处理更多逻辑。此时，根据不同的运行时框架，你需要从通过不同的 API 来获取：
+In BFF functions, you may need to access the request context to handle more logic. Depending on the runtime framework, you need to use different APIs:
 
 import { Tabs, Tab as TabItem } from "@theme";
 
@@ -43,12 +38,12 @@ export const get = async () => {
 </Tabs>
 
 :::info
-详细内容可以参考 [useContext](/apis/app/runtime/bff/use-context)。
+For more details, refer to [useContext](/apis/app/runtime/bff/use-context).
 :::
 
-## 使用中间件
+## Using Middleware
 
-在 BFF 函数中，有时需要使用中间件，来处理更多逻辑。此时，根据不同的运行时框架，你需要从通过不同的 API 来获取：
+In BFF functions, you may need to use middleware to handle more logic. Depending on the runtime framework, you need to use different APIs:
 
 <Tabs>
   <TabItem value="express" label="Express.js" default>
@@ -82,5 +77,5 @@ export default hook(({ addMiddleware }) => {
 </Tabs>
 
 :::info
-详细内容可以参考 [hook](/apis/app/runtime/bff/hook)。
+For more details, refer to [hook](/apis/app/runtime/bff/hook).
 :::
