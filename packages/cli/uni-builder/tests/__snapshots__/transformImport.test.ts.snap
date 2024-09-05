@@ -501,6 +501,10 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -518,10 +522,6 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
                 "style": false,
               },
               "@arco-design/web-react",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -644,6 +644,10 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -661,10 +665,6 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -911,15 +911,15 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "libraryName": "foo",
               },
               "foo",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",

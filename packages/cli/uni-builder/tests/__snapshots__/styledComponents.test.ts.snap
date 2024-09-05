@@ -54,6 +54,10 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -71,10 +75,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -189,6 +189,10 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-dynamic-import-node/lib/index.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -206,10 +210,6 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
@@ -318,6 +318,10 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -335,10 +339,6 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",

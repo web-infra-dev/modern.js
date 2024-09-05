@@ -285,6 +285,10 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -302,10 +306,6 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -420,6 +420,10 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-dynamic-import-node/lib/index.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -437,10 +441,6 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
@@ -552,6 +552,10 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -569,10 +573,6 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -695,6 +695,10 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -712,10 +716,6 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1052,6 +1052,10 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1069,10 +1073,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1179,6 +1179,10 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1196,10 +1200,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
@@ -1315,6 +1315,10 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1332,10 +1336,6 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1456,6 +1456,10 @@ exports[`plugin-babel > should set babel-loader 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1473,10 +1477,6 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1603,6 +1603,10 @@ exports[`plugin-babel > should set include/exclude 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1620,10 +1624,6 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1740,6 +1740,10 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1765,10 +1769,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "libraryName": "foo",
               },
               "foo",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1875,6 +1875,10 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -1900,10 +1904,6 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "libraryName": "foo",
               },
               "foo",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
