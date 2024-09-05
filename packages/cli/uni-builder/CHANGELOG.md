@@ -1,5 +1,22 @@
 # @modern-js/uni-builder
 
+## 2.59.0
+
+### Patch Changes
+
+- a43813d: feat: support for security.sri when using Rspack
+- 59ba402: feat(deps): bump Rsbuild 1.0.1-rc.3
+- 0363aec: chore(deps): bump Rsbuild 1.0.1-rc.4
+- d9a48a8: feat: bump Rsbuild 1.0-rc & Rspack 1.0.0
+- 661b6d5: fix: remove lib-lodash from experience chunks
+- afdca3e: fix: serviceWorker default config
+- e2a79bf: fix: dev.setupMiddlewares not work
+
+  fix: 修复 dev.setupMiddlewares 不生效的问题
+
+  - @modern-js/utils@2.59.0
+  - @modern-js/babel-preset@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes

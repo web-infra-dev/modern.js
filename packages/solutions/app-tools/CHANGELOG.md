@@ -1,5 +1,48 @@
 # @modern-js/app-tools
 
+## 2.59.0
+
+### Minor Changes
+
+- 2f6d4e9: feat: mark rspack as stable and support enabling rspack build via `bundler:'rspack'`
+
+  feat: 标记 rspack 功能稳定，支持通过 `bundler:'rspack'` 开启 rspack 构建
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+- 94c4f0a: fix: app-tools import createServer.js to fix errors during HMR
+- e41dfaf: fix: entry detection not work when `src/xx/index.tsx` export a default function
+
+  fix: 修复当存在 `src/xx/index.tsx` 并导出一个默认函数时，entry 检测不生效的问题
+
+- afdca3e: fix: serviceWorker default config
+- Updated dependencies [a43813d]
+- Updated dependencies [59ba402]
+- Updated dependencies [539d72b]
+- Updated dependencies [ef1ec44]
+- Updated dependencies [0363aec]
+- Updated dependencies [80237dc]
+- Updated dependencies [d9a48a8]
+- Updated dependencies [661b6d5]
+- Updated dependencies [afdca3e]
+- Updated dependencies [e2a79bf]
+  - @modern-js/uni-builder@2.59.0
+  - @modern-js/types@2.59.0
+  - @modern-js/server-core@2.59.0
+  - @modern-js/core@2.59.0
+  - @modern-js/server@2.59.0
+  - @modern-js/plugin-data-loader@2.59.0
+  - @modern-js/prod-server@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/server-utils@2.59.0
+  - @modern-js/plugin-i18n@2.59.0
+  - @modern-js/plugin-lint@2.59.0
+  - @modern-js/rsbuild-plugin-esbuild@2.59.0
+  - @modern-js/node-bundle-require@2.59.0
+  - @modern-js/plugin@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes

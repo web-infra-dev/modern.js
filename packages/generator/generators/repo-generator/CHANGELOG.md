@@ -1,5 +1,11 @@
 # @modern-js/repo-generator
 
+## 3.5.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+
 ## 3.4.17
 
 ### Patch Changes

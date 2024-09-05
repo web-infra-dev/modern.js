@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 2.59.0
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+- ef1ec44: fix: we should run runner.fallback when ssr fallback
+  fix: 我们应该在 ssr 降级时运行 runn.fallback
+- 80237dc: fix: server-core should not be import node api
+  fix: server-core 不应该被引入 node api
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/plugin@2.59.0
+
 ## 2.58.3
 
 ### Patch Changes
