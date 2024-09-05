@@ -15,9 +15,7 @@ sidebar_position: 4
 
 ## 通过 `tsconfig.json` 的 `paths` 配置
 
-你可以通过 `tsconfig.json` 中的 `paths` 来配置别名，这是我们在 TypeScript 项目中推荐使用的方式，因为它可以解决路径别名的 TS 类型问题。
-
-比如：
+你可以通过 `tsconfig.json` 中的 `paths` 来配置别名，这是我们在 TypeScript 项目中推荐使用的方式，因为它可以解决路径别名的 TS 类型问题。比如：
 
 ```json title="tsconfig.json"
 {
@@ -29,7 +27,7 @@ sidebar_position: 4
 }
 ```
 
-以上配置完成后，如果你在代码中引用 `@common/Foo.tsx`, 则会映射到 `<project>/src/common/Foo.tsx` 路径上。
+以上配置完成后，如果你在代码中引用 `@common/Foo.tsx`，则会映射到 `<project>/src/common/Foo.tsx` 路径上。
 
 :::tip
 你可以阅读 [TypeScript - paths](https://www.typescriptlang.org/tsconfig#paths) 文档来了解更多用法。
@@ -47,9 +45,7 @@ Modern.js 提供了 [source.alias](/configure/app/source/alias) 配置项，对�
 
 ### 对象用法
 
-你可以通过对象的方式来配置 `source.alias`，其中的相对路径会被自动补全为绝对路径。
-
-比如：
+你可以通过对象的方式来配置 `source.alias`，其中的相对路径会被自动补全为绝对路径。比如：
 
 ```js
 export default {
@@ -61,13 +57,11 @@ export default {
 };
 ```
 
-以上配置完成后，如果你在代码中引用 `@common/Foo.tsx`, 则会映射到 `<project>/src/common/Foo.tsx` 路径上。
+以上配置完成后，如果你在代码中引用 `@common/Foo.tsx`，则会映射到 `<project>/src/common/Foo.tsx` 路径上。
 
 ### 函数用法
 
-你也可以将 `source.alias` 配置为一个函数，拿到内置的 `alias` 对象，对其进行修改。
-
-比如：
+你也可以将 `source.alias` 配置为一个函数，拿到内置的 `alias` 对象，对其进行修改。比如：
 
 ```js
 export default {
