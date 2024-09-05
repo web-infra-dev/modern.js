@@ -2,6 +2,7 @@ import type { BabelConfig } from '@modern-js/babel-preset';
 import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
 import { applyOptionsChain, isBeyondReact17 } from '@modern-js/utils';
+import { logger } from '@rsbuild/core';
 import type {
   NormalizedEnvironmentConfig,
   NormalizedSourceConfig,
@@ -106,8 +107,12 @@ export const pluginBabel = (
                   pluginDecorators: decoratorConfig,
                 });
 
+          applyPluginLodash(
+            baseBabelConfig,
+            extraOptions.transformLodash,
+            config.source.transformImport,
+          );
           applyPluginImport(baseBabelConfig, config.source.transformImport);
-          applyPluginLodash(baseBabelConfig, extraOptions.transformLodash);
 
           baseBabelConfig.presets?.push(
             getPresetReact(api.context.rootPath, isProd),
@@ -191,7 +196,24 @@ export const pluginBabel = (
   },
 });
 
-function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
+function applyPluginLodash(
+  config: BabelConfig,
+  transformLodash?: boolean,
+  transformImport: NormalizedSourceConfig['transformImport'] = [],
+) {
+  const finalTransformImport = reduceTransformImportConfig(transformImport);
+  const hasImportPluginForLodash = finalTransformImport.some(
+    transformImport => {
+      return transformImport.libraryName === 'lodash';
+    },
+  );
+  if (hasImportPluginForLodash && transformLodash) {
+    logger.warn(
+      'Detected a potential conflict between `source.transformImport` and `performance.transformLodash` for lodash. ' +
+        'Please ensure only one of these configurations is used to handle lodash imports. ' +
+        'If you want to use `source.transformImport`, set `performance.transformLodash` to `false` in your configuration.',
+    );
+  }
   if (transformLodash) {
     config.plugins?.push([
       require.resolve('../../../compiled/babel-plugin-lodash'),

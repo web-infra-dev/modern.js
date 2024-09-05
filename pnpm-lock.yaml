@@ -8091,6 +8091,46 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/transform-lodash-import:
+    dependencies:
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.3.1(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-swc
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/lodash':
+        specifier: ^4.14.202
+        version: 4.17.7
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+      typescript:
+        specifier: ^5
+        version: 5.4.5
+
   tests/integration/write-to-dist:
     dependencies:
       '@modern-js/runtime':
@@ -9100,7 +9140,7 @@ packages:
       '@babel/helper-validator-identifier': 7.24.7
       chalk: 2.4.2
       js-tokens: 4.0.0
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   /@babel/parser@7.23.6:
     resolution: {integrity: sha512-Z2uID7YJ7oNvAI20O9X0bblw7Qqs8Q2hFy0R9tAfnfLkp5MW0UH9eUvnDSnFwKZ0AvgS1ucqR4KzvVHgnke1VQ==}
@@ -17457,7 +17497,7 @@ packages:
       '@storybook/preview-api': 7.6.3
       '@storybook/theming': 7.6.3(react-dom@18.2.0)(react@18.2.0)
       '@storybook/types': 7.6.3
-      '@types/lodash': 4.14.202
+      '@types/lodash': 4.17.7
       color-convert: 2.0.1
       dequal: 2.0.3
       lodash: 4.17.21
@@ -18859,11 +18899,15 @@ packages:
   /@types/lodash-es@4.17.12:
     resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
     dependencies:
-      '@types/lodash': 4.14.202
+      '@types/lodash': 4.17.7
     dev: true
 
   /@types/lodash@4.14.202:
     resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
+
+  /@types/lodash@4.17.7:
+    resolution: {integrity: sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==}
+    dev: true
 
   /@types/lru-cache@5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -19433,7 +19477,7 @@ packages:
   /@vitest/utils@0.33.0:
     resolution: {integrity: sha512-pF1w22ic965sv+EN6uoePkAOTkAPWM03Ri/jXNyMIKBb/XHLDPfhLvf/Fa9g0YECevAIz56oVYXhodLvLQ/awA==}
     dependencies:
-      diff-sequences: 29.4.3
+      diff-sequences: 29.6.3
       loupe: 2.3.6
       pretty-format: 29.7.0
     dev: true
@@ -22759,11 +22803,6 @@ packages:
 
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
-
-  /diff-sequences@29.4.3:
-    resolution: {integrity: sha512-ofrBgwpPhCD85kMKtE9RYFFq6OC1A89oW2vvgWZNCwxrUpRUILopY7lsYyMDSjc8g6U6aiO0Qubg6r4Wgt5ZnA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    dev: true
 
   /diff-sequences@29.6.3:
     resolution: {integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q==}
@@ -30492,7 +30531,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       source-map-js: 1.2.0
     dev: true
 
@@ -30509,7 +30548,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       source-map-js: 1.2.0
     dev: false
 
@@ -30518,7 +30557,7 @@ packages:
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       source-map-js: 1.2.0
 
   /preferred-pm@3.0.3:
@@ -36073,7 +36112,7 @@ packages:
     dependencies:
       browserslist: 4.23.1
       escalade: 3.1.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
 
   /upper-case@2.0.2:
     resolution: {integrity: sha512-KgdgDGJt2TpuwBUIjgG6lzw2GWFRCW9Qkfkiv0DxqHHLYJHmtmdUIKcZd8rHgFSjopVTlw6ggzCm1b8MFQwikg==}
@@ -36381,7 +36420,7 @@ packages:
       debug: 4.3.4(supports-color@9.3.1)
       mlly: 1.7.0
       pathe: 1.1.1
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       vite: 4.5.2(@types/node@18.11.17)
     transitivePeerDependencies:
       - '@types/node'
@@ -36623,7 +36662,7 @@ packages:
       lodash.pullall: 4.2.0
       lodash.uniqby: 4.7.0
       opener: 1.5.2
-      picocolors: 1.0.1
+      picocolors: 1.1.0
       sirv: 2.0.3
       ws: 7.5.8
     transitivePeerDependencies:

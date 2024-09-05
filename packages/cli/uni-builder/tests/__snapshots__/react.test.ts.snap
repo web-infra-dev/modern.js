@@ -54,6 +54,10 @@ exports[`plugins/react > should work with babel-loader 1`] = `
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -71,10 +75,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
