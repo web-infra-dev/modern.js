@@ -56,7 +56,6 @@ describe('test render', () => {
     const renderOptions: RenderOptions = {
       runtimeContext,
       resource: {
-        loadableStats: {},
         route: {
           urlPath: '/',
           entryPath: 'main',
@@ -64,7 +63,7 @@ describe('test render', () => {
         htmlTemplate,
         entryName: 'main',
         routeManifest: {} as any,
-      },
+      } as any,
       loaderContext: new Map(),
       logger: createLogger(),
       params: {},

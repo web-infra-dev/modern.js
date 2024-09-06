@@ -18,6 +18,8 @@ interface CacheStruct {
   cursor: number;
 }
 
+const ZERO_RENDER_LEVEL = /"renderLevel":0/;
+
 export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
 
 async function processCache({
@@ -51,6 +53,12 @@ async function processCache({
     const push = () =>
       reader.read().then(({ done, value }) => {
         if (done) {
+          const match = ZERO_RENDER_LEVEL.test(html);
+          // We should not cache the html, if we can match the html is downgrading.
+          if (match) {
+            writer.close();
+            return;
+          }
           const current = Date.now();
           const cache: CacheStruct = {
             val: html,
