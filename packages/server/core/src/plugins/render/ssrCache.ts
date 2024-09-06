@@ -18,7 +18,7 @@ interface CacheStruct {
   cursor: number;
 }
 
-const ZERO_RENDER_LEVEL = /.*renderLevel.*:.*0/;
+const ZERO_RENDER_LEVEL = /"renderLevel":0/;
 
 export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
 
