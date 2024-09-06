@@ -51,8 +51,6 @@ const handleTemplateFile = async (
           .replace('.handlebars', ''),
     );
   }
-
-  fs.chmodSync(path.join(generator.outputPath, '.husky', 'pre-commit'), '755');
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {

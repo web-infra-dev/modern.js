@@ -10,7 +10,7 @@
     {{#if isMonorepoSubProject}}
     "prepare": "modern build",
     {{else}}
-    "prepare": "modern build && husky install",
+    "prepare": "modern build && simple-git-hooks",
     {{/if}}
     "dev": "modern dev",
     "build": "modern build",
@@ -34,6 +34,9 @@
       "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
   "eslintIgnore": [
     "node_modules/",
     "dist/"
@@ -51,7 +54,7 @@
     "rimraf": "~3.0.2",
     "lint-staged": "~13.1.0",
     "prettier": "~2.8.1",
-    "husky": "~8.0.1"
+     "simple-git-hooks": "^2.11.1"
   },
   "sideEffects": [],
   "publishConfig": {

@@ -3718,9 +3718,6 @@ importers:
       '@types/source-map-support':
         specifier: 0.5.10
         version: 0.5.10
-      husky:
-        specifier: ^8.0.0
-        version: 8.0.1
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@16.11.68)(ts-node@10.9.2)
@@ -6495,9 +6492,6 @@ importers:
       '@types/react':
         specifier: ^18
         version: 18.0.21
-      husky:
-        specifier: ^8.0.0
-        version: 8.0.1
       lint-staged:
         specifier: ~13.1.0
         version: 13.1.4
