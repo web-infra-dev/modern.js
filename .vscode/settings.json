@@ -59,4 +59,5 @@
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
+  "todo-tree.tree.disableCompactFolders": true,
 }

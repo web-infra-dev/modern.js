@@ -168,7 +168,7 @@ export default ({
 
           builder.onAfterBuild(async ({ stats }) => {
             const hookRunners = api.useHookRunners();
-            await hookRunners.afterBuild({ stats });
+            await hookRunners.afterBuild({ stats: stats as any });
             await emitResolvedConfig(appContext.appDirectory, normalizedConfig);
           });
 
