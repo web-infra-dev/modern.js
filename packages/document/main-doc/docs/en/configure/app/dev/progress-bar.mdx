@@ -1,9 +1,24 @@
 ---
 title: progressBar
+configName: dev.progressBar
 ---
 
 # dev.progressBar
 
-import Main from '@modern-js/builder-doc/docs/en/config/dev/progressBar.md';
+- **Type:**
 
-<Main />
+```ts
+type ProgressBar =
+  | boolean
+  | {
+      id?: string;
+    };
+```
+
+- **Default:** true
+
+Whether to display progress bar during compilation.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
