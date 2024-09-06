@@ -129,29 +129,28 @@ async function generateHtml(
   let html = '';
   let helmetData;
 
+  const finalApp = collectors.reduce(
+    (pre, creator) => creator.collect?.(pre) || pre,
+    App,
+  );
   try {
-    const finalApp = collectors.reduce(
-      (pre, creator) => creator.collect?.(pre) || pre,
-      App,
-    );
     // react render to string
     if (chunkSet.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       html = ReactDomServer.renderToString(finalApp);
       chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     }
-
     helmetData = ReactHelmet.renderStatic();
-
-    // collectors do effect
-    await Promise.all(collectors.map(component => component.effect()));
-
-    const cost = end();
-
-    onTiming(SSRTimings.RENDER_HTML, cost);
   } catch (e) {
     chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
     onError(SSRErrors.RENDER_HTML, e);
   }
+
+  // collectors do effect
+  await Promise.all(collectors.map(component => component.effect()));
+
+  const cost = end();
+
+  onTiming(SSRTimings.RENDER_HTML, cost);
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 
