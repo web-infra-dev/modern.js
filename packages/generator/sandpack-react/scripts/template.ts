@@ -7,9 +7,6 @@ import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
   '.nvmrc',
-  '.eslintrc.js.handlebars',
-  'src/.eslintrc.js.handlebars',
-  '.prettierrc',
   '.vscode/extensions.json',
   '.vscode/settings.json',
   '.husky/pre-commit',

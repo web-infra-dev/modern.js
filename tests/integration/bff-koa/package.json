@@ -15,10 +15,6 @@
   "engines": {
     "node": ">=18.19.0"
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ],
   "dependencies": {
     "@modern-js/plugin-bff": "workspace:*",
     "@modern-js/plugin-koa": "workspace:*",

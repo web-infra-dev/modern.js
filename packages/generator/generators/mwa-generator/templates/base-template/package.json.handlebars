@@ -2,13 +2,13 @@
   "name": "{{ name }}",
   "version": "0.1.0",
   "scripts": {
-    "reset": "npx rimraf ./**/node_modules",
+    "reset": "npx rimraf node_modules ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
-    "lint": "modern lint",
+    "lint": "biome check",
     {{#unless isMonorepoSubProject}}
     "prepare": "simple-git-hooks",
     {{/unless}}
@@ -19,17 +19,13 @@
     "node": ">=16.18.1"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --files-ignore-unknown=true"
     ]
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ],
   {{/unless}}
   "dependencies": {
     "@modern-js/runtime": "{{modernVersion}}",
@@ -38,9 +34,8 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "{{modernVersion}}",
-    "@modern-js/eslint-config": "{{modernVersion}}",
     "@modern-js/tsconfig": "{{modernVersion}}",
-    "@modern-js-app/eslint-config": "{{modernVersion}}",
+    "@biomejs/biome": "1.8.3",
     {{#if isTs}}
     "typescript": "~5.0.4",
     "@types/jest": "~29.2.4",
@@ -49,8 +44,7 @@
     "@types/react-dom": "~18.0.10",
     {{/if}}
     "lint-staged": "~13.1.0",
-    "prettier": "~2.8.1",
     "simple-git-hooks": "^2.11.1",
-    "rimraf": "~3.0.2"
+     "rimraf": "^6.0.1"
   }
 }

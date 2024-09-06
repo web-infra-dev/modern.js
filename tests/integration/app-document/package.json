@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",
-    "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
@@ -14,10 +13,6 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ],
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "react": "^18",
