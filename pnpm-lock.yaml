@@ -67,7 +67,7 @@ importers:
         specifier: ^17.0.1
         version: 17.2.7
       rimraf:
-        specifier: ~6.0.1
+        specifier: ^6.0.1
         version: 6.0.1
       vitest:
         specifier: 0.33.0
@@ -3724,9 +3724,6 @@ importers:
       lint-staged:
         specifier: ~13.1.0
         version: 13.1.4
-      rimraf:
-        specifier: ~6.0.1
-        version: 6.0.1
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
@@ -5071,6 +5068,9 @@ importers:
       puppeteer:
         specifier: ^19.11.1
         version: 19.11.1(typescript@5.3.3)
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
       tree-kill:
         specifier: ^1.2.2
         version: 1.2.2
@@ -24967,7 +24967,7 @@ packages:
       foreground-child: 3.1.1
       jackspeak: 2.3.6
       minimatch: 9.0.3
-      minipass: 7.0.4
+      minipass: 7.1.2
       path-scurry: 1.10.1
 
   /glob@11.0.0:
@@ -28685,7 +28685,6 @@ packages:
   /minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
-    dev: true
 
   /minizlib@2.1.2:
     resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
