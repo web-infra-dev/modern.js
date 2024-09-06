@@ -192,7 +192,6 @@ export const handleTemplateFile = async (
           query: {},
           update: {
             $set: {
-              'scripts.prepare': '',
               'devDependencies.husky': undefined,
               'devDependencies.simple-git-hooks': '^2.11.1',
               'simple-git-hooks': {
@@ -219,6 +218,10 @@ export const handleTemplateFile = async (
       pkgInfo.husky = undefined;
 
       fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
+      const huskyDir = path.join(appDir, '.husky');
+      if (fs.existsSync(huskyDir)) {
+        fs.removeSync(huskyDir);
+      }
     }
   } catch (e) {}
 
