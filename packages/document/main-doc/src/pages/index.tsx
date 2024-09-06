@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import clsx from 'clsx';
 import { useEffect } from 'react';
 import { Helmet, useLang, useLocation } from 'rspress/runtime';

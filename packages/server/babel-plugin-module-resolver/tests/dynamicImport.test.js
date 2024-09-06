@@ -1,4 +1,3 @@
-/* eslint-env jest */
 import path from 'path';
 import { transform } from '@babel/core';
 import plugin from '../src';

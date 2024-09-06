@@ -72,7 +72,6 @@ export const mergeDefaultBaseConfig = async (
   };
   const { dts: cmdDts, tsconfig: cmdTsconfigPath } = buildCmdOptions;
 
-  // Impact eslint complexity
   const noDts = cmdDts === false || pConfig.dts === false;
 
   const dts = noDts
