@@ -1,9 +1,19 @@
 ---
 title: assetPrefix
+configName: dev.assetPrefix
 ---
 
 # dev.assetPrefix
 
-import Main from '@modern-js/builder-doc/docs/en/config/dev/assetPrefix.md';
+- **Type:** `boolean | string | 'auto'`
+- **Default:** `'/'`
 
-<Main />
+This configuration item is used to set the URL prefix of static resources in **development mode**.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
+
+:::warning
+Please note that this configuration item is only applicable in development mode. In production mode, please use the [output.assetPrefix](/configure/app/output/asset-prefix) configuration item for setting.
+:::
