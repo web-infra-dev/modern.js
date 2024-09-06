@@ -181,50 +181,6 @@ export const handleTemplateFile = async (
 
   spinner.stop();
 
-  // update husky to simple-git-hook
-  const hasHusky = deps.husky;
-  try {
-    if (hasHusky) {
-      generator.logger.info(`${i18n.t(localeKeys.replaceHusky)}`);
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'package.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              'devDependencies.husky': undefined,
-              'devDependencies.simple-git-hooks': '^2.11.1',
-              'simple-git-hooks': {
-                'pre-commit': 'npx lint-staged',
-              },
-            },
-          },
-        },
-      );
-
-      const pkgPath = context.materials.default.get(
-        path.join(appDir, 'package.json'),
-      ).filePath;
-      const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
-      const { prepare } = pkgInfo.scripts;
-      if (!prepare) {
-        pkgInfo.scripts.prepare = 'simple-git-hooks';
-      } else if (prepare.includes('husky install')) {
-        pkgInfo.scripts.prepare = pkgInfo.scripts.prepare.replace(
-          'husky install',
-          'simple-git-hooks',
-        );
-      }
-      pkgInfo.husky = undefined;
-
-      fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
-      const huskyDir = path.join(appDir, '.husky');
-      if (fs.existsSync(huskyDir)) {
-        fs.removeSync(huskyDir);
-      }
-    }
-  } catch (e) {}
-
   await appApi.runInstall();
 
   appApi.showSuccessInfo(i18n.t(localeKeys.success));
