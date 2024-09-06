@@ -125,7 +125,6 @@ async function generateHtml(
   htmlModifiers: BuildHtmlCb[],
   { onError, onTiming }: Tracer,
 ): Promise<string> {
-  const end = time();
   let html = '';
   let helmetData;
 
@@ -134,12 +133,16 @@ async function generateHtml(
     App,
   );
   try {
+    const end = time();
     // react render to string
     if (chunkSet.renderLevel >= RenderLevel.SERVER_PREFETCH) {
       html = ReactDomServer.renderToString(finalApp);
       chunkSet.renderLevel = RenderLevel.SERVER_RENDER;
     }
     helmetData = ReactHelmet.renderStatic();
+
+    const cost = end();
+    onTiming(SSRTimings.RENDER_HTML, cost);
   } catch (e) {
     chunkSet.renderLevel = RenderLevel.CLIENT_RENDER;
     onError(SSRErrors.RENDER_HTML, e);
@@ -147,10 +150,6 @@ async function generateHtml(
 
   // collectors do effect
   await Promise.all(collectors.map(component => component.effect()));
-
-  const cost = end();
-
-  onTiming(SSRTimings.RENDER_HTML, cost);
 
   const { ssrScripts, cssChunk, jsChunk } = chunkSet;
 
