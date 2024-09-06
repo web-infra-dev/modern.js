@@ -38,7 +38,7 @@ export function buildShellAfterTemplate(
   async function injectJs(template: string, entryName: string, nonce?: string) {
     const { routeManifest } = runtimeContext;
     const { routeAssets } = routeManifest;
-    const asyncEntry = routeAssets[`async-${entryName}`];
+    const asyncEntry = routeAssets?.[`async-${entryName}`];
     if (asyncEntry) {
       const { assets } = asyncEntry;
       const jsChunkStr = assets

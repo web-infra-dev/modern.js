@@ -68,7 +68,8 @@ export const index = ({
   customBootstrap?: string | false;
   mountId?: string;
 }) =>
-  `import '@${metaName}/runtime/registry/${entryName}';
+  // TODO: remove this
+  `
 ${genRenderCode({
   srcDirectory,
   internalSrcAlias,
@@ -166,6 +167,7 @@ import App from '${
       customEntry
         ? entry
             .replace('entry.tsx', 'App')
+            .replace('entry.jsx', 'App')
             .replace(srcDirectory, internalSrcAlias)
         : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
     )
