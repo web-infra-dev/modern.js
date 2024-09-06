@@ -1,5 +1,6 @@
 ---
 title: setupMiddlewares
+configName: dev.setupMiddlewares
 ---
 
 # dev.setupMiddlewares
@@ -7,11 +8,31 @@ title: setupMiddlewares
 - **Type:**
 
 ```ts
-type ServerAPIs = {
+type SetupMiddlewaresServer = {
   sockWrite: (
     type: string,
     data?: string | boolean | Record<string, any>,
   ) => void;
+  environments: {
+    [name: string]: {
+      /**
+       * Get stats info about current environment.
+       */
+      getStats: () => Promise<Stats>;
+      /**
+       * Load and execute stats bundle in server.
+       *
+       * @param entryName - relate to Rsbuild's `source.entry`
+       * @returns the return value of entry module.
+       */
+      loadBundle: <T = unknown>(entryName: string) => Promise<T>;
+
+      /**
+       * Get the compiled HTML template.
+       */
+      getTransformedHtml: (entryName: string) => Promise<string>;
+    };
+  };
 };
 
 type SetupMiddlewares = Array<
@@ -20,7 +41,7 @@ type SetupMiddlewares = Array<
       unshift: (...handlers: RequestHandler[]) => void;
       push: (...handlers: RequestHandler[]) => void;
     },
-    server: ServerAPIs,
+    server: SetupMiddlewaresServer,
   ) => void
 >;
 ```
@@ -29,41 +50,6 @@ type SetupMiddlewares = Array<
 
 Provides the ability to execute a custom function and apply custom middlewares.
 
-The order among several different types of middleware is: `unshift` => internal middlewares => `push`.
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
 
-```js
-export default {
-  dev: {
-    setupMiddlewares: [
-      (middlewares, server) => {
-        middlewares.unshift((req, res, next) => {
-          next();
-        });
-
-        middlewares.push((req, res, next) => {
-          next();
-        });
-      },
-    ],
-  },
-};
-```
-
-It is possible to use some server api to meet special scenario requirements:
-
-- sockWrite. Allow send some message to HMR client, and then the HMR client will take different actions depending on the message type. If you send a "content changed" message, the page will reload.
-
-```js
-export default {
-  dev: {
-    setupMiddlewares: [
-      (middlewares, server) => {
-        // add custom watch & trigger page reload when change
-        watcher.on('change', (changed) => {
-          server.sockWrite('content-changed');
-        });
-      },
-    ],
-  },
-};
-```
+<RsbuildConig />

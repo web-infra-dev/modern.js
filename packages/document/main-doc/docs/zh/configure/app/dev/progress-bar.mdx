@@ -1,9 +1,24 @@
 ---
 title: progressBar
+configName: dev.progressBar
 ---
 
 # dev.progressBar
 
-import Main from '@modern-js/builder-doc/docs/zh/config/dev/progressBar.md';
+- **类型：**
 
-<Main />
+```ts
+type ProgressBar =
+  | boolean
+  | {
+      id?: string;
+    };
+```
+
+- **默认值：** true
+
+是否在编译过程中展示进度条。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

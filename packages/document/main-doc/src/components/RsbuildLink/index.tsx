@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLang } from 'rspress/runtime';
 
 const RsbuildLInk = ({ configName }: { configName: string }) => {
-  const href = `https://rsbuild.dev/config/${configName
+  const lang = useLang();
+  const href = `https://rsbuild.dev/${lang}/config/${configName
     .split('.')
     .join('/')
     .replace(/([a-z])([A-Z])/g, '$1-$2')
