@@ -21,7 +21,6 @@
     "@types/jest": "^29",
     "@types/node": "~16.11.7",
     "@types/react": "^18",
-    "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
     "path-browserify": "1.0.1",
     "prettier": "^2.8.1",
