@@ -38,7 +38,7 @@
     "jest-puppeteer": "^8.0.0",
     "kill-port": "^2.0.0",
     "puppeteer": "^19.11.1",
-    "rimraf": "^3.0.2",
+    "rimraf": "^6.0.1",
     "tree-kill": "^1.2.2",
     "ts-node": "^10.9.1",
     "tsm": "2.3.0",

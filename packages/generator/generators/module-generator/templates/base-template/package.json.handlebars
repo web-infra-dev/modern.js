@@ -16,7 +16,7 @@
     "build": "modern build",
     "build:watch": "modern build -w",
     {{#unless isMonorepoSubProject}}
-    "reset": "rimraf ./**/node_modules",
+    "reset": "npx rimraf node_modules ./**/node_modules",
     "lint": "biome check",
     "change": "modern change",
     "bump": "modern bump",
@@ -47,7 +47,7 @@
     "typescript": "~5.0.4",
     "@types/node": "~16.11.7",
     {{/if}}
-    "rimraf": "~3.0.2",
+    "rimraf": "^6.0.1",
     "lint-staged": "~13.1.0",
      "simple-git-hooks": "^2.11.1"
   },

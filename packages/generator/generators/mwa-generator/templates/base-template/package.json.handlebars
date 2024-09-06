@@ -2,7 +2,7 @@
   "name": "{{ name }}",
   "version": "0.1.0",
   "scripts": {
-    "reset": "npx rimraf ./**/node_modules",
+    "reset": "npx rimraf node_modules ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
     "start": "modern start",
@@ -45,6 +45,6 @@
     {{/if}}
     "lint-staged": "~13.1.0",
     "simple-git-hooks": "^2.11.1",
-    "rimraf": "~3.0.2"
+     "rimraf": "^6.0.1"
   }
 }

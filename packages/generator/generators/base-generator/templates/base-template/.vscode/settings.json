@@ -40,7 +40,6 @@
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true
   },
-
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit"
   },
