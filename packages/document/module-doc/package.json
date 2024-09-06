@@ -13,7 +13,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "rspress dev",
-    "build:doc": "rspress build",
+    "build": "rspress build",
     "preview": "rspress preview"
   },
   "devDependencies": {
