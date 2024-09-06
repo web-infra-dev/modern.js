@@ -29,10 +29,12 @@ type Client = {
 ```js
 const defaultConfig = {
   path: '/webpack-hmr',
-  // Defaults to the port number of the dev server
-  port: '',
-  host: location.hostname,
-  protocol: location.protocol === 'https:' ? 'wss' : 'ws',
+  port: '<port>',
+  // By default it is set to "location.hostname"
+  host: '',
+  // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
+  protocol: undefined,
+  reconnect: 100,
   overlay: false,
 };
 ```
