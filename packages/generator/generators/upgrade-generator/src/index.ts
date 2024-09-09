@@ -25,6 +25,8 @@ import { i18n, localeKeys } from './locale';
 const SpecialModernDeps = [
   '@modern-js/plugin-storybook',
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
+  '@modern-js/eslint-config',
+  '@modern-js-app/eslint-config',
 ];
 
 const DeprecatedModernBuilderDeps = [
@@ -91,6 +93,7 @@ export const handleTemplateFile = async (
       .filter(dep => !dep.includes('electron'))
       .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
       .filter(dep => !dep.startsWith('@modern-js-reduck'))
+      .filter(dep => !dep.includes('eslint-config'))
       .every(dep => deps[dep] === modernVersion)
   ) {
     generator.logger.info(
