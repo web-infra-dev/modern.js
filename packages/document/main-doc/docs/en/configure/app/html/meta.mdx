@@ -1,9 +1,29 @@
 ---
 title: meta
+configName: html.meta
 ---
 
 # html.meta
 
-import Main from '@modern-js/builder-doc/docs/en/config/html/meta.md';
+- **Type:** `Object | Function`
+- **Default:**
 
-<Main />
+```js
+const defaultMeta = {
+  charset: { charset: 'utf-8' },
+  viewport:
+    'width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no',
+  'http-equiv': { 'http-equiv': 'x-ua-compatible', content: 'ie=edge' },
+  renderer: 'webkit',
+  layoutmode: 'standard',
+  imagemode: 'force',
+  'wap-font-scale': 'no',
+  'format-detection': 'telephone=no',
+};
+```
+
+Configure the `<meta>` tag of the HTML.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
