@@ -26,11 +26,6 @@
   },
   {
     "type": "dir",
-    "name": "rsbuild-plugins",
-    "label": "Rsbuild Plugins"
-  },
-  {
-    "type": "dir",
     "name": "troubleshooting",
     "label": "troubleshooting"
   },

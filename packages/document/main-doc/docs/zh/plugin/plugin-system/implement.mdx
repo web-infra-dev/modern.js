@@ -31,7 +31,7 @@ const myPlugin = {
 };
 ```
 
-另外，在插件中，允许配置与其他插件的执行顺序。详情可以参考[插件关系](/guides/topic-detail/framework-plugin/relationship)。
+另外，在插件中，允许配置与其他插件的执行顺序。详情可以参考[插件关系](/plugin/plugin-system/relationship)。
 
 ### 插件类型
 
@@ -115,7 +115,7 @@ import type { MyPluginHook } from 'xxx';
 const myPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
 ```
 
-详细说明，请参考 [扩展 Hook](/guides/topic-detail/framework-plugin/extend)。
+详细说明，请参考 [扩展 Hook](/plugin/plugin-system/extend)。
 
 ### 插件配置项
 
@@ -158,7 +158,7 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-插件 API 的详细说明，请参考 [Plugin API](/guides/topic-detail/framework-plugin/plugin-api)。
+插件 API 的详细说明，请参考 [Plugin API](/plugin/plugin-system/plugin-api)。
 
 ### 异步 setup
 

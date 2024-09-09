@@ -28,7 +28,7 @@ const myPlugin = {
 };
 ```
 
-In addition, plugins allow configuration of the execution order with other plugins. For more information, please refer to [Plugin Relationship](/guides/topic-detail/framework-plugin/relationship).
+In addition, plugins allow configuration of the execution order with other plugins. For more information, please refer to [Plugin Relationship](/plugin/plugin-system/relationship).
 
 ### Plugin Types
 
@@ -108,7 +108,7 @@ import type { MyPluginHook } from 'xxx';
 const myPlugin: CliPlugin<AppTools & { hooks: MyPluginHook }> = {};
 ```
 
-Please refer to [Extending Hooks](/guides/topic-detail/framework-plugin/extend) for detailed explanations.
+Please refer to [Extending Hooks](/plugin/plugin-system/extend) for detailed explanations.
 
 ### Plugin Configuration
 
@@ -151,7 +151,7 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-For more detail [Plugin API](/guides/topic-detail/framework-plugin/plugin-api).
+For more detail [Plugin API](/plugin/plugin-system/plugin-api).
 
 ### Async setup
 

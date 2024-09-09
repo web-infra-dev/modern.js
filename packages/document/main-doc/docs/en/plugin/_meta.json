@@ -1,0 +1,19 @@
+[
+  "introduction",
+  {
+    "type": "dir",
+    "name": "plugin-system",
+    "label": "plugin-system",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "cli-plugins",
+    "label": "cli-plugins"
+  },
+  {
+    "type": "dir",
+    "name": "rsbuild-plugins",
+    "label": "rsbuild-plugins"
+  }
+]

@@ -5,19 +5,24 @@
     "activeMatch": "/guides/"
   },
   {
-    "text": "tutorials",
-    "link": "/tutorials/foundations/introduction",
-    "activeMatch": "/tutorials/"
-  },
-  {
     "text": "configure",
     "link": "/configure/app/usage",
     "activeMatch": "/configure/"
   },
   {
+    "text": "plugin-menu",
+    "link": "/plugin/introduction",
+    "activeMatch": "/plugin/"
+  },
+  {
     "text": "apis",
     "link": "/apis/app/commands",
     "activeMatch": "/apis/"
+  },
+  {
+    "text": "tutorials",
+    "link": "/tutorials/foundations/introduction",
+    "activeMatch": "/tutorials/"
   },
   {
     "text": "community",
