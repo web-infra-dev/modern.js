@@ -9,7 +9,7 @@ Modern.js optimizes build performance by default, but as the project becomes lar
 This document provides some optional speed-up strategies, developers can choose some of them to improve the build performance.
 
 :::tip 📢 Notice
-The strategies in [Bundle Size Optimization](/guides/advanced-features/optimize-bundle.html) can also be used to improve build performance, so we won't repeat them here.
+The strategies in [Bundle Size Optimization](/guides/advanced-features/page-performance/optimize-bundle) can also be used to improve build performance, so we won't repeat them here.
 :::
 
 ## General optimization strategy
@@ -118,7 +118,7 @@ export default {
 
 ### Adjust Browserslist for development
 
-This strategy is similar to ["Adjust Browserslist"](/guides/advanced-features/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
+This strategy is similar to ["Adjust Browserslist"](/guides/advanced-features/page-performance/optimize-bundle#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
 
 For example, you can add the following config to `package.json`, which means that only the latest browsers are compatible in the development environment, and the actual browsers are compatible in the production environment:
 

@@ -6,13 +6,16 @@
     "label": "use-bff",
     "collapsed": true
   },
-  "code-split",
+  {
+    "type": "dir",
+    "name": "page-performance",
+    "label": "page-performance",
+    "collapsed": true
+  },
+  "build-performance",
   "compatibility",
   "eslint",
   "low-level",
   "source-build",
-  "build-performance",
-  "inline-assets",
-  "optimize-bundle",
   "web-server"
 ]
