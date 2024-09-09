@@ -134,12 +134,10 @@ export default defineConfig({
   ],
   builderConfig: {
     output: {
-      disableTsChecker: true,
-      svgDefaultExport: 'component',
       dataUriLimit: 0,
     },
     dev: {
-      startUrl: false,
+      lazyCompilation: true,
     },
     source: {
       alias: {
