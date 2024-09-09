@@ -168,11 +168,22 @@ export const routerPlugin = (
               ]);
             };
 
+            const Null = () => null;
+
             return (props => {
               beforeCreateRouter = false;
               const router = useCreateRouter(props);
 
-              return <RouterProvider router={router} />;
+              return (
+                // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
+                // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
+                // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
+                <>
+                  <RouterProvider router={router} />
+                  <Null />
+                  <Null />
+                </>
+              );
             }) as React.ComponentType<any>;
           };
 
