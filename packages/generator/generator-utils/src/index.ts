@@ -93,7 +93,8 @@ export async function getModernPluginVersion(
     packageName.includes('electron') ||
     packageName.includes('codesmith') ||
     packageName.includes('easy-form') ||
-    packageName.startsWith('@modern-js-reduck')
+    packageName.startsWith('@modern-js-reduck') ||
+    packageName.includes('eslint-config')
   ) {
     return getLatetPluginVersion('latest');
   }
