@@ -1,6 +1,6 @@
 # Basic Usage
 
-In a Modern.js application, developers can define API files under the `api/` directory and export API functions from these files. In the frontend code, these API functions can be directly invoked by importing the file, which initiates the API requests.
+In a Modern.js application, developers can define API files under the `api/lambda` directory and export API functions from these files. In the frontend code, these API functions can be directly invoked by importing the file, which initiates the API requests.
 
 This invocation method is called **unified invocation**, where developers do not need to write glue code for the frontend and backend separately, thereby ensuring type safety across both.
 
@@ -120,8 +120,6 @@ export const post = async () => {
 - Modern.js supports 9 HTTP methods: `GET`, `POST`, `PUT`, `DELETE`, `CONNECT`, `TRACE`, `PATCH`, `OPTIONS`, and `HEAD`, which can be used as function export names.
 
 - Names are case-insensitive. If the method is `GET`, it can be written as `get`, `Get`, `GEt`, or `GET`, and the default export, i.e., `export default xxx`, will be mapped to `Get`.
-
-- Multiple functions with different HTTP methods can be defined in one file, but if multiple functions with the same HTTP method are defined, only the first one will be effective.
 
 #### Using Async Functions
 
