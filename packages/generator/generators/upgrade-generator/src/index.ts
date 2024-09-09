@@ -26,7 +26,7 @@ const SpecialModernDeps = [
   '@modern-js/plugin-storybook',
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
   '@modern-js/eslint-config',
-  '@modern-js/eslint-app-config',
+  '@modern-js-app/eslint-config',
 ];
 
 const DeprecatedModernBuilderDeps = [
@@ -87,7 +87,9 @@ export const handleTemplateFile = async (
   // adjust Modern.js packages' version is latest?
   if (
     Object.keys(deps)
-      .filter(dep => dep.startsWith('@modern-js'))
+      .filter(
+        dep => dep.startsWith('@modern-js') || dep.startsWith('@modern-js-app'),
+      )
       .filter(dep => !dep.includes('electron'))
       .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
       .filter(dep => !dep.startsWith('@modern-js-reduck'))
