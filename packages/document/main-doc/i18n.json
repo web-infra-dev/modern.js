@@ -71,6 +71,10 @@
     "zh": "使用 BFF",
     "en": "Using BFF"
   },
+  "page-performance": {
+    "zh": "优化页面性能",
+    "en": "Optimize Page Performance"
+  },
   "micro-frontend": {
     "zh": "微前端",
     "en": "Micro Frontend"
