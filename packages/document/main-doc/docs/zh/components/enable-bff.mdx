@@ -1,5 +1,22 @@
-1. 执行 `pnpm new`，选择启用 BFF
-2. 根据选择的运行时框架，将下面的代码添加到 `modern.config.[tj]s` 中：
+import { PackageManagerTabs } from '@theme';
+
+1. 执行 `new` 命令：
+
+<PackageManagerTabs command="run new" />
+
+2. 按照提示，选择**启用 BFF 功能**：
+
+```bash
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「BFF」功能
+? 请选择 BFF 类型 框架模式
+```
+
+:::note
+目前推荐使用框架模式创建 BFF，后续我们将会移除 BFF 类型的概念。
+:::
+
+3. 根据选择的运行时框架，将下面的代码添加到 `modern.config.[tj]s` 中：
 
 import { Tabs, Tab as TabItem } from "@theme";
 
