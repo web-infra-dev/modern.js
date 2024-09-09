@@ -16,12 +16,16 @@ const handleTemplateFile = async (
     Object.entries(packagesInfo || {}).forEach(([name, version]) => {
       update[`pnpm.overrides.${name}`] = version as string;
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   } else if (packageManager === PackageManager.Yarn) {
     const pkgInfo = fs.readJSONSync(
       path.join(context.materials.default.basePath, 'package.json'),
@@ -39,12 +43,16 @@ const handleTemplateFile = async (
         update[`devDependencies.${name}`] = version as string;
       }
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   } else {
     const pkgInfo = fs.readJSONSync(
       path.join(context.materials.default.basePath, 'package.json'),
@@ -62,12 +70,16 @@ const handleTemplateFile = async (
         update[`devDependencies.${name}`] = version as string;
       }
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   }
 };
 

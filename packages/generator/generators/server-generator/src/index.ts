@@ -95,6 +95,7 @@ const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
   }

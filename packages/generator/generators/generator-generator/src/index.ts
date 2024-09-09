@@ -118,6 +118,7 @@ const handleTemplateFile = async (
       query: {},
       update: { $set: updateInfo },
     },
+    true,
   );
 
   await fs.mkdirp(path.join(projectPath, 'templates'));

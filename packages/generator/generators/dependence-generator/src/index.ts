@@ -39,6 +39,7 @@ export const handleTemplateFile = async (
         query: {},
         update: { $set: setJSON },
       },
+      true,
     );
   }
 

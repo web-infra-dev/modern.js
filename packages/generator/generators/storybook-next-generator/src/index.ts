@@ -112,6 +112,7 @@ const handleTemplateFile = async (
         },
       },
     },
+    true,
   );
 
   await appApi.runSubGenerator(
