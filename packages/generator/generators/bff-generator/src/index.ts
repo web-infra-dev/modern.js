@@ -108,6 +108,7 @@ export const handleTemplateFile = async (
         },
       },
     },
+    true,
   );
 
   if (language === Language.TS) {
@@ -124,6 +125,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
   }
@@ -140,6 +142,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
     await appApi.forgeTemplate(
@@ -183,6 +186,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
     await appApi.forgeTemplate(

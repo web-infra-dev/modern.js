@@ -42,6 +42,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
   } else {

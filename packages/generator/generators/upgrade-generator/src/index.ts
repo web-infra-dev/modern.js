@@ -177,6 +177,7 @@ export const handleTemplateFile = async (
         $set: updateInfo,
       },
     },
+    true,
   );
 
   spinner.stop();
