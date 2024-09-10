@@ -2,7 +2,7 @@ import assert from 'assert';
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
+import { pluginSwc } from '@rsbuild/plugin-swc';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
 test('should run SWC compilation correctly', async ({ page }) => {

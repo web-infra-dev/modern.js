@@ -111,7 +111,7 @@
     "std-env": "^3.7.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "1.0.1",
+   "@rsbuild/plugin-swc": "1.0.1-rc.4",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "7.18.5",

@@ -82,7 +82,7 @@
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "1.0.1",
+   "@rsbuild/plugin-swc": "1.0.1-rc.4",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",

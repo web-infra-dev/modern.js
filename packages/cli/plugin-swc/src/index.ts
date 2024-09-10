@@ -6,7 +6,7 @@ import {
   type ObjPluginSwcOptions,
   type PluginSwcOptions,
   pluginSwc,
-} from '@rsbuild/plugin-webpack-swc';
+} from '@rsbuild/plugin-swc';
 
 export function factory(
   name: string,
