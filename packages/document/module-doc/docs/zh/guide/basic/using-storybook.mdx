@@ -168,7 +168,7 @@ export default config;
 
 ```typescript filename='modern.config.ts'
 import { defineConfig } from '@modern-js/storybook';
-import { pluginSwc } from '@rsbuild/plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 
 const config = defineConfig({
   builderPlugins: [pluginSwc()],

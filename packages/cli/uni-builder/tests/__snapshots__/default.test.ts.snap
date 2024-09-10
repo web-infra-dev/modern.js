@@ -44,6 +44,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -382,6 +383,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 3,
               "modules": {
                 "auto": true,
@@ -460,6 +462,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
@@ -1028,6 +1031,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 0,
               "modules": {
                 "auto": true,
@@ -1331,6 +1335,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
@@ -1373,6 +1378,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -1775,6 +1781,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -2113,6 +2120,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 3,
               "modules": {
                 "auto": true,
@@ -2191,6 +2199,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
@@ -2724,6 +2733,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 0,
               "modules": {
                 "auto": true,
@@ -3011,6 +3021,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
@@ -3053,6 +3064,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -3469,6 +3481,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -3895,6 +3908,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 3,
               "modules": {
                 "auto": true,
@@ -3973,6 +3987,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
@@ -4587,6 +4602,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 1,
               "modules": {
                 "auto": true,
@@ -5019,6 +5035,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 3,
               "modules": {
                 "auto": true,
@@ -5097,6 +5114,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
+              "_skipReuseAST": false,
               "importLoaders": 2,
               "modules": {
                 "auto": true,
