@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.24.7",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",

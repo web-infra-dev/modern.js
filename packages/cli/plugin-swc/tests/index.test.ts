@@ -2,7 +2,7 @@ import { logger } from '@modern-js/utils/logger';
 import type {
   FnPluginSwcOptions,
   ObjPluginSwcOptions,
-} from '@rsbuild/plugin-swc';
+} from '@rsbuild/plugin-webpack-swc';
 import { applyBuilderSwcConfig } from '../src';
 
 describe('plugin config', () => {

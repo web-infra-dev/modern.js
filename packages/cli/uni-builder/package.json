@@ -52,7 +52,7 @@
     "@rsbuild/plugin-typed-css-modules": "1.0.2",
     "@rsbuild/plugin-yaml": "1.0.2",
     "@rsbuild/webpack": "1.0.1",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "autoprefixer": "10.4.19",
     "babel-loader": "9.1.3",
     "babel-plugin-import": "1.13.5",
@@ -82,7 +82,7 @@
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "1.0.1-rc.4",
+    "@rsbuild/plugin-webpack-swc": "1.0.1",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",

@@ -26,7 +26,7 @@
     "build": "modern-lib build"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "esbuild": "0.17.19",
     "webpack": "^5.94.0"
   },

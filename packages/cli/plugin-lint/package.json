@@ -42,7 +42,7 @@
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "cross-spawn": "^7.0.3",
     "husky": "^8.0.0"
   },

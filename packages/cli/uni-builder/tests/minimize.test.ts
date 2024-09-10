@@ -1,4 +1,4 @@
-import { pluginSwc } from '@rsbuild/plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { unwrapConfig } from './helper';
