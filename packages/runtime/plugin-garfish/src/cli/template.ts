@@ -18,8 +18,8 @@ const genRenderCode = ({
   mountId?: string;
 }) =>
   customEntry
-    ? `import '${entry.replace(srcDirectory, internalSrcAlias)}'
-export * from '${entry.replace(srcDirectory, internalSrcAlias)}'`
+    ? `import '${formatImportPath(entry.replace(srcDirectory, internalSrcAlias))}'
+export * from '${formatImportPath(entry.replace(srcDirectory, internalSrcAlias))}'`
     : `import { createRoot } from '@${metaName}/runtime/react';
 import { render } from '@${metaName}/runtime/browser';
 import { isRenderGarfish, createProvider } from '@${metaName}/plugin-garfish/tools';
