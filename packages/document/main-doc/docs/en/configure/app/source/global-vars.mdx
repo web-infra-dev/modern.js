@@ -101,7 +101,7 @@ export default {
 
 `source.globalVars` injects environment variables through string replacement, so it cannot take effect on dynamic syntaxes such as destructuring.
 
-When using destructuring assignment, Builder will not be able to determine whether the variable `NODE_ENV` is associated with the expression `process.env.NODE_ENV` to be replaced, so the following usage is invalid:
+When using destructuring assignment, Modern.js will not be able to determine whether the variable `NODE_ENV` is associated with the expression `process.env.NODE_ENV` to be replaced, so the following usage is invalid:
 
 ```js
 const { NODE_ENV } = process.env;
