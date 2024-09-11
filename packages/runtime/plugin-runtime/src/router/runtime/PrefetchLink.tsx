@@ -27,7 +27,6 @@ interface PrefetchHandlers {
   onTouchStart?: TouchEventHandler<Element>;
 }
 
-// TODO: 支持 rspack
 declare const __webpack_chunk_load__:
   | ((chunkId: string | number) => Promise<void>)
   | undefined;
