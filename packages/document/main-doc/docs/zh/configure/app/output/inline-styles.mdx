@@ -1,0 +1,34 @@
+---
+title: inlineStyles
+configName: output.inlineStyles
+---
+
+# output.inlineStyles
+
+- **类型：**
+
+```ts
+type InlineStylesTest =
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+
+type InlineStyles =
+  | boolean
+  | InlineStylesTest
+  | {
+      enable?: boolean | 'auto';
+      test: InlineStylesTest;
+    };
+```
+
+- **默认值：** `false`
+
+用来控制是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 HTML 中。
+
+:::tip
+当使用约定式路由时，如果开启了这个选项，需要将 [output.splitRouteChunks](https://modernjs.dev/configure/app/output/splitRouteChunks.html) 设置为 false。
+:::
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
