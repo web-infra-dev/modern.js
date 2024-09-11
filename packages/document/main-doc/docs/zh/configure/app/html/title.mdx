@@ -1,9 +1,23 @@
 ---
 title: title
+configName: html.title
 ---
 
 # html.title
 
-import Main from '@modern-js/builder-doc/docs/zh/config/html/title.md';
+- **类型：** `string | Function`
+- **默认值：** `''`
 
-<Main />
+配置 HTML 页面的 title 标签，例如：
+
+```js
+export default {
+  html: {
+    title: 'example',
+  },
+};
+```
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

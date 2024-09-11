@@ -1,9 +1,20 @@
 ---
 title: tags
+configName: html.tags
 ---
 
 # html.tags
 
-import Main from '@modern-js/builder-doc/docs/en/config/html/tags.md';
+- **Type:**
 
-<Main />
+```ts
+type TagsConfig = HtmlTag | HtmlTagHandler | Array<HtmlTag | HtmlTagHandler>;
+```
+
+- **Default:** `undefined`
+
+Modifies the tags that are injected into the HTML page.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

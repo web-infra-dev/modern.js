@@ -1,9 +1,20 @@
 ---
 title: tags
+configName: html.tags
 ---
 
 # html.tags
 
-import Main from '@modern-js/builder-doc/docs/zh/config/html/tags.md';
+- **类型：**
 
-<Main />
+```ts
+type TagsConfig = HtmlTag | HtmlTagHandler | Array<HtmlTag | HtmlTagHandler>;
+```
+
+- **默认值：** `undefined`
+
+添加和修改最终注入到 HTML 页面的标签。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
