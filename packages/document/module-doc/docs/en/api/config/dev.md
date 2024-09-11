@@ -29,7 +29,7 @@ export default {
 };
 ```
 
-You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpack`. The usage can be found in the [`tools.webpack`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpack) configuration of webpack.
+You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpack`. The usage can be found in the [`tools.webpack`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpack) configuration of Modern.js.
 
 ![Storybook](https://storybook.js.org/71522ac365feaf3338d7c242e53378f6/manager-preview.png)
 
