@@ -1,9 +1,38 @@
 ---
 title: cssExtract
+configName: tools.cssExtract
 ---
 
 # tools.cssExtract
 
-import Main from '@modern-js/builder-doc/docs/en/config/tools/cssExtract.md';
+- **Type:**
 
-<Main />
+```ts
+type CSSExtractOptions = {
+  pluginOptions?: Rspack.CssExtractRspackPluginOptions;
+  loaderOptions?: Rspack.CssExtractRspackLoaderOptions;
+};
+```
+
+- **Default:**
+
+```js
+const defaultOptions = {
+  // The loader options
+  loaderOptions: {},
+  // The plugin options
+  pluginOptions: {
+    // The default value of cssPath is `static/css`
+    // while the default value of cssFilename is `[name].[contenthash:8].css`
+    filename: `${cssPath}/${cssFilename}`,
+    chunkFilename: `${cssPath}/async/${cssFilename}`,
+    ignoreOrder: true,
+  },
+};
+```
+
+The config of [CssExtractRspackPlugin](https://www.rspack.dev/plugins/rspack/css-extract-rspack-plugin) / [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) can be modified through `tools.cssExtract`.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

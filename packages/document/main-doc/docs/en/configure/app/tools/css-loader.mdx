@@ -4,6 +4,18 @@ title: cssLoader
 
 # tools.cssLoader
 
-import Main from '@modern-js/builder-doc/docs/en/config/tools/cssLoader.md';
+- **Type:** `Object | Function`
+- **Default:**
 
-<Main />
+```js
+const defaultOptions = {
+  modules: rsbuildConfig.output.cssModules,
+  sourceMap: rsbuildConfig.output.sourceMap.css,
+};
+```
+
+The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be modified through `tools.cssLoader`.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

@@ -16,6 +16,10 @@ The strategies in [Bundle Size Optimization](/guides/advanced-features/page-perf
 
 The following are some general optimization strategies, which can speed up the development build and production build, and some of them also optimize the bundle size.
 
+### Using Rspack (recommended)
+
+If you are not using Rspack yet, you can switch to Rspack build mode to improve the build speed by 5~10 times, see [Using Rspack](/guides/advanced-features/rspack-start.html) for more information.
+
 ### Upgrade Node.js version
 
 In general, updating Node.js to the latest [LTS release](https://github.com/nodejs/release#release-schedule) will help improve build performance.
@@ -39,25 +43,6 @@ nvm default 18
 # View Node version
 node -v
 ```
-
-### Using Rspack build
-
-If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guides/advanced-features/rspack-start.html) for more information.
-
-### Using SWC or esbuild
-
-[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
-
-[esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
-
-Modern.js provides SWC plugin and esbuild plugin that allow you to use SWC or esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See:
-
-- [SWC plugin document](/configure/app/tools/swc.html)
-- [esbuild plugin document](/configure/app/tools/esbuild.html)
-
-:::tip SWC vs esbuild
-The SWC compiled outputs has better compatibility, supports polyfills such as core-js, and has more complete features, so it is recommended to use the SWC plugin first.
-:::
 
 ### Avoid using ts-loader
 

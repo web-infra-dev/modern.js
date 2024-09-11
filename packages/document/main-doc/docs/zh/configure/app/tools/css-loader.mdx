@@ -1,9 +1,22 @@
 ---
 title: cssLoader
+configName: tools.cssLoader
 ---
 
 # tools.cssLoader
 
-import Main from '@modern-js/builder-doc/docs/zh/config/tools/cssLoader.md';
+- **类型：** `Object | Function`
+- **默认值：**
 
-<Main />
+```js
+const defaultOptions = {
+  modules: rsbuildConfig.output.cssModules,
+  sourceMap: rsbuildConfig.output.sourceMap.css,
+};
+```
+
+修改 [css-loader](https://github.com/webpack-contrib/css-loader) 的配置项。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "dev": "rspress dev",
+    "dev:no_lazy": "LAZY=false rspress dev",
     "build": "rspress build",
     "preview": "rspress preview"
   },
