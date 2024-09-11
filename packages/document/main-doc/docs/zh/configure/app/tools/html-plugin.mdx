@@ -1,9 +1,28 @@
 ---
 title: htmlPlugin
+configName: tools.htmlPlugin
 ---
 
 # tools.htmlPlugin
 
-import Main from '@modern-js/builder-doc/docs/zh/config/tools/htmlPlugin.md';
+- **类型：** `boolean | Object | Function`
+- **默认值：**
 
-<Main />
+```js
+const defaultOptions = {
+  meta, // 对应 `html.meta` 配置
+  title, // 对应 `html.title` 配置
+  inject, // 对应 `html.inject` 配置
+  favicon, // 对应 `html.favicon` 配置
+  template, // 对应 `html.template` 配置
+  filename, // 基于 `output.distPath` 和 `entryName` 生成
+  templateParameters, // 对应 `html.templateParameters` 配置
+  chunks: [entryName],
+};
+```
+
+通过 `tools.htmlPlugin` 可以修改 [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) 或 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 的配置项。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

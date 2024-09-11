@@ -1,9 +1,38 @@
 ---
 title: postcss
+configName: tools.postcss
 ---
 
 # tools.postcss
 
-import Main from '@modern-js/builder-doc/docs/zh/config/tools/postcss.md';
+- **类型：** `Object | Function`
+- **默认值：**
 
-<Main />
+```js
+const defaultOptions = {
+  postcssOptions: {
+    plugins: [
+      // 以下插件默认启用
+      require('postcss-nesting'),
+      require('postcss-media-minmax'),
+      require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+      // 以下插件仅在需要兼容低版本浏览器时启用
+      require('postcss-custom-properties'),
+      require('postcss-initial'),
+      require('postcss-page-break'),
+      require('postcss-font-variant'),
+    ],
+    // 默认在开发环境下启用 CSS 的 Source Map
+    sourceMap: isDev,
+  },
+};
+```
+
+Modern.js 默认集成 PostCSS，你可以通过 `tools.postcss` 对 [postcss-loader](https://github.com/webpack-contrib/postcss-loader) 进行配置。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
