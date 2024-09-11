@@ -77,7 +77,7 @@ describe('uni-builder rspack', () => {
       bundlerType: 'rspack',
       config: {
         environments: {
-          serviceWorker: {
+          workerSSR: {
             output: {
               target: 'web-worker',
             },
