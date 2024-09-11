@@ -1,11 +1,26 @@
----
-sidebar_position: 21
-title: Using Rsbuild Plugin
----
+# Plugin
 
-# Using Rsbuild Plugin
+In Modern.js, you can directly use two types of plugins: Modern.js framework plugins and Rsbuild plugins.
 
-## Introduce Rsbuild Plugin
+## Modern.js Framework Plugin
+
+Modern.js has its own framework plugin system. You can use Modern.js plugins by configuring the [`plugins`](/configure/app/plugins) field in `modern.config.ts`.
+
+### Plugin Types
+
+Framework plugins can be categorized into three types:
+
+1. [CLI Plugins](/plugin/cli-plugins): These are used to provide additional functionality when the Modern.js commands are executed in the application. Examples include adding commands, modifying configuration, and monitoring files. Most build-related capabilities can be achieved through CLI plugins.
+2. Server Plugins: These add extra functionality when the application receives requests. Examples include adding middleware and modifying request responses.
+3. Runtime Plugins: These provide additional functionality when the application runs React code. Examples include performing initialization actions and wrapping React higher-order components.
+
+:::note
+Server plugins and Runtime plugins are coming soon.
+:::
+
+### Developing Plugins
+
+If you need to develop Modern.js framework plugins, you can read [Modern.js Plugin System](/plugin/plugin-system/introduction) for more information.
 
 Rsbuild is the build tool of Modern.js. You can modify the default build behavior and add various additional features by adding the Rsbuild plugin, including but not limited to:
 
@@ -22,9 +37,15 @@ Modern.js has upgraded the build tool to [Rsbuild](https://rsbuild.dev/) startin
 If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
 :::
 
-## Official Plugins
+:::info
+For more information about the Rsbuild plugin system, you can read [Rsbuild Official Site - Plugins](https://rsbuild.dev/plugins/list/index).
+:::
 
-### Builtin Plugins
+## Rsbuild Plugin
+
+### Official Plugins
+
+#### Builtin Plugins
 
 Here are the official Rsbuild plugins built into Modern.js:
 
@@ -44,10 +65,14 @@ Here are the official Rsbuild plugins built into Modern.js:
 | [YAML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | Used to import YAML files and convert them into JavaScript objects                                           | [TOML File](/guides/basic-features/static-assets/json-files.html#toml-file)                                                                         |
 | [TOML Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | Used to import TOML files and convert them into JavaScript objects                                           | [YAML File](/guides/basic-features/static-assets/json-files.html#yaml-file)                                                                         |
 
-### Un-builtin Plugins
+#### Un-builtin Plugins
 
 Here are the official Rsbuild plugins that are not built into Modern.js:
 
 - [Image Compress Plugin](https://github.com/rspack-contrib/rsbuild-plugin-image-compress): Compress the image resources used in the project.
 - [Stylus Plugin](https://rsbuild.dev/plugins/list/plugin-stylus): Use Stylus as the CSS preprocessor.
 - [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd): Used to build outputs in UMD format.
+
+import OtherPlugins from '@site-docs-en/components/other-plugins.mdx';
+
+<OtherPlugins />

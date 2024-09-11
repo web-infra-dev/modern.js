@@ -11,6 +11,10 @@
     "zh": "配置",
     "en": "Config"
   },
+  "plugin-menu": {
+    "zh": "插件",
+    "en": "Plugin"
+  },
   "apis": {
     "zh": "API",
     "en": "API"
@@ -79,9 +83,25 @@
     "zh": "微前端",
     "en": "Micro Frontend"
   },
-  "framework-plugin": {
-    "zh": "框架插件",
-    "en": "Framework Plugin"
+  "plugin-system": {
+    "zh": "插件系统",
+    "en": "Plugin System"
+  },
+  "cli-plugins": {
+    "zh": "CLI 插件",
+    "en": "CLI Plugins"
+  },
+  "server-plugins": {
+    "zh": "服务端插件",
+    "en": "Server Plugins"
+  },
+  "runtime-plugins": {
+    "zh": "运行时插件",
+    "en": "Runtime Plugins"
+  },
+  "rsbuild-plugins": {
+    "zh": "Rsbuild 插件",
+    "en": "Rsbuild Plugins"
   },
   "reduck": {
     "zh": "Reduck 状态管理",

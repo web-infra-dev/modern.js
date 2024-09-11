@@ -1,11 +1,28 @@
----
-sidebar_position: 21
-title: 使用 Rsbuild 插件
----
+# 插件
 
-# 使用 Rsbuild 插件
+在 Modern.js 中目前可以直接使用两种插件，分别是 Modern.js 框架插件和 Rsbuild 构建插件。
 
-## 插件介绍
+## Modern.js 框架插件
+
+Modern.js 拥有自己的框架插件系统，你可以通过在 `modern.config.ts` 中配置 [`plugins`](/configure/app/plugins) 字段来使用 Modern.js 插件。
+
+### 插件类型 
+
+框架插件可以细分成三类，分别是：
+
+1. [CLI 插件](/plugin/cli-plugins)：用于在应用执行 Modern.js 命令时，提供额外的功能。例如，添加命令、修改配置、监听文件等。大多数构建相关的能力都可以通过 CLI 插件来实现。
+2. 服务端插件：用于在应用接受请求时，提供额外的功能。例如，添加中间件、修改请求响应等。
+3. 运行时插件：用于在应用运行 React 代码时，提供额外的功能。例如，执行初始化行为，包裹 React 高阶组件等。
+
+:::note
+服务端插件和运行时插件即将正式对外开放。
+:::
+
+### 开发插件
+
+如果你需要开发 Modern.js 框架插件，可以阅读 [Modern.js 插件系统](/plugin/plugin-system/introduction) 获取更多信息。
+
+## Rsbuild 构建插件
 
 Rsbuild 是 Modern.js 底层的构建工具，可通过添加 Rsbuild 插件修改默认的构建行为并添加各类额外功能，包括但不限于：
 
@@ -17,14 +34,18 @@ Rsbuild 是 Modern.js 底层的构建工具，可通过添加 Rsbuild 插件修�
 你可以在 `modern.config.ts` 中通过 `builderPlugins` 选项来注册 Rsbuild 插件，详见 [builderPlugins 构建插件](/configure/app/builder-plugins.html)。
 
 :::tip
-Modern.js 从 `MAJOR_VERSION.46.0` 起开始将底层的构建工具升级为 [Rsbuild](https://rsbuild.dev/)。
+Modern.js 从 `MAJOR_VERSION.46.0` 起开始将底层的构建工具升级为 [Rsbuild](https://rsbuild.dev/).
 
 如果你当前版本低于 MAJOR_VERSION.46.0，可通过执行 `npx modern upgrade` 进行升级。
 :::
 
-## 官方插件
+:::info
+可以阅读 [Rsbuild 官网 - 插件](https://rsbuild.dev/plugins/list/index) 来了解更多 Rsbuild 插件体系的内容。
+:::
 
-### 内置插件
+### 官方插件
+
+#### 内置插件
 
 以下是已在 Modern.js 中内置的 Rsbuild 官方插件，无需安装，即可启用：
 
@@ -44,10 +65,14 @@ Modern.js 从 `MAJOR_VERSION.46.0` 起开始将底层的构建工具升级为 [R
 | [YAML 插件](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                           | 用于引用 YAML 文件，并将其转换为 JavaScript 对象                                         | [TOML 文件](/guides/basic-features/static-assets/json-files.html#toml-文件)                                                                         |
 | [TOML 插件](https://github.com/rspack-contrib/rsbuild-plugin-toml)                           | 用于引用 TOML 文件，并将其转换为 JavaScript 对象                                         | [YAML 文件](/guides/basic-features/static-assets/json-files.html#yaml-文件)                                                                         |
 
-### 未内置插件
+#### 未内置的插件
 
 以下是未在 Modern.js 中内置的 Rsbuild 官方插件：
 
 - [Image Compress 插件](https://github.com/rspack-contrib/rsbuild-plugin-image-compress)：将项目中用到的图片资源进行压缩处理。
 - [Stylus 插件](https://rsbuild.dev/zh/plugins/list/plugin-stylus)：使用 Stylus 作为 CSS 预处理器。
 - [UMD 插件](https://github.com/rspack-contrib/rsbuild-plugin-umd)：用于构建 UMD 格式的产物。
+
+import OtherPlugins from '@site-docs/components/other-plugins.mdx';
+
+<OtherPlugins />

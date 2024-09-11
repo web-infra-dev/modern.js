@@ -26,11 +26,6 @@
   },
   {
     "type": "dir",
-    "name": "rsbuild-plugins",
-    "label": "构建插件"
-  },
-  {
-    "type": "dir",
     "name": "troubleshooting",
     "label": "troubleshooting"
   },

@@ -6,61 +6,6 @@ const { version } = require('./package.json');
 
 const docPath = path.join(__dirname, 'docs');
 
-const getNavbar = (lang: string): NavItem[] => {
-  const cn = lang === 'zh';
-  const prefix = cn ? '' : '/en';
-  const getLink = (str: string) => `${prefix}${str}`;
-  const getText = (cnText: string, enText: string) => (cn ? cnText : enText);
-  return [
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guides/get-started/introduction'),
-      activeMatch: '/guides/',
-    },
-    {
-      text: getText('教程', 'Tutorials'),
-      link: getLink('/tutorials/foundations/introduction'),
-      activeMatch: '/tutorials/',
-    },
-    {
-      text: getText('配置', 'Configure'),
-      link: getLink('/configure/app/usage'),
-      activeMatch: '/configure/app',
-    },
-    {
-      text: getText('API', 'API'),
-      link: getLink('/apis/app/commands'),
-      activeMatch: '/apis/',
-    },
-    {
-      text: getText('社区', 'Community'),
-      link: getLink('/community/showcase'),
-      activeMatch: '/community/',
-    },
-    {
-      text: `v${version}`,
-      items: [
-        {
-          text: 'Rsbuild',
-          link: 'https://github.com/web-infra-dev/rsbuild',
-        },
-        {
-          text: 'Rspress',
-          link: 'https://github.com/web-infra-dev/rspress',
-        },
-        {
-          text: 'Modern.js Module',
-          link: 'https://modernjs.dev/module-tools/en/',
-        },
-        {
-          text: 'Modern.js v1',
-          link: 'https://modernjs.dev/v1/',
-        },
-      ],
-    },
-  ];
-};
-
 export default defineConfig({
   root: docPath,
   base: '/',
@@ -137,7 +82,7 @@ export default defineConfig({
       dataUriLimit: 0,
     },
     dev: {
-      lazyCompilation: true,
+      lazyCompilation: process.env.LAZY !== 'false',
     },
     source: {
       alias: {

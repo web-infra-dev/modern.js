@@ -76,7 +76,7 @@ export default function Footer() {
         },
         {
           label: t('pluginSystem'),
-          to: useUrl('/guides/topic-detail/framework-plugin/introduction'),
+          to: useUrl('/plugin/plugin-system/introduction'),
         },
         {
           label: t('projectGenerator'),

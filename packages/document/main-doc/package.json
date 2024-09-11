@@ -17,6 +17,7 @@
   ],
   "scripts": {
     "dev": "rspress dev",
+    "dev:no_lazy": "LAZY=false rspress dev",
     "build": "npx ts-node ./scripts/sync.ts",
     "build:doc": "rspress build",
     "preview": "rspress preview"

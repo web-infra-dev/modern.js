@@ -9,7 +9,7 @@ sidebar_position: 9
 
 用于配置自定义的 Modern.js 框架插件。
 
-自定义插件的编写方式请参考 [如何编写插件](/guides/topic-detail/framework-plugin/implement)。
+自定义插件的编写方式请参考 [如何编写插件](/plugin/plugin-system/implement)。
 
 ## 注意事项
 
@@ -33,7 +33,7 @@ Modern.js 中内置了三种不同的框架插件：
 
 默认情况下，自定义插件会按照 `plugins` 数组的顺序依次执行，Modern.js 内置插件的执行时机早于自定义插件。
 
-当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，会基于声明的字段对执行顺序进行调整，详见 [插件之间的关系](/guides/topic-detail/framework-plugin/relationship)。
+当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，会基于声明的字段对执行顺序进行调整，详见 [插件之间的关系](/plugin/plugin-system/relationship)。
 
 ## 示例
 
