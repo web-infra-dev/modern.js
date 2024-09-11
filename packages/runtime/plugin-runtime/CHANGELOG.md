@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.60.0
+
+### Patch Changes
+
+- d6e0118: fix: we should not cache the html, if we can match the html is downgrading.
+  fix: 在 ssr 降级时，我们不应该缓存 html
+- e27b46a: fix: react's hook useId cause ssr hydrate failed
+  fix: react's hook useId 导致 ssr hydrate 失败
+  - @modern-js/plugin-data-loader@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

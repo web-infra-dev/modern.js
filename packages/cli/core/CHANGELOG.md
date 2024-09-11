@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 2.60.0
+
+### Patch Changes
+
+- 96434b3: fix(cli): correct process exit code
+
+  fix(cli): 修正 process exit code
+
+  - @modern-js/node-bundle-require@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

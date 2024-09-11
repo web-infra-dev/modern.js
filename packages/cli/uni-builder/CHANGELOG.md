@@ -1,5 +1,18 @@
 # @modern-js/uni-builder
 
+## 2.60.0
+
+### Patch Changes
+
+- a20b0d2: feat: bump Rsbuild 1.0.x stable
+- 4f19e98: chore: rename serviceWorker environment name to workerSSR
+- 05f14fe: feat: add warn when transformLodash and transformImport for lodash library both exist
+
+  feat: 同时使用 source.transformImport 和 performance.transformLodash 优化 lodash 导入时添加警告信息
+
+  - @modern-js/babel-preset@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

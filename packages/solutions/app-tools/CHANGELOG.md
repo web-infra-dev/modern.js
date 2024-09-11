@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.60.0
+
+### Patch Changes
+
+- 4f19e98: chore: rename serviceWorker environment name to workerSSR
+- Updated dependencies [a20b0d2]
+- Updated dependencies [4f19e98]
+- Updated dependencies [05f14fe]
+- Updated dependencies [d6e0118]
+- Updated dependencies [96434b3]
+- Updated dependencies [28f0101]
+  - @modern-js/uni-builder@2.60.0
+  - @modern-js/server-core@2.60.0
+  - @modern-js/core@2.60.0
+  - @modern-js/prod-server@2.60.0
+  - @modern-js/server@2.60.0
+  - @modern-js/plugin-data-loader@2.60.0
+  - @modern-js/server-utils@2.60.0
+  - @modern-js/plugin-lint@2.60.0
+  - @modern-js/plugin-i18n@2.60.0
+  - @modern-js/rsbuild-plugin-esbuild@2.60.0
+  - @modern-js/node-bundle-require@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Minor Changes

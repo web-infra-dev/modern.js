@@ -1,5 +1,20 @@
 # @modern-js/plugin-garfish
 
+## 2.60.0
+
+### Patch Changes
+
+- 28801e4: fix: custom entry path in windows when use garfish plugin
+
+  fix: 修复在 windows 下使用 garfish 插件时自定义入口路径
+
+- Updated dependencies [d6e0118]
+- Updated dependencies [e27b46a]
+  - @modern-js/runtime@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

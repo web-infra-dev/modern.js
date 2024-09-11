@@ -1,5 +1,25 @@
 # @modern-js/module-generator
 
+## 3.6.0
+
+### Minor Changes
+
+- 91ce673: feat: generator template use biome for code lint
+
+  feat: 生成器模板使用 biome 进行代码 lint
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+- 28f0101: feat: generator replace husky to simple git hook
+
+  feat: 生成器模板替换 husky 为 simple-git-hook
+
+  - @modern-js/utils@2.60.0
+
 ## 3.5.0
 
 ### Patch Changes
