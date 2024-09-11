@@ -1,9 +1,25 @@
 ---
 title: externals
+configName: output.externals
 ---
 
 # output.externals
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/externals.md';
+- **Type:**
 
-<Main />
+```ts
+type Externals =
+  | string
+  | object
+  | function
+  | RegExp
+  | Array<string | object | function | RegExp>;
+```
+
+- **Default:** `undefined`
+
+At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

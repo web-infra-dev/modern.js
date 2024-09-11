@@ -1,9 +1,25 @@
 ---
 title: externals
+configName: output.externals
 ---
 
 # output.externals
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/externals.md';
+- **类型:**
 
-<Main />
+```ts
+type Externals =
+  | string
+  | object
+  | function
+  | RegExp
+  | Array<string | object | function | RegExp>;
+```
+
+- **默认值:** `undefined`
+
+在构建时，防止将代码中某些 `import` 的依赖包打包到 bundle 中，而是在运行时再去从外部获取这些依赖。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
