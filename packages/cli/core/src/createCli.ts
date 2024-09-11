@@ -91,10 +91,14 @@ export const createCli = () => {
 
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
       event => {
-        process.on(event, async err => {
+        process.on(event, async (err: unknown) => {
           hooksRunner.beforeExit();
+
+          let hasError = false;
+
           if (err instanceof Error) {
             logger.error(err.stack);
+            hasError = true;
           } else if (
             err &&
             (event === 'unhandledRejection' || event === 'uncaughtException')
@@ -102,9 +106,11 @@ export const createCli = () => {
             // We should not pass it, if err is not instanceof Error.
             // We can use `console.trace` to follow it call stack,
             console.trace('Unknown Error', err);
+            hasError = true;
           }
+
           process.nextTick(() => {
-            process.exit(1);
+            process.exit(hasError ? 1 : 0);
           });
         });
       },
