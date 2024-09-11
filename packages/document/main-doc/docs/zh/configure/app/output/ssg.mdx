@@ -4,7 +4,7 @@ title: ssg
 
 # output.ssg
 
-- **类型：** `boolean` | `object`
+- **类型：** `boolean | object`
 - **默认值：** `undefined`
 
 开启应用 SSG 功能的配置
@@ -66,11 +66,13 @@ export default defineConfig({
 ### 配置类型
 
 ```ts
-type SSGRouteOptions = string | {
-  url: string;
-  params?: Record<string, any>[];
-  headers?: Record<string, any>;
-};
+type SSGRouteOptions =
+  | string
+  | {
+      url: string;
+      params?: Record<string, any>[];
+      headers?: Record<string, any>;
+    };
 
 type SSGOptions = {
   preventDefault?: string[];
@@ -90,20 +92,22 @@ export default defineConfig({
   output: {
     ssg: {
       routes: [
-        '/', 
-        '/about',         
+        '/',
+        '/about',
         {
           url: '/user/:id',
           headers: {
-            cookies: "name=modernjs"
+            cookies: 'name=modernjs',
           },
-          params: [{
-            id: 'modernjs',
-          }],
-        }
+          params: [
+            {
+              id: 'modernjs',
+            },
+          ],
+        },
       ],
-    }
-  }
+    },
+  },
 });
 ```
 

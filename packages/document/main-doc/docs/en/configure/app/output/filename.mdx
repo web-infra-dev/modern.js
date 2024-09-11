@@ -1,9 +1,54 @@
 ---
 title: filename
+configName: output.filename
 ---
 
 # output.filename
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/filename.md';
+- **Type:**
 
-<Main />
+```ts
+type FilenameConfig = {
+  html?: string;
+  js?:
+    | string
+    | ((pathData: Rspack.PathData, assetInfo: Rspack.JsAssetInfo) => string);
+  css?: string;
+  svg?: string;
+  font?: string;
+  image?: string;
+  media?: string;
+};
+```
+
+- **Default:**
+
+```js
+// Development mode
+const devDefaultFilename = {
+  html: '[name].html',
+  js: '[name].js',
+  css: '[name].css',
+  svg: '[name].[contenthash:8].svg',
+  font: '[name].[contenthash:8][ext]',
+  image: '[name].[contenthash:8][ext]',
+  media: '[name].[contenthash:8][ext]',
+};
+
+// Production mode
+const prodDefaultFilename = {
+  html: '[name].html',
+  js: output.target === 'node' ? '[name].js' : '[name].[contenthash:8].js',
+  css: '[name].[contenthash:8].css',
+  svg: '[name].[contenthash:8].svg',
+  font: '[name].[contenthash:8][ext]',
+  image: '[name].[contenthash:8][ext]',
+  media: '[name].[contenthash:8][ext]',
+};
+```
+
+Sets the filename of dist files.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
