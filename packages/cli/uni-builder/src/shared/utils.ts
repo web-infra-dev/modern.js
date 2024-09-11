@@ -8,7 +8,7 @@ import browserslist from 'browserslist';
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
 
-export const SERVICE_WORKER_ENVIRONMENT_NAME = 'serviceWorker';
+export const SERVICE_WORKER_ENVIRONMENT_NAME = 'workerSSR';
 
 export const JS_REGEX = /\.(?:js|mjs|cjs|jsx)$/;
 
