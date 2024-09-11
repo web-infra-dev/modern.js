@@ -1,9 +1,45 @@
 ---
 title: printFileSize
+configName: performance.printFileSize
 ---
 
 # performance.printFileSize
 
-import Main from '@modern-js/builder-doc/docs/en/config/performance/printFileSize.md';
+- **Type:**
 
-<Main />
+```ts
+type PrintFileSizeOptions =
+  | {
+      /**
+       * whether to print total size
+       */
+      total?: boolean;
+      /**
+       * whether to print size of each file
+       */
+      detail?: boolean;
+      /**
+       * whether to print gzip-compressed size
+       */
+      compressed?: boolean;
+    }
+  | boolean;
+```
+
+- **Default:** `true`
+
+Whether to print the file sizes after production build.
+
+```bash
+info    Production file sizes:
+
+  File                                      Size         Gzipped
+  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
+  dist/html/main/index.html                 5.8 kB       2.5 kB
+  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
+  dist/static/css/main.03221f72.css         1.4 kB       741 B
+```
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
