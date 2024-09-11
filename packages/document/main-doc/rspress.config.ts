@@ -82,7 +82,7 @@ export default defineConfig({
       dataUriLimit: 0,
     },
     dev: {
-      lazyCompilation: true,
+      lazyCompilation: process.env.LAZY !== 'false',
     },
     source: {
       alias: {
