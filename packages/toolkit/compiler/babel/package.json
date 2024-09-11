@@ -39,7 +39,7 @@
   "dependencies": {
     "@babel/core": "^7.24.7",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
     "@babel/plugin-transform-classes": "^7.22.15",

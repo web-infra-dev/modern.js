@@ -65,7 +65,7 @@
     "@modern-js/runtime-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "@types/history": "^4.7.9",
     "@types/react-router-dom": "^5.1.8",
     "history": "^4.7.9",

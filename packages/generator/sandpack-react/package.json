@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@codesandbox/sandpack-react": "^2.6.9",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "react": "^18",
     "react-dom": "^18"
   },

@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "whistle": "^2.7.18"
   },
   "devDependencies": {

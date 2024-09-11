@@ -210,7 +210,7 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@remix-run/router": "1.15.0",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "lru-cache": "^6.0.0",
     "react-router-dom": "6.22.0",
     "serialize-javascript": "^6.0.0"

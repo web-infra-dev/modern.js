@@ -55,7 +55,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
