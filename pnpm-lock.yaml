@@ -1181,27 +1181,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/document/builder-doc:
-    devDependencies:
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../review/tsconfig
-      '@rspress/shared':
-        specifier: 1.28.2
-        version: 1.28.2
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.2.0(react@18.2.0)
-      rspress:
-        specifier: 1.28.2
-        version: 1.28.2(webpack@5.94.0)
-
   packages/document/main-doc:
     dependencies:
       '@modern-js/sandpack-react':
@@ -1209,8 +1188,8 @@ importers:
         version: link:../../generator/sandpack-react
     devDependencies:
       '@modern-js/builder-doc':
-        specifier: workspace:*
-        version: link:../builder-doc
+        specifier: 2.59.0
+        version: 2.59.0
       '@rspress/shared':
         specifier: 1.28.2
         version: 1.28.2
@@ -13386,6 +13365,10 @@ packages:
       '@babel/runtime': 7.24.7
       redux: 4.2.0
     dev: false
+
+  /@modern-js/builder-doc@2.59.0:
+    resolution: {integrity: sha512-yDIrubjEh0g5z/2d8Fhs8wugmBBBYuFJQpLx76P0iYkZmCzp+vhPQw1ClkpAV1nXpsTGKOAtIkQ2y1eQdcWPug==}
+    dev: true
 
   /@modern-js/codesmith-api-app@2.4.2(@modern-js/codesmith@2.4.2)(typescript@5.3.3):
     resolution: {integrity: sha512-CrPPsME/P/GB7Sbd+kD59t0ipZWwKfhxKb+L584y27kBvQI7mu6MuzZdVhCyEoilYIeH6w1vjHDfOmDR+tnEag==}
