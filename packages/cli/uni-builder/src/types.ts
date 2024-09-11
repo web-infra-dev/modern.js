@@ -224,9 +224,8 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
-     * Whether to disable code minification in production build.
+     * @deprecated use `output.minify` instead
      */
-    // TODO: support output.minify configuration
     disableMinimize?: boolean;
     /**
      * @deprecated use `output.filenameHash` instead

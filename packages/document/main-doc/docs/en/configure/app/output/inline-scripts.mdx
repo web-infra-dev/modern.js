@@ -1,0 +1,34 @@
+---
+title: inlineScripts
+configName: output.inlineScripts
+---
+
+# output.inlineScripts
+
+- **Type:**
+
+```ts
+type InlineScriptsTest =
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+
+type InlineScripts =
+  | boolean
+  | InlineScriptsTest
+  | {
+      enable?: boolean | 'auto';
+      test: InlineScriptsTest;
+    };
+```
+
+- **Default:** `false`
+
+Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
+
+:::tip
+When using convention-based routing, you need to set [output.splitRouteChunks](https://modernjs.dev/en/configure/app/output/splitRouteChunks.html) to false if this option is turned on.
+:::
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
