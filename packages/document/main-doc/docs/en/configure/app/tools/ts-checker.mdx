@@ -4,6 +4,53 @@ title: tsChecker
 
 # tools.tsChecker
 
-import Main from '@modern-js/builder-doc/docs/en/config/tools/tsChecker.md';
+- **Type:** `Object | Function`
+- **Default:**
 
-<Main />
+```js
+const defaultOptions = {
+  typescript: {
+    // avoid OOM issue
+    memoryLimit: 8192,
+    // use tsconfig of user project
+    configFile: tsconfigPath,
+    // use typescript of user project
+    typescriptPath: require.resolve('typescript'),
+  },
+  issue: {
+    exclude: [
+      { file: '**/*.(spec|test).ts' },
+      { file: '**/node_modules/**/*' },
+    ],
+  },
+  logger: {
+    log() {
+      // do nothing
+      // we only want to display error messages
+    },
+    error(message: string) {
+      console.error(message.replace(/ERROR/g, 'Type Error'));
+    },
+  },
+},
+```
+
+By default, the [@rsbuild/plugin-type-check](https://rsbuild.dev/plugins/list/plugin-type-check) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
+
+## Example
+
+When the value of `tsChecker` is of type Object, it will be deeply merged with the default configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      issue: {
+        exclude: [({ file = '' }) => /[\\/]some-folder[\\/]/.test(file)],
+      },
+    },
+  },
+};
+```
+
+> Please refer to [@rsbuild/plugin-type-check](https://rsbuild.dev/plugins/list/plugin-type-check) for more details.
