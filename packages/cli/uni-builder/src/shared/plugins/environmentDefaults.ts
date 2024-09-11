@@ -58,7 +58,7 @@ export const pluginEnvironmentDefaults = (
     // https://github.com/web-infra-dev/rsbuild/issues/2956
     api.modifyRsbuildConfig({
       handler: config => {
-        const environmentNameOrder = ['web', 'node', 'serviceWorker'];
+        const environmentNameOrder = ['web', 'node', 'workerSSR'];
 
         config.environments = Object.fromEntries(
           Object.entries(config.environments!).sort((a1, a2) =>

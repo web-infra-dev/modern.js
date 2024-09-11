@@ -2233,7 +2233,7 @@ exports[`uni-builder environment compat > should generator environment config co
         },
       ],
     },
-    "name": "serviceWorker",
+    "name": "workerSSR",
     "optimization": {
       "minimize": false,
       "splitChunks": false,
@@ -2269,7 +2269,7 @@ exports[`uni-builder environment compat > should generator environment config co
       ProgressPlugin {
         "_args": [
           {
-            "prefix": "serviceWorker",
+            "prefix": "workerSSR",
           },
         ],
         "affectedHooks": undefined,

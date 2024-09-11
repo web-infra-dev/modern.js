@@ -60,9 +60,9 @@ exports[`create builder Options test create builder environments config 2`] = `
 
 exports[`create builder Options test create builder environments config 3`] = `
 {
-  "serviceWorker": {
+  "web": {
     "output": {
-      "target": "web-worker",
+      "target": "web",
     },
     "source": {
       "entry": {
@@ -76,9 +76,9 @@ exports[`create builder Options test create builder environments config 3`] = `
       },
     },
   },
-  "web": {
+  "workerSSR": {
     "output": {
-      "target": "web",
+      "target": "web-worker",
     },
     "source": {
       "entry": {

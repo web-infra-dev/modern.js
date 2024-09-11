@@ -48,7 +48,7 @@ const ssrBuilderPlugin = (modernAPI: PluginAPI<AppTools>): RsbuildPlugin => ({
   setup(api) {
     api.modifyEnvironmentConfig((config, { name, mergeEnvironmentConfig }) => {
       const isServerEnvironment =
-        config.output.target === 'node' || name === 'serviceWorker';
+        config.output.target === 'node' || name === 'workerSSR';
       const userConfig = modernAPI.useResolvedConfigContext();
 
       const useLoadablePlugin =

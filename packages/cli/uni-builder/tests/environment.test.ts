@@ -16,7 +16,7 @@ describe('uni-builder environment compat', () => {
               target: 'node',
             },
           },
-          serviceWorker: {
+          workerSSR: {
             output: {
               target: 'web-worker',
             },
@@ -33,7 +33,7 @@ describe('uni-builder environment compat', () => {
     expect(bundlerConfigs.map(c => c.name)).toEqual([
       'web',
       'node',
-      'serviceWorker',
+      'workerSSR',
     ]);
 
     expect(bundlerConfigs).toMatchSnapshot();

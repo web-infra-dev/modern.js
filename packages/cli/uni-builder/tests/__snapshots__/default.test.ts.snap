@@ -3303,7 +3303,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       },
     ],
   },
-  "name": "serviceWorker",
+  "name": "workerSSR",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -3374,7 +3374,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     ProgressPlugin {
       "_args": [
         {
-          "prefix": "serviceWorker",
+          "prefix": "workerSSR",
         },
       ],
       "affectedHooks": undefined,
