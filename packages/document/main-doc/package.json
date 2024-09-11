@@ -31,7 +31,6 @@
     "@modern-js/sandpack-react": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/builder-doc": "2.59.0",
     "@rspress/shared": "1.31.0",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16",
