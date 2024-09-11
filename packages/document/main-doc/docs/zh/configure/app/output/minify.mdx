@@ -1,0 +1,27 @@
+---
+title: minify
+configName: output.minify
+---
+
+# output.minify
+
+- **类型:**
+
+```ts
+type Minify =
+  | boolean
+  | {
+      js?: boolean;
+      jsOptions?: SwcJsMinimizerRspackPluginOptions;
+      css?: boolean;
+      cssOptions?: LightningCssMinimizerRspackPluginOptions;
+    };
+```
+
+- **默认值:** `true`
+
+用于设置是否在生产模式下开启代码压缩，或是配置压缩工具的选项。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

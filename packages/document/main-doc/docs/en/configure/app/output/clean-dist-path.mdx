@@ -1,15 +1,20 @@
 ---
 title: cleanDistPath
-configName: output.cleanDistPath
 ---
 
 # output.cleanDistPath
 
 - **Type:** `boolean`
-- **Default:** `false`
+- **Default:** `true`
 
 Whether to clean all files in the dist path before starting compilation.
 
-import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+By default, Modern.js will automatically clean up the files in the dist directory, you can disable this behavior by setting `cleanDistPath` to `false`.
 
-<RsbuildConig />
+```js
+export default {
+  output: {
+    cleanDistPath: false,
+  },
+};
+```
