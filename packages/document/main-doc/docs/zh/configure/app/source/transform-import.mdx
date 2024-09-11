@@ -1,9 +1,31 @@
 ---
 title: transformImport
+configName: source.transformImport
 ---
 
 # source.transformImport
 
-import Main from '@modern-js/builder-doc/docs/zh/config/source/transformImport.md';
+- **类型:**
 
-<Main />
+```ts
+type TransformImport =
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: string;
+      customStyleName?: string;
+    }>
+  | Function;
+```
+
+- **默认值:** `undefined`
+
+转换 import 的路径，可以用于模块化引用三方包的子路径，能力类似于 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

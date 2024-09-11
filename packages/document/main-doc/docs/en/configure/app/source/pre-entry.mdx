@@ -1,9 +1,15 @@
 ---
 title: preEntry
+configName: source.preEntry
 ---
 
 # source.preEntry
 
-import Main from '@modern-js/builder-doc/docs/en/config/source/preEntry.md';
+- **Type:** `string | string[]`
+- **Default:** `[]`
 
-<Main />
+Add a script before the entry file of each page. This script will be executed before the page code. It can be used to execute global logics, such as injecting polyfills, setting global styles, etc.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

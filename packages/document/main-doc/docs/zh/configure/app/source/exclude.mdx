@@ -1,9 +1,15 @@
 ---
 title: exclude
+configName: source.exclude
 ---
 
 # source.exclude
 
-import Main from '@modern-js/builder-doc/docs/zh/config/source/exclude.md';
+- **类型：** [RuleSetCondition[]](https://rspack.dev/zh/config/module#condition)
+- **默认值：** `[]`
 
-<Main />
+指定不需要编译的 JavaScript/TypeScript 文件。用法与 Rspack 中的 [Rule.exclude](https://rspack.dev/zh/config/module#ruleexclude) 一致，支持传入字符串或正则表达式来匹配模块的路径。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
