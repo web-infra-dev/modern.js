@@ -1,9 +1,38 @@
 ---
 title: templateParameters
+configName: html.templateParameters
 ---
 
 # html.templateParameters
 
-import Main from '@modern-js/builder-doc/docs/zh/config/html/templateParameters.md';
+- **类型：** `Record<string, unknown> | Function`
+- **默认值：**
 
-<Main />
+```ts
+type DefaultParameters = {
+  mountId: string; // 对应 html.mountId 配置
+  entryName: string; // 入口名称
+  assetPrefix: string; // 对应 dev.assetPrefix 和 output.assetPrefix 配置
+  compilation: Compilation; // Rspack 的 compilation 对象
+  rspackConfig: Rspack.Configuration; // Rspack 的配置对象
+  // html-rspack-plugin 生成的参数
+  htmlPlugin: {
+    tags: {
+      headTags: HtmlTagObject[];
+      bodyTags: HtmlTagObject[];
+    };
+    files: {
+      publicPath: string;
+      js: Array<string>;
+      css: Array<string>;
+      favicon?: string;
+    };
+  };
+};
+```
+
+定义 HTML 模板中的参数，对应 [html-rspack-plugin](https://github.com/rspack-contrib/html-rspack-plugin) 的 `templateParameters` 配置项。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
