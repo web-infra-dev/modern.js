@@ -1,9 +1,31 @@
 ---
 title: dataUriLimit
+configName: output.dataUriLimit
 ---
 
 # output.dataUriLimit
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/dataUriLimit.md';
+- **Type：**
 
-<Main />
+```ts
+type DataUriLimitConfig =
+  | number
+  | {
+      svg?: number;
+      font?: number;
+      image?: number;
+      media?: number;
+    };
+```
+
+- **Default：**
+
+```js
+const defaultDatUriLimit = 10000;
+```
+
+Set the size threshold to inline static assets such as images and fonts.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

@@ -4,7 +4,7 @@ title: ssg
 
 # output.ssg
 
-- **Type:** `boolean` | `object`
+- **Type:** `boolean | object`
 - **Default Value:** `undefined`
 
 Configuration to enable the application’s SSG (Static Site Generation) feature.
@@ -65,13 +65,14 @@ When the value type is `Object`, the following attributes can be configured.
 
 ### Configuration Type
 
-
 ```ts
-type SSGRouteOptions = string | {
-  url: string;
-  params?: Record<string, any>[];
-  headers?: Record<string, any>;
-};
+type SSGRouteOptions =
+  | string
+  | {
+      url: string;
+      params?: Record<string, any>[];
+      headers?: Record<string, any>;
+    };
 
 type SSGOptions = {
   preventDefault?: string[];
@@ -91,20 +92,22 @@ export default defineConfig({
   output: {
     ssg: {
       routes: [
-        '/', 
-        '/about',         
+        '/',
+        '/about',
         {
           url: '/user/:id',
           headers: {
-            cookies: "name=modernjs"
+            cookies: 'name=modernjs',
           },
-          params: [{
-            id: 'modernjs',
-          }],
-        }
+          params: [
+            {
+              id: 'modernjs',
+            },
+          ],
+        },
       ],
-    }
-  }
+    },
+  },
 });
 ```
 
