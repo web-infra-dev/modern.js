@@ -37,6 +37,37 @@ export default defineConfig<'rspack'>({
 
 更多用法可参考 [Rsbuild - tools.swc](https://rsbuild.dev/zh/config/tools/swc)。
 
+### 注册 SWC 插件
+
+Modern.js 支持通过 `tools.swc` 注册 SWC 的 Wasm 插件，比如注册 [@swc/plugin-styled-components](https://www.npmjs.com/package/@swc/plugin-styled-components)：
+
+```ts
+export default {
+  tools: {
+    swc: {
+      jsc: {
+        experimental: {
+          plugins: [['@swc/plugin-styled-components', {}]],
+        },
+      },
+    },
+  },
+};
+```
+
+需要注意的是，SWC 的插件仍然是一个实验性功能，目前 SWC 的 Wasm 插件是不向后兼容的，SWC 插件的版本与 Rspack 依赖的 swc_core 版本存在强耦合关系。
+
+这意味着，你需要选择和当前 swc_core 版本匹配的 SWC 插件，才能使它正常执行。如果你使用的 SWC 插件版本与 Rspack 依赖的 swc_core 版本不匹配，Rspack 在执行构建时会抛出如下错误：
+
+```
+1: failed to run Wasm plugin transform. Please ensure the version of `swc_core`
+   used by the plugin is compatible with the host runtime.
+```
+
+如果你遇到了以上问题，通常可行的解决方法是将 Modern.js 和 SWC 插件都升级到最新版本。
+
+详情可参考 [Rsbuild - SWC 插件版本](https://rsbuild.dev/zh/guide/basic/configure-swc#swc-%E6%8F%92%E4%BB%B6%E7%89%88%E6%9C%AC)。
+
 ## 在 Webpack 模式下使用
 
 import EnableSWC from '@modern-js/builder-doc/docs/zh/shared/enableSwc.md';
