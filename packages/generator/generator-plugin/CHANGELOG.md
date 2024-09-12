@@ -1,5 +1,21 @@
 # @modern-js/generator-plugin
 
+## 3.6.0
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+- Updated dependencies [65b2922]
+- Updated dependencies [d5345b0]
+  - @modern-js/generator-common@3.6.0
+  - @modern-js/generator-utils@3.6.0
+  - @modern-js/new-action@2.60.0
+  - @modern-js/plugin-i18n@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 3.5.0
 
 ### Patch Changes

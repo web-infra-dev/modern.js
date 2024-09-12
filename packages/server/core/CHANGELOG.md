@@ -1,5 +1,15 @@
 # @modern-js/server-plugin
 
+## 2.60.0
+
+### Patch Changes
+
+- d6e0118: fix: we should not cache the html, if we can match the html is downgrading.
+  fix: 在 ssr 降级时，我们不应该缓存 html
+  - @modern-js/plugin@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

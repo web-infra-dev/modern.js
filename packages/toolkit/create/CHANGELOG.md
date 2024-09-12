@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.60.0
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
 ## 2.59.0
 
 ## 2.58.3

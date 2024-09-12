@@ -1,5 +1,20 @@
 # @modern-js/main-doc
 
+## 2.60.0
+
+### Patch Changes
+
+- e37025c: refactor(main-doc): improve bff docs
+  refactor(main-doc): 优化 BFF 文档
+- 330f1a0: docs: add deprecate eslint rules package doc
+
+  docs: 添加下线 eslint 规则包文档
+
+- Updated dependencies [65b2922]
+- Updated dependencies [91ce673]
+  - @modern-js/sandpack-react@2.60.0
+  - @modern-js/builder-doc@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes

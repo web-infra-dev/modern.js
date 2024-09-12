@@ -1,5 +1,18 @@
 # @modern-js/prod-server
 
+## 2.60.0
+
+### Patch Changes
+
+- 28f0101: feat: generator replace husky to simple git hook
+
+  feat: 生成器模板替换 husky 为 simple-git-hook
+
+- Updated dependencies [d6e0118]
+  - @modern-js/server-core@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
 ## 2.59.0
 
 ### Patch Changes
