@@ -5,21 +5,7 @@ title: copy
 # output.copy
 
 - **Type:**`Rspack.CopyRspackPluginOptions | Rspack.CopyRspackPluginOptions['patterns']`
-- **Default:**
-
-```ts
-export const defaultCopy = [
-  {
-    from: '**/*',
-    to: 'upload',
-    context: './config/upload',
-    noErrorOnMissing: true,
-    force: false,
-    priority: 0,
-    globOptions: {},
-  },
-];
-```
+- **Default:** `undefined`
 
 Copies the specified file or directory to the dist directory, implemented based on [rspack.CopyRspackPlugin](https://rspack.dev/zh/plugins/rspack/copy-rspack-plugin).
 

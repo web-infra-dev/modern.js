@@ -8,49 +8,25 @@ configName: html.appIcon
 - **Type:**
 
 ```ts
-type AppIconItem = { src: string; size: number };
+type AppIconItem = {
+  src: string;
+  size: number;
+  target?: 'apple-touch-icon' | 'web-app-manifest';
+};
 
 type AppIcon = string | {
   name?: string;
   icons: AppIconItem[];
+  filename?: string;
 };
 ```
 
 - **Default:** `undefined`
 
-Set the file path of the apple-touch-icon icon for the iOS system, can be set as a relative path relative to the project root directory, or as an absolute path to the file. Setting it as a CDN URL is not currently supported.
+Set the web application icons to display when added to the home screen of a mobile device:
 
-After config this option, the icon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
-
-### Example
-
-Set as a relative path:
-
-```js
-export default {
-  html: {
-    appIcon: './src/assets/icon.png',
-  },
-};
-```
-
-Set to an absolute path:
-
-```js
-import path from 'path';
-
-export default {
-  html: {
-    appIcon: path.resolve(__dirname, './src/assets/icon.png'),
-  },
-};
-```
-
-After recompiling, the following tags are automatically generated in the HTML:
-
-```html
-<link rel="apple-touch-icon" sizes="180x180" href="/static/image/icon.png" />
-```
+- Generate the web app manifest file and its `icons` field.
+- Generate the `apple-touch-icon` and `manifest` tags in the HTML file.
 
 ### AppIcon string
 
@@ -73,8 +49,6 @@ export default {
   },
 };
 ```
-
-For detailed usage, please refer to [Rsbuild - html.appIcon](https://rsbuild.dev/config/html/app-icon)。
 
 import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
 
