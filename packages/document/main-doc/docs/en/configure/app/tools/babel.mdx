@@ -14,7 +14,7 @@ With `tools.babel` you can modify the options of [babel-loader](https://github.c
 Please note the limitations of `tools.babel` in the following usage scenarios:
 
 - Rspack scenario: When using Rspack as the bundler, using the `tools.babel` option will significantly slow down the Rspack's build speed. This is because Rspack defaults to using SWC for compilation, and configuring Babel will cause the code to be compiled twice, resulting in additional compilation overhead.
-- webpack + SWC scenario: When using webpack as the bundler, if you use Builder's SWC plugin for code compilation, the `tools.babel` option will not take effect.
+- webpack + SWC scenario: When using webpack as the bundler, if you use SWC plugin for code compilation, the `tools.babel` option will not take effect.
 
 ### Function Type
 
@@ -42,7 +42,7 @@ export default {
 The second parameter of the `tools.babel` function provides some more convenient utility functions. Please continue reading the documentation below.
 
 :::tip
-The above example is just for reference, usually you don't need to manually configure `babel-plugin-import`, because the Builder already provides a more general `source.transformImport` configuration.
+The above example is just for reference, usually you don't need to manually configure `babel-plugin-import`, because Modern.js already provides a more general `source.transformImport` configuration.
 :::
 
 ### Object Type
@@ -210,7 +210,7 @@ Deprecated, please use [source.exclude](https://modernjs.dev/en/configure/app/so
 
 ### Debugging Babel Configuration
 
-After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Builder debug mode](https://rsbuild.dev/guide/debug/debug-mode).
+After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Rsbuild debug mode](https://rsbuild.dev/guide/debug/debug-mode).
 
 First, enable debug mode by using the `DEBUG=builder` parameter:
 

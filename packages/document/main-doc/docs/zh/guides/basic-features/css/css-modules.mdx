@@ -167,7 +167,7 @@ declare module '*.styl' {
 
 上述方法虽然可以解决 CSS Modules 在 TypeScript 中的类型问题，但是无法准确地提示出某个 CSS 文件导出了哪些类名。
 
-Builder 支持为 CSS Modules 生成准确的类型声明，你只需要开启 [output.enableCssModuleTSDeclaration](/configure/app/output/enable-css-module-tsdeclaration) 配置项，再执行构建命令，Builder 就会为项目中所有的 CSS Modules 文件生成相应的类型声明文件。
+Modern.js 支持为 CSS Modules 生成准确的类型声明，你只需要开启 [output.enableCssModuleTSDeclaration](/configure/app/output/enable-css-module-tsdeclaration) 配置项，再执行构建命令，Modern.js 就会为项目中所有的 CSS Modules 文件生成相应的类型声明文件。
 
 ```ts
 export default {

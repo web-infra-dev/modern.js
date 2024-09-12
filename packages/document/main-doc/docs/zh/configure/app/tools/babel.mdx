@@ -14,7 +14,7 @@ title: babel
 请留意 `tools.babel` 在以下使用场景中的局限性：
 
 - Rspack 场景：在使用 Rspack 作为打包工具时，使用 `tools.babel` 配置项将会明显拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 会导致代码需要被编译两次，产生了额外的编译开销。
-- webpack + SWC 场景：在使用 webpack 作为打包工具时，如果你使用了 Builder 的 SWC 插件进行代码编译，那么 `tools.babel` 选项将不会生效。
+- webpack + SWC 场景：在使用 webpack 作为打包工具时，如果你使用了 SWC 插件进行代码编译，那么 `tools.babel` 选项将不会生效。
 
 ### Function 类型
 
@@ -41,7 +41,7 @@ export default {
 `tools.babel` 函数的第二个参数提供了一些方便的工具函数，请继续阅读下方文档。
 
 :::tip
-以上示例仅作为参考，通常来说，你不需要手动配置 `babel-plugin-import`，因为 Builder 已经提供了更通用的 `source.transformImport` 配置。
+以上示例仅作为参考，通常来说，你不需要手动配置 `babel-plugin-import`，因为 Modern.js 已经提供了更通用的 `source.transformImport` 配置。
 :::
 
 ### Object 类型
@@ -209,7 +209,7 @@ export default {
 
 ### 调试 Babel 配置
 
-当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [Builder 调试模式](https://rsbuild.dev/zh/guide/debug/debug-mode) 下查看最终生成的配置。
+当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [调试模式](https://rsbuild.dev/zh/guide/debug/debug-mode) 下查看最终生成的配置。
 
 首先通过 `DEBUG=builder` 参数开启调试模式：
 

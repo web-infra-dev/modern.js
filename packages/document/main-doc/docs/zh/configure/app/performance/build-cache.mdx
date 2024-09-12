@@ -31,9 +31,9 @@ const defaultBuildCacheConfig = {
 
 - **打包工具：** `仅支持 webpack`
 
-控制 Builder 在构建过程中的缓存行为。
+控制 Modern.js 在构建过程中的缓存行为。
 
-Builder 默认会开启构建缓存来提升二次构建的速度，并默认把生成的缓存文件写到 `./node_modules/.cache/webpack` 目录下。
+Modern.js 默认会开启构建缓存来提升二次构建的速度，并默认把生成的缓存文件写到 `./node_modules/.cache/webpack` 目录下。
 
 你可以通过 `buildCache` 配置缓存路径，比如：
 
@@ -59,7 +59,7 @@ export default {
 
 ### cacheDigest
 
-`cacheDigest` 用来添加一些会对构建结果产生影响的环境变量。Builder 将根据 `cacheDigest` 内容和当前构建模式来设置缓存名称，来确保不同的 `cacheDigest` 可以命中不同的缓存。
+`cacheDigest` 用来添加一些会对构建结果产生影响的环境变量。Modern.js 将根据 `cacheDigest` 内容和当前构建模式来设置缓存名称，来确保不同的 `cacheDigest` 可以命中不同的缓存。
 
 #### 示例
 

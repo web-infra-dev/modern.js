@@ -8,7 +8,7 @@ title: globalVars
 - **默认值：**
 
 ```ts
-// Builder 默认会添加环境变量 `process.env.NODE_ENV`，因此你不需要手动添加它。
+// Modern.js 默认会添加环境变量 `process.env.NODE_ENV`，因此你不需要手动添加它。
 const defaultGlobalVars = {
   'process.env.NODE_ENV': process.env.NODE_ENV,
 };
@@ -100,7 +100,7 @@ export default {
 
 `source.globalVars` 是通过字符串替换的形式来注入环境变量的，因此它无法对「解构赋值」等动态写法生效。
 
-在使用解构赋值时，Builder 将无法判断变量 `NODE_ENV` 是否与要替换的表达式 `process.env.NODE_ENV` 存在关联，因此以下使用方式是无效的：
+在使用解构赋值时，Modern.js 将无法判断变量 `NODE_ENV` 是否与要替换的表达式 `process.env.NODE_ENV` 存在关联，因此以下使用方式是无效的：
 
 ```js
 const { NODE_ENV } = process.env;
