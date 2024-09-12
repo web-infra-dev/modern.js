@@ -1,0 +1,30 @@
+---
+title: sourceMap
+configName: output.sourceMap
+---
+
+# output.sourceMap
+
+- **类型：**
+
+```ts
+type SourceMap = {
+  js?: Rspack.Configuration['devtool'];
+  css?: boolean;
+};
+```
+
+- **默认值：**
+
+```ts
+const defaultSourceMap = {
+  js: isDev ? 'cheap-module-source-map' : false,
+  css: false,
+};
+```
+
+用于设置是否生成 source map 文件，以及生成哪一种格式的 source map。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
