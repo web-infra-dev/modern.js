@@ -32,7 +32,7 @@ importers:
         version: link:packages/solutions/monorepo-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:packages/review/tsconfig
+        version: link:packages/tsconfig
       '@scripts/build':
         specifier: workspace:*
         version: link:scripts/build
@@ -123,7 +123,7 @@ importers:
     devDependencies:
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../review/tsconfig
+        version: link:../../tsconfig
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -404,7 +404,7 @@ importers:
     dependencies:
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../review/tsconfig
+        version: link:../../tsconfig
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -865,7 +865,7 @@ importers:
         version: link:../../runtime/plugin-runtime
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../review/tsconfig
+        version: link:../../tsconfig
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -1185,7 +1185,7 @@ importers:
     devDependencies:
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../review/tsconfig
+        version: link:../../tsconfig
       '@rspress/shared':
         specifier: 1.28.2
         version: 1.28.2
@@ -2598,8 +2598,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.3.3
-
-  packages/review/tsconfig: {}
 
   packages/runtime/plugin-garfish:
     dependencies:
@@ -4559,6 +4557,8 @@ importers:
         specifier: ^5.94.0
         version: 5.94.0(esbuild@0.17.19)
 
+  packages/tsconfig: {}
+
   scripts/build:
     devDependencies:
       '@types/jest':
@@ -4643,7 +4643,7 @@ importers:
         version: 7.24.7
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/review/tsconfig
+        version: link:../../packages/tsconfig
       '@scripts/build':
         specifier: workspace:*
         version: link:../build
@@ -4903,7 +4903,7 @@ importers:
     dependencies:
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../packages/review/tsconfig
+        version: link:../../packages/tsconfig
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.14.202
@@ -5445,7 +5445,7 @@ importers:
         version: link:../../../packages/runtime/plugin-router-v5
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../packages/review/tsconfig
+        version: link:../../../packages/tsconfig
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -6396,7 +6396,7 @@ importers:
         version: link:../../../packages/module/plugin-module-vue
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../packages/review/tsconfig
+        version: link:../../../packages/tsconfig
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -7440,7 +7440,7 @@ importers:
         version: link:../../../../../packages/solutions/app-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
+        version: link:../../../../../packages/tsconfig
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -7468,7 +7468,7 @@ importers:
         version: link:../../../../../packages/solutions/app-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
+        version: link:../../../../../packages/tsconfig
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -7499,7 +7499,7 @@ importers:
         version: link:../../../../../packages/server/plugin-server
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
+        version: link:../../../../../packages/tsconfig
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -7557,7 +7557,7 @@ importers:
         version: link:../../../../../packages/solutions/app-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
+        version: link:../../../../../packages/tsconfig
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -7600,7 +7600,7 @@ importers:
         version: link:../../../../../packages/solutions/app-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
+        version: link:../../../../../packages/tsconfig
       '@types/react':
         specifier: ^18
         version: 18.0.21
