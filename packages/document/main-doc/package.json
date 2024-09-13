@@ -18,8 +18,7 @@
   "scripts": {
     "dev": "rspress dev",
     "dev:no_lazy": "LAZY=false rspress dev",
-    "build": "npx ts-node ./scripts/sync.ts",
-    "build:doc": "rspress build",
+    "build": "rspress build",
     "preview": "rspress preview"
   },
   "version": "2.60.0",
@@ -31,11 +30,7 @@
   "dependencies": {
     "@modern-js/sandpack-react": "workspace:*"
   },
-  "peerDependencies": {
-    "@modern-js/builder-doc": "workspace:^2.60.0"
-  },
   "devDependencies": {
-    "@modern-js/builder-doc": "workspace:*",
     "@rspress/shared": "1.31.0",
     "@types/fs-extra": "9.0.13",
     "@types/node": "^16",

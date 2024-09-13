@@ -1,9 +1,15 @@
 ---
 title: aliasStrategy
+configName: source.aliasStrategy
 ---
 
 # source.aliasStrategy
 
-import Main from '@modern-js/builder-doc/docs/en/config/source/aliasStrategy.md';
+- **Type:** `'prefer-tsconfig' | 'prefer-alias'`
+- **Default:** `'prefer-tsconfig'`
 
-<Main />
+`source.aliasStrategy` is used to control the priority between the `paths` option in `tsconfig.json` and the `alias` option in the bundler.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

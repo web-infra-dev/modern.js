@@ -4,6 +4,19 @@ title: enableInlineStyles
 
 # output.enableInlineStyles
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/enableInlineStyles.md';
+- **Type:**
 
-<Main />
+```ts
+type EnableInlineStyles =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
+- **Default:** `false`
+
+Whether to inline output style files (.css files) into HTML with `<style>` tags in production mode.
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use the boolean usage of `output.inlineStyles` instead.
+:::

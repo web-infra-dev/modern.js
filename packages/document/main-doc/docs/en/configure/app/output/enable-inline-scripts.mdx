@@ -4,6 +4,19 @@ title: enableInlineScripts
 
 # output.enableInlineScripts
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/enableInlineScripts.md';
+- **Type:**
 
-<Main />
+```ts
+type EnableInlineScripts =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
+- **Default:** `false`
+
+Whether to inline output scripts files (.js files) into HTML with `<script>` tags in production mode.
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use the boolean usage of `output.inlineScripts` instead.
+:::

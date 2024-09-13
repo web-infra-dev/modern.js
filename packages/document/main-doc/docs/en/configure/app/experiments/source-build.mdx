@@ -2,8 +2,33 @@
 title: sourceBuild
 ---
 
-# experiments.sourceBuild
+- **Type:** `boolean | PluginSourceBuildOptions`
+- **Default:** `false`
+- **Version:** `MAJOR_VERSION.46.0`
 
-import Main from '@modern-js/builder-doc/docs/en/config/experiments/sourceBuild.md';
+Used to enable the ability for source code building. When this configuration option is enabled, Modern.js will read the source code files corresponding to the `source` field in the sub-project's package.json and compile them.
 
-<Main />
+```ts
+export default {
+  experiments: {
+    sourceBuild: true,
+  },
+};
+```
+
+More detail can see ["Source Code Build Mode"](https://modernjs.dev/en/guides/advanced-features/source-build.html)。
+
+### Options
+
+`experiments.sourceBuild` is implemented based on [@rsbuild/plugin-source-build](https://github.com/rspack-contrib/rsbuild-plugin-source-build?tab=readme-ov-file#options). You can pass plugin options like this:
+
+```ts
+export default {
+  experiments: {
+    sourceBuild: {
+      sourceField: 'my-source',
+      resolvePriority: 'output',
+    },
+  },
+};
+```

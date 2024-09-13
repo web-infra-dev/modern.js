@@ -4,6 +4,19 @@ title: enableInlineStyles
 
 # output.enableInlineStyles
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/enableInlineStyles.md';
+- **类型：**
 
-<Main />
+```ts
+type EnableInlineStyles =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
+- **默认值：** `false`
+
+用来控制生产环境中是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 HTML 中。
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 `output.inlineStyles` 的布尔用法代替。
+:::

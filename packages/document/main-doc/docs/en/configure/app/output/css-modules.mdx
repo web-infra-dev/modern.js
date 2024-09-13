@@ -1,9 +1,53 @@
 ---
 title: cssModules
+configName: output.cssModules
 ---
 
 # output.cssModules
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/cssModules.md';
+- **Type:**
 
-<Main />
+```ts
+type CssModules = {
+  auto?:
+    | boolean
+    | RegExp
+    | ((
+        resourcePath: string,
+        resourceQuery: string,
+        resourceFragment: string,
+      ) => boolean);
+  exportLocalsConvention?:
+    | 'asIs'
+    | 'camelCase'
+    | 'camelCaseOnly'
+    | 'dashes'
+    | 'dashesOnly';
+  exportGlobals?: boolean;
+  localIdentName?: string;
+  mode?:
+    | 'local'
+    | 'global'
+    | 'pure'
+    | 'icss'
+    | ((resourcePath: string) => 'local' | 'global' | 'pure' | 'icss');
+  namedExport?: boolean;
+};
+```
+
+- **Default:**
+
+```ts
+const defaultCssModules = {
+  auto: true,
+  namedExport: false,
+  exportGlobals: false,
+  exportLocalsConvention: 'camelCase',
+};
+```
+
+For custom CSS Modules configuration.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

@@ -4,6 +4,17 @@ title: cleanDistPath
 
 # output.cleanDistPath
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/cleanDistPath.md';
+- **类型：** `boolean`
+- **默认值：** `true`
 
-<Main />
+是否在构建开始前清理 dist 目录下的所有文件。
+
+默认情况下，Modern.js 会自动清理 dist 目录下的文件，你可以把 `cleanDistPath` 设置为 `false` 来禁用该行为。
+
+```ts
+export default {
+  output: {
+    cleanDistPath: false,
+  },
+};
+```

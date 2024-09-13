@@ -1,9 +1,26 @@
 ---
 title: include
+configName: source.include
 ---
 
 # source.include
 
-import Main from '@modern-js/builder-doc/docs/en/config/source/include.md';
+- **Type:** [RuleSetCondition[]](https://rspack.dev/config/module#condition)
+- **Default:**
 
-<Main />
+```ts
+const defaultInclude = [
+  [
+    /node_modules\/react-router/,
+    /node_modules\/react-router-dom/,
+    /node_modules\/@remix-run\/router/,
+    '/node_modules/.modern-js',
+  ],
+];
+```
+
+The `source.include` is used to specify additional JavaScript files that need to be compiled.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

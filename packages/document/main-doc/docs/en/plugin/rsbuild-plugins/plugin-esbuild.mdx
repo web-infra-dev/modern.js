@@ -11,7 +11,7 @@ Please refer to [「Use Rspack」](guides/advanced-features/rspack-start) for mo
 
 :::
 
-import Esbuild from '@modern-js/builder-doc/docs/en/shared/esbuild.md';
+import Esbuild from '@site-docs-en/components/esbuild.mdx';
 
 <Esbuild />
 
@@ -19,7 +19,7 @@ import Esbuild from '@modern-js/builder-doc/docs/en/shared/esbuild.md';
 
 ### Used in Modern.js framework
 
-The Modern.js framework integrates the Builder's esbuild plugin by default, so you don't need to manually install and register the plugin, just use the [tools.esbuild](https://modernjs.dev/en/configure/app/tools/esbuild.html) configuration:
+The Modern.js framework integrates the esbuild plugin by default, so you don't need to manually install and register the plugin, just use the [tools.esbuild](https://modernjs.dev/en/configure/app/tools/esbuild.html) configuration:
 
 ```js
 export default defineConfig({
@@ -102,7 +102,7 @@ builderPluginEsbuild({
 
 #### Disable transformation
 
-Set `loader` to `false` to disable esbuild transformation, and Builder will continue to use Babel to transform the code.
+Set `loader` to `false` to disable esbuild transformation, and Modern.js will continue to use Babel to transform the code.
 
 ```ts
 builderPluginEsbuild({
@@ -146,7 +146,7 @@ builderPluginEsbuild({
 
 #### Disable minification
 
-Set `minimize` to `false` to disable esbuild minification, and Builder will continue to use Terser to minify the code.
+Set `minimize` to `false` to disable esbuild minification, and Modern.js will continue to use Terser to minify the code.
 
 ```ts
 builderPluginEsbuild({

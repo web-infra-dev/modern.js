@@ -1,9 +1,15 @@
 ---
 title: removeConsole
+configName: performance.removeConsole
 ---
 
 # performance.removeConsole
 
-import Main from '@modern-js/builder-doc/docs/zh/config/performance/removeConsole.md';
+- **类型：** `boolean | ConsoleType[]`
+- **默认值：** `false`
 
-<Main />
+在生产环境构建时，是否自动移除代码中的 `console.[methodName]`。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

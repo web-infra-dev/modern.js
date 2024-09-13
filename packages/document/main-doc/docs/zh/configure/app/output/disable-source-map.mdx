@@ -4,6 +4,28 @@ title: disableSourceMap
 
 # output.disableSourceMap
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/disableSourceMap.md';
+- **类型：**
 
-<Main />
+```ts
+type DisableSourceMap =
+  | boolean
+  | {
+      js?: boolean;
+      css?: boolean;
+    };
+```
+
+- **默认值：**
+
+```ts
+const defaultDisableSourceMap = {
+  js: false,
+  css: process.env.NODE_ENV === 'production',
+};
+```
+
+是否禁用 Source Map 生成。
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 `output.sourceMap` 的布尔用法代替。
+:::

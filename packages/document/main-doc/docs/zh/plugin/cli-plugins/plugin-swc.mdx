@@ -11,7 +11,7 @@ sidebar_position: 2
 
 :::
 
-import SWC from '@modern-js/builder-doc/docs/zh/shared/swc.md';
+import SWC from '@site-docs/components/swc.mdx';
 
 <SWC />
 
@@ -51,9 +51,9 @@ import SWC from '@modern-js/builder-doc/docs/zh/shared/swc.md';
 
 ### 在 Modern.js 框架中使用
 
-Modern.js 框架对 Builder 的 SWC 插件进行了封装，你可以通过以下方式来使用：
+Modern.js 框架对 SWC 插件进行了封装，你可以通过以下方式来使用：
 
-import EnableSWC from '@modern-js/builder-doc/docs/zh/shared/enableSwc.md';
+import EnableSWC from '@site-docs/components/enableSwc.mdx';
 
 <EnableSWC />
 
@@ -285,7 +285,7 @@ boolean | {
 #### extensions.pluginImport
 
 :::tip
-Builder 提供了 [source.transformImport](/configure/app/source/transform-import) 配置项，因此你不需要手动配置 `extensions.pluginImport`。
+Modern.js 提供了 [source.transformImport](/configure/app/source/transform-import) 配置项，因此你不需要手动配置 `extensions.pluginImport`。
 :::
 
 移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持一致。

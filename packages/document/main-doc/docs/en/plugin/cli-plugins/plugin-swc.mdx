@@ -11,7 +11,7 @@ Please refer to [「Use Rspack」](guides/advanced-features/rspack-start) for mo
 
 :::
 
-import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
+import SWC from '@site-docs-en/components/swc.mdx';
 
 <SWC />
 
@@ -51,9 +51,9 @@ For a detailed comparison between minifiers, see [minification-benchmarks](https
 
 ### Used in Modern.js framework
 
-The Modern.js framework integrates the Builder's SWC plugin, and you can use it in the following ways:
+The Modern.js framework integrates the SWC plugin, and you can use it in the following ways:
 
-import EnableSWC from '@modern-js/builder-doc/docs/en/shared/enableSwc.md';
+import EnableSWC from '@site-docs-en/components/enableSwc.mdx';
 
 <EnableSWC />
 
@@ -297,7 +297,7 @@ This is ported by Next.js team from [@emotion/babel-plugin](https://www.npmjs.co
 #### extensions.pluginImport
 
 :::tip
-Builder provides the [source.transformImport](/configure/app/source/transform-import) config, so you don't need to configure `extensions.pluginImport` manually.
+Modern.js provides the [source.transformImport](/configure/app/source/transform-import) config, so you don't need to configure `extensions.pluginImport` manually.
 :::
 
 Ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import), configurations are the same.

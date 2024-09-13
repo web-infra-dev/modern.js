@@ -1,9 +1,21 @@
 ---
 title: preconnect
+configName: performance.preconnect
 ---
 
 # performance.preconnect
 
-import Main from '@modern-js/builder-doc/docs/en/config/performance/preconnect.md';
+- **Type:** `undefined | Array<string | PreconnectOption>`
 
-<Main />
+```ts
+interface PreconnectOption {
+  href: string;
+  crossorigin?: boolean;
+}
+```
+
+- **Default:** `undefined`
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

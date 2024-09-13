@@ -4,6 +4,13 @@ title: disableFilenameHash
 
 # output.disableFilenameHash
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/disableFilenameHash.md';
+- **类型：** `boolean`
+- **默认值：** `false`
 
-<Main />
+移除生产环境的构建产物名称中的 hash 值。
+
+在生产环境构建后，会自动在文件名中间添加 hash 值，如果不需要添加，可以通过 `output.disableFilenameHash` 配置来禁用该行为。
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 `output.filenameHash` 的布尔用法代替。
+:::

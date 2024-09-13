@@ -4,6 +4,53 @@ title: terser
 
 # tools.terser
 
-import Main from '@modern-js/builder-doc/docs/en/config/tools/terser.md';
+- **Type:** `Object | Function | undefined`
+- **Default:**
 
-<Main />
+```js
+const defaultTerserOptions = {
+  terserOptions: {
+    mangle: {
+      safari10: true,
+    },
+  },
+};
+```
+
+- **Bundler:** `only support webpack`
+
+When building for production, Modern.js will minimize the JavaScript code through [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin). The config of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin) can be modified via `tools.terser`.
+
+### Object Type
+
+When `tools.terser` is `Object` type, it will be merged with the default config via `Object.assign`.
+
+For example, to exclude some files from minification:
+
+```js
+export default {
+  tools: {
+    terser: {
+      exclude: /\/excludes/,
+    },
+  },
+};
+```
+
+### Function Type
+
+When `tools.terser` is `Function` type, the default config is passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
+
+```js
+export default {
+  tools: {
+    terser: opts => {
+      opts.exclude = /\/excludes/;
+    },
+  },
+};
+```
+
+:::tip Disable code minification
+If you need to disable code minification, you can use the [output.disableMinimize](https://modernjs.dev/builder/en/api/config-output.html#outputdisableminimize) configuration.
+:::

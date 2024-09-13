@@ -1,9 +1,53 @@
 ---
 title: cssModules
+configName: output.cssModules
 ---
 
 # output.cssModules
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/cssModules.md';
+- **类型：**
 
-<Main />
+```ts
+type CssModules = {
+  auto?:
+    | boolean
+    | RegExp
+    | ((
+        resourcePath: string,
+        resourceQuery: string,
+        resourceFragment: string,
+      ) => boolean);
+  exportLocalsConvention?:
+    | 'asIs'
+    | 'camelCase'
+    | 'camelCaseOnly'
+    | 'dashes'
+    | 'dashesOnly';
+  exportGlobals?: boolean;
+  localIdentName?: string;
+  mode?:
+    | 'local'
+    | 'global'
+    | 'pure'
+    | 'icss'
+    | ((resourcePath: string) => 'local' | 'global' | 'pure' | 'icss');
+  namedExport?: boolean;
+};
+```
+
+- **默认值：**
+
+```ts
+const defaultCssModules = {
+  auto: true,
+  namedExport: false,
+  exportGlobals: false,
+  exportLocalsConvention: 'camelCase',
+};
+```
+
+自定义 CSS 模块配置。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

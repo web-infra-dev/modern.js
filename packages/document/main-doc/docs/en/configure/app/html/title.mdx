@@ -1,9 +1,23 @@
 ---
 title: title
+configName: html.title
 ---
 
 # html.title
 
-import Main from '@modern-js/builder-doc/docs/en/config/html/title.md';
+- **Type:** `string ｜ Function`
+- **Default:** `''`
 
-<Main />
+Set the title tag of the HTML page, for example:
+
+```js
+export default {
+  html: {
+    title: 'example',
+  },
+};
+```
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

@@ -1,9 +1,15 @@
 ---
 title: aliasStrategy
+configName: source.aliasStrategy
 ---
 
 # source.aliasStrategy
 
-import Main from '@modern-js/builder-doc/docs/zh/config/source/aliasStrategy.md';
+- **类型：** `'prefer-tsconfig' | 'prefer-alias'`
+- **默认值：** `'prefer-tsconfig'`
 
-<Main />
+`source.aliasStrategy` 用于控制 `tsconfig.json` 中的 `paths` 选项与打包工具的 `alias` 选项的优先级。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

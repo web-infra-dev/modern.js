@@ -1,9 +1,27 @@
 ---
 title: overrideBrowserslist
+configName: output.overrideBrowserslist
 ---
 
 # output.overrideBrowserslist
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/overrideBrowserslist.md';
+- **类型：** `string[] | undefined`
+- **默认值：**
 
-<Main />
+```ts
+const defaultBrowserListMap: Record<RsbuildTarget, string[]> = {
+  web: ['> 0.01%', 'not dead', 'not op_mini all'],
+  node: ['node >= 14'],
+  'web-worker': ['> 0.01%', 'not dead', 'not op_mini all'],
+};
+```
+
+指定项目兼容的目标浏览器范围。
+
+该值会被 [SWC](https://github.com/swc-project/swc) 和 [autoprefixer](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
+
+Modern.js 会优先使用项目根目录的 `.browserslistrc` 文件中的配置。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

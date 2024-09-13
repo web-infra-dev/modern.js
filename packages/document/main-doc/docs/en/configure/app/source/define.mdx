@@ -1,9 +1,21 @@
 ---
 title: define
+configName: source.define
 ---
 
 # source.define
 
-import Main from '@modern-js/builder-doc/docs/en/config/source/define.md';
+- **Type:** `Record<string, unknown>`
+- **Default:**
 
-<Main />
+```ts
+const defaultDefine = {
+  'process.env.MODERN_TARGET': '"browser"',
+};
+```
+
+Replaces variables in your code with other values or expressions at compile time. This can be useful for allowing different behavior between development builds and production builds.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

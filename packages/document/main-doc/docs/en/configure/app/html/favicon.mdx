@@ -1,9 +1,21 @@
 ---
 title: favicon
+configName: html.favicon
 ---
 
 # html.favicon
 
-import Main from '@modern-js/builder-doc/docs/en/config/html/favicon.md';
+- **Type:** `string ｜ Function`
+- **Default:** `undefined`
 
-<Main />
+Set the favicon icon path for all pages, can be set as:
+
+- a URL.
+- an absolute path to the file.
+- a relative path relative to the project root directory.
+
+After config this option, the favicon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

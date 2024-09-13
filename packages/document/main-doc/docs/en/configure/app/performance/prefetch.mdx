@@ -1,9 +1,26 @@
 ---
 title: prefetch
+configName: performance.prefetch
 ---
 
 # performance.prefetch
 
-import Main from '@modern-js/builder-doc/docs/en/config/performance/prefetch.md';
+- **Type:** `undefined | true | PrefetchOption`
 
-<Main />
+```ts
+type IncludeType = 'async-chunks' | 'initial' | 'all-assets' | 'all-chunks';
+
+type Filter = Array<string | RegExp> | ((filename: string) => boolean);
+
+interface PrefetchOption {
+  type?: IncludeType;
+  include?: Filter;
+  exclude?: Filter;
+}
+```
+
+- **Default:** `undefined`
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

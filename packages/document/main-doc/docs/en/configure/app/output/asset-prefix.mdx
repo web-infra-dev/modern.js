@@ -1,9 +1,19 @@
 ---
 title: assetPrefix
+configName: output.assetPrefix
 ---
 
 # output.assetPrefix
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/assetPrefix.md';
+- **Type:** `string | 'auto'`
+- **Default:** `'/'`
 
-<Main />
+In production mode, use this option to set the URL prefix for static assets, such as setting it to a CDN URL.
+
+import OutputAssetPrefixExtend from '@site-docs-en/components/output-asset-prefix-extend';
+
+<OutputAssetPrefixExtend />
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

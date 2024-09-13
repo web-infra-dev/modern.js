@@ -1,9 +1,55 @@
 ---
 title: appIcon
+configName: html.appIcon
 ---
 
 # html.appIcon
 
-import Main from '@modern-js/builder-doc/docs/zh/config/html/appIcon.md';
+- **类型：**
 
-<Main />
+```ts
+type AppIconItem = {
+  src: string;
+  size: number;
+  target?: 'apple-touch-icon' | 'web-app-manifest';
+};
+
+type AppIcon = string | {
+  name?: string;
+  icons: AppIconItem[];
+  filename?: string;
+};
+```
+
+- **默认值：** `undefined`
+
+设置 Web 应用的图标，用于在添加到移动设备的主屏幕时显示：
+
+- 生成 web app manifest 文件和其中的 `icons` 字段。
+- 生成 HTML 文件中的 `apple-touch-icon` 标签和 `manifest` 标签。
+
+### 字符串形式
+
+`string` 类型的 `appIcon` 配置是对象类型的一个语法糖。
+
+```js
+export default {
+  html: {
+    appIcon: './src/assets/icon.png',
+  },
+};
+```
+
+以上配置相当于下面配置的语法糖：
+
+```js
+export default {
+  html: {
+    appIcon: { icons: [{ src: './src/assets/icon.png', size: 180 }] }
+  },
+};
+```
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

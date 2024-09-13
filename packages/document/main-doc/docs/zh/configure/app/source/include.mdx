@@ -1,9 +1,26 @@
 ---
 title: include
+configName: source.include
 ---
 
 # source.include
 
-import Main from '@modern-js/builder-doc/docs/zh/config/source/include.md';
+- **类型：** [RuleSetCondition[]](https://rspack.dev/zh/config/module#condition)
+- **默认值：**
 
-<Main />
+```ts
+const defaultInclude = [
+  [
+    /node_modules\/react-router/,
+    /node_modules\/react-router-dom/,
+    /node_modules\/@remix-run\/router/,
+    '/node_modules/.modern-js',
+  ],
+];
+```
+
+`source.include` 用于指定额外需要编译的 JavaScript 文件。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

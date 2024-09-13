@@ -4,6 +4,17 @@ title: disableSvgr
 
 # output.disableSvgr
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/disableSvgr.md';
+- **Type:** `boolean`
+- **Default:** `false`
 
-<Main />
+Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
+
+By default, when an SVG resource is referenced in a JS file, Modern.js will call SVGR to convert the SVG into a React component. If you are sure that all SVG resources in your project are not being used as React components, you can turn off this conversion by setting `disableSvgr` to true to improve build performance.
+
+```js
+export default {
+  output: {
+    disableSvgr: true,
+  },
+};
+```

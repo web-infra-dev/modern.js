@@ -1,9 +1,35 @@
 ---
 title: cssExtract
+configName: tools.cssExtract
 ---
 
 # tools.cssExtract
 
-import Main from '@modern-js/builder-doc/docs/zh/config/tools/cssExtract.md';
+- **类型：**
 
-<Main />
+```ts
+type CSSExtractOptions = {
+  pluginOptions?: Rspack.CssExtractRspackPluginOptions;
+  loaderOptions?: Rspack.CssExtractRspackLoaderOptions;
+};
+```
+
+- **默认值：**
+
+```js
+const defaultOptions = {
+  pluginOptions: {
+    ignoreOrder: true,
+    // 默认值由 Rsbuild 的 output.distPath 和 output.filename 选项决定
+    filename: 'static/css/[name].css',
+    chunkFilename: 'static/css/async/[name].css',
+  },
+  loaderOptions: {},
+};
+```
+
+通过 `tools.cssExtract` 可以更改 [CssExtractRspackPlugin](https://www.rspack.dev/zh/plugins/rspack/css-extract-rspack-plugin) 或 [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) 的配置。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

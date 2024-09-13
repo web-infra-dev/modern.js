@@ -4,6 +4,18 @@ title: cssModuleLocalIdentName
 
 # output.cssModuleLocalIdentName
 
-import Main from '@modern-js/builder-doc/docs/zh/config/output/cssModuleLocalIdentName.md';
+- **类型：** `string`
+- **默认值：**
 
-<Main />
+```ts
+// isProd 表示生产环境构建
+const localIdentName = isProd
+  ? '[local]-[hash:base64:6]'
+  : '[path][name]__[local]-[hash:base64:6]';
+```
+
+设置 CSS Modules 编译后生成的 className 格式。
+
+:::warning
+**Deprecated**：该配置已废弃，请使用 `output.cssModules.localIdentName` 的代替。
+:::

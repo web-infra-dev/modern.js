@@ -1,9 +1,26 @@
 ---
 title: sri
+configName: security.sri
 ---
 
 # security.sri
 
-import Main from '@modern-js/builder-doc/docs/en/config/security/sri.md';
+- **Type**
 
-<Main />
+```ts
+type SriOptions = {
+  hashFuncNames?: [string, ...string[]];
+  enabled?: 'auto' | true | false;
+  hashLoading?: 'eager' | 'lazy'; // only support webpack
+};
+```
+
+- **Default:** `undefined`
+
+Adding an `integrity` attribute to `<script>` and `<link rel="stylesheet">` tags introduced by HTML allows the browser to verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
+
+:::info
+For a specific introduction to SRI, you can refer to [Rsbuild security.sri](https://rsbuild.dev/zh/config/security/sri).
+
+This configuration type is not completely consistent with Rsbuild and will be automatically converted during the build process.
+:::

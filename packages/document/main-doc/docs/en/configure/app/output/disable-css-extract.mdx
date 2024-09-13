@@ -4,6 +4,13 @@ title: disableCssExtract
 
 # output.disableCssExtract
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/disableCssExtract.md';
+- **Type:** `boolean`
+- **Default:** `false`
 
-<Main />
+Whether to disable CSS extract and inline CSS files into JS files.
+
+By default, Modern.js will extract CSS into a separate `.css` file and output it to the dist directory. When this option is set to `true`, CSS files will be inlined into JS files and inserted on the page at runtime via `<style>` tags.
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use the `output.injectStyles` instead.
+:::

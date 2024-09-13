@@ -1,9 +1,25 @@
 ---
 title: bundleAnalyze
+configName: performance.bundleAnalyze
 ---
 
 # performance.bundleAnalyze
 
-import Main from '@modern-js/builder-doc/docs/zh/config/performance/bundleAnalyze.md';
+- **类型：** `Object | undefined`
 
-<Main />
+用于开启 [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) 插件来分析产物体积。
+
+默认情况下，Modern.js 不会开启 `webpack-bundle-analyzer`。当开启该功能后，内部的默认配置如下:
+
+```js
+const defaultConfig = {
+  analyzerMode: 'static',
+  openAnalyzer: false,
+  // target 为编译目标，如 `web`、`node` 等
+  reportFilename: `report-${target}.html`,
+};
+```
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

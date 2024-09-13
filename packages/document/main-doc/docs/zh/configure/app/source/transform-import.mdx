@@ -1,9 +1,63 @@
 ---
 title: transformImport
+configName: source.transformImport
 ---
 
 # source.transformImport
 
-import Main from '@modern-js/builder-doc/docs/zh/config/source/transformImport.md';
+转换 import 的路径，可以用于模块化引用三方包的子路径，能力类似于 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
 
-<Main />
+- **类型:**
+
+```ts
+type TransformImport =
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: string;
+      customStyleName?: string;
+    }>
+  | Function;
+```
+
+- **默认值:**
+
+当项目中安装了 [Ant Design 组件库](https://www.npmjs.com/package/antd) &lt;= 4.x 版本时，Modern.js 会自动添加以下默认配置：
+
+```js
+const defaultAntdConfig = {
+  libraryName: 'antd',
+  libraryDirectory: isServer ? 'lib' : 'es',
+  style: true,
+};
+```
+
+当项目中安装了 [Arco Design 组件库](https://www.npmjs.com/package/@arco-design/web-react) 时，Modern.js 会自动添加以下默认配置：
+
+```js
+const defaultArcoConfig = [
+  {
+    libraryName: '@arco-design/web-react',
+    libraryDirectory: isServer ? 'lib' : 'es',
+    camelToDashComponentName: false,
+    style: true,
+  },
+  {
+    libraryName: '@arco-design/web-react/icon',
+    libraryDirectory: isServer ? 'react-icon-cjs' : 'react-icon',
+    camelToDashComponentName: false,
+  },
+];
+```
+
+:::tip
+当你添加了 `antd` 或 `@arco-design/web-react` 相关的配置时，优先级会高于上述默认配置。
+:::
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

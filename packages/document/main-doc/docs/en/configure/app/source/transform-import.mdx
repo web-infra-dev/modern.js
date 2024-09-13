@@ -1,9 +1,63 @@
 ---
 title: transformImport
+configName: source.transformImport
 ---
 
 # source.transformImport
 
-import Main from '@modern-js/builder-doc/docs/en/config/source/transformImport.md';
+Transform the import path, which can be used to modularly import the subpath of third-party packages. The functionality is similar to [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
 
-<Main />
+- **Type:**
+
+```ts
+type TransformImport =
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: string;
+      customStyleName?: string;
+    }>
+  | Function;
+```
+
+- **Default:**
+
+When the [Ant Design component library](https://www.npmjs.com/package/antd) &lt;= 4.x version is installed in the project, Modern.js will automatically add the following default configurations:
+
+```js
+const defaultAntdConfig = {
+  libraryName: 'antd',
+  libraryDirectory: isServer ? 'lib' : 'es',
+  style: true,
+};
+```
+
+When the [Arco Design component library](https://www.npmjs.com/package/@arco-design/web-react) is installed in the project, Modern.js will automatically add the following default configurations:
+
+```js
+const defaultArcoConfig = [
+  {
+    libraryName: '@arco-design/web-react',
+    libraryDirectory: isServer ? 'lib' : 'es',
+    camelToDashComponentName: false,
+    style: true,
+  },
+  {
+    libraryName: '@arco-design/web-react/icon',
+    libraryDirectory: isServer ? 'react-icon-cjs' : 'react-icon',
+    camelToDashComponentName: false,
+  },
+];
+```
+
+:::tip
+When you add configurations for `antd` or `@arco-design/web-react`, the priority will be higher than the default configurations mentioned above.
+:::
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

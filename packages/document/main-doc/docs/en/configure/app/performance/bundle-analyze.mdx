@@ -1,9 +1,25 @@
 ---
 title: bundleAnalyze
+configName: performance.bundleAnalyze
 ---
 
 # performance.bundleAnalyze
 
-import Main from '@modern-js/builder-doc/docs/en/config/performance/bundleAnalyze.md';
+- **Type:** `Object | undefined`
 
-<Main />
+Used to enable the [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer) plugin to analyze the size of the output.
+
+By default, Modern.js does not enable `webpack-bundle-analyzer`. When this feature is enabled, the default configuration is as follows:
+
+```js
+const defaultConfig = {
+  analyzerMode: 'static',
+  openAnalyzer: false,
+  // Distinguish by target names, such as `web`, `node`, etc.
+  reportFilename: `report-${target}.html`,
+};
+```
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

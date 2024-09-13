@@ -1,9 +1,23 @@
 ---
 title: legalComments
+configName: output.legalComments
 ---
 
 # output.legalComments
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/legalComments.md';
+- **Type:** `'linked' | 'inline' | 'none'`
+- **Default:** `'linked'`
 
-<Main />
+Configure how to handle the legal comment.
+
+A "legal comment" is considered to be any statement-level comment in JS or rule-level comment in CSS that contains `@license` or `@preserve` or that starts with `//!` or `/*!`. These comments are preserved in output files by default since that follows the intent of the original authors of the code.
+
+This behavior can be configured by using one of the following options:
+
+- `linked`: Extract all legal comments to a .LEGAL.txt file and link to them with a comment.
+- `inline`: Preserve all legal comments in original position.
+- `none`: Remove all legal comments.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

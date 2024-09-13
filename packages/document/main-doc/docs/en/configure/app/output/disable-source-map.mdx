@@ -4,6 +4,28 @@ title: disableSourceMap
 
 # output.disableSourceMap
 
-import Main from '@modern-js/builder-doc/docs/en/config/output/disableSourceMap.md';
+- **Type:**
 
-<Main />
+```ts
+type DisableSourceMap =
+  | boolean
+  | {
+      js?: boolean;
+      css?: boolean;
+    };
+```
+
+- **Default:**
+
+```ts
+const defaultDisableSourceMap = {
+  js: false,
+  css: process.env.NODE_ENV === 'production',
+};
+```
+
+Whether to disable Source Map generation.
+
+:::warning
+**Deprecated**: This configuration is deprecated, please use the boolean usage of `output.sourceMap` instead.
+:::
