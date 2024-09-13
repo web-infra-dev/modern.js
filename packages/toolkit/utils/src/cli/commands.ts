@@ -23,7 +23,7 @@ export const isDevCommand = () => {
 // @deprecated
 // Can be removed in the next major version
 export const deprecatedCommands = (
-  program: Command & { commandsMap: Map<string, Command> },
+  program: Command & { commandsMap?: Map<string, Command> },
 ) => {
   const lintCommand = program.commandsMap?.get('lint');
   if (!lintCommand) {
