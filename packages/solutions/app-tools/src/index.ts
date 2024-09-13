@@ -3,6 +3,7 @@ import type { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import {
   cleanRequireCache,
+  deprecatedCommands,
   emptyDir,
   getArgv,
   getCommand,
@@ -18,7 +19,6 @@ import type { AppTools } from './types';
 import {
   buildCommand,
   deployCommand,
-  deprecatedCommands,
   devCommand,
   inspectCommand,
   newCommand,

@@ -1,7 +1,7 @@
 import type { CliPlugin } from '@modern-js/core';
 import { changesetPlugin } from '@modern-js/plugin-changeset';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { logger } from '@modern-js/utils';
+import { deprecatedCommands } from '@modern-js/utils';
 import { clearCli, deployCli, newCli, upgradeCli } from './cli';
 import { hooks } from './hooks';
 import { i18n } from './locale';
@@ -29,26 +29,7 @@ export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
         deployCli(program, api);
         newCli(program);
         upgradeCli(program);
-        program
-          .command('lint [...files]')
-          .allowUnknownOption()
-          .description('Deprecated')
-          .action(() => {
-            logger.warn(
-              'The "modern lint" command is deprecated, please use "eslint" or "biome" instead.',
-            );
-          });
-
-        // @deprecated
-        // Can be removed in the next major version
-        program
-          .command('pre-commit')
-          .description('Deprecated')
-          .action(() => {
-            logger.warn(
-              'The "modern pre-commit" command is deprecated, please use "lint-staged" instead.',
-            );
-          });
+        deprecatedCommands(program);
       },
     };
   },

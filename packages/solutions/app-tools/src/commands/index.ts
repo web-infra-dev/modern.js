@@ -1,11 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
 import { castArray } from '@modern-js/uni-builder';
-import {
-  type Command,
-  logger,
-  newAction,
-  upgradeAction,
-} from '@modern-js/utils';
+import { type Command, newAction, upgradeAction } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
 import type { AppTools } from '../types';
 import type {
@@ -189,28 +184,5 @@ export const upgradeCommand = (program: Command) => {
     .option('-h --help', 'Show help') // In order to upgrade help work.
     .action(async () => {
       await upgradeAction();
-    });
-};
-
-export const deprecatedCommands = (program: Command) => {
-  program
-    .command('lint [...files]')
-    .allowUnknownOption()
-    .description('Deprecated')
-    .action(() => {
-      logger.warn(
-        'The "modern lint" command is deprecated, please use "eslint" or "biome" instead.',
-      );
-    });
-
-  // @deprecated
-  // Can be removed in the next major version
-  program
-    .command('pre-commit')
-    .description('Deprecated')
-    .action(() => {
-      logger.warn(
-        'The "modern pre-commit" command is deprecated, please use "lint-staged" instead.',
-      );
     });
 };
