@@ -1,7 +1,6 @@
 import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,
@@ -19,6 +18,7 @@ import type { AppTools } from './types';
 import {
   buildCommand,
   deployCommand,
+  deprecatedCommands,
   devCommand,
   inspectCommand,
   newCommand,
@@ -84,7 +84,6 @@ export const appTools = (
           : 'webpack',
     }),
     serverBuildPlugin(),
-    lintPlugin(),
     deployPlugin(),
   ],
 
@@ -120,6 +119,7 @@ export const appTools = (
         newCommand(program, locale);
         inspectCommand(program, api);
         upgradeCommand(program);
+        deprecatedCommands(program);
       },
 
       async prepare() {

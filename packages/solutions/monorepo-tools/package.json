@@ -47,7 +47,6 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rushstack/node-core-library": "^3.39.1",
     "@rushstack/package-deps-hash": "^3.0.54",

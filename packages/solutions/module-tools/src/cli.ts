@@ -1,5 +1,5 @@
 import type { CliPlugin } from '@modern-js/core';
-import { fs, dotenv } from '@modern-js/utils';
+import { fs, dotenv, logger } from '@modern-js/utils';
 import {
   buildCommand,
   devCommand,
@@ -53,6 +53,26 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
       await devCommand(program, api);
       await newCommand(program);
       await upgradeCommand(program);
+      program
+        .command('lint [...files]')
+        .allowUnknownOption()
+        .description('Deprecated')
+        .action(() => {
+          logger.warn(
+            'The "modern lint" command is deprecated, please use "eslint" or "biome" instead.',
+          );
+        });
+
+      // @deprecated
+      // Can be removed in the next major version
+      program
+        .command('pre-commit')
+        .description('Deprecated')
+        .action(() => {
+          logger.warn(
+            'The "modern pre-commit" command is deprecated, please use "lint-staged" instead.',
+          );
+        });
     },
   };
 };
