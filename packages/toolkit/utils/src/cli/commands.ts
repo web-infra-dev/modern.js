@@ -25,7 +25,7 @@ export const isDevCommand = () => {
 export const deprecatedCommands = (
   program: Command & { commandsMap: Map<string, Command> },
 ) => {
-  const lintCommand = program.commandsMap.get('lint');
+  const lintCommand = program.commandsMap?.get('lint');
   if (!lintCommand) {
     program
       .command('lint [...files]')
@@ -37,7 +37,7 @@ export const deprecatedCommands = (
         );
       });
   }
-  const preCommitCommand = program.commandsMap.get('pre-commit');
+  const preCommitCommand = program.commandsMap?.get('pre-commit');
   if (!preCommitCommand) {
     program
       .command('pre-commit')
