@@ -1181,36 +1181,12 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/document/builder-doc:
-    devDependencies:
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../tsconfig
-      '@rspress/shared':
-        specifier: 1.31.0
-        version: 1.31.0
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.2.0(react@18.2.0)
-      rspress:
-        specifier: 1.31.0
-        version: 1.31.0(webpack@5.94.0)
-
   packages/document/main-doc:
     dependencies:
       '@modern-js/sandpack-react':
         specifier: workspace:*
         version: link:../../generator/sandpack-react
     devDependencies:
-      '@modern-js/builder-doc':
-        specifier: workspace:*
-        version: link:../builder-doc
       '@rspress/shared':
         specifier: 1.31.0
         version: 1.31.0
