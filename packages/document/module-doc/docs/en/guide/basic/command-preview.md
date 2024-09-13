@@ -69,22 +69,6 @@ The Modern.js Module provides the ability to use debugging tools, which can be s
 
 The officially supported debugging tool is [Rspress](https://rspress.dev/), so you can run `modern dev` or `modern dev doc` to execute it after you run `modern new` to enable it.
 
-## `modern lint`
-
-```bash
-Usage: modern lint [options] [. .files]
-
-lint and fix source files
-
-Options:
-  --no-fix disable auto fix source file
-  -h, --help display help for command
-```
-
-Run [ESLint](https://eslint.org/) to check the syntax of the code. Usually, we only need to check the part of the code that was changed in this commit with [lint-staged](https://github.com/okonet/lint-staged) during the `-git commit` phase.
-
-- The `-no-fix` argument turns off the ability to automatically fix lint error code.
-
 ## `modern change`
 
 ```bash

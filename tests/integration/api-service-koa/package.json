@@ -6,9 +6,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "new": "modern new",
-    "lint": "modern lint",
-    "test": "modern test"
+    "new": "modern new"
   },
   "engines": {
     "node": ">=14.17.6"

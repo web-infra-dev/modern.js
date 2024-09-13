@@ -7,7 +7,6 @@
     "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
-    "lint": "modern lint",
     "upgrade": "modern upgrade",
     "test": "jest"
   },

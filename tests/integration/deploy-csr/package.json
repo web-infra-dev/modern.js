@@ -8,8 +8,7 @@
     "build": "modern build",
     "serve": "modern serve",
     "start:bff": "modern serve --api-only",
-    "new": "modern new",
-    "lint": "modern lint"
+    "new": "modern new"
   },
   "engines": {
     "node": ">=14.17.6"

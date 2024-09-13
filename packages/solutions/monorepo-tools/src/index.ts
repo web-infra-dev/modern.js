@@ -1,7 +1,7 @@
 import type { CliPlugin } from '@modern-js/core';
 import { changesetPlugin } from '@modern-js/plugin-changeset';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { lintPlugin } from '@modern-js/plugin-lint';
+import { deprecatedCommands } from '@modern-js/utils';
 import { clearCli, deployCli, newCli, upgradeCli } from './cli';
 import { hooks } from './hooks';
 import { i18n } from './locale';
@@ -11,7 +11,7 @@ export * from './projects/getProjects';
 
 export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
   name: '@modern-js/monorepo-tools',
-  usePlugins: [changesetPlugin(), lintPlugin()],
+  usePlugins: [changesetPlugin()],
   registerHook: hooks,
   setup: api => {
     const appContext = api.useAppContext();
@@ -29,6 +29,7 @@ export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
         deployCli(program, api);
         newCli(program);
         upgradeCli(program);
+        deprecatedCommands(program);
       },
     };
   },

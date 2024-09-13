@@ -1,5 +1,5 @@
 import type { CliPlugin } from '@modern-js/core';
-import { fs, dotenv } from '@modern-js/utils';
+import { fs, deprecatedCommands, dotenv } from '@modern-js/utils';
 import {
   buildCommand,
   devCommand,
@@ -53,6 +53,7 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
       await devCommand(program, api);
       await newCommand(program);
       await upgradeCommand(program);
+      deprecatedCommands(program);
     },
   };
 };
