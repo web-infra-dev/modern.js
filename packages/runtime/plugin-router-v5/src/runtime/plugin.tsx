@@ -165,14 +165,18 @@ export const routerPlugin = (userConfig: RouterConfig = {}): Plugin => {
               const location = getLocation(ssrContext);
               const routerContext = ssrContext?.redirection || {};
               const request = ssrContext?.request;
-              const baseUrl = (
-                runtimeContext._internalRouterBaseName ||
-                (request?.baseUrl as string)
-              )?.replace(/^\/*/, '/');
+              const baseUrl = (request?.baseUrl as string)?.replace(
+                /^\/*/,
+                '/',
+              );
 
               const basename =
                 baseUrl === '/'
-                  ? urlJoin(baseUrl, historyOptions.basename as string)
+                  ? urlJoin(
+                      baseUrl,
+                      runtimeContext._internalRouterBaseName ||
+                        (historyOptions.basename as string),
+                    )
                   : baseUrl;
               const runner = (api as any).useHookRunners();
               const routes = runner.modifyRoutes(originRoutes);
