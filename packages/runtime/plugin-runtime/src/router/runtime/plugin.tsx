@@ -92,12 +92,15 @@ export const routerPlugin = (
                * basename: modern config file config
                */
               const baseUrl = (
-                runtimeContext._internalRouterBaseName ||
-                window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname)
+                window._SERVER_DATA?.router.baseUrl || select(location.pathname)
               ).replace(/^\/*/, '/');
               const _basename =
-                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+                baseUrl === '/'
+                  ? urlJoin(
+                      baseUrl,
+                      runtimeContext._internalRouterBaseName || basename,
+                    )
+                  : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
 
