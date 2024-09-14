@@ -51,7 +51,7 @@ export const transformToRsbuildServerOptions = (
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
       hot: dev?.hmr ?? true,
-      liveReload: true,
+      liveReload: dev?.liveReload ?? true,
       client: {
         path: '/webpack-hmr',
         overlay: false,
