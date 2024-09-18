@@ -108,7 +108,7 @@ export const compileByTs: CompileFunc = async (
   }
 
   for (const source of sourceDirs) {
-    await copyFiles(source, distDir, appDirectory, tsconfigPath);
+    await copyFiles(source, distDir, appDirectory);
   }
 
   logger.info(`Ts compile succeed`);
