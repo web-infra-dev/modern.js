@@ -294,21 +294,23 @@ export async function parseCommonConfig(
 
   extraConfig.tools ??= {};
 
-  // compat template title and meta params
-  extraConfig.tools.htmlPlugin = config => {
-    if (typeof config.templateParameters === 'function') {
-      const originFn = config.templateParameters;
+  if (htmlPlugin !== false) {
+    // compat template title and meta params
+    extraConfig.tools.htmlPlugin = config => {
+      if (typeof config.templateParameters === 'function') {
+        const originFn = config.templateParameters;
 
-      config.templateParameters = (...args) => {
-        const res = originFn(...args);
-        return {
-          title: config.title,
-          meta: undefined,
-          ...res,
+        config.templateParameters = (...args) => {
+          const res = originFn(...args);
+          return {
+            title: config.title,
+            meta: undefined,
+            ...res,
+          };
         };
-      };
-    }
-  };
+      }
+    };
+  }
 
   const { dev: RsbuildDev, server } = transformToRsbuildServerOptions(
     dev || {},

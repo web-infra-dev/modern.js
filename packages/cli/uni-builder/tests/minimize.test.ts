@@ -149,4 +149,24 @@ describe('html minify', () => {
 
     process.env.NODE_ENV = 'test';
   });
+
+  it('should not apply html plugin when htmlPlugin false', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'webpack',
+      cwd: '',
+      config: {
+        tools: {
+          htmlPlugin: false,
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(config.plugins).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
 });

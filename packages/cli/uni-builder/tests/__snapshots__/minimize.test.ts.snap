@@ -97,6 +97,70 @@ exports[`html minify > should not apply html minify in production when disableMi
 ]
 `;
 
+exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = `
+[
+  RsbuildCorePlugin {},
+  MiniCssExtractPlugin {
+    "_sortedModulesCache": WeakMap {},
+    "options": {
+      "chunkFilename": "static/css/async/[name].[contenthash:8].css",
+      "experimentalUseImportModule": undefined,
+      "filename": "static/css/[name].[contenthash:8].css",
+      "ignoreOrder": true,
+      "runtime": true,
+    },
+    "runtimeOptions": {
+      "attributes": undefined,
+      "insert": undefined,
+      "linkType": "text/css",
+    },
+  },
+  DefinePlugin {
+    "definitions": {
+      "import.meta.env.DEV": false,
+      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.PROD": true,
+      "process.env.ASSET_PREFIX": "\\"\\"",
+    },
+  },
+  ProgressPlugin {
+    "compileTime": null,
+    "dependenciesCount": 10000,
+    "handler": [Function],
+    "hasCompileErrors": false,
+    "id": "web",
+    "modulesCount": 5000,
+    "name": "ProgressPlugin",
+    "percentBy": null,
+    "profile": false,
+    "showActiveModules": false,
+    "showDependencies": true,
+    "showEntries": true,
+    "showModules": true,
+  },
+  ForkTsCheckerWebpackPlugin {
+    "options": {
+      "issue": {
+        "exclude": [
+          [Function],
+        ],
+      },
+      "logger": {
+        "error": [Function],
+        "log": [Function],
+      },
+      "typescript": {
+        "build": false,
+        "configFile": "tsconfig.json",
+        "memoryLimit": 8192,
+        "mode": "readonly",
+        "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+      },
+    },
+  },
+]
+`;
+
 exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
 [
   SwcMinimizerPlugin {
