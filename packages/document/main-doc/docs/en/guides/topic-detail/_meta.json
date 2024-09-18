@@ -10,11 +10,5 @@
     "name": "model",
     "label": "reduck",
     "collapsed": true
-  },
-  {
-    "type": "dir",
-    "name": "generator",
-    "label": "generator",
-    "collapsed": true
   }
 ]
