@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.60.1
+
+### Patch Changes
+
+- 4cfe425: fix: html minify error when tools.htmlPlugin false
+- 80825c4: fix: the problem of NoSSR with Suspense
+  fix: 修复 NoSSR 在 suspense 下 的问题
+- 3f968e1: fix: router plugin baseUrl not work
+
+  fix: router 插件 baseUrl 不生效
+
+  - @modern-js/plugin-data-loader@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/runtime-utils@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes

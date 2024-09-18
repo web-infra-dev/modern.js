@@ -1,5 +1,14 @@
 # @modern-js/uni-builder
 
+## 2.60.1
+
+### Patch Changes
+
+- 4cfe425: fix: html minify error when tools.htmlPlugin false
+- edb1fea: feat: support config dev.liveReload
+  - @modern-js/babel-preset@2.60.1
+  - @modern-js/utils@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes

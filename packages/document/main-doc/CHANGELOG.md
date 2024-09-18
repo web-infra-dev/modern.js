@@ -1,5 +1,21 @@
 # @modern-js/main-doc
 
+## 2.60.1
+
+### Patch Changes
+
+- 45a1776: docs: add some deprecated warning in model docs and hidden generator docs
+  docs: 添加 Reduck 文档的废弃警告，隐藏的 generator 文档
+- fe36e63: docs: refactor builder config doc
+
+  docs: 重构 builder 配置文档
+
+- 2ccddaf: feat: remove @modern-js/plugin-lint plugin
+
+  feat: 移除 @modern-js/plugin-lint 插件
+
+  - @modern-js/sandpack-react@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes

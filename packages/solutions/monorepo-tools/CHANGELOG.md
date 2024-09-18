@@ -1,5 +1,19 @@
 # @modern-js/monorepo-tools
 
+## 2.60.1
+
+### Patch Changes
+
+- 2ccddaf: feat: remove @modern-js/plugin-lint plugin
+
+  feat: 移除 @modern-js/plugin-lint 插件
+
+  - @modern-js/core@2.60.1
+  - @modern-js/plugin-changeset@2.60.1
+  - @modern-js/plugin-i18n@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/utils@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes
