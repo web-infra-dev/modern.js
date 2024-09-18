@@ -16,18 +16,14 @@ const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
   return { options, fileNames, projectReferences };
 };
 
-const copyFiles = async (
-  from: string,
-  to: string,
-  appDirectory: string,
-  tsconfigPath: string,
-) => {
+const copyFiles = async (from: string, to: string, appDirectory: string) => {
   if (await fs.pathExists(from)) {
     const relativePath = path.relative(appDirectory, from);
     const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
-        !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+        !['.ts', '.js'].includes(path.extname(src)) &&
+        src.endsWith('tsconfig.json'),
     });
   }
 };
@@ -112,7 +108,7 @@ export const compileByTs: CompileFunc = async (
   }
 
   for (const source of sourceDirs) {
-    await copyFiles(source, distDir, appDirectory, tsconfigPath);
+    await copyFiles(source, distDir, appDirectory);
   }
 
   logger.info(`Ts compile succeed`);
