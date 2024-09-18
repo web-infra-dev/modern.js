@@ -299,6 +299,12 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     };
     return {
       config: () => {
+        const userConfig = api.useConfigContext();
+
+        if (userConfig.tools?.htmlPlugin === false) {
+          return {};
+        }
+
         return {
           tools: {
             htmlPlugin: (options, entry) => {
