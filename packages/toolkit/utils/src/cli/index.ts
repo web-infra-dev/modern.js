@@ -19,5 +19,4 @@ export * from './runtimeExports';
 export * from './watch';
 export * from './config';
 export * from './action';
-export * from './route';
 export * from './version';

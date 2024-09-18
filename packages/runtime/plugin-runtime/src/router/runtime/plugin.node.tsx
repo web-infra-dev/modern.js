@@ -147,7 +147,8 @@ export const routerPlugin = (
               const { remixRouter, routerContext, ssrContext } = context;
 
               const { nonce, mode } = ssrContext!;
-              return (
+
+              const routerWrapper = (
                 <>
                   <StaticRouterProvider
                     router={remixRouter!}
@@ -166,6 +167,8 @@ export const routerPlugin = (
                   {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
                 </>
               );
+
+              return App ? <App>{routerWrapper}</App> : routerWrapper;
             }) as React.FC<any>;
           };
 
