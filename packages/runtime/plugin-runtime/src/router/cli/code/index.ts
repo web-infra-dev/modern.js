@@ -17,12 +17,12 @@ import {
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
-import { cloneDeep } from '@modern-js/utils/lodash';
 import {
   filterRoutesForServer,
   filterRoutesLoader,
   markRoutes,
-} from '@modern-js/utils/universal/route';
+} from '@modern-js/utils';
+import { cloneDeep } from '@modern-js/utils/lodash';
 import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';

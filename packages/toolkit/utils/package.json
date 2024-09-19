@@ -55,12 +55,6 @@
       "import": "./dist/esm/universal/pluginDagSort.js",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
-    "./universal/route": {
-      "jsnext:source": "./src/universal/route.server.ts",
-      "browser": "./dist/esm/universal/route.js",
-      "import": "./dist/esm/universal/route.js",
-      "default": "./dist/cjs/universal/route.server.js"
-    },
     "./commander": "./compiled/commander/index.js",
     "./ora": "./compiled/ora/index.js",
     "./glob": "./compiled/glob/index.js",
@@ -117,11 +111,6 @@
         "import": "./dist/esm/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
-      "./universal/route": {
-        "types": "./dist/types/universal/route.server.d.ts",
-        "import": "./dist/esm/universal/route.js",
-        "default": "./dist/cjs/universal/route.server.js"
-      },
       "./commander": "./dist/compiled/commander/index.js",
       "./ora": "./dist/compiled/ora/index.js",
       "./glob": "./dist/compiled/glob/index.js",
@@ -160,9 +149,6 @@
       ],
       "universal/plugin-dag-sort": [
         "./dist/types/universal/pluginDagSort.d.ts"
-      ],
-      "universal/route": [
-        "./dist/types/universal/route.server.d.ts"
       ],
       "execa": [
         "./dist/compiled/execa/index.d.ts"

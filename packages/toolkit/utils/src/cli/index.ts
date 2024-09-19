@@ -20,3 +20,4 @@ export * from './watch';
 export * from './config';
 export * from './action';
 export * from './version';
+export * from './route';

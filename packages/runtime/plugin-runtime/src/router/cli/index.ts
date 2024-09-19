@@ -12,7 +12,7 @@ import {
   getEntryOptions,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
-import { filterRoutesForServer } from '@modern-js/utils/universal/route';
+import { filterRoutesForServer } from '@modern-js/utils';
 import { isRouteEntry } from './entry';
 import {
   handleFileChange,
