@@ -8,12 +8,16 @@ import RouterLegacyTip from "@site-docs-en/components/router-legacy-tip"
 
 <RouterLegacyTip />
 
-# runtime.router
-
 - **Type:** `boolean | Object`
 - **Default:** `false`
 
-When enabled, the router option provides routing management for Modern.js conventional routes. It is based on [React Router 6](https://reactrouter.com/).
+This value is set to `true` when the project is created, supporting the use of [conventional routing](/guides/concept/entries.html#约定式路由) provided by Modern.js for routing management.
+
+If you wish to use [controlled routing](/guides/concept/entries.html#自控式路由), please remove this value or set it to `false`.
+
+:::note
+All sub-configurations of `router` will only take effect when using conventional routing.
+:::
 
 ## basename
 
@@ -21,6 +25,10 @@ When enabled, the router option provides routing management for Modern.js conven
 - **Default:** ``
 
 The basename option specifies the subpath where the app is deployed, for situations where it cannot be deployed to the root domain.
+
+:::tip
+推荐使用 [`server.baseUrl`](/configure/app/server/base-url) 进行配置。
+:::
 
 ## supportHtml5History
 
