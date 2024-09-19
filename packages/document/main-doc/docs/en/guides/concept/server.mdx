@@ -26,10 +26,10 @@ Static asset files can be directly hosted by Modern.js' server, but it is highly
 
 Modern.js supports running built artifacts in any Node.js environment. Typically, the CI environment has already installed all application dependencies.
 
-You can run the [`modern build`](/apis/app/commands.html#modern-build) command to build the application and the [`modern serve`](/apis/app/commands.html#modern-serve) command to run the Web server, starting the Modern.js application.
+You can run the [`modern build`](/apis/app/commands#modern-build) command to build the application and the [`modern serve`](/apis/app/commands#modern-serve) command to run the Web server, starting the Modern.js application.
 
 ## Running in Production Environments
 
 When deploying to production, the artifact size should be as small as possible. The aforementioned method for running in CI environments keeps all artifacts from the original project. Therefore, it is not recommended to run the application using the above commands in a production environment.
 
-Modern.js offers a standalone deployment solution. When running the [`modern deploy`](/apis/app/commands.html#modern-deploy) command, the artifacts will include an entry file for running the Web server.
+Modern.js offers a standalone deployment solution. When running the [`modern deploy`](/apis/app/commands#modern-deploy) command, the artifacts will include an entry file for running the Web server.
