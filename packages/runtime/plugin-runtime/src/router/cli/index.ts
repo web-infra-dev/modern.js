@@ -9,10 +9,10 @@ import {
   fs,
   NESTED_ROUTE_SPEC_FILE,
   createRuntimeExportsUtils,
-  filterRoutesForServer,
   getEntryOptions,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
+import { filterRoutesForServer } from '@modern-js/utils';
 import { isRouteEntry } from './entry';
 import {
   handleFileChange,

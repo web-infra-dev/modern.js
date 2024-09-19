@@ -54,3 +54,31 @@ export function filterRoutesLoader(routes: (NestedRouteForCli | PageRoute)[]) {
 
   return newRoutes;
 }
+
+export function markRoutes(
+  routes: (NestedRouteForCli | PageRoute)[],
+  routeIds: string[],
+): (NestedRouteForCli | PageRoute)[] {
+  return routes.map(route => {
+    if (route.type !== 'nested') {
+      return route;
+    }
+
+    if (route.children && route.children.length > 0) {
+      route.children = markRoutes(
+        route.children,
+        routeIds,
+      ) as NestedRouteForCli[];
+    }
+
+    if (route.children && route.children.length > 0) {
+      route.inValidSSRRoute = route.children.every(
+        child => child.inValidSSRRoute ?? false,
+      );
+    } else if (route.id) {
+      route.inValidSSRRoute = !routeIds.includes(route.id);
+    }
+
+    return route;
+  });
+}

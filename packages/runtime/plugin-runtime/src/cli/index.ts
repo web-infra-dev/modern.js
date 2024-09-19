@@ -109,10 +109,16 @@ export const runtimePlugin = (params?: {
                * Compatible with the reference path of the old version of the plugin.
                */
               [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
-              '@meta/runtime/browser': '@modern-js/runtime/browser',
-              '@meta/runtime/react': '@modern-js/runtime/react',
-              '@meta/runtime/context': '@modern-js/runtime/context',
-              '@meta/runtime': '@modern-js/runtime',
+              '@meta/runtime/browser$': require
+                .resolve('../core/browser')
+                .replace('/cjs/', '/esm/'),
+              '@meta/runtime/react$': require
+                .resolve('../core/react')
+                .replace('/cjs/', '/esm/'),
+              '@meta/runtime/context$': require
+                .resolve('../core/context')
+                .replace('/cjs/', '/esm/'),
+              '@meta/runtime$': require.resolve('../index'),
             },
             globalVars: {
               'process.env.IS_REACT18': process.env.IS_REACT18,

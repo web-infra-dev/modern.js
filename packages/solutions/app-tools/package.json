@@ -122,6 +122,18 @@
     "typescript": "^5",
     "webpack": "^5.94.0"
   },
+  "peerDependencies": {
+    "ts-node": "^10.7.0",
+    "tsconfig-paths": "^4.2.0"
+  },
+  "peerDependenciesMeta": {
+    "ts-node": {
+      "optional": true
+    },
+    "tsconfig-paths": {
+      "optional": true
+    }
+  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
