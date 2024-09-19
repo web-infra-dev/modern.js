@@ -12,7 +12,7 @@ The Web server flow in both Modern.js development and production environments is
 
 As mentioned in the [Build Tools](/guides/concept/builder) section, Modern.js' underlying build capability is provided by Rsbuild, and some server-side capabilities in the development environment are coupled with the build tools, such as HMR. Modern.js needs to reuse these capabilities of the Rsbuild Dev Server.
 
-Rsbuild provides an API that supports access to the Dev Server's HTTP handler. Based on this handler, Modern.js builds the Web Server for the development environment. It includes capabilities needed during development stages, such as HMR and Proxy, provided by Rsbuild, and routing and rendering capabilities provided by Modern.js:
+In the development environment, Modern.js directly uses the middlewares provided by Rsbuild, which includes capabilities needed during the development stage such as HMR and Proxy. Additionally, Modern.js provides capabilities such as Mock, routing, and rendering on top of this:
 
 ![Server](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/web-server-modern.jpeg)
 
