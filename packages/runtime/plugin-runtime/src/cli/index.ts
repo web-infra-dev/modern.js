@@ -109,15 +109,9 @@ export const runtimePlugin = (params?: {
                * Compatible with the reference path of the old version of the plugin.
                */
               [`@${metaName}/runtime/plugins`]: pluginsExportsUtils.getPath(),
-              '@meta/runtime/browser': require.resolve(
-                '@modern-js/runtime/browser',
-              ),
-              '@meta/runtime/react': require.resolve(
-                '@modern-js/runtime/react',
-              ),
-              '@meta/runtime/context': require.resolve(
-                '@modern-js/runtime/context',
-              ),
+              '@meta/runtime/browser': require.resolve('../core/browser'),
+              '@meta/runtime/react': require.resolve('../core/react'),
+              '@meta/runtime/context': require.resolve('../core/context'),
               '@meta/runtime': require.resolve('@modern-js/runtime'),
             },
             globalVars: {
