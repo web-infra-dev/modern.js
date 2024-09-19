@@ -118,7 +118,9 @@ export const runtimePlugin = (params?: {
               '@meta/runtime/context$': require
                 .resolve('../core/context')
                 .replace('/cjs/', '/esm/'),
-              '@meta/runtime$': require.resolve('../index'),
+              '@meta/runtime$': require
+                .resolve('../index')
+                .replace('/cjs/', '/esm/'),
             },
             globalVars: {
               'process.env.IS_REACT18': process.env.IS_REACT18,
