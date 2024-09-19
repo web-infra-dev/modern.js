@@ -1,5 +1,16 @@
 # @modern-js/server-utils
 
+## 2.60.1
+
+### Patch Changes
+
+- 3a973a2: fix(server): should not include tsconfig.json
+  fix(server): 不应该包含 tsconfig.json
+  - @modern-js/babel-preset@2.60.1
+  - @modern-js/babel-plugin-module-resolver@2.60.1
+  - @modern-js/babel-compiler@2.60.1
+  - @modern-js/utils@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes

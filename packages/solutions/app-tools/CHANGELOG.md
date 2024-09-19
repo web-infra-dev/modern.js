@@ -1,5 +1,30 @@
 # @modern-js/app-tools
 
+## 2.60.1
+
+### Patch Changes
+
+- 2ccddaf: feat: remove @modern-js/plugin-lint plugin
+
+  feat: 移除 @modern-js/plugin-lint 插件
+
+- Updated dependencies [3a973a2]
+- Updated dependencies [4cfe425]
+- Updated dependencies [edb1fea]
+  - @modern-js/server-utils@2.60.1
+  - @modern-js/uni-builder@2.60.1
+  - @modern-js/server@2.60.1
+  - @modern-js/core@2.60.1
+  - @modern-js/plugin-data-loader@2.60.1
+  - @modern-js/plugin-i18n@2.60.1
+  - @modern-js/rsbuild-plugin-esbuild@2.60.1
+  - @modern-js/server-core@2.60.1
+  - @modern-js/prod-server@2.60.1
+  - @modern-js/node-bundle-require@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
 ## 2.60.0
 
 ### Patch Changes
