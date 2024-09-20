@@ -1,0 +1,163 @@
+# 开始使用
+
+在 Modern.js 中使用 Module Federation 我们推荐使用官方插件 `@module-federation/modern-js`。
+
+本章节将会介绍如何通过官方插件搭含生产者应用与消费者应用，我们首先根据 [Modern.js 快速上手](/guides/get-started/quick-start) 创建两个应用。
+
+## 安装插件
+
+完成应用创建后，我们分别为两个项目安装插件：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @module-federation/modern-js" />
+
+## 注册插件
+
+安装插件后，你需要在 `modern.config.js` 中注册插件：
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+
+```
+
+## 生产者导出模块
+
+接下来，我们先修改生产者的代码，导出 Module Federation 模块。
+
+我们创建 `src/components/Button.tsx` 文件，导出一个 Button 组件：
+
+```tsx title="src/components/Button.tsx"
+import React from 'react';
+
+export const Button = () => {
+  return <button type="button">Remote Button</button>;
+};
+```
+
+随后，在项目根目录添加 `module-federation.config.ts`，配置 Module Federation 模块的名称、共享依赖和导出内容：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'remote',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Button': './src/components/Button.tsx',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+另外，我们还需要修改 `modern.config.ts`，为生产者提供一个开发环境的端口，让消费者可以通过此端口访问生产者的资源：
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+export default defineConfig({
+  dev: {
+    port: 3051,
+  },
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+```
+
+## 消费者使用模块
+
+现在，我们修改消费者的代码，使用生产者导出的模块。
+
+在项目根目录添加 `module-federation.config.ts`，配置 Module Federation 模块的名称、共享依赖和使用的远程模块：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://localhost:3051/mf-manifest.json',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+`mf-manifest.json` 是生产者在打包后产出的文件，包含了生产者导出的所有模块信息。
+
+我们创建新的路由文件 `src/routes/remote/page.tsx`，引入生产者模块：
+
+```tsx title="src/routes/remote/page.tsx"
+import React, { useState, Suspense } from 'react';
+import { Button } from 'remote/Button';
+
+const Index = (): JSX.Element => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Button />
+      </Suspense>
+    </div>
+  );
+};
+
+export default Index;
+```
+
+此时 `remote/Button` 引入会出现类型错误，这是因为本地没有远程模块的类型。Module Federation 2.0 提供了 [类型提示](https://module-federation.io/zh/guide/basic/type-prompt.html) 的能力，会在生产者构建时自动生成远程模块的类型定义，在消费者构建时自动下载。
+
+为此我们需要在 `tsconfig.json` 中添加新的 `path`，保证类型生效：
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "*": ["./@mf-types/*"]
+    }
+  }
+}
+```
+
+## 启动应用
+
+现在，生产者应用和消费者应用都已经搭建完毕，我们可以在本地运行 `modern dev` 启动两个应用。
+
+启动后，消费者中对生产者模块的引入，不会再出现抛错，类型已经下载到消费者应用中。
+
+:::note
+修改生产者代码后，消费者会自动拉取生产者的类型。
+:::
+
+访问 `http://localhost:8080/remote`，可以看到页面中已经包含了生产者的远程模块 `Button` 组件。
+
+上述用例可以参考：[Modern.js & Module Federation 基础用法示例](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base)。
+
+## 相关文档
+
+- [Module Federation 官方文档](https://module-federation.io/zh/guide/framework/modernjs.html)

@@ -1,0 +1,27 @@
+# 服务端渲染
+
+`@module-federation/modern-js` 提供了非常强大的能力，开发者可以非常方便的在 Modern.js 应用中，组合使用 Module Federation 和服务端渲染（SSR）的能力。
+
+## 开启 SSR
+
+我们以 [使用模块联邦](/guides/topic-detail/module-federation/usage) 创建的应用为例，只需要在生产者和消费者上，都添加 `server.ssr` 配置即可：
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'stream',
+    },
+  },
+}
+```
+
+需要注意的是，为更好的性能体验，我们仅支持 Streaming SSR 情况使用这种能力组合。
+
+## 数据获取
+
+:::note
+敬请期待
+:::
