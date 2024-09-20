@@ -28,6 +28,12 @@ module.exports = {
         '^@meta/runtime$': '<rootDir>/packages/runtime/plugin-runtime/src',
         '^@meta/runtime/context$':
           '<rootDir>/packages/runtime/plugin-runtime/src/core/context',
+        '^@modern-js/runtime/browser$':
+          '<rootDir>/packages/runtime/plugin-runtime/src/core/browser',
+        '^@modern-js/runtime/react$':
+          '<rootDir>/packages/runtime/plugin-runtime/src/core/react',
+        '^@modern-js/runtime$':
+          '<rootDir>/packages/runtime/plugin-runtime/src/index',
       },
       globals: {},
       resolver: '<rootDir>/tests/jest.resolver.js',
