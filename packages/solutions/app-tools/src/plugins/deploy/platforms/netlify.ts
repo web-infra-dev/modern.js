@@ -6,7 +6,12 @@ import {
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
 import { handleDependencies } from '../dependencies';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
 import type { CreatePreset } from './platform';
 
 async function cleanDistDirectory(dir: string) {
@@ -39,8 +44,10 @@ export const createNetlifyPreset: CreatePreset = (
 
   const isEsmProject = moduleType === 'module';
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const netlifyOutput = path.join(appDirectory, '.netlify');
   const funcsDirectory = path.join(netlifyOutput, 'functions');
@@ -118,11 +125,7 @@ export const createNetlifyPreset: CreatePreset = (
         serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
-      const pluginsCode = `[${plugins
-        .map((plugin, index) => {
-          return `plugin_${index}()`;
-        })
-        .join(',')}]`;
+      const pluginsCode = getPluginsCode(plugins);
 
       let handlerCode = (
         await fse.readFile(path.join(__dirname, './netlify-handler.js'))

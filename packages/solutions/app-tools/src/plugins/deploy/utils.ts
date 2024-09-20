@@ -35,18 +35,26 @@ export const serverAppContenxtTemplate = (appContext: IAppContext) => {
   };
 };
 
-export const getPluginsCode = (plugins: string[]) =>
-  `[${plugins.map((_, index) => `plugin_${index}()`).join(',')}]`;
+export type PluginItem = [string, Record<string, any> | undefined];
 
-export const genPluginImportsCode = (plugins: string[]) => {
+export const genPluginImportsCode = (plugins: PluginItem[]) => {
   return plugins
     .map(
-      (plugin, index) => `
-      let plugin_${index} = require('${plugin}')
+      ([name, options], index) => `
+      let plugin_${index} = require('${name}')
       plugin_${index} = plugin_${index}.default || plugin_${index}
       `,
     )
     .join(';\n');
+};
+
+export const getPluginsCode = (plugins: PluginItem[]) => {
+  return `[${plugins
+    .map(
+      ([, options], index) =>
+        `plugin_${index}(${options ? JSON.stringify(options) : ''})`,
+    )
+    .join(',')}]`;
 };
 
 export const getProjectUsage = (

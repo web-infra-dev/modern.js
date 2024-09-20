@@ -6,15 +6,22 @@ import {
   fs as fse,
 } from '@modern-js/utils';
 import { handleDependencies } from '../dependencies';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
 import type { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
   const { appDirectory, distDirectory, serverPlugins, moduleType } = appContext;
   const isEsmProject = moduleType === 'module';
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const outputDirectory = path.join(appDirectory, '.output');
   const staticDirectory = path.join(outputDirectory, 'static');
@@ -47,11 +54,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
-      const pluginsCode = `[${plugins
-        .map((plugin, index) => {
-          return `plugin_${index}()`;
-        })
-        .join(',')}]`;
+      const pluginsCode = getPluginsCode(plugins);
 
       let entryCode = (
         await fse.readFile(path.join(__dirname, './node-entry.js'))
