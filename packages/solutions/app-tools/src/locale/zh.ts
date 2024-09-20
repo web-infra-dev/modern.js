@@ -17,7 +17,7 @@ export const ZH_LOCALE = {
     build: {
       describe: '构建生产环境产物',
     },
-    serve: { describe: '启动生产环境服务' },
+    serve: { describe: '启动生产环境服务', region: '指定区域' },
     deploy: { describe: '部署应用' },
     new: {
       describe: 'Web App 项目中执行生成器',

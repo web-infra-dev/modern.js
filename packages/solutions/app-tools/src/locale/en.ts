@@ -18,7 +18,10 @@ export const EN_LOCALE = {
     build: {
       describe: 'build the app for production',
     },
-    serve: { describe: 'preview the production build locally' },
+    serve: {
+      describe: 'preview the production build locally',
+      region: 'serve by region',
+    },
     deploy: { describe: 'deploy the application' },
     new: {
       describe: 'enable optional features or add a new entry',

@@ -95,6 +95,7 @@ export const serverCommand = (
     .description(i18n.t(localeKeys.command.serve.describe))
     .option('--api-only', i18n.t(localeKeys.command.dev.apiOnly))
     .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+    .option('-r --region <region>', i18n.t(localeKeys.command.serve.region))
     .action(async () => {
       const { start } = await import('./serve.js');
       await start(api);

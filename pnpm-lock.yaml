@@ -937,7 +937,7 @@ importers:
         version: 3.0.0
       postcss-custom-media:
         specifier: ^10.0.1
-        version: 10.0.2(postcss@8.4.41)
+        version: 10.0.2(postcss@8.4.43)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -1009,7 +1009,7 @@ importers:
         version: 0.2.4(@rspack/core@0.5.1)(esbuild@0.17.19)
       '@rsdoctor/utils':
         specifier: ^0.2.4
-        version: 0.2.4(esbuild@0.17.19)
+        version: 0.2.4(@rspack/core@0.5.1)(esbuild@0.17.19)
       birpc:
         specifier: 0.2.13
         version: 0.2.13
@@ -16442,7 +16442,7 @@ packages:
     dependencies:
       '@rsbuild/core': 1.0.1-rc.2
       '@rsbuild/plugin-react': 1.0.1-rc.2(@rsbuild/core@1.0.1-rc.2)
-      '@svgr/core': 8.1.0(typescript@5.3.3)
+      '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)(typescript@5.3.3)
       deepmerge: 4.3.1
@@ -16664,36 +16664,6 @@ packages:
       '@babel/code-frame': 7.24.2
       '@rsdoctor/types': 0.2.4(@rspack/core@0.5.1)(esbuild@0.17.19)
       '@types/estree': 1.0.0
-      acorn: 8.12.1
-      acorn-import-assertions: 1.9.0(acorn@8.12.1)
-      acorn-walk: 8.3.2
-      bytes: 3.1.2
-      chalk: 4.1.2
-      connect: 3.7.0
-      deep-eql: 4.1.0
-      envinfo: 7.13.0
-      fs-extra: 11.2.0
-      get-port: 5.1.1
-      json-stream-stringify: 3.0.1
-      lines-and-columns: 2.0.4
-      lodash: 4.17.21
-      rslog: 1.2.1
-      strip-ansi: 6.0.1
-    transitivePeerDependencies:
-      - '@rspack/core'
-      - '@swc/core'
-      - esbuild
-      - supports-color
-      - uglify-js
-      - webpack-cli
-    dev: true
-
-  /@rsdoctor/utils@0.2.4(esbuild@0.17.19):
-    resolution: {integrity: sha512-iztfgAyRMtqNW7juiY77gOdVuVDWi4Jc9tA3BqHPUg+31PIZmUB1dujvr6tfm4VnfGZy5gu4UMJn/8IG32d4/g==}
-    dependencies:
-      '@babel/code-frame': 7.24.2
-      '@rsdoctor/types': 0.2.4(@rspack/core@0.5.1)(esbuild@0.17.19)
-      '@types/estree': 1.0.0
       acorn: 8.11.3
       acorn-import-assertions: 1.9.0(acorn@8.11.3)
       acorn-walk: 8.3.2
@@ -16716,7 +16686,6 @@ packages:
       - supports-color
       - uglify-js
       - webpack-cli
-    dev: false
 
   /@rspack/binding-darwin-arm64@0.5.1:
     resolution: {integrity: sha512-Kc0b94ZN1ecUu2Gyj20kGLWzOrdJbeN1JUTMKZx6jlLa3m7uJ+FhRjnsqFmZ5kdK2zx722ejoKr7xkrl7hOkuw==}
@@ -18164,15 +18133,6 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
 
-  /@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
-
   /@svgr/babel-plugin-remove-jsx-attribute@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-BcCkm/STipKvbCl6b7QFrMh/vx00vIP63k2eM66MfHJzPr6O2U0jYEViXkHJWqXqQYjdeA9cuCl5KWmlwjDvbA==}
     engines: {node: '>=14'}
@@ -18180,15 +18140,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-
-  /@svgr/babel-plugin-remove-jsx-attribute@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-BcCkm/STipKvbCl6b7QFrMh/vx00vIP63k2eM66MfHJzPr6O2U0jYEViXkHJWqXqQYjdeA9cuCl5KWmlwjDvbA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
 
   /@svgr/babel-plugin-remove-jsx-empty-expression@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-5BcGCBfBxB5+XSDSWnhTThfI9jcO5f0Ai2V24gZpG+wXF14BzwxxdDb4g6trdOux0rhibGs385BeFMSmxtS3uA==}
@@ -18198,15 +18149,6 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
 
-  /@svgr/babel-plugin-remove-jsx-empty-expression@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-5BcGCBfBxB5+XSDSWnhTThfI9jcO5f0Ai2V24gZpG+wXF14BzwxxdDb4g6trdOux0rhibGs385BeFMSmxtS3uA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
-
   /@svgr/babel-plugin-replace-jsx-attribute-value@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-KVQ+PtIjb1BuYT3ht8M5KbzWBhdAjjUPdlMtpuw/VjT8coTrItWX6Qafl9+ji831JaJcu6PJNKCV0bp01lBNzQ==}
     engines: {node: '>=14'}
@@ -18214,15 +18156,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-
-  /@svgr/babel-plugin-replace-jsx-attribute-value@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-KVQ+PtIjb1BuYT3ht8M5KbzWBhdAjjUPdlMtpuw/VjT8coTrItWX6Qafl9+ji831JaJcu6PJNKCV0bp01lBNzQ==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
 
   /@svgr/babel-plugin-svg-dynamic-title@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-omNiKqwjNmOQJ2v6ge4SErBbkooV2aAWwaPFs2vUY7p7GhVkzRkJ00kILXQvRhA6miHnNpXv7MRnnSjdRjK8og==}
@@ -18232,15 +18165,6 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
 
-  /@svgr/babel-plugin-svg-dynamic-title@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-omNiKqwjNmOQJ2v6ge4SErBbkooV2aAWwaPFs2vUY7p7GhVkzRkJ00kILXQvRhA6miHnNpXv7MRnnSjdRjK8og==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
-
   /@svgr/babel-plugin-svg-em-dimensions@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-mURHYnu6Iw3UBTbhGwE/vsngtCIbHE43xCRK7kCw4t01xyGqb2Pd+WXekRRoFOBIY29ZoOhUCTEweDMdrjfi9g==}
     engines: {node: '>=14'}
@@ -18248,15 +18172,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-
-  /@svgr/babel-plugin-svg-em-dimensions@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-mURHYnu6Iw3UBTbhGwE/vsngtCIbHE43xCRK7kCw4t01xyGqb2Pd+WXekRRoFOBIY29ZoOhUCTEweDMdrjfi9g==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
 
   /@svgr/babel-plugin-transform-react-native-svg@8.1.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-Tx8T58CHo+7nwJ+EhUwx3LfdNSG9R2OKfaIXXs5soiy5HtgoAEkDay9LIimLOcG8dJQH1wPZp/cnAv6S9CrR1Q==}
@@ -18266,15 +18181,6 @@ packages:
     dependencies:
       '@babel/core': 7.24.7
 
-  /@svgr/babel-plugin-transform-react-native-svg@8.1.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-Tx8T58CHo+7nwJ+EhUwx3LfdNSG9R2OKfaIXXs5soiy5HtgoAEkDay9LIimLOcG8dJQH1wPZp/cnAv6S9CrR1Q==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
-
   /@svgr/babel-plugin-transform-svg-component@8.0.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-DFx8xa3cZXTdb/k3kfPeaixecQLgKh5NVBMwD0AQxOzcZawK4oo1Jh9LbrcACUivsCA7TLG8eeWgrDXjTMhRmw==}
     engines: {node: '>=12'}
@@ -18282,15 +18188,6 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.24.7
-
-  /@svgr/babel-plugin-transform-svg-component@8.0.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-DFx8xa3cZXTdb/k3kfPeaixecQLgKh5NVBMwD0AQxOzcZawK4oo1Jh9LbrcACUivsCA7TLG8eeWgrDXjTMhRmw==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-    dev: false
 
   /@svgr/babel-preset@8.1.0(@babel/core@7.24.7):
     resolution: {integrity: sha512-7EYDbHE7MxHpv4sxvnVPngw5fuR6pw79SkcrILHJ/iMpuKySNCl5W1qcwPEpU+LgyRXOaAFgH0KhwD18wwg6ug==}
@@ -18308,23 +18205,6 @@ packages:
       '@svgr/babel-plugin-transform-react-native-svg': 8.1.0(@babel/core@7.24.7)
       '@svgr/babel-plugin-transform-svg-component': 8.0.0(@babel/core@7.24.7)
 
-  /@svgr/babel-preset@8.1.0(@babel/core@7.25.2):
-    resolution: {integrity: sha512-7EYDbHE7MxHpv4sxvnVPngw5fuR6pw79SkcrILHJ/iMpuKySNCl5W1qcwPEpU+LgyRXOaAFgH0KhwD18wwg6ug==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.25.2
-      '@svgr/babel-plugin-add-jsx-attribute': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-remove-jsx-attribute': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-remove-jsx-empty-expression': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-replace-jsx-attribute-value': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-svg-dynamic-title': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-svg-em-dimensions': 8.0.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-transform-react-native-svg': 8.1.0(@babel/core@7.25.2)
-      '@svgr/babel-plugin-transform-svg-component': 8.0.0(@babel/core@7.25.2)
-    dev: false
-
   /@svgr/core@8.1.0:
     resolution: {integrity: sha512-8QqtOQT5ACVlmsvKOJNEaWmRPmcojMOzCz4Hs2BGG/toAp/K38LcsMRyLp349glq5AzJbCEeimEoxaX6v/fLrA==}
     engines: {node: '>=14'}
@@ -18336,20 +18216,6 @@ packages:
       snake-case: 3.0.4
     transitivePeerDependencies:
       - supports-color
-
-  /@svgr/core@8.1.0(typescript@5.3.3):
-    resolution: {integrity: sha512-8QqtOQT5ACVlmsvKOJNEaWmRPmcojMOzCz4Hs2BGG/toAp/K38LcsMRyLp349glq5AzJbCEeimEoxaX6v/fLrA==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@babel/core': 7.25.2
-      '@svgr/babel-preset': 8.1.0(@babel/core@7.25.2)
-      camelcase: 6.3.0
-      cosmiconfig: 8.3.6(typescript@5.3.3)
-      snake-case: 3.0.4
-    transitivePeerDependencies:
-      - supports-color
-      - typescript
-    dev: false
 
   /@svgr/hast-util-to-babel-ast@8.0.0:
     resolution: {integrity: sha512-EbDKwO9GpfWP4jN9sGdYwPBU0kdomaPIL2Eu4YwmgP+sJeXT+L7bMwJUBnhzfH8Q2qMBqZ4fJwpCyYsAN3mt2Q==}
@@ -18390,7 +18256,7 @@ packages:
     peerDependencies:
       '@svgr/core': '*'
     dependencies:
-      '@svgr/core': 8.1.0(typescript@5.3.3)
+      '@svgr/core': 8.1.0
       cosmiconfig: 8.3.6(typescript@5.3.3)
       deepmerge: 4.3.1
       svgo: 3.0.2
@@ -19933,15 +19799,6 @@ packages:
       acorn: ^8
     dependencies:
       acorn: 8.11.3
-    dev: false
-
-  /acorn-import-assertions@1.9.0(acorn@8.12.1):
-    resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
-    peerDependencies:
-      acorn: ^8
-    dependencies:
-      acorn: 8.12.1
-    dev: true
 
   /acorn-import-attributes@1.9.5(acorn@8.11.3):
     resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
@@ -29891,7 +29748,7 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
-  /postcss-custom-media@10.0.2(postcss@8.4.41):
+  /postcss-custom-media@10.0.2(postcss@8.4.43):
     resolution: {integrity: sha512-zcEFNRmDm2fZvTPdI1pIW3W//UruMcLosmMiCdpQnrCsTRzWlKQPYMa1ud9auL0BmrryKK1+JjIGn19K0UjO/w==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
@@ -29901,7 +29758,7 @@ packages:
       '@csstools/css-parser-algorithms': 2.3.2(@csstools/css-tokenizer@2.2.1)
       '@csstools/css-tokenizer': 2.2.1
       '@csstools/media-query-list-parser': 2.1.5(@csstools/css-parser-algorithms@2.3.2)(@csstools/css-tokenizer@2.2.1)
-      postcss: 8.4.41
+      postcss: 8.4.43
     dev: true
 
   /postcss-custom-properties@13.1.5(postcss@8.4.35):
@@ -30668,7 +30525,6 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.0.1
       source-map-js: 1.2.0
-    dev: false
 
   /preferred-pm@3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}

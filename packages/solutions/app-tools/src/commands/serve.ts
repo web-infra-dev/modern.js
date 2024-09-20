@@ -3,6 +3,7 @@ import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
 import {
   SERVER_DIR,
+  getArgvByOption,
   getMeta,
   getTargetDir,
   isApiOnly,
@@ -18,7 +19,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const hookRunners = api.useHookRunners();
 
   const {
-    distDirectory,
+    distDirectory: _distDirectory,
     appDirectory,
     internalDirectory,
     port,
@@ -40,6 +41,19 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   }
 
   const meta = getMeta(metaName);
+
+  const region = getArgvByOption('region');
+
+  let distDirectory = _distDirectory;
+
+  if (region && userConfig.deploy?.regions?.includes(region)) {
+    distDirectory = path.resolve(_distDirectory, region);
+  } else if (region) {
+    logger.info(
+      `serve options.region: ${region} is not in deploy.regions, use default distDirectory`,
+    );
+  }
+
   const serverConfigPath = path.resolve(
     distDirectory,
     SERVER_DIR,
@@ -70,17 +84,17 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        distDirectory,
       ),
       apiDirectory: getTargetDir(
         appContext.apiDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        distDirectory,
       ),
       lambdaDirectory: getTargetDir(
         appContext.lambdaDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        distDirectory,
       ),
     },
     runMode,

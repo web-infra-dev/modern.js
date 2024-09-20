@@ -22,4 +22,5 @@ export interface DeployUserConfig {
   worker?: {
     ssr?: boolean;
   };
+  regions?: string[];
 }

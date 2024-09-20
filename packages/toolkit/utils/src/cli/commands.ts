@@ -1,3 +1,5 @@
+import { minimist } from '../compiled';
+
 export const getFullArgv = () => {
   return process.env.MODERN_ARGV?.split(' ') || process.argv;
 };
@@ -15,4 +17,9 @@ export const getCommand = () => {
 export const isDevCommand = () => {
   const command = getCommand();
   return command === 'dev' || command === 'start';
+};
+
+export const getArgvByOption = (option: string) => {
+  const args = minimist(getArgv());
+  return args[option];
 };
