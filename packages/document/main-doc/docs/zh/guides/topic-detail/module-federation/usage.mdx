@@ -142,7 +142,25 @@ export default Index;
     }
   }
 }
+``` 
+
+:::tip
+在消费者中，我们通过 `remote/Button` 来引用远程模块。这里简单介绍下这个路径具体代表了什么，可以先将它抽象成 `[remoteAlias]/[remoteExpose]`。
+
+第一段 `remoteAlias` 是生产者在消费者中的别名，它是消费者 `module-federation.config.ts` 中配置的 `remotes` 字段的 `key`：
+
+```ts
+{
+  remotes: {
+    [remoteAlias]: '[remoteModuleName]@[URL_ADDRESS]',
+  }
+}
 ```
+
+这里我们也将远程地址抽象为 `[remoteModuleName]@[URL_ADDRESS]`，`@` 前的部分必须对应生产者的模块名。
+
+第二段 `remoteExpose` 是生产者在 `module-federation.config.ts` 中配置的 `exposes` 字段的 `key`。
+:::
 
 ## 启动应用
 
