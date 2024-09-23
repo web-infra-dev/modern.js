@@ -93,7 +93,7 @@ export const handleTemplateFile = async (
 
   if (ans.isSingleEntry) {
     generator.logger.debug(
-      `💡 [Current Entry Info]: Current Entry is Single Entry)}`,
+      `💡 [Current Entry Info]: Current Entry is Single Entry`,
     );
     await refactorSingleEntry(context, generator);
   }
