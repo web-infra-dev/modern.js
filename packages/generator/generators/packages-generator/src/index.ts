@@ -92,11 +92,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/packages-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Packages Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator);
 
-  generator.logger.debug(`forge @modern-js/packages-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Packages Generator]`);
 };

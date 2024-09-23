@@ -22,11 +22,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/changeset-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Changeset Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(appApi, context);
 
-  generator.logger.debug(`forge @modern-js/changeset-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Changeset Generator]`);
 };

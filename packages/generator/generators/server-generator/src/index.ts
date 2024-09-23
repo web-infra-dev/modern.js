@@ -43,8 +43,8 @@ const handleTemplateFile = async (
   if (fs.existsSync(serverDir) && !isEmptyServerDir(serverDir)) {
     const files = fs.readdirSync('server');
     if (files.length > 0) {
-      generator.logger.warn("'server' is already exist");
-      process.exit(1);
+      generator.logger.warn(`🟡 The 'server' directory already exists.`);
+      throw Error("The 'server' directory is already exist");
     }
   }
 
@@ -112,11 +112,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/server-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Server Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
-  generator.logger.debug(`forge @modern-js/server-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Server Generator]`);
 };

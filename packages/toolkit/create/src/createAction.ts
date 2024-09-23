@@ -1,6 +1,7 @@
 import path from 'path';
 import { CodeSmith, type Logger } from '@modern-js/codesmith';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { logger } from '@modern-js/utils';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
 import { createDir } from './utils';
@@ -18,6 +19,7 @@ interface Options {
   needInstall?: boolean;
   version?: boolean;
   lang?: string;
+  time?: boolean;
 }
 
 type RunnerTask = Array<{
@@ -115,9 +117,12 @@ export async function createAction(projectDir: string, options: Options) {
     registry,
     distTag,
     generator: customGenerator,
+    time,
   } = options;
   const smith = new CodeSmith({
     debug,
+    time,
+    namespace: 'create',
     registryUrl: registry,
   });
 
@@ -125,11 +130,13 @@ export async function createAction(projectDir: string, options: Options) {
     i18n.changeLanguage({ locale: lang });
   }
   if (version) {
-    smith.logger.info('@modern-js/create', `v${pkgVersion}`);
+    logger.greet(`@modern-js/create v${pkgVersion}`);
     return;
   }
 
-  smith.logger.debug('@modern-js/create', projectDir || '', options);
+  smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
+  smith.logger.debug('💡 [Current Dir]:', projectDir || '');
+  smith.logger.debug('💡 [Current Config]:', JSON.stringify(options));
 
   let pwd = process.cwd();
   try {

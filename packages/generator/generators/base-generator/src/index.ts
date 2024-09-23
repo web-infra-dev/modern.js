@@ -62,9 +62,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/base-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Base Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -72,5 +74,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged('custom', context, context.config.hasPlugin);
   }
 
-  generator.logger.debug(`forge @modern-js/base-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Base Generator]`);
 };

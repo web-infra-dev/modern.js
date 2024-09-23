@@ -53,8 +53,8 @@ export const handleTemplateFile = async (
   if (fs.existsSync(apiDir) && !isEmptyApiDir(apiDir)) {
     const files = fs.readdirSync(apiDir);
     if (files.length > 0) {
-      generator.logger.warn("'api' is already exist");
-      throw Error("'api' is already exist");
+      generator.logger.warn(`🟡 The 'api' directory already exists.`);
+      throw Error("The 'api' directory is already exist");
     }
   }
 
@@ -239,9 +239,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/bff-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run BFF Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   try {
     await handleTemplateFile(context, generator, appApi);
@@ -313,5 +315,5 @@ module.exports = {
     }
   }
 
-  generator.logger.debug(`forge @modern-js/bff-generator succeed `);
+  generator.logger.debug(`🌟 [End Run BFF Generator]`);
 };

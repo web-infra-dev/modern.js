@@ -142,7 +142,7 @@ export const handleTemplateFile = async (
         );
       } else if (DeprecatedModernBuilderDeps.includes(dep)) {
         generator.logger.warn(
-          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
+          `🟡 [Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
         );
       } else {
         updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
@@ -162,7 +162,7 @@ export const handleTemplateFile = async (
         );
       } else if (DeprecatedModernBuilderDeps.includes(dep)) {
         generator.logger.warn(
-          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
+          `🟡 [Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
         );
       } else {
         updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
@@ -196,11 +196,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const { locale } = context.config;
   appApi.i18n.changeLanguage({ locale });
 
-  generator.logger.debug(`start run @modern-js/upgrade-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Upgrade Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
-  generator.logger.debug(`forge @modern-js/upgrade-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Upgrade Generator]`);
 };

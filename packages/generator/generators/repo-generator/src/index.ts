@@ -59,7 +59,7 @@ const handleTemplateFile = async (
       : SolutionGenerator[solution as Solution];
 
   if (!solution || !solutionGenerator) {
-    generator.logger.error('solution is not valid ');
+    generator.logger.error(`🔴 [Check Solution]: ${solution} is not support`);
   }
 
   await appApi.runSubGenerator(
@@ -99,10 +99,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   if (!(await appApi.checkEnvironment())) {
     process.exit(1);
   }
-
-  generator.logger.debug(`start run @modern-js/repo-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Repo Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   mergeDefaultConfig(context);
 
@@ -114,9 +115,9 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   try {
     await handleTemplateFile(context, generator, appApi, generatorPlugin);
   } catch (e) {
-    generator.logger.error(e);
+    generator.logger.error(`🔴 [Handle Repo Template Error]:`, e);
     process.exit(1);
   }
 
-  generator.logger.debug(`forge @modern-js/repo-generator succeed `);
+  generator.logger.debug(`🚀 [End Run Repo Generator]`);
 };

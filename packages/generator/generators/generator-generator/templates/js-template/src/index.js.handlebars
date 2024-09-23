@@ -14,9 +14,11 @@ export default async (context, generator) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/{{ packageName }}`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run {{ packageName }} Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(appApi);
 
@@ -24,5 +26,5 @@ export default async (context, generator) => {
 
   appApi.showSuccessInfo();
 
-  generator.logger.debug(`forge @modern-js/{{ packageName }} succeed `);
+  generator.logger.debug(`🌟 [End Run {{ packageName }} Generator]`);
 };

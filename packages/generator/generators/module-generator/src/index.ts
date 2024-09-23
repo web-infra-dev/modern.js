@@ -42,8 +42,8 @@ export const handleTemplateFile = async (
     try {
       packages = getAllPackages(outputPath);
     } catch (e) {
-      generator.logger.debug('get all packages error', e);
-      generator.logger.warn(i18n.t(localeKeys.get_packages_error));
+      generator.logger.debug(`❗️ [Get All Packages Error]: ${e}`);
+      generator.logger.warn(`🟡 ${i18n.t(localeKeys.get_packages_error)}`);
     }
   }
 
@@ -108,7 +108,7 @@ export const handleTemplateFile = async (
     context.config.distTag,
   );
 
-  generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
+  generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
   const { packageName, packagePath, language, packageManager } = ans;
 
@@ -205,15 +205,17 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/module-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Module Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   let projectPath = '';
   try {
     ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
-    generator.logger.error(e);
+    generator.logger.error(`🔴 [Handle Module Template Error]:`, e);
     process.exit(1);
   }
 
@@ -243,5 +245,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       }),
   );
 
-  generator.logger.debug(`forge @modern-js/module-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Module Generator]`);
 };
