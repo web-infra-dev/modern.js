@@ -48,7 +48,7 @@ export default createModuleFederationConfig({
   name: 'remote',
   filename: 'remoteEntry.js',
   exposes: {
-    './remote': './src/export-App.tsx',
+    './app': './src/export-App.tsx',
   },
   shared: {
     react: { singleton: true },
@@ -85,7 +85,7 @@ const ErrorBoundary = (info?: { error: { message: string } }) => {
 };
 const Loading = <div>loading...</div>;
 const RemoteApp = createRemoteComponent({
-  loader: () => loadRemote('remote/remote'),
+  loader: () => loadRemote('remote/app'),
   fallback: ErrorBoundary,
   loading: Loading,
 });

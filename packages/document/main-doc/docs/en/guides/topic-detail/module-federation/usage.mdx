@@ -143,6 +143,24 @@ To ensure the types take effect, add a new `path` in `tsconfig.json`:
 }
 ```
 
+:::tip
+In the consumer, we reference the remote module using `remote/Button`. Here's a brief explanation of what this path specifically represents. You can abstract it as `[remoteAlias]/[remoteExpose]`.
+
+The first part, `remoteAlias`, is the alias of the producer in the consumer. It is the `key` configured in the `remotes` field of the consumer's `module-federation.config.ts`:
+
+```ts
+{
+  remotes: {
+    [remoteAlias]: '[remoteModuleName]@[URL_ADDRESS]',
+  }
+}
+```
+
+Here, we also abstract the remote address as `[remoteModuleName]@[URL_ADDRESS]`. The part before `@` must correspond to the module name of the producer.
+
+The second part, `remoteExpose`, is the `key` configured in the `exposes` field of the producer's `module-federation.config.ts`.
+:::
+
 ## Start the Applications
 
 Now, both the producer and consumer applications are set up. You can run `modern dev` locally to start both applications.
