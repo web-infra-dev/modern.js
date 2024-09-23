@@ -37,9 +37,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/ssg-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run SSG Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -96,5 +98,5 @@ module.exports = {
       }
     }
   }
-  generator.logger.debug(`forge @modern-js/ssg-generator succeed `);
+  generator.logger.debug(`🌟 [End Run SSG Generator]`);
 };

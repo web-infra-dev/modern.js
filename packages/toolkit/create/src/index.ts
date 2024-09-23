@@ -39,6 +39,7 @@ export default function () {
     .option('--packages <packages>', i18n.t(localeKeys.command.packages), '{}')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
+    .option('--time', i18n.t(localeKeys.command.time), false)
     .action(createAction);
 
   program.parse(process.argv);

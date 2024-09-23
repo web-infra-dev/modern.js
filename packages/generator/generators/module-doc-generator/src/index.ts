@@ -33,9 +33,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/module-doc-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Module Doc Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, appApi, generator);
 
@@ -55,5 +57,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     }),
   );
 
-  generator.logger.debug(`forge @modern-js/module-doc-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Module Doc Generator]`);
 };

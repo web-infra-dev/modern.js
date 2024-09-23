@@ -14,6 +14,7 @@ export const ZH_LOCALE = {
     version: '当前 create 工具版本号',
     lang: '设置 create 工具语言(zh 或者 en)',
     cleanCache: '清除本地生成器缓存',
+    time: '展示生成器时间日志信息',
   },
   tooltip: {
     dir_entry: `你可以执行 'cd {dirName}' 进入目录`,

@@ -38,8 +38,8 @@ const handleTemplateFile = async (
     try {
       packages = getAllPackages(outputPath);
     } catch (e) {
-      generator.logger.debug('get all packages error', e);
-      generator.logger.warn(i18n.t(localeKeys.lerna_error));
+      generator.logger.debug(`❗️ [Get All Packages Error]: ${e}`);
+      generator.logger.warn(`🟡 ${i18n.t(localeKeys.lerna_error)}`);
     }
   }
 
@@ -138,9 +138,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/generator-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Generator Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -148,5 +150,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   appApi.showSuccessInfo();
 
-  generator.logger.debug(`forge @modern-js/generator-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Generator Generator]`);
 };

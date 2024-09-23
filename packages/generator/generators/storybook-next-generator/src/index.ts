@@ -143,9 +143,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
-  generator.logger.debug(`start run @modern-js/storybook-next-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Storybook Next Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   const { packageManager } = await handleTemplateFile(
     context,
@@ -159,5 +161,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     }),
   );
 
-  generator.logger.debug(`forge @modern-js/storybook-next-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Storybook Next Generator]`);
 };

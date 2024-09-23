@@ -81,9 +81,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/dependence-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Dependence Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator);
 
@@ -134,5 +136,5 @@ module.exports = {
     }
   }
 
-  generator.logger.debug(`forge @modern-js/dependence-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Dependence Generator]`);
 };
