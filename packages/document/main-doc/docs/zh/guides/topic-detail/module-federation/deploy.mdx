@@ -1,0 +1,28 @@
+# 部署
+
+通常情况下，部署 Module Federation 应用，需要在消费者上将远程模块地址，调整为其线上地址。
+
+例如已经将生产者部署到 `https://my-remote-module` 这个域名下，可以这样修改消费者的 `module-federation.config.ts` 文件：
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://my-remote-module/mf-manifest.json',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+此时，消费者将加载生产环境的 `remote` 模块的 `manifest` 配置文件。
+
+## 通过平台部署
+
+上述部署方式只是最简单的实践，在真实场景还有很多限制，例如版本管理、发布时序等。在字节跳动内部，我们在部署平台上搭建了 Module Federation 应用的部署流程，可以帮助开发者解决这些问题。
+
+我们会持续关注社区里类似功能的平台，在未来完善 Modern.js + Module Federation 在这些类平台上的部署文档。

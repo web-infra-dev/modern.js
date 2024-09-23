@@ -107,6 +107,10 @@
     "zh": "Reduck 状态管理",
     "en": "Reduck State Manager"
   },
+  "module-federation": {
+    "zh": "模块联邦",
+    "en": "Module Federation"
+  },
   "generator": {
     "zh": "项目生成器",
     "en": "Project Generator"
