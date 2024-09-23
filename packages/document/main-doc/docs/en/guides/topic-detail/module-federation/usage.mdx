@@ -1,0 +1,162 @@
+# Getting Started
+
+To use Module Federation in Modern.js, we recommend using the official plugin `@module-federation/modern-js`.
+
+This section will introduce how to set up both producer and consumer applications using the official plugin. First, create two applications by following the [Modern.js Quick Start](/guides/get-started/quick-start).
+
+## Install the Plugin
+
+After creating the applications, install the plugin for both projects:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @module-federation/modern-js" />
+
+## Register the Plugin
+
+After installing the plugin, you need to register it in the `modern.config.js` file:
+
+```ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+export default defineConfig({
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+```
+
+## Export Modules from Producer
+
+Next, modify the producer's code to export the Module Federation module.
+
+Create the `src/components/Button.tsx` file and export a Button component:
+
+```tsx title="src/components/Button.tsx"
+import React from 'react';
+
+export const Button = () => {
+  return <button type="button">Remote Button</button>;
+};
+```
+
+Then, add the `module-federation.config.ts` file at the project root to configure the Module Federation module's name, shared dependencies, and exports:
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'remote',
+  filename: 'remoteEntry.js',
+  exposes: {
+    './Button': './src/components/Button.tsx',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+Additionally, modify `modern.config.ts` to provide a development environment port for the producer, allowing the consumer to access the producer's resources through this port:
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { moduleFederationPlugin } from '@module-federation/modern-js';
+
+export default defineConfig({
+  dev: {
+    port: 3051,
+  },
+  runtime: {
+    router: true,
+  },
+  plugins: [
+    appTools({
+      bundler: 'rspack',
+    }),
+    moduleFederationPlugin(),
+  ],
+});
+```
+
+## Use Modules in Consumer
+
+Now, modify the consumer's code to use the module exported by the producer.
+
+Add the `module-federation.config.ts` file at the project root to configure the Module Federation module's name, shared dependencies, and the remote module to use:
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://localhost:3051/mf-manifest.json',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+`mf-manifest.json` is the file produced by the producer after packaging, containing all the information about the modules exported by the producer.
+
+Create a new route file `src/routes/remote/page.tsx` and import the producer module:
+
+```tsx title="src/routes/remote/page.tsx"
+import React, { useState, Suspense } from 'react';
+import { Button } from 'remote/Button';
+
+const Index = (): JSX.Element => {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Button />
+      </Suspense>
+    </div>
+  );
+};
+
+export default Index;
+```
+
+At this point, importing `remote/Button` will result in a type error because the local environment doesn't have the type for the remote module. Module Federation 2.0 provides [type hints](https://module-federation.io/zh/guide/basic/type-prompt.html), which will automatically generate type definitions for remote modules during the producer's build and download them during the consumer's build.
+
+To ensure the types take effect, add a new `path` in `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "paths": {
+      "*": ["./@mf-types/*"]
+    }
+  }
+}
+```
+
+## Start the Applications
+
+Now, both the producer and consumer applications are set up. You can run `modern dev` locally to start both applications.
+
+Once started, the imports of the producer's modules in the consumer will no longer throw errors, and the types will be downloaded to the consumer application.
+
+:::note
+After modifying the producer's code, the consumer will automatically fetch the producer's types.
+:::
+
+Access `http://localhost:8080/remote`, and you will see that the page includes the `Button` component from the producer's remote module.
+
+You can refer to this example: [Modern.js & Module Federation Basic Example](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/module-federation/base).
+
+## Related Documentation
+
+- [Module Federation Official Documentation](https://module-federation.io/zh/guide/framework/modernjs.html)

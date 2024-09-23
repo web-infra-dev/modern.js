@@ -1,6 +1,12 @@
 [
   {
     "type": "dir",
+    "name": "module-federation",
+    "label": "module-federation",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
     "name": "micro-frontend",
     "label": "micro-frontend",
     "collapsed": true

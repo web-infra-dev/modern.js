@@ -1,0 +1,28 @@
+# Deployment
+
+Typically, deploying a Module Federation application requires adjusting the remote module address on the consumer side to its online address.
+
+For example, if the producer is deployed to the domain `https://my-remote-module`, you can modify the consumer's `module-federation.config.ts` file as follows:
+
+```ts title="module-federation.config.ts"
+import { createModuleFederationConfig } from '@module-federation/modern-js';
+
+export default createModuleFederationConfig({
+  name: 'host',
+  remotes: {
+    remote: 'remote@http://my-remote-module/mf-manifest.json',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+  },
+});
+```
+
+At this point, the consumer will load the `manifest` configuration file of the `remote` module in the production environment.
+
+## Deployment via Platform
+
+The above deployment method is merely the simplest practice. In real-world scenarios, there are many constraints, such as version management, release sequencing, and more. Within ByteDance, we have set up a deployment process for Module Federation applications on our deployment platform, which helps developers address these issues.
+
+We will continue to keep an eye on platforms with similar functionalities in the community and, in the future, enhance the documentation for deploying Modern.js + Module Federation on these types of platforms.
