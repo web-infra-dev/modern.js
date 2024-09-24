@@ -58,7 +58,7 @@
     "clipboardy": "^4.0.0",
     "cookie-es": "^1.0.0",
     "flatted": "^3.2.9",
-    "hono": "4.5.1",
+    "hono": "4.5.8",
     "hookable": "^5.5.3",
     "open": "^10.1.0",
     "p-defer": "^3.0.0",

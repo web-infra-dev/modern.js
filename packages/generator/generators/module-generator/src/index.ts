@@ -102,11 +102,13 @@ export const handleTemplateFile = async (
     );
   }
 
+  generator.logger?.timing(`🕐 Get Modern.js module-tools version`);
   const modernVersion = await getModernVersion(
     Solution.Module,
     context.config.registry,
     context.config.distTag,
   );
+  generator.logger?.timing(`🕐 Get Modern.js module-tools version`, true);
 
   generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
