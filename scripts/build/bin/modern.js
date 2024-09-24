@@ -6,7 +6,7 @@ const kProjectRoot = path.resolve(__dirname, '..');
 
 const kModuleToolsCliPath = path.resolve(
   kProjectRoot,
-  'node_modules/@modern-js/module-tools/dist/index.js',
+  'node_modules/@modern-js/module-tools-npm/dist/index.js',
 );
 
 process.env.NODE_ENV = 'production';
@@ -16,7 +16,7 @@ process.env.CORE_INIT_OPTION_FILE = path.resolve(
 );
 
 const { cli } = require(
-  `${kProjectRoot}/node_modules/@modern-js/core/dist/index.js`,
+  `${kProjectRoot}/node_modules/@modern-js/core-npm/dist/index.js`,
 );
 
 cli.run({

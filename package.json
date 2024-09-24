@@ -69,7 +69,6 @@
     "@biomejs/biome": "1.8.3",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
-    "@modern-js/monorepo-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
     "@types/react": "^18",

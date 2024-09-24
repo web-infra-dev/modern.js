@@ -27,9 +27,6 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.6.3
         version: 17.6.3
-      '@modern-js/monorepo-tools':
-        specifier: workspace:*
-        version: link:packages/solutions/monorepo-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
@@ -4479,12 +4476,12 @@ importers:
 
   scripts/build:
     devDependencies:
-      '@modern-js/core':
-        specifier: 2.60.1
-        version: 2.60.1
-      '@modern-js/module-tools':
-        specifier: 2.60.1
-        version: 2.60.1(typescript@5.3.3)
+      '@modern-js/core-npm':
+        specifier: npm:@modern-js/core@2.60.1
+        version: /@modern-js/core@2.60.1
+      '@modern-js/module-tools-npm':
+        specifier: npm:@modern-js/module-tools@2.60.1
+        version: /@modern-js/module-tools@2.60.1(typescript@5.3.3)
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -8359,7 +8356,7 @@ packages:
     resolution: {integrity: sha512-qrSfCYxYQB5owCmGLbl8XRpX1ytXlpueOb0N0UmQwA073KZxejgQTzAmJezxvpwQD9uGtK2shHdi55QT+MbjIw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
@@ -8369,7 +8366,7 @@ packages:
     resolution: {integrity: sha512-x32i4hEXvr+iI0NEoEfDKzlemF8AmtOP8CcrRaEcpzysWuoEb1KknpcvMsHKPONoKZiDuItklgWhB18xEhr9PA==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
@@ -8580,7 +8577,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.24.7
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
 
   /@babel/helper-function-name@7.24.7:
     resolution: {integrity: sha512-FyoJTsj/PEUWu1/TYRiXTIHc8lbw+TDYkZuoE43opPS5TrI7MyONBE1oNvfguEXAD9yhQRrVBnXdXzSLQl9XnA==}
@@ -8593,7 +8590,7 @@ packages:
     resolution: {integrity: sha512-wGjk9QZVzvknA6yKIUURb8zY3grXCcOZt+/7Wcy8O2uctxhplmUPkOdlgoNhmdVee2c92JXbf1xpMtVNbfoxRw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
 
   /@babel/helper-hoist-variables@7.24.7:
     resolution: {integrity: sha512-MJJwhkoGy5c4ehfoRyrJ/owKeMl19U54h27YYftT0o2teQ3FJ3nQUf/I3LlJsX4l3qlw7WRXUmiyajvHXoTubQ==}
@@ -8720,7 +8717,7 @@ packages:
     resolution: {integrity: sha512-HBwaojN0xFRx4yIvpwGqxiV2tUfl7401jlok564NgB9EHS1y6QT17FmKWm4ztqjeVdXLuC4fSvHc5ePpQjoTbw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
     dev: true
 
   /@babel/helper-optimise-call-expression@7.24.7:
@@ -8851,7 +8848,7 @@ packages:
     resolution: {integrity: sha512-AsUnxuLhRYsisFiaJwvp1QF+I3KjD5FOxut14q/GzovUe6orHLesW2C7d754kRm53h5gqrz6sFl6sxc4BVtE/g==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
 
   /@babel/helper-split-export-declaration@7.24.7:
     resolution: {integrity: sha512-oy5V7pD+UvfkEATUKvIjvIAH/xCzfsFVw7ygW2SI6NClZzquT+mwdTfgfdbUiceh6iQO0CHtCPsyze/MZ2YbAA==}
@@ -8935,7 +8932,7 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
 
   /@babel/parser@7.24.7:
     resolution: {integrity: sha512-9uUYRm6OqQrCqQdG1iCBwBPZgN8ciDBro2nIOFaiRz1/BCxaI7CNvQbDHvsArAC7Tw9Hda/B3U+6ui9u4HWXPw==}
@@ -10882,7 +10879,7 @@ packages:
     dependencies:
       '@babel/compat-data': 7.24.7
       '@babel/core': 7.25.2
-      '@babel/helper-compilation-targets': 7.24.7
+      '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.7
       '@babel/helper-validator-option': 7.24.7
       '@babel/plugin-bugfix-firefox-class-in-computed-class-key': 7.24.7(@babel/core@7.25.2)
@@ -13322,7 +13319,7 @@ packages:
       '@formily/json-schema': 2.2.24(typescript@5.3.3)
       '@formily/validator': 2.2.24
       '@modern-js/codesmith': 2.5.0
-      '@modern-js/utils': 2.58.1
+      '@modern-js/utils': 2.60.1
       '@swc/helpers': 0.5.1
       inquirer: 8.2.5
     transitivePeerDependencies:
@@ -17078,7 +17075,7 @@ packages:
     dependencies:
       '@babel/core': 7.25.2
       '@babel/preset-env': 7.24.7(@babel/core@7.25.2)
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       '@ndelangen/get-tarball': 3.0.9
       '@storybook/codemod': 7.6.3
       '@storybook/core-common': 7.6.3
@@ -17366,7 +17363,7 @@ packages:
       '@babel/generator': 7.24.7
       '@babel/parser': 7.24.7
       '@babel/traverse': 7.24.7
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       '@storybook/csf': 0.1.2
       '@storybook/types': 7.6.19
       fs-extra: 11.2.0
@@ -17769,7 +17766,7 @@ packages:
     resolution: {integrity: sha512-EbDKwO9GpfWP4jN9sGdYwPBU0kdomaPIL2Eu4YwmgP+sJeXT+L7bMwJUBnhzfH8Q2qMBqZ4fJwpCyYsAN3mt2Q==}
     engines: {node: '>=14'}
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       entities: 4.5.0
 
   /@svgr/plugin-jsx@8.1.0(@svgr/core@8.1.0):
@@ -22995,7 +22992,7 @@ packages:
     engines: {node: '>=8.3.0'}
     dependencies:
       '@babel/traverse': 7.24.7
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.6
       c8: 7.11.3
     transitivePeerDependencies:
       - supports-color
@@ -28878,7 +28875,7 @@ packages:
     engines: {node: '>=10.0'}
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.4.43
+      postcss: 8.4.45
     dev: false
 
   /postcss-js@4.0.1(postcss@8.4.35):
@@ -29561,6 +29558,7 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.1.0
       source-map-js: 1.2.0
+    dev: false
 
   /postcss@8.4.45:
     resolution: {integrity: sha512-7KTLTdzdZZYscUc65XmjFiB73vBhBfbPztCYdUNvlaso9PrzjzcmjqBPR0lNGkcVlcO4BjiO5rK/qNz+XAen1Q==}
@@ -29929,7 +29927,7 @@ packages:
     dependencies:
       commander: 8.3.0
       glob: 7.2.0
-      postcss: 8.4.43
+      postcss: 8.4.45
       postcss-selector-parser: 6.0.13
     dev: false
 
@@ -35403,7 +35401,7 @@ packages:
     dependencies:
       '@types/node': 18.11.17
       esbuild: 0.17.19
-      postcss: 8.4.43
+      postcss: 8.4.45
       rollup: 3.29.4
     optionalDependencies:
       fsevents: 2.3.3
