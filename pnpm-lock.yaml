@@ -4491,9 +4491,6 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      tsm:
-        specifier: 2.3.0
-        version: 2.3.0
       typescript:
         specifier: ^5
         version: 5.3.3
