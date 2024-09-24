@@ -139,4 +139,19 @@ describe('Traditional SSR', () => {
     const { headers } = response;
     expect(Boolean(headers['x-render-cache'])).toBeTruthy();
   });
+
+  test('no ssr cache', async () => {
+    await page.goto(`http://localhost:${appPort}/no-ssr-cache`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content = await page.content();
+    const result = content.match(/count:(\d+)/)![0];
+
+    // twice visit, because the no-ssr-cache, the count is different.
+    await page.goto(`http://localhost:${appPort}/no-ssr-cache`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content1 = await page.content();
+    expect(content1).not.toMatch(result);
+  });
 });
