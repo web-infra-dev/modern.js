@@ -315,7 +315,7 @@ importers:
         version: 0.5.13
       path-to-regexp:
         specifier: ^6.2.0
-        version: 6.2.1
+        version: 6.3.0
     devDependencies:
       '@modern-js/core':
         specifier: workspace:*
@@ -2923,7 +2923,7 @@ importers:
         version: 29.5.0
       path-to-regexp:
         specifier: ^6.2.0
-        version: 6.2.1
+        version: 6.3.0
       supertest:
         specifier: ^6.1.6
         version: 6.2.3
@@ -3183,7 +3183,7 @@ importers:
         version: 2.6.7(encoding@0.1.13)
       path-to-regexp:
         specifier: ^6.2.0
-        version: 6.2.1
+        version: 6.3.0
       query-string:
         specifier: ^7.1.1
         version: 7.1.1
@@ -3622,7 +3622,7 @@ importers:
         version: 3.1.2
       path-to-regexp:
         specifier: ^6.2.0
-        version: 6.2.1
+        version: 6.3.0
       ws:
         specifier: ^8.13.0
         version: 8.13.0
@@ -20919,7 +20919,7 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.23.1
-      caniuse-lite: 1.0.30001660
+      caniuse-lite: 1.0.30001663
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: false
@@ -27072,7 +27072,7 @@ packages:
       http-errors: 1.8.1
       koa-compose: 4.1.0
       methods: 1.1.2
-      path-to-regexp: 6.2.1
+      path-to-regexp: 6.3.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -29116,14 +29116,14 @@ packages:
   /path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
-  /path-to-regexp@1.8.0:
-    resolution: {integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==}
+  /path-to-regexp@1.9.0:
+    resolution: {integrity: sha512-xIp7/apCFJuUHdDLWe8O1HIkb0kQrOMb/0u6FXQjemHn/ii5LrIzU6bdECnsiTF/GjZkMEKg1xdiZwNqDYlZ6g==}
     dependencies:
       isarray: 0.0.1
     dev: false
 
-  /path-to-regexp@6.2.1:
-    resolution: {integrity: sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==}
+  /path-to-regexp@6.3.0:
+    resolution: {integrity: sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==}
     dev: false
 
   /path-type@4.0.0:
@@ -32516,7 +32516,7 @@ packages:
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
-      path-to-regexp: 1.8.0
+      path-to-regexp: 1.9.0
       prop-types: 15.8.1
       react: 18.2.0
       react-is: 16.13.1
