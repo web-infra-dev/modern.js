@@ -1,12 +1,12 @@
-#!/usr/bin/env node --conditions=jsnext:source -r tsm
+#!/usr/bin/env node
 
 const path = require('path');
 
-const kProjectRoot = path.resolve(__dirname, '../../..');
+const kProjectRoot = path.resolve(__dirname, '..');
 
 const kModuleToolsCliPath = path.resolve(
   kProjectRoot,
-  'packages/solutions/module-tools/src/index.ts',
+  'node_modules/@modern-js/module-tools-npm/dist/index.js',
 );
 
 process.env.NODE_ENV = 'production';
@@ -15,7 +15,9 @@ process.env.CORE_INIT_OPTION_FILE = path.resolve(
   '../src/cli_core_init.js',
 );
 
-const { cli } = require(`${kProjectRoot}/packages/cli/core/src/index.ts`);
+const { cli } = require(
+  `${kProjectRoot}/node_modules/@modern-js/core-npm/dist/index.js`,
+);
 
 cli.run({
   forceAutoLoadPlugins: true,
