@@ -107,7 +107,7 @@ importers:
         version: 7.24.7
       '@rsbuild/plugin-babel':
         specifier: 1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.5)
+        version: 1.0.1(@rsbuild/core@1.0.6)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -4589,7 +4589,7 @@ importers:
     devDependencies:
       '@rollup/plugin-json':
         specifier: 6.0.0
-        version: 6.0.0(rollup@3.29.4)
+        version: 6.0.0(rollup@3.29.5)
       '@svgr/core':
         specifier: 8.1.0
         version: 8.1.0
@@ -4760,10 +4760,10 @@ importers:
         version: 18.2.0
       rollup:
         specifier: ^3.29.4
-        version: 3.29.4
+        version: 3.29.5
       rollup-plugin-dts:
         specifier: 6.1.0
-        version: 6.1.0(rollup@3.29.4)(typescript@5.3.3)
+        version: 6.1.0(rollup@3.29.5)(typescript@5.3.3)
       sass:
         specifier: 1.54.4
         version: 1.54.4
@@ -16153,7 +16153,7 @@ packages:
       web-streams-polyfill: 3.2.1
     dev: true
 
-  /@rollup/plugin-json@6.0.0(rollup@3.29.4):
+  /@rollup/plugin-json@6.0.0(rollup@3.29.5):
     resolution: {integrity: sha512-i/4C5Jrdr1XUarRhVu27EEwjt4GObltD7c+MkCIpO2QIbojw8MUs+CCTqOphQi3Qtg1FLmYt+l+6YeoIf51J7w==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -16162,8 +16162,8 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.2(rollup@3.29.4)
-      rollup: 3.29.4
+      '@rollup/pluginutils': 5.0.2(rollup@3.29.5)
+      rollup: 3.29.5
     dev: true
 
   /@rollup/pluginutils@4.1.1:
@@ -16173,7 +16173,7 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
 
-  /@rollup/pluginutils@5.0.2(rollup@3.29.4):
+  /@rollup/pluginutils@5.0.2(rollup@3.29.5):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -16185,7 +16185,7 @@ packages:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.29.4
+      rollup: 3.29.5
     dev: true
 
   /@rsbuild/core@1.0.2:
@@ -16201,8 +16201,8 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /@rsbuild/core@1.0.5:
-    resolution: {integrity: sha512-yUWs4k9X9C661P0kwe3Om1GMJKAxliXDMnBV5hHoaEuAovdp/pOG3pk2fVsRrxcwMn3i6FyMGSVB7g0WmQpeHA==}
+  /@rsbuild/core@1.0.6:
+    resolution: {integrity: sha512-Np0vdgpTStuQE1QLFXX4xsbTJM1kqT2OYGVy2Hk6RbMBVi86meSETYwrQkuF+2l+z9TBRv+ONBQNGP1FcarIlw==}
     engines: {node: '>=16.7.0'}
     hasBin: true
     dependencies:
@@ -16242,7 +16242,7 @@ packages:
       - supports-color
     dev: false
 
-  /@rsbuild/plugin-babel@1.0.1(@rsbuild/core@1.0.5):
+  /@rsbuild/plugin-babel@1.0.1(@rsbuild/core@1.0.6):
     resolution: {integrity: sha512-cdTiLDVv52r8bOa7rfzk8ADePcckyf4TSXcPv+qq0P/mCBcRmqA4BKQNYf3srXEOb7HrERFaO3pEqdrNe5QwqA==}
     peerDependencies:
       '@rsbuild/core': 1.x || ^1.0.1-rc.0
@@ -16251,7 +16251,7 @@ packages:
       '@babel/plugin-proposal-decorators': 7.24.7(@babel/core@7.25.2)
       '@babel/plugin-transform-class-properties': 7.25.4(@babel/core@7.25.2)
       '@babel/preset-typescript': 7.24.7(@babel/core@7.25.2)
-      '@rsbuild/core': 1.0.5
+      '@rsbuild/core': 1.0.6
       '@types/babel__core': 7.20.5
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
@@ -33539,7 +33539,7 @@ packages:
       inherits: 2.0.4
     dev: false
 
-  /rollup-plugin-dts@6.1.0(rollup@3.29.4)(typescript@5.3.3):
+  /rollup-plugin-dts@6.1.0(rollup@3.29.5)(typescript@5.3.3):
     resolution: {integrity: sha512-ijSCPICkRMDKDLBK9torss07+8dl9UpY9z1N/zTeA1cIqdzMlpkV3MOOC7zukyvQfDyxa1s3Dl2+DeiP/G6DOw==}
     engines: {node: '>=16'}
     peerDependencies:
@@ -33547,14 +33547,14 @@ packages:
       typescript: ^4.5 || ^5.0
     dependencies:
       magic-string: 0.30.5
-      rollup: 3.29.4
+      rollup: 3.29.5
       typescript: 5.3.3
     optionalDependencies:
       '@babel/code-frame': 7.24.7
     dev: true
 
-  /rollup@3.29.4:
-    resolution: {integrity: sha512-oWzmBZwvYrU0iJHtDmhsm662rC15FRXmcjCk1xD771dFDx5jJ02ufAQQTn0etB2emNk4J9EZg/yWKpsn9BWGRw==}
+  /rollup@3.29.5:
+    resolution: {integrity: sha512-GVsDdsbJzzy4S/v3dqWPJ7EfvZJfCHiDqe80IyrF59LYuP+e6U1LJoUqeuqRbwAWoMNoXivMNeNAOf5E22VA1w==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -36553,7 +36553,7 @@ packages:
       '@types/node': 18.11.17
       esbuild: 0.18.20
       postcss: 8.4.45
-      rollup: 3.29.4
+      rollup: 3.29.5
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
