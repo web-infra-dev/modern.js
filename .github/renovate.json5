@@ -50,6 +50,8 @@
     "strip-ansi",
     // align Node.js version minimum requirements
     "@types/node",
-    "node"
+    "node",
+    // server core hono dependency can not bump
+    "hono"
   ]
 }
