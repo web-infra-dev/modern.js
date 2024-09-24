@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "schedule:weekly"],
   "ignorePaths": ["**/tests/**", "**/node_modules/**"],
+  // ensure pnpmfile can be run
+  "allowScripts": true,
   "packageRules": [
     // Use chore as semantic commit type for commit messages
     {
@@ -12,7 +14,7 @@
     },
     {
       "groupName": "rsbuild",
-      "packagePatterns": ["rspack", "rsbuild", "babel"],
+      "packagePatterns": ["rsbuild"],
       "groupSlug": "rsbuild"
     },
     {
