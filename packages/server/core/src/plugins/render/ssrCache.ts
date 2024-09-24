@@ -19,6 +19,7 @@ interface CacheStruct {
 }
 
 const ZERO_RENDER_LEVEL = /"renderLevel":0/;
+const NO_SSR_CACHE = /<meta\s+[^>]*name=["']no-ssr-cache["'][^>]*>/i;
 
 export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
 
@@ -53,8 +54,9 @@ async function processCache({
     const push = () =>
       reader.read().then(({ done, value }) => {
         if (done) {
-          const match = ZERO_RENDER_LEVEL.test(html);
-          // We should not cache the html, if we can match the html is downgrading.
+          const match = ZERO_RENDER_LEVEL.test(html) || NO_SSR_CACHE.test(html);
+          // case 1: We should not cache the html, if we can match the html is downgrading.
+          // case 2: We should not cache the html, if the user's code contains <NoSSRCache>.
           if (match) {
             writer.close();
             return;
