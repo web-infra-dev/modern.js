@@ -27,6 +27,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.6.3
         version: 17.6.3
+      '@modern-js/monorepo-tools':
+        specifier: workspace:*
+        version: link:packages/solutions/monorepo-tools
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
