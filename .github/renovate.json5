@@ -21,6 +21,16 @@
       "groupSlug": "rspress"
     },
     {
+      "groupName": "codesmith",
+      "packagePatterns": ["modern-js/codesmith"],
+      "groupSlug": "codesmith"
+    },
+    {
+      "groupName": "reduck",
+      "packagePatterns": ["modern-js-reduck"],
+      "groupSlug": "reduck"
+    },
+    {
       "groupName": "types",
       "packagePatterns": ["^@types/"],
       "groupSlug": "types"
