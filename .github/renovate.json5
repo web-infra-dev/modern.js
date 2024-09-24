@@ -12,27 +12,27 @@
     },
     {
       "groupName": "rsbuild",
-      "packagePatterns": ["rsbuild"],
+      "matchPackageNames": ["@rsbuild/**"],
       "groupSlug": "rsbuild"
     },
     {
       "groupName": "rspress",
-      "packagePatterns": ["rspress"],
+      "matchPackageNames": ["@rspress/**"],
       "groupSlug": "rspress"
     },
     {
       "groupName": "codesmith",
-      "packagePatterns": ["modern-js/codesmith"],
+      "matchPackageNames": ["@modern-js/codesmith", "@modern-js/codesmith-**"],
       "groupSlug": "codesmith"
     },
     {
       "groupName": "reduck",
-      "packagePatterns": ["modern-js-reduck"],
+      "matchPackageNames": ["@modern-js-reduck/**"],
       "groupSlug": "reduck"
     },
     {
       "groupName": "types",
-      "packagePatterns": ["^@types/"],
+      "matchPackageNames": ["^@types/**"],
       "groupSlug": "types"
     },
     {
