@@ -169,6 +169,10 @@ exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
       "jsMinify": undefined,
     },
     "name": "swc-minimizer-plugin",
+    "rsbuildSourceMapConfig": {
+      "css": false,
+      "js": undefined,
+    },
   },
   SwcMinimizerPlugin {
     "minifyOptions": {
@@ -181,6 +185,10 @@ exports[`plugin-minimize > Terser and SWC minimizer should not coexist 1`] = `
       },
     },
     "name": "swc-minimizer-plugin",
+    "rsbuildSourceMapConfig": {
+      "css": false,
+      "js": undefined,
+    },
   },
 ]
 `;

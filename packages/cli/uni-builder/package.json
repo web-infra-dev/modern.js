@@ -34,7 +34,7 @@
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
-    "@rsbuild/core": "1.0.6",
+    "@rsbuild/core": "1.0.7",
     "@rsbuild/plugin-assets-retry": "1.0.1",
     "@rsbuild/plugin-babel": "1.0.1",
     "@rsbuild/plugin-check-syntax": "1.0.1",
@@ -51,7 +51,7 @@
     "@rsbuild/plugin-type-check": "1.0.1",
     "@rsbuild/plugin-typed-css-modules": "1.0.2",
     "@rsbuild/plugin-yaml": "1.0.2",
-    "@rsbuild/webpack": "1.0.6",
+    "@rsbuild/webpack": "1.0.7",
     "@swc/helpers": "0.5.13",
     "autoprefixer": "10.4.19",
     "babel-loader": "9.1.3",
@@ -82,7 +82,7 @@
     "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "1.0.2",
+    "@rsbuild/plugin-webpack-swc": "1.0.3",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/html-minifier-terser": "^7.0.2",
