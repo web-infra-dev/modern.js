@@ -113,7 +113,7 @@
     "@rsbuild/plugin-webpack-swc": "1.0.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__traverse": "7.18.5",
+    "@types/babel__traverse": "7.20.6",
     "@types/jest": "^29",
     "@types/node": "^16",
     "jest": "^29",
