@@ -904,13 +904,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
-    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -1712,13 +1705,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-    },
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
     },
     "extensions": [
       ".ts",
@@ -2662,13 +2648,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
     },
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
-    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -3396,13 +3375,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-    },
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
     },
     "extensions": [
       ".ts",
@@ -4501,13 +4473,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
   ],
   "resolve": {
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
-    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -5710,13 +5675,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
   ],
   "resolve": {
-    "extensionAlias": {
-      ".js": [
-        ".ts",
-        ".tsx",
-        ".js",
-      ],
-    },
     "extensions": [
       ".ts",
       ".tsx",
