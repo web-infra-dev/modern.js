@@ -2,50 +2,83 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", "schedule:weekly"],
   "ignorePaths": ["**/tests/**", "**/node_modules/**"],
-  "packageRules": [
-    // Use chore as semantic commit type for commit messages
+  packageRules: [
+    // ignore all major update
     {
-      "matchPackagePatterns": ["*"],
-      "semanticCommitType": "chore",
-      // always bump package.json
-      "rangeStrategy": "bump"
+      "matchUpdateTypes": ["major"],
+      "enabled": false
     },
     {
-      "groupName": "rsbuild",
-      "matchPackageNames": ["@rsbuild/**"],
-      "groupSlug": "rsbuild"
+      "matchPackageNames": [
+        "@rspress/**",
+      ],
+      "groupName": "rspress monorepo",
+      "groupSlug": "rspress",
     },
     {
-      "groupName": "rspress",
-      "matchPackageNames": ["@rspress/**"],
-      "groupSlug": "rspress"
+      "matchPackageNames": [
+        "@rsbuild/**",
+      ],
+      "groupName": "rsbuild monorepo",
+      "groupSlug": "rsbuild",
     },
     {
-      "groupName": "codesmith",
-      "matchPackageNames": ["@modern-js/codesmith", "@modern-js/codesmith-**"],
-      "groupSlug": "codesmith"
+      "matchPackageNames": [
+        "@rsdoctor/**",
+      ],
+      "groupName": "rsdoctor monorepo",
+      "groupSlug": "rsdoctor",
     },
     {
-      "groupName": "reduck",
-      "matchPackageNames": ["@modern-js-reduck/**"],
-      "groupSlug": "reduck"
+      "matchPackageNames": [
+        "@modern-js-reduck/**",
+      ],
+      "groupName": "reduck monorepo",
+      "groupSlug": "reduck",
+    },
+    {
+      "matchPackageNames": [
+        "@modern-js/codesmith",
+        "@modern-js/codesmith-**",
+      ],
+      "groupName": "codesmith monorepo",
+      "groupSlug": "codesmith",
+    },
+    {
+      "matchPackageNames": [
+        "@remix-run/**",
+      ],
+      "groupName": "remix monorepo",
+      "groupSlug": "remix",
+    },
+    {
+      "matchPackageNames": [
+        "@changesets/**",
+      ],
+      "groupName": "changesets monorepo",
+      "groupSlug": "changesets",
+    },
+    {
+      "matchPackageNames": [
+        "@loadable/**",
+      ],
+      "groupName": "loadable monorepo",
+      "groupSlug": "loadable",
     },
     {
       "groupName": "types",
-      "matchPackageNames": ["^@types/**"],
-      "groupSlug": "types"
+      "matchPackageNames": [
+        "@types/**",
+      ],
+      "groupSlug": "types",
     },
     {
-      "groupName": "all patch dependencies",
-      "groupSlug": "all-patch",
-      "matchPackagePatterns": ["*"],
-      "matchUpdateTypes": ["patch"]
+      "matchPackageNames": [
+        "actions/**",
+      ],
+      "groupName": "actions",
+      "groupSlug": "actions",
     },
-    // manually update peer dependencies
-    {
-      "depTypeList": ["peerDependencies"],
-      "enabled": false
-    }
   ],
   "ignoreDeps": [
     // manually update some packages
@@ -62,6 +95,11 @@
     "@types/node",
     "node",
     // server core hono dependency can not bump
-    "hono"
+    "hono",
+    "@types/history",
+    "history",
+    "@types/lru-cache",
+    "@types/testing-library__jest-dom",
+    "pkg-up"
   ]
 }
