@@ -6484,6 +6484,8 @@ importers:
 
   tests/integration/module/fixtures/build/style/sass: {}
 
+  tests/integration/module/fixtures/build/style/scss: {}
+
   tests/integration/module/fixtures/build/style/tailwindcss: {}
 
   tests/integration/module/fixtures/build/target: {}
@@ -10896,7 +10898,7 @@ packages:
     dependencies:
       '@babel/compat-data': 7.24.7
       '@babel/core': 7.25.2
-      '@babel/helper-compilation-targets': 7.25.2
+      '@babel/helper-compilation-targets': 7.24.7
       '@babel/helper-plugin-utils': 7.24.7
       '@babel/helper-validator-option': 7.24.7
       '@babel/plugin-bugfix-firefox-class-in-computed-class-key': 7.24.7(@babel/core@7.25.2)

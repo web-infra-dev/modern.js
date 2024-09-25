@@ -7,17 +7,20 @@ import { loadProcessor, rebaseUrls } from './utils';
 export const sassRender: PreprocessRender = async function (
   this: ICompiler,
   content: string,
-  _: string,
+  sourcePath: string,
   stdinDir: string,
   options: Style['sass'],
   resolvePathMap: Map<string, string>,
   implementation?: object | string,
 ) {
   const sass = await loadProcessor('sass', this.context.root, implementation);
+  // https://sass-lang.com/documentation/js-api/interfaces/legacystringoptions/#indentedSyntax
+  const useScssSyntax = sourcePath.endsWith('.scss');
   return new Promise((resolve, reject) => {
     sass.render(
       {
         data: content,
+        indentedSyntax: !useScssSyntax,
         importer: [
           (url: string, dir: string, done: (value: unknown) => void) => {
             if (url.startsWith('data:')) {
