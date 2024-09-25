@@ -1,5 +1,20 @@
 # @modern-js/module-generator
 
+## 3.6.2
+
+### Patch Changes
+
+- 85b4535: feat: add timing log for mwa and module generator to get solution version
+
+  feat: 增加 mwa 和 module 生成器获取工程方案版本的耗时日志
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+
 ## 3.6.1
 
 ### Patch Changes

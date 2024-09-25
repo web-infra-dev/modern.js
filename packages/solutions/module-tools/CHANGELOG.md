@@ -1,5 +1,19 @@
 # @modern-js/module-tools
 
+## 2.60.2
+
+### Patch Changes
+
+- 7a78f22: fix(module-tools): should distinguish sass and scss syntax
+  fix(module-tools): 区分 sass 与 scss 语法
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/core@2.60.2
+  - @modern-js/plugin-changeset@2.60.2
+  - @modern-js/plugin-i18n@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/types@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes

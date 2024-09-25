@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.60.2
+
+### Patch Changes
+
+- 8a709bc: feat(router): router plugin should use the App Component from other plugins & export the markRoutes method
+  feat(router): router plugin 应该使用 App Component from other plugins & 导出 markRoutes 方法
+- 5130d69: feat(deploy): support server plugin options for deploy
+  feat(deploy): 支持生产环境消费 server 插件配置
+- Updated dependencies [ff24d56]
+- Updated dependencies [8a709bc]
+- Updated dependencies [3a07a59]
+- Updated dependencies [0a31d31]
+  - @modern-js/uni-builder@2.60.2
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-core@2.60.2
+  - @modern-js/core@2.60.2
+  - @modern-js/server@2.60.2
+  - @modern-js/plugin-data-loader@2.60.2
+  - @modern-js/plugin-i18n@2.60.2
+  - @modern-js/prod-server@2.60.2
+  - @modern-js/server-utils@2.60.2
+  - @modern-js/node-bundle-require@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/rsbuild-plugin-esbuild@2.60.2
+  - @modern-js/types@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes

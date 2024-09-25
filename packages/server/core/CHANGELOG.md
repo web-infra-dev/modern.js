@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.60.2
+
+### Patch Changes
+
+- 0a31d31: feat: support <NoSSRCache> Component, only use ssr.mode='string'
+
+  feat: 支持 <NoSSRCache> 组件, 仅在 ssr.mode 为 'string'的时候生效
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes

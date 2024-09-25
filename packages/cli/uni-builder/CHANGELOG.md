@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.60.2
+
+### Patch Changes
+
+- ff24d56: feat(deps): bump rsbuild 1.0.6 & rspack 1.0.7
+- 3a07a59: feat(deps): bump Rsbuild v1.0.7
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/babel-preset@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @modern-js/runtime
 
+## 2.60.2
+
+### Patch Changes
+
+- 8a709bc: feat(router): router plugin should use the App Component from other plugins & export the markRoutes method
+  feat(router): router plugin 应该使用 App Component from other plugins & 导出 markRoutes 方法
+- b36bf9f: fix(runtime): fix the alias problem on windows
+  fix(runtime): 修复 windows 下 alias 的问题
+- d4e32bf: fix(runtime): alias @meta/runtime should be configured correctly
+  fix(runtime): @meta/runtime 别名应该被正确地配置
+- 0a31d31: feat: support <NoSSRCache> Component, only use ssr.mode='string'
+
+  feat: 支持 <NoSSRCache> 组件, 仅在 ssr.mode 为 'string'的时候生效
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/plugin-data-loader@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+  - @modern-js/types@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes
