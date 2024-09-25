@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":disableDependencyDashboard"],
   "rangeStrategy": "pin",
-  "schedule": ["every weekend"]
+  "schedule": ["every weekend"],
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
   packageRules: [
     // ignore all major update
