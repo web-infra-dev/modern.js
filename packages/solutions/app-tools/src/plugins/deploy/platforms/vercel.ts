@@ -6,7 +6,12 @@ import {
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
 import { handleDependencies } from '../dependencies';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
 import type { CreatePreset } from './platform';
 
 export const createVercelPreset: CreatePreset = (
@@ -23,8 +28,10 @@ export const createVercelPreset: CreatePreset = (
   } = appContext;
   const isEsmProject = moduleType === 'module';
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const vercelOutput = path.join(appDirectory, '.vercel');
   const outputDirectory = path.join(vercelOutput, 'output');
@@ -125,11 +132,7 @@ export const createVercelPreset: CreatePreset = (
         serverConfigFile: DEFAULT_SERVER_CONFIG,
       };
 
-      const pluginsCode = `[${plugins
-        .map((plugin, index) => {
-          return `plugin_${index}()`;
-        })
-        .join(',')}]`;
+      const pluginsCode = getPluginsCode(plugins || []);
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
