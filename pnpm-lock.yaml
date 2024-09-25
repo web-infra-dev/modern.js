@@ -6484,6 +6484,8 @@ importers:
 
   tests/integration/module/fixtures/build/style/sass: {}
 
+  tests/integration/module/fixtures/build/style/scss: {}
+
   tests/integration/module/fixtures/build/style/tailwindcss: {}
 
   tests/integration/module/fixtures/build/target: {}
