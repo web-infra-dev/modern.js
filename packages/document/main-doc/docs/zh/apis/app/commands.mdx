@@ -153,28 +153,9 @@ pnpm 暂不支持使用 JSON 字符串作为参数值，可使用 `npm new` 开�
 
 :::
 
-## modern serve
+import ServeCommand from "@site-docs/components/serve-command";
 
-`modern serve` 命令用于在生产环境下启动 Modern.js 工程, 也可以用于在本地预览生产环境构建的产物。注意你需要提前执行 [`build`](/apis/app/commands#modern-build) 命令构建出对应产物。
-
-```bash
-Usage: modern serve [options]
-
-Options:
-  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
-  -h, --help            显示命令帮助
-  --api-only            仅启动 API 接口服务
-```
-
-默认情况下，应用将会在 `localhost:8080` 启动，可以通过 `server.port` 修改 Server 端口号：
-
-```js
-export default defineConfig({
-  server: {
-    port: 8081,
-  },
-});
-```
+<ServeCommand />
 
 ## modern upgrade
 
