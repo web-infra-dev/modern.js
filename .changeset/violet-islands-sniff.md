@@ -1,6 +1,6 @@
 ---
-'@modern-js/runtime': minor
-'@modern-js/server-core': minor
+'@modern-js/runtime': patch
+'@modern-js/server-core': patch
 ---
 
 feat: support <NoSSRCache> Component, only use ssr.mode='string'
