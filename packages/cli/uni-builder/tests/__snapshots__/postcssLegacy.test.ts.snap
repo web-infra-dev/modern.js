@@ -16,7 +16,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 1,
           "modules": {
             "auto": true,
@@ -89,7 +88,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 3,
           "modules": {
             "auto": true,
@@ -177,7 +175,6 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 2,
           "modules": {
             "auto": true,
@@ -264,7 +261,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 1,
           "modules": {
             "auto": true,
@@ -325,7 +321,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 3,
           "modules": {
             "auto": true,
@@ -401,7 +396,6 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
         "options": {
-          "_skipReuseAST": false,
           "importLoaders": 2,
           "modules": {
             "auto": true,

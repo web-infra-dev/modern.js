@@ -45,7 +45,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 1,
                 "modules": {
                   "auto": true,
@@ -151,7 +150,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -230,7 +228,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -384,7 +381,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 3,
                 "modules": {
                   "auto": true,
@@ -463,7 +459,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 2,
                 "modules": {
                   "auto": true,
@@ -578,7 +573,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -670,7 +664,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -892,6 +885,13 @@ exports[`uni-builder environment compat > should generator environment config co
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
         "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
       },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
+      },
       "extensions": [
         ".ts",
         ".tsx",
@@ -951,7 +951,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 0,
                 "modules": {
                   "auto": true,
@@ -1011,7 +1010,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -1083,7 +1081,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -1255,7 +1252,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 2,
                 "modules": {
                   "auto": true,
@@ -1298,7 +1294,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 1,
                 "modules": {
                   "auto": true,
@@ -1374,7 +1369,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -1462,7 +1456,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -1606,6 +1599,13 @@ exports[`uni-builder environment compat > should generator environment config co
       "alias": {
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
+      },
       "extensions": [
         ".ts",
         ".tsx",
@@ -1663,7 +1663,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 0,
                 "modules": {
                   "auto": true,
@@ -1724,7 +1723,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -1797,7 +1795,6 @@ exports[`uni-builder environment compat > should generator environment config co
                     "syntax": "typescript",
                     "tsx": true,
                   },
-                  "preserveAllComments": true,
                   "transform": {
                     "decoratorMetadata": true,
                     "legacyDecorator": true,
@@ -1951,7 +1948,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 2,
                 "modules": {
                   "auto": true,
@@ -1994,7 +1990,6 @@ exports[`uni-builder environment compat > should generator environment config co
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
               "options": {
-                "_skipReuseAST": false,
                 "importLoaders": 1,
                 "modules": {
                   "auto": true,
@@ -2070,7 +2065,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -2159,7 +2153,6 @@ exports[`uni-builder environment compat > should generator environment config co
                         "syntax": "typescript",
                         "tsx": true,
                       },
-                      "preserveAllComments": true,
                       "transform": {
                         "decoratorMetadata": true,
                         "legacyDecorator": true,
@@ -2279,6 +2272,13 @@ exports[`uni-builder environment compat > should generator environment config co
     "resolve": {
       "alias": {
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+      },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
       },
       "extensions": [
         ".ts",

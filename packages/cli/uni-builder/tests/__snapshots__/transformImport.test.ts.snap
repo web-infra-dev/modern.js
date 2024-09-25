@@ -63,7 +63,6 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
@@ -160,7 +159,6 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
@@ -242,7 +240,6 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
@@ -339,7 +336,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
@@ -421,7 +417,6 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
