@@ -84,7 +84,7 @@
     "zod": "^3.22.3"
   },
   "peerDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.20.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
