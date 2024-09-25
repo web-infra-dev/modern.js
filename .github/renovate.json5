@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "schedule:weekly"],
+  "extends": ["config:recommended", "schedule:weekly", ":disableDependencyDashboard"],
   "ignorePaths": ["**/tests/**", "**/node_modules/**"],
   packageRules: [
     // ignore all major update
@@ -21,6 +21,7 @@
       ],
       "groupName": "rsbuild monorepo",
       "groupSlug": "rsbuild",
+      "schedule": ["at any time"]
     },
     {
       "matchPackageNames": [
@@ -43,6 +44,7 @@
       ],
       "groupName": "codesmith monorepo",
       "groupSlug": "codesmith",
+      "schedule": ["at any time"]
     },
     {
       "matchPackageNames": [
