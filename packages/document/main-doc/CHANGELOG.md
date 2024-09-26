@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.60.2
+
+### Patch Changes
+
+- 5b98424: docs: add web server docs in concept part
+  docs: 在「概念」中添加 web server 的文档
+- 2b184d7: serve command package component
+- Updated dependencies [0b6d335]
+  - @modern-js/sandpack-react@2.60.2
+
 ## 2.60.1
 
 ### Patch Changes

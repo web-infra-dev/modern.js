@@ -1,5 +1,16 @@
 # @modern-js/bff-generator
 
+## 3.6.2
+
+### Patch Changes
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+
 ## 3.6.1
 
 ### Patch Changes

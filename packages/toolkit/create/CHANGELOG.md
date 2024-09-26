@@ -1,5 +1,17 @@
 # @modern-js/create
 
+## 2.60.2
+
+### Patch Changes
+
+- 0b6d335: feat: create tools support --time option
+
+  feat: create 工具支持 --time 选项
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
 ## 2.60.1
 
 ## 2.60.0
