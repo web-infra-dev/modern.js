@@ -1,10 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended", ":disableDependencyDashboard"],
-  "rangeStrategy": "pin",
+  "rangeStrategy": "auto",
   "schedule": ["every weekend"],
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
-  packageRules: [
+  "packageRules": [
     // ignore all major update
     {
       "matchUpdateTypes": ["major"],
@@ -104,6 +104,9 @@
     "history",
     "@types/lru-cache",
     "@types/testing-library__jest-dom",
-    "pkg-up"
+    "pkg-up",
+    "react",
+    "styled-components",
+    "webpack"
   ]
 }
