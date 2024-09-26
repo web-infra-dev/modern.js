@@ -8,12 +8,12 @@
 
 'use client';
 
-import {useTransition} from 'react';
-import {useRouter} from './framework/router';
+import { useTransition } from 'react';
+import { useRouter } from './framework/router';
 
-export default function EditButton({noteId, children}) {
+export default function EditButton({ noteId, children }) {
   const [isPending, startTransition] = useTransition();
-  const {navigate} = useRouter();
+  const { navigate } = useRouter();
   const isDraft = noteId == null;
   return (
     <button
@@ -30,7 +30,8 @@ export default function EditButton({noteId, children}) {
           });
         });
       }}
-      role="menuitem">
+      role="menuitem"
+    >
       {children}
     </button>
   );

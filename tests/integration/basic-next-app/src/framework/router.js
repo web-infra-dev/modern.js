@@ -16,13 +16,15 @@ import React from 'react';
 import {
   createFromFetch,
   createFromReadableStream,
-} from 'react-server-dom-webpack/client';
+} from 'react-server-dom-webpack/client.browser';
+import {
+  createContext,
+  startTransition,
+  useContext,
+  useState,
+  use,
+} from 'react';
 import '../style.css';
-
-const { createContext, startTransition, useContext, useState, use } =
-  React.default || React;
-
-console.log('createContext11111111', React.default, React);
 
 const RouterContext = createContext();
 const initialCache = new Map();
@@ -38,10 +40,14 @@ export function Router() {
 
   const locationKey = JSON.stringify(location);
   let content = cache.get(locationKey);
-  if (!content) {
-    content = createFromFetch(
-      fetch('/react?location=' + encodeURIComponent(locationKey)),
-    );
+  if (document && !content) {
+    const fetchUrl =
+      typeof window !== 'undefined'
+        ? '/react?location=' + encodeURIComponent(locationKey)
+        : `http://localhost:${process.env.PORT || 8080}/react?location=` +
+          encodeURIComponent(locationKey);
+
+    content = createFromFetch(fetch(fetchUrl));
     cache.set(locationKey, content);
   }
 

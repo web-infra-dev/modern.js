@@ -15,9 +15,19 @@ import SearchField from './SearchField';
 import NoteSkeleton from './NoteSkeleton';
 import NoteListSkeleton from './NoteListSkeleton';
 
+// console.log(
+//   'EditButton111111',
+//   EditButton,
+//   NoteSkeleton,
+//   Note,
+//   NoteList,
+//   SearchField,
+// );
+
 export default function App({ selectedId, isEditing, searchText }) {
   return (
     <div className="main">
+      Hello world
       <section className="col sidebar">
         <section className="sidebar-header">
           <img
@@ -31,7 +41,7 @@ export default function App({ selectedId, isEditing, searchText }) {
           <strong>React Notes</strong>
         </section>
         <section className="sidebar-menu" role="menubar">
-          <SearchField />
+          {/* <SearchField /> */}
           <EditButton noteId={null}>New</EditButton>
         </section>
         <nav>
@@ -40,11 +50,11 @@ export default function App({ selectedId, isEditing, searchText }) {
           </Suspense>
         </nav>
       </section>
-      <section key={selectedId} className="col note-viewer">
+      {/* <section key={selectedId} className="col note-viewer">
         <Suspense fallback={<NoteSkeleton isEditing={isEditing} />}>
           <Note selectedId={selectedId} isEditing={isEditing} />
         </Suspense>
-      </section>
+      </section> */}
     </div>
   );
 }

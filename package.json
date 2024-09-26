@@ -85,14 +85,14 @@
     "vitest": "0.33.0"
   },
   "pnpm": {
-    "overrides": {
-      "@types/react": "^18",
-      "@types/react-dom": "^18"
-    },
     "peerDependencyRules": {
       "allowedVersions": {
         "@mdx-js/react@^1.6.22>react": "18"
       }
+    },
+    "overrides": {
+      "react": "18.3.0-canary-8039e6d0b-20231026",
+      "react-dom": "18.3.0-canary-8039e6d0b-20231026"
     },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-object-rest-spread": "7.12.1 || 7.20.7",

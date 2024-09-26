@@ -5,8 +5,8 @@ import {
 } from '@modern-js/app-tools/server';
 import rscServerPlugin from './serverPlugin';
 
-reactServerRegister();
 
+reactServerRegister();
 export default defineConfig({
   plugins: [rscServerPlugin()],
 });

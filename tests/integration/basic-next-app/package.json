@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "tmp",
+  "name": "basic-next-app",
   "version": "2.9.0",
   "scripts": {
-    "dev": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server' modern dev",
+    "dev": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server --inspect' modern dev",
     "build": "BUNDLER=webpack modern build",
     "inspect": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server' modern inspect",
     "serve": "modern serve",
@@ -18,26 +18,37 @@
     "dist/"
   ],
   "dependencies": {
+    "@mfng/core": "^4.1.4",
     "@modern-js/runtime": "workspace:*",
+    "busboy": "^1.6.0",
+    "date-fns": "2.29.3",
+    "excerpts": "0.0.3",
+    "marked": "4.2.12",
+    "pg": "8.10.0",
     "react": "18.3.0-canary-8039e6d0b-20231026",
     "react-dom": "18.3.0-canary-8039e6d0b-20231026",
-    "marked": "4.2.12",
-    "sanitize-html": "2.10.0",
     "react-error-boundary": "3.1.4",
-    "pg": "8.10.0",
-    "server-only": "^0.0.1",
-    "excerpts": "0.0.3",
-    "react-server-dom-webpack": "18.3.0-canary-8039e6d0b-20231026"
+    "react-server-dom-webpack": "18.3.0-canary-8039e6d0b-20231026",
+    "rsc-html-stream": "^0.0.3",
+    "sanitize-html": "2.10.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@mfng/webpack-rsc": "^4.2.1",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-swc": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@types/busboy": "^1.5.4",
     "@types/jest": "^29",
-    "@types/node": "^14",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^18",
     "@types/pg": "8.10.0",
-    "typescript": "^5"
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5",
+    "@babel/generator": "^7.25.6",
+    "@babel/parser": "^7.22.15",
+    "@babel/traverse": "^7.23.2",
+    "@babel/types": "^7.24.7",
+    "webpack": "5.93.0"
   }
 }
