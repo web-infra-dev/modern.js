@@ -49,6 +49,7 @@ export async function createDevServer(
 
   const builderDevServer = await builder?.createDevServer({
     runCompile: options.runCompile,
+    compiler: options.compilier,
   });
 
   server.addPlugins([
