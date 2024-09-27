@@ -28,11 +28,11 @@
   "dependencies": {
     "@swc/helpers": "0.5.13",
     "esbuild": "0.17.19",
-    "webpack": "^5.94.0"
+    "webpack": "^5.95.0"
   },
   "devDependencies": {
-    "@rsbuild/core": "1.0.7",
-    "@rsbuild/webpack": "1.0.7",
+    "@rsbuild/core": "~1.0.7",
+    "@rsbuild/webpack": "~1.0.7",
     "@scripts/build": "workspace:*",
     "typescript": "^5.4.2"
   },
