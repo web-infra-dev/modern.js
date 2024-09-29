@@ -1,5 +1,5 @@
 import type { DevServerHttpsOptions, DevServerOptions } from '@modern-js/types';
-import type { UniBuilderInstance } from '@modern-js/uni-builder';
+import type { Rspack, UniBuilderInstance } from '@modern-js/uni-builder';
 
 import type {
   NodeServer,
@@ -16,6 +16,11 @@ export type ExtraOptions = {
   };
 
   runCompile?: boolean;
+
+  /**
+   * The existing compiler can be used here.
+   */
+  compilier?: Rspack.Compiler | Rspack.MultiCompiler;
 
   /** compat, the default value is modern.server-runtime.config.ts  */
   serverConfigFile?: string;
