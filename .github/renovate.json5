@@ -6,7 +6,7 @@
   "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
   "lockFileMaintenance": {
     "enabled": false
-  }
+  },
   "packageRules": [
     // ignore all major update
     {
