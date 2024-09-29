@@ -5,7 +5,7 @@ import type {
   ICompiler,
   ModuleTools,
 } from '@modern-js/module-tools';
-import { addResolveFallback, excludeObjectKeys } from './utils';
+import { addNodePrefix, addResolveFallback, excludeObjectKeys } from './utils';
 
 export interface NodePolyfillPluginOptions {
   // like https://github.com/Richienb/node-polyfill-webpack-plugin#excludealiases
@@ -14,7 +14,7 @@ export interface NodePolyfillPluginOptions {
   overrides?: Partial<Record<keyof typeof modules, string>>;
 }
 
-export const modules = {
+let modules = {
   assert: require.resolve('assert/'),
   buffer: require.resolve('buffer/'),
   child_process: null,
@@ -60,6 +60,8 @@ export const modules = {
 export const getNodePolyfillHook = (
   polyfillOption: NodePolyfillPluginOptions = {},
 ) => {
+  const nodeModules = addNodePrefix(modules);
+  modules = Object.assign(modules, nodeModules);
   const polyfillModules = {
     ...excludeObjectKeys(
       addResolveFallback(modules, polyfillOption.overrides),

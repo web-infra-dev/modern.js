@@ -42,3 +42,16 @@ export function addResolveFallback(
 
   return newObject;
 }
+
+export function addNodePrefix(
+  modules: Record<string, string | null>,
+): Record<string, string | null> {
+  return Object.fromEntries(
+    Object.entries(modules).map(([key, value]) => {
+      if (!key.startsWith('_')) {
+        return [`node:${key}`, value];
+      }
+      return [key, value];
+    }),
+  );
+}
