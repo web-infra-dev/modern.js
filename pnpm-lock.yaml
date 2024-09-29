@@ -2547,8 +2547,8 @@ importers:
         specifier: ^5.5.6
         version: 5.5.6
       debug:
-        specifier: 4.3.4
-        version: 4.3.4(supports-color@9.3.1)
+        specifier: 4.3.7
+        version: 4.3.7(supports-color@9.3.1)
       garfish:
         specifier: ^1.8.1
         version: 1.8.1
@@ -4657,8 +4657,8 @@ importers:
         specifier: 10.0.1
         version: 10.0.1
       debug:
-        specifier: 4.3.4
-        version: 4.3.4(supports-color@9.3.1)
+        specifier: 4.3.7
+        version: 4.3.7(supports-color@9.3.1)
       dotenv:
         specifier: 10.0.0
         version: 10.0.0
@@ -8302,7 +8302,7 @@ packages:
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
       convert-source-map: 1.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -8328,7 +8328,7 @@ packages:
       '@babel/traverse': 7.24.7
       '@babel/types': 7.24.7
       convert-source-map: 2.0.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8350,7 +8350,7 @@ packages:
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
       convert-source-map: 2.0.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -8531,7 +8531,7 @@ packages:
       '@babel/core': 7.24.7
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.7
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.4
       semver: 6.3.1
@@ -8547,7 +8547,7 @@ packages:
       '@babel/core': 7.24.7
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.4
     transitivePeerDependencies:
@@ -8561,7 +8561,7 @@ packages:
       '@babel/core': 7.25.2
       '@babel/helper-compilation-targets': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       lodash.debounce: 4.0.8
       resolve: 1.22.4
     transitivePeerDependencies:
@@ -11124,7 +11124,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.24.5
       '@babel/types': 7.24.7
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -11142,7 +11142,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.24.5
       '@babel/types': 7.24.7
-      debug: 4.3.4(supports-color@5.5.0)
+      debug: 4.3.7(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -11159,7 +11159,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.24.7
       '@babel/parser': 7.25.6
       '@babel/types': 7.25.6
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -11173,7 +11173,7 @@ packages:
       '@babel/parser': 7.25.6
       '@babel/template': 7.25.0
       '@babel/types': 7.25.6
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -12661,7 +12661,7 @@ packages:
   /@garfish/utils@1.8.1:
     resolution: {integrity: sha512-nscgX0+e1Lu1pvaLbQjzNWDBju0xA/3okorvgqtA6yguxLfjOKTTZP1YBLPFQSvUmHrbwZ1gfZOn2Vr3wqAy2g==}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -13377,7 +13377,7 @@ packages:
       '@modern-js/utils': 2.60.1
       '@swc/helpers': 0.5.1
       axios: 1.7.4(debug@4.3.7)
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@9.3.1)
       tar: 6.2.0
     transitivePeerDependencies:
       - supports-color
@@ -13900,7 +13900,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
       progress: 2.0.3
@@ -17643,7 +17643,7 @@ packages:
       typescript: '>= 4.x'
       webpack: '>= 4'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       endent: 2.1.0
       find-cache-dir: 3.3.2
       flat-cache: 3.0.4
@@ -19444,7 +19444,7 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -19452,7 +19452,7 @@ packages:
     resolution: {integrity: sha512-o/zjMZRhJxny7OyEF+Op8X+efiELC7k7yOjMzgfzVqOzXqkBkWI79YoTdOtsuWd5BWhAGAuOY/Xa6xpiaWXiNg==}
     engines: {node: '>= 14'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -22016,7 +22016,7 @@ packages:
       ms: 2.1.3
     dev: false
 
-  /debug@4.3.4(supports-color@5.5.0):
+  /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
@@ -22026,21 +22026,8 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-      supports-color: 5.5.0
 
-  /debug@4.3.4(supports-color@9.3.1):
-    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.2
-      supports-color: 9.3.1
-
-  /debug@4.3.7:
+  /debug@4.3.7(supports-color@5.5.0):
     resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
@@ -22050,6 +22037,19 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
+      supports-color: 5.5.0
+
+  /debug@4.3.7(supports-color@9.3.1):
+    resolution: {integrity: sha512-Er2nc/H7RrMXZBFCEim6TCmMk02Z8vLC2Rbi1KEBggpo0fS6l0S1nnapwmIi3yW/+GOJap1Krg4w0Hg80oCqgQ==}
+    engines: {node: '>=6.0'}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.3
+      supports-color: 9.3.1
 
   /decamelize-keys@1.1.0:
     resolution: {integrity: sha512-ocLWuYzRPoS9bfiSdDd3cxvrzovVMZnRDVEzAs+hWIVXGDbHxWMECij2OBuyB/An0FFW/nLuq6Kv1i/YC5Qfzg==}
@@ -22068,7 +22068,7 @@ packages:
   /declaration-update@0.0.2:
     resolution: {integrity: sha512-17sJsx/tcy/JPRgUy76xBwXT5iSlZHgDlmytwWk358OoUN+/O2q5WqfaQcrrRTm86iVLXJ/BFjw5MCKZsoHuBQ==}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -22598,7 +22598,7 @@ packages:
       base64id: 2.0.0
       cookie: 0.4.2
       cors: 2.8.5
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@9.3.1)
       engine.io-parser: 5.2.1
       ws: 8.11.0
     transitivePeerDependencies:
@@ -23092,7 +23092,7 @@ packages:
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       esbuild: 0.17.19
     transitivePeerDependencies:
       - supports-color
@@ -23103,7 +23103,7 @@ packages:
     peerDependencies:
       esbuild: '>=0.12 <1'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       esbuild: 0.18.20
     transitivePeerDependencies:
       - supports-color
@@ -23714,7 +23714,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -24005,7 +24005,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       commander: 5.1.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -24111,7 +24111,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@9.3.1)
 
   /follow-redirects@1.15.9:
     resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
@@ -25203,7 +25203,7 @@ packages:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -25252,7 +25252,7 @@ packages:
     engines: {node: '>= 6.0.0'}
     dependencies:
       agent-base: 5.1.1
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -25262,7 +25262,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -25271,7 +25271,7 @@ packages:
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -25970,7 +25970,7 @@ packages:
     resolution: {integrity: sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==}
     engines: {node: '>=10'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -26961,7 +26961,7 @@ packages:
     engines: {node: '>= 8.0.0'}
     deprecated: '**IMPORTANT 10x+ PERFORMANCE UPGRADE**: Please upgrade to v12.0.1+ as we have fixed an issue with debuglog causing 10x slower router benchmark performance, see https://github.com/koajs/router/pull/173'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       http-errors: 1.8.1
       koa-compose: 4.1.0
       methods: 1.1.2
@@ -26979,7 +26979,7 @@ packages:
       content-disposition: 0.5.4
       content-type: 1.0.4
       cookies: 0.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       delegates: 1.0.0
       depd: 2.0.0
       destroy: 1.2.0
@@ -27063,7 +27063,7 @@ packages:
       chalk: 5.2.0
       cli-truncate: 3.1.0
       commander: 10.0.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       execa: 7.1.1
       lilconfig: 2.1.0
       listr2: 5.0.8
@@ -28020,7 +28020,7 @@ packages:
     resolution: {integrity: sha512-6Mj0yHLdUZjHnOPgr5xfWIMqMWS12zDN6iws9SLuSz76W8jTtAv24MN4/CL7gJrl5vtxGInkkqDv/JIoRsQOvA==}
     dependencies:
       '@types/debug': 4.1.12
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -28367,7 +28367,7 @@ packages:
     resolution: {integrity: sha512-R6NUw7RIPtKwgK7jskuKoEi4VFMqIHtV2Uu9K/Uegc4TA5cqe+oNMYslZcUmnVNQCTG6wcSqUBaGTDd7sq5srg==}
     engines: {node: '>= 10.13'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       json-stringify-safe: 5.0.1
       lodash: 4.17.21
       propagate: 2.0.1
@@ -30417,7 +30417,7 @@ packages:
       '@puppeteer/browsers': 0.5.0(typescript@5.3.3)
       chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
       cross-fetch: 3.1.5
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4
       devtools-protocol: 0.0.1107588
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
@@ -30438,7 +30438,7 @@ packages:
     engines: {node: '>=8.16.0'}
     dependencies:
       '@types/mime-types': 2.1.4
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       extract-zip: 1.7.0
       https-proxy-agent: 4.0.0
       mime: 2.6.0
@@ -33886,7 +33886,7 @@ packages:
     engines: {node: '>=10.0.0'}
     dependencies:
       '@socket.io/component-emitter': 3.1.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -33898,7 +33898,7 @@ packages:
       accepts: 1.3.8
       base64id: 2.0.0
       cors: 2.8.5
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@9.3.1)
       engine.io: 6.5.4
       socket.io-adapter: 2.5.2
       socket.io-parser: 4.2.4
@@ -34416,7 +34416,7 @@ packages:
     dependencies:
       component-emitter: 1.3.0
       cookiejar: 2.1.3
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       fast-safe-stringify: 2.1.1
       form-data: 4.0.0
       formidable: 2.0.1
@@ -36038,7 +36038,7 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       mlly: 1.7.0
       pathe: 1.1.1
       picocolors: 1.1.0
@@ -36134,7 +36134,7 @@ packages:
       acorn-walk: 8.3.1
       cac: 6.7.14
       chai: 4.3.7
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.7(supports-color@9.3.1)
       local-pkg: 0.4.3
       magic-string: 0.30.5
       pathe: 1.1.1
