@@ -33,7 +33,7 @@
     "@babel/types": "^7.24.7",
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.15",
     "@rsbuild/core": "~1.0.7",
     "@rsbuild/plugin-assets-retry": "~1.0.1",
     "@rsbuild/plugin-babel": "~1.0.1",
