@@ -4480,8 +4480,8 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.60.1
-        version: /@modern-js/core@2.60.1
+        specifier: npm:@modern-js/core@2.60.2
+        version: /@modern-js/core@2.60.2
       '@modern-js/module-tools-npm':
         specifier: npm:@modern-js/module-tools@2.60.1
         version: /@modern-js/module-tools@2.60.1(typescript@5.3.3)
@@ -13380,6 +13380,15 @@ packages:
       '@swc/helpers': 0.5.13
     dev: true
 
+  /@modern-js/core@2.60.2:
+    resolution: {integrity: sha512-XQVlQGEr6tKweivaIzlNIzygGC8lzNkELYPddX5KI1yRCd1GbaMAkLp/OmexVRPtB8XhPlcrEYAlh54I+UITYQ==}
+    dependencies:
+      '@modern-js/node-bundle-require': 2.60.2
+      '@modern-js/plugin': 2.60.2
+      '@modern-js/utils': 2.60.2
+      '@swc/helpers': 0.5.13
+    dev: true
+
   /@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.2.0):
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
     engines: {node: '>=14.17.6'}
@@ -13440,6 +13449,14 @@ packages:
       esbuild: 0.17.19
     dev: true
 
+  /@modern-js/node-bundle-require@2.60.2:
+    resolution: {integrity: sha512-vgl8q5sDQmTMbYq9kc9nGJu9QBO8DXmvn29z80+g+L1ft7vxcul2U51krhfrpsD6aaELmNJYmjp7v90iFBOpAQ==}
+    dependencies:
+      '@modern-js/utils': 2.60.2
+      '@swc/helpers': 0.5.13
+      esbuild: 0.17.19
+    dev: true
+
   /@modern-js/plugin-changeset@2.60.1:
     resolution: {integrity: sha512-uQfw8iEs615myqbpU1/q7mZNG7MwMBl5IVGZ2J1oUYPqJIfSD2zbt1AmWPNZZPlf4WtRQ6DChuwhmEPPPU6sDg==}
     dependencies:
@@ -13465,6 +13482,13 @@ packages:
     resolution: {integrity: sha512-nz8MDkIsW6Y9ztRVw1QnHHPLze8EDpSyHFo9R/0IjMBT6B1lFn1UNKsf/ZzyNri60Y47MGyiFEodILbvwijutA==}
     dependencies:
       '@modern-js/utils': 2.60.1
+      '@swc/helpers': 0.5.13
+    dev: true
+
+  /@modern-js/plugin@2.60.2:
+    resolution: {integrity: sha512-DTX7e7uuecX2E4RZLQLDKft1wk+czwAvdnl4tTLrYZ5DpQPOt9MPY/YGlpwguPL/Ut1lK7rM7WSvru8LzgaXmw==}
+    dependencies:
+      '@modern-js/utils': 2.60.2
       '@swc/helpers': 0.5.13
     dev: true
 
@@ -13632,6 +13656,15 @@ packages:
       caniuse-lite: 1.0.30001663
       lodash: 4.17.21
       rslog: 1.2.3
+
+  /@modern-js/utils@2.60.2:
+    resolution: {integrity: sha512-7T95WiwSlfoX/3vQiTSRE1QGt5GIm0/DeXFbN4pyQzqzFLWrgnVmlloKHKQSejDlgp7ttRZZpBiRVmIiqZX98Q==}
+    dependencies:
+      '@swc/helpers': 0.5.13
+      caniuse-lite: 1.0.30001663
+      lodash: 4.17.21
+      rslog: 1.2.3
+    dev: true
 
   /@module-federation/runtime-tools@0.0.8:
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
