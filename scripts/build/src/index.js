@@ -176,13 +176,16 @@ const tscLikeBuildConfig = [
 ];
 
 const generatorBuildConfig = {
-  target: 'es2019',
+  target: 'es2020',
   autoExternal: false,
   alias: {
     chalk: '@modern-js/utils/chalk',
   },
   dts: false,
   externals: [
+    'bluebird',
+    '@npmcli/run-script',
+    '@modern-js/utils/fs-extra',
     '@modern-js/utils',
     '@modern-js/utils/lodash',
     '@modern-js/utils/fs-extra',
