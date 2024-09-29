@@ -42,7 +42,7 @@
     "browserslist": "4.23.1",
     "chalk": "4.1.2",
     "chokidar": "3.5.3",
-    "commander": "10.0.0",
+    "commander": "10.0.1",
     "debug": "4.3.4",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
