@@ -80,7 +80,7 @@
     "rollup": "^3.29.4",
     "rollup-plugin-dts": "6.1.1",
     "sass": "1.54.4",
-    "semver": "7.6.0",
+    "semver": "7.6.3",
     "signal-exit": "3.0.7",
     "signale": "1.4.0",
     "slash": "3.0.0",
@@ -89,6 +89,6 @@
     "tsconfig-paths": "4.1.1",
     "upath": "2.0.1",
     "url-join": "4.0.1",
-    "webpack-chain": "npm:webpack-5-chain@8.0.1"
+    "webpack-chain": "npm:webpack-5-chain@8.0.2"
   }
 }
