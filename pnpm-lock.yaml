@@ -4708,8 +4708,8 @@ importers:
         specifier: 2.1.35
         version: 2.1.35
       minimist:
-        specifier: 1.2.6
-        version: 1.2.6
+        specifier: 1.2.8
+        version: 1.2.8
       nanoid:
         specifier: 3.3.4
         version: 3.3.4
@@ -11744,7 +11744,7 @@ packages:
       '@commitlint/types': 17.4.4
       fs-extra: 11.2.0
       git-raw-commits: 2.0.11
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: true
 
   /@commitlint/resolve-extends@17.4.4:
@@ -22273,7 +22273,7 @@ packages:
     dependencies:
       acorn-node: 1.8.2
       defined: 1.0.0
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: false
 
   /devcert@1.2.2:
@@ -26871,7 +26871,7 @@ packages:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.8
 
   /json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
@@ -28176,7 +28176,6 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-    dev: true
 
   /minipass@3.3.3:
     resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
@@ -28223,7 +28222,7 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: false
 
   /mkdirp@1.0.4:
@@ -34330,7 +34329,7 @@ packages:
     hasBin: true
     dependencies:
       duplexer: 0.1.2
-      minimist: 1.2.6
+      minimist: 1.2.8
       through: 2.3.8
     dev: true
 
@@ -35240,7 +35239,7 @@ packages:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.1
-      minimist: 1.2.6
+      minimist: 1.2.8
       strip-bom: 3.0.0
 
   /tsconfig-paths@4.1.1:
