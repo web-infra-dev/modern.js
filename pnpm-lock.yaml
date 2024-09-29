@@ -887,8 +887,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       nanoid:
-        specifier: 3.3.4
-        version: 3.3.4
+        specifier: 3.3.7
+        version: 3.3.7
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -1026,8 +1026,8 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2)
       nanoid:
-        specifier: 3.3.4
-        version: 3.3.4
+        specifier: 3.3.7
+        version: 3.3.7
       react:
         specifier: ~18.2.0
         version: 18.2.0
@@ -4708,11 +4708,11 @@ importers:
         specifier: 2.1.35
         version: 2.1.35
       minimist:
-        specifier: 1.2.6
-        version: 1.2.6
+        specifier: 1.2.8
+        version: 1.2.8
       nanoid:
-        specifier: 3.3.4
-        version: 3.3.4
+        specifier: 3.3.7
+        version: 3.3.7
       normalize-path:
         specifier: 3.0.0
         version: 3.0.0
@@ -6385,8 +6385,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       postcss:
-        specifier: 8.4.31
-        version: 8.4.31
+        specifier: 8.4.47
+        version: 8.4.47
     devDependencies:
       react:
         specifier: ^18
@@ -11744,7 +11744,7 @@ packages:
       '@commitlint/types': 17.4.4
       fs-extra: 11.2.0
       git-raw-commits: 2.0.11
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: true
 
   /@commitlint/resolve-extends@17.4.4:
@@ -22277,7 +22277,7 @@ packages:
     dependencies:
       acorn-node: 1.8.2
       defined: 1.0.0
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: false
 
   /devcert@1.2.2:
@@ -26875,7 +26875,7 @@ packages:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.8
 
   /json5@2.2.3:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
@@ -28186,7 +28186,6 @@ packages:
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
-    dev: true
 
   /minipass@3.3.3:
     resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
@@ -28233,7 +28232,7 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.6
+      minimist: 1.2.8
     dev: false
 
   /mkdirp@1.0.4:
@@ -28334,12 +28333,6 @@ packages:
       sourcemap-codec: 1.4.8
       stacktrace-js: 2.0.2
       stylis: 4.3.0
-    dev: true
-
-  /nanoid@3.3.4:
-    resolution: {integrity: sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
     dev: true
 
   /nanoid@3.3.7:
@@ -30114,15 +30107,6 @@ packages:
       source-map: 0.6.1
       supports-color: 5.5.0
     dev: true
-
-  /postcss@8.4.31:
-    resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.7
-      picocolors: 1.1.0
-      source-map-js: 1.2.1
-    dev: false
 
   /postcss@8.4.35:
     resolution: {integrity: sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==}
@@ -34340,7 +34324,7 @@ packages:
     hasBin: true
     dependencies:
       duplexer: 0.1.2
-      minimist: 1.2.6
+      minimist: 1.2.8
       through: 2.3.8
     dev: true
 
@@ -35250,7 +35234,7 @@ packages:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.1
-      minimist: 1.2.6
+      minimist: 1.2.8
       strip-bom: 3.0.0
 
   /tsconfig-paths@4.1.1:
