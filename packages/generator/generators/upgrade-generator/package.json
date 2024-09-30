@@ -30,14 +30,12 @@
   },
   "dependencies": {
     "@modern-js/codesmith": "2.5.2",
+    "@modern-js/codesmith-utils": "2.5.2",
     "@modern-js/codesmith-api-app": "2.5.2",
     "@modern-js/codesmith-api-json": "2.5.2",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/utils": "workspace:*"
-  },
-  "devDependencies": {
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

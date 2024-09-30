@@ -28,10 +28,8 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "@modern-js/utils": "workspace:*"
-  },
   "devDependencies": {
+    "@modern-js/codesmith-utils": "2.5.1",
     "@modern-js/base-generator": "workspace:*",
     "@modern-js/changeset-generator": "workspace:*",
     "@modern-js/codesmith": "2.5.2",

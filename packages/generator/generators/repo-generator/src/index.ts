@@ -1,5 +1,6 @@
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   BaseGenerator,
   type Solution,
@@ -11,7 +12,6 @@ import {
 } from '@modern-js/generator-common';
 import { GeneratorPlugin } from '@modern-js/generator-plugin';
 import { getGeneratorPath } from '@modern-js/generator-utils';
-import { merge } from '@modern-js/utils/lodash';
 
 const mergeDefaultConfig = (context: GeneratorContext) => {
   const { defaultSolution } = context.config;

@@ -44,7 +44,7 @@
   "devDependencies": {
     "@modern-js/codesmith": "2.5.2",
     "@modern-js/codesmith-api-app": "2.5.2",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/codesmith-utils": "2.5.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

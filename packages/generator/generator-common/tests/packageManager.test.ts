@@ -7,7 +7,7 @@ import {
   MaterialsManager,
 } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { fs } from '@modern-js/utils';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
 import { getPackageManagerSchema } from '../src/common/packageManager';
 
 describe('test package manager schema', () => {

@@ -54,8 +54,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13"
+    "@swc/helpers": "0.5.13",
+    "@modern-js/codesmith-utils": "2.5.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

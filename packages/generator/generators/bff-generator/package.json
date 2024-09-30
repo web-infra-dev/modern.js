@@ -29,10 +29,8 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "@modern-js/utils": "workspace:*"
-  },
   "devDependencies": {
+    "@modern-js/codesmith-utils": "2.5.2",
     "@modern-js/codesmith": "2.5.2",
     "@modern-js/codesmith-api-app": "2.5.2",
     "@modern-js/codesmith-api-json": "2.5.2",

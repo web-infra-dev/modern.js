@@ -1,34 +1,28 @@
 import path from 'path';
 import type { GeneratorContext } from '@modern-js/codesmith';
+import { execa } from '@modern-js/codesmith-utils/execa';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
+import { canUseNpm, canUsePnpm } from '@modern-js/codesmith-utils/npm';
+import { ora } from '@modern-js/codesmith-utils/ora';
 import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
-import {
-  fs,
-  canUseNpm,
-  canUsePnpm,
-  execa,
-  getMonorepoPackages,
-  ora,
-} from '@modern-js/utils';
 import { i18n, localeKeys } from './locale';
 import { fileExist } from './utils/fsExist';
+import { getMonorepoPackages } from './utils/monorepo';
 import { getAvailableVersion, isPackageExist } from './utils/package';
 import { stripAnsi } from './utils/stripAnsi';
 
 export * from './utils';
 
 export {
-  ora,
-  fs,
-  semver,
-  execa,
-  chalk,
-  readTsConfigByFile,
-  getPackageManager,
   canUseNpm,
   canUsePnpm,
   canUseYarn,
-  isReact18,
-} from '@modern-js/utils';
+} from '@modern-js/codesmith-utils/npm';
+export { fs } from '@modern-js/codesmith-utils/fs-extra';
+export { ora } from '@modern-js/codesmith-utils/ora';
+export { semver } from '@modern-js/codesmith-utils/semver';
+export { execa } from '@modern-js/codesmith-utils/execa';
+export { chalk } from '@modern-js/codesmith-utils/chalk';
 
 export { i18n } from './locale';
 
