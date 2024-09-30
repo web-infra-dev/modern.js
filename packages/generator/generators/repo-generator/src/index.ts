@@ -99,6 +99,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   if (!(await appApi.checkEnvironment())) {
     process.exit(1);
   }
+
   generator.logger.debug(`🚀 [Start Run Repo Generator]`);
   generator.logger.debug(
     '💡 [Current Config]:',

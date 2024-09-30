@@ -33,7 +33,6 @@ export const handleTemplateFile = async (
     context.config.registry,
     context.config.distTag,
   );
-  generator.logger?.timing(`🕐 Get Modern.js app-tools version`, true);
 
   const { isMonorepoSubProject, projectDir = '' } = context.config;
 
