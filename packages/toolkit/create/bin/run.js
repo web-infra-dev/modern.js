@@ -17,6 +17,8 @@ if (process.env.CODESMITH_ENV) {
 
 require('@modern-js/codesmith-global');
 
+global.CODESMITH_PREPARE_GLOBAL = true;
+
 if (env === 'development') {
   require('ts-node').register({ project });
 }
