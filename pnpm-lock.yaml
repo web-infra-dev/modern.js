@@ -8,18 +8,18 @@ overrides:
   '@types/react': ^18
   '@types/react-dom': ^18
   '@modern-js/plugin-i18n': workspace:*
-  '@modern-js/codesmith-api-app': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-ejs': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-fs': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-git': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-handlebars': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-json': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-api-npm': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-cli': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-formily': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith': 0.0.0-canary-20240930052349
-  '@modern-js/inquirer-types': 0.0.0-canary-20240930052349
-  '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+  '@modern-js/codesmith-api-app': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-ejs': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-fs': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-git': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-handlebars': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-json': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-api-npm': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-cli': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-formily': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith': 0.0.0-canary-20240930083622
+  '@modern-js/inquirer-types': 0.0.0-canary-20240930083622
+  '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
 
 importers:
 
@@ -388,8 +388,8 @@ importers:
   packages/cli/plugin-i18n:
     dependencies:
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -1240,8 +1240,8 @@ importers:
   packages/generator/generator-common:
     dependencies:
       '@modern-js/codesmith-formily':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -1250,14 +1250,14 @@ importers:
         version: 0.5.13
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1280,23 +1280,23 @@ importers:
   packages/generator/generator-plugin:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-git':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-npm':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
       '@modern-js/codesmith-formily':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -1350,8 +1350,8 @@ importers:
   packages/generator/generator-utils:
     dependencies:
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -1372,8 +1372,8 @@ importers:
         version: 2.2.3
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -1402,14 +1402,14 @@ importers:
   packages/generator/generators/base-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1438,17 +1438,17 @@ importers:
   packages/generator/generators/bff-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1480,14 +1480,14 @@ importers:
   packages/generator/generators/changeset-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1513,17 +1513,17 @@ importers:
   packages/generator/generators/dependence-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1555,17 +1555,17 @@ importers:
   packages/generator/generators/entry-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-handlebars':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1597,17 +1597,17 @@ importers:
   packages/generator/generators/generator-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1642,17 +1642,17 @@ importers:
   packages/generator/generators/module-doc-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1693,14 +1693,14 @@ importers:
         specifier: workspace:*
         version: link:../changeset-generator
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1741,14 +1741,14 @@ importers:
         specifier: workspace:*
         version: link:../base-generator
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1789,17 +1789,17 @@ importers:
   packages/generator/generators/packages-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1831,14 +1831,14 @@ importers:
         specifier: workspace:*
         version: link:../base-generator
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -1876,14 +1876,14 @@ importers:
   packages/generator/generators/router-v5-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1918,17 +1918,17 @@ importers:
   packages/generator/generators/server-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -1960,14 +1960,14 @@ importers:
   packages/generator/generators/ssg-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2002,14 +2002,14 @@ importers:
   packages/generator/generators/storybook-next-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2044,17 +2044,17 @@ importers:
   packages/generator/generators/tailwindcss-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/dependence-generator':
         specifier: workspace:*
         version: link:../dependence-generator
@@ -2086,17 +2086,17 @@ importers:
   packages/generator/generators/upgrade-generator:
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-api-app':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-api-json':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2128,14 +2128,14 @@ importers:
   packages/generator/new-action:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-formily':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../generator-common
@@ -2177,8 +2177,8 @@ importers:
   packages/generator/plugins/generator-plugin:
     devDependencies:
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
@@ -2226,11 +2226,11 @@ importers:
         specifier: workspace:*
         version: link:../generators/base-generator
       '@modern-js/codesmith-api-handlebars':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/entry-generator':
         specifier: workspace:*
         version: link:../generators/entry-generator
@@ -4203,11 +4203,11 @@ importers:
         version: 2.5.2-alpha.3
     devDependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/codesmith-utils':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/generator-plugin-plugin':
         specifier: workspace:*
         version: link:../../generator/plugins/generator-plugin
@@ -4429,8 +4429,8 @@ importers:
   packages/toolkit/upgrade:
     dependencies:
       '@modern-js/codesmith':
-        specifier: 0.0.0-canary-20240930052349
-        version: 0.0.0-canary-20240930052349
+        specifier: 0.0.0-canary-20240930083622
+        version: 0.0.0-canary-20240930083622
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
@@ -13629,7 +13629,7 @@ packages:
       npmlog: 5.0.1
       rimraf: 3.0.2
       semver: 7.6.3
-      tar: 6.2.0
+      tar: 6.2.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -13804,19 +13804,19 @@ packages:
       redux: 4.2.1
     dev: false
 
-  /@modern-js/codesmith-api-app@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3):
-    resolution: {integrity: sha512-KppzUBYMl98Mr1hGt+RltlgiVu8Lnb6Rm6k0Tc9x+Eb0LAVxkOrGwqxZD+tHb7dM+/SF/tw9oF8UjrVPsORaCw==}
+  /@modern-js/codesmith-api-app@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3):
+    resolution: {integrity: sha512-BDRVkYfe9LWFWF1Usoocs5FI42gDGCqWUPhc/8I7/GncdOShX6KBBIRklAw8Ikj9rOeAJxbNSvHJp++ssMQosA==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
-      '@modern-js/codesmith-api-ejs': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
-      '@modern-js/codesmith-api-fs': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
-      '@modern-js/codesmith-api-git': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
-      '@modern-js/codesmith-api-handlebars': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
-      '@modern-js/codesmith-api-npm': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)
-      '@modern-js/codesmith-formily': 0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3)
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
+      '@modern-js/codesmith-api-ejs': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
+      '@modern-js/codesmith-api-fs': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
+      '@modern-js/codesmith-api-git': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
+      '@modern-js/codesmith-api-handlebars': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
+      '@modern-js/codesmith-api-npm': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)
+      '@modern-js/codesmith-formily': 0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3)
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@modern-js/plugin-i18n': link:packages/cli/plugin-i18n
       '@swc/helpers': 0.5.1
       comment-json: 4.2.3
@@ -13826,74 +13826,73 @@ packages:
       - typescript
     dev: true
 
-  /@modern-js/codesmith-api-ejs@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349):
-    resolution: {integrity: sha512-P5/kBn+mQmzJ76rYAX8QUf8nQsF3hy7LeJUlZYOO+na/c9vo7rhSzsthx4vqJAeJISrEbVPR7bdPNv5ZXLeRaA==}
+  /@modern-js/codesmith-api-ejs@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622):
+    resolution: {integrity: sha512-n1G7V9+E5Xzcu0knOiNaPcvH08PefXcudjlcm8VsMEVfaWb6nXJzmI9M0K+Z/y2CUfsTNhtsjVFvlIBSN3P05Q==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
       ejs: 3.1.10
     dev: true
 
-  /@modern-js/codesmith-api-fs@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349):
-    resolution: {integrity: sha512-9IilNGL0vtMkwvRkW18Q0OqF4/o0VjxqauuWUWSEB0Q4I4K70uhBqRnA6DdHWhtx8bzl8+3tidh8prlArr98cw==}
+  /@modern-js/codesmith-api-fs@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622):
+    resolution: {integrity: sha512-p3ss79iizsPBnwW7NhqTIOm1a+bpEwCBGXR8smKtRyZNFtSCRGjX4tZN3qkwtg4DDo2/hIPeHAUq6t9TpFuOLQ==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
     dev: true
 
-  /@modern-js/codesmith-api-git@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349):
-    resolution: {integrity: sha512-B3wQvA9r9imSCjTWIhjLkZcAwPrUrf4Trkhsb3p2s9OY8T7jGYVbVtQ5C9/bBrisUlvyMksNr6+ctlnJVtM9+g==}
+  /@modern-js/codesmith-api-git@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622):
+    resolution: {integrity: sha512-rsvNg8s53otGQA9RFb1IQ3LPwHj3at4cPxmPrD+akejpO4kWNX6hZMu9yhr/zqud7u/aNgWH82+V4kIhSwgBdA==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
 
-  /@modern-js/codesmith-api-handlebars@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349):
-    resolution: {integrity: sha512-q6/5NhKGj+7pw+pLT8uJOqdh9CUv6U1Mijb60LxTksd2AgM7GgBRo6l9Ocfr7hQbwjL9qUYODGyjA5DHYf6soA==}
+  /@modern-js/codesmith-api-handlebars@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622):
+    resolution: {integrity: sha512-3wcX3FmEteodYB4ApK1Fam3JHH8rj5bCRt2bwnv0msPiLTu8eehTzsth6u5Lpt82laEr2SIf00E2UGGTFfqRPA==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
       handlebars: 4.7.8
     dev: true
 
-  /@modern-js/codesmith-api-json@0.0.0-canary-20240930052349:
-    resolution: {integrity: sha512-1LFzD9SP2cIn5Ux6Mc1kTRKx5Imw5lak/6rMFg5K1Ox9SMwYa9iyJpxayFE1tSd7Qk1yRpHQe+FLAJ2A5JD5GQ==}
+  /@modern-js/codesmith-api-json@0.0.0-canary-20240930083622:
+    resolution: {integrity: sha512-yy/mMlZcBogWo3ruUKBUcu/Wig+Gpe45+2tzYAiprMEnI1Cts9k2vOXpNn8qKWhg/O/ar3R0FyQHXQbtwMLLjA==}
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
       comment-json: 4.2.3
       declaration-update: 0.0.2
     transitivePeerDependencies:
-      - bluebird
       - supports-color
 
-  /@modern-js/codesmith-api-npm@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349):
-    resolution: {integrity: sha512-onGGQv1Ivdne0dlX2/ngZNmdCb1B9zwraLjQloJMmYrumyLlG73cONIk604PSZH73BDzjlOokIdnfK1no5NPGw==}
+  /@modern-js/codesmith-api-npm@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622):
+    resolution: {integrity: sha512-P3lbzZY6Hd/ENTNih5gIj7nCFx/RDcgRDMOt2Qzu7U+8Mbctuw/UysBzU+p8nD8mO3woKQzpxXhWZ/PkGkwiNw==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
 
-  /@modern-js/codesmith-formily@0.0.0-canary-20240930052349(@modern-js/codesmith@0.0.0-canary-20240930052349)(typescript@5.3.3):
-    resolution: {integrity: sha512-60u1hxC0Rz42nKsQzzVd0y+yzy60j0BWjSjwfzf7W/2Y/MXrS68SMzeKcUF7ZKpMLoQuupLqRAkTnjeADXZ2pA==}
+  /@modern-js/codesmith-formily@0.0.0-canary-20240930083622(@modern-js/codesmith@0.0.0-canary-20240930083622)(typescript@5.3.3):
+    resolution: {integrity: sha512-tnaEfE7k3HIrs7fcrLHrw1eaH5OKvMuU4R3yNCZbw56dPD3vi9AWOQINq6knLFE9Jdh+obC9UQDTwxA+RbMAsA==}
     peerDependencies:
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
     dependencies:
       '@formily/json-schema': 2.2.24(typescript@5.3.3)
       '@formily/validator': 2.2.24
-      '@modern-js/codesmith': 0.0.0-canary-20240930052349
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith': 0.0.0-canary-20240930083622
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
       inquirer: 8.2.6
     transitivePeerDependencies:
@@ -13910,8 +13909,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/codesmith-utils@0.0.0-canary-20240930052349:
-    resolution: {integrity: sha512-MymycdQ+hekdlFTnLRkTUyO2AvGyPNv/OSd1HN7b8dI7fMqkBBKeGpJ6bdj2E47ET3a94xxnOCqT7qXnDTBv9A==}
+  /@modern-js/codesmith-utils@0.0.0-canary-20240930083622:
+    resolution: {integrity: sha512-gw9LRvT1zTQFhZadIGLF9hy/PqDdC2VWjFYX3K/NYb5lIlgHWbLZZYP46Bjp4QJeNO4iesJI8lmkUL/a99Nysw==}
     dependencies:
       '@swc/helpers': 0.5.1
       chalk: 4.1.2
@@ -13927,16 +13926,15 @@ packages:
       ora: 5.4.1
       semver: 7.6.0
 
-  /@modern-js/codesmith@0.0.0-canary-20240930052349:
-    resolution: {integrity: sha512-xMUJmMyQWX7lCZOTee0+45nVslrwjmGsHaiTcqwpMpRWgKNhsmil7lU85shsw/W3u8HVeaL7RQR6O2vLsQejhw==}
+  /@modern-js/codesmith@0.0.0-canary-20240930083622:
+    resolution: {integrity: sha512-N0H5t5GFR7SuEPHEHMsmE+TQoIKQlNwOEO8DEZoWLhN7D+GBDJQKVVyf1b7SAkGU2n68fRlfVkkEQNKo92AZOA==}
     dependencies:
-      '@modern-js/codesmith-utils': 0.0.0-canary-20240930052349
+      '@modern-js/codesmith-utils': 0.0.0-canary-20240930083622
       '@swc/helpers': 0.5.1
       axios: 1.7.7(debug@4.3.7)
       debug: 4.3.7(supports-color@9.3.1)
-      pacote: 18.0.6
+      tar: 6.2.1
     transitivePeerDependencies:
-      - bluebird
       - supports-color
 
   /@modern-js/core@2.60.2:
@@ -14280,12 +14278,14 @@ packages:
       socks-proxy-agent: 8.0.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@npmcli/fs@3.1.1:
     resolution: {integrity: sha512-q9CRWjpHCMIh5sVyefoD1cA7PkvILqCZsnSOEUUivORLjxCO/Irmue2DprETiNgEqktDBZaM1Bi+jrarx1XdCg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       semver: 7.6.3
+    dev: false
 
   /@npmcli/git@5.0.8:
     resolution: {integrity: sha512-liASfw5cqhjNW9UFd+ruwwdEf/lbOAQjLL2XY2dFW/bkJheXDYZgOyul/4gVvEV4BWkTXjYGmDqMw9uegdbJNQ==}
@@ -14302,18 +14302,7 @@ packages:
       which: 4.0.0
     transitivePeerDependencies:
       - bluebird
-
-  /@npmcli/installed-package-contents@2.1.0:
-    resolution: {integrity: sha512-c8UuGLeZpm69BryRykLuKRyKFZYJsZSCT4aVY5ds4omyZqJ172ApzgfKJ5eV/r3HgLdUYgFVe54KSFVjKoe27w==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    hasBin: true
-    dependencies:
-      npm-bundled: 3.0.1
-      npm-normalize-package-bin: 3.0.1
-
-  /@npmcli/node-gyp@3.0.0:
-    resolution: {integrity: sha512-gp8pRXC2oOxu0DUE1/M3bYtb1b3/DbJ5aM113+XJBgfXdussRAsX0YOrOhdd8WvnAR6auDBvJomGAkLKA5ydxA==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /@npmcli/node-gyp@4.0.0:
     resolution: {integrity: sha512-+t5DZ6mO/QFh78PByMq1fGSAub/agLJZDRfJRMeOSNCt8s9YVlTjmGpIPwPhvXTGUIJk+WszlT0rQa1W33yzNA==}
@@ -14333,12 +14322,14 @@ packages:
       semver: 7.6.3
     transitivePeerDependencies:
       - bluebird
+    dev: false
 
   /@npmcli/promise-spawn@7.0.2:
     resolution: {integrity: sha512-xhfYPXoV5Dy4UkY0D+v2KkwvnDfiA/8Mt3sWCGI/hM03NsYIH8ZaG6QzS9x7pje5vHZBZJ2v6VRFVTWACnqcmQ==}
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       which: 4.0.0
+    dev: false
 
   /@npmcli/promise-spawn@8.0.0:
     resolution: {integrity: sha512-d+hsks580ts8k5ZYntlBX3ZtfECLvErB0OWJKRDC2aweZb3VybhvvkhIbveElgdg+aL7gMDtIuPJzheVLd2V+Q==}
@@ -14346,24 +14337,6 @@ packages:
     dependencies:
       which: 4.0.0
     dev: false
-
-  /@npmcli/redact@2.0.1:
-    resolution: {integrity: sha512-YgsR5jCQZhVmTJvjduTOIHph0L73pK8xwMVaDY0PatySqVM9AZj93jpoXYSJqfHFxFkN9dmqTw6OiqExsS3LPw==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-
-  /@npmcli/run-script@8.1.0:
-    resolution: {integrity: sha512-y7efHHwghQfk28G2z3tlZ67pLG0XdfYbcVG26r7YIXALRsrVQcTq4/tdenSmdOrEsNahIYA/eh8aEVROWGFUDg==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@npmcli/node-gyp': 3.0.0
-      '@npmcli/package-json': 5.2.1
-      '@npmcli/promise-spawn': 7.0.2
-      node-gyp: 10.2.0
-      proc-log: 4.2.0
-      which: 4.0.0
-    transitivePeerDependencies:
-      - bluebird
-      - supports-color
 
   /@npmcli/run-script@9.0.0:
     resolution: {integrity: sha512-5GgAfGebmUP3ktRhucOwH7Zatjhh3ANCDs9KunVPDU59QP5Gg7aSyLvKsrCGGx3GGHzjsfYIJxGQXihORiCfIg==}
@@ -17979,36 +17952,17 @@ packages:
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       '@sigstore/protobuf-specs': 0.3.2
+    dev: false
 
   /@sigstore/core@1.1.0:
     resolution: {integrity: sha512-JzBqdVIyqm2FRQCulY6nbQzMpJJpSiJ8XXWMhtOX9eKgaXXpfNOF53lzQEjIydlStnd/eFtuC1dW4VYdD93oRg==}
     engines: {node: ^16.14.0 || >=18.0.0}
+    dev: false
 
   /@sigstore/protobuf-specs@0.3.2:
     resolution: {integrity: sha512-c6B0ehIWxMI8wiS/bj6rHMPqeFvngFV7cDU/MY+B16P9Z3Mp9k8L93eYZ7BYzSickzuqAQqAq0V956b3Ju6mLw==}
     engines: {node: ^16.14.0 || >=18.0.0}
-
-  /@sigstore/sign@2.3.2:
-    resolution: {integrity: sha512-5Vz5dPVuunIIvC5vBb0APwo7qKA4G9yM48kPWJT+OEERs40md5GoUR1yedwpekWZ4m0Hhw44m6zU+ObsON+iDA==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@sigstore/bundle': 2.3.2
-      '@sigstore/core': 1.1.0
-      '@sigstore/protobuf-specs': 0.3.2
-      make-fetch-happen: 13.0.1
-      proc-log: 4.2.0
-      promise-retry: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
-
-  /@sigstore/tuf@2.3.4:
-    resolution: {integrity: sha512-44vtsveTPUpqhm9NCrbU8CWLe3Vck2HO1PNLw7RIajbB7xhtn5RBPm1VNSCMwqGYHhDsBJG8gDF0q4lgydsJvw==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@sigstore/protobuf-specs': 0.3.2
-      tuf-js: 2.2.1
-    transitivePeerDependencies:
-      - supports-color
+    dev: false
 
   /@sigstore/verify@1.2.1:
     resolution: {integrity: sha512-8iKx79/F73DKbGfRf7+t4dqrc0bRr0thdPrxAtCKWRm/F0tG71i6O1rvlnScncJLLBZHn3h8M3c1BSUAb9yu8g==}
@@ -18017,6 +17971,7 @@ packages:
       '@sigstore/bundle': 2.3.2
       '@sigstore/core': 1.1.0
       '@sigstore/protobuf-specs': 0.3.2
+    dev: false
 
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -19045,17 +19000,6 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
-
-  /@tufjs/canonical-json@2.0.0:
-    resolution: {integrity: sha512-yVtV8zsdo8qFHe+/3kw81dSLyF7D576A5cCFCi4X7B39tWT7SekaEFUnvnWJHz+9qO7qJTah1JbrDjWKqFtdWA==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-
-  /@tufjs/models@2.0.1:
-    resolution: {integrity: sha512-92F7/SFyufn4DXsha9+QfKnN03JGqtMFMXgSHbZOo8JG59WkTni7UzAouNQDf7AuP9OAMxVOPQcqG3sB7w+kkg==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@tufjs/canonical-json': 2.0.0
-      minimatch: 9.0.5
 
   /@types/accepts@1.3.5:
     resolution: {integrity: sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==}
@@ -20302,6 +20246,7 @@ packages:
   /abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -20445,6 +20390,7 @@ packages:
       debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /aggregate-error@3.1.0:
     resolution: {integrity: sha512-4I7Td01quW/RpocfNayFdFVk1qSuoh0E7JrbRJ16nH01HhKFQ88INq9Sd+nd72zqRySlr9BmDA8xlEJ6vJMrYA==}
@@ -21696,6 +21642,7 @@ packages:
       ssri: 10.0.6
       tar: 6.2.1
       unique-filename: 3.0.0
+    dev: false
 
   /cache-content-type@1.0.1:
     resolution: {integrity: sha512-IKufZ1o4Ut42YUrZSo8+qnMTrFuKkvyoLXUywKz9GJ5BrhOFGhLdkx9sG4KAnVvbY6kEcSFjLQul+DVmBm2bgA==}
@@ -23743,6 +23690,7 @@ packages:
   /env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
     engines: {node: '>=6'}
+    dev: false
 
   /envinfo@7.13.0:
     resolution: {integrity: sha512-cvcaMr7KqXVh4nyzGTVqTum+gAiL265x5jUWQIDLq//zOGbW+gSW/C+OWLleY/rs9Qole6AZLMXPbtIFQbqu+Q==}
@@ -23761,6 +23709,7 @@ packages:
 
   /err-code@2.0.3:
     resolution: {integrity: sha512-2bmlRpNKBxT/CRmPOlyISQpNj+qSeYvcym/uT0Jx2bMOlKLtSy1ZmLuVxSEKKyor/N5yhvp/ZiG1oE3DEYMSFA==}
+    dev: false
 
   /errno@0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}
@@ -24481,6 +24430,7 @@ packages:
 
   /exponential-backoff@3.1.1:
     resolution: {integrity: sha512-dX7e/LHVJ6W3DE1MHWi9S1EYzDESENfLrYohG2G++ovZrYOkm4Knwa0mc1cn84xJOR4KEU0WSchhLbd0UklbHw==}
+    dev: false
 
   /express@4.18.1:
     resolution: {integrity: sha512-zZBcOX9TfehHQhtupq57OF8lFZ3UZi08Y97dwFCkD8p9d/d2Y3M+ykKcwaMDEL+4qyUolgBDX6AblpR3fL212Q==}
@@ -25241,6 +25191,7 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       minipass: 7.1.2
+    dev: false
 
   /fs-monkey@1.0.6:
     resolution: {integrity: sha512-b1FMfwetIKymC0eioW7mTywihSQE4oLzQn1dB6rZB5fx/3NpNEdAWeCSMB+60/AeT0TCXsxzAlcYVEFCTAksWg==}
@@ -26011,6 +25962,7 @@ packages:
     engines: {node: ^16.14.0 || >=18.0.0}
     dependencies:
       lru-cache: 10.4.3
+    dev: false
 
   /hparser@0.4.0:
     resolution: {integrity: sha512-g8+qy7NhA+2CkiqQ7LqzRDPiiBJT2TqC7heFioA0Vi2W/WFDYvvtarD2g9QbRYhunkef1fOqb+sBikSL8BAvsg==}
@@ -26197,6 +26149,7 @@ packages:
       debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /http-proxy-middleware@2.0.6:
     resolution: {integrity: sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw==}
@@ -26265,6 +26218,7 @@ packages:
       debug: 4.3.7(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /human-id@1.0.2:
     resolution: {integrity: sha512-UNopramDEhHJD+VR+ehk8rOslwSfByxPIZyJRfV739NDhN5LF1fa1MqnzKm2lGTQRjNrjK19Q5fhkgIfjlVUKw==}
@@ -26335,12 +26289,6 @@ packages:
 
   /ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
-
-  /ignore-walk@6.0.5:
-    resolution: {integrity: sha512-VuuG0wCnjhnylG1ABXT3dAuIpTNDs/G8jlpmwXY03fXoXy/8ZK8/T+hMzt8L4WnrLCJgdybqgPagnF/f97cg3A==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    dependencies:
-      minimatch: 9.0.5
 
   /ignore@5.3.0:
     resolution: {integrity: sha512-g7dmpshy+gD7mh88OC9NwSGTKoc3kyLAZQRU1mt53Aw/vnvfXnbC+F/7F7QoYVKbV+KNvJx8wArewKy1vXMtlg==}
@@ -26414,6 +26362,7 @@ packages:
   /ini@4.1.3:
     resolution: {integrity: sha512-X7rqawQBvfdjS10YU1y1YVreA3SsLrW9dX2CewP2EbBJM4ypVNLDkO5y04gejPwKIY9lR+7r9gn3rFPt/kmWFg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /inline-style-parser@0.1.1:
     resolution: {integrity: sha512-7NXolsK4CAS5+xvdj5OMMbI962hU/wvwoxk+LWR9Ek9bVtyuuYScDN6eS0rUm6TxApFpw7CX1o4uJzcd4AyD3Q==}
@@ -26492,6 +26441,7 @@ packages:
     dependencies:
       jsbn: 1.1.0
       sprintf-js: 1.1.3
+    dev: false
 
   /ip-regex@2.1.0:
     resolution: {integrity: sha512-58yWmlHpp7VYfcdTwMTvwMmqx/Elfxjd9RXTDyMsbL7lLWmhMylLEqiYVLKuLzOZqVgiWXD9MfR62Vv89VRxkw==}
@@ -26709,6 +26659,7 @@ packages:
 
   /is-lambda@1.0.1:
     resolution: {integrity: sha512-z7CMFGNrENq5iFB9Bqo64Xk6Y9sg+epq1myIcdHaGnbMTYOxvzsEtdYqQUylB7LxfkvgrrjP32T6Ywciio9UIQ==}
+    dev: false
 
   /is-nan@1.3.2:
     resolution: {integrity: sha512-E+zBKpQ2t6MEo1VsonYmluk9NxGrbzpeeLC2xIViuO2EjU2xsXsBPwTr3Ykv9l08UYEVEdWeRZNouaZqF6RN0w==}
@@ -26939,6 +26890,7 @@ packages:
   /isexe@3.1.1:
     resolution: {integrity: sha512-LpB/54B+/2J5hqQ7imZHfdU31OlgQqx7ZicVlkm9kzg9/w8GKLEcFfJl/t7DCEDueOyBAD6zCCwTO6Fzs0NoEQ==}
     engines: {node: '>=16'}
+    dev: false
 
   /isobject@3.0.1:
     resolution: {integrity: sha512-WhB9zCku7EGTj/HQQRz5aUQEUeoQZH2bWcltRErOpymJ4boYE6wL9Tbr23krRPSZ+C5zqNSrSw+Cc7sZZ4b7vg==}
@@ -27842,6 +27794,7 @@ packages:
 
   /jsbn@1.1.0:
     resolution: {integrity: sha512-4bYVV3aAMtDTTu4+xsDYa6sy9GyJ69/amsu9sYF2zqjiEoZA5xJi3BrfX3uY+/IekIu7MwdObdbDWpoZdBv3/A==}
+    dev: false
 
   /jscodeshift@0.15.2(@babel/preset-env@7.25.4):
     resolution: {integrity: sha512-FquR7Okgmc4Sd0aEDwqho3rEiKR3BdvuG9jfdHjLJ6JQoWSMpavug3AoIfnfWhxFlf+5pzQh8qjqz0DWFrNQzA==}
@@ -27998,6 +27951,7 @@ packages:
   /jsonparse@1.3.1:
     resolution: {integrity: sha512-POQXvpdL69+CluYsillJ7SUhKvytYjW9vG/GKpnf+xP8UWgYEM/RaMzHHofbALDiKbbP1W8UEYmgGl39WkPZsg==}
     engines: {'0': node >= 0.2.0}
+    dev: true
 
   /jstransformer@1.0.0:
     resolution: {integrity: sha512-C9YK3Rf8q6VAPDCCU9fnqo3mAfOH6vUGnMcP4AQAYIEpWtfGLpwOTmZ+igtdK5y+VvI2n3CyYSzy4Qh34eq24A==}
@@ -28515,6 +28469,7 @@ packages:
       ssri: 10.0.6
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /makeerror@1.0.12:
     resolution: {integrity: sha512-JmqCvUhmt43madlpFzG4BQzG2Z3m6tvQDNKdClZnO3VbIudJYmxsT0FNJMeiB2+JTSlTQTSbU8QdesVmwJcmLg==}
@@ -29330,6 +29285,7 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       minipass: 7.1.2
+    dev: false
 
   /minipass-fetch@3.0.5:
     resolution: {integrity: sha512-2N8elDQAtSnFV0Dk7gt15KHsS0Fyz6CbYZ360h0WTYV1Ty46li3rAXVOQj1THMNLdmrD9Vt5pBPtWtVkpwGBqg==}
@@ -29340,24 +29296,28 @@ packages:
       minizlib: 2.1.2
     optionalDependencies:
       encoding: 0.1.13
+    dev: false
 
   /minipass-flush@1.0.5:
     resolution: {integrity: sha512-JmQSYYpPUqX5Jyn1mXaRwOda1uQ8HP5KAT/oDSLCzt1BYRhQU0/hDtsB1ufZfEEzMZ9aAVmsBw8+FWsIXlClWw==}
     engines: {node: '>= 8'}
     dependencies:
       minipass: 3.3.3
+    dev: false
 
   /minipass-pipeline@1.2.4:
     resolution: {integrity: sha512-xuIq7cIOt09RPRJ19gdi4b+RiNvDFYe5JH+ggNvBqGqpQXcru3PcRmOZuHBKWK1Txf9+cQ+HMVN4d6z46LZP7A==}
     engines: {node: '>=8'}
     dependencies:
       minipass: 3.3.3
+    dev: false
 
   /minipass-sized@1.0.3:
     resolution: {integrity: sha512-MbkQQ2CTiBMlA2Dm/5cY+9SWFEN8pzzOXi6rlM5Xxq0Yqbda5ZQy9sU75a673FE9ZK0Zsbr6Y5iP6u9nktfg2g==}
     engines: {node: '>=8'}
     dependencies:
       minipass: 3.3.3
+    dev: false
 
   /minipass@3.3.3:
     resolution: {integrity: sha512-N0BOsdFAlNRfmwMhjAsLVWOk7Ljmeb39iqFlsV1At+jqRhSUP9yeof8FyJu4imaJiSUp8vQebWD/guZwGQC8iA==}
@@ -29664,6 +29624,7 @@ packages:
       which: 4.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -29719,6 +29680,7 @@ packages:
     hasBin: true
     dependencies:
       abbrev: 2.0.0
+    dev: false
 
   /normalize-package-data@2.5.0:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
@@ -29745,6 +29707,7 @@ packages:
       hosted-git-info: 7.0.2
       semver: 7.6.3
       validate-npm-package-license: 3.0.4
+    dev: false
 
   /normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -29759,21 +29722,17 @@ packages:
     resolution: {integrity: sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==}
     engines: {node: '>=10'}
 
-  /npm-bundled@3.0.1:
-    resolution: {integrity: sha512-+AvaheE/ww1JEwRHOrn4WHNzOxGtVp+adrg2AeZS/7KuxGUYFuBta98wYpfHBbJp6Tg6j1NKSEVHNcfZzJHQwQ==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    dependencies:
-      npm-normalize-package-bin: 3.0.1
-
   /npm-install-checks@6.3.0:
     resolution: {integrity: sha512-W29RiK/xtpCGqn6f3ixfRYGk+zRyr+Ew9F2E20BfXxT5/euLdA/Nm7fO7OeTGuAmTs30cpgInyJ0cYe708YTZw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       semver: 7.6.3
+    dev: false
 
   /npm-normalize-package-bin@3.0.1:
     resolution: {integrity: sha512-dMxCf+zZ+3zeQZXKxmyuCKlIDPGuv8EF940xbkC4kQVDTtqoh6rJFO+JTKSA6/Rwi0getWmtuy4Itup0AMcaDQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /npm-package-arg@11.0.3:
     resolution: {integrity: sha512-sHGJy8sOC1YraBywpzQlIKBE4pBbGbiF95U6Auspzyem956E0+FtDtsx1ZxlOJkQCZ1AFXAY/yuvtFYrOxF+Bw==}
@@ -29783,12 +29742,7 @@ packages:
       proc-log: 4.2.0
       semver: 7.6.3
       validate-npm-package-name: 5.0.1
-
-  /npm-packlist@8.0.2:
-    resolution: {integrity: sha512-shYrPFIS/JLP4oQmAwDyk5HcyysKW8/JLTEA32S0Z5TzvpaeeX2yMFfoK1fjEBnCBvVyIB/Jj/GBFdm0wsgzbA==}
-    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
-    dependencies:
-      ignore-walk: 6.0.5
+    dev: false
 
   /npm-pick-manifest@9.1.0:
     resolution: {integrity: sha512-nkc+3pIIhqHVQr085X9d2JzPzLyjzQS96zbruppqC9aZRm/x8xx6xhI98gHtsfELP2bE+loHq8ZaHFHhe+NauA==}
@@ -29798,21 +29752,7 @@ packages:
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 11.0.3
       semver: 7.6.3
-
-  /npm-registry-fetch@17.1.0:
-    resolution: {integrity: sha512-5+bKQRH0J1xG1uZ1zMNvxW0VEyoNWgJpY9UDuluPFLKDfJ9u2JmmjmTJV1srBGQOROfdBMiVvnH2Zvpbm+xkVA==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@npmcli/redact': 2.0.1
-      jsonparse: 1.3.1
-      make-fetch-happen: 13.0.1
-      minipass: 7.1.2
-      minipass-fetch: 3.0.5
-      minizlib: 2.1.2
-      npm-package-arg: 11.0.3
-      proc-log: 4.2.0
-    transitivePeerDependencies:
-      - supports-color
+    dev: false
 
   /npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
@@ -30180,32 +30120,6 @@ packages:
 
   /package-json-from-dist@1.0.1:
     resolution: {integrity: sha512-UEZIS3/by4OC8vL3P2dTXRETpebLI2NiI5vIrjaD/5UtrkFX/tNbwjTSRAGC/+7CAo2pIcBaRgWmcBBHcsaCIw==}
-
-  /pacote@18.0.6:
-    resolution: {integrity: sha512-+eK3G27SMwsB8kLIuj4h1FUhHtwiEUo21Tw8wNjmvdlpOEr613edv+8FUsTj/4F/VN5ywGE19X18N7CC2EJk6A==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    hasBin: true
-    dependencies:
-      '@npmcli/git': 5.0.8
-      '@npmcli/installed-package-contents': 2.1.0
-      '@npmcli/package-json': 5.2.1
-      '@npmcli/promise-spawn': 7.0.2
-      '@npmcli/run-script': 8.1.0
-      cacache: 18.0.4
-      fs-minipass: 3.0.3
-      minipass: 7.1.2
-      npm-package-arg: 11.0.3
-      npm-packlist: 8.0.2
-      npm-pick-manifest: 9.1.0
-      npm-registry-fetch: 17.1.0
-      proc-log: 4.2.0
-      promise-retry: 2.0.1
-      sigstore: 2.3.1
-      ssri: 10.0.6
-      tar: 6.2.1
-    transitivePeerDependencies:
-      - bluebird
-      - supports-color
 
   /pako@0.2.9:
     resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
@@ -31548,6 +31462,7 @@ packages:
   /proc-log@4.2.0:
     resolution: {integrity: sha512-g8+OnU/L2v+wyiVK+D5fA34J7EH8jZ8DDlvwhRCMxmMj7UCBvxiO1mGeN+36JXIKF4zevU4kRBd8lVgG9vLelA==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /proc-log@5.0.0:
     resolution: {integrity: sha512-Azwzvl90HaF0aCz1JrDdXQykFakSSNPaPoiZ9fm5qJIMHioDZEi7OAdRwSm6rSoPtY3Qutnm3L7ogmg3dc+wbQ==}
@@ -31574,6 +31489,7 @@ packages:
     peerDependenciesMeta:
       bluebird:
         optional: true
+    dev: false
 
   /promise-polyfill@1.1.6:
     resolution: {integrity: sha512-7rrONfyLkDEc7OJ5QBkqa4KI4EBhCd340xRuIUPGCfu13znS+vx+VDdrT9ODAJHlXm7w4lbxN3DRjyv58EuzDg==}
@@ -31589,6 +31505,7 @@ packages:
     dependencies:
       err-code: 2.0.3
       retry: 0.12.0
+    dev: false
 
   /promise@7.3.1:
     resolution: {integrity: sha512-nolQXZ/4L+bP/UGlkfaIujX9BKxGwmQ9OT4mOt5yvy8iK1h3wqTEJCijzGANTCCl9nWjY41juyAn2K3Q1hLLTg==}
@@ -34476,6 +34393,7 @@ packages:
   /retry@0.12.0:
     resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
     engines: {node: '>= 4'}
+    dev: false
 
   /reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
@@ -35211,19 +35129,6 @@ packages:
       pkg-conf: 2.1.0
     dev: true
 
-  /sigstore@2.3.1:
-    resolution: {integrity: sha512-8G+/XDU8wNsJOQS5ysDVO0Etg9/2uA5gR9l4ZwijjlwxBcrU6RPfwi2+jJmbP+Ap1Hlp/nVAaEO4Fj22/SL2gQ==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@sigstore/bundle': 2.3.2
-      '@sigstore/core': 1.1.0
-      '@sigstore/protobuf-specs': 0.3.2
-      '@sigstore/sign': 2.3.2
-      '@sigstore/tuf': 2.3.4
-      '@sigstore/verify': 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-
   /simple-swizzle@0.2.2:
     resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
     dependencies:
@@ -35278,6 +35183,7 @@ packages:
   /smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
+    dev: false
 
   /smartwrap@2.0.2:
     resolution: {integrity: sha512-vCsKNQxb7PnCNd2wY1WClWifAc2lwqsG8OaswpJkVJsvMGcnEntdTCDajZCkk93Ay1U3t/9puJmb525Rg5MZBA==}
@@ -35346,6 +35252,7 @@ packages:
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /socks@2.8.3:
     resolution: {integrity: sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==}
@@ -35353,6 +35260,7 @@ packages:
     dependencies:
       ip-address: 9.0.5
       smart-buffer: 4.2.0
+    dev: false
 
   /sockx@0.2.0:
     resolution: {integrity: sha512-vVCmnzhVCKRp5bu+uJmqbYoocX5qpC96PRiij0HzyEvk9N0E2ZVpuR/ffHweijAcWDBEHA0bYzZdkR1jUSiOcg==}
@@ -35486,12 +35394,14 @@ packages:
 
   /sprintf-js@1.1.3:
     resolution: {integrity: sha512-Oo+0REFV59/rz3gfJNKQiBlwfHaSESl1pcGyABQsnnIfWOFt6JNj5gCog2U6MLZ//IGYD+nA8nI+mTShREReaA==}
+    dev: false
 
   /ssri@10.0.6:
     resolution: {integrity: sha512-MGrFH9Z4NP9Iyhqn16sDtBpRRNJ0Y2hNa6D65h736fVSaPCHr4DM4sWUNvVaSuC+0OBGhwsrydQwmgfg5LncqQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       minipass: 7.1.2
+    dev: false
 
   /stack-generator@2.0.10:
     resolution: {integrity: sha512-mwnua/hkqM6pF4k8SnmZ2zfETsRUpWXREfA/goT8SLCV4iOFa4bzOX2nDipWAZFPTjLvQB82f5yaodMVhK0yJQ==}
@@ -36134,18 +36044,6 @@ packages:
       fs-constants: 1.0.0
       inherits: 2.0.4
       readable-stream: 3.6.0
-
-  /tar@6.2.0:
-    resolution: {integrity: sha512-/Wo7DcT0u5HUV486xg675HtjNd3BXZ6xDbzsCUZPt5iw8bTQ63bP0Raut3mvro9u+CUyq7YQd8Cx55fsZXxqLQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 5.0.0
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-    dev: false
 
   /tar@6.2.1:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
@@ -36801,16 +36699,6 @@ packages:
       wcwidth: 1.0.1
       yargs: 17.7.1
 
-  /tuf-js@2.2.1:
-    resolution: {integrity: sha512-GwIJau9XaA8nLVbUXsN3IlFi7WmQ48gBUrl3FTkkL/XLu/POhBzfmX9hd33FNMX1qAsfl6ozO1iMmW9NC8YniA==}
-    engines: {node: ^16.14.0 || >=18.0.0}
-    dependencies:
-      '@tufjs/models': 2.0.1
-      debug: 4.3.7(supports-color@9.3.1)
-      make-fetch-happen: 13.0.1
-    transitivePeerDependencies:
-      - supports-color
-
   /twin.macro@2.8.2(ts-node@10.9.2):
     resolution: {integrity: sha512-2Vg09mp+nA70AWUedJ8WRgB2me3buq7JGbOnjHnFnNaBzomVu5k7lJ9YGpByIlre+UYr7QRhtlj7+IUKxvCrUA==}
     engines: {node: '>=12.13.0'}
@@ -37080,12 +36968,14 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       unique-slug: 4.0.0
+    dev: false
 
   /unique-slug@4.0.0:
     resolution: {integrity: sha512-WrcA6AyEfqDX5bWige/4NQfPZMtASNVxdmWR76WESYQVAACSgWcR6e9i0mofqqBxYFtL4oAxPIptY73/0YE1DQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
       imurmurhash: 0.1.4
+    dev: false
 
   /unique-string@2.0.0:
     resolution: {integrity: sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==}
@@ -37482,6 +37372,7 @@ packages:
   /validate-npm-package-name@5.0.1:
     resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
 
   /validator@13.12.0:
     resolution: {integrity: sha512-c1Q0mCiPlgdTVVVIJIrBuxNicYE+t/7oKeI9MWLj3fh/uq2Pxh/3eeWbVZ4OcGW1TUf53At0njHw5SMdA3tmMg==}
@@ -38044,6 +37935,7 @@ packages:
     hasBin: true
     dependencies:
       isexe: 3.1.1
+    dev: false
 
   /whistle@2.9.22:
     resolution: {integrity: sha512-yzfCAKKyCzVWDp7JoQEUFFwNKSNjYVL5U46e0rjxNAG+EMIf+6PQHKua20hqulYg3Q4PyhufTh9bhfJdtsHmUg==}
