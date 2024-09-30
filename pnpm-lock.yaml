@@ -272,7 +272,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
       resolve-from:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3607,7 +3607,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -6005,7 +6005,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -6952,7 +6952,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
       react:
         specifier: ^18
         version: 18.2.0
@@ -7125,7 +7125,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -7156,7 +7156,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -7344,7 +7344,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.7.4(debug@4.3.7)
+        version: 1.7.7(debug@4.3.7)
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -13887,7 +13887,7 @@ packages:
     dependencies:
       '@modern-js/utils': 2.60.1
       '@swc/helpers': 0.5.1
-      axios: 1.7.4(debug@4.3.7)
+      axios: 1.7.7(debug@4.3.7)
       debug: 4.3.7(supports-color@9.3.1)
       tar: 6.2.0
     transitivePeerDependencies:
@@ -13971,7 +13971,7 @@ packages:
       '@modern-js/plugin-i18n': 2.60.2
       '@modern-js/utils': 2.60.2
       '@swc/helpers': 0.5.13
-      axios: 1.7.7
+      axios: 1.7.7(debug@4.3.7)
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - debug
@@ -17087,7 +17087,7 @@ packages:
       '@rsdoctor/sdk': 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
       '@rsdoctor/types': 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
       '@rsdoctor/utils': 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
-      axios: 1.7.4(debug@4.3.7)
+      axios: 1.7.7(debug@4.3.7)
       bytes: 3.1.2
       enhanced-resolve: 5.12.0
       fs-extra: 11.2.0
@@ -20735,24 +20735,14 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  /axios@1.7.4(debug@4.3.7):
-    resolution: {integrity: sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==}
-    dependencies:
-      follow-redirects: 1.15.6(debug@4.3.7)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
-  /axios@1.7.7:
+  /axios@1.7.7(debug@4.3.7):
     resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
     dependencies:
-      follow-redirects: 1.15.9
+      follow-redirects: 1.15.9(debug@4.3.7)
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: true
 
   /b-tween@0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
@@ -25033,8 +25023,8 @@ packages:
       tslib: 2.7.0
     dev: false
 
-  /follow-redirects@1.15.6(debug@4.3.7):
-    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
+  /follow-redirects@1.15.9(debug@4.3.7):
+    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -25043,16 +25033,6 @@ packages:
         optional: true
     dependencies:
       debug: 4.3.7(supports-color@9.3.1)
-
-  /follow-redirects@1.15.9:
-    resolution: {integrity: sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dev: true
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -26198,7 +26178,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.6(debug@4.3.7)
+      follow-redirects: 1.15.9(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -29662,7 +29642,7 @@ packages:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.7.4(debug@4.3.7)
+      axios: 1.7.7(debug@4.3.7)
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -37413,7 +37393,7 @@ packages:
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
-      axios: 1.7.7
+      axios: 1.7.7(debug@4.3.7)
       joi: 17.13.3
       lodash: 4.17.21
       minimist: 1.2.8
