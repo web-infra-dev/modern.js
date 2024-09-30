@@ -176,14 +176,9 @@ const tscLikeBuildConfig = [
 ];
 
 const generatorBuildConfig = {
-  // target: 'es2020',
-  // autoExternal: {
-  //   dependencies: true,
-  // },
-  // dts: false,
-  // externals: ['bluebird', '@npmcli/run-script', 'lodash', 'inquirer'],
   format: 'umd',
   autoExternal: false,
+  dts: false,
   externals: [
     '@modern-js/codesmith',
     '@modern-js/codesmith-api-app',
