@@ -15,10 +15,10 @@ if (process.env.CODESMITH_ENV) {
   env = process.env.CODESMITH_ENV;
 }
 
+require('@modern-js/codesmith-global');
+
 if (env === 'development') {
   require('ts-node').register({ project });
-} else {
-  require('./node_modules/@modern-js/codesmith-global');
 }
 
 try {
