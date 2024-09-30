@@ -1,7 +1,6 @@
 import path from 'path';
 import { CodeSmith, type Logger } from '@modern-js/codesmith';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { logger } from '@modern-js/utils';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
 import { createDir } from './utils';
@@ -126,7 +125,7 @@ export async function createAction(projectDir: string, options: Options) {
     registryUrl: registry === '' ? undefined : registry,
   });
 
-  const prepareGlobalPromise = smith.prepareGlobal();
+  // const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
     `@modern-js/repo-generator@${distTag || 'latest'}`,
@@ -140,7 +139,7 @@ export async function createAction(projectDir: string, options: Options) {
     i18n.changeLanguage({ locale: lang });
   }
   if (version) {
-    logger.greet(`@modern-js/create v${pkgVersion}`);
+    console.log(`@modern-js/create v${pkgVersion}`);
     return;
   }
 
@@ -169,7 +168,7 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
-    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
+    await prepareGeneratorPromise;
   }
 
   const task: RunnerTask = [
