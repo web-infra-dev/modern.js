@@ -168,7 +168,7 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
-    await prepareGeneratorPromise;
+    await Promise.all([prepareGeneratorPromise]);
   }
 
   const task: RunnerTask = [
