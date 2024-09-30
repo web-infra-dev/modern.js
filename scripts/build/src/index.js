@@ -176,20 +176,26 @@ const tscLikeBuildConfig = [
 ];
 
 const generatorBuildConfig = {
-  target: 'es2020',
+  // target: 'es2020',
+  // autoExternal: {
+  //   dependencies: true,
+  // },
+  // dts: false,
+  // externals: ['bluebird', '@npmcli/run-script', 'lodash', 'inquirer'],
+  format: 'umd',
   autoExternal: false,
-  alias: {
-    chalk: '@modern-js/utils/chalk',
-  },
-  dts: false,
   externals: [
-    'bluebird',
-    '@npmcli/run-script',
-    '@modern-js/utils/fs-extra',
-    '@modern-js/utils',
-    '@modern-js/utils/lodash',
-    '@modern-js/utils/fs-extra',
-    '@modern-js/utils/chalk',
+    '@modern-js/codesmith',
+    '@modern-js/codesmith-api-app',
+    '@modern-js/codesmith-api-git',
+    '@modern-js/codesmith-api-npm',
+    '@modern-js/codesmith-api-ejs',
+    '@modern-js/codesmith-api-fs',
+    '@modern-js/codesmith-api-handlebars',
+    '@modern-js/codesmith-api-json',
+    '@modern-js/codesmith-formily',
+    '@modern-js/codesmith-utils',
+    '@modern-js/plugin-i18n',
   ],
 };
 

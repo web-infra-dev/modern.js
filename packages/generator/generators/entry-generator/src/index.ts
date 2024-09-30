@@ -1,12 +1,12 @@
 import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   i18n as commonI18n,
   getEntrySchema,
 } from '@modern-js/generator-common';
 import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
-import { merge } from '@modern-js/utils/lodash';
 import { i18n, localeKeys } from './locale';
 import { isEmptySource, isSingleEntry } from './utils';
 

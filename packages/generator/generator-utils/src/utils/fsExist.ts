@@ -1,4 +1,4 @@
-import { fs } from '@modern-js/utils';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
 
 export async function fileExist(filePath: string) {
   try {

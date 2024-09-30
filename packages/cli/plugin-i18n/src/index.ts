@@ -1,4 +1,4 @@
-import { get } from '@modern-js/utils/lodash';
+import { get } from '@modern-js/codesmith-utils/lodash';
 import { getObjKeyMap } from './utils';
 
 type Language = string;

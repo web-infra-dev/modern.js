@@ -123,8 +123,18 @@ export async function createAction(projectDir: string, options: Options) {
     debug,
     time,
     namespace: 'create',
-    registryUrl: registry,
+    registryUrl: registry === '' ? undefined : registry,
   });
+
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/repo-generator@${distTag || 'latest'}`,
+    `@modern-js/base-generator@${distTag || 'latest'}`,
+    `@modern-js/mwa-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/module-generator@${distTag || 'latest'}`,
+  ]);
 
   if (lang) {
     i18n.changeLanguage({ locale: lang });
@@ -159,6 +169,7 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
+    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
   }
 
   const task: RunnerTask = [

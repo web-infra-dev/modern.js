@@ -1,5 +1,6 @@
 import { CodeSmith } from '@modern-js/codesmith';
 import { FormilyAPI } from '@modern-js/codesmith-formily';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   type ActionFunction,
   ActionType,
@@ -18,7 +19,6 @@ import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
-import { merge } from '@modern-js/utils/lodash';
 import { enableAlreadyText } from './constants';
 import {
   alreadyRepo,

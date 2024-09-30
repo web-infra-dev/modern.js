@@ -1,4 +1,7 @@
-import { canUseNpm, execa, logger, semver, stripAnsi } from '@modern-js/utils';
+import { execa } from '@modern-js/codesmith-utils/execa';
+import { canUseNpm } from '@modern-js/codesmith-utils/npm';
+import { semver } from '@modern-js/codesmith-utils/semver';
+import { stripAnsi } from './stripAnsi';
 
 // 判断包是否存在
 export async function isPackageExist(packageName: string, registry?: string) {
@@ -47,7 +50,7 @@ export function semverDecrease(version: string) {
 
   const result = versionObj.format();
   if (!semver.valid(result)) {
-    logger.debug(`Version ${result} is not valid semver`);
+    console.error(`Version ${result} is not valid semver`);
     return version;
   }
   return result;
@@ -89,4 +92,16 @@ export async function getAvailableVersion(
     return version;
   }
   return currentVersion;
+}
+
+export function getPackageManager(projectName: string) {
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  if (!isNode16) {
+    return 'pnpm';
+  }
+  return projectName.includes('pnpm')
+    ? 'pnpm'
+    : projectName.includes('yarn')
+      ? 'yarn'
+      : 'npm';
 }

@@ -1,5 +1,5 @@
 import type { Schema } from '@modern-js/codesmith-formily';
-import { isFunction } from '@modern-js/utils/lodash';
+import { isFunction } from '@modern-js/codesmith-utils/lodash';
 
 export type { Schema };
 export class PluginInputContext {
@@ -97,7 +97,7 @@ export class PluginInputContext {
     const schema = this.solutionSchema[key];
     if (schema) {
       (schema as Record<string, unknown>)[field] = isFunction(value)
-        ? value(schema)
+        ? (value as (input: Schema) => unknown)(schema)
         : value;
       return;
     }
@@ -107,7 +107,7 @@ export class PluginInputContext {
       if (beforeSchema) {
         findFlag = true;
         (beforeSchema as Record<string, unknown>)[field] = isFunction(value)
-          ? value(schema)
+          ? (value as (input: Schema) => unknown)(schema)
           : value;
         break;
       }
@@ -115,7 +115,7 @@ export class PluginInputContext {
       if (afterSchema) {
         findFlag = true;
         (afterSchema as Record<string, unknown>)[field] = isFunction(value)
-          ? value(schema)
+          ? (value as (input: Schema) => unknown)(schema)
           : value;
         break;
       }

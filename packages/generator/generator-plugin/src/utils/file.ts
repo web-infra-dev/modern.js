@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/generator-utils';
-import { globby } from '@modern-js/utils';
+import globby from 'globby';
 
 export enum FileType {
   Text = 'text',

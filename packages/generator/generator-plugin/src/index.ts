@@ -6,13 +6,14 @@ import {
   getPackageInfo,
 } from '@modern-js/codesmith';
 import type { Schema } from '@modern-js/codesmith-formily';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
+import { isFunction, merge } from '@modern-js/codesmith-utils/lodash';
 import {
   type Solution,
   SolutionSchemas,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
-import { fs, i18n as utilsI18n } from '@modern-js/generator-utils';
-import { isFunction, merge } from '@modern-js/utils/lodash';
+import { i18n as utilsI18n } from '@modern-js/generator-utils';
 import type { ICustomInfo } from './common';
 import {
   LifeCycle,

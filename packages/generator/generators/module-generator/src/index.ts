@@ -28,6 +28,13 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  generator.logger?.timing(`🕐 Get Modern.js module-tools version`);
+  const getModernVersionPromise = getModernVersion(
+    Solution.MWA,
+    context.config.registry,
+    context.config.distTag,
+  );
+
   const {
     isMonorepoSubProject,
     isLocalPackages,
@@ -102,14 +109,6 @@ export const handleTemplateFile = async (
     );
   }
 
-  generator.logger?.timing(`🕐 Get Modern.js module-tools version`);
-  const modernVersion = await getModernVersion(
-    Solution.Module,
-    context.config.registry,
-    context.config.distTag,
-  );
-  generator.logger?.timing(`🕐 Get Modern.js module-tools version`, true);
-
   generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
   const { packageName, packagePath, language, packageManager } = ans;
@@ -131,6 +130,12 @@ export const handleTemplateFile = async (
     );
   }
 
+  let modernVersion;
+
+  await getModernVersionPromise.then(version => {
+    modernVersion = version;
+    generator.logger?.timing(`🕐 Get Modern.js module-tools version`, true);
+  });
   await appApi.forgeTemplate(
     'templates/base-template/**/*',
     undefined,

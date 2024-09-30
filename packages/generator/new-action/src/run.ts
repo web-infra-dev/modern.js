@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { Command } from '@modern-js/utils/commander';
+import { Command } from 'commander';
 
 import { ModuleNewAction } from './module';
 import { MWANewAction } from './mwa';
