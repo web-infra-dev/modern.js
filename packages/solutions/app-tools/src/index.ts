@@ -152,7 +152,21 @@ export const appTools = (
       async watchFiles() {
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
-        return await generateWatchFiles(appContext, config.source.configDir);
+        const files = await generateWatchFiles(
+          appContext,
+          config.source.configDir,
+        );
+
+        const watchFiles = config.dev.watchFiles;
+        if (watchFiles?.type === 'reload-server') {
+          files.push(
+            ...(Array.isArray(watchFiles.paths)
+              ? watchFiles.paths
+              : [watchFiles.paths]),
+          );
+        }
+
+        return files;
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
