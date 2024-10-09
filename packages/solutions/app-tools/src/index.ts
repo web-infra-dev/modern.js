@@ -1,6 +1,7 @@
 import path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { castArray } from '@modern-js/uni-builder';
 import {
   cleanRequireCache,
   deprecatedCommands,
@@ -157,14 +158,12 @@ export const appTools = (
           config.source.configDir,
         );
 
-        const watchFiles = config.dev.watchFiles;
-        if (watchFiles?.type === 'reload-server') {
-          files.push(
-            ...(Array.isArray(watchFiles.paths)
-              ? watchFiles.paths
-              : [watchFiles.paths]),
-          );
-        }
+        const watchFiles = castArray(config.dev.watchFiles);
+        watchFiles.forEach(({ type, paths }) => {
+          if (type === 'reload-server') {
+            files.push(...(Array.isArray(paths) ? paths : [paths]));
+          }
+        });
 
         return files;
       },
