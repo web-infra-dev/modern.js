@@ -54,7 +54,7 @@
     "@modern-js/devtools-client": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "birpc": "0.2.13",
+    "birpc": "0.2.19",
     "clipboardy": "^4.0.0",
     "cookie-es": "^1.0.0",
     "flatted": "^3.2.9",

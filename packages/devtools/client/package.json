@@ -47,7 +47,7 @@
     "@types/react": "^18",
     "@types/react-devtools-inline": "^4.24.8",
     "@types/react-dom": "^18",
-    "birpc": "0.2.13",
+    "birpc": "0.2.19",
     "clsx": "^1.2.1",
     "flatted": "^3.2.9",
     "hookable": "^5.5.3",

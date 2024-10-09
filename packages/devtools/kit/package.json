@@ -67,7 +67,7 @@
     "@modern-js/utils": "workspace:*",
     "@rsdoctor/types": "^0.2.4",
     "@rsdoctor/utils": "^0.2.4",
-    "birpc": "0.2.13",
+    "birpc": "0.2.19",
     "cookie-es": "^1.0.0",
     "flatted": "^3.2.9",
     "hookable": "^5.5.3",
