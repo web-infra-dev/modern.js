@@ -32,7 +32,7 @@ describe('create builder Options', () => {
     };
 
     expect(
-      getBuilderEnvironments({} as any, appContext as any),
+      getBuilderEnvironments({} as any, appContext as any, {} as any),
     ).toMatchSnapshot();
 
     expect(
@@ -43,6 +43,7 @@ describe('create builder Options', () => {
           },
         } as any,
         appContext as any,
+        {} as any,
       ),
     ).toMatchSnapshot();
 
@@ -59,6 +60,16 @@ describe('create builder Options', () => {
           },
         } as any,
         appContext as any,
+        {
+          output: {
+            copy: [
+              {
+                from: '**/*',
+                to: 'upload',
+              },
+            ],
+          },
+        } as any,
       ),
     ).toMatchSnapshot();
   });

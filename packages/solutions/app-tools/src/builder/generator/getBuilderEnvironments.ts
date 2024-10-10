@@ -7,11 +7,12 @@ import {
   isUseSSRBundle,
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
-import type { AppNormalizedConfig } from '../../types';
+import type { AppNormalizedConfig, Bundler } from '../../types';
 
-export function getBuilderEnvironments(
+export function getBuilderEnvironments<B extends Bundler>(
   normalizedConfig: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
+  tempBuilderConfig: Omit<AppNormalizedConfig<B>, 'plugins'>,
 ) {
   // create entries
   type Entries = Record<string, string[]>;
@@ -49,6 +50,13 @@ export function getBuilderEnvironments(
     },
   };
 
+  // copy config should only works in main (web) environment
+  if (tempBuilderConfig.output?.copy) {
+    environments.web.output!.copy = tempBuilderConfig.output.copy;
+
+    delete tempBuilderConfig.output.copy;
+  }
+
   const useNodeTarget = isProd()
     ? isUseSSRBundle(normalizedConfig)
     : isSSR(normalizedConfig);
@@ -77,5 +85,8 @@ export function getBuilderEnvironments(
     };
   }
 
-  return environments;
+  return {
+    environments,
+    builderConfig: tempBuilderConfig,
+  };
 }

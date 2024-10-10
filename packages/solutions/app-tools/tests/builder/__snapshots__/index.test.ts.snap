@@ -2,19 +2,22 @@
 
 exports[`create builder Options test create builder environments config 1`] = `
 {
-  "web": {
-    "output": {
-      "target": "web",
-    },
-    "source": {
-      "entry": {
-        "main": [
-          "src/index.ts",
-          "src/main.ts",
-        ],
-        "next": [
-          "src/next.ts",
-        ],
+  "builderConfig": {},
+  "environments": {
+    "web": {
+      "output": {
+        "target": "web",
+      },
+      "source": {
+        "entry": {
+          "main": [
+            "src/index.ts",
+            "src/main.ts",
+          ],
+          "next": [
+            "src/next.ts",
+          ],
+        },
       },
     },
   },
@@ -23,35 +26,38 @@ exports[`create builder Options test create builder environments config 1`] = `
 
 exports[`create builder Options test create builder environments config 2`] = `
 {
-  "node": {
-    "output": {
-      "target": "node",
-    },
-    "source": {
-      "entry": {
-        "main": [
-          "src/index.ts",
-          "src/main.ts",
-        ],
-        "next": [
-          "src/next.ts",
-        ],
+  "builderConfig": {},
+  "environments": {
+    "node": {
+      "output": {
+        "target": "node",
+      },
+      "source": {
+        "entry": {
+          "main": [
+            "src/index.ts",
+            "src/main.ts",
+          ],
+          "next": [
+            "src/next.ts",
+          ],
+        },
       },
     },
-  },
-  "web": {
-    "output": {
-      "target": "web",
-    },
-    "source": {
-      "entry": {
-        "main": [
-          "src/index.ts",
-          "src/main.ts",
-        ],
-        "next": [
-          "src/next.ts",
-        ],
+    "web": {
+      "output": {
+        "target": "web",
+      },
+      "source": {
+        "entry": {
+          "main": [
+            "src/index.ts",
+            "src/main.ts",
+          ],
+          "next": [
+            "src/next.ts",
+          ],
+        },
       },
     },
   },
@@ -60,35 +66,46 @@ exports[`create builder Options test create builder environments config 2`] = `
 
 exports[`create builder Options test create builder environments config 3`] = `
 {
-  "web": {
-    "output": {
-      "target": "web",
-    },
-    "source": {
-      "entry": {
-        "main": [
-          "src/index.ts",
-          "src/main.ts",
+  "builderConfig": {
+    "output": {},
+  },
+  "environments": {
+    "web": {
+      "output": {
+        "copy": [
+          {
+            "from": "**/*",
+            "to": "upload",
+          },
         ],
-        "next": [
-          "src/next.ts",
-        ],
+        "target": "web",
+      },
+      "source": {
+        "entry": {
+          "main": [
+            "src/index.ts",
+            "src/main.ts",
+          ],
+          "next": [
+            "src/next.ts",
+          ],
+        },
       },
     },
-  },
-  "workerSSR": {
-    "output": {
-      "target": "web-worker",
-    },
-    "source": {
-      "entry": {
-        "main": [
-          "src/index.ts",
-          "src/main.ts",
-        ],
-        "next": [
-          "src/next.ts",
-        ],
+    "workerSSR": {
+      "output": {
+        "target": "web-worker",
+      },
+      "source": {
+        "entry": {
+          "main": [
+            "src/index.ts",
+            "src/main.ts",
+          ],
+          "next": [
+            "src/next.ts",
+          ],
+        },
       },
     },
   },
