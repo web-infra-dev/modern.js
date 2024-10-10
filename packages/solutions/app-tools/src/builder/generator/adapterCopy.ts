@@ -2,18 +2,15 @@ import type { RsbuildPlugin } from '@modern-js/uni-builder';
 import type { BuilderOptions } from '../shared';
 import { createPublicPattern } from './createCopyPattern';
 
-/**
- * Provides default configuration consistent with modern.js v1
- */
-export const builderPluginAdapterModern = (
-  options: BuilderOptions<'webpack'>,
+export const builderPluginAdapterCopy = (
+  options: BuilderOptions<'shared'>,
 ): RsbuildPlugin => ({
-  name: 'builder-plugin-adapter-modern',
+  name: 'builder-plugin-adapter-copy',
 
   setup(api) {
     const { normalizedConfig: modernConfig, appContext } = options;
 
-    api.modifyWebpackChain((chain, { CHAIN_ID }) => {
+    api.modifyBundlerChain((chain, { CHAIN_ID }) => {
       // apply copy plugin
       if (chain.plugins.has(CHAIN_ID.PLUGIN.COPY)) {
         const defaultCopyPattern = createPublicPattern(

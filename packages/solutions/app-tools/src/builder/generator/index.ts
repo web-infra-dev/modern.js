@@ -6,6 +6,7 @@ import {
 import { mergeRsbuildConfig } from '@rsbuild/core';
 import type { Bundler } from '../../types';
 import type { BuilderOptions } from '../shared';
+import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
 import { getBuilderEnvironments } from './getBuilderEnvironments';
 
@@ -21,12 +22,16 @@ export async function generateBuilder<B extends Bundler>(
   const { normalizedConfig, appContext } = options;
 
   // create provider
-  const builderConfig = createBuilderProviderConfig<B>(
+  const tempBuilderConfig = createBuilderProviderConfig<B>(
     normalizedConfig,
     appContext,
   );
 
-  const environments = getBuilderEnvironments(normalizedConfig, appContext);
+  const { environments, builderConfig } = getBuilderEnvironments(
+    normalizedConfig,
+    appContext,
+    tempBuilderConfig,
+  );
 
   builderConfig.environments = builderConfig.environments
     ? mergeRsbuildConfig(environments, builderConfig.environments)
@@ -59,6 +64,10 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
   ]);
+
+  builder.addPlugins([builderPluginAdapterCopy(options)], {
+    environment: 'web',
+  });
 
   const { normalizedConfig } = options;
   if (!normalizedConfig.output.disableNodePolyfill) {

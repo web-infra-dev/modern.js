@@ -379,6 +379,7 @@ export type OverridesUniBuilderInstance = {
     plugins: Array<UniBuilderPlugin | LooseRsbuildPlugin>,
     options?: {
       before?: string;
+      environment?: string;
     },
   ) => void;
 };
