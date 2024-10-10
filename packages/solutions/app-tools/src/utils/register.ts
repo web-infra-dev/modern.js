@@ -3,6 +3,8 @@ import {
   fs,
   type Alias,
   getAliasConfig,
+  loadFromProject,
+  logger,
   readTsConfigByFile,
 } from '@modern-js/utils';
 import type { ConfigChain } from '@rsbuild/core';
@@ -72,7 +74,7 @@ export const registerCompiler = async (
   const { MODERN_NODE_LOADER } = process.env;
   if (MODERN_NODE_LOADER !== 'esbuild') {
     try {
-      const tsNode = await import('ts-node');
+      const tsNode = await loadFromProject('ts-node', appDir);
       const tsNodeOptions = tsConfig['ts-node'];
       if (isTsProject) {
         tsNode.register({
@@ -89,6 +91,7 @@ export const registerCompiler = async (
         });
       }
     } catch (error) {
+      logger.error(error);
       await registerEsbuild({
         isTsProject,
         tsConfig,

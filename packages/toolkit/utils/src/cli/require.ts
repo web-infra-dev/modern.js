@@ -33,6 +33,33 @@ export async function compatibleRequire(
     : requiredModule;
 }
 
+export async function loadFromProject(moduleName: string, appDir: string) {
+  let requiredModule;
+  const paths = [appDir, process.cwd()];
+
+  try {
+    if (typeof require !== 'undefined') {
+      const modulePath = require.resolve(moduleName, { paths });
+      requiredModule = require(modulePath);
+    } else {
+      //@ts-ignore
+      const { createRequire } = await import('node:module');
+      //@ts-ignore
+      const require = createRequire(import.meta.url);
+      const modulePath = require.resolve(moduleName, { paths });
+      const moduleUrl = pathToFileURL(modulePath).href;
+      requiredModule = await import(moduleUrl);
+    }
+
+    return requiredModule.default || requiredModule;
+  } catch (error: any) {
+    if (error.code === 'MODULE_NOT_FOUND') {
+      throw new Error(`Cannot find module ${moduleName}.`);
+    }
+    throw error;
+  }
+}
+
 // Avoid `import` to be tranpiled to `require` by babel/tsc/rollup
 export const dynamicImport = new Function(
   'modulePath',
