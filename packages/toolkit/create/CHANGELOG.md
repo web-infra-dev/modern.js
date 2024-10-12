@@ -1,5 +1,7 @@
 # @modern-js/create
 
+## 2.60.3
+
 ## 2.60.2
 
 ### Patch Changes

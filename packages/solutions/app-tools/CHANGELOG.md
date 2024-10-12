@@ -1,5 +1,31 @@
 # @modern-js/app-tools
 
+## 2.60.3
+
+### Patch Changes
+
+- 007fe86: feat: support dev.watchFiles reload-server option
+- ffd717f: fix: copy configuration should only works in main(web) environment
+- 303331c: fix: should load ts-node from project
+  fix: 应该从项目中加载 ts-node
+- Updated dependencies [d18f974]
+- Updated dependencies [552b746]
+- Updated dependencies [afa4880]
+- Updated dependencies [303331c]
+  - @modern-js/uni-builder@2.60.3
+  - @modern-js/server@2.60.3
+  - @modern-js/utils@2.60.3
+  - @modern-js/core@2.60.3
+  - @modern-js/plugin-data-loader@2.60.3
+  - @modern-js/plugin-i18n@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/prod-server@2.60.3
+  - @modern-js/server-utils@2.60.3
+  - @modern-js/node-bundle-require@2.60.3
+  - @modern-js/plugin@2.60.3
+  - @modern-js/rsbuild-plugin-esbuild@2.60.3
+  - @modern-js/types@2.60.3
+
 ## 2.60.2
 
 ### Patch Changes
