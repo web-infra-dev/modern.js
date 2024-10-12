@@ -1,5 +1,13 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.60.3
+
+### Patch Changes
+
+- 0ae65bf: feat(module-plugin-polyfill): support polyfill Node.js builtin modules starting with node:
+  feat(module-plugin-polyfill): 支持对 node: 开头的 Node.js builtin modules 进行 polyfill
+  - @modern-js/module-tools@2.60.3
+
 ## 2.60.2
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @modern-js/server
 
+## 2.60.3
+
+### Patch Changes
+
+- 552b746: chore(server): add `compiler` option for `createDevServer`
+  chore(server): 为 `createDevServer` 添加 `compiler` 选项
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/server-utils@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+  - @modern-js/types@2.60.3
+
 ## 2.60.2
 
 ### Patch Changes

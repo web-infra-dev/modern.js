@@ -95,6 +95,7 @@ export async function parseCommonConfig(
       enableAssetFallback,
       enableAssetManifest,
       disableSourceMap,
+      sourceMap,
       convertToRem,
       disableMinimize,
       polyfill,
@@ -328,6 +329,7 @@ export async function parseCommonConfig(
     pluginGlobalVars(globalVars),
     pluginDevtool({
       disableSourceMap,
+      sourceMap,
     }),
     pluginEmitRouteFile(),
     pluginToml(),
