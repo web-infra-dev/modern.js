@@ -17,8 +17,6 @@ on:
         description: 'Release Branch(confirm release branch)'
         required: true
         default: 'main'
-  issue_comment:
-    types: [created]
 
 permissions:
   id-token: write
@@ -59,14 +57,6 @@ jobs:
 
       - name: Install Dependencies && Build
         run: pnpm install
-
-      # Temporarily manually upgrade Rsbuild
-
-      # - name: Update Rsbuild Nightly Version
-      #   run: pnpm run update-rsbuild
-
-      # - name: Install Dependencies && Build
-      #   run: pnpm install --no-frozen-lockfile
 
       - name: Release
         uses: web-infra-dev/actions@v2
