@@ -32,9 +32,9 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.5.1",
-    "@modern-js/codesmith-api-app": "2.5.1",
-    "@modern-js/codesmith-api-json": "2.5.1",
+    "@modern-js/codesmith": "2.5.2",
+    "@modern-js/codesmith-api-app": "2.5.2",
+    "@modern-js/codesmith-api-json": "2.5.2",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@scripts/build": "workspace:*",
