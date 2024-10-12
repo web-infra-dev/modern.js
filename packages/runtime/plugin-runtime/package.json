@@ -202,7 +202,7 @@
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.14",
-    "cookie": "0.7.0",
+    "cookie": "0.7.2",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",
     "invariant": "^2.2.4",
