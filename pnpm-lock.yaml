@@ -4480,8 +4480,8 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.60.2
-        version: /@modern-js/core@2.60.2
+        specifier: npm:@modern-js/core@2.60.3
+        version: /@modern-js/core@2.60.3
       '@modern-js/module-tools-npm':
         specifier: npm:@modern-js/module-tools@2.60.2
         version: /@modern-js/module-tools@2.60.2(typescript@5.3.3)
@@ -14876,6 +14876,15 @@ packages:
       '@swc/helpers': 0.5.13
     dev: true
 
+  /@modern-js/core@2.60.3:
+    resolution: {integrity: sha512-FpwXZVkJq3FxSYrnMN+EOprsGrEljWGt/EAP1sQ/DIYs98QWDpiqSY8czkyqyt5Ba6wth4Pu4lJelFs0WBwPdA==}
+    dependencies:
+      '@modern-js/node-bundle-require': 2.60.3
+      '@modern-js/plugin': 2.60.3
+      '@modern-js/utils': 2.60.3
+      '@swc/helpers': 0.5.13
+    dev: true
+
   /@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.2.0):
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
     engines: {node: '>=14.17.6'}
@@ -14936,6 +14945,14 @@ packages:
       esbuild: 0.17.19
     dev: true
 
+  /@modern-js/node-bundle-require@2.60.3:
+    resolution: {integrity: sha512-SUNH71LMn1Tyjf9Qw0Q1eVsPgoLfz8zTZXs0bYjzn7kNUHCSD+sgSN07GmwLTdR2N3uUKoa9GeC8nSYUby1enA==}
+    dependencies:
+      '@modern-js/utils': 2.60.3
+      '@swc/helpers': 0.5.13
+      esbuild: 0.17.19
+    dev: true
+
   /@modern-js/plugin-changeset@2.60.2:
     resolution: {integrity: sha512-Mk/SW7vCOo3JmzBCv48RKi/TNi+BIkKx+N71VvE1oFTdiM2rcmOuEaH03Lk2CXAQSa2jzxg2sIzUZY7XF79l2Q==}
     dependencies:
@@ -14961,6 +14978,13 @@ packages:
     resolution: {integrity: sha512-DTX7e7uuecX2E4RZLQLDKft1wk+czwAvdnl4tTLrYZ5DpQPOt9MPY/YGlpwguPL/Ut1lK7rM7WSvru8LzgaXmw==}
     dependencies:
       '@modern-js/utils': 2.60.2
+      '@swc/helpers': 0.5.13
+    dev: true
+
+  /@modern-js/plugin@2.60.3:
+    resolution: {integrity: sha512-nWyCemxpXfngfWJamfHihBYh0sOQ3MuQleRpFTY3qMwtemmPr8SJPIZuoP/svA3mccOVmdlYNoFeRP3adqC89g==}
+    dependencies:
+      '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.13
     dev: true
 
@@ -15116,7 +15140,7 @@ packages:
     resolution: {integrity: sha512-Xu/xumI2xnkB6BXqHfqD5cDrMhxAW1/QsrHXWHcvEW1hSbtviw77PUwXs90NgPKGtV5wwdA319kUPxswe4TCUA==}
     dependencies:
       '@swc/helpers': 0.5.13
-      caniuse-lite: 1.0.30001664
+      caniuse-lite: 1.0.30001668
       lodash: 4.17.21
       rslog: 1.2.3
     dev: true
@@ -15128,6 +15152,15 @@ packages:
       caniuse-lite: 1.0.30001668
       lodash: 4.17.21
       rslog: 1.2.3
+
+  /@modern-js/utils@2.60.3:
+    resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
+    dependencies:
+      '@swc/helpers': 0.5.13
+      caniuse-lite: 1.0.30001668
+      lodash: 4.17.21
+      rslog: 1.2.3
+    dev: true
 
   /@module-federation/runtime-tools@0.0.8:
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -22679,7 +22712,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001664
+      caniuse-lite: 1.0.30001668
       electron-to-chromium: 1.4.820
       node-releases: 2.0.14
       update-browserslist-db: 1.1.0(browserslist@4.23.1)
@@ -22864,7 +22897,7 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.23.1
-      caniuse-lite: 1.0.30001667
+      caniuse-lite: 1.0.30001668
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: false
@@ -22879,10 +22912,6 @@ packages:
 
   /caniuse-lite@1.0.30001664:
     resolution: {integrity: sha512-AmE7k4dXiNKQipgn7a2xg558IRqPN3jMQY/rOsbxDhrd0tyChwbITBfiwtnqz8bi2M5mIWbxAYBvk7W7QBUS2g==}
-
-  /caniuse-lite@1.0.30001667:
-    resolution: {integrity: sha512-7LTwJjcRkzKFmtqGsibMeuXmvFDfZq/nzIjnmgCGzKKRVzjD72selLDK1oPF/Oxzmt4fNcPvTDvGqSDG4tCALw==}
-    dev: false
 
   /caniuse-lite@1.0.30001668:
     resolution: {integrity: sha512-nWLrdxqCdblixUO+27JtGJJE/txpJlyUy5YN1u53wLZkP0emYCo5zgS6QYft7VUYR42LGgi/S5hdLZTrnyIddw==}
