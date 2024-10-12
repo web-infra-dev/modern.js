@@ -1,5 +1,12 @@
 # @modern-js/main-doc
 
+## 2.60.3
+
+### Patch Changes
+
+- ed0d1f9: docs: link `output.copy` to Rsbuild
+  - @modern-js/sandpack-react@2.60.3
+
 ## 2.60.2
 
 ### Patch Changes
