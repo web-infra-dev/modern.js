@@ -869,8 +869,8 @@ importers:
         specifier: ^18
         version: 18.3.1
       birpc:
-        specifier: 0.2.13
-        version: 0.2.13
+        specifier: 0.2.19
+        version: 0.2.19
       clsx:
         specifier: ^1.2.1
         version: 1.2.1
@@ -965,8 +965,8 @@ importers:
         specifier: ^0.2.4
         version: 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
       birpc:
-        specifier: 0.2.13
-        version: 0.2.13
+        specifier: 0.2.19
+        version: 0.2.19
       cookie-es:
         specifier: ^1.0.0
         version: 1.0.0
@@ -1053,8 +1053,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       birpc:
-        specifier: 0.2.13
-        version: 0.2.13
+        specifier: 0.2.19
+        version: 0.2.19
       clipboardy:
         specifier: ^4.0.0
         version: 4.0.0
@@ -22069,8 +22069,8 @@ packages:
       file-uri-to-path: 1.0.0
     dev: false
 
-  /birpc@0.2.13:
-    resolution: {integrity: sha512-30rz9OBSJoGfiWox7dpyqoSVo6664PBEYSTfmmG1GBridUxnMysyovNpnwhaPMvjtKn3Y1UfII+HMTU0kqJFjA==}
+  /birpc@0.2.19:
+    resolution: {integrity: sha512-5WeXXAvTmitV1RqJFppT5QtUiz2p1mRSYU000Jkft5ZUCLJIk4uQriYNO50HknxKwM6jd8utNc66K1qGIwwWBQ==}
 
   /bl@4.1.0:
     resolution: {integrity: sha512-1W07cM9gS6DcLperZfFSj+bWLtaPGSOHWhPiGzXmvVJbRLdG82sH/Kn8EtW1VqWVA54AKf2h5k5BbnIbwF3h6w==}
