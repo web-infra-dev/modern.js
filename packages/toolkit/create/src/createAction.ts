@@ -125,7 +125,7 @@ export async function createAction(projectDir: string, options: Options) {
     registryUrl: registry === '' ? undefined : registry,
   });
 
-  // const prepareGlobalPromise = smith.prepareGlobal();
+  const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
     `@modern-js/repo-generator@${distTag || 'latest'}`,
@@ -168,7 +168,7 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
-    await Promise.all([prepareGeneratorPromise]);
+    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
   }
 
   const task: RunnerTask = [
