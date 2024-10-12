@@ -1,3 +1,4 @@
+import { logger } from '@modern-js/utils';
 import type { RsbuildPlugin, SourceMap } from '@rsbuild/core';
 import type { DisableSourceMapOption } from '../../types';
 
@@ -15,18 +16,21 @@ export const pluginDevtool = (options: {
   name: 'uni-builder:devtool',
 
   setup(api) {
+    // priority order
+    // 1. output.sourceMap.js, if this value is set, we won't apply this plugin and let rsbuild handles it
+    const devtoolJs = options.sourceMap?.js;
+    if (devtoolJs) {
+      if (!isUseJsSourceMap(options.disableSourceMap)) {
+        logger.warn(
+          'Detected that `output.sourceMap` and `output.disableSourceMap` are used together, use the value of `output.sourceMap`',
+        );
+      }
+      return;
+    }
     api.modifyBundlerChain((chain, { isProd, isServer }) => {
-      // priority order
-      // 1. output.disableSourceMap
+      // 2. output.disableSourceMap
       if (!isUseJsSourceMap(options.disableSourceMap)) {
         chain.devtool(false);
-        return;
-      }
-
-      // 2. output.sourceMap
-      const devtoolJs = options.sourceMap?.js;
-      if (devtoolJs) {
-        chain.devtool(devtoolJs);
         return;
       }
 
