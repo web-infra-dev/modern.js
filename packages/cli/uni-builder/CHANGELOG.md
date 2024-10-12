@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.60.3
+
+### Patch Changes
+
+- d18f974: feat(deps): unpin Rsbuild patch version
+- afa4880: feat(deps): bump rsbuild 1.0.11
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/babel-preset@2.60.3
+
 ## 2.60.2
 
 ### Patch Changes

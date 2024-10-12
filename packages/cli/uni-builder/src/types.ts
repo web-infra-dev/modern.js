@@ -290,6 +290,7 @@ export type UniBuilderExtraConfig = {
     disableSvgr?: boolean;
     /**
      * Whether to disable source map.
+     * @deprecated use `output.sourceMap` instead
      */
     disableSourceMap?: DisableSourceMapOption;
     /**
@@ -379,6 +380,7 @@ export type OverridesUniBuilderInstance = {
     plugins: Array<UniBuilderPlugin | LooseRsbuildPlugin>,
     options?: {
       before?: string;
+      environment?: string;
     },
   ) => void;
 };

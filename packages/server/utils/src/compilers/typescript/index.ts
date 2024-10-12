@@ -23,7 +23,7 @@ const copyFiles = async (from: string, to: string, appDirectory: string) => {
     await fs.copy(from, targetDir, {
       filter: src =>
         !['.ts', '.js'].includes(path.extname(src)) &&
-        src.endsWith('tsconfig.json'),
+        !src.endsWith('tsconfig.json'),
     });
   }
 };

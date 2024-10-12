@@ -101,6 +101,9 @@ export default defineConfig<'rspack'>({
     postcss: (config, { addPlugins }) => {
       addPlugins(require('postcss-custom-media'));
     },
+    sass: {
+      api: 'legacy',
+    },
     bundlerChain(chain) {
       chain.output.uniqueName('modernjsDevtools');
       chain.module

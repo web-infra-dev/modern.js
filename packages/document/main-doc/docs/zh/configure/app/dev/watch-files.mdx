@@ -8,12 +8,19 @@ configName: dev.watchFiles
 - **类型：**
 
 ```ts
-type WatchFiles = {
-  paths: string | string[];
-  type?: 'reload-page' | 'reload-server';
-  //  chokidar 选项
-  options?: WatchOptions;
-};
+type WatchFiles =
+  | {
+      paths: string | string[];
+      type?: 'reload-page';
+      //  chokidar 选项
+      options?: WatchOptions;
+    }
+  | {
+      paths: string | string[];
+      type?: 'reload-server';
+    };
+
+type WatchFilesConfig = WatchFiles | WatchFiles[];
 ```
 
 - **默认值：** `undefined`

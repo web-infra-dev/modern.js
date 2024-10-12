@@ -850,10 +850,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     DefinePlugin {
       "_args": [
         {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
           "import.meta.env.DEV": true,
           "import.meta.env.MODE": "\\"development\\"",
           "import.meta.env.PROD": false,
           "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
         },
       ],
       "affectedHooks": "compilation",
@@ -890,7 +893,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
     ReactRefreshRspackPlugin {
       "options": {
-        "exclude": /node_modules/i,
+        "exclude": [
+          /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        ],
         "forceEnable": false,
         "include": [
           /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
@@ -918,7 +923,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;
@@ -1663,10 +1668,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     DefinePlugin {
       "_args": [
         {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
           "import.meta.env.DEV": false,
           "import.meta.env.MODE": "\\"production\\"",
           "import.meta.env.PROD": true,
           "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
         },
       ],
       "affectedHooks": "compilation",
@@ -1827,7 +1835,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "resolve": {
           "alias": {
@@ -2605,10 +2612,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     DefinePlugin {
       "_args": [
         {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
           "import.meta.env.DEV": false,
           "import.meta.env.MODE": "\\"production\\"",
           "import.meta.env.PROD": true,
           "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
         },
       ],
       "affectedHooks": "compilation",
@@ -2662,7 +2672,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;
@@ -3333,10 +3343,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     DefinePlugin {
       "_args": [
         {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
           "import.meta.env.DEV": false,
           "import.meta.env.MODE": "\\"production\\"",
           "import.meta.env.PROD": true,
           "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
         },
       ],
       "affectedHooks": "compilation",
@@ -3390,7 +3403,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   },
   "target": [
     "webworker",
-    "es2018",
+    "es5",
   ],
 }
 `;
@@ -4421,10 +4434,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
     DefinePlugin {
       "definitions": {
+        "import.meta.env.ASSET_PREFIX": "\\"\\"",
+        "import.meta.env.BASE_URL": "\\"/\\"",
         "import.meta.env.DEV": true,
         "import.meta.env.MODE": "\\"development\\"",
         "import.meta.env.PROD": false,
         "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.BASE_URL": "\\"/\\"",
       },
     },
     ProgressPlugin {
@@ -4508,7 +4524,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;
@@ -4631,7 +4647,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         "type": "javascript/auto",
@@ -5632,10 +5647,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
     DefinePlugin {
       "definitions": {
+        "import.meta.env.ASSET_PREFIX": "\\"\\"",
+        "import.meta.env.BASE_URL": "\\"/\\"",
         "import.meta.env.DEV": false,
         "import.meta.env.MODE": "\\"production\\"",
         "import.meta.env.PROD": true,
         "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.BASE_URL": "\\"/\\"",
       },
     },
     ProgressPlugin {
@@ -5710,7 +5728,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;

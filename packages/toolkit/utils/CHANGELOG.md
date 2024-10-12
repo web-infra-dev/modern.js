@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.60.3
+
+### Patch Changes
+
+- 303331c: fix: should load ts-node from project
+  fix: 应该从项目中加载 ts-node
+
 ## 2.60.2
 
 ### Patch Changes
