@@ -29,9 +29,9 @@ webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   });
 
   expect(
-    infoMsgs.some(message => message.includes('Compile progress')),
+    infoMsgs.some(message => message.includes('Build progress')),
   ).toBeTruthy();
-  expect(readyMsgs.some(message => message.includes('Compiled'))).toBeTruthy();
+  expect(readyMsgs.some(message => message.includes('Built'))).toBeTruthy();
 
   process.stdout.isTTY = true;
   logger.info = info;
