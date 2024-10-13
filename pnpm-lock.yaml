@@ -4083,7 +4083,7 @@ importers:
         version: 7.0.1
       serve-static:
         specifier: ^1.14.1
-        version: 1.16.0
+        version: 1.16.2
       tinypool:
         specifier: ^0.8.0
         version: 0.8.1
@@ -4230,7 +4230,7 @@ importers:
         version: 1.33.0
       serve-static:
         specifier: ^1.14.1
-        version: 1.16.0
+        version: 1.16.2
     devDependencies:
       '@scripts/build':
         specifier: workspace:*
