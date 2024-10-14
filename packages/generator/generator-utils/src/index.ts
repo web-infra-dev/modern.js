@@ -2,6 +2,7 @@ import path from 'path';
 import type { GeneratorContext } from '@modern-js/codesmith';
 import { getNpmVersion, getPackageInfo } from '@modern-js/codesmith';
 import { fs } from '@modern-js/codesmith-utils/fs-extra';
+import { ora } from '@modern-js/codesmith-utils/ora';
 import { Solution, SolutionToolsMap } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 import { fileExist } from './utils/fsExist';
@@ -27,8 +28,17 @@ export async function getPackageVersion(
   packageName: string,
   registryUrl?: string,
 ): Promise<string> {
-  const { name, version } = getPackageInfo(packageName);
-  return getNpmVersion(name, { version, registryUrl });
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
+  const { name, version: pkgVersion } = getPackageInfo(packageName);
+  const version = await getNpmVersion(name, {
+    version: pkgVersion,
+    registryUrl,
+  });
+  spinner.stop();
+  return version;
 }
 
 export async function getModernVersion(
