@@ -342,7 +342,7 @@ test('outputStructrue nested', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  const pagePath = join(builder.distPath, 'html/main/main.html');
+  const pagePath = join(builder.distPath, 'html/main/index.html');
 
   expect(fs.existsSync(pagePath)).toBeTruthy();
 
