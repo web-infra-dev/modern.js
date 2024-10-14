@@ -125,6 +125,13 @@ export async function createAction(projectDir: string, options: Options) {
     registryUrl: registry === '' ? undefined : registry,
   });
 
+  if (lang) {
+    i18n.changeLanguage({ locale: lang });
+  }
+  if (version) {
+    smith.logger.info(`@modern-js/create v${pkgVersion}`);
+    return;
+  }
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
@@ -134,14 +141,6 @@ export async function createAction(projectDir: string, options: Options) {
     `@modern-js/entry-generator@${distTag || 'latest'}`,
     `@modern-js/module-generator@${distTag || 'latest'}`,
   ]);
-
-  if (lang) {
-    i18n.changeLanguage({ locale: lang });
-  }
-  if (version) {
-    console.log(`@modern-js/create v${pkgVersion}`);
-    return;
-  }
 
   smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
   smith.logger.debug('💡 [Current Dir]:', projectDir || '');
