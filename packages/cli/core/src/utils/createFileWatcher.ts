@@ -44,7 +44,6 @@ export const createFileWatcher = async (
       ignoreInitial: true,
       ignorePermissionErrors: true,
       ignored: [
-        /node_modules/,
         '**/__test__/**',
         '**/*.test.(js|jsx|ts|tsx)',
         '**/*.spec.(js|jsx|ts|tsx)',
