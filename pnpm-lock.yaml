@@ -4332,7 +4332,7 @@ importers:
         version: 6.22.0(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript:
         specifier: ^6.0.0
-        version: 6.0.1
+        version: 6.0.2
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
