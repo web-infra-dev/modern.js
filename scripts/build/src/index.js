@@ -200,19 +200,6 @@ const generatorBuildConfig = {
     '@modern-js/codesmith-utils/semver': 'codesmithSemverUtils',
     '@modern-js/plugin-i18n': 'pluginI18N',
   },
-  // externals: [
-  //   '@modern-js/codesmith',
-  //   '@modern-js/codesmith-api-app',
-  //   '@modern-js/codesmith-api-git',
-  //   '@modern-js/codesmith-api-npm',
-  //   '@modern-js/codesmith-api-ejs',
-  //   '@modern-js/codesmith-api-fs',
-  //   '@modern-js/codesmith-api-handlebars',
-  //   '@modern-js/codesmith-api-json',
-  //   '@modern-js/codesmith-formily',
-  //   '@modern-js/codesmith-utils',
-  //   '@modern-js/plugin-i18n',
-  // ],
 };
 
 module.exports = {
