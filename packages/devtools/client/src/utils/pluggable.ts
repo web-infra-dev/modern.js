@@ -5,7 +5,6 @@ import {
 } from '@modern-js/devtools-kit/runtime';
 import { Hookable } from 'hookable';
 
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
 export class PluginGlobals
   extends Hookable<GlobalHooks>
   implements RuntimeGlobals
