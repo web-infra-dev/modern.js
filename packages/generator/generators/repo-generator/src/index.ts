@@ -90,6 +90,18 @@ const handlePlugin = async (
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
   process.setMaxListeners(20);
 
+  const { distTag } = context.config;
+
+  // avoid create tools version is older
+  await generator.prepareGlobal();
+  await generator.prepareGenerators([
+    `@modern-js/repo-generator@${distTag || 'latest'}`,
+    `@modern-js/base-generator@${distTag || 'latest'}`,
+    `@modern-js/mwa-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/module-generator@${distTag || 'latest'}`,
+  ]);
+
   const appApi = new AppAPI(context, generator);
 
   const { locale } = context.config;
