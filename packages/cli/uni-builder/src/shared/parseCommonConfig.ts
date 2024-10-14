@@ -112,6 +112,7 @@ export async function parseCommonConfig(
       templateByEntries,
       templateParametersByEntries,
       tagsByEntries,
+      outputStructure,
       appIcon,
       tags,
       ...htmlConfig
@@ -224,7 +225,8 @@ export async function parseCommonConfig(
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
 
-  extraConfig.html.outputStructure = disableHtmlFolder ? 'flat' : 'nested';
+  extraConfig.html.outputStructure =
+    outputStructure ?? (disableHtmlFolder ? 'flat' : 'nested');
 
   if (metaByEntries) {
     extraConfig.html.meta = ({ entryName }) => metaByEntries[entryName];

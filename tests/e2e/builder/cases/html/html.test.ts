@@ -303,6 +303,76 @@ test('disableHtmlFolder', async ({ page }) => {
   builder.close();
 });
 
+test('outputStructrue flat', async ({ page }) => {
+  const builder = await build({
+    cwd: join(fixtures, 'template'),
+    entry: {
+      main: join(join(fixtures, 'template'), 'src/index.ts'),
+    },
+    runServer: true,
+    builderConfig: {
+      html: {
+        outputStructure: 'flat',
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  const pagePath = join(builder.distPath, 'html/main.html');
+
+  expect(fs.existsSync(pagePath)).toBeTruthy();
+
+  builder.close();
+});
+
+test('outputStructrue nested', async ({ page }) => {
+  const builder = await build({
+    cwd: join(fixtures, 'template'),
+    entry: {
+      main: join(join(fixtures, 'template'), 'src/index.ts'),
+    },
+    runServer: true,
+    builderConfig: {
+      html: {
+        outputStructure: 'nested',
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  const pagePath = join(builder.distPath, 'html/main/main.html');
+
+  expect(fs.existsSync(pagePath)).toBeTruthy();
+
+  builder.close();
+});
+
+test('outputStructrue and disableHtmlFolder', async ({ page }) => {
+  const builder = await build({
+    cwd: join(fixtures, 'template'),
+    entry: {
+      main: join(join(fixtures, 'template'), 'src/index.ts'),
+    },
+    runServer: true,
+    builderConfig: {
+      html: {
+        outputStructure: 'flat',
+        disableHtmlFolder: false,
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  const pagePath = join(builder.distPath, 'html/main.html');
+
+  expect(fs.existsSync(pagePath)).toBeTruthy();
+
+  builder.close();
+});
+
 test('tools.htmlPlugin', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'template'),
