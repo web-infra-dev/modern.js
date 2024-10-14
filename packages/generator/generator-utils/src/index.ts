@@ -25,7 +25,7 @@ export { i18n } from './locale';
 
 export async function getPackageVersion(
   packageName: string,
-  registryUrl = '',
+  registryUrl?: string,
 ): Promise<string> {
   const { name, version } = getPackageInfo(packageName);
   return getNpmVersion(name, { version, registryUrl });
