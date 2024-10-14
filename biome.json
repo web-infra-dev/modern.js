@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
   "vcs": {
     "enabled": true,
     "defaultBranch": "main",
@@ -15,6 +15,11 @@
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
       "packages/generator/sandpack-react/src/templates/**"
     ]
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
   },
   "javascript": {
     "formatter": {
@@ -41,7 +46,10 @@
         "noImplicitAnyLet": "off",
         "noAssignInExpressions": "off",
         "noPrototypeBuiltins": "off",
-        "noRedeclare": "off"
+        "noRedeclare": "off",
+        "noDuplicateFontNames": "off",
+        "noShorthandPropertyOverrides": "off",
+        "noDuplicateAtImportRules": "off"
       },
       "complexity": {
         "noForEach": "off",
@@ -69,7 +77,8 @@
         "useExhaustiveDependencies": "off",
         "noUnnecessaryContinue": "off",
         "noUnreachable": "off",
-        "noInvalidUseBeforeDeclaration": "off"
+        "noInvalidUseBeforeDeclaration": "off",
+        "noUnknownProperty": "off"
       }
     }
   },
