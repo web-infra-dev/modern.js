@@ -42,9 +42,6 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "@modern-js/codesmith-global":"2.5.2-alpha.3"
-  },
   "devDependencies": {
     "commander": "10.0.0",
     "@modern-js/codesmith": "2.5.2",
