@@ -72,24 +72,28 @@ export const registerCompiler = async (
   }
 
   const { MODERN_NODE_LOADER } = process.env;
-  if (MODERN_NODE_LOADER !== 'esbuild') {
+  if (MODERN_NODE_LOADER === 'esbuild' || !isTsProject) {
+    await registerEsbuild({
+      isTsProject,
+      tsConfig,
+      distDir,
+    });
+  } else {
     try {
       const tsNode = await loadFromProject('ts-node', appDir);
       const tsNodeOptions = tsConfig['ts-node'];
-      if (isTsProject) {
-        tsNode.register({
-          project: tsconfigPath,
-          scope: true,
-          // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
-          files: true,
-          transpileOnly: true,
-          ignore: [
-            '(?:^|/)node_modules/',
-            `(?:^|/)${path.relative(appDir, distDir)}/`,
-          ],
-          ...tsNodeOptions,
-        });
-      }
+      tsNode.register({
+        project: tsconfigPath,
+        scope: true,
+        // for env.d.ts, https://www.npmjs.com/package/ts-node#missing-types
+        files: true,
+        transpileOnly: true,
+        ignore: [
+          '(?:^|/)node_modules/',
+          `(?:^|/)${path.relative(appDir, distDir)}/`,
+        ],
+        ...tsNodeOptions,
+      });
     } catch (error) {
       logger.error(error);
       await registerEsbuild({
@@ -98,24 +102,14 @@ export const registerCompiler = async (
         distDir,
       });
     }
-  } else {
-    // required by esbuild-register/loader, see the source code
-    await registerEsbuild({
-      isTsProject,
-      tsConfig,
-      distDir,
-    });
   }
 
   const tsConfigPaths = (await import('@modern-js/utils/tsconfig-paths'))
     .default;
   if (await fs.pathExists(appDir)) {
-    const loaderRes = tsConfigPaths.loadConfig(appDir);
-    if (loaderRes.resultType === 'success') {
-      tsConfigPaths.register({
-        baseUrl: absoluteBaseUrl || './',
-        paths: tsPaths,
-      });
-    }
+    tsConfigPaths.register({
+      baseUrl: absoluteBaseUrl || './',
+      paths: tsPaths,
+    });
   }
 };
