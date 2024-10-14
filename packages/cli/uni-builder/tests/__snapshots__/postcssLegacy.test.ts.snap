@@ -34,13 +34,37 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "postcssPlugin": "postcss-custom-properties",
+                "prepare": [Function],
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-initial",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-font-variant",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "> 0.01%",
@@ -106,13 +130,37 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "postcssPlugin": "postcss-custom-properties",
+                "prepare": [Function],
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-initial",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-font-variant",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "> 0.01%",
@@ -193,13 +241,37 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "postcssPlugin": "postcss-custom-properties",
+                "prepare": [Function],
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-initial",
+              },
+              {
+                "Declaration": [Function],
+                "postcssPlugin": "postcss-page-break",
+              },
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-font-variant",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "> 0.01%",
@@ -279,9 +351,21 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "chrome >= 87",
@@ -339,9 +423,21 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "chrome >= 87",
@@ -414,9 +510,21 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
           "postcssOptions": {
             "config": false,
             "plugins": [
-              [Function],
-              [Function],
-              [Function],
+              {
+                "Once": [Function],
+                "postcssPlugin": "postcss-flexbugs-fixes",
+              },
+              {
+                "AtRule": {
+                  "custom-media": [Function],
+                  "media": [Function],
+                },
+                "postcssPlugin": "postcss-media-minmax",
+              },
+              {
+                "Rule": [Function],
+                "postcssPlugin": "postcss-nesting",
+              },
               {
                 "browsers": [
                   "chrome >= 87",
