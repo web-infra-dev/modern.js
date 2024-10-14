@@ -2,7 +2,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: nunito_for_arco, Helvetica Neue, Helvetica, PingFang SC,
+  font-family:
+    nunito_for_arco, Helvetica Neue, Helvetica, PingFang SC,
     Hiragino Sans GB, Microsoft YaHei, 微软雅黑, Arial, sans-serif;
 }
 
@@ -70,7 +71,8 @@ main {
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
-  font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+  font-family:
+    Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
 

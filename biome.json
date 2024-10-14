@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
   "vcs": {
     "enabled": true,
     "defaultBranch": "main",
@@ -13,8 +13,15 @@
       "package.json",
       "packages/document/main-doc/scripts/summary.*.json",
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
-      "packages/generator/sandpack-react/src/templates/**"
+      "packages/generator/sandpack-react/src/templates/**",
+      "tests/integration/swc/fixtures/minify-css/src/bootstrap.css",
+      "tests/integration/swc/fixtures/config-function/src/bootstrap.css"
     ]
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
   },
   "javascript": {
     "formatter": {
@@ -41,7 +48,10 @@
         "noImplicitAnyLet": "off",
         "noAssignInExpressions": "off",
         "noPrototypeBuiltins": "off",
-        "noRedeclare": "off"
+        "noRedeclare": "off",
+        "noDuplicateFontNames": "off",
+        "noShorthandPropertyOverrides": "off",
+        "noDuplicateAtImportRules": "off"
       },
       "complexity": {
         "noForEach": "off",
@@ -69,7 +79,8 @@
         "useExhaustiveDependencies": "off",
         "noUnnecessaryContinue": "off",
         "noUnreachable": "off",
-        "noInvalidUseBeforeDeclaration": "off"
+        "noInvalidUseBeforeDeclaration": "off",
+        "noUnknownProperty": "off"
       }
     }
   },

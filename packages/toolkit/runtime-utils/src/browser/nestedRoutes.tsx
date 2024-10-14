@@ -87,11 +87,7 @@ export const renderNestedRoute = (
     } else if (isLoadableComponent(Component) && lazyImport) {
       element = <Component />;
     } else if (isRoot) {
-      element = (
-        <>
-          <Component {...props} />
-        </>
-      );
+      element = <Component {...props} />;
     } else if (lazyImport) {
       element = (
         <Suspense fallback={null}>

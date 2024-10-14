@@ -1,5 +1,4 @@
-
-.card{
+.card {
   display: flex;
   max-width: 32%;
   flex: 1 1 32%;
@@ -8,7 +7,7 @@
   margin-bottom: 16px;
   height: 135px;
   padding: 0 35.4px;
-  color: #FFFFFF;
+  color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-sizing: border-box;
@@ -17,17 +16,17 @@
   transition: all 0.3s ease;
 }
 
-.card:hover{
+.card:hover {
   transition: all 0.3s ease;
   background: rgba(78, 202, 255, 0.2);
 }
-.desc{
+.desc {
   display: inline-block;
   margin-left: 20px;
   color: #fff;
 }
 
-.icon{
+.icon {
   width: 48px;
   height: 48px;
   fill: #fff;
@@ -35,14 +34,14 @@
 }
 
 @media screen and (min-width: 966px) and (max-width: 1300px) {
-  .card{
+  .card {
     max-width: 48%;
     flex: 1 1 48%;
   }
 }
 
 @media screen and (max-width: 966px) {
-  .card{
+  .card {
     width: 100%;
     height: 70px;
     margin: 0;
@@ -51,7 +50,7 @@
     max-width: none;
     flex: none;
   }
-  .icon{
+  .icon {
     width: 20px;
     height: 20px;
   }
