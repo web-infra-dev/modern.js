@@ -1,5 +1,12 @@
+import os from 'os';
+import path from 'path';
 import { execa } from '@modern-js/codesmith-utils/execa';
-import { canUseNpm } from '@modern-js/codesmith-utils/npm';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
+import {
+  canUseNpm,
+  canUsePnpm,
+  canUseYarn,
+} from '@modern-js/codesmith-utils/npm';
 import { semver } from '@modern-js/codesmith-utils/semver';
 import { stripAnsi } from './stripAnsi';
 
@@ -94,14 +101,28 @@ export async function getAvailableVersion(
   return currentVersion;
 }
 
-export function getPackageManager(projectName: string) {
-  const isNode16 = semver.gte(process.versions.node, '16.0.0');
-  if (!isNode16) {
+const MAX_TIMES = 5;
+export async function getPackageManager(cwd: string = process.cwd()) {
+  let appDirectory = cwd;
+  let times = 0;
+  while (os.homedir() !== appDirectory && times < MAX_TIMES) {
+    times++;
+    if (fs.existsSync(path.resolve(appDirectory, 'pnpm-lock.yaml'))) {
+      return 'pnpm';
+    }
+    if (fs.existsSync(path.resolve(appDirectory, 'yarn.lock'))) {
+      return 'yarn';
+    }
+    if (fs.existsSync(path.resolve(appDirectory, 'package-lock.json'))) {
+      return 'npm';
+    }
+    appDirectory = path.join(appDirectory, '..');
+  }
+  if (await canUsePnpm()) {
     return 'pnpm';
   }
-  return projectName.includes('pnpm')
-    ? 'pnpm'
-    : projectName.includes('yarn')
-      ? 'yarn'
-      : 'npm';
+  if (await canUseYarn()) {
+    return 'yarn';
+  }
+  return 'npm';
 }
