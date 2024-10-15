@@ -143,6 +143,7 @@ module.exports = {
           '<rootDir>/packages/generator/generator-utils/src',
         '^@modern-js/generator-plugin$':
           '<rootDir>/packages/generator/generator-plugin/src',
+        '^@modern-js/plugin-i18n$': '<rootDir>/packages/cli/plugin-i18n/src',
       },
       globals: {},
       transformIgnorePatterns: [],
