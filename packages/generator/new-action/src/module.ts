@@ -42,7 +42,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry = 'https://registry.npmjs.org',
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,

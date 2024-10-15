@@ -46,7 +46,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry = 'https://registry.npmjs.org',
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
