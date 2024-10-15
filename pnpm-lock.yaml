@@ -963,7 +963,7 @@ importers:
         version: 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
       '@rsdoctor/utils':
         specifier: ^0.2.4
-        version: 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
+        version: 0.2.4(esbuild@0.17.19)
       birpc:
         specifier: 0.2.19
         version: 0.2.19
@@ -14109,7 +14109,7 @@ packages:
       '@modern-js/codesmith': ^2.5.2
     dependencies:
       '@modern-js/codesmith': 2.5.2
-      '@modern-js/utils': 2.60.2
+      '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.1
 
   /@modern-js/codesmith-api-git@2.5.2(@modern-js/codesmith@2.5.2):
@@ -14157,7 +14157,7 @@ packages:
       '@formily/json-schema': 2.2.24(typescript@5.3.3)
       '@formily/validator': 2.2.24
       '@modern-js/codesmith': 2.5.2
-      '@modern-js/utils': 2.60.2
+      '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.1
       inquirer: 8.2.6
     transitivePeerDependencies:
@@ -14426,15 +14426,6 @@ packages:
       rslog: 1.2.3
     dev: true
 
-  /@modern-js/utils@2.60.1:
-    resolution: {integrity: sha512-Xu/xumI2xnkB6BXqHfqD5cDrMhxAW1/QsrHXWHcvEW1hSbtviw77PUwXs90NgPKGtV5wwdA319kUPxswe4TCUA==}
-    dependencies:
-      '@swc/helpers': 0.5.13
-      caniuse-lite: 1.0.30001668
-      lodash: 4.17.21
-      rslog: 1.2.3
-    dev: true
-
   /@modern-js/utils@2.60.2:
     resolution: {integrity: sha512-7T95WiwSlfoX/3vQiTSRE1QGt5GIm0/DeXFbN4pyQzqzFLWrgnVmlloKHKQSejDlgp7ttRZZpBiRVmIiqZX98Q==}
     dependencies:
@@ -14450,7 +14441,6 @@ packages:
       caniuse-lite: 1.0.30001668
       lodash: 4.17.21
       rslog: 1.2.3
-    dev: true
 
   /@module-federation/runtime-tools@0.0.8:
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -17479,6 +17469,36 @@ packages:
       json-stream-stringify: 3.0.1
       lines-and-columns: 2.0.4
       lodash: 4.17.21
+      rslog: 1.2.3
+      strip-ansi: 6.0.1
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - '@swc/core'
+      - esbuild
+      - supports-color
+      - uglify-js
+      - webpack-cli
+    dev: true
+
+  /@rsdoctor/utils@0.2.4(esbuild@0.17.19):
+    resolution: {integrity: sha512-iztfgAyRMtqNW7juiY77gOdVuVDWi4Jc9tA3BqHPUg+31PIZmUB1dujvr6tfm4VnfGZy5gu4UMJn/8IG32d4/g==}
+    dependencies:
+      '@babel/code-frame': 7.24.2
+      '@rsdoctor/types': 0.2.4(@rspack/core@0.5.9)(esbuild@0.17.19)
+      '@types/estree': 1.0.0
+      acorn: 8.11.3
+      acorn-import-assertions: 1.9.0(acorn@8.11.3)
+      acorn-walk: 8.3.2
+      bytes: 3.1.2
+      chalk: 4.1.2
+      connect: 3.7.0
+      deep-eql: 4.1.0
+      envinfo: 7.13.0
+      fs-extra: 11.2.0
+      get-port: 5.1.1
+      json-stream-stringify: 3.0.1
+      lines-and-columns: 2.0.4
+      lodash: 4.17.21
       rslog: 1.2.1
       strip-ansi: 6.0.1
     transitivePeerDependencies:
@@ -17488,6 +17508,7 @@ packages:
       - supports-color
       - uglify-js
       - webpack-cli
+    dev: false
 
   /@rspack/binding-darwin-arm64@0.5.9:
     resolution: {integrity: sha512-IIClT4d5O7Ays6QrZG06eMYFYY4PwGpcRNChbeKkl3v+CgNshmsPHASnQ6HQjwilcnFw252Hb7ayz0IJGrArHQ==}
@@ -17703,7 +17724,7 @@ packages:
       '@mdx-js/loader': 2.3.0(webpack@5.95.0)
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
-      '@modern-js/utils': 2.60.1
+      '@modern-js/utils': link:packages/toolkit/utils
       '@rsbuild/core': 1.0.5
       '@rsbuild/plugin-less': 1.0.1(@rsbuild/core@1.0.5)
       '@rsbuild/plugin-react': 1.0.2(@rsbuild/core@1.0.5)
@@ -34147,6 +34168,7 @@ packages:
   /rslog@1.2.1:
     resolution: {integrity: sha512-XDMoa858LLZnf4i2kUwyjBQGplXaoSoIfMQf9iji2ano5t1OfSiJsSYpHeOH26DJEc5hdje/4K3wiT6TWL3cRA==}
     engines: {node: '>=14.17.6'}
+    dev: false
 
   /rslog@1.2.3:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
