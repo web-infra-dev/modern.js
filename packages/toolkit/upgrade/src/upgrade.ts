@@ -1,4 +1,5 @@
 import { CodeSmith } from '@modern-js/codesmith';
+import { ora } from '@modern-js/codesmith-utils/ora';
 
 export interface Options {
   cwd?: string;
@@ -26,6 +27,10 @@ export async function upgradeAction(options: Options) {
 
   smith.logger?.timing('🕒 Run Upgrade Tools');
 
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
   const prepareGlobalPromise = smith.prepareGlobal();
   const prepareGeneratorPromise = smith.prepareGenerators([UPGRADE_GENERATOR]);
 
@@ -37,8 +42,12 @@ export async function upgradeAction(options: Options) {
     generator = require.resolve(UPGRADE_GENERATOR);
   } else if (distTag) {
     generator = `${UPGRADE_GENERATOR}@${distTag}`;
-    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
+    await prepareGeneratorPromise;
   }
+
+  await prepareGlobalPromise;
+
+  spinner.stop();
 
   try {
     await smith.forge({

@@ -1,5 +1,6 @@
 import path from 'path';
 import { CodeSmith, type Logger } from '@modern-js/codesmith';
+import { ora } from '@modern-js/codesmith-utils/ora';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
@@ -134,6 +135,10 @@ export async function createAction(projectDir: string, options: Options) {
   }
 
   smith.logger?.timing('🕒 Run Create Tools');
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
@@ -172,8 +177,12 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
-    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
+    await prepareGeneratorPromise;
   }
+
+  await prepareGlobalPromise;
+
+  spinner.stop();
 
   const task: RunnerTask = [
     {

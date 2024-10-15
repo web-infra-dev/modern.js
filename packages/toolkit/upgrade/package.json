@@ -43,9 +43,10 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
+    "commander": "10.0.1",
     "@modern-js/codesmith": "2.6.0",
+    "@modern-js/codesmith-utils": "2.6.0",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

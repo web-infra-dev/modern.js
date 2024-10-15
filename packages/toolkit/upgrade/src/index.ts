@@ -1,5 +1,5 @@
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { Command } from '@modern-js/utils/commander';
+import { Command } from 'commander';
 import { i18n, localeKeys } from './locale';
 import type { Options } from './upgrade';
 
