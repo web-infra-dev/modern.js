@@ -42,7 +42,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = 'https://registry.npmjs.org',
+    registry = '',
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
@@ -61,7 +61,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   const smith = new CodeSmith({
     debug,
-    registryUrl: registry,
+    registryUrl: registry === '' ? undefined : registry,
   });
 
   if (!alreadyRepo(cwd)) {
