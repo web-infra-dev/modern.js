@@ -95,7 +95,9 @@ export const registerCompiler = async (
         ...tsNodeOptions,
       });
     } catch (error) {
-      logger.error(error);
+      if (process.env.DEBUG) {
+        logger.error(error);
+      }
       await registerEsbuild({
         isTsProject,
         tsConfig,
