@@ -72,6 +72,18 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/dependence-generator@${distTag || 'latest'}`,
+    `@modern-js/bff-generator@${distTag || 'latest'}`,
+    `@modern-js/server-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/ssg-generator@${distTag || 'latest'}`,
+    `@modern-js/storybook-next-generator@${distTag || 'latest'}`,
+    `@modern-js/tailwindcss-generator@${distTag || 'latest'}`,
+  ]);
+
   const formilyAPI = new FormilyAPI({
     materials: {},
     config: {},
@@ -184,6 +196,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
       config: finalConfig,
     },
   ];
+
+  await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
 
   await smith.forge({
     tasks: task.map(runner => ({

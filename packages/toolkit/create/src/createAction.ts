@@ -140,6 +140,7 @@ export async function createAction(projectDir: string, options: Options) {
     `@modern-js/mwa-generator@${distTag || 'latest'}`,
     `@modern-js/entry-generator@${distTag || 'latest'}`,
     `@modern-js/module-generator@${distTag || 'latest'}`,
+    `@modern-js/changeset-generator@${distTag || 'latest'}`,
   ]);
 
   smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);

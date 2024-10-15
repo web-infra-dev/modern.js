@@ -24,6 +24,9 @@ export async function upgradeAction(options: Options) {
     debug,
   });
 
+  const prepareGlobalPromise = smith.prepareGlobal();
+  const prepareGeneratorPromise = smith.prepareGenerators([UPGRADE_GENERATOR]);
+
   smith.logger.debug('@modern-js/upgrade', projectDir || '', options);
 
   let generator = UPGRADE_GENERATOR;
@@ -32,6 +35,7 @@ export async function upgradeAction(options: Options) {
     generator = require.resolve(UPGRADE_GENERATOR);
   } else if (distTag) {
     generator = `${UPGRADE_GENERATOR}@${distTag}`;
+    await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
   }
 
   try {

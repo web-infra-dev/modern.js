@@ -1,29 +1,29 @@
 ---
-'@modern-js/storybook-next-generator': patch
-'@modern-js/tailwindcss-generator': patch
-'@modern-js/dependence-generator': patch
-'@modern-js/module-doc-generator': patch
-'@modern-js/changeset-generator': patch
-'@modern-js/generator-generator': patch
-'@modern-js/router-v5-generator': patch
-'@modern-js/packages-generator': patch
-'@modern-js/upgrade-generator': patch
-'@modern-js/module-generator': patch
-'@modern-js/server-generator': patch
-'@modern-js/entry-generator': patch
-'@modern-js/base-generator': patch
-'@modern-js/repo-generator': patch
-'@modern-js/bff-generator': patch
-'@modern-js/mwa-generator': patch
-'@modern-js/ssg-generator': patch
-'@modern-js/generator-plugin-plugin': patch
-'@modern-js/generator-common': patch
-'@modern-js/generator-plugin': patch
-'@modern-js/generator-utils': patch
-'@modern-js/sandpack-react': patch
-'@modern-js/new-action': patch
-'@modern-js/plugin-i18n': patch
-'@modern-js/create': patch
+'@modern-js/storybook-next-generator': minor
+'@modern-js/tailwindcss-generator': minor
+'@modern-js/dependence-generator': minor
+'@modern-js/module-doc-generator': minor
+'@modern-js/changeset-generator': minor
+'@modern-js/generator-generator': minor
+'@modern-js/router-v5-generator': minor
+'@modern-js/packages-generator': minor
+'@modern-js/upgrade-generator': minor
+'@modern-js/module-generator': minor
+'@modern-js/server-generator': minor
+'@modern-js/entry-generator': minor
+'@modern-js/base-generator': minor
+'@modern-js/repo-generator': minor
+'@modern-js/bff-generator': minor
+'@modern-js/mwa-generator': minor
+'@modern-js/ssg-generator': minor
+'@modern-js/generator-plugin-plugin': minor
+'@modern-js/generator-common': minor
+'@modern-js/generator-plugin': minor
+'@modern-js/generator-utils': minor
+'@modern-js/sandpack-react': minor
+'@modern-js/new-action': minor
+'@modern-js/plugin-i18n': minor
+'@modern-js/create': minor
 ---
 
 feat: optimize generator download

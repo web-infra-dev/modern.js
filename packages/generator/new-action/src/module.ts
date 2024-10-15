@@ -68,6 +68,14 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/dependence-generator@${distTag || 'latest'}`,
+    `@modern-js/module-doc-generator@${distTag || 'latest'}`,
+    `@modern-js/storybook-next-generator@${distTag || 'latest'}`,
+  ]);
+
   const formilyAPI = new FormilyAPI({
     materials: {},
     config: {},
@@ -175,6 +183,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     },
   ];
 
+  await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
   await smith.forge({
     tasks: task.map(runner => ({
       generator: runner.name,
