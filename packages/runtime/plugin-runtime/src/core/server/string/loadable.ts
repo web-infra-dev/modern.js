@@ -152,12 +152,22 @@ export class LoadableCollector implements Collector {
       }),
     );
 
+    const jsScriptRegExp = /<script .*?src="([^"]+)".*?>/g;
+
+    const matchs = template.matchAll(jsScriptRegExp);
+
+    // we match all script directly, it can be more faster.
+    const existedScript: string[] = [];
+
+    for (const match of matchs) {
+      existedScript.push(match[1]);
+    }
+
     const scripts = await Promise.all(
       chunks
         .filter(chunk => {
-          const jsChunkReg = new RegExp(`<script .*src="${chunk.url}".*>`);
           return (
-            !jsChunkReg.test(template) &&
+            !existedScript.includes(chunk.url) &&
             !this.existsAssets?.includes(chunk.path)
           );
         })
@@ -188,13 +198,21 @@ export class LoadableCollector implements Collector {
 
     const atrributes = attributesToString(this.generateAttributes());
 
+    const linkRegExp = /<link .*?href="([^"]+)".*?>/g;
+
+    const matchs = template.matchAll(linkRegExp);
+
+    const existedLinks: string[] = [];
+
+    for (const match of matchs) {
+      existedLinks.push(match[1]);
+    }
+
     const css = await Promise.all(
       chunks
         .filter(chunk => {
-          const cssChunkReg = new RegExp(`<link .*href="${chunk.url}".*>`);
-
           return (
-            !cssChunkReg.test(template) &&
+            !existedLinks.includes(chunk.url) &&
             !this.existsAssets?.includes(chunk.path)
           );
         })
