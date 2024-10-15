@@ -1,5 +1,7 @@
-const { tscLikeBuildConfig } = require('@scripts/build');
-
 module.exports = {
-  buildConfig: tscLikeBuildConfig,
+  buildConfig: {
+    autoExternal: false,
+    dts: false,
+    sideEffects: false,
+  },
 };
