@@ -138,6 +138,7 @@ export async function createAction(projectDir: string, options: Options) {
 
   const prepareGeneratorPromise = smith.prepareGenerators([
     `@modern-js/repo-generator@${distTag || 'latest'}`,
+    `@modern-js/repo-next-generator@${distTag || 'latest'}`,
     `@modern-js/base-generator@${distTag || 'latest'}`,
     `@modern-js/mwa-generator@${distTag || 'latest'}`,
     `@modern-js/entry-generator@${distTag || 'latest'}`,
