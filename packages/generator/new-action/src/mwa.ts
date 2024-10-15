@@ -72,6 +72,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
+  smith.logger?.timing('🕒 Run MWA New Tools');
+
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
@@ -206,4 +208,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     })),
     pwd: cwd,
   });
+
+  smith.logger?.timing('🕒 Run MWA New Tools', true);
 };

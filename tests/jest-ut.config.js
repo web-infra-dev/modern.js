@@ -136,9 +136,15 @@ module.exports = {
           },
         ],
       },
-      moduleNameMapper: {},
+      moduleNameMapper: {
+        '^@modern-js/generator-common$':
+          '<rootDir>/packages/generator/generator-common/src',
+        '^@modern-js/generator-utils$':
+          '<rootDir>/packages/generator/generator-utils/src',
+        '^@modern-js/generator-plugin$':
+          '<rootDir>/packages/generator/generator-plugin/src',
+      },
       globals: {},
-      // resolver: '<rootDir>/tests/jest.resolver.js',
       transformIgnorePatterns: [],
       modulePathIgnorePatterns: [
         '<rootDir>/packages/cli/uni-builder/',

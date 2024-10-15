@@ -68,6 +68,8 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     smith.logger.warn('not valid modern.js repo');
   }
 
+  smith.logger?.timing('🕒 Run Module New Tools');
+
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
@@ -191,4 +193,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     })),
     pwd: cwd,
   });
+
+  smith.logger?.timing('🕒 Run Module New Tools', true);
 };

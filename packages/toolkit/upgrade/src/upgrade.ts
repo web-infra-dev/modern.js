@@ -24,6 +24,8 @@ export async function upgradeAction(options: Options) {
     debug,
   });
 
+  smith.logger?.timing('🕒 Run Upgrade Tools');
+
   const prepareGlobalPromise = smith.prepareGlobal();
   const prepareGeneratorPromise = smith.prepareGenerators([UPGRADE_GENERATOR]);
 
@@ -54,6 +56,8 @@ export async function upgradeAction(options: Options) {
       pwd: cwd,
     });
   } catch (e) {
+    smith.logger?.timing('🕒 Run Upgrade Tools', true);
     process.exit(1);
   }
+  smith.logger?.timing('🕒 Run Upgrade Tools', true);
 }

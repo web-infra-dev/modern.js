@@ -132,6 +132,8 @@ export async function createAction(projectDir: string, options: Options) {
     smith.logger.info(`@modern-js/create v${pkgVersion}`);
     return;
   }
+
+  smith.logger?.timing('🕒 Run Create Tools');
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
@@ -154,6 +156,7 @@ export async function createAction(projectDir: string, options: Options) {
     smith.logger.error(
       i18n.t(localeKeys.tooltip.dir_exists, { dirName: projectDir }),
     );
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -187,6 +190,7 @@ export async function createAction(projectDir: string, options: Options) {
       pwd,
     });
   } catch (e) {
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -195,4 +199,5 @@ export async function createAction(projectDir: string, options: Options) {
       i18n.t(localeKeys.tooltip.dir_entry, { dirName: projectDir }),
     );
   }
+  smith.logger?.timing('🕒 Run Create Tools', true);
 }
