@@ -50,7 +50,7 @@
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/module-generator": "workspace:*",
     "@modern-js/mwa-generator": "workspace:*",
-    "@modern-js/codesmith-utils": "2.5.1",
+    "@modern-js/codesmith-utils": "2.5.2",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

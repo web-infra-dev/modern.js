@@ -1,4 +1,4 @@
-import { stripAnsi } from '../src';
+import { stripAnsi } from '../src/utils/stripAnsi';
 
 describe('test stripAnsi utils', () => {
   test('stripAnsi right', () => {
