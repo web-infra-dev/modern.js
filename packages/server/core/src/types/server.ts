@@ -35,6 +35,7 @@ type ServerLoaderBundle = {
     routes: NestedRoute[];
     context: {
       reporter?: Reporter;
+      loaderContext?: Map<string, unknown>;
     };
 
     onError?: OnError;
