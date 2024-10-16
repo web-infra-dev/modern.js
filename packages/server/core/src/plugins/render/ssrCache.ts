@@ -11,12 +11,7 @@ import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '../../types/requestHandler';
-import {
-  ErrorDigest,
-  createTransformStream,
-  getPathname,
-  onError,
-} from '../../utils';
+import { createTransformStream, getPathname } from '../../utils';
 
 interface CacheStruct {
   val: string;
@@ -46,6 +41,7 @@ async function processCache({
   cacheStatus?: CacheStatus;
 }) {
   const response = await requestHandler(request, requestHandlerOptions);
+  const { onError } = requestHandlerOptions;
 
   const decoder: TextDecoder = new TextDecoder();
 
@@ -73,12 +69,19 @@ async function processCache({
           };
 
           container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
-            onError(
-              ErrorDigest.ERENDER_CACHE,
-              `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
-                cache,
-              )}`,
-            );
+            if (onError) {
+              onError(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            } else {
+              console.error(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            }
           });
 
           writer.close();
@@ -188,6 +191,7 @@ export async function getCacheResult(
     requestHandler,
     requestHandlerOptions,
   } = options;
+  const { onError } = requestHandlerOptions;
 
   const key = computedKey(request, cacheControl);
 
@@ -195,10 +199,11 @@ export async function getCacheResult(
   try {
     value = await container.get(key);
   } catch (_) {
-    onError(
-      ErrorDigest.ERENDER_CACHE,
-      `[render-cache] get cache failed, key: ${key}`,
-    );
+    if (onError) {
+      onError(`[render-cache] get cache failed, key: ${key}`);
+    } else {
+      console.error(`[render-cache] get cache failed, key: ${key}`);
+    }
     value = undefined;
   }
   const { maxAge, staleWhileRevalidate } = cacheControl;
