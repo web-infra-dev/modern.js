@@ -1,5 +1,16 @@
 # @modern-js/server-utils
 
+## 2.60.4
+
+### Patch Changes
+
+- 75ff77f: fix: should include files other than tsconfg.json
+  fix: 应该包含除了 tsconfig.json 以外的文件
+  - @modern-js/babel-preset@2.60.4
+  - @modern-js/babel-plugin-module-resolver@2.60.4
+  - @modern-js/babel-compiler@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

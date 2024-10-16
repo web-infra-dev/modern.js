@@ -1,5 +1,15 @@
 # @modern-js/plugin-devtools
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [df1bed5]
+  - @modern-js/runtime@2.60.4
+  - @modern-js/devtools-kit@2.60.4
+  - @modern-js/devtools-client@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

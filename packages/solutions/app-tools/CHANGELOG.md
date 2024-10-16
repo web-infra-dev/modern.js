@@ -1,5 +1,38 @@
 # @modern-js/app-tools
 
+## 2.60.4
+
+### Patch Changes
+
+- a33d0da: fix(bff): should register esbuild for js projects
+  fix(bff): 应该为 js 项目注册 esbuild
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+- 91cf577: feat: config/public directory ignore .gitkeep file
+
+  feat: config/public 目录忽略 .gitkeep 文件
+
+- Updated dependencies [e8bfebf]
+- Updated dependencies [518b783]
+- Updated dependencies [d93bdb4]
+- Updated dependencies [d6986c5]
+- Updated dependencies [d7e932a]
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [75ff77f]
+  - @modern-js/uni-builder@2.60.4
+  - @modern-js/server-core@2.60.4
+  - @modern-js/core@2.60.4
+  - @modern-js/plugin-i18n@2.60.4
+  - @modern-js/plugin-data-loader@2.60.4
+  - @modern-js/server-utils@2.60.4
+  - @modern-js/server@2.60.4
+  - @modern-js/prod-server@2.60.4
+  - @modern-js/rsbuild-plugin-esbuild@2.60.4
+  - @modern-js/node-bundle-require@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes
