@@ -20,10 +20,10 @@
 '@modern-js/generator-common': minor
 '@modern-js/generator-plugin': minor
 '@modern-js/generator-utils': minor
-'@modern-js/sandpack-react': minor
-'@modern-js/new-action': minor
-'@modern-js/plugin-i18n': minor
-'@modern-js/create': minor
+'@modern-js/sandpack-react': patch
+'@modern-js/new-action': patch
+'@modern-js/plugin-i18n': patch
+'@modern-js/create': patch
 ---
 
 feat: optimize generator download
