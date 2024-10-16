@@ -45,7 +45,6 @@ export enum ErrorDigest {
   ENOTF = 'Page could not be found',
   EINTER = 'Internal server error',
   ERENDER = 'SSR render failed',
-  ERENDER_CACHE = 'SSR render cache failed',
   // INIT: 'Server init error',
   // WARMUP: 'SSR warmup failed',
   // EMICROINJ: 'Get micro-frontend info failed',
