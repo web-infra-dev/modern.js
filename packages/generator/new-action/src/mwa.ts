@@ -46,7 +46,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry,
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
@@ -65,7 +65,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const smith = new CodeSmith({
     debug,
-    registryUrl: registry === '' ? undefined : registry,
+    registryUrl: registry,
   });
 
   if (!alreadyRepo(cwd)) {

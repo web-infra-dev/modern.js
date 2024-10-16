@@ -73,7 +73,7 @@ export function getGeneratorPath(generator: string, distTag: string) {
 
 export async function usePluginNameExport(
   solution: Solution,
-  options: Record<string, string>,
+  options: Record<string, string | undefined>,
 ) {
   const solutionVersion = await getModernPluginVersion(
     solution,

@@ -42,7 +42,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry,
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
