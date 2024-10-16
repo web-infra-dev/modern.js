@@ -7,5 +7,6 @@ export const ZH_LOCALE = {
     noNeedInstall: '无需安装依赖',
     cwd: '项目路径',
     config: '指定配置文件路径，可以为相对路径或绝对路径',
+    time: '展示生成器时间日志信息',
   },
 };

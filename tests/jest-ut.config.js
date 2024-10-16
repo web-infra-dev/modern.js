@@ -55,6 +55,7 @@ module.exports = {
         '<rootDir>/packages/toolkit/e2e/',
         '<rootDir>/packages/(server|solutions)/',
         '<rootDir>/packages/(server|solutions)/',
+        '<rootDir>/packages/generator/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',
@@ -104,6 +105,7 @@ module.exports = {
       testPathIgnorePatterns: [
         '<rootDir>/packages/uni-builder/',
         '<rootDir>/packages/toolkit/e2e/',
+        '<rootDir>/packages/generator/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: 'node',
@@ -112,6 +114,53 @@ module.exports = {
         '<rootDir>/packages/solutions/**/src/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/server/**/tests/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/solutions/**/tests/**/*.test.[jt]s?(x)',
+      ],
+    },
+    {
+      setupFiles: [],
+      transform: {
+        '\\.[jt]sx?$': [
+          require.resolve('@swc/jest'),
+          {
+            jsc: {
+              parser: {
+                syntax: 'typescript',
+                decorators: true,
+              },
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                },
+              },
+            },
+          },
+        ],
+      },
+      moduleNameMapper: {
+        '^@modern-js/generator-common$':
+          '<rootDir>/packages/generator/generator-common/src',
+        '^@modern-js/generator-utils$':
+          '<rootDir>/packages/generator/generator-utils/src',
+        '^@modern-js/generator-plugin$':
+          '<rootDir>/packages/generator/generator-plugin/src',
+        '^@modern-js/plugin-i18n$': '<rootDir>/packages/cli/plugin-i18n/src',
+      },
+      globals: {},
+      transformIgnorePatterns: [],
+      modulePathIgnorePatterns: [
+        '<rootDir>/packages/cli/uni-builder/',
+        '<rootDir>/packages/toolkit/e2e/',
+        '<rootDir>/packages/solutions/module-tools/compiled/',
+        '<rootDir>/packages/toolkit/utils/compiled/',
+        '<rootDir>/.nx-cache',
+        '<rootDir>/.nx',
+      ],
+      testPathIgnorePatterns: [],
+      rootDir: path.join(__dirname, '../'),
+      testEnvironment: 'node',
+      testMatch: [
+        '<rootDir>/packages/generator/**/src/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/generator/**/tests/**/*.test.[jt]s?(x)',
       ],
     },
   ],

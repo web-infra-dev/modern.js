@@ -42,13 +42,11 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "@modern-js/codesmith": "2.5.2",
-    "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.13"
-  },
   "devDependencies": {
+    "commander": "10.0.1",
+    "@modern-js/codesmith": "2.6.3",
+    "@modern-js/codesmith-utils": "2.6.3",
+    "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

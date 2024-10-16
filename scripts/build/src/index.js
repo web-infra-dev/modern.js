@@ -176,18 +176,30 @@ const tscLikeBuildConfig = [
 ];
 
 const generatorBuildConfig = {
-  target: 'es2019',
+  format: 'umd',
   autoExternal: false,
-  alias: {
-    chalk: '@modern-js/utils/chalk',
-  },
   dts: false,
-  externals: [
-    '@modern-js/utils',
-    '@modern-js/utils/lodash',
-    '@modern-js/utils/fs-extra',
-    '@modern-js/utils/chalk',
-  ],
+  umdGlobals: {
+    '@modern-js/codesmith': 'codesmith',
+    '@modern-js/codesmith-api-app': 'codesmithApiApp',
+    '@modern-js/codesmith-api-git': 'codesmithApiGit',
+    '@modern-js/codesmith-api-npm': 'codesmithApiNpm',
+    '@modern-js/codesmith-api-ejs': 'codesmithApiEjs',
+    '@modern-js/codesmith-api-fs': 'codesmithApiFs',
+    '@modern-js/codesmith-api-handlebars': 'codesmithApiHandlebars',
+    '@modern-js/codesmith-api-json': 'codesmithApiJson',
+    '@modern-js/codesmith-formily': 'codesmithFormily',
+    '@modern-js/codesmith-utils': 'codesmithUtils',
+    '@modern-js/codesmith-utils/lodash': 'codesmithLodashUtils',
+    '@modern-js/codesmith-utils/glob': 'codesmithGlobUtils',
+    '@modern-js/codesmith-utils/fs-extra': 'codesmithFsUtils',
+    '@modern-js/codesmith-utils/chalk': 'codesmithChalkUtils',
+    '@modern-js/codesmith-utils/execa': 'codesmithExecaUtils',
+    '@modern-js/codesmith-utils/npm': 'codesmithNpmUtils',
+    '@modern-js/codesmith-utils/ora': 'codesmithOraUtils',
+    '@modern-js/codesmith-utils/semver': 'codesmithSemverUtils',
+    '@modern-js/plugin-i18n': 'pluginI18N',
+  },
 };
 
 module.exports = {

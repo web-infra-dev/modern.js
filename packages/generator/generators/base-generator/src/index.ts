@@ -1,12 +1,10 @@
-import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { PackageManager, getBaseSchema } from '@modern-js/generator-common';
-import { fs } from '@modern-js/generator-utils';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
-  generator: GeneratorCore,
+  _generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;

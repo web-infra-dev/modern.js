@@ -1,4 +1,14 @@
-import { canUseNpm, execa, logger, semver, stripAnsi } from '@modern-js/utils';
+import os from 'os';
+import path from 'path';
+import { execa } from '@modern-js/codesmith-utils/execa';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
+import {
+  canUseNpm,
+  canUsePnpm,
+  canUseYarn,
+} from '@modern-js/codesmith-utils/npm';
+import { semver } from '@modern-js/codesmith-utils/semver';
+import { stripAnsi } from './stripAnsi';
 
 // 判断包是否存在
 export async function isPackageExist(packageName: string, registry?: string) {
@@ -47,7 +57,7 @@ export function semverDecrease(version: string) {
 
   const result = versionObj.format();
   if (!semver.valid(result)) {
-    logger.debug(`Version ${result} is not valid semver`);
+    console.error(`Version ${result} is not valid semver`);
     return version;
   }
   return result;
@@ -89,4 +99,30 @@ export async function getAvailableVersion(
     return version;
   }
   return currentVersion;
+}
+
+const MAX_TIMES = 5;
+export async function getPackageManager(cwd: string = process.cwd()) {
+  let appDirectory = cwd;
+  let times = 0;
+  while (os.homedir() !== appDirectory && times < MAX_TIMES) {
+    times++;
+    if (fs.existsSync(path.resolve(appDirectory, 'pnpm-lock.yaml'))) {
+      return 'pnpm';
+    }
+    if (fs.existsSync(path.resolve(appDirectory, 'yarn.lock'))) {
+      return 'yarn';
+    }
+    if (fs.existsSync(path.resolve(appDirectory, 'package-lock.json'))) {
+      return 'npm';
+    }
+    appDirectory = path.join(appDirectory, '..');
+  }
+  if (await canUsePnpm()) {
+    return 'pnpm';
+  }
+  if (await canUseYarn()) {
+    return 'yarn';
+  }
+  return 'npm';
 }

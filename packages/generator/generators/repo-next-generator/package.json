@@ -1,12 +1,12 @@
 {
-  "name": "@modern-js/mwa-generator",
+  "name": "@modern-js/repo-next-generator",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/web-infra-dev/modern.js",
-    "directory": "packages/generator/generators/mwa-generator"
+    "directory": "packages/generator/generators/repo-generator"
   },
   "license": "MIT",
   "keywords": [
@@ -33,12 +33,12 @@
     "@modern-js/base-generator": "workspace:*",
     "@modern-js/codesmith": "2.6.3",
     "@modern-js/codesmith-api-app": "2.6.3",
-    "@modern-js/dependence-generator": "workspace:*",
-    "@modern-js/entry-generator": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
+    "@modern-js/generator-plugin": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
-    "@modern-js/packages-generator": "workspace:*",
-    "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/module-generator": "workspace:*",
+    "@modern-js/mwa-generator": "workspace:*",
+    "@modern-js/plugin-module-banner": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

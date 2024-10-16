@@ -38,7 +38,7 @@
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
-    "@modern-js/utils": "workspace:*",
+    "@modern-js/codesmith-utils": "2.6.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
