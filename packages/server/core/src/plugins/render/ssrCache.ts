@@ -11,7 +11,12 @@ import type {
   RequestHandler,
   RequestHandlerOptions,
 } from '../../types/requestHandler';
-import { createTransformStream, getPathname } from '../../utils';
+import {
+  ErrorDigest,
+  createTransformStream,
+  getPathname,
+  onError,
+} from '../../utils';
 
 interface CacheStruct {
   val: string;
@@ -66,7 +71,16 @@ async function processCache({
             val: html,
             cursor: current,
           };
-          container.set(key, JSON.stringify(cache), { ttl });
+
+          container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
+            onError(
+              ErrorDigest.ERENDER_CACHE,
+              `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                cache,
+              )}`,
+            );
+          });
+
           writer.close();
           return;
         }
@@ -177,7 +191,16 @@ export async function getCacheResult(
 
   const key = computedKey(request, cacheControl);
 
-  const value = await container.get(key);
+  let value: string | undefined;
+  try {
+    value = await container.get(key);
+  } catch (_) {
+    onError(
+      ErrorDigest.ERENDER_CACHE,
+      `[render-cache] get cache failed, key: ${key}`,
+    );
+    value = undefined;
+  }
   const { maxAge, staleWhileRevalidate } = cacheControl;
   const ttl = maxAge + staleWhileRevalidate;
 
