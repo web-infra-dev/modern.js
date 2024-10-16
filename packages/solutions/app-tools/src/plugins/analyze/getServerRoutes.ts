@@ -210,24 +210,28 @@ const collectStaticRoutes = (
   } = config;
   const publicFolder = path.resolve(appDirectory, configDir || '', 'public');
 
-  return fs.existsSync(publicFolder)
-    ? walkDirectory(publicFolder).map(filePath => {
-        const urlPath = `${urlJoin(
-          toPosix(filePath).slice(toPosix(publicFolder).length),
-        )}`;
+  const ignoreFiles = ['.gitkeep'];
 
-        return {
-          urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
-          isSPA: true,
-          isSSR: false,
-          entryPath: toPosix(
-            path.relative(
-              path.resolve(appDirectory, configDir || ''),
-              filePath,
+  return fs.existsSync(publicFolder)
+    ? walkDirectory(publicFolder)
+        .filter(filePath => !ignoreFiles.includes(path.basename(filePath)))
+        .map(filePath => {
+          const urlPath = `${urlJoin(
+            toPosix(filePath).slice(toPosix(publicFolder).length),
+          )}`;
+
+          return {
+            urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
+            isSPA: true,
+            isSSR: false,
+            entryPath: toPosix(
+              path.relative(
+                path.resolve(appDirectory, configDir || ''),
+                filePath,
+              ),
             ),
-          ),
-        };
-      })
+          };
+        })
     : [];
 };
 
