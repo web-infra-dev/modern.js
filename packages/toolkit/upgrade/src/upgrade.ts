@@ -4,6 +4,7 @@ import { ora } from '@modern-js/codesmith-utils/ora';
 export interface Options {
   cwd?: string;
   debug?: boolean;
+  time?: boolean;
   distTag?: string;
   registry?: string;
   needInstall?: boolean;
@@ -15,6 +16,7 @@ export async function upgradeAction(options: Options) {
   const {
     cwd = process.cwd(),
     debug = false,
+    time = false,
     distTag,
     registry,
     needInstall,
@@ -23,6 +25,7 @@ export async function upgradeAction(options: Options) {
 
   const smith = new CodeSmith({
     debug,
+    time,
   });
 
   smith.logger?.timing('🕒 Run Upgrade Tools');

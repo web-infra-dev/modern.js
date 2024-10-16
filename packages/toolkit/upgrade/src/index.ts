@@ -20,6 +20,7 @@ export function defineCommand(program: Command) {
       undefined,
     )
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
+    .option('--time', i18n.t(localeKeys.command.time), false)
     .option('--cwd <cwd>', i18n.t(localeKeys.command.cwd), '')
     .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
     .action(async params => {
