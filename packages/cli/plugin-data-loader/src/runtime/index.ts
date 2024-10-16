@@ -64,6 +64,7 @@ export const handleRequest = async ({
   onError?: (error: unknown) => void;
   onTiming?: (name: string, dur: number) => void;
   context: {
+    loaderContext?: Map<string, unknown>;
     reporter?: Reporter;
   };
 }): Promise<Response | void> => {
@@ -77,13 +78,13 @@ export const handleRequest = async ({
 
   const basename = entry.urlPath;
   const end = time();
-  const { reporter } = context;
+  const { reporter, loaderContext } = context;
   const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
-  const requestContext = createRequestContext();
+  const requestContext = createRequestContext(loaderContext);
   // initial requestContext
   // 1. inject reporter
   requestContext.set(reporterCtx, reporter);

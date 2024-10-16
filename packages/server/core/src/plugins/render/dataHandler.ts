@@ -11,6 +11,7 @@ export const dataHandler = async (
     onError,
     onTiming,
     serverManifest,
+    loaderContext,
   }: SSRRenderOptions & {
     serverRoutes: ServerRoute[];
   },
@@ -28,6 +29,7 @@ export const dataHandler = async (
     serverRoutes,
     context: {
       reporter,
+      loaderContext,
     },
     onTiming,
     onError,
