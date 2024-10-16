@@ -96,6 +96,8 @@
       "node_modules/**/*",
       "dist/**/*",
       "dist-1/**/*",
+      "dist-2/**/*",
+      "dist-swc/**/*",
       "output/**/*",
       ".output/**/*",
       ".netlify/**/*",

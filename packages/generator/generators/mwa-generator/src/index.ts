@@ -27,6 +27,14 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  generator.logger?.timing(`🕐 Get Modern.js app-tools version`);
+  const modernVersion = await getModernVersion(
+    Solution.MWA,
+    context.config.registry,
+    context.config.distTag,
+  );
+  generator.logger?.timing(`🕐 Get Modern.js app-tools version`, true);
+
   const { isMonorepoSubProject, projectDir = '' } = context.config;
 
   const { outputPath } = generator;
@@ -97,14 +105,6 @@ export const handleTemplateFile = async (
       },
     );
   }
-
-  generator.logger?.timing(`🕐 Get Modern.js app-tools version`);
-  const modernVersion = await getModernVersion(
-    Solution.MWA,
-    context.config.registry,
-    context.config.distTag,
-  );
-  generator.logger?.timing(`🕐 Get Modern.js app-tools version`, true);
 
   generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 

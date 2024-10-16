@@ -41,6 +41,7 @@ async function processCache({
   cacheStatus?: CacheStatus;
 }) {
   const response = await requestHandler(request, requestHandlerOptions);
+  const { onError } = requestHandlerOptions;
 
   const decoder: TextDecoder = new TextDecoder();
 
@@ -66,7 +67,23 @@ async function processCache({
             val: html,
             cursor: current,
           };
-          container.set(key, JSON.stringify(cache), { ttl });
+
+          container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
+            if (onError) {
+              onError(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            } else {
+              console.error(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            }
+          });
+
           writer.close();
           return;
         }
@@ -174,10 +191,21 @@ export async function getCacheResult(
     requestHandler,
     requestHandlerOptions,
   } = options;
+  const { onError } = requestHandlerOptions;
 
   const key = computedKey(request, cacheControl);
 
-  const value = await container.get(key);
+  let value: string | undefined;
+  try {
+    value = await container.get(key);
+  } catch (_) {
+    if (onError) {
+      onError(`[render-cache] get cache failed, key: ${key}`);
+    } else {
+      console.error(`[render-cache] get cache failed, key: ${key}`);
+    }
+    value = undefined;
+  }
   const { maxAge, staleWhileRevalidate } = cacheControl;
   const ttl = maxAge + staleWhileRevalidate;
 

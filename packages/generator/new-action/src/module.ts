@@ -1,5 +1,6 @@
 import { CodeSmith } from '@modern-js/codesmith';
 import { FormilyAPI } from '@modern-js/codesmith-formily';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   type ActionFunction,
   ActionType,
@@ -18,7 +19,6 @@ import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
-import { merge } from '@modern-js/utils/lodash';
 import { enableAlreadyText } from './constants';
 import {
   alreadyRepo,
@@ -42,7 +42,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry,
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
@@ -61,12 +61,22 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   const smith = new CodeSmith({
     debug,
-    registryUrl: registry,
+    registryUrl: registry === '' ? undefined : registry,
   });
 
   if (!alreadyRepo(cwd)) {
     smith.logger.warn('not valid modern.js repo');
   }
+
+  smith.logger?.timing('🕒 Run Module New Tools');
+
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/dependence-generator@${distTag || 'latest'}`,
+    `@modern-js/module-doc-generator@${distTag || 'latest'}`,
+    `@modern-js/storybook-next-generator@${distTag || 'latest'}`,
+  ]);
 
   const formilyAPI = new FormilyAPI({
     materials: {},
@@ -175,6 +185,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     },
   ];
 
+  await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
   await smith.forge({
     tasks: task.map(runner => ({
       generator: runner.name,
@@ -182,4 +193,6 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     })),
     pwd: cwd,
   });
+
+  smith.logger?.timing('🕒 Run Module New Tools', true);
 };

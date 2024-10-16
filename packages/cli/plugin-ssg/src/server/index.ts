@@ -87,15 +87,4 @@ export const createServer = (
         logger.info(str.replace(/[^\S\n]+/g, ' '));
       }
     });
-
-    cp.stdout?.on('data', chunk => {
-      const str = chunk.toString();
-      if (str.includes('Error')) {
-        logger.error(str);
-        reject(new Error('ssg render failed'));
-        cp.kill('SIGKILL');
-      } else {
-        logger.info(str.replace(/[^\S\n]+/g, ' '));
-      }
-    });
   });

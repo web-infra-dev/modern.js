@@ -1,7 +1,7 @@
 import path from 'path';
 import { CodeSmith, type Logger } from '@modern-js/codesmith';
+import { ora } from '@modern-js/codesmith-utils/ora';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import { logger } from '@modern-js/utils';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
 import { createDir } from './utils';
@@ -123,16 +123,33 @@ export async function createAction(projectDir: string, options: Options) {
     debug,
     time,
     namespace: 'create',
-    registryUrl: registry,
+    registryUrl: registry === '' ? undefined : registry,
   });
 
   if (lang) {
     i18n.changeLanguage({ locale: lang });
   }
   if (version) {
-    logger.greet(`@modern-js/create v${pkgVersion}`);
+    smith.logger.info(`@modern-js/create v${pkgVersion}`);
     return;
   }
+
+  smith.logger?.timing('🕒 Run Create Tools');
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/repo-generator@${distTag || 'latest'}`,
+    `@modern-js/repo-next-generator@${distTag || 'latest'}`,
+    `@modern-js/base-generator@${distTag || 'latest'}`,
+    `@modern-js/mwa-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/module-generator@${distTag || 'latest'}`,
+    `@modern-js/changeset-generator@${distTag || 'latest'}`,
+  ]);
 
   smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
   smith.logger.debug('💡 [Current Dir]:', projectDir || '');
@@ -145,6 +162,7 @@ export async function createAction(projectDir: string, options: Options) {
     smith.logger.error(
       i18n.t(localeKeys.tooltip.dir_exists, { dirName: projectDir }),
     );
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -159,7 +177,12 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
+    await prepareGeneratorPromise;
   }
+
+  await prepareGlobalPromise;
+
+  spinner.stop();
 
   const task: RunnerTask = [
     {
@@ -177,6 +200,7 @@ export async function createAction(projectDir: string, options: Options) {
       pwd,
     });
   } catch (e) {
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -185,4 +209,5 @@ export async function createAction(projectDir: string, options: Options) {
       i18n.t(localeKeys.tooltip.dir_entry, { dirName: projectDir }),
     );
   }
+  smith.logger?.timing('🕒 Run Create Tools', true);
 }

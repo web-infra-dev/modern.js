@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { Command } from '@modern-js/utils/commander';
+import { Command } from 'commander';
 
 import { ModuleNewAction } from './module';
 import { MWANewAction } from './mwa';
@@ -13,6 +13,8 @@ const main = async () => {
     .option('--solution <solution>', 'solution', '')
     .option('--config <config>', 'config', '{}')
     .option('--root-path <rootPath>', 'project root path', '')
+    .option('--debug', 'using debug mode to log something', false)
+    .option('--time', 'show run generator time log', false)
     .action(async params => {
       if (!params.solution) {
         params.solution = getSolutionByDependance();
