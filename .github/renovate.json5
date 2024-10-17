@@ -110,6 +110,8 @@
     "pkg-up",
     "react",
     "styled-components",
-    "webpack"
+    "webpack",
+    // need node 18
+    "http-compression"
   ]
 }

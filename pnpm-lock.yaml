@@ -3650,8 +3650,8 @@ importers:
         specifier: ^1.2.2
         version: 1.2.2
       http-compression:
-        specifier: 1.1.1
-        version: 1.1.1
+        specifier: 1.0.6
+        version: 1.0.6
       minimatch:
         specifier: ^3.0.4
         version: 3.1.2
@@ -26094,9 +26094,9 @@ packages:
   /http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
 
-  /http-compression@1.1.1:
-    resolution: {integrity: sha512-qsnoaCF/vcRTkgYJoihBKVwL+aYUA6RqEwBccO0iqbdccdBfaexx2UXs7Sp5fte5NfJzmBcuGIrA8RIn4anPsw==}
-    engines: {node: '>= 18'}
+  /http-compression@1.0.6:
+    resolution: {integrity: sha512-Yy9VFT/0fJhbpSHmqA34CJKZDXLnHoQUP2wbFXY7duOx3nc9Qf8MVJezaXTP7IirvJ9DmUv/vm7qFNu/RntdWw==}
+    engines: {node: '>= 4'}
     dev: false
 
   /http-errors@1.8.1:
