@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.60.4
+
+### Patch Changes
+
+- d6986c5: feat: optimize generator download
+
+  feat: 优化生成器下载
+
 ## 2.60.3
 
 ## 2.60.2

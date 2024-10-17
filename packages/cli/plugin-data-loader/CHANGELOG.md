@@ -1,5 +1,15 @@
 # @modern-js/plugin-data-loader
 
+## 2.60.4
+
+### Patch Changes
+
+- a9e3eb7: fix(server): should get context from unstable middleware correctly
+  fix(server): 应该正确地获取到 loaderContext
+- Updated dependencies [c87813e]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/plugin-ssg
 
+## 2.60.4
+
+### Patch Changes
+
+- 983e802: fix: remove ssg stdout listener, only stderr
+  fix: 移除 ssg 的 stdout 监听，只保留 stderr
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+  - @modern-js/prod-server@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

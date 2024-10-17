@@ -1,5 +1,18 @@
 # @modern-js/uni-builder
 
+## 2.60.4
+
+### Patch Changes
+
+- e8bfebf: feat: add `html.outputStructure` and doc
+  feat: 展示 `html.outputStructure` 并添加文档
+- d7e932a: fix: `output.sourcemap` not work
+
+  fix: `output.sourcemap` 不生效
+
+  - @modern-js/babel-preset@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

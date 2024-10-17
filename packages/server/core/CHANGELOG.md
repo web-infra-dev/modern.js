@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.60.4
+
+### Patch Changes
+
+- 518b783: feat(server): add catch logic for ssrCache container operation
+  feat(server): 为 ssr 缓存容器操作添加错误捕获逻辑
+- a9e3eb7: fix(server): should get context from unstable middleware correctly
+  fix(server): 应该正确地获取到 loaderContext
+- Updated dependencies [c87813e]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

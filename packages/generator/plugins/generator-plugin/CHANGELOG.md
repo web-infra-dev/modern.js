@@ -1,5 +1,13 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.7.0
+
+### Minor Changes
+
+- d6986c5: feat: optimize generator download
+
+  feat: 优化生成器下载
+
 ## 3.6.3
 
 ## 3.6.2
