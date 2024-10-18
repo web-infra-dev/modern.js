@@ -56,6 +56,8 @@ module.exports = {
         '<rootDir>/packages/(server|solutions)/',
         '<rootDir>/packages/(server|solutions)/',
         '<rootDir>/packages/generator/',
+        '<rootDir>/packages/cli/plugin-swc/',
+        '<rootDir>/packages/runtime/plugin-runtime/',
       ],
       rootDir: path.join(__dirname, '../'),
       testEnvironment: '<rootDir>/tests/jest.env.js',
@@ -114,6 +116,8 @@ module.exports = {
         '<rootDir>/packages/solutions/**/src/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/server/**/tests/**/*.test.[jt]s?(x)',
         '<rootDir>/packages/solutions/**/tests/**/*.test.[jt]s?(x)',
+        '<rootDir>/packages/cli/plugin-swc/',
+        '<rootDir>/packages/runtime/plugin-runtime/',
       ],
     },
     {
