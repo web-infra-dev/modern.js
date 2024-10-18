@@ -3,6 +3,7 @@ const sharedConfig = require('@scripts/jest-config');
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   ...sharedConfig,
+  testEnvironment: 'node',
   setupFiles: ['../../../tests/setEnvVars.js'],
   rootDir: __dirname,
   moduleNameMapper: {

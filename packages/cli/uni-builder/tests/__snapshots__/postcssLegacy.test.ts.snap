@@ -11,7 +11,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "type": "javascript/auto",
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -107,7 +107,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -218,7 +218,7 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
     "test": /\\\\\\.less\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -328,7 +328,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
     "type": "javascript/auto",
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -400,7 +400,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
     "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -487,7 +487,7 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 3
     "test": /\\\\\\.less\\$/,
     "use": [
       {
-        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
       },
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
