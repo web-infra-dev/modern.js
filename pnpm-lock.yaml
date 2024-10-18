@@ -719,8 +719,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       html-webpack-plugin:
-        specifier: 5.5.3
-        version: 5.5.3(webpack@5.95.0(esbuild@0.17.19))
+        specifier: 5.6.2
+        version: 5.6.2(@rspack/core@1.0.13(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -771,7 +771,7 @@ importers:
         version: 5.95.0(esbuild@0.17.19)
       webpack-subresource-integrity:
         specifier: 5.1.0
-        version: 5.1.0(html-webpack-plugin@5.5.3(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19))
+        version: 5.1.0(html-webpack-plugin@5.6.2(@rspack/core@1.0.13(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19))
     devDependencies:
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
@@ -6613,18 +6613,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.3.3
-
-  tests/integration/plugins:
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.13
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
 
   tests/integration/pure-esm-project:
     dependencies:
@@ -13994,10 +13982,6 @@ packages:
   classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
 
-  clean-css@5.2.2:
-    resolution: {integrity: sha512-/eR8ru5zyxKzpBLv9YZvMXgTSSQn7AdkMItMYynsFgGwTveCRVam9IUPFloE85B4vAIj05IuKmmEoV7/AQjT0w==}
-    engines: {node: '>= 10.0'}
-
   clean-css@5.3.3:
     resolution: {integrity: sha512-D5J+kHaVb/wKSFcyyV75uCn8fiY4sV38XJoe4CUyGQ+mOU/fMVYUdH1hJC+CJQ5uY3EnW27SbJYS4X8BiLrAFg==}
     engines: {node: '>= 10.0'}
@@ -16183,11 +16167,17 @@ packages:
   html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
 
-  html-webpack-plugin@5.5.3:
-    resolution: {integrity: sha512-6YrDKTuqaP/TquFH7h4srYWsZx+x6k6+FbsTm0ziCwGHDP78Unr1r9F/H4+sGmMbX08GQcJ+K64x55b+7VM/jg==}
+  html-webpack-plugin@5.6.2:
+    resolution: {integrity: sha512-q7xp/FO9RGBVoTKNItkdX1jKLscLFkgn/dLVFNYbHVbfHLBk6DYW5nsQ8kCzIWcgKP/kUBocetjvav6lD8YfCQ==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
+      '@rspack/core': 0.x || 1.x
       webpack: ^5.20.0
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
+      webpack:
+        optional: true
 
   html5shiv@3.7.3:
     resolution: {integrity: sha512-SZwGvLGNtgp8GbgFX7oXEp8OR1aBt5LliX6dG0kdD1kl3KhMonN0QcSa/A3TsTgFewaGCbIryQunjayWDXzxmw==}
@@ -31385,10 +31375,6 @@ snapshots:
 
   classnames@2.3.2: {}
 
-  clean-css@5.2.2:
-    dependencies:
-      source-map: 0.6.1
-
   clean-css@5.3.3:
     dependencies:
       source-map: 0.6.1
@@ -33988,7 +33974,7 @@ snapshots:
   html-minifier-terser@6.1.0:
     dependencies:
       camel-case: 4.1.2
-      clean-css: 5.2.2
+      clean-css: 5.3.3
       commander: 8.3.0
       he: 1.2.0
       param-case: 3.0.4
@@ -34019,13 +34005,15 @@ snapshots:
 
   html-void-elements@2.0.1: {}
 
-  html-webpack-plugin@5.5.3(webpack@5.95.0(esbuild@0.17.19)):
+  html-webpack-plugin@5.6.2(@rspack/core@1.0.13(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
       lodash: 4.17.21
       pretty-error: 4.0.0
       tapable: 2.2.1
+    optionalDependencies:
+      '@rspack/core': 1.0.13(@swc/helpers@0.5.13)
       webpack: 5.95.0(esbuild@0.17.19)
 
   html5shiv@3.7.3: {}
@@ -41646,12 +41634,12 @@ snapshots:
 
   webpack-sources@3.2.3: {}
 
-  webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.5.3(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19)):
+  webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.6.2(@rspack/core@1.0.13(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19)):
     dependencies:
       typed-assert: 1.0.9
       webpack: 5.95.0(esbuild@0.17.19)
     optionalDependencies:
-      html-webpack-plugin: 5.5.3(webpack@5.95.0(esbuild@0.17.19))
+      html-webpack-plugin: 5.6.2(@rspack/core@1.0.13(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
 
   webpack-virtual-modules@0.6.2: {}
 
