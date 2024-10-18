@@ -18,6 +18,7 @@ type FilenameConfig = {
   font?: string;
   image?: string;
   media?: string;
+  assets?: string;
 };
 ```
 
@@ -33,6 +34,7 @@ const devDefaultFilename = {
   font: '[name].[contenthash:8][ext]',
   image: '[name].[contenthash:8][ext]',
   media: '[name].[contenthash:8][ext]',
+  assets: '[name].[contenthash:8][ext]',
 };
 
 // Production mode
@@ -44,6 +46,7 @@ const prodDefaultFilename = {
   font: '[name].[contenthash:8][ext]',
   image: '[name].[contenthash:8][ext]',
   media: '[name].[contenthash:8][ext]',
+  assets: '[name].[contenthash:8][ext]',
 };
 ```
 
