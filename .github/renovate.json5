@@ -112,6 +112,7 @@
     "styled-components",
     "webpack",
     // need node 18
-    "http-compression"
+    "http-compression",
+    @biomejs/biome
   ]
 }
