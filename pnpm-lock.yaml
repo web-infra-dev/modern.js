@@ -6391,26 +6391,26 @@ importers:
   tests/integration/module/fixtures/build/asset/limit:
     dependencies:
       react:
-        specifier: ^17
-        version: 17.0.2
+        specifier: ^18.3.1
+        version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/name:
     dependencies:
       react:
-        specifier: ^17
-        version: 17.0.2
+        specifier: ^18.3.1
+        version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/path:
     dependencies:
       react:
-        specifier: ^17
-        version: 17.0.2
+        specifier: ^18.3.1
+        version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/publicPath:
     dependencies:
       react:
-        specifier: ^17
-        version: 17.0.2
+        specifier: ^18.3.1
+        version: 18.3.1
 
   tests/integration/module/fixtures/build/asset/svgr: {}
 
@@ -19595,10 +19595,6 @@ packages:
 
   react@0.0.0-experimental-51ffd3564-20231025:
     resolution: {integrity: sha512-sehV2ZhmM2XFS1gV4ilpRXm1Vm7L2aCXPsMNtQa3mTKUvfdxpJB8KItGpOW/I7Btzi7b7wT4+vIqoOmOQ3lx5A==}
-    engines: {node: '>=0.10.0'}
-
-  react@17.0.2:
-    resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}
     engines: {node: '>=0.10.0'}
 
   react@18.3.1:
@@ -38112,11 +38108,6 @@ snapshots:
   react@0.0.0-experimental-51ffd3564-20231025:
     dependencies:
       loose-envify: 1.4.0
-
-  react@17.0.2:
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
 
   react@18.3.1:
     dependencies:
