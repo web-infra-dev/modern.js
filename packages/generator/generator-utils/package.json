@@ -39,7 +39,7 @@
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/codesmith-utils": "2.6.5",
-    "glob": "7.2.0",
+    "glob": "7.2.3",
     "js-yaml": "4.1.0",
     "json5": "2.2.3",
     "@swc/helpers": "0.5.13"

@@ -1351,8 +1351,8 @@ importers:
         specifier: 0.5.13
         version: 0.5.13
       glob:
-        specifier: 7.2.0
-        version: 7.2.0
+        specifier: 7.2.3
+        version: 7.2.3
       js-yaml:
         specifier: 4.1.0
         version: 4.1.0
