@@ -4519,11 +4519,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.60.3
-        version: '@modern-js/core@2.60.3'
+        specifier: npm:@modern-js/core@2.60.4
+        version: '@modern-js/core@2.60.4'
       '@modern-js/module-tools-npm':
-        specifier: npm:@modern-js/module-tools@2.60.3
-        version: '@modern-js/module-tools@2.60.3(typescript@5.3.3)'
+        specifier: npm:@modern-js/module-tools@2.60.4
+        version: '@modern-js/module-tools@2.60.4(typescript@5.3.3)'
       '@types/jest':
         specifier: ^29
         version: 29.5.13
@@ -10482,8 +10482,8 @@ packages:
   '@modern-js/codesmith@2.6.5':
     resolution: {integrity: sha512-AxQuFAl63KDA8Izv0W12/IrMsPLrbc9/jU0dEzCHJKx8bpeqJiCtxdAUx7idb39zzP6xux+2qi1ETMF5WUaUQQ==}
 
-  '@modern-js/core@2.60.3':
-    resolution: {integrity: sha512-FpwXZVkJq3FxSYrnMN+EOprsGrEljWGt/EAP1sQ/DIYs98QWDpiqSY8czkyqyt5Ba6wth4Pu4lJelFs0WBwPdA==}
+  '@modern-js/core@2.60.4':
+    resolution: {integrity: sha512-R4ZBR42LOdT43wOEfpV4d4RfNhCj3gn0WWa0LcTl6xZqUQAzx/gV9M+rcy0gyJBAifTqQRRRKJohnHQ8+fskbQ==}
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1':
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
@@ -10491,8 +10491,8 @@ packages:
     peerDependencies:
       react: '>=17'
 
-  '@modern-js/module-tools@2.60.3':
-    resolution: {integrity: sha512-YF88Z1150Qs16CIXvsspUgQORY/9eq96iyBlsmzauaLaSWClBY5gLhmA7Up/G9C3UUAynp5Sy6GdqU9ERHj7eA==}
+  '@modern-js/module-tools@2.60.4':
+    resolution: {integrity: sha512-Kfe3+7HzquBvAkkA/J7sODRnbbH9FXNKDKBwm5j/XKOj2hPgrhLyQKyqCJxRaafIulldEhmVvqNnWPq1JtKa8Q==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -10501,17 +10501,20 @@ packages:
       typescript:
         optional: true
 
-  '@modern-js/node-bundle-require@2.60.3':
-    resolution: {integrity: sha512-SUNH71LMn1Tyjf9Qw0Q1eVsPgoLfz8zTZXs0bYjzn7kNUHCSD+sgSN07GmwLTdR2N3uUKoa9GeC8nSYUby1enA==}
+  '@modern-js/node-bundle-require@2.60.4':
+    resolution: {integrity: sha512-mU7cDB9pYQd5h7gtrI0E2zbMdRQdJi2nDqxqBCKb3KKtmSr0VyhAcvHw6vbBvOVKkfbqN+Q/QmUSN0dFSqWyVg==}
 
-  '@modern-js/plugin-changeset@2.60.3':
-    resolution: {integrity: sha512-u0DHbYmE9YocHLhS+k1Pm6PiR8MO4pmn+1IOG+/Ms1SDZNOs3oYERAxXo5Rn6Us6e68mWZyj36B1gWaAPi9GCA==}
+  '@modern-js/plugin-changeset@2.60.4':
+    resolution: {integrity: sha512-dNDeSOMgwojiOw2fqQICmGZddekLqD0Mv+AV6xYf6HmtAHAUKmjQ+SOckykno8yTJzUNPj58HGula0wbQDsoWA==}
 
   '@modern-js/plugin-i18n@2.60.3':
     resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
 
-  '@modern-js/plugin@2.60.3':
-    resolution: {integrity: sha512-nWyCemxpXfngfWJamfHihBYh0sOQ3MuQleRpFTY3qMwtemmPr8SJPIZuoP/svA3mccOVmdlYNoFeRP3adqC89g==}
+  '@modern-js/plugin-i18n@2.60.4':
+    resolution: {integrity: sha512-sWDaJ5pZ3iyD5J2nSdiA4MYs0BD7jnadamKzLAqsX2KDPPQ/3ZwwZsgSeTel+p5IyuRq5hkwjVS8GoxnQzHDwg==}
+
+  '@modern-js/plugin@2.60.4':
+    resolution: {integrity: sha512-u1RljHNayfN/MJziVyv1qonFBo7nTKsTzbvvJzlWqzpbXTGQeJpdaZKbyoKA1Aj5Oc1OpfQahIxMlhktkZ2USw==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -10574,8 +10577,8 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.60.3':
-    resolution: {integrity: sha512-v2MEvxmEa6jdXjMr3GUPVXwVlELoHaePHc9cmCCgu5Si23Vla5It4j27n72l8bBYhBuJ7zM1pqT9yrvNxIBPeQ==}
+  '@modern-js/types@2.60.4':
+    resolution: {integrity: sha512-hdX8ve21gAleoV7LSICxrHJROlRDdL0nFU6TkTCw1DXJhfIPJod5b5XG73VnXpxv+kf1u4pPrVtCPq2XX1SRyA==}
 
   '@modern-js/utils@2.58.1':
     resolution: {integrity: sha512-JemTkJ4UqqFbJ72NqBXzMFG0dqw70HTGDoX7VAXdYPrEmn8LRvSqHlSCIeX5KF1U+KNa0a7OEdsb9Q56UESjdQ==}
@@ -10585,6 +10588,9 @@ packages:
 
   '@modern-js/utils@2.60.3':
     resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
+
+  '@modern-js/utils@2.60.4':
+    resolution: {integrity: sha512-RQuROvNA68Dr2SI0mEc1MmG5X2yVmz+aWViZP1Q89z9ErVSJGCSspUHpM2kFQaCwDgbB7Oz84bcAnP0C+ED9TQ==}
 
   '@module-federation/runtime-tools@0.0.8':
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -14266,9 +14272,6 @@ packages:
   convert-source-map@1.8.0:
     resolution: {integrity: sha512-+OQdjP49zViI/6i7nIJpA8rAl4sV/JdPfU9nZs3VqOwGIgizICvuN2ru6fMd+4llL0tar18UYJXfZ/TWtmhUjA==}
 
-  convert-source-map@1.9.0:
-    resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
-
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
@@ -17337,10 +17340,6 @@ packages:
   magic-string@0.30.12:
     resolution: {integrity: sha512-Ea8I3sQMVXr8JhN4z+H/d8zwo+tYDgHE9+5G4Wnrwhs0gaK9fXTKx0Tw5Xwsd/bCPTTZNRAdpyzvoeORe9LYpw==}
 
-  magic-string@0.30.5:
-    resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==}
-    engines: {node: '>=12'}
-
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
     engines: {node: '>=6'}
@@ -18570,11 +18569,6 @@ packages:
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
-
-  postcss-modules@4.3.0:
-    resolution: {integrity: sha512-zoUttLDSsbWDinJM9jH37o7hulLRyEgH6fZm2PchxN7AZ8rkdWiALyNhnQ7+jg7cX9f10m6y5VhHsrjO0Mf/DA==}
-    peerDependencies:
-      postcss: ^8.0.0
 
   postcss-modules@4.3.1:
     resolution: {integrity: sha512-ItUhSUxBBdNamkT3KzIZwYNNRFKmkJrofvC2nWab3CPKhYBQ1f27XXh1PAPE27Psx58jeelPsxWB/+og+KEH0Q==}
@@ -22091,7 +22085,7 @@ snapshots:
       '@babel/template': 7.25.7
       '@babel/traverse': 7.25.7
       '@babel/types': 7.25.8
-      convert-source-map: 1.9.0
+      convert-source-map: 1.8.0
       debug: 4.3.7(supports-color@9.3.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
@@ -22605,7 +22599,7 @@ snapshots:
       '@babel/helper-function-name': 7.24.7
       '@babel/template': 7.25.7
       '@babel/traverse': 7.25.7
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.8
     transitivePeerDependencies:
       - supports-color
 
@@ -25951,11 +25945,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.60.3':
+  '@modern-js/core@2.60.4':
     dependencies:
-      '@modern-js/node-bundle-require': 2.60.3
-      '@modern-js/plugin': 2.60.3
-      '@modern-js/utils': 2.60.3
+      '@modern-js/node-bundle-require': 2.60.4
+      '@modern-js/plugin': 2.60.4
+      '@modern-js/utils': 2.60.4
       '@swc/helpers': 0.5.13
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.3.1)':
@@ -25963,27 +25957,27 @@ snapshots:
       '@modern-js/utils': 2.58.1
       react: 18.3.1
 
-  '@modern-js/module-tools@2.60.3(typescript@5.3.3)':
+  '@modern-js/module-tools@2.60.4(typescript@5.3.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.16.0
       '@babel/core': 7.25.8
       '@babel/types': 7.25.8
-      '@modern-js/core': 2.60.3
-      '@modern-js/plugin': 2.60.3
-      '@modern-js/plugin-changeset': 2.60.3
-      '@modern-js/plugin-i18n': 2.60.3
+      '@modern-js/core': 2.60.4
+      '@modern-js/plugin': 2.60.4
+      '@modern-js/plugin-changeset': 2.60.4
+      '@modern-js/plugin-i18n': 2.60.4
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.13)
-      '@modern-js/types': 2.60.3
-      '@modern-js/utils': 2.60.3
+      '@modern-js/types': 2.60.4
+      '@modern-js/utils': 2.60.4
       '@rollup/pluginutils': 4.1.1
       '@swc/helpers': 0.5.13
       convert-source-map: 1.8.0
       enhanced-resolve: 5.12.0
       esbuild: 0.19.2
-      magic-string: 0.30.5
+      magic-string: 0.30.12
       postcss: 8.4.47
-      postcss-modules: 4.3.0(postcss@8.4.47)
+      postcss-modules: 4.3.1(postcss@8.4.47)
       safe-identifier: 0.4.2
       source-map: 0.7.4
       style-inject: 0.3.0
@@ -25997,19 +25991,19 @@ snapshots:
       - debug
       - supports-color
 
-  '@modern-js/node-bundle-require@2.60.3':
+  '@modern-js/node-bundle-require@2.60.4':
     dependencies:
-      '@modern-js/utils': 2.60.3
+      '@modern-js/utils': 2.60.4
       '@swc/helpers': 0.5.13
       esbuild: 0.17.19
 
-  '@modern-js/plugin-changeset@2.60.3':
+  '@modern-js/plugin-changeset@2.60.4':
     dependencies:
       '@changesets/cli': 2.26.2
       '@changesets/git': 2.0.0
       '@changesets/read': 0.5.9
-      '@modern-js/plugin-i18n': 2.60.3
-      '@modern-js/utils': 2.60.3
+      '@modern-js/plugin-i18n': 2.60.4
+      '@modern-js/utils': 2.60.4
       '@swc/helpers': 0.5.13
       axios: 1.7.7(debug@4.3.7)
       resolve-from: 5.0.0
@@ -26021,9 +26015,14 @@ snapshots:
       '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin@2.60.3':
+  '@modern-js/plugin-i18n@2.60.4':
     dependencies:
-      '@modern-js/utils': 2.60.3
+      '@modern-js/utils': 2.60.4
+      '@swc/helpers': 0.5.13
+
+  '@modern-js/plugin@2.60.4':
+    dependencies:
+      '@modern-js/utils': 2.60.4
       '@swc/helpers': 0.5.13
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -26110,7 +26109,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.13
 
-  '@modern-js/types@2.60.3': {}
+  '@modern-js/types@2.60.4': {}
 
   '@modern-js/utils@2.58.1':
     dependencies:
@@ -26130,6 +26129,13 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001668
+      lodash: 4.17.21
+      rslog: 1.2.3
+
+  '@modern-js/utils@2.60.4':
+    dependencies:
+      '@swc/helpers': 0.5.13
+      caniuse-lite: 1.0.30001669
       lodash: 4.17.21
       rslog: 1.2.3
 
@@ -30368,7 +30374,7 @@ snapshots:
 
   babel-walk@3.0.0-canary-5:
     dependencies:
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.8
 
   bail@1.0.5: {}
 
@@ -31039,7 +31045,7 @@ snapshots:
   constantinople@4.0.1:
     dependencies:
       '@babel/parser': 7.25.8
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.8
 
   constants-browserify@1.0.0: {}
 
@@ -31074,8 +31080,6 @@ snapshots:
   convert-source-map@1.8.0:
     dependencies:
       safe-buffer: 5.1.2
-
-  convert-source-map@1.9.0: {}
 
   convert-source-map@2.0.0: {}
 
@@ -33945,7 +33949,7 @@ snapshots:
 
   istanbul-lib-instrument@5.2.0:
     dependencies:
-      '@babel/core': 7.24.7
+      '@babel/core': 7.25.8
       '@babel/parser': 7.25.8
       '@istanbuljs/schema': 0.1.3
       istanbul-lib-coverage: 3.2.0
@@ -35266,10 +35270,6 @@ snapshots:
   lz-string@1.4.4: {}
 
   magic-string@0.30.12:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.0
-
-  magic-string@0.30.5:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
@@ -36769,18 +36769,6 @@ snapshots:
       icss-utils: 5.1.0(postcss@8.4.47)
       postcss: 8.4.47
 
-  postcss-modules@4.3.0(postcss@8.4.47):
-    dependencies:
-      generic-names: 4.0.0
-      icss-replace-symbols: 1.1.0
-      lodash.camelcase: 4.3.0
-      postcss: 8.4.47
-      postcss-modules-extract-imports: 3.0.0(postcss@8.4.47)
-      postcss-modules-local-by-default: 4.0.0(postcss@8.4.47)
-      postcss-modules-scope: 3.0.0(postcss@8.4.47)
-      postcss-modules-values: 4.0.0(postcss@8.4.47)
-      string-hash: 1.1.3
-
   postcss-modules@4.3.1(postcss@8.4.35):
     dependencies:
       generic-names: 4.0.0
@@ -36791,6 +36779,18 @@ snapshots:
       postcss-modules-local-by-default: 4.0.0(postcss@8.4.35)
       postcss-modules-scope: 3.0.0(postcss@8.4.35)
       postcss-modules-values: 4.0.0(postcss@8.4.35)
+      string-hash: 1.1.3
+
+  postcss-modules@4.3.1(postcss@8.4.47):
+    dependencies:
+      generic-names: 4.0.0
+      icss-replace-symbols: 1.1.0
+      lodash.camelcase: 4.3.0
+      postcss: 8.4.47
+      postcss-modules-extract-imports: 3.0.0(postcss@8.4.47)
+      postcss-modules-local-by-default: 4.0.0(postcss@8.4.47)
+      postcss-modules-scope: 3.0.0(postcss@8.4.47)
+      postcss-modules-values: 4.0.0(postcss@8.4.47)
       string-hash: 1.1.3
 
   postcss-nested@5.0.6(postcss@8.4.35):
@@ -40364,7 +40364,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       '@types/istanbul-lib-coverage': 2.0.6
-      convert-source-map: 1.9.0
+      convert-source-map: 1.8.0
 
   validate-npm-package-license@3.0.4:
     dependencies:
@@ -40814,7 +40814,7 @@ snapshots:
   with@7.0.2:
     dependencies:
       '@babel/parser': 7.25.8
-      '@babel/types': 7.24.7
+      '@babel/types': 7.25.8
       assert-never: 1.2.1
       babel-walk: 3.0.0-canary-5
 
