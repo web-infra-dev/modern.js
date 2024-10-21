@@ -8,7 +8,7 @@
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

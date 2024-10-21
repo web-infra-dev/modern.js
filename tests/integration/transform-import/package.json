@@ -12,8 +12,8 @@
     "node": ">=14.17.6"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -21,8 +21,8 @@
     "@modern-js/runtime": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5"
   }
 }
