@@ -15,7 +15,8 @@
       "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
       "packages/generator/sandpack-react/src/templates/**",
       "tests/integration/swc/fixtures/minify-css/src/bootstrap.css",
-      "tests/integration/swc/fixtures/config-function/src/bootstrap.css"
+      "tests/integration/swc/fixtures/config-function/src/bootstrap.css",
+      "packages/runtime/plugin-garfish/type.d.ts"
     ]
   },
   "css": {
