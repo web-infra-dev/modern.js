@@ -7,6 +7,7 @@
   "lockFileMaintenance": {
     "enabled": false
   },
+  "ignoreScripts": false,
   "packageRules": [
     // ignore all major update
     {
