@@ -72,8 +72,8 @@
     "@modern-js/monorepo-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "@vitest/ui": "^0.33.0",
     "antd": "^5",
     "check-dependency-version-consistency": "4.1.0",
@@ -87,8 +87,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react": "^18.3.11",
+      "@types/react-dom": "^18.3.1"
     },
     "peerDependencyRules": {
       "allowedVersions": {
