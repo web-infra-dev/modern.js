@@ -37,8 +37,8 @@
     "classnames": "^2",
     "clsx": "^1.2.1",
     "fs-extra": "^10",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "rspress": "1.31.1",
     "ts-node": "^10.9.1",
     "typescript": "^5"
