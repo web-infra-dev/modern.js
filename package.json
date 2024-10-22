@@ -50,9 +50,9 @@
   },
   "engines": {
     "node": ">=14.17.6",
-    "pnpm": ">=8.7.0 <9"
+    "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.12.2",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -66,14 +66,14 @@
   "devDependencies": {
     "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.22.15",
-    "@biomejs/biome": "1.9.3",
+    "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@modern-js/monorepo-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "@vitest/ui": "^0.33.0",
     "antd": "^5",
     "check-dependency-version-consistency": "4.1.0",
@@ -87,8 +87,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react": "^18.3.11",
+      "@types/react-dom": "^18.3.1"
     },
     "peerDependencyRules": {
       "allowedVersions": {

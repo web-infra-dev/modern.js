@@ -40,7 +40,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "type": "javascript/auto",
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -400,7 +400,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -502,7 +502,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.less\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -854,6 +854,7 @@ exports[`uni-builder environment compat > should generator environment config co
       },
     },
     "output": {
+      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "static/js/async/[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "static/js/[name].js",
@@ -995,6 +996,11 @@ exports[`uni-builder environment compat > should generator environment config co
     },
     "mode": "development",
     "module": {
+      "generator": {
+        "asset/resource": {
+          "emit": false,
+        },
+      },
       "parser": {
         "javascript": {
           "exportsPresence": "error",
@@ -1606,6 +1612,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "splitChunks": false,
     },
     "output": {
+      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "[name].js",
@@ -2298,6 +2305,7 @@ exports[`uni-builder environment compat > should generator environment config co
       "splitChunks": false,
     },
     "output": {
+      "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
       "chunkFilename": "[name].js",
       "devtoolModuleFilenameTemplate": [Function],
       "filename": "[name].js",

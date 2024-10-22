@@ -1,5 +1,18 @@
 # @modern-js/plugin-garfish
 
+## 2.60.4
+
+### Patch Changes
+
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+- Updated dependencies [c87813e]
+- Updated dependencies [df1bed5]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/runtime@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

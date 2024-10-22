@@ -1,5 +1,14 @@
 # @modern-js/main-doc
 
+## 2.60.4
+
+### Patch Changes
+
+- e8bfebf: feat: add `html.outputStructure` and doc
+  feat: 展示 `html.outputStructure` 并添加文档
+- Updated dependencies [d6986c5]
+  - @modern-js/sandpack-react@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

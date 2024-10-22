@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 2.60.4
+
+### Patch Changes
+
+- d93bdb4: fix: remove node_modules in watcher ignored list
+  fix: 移除 watcher 忽略列表中的 node_modules
+  - @modern-js/node-bundle-require@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

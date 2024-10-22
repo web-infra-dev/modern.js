@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.60.4
+
+### Patch Changes
+
+- df1bed5: fix(ssr): we match all asset directly, it can be more faster
+  fix(ssr): 我们一次性匹配出所有资源，这样性能更快
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [c87813e]
+  - @modern-js/plugin-data-loader@2.60.4
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

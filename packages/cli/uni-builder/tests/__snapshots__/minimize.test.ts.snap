@@ -19,6 +19,36 @@ exports[`html minify > should not apply html minify in production when disableMi
     },
   },
   HtmlWebpackPlugin {
+    "options": {
+      "base": false,
+      "cache": true,
+      "chunks": [
+        "index",
+      ],
+      "chunksSortMode": "auto",
+      "compile": true,
+      "entryName": "index",
+      "excludeChunks": [],
+      "favicon": false,
+      "filename": "html/index/index.html",
+      "hash": false,
+      "inject": "head",
+      "meta": {
+        "charset": {
+          "charset": "UTF-8",
+        },
+        "viewport": "width=device-width, initial-scale=1.0",
+      },
+      "minify": false,
+      "publicPath": "auto",
+      "scriptLoading": "defer",
+      "showErrors": true,
+      "template": "",
+      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateParameters": [Function],
+      "title": "",
+      "xhtml": false,
+    },
     "userOptions": {
       "chunks": [
         "index",

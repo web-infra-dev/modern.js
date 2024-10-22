@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.60.3",
+  "version": "2.60.4",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -236,8 +236,8 @@
     "@types/node": "^14",
     "@types/serialize-javascript": "^5.0.1",
     "jest": "^29",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5"
   },
   "sideEffects": false

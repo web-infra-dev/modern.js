@@ -18,7 +18,10 @@ import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import DeferredDataScripts from './DeferredDataScripts.node';
-import { modifyRoutes as modifyRoutesHook } from './hooks';
+import {
+  beforeCreateRoutes as beforeCreateRoutesHook,
+  modifyRoutes as modifyRoutesHook,
+} from './hooks';
 import type { RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 
@@ -41,6 +44,7 @@ export const routerPlugin = (
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
+      beforeCreateRoutes: beforeCreateRoutesHook,
     },
     setup: api => {
       let finalRouteConfig: any = {};
@@ -79,6 +83,9 @@ export const routerPlugin = (
             context.ssrContext?.loaderContext,
           );
           requestContext.set(reporterCtx, reporter);
+          const runner = (api as any).useHookRunners();
+
+          await runner.beforeCreateRoutes(context);
 
           let routes = createRoutes
             ? createRoutes()
@@ -93,7 +100,6 @@ export const routerPlugin = (
                 }),
               );
 
-          const runner = (api as any).useHookRunners();
           routes = runner.modifyRoutes(routes);
 
           const { query } = createStaticHandler(routes, {

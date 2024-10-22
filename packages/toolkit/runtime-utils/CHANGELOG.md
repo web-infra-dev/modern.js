@@ -1,5 +1,13 @@
 # @modern-js/runtime-utils
 
+## 2.60.4
+
+### Patch Changes
+
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+  - @modern-js/utils@2.60.4
+
 ## 2.60.3
 
 ### Patch Changes

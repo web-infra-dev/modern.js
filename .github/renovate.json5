@@ -7,6 +7,7 @@
   "lockFileMaintenance": {
     "enabled": false
   },
+  "ignoreScripts": false,
   "packageRules": [
     // ignore all major update
     {
@@ -110,6 +111,9 @@
     "pkg-up",
     "react",
     "styled-components",
-    "webpack"
+    "webpack",
+    // need node 18
+    "http-compression",
+    "@biomejs/biome"
   ]
 }
