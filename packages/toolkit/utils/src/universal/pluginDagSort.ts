@@ -3,30 +3,42 @@ export const pluginDagSort = <P extends Record<string, any>>(
   key = 'name',
   preKey = 'pre',
   postKey = 'post',
+  weightKey = 'weight',
 ): P[] => {
   type PluginQueryCondition = P | string;
-  let allLines: [string, string][] = [];
+  const pluginMap = new Map(plugins.map(p => [p[key], p]));
+  let allLines: [string, string, number][] = [];
+
   function getPluginByAny(q: PluginQueryCondition) {
-    const target = plugins.find(item =>
-      typeof q === 'string' ? item[key] === q : item[key] === q[key],
-    );
-    // current plugin design can't guarantee the plugins in pre/post existed
+    const target = pluginMap.get(typeof q === 'string' ? q : q[key]);
     if (!target) {
-      throw new Error(`plugin ${q} not existed`);
+      throw new Error(`Plugin ${q} not existed`);
     }
     return target;
   }
-  plugins.forEach(item => {
-    item[preKey]?.forEach((p: PluginQueryCondition) => {
+
+  plugins.forEach(plugin => {
+    const pluginName = plugin[key];
+
+    plugin[preKey]?.forEach((preDep: PluginQueryCondition) => {
       // compatibility: do not add the plugin-name that plugins not have
-      if (plugins.find(ap => ap.name === p)) {
-        allLines.push([getPluginByAny(p)[key], getPluginByAny(item)[key]]);
+      if (pluginMap.has(preDep)) {
+        allLines.push([
+          getPluginByAny(preDep)[key],
+          pluginName,
+          plugin[weightKey] || 5,
+        ]);
       }
     });
-    item[postKey]?.forEach((pt: PluginQueryCondition) => {
+
+    plugin[postKey]?.forEach((postDep: PluginQueryCondition) => {
       // compatibility: do not add the plugin-name that plugins not have
-      if (plugins.find(ap => ap.name === pt)) {
-        allLines.push([getPluginByAny(item)[key], getPluginByAny(pt)[key]]);
+      if (pluginMap.has(postDep)) {
+        allLines.push([
+          pluginName,
+          getPluginByAny(postDep)[key],
+          plugin[weightKey] || 5,
+        ]);
       }
     });
   });
@@ -38,6 +50,16 @@ export const pluginDagSort = <P extends Record<string, any>>(
 
   const sortedPoint: P[] = [];
   while (zeroEndPoints.length) {
+    zeroEndPoints.sort((a, b) => {
+      const aOutDegree = allLines
+        .filter(l => l[0] === a[key])
+        .reduce((sum, l) => sum + l[2], 0);
+      const bOutDegree = allLines
+        .filter(l => l[0] === b[key])
+        .reduce((sum, l) => sum + l[2], 0);
+      return bOutDegree - aOutDegree;
+    });
+
     const zep = zeroEndPoints.shift();
     sortedPoint.push(getPluginByAny(zep!));
     allLines = allLines.filter(l => l[0] !== getPluginByAny(zep!)[key]);
@@ -51,16 +73,14 @@ export const pluginDagSort = <P extends Record<string, any>>(
   }
   // if has ring, throw error
   if (allLines.length) {
-    const restInRingPoints: Record<string, boolean> = {};
-    allLines.forEach(l => {
-      restInRingPoints[l[0]] = true;
-      restInRingPoints[l[1]] = true;
+    const cyclePlugins = new Set();
+    allLines.forEach(([from, to]) => {
+      cyclePlugins.add(from);
+      cyclePlugins.add(to);
     });
 
     throw new Error(
-      `plugins dependencies has loop: ${Object.keys(restInRingPoints).join(
-        ',',
-      )}`,
+      `Plugins dependencies have a loop involving: ${Array.from(cyclePlugins).join(', ')}`,
     );
   }
   return sortedPoint;
