@@ -98,7 +98,7 @@
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@rsbuild/core": "~1.0.11",
-    "@rsbuild/plugin-node-polyfill": "~1.1.0",
+    "@rsbuild/plugin-node-polyfill": "~1.2.0",
     "@swc/helpers": "0.5.13",
     "@vercel/nft": "^0.26.4",
     "es-module-lexer": "^1.1.0",

@@ -3828,8 +3828,8 @@ importers:
         specifier: ~1.0.11
         version: 1.0.16
       '@rsbuild/plugin-node-polyfill':
-        specifier: ~1.1.0
-        version: 1.1.0(@rsbuild/core@1.0.16)
+        specifier: ~1.2.0
+        version: 1.2.0(@rsbuild/core@1.0.16)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -11735,8 +11735,8 @@ packages:
     peerDependencies:
       '@rsbuild/core': 1.x || ^1.0.1-rc.0
 
-  '@rsbuild/plugin-node-polyfill@1.1.0':
-    resolution: {integrity: sha512-CZ9jeozTCnrmwoGbd8zt87QyImOBeva2hP1x3YhPqXxZzrJr9tsz1PeqXnndPIn+idjc6GHMHSyCs5swbpHHVA==}
+  '@rsbuild/plugin-node-polyfill@1.2.0':
+    resolution: {integrity: sha512-mYctpK5Jn2yxTOxQ4rOJ0iFBJNW7sADFtKsLp9dL7MjToMhKiyIs4Mc65piI7B+YOBshdyMqCk3LPjJ+CtSRXQ==}
     peerDependencies:
       '@rsbuild/core': 1.x || ^1.0.1-beta.0
     peerDependenciesMeta:
@@ -27422,7 +27422,7 @@ snapshots:
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
 
-  '@rsbuild/plugin-node-polyfill@1.1.0(@rsbuild/core@1.0.16)':
+  '@rsbuild/plugin-node-polyfill@1.2.0(@rsbuild/core@1.0.16)':
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
