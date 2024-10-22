@@ -6614,6 +6614,18 @@ importers:
         specifier: ^5
         version: 5.3.3
 
+  tests/integration/plugins:
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.5.13
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+
   tests/integration/pure-esm-project:
     dependencies:
       '@modern-js/plugin-bff':
