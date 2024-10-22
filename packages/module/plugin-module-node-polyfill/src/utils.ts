@@ -26,8 +26,13 @@ export function addResolveFallback(
   const keys = Object.keys(object);
   const newObject: Record<string, string> = {};
   for (const key of keys) {
+    if (key.startsWith('node:')) continue;
     if (object[key] === null) {
-      newObject[key] = path.join(__dirname, `./mock/${key}.js`);
+      const mockModule = path.join(__dirname, `./mock/${key}.js`);
+      newObject[key] = mockModule;
+      if (object[`node:${key}`] === null) {
+        object[`node:${key}`] = mockModule;
+      }
     } else {
       newObject[key] = object[key] as string;
     }

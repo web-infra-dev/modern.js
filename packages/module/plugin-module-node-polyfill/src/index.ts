@@ -11,10 +11,10 @@ export interface NodePolyfillPluginOptions {
   // like https://github.com/Richienb/node-polyfill-webpack-plugin#excludealiases
   excludes?: string[];
   // override built-in node polyfill config, such as `fs`.
-  overrides?: Partial<Record<keyof typeof modules, string>>;
+  overrides?: Partial<Record<keyof typeof defualtModules, string>>;
 }
 
-let modules = {
+const defualtModules = {
   assert: require.resolve('assert/'),
   buffer: require.resolve('buffer/'),
   child_process: null,
@@ -60,8 +60,8 @@ let modules = {
 export const getNodePolyfillHook = (
   polyfillOption: NodePolyfillPluginOptions = {},
 ) => {
-  const nodeModules = addNodePrefix(modules);
-  modules = Object.assign(modules, nodeModules);
+  const nodeModules = addNodePrefix(defualtModules);
+  const modules = Object.assign({ ...defualtModules }, nodeModules);
   const polyfillModules = {
     ...excludeObjectKeys(
       addResolveFallback(modules, polyfillOption.overrides),
