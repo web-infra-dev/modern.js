@@ -67,17 +67,6 @@ const scanDir = async (
       const customEntryFile = hasEntry(dir);
       const customServerEntry = hasServerEntry(dir);
 
-      if (indexFile && !customBootstrap) {
-        return {
-          entryName,
-          isMainEntry: false,
-          entry: indexFile,
-          absoluteEntryDir: path.resolve(dir),
-          isAutoMount: false,
-          customBootstrap,
-        };
-      }
-
       const entryFile = (
         await hookRunners.checkEntryPoint({
           path: dir,
@@ -97,6 +86,7 @@ const scanDir = async (
           customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
         };
       }
+
       if (enableCustomEntry && customEntryFile) {
         return {
           entryName,
@@ -108,6 +98,18 @@ const scanDir = async (
           customEntry: Boolean(customEntryFile),
         };
       }
+
+      if (indexFile && !customBootstrap) {
+        return {
+          entryName,
+          isMainEntry: false,
+          entry: indexFile,
+          absoluteEntryDir: path.resolve(dir),
+          isAutoMount: false,
+          customBootstrap,
+        };
+      }
+
       return false;
     }),
   ).then(entries => entries.filter(Boolean) as Entrypoint[]);
