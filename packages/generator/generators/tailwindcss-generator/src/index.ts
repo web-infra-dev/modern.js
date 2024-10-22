@@ -52,7 +52,7 @@ export const handleTemplateFile = async (
   }
 
   const { dependencies, peerDependencies, devDependencies } = context.config;
-  const tailwindVersion = '~3.3.3';
+  const tailwindVersion = '~3.4.14';
   if (dependencies?.tailwindcss) {
     dependencies.tailwindcss = tailwindVersion;
   }
