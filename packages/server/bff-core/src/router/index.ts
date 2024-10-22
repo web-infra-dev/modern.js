@@ -104,6 +104,7 @@ export class ApiRouter {
   ): APIHandlerInfo | null {
     const httpMethod = this.getHttpMethod(originFuncName, handler);
     const routeName = this.getRouteName(filename, handler);
+    const action = this.getAction(handler);
     if (httpMethod && routeName) {
       return {
         handler,
@@ -112,6 +113,7 @@ export class ApiRouter {
         routeName,
         filename,
         routePath: this.getRoutePath(this.prefix, routeName),
+        action,
       };
     }
     return null;
@@ -198,6 +200,15 @@ export class ApiRouter {
         return HttpMethod.Post;
       }
       return HttpMethod.Get;
+    }
+  }
+
+  public getAction(handler?: ApiHandler): string | undefined {
+    if (handler) {
+      const trigger = Reflect.getMetadata(OperatorType.Trigger, handler);
+      if (trigger?.action) {
+        return trigger.action;
+      }
     }
   }
 

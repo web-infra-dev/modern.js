@@ -5,6 +5,7 @@ declare module '@modern-js/runtime/koa' {
   export type { Middleware as RequestHandler };
 
   export function useContext(): Context;
+  export function useFiles(): Record<string, any>;
 
   export * from '@modern-js/bff-core';
 }
@@ -39,6 +40,7 @@ declare module '@modern-js/runtime/server' {
   export type { Middleware as RequestHandler };
 
   export function useContext(): Context;
+  export function useFiles(): Record<string, any>;
 
   export function hook(attacher: KoaAttacher): KoaAttacher;
 

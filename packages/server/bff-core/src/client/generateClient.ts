@@ -66,7 +66,7 @@ export const generateClient = async ({
 
   let handlersCode = '';
   for (const handlerInfo of handlerInfos) {
-    const { name, httpMethod, routePath } = handlerInfo;
+    const { name, httpMethod, routePath, action } = handlerInfo;
     let exportStatement = `var ${name} =`;
     if (name.toLowerCase() === 'default') {
       exportStatement = 'default';
@@ -77,16 +77,16 @@ export const generateClient = async ({
     if (target === 'server') {
       handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', process.env.PORT || ${String(
         port,
-      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
-        fetcher ? `, fetch` : ''
-      });
+      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ,'${
+        action ? action : ''
+      }' ${fetcher ? `, fetch` : ''});
       `;
     } else {
       handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', ${String(
         port,
-      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
-        fetcher ? `, fetch` : ''
-      });
+      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ,'${
+        action ? action : ''
+      }' ${fetcher ? `, fetch` : ''});
       `;
     }
   }

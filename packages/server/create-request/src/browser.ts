@@ -37,6 +37,7 @@ export const createRequest: RequestCreator = (
   method,
   port,
   httpMethodDecider = 'functionName',
+  action = '',
   // 后续可能要修改，暂时先保留
   fetch = originFetch,
 ) => {
@@ -49,7 +50,30 @@ export const createRequest: RequestCreator = (
     let body;
     let finalURL: string;
     let headers: Record<string, any>;
-    if (httpMethodDecider === 'inputParams') {
+
+    if (action && action === 'upload') {
+      finalURL = path;
+      const payload: BFFRequestPayload =
+        typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
+      const files = payload.files;
+      if (!files) {
+        throw new Error('no files');
+      }
+      const formdata = new FormData();
+      for (const [key, value] of Object.entries(files)) {
+        if (value instanceof FileList) {
+          for (let i = 0; i < value.length; i++) {
+            formdata.append(key, value[i]);
+          }
+        } else {
+          formdata.append(key, value);
+        }
+      }
+
+      body = formdata;
+      // fetch 自动设置 'Content-Type': 'multipart/form-data' 和 boundary
+      headers = {};
+    } else if (httpMethodDecider === 'inputParams') {
       finalURL = path;
       body = JSON.stringify({
         args,

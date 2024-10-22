@@ -50,6 +50,7 @@ declare module '@modern-js/runtime/server' {
   export const Middleware: import('./src/runtime').Middleware;
 
   export function useContext(): Context;
+  export function useFiles(): Record<string, any>;
 
   export function hook(attacher: ExpressAttacher): ExpressAttacher;
 

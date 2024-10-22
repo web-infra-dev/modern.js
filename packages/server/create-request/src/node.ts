@@ -40,6 +40,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   method: string,
   port: number,
   httpMethodDecider = 'functionName',
+  action = '',
   // 后续可能要修改，暂时先保留
   fetch = nodeFetch,
 ) => {

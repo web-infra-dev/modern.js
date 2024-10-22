@@ -1,0 +1,103 @@
+# 文件上传
+
+BFF 搭配 [运行时框架](/guides/advanced-features/bff/frameworks.html) 提供了文件上传能力，支持一体化调用及纯函数手动调用。
+
+### BFF 函数
+
+首先创建 `api/lambda/upload.ts` 文件：
+
+```ts title="api/lambda/upload.ts"
+import {
+  Api,
+  Upload,
+  File,
+  useFiles,
+} from '@modern-js/runtime/server';
+import { z } from 'zod';
+
+const FileSchema = z.object({
+  images: z.any(),
+});
+
+export const upload = Api(Upload('/upload'), File(FileSchema), async () => {
+  const files = useFiles();
+
+  return {
+    data: {
+      code: 0,
+      message: 'success',
+    },
+  };
+});
+```
+在 BFF 函数中使用 `useFiles()` 可以获取上传的文件。返回值为 Object，key 为上传时的字段名。
+
+### 一体化调用
+
+
+```tsx title="routes/upload/page.tsx"
+import { upload } from '@api/upload';
+import React from 'react';
+
+export default (): JSX.Element => {
+  const [file, setFile] = React.useState<FileList | null>();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files);
+  };
+
+  const handleUpload = () => {
+    if (!file) {
+      return;
+    }
+    upload({
+      files: {
+        images: file,
+      },
+    });
+  };
+
+  return (
+    <div>
+      <input multiple type="file" onChange={handleChange} />
+      <button onClick={handleUpload}>upload</button>
+    </div>
+  );
+};
+```
+
+### 手动调用（通过 FormData 上传）
+
+```tsx title="routes/upload/page.tsx"
+import React from 'react';
+
+export default (): JSX.Element => {
+  const [file, setFile] = React.useState<FileList | null>();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (file) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append('file', file[i]);
+      }
+      await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input multiple type="file" onChange={handleChange} />
+      <button type="submit">upload</button>
+    </form>
+  );
+};
+
+```

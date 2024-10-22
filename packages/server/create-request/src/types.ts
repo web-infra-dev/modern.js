@@ -8,6 +8,7 @@ export type BFFRequestPayload = {
   formData?: FormData;
   data?: Record<string, any>;
   headers?: Record<string, any>;
+  files?: Record<string, any>;
   cookies?: Record<string, any>;
 };
 
@@ -20,6 +21,7 @@ export type RequestCreator<F = typeof fetch> = (
   method: string,
   port: number,
   httpMethodDecider: HttpMethodDecider,
+  action: string,
   fetch?: F,
 ) => Sender;
 

@@ -214,3 +214,45 @@ export const Redirect = (url: string): Operator<void> => {
     },
   };
 };
+
+export const Upload = (urlPath: string): Operator<void> => {
+  return {
+    name: 'Upload',
+    metadata({ setMetadata }) {
+      setMetadata(OperatorType.Trigger, {
+        type: TriggerType.Http,
+        path: urlPath,
+        method: HttpMethod.Post,
+        action: 'upload',
+      });
+    },
+  };
+};
+
+export const File = <Schema extends z.ZodType>(
+  schema: Schema,
+): Operator<
+  {
+    files: z.input<Schema>;
+  },
+  {
+    files: z.output<Schema>;
+  }
+> => {
+  return {
+    name: HttpMetadata.Files,
+    metadata({ setMetadata }) {
+      setMetadata(HttpMetadata.Files, schema);
+    },
+    async validate(helper, next) {
+      const {
+        inputs: { files },
+      } = helper;
+      helper.inputs = {
+        ...helper.inputs,
+        files: await validateInput(schema, files),
+      };
+      return next();
+    },
+  };
+};
