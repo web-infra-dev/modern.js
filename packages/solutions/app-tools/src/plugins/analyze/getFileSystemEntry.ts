@@ -67,7 +67,7 @@ const scanDir = async (
       const customEntryFile = hasEntry(dir);
       const customServerEntry = hasServerEntry(dir);
 
-      if (indexFile && !customBootstrap) {
+      if (!enableCustomEntry && indexFile && !customBootstrap) {
         return {
           entryName,
           isMainEntry: false,
@@ -97,6 +97,7 @@ const scanDir = async (
           customEntry: enableCustomEntry ? Boolean(customEntryFile) : false,
         };
       }
+
       if (enableCustomEntry && customEntryFile) {
         return {
           entryName,
@@ -108,6 +109,7 @@ const scanDir = async (
           customEntry: Boolean(customEntryFile),
         };
       }
+
       return false;
     }),
   ).then(entries => entries.filter(Boolean) as Entrypoint[]);
