@@ -1,74 +1,10 @@
 import path from 'path';
+import type { NavItem } from '@rspress/shared';
 import { defineConfig } from 'rspress/config';
-import { NavItem } from '@rspress/shared';
-import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
-
-const rootCategories = [
-  'tutorials',
-  'guides',
-  'apis/app',
-  'configure/app',
-  'community',
-];
 
 const { version } = require('./package.json');
 
 const docPath = path.join(__dirname, 'docs');
-
-const getNavbar = (lang: string): NavItem[] => {
-  const cn = lang === 'zh';
-  const prefix = cn ? '' : '/en';
-  const getLink = (str: string) => `${prefix}${str}`;
-  const getText = (cnText: string, enText: string) => (cn ? cnText : enText);
-  return [
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guides/get-started/introduction'),
-      activeMatch: '/guides/',
-    },
-    {
-      text: getText('教程', 'Tutorials'),
-      link: getLink('/tutorials/foundations/introduction'),
-      activeMatch: '/tutorials/',
-    },
-    {
-      text: getText('配置', 'Configure'),
-      link: getLink('/configure/app/usage'),
-      activeMatch: '/configure/app',
-    },
-    {
-      text: getText('API', 'API'),
-      link: getLink('/apis/app/commands'),
-      activeMatch: '/apis/',
-    },
-    {
-      text: getText('社区', 'Community'),
-      link: getLink('/community/showcase'),
-      activeMatch: '/community/',
-    },
-    {
-      text: `v${version}`,
-      items: [
-        {
-          text: 'Rsbuild',
-          link: 'https://github.com/web-infra-dev/rsbuild',
-        },
-        {
-          text: 'Rspress',
-          link: 'https://github.com/web-infra-dev/rspress',
-        },
-        {
-          text: 'Modern.js Module',
-          link: 'https://modernjs.dev/module-tools/en/',
-        },
-        {
-          text: 'Modern.js v1',
-          link: 'https://modernjs.dev/v1/',
-        },
-      ],
-    },
-  ];
-};
 
 export default defineConfig({
   root: docPath,
@@ -104,7 +40,7 @@ export default defineConfig({
         title: 'Modern.js',
         description:
           'A Progressive React Framework for modern web development.',
-        nav: getNavbar('zh'),
+        // nav: getNavbar('zh'),
         label: '简体中文',
       },
       {
@@ -112,7 +48,7 @@ export default defineConfig({
         title: 'Modern.js',
         description:
           'A Progressive React Framework for modern web development.',
-        nav: getNavbar('en'),
+        // nav: getNavbar('en'),
         label: 'English',
       },
     ],
@@ -143,12 +79,10 @@ export default defineConfig({
   ],
   builderConfig: {
     output: {
-      disableTsChecker: true,
-      svgDefaultExport: 'component',
       dataUriLimit: 0,
     },
     dev: {
-      startUrl: false,
+      lazyCompilation: process.env.LAZY !== 'false',
     },
     source: {
       alias: {
@@ -158,12 +92,4 @@ export default defineConfig({
       },
     },
   },
-  plugins: [
-    pluginAutoSidebar({
-      root: docPath,
-      categories: ['zh', 'en'].flatMap(lang =>
-        rootCategories.map(category => `${lang}/${category}`),
-      ),
-    }),
-  ],
 });

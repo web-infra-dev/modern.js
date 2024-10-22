@@ -1,26 +1,23 @@
-import { Server as NodeServer } from 'node:http';
 import path from 'node:path';
-import { ServerBaseOptions, createServerBase } from '@modern-js/server-core';
+import { createServerBase } from '@modern-js/server-core';
 import {
   createNodeServer,
-  loadServerConfig,
+  loadServerRuntimeConfig,
 } from '@modern-js/server-core/node';
-import { ApplyPlugins, ModernDevServerOptions } from './types';
-import { getDevOptions } from './helpers';
 import { devPlugin } from './dev';
+import { getDevOptions } from './helpers';
+import type { ApplyPlugins, ModernDevServerOptions } from './types';
 
-export type { ModernDevServerOptions } from './types';
-
-export const createDevServer = async <O extends ServerBaseOptions>(
-  options: ModernDevServerOptions<O>,
-  applyPlugins: ApplyPlugins<O>,
-): Promise<NodeServer> => {
-  const { config, pwd, serverConfigFile, serverConfigPath } = options;
+export async function createDevServer(
+  options: ModernDevServerOptions,
+  applyPlugins: ApplyPlugins,
+) {
+  const { config, pwd, serverConfigFile, serverConfigPath, builder } = options;
   const dev = getDevOptions(options);
 
-  const distDir = path.resolve(pwd, config.output.path || 'dist');
+  const distDir = path.resolve(pwd, config.output.distPath?.root || 'dist');
 
-  const serverConfig = loadServerConfig(
+  const serverConfig = await loadServerRuntimeConfig(
     distDir,
     serverConfigFile,
     serverConfigPath,
@@ -50,11 +47,28 @@ export const createDevServer = async <O extends ServerBaseOptions>(
     nodeServer = await createNodeServer(server.handle.bind(server));
   }
 
-  server.addPlugins([devPlugin(options)]);
+  const builderDevServer = await builder?.createDevServer({
+    runCompile: options.runCompile,
+    compiler: options.compilier,
+  });
+
+  server.addPlugins([
+    devPlugin({
+      ...options,
+      builderDevServer,
+    }),
+  ]);
 
   await applyPlugins(server, prodServerOptions, nodeServer);
 
   await server.init();
 
-  return nodeServer;
-};
+  const afterListen = async () => {
+    await builderDevServer?.afterListen();
+  };
+
+  return {
+    server: nodeServer,
+    afterListen,
+  };
+}

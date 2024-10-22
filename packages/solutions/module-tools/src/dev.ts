@@ -1,8 +1,8 @@
 import type { PluginAPI } from '@modern-js/core';
 import { chalk, inquirer, logger } from '@modern-js/utils';
+import type { DevToolData, ModuleTools } from './types';
 import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
-import type { DevToolData, ModuleTools } from './types';
 
 export const showMenu = async (
   metas: DevToolData[],
@@ -57,7 +57,6 @@ export const dev = async (
     );
 
     logger.info(noDevToolsLog);
-    // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
 

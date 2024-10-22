@@ -1,5 +1,5 @@
 ---
-sidebar_label: swc
+title: swc
 ---
 
 # tools.swc
@@ -9,7 +9,7 @@ sidebar_label: swc
 
 ## Introduction
 
-import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
+import SWC from '@site-docs-en/components/swc.mdx';
 
 <SWC />
 
@@ -19,7 +19,7 @@ When using Rspack as the bundler, SWC will be used for transpiling and compressi
 
 ## Used in Rspack mode
 
-You can set the options of [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader) through `tools.swc`.
+You can set the options of [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) through `tools.swc`.
 
 ```
 import { defineConfig } from '@modern-js/app-tools';
@@ -37,9 +37,40 @@ export default defineConfig<'rspack'>({
 
 For more usage, please refer to [Rsbuild - tools.swc](https://rsbuild.dev/config/tools/swc).
 
+### Register SWC Plugin
+
+Modern.js supports registering SWC's Wasm plugin through `tools.swc`, such as registering [@swc/plugin-styled-components](https://www.npmjs.com/package/@swc/plugin-styled-components):
+
+```ts
+export default {
+  tools: {
+    swc: {
+      jsc: {
+        experimental: {
+          plugins: [['@swc/plugin-styled-components', {}]],
+        },
+      },
+    },
+  },
+};
+```
+
+Please note that the SWC plugin is still an experimental feature, and the SWC Wasm plugin is currently not backward compatible. The version of the SWC plugin is closely tied to the version of swc_core that Rspack depends on.
+
+This means that you must to choose an SWC plugin that matches the current version of swc_core to ensure that it works properly. If the version of the SWC plugin you are using does not match the version of swc_core that Rspack depends on, Rspack will throw the following error during the build process:
+
+```
+1: failed to run Wasm plugin transform. Please ensure the version of `swc_core`
+   used by the plugin is compatible with the host runtime.
+```
+
+If you encounter the above issues, a common solution is to upgrade both the Modern.js and SWC plugins to the latest versions.
+
+For details, please refer to [Rsbuild - SWC Plugin Version](https://rsbuild.dev/guide/basic/configure-swc#swc-plugin-version).
+
 ## Used in Webpack mode
 
-import EnableSWC from '@modern-js/builder-doc/docs/en/shared/enableSwc.md';
+import EnableSWC from '@site-docs-en/components/enableSwc.mdx';
 
 <EnableSWC />
 
@@ -77,4 +108,4 @@ export default defineConfig({
 });
 ```
 
-For config details, please refer to [Modern.js Builder - SWC Plugin Configuration](https://modernjs.dev/builder/en/plugins/plugin-swc.html#config).
+For config details, please refer to [SWC Plugin Configuration](/plugin/cli-plugins/plugin-swc.html#config).

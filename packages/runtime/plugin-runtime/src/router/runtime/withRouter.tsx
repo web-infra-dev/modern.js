@@ -1,15 +1,17 @@
 // legacy withRouter
 
-import React from 'react';
 import {
   useLocation,
   useNavigate,
   useParams,
 } from '@modern-js/runtime-utils/router';
+import type React from 'react';
 
-export interface WithRouterProps {
+export interface WithRouterProps<
+  Params extends { [K in keyof Params]?: string } = {},
+> {
   location: ReturnType<typeof useLocation>;
-  params: Record<string, string>;
+  params: Params;
   navigate: ReturnType<typeof useNavigate>;
 }
 

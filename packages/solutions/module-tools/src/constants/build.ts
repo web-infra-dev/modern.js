@@ -33,6 +33,7 @@ export const getDefaultBuildConfig = () => {
     hooks: [],
     input: ['src/index.ts'],
     jsx: 'automatic',
+    loader: {},
     metafile: false,
     minify: false,
     outDir: './dist',
@@ -46,6 +47,7 @@ export const getDefaultBuildConfig = () => {
     resolve: {
       mainFields: ['module', 'main'],
       jsExtensions: ['.jsx', '.tsx', '.js', '.ts', '.json'],
+      alias: {},
     },
     shims: false,
     sideEffects: undefined,

@@ -1,9 +1,9 @@
 import path from 'path';
-import { IAppContext } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/core';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
+import type { Entrypoint } from '../../src/plugins/analyze/getFileSystemEntry';
 import { getServerRoutes } from '../../src/plugins/analyze/getServerRoutes';
-import { Entrypoint } from '../../src/plugins/analyze/getFileSystemEntry';
-import { AppNormalizedConfig } from '../../src/types';
+import type { AppNormalizedConfig } from '../../src/types';
 
 describe('get server routes', () => {
   const appContext: any = {
@@ -318,7 +318,6 @@ describe('get server routes', () => {
       } as any,
     );
 
-    // eslint-disable-next-line max-lines
     expect(routes).toMatchObject([
       {
         urlPath: '/page-a',

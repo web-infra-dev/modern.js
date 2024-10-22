@@ -1,26 +1,29 @@
-import {
-  ServerRoute,
-  UnstableMiddlewareContext,
-  UnstableMiddleware,
-} from '@modern-js/types';
 import { time } from '@modern-js/runtime-utils/time';
-import { ServerBase } from '../../serverBase';
-import { ServerHookRunner, Context, Middleware, ServerEnv } from '../../types';
-import { transformResponse } from '../../utils';
-import { ServerReportTimings } from '../../constants';
+import type {
+  ServerRoute,
+  UnstableMiddleware,
+  UnstableMiddlewareContext,
+} from '@modern-js/types';
 import type { ServerNodeEnv } from '../../adapters/node/hono';
-import { getLoaderCtx } from './loader';
+import type * as streamModule from '../../adapters/node/polyfills/stream';
+import { ServerTimings } from '../../constants';
+import { getLoaderCtx } from '../../helper';
+import type { ServerBase } from '../../serverBase';
+import type {
+  Context,
+  Middleware,
+  ServerEnv,
+  ServerHookRunner,
+} from '../../types';
+import { transformResponse } from '../../utils';
+import { type ResArgs, createBaseHookContext } from './base';
 import {
+  createAfterStreamingRenderContext,
+  createCustomMiddlewaresCtx,
   getAfterMatchCtx,
   getAfterRenderCtx,
-  createCustomMiddlewaresCtx,
-  createAfterStreamingRenderContext,
 } from './context';
-import { ResArgs, createBaseHookContext } from './base';
 
-export { getLoaderCtx } from './loader';
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
 
 const isHtmlResponse = (response: Response) => {
@@ -62,11 +65,10 @@ export class CustomServer {
     entryName: string,
     routes: ServerRoute[],
   ): Middleware<ServerEnv> {
-    // eslint-disable-next-line consistent-return
     return async (c, next) => {
       // afterMatchhook
       const routeInfo = routes.find(route => route.entryName === entryName)!;
-      const reporter = c.get('reporter');
+      const monitors = c.get('monitors');
 
       const baseHookCtx = createBaseHookContext(c);
       const afterMatchCtx = getAfterMatchCtx(entryName, baseHookCtx);
@@ -74,11 +76,8 @@ export class CustomServer {
       const getCost = time();
       await this.runner.afterMatch(afterMatchCtx, { onLast: noop });
       const cost = getCost();
-      cost &&
-        reporter?.reportTiming(
-          ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
-          cost,
-        );
+
+      cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_MATCH, cost);
 
       const { url, status } = afterMatchCtx.router;
 
@@ -92,7 +91,7 @@ export class CustomServer {
       if (current !== entryName) {
         const rewriteRoute = routes.find(route => route.entryName === current);
         if (rewriteRoute) {
-          return this.serverBase.request(rewriteRoute.urlPath);
+          c.set('matchPathname', rewriteRoute.urlPath);
         }
       }
 
@@ -145,11 +144,8 @@ export class CustomServer {
         const getCost = time();
         await this.runner.afterRender(afterRenderCtx, { onLast: noop });
         const cost = getCost();
-        cost &&
-          reporter?.reportTiming(
-            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
-            cost,
-          );
+
+        cost && monitors?.timing(ServerTimings.SERVER_HOOK_AFTER_RENDER, cost);
 
         if ((afterRenderCtx.response as any).private_overrided) {
           return undefined;
@@ -174,13 +170,11 @@ export class CustomServer {
     }
 
     if (Array.isArray(serverMiddleware)) {
-      // eslint-disable-next-line consistent-return
       return getServerMidFromUnstableMid(serverMiddleware);
     }
 
-    // eslint-disable-next-line consistent-return
     return async (c, next) => {
-      const reporter = c.get('reporter');
+      const monitors = c.get('monitors');
 
       const locals: Record<string, any> = {};
 
@@ -197,8 +191,7 @@ export class CustomServer {
       const getCost = time();
       await serverMiddleware(customMiddlewareCtx);
       const cost = getCost();
-      cost &&
-        reporter?.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
+      cost && monitors?.timing(ServerTimings.SERVER_MIDDLEWARE, cost);
 
       c.set('locals', locals);
 
@@ -225,7 +218,7 @@ export function getServerMidFromUnstableMid(
 ): Array<Middleware<ServerNodeEnv & ServerEnv>> {
   return serverMiddleware.map(middleware => {
     return async (c, next) => {
-      const context = createMiddlewareContextFromHono(c);
+      const context = await createMiddlewareContextFromHono(c as Context);
 
       return middleware(context, next);
     };
@@ -236,14 +229,43 @@ function isRedirect(headers: Headers, code?: number) {
   return [301, 302, 307, 308].includes(code || 0) || headers.get('Location');
 }
 
-function createMiddlewareContextFromHono(
-  c: Context,
-): UnstableMiddlewareContext {
-  const loaderContext = getLoaderCtx(c);
+async function createMiddlewareContextFromHono(
+  c: Context<ServerNodeEnv>,
+): Promise<UnstableMiddlewareContext> {
+  const loaderContext = getLoaderCtx(c as Context);
+
+  const rawRequest = c.req.raw;
+
+  const method = rawRequest.method.toUpperCase();
+
+  if (!['GET', 'HEAD'].includes(method) && !rawRequest.body && c.env.node.req) {
+    // Using vars on purpose.
+    // Otherwise the esbuild will build the node api into bundle.
+    const streamModulePath = '../../adapters/node/polyfills/stream.js';
+
+    const { createReadableStreamFromReadable } = (await import(
+      streamModulePath
+    )) as typeof streamModule;
+
+    const init: RequestInit = {
+      body: createReadableStreamFromReadable(c.env.node.req),
+      headers: rawRequest.headers,
+      signal: rawRequest.signal,
+      method: rawRequest.method,
+    };
+
+    (init as { duplex: 'half' }).duplex = 'half';
+
+    c.req.raw = new Request(rawRequest.url, init);
+  }
 
   return {
     get request() {
       return c.req.raw;
+    },
+
+    set request(request: Request) {
+      c.req.raw = request;
     },
 
     get response() {

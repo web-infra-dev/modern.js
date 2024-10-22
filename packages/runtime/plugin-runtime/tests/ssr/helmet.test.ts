@@ -1,4 +1,4 @@
-import helmet from '../../src/ssr/serverRender/helmet';
+import { helmetReplace } from '../../src/core/server/helmet';
 
 const helmetData = {
   bodyAttributes: '',
@@ -14,7 +14,7 @@ const helmetData = {
 
 describe('helmet', () => {
   it('should replace title', () => {
-    const result = helmet('<title>foo</title>', {
+    const result = helmetReplace('<title>foo</title>', {
       ...helmetData,
       title: '<title>baz</title>',
     } as any);

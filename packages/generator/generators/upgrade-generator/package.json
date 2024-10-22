@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.4.3",
+  "version": "3.7.0",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -28,16 +28,14 @@
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
-  "dependencies": {
-    "@modern-js/utils": "workspace:*",
-    "@modern-js/codesmith": "2.3.5",
-    "@modern-js/codesmith-api-app": "2.3.5",
-    "@modern-js/codesmith-api-json": "2.3.5",
+  "devDependencies": {
+    "@modern-js/codesmith": "2.6.5",
+    "@modern-js/codesmith-utils": "2.6.5",
+    "@modern-js/codesmith-api-app": "2.6.5",
+    "@modern-js/codesmith-api-json": "2.6.5",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
-    "@modern-js/plugin-i18n": "workspace:*"
-  },
-  "devDependencies": {
+    "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

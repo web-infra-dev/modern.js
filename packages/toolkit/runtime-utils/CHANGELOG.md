@@ -1,5 +1,146 @@
 # @modern-js/runtime-utils
 
+## 2.60.4
+
+### Patch Changes
+
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 916559a: fix: mergeConfig function to return an object when the first configuration is not an object
+
+  fix: 修复 mergeConfig 函数，使其在第一个配置非对象时返回对象
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

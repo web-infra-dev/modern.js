@@ -1,11 +1,11 @@
 import path from 'path';
-import getPort from 'get-port';
-import puppeteer, { Browser } from 'puppeteer';
 import { fs } from '@modern-js/utils';
+import getPort from 'get-port';
+import puppeteer, { type Browser } from 'puppeteer';
 import {
+  killApp,
   launchApp,
   launchOptions,
-  killApp,
   sleep,
 } from '../../utils/modernTestUtils';
 
@@ -39,8 +39,8 @@ describe('source build', () => {
     await page.goto(`http://localhost:${port}`);
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText).toMatch('Card Comp Title: App');
-    expect(targetText).toMatch('CARD COMP CONTENT:hello world');
+    expect(targetText).toMatch('Card-Comp Title: App');
+    expect(targetText).toMatch('CARD-COMP CONTENT:hello world');
   });
 
   test('update component project code', async () => {

@@ -15,45 +15,59 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.2",
+  "version": "2.60.4",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
+      "types": "./dist/types/router.d.ts",
       "jsnext:source": "./src/router.ts",
       "require": "./dist/cjs/router.js",
       "default": "./dist/esm/router.js"
     },
     "./remix-router": {
+      "types": "./dist/types/remixRouter.d.ts",
       "jsnext:source": "./src/remixRouter.ts",
       "require": "./dist/cjs/remixRouter.js",
       "default": "./dist/esm/remixRouter.js"
     },
     "./browser": {
+      "types": "./dist/types/browser/index.d.ts",
       "jsnext:source": "./src/browser/index.ts",
       "require": "./dist/cjs/browser/index.js",
       "default": "./dist/esm/browser/index.js"
     },
     "./node": {
+      "types": "./dist/types/node/index.d.ts",
       "jsnext:source": "./src/node/index.ts",
       "require": "./dist/cjs/node/index.js",
       "default": "./dist/esm/node/index.js"
     },
     "./node/router": {
+      "types": "./dist/types/node/router.d.ts",
       "jsnext:source": "./src/node/router.ts",
       "require": "./dist/cjs/node/router.js",
       "default": "./dist/esm/node/router.js"
     },
     "./time": {
+      "types": "./dist/types/time.d.ts",
       "jsnext:source": "./src/time.ts",
       "require": "./dist/cjs/time.js",
       "default": "./dist/esm/time.js"
     },
+    "./universal/request": {
+      "types": "./dist/universal/request.d.ts",
+      "jsnext:source": "./src/universal/request.ts",
+      "require": "./dist/cjs/universal/request.js",
+      "default": "./dist/esm/universal/request.js"
+    },
     "./parsed": {
+      "types": "./dist/types/parsed.d.ts",
       "jsnext:source": "./src/parsed.ts",
       "require": "./dist/cjs/parsed.js",
       "default": "./dist/esm/parsed.js"
     },
     "./storer": {
+      "types": "./dist/types/node/storer/index.d.ts",
       "jsnext:source": "./src/node/storer/index.ts",
       "require": "./dist/cjs/node/storer/index.js",
       "default": "./dist/esm/node/storer/index.js"
@@ -65,9 +79,16 @@
       "default": "./dist/esm/node/fileReader.js"
     },
     "./url": {
+      "types": "./dist/types/url.d.ts",
       "jsnext:source": "./src/url.ts",
       "require": "./dist/cjs/url.js",
       "default": "./dist/esm/url.js"
+    },
+    "./merge": {
+      "types": "./dist/types/merge.d.ts",
+      "jsnext:source": "./src/merge.ts",
+      "require": "./dist/cjs/merge.js",
+      "default": "./dist/esm/merge.js"
     }
   },
   "publishConfig": {
@@ -87,6 +108,7 @@
         "default": "./dist/esm/remixRouter.js"
       },
       "./browser": {
+        "types": "./dist/types/browser/index.d.ts",
         "jsnext:source": "./src/browser/index.d.ts",
         "require": "./dist/cjs/browser/index.js",
         "default": "./dist/esm/browser/index.js"
@@ -100,6 +122,11 @@
         "types": "./dist/types/node/router.d.ts",
         "require": "./dist/cjs/node/router.js",
         "default": "./dist/esm/node/router.js"
+      },
+      "./universal/request": {
+        "types": "./dist/universal/request.d.ts",
+        "require": "./dist/cjs/universal/request.js",
+        "default": "./dist/esm/universal/request.js"
       },
       "./time": {
         "types": "./dist/types/time.d.ts",
@@ -125,6 +152,11 @@
         "types": "./dist/types/url.d.ts",
         "require": "./dist/cjs/url.js",
         "default": "./dist/esm/url.js"
+      },
+      "./merge": {
+        "types": "./dist/types/merge.d.ts",
+        "require": "./dist/cjs/merge.js",
+        "default": "./dist/esm/merge.js"
       }
     }
   },
@@ -145,6 +177,9 @@
       "node/router": [
         "./dist/types/node/router.d.ts"
       ],
+      "universal/request": [
+        "./dist/types/universal/request.d.ts"
+      ],
       "time": [
         "./dist/types/time.d.ts"
       ],
@@ -159,6 +194,9 @@
       ],
       "url": [
         "./dist/types/url.d.ts"
+      ],
+      "merge": [
+        "./dist/types/merge.d.ts"
       ]
     }
   },
@@ -171,11 +209,11 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@remix-run/router": "1.20.0",
+    "@swc/helpers": "0.5.13",
     "lru-cache": "^6.0.0",
-    "serialize-javascript": "^6.0.0",
-    "react-router-dom": "6.22.0",
-    "@remix-run/router": "1.15.0",
-    "@swc/helpers": "0.5.3"
+    "react-router-dom": "6.27.0",
+    "serialize-javascript": "^6.0.0"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
@@ -190,17 +228,17 @@
     }
   },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
-    "@types/node": "^14",
     "@types/lru-cache": "^5.1.1",
+    "@types/node": "^14",
+    "@types/serialize-javascript": "^5.0.1",
     "jest": "^29",
-    "typescript": "^5",
-    "@types/serialize-javascript": "^5.0.1"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5"
   },
   "sideEffects": false
 }

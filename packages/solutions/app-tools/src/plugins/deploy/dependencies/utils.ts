@@ -1,9 +1,9 @@
-import path from 'path';
 import os from 'node:os';
+import path from 'path';
 import { fs as fse } from '@modern-js/utils';
-import type { PackageJson } from 'pkg-types';
+import { type NodeFileTraceOptions, nodeFileTrace, resolve } from '@vercel/nft';
 import { parseNodeModulePath } from 'mlly';
-import { nodeFileTrace, resolve } from '@vercel/nft';
+import type { PackageJson } from 'pkg-types';
 
 export type TracedPackage = {
   name: string;
@@ -35,12 +35,15 @@ function applyPublicCondition(pkg: PackageJson) {
   }
 }
 
-export const writePackage = async (
-  pkg: TracedPackage,
-  version: string,
-  projectDir: string,
-  _pkgPath?: string,
-) => {
+interface WritePackageOptions {
+  pkg: TracedPackage;
+  version: string;
+  projectDir: string;
+  _pkgPath?: string;
+}
+
+export const writePackage = async (options: WritePackageOptions) => {
+  const { pkg, version, projectDir, _pkgPath } = options;
   const pkgPath = _pkgPath || pkg.name;
   for (const src of pkg.versions[version].files) {
     if (src.includes('node_modules')) {
@@ -156,7 +159,8 @@ export const findPackageParents = (
   const parentPkgs = [
     ...new Set(
       versionFiles.flatMap(file =>
-        file.parents
+        // Because it supports copyWholePackage configuration, not all files exist.
+        file?.parents
           .map(parentPath => {
             const parentFile = tracedFiles[parentPath];
 
@@ -170,14 +174,20 @@ export const findPackageParents = (
       ),
     ),
   ];
-  return parentPkgs as string[];
+  return parentPkgs.filter(parentPkg => parentPkg) as string[];
 };
 
-export const traceFiles = async (
-  entryFiles: string[],
-  serverRootDir: string,
+export const traceFiles = async ({
+  entryFiles,
+  serverRootDir,
   base = '/',
-) => {
+  traceOptions,
+}: {
+  entryFiles: string[];
+  serverRootDir: string;
+  base?: string;
+  traceOptions?: NodeFileTraceOptions;
+}) => {
   return await nodeFileTrace(entryFiles, {
     base,
     processCwd: serverRootDir,
@@ -190,6 +200,7 @@ export const traceFiles = async (
         return resolve(id, parent, job, isCjs);
       }
     },
+    ...traceOptions,
   });
 };
 
@@ -197,3 +208,12 @@ export const resolveTracedPath = async (
   base: string,
   p: string,
 ): Promise<string> => fse.realpath(path.resolve(base, p));
+
+export const isSubPath = (parentPath: string, childPath: string) => {
+  if (!parentPath || !childPath) {
+    return false;
+  }
+
+  const relative = path.relative(parentPath, childPath);
+  return relative && !relative.startsWith('..');
+};

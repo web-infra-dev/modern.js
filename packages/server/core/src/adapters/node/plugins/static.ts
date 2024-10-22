@@ -1,13 +1,13 @@
 import path from 'path';
+import { fileReader } from '@modern-js/runtime-utils/fileReader';
+import type { ServerRoute } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import { getMimeType } from 'hono/utils/mime';
-import { ServerRoute } from '@modern-js/types';
-import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type {
-  OutputNormalizedConfig,
-  HtmlNormalizedConfig,
   HonoRequest,
+  HtmlNormalizedConfig,
   Middleware,
+  OutputNormalizedConfig,
   ServerPlugin,
 } from '../../../types';
 import { sortRoutes } from '../../../utils';
@@ -100,8 +100,9 @@ export function createStaticMiddleware(
   const { pwd, routes } = options;
   const prefix = options.output.assetPrefix || '/';
 
-  const { distPath: { css: cssPath, js: jsPath, media: mediaPath } = {} } =
-    options.output;
+  const {
+    distPath: { css: cssPath, js: jsPath, media: mediaPath } = {},
+  } = options.output;
   const { favicon, faviconByEntries } = options.html;
   const favicons = prepareFavicons(favicon, faviconByEntries);
   const staticFiles = [cssPath, jsPath, mediaPath].filter(v => Boolean(v));

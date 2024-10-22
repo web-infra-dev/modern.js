@@ -1,8 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
 import { DocumentStructureContext } from './DocumentStructureContext';
-import { Scripts } from './Scripts';
 import { Links } from './Links';
+import { Scripts } from './Scripts';
 import { Title } from './Title';
 import {
   DOCUMENT_META_PLACEHOLDER,

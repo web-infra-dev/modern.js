@@ -1,6 +1,6 @@
 import path from 'path';
 import readChangesets from '@changesets/read';
-import { getPackages, Package } from '@manypkg/get-packages';
+import { type Package, getPackages } from '@manypkg/get-packages';
 
 type VersionType = 'major' | 'minor' | 'patch' | 'none';
 type Release = {
@@ -63,6 +63,5 @@ async function run() {
 
 run().catch(e => {
   console.error(e);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 });

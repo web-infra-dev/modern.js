@@ -32,13 +32,12 @@ export const createRuntimeExportsUtils = memo(
     // };
 
     const addExport = (statement: string) => {
-      // eslint-disable-next-line no-param-reassign
-      statement = normalizeOutputPath(statement);
+      const statementStr = normalizeOutputPath(statement);
       try {
         fs.ensureFileSync(entryExportFile);
 
-        if (!fs.readFileSync(entryExportFile, 'utf8').includes(statement)) {
-          fs.appendFileSync(entryExportFile, `${statement}\n`);
+        if (!fs.readFileSync(entryExportFile, 'utf8').includes(statementStr)) {
+          fs.appendFileSync(entryExportFile, `${statementStr}\n`);
         }
       } catch {
         // FIXME:

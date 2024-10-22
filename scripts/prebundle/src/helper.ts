@@ -1,6 +1,6 @@
 import { dirname, join } from 'path';
 import fs from 'fs-extra';
-import { TASKS, DIST_DIR, PACKAGES_DIR } from './constant';
+import { DIST_DIR, PACKAGES_DIR, TASKS } from './constant';
 import type { ParsedTask } from './types';
 
 export function findDepPath(name: string) {
@@ -68,12 +68,15 @@ export function parseTasks() {
 }
 
 export function pick<T, U extends keyof T>(obj: T, keys: ReadonlyArray<U>) {
-  return keys.reduce((ret, key) => {
-    if (obj[key] !== undefined) {
-      ret[key] = obj[key];
-    }
-    return ret;
-  }, {} as Pick<T, U>);
+  return keys.reduce(
+    (ret, key) => {
+      if (obj[key] !== undefined) {
+        ret[key] = obj[key];
+      }
+      return ret;
+    },
+    {} as Pick<T, U>,
+  );
 }
 
 export function replaceFileContent(

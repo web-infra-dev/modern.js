@@ -1,5 +1,213 @@
 # @modern-js/uni-builder
 
+## 2.60.4
+
+### Patch Changes
+
+- e8bfebf: feat: add `html.outputStructure` and doc
+  feat: 展示 `html.outputStructure` 并添加文档
+- d7e932a: fix: `output.sourcemap` not work
+
+  fix: `output.sourcemap` 不生效
+
+  - @modern-js/babel-preset@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- d18f974: feat(deps): unpin Rsbuild patch version
+- afa4880: feat(deps): bump rsbuild 1.0.11
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/babel-preset@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- ff24d56: feat(deps): bump rsbuild 1.0.6 & rspack 1.0.7
+- 3a07a59: feat(deps): bump Rsbuild v1.0.7
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/babel-preset@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- 4cfe425: fix: html minify error when tools.htmlPlugin false
+- edb1fea: feat: support config dev.liveReload
+  - @modern-js/babel-preset@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- a20b0d2: feat: bump Rsbuild 1.0.x stable
+- 4f19e98: chore: rename serviceWorker environment name to workerSSR
+- 05f14fe: feat: add warn when transformLodash and transformImport for lodash library both exist
+
+  feat: 同时使用 source.transformImport 和 performance.transformLodash 优化 lodash 导入时添加警告信息
+
+  - @modern-js/babel-preset@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- a43813d: feat: support for security.sri when using Rspack
+- 59ba402: feat(deps): bump Rsbuild 1.0.1-rc.3
+- 0363aec: chore(deps): bump Rsbuild 1.0.1-rc.4
+- d9a48a8: feat: bump Rsbuild 1.0-rc & Rspack 1.0.0
+- 661b6d5: fix: remove lib-lodash from experience chunks
+- afdca3e: fix: serviceWorker default config
+- e2a79bf: fix: dev.setupMiddlewares not work
+
+  fix: 修复 dev.setupMiddlewares 不生效的问题
+
+  - @modern-js/utils@2.59.0
+  - @modern-js/babel-preset@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+  - @modern-js/babel-preset@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- bf8810a: fix: should not minify html when disableMinimize in webpack mode
+
+  fix: webpack 模式下，当配置 disableMinimize 时不开启 html 压缩
+
+  - @modern-js/utils@2.58.1
+  - @modern-js/babel-preset@2.58.1
+
+## 2.58.0
+
+### Minor Changes
+
+- 58f2868: feat: bump rsbuild 1.0.1-beta.9
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+  - @modern-js/babel-preset@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- 4c0486a: fix: match unexpected environment resources when artifact with the same name in different environments
+
+  fix: 当存在同名产物时匹配到不符合预期的 environment 资源
+
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/server@2.56.1
+  - @modern-js/babel-preset@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [53419a5]
+- Updated dependencies [119b9e1]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/babel-preset@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- a0ac594: chore: decouple with rsbuild/shared
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/server@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- Updated dependencies [35e119a]
+  - @modern-js/server@2.54.6
+  - @modern-js/prod-server@2.54.6
+  - @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+  - @modern-js/prod-server@2.54.5
+  - @modern-js/server@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/prod-server@2.54.4
+- @modern-js/server@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- Updated dependencies [b50d7ec]
+- Updated dependencies [c5644c9]
+  - @modern-js/prod-server@2.54.3
+  - @modern-js/server@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

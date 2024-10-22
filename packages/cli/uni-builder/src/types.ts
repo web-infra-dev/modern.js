@@ -1,55 +1,78 @@
-import type {
-  NodeEnv,
-  MetaOptions,
-  ConfigChain,
-  ConfigChainWithContext,
-  InlineChunkTest,
-  RequestHandler,
-  MaybePromise,
-  HtmlTagDescriptor,
-} from '@rsbuild/shared';
-import type {
-  DevConfig,
-  RsbuildConfig,
-  RsbuildTarget,
-  Polyfill,
-  ScriptInject,
-  RsbuildEntry,
-  ServerConfig,
-  RsbuildPluginAPI,
-} from '@rsbuild/core';
-import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
-import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import type { PluginRemOptions } from '@rsbuild/plugin-rem';
-import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
-import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
-import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
-import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
-import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
-import type { PluginPugOptions } from '@rsbuild/plugin-pug';
-import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
-import type { PluginSassOptions } from '@rsbuild/plugin-sass';
-import type { PluginLessOptions } from '@rsbuild/plugin-less';
 import type { AliasOption } from '@modern-js/utils';
 import type {
-  StartDevServerOptions,
-  UniBuilderStartServerResult,
-} from './shared/devServer';
+  ConfigChain,
+  ConfigChainWithContext,
+  DevConfig,
+  DistPathConfig,
+  HtmlConfig,
+  HtmlTagDescriptor,
+  OutputConfig,
+  Polyfill,
+  RequestHandler,
+  RsbuildConfig,
+  RsbuildPlugin,
+  RsbuildPluginAPI,
+  RsbuildPlugins,
+  RsbuildTarget,
+  Rspack,
+  ScriptInject,
+  SecurityConfig,
+  ServerConfig,
+  SourceConfig,
+  ToolsConfig,
+} from '@rsbuild/core';
+import type { PluginAssetsRetryOptions } from '@rsbuild/plugin-assets-retry';
+import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
+import type { PluginCheckSyntaxOptions } from '@rsbuild/plugin-check-syntax';
+import type { PluginCssMinimizerOptions } from '@rsbuild/plugin-css-minimizer';
+import type { PluginLessOptions } from '@rsbuild/plugin-less';
+import type { PluginPugOptions } from '@rsbuild/plugin-pug';
+import type { PluginRemOptions } from '@rsbuild/plugin-rem';
+import type { PluginSassOptions } from '@rsbuild/plugin-sass';
 import type { PluginSourceBuildOptions } from '@rsbuild/plugin-source-build';
+import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
+import type { SvgDefaultExport } from '@rsbuild/plugin-svgr';
+import type { PluginTypeCheckerOptions } from '@rsbuild/plugin-type-check';
+import type { Options as AutoprefixerOptions } from 'autoprefixer';
+import type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
 import type TerserPlugin from 'terser-webpack-plugin';
+import type { PluginTsLoaderOptions } from './webpack/plugins/tsLoader';
 
 type ArrayOrNot<T> = T | T[];
 
+export type Stats = Omit<
+  Rspack.Stats,
+  '#private' | 'hash' | 'startTime' | 'endTime'
+>;
+
+export type RspackConfig = Rspack.Configuration;
+
+export type MultiStats = Rspack.MultiStats;
+
+/**
+ * custom properties
+ * e.g. { name: 'viewport' content: 'width=500, initial-scale=1' }
+ * */
+type MetaAttrs = { [attrName: string]: string | boolean };
+
+export type MetaOptions = {
+  /**
+   * name content pair
+   * e.g. { viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no' }`
+   * */
+  [name: string]: string | false | MetaAttrs;
+};
+
 export type CreateBuilderCommonOptions = {
-  entry?: RsbuildEntry;
   frameworkConfigPath?: string;
-  target?: RsbuildTarget | RsbuildTarget[];
   /** The root path of current project. */
   cwd: string;
 };
 
+export type BundlerType = 'rspack' | 'webpack';
+
 export type CreateUniBuilderOptions = {
-  bundlerType: 'rspack' | 'webpack';
+  bundlerType: BundlerType;
   config: UniBuilderConfig;
 } & Partial<CreateBuilderCommonOptions>;
 
@@ -58,7 +81,7 @@ export type GlobalVars = Record<string, any>;
 export type ChainedGlobalVars = ConfigChainWithContext<
   GlobalVars,
   {
-    env: NodeEnv;
+    env: string;
     target: RsbuildTarget;
   }
 >;
@@ -98,8 +121,24 @@ export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
 
 export type ToolsTerserConfig = ConfigChain<TerserPluginOptions>;
 
+export type ToolsAutoprefixerConfig = ConfigChain<AutoprefixerOptions>;
+
 export type UniBuilderExtraConfig = {
   tools?: {
+    /**
+     * Modify the config of [autoprefixer](https://github.com/postcss/autoprefixer)
+     */
+    autoprefixer?: ToolsAutoprefixerConfig;
+    // tools.htmlPlugin minify option should works
+    htmlPlugin?:
+      | boolean
+      | ConfigChainWithContext<
+          HTMLPluginOptions,
+          {
+            entryName: string;
+            entryValue: (string | string[] | Rspack.EntryDescription)[];
+          }
+        >;
     styledComponents?: false | PluginStyledComponentsOptions;
     devServer?: ToolsDevServerConfig;
     /**
@@ -143,6 +182,10 @@ export type UniBuilderExtraConfig = {
     sass?: PluginSassOptions['sassLoaderOptions'];
   };
   dev?: {
+    /** Set the page URL to open when the server starts. */
+    startUrl?: boolean | string | string[];
+    /** Execute a callback function before opening the `startUrl`. */
+    beforeStartUrl?: () => Promise<void> | void;
     /**
      * Used to set the host of Dev Server.
      */
@@ -157,6 +200,7 @@ export type UniBuilderExtraConfig = {
     port?: number;
   };
   source?: {
+    transformImport?: SourceConfig['transformImport'] | false;
     // TODO: need to support rsbuild alias type in server/utils
     alias?: AliasOption;
     /**
@@ -180,9 +224,8 @@ export type UniBuilderExtraConfig = {
   };
   output?: {
     /**
-     * Whether to disable code minification in production build.
+     * @deprecated use `output.minify` instead
      */
-    // TODO: support output.minify configuration
     disableMinimize?: boolean;
     /**
      * @deprecated use `output.filenameHash` instead
@@ -232,11 +275,11 @@ export type UniBuilderExtraConfig = {
     /**
      * @deprecated use `output.inlineScripts` instead
      */
-    enableInlineScripts?: boolean | InlineChunkTest;
+    enableInlineScripts?: OutputConfig['inlineScripts'];
     /**
      * @deprecated use `output.inlineStyles` instead
      */
-    enableInlineStyles?: boolean | InlineChunkTest;
+    enableInlineStyles?: OutputConfig['injectStyles'];
     /**
      * Configure the default export type of SVG files.
      */
@@ -247,6 +290,7 @@ export type UniBuilderExtraConfig = {
     disableSvgr?: boolean;
     /**
      * Whether to disable source map.
+     * @deprecated use `output.sourceMap` instead
      */
     disableSourceMap?: DisableSourceMapOption;
     /**
@@ -255,6 +299,7 @@ export type UniBuilderExtraConfig = {
     disableCssExtract?: boolean;
   };
   html?: {
+    appIcon?: string | HtmlConfig['appIcon'];
     /**
      * Remove the folder of the HTML files.
      * When this option is enabled, the generated HTML file path will change from `[name]/index.html` to `[name].html`.
@@ -332,23 +377,16 @@ export type SriOptions = {
 
 export type OverridesUniBuilderInstance = {
   addPlugins: (
-    plugins: UniBuilderPlugin[],
+    plugins: Array<UniBuilderPlugin | LooseRsbuildPlugin>,
     options?: {
       before?: string;
+      environment?: string;
     },
   ) => void;
-  /**
-   * should be used in conjunction with the upper-layer framework:
-   *
-   * missing route.json (required in modern server)
-   */
-  startDevServer: (
-    options: StartDevServerOptions,
-  ) => Promise<UniBuilderStartServerResult>;
 };
 
 export type UniBuilderContext = RsbuildPluginAPI['context'] & {
-  target: RsbuildPluginAPI['context']['targets'];
+  target: RsbuildTarget[];
   framework: string;
   srcPath: string;
   entry: Record<string, string | string[]>;
@@ -376,7 +414,7 @@ export type UniBuilderPluginAPI = {
       utils: {
         mergeBuilderConfig: <T>(...configs: T[]) => T;
       },
-    ) => MaybePromise<any | void>,
+    ) => any | Promise<any>,
   ) => void;
 };
 
@@ -385,22 +423,34 @@ export type UniBuilderPluginAPI = {
  */
 export type UniBuilderPlugin = {
   name: string;
-  setup: (api: UniBuilderPluginAPI) => MaybePromise<void>;
+  setup: (api: UniBuilderPluginAPI) => void | Promise<void>;
   pre?: string[];
   post?: string[];
   remove?: string[];
 };
 
+// Support for registering any version Rsbuild plugins
+export type LooseRsbuildPlugin = Omit<RsbuildPlugin, 'setup'> & {
+  setup: (api: any) => Promise<void> | void;
+};
+
+export type DistPath = DistPathConfig & {
+  server?: string;
+  worker?: string;
+};
+
 export type UniBuilderConfig = {
   dev?: RsbuildConfig['dev'];
-  html?: RsbuildConfig['html'];
-  output?: Omit<NonNullable<RsbuildConfig['output']>, 'polyfill'> & {
+  html?: Omit<HtmlConfig, 'appIcon'>;
+  output?: Omit<OutputConfig, 'polyfill' | 'distPath'> & {
     polyfill?: Polyfill | 'ua';
+    distPath?: DistPath;
   };
   performance?: RsbuildConfig['performance'];
-  security?: RsbuildConfig['security'];
-  tools?: RsbuildConfig['tools'];
-  source?: Omit<NonNullable<RsbuildConfig['source']>, 'alias'>;
+  security?: Omit<SecurityConfig, 'sri'>;
+  tools?: Omit<ToolsConfig, 'htmlPlugin'>;
+  source?: Omit<SourceConfig, 'alias' | 'transformImport'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
-  plugins?: RsbuildConfig['plugins'];
+  plugins?: RsbuildPlugins;
+  environments?: RsbuildConfig['environments'];
 } & UniBuilderExtraConfig;

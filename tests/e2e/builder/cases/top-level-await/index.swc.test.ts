@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { pluginSwc } from '@rsbuild/plugin-swc';
 
 test('should run top level await correctly when using SWC', async ({
   page,

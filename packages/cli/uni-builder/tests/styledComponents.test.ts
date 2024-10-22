@@ -1,5 +1,5 @@
-import { expect, describe, it } from 'vitest';
-import { pluginSwc } from '@rsbuild/plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
@@ -8,8 +8,20 @@ describe('plugins/styled-components', () => {
     const rsbuild = await createUniBuilder({
       bundlerType: 'webpack',
       cwd: '',
-      target: ['node', 'web'],
-      config: {},
+      config: {
+        environments: {
+          node: {
+            output: {
+              target: 'node',
+            },
+          },
+          web: {
+            output: {
+              target: 'web',
+            },
+          },
+        },
+      },
     });
 
     const configs = await rsbuild.initConfigs();

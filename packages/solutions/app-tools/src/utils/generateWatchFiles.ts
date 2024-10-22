@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, getServerConfig } from '@modern-js/utils';
-import { IAppContext } from '../types';
+import type { IAppContext } from '../types';
 
 /**
  * Get user config from package.json.

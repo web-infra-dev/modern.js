@@ -1,31 +1,36 @@
-import { isPipeline, createPipeline } from '../farrow-pipeline';
+import { createPipeline, isPipeline } from '../farrow-pipeline';
 import {
-  isWaterfall,
+  createAsyncWaterfall,
   createWaterfall,
   isAsyncWaterfall,
-  createAsyncWaterfall,
+  isWaterfall,
 } from '../waterfall';
 import {
-  isWorkflow,
-  createWorkflow,
-  isAsyncWorkflow,
+  createAsyncInterruptWorkflow,
   createAsyncWorkflow,
-  isParallelWorkflow,
   createParallelWorkflow,
+  createSyncParallelWorkflow,
+  createWorkflow,
+  isAsyncInterruptWorkflow,
+  isAsyncWorkflow,
+  isParallelWorkflow,
+  isSyncParallelWorkflow,
+  isWorkflow,
 } from '../workflow';
 import {
   checkPlugins,
+  // biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
   hasOwnProperty,
   includePlugin,
   isObject,
   sortPlugins,
 } from './shared';
 import type {
-  Hook,
   CommonAPI,
+  Hook,
+  PluginOptions,
   ToRunners,
   ToThreads,
-  PluginOptions,
 } from './types';
 
 /** Setup function of sync plugin. */
@@ -180,7 +185,6 @@ export const createManager = <
     };
 
     const createPlugin: Manager<Hooks, API>['createPlugin'] = (
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       setup = () => {},
       options = {},
     ) => {
@@ -287,6 +291,14 @@ export const cloneHook = (hook: Hook): Hook => {
 
   if (isParallelWorkflow(hook)) {
     return createParallelWorkflow();
+  }
+
+  if (isAsyncInterruptWorkflow(hook)) {
+    return createAsyncInterruptWorkflow();
+  }
+
+  if (isSyncParallelWorkflow(hook)) {
+    return createSyncParallelWorkflow();
   }
 
   if (isPipeline(hook)) {

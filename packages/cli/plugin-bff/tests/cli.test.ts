@@ -1,17 +1,22 @@
 import path from 'path';
+import type { AppToolsHooks } from '@modern-js/app-tools';
 import {
-  manager,
   AppContext,
-  CliPlugin,
-  ToRunners,
-  createAsyncWaterfall,
+  type CliPlugin,
   ResolvedConfigContext,
+  type ToRunners,
+  createAsyncWaterfall,
+  manager,
 } from '@modern-js/core';
 import Chain from '@modern-js/utils/webpack-chain';
-import { CHAIN_ID } from '@rsbuild/shared';
-import type { AppToolsHooks } from '@modern-js/app-tools';
 import plugin from '../src/cli';
 import './helper';
+
+const CHAIN_ID = {
+  RULE: {
+    JS: 'js',
+  },
+};
 
 describe('bff cli plugin', () => {
   it('routes', async () => {

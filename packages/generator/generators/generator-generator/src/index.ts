@@ -1,21 +1,21 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  i18n as commonI18n,
-  getGeneratorSchema,
   Solution,
   SolutionGenerator,
+  i18n as commonI18n,
+  getGeneratorSchema,
 } from '@modern-js/generator-common';
 import {
   fs,
-  i18n as utilsI18n,
   getAllPackages,
-  validatePackagePath,
-  validatePackageName,
-  getModuleProjectPath,
   getGeneratorPath,
+  getModuleProjectPath,
+  i18n as utilsI18n,
+  validatePackageName,
+  validatePackagePath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -38,8 +38,8 @@ const handleTemplateFile = async (
     try {
       packages = getAllPackages(outputPath);
     } catch (e) {
-      generator.logger.debug('get all packages error', e);
-      generator.logger.warn(i18n.t(localeKeys.lerna_error));
+      generator.logger.debug(`❗️ [Get All Packages Error]: ${e}`);
+      generator.logger.warn(`🟡 ${i18n.t(localeKeys.lerna_error)}`);
     }
   }
 
@@ -118,6 +118,7 @@ const handleTemplateFile = async (
       query: {},
       update: { $set: updateInfo },
     },
+    true,
   );
 
   await fs.mkdirp(path.join(projectPath, 'templates'));
@@ -134,13 +135,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/generator-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Generator Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -148,5 +150,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   appApi.showSuccessInfo();
 
-  generator.logger.debug(`forge @modern-js/generator-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Generator Generator]`);
 };

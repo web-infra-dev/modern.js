@@ -1,9 +1,9 @@
-import { expect, describe, it } from 'vitest';
-import {
-  isPrimitiveScope,
-  applyScopeChain,
-} from '../src/webpack/plugins/moduleScopes';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
+import {
+  applyScopeChain,
+  isPrimitiveScope,
+} from '../src/webpack/plugins/moduleScopes';
 import { unwrapConfig } from './helper';
 
 describe('plugin-module-scopes', () => {

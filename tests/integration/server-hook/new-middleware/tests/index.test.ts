@@ -1,11 +1,15 @@
+import dns from 'node:dns';
 import path from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import axios from 'axios';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../../utils/modernTestUtils';
+
+dns.setDefaultResultOrder('ipv4first');
 
 const appPath = path.resolve(__dirname, '../');
 
@@ -63,5 +67,50 @@ describe('test new middleware run correctly', () => {
     expect(body).toMatch(/lang="en"/);
 
     expect(headers).toHaveProperty('x-custom-value', 'modern');
+  });
+
+  test('should replace body when request is post', async () => {
+    const url = `http://localhost:${port}/`;
+
+    const message = 'Hello ABC';
+
+    const response = await axios.post(url, message, {
+      responseType: 'text',
+    });
+
+    const body = response.data;
+
+    expect(body).toMatch(message);
+  });
+
+  test('should replace request url when request url contains modify=1', async () => {
+    const url = `http://localhost:${port}/?modify=1`;
+
+    const message = '?modify=222';
+
+    const response = await axios.get(url, {
+      responseType: 'text',
+    });
+
+    const body = response.data;
+
+    expect(body).toMatch(message);
+  });
+
+  test('should get loaderContext correctly', async () => {
+    const url = `http://localhost:${port}/`;
+    const response = await axios.get(url);
+    const body = response.data;
+    expect(body).toMatch('Liming');
+    await page.goto(`http://localhost:${port}/login`, {
+      waitUntil: ['networkidle0'],
+    });
+
+    const element = await page.$('.to-home');
+    await element?.click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const rootElm = await page.$('#root');
+    const targetText = await page.evaluate(el => el?.textContent, rootElm);
+    expect(targetText?.trim()).toEqual('Hello Liming');
   });
 });

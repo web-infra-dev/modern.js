@@ -1,8 +1,8 @@
 import {
-  validate,
-  validateWatchDir,
-  validateSourceDirAndFileNames,
   sourceDirAndFileNamesValidMessage,
+  validate,
+  validateSourceDirAndFileNames,
+  validateWatchDir,
   watchDirValidMessage,
 } from '../src/validate';
 

@@ -1,30 +1,32 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  ora,
+  PackageManager,
+  type Solution,
+  SolutionText,
+  SolutionToolsMap,
+} from '@modern-js/generator-common';
+import {
+  fs,
   getAvailableVersion,
   getModernVersion,
   getPackageManager,
   getPackageObj,
-  semver,
-  fs,
-  isPackageExist,
   getPackageVersion,
+  isPackageExist,
+  ora,
+  semver,
 } from '@modern-js/generator-utils';
-import {
-  PackageManager,
-  Solution,
-  SolutionText,
-  SolutionToolsMap,
-} from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
 
 // Special modern.js dependencies, the plugin version maybe not same with other modern.js plugin
 const SpecialModernDeps = [
   '@modern-js/plugin-storybook',
   '@modern-js/builder-rspack-provider', // need be removed after 2.46.1
+  '@modern-js/eslint-config',
+  '@modern-js-app/eslint-config',
 ];
 
 const DeprecatedModernBuilderDeps = [
@@ -75,7 +77,7 @@ export const handleTemplateFile = async (
   const modernVersion = await getModernVersion(
     solutions[0] as Solution,
     context.config.registry,
-    context.config.distTag,
+    context.config.distTag || 'latest',
   );
 
   generator.logger.info(
@@ -91,6 +93,7 @@ export const handleTemplateFile = async (
       .filter(dep => !dep.includes('electron'))
       .filter(dep => !dep.includes('codesmith') && !dep.includes('easy-form'))
       .filter(dep => !dep.startsWith('@modern-js-reduck'))
+      .filter(dep => !dep.includes('eslint-config'))
       .every(dep => deps[dep] === modernVersion)
   ) {
     generator.logger.info(
@@ -139,7 +142,7 @@ export const handleTemplateFile = async (
         );
       } else if (DeprecatedModernBuilderDeps.includes(dep)) {
         generator.logger.warn(
-          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
+          `🟡 [Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
         );
       } else {
         updateInfo[`dependencies.${dep}`] = await getAvailableVersion(
@@ -159,7 +162,7 @@ export const handleTemplateFile = async (
         );
       } else if (DeprecatedModernBuilderDeps.includes(dep)) {
         generator.logger.warn(
-          `[Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
+          `🟡 [Deprecated] ${dep} is no longer maintained, please use Rsbuild plugin instead`,
         );
       } else {
         updateInfo[`devDependencies.${dep}`] = await getAvailableVersion(
@@ -177,48 +180,10 @@ export const handleTemplateFile = async (
         $set: updateInfo,
       },
     },
+    true,
   );
 
   spinner.stop();
-
-  // update husky
-  const huskyVersion = deps.husky;
-  try {
-    if (huskyVersion && semver.lt(huskyVersion, '8.0.0')) {
-      generator.logger.info(`${i18n.t(localeKeys.updateHusky)}`);
-      await jsonAPI.update(
-        context.materials.default.get(path.join(appDir, 'package.json')),
-        {
-          query: {},
-          update: {
-            $set: {
-              'devDependencies.husky': '^8.0.0',
-            },
-          },
-        },
-      );
-
-      const pkgPath = context.materials.default.get(
-        path.join(appDir, 'package.json'),
-      ).filePath;
-      const pkgInfo = fs.readJSONSync(pkgPath, 'utf-8');
-      const { prepare } = pkgInfo.scripts;
-      if (!prepare) {
-        pkgInfo.scripts.prepare = 'husky install';
-      } else if (!prepare.includes('husky install')) {
-        pkgInfo.scripts.prepare = `${prepare} && husky install`;
-      }
-      pkgInfo.husky = undefined;
-
-      fs.writeJSONSync(pkgPath, pkgInfo, { spaces: 2 });
-
-      await appApi.forgeTemplate('templates/**/*');
-      fs.chmodSync(
-        path.join(generator.outputPath, '.husky', 'pre-commit'),
-        '755',
-      );
-    }
-  } catch (e) {}
 
   await appApi.runInstall();
 
@@ -231,11 +196,13 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   const { locale } = context.config;
   appApi.i18n.changeLanguage({ locale });
 
-  generator.logger.debug(`start run @modern-js/upgrade-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Upgrade Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
-  generator.logger.debug(`forge @modern-js/upgrade-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Upgrade Generator]`);
 };

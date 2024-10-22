@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import { useEvent } from 'react-use';
 
 export interface StickyDraggableOptions {
@@ -12,7 +13,7 @@ const isCrossMargin = (a: string, b: string) =>
     bottom: ['left', 'right'],
     left: ['top', 'bottom'],
     right: ['top', 'bottom'],
-  }[a]?.includes(b) ?? false);
+  })[a]?.includes(b) ?? false;
 
 interface DraggingState {
   el: HTMLElement;

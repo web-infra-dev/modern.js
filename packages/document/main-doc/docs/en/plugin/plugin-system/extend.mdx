@@ -1,0 +1,163 @@
+---
+sidebar_position: 5
+---
+
+# Extending Plugin Hooks
+
+This section describes how to extend plugin Hooks by dynamically registering [Hook models](/plugin/plugin-system/hook).
+
+## Example
+
+Here is a simple example to demonstrate how to extend plugin Hooks by adding Hooks that manage console output.
+
+First, we initialize an empty project file and add basic dependencies:
+
+```bash
+$ npx @modern-js/create@latest modern-js-demo
+```
+
+### Creating Hooks
+
+First, let's create a Hook model:
+
+```ts title=config/plugin/myPlugin.ts
+import { createWaterfall } from '@modern-js/plugin';
+
+const message = createWaterfall<string[]>();
+```
+
+then register:
+
+```ts title=config/plugin/myPlugin.ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  name: 'my-plugin',
+
+  registerHook: {
+    message,
+  },
+});
+```
+
+add Hook types:
+
+```ts title=config/plugin/myPlugin.ts
+declare module '@modern-js/core' {
+  export interface Hooks {
+    message: typeof message;
+  }
+}
+```
+
+### Using Hooks
+
+Create a plugin and add command handling logic through the `commands` Hook function:
+
+```ts title=config/plugin/myPlugin.ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  name: 'my-plugin',
+
+  setup(api) {
+    return {
+      commands({ program }) {
+        program.command('message').action(async () => {
+          const hookRunners = api.useHookRunners();
+          const messages = hookRunners.message([]);
+          console.log(messages.join('\n'));
+        });
+      },
+    };
+  },
+});
+```
+
+now `config/plugin/myPlugin.ts` is:
+
+```ts title=config/plugin/myPlugin.ts
+import { createWaterfall } from '@modern-js/plugin';
+import type { CliPlugin } from '@modern-js/core';
+
+const message = createWaterfall<string[]>();
+
+export const myPlugin = (): CliPlugin => ({
+  name: 'my-plugin',
+
+  registerHook: {
+    message,
+  },
+
+  setup(api) {
+    return {
+      commands({ program }) {
+        program.command('message').action(async () => {
+          const hookRunners = api.useHookRunners();
+          const messages = hookRunners.message([]);
+          console.log(messages.join('\n'));
+        });
+      },
+    };
+  },
+});
+
+declare module '@modern-js/core' {
+  export interface Hooks {
+    message: typeof message;
+  }
+}
+```
+
+Then add this plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { myPlugin } from './config/plugin/myPlugin';
+
+export default defineConfig({
+  plugins: [myPlugin()],
+});
+```
+
+Now, run `npx modern message`, and the related logic will be executed, but no information is collected, so the console output is empty.
+
+add:
+
+```ts title=config/plugin/otherPlugin.ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const otherPlugin = (): CliPlugin => ({
+  name: 'other-plugin',
+
+  setup(api) {
+    return {
+      message(list) {
+        return [...list, '[foo] line 0', '[foo] line 1'];
+      },
+    };
+  },
+});
+```
+
+add to config:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+import { myPlugin } from './config/plugin/myPlugin';
+import { otherPlugin } from './config/plugin/otherPlugin';
+
+export default defineConfig({
+  plugins: [myPlugin(), otherPlugin()],
+});
+```
+
+run `npx modern message`, then we can get follow in console:
+
+```bash
+$ modern message
+[foo] line 0
+[foo] line 1
+```
+
+By using the above approach, you can extend plugin Hooks with various capabilities.

@@ -1,12 +1,12 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { isSSR } from '@modern-js/utils';
-import {
-  pluginSwc,
-  ObjPluginSwcOptions,
-  PluginSwcOptions,
-} from '@rsbuild/plugin-swc';
-import { logger } from '@modern-js/utils/logger';
 import type { ToolsUserConfig } from '@modern-js/app-tools/src/types/config/tools';
+import { isSSR } from '@modern-js/utils';
+import { logger } from '@modern-js/utils/logger';
+import {
+  type ObjPluginSwcOptions,
+  type PluginSwcOptions,
+  pluginSwc,
+} from '@rsbuild/plugin-webpack-swc';
 
 export function factory(
   name: string,
@@ -31,10 +31,12 @@ export function factory(
         );
 
         context.builder.addPlugins([
-          pluginSwc({
-            ...finalConfig,
-            transformLodash: config.performance.transformLodash ?? true,
-          }),
+          pluginSwc(
+            applyConfig(finalConfig, swcConfig => {
+              swcConfig.transformLodash =
+                config.performance.transformLodash ?? true;
+            }),
+          ),
         ]);
       },
     }),
@@ -47,15 +49,15 @@ export function applyBuilderSwcConfig(
   isSSR: boolean,
 ): PluginSwcOptions {
   // common configuration
+  let swcConfig = swc;
   if (isSSR) {
-    // eslint-disable-next-line no-param-reassign
-    swc = applyConfig(swc, config => {
+    swcConfig = applyConfig(swc, config => {
       config.extensions ??= {};
       config.extensions.loadableComponents = true;
     });
   }
 
-  return applyConfig(swc, config => {
+  return applyConfig(swcConfig, config => {
     if (esbuild) {
       if (config.jsMinify !== false && esbuild.minimize !== false) {
         logger.warn(

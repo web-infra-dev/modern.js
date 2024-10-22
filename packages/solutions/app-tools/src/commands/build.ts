@@ -1,11 +1,11 @@
-import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
-import { loadServerPlugins } from '../utils/loadPlugins';
-import { generateRoutes } from '../utils/routes';
-import { buildServerConfig } from '../utils/config';
-import type { BuildOptions } from '../utils/types';
 import type { AppTools } from '../types';
+import { buildServerConfig } from '../utils/config';
+import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
+import { generateRoutes } from '../utils/routes';
+import type { BuildOptions } from '../utils/types';
 
 export const build = async (
   api: PluginAPI<AppTools<'shared'>>,
@@ -22,6 +22,15 @@ export const build = async (
 
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
+
+  if (appContext.moduleType && appContext.moduleType === 'module') {
+    const { registerEsm } = await import('../esm/register-esm.mjs');
+    await registerEsm({
+      appDir: appContext.appDirectory,
+      distDir: appContext.distDirectory,
+      alias: resolvedConfig.source?.alias,
+    });
+  }
 
   await registerCompiler(
     appContext.appDirectory,

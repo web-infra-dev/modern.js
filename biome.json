@@ -1,0 +1,118 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "defaultBranch": "main",
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "ignore": [
+      "package.json",
+      "packages/document/main-doc/scripts/summary.*.json",
+      "packages/runtime/plugin-runtime/tests/document/feature/document/_tempTsconfig.json",
+      "packages/generator/sandpack-react/src/templates/**",
+      "tests/integration/swc/fixtures/minify-css/src/bootstrap.css",
+      "tests/integration/swc/fixtures/config-function/src/bootstrap.css",
+      "packages/runtime/plugin-garfish/type.d.ts"
+    ]
+  },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "arrowParentheses": "asNeeded",
+      "jsxQuoteStyle": "double",
+      "lineWidth": 80
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useNodejsImportProtocol": "off",
+        "noNonNullAssertion": "off",
+        "noUnusedTemplateLiteral": "off",
+        "noUselessElse": "off",
+        "useNumberNamespace": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noConfusingVoidType": "off",
+        "noImplicitAnyLet": "off",
+        "noAssignInExpressions": "off",
+        "noPrototypeBuiltins": "off",
+        "noRedeclare": "off",
+        "noDuplicateFontNames": "off",
+        "noShorthandPropertyOverrides": "off",
+        "noDuplicateAtImportRules": "off"
+      },
+      "complexity": {
+        "noForEach": "off",
+        "useArrowFunction": "off",
+        "useFlatMap": "off",
+        "noBannedTypes": "off"
+      },
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useAltText": "off",
+        "useHtmlLang": "off",
+        "useKeyWithClickEvents": "off",
+        "noBlankTarget": "off",
+        "useButtonType": "off",
+        "useIframeTitle": "off"
+      },
+      "performance": {
+        "noDelete": "off",
+        "noAccumulatingSpread": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
+      },
+      "correctness": {
+        "useExhaustiveDependencies": "off",
+        "noUnnecessaryContinue": "off",
+        "noUnreachable": "off",
+        "noInvalidUseBeforeDeclaration": "off",
+        "noUnknownProperty": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": [
+      ".vscode/**/*",
+      ".nx/**/*",
+      "coverage/**/*",
+      "node_modules/**/*",
+      "dist/**/*",
+      "dist-1/**/*",
+      "dist-2/**/*",
+      "dist-swc/**/*",
+      "output/**/*",
+      ".output/**/*",
+      ".netlify/**/*",
+      "lib/**/*",
+      "compiled/**/*",
+      ".rpt2_cache/**/*",
+      "packages/runtime/plugin-garfish/tests/**/*",
+      "packages/runtime/plugin-runtime/tests/document/feature/document/_main.html.js",
+      "packages/server/core/tests/fixtures/mock/cjs/config/mock/**/*",
+      "packages/server/server/tests/fixtures/mock/cjs/config/mock/**/*",
+      "tests/integration/ssr/fixtures/preload/**/*",
+      "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
+      "tests/integration/module/plugins/vue/**/*",
+      "packages/module/plugin-module-node-polyfill/src/globals.js"
+    ]
+  }
+}

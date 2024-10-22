@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { runCli, initBeforeTest } from '../../fixtures/utils';
+import { initBeforeTest, runCli } from '../../fixtures/utils';
 
 initBeforeTest();
 
@@ -15,6 +15,8 @@ describe('plugin-node-polyfill', () => {
       path.resolve(__dirname, 'dist/index.js'),
       'utf8',
     );
-    expect(content).toContain('init_globals');
+    expect(content).toContain('init_globals()');
+    expect(content).toContain('__toESM(require_browser2())');
+    expect(content).toContain('__toESM(require_path_browserify())');
   });
 });

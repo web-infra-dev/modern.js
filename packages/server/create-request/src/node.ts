@@ -1,13 +1,13 @@
-import nodeFetch from 'node-fetch';
-import { compile, pathToRegexp, Key } from 'path-to-regexp';
 import { useHeaders } from '@modern-js/runtime-utils/node';
+import nodeFetch from 'node-fetch';
+import { type Key, compile, pathToRegexp } from 'path-to-regexp';
 import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
-  Sender,
-  RequestCreator,
   IOptions,
+  RequestCreator,
+  Sender,
 } from './types';
 
 type Fetch = typeof nodeFetch;
@@ -41,7 +41,6 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   port: number,
   httpMethodDecider = 'functionName',
   // 后续可能要修改，暂时先保留
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   fetch = nodeFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -97,7 +96,6 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
             : payload.body;
       } else if (payload.body) {
         headers['Content-Type'] = 'text/plain';
-        // eslint-disable-next-line prefer-destructuring
         body = payload.body;
       } else if (payload.formData) {
         body = payload.formData;

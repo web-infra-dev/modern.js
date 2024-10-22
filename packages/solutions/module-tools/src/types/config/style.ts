@@ -1,10 +1,10 @@
 import type {
+  Plugin,
   AcceptedPlugin as PostCSSPlugin,
   ProcessOptions,
-  Plugin,
 } from 'postcss';
+import type Less from '../../../compiled/less';
 import type { Options as sassOptions } from '../../../compiled/sass';
-import Less from '../../../compiled/less';
 
 type LocalsConventionFunction = (
   originalClassName: string,

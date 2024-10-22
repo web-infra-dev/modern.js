@@ -1,12 +1,12 @@
 import {
-  SandpackProvider,
-  SandpackLayout,
-  SandpackFileExplorer,
-  SandpackCodeEditor,
   OpenInCodeSandboxButton,
-  SandpackSetup,
-  SandpackFiles,
-  SandpackThemeProp,
+  SandpackCodeEditor,
+  SandpackFileExplorer,
+  type SandpackFiles,
+  SandpackLayout,
+  SandpackProvider,
+  type SandpackSetup,
+  type SandpackThemeProp,
 } from '@codesandbox/sandpack-react';
 import { ModernTemplates } from './templates';
 

@@ -1,12 +1,12 @@
-import {
+import type {
+  Server as HttpServer,
+  IncomingHttpHeaders,
   IncomingMessage,
   ServerResponse,
-  IncomingHttpHeaders,
-  Server as HttpServer,
 } from 'http';
-import qs from 'querystring';
+import type qs from 'querystring';
 import type { SSRMode } from 'common';
-import { Metrics, Logger, Reporter, ServerTiming } from './utils';
+import type { Logger, Metrics, Reporter, ServerTiming } from './utils';
 
 export interface RequestPayload {
   [key: string]: unknown;
@@ -75,6 +75,7 @@ export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     host: string;
+    url: string;
     [propsName: string]: any;
   };
   response: BaseResponseLike;
@@ -116,6 +117,7 @@ export interface ServerInitHookContext {
 
 export interface ISAppContext {
   appDirectory: string;
+  internalDirectory: string;
   apiDirectory?: string;
   lambdaDirectory?: string;
   distDirectory: string;

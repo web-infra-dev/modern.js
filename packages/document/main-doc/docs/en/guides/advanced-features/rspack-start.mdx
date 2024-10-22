@@ -4,17 +4,17 @@ sidebar_position: 1
 
 # Using Rspack
 
-import Rspack from '@modern-js/builder-doc/docs/en/shared/rspackTip.mdx';
+import Rspack from '@site-docs-en/components/rspackTip.mdx';
 
 <Rspack />
 
-**Modern.js provides out-of-the-box Rspack support**, so you can switch between the stable Webpack and the faster Rspack.
+**Modern.js provides out-of-the-box Rspack support**, so you can switch between the stable webpack and the faster Rspack.
 
 This document will show you how to enable Rspack build mode in Modern.js.
 
 ## Initializing an Rspack project
 
-The Modern.js generator provides an interactive question-and-answer interface to initialize a project. To create an Rspack project, simply select the **Rspack** build tool by running:
+The Modern.js new project has enabled Rspack by default. Just execute [Initialize Project](/guides/get-started/quick-start.html#initialize) to create an Rspack project:
 
 import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
@@ -22,16 +22,9 @@ import InitRspackApp from '@site-docs-en/components/init-rspack-app';
 
 After the project is created, you can experience the project by running `pnpm run dev`. For more project information, please refer to [Quick Start](/guides/get-started/quick-start.html).
 
-:::tip
-When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
-
-- The usage of [useLoader](/guides/basic-features/data/data-fetch.html) in Client Side Rendering
-
-:::
-
 ## Enable Rspack build
 
-Since Modern.js MAJOR_VERSION.46.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
+Since Modern.js MAJOR_VERSION.59.0, you can enable Rspack build by add the following configuration in `modern.config.ts`:
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -39,17 +32,17 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   plugins: [
     appTools({
-+     bundler: 'experimental-rspack',
++     bundler: 'rspack',
     }),
   ],
 });
 ```
 
 :::tip
-If your current version is lower than MAJOR_VERSION.46.0, you can upgrade by executing `npx modern upgrade`.
+If your current version is lower than MAJOR_VERSION.59.0, you can upgrade by executing `npx modern upgrade`.
 :::
 
-import RspackPrecautions from '@modern-js/builder-doc/docs/en/shared/rspackPrecautions.md';
+import RspackPrecautions from '@site-docs-en/components/rspackPrecautions.mdx';
 
 <RspackPrecautions />
 
@@ -77,15 +70,9 @@ export default {
 };
 ```
 
-:::tip
-After turning on the Rspack build capability, there are currently a small number of configurations that are not supported in Rspack, such as [source.moduleScopes](/configure/app/source/module-scopes), [security.sri](/configure/app/security/sri) etc.
-
-For unsupported configurations, we have marked `Bundler: only support webpack` or `Bundler: only support Rspack` in the document. Please refer to the specific configuration introduction.
-:::
-
 ## Modify transpile configuration
 
-Modern.js uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/builtin-swc-loader.html) for code translation in Rspack mode.
+Modern.js uses Rspack [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) for code translation in Rspack mode.
 
 Modern.js has provided a more convenient configuration for the common configuration of `builtin:swc-loader`, such as: configuring the component library to import it on demand through [source.transformImport](/configure/app/source/transform-import).
 
@@ -123,17 +110,42 @@ When Rspack is enabled for building through dev / build, the current version of 
 
 You can override Rspack to a specific version using the capbilities provided by package managers such as pnpm, yarn, npm.
 
-For example, if you are using pnpm, you can update the Rspack version with `overrides` as shown below:
+For example, if you are using pnpm, you can override the Rspack version with `overrides`. Assume that the version of Rspack needs to be specified as 0.7.5:
 
 ```json title=package.json
 {
   "pnpm": {
     "overrides": {
-      "@rspack/core": "nightly",
-      "@rspack/plugin-react-refresh": "nightly",
+      "@rspack/binding": "0.7.5",
+      "@rspack/core": "0.7.5",
+      "@rspack/plugin-react-refresh": "0.7.5"
     }
   }
 }
+```
+
+If you need to use the nightly/canary version of Rspack, the package name of the nightly/canary version of Rspack will be released after adding the `-canary` suffix, and needs to be modified to:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/binding": "npm:@rspack/binding-canary@nightly",
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh-canary@nightly"
+    },
+    "peerDependencyRules": {
+      "allowAny": ["@rspack/*"]
+    }
+  }
+}
+```
+
+Rspack provides [install-rspack](https://github.com/rspack-contrib/install-rspack) tooling to quickly override versions:
+
+```sh
+npx install-rspack --version nightly # nightly npm tag
+npx install-rspack --version 0.7.5-canary-d614005-20240625082730 # A specific canary version
 ```
 
 :::tip What is Rspack Nightly Version

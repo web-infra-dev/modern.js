@@ -1,10 +1,10 @@
 import { execa, logger } from '@modern-js/utils';
-import type { IProjectNode } from '../../projects/getProjects';
-import { errorLog } from '../../log/error';
-import * as timeLog from '../../log/time';
-import type { MultitasksLogger } from '../../log/multiTasksLog';
-import { defaultBuildWatchCmds, BuildWatchCmdsType } from './cmds';
 import type { IBuildWatchConfig } from '.';
+import { errorLog } from '../../log/error';
+import type { MultitasksLogger } from '../../log/multiTasksLog';
+import * as timeLog from '../../log/time';
+import type { IProjectNode } from '../../projects/getProjects';
+import { type BuildWatchCmdsType, defaultBuildWatchCmds } from './cmds';
 
 const getFinalTaskCmds = (
   taskCmds: BuildWatchCmdsType,
@@ -39,7 +39,7 @@ const getFinalTaskCmds = (
 
 export const createDependenciesTask = (
   config: IBuildWatchConfig,
-  taskCmds: BuildWatchCmdsType = defaultBuildWatchCmds,
+  taskCmds: BuildWatchCmdsType,
   taskLogger: MultitasksLogger,
 ) => {
   const { packageManager } = config;
@@ -80,6 +80,7 @@ export const createDependenciesTask = (
 
 export const createDevTask = (
   config: IBuildWatchConfig,
+  // biome-ignore lint/style/useDefaultParameterLast: <explanation>
   taskCmds: BuildWatchCmdsType = defaultBuildWatchCmds,
   taskLogger: MultitasksLogger,
 ) => {

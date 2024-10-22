@@ -1,5 +1,195 @@
 # @modern-js/main-doc
 
+## 2.60.4
+
+### Patch Changes
+
+- e8bfebf: feat: add `html.outputStructure` and doc
+  feat: 展示 `html.outputStructure` 并添加文档
+- Updated dependencies [d6986c5]
+  - @modern-js/sandpack-react@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- ed0d1f9: docs: link `output.copy` to Rsbuild
+  - @modern-js/sandpack-react@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 5b98424: docs: add web server docs in concept part
+  docs: 在「概念」中添加 web server 的文档
+- 2b184d7: serve command package component
+- Updated dependencies [0b6d335]
+  - @modern-js/sandpack-react@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- 45a1776: docs: add some deprecated warning in model docs and hidden generator docs
+  docs: 添加 Reduck 文档的废弃警告，隐藏的 generator 文档
+- fe36e63: docs: refactor builder config doc
+
+  docs: 重构 builder 配置文档
+
+- 2ccddaf: feat: remove @modern-js/plugin-lint plugin
+
+  feat: 移除 @modern-js/plugin-lint 插件
+
+  - @modern-js/sandpack-react@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- e37025c: refactor(main-doc): improve bff docs
+  refactor(main-doc): 优化 BFF 文档
+- 330f1a0: docs: add deprecate eslint rules package doc
+
+  docs: 添加下线 eslint 规则包文档
+
+- Updated dependencies [65b2922]
+- Updated dependencies [91ce673]
+  - @modern-js/sandpack-react@2.60.0
+  - @modern-js/builder-doc@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- 3142215: chore: refeactor structure for basic features docs
+  chore: 重构基础用法文档结构
+- a156893: refactor: improve framework routes,data-solutions,render docs
+  refactor: 优化框架的路由、数据解决方案、渲染文档
+- 0c48595: docs: update Rspack precautions
+- Updated dependencies [a156893]
+- Updated dependencies [0c48595]
+  - @modern-js/builder-doc@2.59.0
+  - @modern-js/sandpack-react@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.58.3
+- @modern-js/sandpack-react@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [7715b6d]
+  - @modern-js/sandpack-react@2.58.2
+  - @modern-js/builder-doc@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- 1d2465e: docs: update Rsbuild plugin links
+- d86d999: docs: avoid confusing version number
+- 3824a0e: refactor(website): refactor modern.js docs to latest usage of rspress
+  refactor(website): 重构 modern.js 文档，使用最新 rspress 的用法
+- Updated dependencies [1d2465e]
+- Updated dependencies [3824a0e]
+  - @modern-js/builder-doc@2.58.1
+  - @modern-js/sandpack-react@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- 2b4086f: feat: update runtime plugin hook doc
+
+  feat: 更行 runtime 插件 hook 函数文档
+
+  - @modern-js/builder-doc@2.58.0
+  - @modern-js/sandpack-react@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.57.1
+- @modern-js/sandpack-react@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- @modern-js/sandpack-react@2.57.0
+- @modern-js/builder-doc@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.56.2
+- @modern-js/sandpack-react@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.56.1
+- @modern-js/sandpack-react@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- dee8a8c: chore(deps): bump rspress to 1.26.1
+- Updated dependencies [dee8a8c]
+  - @modern-js/builder-doc@2.56.0
+  - @modern-js/sandpack-react@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- 8470dd6: feat: update entry doc
+
+  feat: 更新入口相关文档
+
+  - @modern-js/sandpack-react@2.55.0
+  - @modern-js/builder-doc@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.54.6
+- @modern-js/sandpack-react@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.54.5
+- @modern-js/sandpack-react@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- 66fd09f: feat: add deprecat function doc
+
+  feat: 添加下线功能文档
+
+  - @modern-js/builder-doc@2.54.4
+  - @modern-js/sandpack-react@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.54.3
+- @modern-js/sandpack-react@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

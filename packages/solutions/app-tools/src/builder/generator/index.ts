@@ -1,10 +1,14 @@
-import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
-import { BundlerType } from '@rsbuild/shared';
-import { BuilderOptions } from '../shared';
-import { Bundler } from '../../types';
+import {
+  type BundlerType,
+  type UniBuilderInstance,
+  createUniBuilder,
+} from '@modern-js/uni-builder';
+import { mergeRsbuildConfig } from '@rsbuild/core';
+import type { Bundler } from '../../types';
+import type { BuilderOptions } from '../shared';
+import { builderPluginAdapterCopy } from './adapterCopy';
 import { createBuilderProviderConfig } from './createBuilderProviderConfig';
-import { getBuilderTargets } from './getBuilderTargets';
-import { createBuilderOptions } from './createBuilderOptions';
+import { getBuilderEnvironments } from './getBuilderEnvironments';
 
 /**
  * @param options BuilderOptions
@@ -18,15 +22,24 @@ export async function generateBuilder<B extends Bundler>(
   const { normalizedConfig, appContext } = options;
 
   // create provider
-  const builderConfig = createBuilderProviderConfig<B>(
+  const tempBuilderConfig = createBuilderProviderConfig<B>(
     normalizedConfig,
     appContext,
   );
 
-  const target = getBuilderTargets(normalizedConfig);
-  const builderOptions = createBuilderOptions(target, appContext);
+  const { environments, builderConfig } = getBuilderEnvironments(
+    normalizedConfig,
+    appContext,
+    tempBuilderConfig,
+  );
+
+  builderConfig.environments = builderConfig.environments
+    ? mergeRsbuildConfig(environments, builderConfig.environments)
+    : environments;
+
   const builder = await createUniBuilder({
-    ...builderOptions,
+    cwd: appContext.appDirectory,
+    frameworkConfigPath: appContext.configFile || undefined,
     bundlerType,
     config: builderConfig,
   });
@@ -44,15 +57,17 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterBasic,
     builderPluginAdapterHtml,
     builderPluginAdapterSSR,
-    builderPluginAdapterWorker,
-  } = await import('../shared/builderPlugins');
+  } = await import('../shared/builderPlugins/index.js');
 
   builder.addPlugins([
     builderPluginAdapterBasic(),
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
-    builderPluginAdapterWorker(),
   ]);
+
+  builder.addPlugins([builderPluginAdapterCopy(options)], {
+    environment: 'web',
+  });
 
   const { normalizedConfig } = options;
   if (!normalizedConfig.output.disableNodePolyfill) {

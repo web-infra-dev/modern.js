@@ -1,6 +1,6 @@
 import path from 'path';
-import { createRsbuild, type Rspack } from '@rsbuild/core';
 import { logger } from '@modern-js/utils/logger';
+import { type Rspack, createRsbuild } from '@rsbuild/core';
 import { version } from '../package.json';
 
 export class ServiceWorkerCompilerPlugin {
@@ -16,17 +16,25 @@ export class ServiceWorkerCompilerPlugin {
             entry: { 'sw-proxy': path.resolve(cwd, './src/service.worker.ts') },
             define: { 'process.env.VERSION': JSON.stringify(version) },
           },
+          environments: {
+            serviceWorker: {
+              output: {
+                target: 'web-worker',
+                filenameHash: false,
+                distPath: {
+                  root: './dist/public',
+                  js: '',
+                  jsAsync: '',
+                },
+              },
+            },
+          },
           output: {
-            targets: ['service-worker'],
             sourceMap: {
               js: false,
               css: false,
             },
             cleanDistPath: false,
-            distPath: {
-              root: './dist',
-              worker: './public',
-            },
           },
           tools: {
             bundlerChain(chain) {

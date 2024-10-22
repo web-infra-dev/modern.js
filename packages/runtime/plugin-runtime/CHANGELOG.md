@@ -1,5 +1,372 @@
 # @modern-js/runtime
 
+## 2.60.4
+
+### Patch Changes
+
+- df1bed5: fix(ssr): we match all asset directly, it can be more faster
+  fix(ssr): 我们一次性匹配出所有资源，这样性能更快
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [c87813e]
+  - @modern-js/plugin-data-loader@2.60.4
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/plugin-data-loader@2.60.3
+  - @modern-js/plugin@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+  - @modern-js/types@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 8a709bc: feat(router): router plugin should use the App Component from other plugins & export the markRoutes method
+  feat(router): router plugin 应该使用 App Component from other plugins & 导出 markRoutes 方法
+- b36bf9f: fix(runtime): fix the alias problem on windows
+  fix(runtime): 修复 windows 下 alias 的问题
+- d4e32bf: fix(runtime): alias @meta/runtime should be configured correctly
+  fix(runtime): @meta/runtime 别名应该被正确地配置
+- 0a31d31: feat: support <NoSSRCache> Component, only use ssr.mode='string'
+
+  feat: 支持 <NoSSRCache> 组件, 仅在 ssr.mode 为 'string'的时候生效
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/plugin-data-loader@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+  - @modern-js/types@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- 4cfe425: fix: html minify error when tools.htmlPlugin false
+- 80825c4: fix: the problem of NoSSR with Suspense
+  fix: 修复 NoSSR 在 suspense 下 的问题
+- 3f968e1: fix: router plugin baseUrl not work
+
+  fix: router 插件 baseUrl 不生效
+
+  - @modern-js/plugin-data-loader@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/runtime-utils@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- d6e0118: fix: we should not cache the html, if we can match the html is downgrading.
+  fix: 在 ssr 降级时，我们不应该缓存 html
+- e27b46a: fix: react's hook useId cause ssr hydrate failed
+  fix: react's hook useId 导致 ssr hydrate 失败
+  - @modern-js/plugin-data-loader@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- 553924c: fix: move parse window ssr data to createRoot
+
+  fix: 移动解析 window ssr data 到 createRoot 方法
+
+- 6c084da: feat: add WithRouterProps params type
+- Updated dependencies [539d72b]
+  - @modern-js/types@2.59.0
+  - @modern-js/plugin-data-loader@2.59.0
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/plugin@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- 6b0a5c4: fix: should remove extensions for entry file in real entry file, cause developer may use [.server] for ssr bundle entry
+  fix: 需要移除入口文件的扩展名，因为开发者可能使用 [.server] 作为 ssr 产物的入口文件
+- 59fba90: fix(data-loader): compatible with asyncEntry for data loader
+  fix(data-loader): data loader 的导出兼容 asyncEntry
+- f624878: fix: modern-entry build rules not use array
+
+  fix: modern-entry 构建规则不使用数组
+
+- e0cb246: fix(runtime): status code should be controlled by data loader
+  fix(runtime): 状态码应该能被 data loader 控制
+  - @modern-js/plugin-data-loader@2.58.3
+  - @modern-js/plugin@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 9bbb0a0: fix: we should inject ssrData & window's data when ssr failed,
+  fix: 当 ssr 降级时，我们应该注入 ssrData 和 window's data 给 runtimeContext.ssrContext
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- 81829b0: fix: add sideEffect rules for `.modern-js` dir
+
+  fix: 对 `.modern-js` 目录添加 sideEffects 配置
+
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin-data-loader@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/types@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- ec01bad: feat(runtime): adapt to some features for async entries
+  feat(runtime): 为异步入口适配某些功能
+- 2482a6b: fix: ssr context in runtime should get host from X-Forwarded-Host first
+  fix: ssr context 应该优先从 X-Forwarded-Host 获取
+- 7a88ae9: fix: ssrData should get request.url from ssrContext
+  fix: ssrData 应该从 ssrContext 获取 url
+- c904ee2: fix: ssrContext get protocal from x-forwarded-proto first, then new server middleware support rewrite request
+  fix: ssrContext 优先从 x-forwarded-proto 取协议, 另外新 server middleware 支持重写 request
+- 9db73d7: fix: garfish config name when use app.config
+
+  fix: 修复 garfish 配置名称
+
+- Updated dependencies [2482a6b]
+  - @modern-js/types@2.58.1
+  - @modern-js/plugin-data-loader@2.58.1
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/plugin@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- 7188385: fix: we should get ssr data from HTMLElement when set ssr.inlineScript = false
+  fix: 当 ssr.inlineScript = false 时，我们应该从 HTMLElement 获取 SSR Data
+- cc74dba: feat: move wrap runtime context provider to render function
+
+  feat: 将包裹 runtime context provider 的逻辑移动到 render 函数中
+
+  - @modern-js/plugin-data-loader@2.58.0
+  - @modern-js/plugin@2.58.0
+  - @modern-js/runtime-utils@2.58.0
+  - @modern-js/types@2.58.0
+  - @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.57.1
+- @modern-js/plugin@2.57.1
+- @modern-js/runtime-utils@2.57.1
+- @modern-js/types@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Minor Changes
+
+- dc736ef: feat: refactor runtime plugin hooks
+
+  feat: 重构 runtime 插件钩子函数
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- abad541: fix: more runtime plugin add alias not work
+
+  fix: 多个 runtime 插件添加 runtime 路径别名时不符合预期
+
+- 223d63b: fix: add deferedDataScripts only streaming ssr
+  fix: 只有在 streaming ssr 时才添加 deferedDataScripts
+- a9807e5: feat(ssg): support ssg with bff.enableHandleWeb
+  feat(ssg): 支持 ssg 和 bff.enableHandleWeb 一起使用
+- 916559a: fix: mergeConfig function to return an object when the first configuration is not an object
+
+  fix: 修复 mergeConfig 函数，使其在第一个配置非对象时返回对象
+
+- db43d8e: fix: react 17 ssr context error
+
+  fix: 修复 react 17 ssr 找不到 runtimeReactContext 报错
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+- Updated dependencies [ce9c43a]
+- Updated dependencies [6cec127]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/plugin-data-loader@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/plugin@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- e9c724c: feat: set async entry for data loader entry if enable source.enableAsyncEntry
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- 89e1df0: fix: ssrContext.request maybe a undefined
+  fix: ssrContext.request 可能是 undefined
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/runtime-utils@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- ad9e984: fix(ssr): Avoid the compilation problem with renderToPipeableStream and react 17
+  fix(ssr): 避免 react 17 下，使用 renderToPipeableStream 的编译问题
+- 137d387: fix: style assets should be add to cssChunk
+  fix: style 应该被添加到 cssChunks
+- 1696694: fix: remove unused @loadable/webpack-plugin dependency
+  - @modern-js/plugin-data-loader@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- ced7039: fix(prefetch): chunkId may be string or number
+  fix(prefetch): chunkId 可能是 sstring 或 number
+- 6fda6a2: feat: remove lodash dep from runtime mergeConfig function
+
+  feat: mergeConfig 函数移除 lodash 依赖
+
+- 0f0a31e: fix(plugin-runtime): failed to resolve @rsbuild/core
+- f27eaab: feat: garfish plugin support custom behavior before render
+
+  feat: garfish 插件支持在 render 前自定义行为
+
+- 32d31c3: fix: router plugin should receive request that method is GET
+  fix: router 插件应该获得请求方法为 GET 的请求
+- 9eee52a: fix: server runtime should get config.disablePrerender from ssr config
+  fix: server runtime 应该从 ssrconfig 获取 config.disablePrerender
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- d36f095: fix: ssrContext in browser should add document information
+  fix: 在浏览器中的 ssrContext 应该添加 document 的信息
+- Updated dependencies [bedbbb3]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/plugin@2.56.0
+
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 1430c5d: fix: isbot v4.x require nodev18, so we downgrade it into v3.x
+  fix: isbot v4.x 需要 nodev18, 所以我们把他降级为 v3.x
+- bbcf55a: fix: runtime template windows path
+
+  fix: 修复 runtime 模板 windows 路径不正确
+
+- a38bb04: feat: generator support runtime config file
+
+  feat: 生成器支持 modern.runtime 配置文件
+
+- 59e46ad: fix: ssr use-loader should set \_internal_context.ssr = false
+  fix: ssr use-loader 应该将 \_internal_context.ssr 为 false
+- 283ac69: fix: re-export runtime server
+  fix: 重导出 runtime server
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/plugin-data-loader@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.6
+- @modern-js/plugin@2.54.6
+- @modern-js/runtime-utils@2.54.6
+- @modern-js/types@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- 5510104: fix: fix router info error when use custom file system routes entry
+
+  fix: 修复当使用自定义约定式路由入口时生成 router 信息问题
+
+  - @modern-js/plugin-data-loader@2.54.5
+  - @modern-js/plugin@2.54.5
+  - @modern-js/runtime-utils@2.54.5
+  - @modern-js/types@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.4
+- @modern-js/plugin@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/types@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/plugin-data-loader@2.54.3
+- @modern-js/plugin@2.54.3
+- @modern-js/runtime-utils@2.54.3
+- @modern-js/types@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

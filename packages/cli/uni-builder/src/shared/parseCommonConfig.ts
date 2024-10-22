@@ -1,41 +1,36 @@
-/* eslint-disable max-lines */
-/* eslint-disable complexity */
+import { isFunction } from '@modern-js/utils';
 import {
-  NODE_MODULES_REGEX,
-  RsbuildTarget,
-  OverrideBrowserslist,
-  getBrowserslist,
-  castArray,
-  isFunction,
   type HtmlTagHandler,
-  type SourceConfig,
-} from '@rsbuild/shared';
-import {
-  mergeRsbuildConfig,
-  type RsbuildPlugin,
   type RsbuildConfig,
+  type RsbuildPlugin,
+  type SourceConfig,
+  type ToolsConfig,
+  mergeRsbuildConfig,
 } from '@rsbuild/core';
-import type {
-  CreateBuilderCommonOptions,
-  UniBuilderConfig,
-  DisableSourceMapOption,
-} from '../types';
+import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
+import { pluginLess } from '@rsbuild/plugin-less';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginSass } from '@rsbuild/plugin-sass';
 import { pluginToml } from '@rsbuild/plugin-toml';
 import { pluginYaml } from '@rsbuild/plugin-yaml';
-import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginGlobalVars } from './plugins/globalVars';
-import { pluginRuntimeChunk } from './plugins/runtimeChunk';
-import { pluginFrameworkConfig } from './plugins/frameworkConfig';
-import { pluginSplitChunks } from './plugins/splitChunk';
-import { pluginCssMinimizer } from '@rsbuild/plugin-css-minimizer';
-import { pluginPostcssLegacy } from './plugins/postcssLegacy';
-import { pluginDevtool } from './plugins/devtools';
-import { pluginEmitRouteFile } from './plugins/emitRouteFile';
+import type {
+  CreateBuilderCommonOptions,
+  DisableSourceMapOption,
+  UniBuilderConfig,
+} from '../types';
+import { transformToRsbuildServerOptions } from './devServer';
 import { pluginAntd } from './plugins/antd';
 import { pluginArco } from './plugins/arco';
-import { pluginSass } from '@rsbuild/plugin-sass';
-import { pluginLess } from '@rsbuild/plugin-less';
-import { transformToRsbuildServerOptions } from './devServer';
+import { pluginDevtool } from './plugins/devtools';
+import { pluginEmitRouteFile } from './plugins/emitRouteFile';
+import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
+import { pluginFrameworkConfig } from './plugins/frameworkConfig';
+import { pluginGlobalVars } from './plugins/globalVars';
+import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
+import { pluginPostcss } from './plugins/postcss';
+import { pluginRuntimeChunk } from './plugins/runtimeChunk';
+import { pluginSplitChunks } from './plugins/splitChunk';
+import { NODE_MODULES_REGEX, castArray } from './utils';
 
 const CSS_MODULES_REGEX = /\.modules?\.\w+$/i;
 const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
@@ -56,42 +51,6 @@ function removeUndefinedKey(obj: { [key: string]: any }) {
   });
 
   return obj;
-}
-const DEFAULT_WEB_BROWSERSLIST = ['> 0.01%', 'not dead', 'not op_mini all'];
-
-const DEFAULT_BROWSERSLIST: Record<RsbuildTarget, string[]> = {
-  web: DEFAULT_WEB_BROWSERSLIST,
-  node: ['node >= 14'],
-  'web-worker': DEFAULT_WEB_BROWSERSLIST,
-  'service-worker': DEFAULT_WEB_BROWSERSLIST,
-};
-
-async function getBrowserslistWithDefault(
-  path: string,
-  config: { output?: { overrideBrowserslist?: OverrideBrowserslist } },
-  target: RsbuildTarget,
-): Promise<string[]> {
-  const { overrideBrowserslist: overrides = {} } = config?.output || {};
-
-  if (target === 'web' || target === 'web-worker') {
-    if (Array.isArray(overrides)) {
-      return overrides;
-    }
-    if (overrides[target]) {
-      return overrides[target]!;
-    }
-
-    const browserslistrc = await getBrowserslist(path);
-    if (browserslistrc) {
-      return browserslistrc;
-    }
-  }
-
-  if (!Array.isArray(overrides) && overrides[target]) {
-    return overrides[target]!;
-  }
-
-  return DEFAULT_BROWSERSLIST[target];
 }
 
 const isUseCssSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
@@ -115,7 +74,7 @@ export async function parseCommonConfig(
   rsbuildConfig: RsbuildConfig;
   rsbuildPlugins: RsbuildPlugin[];
 }> {
-  const { cwd, frameworkConfigPath, entry, target } = options;
+  const { frameworkConfigPath } = options;
 
   const {
     plugins: [...plugins] = [],
@@ -136,10 +95,12 @@ export async function parseCommonConfig(
       enableAssetFallback,
       enableAssetManifest,
       disableSourceMap,
+      sourceMap,
       convertToRem,
       disableMinimize,
       polyfill,
       dataUriLimit = 10000,
+      distPath = {},
       ...outputConfig
     } = {},
     html: {
@@ -151,6 +112,8 @@ export async function parseCommonConfig(
       templateByEntries,
       templateParametersByEntries,
       tagsByEntries,
+      outputStructure,
+      appIcon,
       tags,
       ...htmlConfig
     } = {},
@@ -159,11 +122,22 @@ export async function parseCommonConfig(
       globalVars,
       resolveMainFields,
       resolveExtensionPrefix,
+      transformImport,
       ...sourceConfig
     } = {},
     dev,
     security: { checkSyntax, sri, ...securityConfig } = {},
-    tools: { devServer, tsChecker, minifyCss, less, sass, ...toolsConfig } = {},
+    tools: {
+      devServer,
+      tsChecker,
+      minifyCss,
+      less,
+      sass,
+      htmlPlugin,
+      autoprefixer,
+      ...toolsConfig
+    } = {},
+    environments = {},
   } = uniBuilderConfig;
 
   const rsbuildConfig: RsbuildConfig = {
@@ -181,15 +155,29 @@ export async function parseCommonConfig(
     html: htmlConfig,
     tools: toolsConfig,
     security: securityConfig,
+    environments,
   };
 
+  rsbuildConfig.tools!.htmlPlugin = htmlPlugin as ToolsConfig['htmlPlugin'];
+
+  rsbuildConfig.tools!.lightningcssLoader ??= false;
+
   const { html = {}, output = {}, source = {} } = rsbuildConfig;
+
+  source.transformImport =
+    transformImport === false ? () => [] : transformImport;
 
   if (enableLatestDecorators) {
     source.decorators = {
       version: '2022-03',
     };
+  } else {
+    source.decorators ??= {
+      version: 'legacy',
+    };
   }
+
+  output.charset ??= 'ascii';
 
   if (disableMinimize) {
     output.minify ||= false;
@@ -205,9 +193,10 @@ export async function parseCommonConfig(
     output.sourceMap.css = true;
   }
 
-  output.distPath ??= {};
+  const { server: _server, worker, ...rsbuildDistPath } = distPath;
+
+  output.distPath = rsbuildDistPath;
   output.distPath.html ??= 'html';
-  output.distPath.server ??= 'bundles';
 
   output.polyfill ??= 'entry';
 
@@ -225,22 +214,6 @@ export async function parseCommonConfig(
     output.injectStyles = disableCssExtract;
   }
 
-  const targets = Array.isArray(target) ? target : [target || 'web'];
-
-  output.targets = targets;
-
-  const overrideBrowserslist: OverrideBrowserslist = {};
-
-  for (const target of targets) {
-    // Incompatible with the scenario where target contains both 'web' and 'modern-web'
-    overrideBrowserslist[target] = await getBrowserslistWithDefault(
-      cwd,
-      uniBuilderConfig,
-      target,
-    );
-  }
-  output.overrideBrowserslist = overrideBrowserslist;
-
   if (enableInlineStyles) {
     output.inlineStyles = enableInlineStyles;
   }
@@ -252,7 +225,8 @@ export async function parseCommonConfig(
   const extraConfig: RsbuildConfig = {};
   extraConfig.html ||= {};
 
-  extraConfig.html.outputStructure = disableHtmlFolder ? 'flat' : 'nested';
+  extraConfig.html.outputStructure =
+    outputStructure ?? (disableHtmlFolder ? 'flat' : 'nested');
 
   if (metaByEntries) {
     extraConfig.html.meta = ({ entryName }) => metaByEntries[entryName];
@@ -282,6 +256,11 @@ export async function parseCommonConfig(
       ...(templateParametersByEntries[entryName] || {}),
     });
   }
+
+  html.appIcon =
+    typeof appIcon === 'string'
+      ? { icons: [{ src: appIcon, size: 180 }] }
+      : appIcon;
 
   if (tags) {
     // The function will be executed at the end of the HTML processing flow
@@ -318,21 +297,23 @@ export async function parseCommonConfig(
 
   extraConfig.tools ??= {};
 
-  // compat template title and meta params
-  extraConfig.tools.htmlPlugin = config => {
-    if (typeof config.templateParameters === 'function') {
-      const originFn = config.templateParameters;
+  if (htmlPlugin !== false) {
+    // compat template title and meta params
+    extraConfig.tools.htmlPlugin = config => {
+      if (typeof config.templateParameters === 'function') {
+        const originFn = config.templateParameters;
 
-      config.templateParameters = (...args) => {
-        const res = originFn(...args);
-        return {
-          title: config.title,
-          meta: undefined,
-          ...res,
+        config.templateParameters = (...args) => {
+          const res = originFn(...args);
+          return {
+            title: config.title,
+            meta: undefined,
+            ...res,
+          };
         };
-      };
-    }
-  };
+      }
+    };
+  }
 
   const { dev: RsbuildDev, server } = transformToRsbuildServerOptions(
     dev || {},
@@ -345,28 +326,26 @@ export async function parseCommonConfig(
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 
-  if (entry) {
-    rsbuildConfig.source ??= {};
-    rsbuildConfig.source.entry = entry;
-  }
-
   const rsbuildPlugins: RsbuildPlugin[] = [
     pluginSplitChunks(),
     pluginGlobalVars(globalVars),
     pluginDevtool({
       disableSourceMap,
+      sourceMap,
     }),
     pluginEmitRouteFile(),
     pluginToml(),
     pluginYaml(),
-    pluginAntd(),
-    pluginArco(),
+    pluginAntd(transformImport),
+    pluginArco(transformImport),
     pluginSass({
       sassLoaderOptions: sass,
     }),
     pluginLess({
       lessLoaderOptions: less,
     }),
+    pluginEnvironmentDefaults(distPath),
+    pluginHtmlMinifierTerser(),
   ];
 
   if (checkSyntax) {
@@ -472,8 +451,11 @@ export async function parseCommonConfig(
     }),
   );
 
-  targets.includes('web') &&
-    rsbuildPlugins.push(pluginPostcssLegacy(overrideBrowserslist.web!));
+  rsbuildPlugins.push(
+    pluginPostcss({
+      autoprefixer,
+    }),
+  );
 
   if (enableAssetManifest) {
     const { pluginManifest } = await import('./plugins/manifest');

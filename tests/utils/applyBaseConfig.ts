@@ -1,8 +1,8 @@
 import {
-  appTools,
-  mergeConfig,
   type AppTools,
   type UserConfig,
+  appTools,
+  mergeConfig,
 } from '@modern-js/app-tools';
 
 export const applyBaseConfig = (
@@ -17,10 +17,7 @@ export const applyBaseConfig = (
       },
       plugins: [
         appTools({
-          bundler:
-            process.env.BUNDLER === 'webpack'
-              ? 'webpack'
-              : 'experimental-rspack',
+          bundler: process.env.BUNDLER === 'webpack' ? 'webpack' : 'rspack',
         }),
       ],
     },

@@ -1,12 +1,13 @@
-import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
-import { ILibPresetOption } from './types';
+import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import { aliasPlugin } from './alias';
+import type { ILibPresetOption } from './types';
 
 export const getBabelConfig = (libPresetOption: ILibPresetOption) => {
+  const { isEsm } = libPresetOption;
   const config = getBabelConfigForNode({
     presetEnv: {
       loose: true,
-      modules: 'commonjs',
+      modules: isEsm ? false : 'commonjs',
       targets: ['node >= 14'],
     },
     pluginDecorators: {

@@ -1,9 +1,9 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { ModuleToolsHooks } from './hooks';
 import type { ModuleExtraConfig } from './config';
+import type { ModuleToolsHooks } from './hooks';
 import type {
-  ModuleToolsLegacyUserConfig,
   ModuleToolsLegacyNormalizedConfig,
+  ModuleToolsLegacyUserConfig,
 } from './legacyConfig';
 
 export * from './hooks';

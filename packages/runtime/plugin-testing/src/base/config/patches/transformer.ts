@@ -1,5 +1,5 @@
 import { readCompilerOptions } from '../../utils';
-import { TestConfigOperator } from '../testConfigOperator';
+import type { TestConfigOperator } from '../testConfigOperator';
 
 const resolveTsCompilerOptions = () => {
   const tsCompilerOptions = readCompilerOptions() || {};

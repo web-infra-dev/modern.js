@@ -1,12 +1,13 @@
 import { chokidar } from '@modern-js/utils';
-import { Plugin } from '../types';
-import { getConfigFilenames, loadConfigFiles } from '../utils/config';
 import { updateContext } from '../options';
+import type { Plugin } from '../types';
+import { getConfigFilenames, loadConfigFiles } from '../utils/config';
 
 export const pluginWatcher: Plugin = {
+  name: 'watcher',
   async setup(api) {
-    const basename = `${api.context.def.name.shortName}.runtime.json`;
     const frameworkApi = await api.setupFramework();
+    const basename = `${api.context.def.name.shortName}.runtime.json`;
     const appCtx = frameworkApi.useAppContext();
     const watcher = chokidar.watch(getConfigFilenames(basename), {
       cwd: appCtx.appDirectory,

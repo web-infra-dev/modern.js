@@ -1,11 +1,11 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { AppToolsUserConfig, AppToolsNormalizedConfig } from './config';
+import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
-  AppToolsLegacyUserConfig,
   AppToolsLegacyNormalizedConfig,
+  AppToolsLegacyUserConfig,
 } from './legacyConfig';
-import { Bundler } from './utils';
+import type { Bundler } from './utils';
 
 export * from './hooks';
 export * from './config';
@@ -19,6 +19,15 @@ export type {
   BffNormalizedConfig,
   SSR,
   SSRByEntries,
+  // render request handler
+  Resource,
+  Params,
+  RequestHandlerConfig,
+  LoaderContext,
+  OnError,
+  OnTiming,
+  RequestHandlerOptions,
+  RequestHandler,
 } from '@modern-js/server-core';
 export type {
   IAppContext,

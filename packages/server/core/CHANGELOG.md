@@ -1,5 +1,236 @@
 # @modern-js/server-plugin
 
+## 2.60.4
+
+### Patch Changes
+
+- 518b783: feat(server): add catch logic for ssrCache container operation
+  feat(server): 为 ssr 缓存容器操作添加错误捕获逻辑
+- a9e3eb7: fix(server): should get context from unstable middleware correctly
+  fix(server): 应该正确地获取到 loaderContext
+- Updated dependencies [c87813e]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/plugin@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 0a31d31: feat: support <NoSSRCache> Component, only use ssr.mode='string'
+
+  feat: 支持 <NoSSRCache> 组件, 仅在 ssr.mode 为 'string'的时候生效
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.60.1
+- @modern-js/runtime-utils@2.60.1
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- d6e0118: fix: we should not cache the html, if we can match the html is downgrading.
+  fix: 在 ssr 降级时，我们不应该缓存 html
+  - @modern-js/plugin@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+- ef1ec44: fix: we should run runner.fallback when ssr fallback
+  fix: 我们应该在 ssr 降级时运行 runn.fallback
+- 80237dc: fix: server-core should not be import node api
+  fix: server-core 不应该被引入 node api
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/plugin@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- 36ccad3: fix: custom server hook context request.path should carray query str
+  fix: custom server hook context request.path 应该带上 query 字符串
+- 0b581a4: fix: remove ssr.preload config
+  fix: 移除 ssr.preload 配置
+- 610554c: chore: add internal directory to server plugin context
+  chore: 在 server 插件上下文中增加 internal 目录
+- 59fba90: fix(data-loader): compatible with asyncEntry for data loader
+  fix(data-loader): data loader 的导出兼容 asyncEntry
+- 9e82b00: fix(server): if res was piped, res should be treated as sent
+  fix(server): 如果响应被 pipe，响应应该被当作已经发送
+  - @modern-js/plugin@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 1ff0304: fix: custom server route rewrite should carry honoContext.env
+  fix: custom server 路由重写应该带上 honoContext.env
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- c904ee2: fix: ssrContext get protocal from x-forwarded-proto first, then new server middleware support rewrite request
+  fix: ssrContext 优先从 x-forwarded-proto 取协议, 另外新 server middleware 支持重写 request
+- a214ea8: fix: use flatted instead of safeReplacer
+  fix: 使用 flated 而不是使用 safeReplacer
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/plugin@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/plugin@2.58.0
+- @modern-js/runtime-utils@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- bc565cd: fix: should use dynamic import to import matchRoutes
+  fix: 应该使用 动态 import 来引入 matchRoutes
+  - @modern-js/plugin@2.57.1
+  - @modern-js/runtime-utils@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- 0e906a1: feat: inject renderHandler to appContext & add default serverPlugins
+  feat: 注入 renderHandler 到 appContext & 新增默认 serverPlugins
+- 6cec127: fix: user can get status in afterRenderContext
+  fix: 用户可以从 afterRenderContext 上拿到 status
+- b5a48a8: fix: distPath should from output.distPath.root
+  fix: distPath 应该来自 output.distPath.root
+- 203c9eb: fix: we should export `getLoaderCtx` from server-core
+  fix: 我们应该从 server-core 导出 `getLoaderCtx`
+- 604ad3a: fix: faviconPlugin should after staticPlugin
+  fix: faviconPlugin 应该在 staticPlugin 之后
+- Updated dependencies [2515b00]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/plugin@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.56.2
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- e0e29b3: fix: new server middleware support get body, if request.method is post
+  fix: 如果请求是 post, 新 server middlewares 可以拿到 body 数据
+  - @modern-js/plugin@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- bedbbb3: feat: server monitors interface unity
+  feat: server 监控接口统一
+
+### Patch Changes
+
+- 9eee52a: fix: server runtime should get config.disablePrerender from ssr config
+  fix: server runtime 应该从 ssrconfig 获取 config.disablePrerender
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/plugin@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- e0c2384: fix: cacheProvider support return false
+  fix: cacheProvider 支持返回 false
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/plugin@2.54.6
+- @modern-js/runtime-utils@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- 5525a23: fix: logger maybe undefined when server occur error
+  fix: logger 可能是 undefined 当 server 发生错误时
+  - @modern-js/plugin@2.54.5
+  - @modern-js/runtime-utils@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/plugin@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- b50d7ec: fix: we should load modern.config.json when production
+  fix: 在生产阶段，我们应该加载 modern.config.json
+  - @modern-js/plugin@2.54.3
+  - @modern-js/runtime-utils@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

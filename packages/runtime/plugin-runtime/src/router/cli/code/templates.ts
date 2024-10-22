@@ -1,5 +1,5 @@
-/* eslint-disable max-lines */
 import path from 'path';
+import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -8,16 +8,31 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import {
+  fs,
+  findExists,
+  formatImportPath,
+  getEntryOptions,
+  isSSGEntry,
+  slash,
+} from '@modern-js/utils';
 import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
-import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
-import { TEMP_LOADERS_DIR } from '../constants';
-import { getServerLoadersFile } from './utils';
+import {
+  APP_CONFIG_NAME,
+  APP_INIT_EXPORTED,
+  TEMP_LOADERS_DIR,
+} from '../constants';
+import {
+  getPathWithoutExt,
+  getServerLoadersFile,
+  parseModule,
+  replaceWithAlias,
+} from './utils';
 
 export const routesForServer = ({
-  routes,
+  routesForServerLoaderMatches,
 }: {
-  routes: (NestedRouteForCli | PageRoute)[];
+  routesForServerLoaderMatches: (NestedRouteForCli | PageRoute)[];
 }) => {
   const loaders: string[] = [];
   const actions: string[] = [];
@@ -73,7 +88,7 @@ export const routesForServer = ({
   let routesCode = `
   export const routes = [
   `;
-  for (const route of routes) {
+  for (const route of routesForServerLoaderMatches) {
     if ('type' in route) {
       const keywords = ['loader', 'action'];
       const regs = keywords.map(createMatchReg);
@@ -117,6 +132,7 @@ const createMatchReg = (keyword: string) =>
   new RegExp(`("${keyword}":\\s)"([^\n]+)"`, 'g');
 
 export const fileSystemRoutes = async ({
+  metaName,
   routes,
   ssrMode,
   nestedRoutesEntry,
@@ -124,6 +140,7 @@ export const fileSystemRoutes = async ({
   internalDirectory,
   splitRouteChunks = true,
 }: {
+  metaName: string;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
@@ -141,6 +158,7 @@ export const fileSystemRoutes = async ({
       routeId: string;
       loaderId: number;
       filePath: string;
+      inValidSSRRoute?: boolean;
       clientData?: boolean;
       inline: boolean;
       route: NestedRouteForCli;
@@ -158,7 +176,7 @@ export const fileSystemRoutes = async ({
 
   const importLazyCode = `
     import { lazy } from "react";
-    import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
+    import loadable, { lazy as loadableLazy } from "@${metaName}/runtime/loadable"
   `;
 
   let rootLayoutCode = ``;
@@ -168,22 +186,25 @@ export const fileSystemRoutes = async ({
     action,
     inline,
     routeId,
+    inValidSSRRoute,
   }: {
     loaderId: string;
     clientData?: boolean;
     action: string | false;
     inline: boolean;
     routeId: string;
+    inValidSSRRoute?: boolean;
   }) => {
     if (!ssrMode) {
       return '';
     }
 
     const clientDataStr = clientData ? `&clientData=${clientData}` : '';
+    const retain = inValidSSRRoute ?? false;
     if (nestedRoutesEntry) {
       return `?loaderId=${loaderId}${clientDataStr}&action=${
         action ? slash(action) : action
-      }&inline=${inline}&routeId=${routeId}`;
+      }&inline=${inline}&routeId=${routeId}&retain=${retain}`;
     }
     return '';
   };
@@ -200,7 +221,6 @@ export const fileSystemRoutes = async ({
     let config: string | undefined;
     let component = '';
     let lazyImport = null;
-
     if (route.type === 'nested') {
       if (route.loading) {
         loadings.push(route.loading);
@@ -218,6 +238,7 @@ export const fileSystemRoutes = async ({
         loadersMap[loader] = {
           loaderId,
           routeId: route.id!,
+          inValidSSRRoute: route.inValidSSRRoute,
           filePath: route.data || route.loader,
           clientData: Boolean(route.clientData),
           route,
@@ -367,6 +388,7 @@ export const fileSystemRoutes = async ({
           action: route.action,
           inline: loaderInfo.inline,
           routeId: loaderInfo.routeId,
+          inValidSSRRoute: loaderInfo.inValidSSRRoute,
         })}";\n`;
       } else {
         importLoadersCode += `import { loader as ${key} } from "${slash(
@@ -377,6 +399,7 @@ export const fileSystemRoutes = async ({
           action: false,
           inline: loaderInfo.inline,
           routeId: route.id!,
+          inValidSSRRoute: loaderInfo.inValidSSRRoute,
         })}";\n`;
       }
     } else {
@@ -388,6 +411,7 @@ export const fileSystemRoutes = async ({
         action: false,
         inline: loaderInfo.inline,
         routeId: loaderInfo.routeId,
+        inValidSSRRoute: loaderInfo.inValidSSRRoute,
       })}";\n`;
     }
   }
@@ -402,7 +426,7 @@ export const fileSystemRoutes = async ({
   await fs.writeJSON(loadersMapFile, loadersMap);
 
   const importRuntimeRouterCode = `
-    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@modern-js/runtime/router';
+    import { createShouldRevalidate, handleRouteModule,  handleRouteModuleError} from '@${metaName}/runtime/router';
   `;
   const routeModulesCode = `
     if(typeof document !== 'undefined'){
@@ -454,8 +478,98 @@ export function ssrLoaderCombinedModule(
     const combinedModule = `export * from "${slash(
       serverLoaderRuntime,
     )}"; export * from "${slash(serverLoadersFile)}"`;
-    return combinedModule;
+
+    if (!config.source.enableAsyncEntry) {
+      return combinedModule;
+    }
+
+    return `
+    async function loadModules() {
+      const [moduleA, moduleB] = await Promise.all([
+        import("${slash(serverLoaderRuntime)}"),
+        import("${slash(serverLoadersFile)}")
+      ]);
+
+      return {
+        ...moduleA,
+        ...moduleB
+      };
+    }
+
+    export { loadModules };
+    `;
   }
   return null;
 }
-/* eslint-enable max-lines */
+
+export const runtimeGlobalContext = async ({
+  metaName,
+  srcDirectory,
+  nestedRoutesEntry,
+  internalSrcAlias,
+  globalApp,
+}: {
+  metaName: string;
+  srcDirectory: string;
+  nestedRoutesEntry?: string;
+  internalSrcAlias: string;
+  globalApp?: string | false;
+}) => {
+  const imports = [
+    `import { setGlobalContext } from '@${metaName}/runtime/context';`,
+  ];
+  if (nestedRoutesEntry) {
+    const rootLayoutPath = path.join(nestedRoutesEntry, 'layout');
+    const rootLayoutFile = findExists(
+      ['.js', '.ts', '.jsx', '.tsx'].map(ext => `${rootLayoutPath}${ext}`),
+    );
+    if (rootLayoutFile) {
+      const rootLayoutBuffer = await fs.readFile(rootLayoutFile);
+      const rootLayout = rootLayoutBuffer.toString();
+      const [, moduleExports] = await parseModule({
+        source: rootLayout.toString(),
+        filename: rootLayoutFile,
+      });
+      const hasAppConfig = moduleExports.some(e => e.n === APP_CONFIG_NAME);
+      const hasAppInit = moduleExports.some(e => e.n === APP_INIT_EXPORTED);
+      const layoutPath = formatImportPath(
+        getPathWithoutExt(
+          replaceWithAlias(srcDirectory, rootLayoutFile, internalSrcAlias),
+        ),
+      );
+      if (hasAppConfig) {
+        imports.push(`import { config as appConfig } from '${layoutPath}';`);
+      } else {
+        imports.push(`let appConfig;`);
+      }
+      if (hasAppInit) {
+        imports.push(`import { init as appInit } from '${layoutPath}';`);
+      } else {
+        imports.push(`let appInit;`);
+      }
+    }
+  } else {
+    imports.push(`let appConfig;`);
+    imports.push(`let appInit;`);
+  }
+
+  if (globalApp) {
+    imports.push(
+      `import layoutApp from '${formatImportPath(
+        globalApp.replace(srcDirectory, internalSrcAlias),
+      )}';`,
+    );
+  } else {
+    imports.push(`let layoutApp;`);
+  }
+  return `${imports.join('\n')}
+
+import { routes } from './routes';
+
+setGlobalContext({
+  layoutApp,
+  routes,
+  appInit,
+  appConfig,
+});`;
+};

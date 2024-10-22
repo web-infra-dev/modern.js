@@ -1,31 +1,28 @@
-import make from 'covertable';
 import {
-  Solution,
-  PackageManager,
-  Language,
-  BooleanConfig,
-  MWAActionTypes,
-  MWAActionTypesMap,
-  Framework,
-  BFFType,
   ActionElement,
   ActionFunction,
+  BFFType,
+  BooleanConfig,
+  Framework,
+  Language,
+  MWAActionTypes,
+  MWAActionTypesMap,
   ModuleActionTypes,
   ModuleActionTypesMap,
-  BuildTools,
+  PackageManager,
+  Solution,
 } from '@modern-js/generator-common';
+import make from 'covertable';
 
 export const LanguageValues = Object.values(Language);
 export const PackageManagerValues = Object.values(PackageManager);
 export const BooleanConfigValues = Object.values(BooleanConfig);
 export const FrameworkValues = Object.values(Framework);
 export const BFFTypeValues = Object.values(BFFType);
-export const BuildToolsValues = Object.values(BuildTools);
 
 export const MWAValueMap: Record<string, string[]> = {
   language: LanguageValues,
   packageManager: PackageManagerValues,
-  buildTools: BuildToolsValues,
 };
 
 export const ModuleValueMap: Record<string, string[]> = {

@@ -1,14 +1,14 @@
-import type { BuildOptions } from 'esbuild';
-import type { CreateFilter } from '@rollup/pluginutils';
-import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { TestConfig } from '@modern-js/types';
+import type { CreateFilter } from '@rollup/pluginutils';
+import type { BuildOptions } from 'esbuild';
+import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { Config } from '../../../compiled/@svgr/core';
-import { internalPreset, presetList } from '../../constants/preset';
-import { ICompiler } from '../esbuild';
-import type { ImportItem } from './transform-import';
+import type { internalPreset, presetList } from '../../constants/preset';
+import type { ICompiler } from '../esbuild';
 import type { CopyConfig } from './copy';
 import type { Dev } from './dev';
 import type { Style, StyleConfig } from './style';
+import type { ImportItem } from './transform-import';
 
 export * from './style';
 
@@ -19,6 +19,7 @@ export * from './copy';
 export type HookList = {
   name: string;
   apply: (compiler: ICompiler) => void;
+  applyAfterBuiltIn?: boolean;
 }[];
 
 export type EsbuildOptions = (options: BuildOptions) => BuildOptions;
@@ -140,6 +141,17 @@ export type AliasOption =
 export type Resolve = {
   mainFields?: string[];
   jsExtensions?: string[];
+  /// The same as alias, but support module id as map value,
+  /// which previously unsupported and treat as relative path,
+  /// but now recognized as any path that doesn't start with "./" "../" and "/"
+  /// and this will remove the default alias for "@"
+  alias?: AliasOption;
+};
+
+export type ResolveOptions = {
+  mainFields: string[];
+  jsExtensions: string[];
+  alias: Record<string, string>;
 };
 
 export type BaseBuildConfig = Omit<
@@ -151,10 +163,14 @@ export type BaseBuildConfig = Omit<
   style: Style;
   alias: Record<string, string>;
   asset: Required<Asset>;
-  resolve: Required<Resolve>;
+  resolve: ResolveOptions;
 };
 
 export type PartialBaseBuildConfig = {
+  /**
+   * @experimental
+   */
+  loader?: Record<string, string>;
   shims?: boolean;
   autoExtension?: boolean;
   resolve?: Resolve;

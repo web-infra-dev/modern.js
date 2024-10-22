@@ -1,27 +1,27 @@
-import React, { useContext, useMemo } from 'react';
-import {
-  createBrowserRouter,
-  createHashRouter,
-  RouterProvider,
-  createRoutesFromElements,
-  useMatches,
-  useLocation,
-  RouteObject,
-  useHref,
-} from '@modern-js/runtime-utils/router';
-import hoistNonReactStatics from 'hoist-non-react-statics';
+import { merge } from '@modern-js/runtime-utils/merge';
 import { parsedJSONFromElement } from '@modern-js/runtime-utils/parsed';
 import type { RouterSubscriber } from '@modern-js/runtime-utils/remix-router';
-import { Plugin, RuntimeReactContext } from '../../core';
+import {
+  type RouteObject,
+  RouterProvider,
+  createBrowserRouter,
+  createHashRouter,
+  createRoutesFromElements,
+  useHref,
+  useLocation,
+  useMatches,
+} from '@modern-js/runtime-utils/router';
+import type React from 'react';
+import { useContext, useMemo } from 'react';
+import { type Plugin, RuntimeReactContext } from '../../core';
+import { getGlobalLayoutApp, getGlobalRoutes } from '../../core/context';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
-import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
+import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 
-// eslint-disable-next-line import/no-mutable-exports
 export let finalRouteConfig: RouterConfig['routesConfig'] = {
   routes: [],
 };
-// eslint-disable-next-line import/no-mutable-exports
 export let beforeCreateRouter = true;
 // support csr only, it is not allowed to use in ssr app.
 export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
@@ -36,30 +36,19 @@ export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   }
 }
 
-export const routerPlugin = ({
-  serverBase = [],
-  supportHtml5History = true,
-  basename = '',
-  // when the current child app has multiple entries, there is a problem,
-  // so we have added a new parameter, the parameter will replace basename and baseUrl after the major version.
-  originalBaseUrl = '',
-  routesConfig,
-  createRoutes,
-}: RouterConfig): Plugin => {
-  const select = (pathname: string) =>
-    serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-  let routes: RouteObject[] = [];
-  finalRouteConfig = routesConfig;
-  window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
-
+export const routerPlugin = (
+  userConfig: Partial<RouterConfig> = {},
+): Plugin => {
   return {
     name: '@modern-js/plugin-router',
     registerHook: {
       modifyRoutes: modifyRoutesHook,
     },
     setup: api => {
+      let routes: RouteObject[] = [];
+      window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
       return {
-        init({ context }, next) {
+        beforeRender(context) {
           context.router = {
             useMatches,
             useLocation,
@@ -71,27 +60,49 @@ export const routerPlugin = ({
               return routes;
             },
           });
-
-          return next({ context });
         },
-        hoc: ({ App, config }, next) => {
+        wrapRoot: App => {
+          const pluginConfig: Record<string, any> =
+            api.useRuntimeConfigContext();
+          const {
+            serverBase = [],
+            supportHtml5History = true,
+            basename = '',
+            routesConfig,
+            createRoutes,
+          } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
+          const select = (pathname: string) =>
+            serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+          finalRouteConfig = {
+            routes: getGlobalRoutes(),
+            globalApp: getGlobalLayoutApp(),
+            ...routesConfig,
+          };
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
-          if (!finalRouteConfig && !createRoutes) {
-            return next({ App, config });
+          if (!finalRouteConfig.routes && !createRoutes) {
+            return App;
           }
 
           const getRouteApp = () => {
             const useCreateRouter = (props: any) => {
-              const baseUrl =
-                originalBaseUrl ||
-                window._SERVER_DATA?.router.baseUrl ||
-                select(location.pathname);
+              const runtimeContext = useContext(RuntimeReactContext);
+              /**
+               * _internalRouterBaseName: garfish plugin params, priority
+               * basename: modern config file config
+               */
+              const baseUrl = (
+                window._SERVER_DATA?.router.baseUrl || select(location.pathname)
+              ).replace(/^\/*/, '/');
               const _basename =
-                baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+                baseUrl === '/'
+                  ? urlJoin(
+                      baseUrl,
+                      runtimeContext._internalRouterBaseName || basename,
+                    )
+                  : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
-              const runtimeContext = useContext(RuntimeReactContext);
 
               const { unstable_getBlockNavState: getBlockNavState } =
                 runtimeContext;
@@ -137,7 +148,6 @@ export const routerPlugin = ({
                     if (blockRoute) {
                       return;
                     }
-                    // eslint-disable-next-line consistent-return
                     return listener(...args);
                   };
                   return originSubscribe(wrapedListener);
@@ -148,6 +158,7 @@ export const routerPlugin = ({
                     return router;
                   },
                   configurable: true,
+                  enumerable: true,
                 });
 
                 return router;
@@ -160,59 +171,50 @@ export const routerPlugin = ({
               ]);
             };
 
+            const Null = () => null;
+
             return (props => {
               beforeCreateRouter = false;
               const router = useCreateRouter(props);
-
-              return (
-                <App {...props}>
+              const routerWrapper = (
+                // To match the node tree about https://github.com/web-infra-dev/modern.js/blob/v2.59.0/packages/runtime/plugin-runtime/src/router/runtime/plugin.node.tsx#L150-L168
+                // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
+                // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
+                <>
                   <RouterProvider router={router} />
-                </App>
+                  <Null />
+                  <Null />
+                </>
               );
-            }) as React.FC<any>;
+
+              return App ? <App>{routerWrapper}</App> : routerWrapper;
+            }) as React.ComponentType<any>;
           };
-          let RouteApp = getRouteApp();
 
-          if (App) {
-            RouteApp = hoistNonReactStatics(RouteApp, App);
-          }
-
-          if (routesConfig?.globalApp) {
-            return next({
-              App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
-              config,
-            });
-          }
-
-          return next({
-            App: RouteApp,
-            config,
-          });
+          return getRouteApp();
         },
-        pickContext: ({ context, pickedContext }, next) => {
-          const { remixRouter } = context;
+        pickContext: pickedContext => {
+          const { remixRouter } = pickedContext;
 
           // two scenarios: 1. remixRouter is not existed in conventional routes;
           // 2. useRuntimeContext can be called by users before hoc hooks execute
           if (!remixRouter) {
-            return next({ context, pickedContext });
+            return pickedContext;
           }
 
           // only export partial common API from remix-router
           const router = {
+            ...pickedContext.router,
             navigate: remixRouter.navigate,
             get location() {
               return remixRouter.state.location;
             },
           };
 
-          return next({
-            context,
-            pickedContext: {
-              ...pickedContext,
-              router,
-            },
-          });
+          return {
+            ...pickedContext,
+            router,
+          };
         },
       };
     },

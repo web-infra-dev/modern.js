@@ -1,10 +1,10 @@
 import path from 'path';
-import { logger, getAliasConfig, fs } from '@modern-js/utils';
-import type { Program, ParseConfigFileHost } from 'typescript';
+import { fs, getAliasConfig, logger } from '@modern-js/utils';
+import type { ParseConfigFileHost, Program } from 'typescript';
 import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
-import { TypescriptLoader } from './typescriptLoader';
 import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
+import { TypescriptLoader } from './typescriptLoader';
 
 const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
   const parsedCmd = tsInstance.getParsedCommandLineOfConfigFile(
@@ -16,18 +16,14 @@ const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
   return { options, fileNames, projectReferences };
 };
 
-const copyFiles = async (
-  from: string,
-  to: string,
-  appDirectory: string,
-  tsconfigPath: string,
-) => {
+const copyFiles = async (from: string, to: string, appDirectory: string) => {
   if (await fs.pathExists(from)) {
     const relativePath = path.relative(appDirectory, from);
     const targetDir = path.join(to, relativePath);
     await fs.copy(from, targetDir, {
       filter: src =>
-        !['.ts', '.js'].includes(path.extname(src)) && src !== tsconfigPath,
+        !['.ts', '.js'].includes(path.extname(src)) &&
+        !src.endsWith('tsconfig.json'),
     });
   }
 };
@@ -107,13 +103,12 @@ export const compileByTs: CompileFunc = async (
       ),
     );
     if (typeof noEmitOnError === 'undefined' || noEmitOnError === true) {
-      // eslint-disable-next-line no-process-exit
       process.exit(1);
     }
   }
 
   for (const source of sourceDirs) {
-    await copyFiles(source, distDir, appDirectory, tsconfigPath);
+    await copyFiles(source, distDir, appDirectory);
   }
 
   logger.info(`Ts compile succeed`);

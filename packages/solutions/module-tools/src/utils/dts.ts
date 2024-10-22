@@ -1,13 +1,13 @@
-import { join, dirname, relative, resolve } from 'path';
-import { chalk, fs, globby, json5, logger } from '@modern-js/utils';
-import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
-import MagicString from 'magic-string';
-import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
+import { dirname, join, relative, resolve } from 'path';
 import { js } from '@ast-grep/napi';
+import { fs, chalk, globby, json5, logger } from '@modern-js/utils';
+import { mergeWith as deepMerge } from '@modern-js/utils/lodash';
+import { createMatchPath, loadConfig } from '@modern-js/utils/tsconfig-paths';
+import MagicString from 'magic-string';
 import type {
-  ITsconfig,
-  GeneratorDtsConfig,
   BuildType,
+  GeneratorDtsConfig,
+  ITsconfig,
   TsTarget,
 } from '../types';
 import { normalizeSlashes } from './builder';
@@ -37,8 +37,9 @@ export const getProjectTsconfig = async (
 
   // recursively resolve extended tsconfig
   // "extends" may be a string or string array (extending many tsconfigs)
-  const extendsResolutionTarget =
-    tsConfig.extends instanceof Array ? tsConfig.extends : [tsConfig.extends];
+  const extendsResolutionTarget = Array.isArray(tsConfig.extends)
+    ? tsConfig.extends
+    : [tsConfig.extends];
 
   const resolveParentTsConfigPromises = extendsResolutionTarget.map(
     async target => {

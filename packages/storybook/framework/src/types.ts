@@ -1,5 +1,5 @@
-import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
 import type { BuilderOptions } from '@modern-js/storybook-builder';
+import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
 
 export {
   defineConfig,

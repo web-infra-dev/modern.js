@@ -1,16 +1,16 @@
 import path from 'path';
-import {
-  logger,
-  isApiOnly,
-  getTargetDir,
-  getMeta,
-  SERVER_DIR,
-} from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
-import { printInstructions } from '../utils/printInstructions';
+import {
+  SERVER_DIR,
+  getMeta,
+  getTargetDir,
+  isApiOnly,
+  logger,
+} from '@modern-js/utils';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
+import { printInstructions } from '../utils/printInstructions';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
@@ -20,6 +20,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const {
     distDirectory,
     appDirectory,
+    internalDirectory,
     port,
     metaName,
     serverRoutes,
@@ -53,10 +54,11 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
+      // server-core can't get RegExp & Function output.enableInlineScripts by JSON.stringy;
       output: {
         path: userConfig.output.distPath?.root,
         ...(userConfig.output || {}),
-      },
+      } as any,
     },
     routes: serverRoutes,
     plugins: pluginInstances,
@@ -64,6 +66,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     serverConfigPath,
     appContext: {
       appDirectory,
+      internalDirectory,
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,

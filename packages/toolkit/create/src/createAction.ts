@@ -1,5 +1,6 @@
 import path from 'path';
-import { CodeSmith, Logger } from '@modern-js/codesmith';
+import { CodeSmith, type Logger } from '@modern-js/codesmith';
+import { ora } from '@modern-js/codesmith-utils/ora';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { version as pkgVersion } from '../package.json';
 import { i18n, localeKeys } from './locale';
@@ -7,7 +8,7 @@ import { createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  module: boolean;
+  module?: boolean;
   debug?: boolean;
   config?: string;
   packages?: string;
@@ -18,6 +19,7 @@ interface Options {
   needInstall?: boolean;
   version?: boolean;
   lang?: string;
+  time?: boolean;
 }
 
 type RunnerTask = Array<{
@@ -29,8 +31,8 @@ const REPO_GENERATOR = '@modern-js/repo-generator';
 
 function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
-  options: Options,
-  logger: Logger,
+  options: Options = {},
+  logger?: Logger,
 ) {
   const {
     mwa,
@@ -51,9 +53,8 @@ function getDefaultConfig(
       initialConfig = JSON.parse(config);
     }
   } catch (e) {
-    logger.error('config parameter format is incorrect');
-    logger.debug('parse initial config error: ', e);
-    // eslint-disable-next-line no-process-exit
+    logger!.error('config parameter format is incorrect');
+    logger!.debug('parse initial config error: ', e);
     process.exit(1);
   }
 
@@ -96,9 +97,8 @@ function getDefaultConfig(
       initialConfig.packagesInfo = packagesInfo;
     }
   } catch (e) {
-    logger.error('packages parameter format is incorrect');
-    logger.debug('parse packages error: ', e);
-    // eslint-disable-next-line no-process-exit
+    logger!.error('packages parameter format is incorrect');
+    logger!.debug('parse packages error: ', e);
     process.exit(1);
   }
 
@@ -117,21 +117,43 @@ export async function createAction(projectDir: string, options: Options) {
     registry,
     distTag,
     generator: customGenerator,
+    time,
   } = options;
   const smith = new CodeSmith({
     debug,
-    registryUrl: registry,
+    time,
+    namespace: 'create',
+    registryUrl: registry === '' ? undefined : registry,
   });
 
   if (lang) {
     i18n.changeLanguage({ locale: lang });
   }
   if (version) {
-    smith.logger.info('@modern-js/create', `v${pkgVersion}`);
+    smith.logger.info(`@modern-js/create v${pkgVersion}`);
     return;
   }
 
-  smith.logger.debug('@modern-js/create', projectDir || '', options);
+  smith.logger?.timing('🕒 Run Create Tools');
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/repo-generator@${distTag || 'latest'}`,
+    `@modern-js/repo-next-generator@${distTag || 'latest'}`,
+    `@modern-js/base-generator@${distTag || 'latest'}`,
+    `@modern-js/mwa-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/module-generator@${distTag || 'latest'}`,
+    `@modern-js/changeset-generator@${distTag || 'latest'}`,
+  ]);
+
+  smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
+  smith.logger.debug('💡 [Current Dir]:', projectDir || '');
+  smith.logger.debug('💡 [Current Config]:', JSON.stringify(options));
 
   let pwd = process.cwd();
   try {
@@ -140,7 +162,7 @@ export async function createAction(projectDir: string, options: Options) {
     smith.logger.error(
       i18n.t(localeKeys.tooltip.dir_exists, { dirName: projectDir }),
     );
-    // eslint-disable-next-line no-process-exit
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -155,7 +177,12 @@ export async function createAction(projectDir: string, options: Options) {
     generator = require.resolve(REPO_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
+    await prepareGeneratorPromise;
   }
+
+  await prepareGlobalPromise;
+
+  spinner.stop();
 
   const task: RunnerTask = [
     {
@@ -173,7 +200,7 @@ export async function createAction(projectDir: string, options: Options) {
       pwd,
     });
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
+    smith.logger?.timing('🕒 Run Create Tools', true);
     process.exit(1);
   }
 
@@ -182,4 +209,5 @@ export async function createAction(projectDir: string, options: Options) {
       i18n.t(localeKeys.tooltip.dir_entry, { dirName: projectDir }),
     );
   }
+  smith.logger?.timing('🕒 Run Create Tools', true);
 }

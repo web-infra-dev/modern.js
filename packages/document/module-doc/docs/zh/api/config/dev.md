@@ -29,7 +29,7 @@ export default {
 };
 ```
 
-你可以通过 `dev.storybook.webpack` 来修改 Storybook Preview-iframe 的 webpack 配置。使用方式可以参考 Modern.js Builder 的 [`tools.webpack`](https://modernjs.dev/builder/api/config-tools.html#toolswebpack) 配置。
+你可以通过 `dev.storybook.webpack` 来修改 Storybook Preview-iframe 的 webpack 配置。使用方式可以参考 Modern.js 的 [`tools.webpack`](https://modernjs.dev/builder/api/config-tools.html#toolswebpack) 配置。
 
 ![Storybook](https://storybook.js.org/71522ac365feaf3338d7c242e53378f6/manager-preview.png)
 
@@ -66,4 +66,4 @@ export default {
 };
 ```
 
-你可以通过 `dev.storybook.webpackChain` 来修改 Storybook Preview-iframe 的 webpack 配置。使用方式可以参考 Modern.js Builder 的 [`tools.webpackChain`](https://modernjs.dev/builder/api/config-tools.html#toolswebpackchain) 配置。
+你可以通过 `dev.storybook.webpackChain` 来修改 Storybook Preview-iframe 的 webpack 配置。使用方式可以参考 Modern.js 的 [`tools.webpackChain`](https://modernjs.dev/builder/api/config-tools.html#toolswebpackchain) 配置。

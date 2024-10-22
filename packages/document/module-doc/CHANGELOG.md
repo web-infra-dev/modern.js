@@ -1,5 +1,60 @@
 # @modern-js/module-tools-docs
 
+## 2.60.4
+
+## 2.60.3
+
+## 2.60.2
+
+## 2.60.1
+
+## 2.60.0
+
+## 2.59.0
+
+## 2.58.3
+
+## 2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- 3824a0e: refactor(website): refactor modern.js docs to latest usage of rspress
+  refactor(website): 重构 modern.js 文档，使用最新 rspress 的用法
+
+## 2.58.0
+
+## 2.57.1
+
+## 2.57.0
+
+## 2.56.2
+
+## 2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- dee8a8c: chore(deps): bump rspress to 1.26.1
+
+## 2.55.0
+
+## 2.54.6
+
+## 2.54.5
+
+## 2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- aee1898: docs: remove module tools test doc
+
+  docs: 移除模块工程方案测试相关文档
+
 ## 2.54.2
 
 ## 2.54.1

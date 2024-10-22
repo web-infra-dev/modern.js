@@ -1,7 +1,7 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
-  "version": "2.54.2",
+  "version": "2.60.4",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
-    "@types/node": "^14",
     "@types/lodash": "^4.14.202",
+    "@types/node": "^14",
     "execa": "5.1.1",
-    "lodash": "^4.17.21",
     "fs-extra": "^10",
     "globby": "11.1.0",
-    "upath": "2.0.1",
-    "typescript": "^5"
+    "lodash": "^4.17.21",
+    "typescript": "^5",
+    "upath": "2.0.1"
   }
 }

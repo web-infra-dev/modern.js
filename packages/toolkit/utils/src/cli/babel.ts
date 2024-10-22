@@ -1,12 +1,12 @@
 import { isAbsolute, sep } from 'path';
-import {
+import type {
   BabelConfig,
   BabelConfigUtils,
-  BabelTransformOptions,
   BabelPlugin,
+  BabelPluginOptions,
+  BabelTransformOptions,
   PresetEnvOptions,
   PresetReactOptions,
-  BabelPluginOptions,
 } from '@modern-js/types';
 import { applyOptionsChain } from './applyOptionsChain';
 import { ensureArray } from './ensure';
@@ -115,7 +115,6 @@ const modifyPresetOptions = <T>(
 export const getBabelUtils = (
   config: BabelTransformOptions,
 ): BabelConfigUtils => {
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const noop = () => {};
   return {
     addPlugins: (plugins: BabelPlugin[]) => addPlugins(plugins, config),

@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Kbd, Link, Text, Theme } from '@radix-ui/themes';
-import React from 'react';
+import type React from 'react';
 import {
   HiLink,
   HiOutlineClock,
@@ -9,9 +9,9 @@ import {
 import { parseURL } from 'ufo';
 import { useSnapshot } from 'valtio';
 import '@/components/Card/Card.module.scss';
-import styles from './page.module.scss';
-import { useGlobals } from '@/entries/client/globals';
 import { Card, CardColumn } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
+import styles from './page.module.scss';
 
 const BUNDLER_PACKAGE_NAMES = {
   webpack: 'webpack',

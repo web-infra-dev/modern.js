@@ -1,7 +1,7 @@
 import path from 'path';
 import { cli } from '../src';
+import { createLoadedConfig, createResolveConfig } from '../src/config';
 import { mergeOptions } from '../src/createCli';
-import { createResolveConfig, createLoadedConfig } from '../src/config';
 import { loadEnv } from '../src/loadEnv';
 
 jest.mock('../src/config', () => ({

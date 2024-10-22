@@ -1,6 +1,6 @@
-import { ServerManifest } from '@modern-js/devtools-kit/runtime';
-import { FC } from 'react';
 import { DevtoolsCapsule } from '@/components/Devtools/Capsule';
+import type { ServerManifest } from '@modern-js/devtools-kit/runtime';
+import type { FC } from 'react';
 
 declare global {
   interface Window {
@@ -13,6 +13,7 @@ export const App: FC = () => {
   if (!manifest) throw new TypeError('Devtools manifest is not found');
 
   const clientSrc = manifest.client;
+  if (!clientSrc) throw new TypeError('Devtools client source is not found');
   const manifestSrc = manifest.source;
   const frameBoxUrl = new URL(clientSrc, location.href);
   if (manifestSrc) {

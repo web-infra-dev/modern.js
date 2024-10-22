@@ -1,16 +1,16 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import {
-  fs,
-  chalk,
-  getModernConfigFile,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  chalk,
+  getGeneratorPath,
+  getModernConfigFile,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const ReactRouter6Type = `/// <reference types='@modern-js/runtime/types/router' />`;
@@ -64,13 +64,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage(locale);
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/router-v5-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Router-v5 Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -136,5 +137,5 @@ module.exports = {
       );
     }
   }
-  generator.logger.debug(`forge @modern-js/router-v5-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Repo Generator]`);
 };

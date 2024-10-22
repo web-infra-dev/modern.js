@@ -39,6 +39,7 @@ describe('context', () => {
       internalDirAlias: '@_modern_js_internal',
       internalSrcAlias: '@_modern_js_src',
       metaName: 'modern-js',
+      moduleType: 'commonjs',
     });
   });
 
@@ -86,6 +87,7 @@ describe('context', () => {
       internalDirAlias: '@_jupiter_internal',
       internalSrcAlias: '@_jupiter_src',
       metaName: 'jupiter',
+      moduleType: 'commonjs',
     });
   });
 });

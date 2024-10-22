@@ -1,12 +1,13 @@
 import { useRouteLoaderData as useRouteData } from '@modern-js/runtime-utils/router';
 import { routerPlugin } from './plugin';
-import type { SingleRouteConfig, RouterConfig } from './types';
+import type { RouterConfig, SingleRouteConfig } from './types';
 
 export * from '@modern-js/runtime-utils/router';
 
 export type { SingleRouteConfig, RouterConfig };
 export { renderRoutes } from './utils';
 
+export { routerPlugin };
 export default routerPlugin;
 
 export { modifyRoutes } from './plugin';

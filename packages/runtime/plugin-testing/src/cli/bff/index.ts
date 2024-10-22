@@ -1,12 +1,13 @@
 import type { CliPlugin, IAppContext } from '@modern-js/core';
+// must import from server-core, due to ts compiler error.
+import type { ServerPlugin } from '@modern-js/server-core';
 import { isApiOnly } from '@modern-js/utils';
-import { ServerPlugin } from '@modern-js/prod-server';
-import { UserConfig } from '../../base/config';
 import {
-  TestConfigOperator,
-  getModuleNameMapper,
   DEFAULT_RESOLVER_PATH,
+  type TestConfigOperator,
+  getModuleNameMapper,
 } from '../../base';
+import type { UserConfig } from '../../base/config';
 import type { Hooks } from '../../base/hook';
 import { bff_info_key } from './constant';
 import { isBFFProject } from './utils';
@@ -73,12 +74,15 @@ export const setJestConfigForBFF = async ({
 
   // 这三个配置不能设置在 projects 中，需要设置在外层(https://github.com/facebook/jest/issues/9696)
   const configFields = ['coverage', 'collectCoverage', 'testTimeout'];
-  const commonConfig = configFields.reduce((obj, field) => {
-    if (jestConfig.hasOwnProperty(field)) {
-      obj[field] = jestConfig[field as keyof typeof jestConfig];
-    }
-    return obj;
-  }, {} as Record<string, unknown>);
+  const commonConfig = configFields.reduce(
+    (obj, field) => {
+      if (jestConfig.hasOwnProperty(field)) {
+        obj[field] = jestConfig[field as keyof typeof jestConfig];
+      }
+      return obj;
+    },
+    {} as Record<string, unknown>,
+  );
 
   if (!apiOnly) {
     utils.setJestConfig(

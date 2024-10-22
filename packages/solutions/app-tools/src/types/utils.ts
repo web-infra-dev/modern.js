@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
 export type UnwrapBuilderConfig<
   Config,
   Key extends keyof Config,
@@ -19,5 +18,5 @@ export type FromConfig<
 > = B extends 'shared'
   ? Config['shared']
   : B extends 'rspack'
-  ? Config['rspack']
-  : Config['webpack'];
+    ? Config['rspack']
+    : Config['webpack'];

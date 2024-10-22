@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.54.2",
+  "version": "2.60.4",
   "main": "./src/index.js",
   "types": "index.d.ts",
   "bin": {
@@ -10,9 +10,10 @@
     "only-allow-pnpm": "./bin/onlyAllowPnpm.js"
   },
   "devDependencies": {
+    "@modern-js/core-npm": "npm:@modern-js/core@2.60.4",
+    "@modern-js/module-tools-npm": "npm:@modern-js/module-tools@2.60.4",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "tsm": "2.3.0",
     "typescript": "^5"
   }
 }

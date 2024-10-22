@@ -4,4 +4,7 @@ export default applyBaseConfig({
   server: {
     ssr: true,
   },
+  source: {
+    enableAsyncEntry: true,
+  },
 });

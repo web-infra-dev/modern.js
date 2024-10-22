@@ -7,12 +7,12 @@ export const pluginRuntimeChunk = (
   name: 'uni-builder:runtime-chunk',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { target }) => {
+    api.modifyBundlerChain(async (chain, { target, environment }) => {
       if (target !== 'web') {
         return;
       }
 
-      const config = api.getNormalizedConfig();
+      const { config } = environment;
       const { chunkSplit } = config.performance;
 
       // should not extract runtime chunk when strategy is `all-in-one`

@@ -1,10 +1,10 @@
 import {
+  type AsyncSetup,
+  type PluginOptions,
   createAsyncManager,
+  createContext,
   createWaterfall,
   createWorkflow,
-  createContext,
-  PluginOptions,
-  AsyncSetup,
 } from '../../../../src';
 
 export type CTX = Record<string, unknown>;
@@ -79,7 +79,7 @@ const config = createWaterfall<{
   babelConfig: BabelConfig;
 }>();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 export interface ExternalProgress {}
 
 // main process

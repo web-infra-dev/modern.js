@@ -1,11 +1,16 @@
 import '@testing-library/jest-dom';
 import { manager, CliPlugin } from '@modern-js/core';
 import WebpackChain from '@modern-js/utils/webpack-chain';
-import { CHAIN_ID } from '@rsbuild/shared';
 import type { AppUserConfig } from '@modern-js/app-tools';
 import { garfishPlugin, externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
+
+const CHAIN_ID = {
+  PLUGIN: {
+    HTML: 'html',
+  },
+};
 
 describe('plugin-garfish cli', () => {
   test('cli garfish basename', async () => {
@@ -125,7 +130,6 @@ describe('plugin-garfish cli', () => {
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
@@ -176,7 +180,6 @@ describe('plugin-garfish cli', () => {
     await runner.prepare();
     const config: any = await runner.config();
     const webpackConfig = new WebpackChain();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 

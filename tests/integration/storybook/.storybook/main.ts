@@ -7,7 +7,7 @@ const config: StorybookConfig = {
   framework: {
     name: getAbs('@modern-js/storybook'),
     options: {
-      bundler: 'webpack',
+      bundler: 'rspack',
     },
   },
   typescript: {
@@ -21,5 +21,5 @@ const config: StorybookConfig = {
 export default config;
 
 function getAbs(packageName: string) {
-  return path.dirname(require.resolve(packageName + '/package.json'));
+  return path.dirname(require.resolve(`${packageName}/package.json`));
 }

@@ -1,9 +1,8 @@
-import type { RsbuildPlugin } from '@rsbuild/core';
-import { PLUGIN_SWC_NAME } from '@rsbuild/core';
-import { type ConfigChain } from '@rsbuild/shared';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { ConfigChain, RsbuildPlugin } from '@rsbuild/core';
+import { PLUGIN_SWC_NAME } from '@rsbuild/core';
 import type { PluginStyledComponentsOptions } from '@rsbuild/plugin-styled-components';
-import { isServerTarget } from '../../shared/utils';
+import { isServerEnvironment } from '../../shared/utils';
 
 const getDefaultStyledComponentsConfig = (isProd: boolean, ssr: boolean) => {
   return {
@@ -25,10 +24,14 @@ export const pluginStyledComponents = (
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd }) => {
-      const isSSR = isServerTarget(api.context.targets);
+      const hasSSR = Object.entries(
+        api.getNormalizedConfig().environments,
+      ).some(([name, config]) =>
+        isServerEnvironment(config.output.target, name),
+      );
 
       const styledComponentsOptions = applyOptionsChain(
-        getDefaultStyledComponentsConfig(isProd, isSSR),
+        getDefaultStyledComponentsConfig(isProd, hasSSR),
         userConfig,
       );
 

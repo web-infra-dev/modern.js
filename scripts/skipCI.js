@@ -17,7 +17,7 @@ async function main() {
   }).toString();
   const changedFiles = changedFilesOutput
     .split('\n')
-    .map(file => file && file.trim())
+    .map(file => file?.trim())
     .filter(Boolean);
 
   const shouldNotSkipCI =
@@ -37,6 +37,5 @@ async function main() {
 
 main().catch(err => {
   console.error('Failed to detect CI skip', err);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 });

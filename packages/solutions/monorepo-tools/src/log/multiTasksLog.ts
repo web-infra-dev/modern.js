@@ -1,5 +1,5 @@
 import type { ChildProcess } from 'child_process';
-import { Signale, SignaleOptions } from '@modern-js/utils';
+import { Signale, type SignaleOptions } from '@modern-js/utils';
 import { formatLog } from './utils';
 
 export interface ITaskLogProviderConfig {
@@ -38,12 +38,10 @@ const createListenHandler = (
 ) => {
   // const sb = new StringBuilder();
   const logger = createLogger(name, config);
-  // eslint-disable-next-line node/prefer-global/buffer
   const stdout = (chunk: Buffer) => {
     // console.info(chunk.toString().split(/\r\n|\n\r|\r|\n/g).length);
     logger.info(formatLog(chunk.toString()));
   };
-  // eslint-disable-next-line node/prefer-global/buffer
   const stderr = (chunk: Buffer) => {
     logger.error(chunk.toString());
     // logger.log('#####################');

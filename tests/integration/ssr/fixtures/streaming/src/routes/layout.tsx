@@ -5,10 +5,18 @@ export default function Layout() {
     <div>
       Root layout
       <div>
-        <Link to="/user/1" id="user-btn">Go User 1</Link>
-        <Link to="/about" id="about-btn">Go About</Link>
-        <Link to="/error" id="error-btn">Go Error</Link>
-        <Link to="/redirect" id="redirect-btn">Go Redirect</Link>
+        <Link to="/user/1" id="user-btn">
+          Go User 1
+        </Link>
+        <Link to="/about" id="about-btn">
+          Go About
+        </Link>
+        <Link to="/error" id="error-btn">
+          Go Error
+        </Link>
+        <Link to="/redirect" id="redirect-btn">
+          Go Redirect
+        </Link>
       </div>
       <Outlet />
     </div>

@@ -1,14 +1,14 @@
 import { isObject } from '@modern-js/utils';
-import { ModuleContext } from '../types';
+import { getDefaultBuildConfig } from '../constants/build';
+import type { ModuleContext } from '../types';
 import type {
   BaseBuildConfig,
-  PartialBaseBuildConfig,
+  BuildCommandOptions,
   DTSOptions,
   ModuleLegacyUserConfig,
-  BuildCommandOptions,
+  PartialBaseBuildConfig,
 } from '../types';
-import { normalizeInput, getAllDeps } from '../utils';
-import { getDefaultBuildConfig } from '../constants/build';
+import { getAllDeps, normalizeInput } from '../utils';
 
 export const mergeDefaultBaseConfig = async (
   pConfig: PartialBaseBuildConfig,
@@ -25,6 +25,7 @@ export const mergeDefaultBaseConfig = async (
   };
   const mergedAlias = applyOptionsChain(defaultAlias, pConfig.alias);
 
+  const mergedResolveAlias = applyOptionsChain({}, pConfig.resolve?.alias);
   /**
    * Format alias value:
    * - Relative paths need to be turned into absolute paths.
@@ -71,7 +72,6 @@ export const mergeDefaultBaseConfig = async (
   };
   const { dts: cmdDts, tsconfig: cmdTsconfigPath } = buildCmdOptions;
 
-  // Impact eslint complexity
   const noDts = cmdDts === false || pConfig.dts === false;
 
   const dts = noDts
@@ -109,10 +109,12 @@ export const mergeDefaultBaseConfig = async (
     mainFields: pConfig.resolve?.mainFields ?? defaultMainFields,
     jsExtensions:
       pConfig.resolve?.jsExtensions ?? defaultConfig.resolve.jsExtensions,
+    alias: mergedResolveAlias,
   };
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
+    loader: pConfig.loader ?? defaultConfig.loader,
     shims: pConfig.shims ?? defaultConfig.shims,
     autoExtension: pConfig.autoExtension ?? defaultConfig.autoExtension,
     footer: pConfig.footer ?? defaultConfig.footer,

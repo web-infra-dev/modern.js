@@ -1,4 +1,4 @@
-import { importers, resolver, handlers, parse } from 'react-docgen';
+import { handlers, importers, parse, resolver } from 'react-docgen';
 import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import actualNameHandler from './actualNameHandler';
 

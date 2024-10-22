@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { RouteLegacy } from '@modern-js/types/cli';
+import type { RouteLegacy } from '@modern-js/types/cli';
 import {
   fileSystemRoutes,
   routesForServer,
@@ -35,6 +34,7 @@ describe('fileSystemRoutes', () => {
     ];
 
     const code = await fileSystemRoutes({
+      metaName: 'modern-js',
       routes,
       entryName: 'main',
       internalDirectory: '',
@@ -79,6 +79,7 @@ describe('fileSystemRoutes', () => {
       },
     ];
     const code = await fileSystemRoutes({
+      metaName: 'modern-js',
       entryName: 'main',
       routes,
       internalDirectory: '',
@@ -89,7 +90,7 @@ describe('fileSystemRoutes', () => {
 
 describe('routesForServer', () => {
   test('generate code for server', async () => {
-    const routes = [
+    const routesForServerLoaderMatches = [
       {
         path: '/',
         _component: '@_modern_js_src/routes/layout.tsx',
@@ -125,7 +126,7 @@ describe('routesForServer', () => {
       },
     ];
     const code = routesForServer({
-      routes,
+      routesForServerLoaderMatches,
     });
     expect(code).toMatchSnapshot();
   });

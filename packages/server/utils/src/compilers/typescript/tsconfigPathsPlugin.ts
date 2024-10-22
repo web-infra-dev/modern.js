@@ -1,7 +1,10 @@
 import * as os from 'os';
 import path, { dirname, posix } from 'path';
+import {
+  type MatchPath,
+  createMatchPath,
+} from '@modern-js/utils/tsconfig-paths';
 import * as ts from 'typescript';
-import { createMatchPath, MatchPath } from '@modern-js/utils/tsconfig-paths';
 
 const isRegExpKey = (str: string) => {
   return str.startsWith('^') || str.endsWith('$');
@@ -16,21 +19,23 @@ const resolveAliasPath = (baseUrl: string, filePath: string) => {
 };
 
 const createAliasMatcher = (baseUrl: string, alias: Record<string, string>) => {
-  const aliasPairs = Object.keys(alias).reduce((o, key) => {
-    if (isRegExpKey(key)) {
-      const regexp = new RegExp(key);
-      const aliasPath = resolveAliasPath(baseUrl, alias[key]);
-      o.push([regexp, aliasPath]);
-    } else {
-      const aliasPath = resolveAliasPath(baseUrl, alias[key]);
-      o.push([key, aliasPath]);
-    }
-    return o;
-  }, [] as [string | RegExp, string][]);
+  const aliasPairs = Object.keys(alias).reduce(
+    (o, key) => {
+      if (isRegExpKey(key)) {
+        const regexp = new RegExp(key);
+        const aliasPath = resolveAliasPath(baseUrl, alias[key]);
+        o.push([regexp, aliasPath]);
+      } else {
+        const aliasPath = resolveAliasPath(baseUrl, alias[key]);
+        o.push([key, aliasPath]);
+      }
+      return o;
+    },
+    [] as [string | RegExp, string][],
+  );
 
   const cacheMap = new Map<string, string>();
 
-  // eslint-disable-next-line consistent-return
   return (requestedModule: string) => {
     if (cacheMap.has(requestedModule)) {
       return cacheMap.get(requestedModule);
@@ -212,7 +217,6 @@ function getNotAliasedPath(
           paths: [process.cwd(), ...module.paths],
         });
         if (packagePath) {
-          // eslint-disable-next-line consistent-return
           return result;
         }
       } catch {}
@@ -224,13 +228,11 @@ function getNotAliasedPath(
         paths: [process.cwd(), ...module.paths],
       });
       if (packagePath) {
-        // eslint-disable-next-line consistent-return
         return text;
       }
     } catch {}
   }
 
   const resolvedPath = posix.relative(dirname(sf.fileName), result) || './';
-  // eslint-disable-next-line consistent-return
   return resolvedPath[0] === '.' ? resolvedPath : `./${resolvedPath}`;
 }

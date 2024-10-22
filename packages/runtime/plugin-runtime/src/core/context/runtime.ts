@@ -1,15 +1,15 @@
-import { Store } from '@modern-js-reduck/store';
-import {
-  type StaticHandlerContext,
-  type Router,
-  type RouterState,
+import type { Store } from '@modern-js-reduck/store';
+import type {
+  Router,
+  RouterState,
+  StaticHandlerContext,
 } from '@modern-js/runtime-utils/remix-router';
-import { createContext } from 'react';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import { createContext } from 'react';
+import type { RouteManifest } from '../../router/runtime/types';
 import { createLoaderManager } from '../loader/loaderManager';
-import { PluginRunner, runtime } from '../plugin';
-import { RouteManifest } from '../../router/runtime/types';
-import { SSRServerContext } from '../../ssr/serverRender/types';
+import type { PluginRunner, runtime } from '../plugin';
+import type { SSRServerContext } from '../types';
 
 export interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
@@ -28,7 +28,6 @@ export interface BaseRuntimeContext {
   /**
    * private
    */
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   unstable_getBlockNavState?: () => boolean;
 }
 
@@ -40,7 +39,7 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
 export const ServerRouterContext = createContext({} as any);
 
-export interface BaseTRuntimeContext {
+export interface BaseTRuntimeContext extends Partial<BaseRuntimeContext> {
   initialData?: Record<string, unknown>;
   // ssr type
   request?: SSRServerContext['request'];
@@ -57,10 +56,15 @@ export interface TRuntimeContext extends BaseTRuntimeContext {
   [key: string]: any;
 }
 
-export const getInitialContext = (runner: PluginRunner): RuntimeContext => ({
+export const getInitialContext = (
+  runner: PluginRunner,
+  isBrowser = true,
+  routeManifest?: RouteManifest,
+): RuntimeContext => ({
   loaderManager: createLoaderManager({}),
   runner,
-  isBrowser: true,
+  isBrowser,
   routeManifest:
-    typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
+    routeManifest ||
+    (typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST]),
 });

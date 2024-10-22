@@ -5,8 +5,8 @@ import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 // https://stackoverflow.com/questions/49034907/fetch-mock-does-not-mock-my-fetch
 import { Link, MemoryRouter } from '@modern-js/plugin-router-v5/runtime';
-import garfishPlugin, { useModuleApp } from '../src/runtime';
-import { useModuleApps } from '../src';
+import garfishPlugin from '../src/runtime/plugin';
+import { useModuleApp, useModuleApps } from '../src/runtime/useModuleApps';
 import {
   TABLE_LIST_ESCAPE_NODE,
   TABLE_LIST_HTML,

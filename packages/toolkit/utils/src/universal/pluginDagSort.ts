@@ -46,7 +46,6 @@ export const pluginDagSort = <P extends Record<string, any>>(
       item => !sortedPoint.find(sp => sp[key] === item[key]),
     );
     zeroEndPoints = restPoints.filter(
-      // eslint-disable-next-line @typescript-eslint/no-loop-func
       item => !allLines.find(l => l[1] === item[key]),
     );
   }

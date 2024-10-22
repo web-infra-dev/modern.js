@@ -1,9 +1,9 @@
 import {
-  padSpaceWith,
   InternalBuildError,
   InternalDTSError,
-  isInternalError,
   ModuleBuildError,
+  isInternalError,
+  padSpaceWith,
 } from '../src/error';
 
 describe('error.ts', () => {

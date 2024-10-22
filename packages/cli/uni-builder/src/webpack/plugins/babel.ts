@@ -1,21 +1,23 @@
+import type { BabelConfig } from '@modern-js/babel-preset';
+import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
+import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
+import { applyOptionsChain, isBeyondReact17 } from '@modern-js/utils';
+import { logger } from '@rsbuild/core';
+import type {
+  NormalizedEnvironmentConfig,
+  NormalizedSourceConfig,
+  RsbuildPlugin,
+  TransformImport,
+} from '@rsbuild/core';
+import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
 import lodash from 'lodash';
-import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
-import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
-import type { BabelConfig } from '@rsbuild/babel-preset';
-import { isBeyondReact17, applyOptionsChain } from '@modern-js/utils';
 import {
   SCRIPT_REGEX,
-  applyScriptCondition,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+  castArray,
   getBrowserslistWithDefault,
-  type RsbuildPlugin,
-  type TransformImport,
-  type NormalizedConfig,
-} from '@rsbuild/shared';
-import {
-  getBabelUtils,
   getUseBuiltIns,
-  type PluginBabelOptions,
-} from '@rsbuild/plugin-babel';
+} from '../../shared/utils';
 
 /**
  * Plugin order:
@@ -56,16 +58,16 @@ export const pluginBabel = (
       order: 'pre',
       handler: async (
         chain,
-        { CHAIN_ID, target, isProd, isServer, isServiceWorker },
+        { CHAIN_ID, target, isProd, isServer, environment },
       ) => {
-        const config = api.getNormalizedConfig();
+        const { config, name } = environment;
         const browserslist = await getBrowserslistWithDefault(
           api.context.rootPath,
           config,
           target,
         );
 
-        const getBabelOptions = (config: NormalizedConfig) => {
+        const getBabelOptions = (config: NormalizedEnvironmentConfig) => {
           // Create babel util function about include/exclude
           const includes: Array<string | RegExp> = [];
           const excludes: Array<string | RegExp> = [];
@@ -90,7 +92,7 @@ export const pluginBabel = (
           const decoratorConfig = config.source.decorators;
 
           const baseBabelConfig =
-            isServer || isServiceWorker
+            isServer || name === SERVICE_WORKER_ENVIRONMENT_NAME
               ? getBabelConfigForNode({
                   presetEnv: {
                     targets: ['node >= 14'],
@@ -105,8 +107,12 @@ export const pluginBabel = (
                   pluginDecorators: decoratorConfig,
                 });
 
+          applyPluginLodash(
+            baseBabelConfig,
+            extraOptions.transformLodash,
+            config.source.transformImport,
+          );
           applyPluginImport(baseBabelConfig, config.source.transformImport);
-          applyPluginLodash(baseBabelConfig, extraOptions.transformLodash);
 
           baseBabelConfig.presets?.push(
             getPresetReact(api.context.rootPath, isProd),
@@ -152,14 +158,13 @@ export const pluginBabel = (
         const { babelOptions, includes, excludes } = getBabelOptions(config);
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        applyScriptCondition({
-          chain,
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+        for (const condition of includes) {
+          rule.include.add(condition);
+        }
+
+        for (const condition of excludes) {
+          rule.exclude.add(condition);
+        }
 
         rule
           .test(SCRIPT_REGEX)
@@ -191,7 +196,24 @@ export const pluginBabel = (
   },
 });
 
-function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
+function applyPluginLodash(
+  config: BabelConfig,
+  transformLodash?: boolean,
+  transformImport: NormalizedSourceConfig['transformImport'] = [],
+) {
+  const finalTransformImport = reduceTransformImportConfig(transformImport);
+  const hasImportPluginForLodash = finalTransformImport.some(
+    transformImport => {
+      return transformImport.libraryName === 'lodash';
+    },
+  );
+  if (hasImportPluginForLodash && transformLodash) {
+    logger.warn(
+      'Detected a potential conflict between `source.transformImport` and `performance.transformLodash` for lodash. ' +
+        'Please ensure only one of these configurations is used to handle lodash imports. ' +
+        'If you want to use `source.transformImport`, set `performance.transformLodash` to `false` in your configuration.',
+    );
+  }
   if (transformLodash) {
     config.plugins?.push([
       require.resolve('../../../compiled/babel-plugin-lodash'),
@@ -200,12 +222,32 @@ function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
   }
 }
 
+const reduceTransformImportConfig = (
+  options: NormalizedSourceConfig['transformImport'],
+): TransformImport[] => {
+  if (!options) {
+    return [];
+  }
+
+  let imports: TransformImport[] = [];
+  for (const item of castArray(options)) {
+    if (typeof item === 'function') {
+      imports = item(imports) ?? imports;
+    } else {
+      imports.push(item);
+    }
+  }
+  return imports;
+};
+
 function applyPluginImport(
   config: BabelConfig,
-  pluginImport?: false | TransformImport[],
+  pluginImport?: NormalizedSourceConfig['transformImport'],
 ) {
-  if (pluginImport !== false && pluginImport) {
-    for (const item of pluginImport) {
+  const finalPluginImport = reduceTransformImportConfig(pluginImport);
+
+  if (finalPluginImport?.length) {
+    for (const item of finalPluginImport) {
       const name = item.libraryName;
 
       const option: TransformImport & {

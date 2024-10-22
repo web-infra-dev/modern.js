@@ -1,5 +1,5 @@
 import path from 'path';
-import { normalizeOutputPath, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { MAIN_ENTRY_NAME, normalizeOutputPath } from '@modern-js/utils';
 
 const sourceDefaults = {
   entries: undefined,

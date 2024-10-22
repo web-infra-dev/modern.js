@@ -1,0 +1,62 @@
+---
+title: renderString
+---
+
+# renderString
+
+用于 React String SSR 渲染出字符串，配合 `createRequestHandler` 使用
+
+## 使用
+
+```tsx title="src/entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, ServerRoot, options) => {
+  const body = await renderString(request, <ServerRoot />, options);
+
+  return new Response(body, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```
+
+## 函数签名
+
+```ts
+export type RenderString = (
+  request: Request,
+  serverRoot: React.ReactElement,
+  optinos: RenderOptions,
+) => Promise<string>;
+```
+
+## 示例
+
+```tsx title="src/entry.server.tsx"
+import {
+  renderString,
+  createRequestHandler,
+} from '@modern-js/runtime/ssr/server';
+
+const handleRequest = async (request, ServerRoot, options) => {
+  // do something before render
+  const body = await renderString(request, <ServerRoot />, options);
+
+  const newBody = body + '<div>Byte-Dance</div>';
+
+  return new Response(newBody, {
+    headers: {
+      'content-type': 'text/html; charset=utf-8',
+    },
+  });
+};
+
+export default createRequestHandler(handleRequest);
+```

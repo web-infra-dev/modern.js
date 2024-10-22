@@ -1,14 +1,12 @@
 import path from 'path';
-import type { RsbuildTarget } from '@rsbuild/shared';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
-import { createBuilderOptions } from '../../src/builder/generator/createBuilderOptions';
+import { getBuilderEnvironments } from '../../src/builder/generator/getBuilderEnvironments';
 
 initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
 describe('create builder Options', () => {
-  it('test create builder Options', () => {
-    const targets: RsbuildTarget[] = ['node', 'web'];
+  it('test create builder environments config', () => {
     const appContext = {
       entrypoints: [
         {
@@ -30,16 +28,50 @@ describe('create builder Options', () => {
       ],
       checkedEntries: ['main', 'next'],
       configFile: 'modern.config.ts',
+      appDirectory: 'appDirectory',
     };
-    const options = createBuilderOptions(targets, appContext as any);
-    expect(options).toEqual({
-      target: targets,
-      frameworkConfigPath: 'modern.config.ts',
-      entry: {
-        main: ['./src/index.ts', './src/main.ts'],
-        next: ['./src/next.ts'],
-      },
-    });
+
+    expect(
+      getBuilderEnvironments({} as any, appContext as any, {} as any),
+    ).toMatchSnapshot();
+
+    expect(
+      getBuilderEnvironments(
+        {
+          server: {
+            ssr: true,
+          },
+        } as any,
+        appContext as any,
+        {} as any,
+      ),
+    ).toMatchSnapshot();
+
+    expect(
+      getBuilderEnvironments(
+        {
+          output: {
+            ssg: true,
+          },
+          deploy: {
+            worker: {
+              ssr: true,
+            },
+          },
+        } as any,
+        appContext as any,
+        {
+          output: {
+            copy: [
+              {
+                from: '**/*',
+                to: 'upload',
+              },
+            ],
+          },
+        } as any,
+      ),
+    ).toMatchSnapshot();
   });
 });
 

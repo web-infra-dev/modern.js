@@ -1,5 +1,223 @@
 # @modern-js/prod-server
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [518b783]
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [c87813e]
+  - @modern-js/server-core@2.60.4
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+- Updated dependencies [0a31d31]
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-core@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.60.1
+- @modern-js/runtime-utils@2.60.1
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 28f0101: feat: generator replace husky to simple git hook
+
+  feat: 生成器模板替换 husky 为 simple-git-hook
+
+- Updated dependencies [d6e0118]
+  - @modern-js/server-core@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- Updated dependencies [539d72b]
+- Updated dependencies [ef1ec44]
+- Updated dependencies [80237dc]
+  - @modern-js/server-core@2.59.0
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- Updated dependencies [36ccad3]
+- Updated dependencies [0b581a4]
+- Updated dependencies [610554c]
+- Updated dependencies [59fba90]
+- Updated dependencies [9e82b00]
+  - @modern-js/server-core@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [1ff0304]
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/server-core@2.58.2
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- Updated dependencies [c904ee2]
+- Updated dependencies [a214ea8]
+  - @modern-js/server-core@2.58.1
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/server-core@2.58.0
+- @modern-js/runtime-utils@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/runtime-utils@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 0e906a1: feat: inject renderHandler to appContext & add default serverPlugins
+  feat: 注入 renderHandler 到 appContext & 新增默认 serverPlugins
+- 604ad3a: fix: faviconPlugin should after staticPlugin
+  fix: faviconPlugin 应该在 staticPlugin 之后
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [203c9eb]
+- Updated dependencies [916559a]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.56.2
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [e0e29b3]
+  - @modern-js/server-core@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- bedbbb3: feat: server monitors interface unity
+  feat: server 监控接口统一
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [9eee52a]
+  - @modern-js/server-core@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- 35cddd7: fix: prod-server support source-map
+  fix: prod-server 支持 source-map
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/server-core@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/server-core@2.54.6
+- @modern-js/runtime-utils@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- 5525a23: fix: logger maybe undefined when server occur error
+  fix: logger 可能是 undefined 当 server 发生错误时
+- Updated dependencies [5525a23]
+  - @modern-js/server-core@2.54.5
+  - @modern-js/runtime-utils@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/server-core@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- b50d7ec: fix: we should load modern.config.json when production
+  fix: 在生产阶段，我们应该加载 modern.config.json
+- c5644c9: fix: we should add cli config correctly
+  fix: 我们应该正确的添加 cli 配置
+- Updated dependencies [b50d7ec]
+  - @modern-js/server-core@2.54.3
+  - @modern-js/runtime-utils@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

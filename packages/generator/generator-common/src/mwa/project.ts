@@ -1,14 +1,13 @@
-import { Schema } from '@modern-js/codesmith-formily';
+import type { Schema } from '@modern-js/codesmith-formily';
 import {
   BooleanConfig,
+  Language,
+  PackageManager,
+  getLanguageSchema,
+  getPackageManagerSchema,
   getPackageNameSchema,
   getPackagePathSchema,
-  Language,
-  getLanguageSchema,
-  PackageManager,
-  getPackageManagerSchema,
 } from '../common';
-import { BuildTools, getBuildToolsSchema } from './common';
 
 export const getMWASchemaProperties = (
   extra: Record<string, any>,
@@ -18,7 +17,6 @@ export const getMWASchemaProperties = (
     packagePath: getPackagePathSchema(extra),
     language: getLanguageSchema(extra),
     packageManager: getPackageManagerSchema(extra),
-    buildTools: getBuildToolsSchema(extra),
   };
 };
 
@@ -33,5 +31,4 @@ export const MWADefaultConfig = {
   language: Language.TS,
   packageManager: PackageManager.Pnpm,
   needModifyMWAConfig: BooleanConfig.NO,
-  buildTools: BuildTools.Webpack,
 };

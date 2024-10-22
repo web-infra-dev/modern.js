@@ -1,7 +1,7 @@
 import os from 'os';
 import path from 'path';
-import { InternalPlugins } from '@modern-js/types';
-import { browserslist, fs, json5 } from '../../compiled';
+import type { InternalPlugins } from '@modern-js/types';
+import { fs, browserslist, json5 } from '../../compiled';
 import { INTERNAL_CLI_PLUGINS } from '../constants';
 import { isDepExists } from '../is';
 import { canUsePnpm, canUseYarn } from '../package';

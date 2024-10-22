@@ -1,6 +1,3 @@
-/* eslint-disable node/prefer-global/text-decoder */
-/* eslint-disable node/prefer-global/text-encoder */
-/* eslint-disable max-depth */
 /**
  * The following code is modified based on
  * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/packages/remix-react/data.ts
@@ -11,8 +8,8 @@
  * https://github.com/remix-run/remix/blob/2b5e1a72fc628d0408e27cf4d72e537762f1dc5b/LICENSE.md
  */
 import {
-  UNSAFE_DeferredData as DeferredData,
   AbortedDeferredError,
+  UNSAFE_DeferredData as DeferredData,
 } from '@modern-js/runtime-utils/remix-router';
 
 const DEFERRED_VALUE_PLACEHOLDER_PREFIX = '__deferred_promise:';
@@ -203,6 +200,3 @@ function mergeArrays(...arrays: Uint8Array[]) {
   }
   return out;
 }
-/* eslint-enable max-depth */
-/* eslint-enable node/prefer-global/text-decoder */
-/* eslint-enable node/prefer-global/text-encoder */

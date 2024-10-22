@@ -1,11 +1,11 @@
 import path from 'path';
+import { bundleRequire } from '@modern-js/node-bundle-require';
 import { fs, applyOptionsChain, findExists } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { bundleRequire } from '@modern-js/node-bundle-require';
 import type {
   DesignSystem,
-  TailwindConfig,
   ExtraTailwindConfig,
+  TailwindConfig,
 } from './types';
 
 function getDefaultContent(appDirectory: string) {

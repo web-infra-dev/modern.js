@@ -1,13 +1,13 @@
-import {
-  Workflow,
-  ParallelWorkflow,
+import type {
   AsyncWaterfall,
   AsyncWorkflow,
+  ParallelWorkflow,
   ToRunners,
   ToThreads,
+  Workflow,
 } from '@modern-js/plugin';
 import type { Command } from '@modern-js/utils';
-import type { UserConfig, NormalizedConfig } from './config';
+import type { NormalizedConfig, UserConfig } from './config';
 
 export type BaseHooks<
   Extends extends {
@@ -15,11 +15,8 @@ export type BaseHooks<
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
   },
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends {} = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
   beforeConfig: AsyncWorkflow<void, void>;
@@ -44,6 +41,9 @@ export type BaseHooks<
   >;
   commands: AsyncWorkflow<{ program: Command }, void>;
   beforeExit: Workflow<void, void>;
+  /**
+   * @deprecated
+   */
   addRuntimeExports: AsyncWaterfall<void>;
 };
 
@@ -52,17 +52,12 @@ export type CliHooksRunner<
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends {} = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = ToRunners<BaseHooks<Extends> & Extends['hooks']>;
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export type CliHookCallbacks = ToThreads<BaseHooks<{}>>;
 
 export interface DevToolData<DevOptions = any> {

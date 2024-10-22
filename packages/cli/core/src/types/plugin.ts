@@ -1,6 +1,6 @@
-import { AsyncSetup, PluginOptions } from '@modern-js/plugin';
-import { BaseHooks } from './hooks';
-import { BasePluginAPI } from './pluginAPI';
+import type { AsyncSetup, PluginOptions } from '@modern-js/plugin';
+import type { BaseHooks } from './hooks';
+import type { BasePluginAPI } from './pluginAPI';
 
 export type { InternalPlugins } from '@modern-js/types';
 
@@ -10,13 +10,9 @@ export type CliPlugin<
     hooks?: ExtendHooks;
     userConfig?: ExtendUserConfig;
     normalizedConfig?: ExtendNormalizedConfig;
-    // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
-  // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = PluginOptions<
   BaseHooks<Extends>,

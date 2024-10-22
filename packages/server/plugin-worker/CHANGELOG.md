@@ -1,5 +1,180 @@
 # @modern-js/plugin-worker
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [75ff77f]
+  - @modern-js/server-utils@2.60.4
+  - @modern-js/prod-server@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/prod-server@2.60.3
+  - @modern-js/server-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/prod-server@2.60.2
+  - @modern-js/server-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [3a973a2]
+  - @modern-js/server-utils@2.60.1
+  - @modern-js/prod-server@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- Updated dependencies [28f0101]
+  - @modern-js/prod-server@2.60.0
+  - @modern-js/server-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.59.0
+- @modern-js/utils@2.59.0
+- @modern-js/server-utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/prod-server@2.58.3
+- @modern-js/server-utils@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+  - @modern-js/prod-server@2.58.2
+  - @modern-js/server-utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.58.1
+- @modern-js/utils@2.58.1
+- @modern-js/server-utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.58.0
+- @modern-js/server-utils@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.57.1
+- @modern-js/server-utils@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [604ad3a]
+  - @modern-js/utils@2.57.0
+  - @modern-js/prod-server@2.57.0
+  - @modern-js/server-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/prod-server@2.56.2
+- @modern-js/server-utils@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.56.1
+- @modern-js/server-utils@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [bedbbb3]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/server-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/prod-server@2.54.6
+- @modern-js/server-utils@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+  - @modern-js/prod-server@2.54.5
+  - @modern-js/server-utils@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/prod-server@2.54.4
+- @modern-js/server-utils@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- Updated dependencies [b50d7ec]
+- Updated dependencies [c5644c9]
+  - @modern-js/prod-server@2.54.3
+  - @modern-js/server-utils@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

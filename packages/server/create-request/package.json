@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.54.2",
+  "version": "2.60.4",
   "jsnext:source": "./src/node.ts",
   "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
@@ -67,13 +67,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/utils": "workspace:*",
     "@modern-js/runtime-utils": "workspace:*",
-    "node-fetch": "^2.6.1",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.13",
     "encoding": "^0.1.0",
+    "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0",
-    "query-string": "^7.1.1",
-    "@swc/helpers": "0.5.3"
+    "query-string": "^7.1.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

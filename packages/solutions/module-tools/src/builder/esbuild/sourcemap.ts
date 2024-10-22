@@ -1,4 +1,4 @@
-import { SourceMap, ISourcemapContext } from '../../types';
+import type { ISourcemapContext, SourceMap } from '../../types';
 import { mergeMaps } from '../../utils';
 
 export class SourcemapContext implements ISourcemapContext {
@@ -51,7 +51,7 @@ export class SourcemapContext implements ISourcemapContext {
 
   public getSourceMapChain() {
     return this.sourceMapChain.filter((m): m is SourceMap =>
-      Boolean(m && m.mappings),
+      Boolean(m?.mappings),
     );
   }
 

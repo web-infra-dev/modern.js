@@ -9,18 +9,18 @@
     "directory": "packages/document/module-doc"
   },
   "license": "MIT",
-  "version": "2.54.2",
+  "version": "2.60.4",
   "main": "index.js",
   "scripts": {
     "dev": "rspress dev",
-    "build:doc": "rspress build",
+    "build": "rspress build",
     "preview": "rspress preview"
   },
   "devDependencies": {
-    "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rspress": "1.18.2",
-    "@rspress/shared": "1.18.2"
+    "@modern-js/doc-plugin-auto-sidebar": "2.58.1",
+    "@rspress/shared": "1.31.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rspress": "1.31.1"
   }
 }

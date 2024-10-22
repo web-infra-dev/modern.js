@@ -1,12 +1,12 @@
 import * as path from 'path';
 import { DEFAULT_EXTENSIONS } from '@babel/core';
+import { defaultDistFileExtMap } from '../src/constants';
 import {
-  getFinalCompilerOption,
   getFilesFromDir,
+  getFinalCompilerOption,
   getFinalExtensions,
   getGlobPattern,
 } from '../src/getFinalOption';
-import { defaultDistFileExtMap } from '../src/constants';
 
 const projectDir = path.join(__dirname, './fixtures/getFinalOption');
 const sourceDir = path.join(projectDir, 'sourceDir');

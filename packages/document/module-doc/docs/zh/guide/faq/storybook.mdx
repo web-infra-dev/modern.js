@@ -67,7 +67,7 @@ var _await$Promise$all = await Promise.all([
 
 Storybook 没有提供相关方案，不过 Storybook Issue 中有找到相关的解决办法。在 Modern.js Module 中，你可以：
 
-1. 添加 `config/storybook/middleware.js` 文件，并初始化下面的内容：
+1. 添加 `.storybook/middleware.js` 文件，并初始化下面的内容：
 
 ``` js
 /* eslint-disable filenames/match-exported */
@@ -95,3 +95,10 @@ module.exports = function expressMiddleware (router) {
 
 相关 issue 链接：[#11551](https://github.com/storybookjs/storybook/issues/11551)。
 
+## Tailwind CSS 在 Storybook 中不生效
+
+Modern.js Module 的 Storybook 构建能力由 [Rsbuild](https://rsbuild.dev/) 提供，由于 Rsbuild 的底层实现与 Modern.js Module 并未打通，因此， Modern.js Module 插件无法在 Storybook (Rsbuild) 中生效。
+
+解决办法：需要在 storybook 中单独注册 tailwindcss 的 PostCSS 插件。
+
+参考链接：[Rsbuild - tailwindcss](https://rsbuild.dev/zh/guide/basic/tailwindcss#%E9%85%8D%E7%BD%AE-postcss)。

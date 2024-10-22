@@ -1,5 +1,180 @@
 # @modern-js/plugin-server
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [c87813e]
+- Updated dependencies [75ff77f]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/server-utils@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/server-utils@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-utils@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [3a973a2]
+  - @modern-js/server-utils@2.60.1
+  - @modern-js/runtime-utils@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.60.0
+- @modern-js/runtime-utils@2.60.0
+- @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.59.0
+- @modern-js/utils@2.59.0
+- @modern-js/server-utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/server-utils@2.58.3
+- @modern-js/runtime-utils@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/server-utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- ec01bad: feat(runtime): adapt to some features for async entries
+  feat(runtime): 为异步入口适配某些功能
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/server-utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/server-utils@2.58.0
+- @modern-js/runtime-utils@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/server-utils@2.57.1
+- @modern-js/runtime-utils@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/server-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/server-utils@2.56.2
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/server-utils@2.56.1
+- @modern-js/runtime-utils@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.56.0
+- @modern-js/utils@2.56.0
+- @modern-js/server-utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/server-utils@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- c42146e: feat: support getting assets on the server
+  feat: 支持在服务端获取静态资源
+  - @modern-js/server-utils@2.54.6
+  - @modern-js/runtime-utils@2.54.6
+  - @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/server-utils@2.54.5
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/server-utils@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/server-utils@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

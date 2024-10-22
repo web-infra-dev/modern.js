@@ -1,0 +1,42 @@
+---
+title: render
+---
+# render
+
+It is used to render project components.
+
+## Usage
+
+```ts
+import { render } from '@modern-js/runtime/browser';
+
+render(<ModernRoot />);
+```
+
+## Function Signature
+
+```ts
+export function render(App: React.ReactElement, id?: HTMLElement | string): Promise<any>;
+```
+
+### Parameters
+
+- `App`：An instance of ReactElement created through [`createRoot`](./create-root).
+- `id`：The id of the DOM root element to be mounted, such as "root".
+
+## Example
+
+```tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```

@@ -14,7 +14,6 @@ export type Ok<T = unknown> = {
 
 export type Result<T = unknown, E = string> = Err<E> | Ok<T>;
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Err = <E = string>(value: E): Err<E> => {
   const err: Err<E> = {
     kind: 'Err',
@@ -25,7 +24,6 @@ export const Err = <E = string>(value: E): Err<E> => {
   return err;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const Ok = <T, E = string>(value: T): Result<T, E> => {
   const ok: Ok<T> = {
     kind: 'Ok',

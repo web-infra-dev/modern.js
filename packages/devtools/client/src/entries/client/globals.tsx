@@ -1,9 +1,16 @@
+import type {
+  MountPointFunctions,
+  ClientFunctions as ToMountPointFunctions,
+} from '@/types/rpc';
+import { use } from '@/utils';
+import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
+import { WallAgent } from '@/utils/react-devtools';
 import {
-  ServerManifest,
   MessagePortChannel,
-  ServerFunctions,
-  Tab,
-  ClientFunctions as ToServerFunctions,
+  type ServerFunctions,
+  type ServerManifest,
+  type Tab,
+  type ClientFunctions as ToServerFunctions,
   WebSocketChannel,
   applyOperation,
   reviver,
@@ -11,6 +18,11 @@ import {
 import { createBirpc } from 'birpc';
 import { createHooks } from 'hookable';
 import _ from 'lodash';
+import {
+  createBridge,
+  createStore,
+  initialize,
+} from 'react-devtools-inline/frontend';
 import {
   HiMiniCircleStack,
   HiOutlineAcademicCap,
@@ -20,14 +32,8 @@ import {
   HiOutlineRectangleGroup,
 } from 'react-icons/hi2';
 import { RiReactjsLine, RiShieldCrossLine } from 'react-icons/ri';
-import { parseQuery, resolveURL } from 'ufo';
+import { parseQuery, parseURL, resolveURL } from 'ufo';
 import { proxy, ref } from 'valtio';
-import type {
-  MountPointFunctions,
-  ClientFunctions as ToMountPointFunctions,
-} from '@/types/rpc';
-import { use } from '@/utils';
-import { PluginGlobals, setupPlugins } from '@/utils/pluggable';
 
 const initializeMountPoint = async () => {
   const channel = await MessagePortChannel.link(
@@ -47,10 +53,24 @@ const initializeMountPoint = async () => {
   return { remote, hooks };
 };
 
+class InitializeManifestError extends Error {
+  constructor(cause?: unknown) {
+    super();
+    this.name = 'InitializeManifestError';
+    this.cause = cause;
+    this.message = 'Failed to initialize manifest of DevTools';
+  }
+}
+
 const initializeManifest = async (url: string) => {
   const res = await fetch(url);
-  const json: ServerManifest = JSON.parse(await res.text(), reviver());
-  return json;
+  try {
+    const text = await res.text();
+    const json: ServerManifest = JSON.parse(text, reviver());
+    return json;
+  } catch (e) {
+    throw new InitializeManifestError(e);
+  }
 };
 
 const initializeServer = async (url: string, state: ServerManifest) => {
@@ -140,8 +160,29 @@ const initializeTabs = async () => {
   return tabs;
 };
 
+const initializeReactDevtools = async (
+  mountPoint: Awaited<ReturnType<typeof initializeMountPoint>>,
+) => {
+  const wallAgent = new WallAgent();
+  const unreg = wallAgent.bindRemote(
+    mountPoint.remote,
+    'sendReactDevtoolsData',
+  );
+
+  await mountPoint.remote.activateReactDevtools();
+  const bridge = createBridge(window.parent, wallAgent);
+  // const _shutdownBridge = bridge.shutdown;
+  // Workaround for https://github.com/facebook/react/blob/77ec61885fb19607cdd116a6790095afa40b5a94/packages/react-devtools-shared/src/devtools/views/DevTools.js#L258-L267
+  bridge.shutdown = () => null;
+
+  const store = createStore(bridge);
+  const Renderer = initialize(window.parent, { bridge, store });
+
+  return { store, bridge, wallAgent, unreg, Renderer };
+};
+
 const initializeState = async (url: string) => {
-  const query = parseQuery(url);
+  const query = parseQuery(parseURL(url).search);
   const manifestUrl = _.castArray(query.src)[0] ?? resolveURL(url, 'manifest');
 
   const $mountPoint = initializeMountPoint();
@@ -156,13 +197,11 @@ const initializeState = async (url: string) => {
     return setupPlugins(runtimePlugins);
   });
   const $tabs = $setupPlugins.then(initializeTabs);
+  const $reactDevtools = $mountPoint.then(initializeReactDevtools);
 
-  const [mountPoint, exported, server, tabs] = await Promise.all([
-    $mountPoint,
-    $manifest,
-    $server,
-    $tabs,
-  ]);
+  const [mountPoint, exported, server, tabs, reactDevtools] = await Promise.all(
+    [$mountPoint, $manifest, $server, $tabs, $reactDevtools],
+  );
 
   return proxy({
     ...exported,
@@ -170,6 +209,15 @@ const initializeState = async (url: string) => {
     tabs,
     server: server ? ref(server) : null,
     mountPoint: ref(mountPoint),
+    react: {
+      devtools: {
+        store: ref(reactDevtools.store),
+        bridge: ref(reactDevtools.bridge),
+        wallAgent: ref(reactDevtools.wallAgent),
+        unreg: ref(reactDevtools.unreg),
+        Renderer: ref(reactDevtools.Renderer),
+      },
+    },
   });
 };
 

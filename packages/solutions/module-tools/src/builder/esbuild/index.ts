@@ -1,37 +1,37 @@
 import path from 'path';
+import { fs, type FSWatcher, chalk, lodash, logger } from '@modern-js/utils';
 import {
-  BuildResult,
-  BuildOptions,
-  BuildContext,
-  context,
+  type BuildContext,
+  type BuildFailure,
+  type BuildOptions,
+  type BuildResult,
+  type Format,
+  type ImportKind,
+  type OnLoadArgs,
   build,
-  OnLoadArgs,
-  ImportKind,
+  context,
   formatMessages,
-  Format,
-  BuildFailure,
 } from 'esbuild';
 import * as tapable from 'tapable';
-import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
-import { withLogTitle, getDefaultOutExtension } from '../../utils';
-import {
+import { cssExtensions } from '../../constants/build';
+import type {
   BaseBuildConfig,
   BuilderHooks,
   Chunk,
+  Context,
+  HookList,
   ICompiler,
   LoadResult,
   ModuleTools,
   PluginAPI,
-  Context,
-  HookList,
 } from '../../types';
+import { getDefaultOutExtension, withLogTitle } from '../../utils';
 import { getInternalList } from '../feature';
-import { cssExtensions } from '../../constants/build';
 import { adapterPlugin } from './adapter';
-import { TransformContext } from './transform';
-import { SourcemapContext } from './sourcemap';
 import { createRenderChunkHook, createTransformHook } from './hook';
-import { createJsResolver, createCssResolver } from './resolve';
+import { createCssResolver, createJsResolver } from './resolve';
+import { SourcemapContext } from './sourcemap';
+import { TransformContext } from './transform';
 import { initWatcher } from './watch';
 
 export class EsbuildCompiler implements ICompiler {
@@ -109,8 +109,9 @@ export class EsbuildCompiler implements ICompiler {
       initWatcher(this);
     }
     const internal = await getInternalList(this.context);
-    const user = this.config.hooks;
-    this.hookList = [...user, ...internal];
+    const before = this.config.hooks.filter(hook => !hook.applyAfterBuiltIn);
+    const after = this.config.hooks.filter(hook => hook.applyAfterBuiltIn);
+    this.hookList = [...before, ...internal, ...after];
     await Promise.all(this.hookList.map(item => item.apply(this)));
   }
 

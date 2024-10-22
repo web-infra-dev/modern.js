@@ -1,25 +1,24 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  i18n as commonI18n,
   BaseGenerator,
-  Solution,
-  getMWASchema,
-  Language,
   EntryGenerator,
+  Language,
   PackagesGenerator,
-  BuildTools,
+  Solution,
+  i18n as commonI18n,
+  getMWASchema,
 } from '@modern-js/generator-common';
 import {
-  getMWAProjectPath,
   getAllPackages,
+  getGeneratorPath,
+  getMWAProjectPath,
+  getModernVersion,
+  getPackageManagerText,
   i18n as utilsI18n,
   validatePackageName,
   validatePackagePath,
-  getPackageManagerText,
-  getModernVersion,
-  getGeneratorPath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -28,6 +27,14 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  generator.logger?.timing(`🕐 Get Modern.js app-tools version`);
+  const modernVersion = await getModernVersion(
+    Solution.MWA,
+    context.config.registry,
+    context.config.distTag,
+  );
+  generator.logger?.timing(`🕐 Get Modern.js app-tools version`, true);
+
   const { isMonorepoSubProject, projectDir = '' } = context.config;
 
   const { outputPath } = generator;
@@ -38,8 +45,8 @@ export const handleTemplateFile = async (
     try {
       packages = getAllPackages(outputPath);
     } catch (e) {
-      generator.logger.debug('get all packages error', e);
-      generator.logger.warn(i18n.t(localeKeys.get_packages_error));
+      generator.logger.debug(`❗️ [Get All Packages Error]: ${e}`);
+      generator.logger.warn(`🟡 ${i18n.t(localeKeys.get_packages_error)}`);
     }
   }
 
@@ -99,21 +106,12 @@ export const handleTemplateFile = async (
     );
   }
 
-  const modernVersion = await getModernVersion(
-    Solution.MWA,
-    context.config.registry,
-    context.config.distTag,
-  );
-
-  generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
+  generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
   const { packageName, packagePath, language, packageManager } = ans;
-  const { packagesInfo, buildTools } = context.config;
+  const { packagesInfo } = context.config;
 
-  const bundler =
-    buildTools === BuildTools.Rspack
-      ? `'experimental-rspack',`
-      : `'webpack', // Set to 'experimental-rspack' to enable rspack ⚡️🦀`;
+  const bundler = `'rspack', // Set to 'webpack' to enable webpack`;
 
   const projectPath = getMWAProjectPath(
     packagePath as string,
@@ -207,20 +205,20 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/mwa-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run MWA Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   let projectPath = '';
   try {
     ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
-    generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
+    generator.logger.error(`🔴 [Handle MWA Template Error]:`, e);
     process.exit(1);
   }
 
@@ -236,8 +234,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   try {
     await appApi.runGitAndInstall(context.config.gitCommitMessage);
   } catch (e) {
-    generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -253,5 +249,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     );
   }
 
-  generator.logger.debug(`forge @modern-js/mwa-generator succeed `);
+  generator.logger.debug(`🌟 [End Run MWA Generator]`);
 };

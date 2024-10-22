@@ -28,7 +28,7 @@ jobs:
           fetch-depth: 1
 
       - name: Install Pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v4
 
       - name: Check skip CI
         run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"

@@ -2,13 +2,15 @@ import path from 'path';
 import { fileReader } from '@modern-js/runtime-utils/fileReader';
 import type { Logger, ServerRoute } from '@modern-js/types';
 import {
+  fs,
   LOADABLE_STATS_FILE,
   MAIN_ENTRY_NAME,
+  NESTED_ROUTE_SPEC_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
-  fs,
+  compatibleRequire,
 } from '@modern-js/utils';
-import {
+import type {
   Middleware,
   ServerEnv,
   ServerManifest,
@@ -48,26 +50,21 @@ export function injectTemplates(
   };
 }
 
-const dynamicImport = (filePath: string) => {
-  try {
-    const module = require(filePath);
-    return Promise.resolve(module);
-  } catch (e) {
-    return Promise.reject(e);
-  }
-};
-
 const loadBundle = async (filepath: string, logger: Logger) => {
   if (!(await fs.pathExists(filepath))) {
     return undefined;
   }
-  return dynamicImport(filepath).catch(e => {
+
+  try {
+    const module = await compatibleRequire(filepath, false);
+    return module;
+  } catch (e) {
     logger.error(
       `Load ${filepath} bundle failed, error = %s`,
       e instanceof Error ? e.stack || e.message : e,
     );
     return undefined;
-  });
+  }
 };
 
 export async function getServerManifest(
@@ -94,23 +91,35 @@ export async function getServerManifest(
         const loaderBundle = await loadBundle(loaderBundlePath, logger);
 
         renderBundle && (renderBundles[entryName] = renderBundle);
-        loaderBundle && (loaderBundles[entryName] = loaderBundle);
+        loaderBundle &&
+          (loaderBundles[entryName] = loaderBundle?.loadModules
+            ? await loaderBundle?.loadModules()
+            : loaderBundle);
       }),
   );
 
   const loadableUri = path.join(pwd, LOADABLE_STATS_FILE);
 
-  const loadableStats = await import(loadableUri).catch(_ => ({}));
+  const loadableStats = await compatibleRequire(loadableUri).catch(_ => ({}));
 
   const routesManifestUri = path.join(pwd, ROUTE_MANIFEST_FILE);
 
-  const routeManifest = await import(routesManifestUri).catch(_ => ({}));
+  const routeManifest = await compatibleRequire(routesManifestUri).catch(
+    _ => ({}),
+  );
+
+  const nestedRoutesJsonPath = path.join(pwd, NESTED_ROUTE_SPEC_FILE);
+
+  const nestedRoutesJson = await compatibleRequire(nestedRoutesJsonPath).catch(
+    _ => ({}),
+  );
 
   return {
     loaderBundles,
     renderBundles,
     loadableStats,
     routeManifest,
+    nestedRoutesJson,
   };
 }
 

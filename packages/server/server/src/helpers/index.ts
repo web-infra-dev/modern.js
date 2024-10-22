@@ -1,18 +1,21 @@
 import path from 'path';
 import {
+  AGGRED_DIR,
+  type FileChangeEvent,
+  type ServerBase,
+} from '@modern-js/server-core';
+import {
   SERVER_BUNDLE_DIRECTORY,
   SERVER_DIR,
-  WatchOptions,
+  type WatchOptions,
   logger,
 } from '@modern-js/utils';
-import {
-  AGGRED_DIR,
-  ServerBase,
-  FileChangeEvent,
-} from '@modern-js/server-core';
-import Watcher, { WatchEvent, mergeWatchOptions } from '../dev-tools/watcher';
+import Watcher, {
+  type WatchEvent,
+  mergeWatchOptions,
+} from '../dev-tools/watcher';
+import { initOrUpdateMockMiddlewares } from './mock';
 import { debug } from './utils';
-import { registerMockHandlers } from './mock';
 
 export * from './repack';
 export * from './devOptions';
@@ -35,11 +38,8 @@ async function onServerChange({
 
   const { runner } = server;
   if (filepath.startsWith(mockPath)) {
-    await registerMockHandlers({
-      pwd,
-      server,
-    });
-    logger.info('Finish registering the mock handlers');
+    await initOrUpdateMockMiddlewares(pwd);
+    logger.info('Finish update the mock handlers');
   } else {
     try {
       const fileChangeEvent: FileChangeEvent = {
@@ -94,6 +94,7 @@ export function startWatcher({
     // TODO: should delete this cache in onRepack
     if (filepath.includes('-server-loaders.js')) {
       delete require.cache[filepath];
+      return;
     } else {
       watcher.updateDepTree();
       watcher.cleanDepCache(filepath);

@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { wait } from '@modern-js/utils';
+import type { IAppContext } from '../src';
 import { createFileWatcher } from '../src/utils';
-import { IAppContext } from '../src';
 
 const mockAppDirectory = path.join(__dirname, './fixtures/index-test');
 

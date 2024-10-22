@@ -1,5 +1,5 @@
-import createServer from 'connect';
 import { getPort } from '@modern-js/utils';
+import createServer from 'connect';
 import serveStaticMiddle from './static';
 
 export interface StaticServerOptions {

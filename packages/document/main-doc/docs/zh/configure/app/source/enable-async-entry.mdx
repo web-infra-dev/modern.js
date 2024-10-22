@@ -1,5 +1,5 @@
 ---
-sidebar_label: enableAsyncEntry
+title: enableAsyncEntry
 ---
 
 # source.enableAsyncEntry
@@ -13,7 +13,7 @@ sidebar_label: enableAsyncEntry
 
 ## 背景知识
 
-import ModuleFederation from '@modern-js/builder-doc/docs/zh/shared/module-federation.md';
+import ModuleFederation from '@site-docs/components/module-federation.mdx';
 
 <ModuleFederation />
 
@@ -35,15 +35,15 @@ export default defineConfig({
 node_modules
   └─ .modern-js
      └─ main
-        ├─ bootstrap.jsx  # 真正的入口代码
-        ├─ index.js      # 异步入口文件（asynchronous boundary）
+        ├─ bootstrap.jsx  # 异步入口文件（asynchronous boundary）
+        ├─ index.js      # 真正的入口代码
         └─ index.html
 ```
 
-其中 `index.js` 的内容如下：
+其中 `bootstrap.js` 的内容如下：
 
 ```js
-import('./bootstrap.jsx');
+import('./index.jsx');
 ```
 
 此时，就可以在当前页面中消费任意的远程模块了。

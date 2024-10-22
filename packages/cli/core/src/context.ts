@@ -1,11 +1,11 @@
 import path from 'path';
-import { address } from '@modern-js/utils';
 import { createContext } from '@modern-js/plugin';
+import { address } from '@modern-js/utils';
 import type {
   CliPlugin,
-  UserConfig,
   IAppContext,
   NormalizedConfig,
+  UserConfig,
 } from './types';
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
@@ -78,6 +78,8 @@ export const initAppContext = ({
     ip: address.ip(),
     port: 0,
     packageName: require(path.resolve(appDirectory, './package.json')).name,
+    moduleType:
+      require(path.resolve(appDirectory, './package.json')).type || 'commonjs',
     srcDirectory: path.resolve(appDirectory, srcDir),
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),

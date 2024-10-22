@@ -6,29 +6,26 @@
     "dev": "modern dev",
     "build": "modern build",
     "serve": "modern serve",
-    "new": "modern new",
-    "lint": "modern lint"
+    "new": "modern new"
   },
   "engines": {
     "node": ">=14.17.6"
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ],
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
-    "react": "^18",
-    "react-dom": "^18",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router": "^6",
+    "react-router-dom": "^6"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@types/fs-extra": "9.0.13",
-    "@types/node": "^14",
     "@types/jest": "^29",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/node": "^14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5"
   }
 }

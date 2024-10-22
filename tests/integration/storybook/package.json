@@ -2,8 +2,8 @@
   "name": "integration-tests-storybook",
   "version": "0.0.1",
   "dependencies": {
-    "react-dom": "^18.2.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5"
   },
   "scripts": {
@@ -11,10 +11,10 @@
     "build-storybook": "storybook build"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "~7.6.1",
     "@modern-js/storybook": "workspace:*",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@storybook/addon-essentials": "~7.6.1",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "prop-types": "^15.8.1"
   },
   "private": true

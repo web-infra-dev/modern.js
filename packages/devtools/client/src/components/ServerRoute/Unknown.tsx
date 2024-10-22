@@ -1,6 +1,6 @@
-import React from 'react';
+import type { ServerRoute } from '@modern-js/types';
 import { Badge, Card } from '@radix-ui/themes';
-import { ServerRoute } from '@modern-js/types';
+import type React from 'react';
 import { BaseRoute } from './Base';
 
 export interface UnknownRouteProps {

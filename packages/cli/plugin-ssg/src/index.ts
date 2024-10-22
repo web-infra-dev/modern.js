@@ -1,8 +1,11 @@
 import path from 'path';
-import { logger } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import type { NestedRouteForCli, PageRoute } from '@modern-js/types';
+import { filterRoutesForServer, logger } from '@modern-js/utils';
 import { generatePath } from 'react-router-dom';
-import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
+import { makeRoute } from './libs/make';
+import { writeHtmlFile } from './libs/output';
+import { replaceRoute } from './libs/replace';
 import {
   flattenRoutes,
   formatOutput,
@@ -12,9 +15,7 @@ import {
   writeJSONSpec,
 } from './libs/util';
 import { createServer } from './server';
-import { writeHtmlFile } from './libs/output';
-import { replaceRoute } from './libs/replace';
-import { makeRoute } from './libs/make';
+import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 
 export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
@@ -27,7 +28,9 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
         const { entryName } = entrypoint;
-        const flattedRoutes = flattenRoutes(routes);
+        const flattedRoutes = flattenRoutes(
+          filterRoutesForServer(routes as (NestedRouteForCli | PageRoute)[]),
+        );
         agreedRouteMap[entryName] = flattedRoutes;
 
         return { entrypoint, routes };
@@ -38,7 +41,10 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
 
         const { appDirectory, entrypoints } = appContext;
         const { output, server } = resolvedConfig;
-        const { ssg, distPath: { root: outputPath } = {} } = output;
+        const {
+          ssg,
+          distPath: { root: outputPath } = {},
+        } = output;
 
         const ssgOptions: SSGConfig =
           (Array.isArray(ssg) ? ssg.pop() : ssg) || true;
@@ -47,8 +53,8 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         const routes = readJSONSpec(buildDir);
 
         // filter all routes not web
-        const pageRoutes = routes.filter(route => !route.isApi);
-        const apiRoutes = routes.filter(route => route.isApi);
+        const pageRoutes = routes.filter(route => route.isSPA);
+        const apiRoutes = routes.filter(route => !route.isSPA);
 
         // if no web page route, skip ssg render
         if (pageRoutes.length === 0) {

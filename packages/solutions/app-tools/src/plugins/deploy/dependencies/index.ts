@@ -1,47 +1,56 @@
-import path, { isAbsolute } from 'node:path';
+import path from 'node:path';
 import { fs as fse, pkgUp, semver } from '@modern-js/utils';
+import type { NodeFileTraceOptions } from '@vercel/nft';
+import { parseNodeModulePath } from 'mlly';
 import type { PackageJson } from 'pkg-types';
 import { readPackageJSON } from 'pkg-types';
-import { parseNodeModulePath } from 'mlly';
 import {
-  linkPackage,
-  writePackage,
-  isFile,
-  TracedPackage,
-  TracedFile,
+  type TracedFile,
+  type TracedPackage,
+  traceFiles as defaultTraceFiles,
   findEntryFiles,
-  traceFiles,
   findPackageParents,
+  isFile,
+  isSubPath,
+  linkPackage,
+  readDirRecursive,
   resolveTracedPath,
+  writePackage,
 } from './utils';
 
-export const handleDependencies = async (
-  appDir: string,
-  serverRootDir: string,
-  include: string[],
-  entryFilter?: (filePath: string) => boolean,
-) => {
+export type { NodeFileTraceOptions } from '@vercel/nft';
+export { nodeFileTrace } from '@vercel/nft';
+export const handleDependencies = async ({
+  appDir,
+  serverRootDir,
+  includeEntries,
+  traceFiles = defaultTraceFiles,
+  entryFilter,
+  modifyPackageJson,
+  copyWholePackage,
+  traceOptions,
+}: {
+  appDir: string;
+  serverRootDir: string;
+  includeEntries: string[];
+  traceFiles?: typeof defaultTraceFiles;
+  entryFilter?: (filePath: string) => boolean;
+  modifyPackageJson?: (pkgJson: PackageJson) => PackageJson;
+  copyWholePackage?: (pkgName: string) => boolean;
+  traceOptions?: NodeFileTraceOptions;
+}) => {
   const base = '/';
   const entryFiles = await findEntryFiles(serverRootDir, entryFilter);
 
-  const includeEntries = include.map(item => {
-    if (isAbsolute(item)) {
-      return item;
-    }
-    try {
-      // FIXME: should appoint paths
-      return require.resolve(item);
-    } catch (error) {}
-    return item;
-  });
-
-  const fileTrace = await traceFiles(
-    entryFiles.concat(includeEntries),
+  const fileTrace = await traceFiles({
+    entryFiles: entryFiles.concat(includeEntries),
     serverRootDir,
     base,
-  );
-
+    traceOptions,
+  });
   const currentProjectModules = path.join(appDir, 'node_modules');
+  // Because vercel/nft may find inaccurately, we limit the range of query of dependencies
+  const dependencySearchRoot = path.resolve(appDir, '../../../../../../');
 
   const tracedFiles: Record<string, TracedFile> = Object.fromEntries(
     (await Promise.all(
@@ -52,9 +61,9 @@ export const handleDependencies = async (
         const filePath = await resolveTracedPath(base, _path);
 
         if (
-          filePath.startsWith(serverRootDir) ||
-          (filePath.startsWith(appDir) &&
-            !filePath.startsWith(currentProjectModules))
+          isSubPath(serverRootDir, filePath) ||
+          (isSubPath(appDir, filePath) &&
+            !isSubPath(currentProjectModules, filePath))
         ) {
           return;
         }
@@ -72,7 +81,6 @@ export const handleDependencies = async (
           const parsed = parseNodeModulePath(filePath);
           baseDir = parsed.dir;
           pkgName = parsed.name;
-          // eslint-disable-next-line prefer-destructuring
           subpath = parsed.subpath;
           pkgPath = path.join(baseDir!, pkgName!);
         } else {
@@ -88,11 +96,12 @@ export const handleDependencies = async (
             ? path.join(match[0], 'package.json')
             : await pkgUp({ cwd: path.dirname(filePath) });
 
-          if (packageJsonPath) {
-            const packageJson: PackageJson = await fse.readJSON(
-              packageJsonPath,
-            );
-            // eslint-disable-next-line no-multi-assign
+          if (
+            packageJsonPath &&
+            isSubPath(dependencySearchRoot, packageJsonPath)
+          ) {
+            const packageJson: PackageJson =
+              await fse.readJSON(packageJsonPath);
             pkgPath = baseDir = path.dirname(packageJsonPath);
             subpath = path.relative(baseDir, filePath);
             pkgName = packageJson.name;
@@ -111,8 +120,8 @@ export const handleDependencies = async (
           parents,
           isDirectDep: parents.some(parent => {
             return (
-              parent.startsWith(appDir) &&
-              !parent.startsWith(currentProjectModules)
+              isSubPath(appDir, parent) &&
+              !isSubPath(currentProjectModules, parent)
             );
           }),
 
@@ -121,7 +130,6 @@ export const handleDependencies = async (
           pkgPath,
         } as TracedFile;
 
-        // eslint-disable-next-line consistent-return
         return [filePath, tracedFile];
       }),
     ).then(r => r.filter(Boolean))) as [string, TracedFile][],
@@ -134,7 +142,6 @@ export const handleDependencies = async (
 
     let pkgJSON = await readPackageJSON(tracedFile.pkgPath, {
       cache: true,
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
     }).catch(() => {});
     if (!pkgJSON) {
       pkgJSON = { name: pkgName, version: '0.0.0' } as PackageJson;
@@ -161,11 +168,22 @@ export const handleDependencies = async (
       tracedPackage.versions[pkgJSON.version!] = tracedPackageVersion;
     }
 
-    tracedFile.path.startsWith(tracedFile.pkgPath) &&
-      tracedPackageVersion.path === tracedFile.pkgPath &&
-      tracedPackageVersion.files.push(tracedFile.path);
     tracedFile.pkgName = pkgName;
     tracedFile.pkgVersion = pkgJSON.version;
+
+    const shouldCopyWholePackage = copyWholePackage?.(pkgName);
+    if (
+      tracedFile.path.startsWith(tracedFile.pkgPath) &&
+      // Merged package files are based on the version, not on paths, to handle some boundary cases
+      tracedPackageVersion.pkgJSON.version === tracedFile.pkgVersion
+    ) {
+      if (shouldCopyWholePackage) {
+        const allFiles = await readDirRecursive(tracedFile.pkgPath);
+        tracedPackageVersion.files.push(...allFiles);
+      } else {
+        tracedPackageVersion.files.push(tracedFile.path);
+      }
+    }
   }
 
   const multiVersionPkgs: Record<string, { [version: string]: string[] }> = {};
@@ -178,7 +196,6 @@ export const handleDependencies = async (
     }
     multiVersionPkgs[tracedPackage.name] = {};
     for (const version of versions) {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       multiVersionPkgs[tracedPackage.name!][version!] = findPackageParents(
         tracedPackage,
         version,
@@ -191,12 +208,16 @@ export const handleDependencies = async (
     singleVersionPackages.map(pkgName => {
       const pkg = tracedPackages[pkgName];
       const version = Object.keys(pkg.versions)[0];
-      return writePackage(pkg, version, serverRootDir);
+      return writePackage({
+        pkg,
+        version,
+        projectDir: serverRootDir,
+      });
     }),
   );
 
   const projectPkgJson = await readPackageJSON(serverRootDir).catch(
-    () => ({} as PackageJson),
+    () => ({}) as PackageJson,
   );
 
   for (const [pkgName, pkgVersions] of Object.entries(multiVersionPkgs)) {
@@ -228,7 +249,12 @@ export const handleDependencies = async (
       const pkg = tracedPackages[pkgName];
 
       const pkgDestPath = `.modernjs/${pkgName}@${version}/node_modules/${pkgName}`;
-      await writePackage(pkg, version, serverRootDir, pkgDestPath);
+      await writePackage({
+        pkg,
+        version,
+        projectDir: serverRootDir,
+        _pkgPath: pkgDestPath,
+      });
       await linkPackage(pkgDestPath, `${pkgName}`, serverRootDir);
 
       for (const parentPkg of parentPkgs) {
@@ -249,10 +275,12 @@ export const handleDependencies = async (
   }
 
   const outputPkgPath = path.join(serverRootDir, 'package.json');
-  await fse.writeJSON(outputPkgPath, {
+
+  const newPkgJson = {
     name: `${projectPkgJson.name || 'modernjs-project'}-prod`,
     version: projectPkgJson.version || '0.0.0',
     private: true,
+    type: projectPkgJson.type || 'commonjs',
     dependencies: Object.fromEntries(
       [
         ...Object.values(tracedPackages).map(pkg => [
@@ -261,5 +289,9 @@ export const handleDependencies = async (
         ]),
       ].sort(([a], [b]) => a.localeCompare(b)),
     ),
-  });
+  };
+
+  const finalPkgJson = modifyPackageJson?.(newPkgJson) || newPkgJson;
+
+  await fse.writeJSON(outputPkgPath, finalPkgJson);
 };

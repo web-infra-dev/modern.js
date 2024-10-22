@@ -1,11 +1,10 @@
-/* eslint-disable react/no-unescaped-entities */
 import clsx from 'clsx';
-import { useLang, Helmet, useLocation } from 'rspress/runtime';
 import { useEffect } from 'react';
+import { Helmet, useLang, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
-import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';
+import SecondaryTitle from '../components/SecondaryTitle';
 import { useI18n, useUrl } from '../i18n';
 import styles from './index.module.scss';
 
@@ -56,31 +55,37 @@ export default function Home() {
 
   const features = [
     {
+      id: 'feature1',
       title: t('feature1'),
       href: useUrl('/guides/concept/builder'),
       desc: t('featureDesc1'),
     },
     {
+      id: 'feature2',
       title: t('feature2'),
       href: useUrl('/guides/advanced-features/bff/index'),
       desc: t('featureDesc2'),
     },
     {
+      id: 'feature3',
       title: t('feature3'),
       href: useUrl('/guides/basic-features/routes'),
       desc: t('featureDesc3'),
     },
     {
+      id: 'feature4',
       title: t('feature4'),
       href: useUrl('/guides/advanced-features/ssr'),
       desc: t('featureDesc4'),
     },
     {
+      id: 'feature5',
       title: t('feature5'),
       href: useUrl('/guides/basic-features/css'),
       desc: t('featureDesc5'),
     },
     {
+      id: 'feature6',
       title: t('feature6'),
       href: useUrl('/configure/app/usage'),
       desc: t('featureDesc6'),
@@ -90,11 +95,13 @@ export default function Home() {
   const lang = useLang();
   const solutions = [
     {
+      id: 'framework',
       title: 'Modern.js Framework',
       href: useUrl('/guides/get-started/introduction'),
       desc: t('solutionsDesc1'),
     },
     {
+      id: 'module',
       title: 'Modern.js Module',
       href: `https://modernjs.dev/module-tools${lang === 'en' ? '/en' : ''}`,
       desc: t('solutionsDesc2'),
@@ -104,7 +111,7 @@ export default function Home() {
   return (
     <div>
       <Helmet>
-        <html className="dark"></html>
+        <html className="dark" />
         <script>window.MODERN_THEME = 'dark';</script>
         <style type="text/css">{`
           .rspress-doc-appearance {
@@ -117,9 +124,9 @@ export default function Home() {
         <FeatureLayout>
           <SecondaryTitle>{t('solutions')}</SecondaryTitle>
           <div className={styles.cardContainer}>
-            {solutions.map((card, cardIndex) => (
+            {solutions.map(card => (
               <ContentCard
-                key={cardIndex}
+                key={card.id}
                 title={card.title}
                 desc={card.desc}
                 href={card.href}
@@ -141,9 +148,9 @@ export default function Home() {
         <FeatureLayout>
           <SecondaryTitle>Modern.js Framework</SecondaryTitle>
           <div className={styles.cardContainer}>
-            {features.map((card, cardIndex) => (
+            {features.map(card => (
               <ContentCard
-                key={cardIndex}
+                key={card.id}
                 title={card.title}
                 desc={card.desc}
                 href={card.href}

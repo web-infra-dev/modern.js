@@ -1,8 +1,8 @@
-import React from 'react';
 import { createApp } from '@modern-js/runtime';
 import type { Plugin, RouterConfig } from '@modern-js/runtime';
-import router from '@modern-js/runtime/router';
 import state from '@modern-js/runtime/model';
+import router from '@modern-js/runtime/router';
+import React from 'react';
 import type { IConfig } from '../type';
 
 export const WrapProviders = (storyFn: any, config: IConfig) => {

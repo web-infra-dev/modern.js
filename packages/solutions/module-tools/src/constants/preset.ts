@@ -114,48 +114,60 @@ export const npmComponentWithUmdPresetConfig: PartialBaseBuildConfig[] = [
 
 export const libraryPreset = { 'npm-library': npmLibraryPresetConfig };
 
-export const libraryPresetWithTarget = targets.reduce((ret, target) => {
-  ret[`npm-library-${target}`] = libraryPreset['npm-library'].map(config => {
-    return { ...config, target };
-  });
-  return ret;
-}, {} as Record<`npm-library-${Target}`, PartialBaseBuildConfig[]>);
+export const libraryPresetWithTarget = targets.reduce(
+  (ret, target) => {
+    ret[`npm-library-${target}`] = libraryPreset['npm-library'].map(config => {
+      return { ...config, target };
+    });
+    return ret;
+  },
+  {} as Record<`npm-library-${Target}`, PartialBaseBuildConfig[]>,
+);
 
 export const libraryUmdPreset = {
   'npm-library-with-umd': npmLibraryWithUmdPresetConfig,
 };
-export const libraryUmdPresetWithTarget = targets.reduce((ret, target) => {
-  ret[`npm-library-with-umd-${target}`] = libraryUmdPreset[
-    'npm-library-with-umd'
-  ].map(config => {
-    return { ...config, target };
-  });
-  return ret;
-}, {} as Record<`npm-library-with-umd-${Target}`, PartialBaseBuildConfig[]>);
+export const libraryUmdPresetWithTarget = targets.reduce(
+  (ret, target) => {
+    ret[`npm-library-with-umd-${target}`] = libraryUmdPreset[
+      'npm-library-with-umd'
+    ].map(config => {
+      return { ...config, target };
+    });
+    return ret;
+  },
+  {} as Record<`npm-library-with-umd-${Target}`, PartialBaseBuildConfig[]>,
+);
 
 export const componentPreset = {
   'npm-component': npmComponentPresetConfig,
 };
-export const componentPresetWithTarget = targets.reduce((ret, target) => {
-  ret[`npm-component-${target}`] = componentPreset['npm-component'].map(
-    config => {
-      return { ...config, target };
-    },
-  );
-  return ret;
-}, {} as Record<`npm-component-${Target}`, PartialBaseBuildConfig[]>);
+export const componentPresetWithTarget = targets.reduce(
+  (ret, target) => {
+    ret[`npm-component-${target}`] = componentPreset['npm-component'].map(
+      config => {
+        return { ...config, target };
+      },
+    );
+    return ret;
+  },
+  {} as Record<`npm-component-${Target}`, PartialBaseBuildConfig[]>,
+);
 
 export const componentUmdPreset = {
   'npm-component-with-umd': npmComponentWithUmdPresetConfig,
 };
-export const componentUmdPresetWithTarget = targets.reduce((ret, target) => {
-  ret[`npm-component-with-umd-${target}`] = componentUmdPreset[
-    'npm-component-with-umd'
-  ].map(config => {
-    return { ...config, target };
-  });
-  return ret;
-}, {} as Record<`npm-component-with-umd-${Target}`, PartialBaseBuildConfig[]>);
+export const componentUmdPresetWithTarget = targets.reduce(
+  (ret, target) => {
+    ret[`npm-component-with-umd-${target}`] = componentUmdPreset[
+      'npm-component-with-umd'
+    ].map(config => {
+      return { ...config, target };
+    });
+    return ret;
+  },
+  {} as Record<`npm-component-with-umd-${Target}`, PartialBaseBuildConfig[]>,
+);
 
 export const nodeBuildConfig: PartialBaseBuildConfig[] = [
   {

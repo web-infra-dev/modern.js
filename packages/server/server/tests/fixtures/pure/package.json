@@ -6,7 +6,6 @@
     "build": "modern build",
     "serve": "modern serve",
     "new": "modern new",
-    "lint": "modern lint",
     "deploy": "modern deploy"
   },
   "dependencies": {},

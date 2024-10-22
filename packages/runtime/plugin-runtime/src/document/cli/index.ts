@@ -1,38 +1,37 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
-import React from 'react';
-import ReactDomServer from 'react-dom/server';
-import { build } from 'esbuild';
 import type {
-  CliPlugin,
   AppTools,
+  CliPlugin,
   NormalizedConfig,
 } from '@modern-js/app-tools';
-import { createDebugger, findExists, fs } from '@modern-js/utils';
-import { Entrypoint } from '@modern-js/types/cli';
+import type { Entrypoint } from '@modern-js/types/cli';
+import { fs, createDebugger, findExists } from '@modern-js/utils';
+import { build } from 'esbuild';
+import React from 'react';
+import ReactDomServer from 'react-dom/server';
 
 import { DocumentContext } from '../DocumentContext';
 import {
-  DOCUMENT_SCRIPTS_PLACEHOLDER,
-  DOCUMENT_LINKS_PLACEHOLDER,
-  DOCUMENT_FILE_NAME,
-  DOCUMENT_META_PLACEHOLDER,
-  PLACEHOLDER_REPLACER_MAP,
-  DOC_EXT,
-  DOCUMENT_SSR_PLACEHOLDER,
-  DOCUMENT_CHUNKSMAP_PLACEHOLDER,
-  DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
-  DOCUMENT_SCRIPT_PLACEHOLDER_START,
-  DOCUMENT_SCRIPT_PLACEHOLDER_END,
-  HTML_SEPARATOR,
-  DOCUMENT_COMMENT_PLACEHOLDER_START,
-  DOCUMENT_COMMENT_PLACEHOLDER_END,
-  DOCUMENT_STYLE_PLACEHOLDER_START,
-  DOCUMENT_STYLE_PLACEHOLDER_END,
-  DOCUMENT_TITLE_PLACEHOLDER,
-  TOP_PARTICALS_SEPARATOR,
-  HEAD_PARTICALS_SEPARATOR,
   BODY_PARTICALS_SEPARATOR,
+  DOCUMENT_CHUNKSMAP_PLACEHOLDER,
+  DOCUMENT_COMMENT_PLACEHOLDER_END,
+  DOCUMENT_COMMENT_PLACEHOLDER_START,
+  DOCUMENT_FILE_NAME,
+  DOCUMENT_LINKS_PLACEHOLDER,
+  DOCUMENT_META_PLACEHOLDER,
+  DOCUMENT_SCRIPTS_PLACEHOLDER,
+  DOCUMENT_SCRIPT_PLACEHOLDER_END,
+  DOCUMENT_SCRIPT_PLACEHOLDER_START,
+  DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
+  DOCUMENT_SSR_PLACEHOLDER,
+  DOCUMENT_STYLE_PLACEHOLDER_END,
+  DOCUMENT_STYLE_PLACEHOLDER_START,
+  DOCUMENT_TITLE_PLACEHOLDER,
+  DOC_EXT,
+  HEAD_PARTICALS_SEPARATOR,
+  HTML_SEPARATOR,
+  PLACEHOLDER_REPLACER_MAP,
+  TOP_PARTICALS_SEPARATOR,
 } from '../constants';
 
 const debug = createDebugger('html_genarate');
@@ -119,7 +118,6 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         const userTsConfigFilePath = path.join(appDirectory, 'tsconfig.json');
         let tsConfig;
         try {
-          // eslint-disable-next-line import/no-dynamic-require
           tsConfig = await require(userTsConfigFilePath);
         } catch (err) {
           tsConfig = {};
@@ -175,7 +173,6 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         });
 
         delete require.cache[require.resolve(htmlOutputFile)];
-        // eslint-disable-next-line import/no-dynamic-require
         const Document = (await require(htmlOutputFile)).default;
         const HTMLElement = React.createElement(
           DocumentContext.Provider,
@@ -302,6 +299,12 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     };
     return {
       config: () => {
+        const userConfig = api.useConfigContext();
+
+        if (userConfig.tools?.htmlPlugin === false) {
+          return {};
+        }
+
         return {
           tools: {
             htmlPlugin: (options, entry) => {

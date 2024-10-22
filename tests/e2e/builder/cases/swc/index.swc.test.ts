@@ -1,9 +1,9 @@
 import assert from 'assert';
-import * as path from 'path';
 import { readFileSync } from 'fs';
+import * as path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { pluginSwc } from '@rsbuild/plugin-swc';
 
 test('should run SWC compilation correctly', async ({ page }) => {
   const builder = await build({
@@ -36,6 +36,14 @@ test('should optimize lodash bundle size', async ({ page }) => {
     plugins: [pluginSwc()],
     runServer: true,
     builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'split-by-experience',
+          forceSplitting: {
+            'lib-lodash': /node_modules[\\/]lodash(-es)?[\\/]/,
+          },
+        },
+      },
       output: {
         polyfill: 'entry',
       },
@@ -97,9 +105,7 @@ test('should use define for class', async () => {
   expect(file.includes('this.bar = 1')).toBe(true);
 
   // should not affect normal modules
-  expect(
-    file.includes('_define_property(_assert_this_initialized(_this), "id", 1)'),
-  ).toBe(true);
+  expect(file.includes('_define_property(_this, "id", 1)')).toBe(true);
 
   await builder.close();
 });

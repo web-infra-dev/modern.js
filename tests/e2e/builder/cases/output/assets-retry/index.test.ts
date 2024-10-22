@@ -12,6 +12,8 @@ test('should inline assets retry runtime code to html by default', async () => {
       },
       tools: {
         htmlPlugin: (config: any) => {
+          // minify option should works
+          config.minify ??= {};
           // minifyJS will minify function name
           if (typeof config.minify === 'object') {
             config.minify.minifyJS = false;

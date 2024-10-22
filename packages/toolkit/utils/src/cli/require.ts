@@ -1,25 +1,72 @@
+import { isAbsolute } from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { findExists } from './fs';
 
 /**
  * Require function compatible with esm and cjs module.
- * @param filePath - File to required.
+ * @param path - File to required.
  * @returns module export object.
  */
-export const compatRequire = (filePath: string, interop = true) => {
-  const mod = require(filePath);
-  const rtnESMDefault = interop && mod?.__esModule;
+export async function compatibleRequire(
+  path: string,
+  interop = true,
+): Promise<any> {
+  if (path.endsWith('.json')) {
+    return require(path);
+  }
 
-  return rtnESMDefault ? mod.default : mod;
-};
+  let requiredModule;
+  try {
+    requiredModule = require(path);
+  } catch (err: any) {
+    if (err.code === 'ERR_REQUIRE_ESM' || err instanceof SyntaxError) {
+      const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
+      requiredModule = await import(modulePath);
+      return interop ? requiredModule.default : requiredModule;
+    } else {
+      throw err;
+    }
+  }
+
+  return interop && requiredModule?.__esModule
+    ? requiredModule.default
+    : requiredModule;
+}
+
+export async function loadFromProject(moduleName: string, appDir: string) {
+  let requiredModule;
+  const paths = [appDir, process.cwd()];
+
+  try {
+    if (typeof require !== 'undefined') {
+      const modulePath = require.resolve(moduleName, { paths });
+      requiredModule = require(modulePath);
+    } else {
+      //@ts-ignore
+      const { createRequire } = await import('node:module');
+      //@ts-ignore
+      const require = createRequire(import.meta.url);
+      const modulePath = require.resolve(moduleName, { paths });
+      const moduleUrl = pathToFileURL(modulePath).href;
+      requiredModule = await import(moduleUrl);
+    }
+
+    return requiredModule.default || requiredModule;
+  } catch (error: any) {
+    if (error.code === 'MODULE_NOT_FOUND') {
+      throw new Error(`Cannot find module ${moduleName}.`);
+    }
+    throw error;
+  }
+}
 
 // Avoid `import` to be tranpiled to `require` by babel/tsc/rollup
-// eslint-disable-next-line @typescript-eslint/no-implied-eval, no-new-func
 export const dynamicImport = new Function(
   'modulePath',
   'return import(modulePath)',
 );
 
-export const requireExistModule = (
+export const requireExistModule = async (
   filename: string,
   opt?: {
     extensions?: string[];
@@ -36,7 +83,7 @@ export const requireExistModule = (
     return null;
   }
 
-  return compatRequire(exist, final.interop);
+  return compatibleRequire(exist, final.interop);
 };
 
 export const cleanRequireCache = (filelist: string[]) => {

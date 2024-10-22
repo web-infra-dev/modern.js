@@ -1,15 +1,12 @@
 import path from 'path';
-import recursive from 'recursive-readdir';
-import fs from '@modern-js/utils/fs-extra';
 import { renderString } from '@modern-js/codesmith-api-handlebars';
-import { getModernVersion } from '@modern-js/generator-utils';
+import { fs } from '@modern-js/codesmith-utils/fs-extra';
 import { Solution } from '@modern-js/generator-common';
+import { getModernVersion } from '@modern-js/generator-utils';
+import recursive from 'recursive-readdir';
 
 const IgnoreFiles = [
   '.nvmrc',
-  '.eslintrc.js.handlebars',
-  'src/.eslintrc.js.handlebars',
-  '.prettierrc',
   '.vscode/extensions.json',
   '.vscode/settings.json',
   '.husky/pre-commit',
@@ -164,6 +161,5 @@ export const ModuleFiles = {
 
 main().catch(e => {
   console.error(e);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 });

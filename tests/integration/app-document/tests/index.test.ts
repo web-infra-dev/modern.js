@@ -1,15 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 
 import {
-  launchApp,
-  killApp,
   getPort,
-  modernBuild,
+  killApp,
+  launchApp,
   launchOptions,
+  modernBuild,
 } from '../../../utils/modernTestUtils';
-import { printFileTogether } from '../../../utils/printDir';
 import { SequenceWait } from '../../../utils/testInSequence';
 
 const appDir = path.resolve(__dirname, '../');
@@ -196,8 +195,6 @@ describe('test dev and build', () => {
     });
 
     test(`should render page sub correctly`, async () => {
-      printFileTogether(path.join(__dirname, '../node_modules/.modern-js'));
-
       await page.goto(`http://localhost:${appPort}/sub`, {
         waitUntil: ['networkidle0'],
       });
@@ -210,7 +207,6 @@ describe('test dev and build', () => {
     });
 
     test(`should render page sub route a correctly`, async () => {
-      printFileTogether(path.join(__dirname, '../node_modules/.modern-js'));
       await page.goto(`http://localhost:${appPort}/sub/a`, {
         waitUntil: ['networkidle0'],
       });

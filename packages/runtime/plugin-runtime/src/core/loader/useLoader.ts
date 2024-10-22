@@ -1,14 +1,14 @@
-import {
-  useContext,
-  useRef,
-  useMemo,
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
 import invariant from 'invariant';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { RuntimeReactContext } from '../context/runtime';
-import { Loader, LoaderStatus } from './loaderManager';
+import { type Loader, LoaderStatus } from './loaderManager';
 
 type LoaderFn<P = any, T = any> = (context: any, params: P) => Promise<T>;
 
@@ -107,7 +107,7 @@ const useLoader = <TData = any, Params = any, E = any>(
       // do not load data again in CSR hydrate stage if SSR data exists
       if (
         context._hydration &&
-        window?._SSR_DATA?.data?.loadersData[id]?.error === null
+        window?._SSR_DATA?.data?.loadersData?.[id]?.error === null
       ) {
         return undefined;
       }

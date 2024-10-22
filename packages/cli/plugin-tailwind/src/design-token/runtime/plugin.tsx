@@ -1,5 +1,5 @@
 import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
+import { merge } from '@modern-js/runtime-utils/merge';
 import React, { useContext } from 'react';
 
 export const DesignTokenContext = React.createContext<any>({});
@@ -7,17 +7,22 @@ export const DesignTokenContext = React.createContext<any>({});
 export const useDesignTokens = (): IDesignTokens =>
   useContext<IDesignTokens>(DesignTokenContext);
 
-export default (
-  options: {
+interface DesignTokenConfig {
+  options?: {
     token?: Record<string, any>;
     useStyledComponentsThemeProvider?: boolean;
     useDesignTokenContext?: boolean;
-  } = {},
+  };
+}
+export const designTokenPlugin = (
+  userConfig: DesignTokenConfig = {},
 ): Plugin => ({
   name: '@modern-js/plugin-design-token',
 
-  setup: () => ({
-    hoc({ App, config }, next) {
+  setup: api => ({
+    wrapRoot(App) {
+      const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+      const { options } = merge(pluginConfig.designToken || {}, userConfig);
       const DesignTokenAppWrapper = (props: any) => {
         const {
           token = {},
@@ -51,10 +56,9 @@ export default (
         }
       };
 
-      return next({
-        App: hoistNonReactStatics(DesignTokenAppWrapper, App),
-        config,
-      });
+      return DesignTokenAppWrapper;
     },
   }),
 });
+
+export default designTokenPlugin;

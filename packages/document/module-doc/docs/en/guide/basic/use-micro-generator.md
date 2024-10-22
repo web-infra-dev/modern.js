@@ -20,6 +20,7 @@ When we want to write documentation for out module project, we can enable the mo
 Use `modern dev` and `modern build --platform` to debug and build your doc site.
 
 :::tip
+
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 
 ```ts
@@ -30,6 +31,8 @@ export default defineConfig({
   plugins: [moduleTools(), modulePluginDoc()],
 });
 ```
+
+:::
 
 ## Storybook
 
@@ -48,6 +51,7 @@ If you want to use Tailwind CSS for a project, you can refer to ["Using Tailwind
 Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js application project.
 
 :::tip
+
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 
 ```ts

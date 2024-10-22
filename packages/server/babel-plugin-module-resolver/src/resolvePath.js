@@ -4,9 +4,9 @@ import { warn } from './log';
 import mapToRelative from './mapToRelative';
 import normalizeOptions from './normalizeOptions';
 import {
+  isRelativePath,
   nodeResolvePath,
   replaceExtension,
-  isRelativePath,
   toLocalPath,
   toPosixPath,
 } from './utils';

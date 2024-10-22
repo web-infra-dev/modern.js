@@ -1,6 +1,6 @@
-import { expect, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
-import { matchPlugins, unwrapConfig, matchRules } from './helper';
+import { matchPlugins, matchRules, unwrapConfig } from './helper';
 
 describe('plugins/react', () => {
   it('should work with babel-loader', async () => {
@@ -35,8 +35,11 @@ describe('plugins/react', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['node'],
-      config: {},
+      config: {
+        output: {
+          target: 'node',
+        },
+      },
     });
 
     const config = await unwrapConfig(rsbuild);
@@ -48,8 +51,11 @@ describe('plugins/react', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['web-worker'],
-      config: {},
+      config: {
+        output: {
+          target: 'web-worker',
+        },
+      },
     });
 
     const config = await unwrapConfig(rsbuild);

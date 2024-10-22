@@ -1,5 +1,191 @@
 # @modern-js/server-utils
 
+## 2.60.4
+
+### Patch Changes
+
+- 75ff77f: fix: should include files other than tsconfg.json
+  fix: 应该包含除了 tsconfig.json 以外的文件
+  - @modern-js/babel-preset@2.60.4
+  - @modern-js/babel-plugin-module-resolver@2.60.4
+  - @modern-js/babel-compiler@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/babel-compiler@2.60.3
+  - @modern-js/babel-preset@2.60.3
+  - @modern-js/babel-plugin-module-resolver@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/babel-compiler@2.60.2
+  - @modern-js/babel-preset@2.60.2
+  - @modern-js/babel-plugin-module-resolver@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- 3a973a2: fix(server): should not include tsconfig.json
+  fix(server): 不应该包含 tsconfig.json
+  - @modern-js/babel-preset@2.60.1
+  - @modern-js/babel-plugin-module-resolver@2.60.1
+  - @modern-js/babel-compiler@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.60.0
+- @modern-js/babel-plugin-module-resolver@2.60.0
+- @modern-js/babel-compiler@2.60.0
+- @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+- @modern-js/babel-preset@2.59.0
+- @modern-js/babel-plugin-module-resolver@2.59.0
+- @modern-js/babel-compiler@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.58.3
+- @modern-js/babel-plugin-module-resolver@2.58.3
+- @modern-js/babel-compiler@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+  - @modern-js/babel-compiler@2.58.2
+  - @modern-js/babel-preset@2.58.2
+  - @modern-js/babel-plugin-module-resolver@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+- @modern-js/babel-preset@2.58.1
+- @modern-js/babel-plugin-module-resolver@2.58.1
+- @modern-js/babel-compiler@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.58.0
+- @modern-js/babel-plugin-module-resolver@2.58.0
+- @modern-js/babel-compiler@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.57.1
+- @modern-js/babel-plugin-module-resolver@2.57.1
+- @modern-js/babel-compiler@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+  - @modern-js/babel-compiler@2.57.0
+  - @modern-js/babel-preset@2.57.0
+  - @modern-js/babel-plugin-module-resolver@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.56.2
+- @modern-js/babel-plugin-module-resolver@2.56.2
+- @modern-js/babel-compiler@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.56.1
+- @modern-js/babel-plugin-module-resolver@2.56.1
+- @modern-js/babel-compiler@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [53419a5]
+- Updated dependencies [119b9e1]
+  - @modern-js/babel-preset@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/babel-plugin-module-resolver@2.56.0
+  - @modern-js/babel-compiler@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/babel-compiler@2.55.0
+  - @modern-js/babel-plugin-module-resolver@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.54.6
+- @modern-js/babel-compiler@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.54.5
+- @modern-js/babel-compiler@2.54.5
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.54.4
+- @modern-js/babel-compiler@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.54.3
+- @modern-js/babel-compiler@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

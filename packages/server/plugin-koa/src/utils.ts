@@ -1,14 +1,14 @@
 import {
-  HttpMethod,
-  httpMethods,
-  APIHandlerInfo,
-  isWithMetaHandler,
-  ResponseMeta,
-  ResponseMetaType,
+  type APIHandlerInfo,
   HttpMetadata,
+  type HttpMethod,
+  type ResponseMeta,
+  ResponseMetaType,
+  httpMethods,
+  isWithMetaHandler,
 } from '@modern-js/bff-core';
-import { isSchemaHandler, InputType } from '@modern-js/bff-runtime';
-import { Context } from 'koa';
+import { type InputType, isSchemaHandler } from '@modern-js/bff-runtime';
+import type { Context } from 'koa';
 import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];
@@ -24,7 +24,6 @@ const handleResponseMeta = (ctx: Context, handler: Handler) => {
       const metaValue = meta.value;
       switch (metaType) {
         case ResponseMetaType.Headers:
-          // eslint-disable-next-line @typescript-eslint/ban-types
           for (const [key, value] of Object.entries(metaValue as {})) {
             if (typeof value === 'string') {
               ctx.append(key, value);
@@ -49,7 +48,6 @@ const handleResponseMeta = (ctx: Context, handler: Handler) => {
 };
 
 export const createRouteHandler = (handler: Handler) => {
-  // eslint-disable-next-line consistent-return
   const apiHandler = async (ctx: Context) => {
     const input = await getInputFromRequest(ctx);
     if (isWithMetaHandler(handler)) {

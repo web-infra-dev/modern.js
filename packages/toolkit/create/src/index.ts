@@ -1,8 +1,8 @@
-import { Command } from '@modern-js/utils/commander';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { Command } from 'commander';
+import { cleanCacheAction } from './cleanCacheAction';
 import { createAction } from './createAction';
 import { i18n, localeKeys } from './locale';
-import { cleanCacheAction } from './cleanCacheAction';
 
 export default function () {
   // initial cli language
@@ -39,6 +39,7 @@ export default function () {
     .option('--packages <packages>', i18n.t(localeKeys.command.packages), '{}')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
+    .option('--time', i18n.t(localeKeys.command.time), false)
     .action(createAction);
 
   program.parse(process.argv);

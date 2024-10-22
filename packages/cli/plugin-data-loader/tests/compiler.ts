@@ -1,6 +1,6 @@
 import path from 'path';
+import { Volume, createFsFromVolume } from 'memfs';
 import webpack from 'webpack';
-import { createFsFromVolume, Volume } from 'memfs';
 
 export const compiler = (entryFile: string, target: string) => {
   const compiler = webpack({

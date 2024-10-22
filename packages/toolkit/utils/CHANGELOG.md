@@ -1,5 +1,71 @@
 # @modern-js/utils
 
+## 2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- 303331c: fix: should load ts-node from project
+  fix: 应该从项目中加载 ts-node
+
+## 2.60.2
+
+### Patch Changes
+
+- 8a709bc: feat(router): router plugin should use the App Component from other plugins & export the markRoutes method
+  feat(router): router plugin 应该使用 App Component from other plugins & 导出 markRoutes 方法
+
+## 2.60.1
+
+## 2.60.0
+
+## 2.59.0
+
+## 2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- a1a9373: fix: fix compatibleRequire problem on windows
+  fix: 修复 windows 下 compatibleRequire 的问题
+
+## 2.58.1
+
+## 2.58.0
+
+## 2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+
+## 2.56.2
+
+## 2.56.1
+
+## 2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- bbcf55a: fix: runtime template windows path
+
+  fix: 修复 runtime 模板 windows 路径不正确
+
+## 2.54.6
+
+## 2.54.5
+
+## 2.54.4
+
+## 2.54.3
+
 ## 2.54.2
 
 ## 2.54.1

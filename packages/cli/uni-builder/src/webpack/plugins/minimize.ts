@@ -1,15 +1,15 @@
-import {
-  CHAIN_ID,
-  type RspackChain,
-  type RsbuildPlugin,
-  type NormalizedConfig,
-} from '@rsbuild/shared';
 import { applyOptionsChain } from '@modern-js/utils';
-import { TerserPluginOptions, ToolsTerserConfig } from '../../types';
+import type {
+  ChainIdentifier,
+  NormalizedEnvironmentConfig,
+  RsbuildPlugin,
+  RspackChain,
+} from '@rsbuild/core';
+import type { TerserPluginOptions, ToolsTerserConfig } from '../../types';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
-  config: NormalizedConfig,
+  config: NormalizedEnvironmentConfig,
 ) {
   const { removeConsole } = config.performance;
   const compressOptions =
@@ -35,7 +35,8 @@ function applyRemoveConsole(
 
 async function applyJSMinimizer(
   chain: RspackChain,
-  config: NormalizedConfig,
+  config: NormalizedEnvironmentConfig,
+  CHAIN_ID: ChainIdentifier,
   userTerserConfig?: ToolsTerserConfig,
 ) {
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
@@ -86,8 +87,8 @@ export const pluginMinimize = (
   name: 'uni-builder:minimize',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { isProd }) => {
-      const config = api.getNormalizedConfig();
+    api.modifyBundlerChain(async (chain, { isProd, CHAIN_ID, environment }) => {
+      const { config } = environment;
       const { minify } = config.output;
 
       if (minify === false || !isProd) {
@@ -95,7 +96,7 @@ export const pluginMinimize = (
       }
 
       if (minify === true || minify?.js !== false) {
-        await applyJSMinimizer(chain, config, userTerserConfig);
+        await applyJSMinimizer(chain, config, CHAIN_ID, userTerserConfig);
       }
     });
   },

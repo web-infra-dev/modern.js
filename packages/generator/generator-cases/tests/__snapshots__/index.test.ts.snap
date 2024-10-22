@@ -3,75 +3,33 @@
 exports[`test generator cases test getMWACases 1`] = `
 [
   {
-    "buildTools": "webpack",
-    "language": "ts",
-    "packageManager": "npm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "webpack",
-    "language": "js",
-    "packageManager": "npm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "webpack",
     "language": "js",
     "packageManager": "yarn",
     "solution": "mwa",
   },
   {
-    "buildTools": "rspack",
-    "language": "ts",
-    "packageManager": "npm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "webpack",
-    "language": "js",
-    "packageManager": "pnpm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "rspack",
-    "language": "ts",
-    "packageManager": "yarn",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "rspack",
     "language": "js",
     "packageManager": "npm",
     "solution": "mwa",
   },
   {
-    "buildTools": "webpack",
-    "language": "ts",
-    "packageManager": "pnpm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "rspack",
-    "language": "ts",
-    "packageManager": "pnpm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "rspack",
-    "language": "js",
-    "packageManager": "pnpm",
-    "solution": "mwa",
-  },
-  {
-    "buildTools": "webpack",
     "language": "ts",
     "packageManager": "yarn",
     "solution": "mwa",
   },
   {
-    "buildTools": "rspack",
+    "language": "ts",
+    "packageManager": "pnpm",
+    "solution": "mwa",
+  },
+  {
     "language": "js",
-    "packageManager": "yarn",
+    "packageManager": "pnpm",
+    "solution": "mwa",
+  },
+  {
+    "language": "ts",
+    "packageManager": "npm",
     "solution": "mwa",
   },
 ]

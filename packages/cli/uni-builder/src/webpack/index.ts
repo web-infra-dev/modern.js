@@ -1,21 +1,21 @@
 import {
-  createRsbuild,
   type RsbuildConfig,
-  type RsbuildPlugin,
   type RsbuildInstance,
+  type RsbuildPlugin,
+  createRsbuild,
 } from '@rsbuild/core';
-import type {
-  UniBuilderConfig,
-  CreateUniBuilderOptions,
-  CreateBuilderCommonOptions,
-  OverridesUniBuilderInstance,
-} from '../types';
-import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
-import { pluginModuleScopes } from './plugins/moduleScopes';
+import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
+import type {
+  CreateBuilderCommonOptions,
+  CreateUniBuilderOptions,
+  OverridesUniBuilderInstance,
+  UniBuilderConfig,
+} from '../types';
 import { pluginBabel } from './plugins/babel';
+import { pluginModuleScopes } from './plugins/moduleScopes';
 import { pluginReact } from './plugins/react';
-import type { StartDevServerOptions } from '../shared/devServer';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -72,9 +72,12 @@ export async function parseConfig(
     const { pluginStyledComponents } = await import(
       './plugins/styledComponents'
     );
-    rsbuildPlugins.push(
-      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-    );
+    const options = uniBuilderConfig.tools?.styledComponents || {};
+    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
+      options.ssr = true;
+    }
+
+    rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
   return {
@@ -129,11 +132,6 @@ export async function createWebpackBuilder(
         return compatLegacyPlugin(plugin, { cwd });
       });
       rsbuild.addPlugins(warpedPlugins, options);
-    },
-    startDevServer: async (options: StartDevServerOptions = {}) => {
-      const { startDevServer } = await import('../shared/devServer');
-
-      return startDevServer(rsbuild, options, config);
     },
   };
 }

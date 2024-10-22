@@ -1,0 +1,111 @@
+# Using Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
+
+To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you can follow the steps below:
+
+1. Run `pnpm run new` in the root directory of your project and make the following selections:
+
+```text
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Tailwind CSS
+```
+
+After successful initialization, you will see that the `package.json` has added dependencies for `tailwindcss` and `@modern-js/plugin-tailwindcss`.
+
+2. Register the Tailwind plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [..., tailwindcssPlugin()],
+});
+```
+
+3. Create a `index.css` file and add the following code:
+
+```css title="index.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+:::info
+Depending on your needs, you can selectively import the CSS styles provided by Tailwind CSS. Please refer to the [`@tailwind` documentation](https://tailwindcss.com/docs/functions-and-directives#tailwind) for detailed usage of the `@tailwind` directive.
+:::
+
+4. Import the `index.css` file, for example, add the following code in the root component `src/App.jsx`:
+
+```js
+import './index.css';
+```
+
+5. Now you can use the Utility Classes provided by Tailwind CSS in your components:
+
+```tsx
+const Hello = () => (
+  <div className="h-12 w-48">
+    <p className="text-xl font-medium text-black">hello world</p>
+  </div>
+);
+```
+
+## Configuring Tailwind CSS
+
+In Modern.js, you have two ways to configure Tailwind CSS:
+
+1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
+
+```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+} as Config;
+```
+
+:::tip
+Please upgrade Modern.js to version >= MAJOR_VERSION.33.0 to support automatic reading of `tailwind.config.{ts,js}` files.
+:::
+
+2. Using the [tools.tailwindcss](/configure/app/tools/tailwindcss.html) configuration option. This is the old way of configuring Tailwind CSS, and we recommend using the `tailwind.config.{ts,js}` file for configuration.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+
+## Tailwind CSS Autocomplete
+
+Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
+
+You can follow the steps below to enable the autocomplete feature:
+
+1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
+2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
+
+## Tailwind CSS Version
+
+Modern.js supports both Tailwind CSS v2 and v3 versions, and the framework will recognize the version of the `tailwindcss` dependency in the project `package.json` file and enable the corresponding configuration. By default, we will install Tailwind CSS v3 version for you.
+
+If your project is still using Tailwind CSS v2, we recommend that you upgrade to v3 to support JIT and other capabilities. For the differences between Tailwind CSS v2 and v3 versions, please refer to the following articles:
+
+- [Tailwind CSS v3.0](https://tailwindcss.com/blog/tailwindcss-v3)
+- [Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
+
+## Browser Compatibility
+
+Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
+
+- [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support).
+- [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
+
+If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.

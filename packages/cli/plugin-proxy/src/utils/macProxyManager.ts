@@ -5,7 +5,6 @@ const networkTypes = ['Ethernet', 'Thunderbolt Ethernet', 'Wi-Fi'];
 const isMacOS = () => process.platform === 'darwin';
 
 const getNetworkType = () => {
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < networkTypes.length; i++) {
     const type = networkTypes[i];
     const result = execSync(`networksetup -getwebproxy ${type}`);

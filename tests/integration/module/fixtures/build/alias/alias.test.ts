@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { runCli, initBeforeTest } from '../../utils';
+import { initBeforeTest, runCli } from '../../utils';
 
 initBeforeTest();
 
@@ -80,5 +80,22 @@ describe('alias in ts project', () => {
 
     const content = fs.readFileSync(distFilePath, 'utf-8');
     expect(content.includes('hello world')).toBe(true);
+  });
+});
+
+describe('resolve alias for module id', () => {
+  const fixtureDir = path.join(__dirname, 'module-id');
+  it('uncorrect module id', async () => {
+    const ret = await runCli({
+      argv: ['build'],
+      appDirectory: fixtureDir,
+    });
+
+    expect(ret.success).toBe(true);
+
+    const distFilePath = path.join(fixtureDir, './dist/index.js');
+    expect(fs.existsSync(distFilePath)).toBe(true);
+    const content = fs.readFileSync(distFilePath, 'utf-8');
+    expect(content.includes('./react-native')).toBe(true);
   });
 });

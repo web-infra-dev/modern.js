@@ -1,8 +1,10 @@
 import { CodeSmith } from '@modern-js/codesmith';
+import { ora } from '@modern-js/codesmith-utils/ora';
 
 export interface Options {
   cwd?: string;
   debug?: boolean;
+  time?: boolean;
   distTag?: string;
   registry?: string;
   needInstall?: boolean;
@@ -14,6 +16,7 @@ export async function upgradeAction(options: Options) {
   const {
     cwd = process.cwd(),
     debug = false,
+    time = false,
     distTag,
     registry,
     needInstall,
@@ -22,7 +25,16 @@ export async function upgradeAction(options: Options) {
 
   const smith = new CodeSmith({
     debug,
+    time,
   });
+
+  smith.logger?.timing('🕒 Run Upgrade Tools');
+
+  const spinner = ora({
+    text: 'Load Generator...',
+    spinner: 'runner',
+  }).start();
+  const prepareGlobalPromise = smith.prepareGlobal();
 
   smith.logger.debug('@modern-js/upgrade', projectDir || '', options);
 
@@ -33,6 +45,10 @@ export async function upgradeAction(options: Options) {
   } else if (distTag) {
     generator = `${UPGRADE_GENERATOR}@${distTag}`;
   }
+
+  await prepareGlobalPromise;
+
+  spinner.stop();
 
   try {
     await smith.forge({
@@ -50,7 +66,8 @@ export async function upgradeAction(options: Options) {
       pwd: cwd,
     });
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
+    smith.logger?.timing('🕒 Run Upgrade Tools', true);
     process.exit(1);
   }
+  smith.logger?.timing('🕒 Run Upgrade Tools', true);
 }

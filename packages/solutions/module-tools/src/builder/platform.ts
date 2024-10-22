@@ -1,8 +1,8 @@
-import { PluginAPI } from '@modern-js/core';
+import type { PluginAPI } from '@modern-js/core';
 import { chalk, logger } from '@modern-js/utils';
-import { ModuleContext } from '../types/context';
-import { BuildCommandOptions, ModuleTools } from '../types';
 import { blue, gray } from '../constants/color';
+import type { BuildCommandOptions, ModuleTools } from '../types';
+import type { ModuleContext } from '../types/context';
 
 export const buildPlatform = async (
   options: BuildCommandOptions,

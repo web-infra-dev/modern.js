@@ -1,0 +1,42 @@
+---
+title: entry.[tj]s
+sidebar_position: 4
+---
+# entry.[tj]s
+
+:::info
+Using this file requires enabling [source.enableCustomEntry](/configure/app/source/enable-custom-entry).
+:::
+
+Normally, the [`routes/`](/apis/app/hooks/src/routes.html) and [`App.[tj]sx`](/apis/app/hooks/src/app) hook files can meet our needs. When we need to add custom behavior before component rendering or take full control of the webpack packaging entry, we can create `entry.[tj]s` file in the src or entry directory. Here are two cases for discussion:
+
+## Add custom behavior before Render
+
+This is implemented in `src/entry.[tj]s` as follows:
+
+```js title=src/entry.tsx
+import { createRoot } from '@modern-js/runtime/react';
+import { render } from '@modern-js/runtime/browser';
+
+const ModernRoot = createRoot();
+
+async function beforeRender() {
+   // todo
+}
+
+beforeRender().then(() => {
+  render(<ModernRoot />);
+});
+```
+
+## Take full control of the webpack entry
+
+When the project does not install the `@modern-js/runtime` dependency, `src/entry.[tj]sx?` is the real webpack packaging entry file, and you can directly organize the code like using create-react-app and other scaffolds:
+
+```js title=src/entry.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
+```

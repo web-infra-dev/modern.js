@@ -1,5 +1,550 @@
 # @modern-js/app-tools
 
+## 2.60.4
+
+### Patch Changes
+
+- a33d0da: fix(bff): should register esbuild for js projects
+  fix(bff): 应该为 js 项目注册 esbuild
+- c87813e: fix: upgrade react-router & log in debug mode only
+  fix: 更新 react-router 到最新版 & 只在 debug 模式下打印日志
+- 91cf577: feat: config/public directory ignore .gitkeep file
+
+  feat: config/public 目录忽略 .gitkeep 文件
+
+- Updated dependencies [e8bfebf]
+- Updated dependencies [518b783]
+- Updated dependencies [d93bdb4]
+- Updated dependencies [d6986c5]
+- Updated dependencies [d7e932a]
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [75ff77f]
+  - @modern-js/uni-builder@2.60.4
+  - @modern-js/server-core@2.60.4
+  - @modern-js/core@2.60.4
+  - @modern-js/plugin-i18n@2.60.4
+  - @modern-js/plugin-data-loader@2.60.4
+  - @modern-js/server-utils@2.60.4
+  - @modern-js/server@2.60.4
+  - @modern-js/prod-server@2.60.4
+  - @modern-js/rsbuild-plugin-esbuild@2.60.4
+  - @modern-js/node-bundle-require@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- 007fe86: feat: support dev.watchFiles reload-server option
+- ffd717f: fix: copy configuration should only works in main(web) environment
+- 303331c: fix: should load ts-node from project
+  fix: 应该从项目中加载 ts-node
+- Updated dependencies [d18f974]
+- Updated dependencies [552b746]
+- Updated dependencies [afa4880]
+- Updated dependencies [303331c]
+  - @modern-js/uni-builder@2.60.3
+  - @modern-js/server@2.60.3
+  - @modern-js/utils@2.60.3
+  - @modern-js/core@2.60.3
+  - @modern-js/plugin-data-loader@2.60.3
+  - @modern-js/plugin-i18n@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/prod-server@2.60.3
+  - @modern-js/server-utils@2.60.3
+  - @modern-js/node-bundle-require@2.60.3
+  - @modern-js/plugin@2.60.3
+  - @modern-js/rsbuild-plugin-esbuild@2.60.3
+  - @modern-js/types@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 8a709bc: feat(router): router plugin should use the App Component from other plugins & export the markRoutes method
+  feat(router): router plugin 应该使用 App Component from other plugins & 导出 markRoutes 方法
+- 5130d69: feat(deploy): support server plugin options for deploy
+  feat(deploy): 支持生产环境消费 server 插件配置
+- Updated dependencies [ff24d56]
+- Updated dependencies [8a709bc]
+- Updated dependencies [3a07a59]
+- Updated dependencies [0a31d31]
+  - @modern-js/uni-builder@2.60.2
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-core@2.60.2
+  - @modern-js/core@2.60.2
+  - @modern-js/server@2.60.2
+  - @modern-js/plugin-data-loader@2.60.2
+  - @modern-js/plugin-i18n@2.60.2
+  - @modern-js/prod-server@2.60.2
+  - @modern-js/server-utils@2.60.2
+  - @modern-js/node-bundle-require@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/rsbuild-plugin-esbuild@2.60.2
+  - @modern-js/types@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- 2ccddaf: feat: remove @modern-js/plugin-lint plugin
+
+  feat: 移除 @modern-js/plugin-lint 插件
+
+- Updated dependencies [3a973a2]
+- Updated dependencies [4cfe425]
+- Updated dependencies [edb1fea]
+  - @modern-js/server-utils@2.60.1
+  - @modern-js/uni-builder@2.60.1
+  - @modern-js/server@2.60.1
+  - @modern-js/core@2.60.1
+  - @modern-js/plugin-data-loader@2.60.1
+  - @modern-js/plugin-i18n@2.60.1
+  - @modern-js/rsbuild-plugin-esbuild@2.60.1
+  - @modern-js/server-core@2.60.1
+  - @modern-js/prod-server@2.60.1
+  - @modern-js/node-bundle-require@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 4f19e98: chore: rename serviceWorker environment name to workerSSR
+- Updated dependencies [a20b0d2]
+- Updated dependencies [4f19e98]
+- Updated dependencies [05f14fe]
+- Updated dependencies [d6e0118]
+- Updated dependencies [96434b3]
+- Updated dependencies [28f0101]
+  - @modern-js/uni-builder@2.60.0
+  - @modern-js/server-core@2.60.0
+  - @modern-js/core@2.60.0
+  - @modern-js/prod-server@2.60.0
+  - @modern-js/server@2.60.0
+  - @modern-js/plugin-data-loader@2.60.0
+  - @modern-js/server-utils@2.60.0
+  - @modern-js/plugin-lint@2.60.0
+  - @modern-js/plugin-i18n@2.60.0
+  - @modern-js/rsbuild-plugin-esbuild@2.60.0
+  - @modern-js/node-bundle-require@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Minor Changes
+
+- 2f6d4e9: feat: mark rspack as stable and support enabling rspack build via `bundler:'rspack'`
+
+  feat: 标记 rspack 功能稳定，支持通过 `bundler:'rspack'` 开启 rspack 构建
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+- 94c4f0a: fix: app-tools import createServer.js to fix errors during HMR
+- e41dfaf: fix: entry detection not work when `src/xx/index.tsx` export a default function
+
+  fix: 修复当存在 `src/xx/index.tsx` 并导出一个默认函数时，entry 检测不生效的问题
+
+- afdca3e: fix: serviceWorker default config
+- Updated dependencies [a43813d]
+- Updated dependencies [59ba402]
+- Updated dependencies [539d72b]
+- Updated dependencies [ef1ec44]
+- Updated dependencies [0363aec]
+- Updated dependencies [80237dc]
+- Updated dependencies [d9a48a8]
+- Updated dependencies [661b6d5]
+- Updated dependencies [afdca3e]
+- Updated dependencies [e2a79bf]
+  - @modern-js/uni-builder@2.59.0
+  - @modern-js/types@2.59.0
+  - @modern-js/server-core@2.59.0
+  - @modern-js/core@2.59.0
+  - @modern-js/server@2.59.0
+  - @modern-js/plugin-data-loader@2.59.0
+  - @modern-js/prod-server@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/server-utils@2.59.0
+  - @modern-js/plugin-i18n@2.59.0
+  - @modern-js/plugin-lint@2.59.0
+  - @modern-js/rsbuild-plugin-esbuild@2.59.0
+  - @modern-js/node-bundle-require@2.59.0
+  - @modern-js/plugin@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- 0b581a4: fix: remove ssr.preload config
+  fix: 移除 ssr.preload 配置
+- 610554c: chore: add internal directory to server plugin context
+  chore: 在 server 插件上下文中增加 internal 目录
+- d76dbef: fix: filter entries by ssr or ssg should not apply the sigle entry
+  fix: 筛选入口不应该应用于单入口情况
+- Updated dependencies [36ccad3]
+- Updated dependencies [0b581a4]
+- Updated dependencies [610554c]
+- Updated dependencies [59fba90]
+- Updated dependencies [9e82b00]
+  - @modern-js/server-core@2.58.3
+  - @modern-js/plugin-data-loader@2.58.3
+  - @modern-js/prod-server@2.58.3
+  - @modern-js/server@2.58.3
+  - @modern-js/server-utils@2.58.3
+  - @modern-js/core@2.58.3
+  - @modern-js/plugin-i18n@2.58.3
+  - @modern-js/plugin-lint@2.58.3
+  - @modern-js/rsbuild-plugin-esbuild@2.58.3
+  - @modern-js/uni-builder@2.58.3
+  - @modern-js/node-bundle-require@2.58.3
+  - @modern-js/plugin@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- a1a9373: fix: fix compatibleRequire problem on windows
+  fix: 修复 windows 下 compatibleRequire 的问题
+- Updated dependencies [1ff0304]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/server-core@2.58.2
+  - @modern-js/plugin-i18n@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/plugin-data-loader@2.58.2
+  - @modern-js/prod-server@2.58.2
+  - @modern-js/server@2.58.2
+  - @modern-js/server-utils@2.58.2
+  - @modern-js/core@2.58.2
+  - @modern-js/plugin-lint@2.58.2
+  - @modern-js/uni-builder@2.58.2
+  - @modern-js/node-bundle-require@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/rsbuild-plugin-esbuild@2.58.2
+  - @modern-js/types@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- ec01bad: feat(runtime): adapt to some features for async entries
+  feat(runtime): 为异步入口适配某些功能
+- a214ea8: fix: use flatted instead of safeReplacer
+  fix: 使用 flated 而不是使用 safeReplacer
+- cd6e3a1: feat(deps): bump Rsbuild 1.0.1-beta.13
+- Updated dependencies [b0aff52]
+- Updated dependencies [bf8810a]
+- Updated dependencies [2482a6b]
+- Updated dependencies [e0e1abc]
+- Updated dependencies [c904ee2]
+- Updated dependencies [a214ea8]
+  - @modern-js/core@2.58.1
+  - @modern-js/uni-builder@2.58.1
+  - @modern-js/types@2.58.1
+  - @modern-js/server-core@2.58.1
+  - @modern-js/plugin-data-loader@2.58.1
+  - @modern-js/plugin-lint@2.58.1
+  - @modern-js/server@2.58.1
+  - @modern-js/prod-server@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/server-utils@2.58.1
+  - @modern-js/plugin-i18n@2.58.1
+  - @modern-js/rsbuild-plugin-esbuild@2.58.1
+  - @modern-js/node-bundle-require@2.58.1
+  - @modern-js/plugin@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- b984554: feat(deploy): export nodeFileTrace and traceOptions
+  feat(deploy): 暴露 nodeFileTrace 和 traceOptions
+- Updated dependencies [58f2868]
+  - @modern-js/uni-builder@2.58.0
+  - @modern-js/core@2.58.0
+  - @modern-js/server@2.58.0
+  - @modern-js/plugin-data-loader@2.58.0
+  - @modern-js/plugin-i18n@2.58.0
+  - @modern-js/plugin-lint@2.58.0
+  - @modern-js/rsbuild-plugin-esbuild@2.58.0
+  - @modern-js/server-core@2.58.0
+  - @modern-js/prod-server@2.58.0
+  - @modern-js/server-utils@2.58.0
+  - @modern-js/node-bundle-require@2.58.0
+  - @modern-js/plugin@2.58.0
+  - @modern-js/types@2.58.0
+  - @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- ed22e10: fix(deploy): the subpath should be judged correctly
+  fix(deploy): 应该正确地判断子路径
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/plugin-data-loader@2.57.1
+  - @modern-js/prod-server@2.57.1
+  - @modern-js/server@2.57.1
+  - @modern-js/server-utils@2.57.1
+  - @modern-js/core@2.57.1
+  - @modern-js/plugin-i18n@2.57.1
+  - @modern-js/plugin-lint@2.57.1
+  - @modern-js/rsbuild-plugin-esbuild@2.57.1
+  - @modern-js/uni-builder@2.57.1
+  - @modern-js/node-bundle-require@2.57.1
+  - @modern-js/plugin@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- f19b9dc: fix: type error when registering Rsbuild plugins
+- 5c144a3: fix: dev server should call rsbuild.afterListen when listen
+  fix: dev server 应该在 listen 时，调用 rsbuild.afterListen
+- 7e0835f: feat: reexport new dev options
+  feat: 重导出 dev 配置
+- 5dc8460: fix: `createDevServer` should not listen port by default
+  fix: `createDevServer` 默认不应该监听端口
+- Updated dependencies [2515b00]
+- Updated dependencies [ce9c43a]
+- Updated dependencies [0e906a1]
+- Updated dependencies [5c144a3]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [7e0835f]
+- Updated dependencies [203c9eb]
+- Updated dependencies [5dc8460]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/plugin-data-loader@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/prod-server@2.57.0
+  - @modern-js/server@2.57.0
+  - @modern-js/plugin@2.57.0
+  - @modern-js/core@2.57.0
+  - @modern-js/plugin-i18n@2.57.0
+  - @modern-js/plugin-lint@2.57.0
+  - @modern-js/uni-builder@2.57.0
+  - @modern-js/server-utils@2.57.0
+  - @modern-js/node-bundle-require@2.57.0
+  - @modern-js/rsbuild-plugin-esbuild@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- 9626370: fix: exports more server types
+  fix: 导出更多的 server 类型
+- bdd6ac9: fix: handle the case of nft find for error dependencies
+  fix: 处理 nft 查找到错误依赖的情况
+- c441e14: fix: resolve.extensions should add .server.jsx when target = node
+  fix: resolve.extensions 应该添加上 .server.jsx 当 target 为 node 时
+- c441e14: fix: enableAsyncEntry = true, we should generate bootstrap.server.jsx when ssr mode
+  fix: enableAsyncEntry 为 true, 我们应该生成 bootstrap.server.jsx 在 ssr 模式下
+  - @modern-js/core@2.56.2
+  - @modern-js/plugin-data-loader@2.56.2
+  - @modern-js/plugin-i18n@2.56.2
+  - @modern-js/plugin-lint@2.56.2
+  - @modern-js/rsbuild-plugin-esbuild@2.56.2
+  - @modern-js/uni-builder@2.56.2
+  - @modern-js/server-core@2.56.2
+  - @modern-js/prod-server@2.56.2
+  - @modern-js/server@2.56.2
+  - @modern-js/server-utils@2.56.2
+  - @modern-js/node-bundle-require@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [e0e29b3]
+- Updated dependencies [4c0486a]
+  - @modern-js/server-core@2.56.1
+  - @modern-js/uni-builder@2.56.1
+  - @modern-js/plugin-data-loader@2.56.1
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/server@2.56.1
+  - @modern-js/server-utils@2.56.1
+  - @modern-js/core@2.56.1
+  - @modern-js/plugin-i18n@2.56.1
+  - @modern-js/plugin-lint@2.56.1
+  - @modern-js/rsbuild-plugin-esbuild@2.56.1
+  - @modern-js/node-bundle-require@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- b912ca5: refactor: bump rsbuild 1.0.0-alpha and use Rsbuild environment config
+
+### Patch Changes
+
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+- Updated dependencies [bedbbb3]
+- Updated dependencies [b912ca5]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d1eb8dc]
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/uni-builder@2.56.0
+  - @modern-js/server@2.56.0
+  - @modern-js/core@2.56.0
+  - @modern-js/plugin-data-loader@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+  - @modern-js/plugin-i18n@2.56.0
+  - @modern-js/plugin-lint@2.56.0
+  - @modern-js/rsbuild-plugin-esbuild@2.56.0
+  - @modern-js/node-bundle-require@2.56.0
+  - @modern-js/plugin@2.56.0
+
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 6e10341: fix: should use server-entires when target === 'node', 'web-worker', 'service-worker'
+  fix: 当 target 为 'node', 'web-worker', 'service-worker' 应该使用 server 入口.
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a0ac594]
+- Updated dependencies [e0c2384]
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/uni-builder@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/server-core@2.55.0
+  - @modern-js/core@2.55.0
+  - @modern-js/plugin-data-loader@2.55.0
+  - @modern-js/plugin-i18n@2.55.0
+  - @modern-js/plugin-lint@2.55.0
+  - @modern-js/server@2.55.0
+  - @modern-js/server-utils@2.55.0
+  - @modern-js/node-bundle-require@2.55.0
+  - @modern-js/plugin@2.55.0
+  - @modern-js/rsbuild-plugin-esbuild@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- Updated dependencies [35e119a]
+  - @modern-js/server@2.54.6
+  - @modern-js/uni-builder@2.54.6
+  - @modern-js/core@2.54.6
+  - @modern-js/plugin-data-loader@2.54.6
+  - @modern-js/plugin-i18n@2.54.6
+  - @modern-js/plugin-lint@2.54.6
+  - @modern-js/rsbuild-plugin-esbuild@2.54.6
+  - @modern-js/server-core@2.54.6
+  - @modern-js/prod-server@2.54.6
+  - @modern-js/server-utils@2.54.6
+  - @modern-js/node-bundle-require@2.54.6
+  - @modern-js/plugin@2.54.6
+  - @modern-js/types@2.54.6
+  - @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+  - @modern-js/prod-server@2.54.5
+  - @modern-js/server-core@2.54.5
+  - @modern-js/uni-builder@2.54.5
+  - @modern-js/plugin-data-loader@2.54.5
+  - @modern-js/server@2.54.5
+  - @modern-js/server-utils@2.54.5
+  - @modern-js/core@2.54.5
+  - @modern-js/plugin-i18n@2.54.5
+  - @modern-js/plugin-lint@2.54.5
+  - @modern-js/rsbuild-plugin-esbuild@2.54.5
+  - @modern-js/node-bundle-require@2.54.5
+  - @modern-js/plugin@2.54.5
+  - @modern-js/types@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- 3755228: feat: export handleDependencies
+  feat: 暴露 handleDependencies 方法
+- 8149769: fix: module not found error when restart app
+  fix: 修复重启应用时找不到模块的报错
+  - @modern-js/core@2.54.4
+  - @modern-js/plugin-data-loader@2.54.4
+  - @modern-js/plugin-i18n@2.54.4
+  - @modern-js/plugin-lint@2.54.4
+  - @modern-js/rsbuild-plugin-esbuild@2.54.4
+  - @modern-js/uni-builder@2.54.4
+  - @modern-js/server-core@2.54.4
+  - @modern-js/prod-server@2.54.4
+  - @modern-js/server@2.54.4
+  - @modern-js/server-utils@2.54.4
+  - @modern-js/node-bundle-require@2.54.4
+  - @modern-js/plugin@2.54.4
+  - @modern-js/types@2.54.4
+  - @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- 8677d06: fix: adapt to the new server plugin for entry
+  fix: server entry 适配新的 server plugin
+- Updated dependencies [b50d7ec]
+- Updated dependencies [c5644c9]
+  - @modern-js/prod-server@2.54.3
+  - @modern-js/server@2.54.3
+  - @modern-js/server-core@2.54.3
+  - @modern-js/uni-builder@2.54.3
+  - @modern-js/plugin-data-loader@2.54.3
+  - @modern-js/server-utils@2.54.3
+  - @modern-js/core@2.54.3
+  - @modern-js/plugin-i18n@2.54.3
+  - @modern-js/plugin-lint@2.54.3
+  - @modern-js/rsbuild-plugin-esbuild@2.54.3
+  - @modern-js/node-bundle-require@2.54.3
+  - @modern-js/plugin@2.54.3
+  - @modern-js/types@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

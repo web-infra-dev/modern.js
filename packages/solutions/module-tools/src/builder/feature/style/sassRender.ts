@@ -1,23 +1,26 @@
 import { readFileSync } from 'fs';
 import path from 'path';
-import { ICompiler, Style } from '../../../types';
+import type { ICompiler, Style } from '../../../types';
+import type { PreprocessRender } from './transformStyle';
 import { loadProcessor, rebaseUrls } from './utils';
-import { PreprocessRender } from './transformStyle';
 
 export const sassRender: PreprocessRender = async function (
   this: ICompiler,
   content: string,
-  _: string,
+  sourcePath: string,
   stdinDir: string,
   options: Style['sass'],
   resolvePathMap: Map<string, string>,
   implementation?: object | string,
 ) {
   const sass = await loadProcessor('sass', this.context.root, implementation);
+  // https://sass-lang.com/documentation/js-api/interfaces/legacystringoptions/#indentedSyntax
+  const useScssSyntax = sourcePath.endsWith('.scss');
   return new Promise((resolve, reject) => {
     sass.render(
       {
         data: content,
+        indentedSyntax: !useScssSyntax,
         importer: [
           (url: string, dir: string, done: (value: unknown) => void) => {
             if (url.startsWith('data:')) {

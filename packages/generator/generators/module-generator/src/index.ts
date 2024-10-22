@@ -1,25 +1,25 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import {
-  i18n as commonI18n,
   BaseGenerator,
   ChangesetGenerator,
-  Solution,
-  getModuleSchema,
   Language,
-  PackageManager,
+  type PackageManager,
   PackagesGenerator,
+  Solution,
+  i18n as commonI18n,
+  getModuleSchema,
 } from '@modern-js/generator-common';
 import {
-  i18n as utilsI18n,
   getAllPackages,
-  validatePackagePath,
-  validatePackageName,
+  getGeneratorPath,
+  getModernVersion,
   getModuleProjectPath,
   getPackageManagerText,
-  getModernVersion,
-  getGeneratorPath,
+  i18n as utilsI18n,
+  validatePackageName,
+  validatePackagePath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
@@ -28,6 +28,14 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  generator.logger?.timing(`🕐 Get Modern.js module-tools version`);
+  const modernVersion = await getModernVersion(
+    Solution.MWA,
+    context.config.registry,
+    context.config.distTag,
+  );
+  generator.logger?.timing(`🕐 Get Modern.js module-tools version`, true);
+
   const {
     isMonorepoSubProject,
     isLocalPackages,
@@ -42,8 +50,8 @@ export const handleTemplateFile = async (
     try {
       packages = getAllPackages(outputPath);
     } catch (e) {
-      generator.logger.debug('get all packages error', e);
-      generator.logger.warn(i18n.t(localeKeys.get_packages_error));
+      generator.logger.debug(`❗️ [Get All Packages Error]: ${e}`);
+      generator.logger.warn(`🟡 ${i18n.t(localeKeys.get_packages_error)}`);
     }
   }
 
@@ -102,13 +110,7 @@ export const handleTemplateFile = async (
     );
   }
 
-  const modernVersion = await getModernVersion(
-    Solution.Module,
-    context.config.registry,
-    context.config.distTag,
-  );
-
-  generator.logger.debug(`inputData=${JSON.stringify(ans)}`, ans);
+  generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
   const { packageName, packagePath, language, packageManager } = ans;
 
@@ -202,20 +204,20 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/module-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Module Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   let projectPath = '';
   try {
     ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
-    generator.logger.error(e);
-    // eslint-disable-next-line no-process-exit
+    generator.logger.error(`🔴 [Handle Module Template Error]:`, e);
     process.exit(1);
   }
 
@@ -235,7 +237,6 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   try {
     await appApi.runGitAndInstall(context.config.gitCommitMessage);
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -246,5 +247,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       }),
   );
 
-  generator.logger.debug(`forge @modern-js/module-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Module Generator]`);
 };

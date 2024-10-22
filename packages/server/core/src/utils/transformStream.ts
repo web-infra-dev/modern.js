@@ -1,17 +1,15 @@
-import { MaybeAsync } from '@modern-js/plugin';
+import type { MaybeAsync } from '@modern-js/plugin';
 
 type TransformCb = (tempalte: string) => MaybeAsync<string>;
 
-export function createTransformStream(fn: TransformCb) {
-  // eslint-disable-next-line node/prefer-global/text-decoder
+export function createTransformStream(fn?: TransformCb) {
   const decoder: TextDecoder = new TextDecoder();
-  // eslint-disable-next-line node/prefer-global/text-encoder
   const encoder: TextEncoder = new TextEncoder();
   return new TransformStream({
     async transform(chunk, controller) {
       const content = decoder.decode(chunk);
 
-      const newContent = await fn(content);
+      const newContent = fn ? await fn(content) : content;
 
       controller.enqueue(encoder.encode(newContent));
     },
@@ -36,7 +34,6 @@ export function transformResponse(
 
     response.body.pipeThrough(stream);
 
-    // eslint-disable-next-line prefer-destructuring
     readable = stream.readable;
   }
 

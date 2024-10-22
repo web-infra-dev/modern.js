@@ -7,13 +7,13 @@ import {
 } from '@modern-js/plugin';
 import type {
   AppContext,
-  ConfigContext,
-  ServerHooks,
-  ServerPluginAPI,
   CliConfig,
-  ServerHookRunner,
-  ServerPlugin,
+  ConfigContext,
   ServerConfig,
+  ServerHookRunner,
+  ServerHooks,
+  ServerPlugin,
+  ServerPluginAPI,
 } from './types';
 import { loadConfig } from './utils';
 

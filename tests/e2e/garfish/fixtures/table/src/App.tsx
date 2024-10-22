@@ -1,4 +1,4 @@
-import { Switch, Route } from '@modern-js/runtime/router-v5';
+import { Route, Switch } from '@modern-js/runtime/router-v5';
 import './App.css';
 
 const App = () => (

@@ -1,3 +1,3 @@
-import { Button, AutoComplete } from 'antd';
+import { AutoComplete, Button } from 'antd';
 
 console.log(Button, AutoComplete);

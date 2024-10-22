@@ -1,9 +1,9 @@
 import path from 'path';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { nanoid } from '@modern-js/utils';
-import { ROUTE_BASENAME } from '@modern-js/devtools-kit/runtime';
-import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
+import type { DistPathConfig } from '@rsbuild/core';
 import packageMeta from './package.json';
+import { ServiceWorkerCompilerPlugin } from './plugins/ServiceWorkerCompilerPlugin';
 
 const globalVars: Record<string, any> = {
   'process.env.VERSION': packageMeta.version,
@@ -11,20 +11,48 @@ const globalVars: Record<string, any> = {
   'process.env.DEVTOOLS_MARK': nanoid(),
 };
 
+const define: Record<string, any> = {};
+
 if (process.env.NODE_ENV === 'production') {
-  globalVars.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
+  define.__REACT_DEVTOOLS_GLOBAL_HOOK__ = { isDisabled: true };
 }
+
+const assetPrefix = process.env.ASSET_PREFIX || '/';
+const distPathTypes = [
+  'root',
+  'js',
+  'jsAsync',
+  'css',
+  'cssAsync',
+  'svg',
+  'font',
+  'html',
+  'wasm',
+  'image',
+  'media',
+] as const;
+const distPath: DistPathConfig = { html: 'static/html' };
+for (const type of distPathTypes) {
+  const varName = `DIST_PATH_${type.toUpperCase()}`;
+  const value = process.env[varName];
+  value && (distPath[type] = value);
+}
+console.log('Build @modern-js/devtools-client with asset prefix:', assetPrefix);
+console.log(
+  'Build @modern-js/devtools-client with dist path config:',
+  JSON.stringify(distPath, null, 2),
+);
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: ROUTE_BASENAME,
+      supportHtml5History: false,
     },
   },
   dev: {
-    assetPrefix: ROUTE_BASENAME,
     port: 8780,
+    assetPrefix: 'http://localhost:8780',
   },
   source: {
     mainEntryName: 'client',
@@ -39,6 +67,7 @@ export default defineConfig<'rspack'>({
       require.resolve('modern-normalize/modern-normalize.css'),
       require.resolve('@radix-ui/themes/styles.css'),
     ],
+    define,
     globalVars,
     alias: {
       // Trick to fix: Modern.js won't recognize experimental react as react@18.
@@ -47,7 +76,8 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    assetPrefix: ROUTE_BASENAME,
+    distPath,
+    assetPrefix,
     disableInlineRuntimeChunk: true,
     disableSourceMap: process.env.NODE_ENV === 'production',
   },
@@ -71,6 +101,9 @@ export default defineConfig<'rspack'>({
     postcss: (config, { addPlugins }) => {
       addPlugins(require('postcss-custom-media'));
     },
+    sass: {
+      api: 'legacy',
+    },
     bundlerChain(chain) {
       chain.output.uniqueName('modernjsDevtools');
       chain.module
@@ -84,5 +117,5 @@ export default defineConfig<'rspack'>({
         .use(ServiceWorkerCompilerPlugin);
     },
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' })],
+  plugins: [appTools({ bundler: 'rspack' })],
 });

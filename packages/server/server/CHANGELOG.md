@@ -1,5 +1,264 @@
 # @modern-js/server
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [518b783]
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [c87813e]
+- Updated dependencies [75ff77f]
+  - @modern-js/server-core@2.60.4
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/server-utils@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- 552b746: chore(server): add `compiler` option for `createDevServer`
+  chore(server): 为 `createDevServer` 添加 `compiler` 选项
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/server-utils@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+  - @modern-js/types@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+- Updated dependencies [0a31d31]
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-core@2.60.2
+  - @modern-js/server-utils@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+  - @modern-js/types@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [3a973a2]
+  - @modern-js/server-utils@2.60.1
+  - @modern-js/server-core@2.60.1
+  - @modern-js/runtime-utils@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- Updated dependencies [d6e0118]
+  - @modern-js/server-core@2.60.0
+  - @modern-js/server-utils@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- Updated dependencies [539d72b]
+- Updated dependencies [ef1ec44]
+- Updated dependencies [80237dc]
+  - @modern-js/types@2.59.0
+  - @modern-js/server-core@2.59.0
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/server-utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- Updated dependencies [36ccad3]
+- Updated dependencies [0b581a4]
+- Updated dependencies [610554c]
+- Updated dependencies [59fba90]
+- Updated dependencies [9e82b00]
+  - @modern-js/server-core@2.58.3
+  - @modern-js/server-utils@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [1ff0304]
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/server-core@2.58.2
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/server-utils@2.58.2
+  - @modern-js/types@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- Updated dependencies [2482a6b]
+- Updated dependencies [c904ee2]
+- Updated dependencies [a214ea8]
+  - @modern-js/types@2.58.1
+  - @modern-js/server-core@2.58.1
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/server-utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/server-core@2.58.0
+- @modern-js/server-utils@2.58.0
+- @modern-js/runtime-utils@2.58.0
+- @modern-js/types@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/server-utils@2.57.1
+  - @modern-js/runtime-utils@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 5c144a3: fix: dev server should call rsbuild.afterListen when listen
+  fix: dev server 应该在 listen 时，调用 rsbuild.afterListen
+- b5a48a8: fix: distPath should from output.distPath.root
+  fix: distPath 应该来自 output.distPath.root
+- 7e0835f: feat: reexport new dev options
+  feat: 重导出 dev 配置
+- 5dc8460: fix: `createDevServer` should not listen port by default
+  fix: `createDevServer` 默认不应该监听端口
+- Updated dependencies [2515b00]
+- Updated dependencies [0e906a1]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [203c9eb]
+- Updated dependencies [916559a]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/server-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/server-core@2.56.2
+- @modern-js/server-utils@2.56.2
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/types@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [e0e29b3]
+  - @modern-js/server-core@2.56.1
+  - @modern-js/server-utils@2.56.1
+  - @modern-js/runtime-utils@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- d1eb8dc: fix: mockHandler should run before rsbuild middleware & mockHandler can't hmr correctly
+  fix: mockHandler 应该在 rsbuild middleware 之前跑 & mockHandler 不能正确的 hmr
+- Updated dependencies [bedbbb3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+  - @modern-js/types@2.56.0
+  - @modern-js/server-core@2.56.0
+  - @modern-js/runtime-utils@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/server-utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+- Updated dependencies [e0c2384]
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/server-core@2.55.0
+  - @modern-js/server-utils@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- 35e119a: fix(ssr): hmr problem with ssr when using rspack
+  fix(ssr): 使用 rspack 时，ssr 的 hmr 问题
+  - @modern-js/server-core@2.54.6
+  - @modern-js/server-utils@2.54.6
+  - @modern-js/runtime-utils@2.54.6
+  - @modern-js/types@2.54.6
+  - @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+  - @modern-js/server-core@2.54.5
+  - @modern-js/server-utils@2.54.5
+  - @modern-js/runtime-utils@2.54.5
+  - @modern-js/types@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/server-core@2.54.4
+- @modern-js/server-utils@2.54.4
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/types@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- b50d7ec: fix: we should load modern.config.json when production
+  fix: 在生产阶段，我们应该加载 modern.config.json
+- c5644c9: fix: we should add cli config correctly
+  fix: 我们应该正确的添加 cli 配置
+- Updated dependencies [b50d7ec]
+  - @modern-js/server-core@2.54.3
+  - @modern-js/server-utils@2.54.3
+  - @modern-js/runtime-utils@2.54.3
+  - @modern-js/types@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

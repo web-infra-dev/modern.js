@@ -1,36 +1,35 @@
 import type { IncomingMessage } from 'http';
-import { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
+import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
 import { cutNameByHyphen } from '@modern-js/utils/universal';
-import { TrieRouter } from 'hono/router/trie-router';
 import type { Router } from 'hono/router';
+import { TrieRouter } from 'hono/router/trie-router';
+import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
+import type {
+  CacheConfig,
+  FallbackReason,
+  OnFallback,
+  UserConfig,
+} from '../../types';
+import type { Render } from '../../types';
+import type { Params } from '../../types/requestHandler';
 import {
-  parseQuery,
-  getPathname,
+  ErrorDigest,
   createErrorHtml,
+  getPathname,
+  getRuntimeEnv,
+  onError as onErrorFn,
+  parseHeaders,
+  parseQuery,
   sortRoutes,
   transformResponse,
-  onError as onErrorFn,
-  ErrorDigest,
 } from '../../utils';
-import type { CacheConfig, FallbackReason } from '../../types';
-import { REPLACE_REG, X_MODERNJS_RENDER } from '../../constants';
-import { Render } from '../../types';
 import { dataHandler } from './dataHandler';
-import { Params, SSRRenderOptions, ssrRender } from './ssrRender';
-
-export type OnFallback = (
-  reason: FallbackReason,
-  utils: {
-    logger: Logger;
-    metrics?: Metrics;
-    reporter?: Reporter;
-  },
-  error?: unknown,
-) => Promise<void>;
+import { type SSRRenderOptions, ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
   pwd: string;
   routes: ServerRoute[];
+  config: UserConfig;
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
   onFallback?: OnFallback;
@@ -74,14 +73,23 @@ function getRouter(routes: ServerRoute[]): Router<ServerRoute> {
 
 function matchRoute(
   router: Router<ServerRoute>,
-  request: Request,
+  pathname: string,
 ): [ServerRoute, Params] {
-  const pathname = getPathname(request);
   const matched = router.match('*', pathname);
 
   const result = matched[0][0];
 
   return result || [];
+}
+
+function getHeadersWithoutCookie(headers: Record<string, any>) {
+  const _headers = {
+    ...headers,
+    cookie: undefined,
+  };
+  delete _headers.cookie;
+
+  return _headers;
 }
 
 export async function createRender({
@@ -91,7 +99,7 @@ export async function createRender({
   staticGenerate,
   cacheConfig,
   forceCSR,
-  nonce,
+  config,
   onFallback: onFallbackFn,
 }: CreateRenderOptions): Promise<Render> {
   const router = getRouter(routes);
@@ -100,18 +108,25 @@ export async function createRender({
     req,
     {
       logger,
-      nodeReq,
       reporter,
+      metrics,
+      monitors,
+      nodeReq,
       templates,
       serverManifest,
       locals,
-      metrics,
+      matchPathname,
       loaderContext,
     },
   ) => {
-    const [routeInfo, params] = matchRoute(router, req);
+    const forMatchpathname = matchPathname ?? getPathname(req);
+    const [routeInfo, params] = matchRoute(router, forMatchpathname);
+    const framework = metaName || 'modern-js';
+    const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
+    let fallbackReason = null;
 
     const onFallback = async (reason: FallbackReason, error?: unknown) => {
+      fallbackReason = reason;
       return onFallbackFn?.(reason, { logger, reporter, metrics }, error);
     };
 
@@ -137,51 +152,82 @@ export async function createRender({
 
     const renderMode = await getRenderMode(
       req,
-      metaName || 'modern-js',
+      fallbackHeader,
       routeInfo.isSSR,
       forceCSR,
       nodeReq,
       onFallback,
     );
 
-    const onError = async (e: unknown) => {
-      onErrorFn(logger, ErrorDigest.ERENDER, e as string | Error, req);
+    const headerData = parseHeaders(req);
+
+    const onError = (e: unknown) => {
+      monitors?.error(
+        `SSR Error - ${
+          e instanceof Error ? e.name : e
+        }, error = %s, req.url = %s, req.headers = %o`,
+        e instanceof Error ? e.stack || e.message : e,
+        forMatchpathname,
+        getHeadersWithoutCookie(headerData),
+      );
+    };
+
+    const onTiming = (name: string, dur: number) => {
+      monitors?.timing(name, dur, 'SSR');
+    };
+
+    const onBoundError = async (e: unknown) => {
+      onErrorFn(ErrorDigest.ERENDER, e as string | Error, monitors, req);
       await onFallback?.('error', e);
     };
 
-    const renderOptions = {
+    const renderOptions: SSRRenderOptions & {
+      serverRoutes: ServerRoute[];
+    } = {
       pwd,
       html,
       routeInfo,
       staticGenerate: staticGenerate || false,
-      metaName: metaName || 'modern-js',
-      nonce,
-      logger,
+      config,
       nodeReq,
       cacheConfig,
       reporter,
       serverRoutes: routes,
       params,
+      logger,
+      metrics,
       locals,
       serverManifest,
-      metrics,
       loaderContext: loaderContext || new Map(),
+      onError,
+      onTiming,
     };
+
+    let response: Response;
 
     switch (renderMode) {
       case 'data':
-        // eslint-disable-next-line no-case-declarations
-        let response = await dataHandler(req, renderOptions);
-        if (!response) {
-          response = await renderHandler(req, renderOptions, 'ssr', onError);
-        }
-        return response;
+        response =
+          (await dataHandler(req, renderOptions)) ||
+          (await renderHandler(req, renderOptions, 'ssr', onBoundError));
+        break;
       case 'ssr':
       case 'csr':
-        return renderHandler(req, renderOptions, renderMode, onError);
+        response = await renderHandler(
+          req,
+          renderOptions,
+          renderMode,
+          onBoundError,
+        );
+        break;
       default:
         throw new Error(`Unknown render mode: ${renderMode}`);
     }
+    // inject ssr fallback header info
+    if (fallbackReason) {
+      response.headers.set(fallbackHeader, `1;reason=${fallbackReason}`);
+    }
+    return response;
   };
 }
 
@@ -199,9 +245,52 @@ async function renderHandler(
     },
   };
 
-  let response: Response;
+  let response: Response | null = null;
 
-  if (mode === 'ssr') {
+  const { serverManifest } = options;
+
+  const ssrByRouteIds = options.config.server?.ssrByRouteIds;
+  const runtimeEnv = getRuntimeEnv();
+
+  if (
+    serverManifest.nestedRoutesJson &&
+    ssrByRouteIds &&
+    ssrByRouteIds?.length > 0 &&
+    runtimeEnv === 'node'
+  ) {
+    const { nestedRoutesJson } = serverManifest;
+    const routes = nestedRoutesJson?.[options.routeInfo.entryName!];
+
+    if (routes) {
+      const urlPath = 'node:url';
+      const { pathToFileURL } = await import(urlPath);
+      const { matchRoutes } = await import(
+        pathToFileURL(require.resolve('@modern-js/runtime-utils/remix-router'))
+          .href
+      );
+
+      const url = new URL(request.url);
+      const matchedRoutes = matchRoutes(
+        routes,
+        url.pathname,
+        options.routeInfo.urlPath,
+      );
+
+      if (!matchedRoutes) {
+        response = csrRender(options.html);
+      } else {
+        const lastMatch = matchedRoutes[matchedRoutes.length - 1];
+        if (
+          !lastMatch?.route?.id ||
+          !ssrByRouteIds.includes(lastMatch.route.id)
+        ) {
+          response = csrRender(options.html);
+        }
+      }
+    }
+  }
+
+  if (mode === 'ssr' && !response) {
     try {
       response = await ssrRender(request, options);
     } catch (e) {
@@ -228,15 +317,13 @@ async function renderHandler(
 
 async function getRenderMode(
   req: Request,
-  framework: string,
+  fallbackHeader: string,
   isSSR?: boolean,
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
   onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
 ): Promise<'ssr' | 'csr' | 'data'> {
   const query = parseQuery(req);
-
-  const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
 
   if (isSSR) {
     if (query.__loader) {

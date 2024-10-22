@@ -1,27 +1,27 @@
 import path from 'path';
-import {
-  fs,
-  chalk,
-  getPackageVersion,
-  getModernPluginVersion,
-  isTsProject,
-  readTsConfigByFile,
-  getModernConfigFile,
-} from '@modern-js/generator-utils';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  getBFFSchema,
-  BFFType,
-  i18n as commonI18n,
-  Framework,
-  Language,
-  FrameworkAppendTypeContent,
-  Solution,
-  BFFPluginName,
   BFFPluginDependence,
+  BFFPluginName,
+  BFFType,
+  Framework,
+  FrameworkAppendTypeContent,
+  Language,
+  Solution,
+  i18n as commonI18n,
+  getBFFSchema,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  chalk,
+  getModernConfigFile,
+  getModernPluginVersion,
+  getPackageVersion,
+  isTsProject,
+  readTsConfigByFile,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 function isEmptyApiDir(apiDir: string) {
@@ -53,8 +53,8 @@ export const handleTemplateFile = async (
   if (fs.existsSync(apiDir) && !isEmptyApiDir(apiDir)) {
     const files = fs.readdirSync(apiDir);
     if (files.length > 0) {
-      generator.logger.warn("'api' is already exist");
-      throw Error("'api' is already exist");
+      generator.logger.warn(`🟡 The 'api' directory already exists.`);
+      throw Error("The 'api' directory is already exist");
     }
   }
 
@@ -79,9 +79,7 @@ export const handleTemplateFile = async (
 
   if (framework === Framework.Express || framework === Framework.Koa) {
     updateInfo = {
-      [`devDependencies.@types/${
-        framework as string
-      }`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
+      [`devDependencies.@types/${framework as string}`]: `~${await getPackageVersion(`@types/${framework as string}`)}`,
     };
   }
 
@@ -101,9 +99,7 @@ export const handleTemplateFile = async (
           'dependencies.@modern-js/plugin-bff': `${await getBffPluginVersion(
             '@modern-js/plugin-bff',
           )}`,
-          [`dependencies.@modern-js/plugin-${
-            framework as string
-          }`]: `${await getBffPluginVersion(
+          [`dependencies.@modern-js/plugin-${framework as string}`]: `${await getBffPluginVersion(
             `@modern-js/plugin-${framework as string}`,
           )}`,
           'devDependencies.ts-node': '~10.8.1',
@@ -112,6 +108,7 @@ export const handleTemplateFile = async (
         },
       },
     },
+    true,
   );
 
   if (language === Language.TS) {
@@ -128,6 +125,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
   }
@@ -144,6 +142,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
     await appApi.forgeTemplate(
@@ -187,6 +186,7 @@ export const handleTemplateFile = async (
             },
           },
         },
+        true,
       );
     }
     await appApi.forgeTemplate(
@@ -236,18 +236,18 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   commonI18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/bff-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run BFF Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   try {
     await handleTemplateFile(context, generator, appApi);
   } catch (e) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
@@ -315,5 +315,5 @@ module.exports = {
     }
   }
 
-  generator.logger.debug(`forge @modern-js/bff-generator succeed `);
+  generator.logger.debug(`🌟 [End Run BFF Generator]`);
 };

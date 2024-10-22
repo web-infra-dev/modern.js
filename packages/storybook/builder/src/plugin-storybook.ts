@@ -1,13 +1,28 @@
-/* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
+import type { PluginItem } from '@babel/core';
 import {
+  applyOptionsChain,
+  globby,
+  logger,
   slash,
   watch,
-  globby,
-  applyOptionsChain,
-  logger,
 } from '@modern-js/utils';
-import { CompileOptions } from '@storybook/mdx2-csf';
+import {
+  type RsbuildConfig,
+  type RsbuildPlugin,
+  type RsbuildPluginAPI,
+  type Rspack,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
+import {
+  handlebars,
+  loadPreviewOrConfigFile,
+  normalizeStories,
+  readTemplate,
+  stringifyProcessEnvs,
+} from '@storybook/core-common';
+import type { CompileOptions } from '@storybook/mdx2-csf';
+import { globalsNameReferenceMap } from '@storybook/preview/globals';
 import type {
   CoreConfig,
   DocsOptions,
@@ -15,35 +30,20 @@ import type {
   PreviewAnnotation,
   StoriesEntry,
 } from '@storybook/types';
-import {
-  normalizeStories,
-  stringifyProcessEnvs,
-  handlebars,
-  readTemplate,
-  loadPreviewOrConfigFile,
-} from '@storybook/core-common';
-import { globalsNameReferenceMap } from '@storybook/preview/globals';
-import type { PluginItem } from '@babel/core';
-import {
-  type RsbuildPlugin,
-  type RsbuildPluginAPI,
-  type RsbuildConfig,
-  type WebpackConfig,
-  type RspackConfig,
-} from '@rsbuild/shared';
-import { mergeRsbuildConfig } from '@rsbuild/core';
 
+import type { UniBuilderConfig, WebpackConfig } from '@modern-js/uni-builder';
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
-import type { UniBuilderConfig } from '@modern-js/uni-builder';
-import { BuilderConfig, BuilderOptions } from './types';
+import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
+import type { BuilderConfig, BuilderOptions } from './types';
 import {
+  isDev,
+  maybeGetAbsolutePath,
   toImportFn,
   virtualModule,
-  maybeGetAbsolutePath,
-  isDev,
 } from './utils';
-import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
+
+type RspackConfig = Rspack.Configuration;
 
 const STORIES_FILENAME = 'storybook-stories.js';
 const STORYBOOK_CONFIG_ENTRY = 'storybook-config-entry.js';
@@ -57,83 +57,81 @@ export async function finalize() {
   await Promise.all([closeFn.map(close => close())]);
 }
 
-export const pluginStorybook: (
-  cwd: string,
-  options: Options,
-) => RsbuildPlugin = (cwd, options) => {
-  return {
-    name: 'builder-plugin-storybook',
+export const pluginStorybook: (cwd: string, options: Options) => RsbuildPlugin =
+  (cwd, options) => {
+    return {
+      name: 'builder-plugin-storybook',
 
-    remove: ['builder-plugin-inline'],
+      remove: ['builder-plugin-inline'],
 
-    async setup(api) {
-      const matchers: StoriesEntry[] = await options.presets.apply(
-        'stories',
-        [],
-        options,
-      );
-
-      const storyPatterns = normalizeStories(matchers, {
-        configDir: options.configDir,
-        workingDir: options.configDir,
-      }).map(({ directory, files }) => {
-        const pattern = join(directory, files);
-        const absolutePattern = isAbsolute(pattern)
-          ? pattern
-          : join(options.configDir, pattern);
-
-        return absolutePattern;
-      });
-
-      api.modifyRsbuildConfig(async builderConfig => {
-        // storybook needs a virtual entry,
-        // when new stories get created, the
-        // entry needs to be recauculated
-        await prepareStorybookModules(
-          api.context.cachePath,
-          cwd,
+      async setup(api) {
+        const matchers: StoriesEntry[] = await options.presets.apply(
+          'stories',
+          [],
           options,
-          builderConfig,
-          storyPatterns,
         );
 
-        // storybook predefined process.env
-        await applyDefines(builderConfig, options);
+        const storyPatterns = normalizeStories(matchers, {
+          configDir: options.configDir,
+          workingDir: options.configDir,
+        }).map(({ directory, files }) => {
+          const pattern = join(directory, files);
+          const absolutePattern = isAbsolute(pattern)
+            ? pattern
+            : join(options.configDir, pattern);
 
-        // render storybook entry template
-        await applyHTML(builderConfig, options);
-
-        // storybook dom shim
-        await applyReact(builderConfig, options);
-
-        applyOutput(builderConfig);
-
-        applyServerConfig(builderConfig, options);
-      });
-
-      const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
-        config.resolve ??= {};
-        config.resolve.fullySpecified = false;
-        await applyMdxLoader(config, options);
-        await applyCsfPlugin(config, options);
-      };
-
-      if (api.context.bundlerType === 'webpack') {
-        addonAdapter(api, options);
-
-        api.modifyWebpackConfig(modifyConfig);
-        api.modifyWebpackChain(async chain => {
-          await applyDocgenWebpack(chain, options);
+          return absolutePattern;
         });
-      } else {
-        api.modifyRspackConfig(async config => {
-          await modifyConfig(config);
-          await applyDocgenRspack(config, options);
+
+        api.modifyRsbuildConfig(async builderConfig => {
+          // storybook needs a virtual entry,
+          // when new stories get created, the
+          // entry needs to be recauculated
+          await prepareStorybookModules(
+            api.context.cachePath,
+            cwd,
+            options,
+            builderConfig,
+            storyPatterns,
+          );
+
+          // storybook predefined process.env
+          await applyDefines(builderConfig, options);
+
+          // render storybook entry template
+          await applyHTML(builderConfig, options);
+
+          // storybook dom shim
+          await applyReact(builderConfig, options);
+
+          applyOutput(builderConfig);
+
+          applyServerConfig(builderConfig, options);
         });
-      }
-    },
+
+        const modifyConfig = async (config: WebpackConfig | RspackConfig) => {
+          config.resolve ??= {};
+          config.resolve.fullySpecified = false;
+          await applyMdxLoader(config, options);
+          await applyCsfPlugin(config, options);
+        };
+
+        if (api.context.bundlerType === 'webpack') {
+          addonAdapter(api, options);
+
+          api.modifyWebpackConfig(modifyConfig);
+          api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+            await applyDocgenWebpack(chain, CHAIN_ID, options);
+          });
+        } else {
+          api.modifyRspackConfig(async config => {
+            await modifyConfig(config);
+            await applyDocgenRspack(config, options);
+          });
+        }
+      },
+    };
   };
-};
 
 async function applyCsfPlugin(
   config: WebpackConfig | RspackConfig,
@@ -178,11 +176,11 @@ async function prepareStorybookModules(
   const storybookPaths: Record<string, string> = {
     ...(componentsPath
       ? {
-          [`@storybook/components`]: componentsPath,
+          '@storybook/components': componentsPath,
         }
       : {}),
-    ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
-    ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
+    ...(routerPath ? { '@storybook/router': routerPath } : {}),
+    ...(themingPath ? { '@storybook/theming': themingPath } : {}),
   };
 
   const [mappingsAlias, write] = await virtualModule(tempDir, cwd, mappings);
@@ -351,7 +349,6 @@ function applyServerConfig(builderConfig: RsbuildConfig, options: Options) {
     port: options.port,
     host: 'localhost',
     htmlFallback: false,
-    strictPort: true,
     printUrls: false,
   };
 }

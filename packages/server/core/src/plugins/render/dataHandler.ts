@@ -1,6 +1,6 @@
 import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import { SSRRenderOptions } from './ssrRender';
+import type { SSRRenderOptions } from './ssrRender';
 
 export const dataHandler = async (
   request: Request,
@@ -8,8 +8,10 @@ export const dataHandler = async (
     routeInfo,
     serverRoutes,
     reporter,
-    logger,
+    onError,
+    onTiming,
     serverManifest,
+    loaderContext,
   }: SSRRenderOptions & {
     serverRoutes: ServerRoute[];
   },
@@ -26,12 +28,13 @@ export const dataHandler = async (
     request,
     serverRoutes,
     context: {
-      logger,
       reporter,
+      loaderContext,
     },
+    onTiming,
+    onError,
     routes,
   })) as Response | void;
 
-  // eslint-disable-next-line consistent-return
   return response;
 };

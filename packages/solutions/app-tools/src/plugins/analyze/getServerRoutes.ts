@@ -1,18 +1,18 @@
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import type { IAppContext } from '@modern-js/core';
+import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import {
-  urlJoin,
+  SERVER_BUNDLE_DIRECTORY,
+  SERVER_WORKER_BUNDLE_DIRECTORY,
+  getEntryOptions,
   isPlainObject,
   removeLeadingSlash,
-  getEntryOptions,
-  SERVER_BUNDLE_DIRECTORY,
   removeTailSlash,
-  SERVER_WORKER_BUNDLE_DIRECTORY,
+  urlJoin,
 } from '@modern-js/utils';
-import type { Entrypoint, ServerRoute } from '@modern-js/types';
-import { isMainEntry } from '../../utils/routes';
 import type { AppNormalizedConfig } from '../../types';
+import { isMainEntry } from '../../utils/routes';
 import { walkDirectory } from './utils';
 
 /**
@@ -122,7 +122,9 @@ const collectHtmlRoutes = (
   const {
     source: { mainEntryName },
     html: { disableHtmlFolder },
-    output: { distPath: { html: htmlPath } = {} },
+    output: {
+      distPath: { html: htmlPath } = {},
+    },
     server: { baseUrl, routes, ssr, ssrByEntries },
     deploy,
   } = config;
@@ -143,8 +145,7 @@ const collectHtmlRoutes = (
       const isWorker = Boolean(workerSSR);
       // The http would open stream when stream ssr or enable ssr.preload
       const isStream =
-        typeof entryOptions === 'object' &&
-        (entryOptions.mode === 'stream' || Boolean(entryOptions.preload));
+        typeof entryOptions === 'object' && entryOptions.mode === 'stream';
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
@@ -209,24 +210,28 @@ const collectStaticRoutes = (
   } = config;
   const publicFolder = path.resolve(appDirectory, configDir || '', 'public');
 
-  return fs.existsSync(publicFolder)
-    ? walkDirectory(publicFolder).map(filePath => {
-        const urlPath = `${urlJoin(
-          toPosix(filePath).slice(toPosix(publicFolder).length),
-        )}`;
+  const ignoreFiles = ['.gitkeep'];
 
-        return {
-          urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
-          isSPA: true,
-          isSSR: false,
-          entryPath: toPosix(
-            path.relative(
-              path.resolve(appDirectory, configDir || ''),
-              filePath,
+  return fs.existsSync(publicFolder)
+    ? walkDirectory(publicFolder)
+        .filter(filePath => !ignoreFiles.includes(path.basename(filePath)))
+        .map(filePath => {
+          const urlPath = `${urlJoin(
+            toPosix(filePath).slice(toPosix(publicFolder).length),
+          )}`;
+
+          return {
+            urlPath: publicRoutes[removeLeadingSlash(urlPath)] || urlPath,
+            isSPA: true,
+            isSSR: false,
+            entryPath: toPosix(
+              path.relative(
+                path.resolve(appDirectory, configDir || ''),
+                filePath,
+              ),
             ),
-          ),
-        };
-      })
+          };
+        })
     : [];
 };
 

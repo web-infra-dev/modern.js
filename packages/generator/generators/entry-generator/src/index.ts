@@ -1,14 +1,14 @@
 import path from 'path';
-import { merge } from '@modern-js/utils/lodash';
-import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   i18n as commonI18n,
   getEntrySchema,
 } from '@modern-js/generator-common';
-import { isEmptySource, isSingleEntry } from './utils';
+import { fs, getPackageObj, isTsProject } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
+import { isEmptySource, isSingleEntry } from './utils';
 
 const handleInput = async (
   context: GeneratorContext,
@@ -27,7 +27,9 @@ const handleInput = async (
     isTsProject: isTsProject(appDir),
   };
 
-  generator.logger.debug('analysisInfo:', analysisInfo);
+  generator.logger.debug(
+    `💡 [Entry Analysis Info]: ${JSON.stringify(analysisInfo)}`,
+  );
 
   const config = { ...context.config, ...analysisInfo };
   const ans = await appApi.getInputBySchemaFunc(getEntrySchema, config);
@@ -55,7 +57,9 @@ const refactorSingleEntry = async (
       return (
         filePath !== '.eslintrc.json' &&
         filePath !== '.eslintrc.js' &&
-        filePath !== 'modern-app-env.d.ts'
+        filePath !== 'modern-app-env.d.ts' &&
+        filePath !== 'modern.runtime.ts' &&
+        filePath !== 'modern.runtime.js'
       );
     })
     .map(file =>
@@ -68,7 +72,7 @@ const refactorSingleEntry = async (
   );
   oldFiles.forEach(file => {
     generator.logger.debug(
-      `rename ${file} to ${file.replace(
+      `💡 [Rename Entry Info]: from ${file} to ${file.replace(
         entriesDir,
         path.join(entriesDir, pkgName),
       )}`,
@@ -89,7 +93,7 @@ export const handleTemplateFile = async (
 
   if (ans.isSingleEntry) {
     generator.logger.debug(
-      'current is single entry, refactoring to multi entry',
+      `💡 [Current Entry Info]: Current Entry is Single Entry`,
     );
     await refactorSingleEntry(context, generator);
   }
@@ -114,13 +118,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/entry-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Entry Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   merge(context.config, { entriesDir: context.config.entriesDir || 'src' });
 
@@ -132,5 +137,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     );
   }
 
-  generator.logger.debug(`forge @modern-js/entry-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Entry Generator]`);
 };

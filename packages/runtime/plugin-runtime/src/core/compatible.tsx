@@ -1,16 +1,18 @@
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
-import type { hydrateRoot, createRoot } from 'react-dom/client';
-import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import type { createRoot, hydrateRoot } from 'react-dom/client';
+import { hydrateRoot as ModernHydrateRoot } from './browser/hydrate';
+import { getGlobalAppInit } from './context';
 import {
+  type RuntimeContext,
   RuntimeReactContext,
-  RuntimeContext,
-  TRuntimeContext,
+  type TRuntimeContext,
 } from './context/runtime';
-import { Plugin, registerPlugin, runtime } from './plugin';
 import { createLoaderManager } from './loader/loaderManager';
+import { type Plugin, registerPlugin, type runtime } from './plugin';
 import { getGlobalRunner } from './plugin/runner';
+import { wrapRuntimeContextProvider } from './react/wrapper';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -67,44 +69,13 @@ export const createApp = ({
       );
     };
 
-    if (App) {
-      hoistNonReactStatics(WrapperComponent, App);
-    }
+    const WrapperApp = runner.wrapRoot(WrapperComponent);
+    const WrapComponent = (props: any) => {
+      const mergedProps = { ...props, ...globalProps };
+      return <WrapperApp {...mergedProps} />;
+    };
 
-    const HOCApp = runner.hoc(
-      { App: WrapperComponent, config: globalProps || {} },
-      {
-        onLast: ({ App }: any) => {
-          const WrapComponent = ({ context, ...props }: any) => {
-            let contextValue = context;
-
-            // We should construct the context, when root component is not passed into `bootstrap`.
-            if (!contextValue?.runner) {
-              contextValue = getInitialContext(runner);
-
-              runner.init(
-                { context: contextValue },
-                {
-                  onLast: ({ context: context1 }) => App?.init?.(context1),
-                },
-              );
-            }
-
-            const mergedProps = { ...props, ...globalProps };
-
-            return (
-              <RuntimeReactContext.Provider value={contextValue}>
-                <App {...mergedProps} />
-              </RuntimeReactContext.Provider>
-            );
-          };
-
-          return hoistNonReactStatics(WrapComponent, App);
-        },
-      },
-    );
-
-    return HOCApp;
+    return WrapComponent;
   };
 };
 
@@ -132,39 +103,34 @@ export const bootstrap: BootStrap = async (
    */
   root,
   ReactDOM,
-  // eslint-disable-next-line consistent-return
 ) => {
   const App = BootApp;
   const runner = getGlobalRunner();
 
   const context: RuntimeContext = getInitialContext(runner);
 
-  const runInit = (_context: RuntimeContext) =>
-    runner.init(
-      { context: _context },
-      {
-        onLast: ({ context: context1 }) => (App as any)?.init?.(context1),
-      },
-    );
+  const runBeforeRender = async (context: RuntimeContext) => {
+    await runner.beforeRender(context);
+    const init = getGlobalAppInit();
+    return init?.(context);
+  };
 
   // don't mount the App, let user in charge of it.
   if (!id) {
-    return React.createElement(App as React.ComponentType<any>, {
-      context,
-    });
+    return wrapRuntimeContextProvider(<App />, context);
   }
 
   const isBrowser = typeof window !== 'undefined' && window.name !== 'nodejs';
   if (isBrowser) {
     if (isClientArgs(id)) {
-      const ssrData = (window as any)._SSR_DATA;
+      const ssrData = window._SSR_DATA;
       const loadersData = ssrData?.data?.loadersData || {};
 
       const initialLoadersState = Object.keys(loadersData).reduce(
         (res: any, key) => {
           const loaderData = loadersData[key];
 
-          if (loaderData.loading !== false) {
+          if (loaderData?.loading !== false) {
             return res;
           }
 
@@ -182,9 +148,9 @@ export const bootstrap: BootStrap = async (
       });
 
       context.initialData = ssrData?.data?.initialData;
-      const initialData = await runInit(context);
+      const initialData = await runBeforeRender(context);
       if (initialData) {
-        context.initialData = initialData;
+        context.initialData = initialData as Record<string, unknown>;
       }
 
       const rootElement =
@@ -198,8 +164,12 @@ export const bootstrap: BootStrap = async (
         if (IS_REACT18) {
           if (root) {
             root.render(App);
-          } else if (ReactDOM.createRoot) {
-            ReactDOM.createRoot(rootElement).render(App);
+            return root;
+          }
+          if (ReactDOM.createRoot) {
+            const root = ReactDOM.createRoot(rootElement);
+            root.render(App);
+            return root;
           } else {
             throw Error(
               'The `bootstrap` `ReactDOM` parameter needs to provide the `createRoot` method',
@@ -212,13 +182,14 @@ export const bootstrap: BootStrap = async (
             );
           }
           ReactDOM.render(App, rootElement);
+          return rootElement;
         }
       };
 
       const ModernHydrate = (
         App: React.ReactElement,
         callback?: () => void,
-      ) => {
+      ): any => {
         if (IS_REACT18) {
           if (!ReactDOM.hydrateRoot) {
             throw Error(
@@ -226,103 +197,43 @@ export const bootstrap: BootStrap = async (
             );
           }
           ReactDOM.hydrateRoot(rootElement, App);
-        } else {
-          if (!ReactDOM.hydrate) {
-            throw Error(
-              'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
-            );
-          }
-          ReactDOM.hydrate(App, rootElement, callback);
+          return rootElement;
         }
+        if (!ReactDOM.hydrate) {
+          throw Error(
+            'The `bootstrap` `ReactDOM` parameter needs to provide the `hydrate` method',
+          );
+        }
+        ReactDOM.hydrate(App, rootElement, callback);
+        return rootElement;
       };
 
-      return runner.client(
-        {
-          App,
-          context,
-          ModernRender,
-          ModernHydrate,
-        },
-        {
-          onLast: ({ App }) => {
-            ModernRender(React.createElement(App, { context }));
-          },
-        },
-      );
+      // we should hydateRoot only when ssr
+      if (ssrData) {
+        return ModernHydrateRoot(<App />, context, ModernRender, ModernHydrate);
+      }
+      return ModernRender(wrapRuntimeContextProvider(<App />, context));
     } else {
       throw Error(
         '`bootstrap` needs id in browser environment, it needs to be string or element',
       );
     }
   } else {
-    Object.assign(context, {
-      ssrContext: id,
-      isBrowser: false,
-      loaderManager: createLoaderManager(
-        {},
-        {
-          skipNonStatic: (id as Record<string, any>).staticGenerate,
-          // if not static generate, only non-static loader can exec on prod env
-          skipStatic:
-            process.env.NODE_ENV === 'production' &&
-            !(id as Record<string, any>).staticGenerate,
-        },
-      ),
-    });
-
-    // Handle redirects from React Router with an HTTP redirect
-    const isRedirectResponse = (result: any) => {
-      if (
-        typeof Response !== 'undefined' && // fix: ssg workflow doesn't inject Web Response
-        result instanceof Response &&
-        result.status >= 300 &&
-        result.status <= 399
-      ) {
-        const { status } = result;
-        const redirectUrl = result.headers.get('Location') || '/';
-        const { ssrContext } = context;
-        if (ssrContext) {
-          ssrContext.res && (ssrContext.res.statusCode = status);
-          ssrContext.res?.setHeader('Location', redirectUrl);
-          ssrContext.redirection = ssrContext.redirection || {};
-          ssrContext.redirection.status = status;
-          ssrContext.redirection.url = redirectUrl;
-        }
-        return true;
-      }
-      return false;
-    };
-
-    const initialData = await runInit(context);
-    if (!isRedirectResponse(initialData)) {
-      context.initialData = initialData;
-      // Support data loader to return status code
-      if (
-        context.routerContext?.statusCode &&
-        context.routerContext?.statusCode !== 200
-      ) {
-        context.ssrContext?.response.status(context.routerContext?.statusCode);
-      }
-      return runner.server({
-        App,
-        context,
-      });
-    }
+    throw Error('Bootstrap function not support ssr render');
   }
 };
 
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
+  const pickedContext: TRuntimeContext = {
+    ...context,
+    request: context.ssrContext?.request,
+    response: context.ssrContext?.response,
+  };
+
   const memoizedContext = useMemo(
-    () =>
-      context.runner.pickContext(
-        { context, pickedContext: {} as any },
-        {
-          onLast: ({ pickedContext }: { pickedContext: TRuntimeContext }) =>
-            pickedContext,
-        },
-      ),
+    () => context.runner.pickContext(pickedContext),
     [context],
   );
 

@@ -1,103 +1,111 @@
 import type { IncomingMessage } from 'http';
-import type * as nodeStream from 'stream';
+import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
 import type {
   CacheControl,
   CacheOption,
   CacheOptionProvider,
   Container,
 } from '@modern-js/types';
-import { createMemoryStorage } from '@modern-js/runtime-utils/storer';
-import type * as streamPolyfills from '../../adapters/node/polyfills/stream';
-import { createTransformStream, getPathname, getRuntimeEnv } from '../../utils';
-import type { SSRServerContext, ServerRender } from '../../types';
+import { X_RENDER_CACHE } from '../../constants';
+import type {
+  RequestHandler,
+  RequestHandlerOptions,
+} from '../../types/requestHandler';
+import { createTransformStream, getPathname } from '../../utils';
 
 interface CacheStruct {
   val: string;
   cursor: number;
 }
 
+const ZERO_RENDER_LEVEL = /"renderLevel":0/;
+const NO_SSR_CACHE = /<meta\s+[^>]*name=["']no-ssr-cache["'][^>]*>/i;
+
 export type CacheStatus = 'hit' | 'stale' | 'expired' | 'miss';
-export type CacheResult = {
-  data: string | nodeStream.Readable | ReadableStream;
-  status?: CacheStatus;
-};
 
-async function processCache(
-  key: string,
-  render: ServerRender,
-  ssrContext: SSRServerContext,
-  ttl: number,
-  container: Container,
-  status?: CacheStatus,
-) {
-  const renderResult = await render(ssrContext);
+async function processCache({
+  request,
+  key,
+  requestHandler,
+  requestHandlerOptions,
+  ttl,
+  container,
+  cacheStatus,
+}: {
+  request: Request;
+  key: string;
+  requestHandler: RequestHandler;
+  requestHandlerOptions: RequestHandlerOptions;
+  ttl: number;
+  container: Container;
+  cacheStatus?: CacheStatus;
+}) {
+  const response = await requestHandler(request, requestHandlerOptions);
+  const { onError } = requestHandlerOptions;
 
-  if (!renderResult) {
-    return { data: '' };
-  } else if (typeof renderResult === 'string') {
-    const current = Date.now();
-    const cache: CacheStruct = {
-      val: renderResult,
-      cursor: current,
-    };
-    await container.set(key, JSON.stringify(cache), { ttl });
-    return { data: renderResult, status };
-  } else {
-    const { Readable } = await import('stream').catch(_ => ({
-      Readable: undefined,
-    }));
+  const decoder: TextDecoder = new TextDecoder();
 
-    const runtimeEnv = getRuntimeEnv();
+  if (response.body) {
+    const stream = createTransformStream();
 
-    const streamModule = '../../adapters/node/polyfills/stream';
-    const { createReadableStreamFromReadable } =
-      runtimeEnv === 'node'
-        ? ((await import(streamModule).catch(_ => ({
-            createReadableStreamFromReadable: undefined,
-          }))) as typeof streamPolyfills)
-        : { createReadableStreamFromReadable: undefined };
-
-    const body =
-      // TODO: remove node:stream, move it to ssr entry.
-      Readable && renderResult instanceof Readable
-        ? createReadableStreamFromReadable?.(renderResult)
-        : (renderResult as ReadableStream);
-
-    let html = '';
-    const stream = createTransformStream(chunk => {
-      html += chunk;
-
-      return chunk;
-    });
-
-    const reader = body!.getReader();
+    const reader = response.body.getReader();
     const writer = stream.writable.getWriter();
 
-    const push = () => {
+    let html = '';
+    const push = () =>
       reader.read().then(({ done, value }) => {
         if (done) {
+          const match = ZERO_RENDER_LEVEL.test(html) || NO_SSR_CACHE.test(html);
+          // case 1: We should not cache the html, if we can match the html is downgrading.
+          // case 2: We should not cache the html, if the user's code contains <NoSSRCache>.
+          if (match) {
+            writer.close();
+            return;
+          }
           const current = Date.now();
           const cache: CacheStruct = {
             val: html,
             cursor: current,
           };
-          container.set(key, JSON.stringify(cache), { ttl });
+
+          container.set(key, JSON.stringify(cache), { ttl }).catch(() => {
+            if (onError) {
+              onError(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            } else {
+              console.error(
+                `[render-cache] set cache failed, key: ${key}, value: ${JSON.stringify(
+                  cache,
+                )}`,
+              );
+            }
+          });
+
           writer.close();
           return;
         }
 
+        const content = decoder.decode(value);
+        html += content;
+
         writer.write(value);
         push();
       });
-    };
 
     push();
 
-    return {
-      data: stream.readable,
-      status,
-    };
+    cacheStatus && response.headers.set(X_RENDER_CACHE, cacheStatus);
+
+    return new Response(stream.readable, {
+      status: response.status,
+      headers: response.headers,
+    });
   }
+
+  return response;
 }
 
 const CACHE_NAMESPACE = '__ssr__cache';
@@ -125,10 +133,13 @@ function computedKey(req: Request, cacheControl: CacheControl): string {
   }
 }
 
+type MaybeAsync<T> = Promise<T> | T;
+
 export function matchCacheControl(
   cacheOption?: CacheOption,
+  // TODO: remove nodeReq
   req?: IncomingMessage,
-): CacheControl | Promise<CacheControl> | undefined {
+): MaybeAsync<CacheControl | undefined | false> {
   if (!cacheOption || !req) {
     return undefined;
   } else if (isCacheControl(cacheOption)) {
@@ -165,20 +176,36 @@ export function matchCacheControl(
 
 export interface GetCacheResultOptions {
   cacheControl: CacheControl;
-  render: ServerRender;
-  ssrContext: SSRServerContext;
+  requestHandler: RequestHandler;
+  requestHandlerOptions: RequestHandlerOptions;
   container?: Container;
 }
 
 export async function getCacheResult(
   request: Request,
   options: GetCacheResultOptions,
-): Promise<CacheResult> {
-  const { cacheControl, render, ssrContext, container = storage } = options;
+): Promise<Response> {
+  const {
+    cacheControl,
+    container = storage,
+    requestHandler,
+    requestHandlerOptions,
+  } = options;
+  const { onError } = requestHandlerOptions;
 
   const key = computedKey(request, cacheControl);
 
-  const value = await container.get(key);
+  let value: string | undefined;
+  try {
+    value = await container.get(key);
+  } catch (_) {
+    if (onError) {
+      onError(`[render-cache] get cache failed, key: ${key}`);
+    } else {
+      console.error(`[render-cache] get cache failed, key: ${key}`);
+    }
+    value = undefined;
+  }
   const { maxAge, staleWhileRevalidate } = cacheControl;
   const ttl = maxAge + staleWhileRevalidate;
 
@@ -189,22 +216,55 @@ export async function getCacheResult(
 
     if (interval <= maxAge) {
       // the cache is validate
-      return {
-        data: cache.val,
-        status: 'hit',
-      };
+      const cacheStatus: CacheStatus = 'hit';
+      return new Response(cache.val, {
+        headers: {
+          [X_RENDER_CACHE]: cacheStatus,
+        },
+      });
     } else if (interval <= staleWhileRevalidate + maxAge) {
       // the cache is stale while revalidate
 
       // we shouldn't await this promise.
-      processCache(key, render, ssrContext, ttl, container);
+      processCache({
+        key,
+        request,
+        requestHandler,
+        requestHandlerOptions,
+        ttl,
+        container,
+      }).then(async response => {
+        // For cache the readableStream, we need confirm the response is consume,
+        await response.text();
+      });
 
-      return { data: cache.val, status: 'stale' };
+      const cacheStatus: CacheStatus = 'stale';
+      return new Response(cache.val, {
+        headers: {
+          [X_RENDER_CACHE]: cacheStatus,
+        },
+      });
     } else {
       // the cache is invalidate
-      return processCache(key, render, ssrContext, ttl, container, 'expired');
+      return processCache({
+        key,
+        request,
+        requestHandler,
+        requestHandlerOptions,
+        ttl,
+        container,
+        cacheStatus: 'expired',
+      });
     }
   } else {
-    return processCache(key, render, ssrContext, ttl, container, 'miss');
+    return processCache({
+      key,
+      request,
+      requestHandler,
+      requestHandlerOptions,
+      ttl,
+      container,
+      cacheStatus: 'miss',
+    });
   }
 }

@@ -1,5 +1,179 @@
 # @modern-js/core
 
+## 2.60.4
+
+### Patch Changes
+
+- d93bdb4: fix: remove node_modules in watcher ignored list
+  fix: 移除 watcher 忽略列表中的 node_modules
+  - @modern-js/node-bundle-require@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/node-bundle-require@2.60.3
+  - @modern-js/plugin@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/node-bundle-require@2.60.2
+  - @modern-js/plugin@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.60.1
+- @modern-js/plugin@2.60.1
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 96434b3: fix(cli): correct process exit code
+
+  fix(cli): 修正 process exit code
+
+  - @modern-js/node-bundle-require@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+- @modern-js/node-bundle-require@2.59.0
+- @modern-js/plugin@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.58.3
+- @modern-js/plugin@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+  - @modern-js/node-bundle-require@2.58.2
+  - @modern-js/plugin@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- b0aff52: chore(workflow): no need to build websites
+- e0e1abc: chore(workflow): use taze to update rsbuild and rspress
+  - @modern-js/utils@2.58.1
+  - @modern-js/node-bundle-require@2.58.1
+  - @modern-js/plugin@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.58.0
+- @modern-js/plugin@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.57.1
+- @modern-js/plugin@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/plugin@2.57.0
+  - @modern-js/node-bundle-require@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.56.2
+- @modern-js/plugin@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.56.1
+- @modern-js/plugin@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+- @modern-js/node-bundle-require@2.56.0
+- @modern-js/plugin@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/node-bundle-require@2.55.0
+  - @modern-js/plugin@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.54.6
+- @modern-js/plugin@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.54.5
+- @modern-js/plugin@2.54.5
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.54.4
+- @modern-js/plugin@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.54.3
+- @modern-js/plugin@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

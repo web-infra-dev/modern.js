@@ -1,5 +1,5 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import { PackageManager } from '@modern-js/generator-common';
@@ -16,12 +16,16 @@ const handleTemplateFile = async (
     Object.entries(packagesInfo || {}).forEach(([name, version]) => {
       update[`pnpm.overrides.${name}`] = version as string;
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   } else if (packageManager === PackageManager.Yarn) {
     const pkgInfo = fs.readJSONSync(
       path.join(context.materials.default.basePath, 'package.json'),
@@ -39,12 +43,16 @@ const handleTemplateFile = async (
         update[`devDependencies.${name}`] = version as string;
       }
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   } else {
     const pkgInfo = fs.readJSONSync(
       path.join(context.materials.default.basePath, 'package.json'),
@@ -62,12 +70,16 @@ const handleTemplateFile = async (
         update[`devDependencies.${name}`] = version as string;
       }
     });
-    await jsonAPI.update(context.materials.default.get('package.json'), {
-      query: {},
-      update: {
-        $set: update,
+    await jsonAPI.update(
+      context.materials.default.get('package.json'),
+      {
+        query: {},
+        update: {
+          $set: update,
+        },
       },
-    });
+      true,
+    );
   }
 };
 
@@ -77,15 +89,16 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/packages-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Packages Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator);
 
-  generator.logger.debug(`forge @modern-js/packages-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Packages Generator]`);
 };

@@ -1,3 +1,3 @@
-import { bb, aa } from './test';
+import { aa, bb } from './test';
 
 console.log(aa, bb);

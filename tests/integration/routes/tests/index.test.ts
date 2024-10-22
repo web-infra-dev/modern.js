@@ -1,17 +1,16 @@
-/* eslint-disable max-lines */
 import path from 'path';
-import puppeteer, { Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import puppeteer, { type Browser } from 'puppeteer';
 
 import type { Page } from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
+  launchOptions,
   modernBuild,
   modernServe,
-  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
@@ -315,6 +314,9 @@ const supportHandleLoaderError = async (
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
+
+  await page.waitForSelector('.loader-error-btn');
+
   await Promise.all([
     page.click('.loader-error-btn'),
     page.waitForSelector('.error-loader-page'),
@@ -364,9 +366,13 @@ const supportThrowResponse = async (
   errors: string[],
   appPort: number,
 ) => {
-  await page.goto(`http://localhost:${appPort}/three/error/response`, {
-    waitUntil: ['domcontentloaded'],
-  });
+  const response = await page.goto(
+    `http://localhost:${appPort}/three/error/response`,
+    {
+      waitUntil: ['domcontentloaded'],
+    },
+  );
+  expect(response?.status()).toBe(255);
   const errorStatusElm = await page.$('.response-status');
   const text = await page.evaluate(el => el?.textContent, errorStatusElm);
   expect(text?.includes('255')).toBeTruthy();
@@ -384,7 +390,9 @@ const supportLoaderForSSRAndCSR = async (
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
-  await page.click('.user-btn');
+  await page.waitForSelector('.user-btn');
+  const button = await page.$('.user-btn');
+  await button?.click();
   await page.waitForSelector('.user-layout');
   const userLayout = await page.$(`.user-layout`);
   const text = await page.evaluate(el => {
@@ -1250,4 +1258,3 @@ describe('build with rspack', () => {
     await browser.close();
   });
 });
-/* eslint-enable max-lines */

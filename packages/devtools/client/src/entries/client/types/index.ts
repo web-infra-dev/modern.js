@@ -3,7 +3,7 @@ import type {
   NameDefinition,
   PackageDefinition,
 } from '@modern-js/devtools-kit/runtime';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export interface BreadcrumbItem {
   title: ReactNode;

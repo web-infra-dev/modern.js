@@ -1,13 +1,13 @@
 import type {
-  ServerUserConfig as LegacyServerUserConfig,
   BffUserConfig as LegacyBffUserConfig,
+  ServerUserConfig as LegacyServerUserConfig,
 } from '@modern-js/server-core';
+import type { DeployLegacyUserConfig } from './deploy';
 import type { DevUserLegacyConfig } from './dev';
 import type { OutputLegacyUserConfig } from './output';
 import type { SourceLegacyUserConfig } from './source';
-import type { DeployLegacyUserConfig } from './deploy';
-import type { ToolsLegacyUserConfig } from './tools';
 import type { TestingLegacyUserConfig } from './testing';
+import type { ToolsLegacyUserConfig } from './tools';
 
 export type { DevUserLegacyConfig } from './dev';
 export type { OutputLegacyUserConfig } from './output';

@@ -1,5 +1,133 @@
 # @modern-js/core
 
+## 2.60.4
+
+### Patch Changes
+
+- @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 9e1ce1f: fix(plugin-swc): function config not works
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- 380c4a3: fix: add bff/tailwindcss/swc plugin exported types
+  fix: 添加 bff/tailwindcss/swc 插件的导出类型
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

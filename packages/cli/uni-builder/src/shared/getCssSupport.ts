@@ -1,4 +1,4 @@
-import browserslist from '@rsbuild/shared/browserslist';
+import browserslist from 'browserslist';
 
 const CSS_FEATURES_BROWSER = {
   customProperties: {

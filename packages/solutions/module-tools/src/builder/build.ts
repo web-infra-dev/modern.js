@@ -1,19 +1,19 @@
-import { slash, logger, fs } from '@modern-js/utils';
-import {
-  withLogTitle,
-  getDefaultOutExtension,
-  getProjectTsconfig,
-} from '../utils';
-import type {
-  BuildCommandOptions,
-  BaseBuildConfig,
-  ModuleTools,
-  PluginAPI,
-  DTSOptions,
-  ModuleContext,
-} from '../types';
+import { fs, logger, slash } from '@modern-js/utils';
 import pMap from '../../compiled/p-map';
 import { debug, label } from '../debug';
+import type {
+  BaseBuildConfig,
+  BuildCommandOptions,
+  DTSOptions,
+  ModuleContext,
+  ModuleTools,
+  PluginAPI,
+} from '../types';
+import {
+  getDefaultOutExtension,
+  getProjectTsconfig,
+  withLogTitle,
+} from '../utils';
 import { copyTask } from './copy';
 import { createCompiler } from './esbuild';
 
@@ -35,7 +35,9 @@ export const runBuildTask = async (
   const existTsconfig = await fs.pathExists(buildConfig.tsconfig);
 
   if (Object.keys(buildConfig.input).length === 0) {
-    logger.info('The input config is empty, as a result, the JS compilation and dts generation tasks will be skipped. Please provide input to run these tasks.');
+    logger.info(
+      'The input config is empty, as a result, the JS compilation and dts generation tasks will be skipped. Please provide input to run these tasks.',
+    );
     return;
   }
 
@@ -45,7 +47,7 @@ export const runBuildTask = async (
       await task(buildConfig, api, { watch, dts });
     });
   } else {
-    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+    // biome-ignore lint/complexity/useOptionalChain: <explanation>
     if (dts && dts.only) {
       return;
     }

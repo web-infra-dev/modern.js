@@ -1,8 +1,8 @@
+import type { GeneratorCore } from '@modern-js/codesmith';
 import { GitAPI } from '@modern-js/codesmith-api-git';
-import { GeneratorCore } from '@modern-js/codesmith';
 
 export class PluginGitAPI {
-  gitMessage: string = '';
+  gitMessage = '';
 
   private gitApi?: GitAPI;
 

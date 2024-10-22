@@ -1,5 +1,360 @@
 # @modern-js/plugin-testing
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [518b783]
+- Updated dependencies [a4160c7]
+- Updated dependencies [a9e3eb7]
+- Updated dependencies [df1bed5]
+  - @modern-js/server-core@2.60.4
+  - @modern-js/bff-core@2.60.4
+  - @modern-js/runtime@2.60.4
+  - @modern-js/prod-server@2.60.4
+  - @modern-js/babel-preset@2.60.4
+  - @modern-js/babel-compiler@2.60.4
+  - @modern-js/plugin@2.60.4
+  - @modern-js/types@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/runtime@2.60.3
+  - @modern-js/bff-core@2.60.3
+  - @modern-js/server-core@2.60.3
+  - @modern-js/prod-server@2.60.3
+  - @modern-js/babel-compiler@2.60.3
+  - @modern-js/plugin@2.60.3
+  - @modern-js/babel-preset@2.60.3
+  - @modern-js/types@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+- Updated dependencies [b36bf9f]
+- Updated dependencies [d4e32bf]
+- Updated dependencies [0a31d31]
+  - @modern-js/runtime@2.60.2
+  - @modern-js/utils@2.60.2
+  - @modern-js/server-core@2.60.2
+  - @modern-js/bff-core@2.60.2
+  - @modern-js/prod-server@2.60.2
+  - @modern-js/babel-compiler@2.60.2
+  - @modern-js/plugin@2.60.2
+  - @modern-js/babel-preset@2.60.2
+  - @modern-js/types@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [4cfe425]
+- Updated dependencies [80825c4]
+- Updated dependencies [3f968e1]
+  - @modern-js/runtime@2.60.1
+  - @modern-js/babel-preset@2.60.1
+  - @modern-js/bff-core@2.60.1
+  - @modern-js/server-core@2.60.1
+  - @modern-js/prod-server@2.60.1
+  - @modern-js/babel-compiler@2.60.1
+  - @modern-js/plugin@2.60.1
+  - @modern-js/types@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- Updated dependencies [d6e0118]
+- Updated dependencies [e27b46a]
+- Updated dependencies [28f0101]
+  - @modern-js/runtime@2.60.0
+  - @modern-js/server-core@2.60.0
+  - @modern-js/prod-server@2.60.0
+  - @modern-js/babel-preset@2.60.0
+  - @modern-js/bff-core@2.60.0
+  - @modern-js/babel-compiler@2.60.0
+  - @modern-js/plugin@2.60.0
+  - @modern-js/types@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- Updated dependencies [539d72b]
+- Updated dependencies [553924c]
+- Updated dependencies [ef1ec44]
+- Updated dependencies [80237dc]
+- Updated dependencies [6c084da]
+  - @modern-js/types@2.59.0
+  - @modern-js/server-core@2.59.0
+  - @modern-js/runtime@2.59.0
+  - @modern-js/bff-core@2.59.0
+  - @modern-js/prod-server@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/babel-preset@2.59.0
+  - @modern-js/babel-compiler@2.59.0
+  - @modern-js/plugin@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- Updated dependencies [6b0a5c4]
+- Updated dependencies [36ccad3]
+- Updated dependencies [0b581a4]
+- Updated dependencies [610554c]
+- Updated dependencies [59fba90]
+- Updated dependencies [f624878]
+- Updated dependencies [9e82b00]
+- Updated dependencies [e0cb246]
+  - @modern-js/runtime@2.58.3
+  - @modern-js/server-core@2.58.3
+  - @modern-js/prod-server@2.58.3
+  - @modern-js/babel-preset@2.58.3
+  - @modern-js/bff-core@2.58.3
+  - @modern-js/babel-compiler@2.58.3
+  - @modern-js/plugin@2.58.3
+  - @modern-js/types@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 44c1bc4: feat(server): support esm
+  feat(server): support esm
+- Updated dependencies [9bbb0a0]
+- Updated dependencies [1ff0304]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+- Updated dependencies [81829b0]
+  - @modern-js/runtime@2.58.2
+  - @modern-js/server-core@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/prod-server@2.58.2
+  - @modern-js/bff-core@2.58.2
+  - @modern-js/babel-compiler@2.58.2
+  - @modern-js/plugin@2.58.2
+  - @modern-js/babel-preset@2.58.2
+  - @modern-js/types@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- Updated dependencies [ec01bad]
+- Updated dependencies [2482a6b]
+- Updated dependencies [7a88ae9]
+- Updated dependencies [c904ee2]
+- Updated dependencies [a214ea8]
+- Updated dependencies [9db73d7]
+  - @modern-js/runtime@2.58.1
+  - @modern-js/types@2.58.1
+  - @modern-js/server-core@2.58.1
+  - @modern-js/bff-core@2.58.1
+  - @modern-js/prod-server@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/babel-preset@2.58.1
+  - @modern-js/babel-compiler@2.58.1
+  - @modern-js/plugin@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- Updated dependencies [7188385]
+- Updated dependencies [cc74dba]
+  - @modern-js/runtime@2.58.0
+  - @modern-js/babel-preset@2.58.0
+  - @modern-js/bff-core@2.58.0
+  - @modern-js/server-core@2.58.0
+  - @modern-js/prod-server@2.58.0
+  - @modern-js/babel-compiler@2.58.0
+  - @modern-js/plugin@2.58.0
+  - @modern-js/types@2.58.0
+  - @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- Updated dependencies [bc565cd]
+  - @modern-js/server-core@2.57.1
+  - @modern-js/runtime@2.57.1
+  - @modern-js/prod-server@2.57.1
+  - @modern-js/babel-preset@2.57.1
+  - @modern-js/bff-core@2.57.1
+  - @modern-js/babel-compiler@2.57.1
+  - @modern-js/plugin@2.57.1
+  - @modern-js/types@2.57.1
+  - @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+- Updated dependencies [abad541]
+- Updated dependencies [223d63b]
+- Updated dependencies [0e906a1]
+- Updated dependencies [6cec127]
+- Updated dependencies [b5a48a8]
+- Updated dependencies [a9807e5]
+- Updated dependencies [203c9eb]
+- Updated dependencies [916559a]
+- Updated dependencies [db43d8e]
+- Updated dependencies [dc736ef]
+- Updated dependencies [604ad3a]
+- Updated dependencies [dc736ef]
+  - @modern-js/runtime@2.57.0
+  - @modern-js/types@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/server-core@2.57.0
+  - @modern-js/prod-server@2.57.0
+  - @modern-js/plugin@2.57.0
+  - @modern-js/bff-core@2.57.0
+  - @modern-js/babel-compiler@2.57.0
+  - @modern-js/babel-preset@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- Updated dependencies [e9c724c]
+- Updated dependencies [9626370]
+- Updated dependencies [89e1df0]
+- Updated dependencies [c441e14]
+  - @modern-js/runtime@2.56.2
+  - @modern-js/babel-preset@2.56.2
+  - @modern-js/bff-core@2.56.2
+  - @modern-js/server-core@2.56.2
+  - @modern-js/prod-server@2.56.2
+  - @modern-js/babel-compiler@2.56.2
+  - @modern-js/plugin@2.56.2
+  - @modern-js/types@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [ad9e984]
+- Updated dependencies [137d387]
+- Updated dependencies [1696694]
+  - @modern-js/runtime@2.56.1
+  - @modern-js/prod-server@2.56.1
+  - @modern-js/babel-preset@2.56.1
+  - @modern-js/bff-core@2.56.1
+  - @modern-js/babel-compiler@2.56.1
+  - @modern-js/plugin@2.56.1
+  - @modern-js/types@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [ced7039]
+- Updated dependencies [bedbbb3]
+- Updated dependencies [53419a5]
+- Updated dependencies [6fda6a2]
+- Updated dependencies [0f0a31e]
+- Updated dependencies [f27eaab]
+- Updated dependencies [32d31c3]
+- Updated dependencies [119b9e1]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d36f095]
+  - @modern-js/runtime@2.56.0
+  - @modern-js/prod-server@2.56.0
+  - @modern-js/types@2.56.0
+  - @modern-js/babel-preset@2.56.0
+  - @modern-js/bff-core@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/babel-compiler@2.56.0
+  - @modern-js/plugin@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [1430c5d]
+- Updated dependencies [35cddd7]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a38bb04]
+- Updated dependencies [1515ea9]
+- Updated dependencies [59e46ad]
+- Updated dependencies [283ac69]
+- Updated dependencies [e0c2384]
+  - @modern-js/runtime@2.55.0
+  - @modern-js/prod-server@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/types@2.55.0
+  - @modern-js/bff-core@2.55.0
+  - @modern-js/babel-compiler@2.55.0
+  - @modern-js/plugin@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.6
+- @modern-js/bff-core@2.54.6
+- @modern-js/prod-server@2.54.6
+- @modern-js/babel-compiler@2.54.6
+- @modern-js/plugin@2.54.6
+- @modern-js/types@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5525a23]
+- Updated dependencies [5510104]
+  - @modern-js/prod-server@2.54.5
+  - @modern-js/runtime@2.54.5
+  - @modern-js/bff-core@2.54.5
+  - @modern-js/babel-compiler@2.54.5
+  - @modern-js/plugin@2.54.5
+  - @modern-js/types@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.4
+- @modern-js/bff-core@2.54.4
+- @modern-js/prod-server@2.54.4
+- @modern-js/babel-compiler@2.54.4
+- @modern-js/plugin@2.54.4
+- @modern-js/types@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- Updated dependencies [b50d7ec]
+- Updated dependencies [c5644c9]
+  - @modern-js/prod-server@2.54.3
+  - @modern-js/runtime@2.54.3
+  - @modern-js/bff-core@2.54.3
+  - @modern-js/babel-compiler@2.54.3
+  - @modern-js/plugin@2.54.3
+  - @modern-js/types@2.54.3
+  - @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

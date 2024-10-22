@@ -1,15 +1,15 @@
+import type { FSWatcher } from '@modern-js/utils';
 import type {
   BuildContext,
   BuildOptions,
-  OnLoadArgs,
-  OnLoadResult,
   BuildResult,
   ImportKind,
+  OnLoadArgs,
+  OnLoadResult,
 } from 'esbuild';
 import type { AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
-import { FSWatcher } from '@modern-js/utils';
-import { BaseBuildConfig } from './config';
-import { ModuleTools, PluginAPI } from '.';
+import type { ModuleTools, PluginAPI } from '.';
+import type { BaseBuildConfig } from './config';
 
 export interface SourceMap {
   mappings: string;
@@ -135,7 +135,7 @@ export type JsChunk = {
 
 export type Chunk = AssetChunk | JsChunk;
 
-export const enum ChunkType {
+export enum ChunkType {
   chunk = 'chunk',
   asset = 'asset',
 }

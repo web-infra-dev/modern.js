@@ -1,5 +1,160 @@
 # @modern-js/plugin-data-loader
 
+## 2.60.4
+
+### Patch Changes
+
+- a9e3eb7: fix(server): should get context from unstable middleware correctly
+  fix(server): 应该正确地获取到 loaderContext
+- Updated dependencies [c87813e]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.60.1
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.60.0
+- @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.59.0
+- @modern-js/utils@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.58.1
+- @modern-js/utils@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- ce9c43a: fix: data loader support async-node target
+- Updated dependencies [2515b00]
+- Updated dependencies [916559a]
+- Updated dependencies [dc736ef]
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.56.0
+- @modern-js/utils@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/runtime-utils@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.54.5
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/runtime-utils@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

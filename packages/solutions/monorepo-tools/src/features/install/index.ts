@@ -2,8 +2,8 @@ import * as path from 'path';
 import { fs, yaml } from '@modern-js/utils';
 import { JsonFile } from '@rushstack/node-core-library';
 import { WORKSPACE_FILE } from '../../constants';
-import type { ICommandConfig, IPnpmWorkSpace } from '../../type';
 import type { DagOperator } from '../../dag/operator';
+import type { ICommandConfig, IPnpmWorkSpace } from '../../type';
 import { installByPackageManager } from '../../utils/install';
 
 export interface IInstallConfig extends ICommandConfig {

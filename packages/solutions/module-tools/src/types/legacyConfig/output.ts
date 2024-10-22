@@ -1,4 +1,4 @@
-import { Externals, Minify, Platform } from '../config';
+import type { Externals, Minify, Platform } from '../config';
 
 export type LegacyBuildPreset =
   | 'npm-library'

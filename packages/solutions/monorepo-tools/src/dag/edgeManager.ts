@@ -1,4 +1,4 @@
-import { IProjectNode } from '../projects/getProjects';
+import type { IProjectNode } from '../projects/getProjects';
 
 export class EdgeManager {
   private _dependencyEdgeHash: Record<string, number>;

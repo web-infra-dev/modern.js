@@ -1,5 +1,166 @@
 # @modern-js/mwa-generator
 
+## 3.7.0
+
+### Minor Changes
+
+- d6986c5: feat: optimize generator download
+
+  feat: 优化生成器下载
+
+## 3.6.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+
+## 3.6.2
+
+### Patch Changes
+
+- 85b4535: feat: add timing log for mwa and module generator to get solution version
+
+  feat: 增加 mwa 和 module 生成器获取工程方案版本的耗时日志
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+
+## 3.6.1
+
+### Patch Changes
+
+- @modern-js/utils@2.60.1
+
+## 3.6.0
+
+### Minor Changes
+
+- 91ce673: feat: generator template use biome for code lint
+
+  feat: 生成器模板使用 biome 进行代码 lint
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+- 28f0101: feat: generator replace husky to simple git hook
+
+  feat: 生成器模板替换 husky 为 simple-git-hook
+
+  - @modern-js/utils@2.60.0
+
+## 3.5.0
+
+### Minor Changes
+
+- 2f6d4e9: feat: enable Rspack by default in new project
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+
+## 3.4.17
+
+### Patch Changes
+
+- @modern-js/utils@2.58.3
+
+## 3.4.16
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [a1a9373]
+  - @modern-js/utils@2.58.2
+
+## 3.4.15
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+
+## 3.4.14
+
+### Patch Changes
+
+- @modern-js/utils@2.58.0
+
+## 3.4.13
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+
+## 3.4.12
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+
+## 3.4.11
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+
+## 3.4.10
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+
+## 3.4.9
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+
+## 3.4.8
+
+### Patch Changes
+
+- a38bb04: feat: generator support runtime config file
+
+  feat: 生成器支持 modern.runtime 配置文件
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+
+## 3.4.7
+
+### Patch Changes
+
+- @modern-js/utils@2.54.6
+
+## 3.4.6
+
+### Patch Changes
+
+- @modern-js/utils@2.54.5
+
+## 3.4.5
+
+### Patch Changes
+
+- @modern-js/utils@2.54.4
+
+## 3.4.4
+
+### Patch Changes
+
+- @modern-js/utils@2.54.3
+
 ## 3.4.3
 
 ### Patch Changes

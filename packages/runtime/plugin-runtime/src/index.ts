@@ -1,8 +1,8 @@
-import type { StateConfig } from './state';
 import type { RouterConfig } from './router';
+import type { StateConfig } from './state';
 
 export type { Plugin } from './core';
-export type { AppConfig } from './common';
+export type { AppConfig, RuntimeConfig } from './common';
 export { isBrowser } from './common';
 
 export type {
@@ -22,4 +22,4 @@ export {
   useRuntimeContext,
 } from './core';
 
-export { StateConfig, RouterConfig };
+export type { StateConfig, RouterConfig };

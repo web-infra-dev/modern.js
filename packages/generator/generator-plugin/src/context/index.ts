@@ -1,16 +1,16 @@
-import { GeneratorCore } from '@modern-js/codesmith';
-import {
+import type { GeneratorCore } from '@modern-js/codesmith';
+import type {
   ActionElement,
   ActionFunction,
   PackageManager,
   Solution,
 } from '@modern-js/generator-common';
-import { AddFileParams, AddManyFilesParams } from '../utils/file';
+import type { AddFileParams, AddManyFilesParams } from '../utils/file';
 import { PluginFileAPI } from './file';
 import { PluginGitAPI } from './git';
-import { Schema, PluginInputContext } from './input';
-import { PluginNpmAPI } from './npm';
+import { PluginInputContext, type Schema } from './input';
 import { PluginNewAPI } from './new';
+import { PluginNpmAPI } from './npm';
 
 export * from './input';
 export * from './file';

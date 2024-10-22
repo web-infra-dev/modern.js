@@ -1,6 +1,6 @@
-import path from 'path';
-import os from 'os';
 import fs from 'fs';
+import os from 'os';
+import path from 'path';
 import _ from 'lodash';
 import upath from 'upath';
 

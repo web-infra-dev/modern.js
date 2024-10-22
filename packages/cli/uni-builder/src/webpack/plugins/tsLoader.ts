@@ -1,22 +1,22 @@
+import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
+import { applyOptionsChain } from '@modern-js/utils';
+import type { ConfigChainWithContext } from '@rsbuild/core';
+import type { RsbuildPlugin } from '@rsbuild/core';
+import { type PluginBabelOptions, getBabelUtils } from '@rsbuild/plugin-babel';
+import type { Options as RawTSLoaderOptions } from 'ts-loader';
 import {
   JS_REGEX,
-  castArray,
+  TS_REGEX,
   applyScriptCondition,
+  castArray,
   getBrowserslistWithDefault,
-  type FileFilterUtil,
-  type ConfigChainWithContext,
-} from '@rsbuild/shared';
-import { applyOptionsChain } from '@modern-js/utils';
-import {
-  PluginBabelOptions,
-  getBabelUtils,
   getUseBuiltIns,
-} from '@rsbuild/plugin-babel';
-import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
-import type { RsbuildPlugin } from '@rsbuild/core';
-import type { Options as RawTSLoaderOptions } from 'ts-loader';
+} from '../../shared/utils';
 import { getPresetReact } from './babel';
-import { TS_REGEX } from '../../shared/utils';
+
+type OneOrMany<T> = T | T[];
+
+type FileFilterUtil = (items: OneOrMany<string | RegExp>) => void;
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 
@@ -48,8 +48,8 @@ export const pluginTsLoader = (
     setup(api) {
       api.modifyBundlerChain({
         order: 'pre',
-        handler: async (chain, { isProd, target, CHAIN_ID }) => {
-          const config = api.getNormalizedConfig();
+        handler: async (chain, { isProd, target, CHAIN_ID, environment }) => {
+          const { config } = environment;
           const { rootPath } = api.context;
           const browserslist = await getBrowserslistWithDefault(
             rootPath,

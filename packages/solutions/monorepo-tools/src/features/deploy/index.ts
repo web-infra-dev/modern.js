@@ -1,22 +1,22 @@
 import * as path from 'path';
 import {
+  fs,
+  chalk,
+  execa,
+  getPnpmVersion,
+  logger,
+  yaml,
+} from '@modern-js/utils';
+import {
   FileSystem,
-  IPackageJson,
+  type IPackageJson,
   JsonFile,
 } from '@rushstack/node-core-library';
-import {
-  fs,
-  yaml,
-  execa,
-  logger,
-  chalk,
-  getPnpmVersion,
-} from '@modern-js/utils';
 import { WORKSPACE_FILE } from '../../constants';
-import { IPnpmWorkSpace } from '../../type';
-import { DagOperator } from '../../dag/operator';
-import { IProjectNode } from '../../projects/getProjects';
-import { PackageManagerType } from '../../parse-config';
+import type { DagOperator } from '../../dag/operator';
+import type { PackageManagerType } from '../../parse-config';
+import type { IProjectNode } from '../../projects/getProjects';
+import type { IPnpmWorkSpace } from '../../type';
 
 interface IDeployConfig {
   rootPath: string;
@@ -130,7 +130,6 @@ const checkAndRunDeployCommand = async (
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const installDependency = async (
   deployDir: string,
   packageManager: PackageManagerType,

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 
 describe('uni-builder legacy plugins', () => {
@@ -15,8 +15,6 @@ describe('uni-builder legacy plugins', () => {
         setup: api => {
           api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
             const builderConfig = api.getBuilderConfig();
-
-            expect(api.context.target).toBe(api.context.targets);
 
             expect(builderConfig.source).toBeDefined();
 

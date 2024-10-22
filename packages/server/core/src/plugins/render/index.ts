@@ -1,43 +1,30 @@
-import { ServerRoute } from '@modern-js/types';
+import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME } from '@modern-js/utils/universal/constants';
-import {
-  ServerPlugin,
+import type { ServerNodeEnv } from '../../adapters/node/hono';
+import { getLoaderCtx } from '../../helper';
+import type {
   Context,
   Middleware,
-  ServerEnv,
   Render,
-  UserConfig,
-  CacheConfig,
+  ServerEnv,
+  ServerPlugin,
 } from '../../types';
-import { ServerNodeEnv } from '../../adapters/node/hono';
-import { initReporter } from '../monitor';
 import { sortRoutes } from '../../utils';
-import {
-  getLoaderCtx,
-  CustomServer,
-  getServerMidFromUnstableMid,
-} from '../customServer';
-import { createRender } from './render';
+import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import { initReporter } from '../monitors';
 
-export interface RenderPluginOptions {
-  staticGenerate?: boolean;
-  cacheConfig?: CacheConfig;
-}
+export * from './inject';
 
-export const renderPlugin = (
-  options: RenderPluginOptions = {},
-): ServerPlugin => ({
+export const renderPlugin = (): ServerPlugin => ({
   name: '@modern-js/plugin-render',
 
   setup(api) {
-    const { staticGenerate, cacheConfig } = options;
-
     return {
       async prepare() {
         const {
           middlewares,
           routes,
-          metaName,
+          render,
           distDirectory: pwd,
           serverBase,
         } = api.useAppContext();
@@ -55,15 +42,6 @@ export const renderPlugin = (
           getServerMidFromUnstableMid(config.render.middleware);
 
         const pageRoutes = getPageRoutes(routes);
-
-        const render = await getRenderHandler({
-          pwd,
-          routes,
-          config,
-          metaName,
-          cacheConfig: config.render?.cache || cacheConfig,
-          staticGenerate,
-        });
 
         for (const route of pageRoutes) {
           const { urlPath: originUrlPath, entryName } = route;
@@ -97,11 +75,12 @@ export const renderPlugin = (
               handler: customServerMiddleware,
             });
 
-          middlewares.push({
-            name: `render`,
-            path: urlPath,
-            handler: createRenderHandler(render),
-          });
+          render &&
+            middlewares.push({
+              name: `render`,
+              path: urlPath,
+              handler: createRenderHandler(render),
+            });
         }
       },
     };
@@ -123,24 +102,28 @@ function createRenderHandler(
   return async (c, _) => {
     const logger = c.get('logger');
     const reporter = c.get('reporter');
+    const monitors = c.get('monitors');
     const templates = c.get('templates') || {};
     const serverManifest = c.get('serverManifest') || {};
     const locals = c.get('locals');
     const metrics = c.get('metrics');
+    const matchPathname = c.get('matchPathname');
     const loaderContext = getLoaderCtx(c as Context);
 
     const request = c.req.raw;
     const nodeReq = c.env.node?.req;
 
     const res = await render(request, {
-      logger,
       nodeReq,
+      monitors,
+      logger,
       reporter,
       templates,
       metrics,
       serverManifest,
       loaderContext,
       locals,
+      matchPathname,
     });
 
     const { body, status, headers } = res;
@@ -152,38 +135,4 @@ function createRenderHandler(
 
     return c.body(body, status, headersData);
   };
-}
-
-export interface GetRenderHandlerOptions {
-  pwd: string;
-  routes: ServerRoute[];
-  config: UserConfig;
-  cacheConfig?: CacheConfig;
-  staticGenerate?: boolean;
-  metaName?: string;
-}
-
-export async function getRenderHandler({
-  pwd,
-  routes,
-  config,
-  cacheConfig,
-  metaName,
-  staticGenerate,
-}: GetRenderHandlerOptions): Promise<Render> {
-  const ssrConfig = config.server?.ssr;
-  const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-
-  const render = createRender({
-    routes,
-    pwd,
-    // TODO: need static Genrate
-    staticGenerate,
-    cacheConfig,
-    forceCSR,
-    nonce: config.security?.nonce,
-    metaName: metaName || 'modern-js',
-  });
-
-  return render;
 }

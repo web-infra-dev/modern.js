@@ -153,28 +153,9 @@ The `--config` parameter needs to use a JSON string.
 pnpm does not support the use of JSON strings as parameter values currently. Use `npm new` to turn on.【[Relate Issue](https://github.com/pnpm/pnpm/issues/3876)】
 :::
 
-## modern serve
+import ServeCommand from "@site-docs-en/components/serve-command";
 
-The `modern serve` command is used to start a Modern.js project in the production environment. It can also be used to preview the artifacts built for the production environment locally. Please note that you need to execute the [`build`](/apis/app/commands#modern-build) command beforehand to generate the corresponding artifacts.
-
-```bash
-Usage: modern serve [options]
-
-Options:
-  -c --config <config>  specify the configuration file, which can be a relative or absolute path
-  -h, --help            show command help
-  --api-only            only run API service
-```
-
-By default, the project will run in `localhost:8080`, you can modify the server port number with `server.port`:
-
-```js
-export default defineConfig({
-  server: {
-    port: 8081,
-  },
-});
-```
+<ServeCommand />
 
 ## modern upgrade
 
@@ -200,7 +181,7 @@ Usage: modern inspect [options]
 
 Options:
   --env <env>           view the configuration in the target environment (default: "development")
-  --output <output>     Specify the path to output in the dist (default: "/")
+  --output <output>     Specify the path to output in the dist (default: "./")
   --verbose             Show the full function in the result
   -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
@@ -250,18 +231,6 @@ Inspect config succeed, open following files to view the content:
   - Webpack Config (node): /root/my-project/dist/webpack.config.node.mjs
 ```
 
-## modern lint
+import DeployCommand from "@site-docs-en/components/deploy-command";
 
-Run ESLint to check the syntax of the code.
-
-```bash
-Usage: modern lint [options] [...files]
-
-Options:
-  --no-fix    disable auto fix source file
-  -h, --help  display help for command
-```
-
-Normally, only the part of the code modified by this commit needs to be checked by `lint-staged` during the `git commit` phase.
-
-- `--no-fix` close auto fix by lint.
+<DeployCommand />

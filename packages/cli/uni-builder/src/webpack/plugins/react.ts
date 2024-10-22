@@ -1,4 +1,3 @@
-import { isUsingHMR } from '@rsbuild/shared';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
 export const pluginReact = (): RsbuildPlugin => ({
@@ -8,9 +7,11 @@ export const pluginReact = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(async (chain, utils) => {
-      const config = api.getNormalizedConfig();
+      const { config } = utils.environment;
 
-      if (!isUsingHMR(config, utils)) {
+      const usingHMR =
+        !utils.isProd && config.dev.hmr && utils.target === 'web';
+      if (!usingHMR) {
         return;
       }
 

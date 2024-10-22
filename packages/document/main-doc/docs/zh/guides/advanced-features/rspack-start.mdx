@@ -4,17 +4,17 @@ sidebar_position: 1
 
 # 使用 Rspack
 
-import Rspack from '@modern-js/builder-doc/docs/zh/shared/rspackTip.mdx';
+import Rspack from '@site-docs/components/rspackTip.mdx';
 
 <Rspack />
 
-**Modern.js 提供开箱即用的 Rspack 支持**，你可以在成熟的 Webpack 和更快的 Rspack 之间进行切换。
+**Modern.js 提供开箱即用的 Rspack 支持**，你可以在成熟的 webpack 和更快的 Rspack 之间进行切换。
 
 这篇文档会向你介绍如何在 Modern.js 中开启 Rspack 构建模式。
 
 ## 初始化 Rspack 项目
 
-Modern.js 生成器会提供一个可交互的问答界面，只需将构建工具选择为 **Rspack**，即可创建一个 Rspack 项目:
+Modern.js 新项目已默认启用 Rspack 构建，只需执行 [初始化项目](/guides/get-started/quick-start.html#初始化项目)，即可创建一个 Rspack 项目:
 
 import InitRspackApp from '@site-docs/components/init-rspack-app';
 
@@ -22,16 +22,9 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 
 项目创建完成后，在项目中执行 `pnpm run dev` 即可体验项目，更多信息可参考[快速上手](/guides/get-started/quick-start.html)。
 
-:::tip
-在使用 Rspack 作为打包工具时，由于部分能力尚在开发中，以下 features 暂时无法使用，我们将在未来提供支持：
-
-- 客户端渲染（CSR）使用 [useLoader](/guides/basic-features/data/data-fetch.html)
-
-:::
-
 ## 开启 Rspack 构建
 
-从 Modern.js MAJOR_VERSION.46.0 版本起，在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
+从 Modern.js MAJOR_VERSION.59.0 版本起，在一个已有的 Modern.js 项目中，你仅需在 `modern.config.ts` 中添加以下配置，即可启用 Rspack 构建：
 
 ```diff title=modern.config.ts
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -39,17 +32,17 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   plugins: [
     appTools({
-+     bundler: 'experimental-rspack',
++     bundler: 'rspack',
     }),
   ],
 });
 ```
 
 :::tip
-如果你当前版本低于 MAJOR_VERSION.46.0, 可通过执行 `npx modern upgrade` 进行升级。
+如果你当前版本低于 MAJOR_VERSION.59.0，可通过执行 `npx modern upgrade` 进行升级。
 :::
 
-import RspackPrecautions from '@modern-js/builder-doc/docs/zh/shared/rspackPrecautions.md';
+import RspackPrecautions from '@site-docs/components/rspackPrecautions.mdx';
 
 <RspackPrecautions />
 
@@ -77,16 +70,9 @@ export default {
 };
 ```
 
-
-:::tip
-开启 Rspack 构建能力后，目前有小部分配置在 Rspack 中还不支持使用，如 [source.moduleScopes](/configure/app/source/module-scopes)、[security.sri](/configure/app/security/sri) 等。
-
-对于不支持的配置，我们在文档中有标注 `打包工具： 仅支持 webpack` 或 `打包工具： 仅支持 rspack`，可参考具体配置介绍。
-:::
-
 ## 修改转译配置
 
-Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://www.rspack.dev/zh/guide/builtin-swc-loader.html) 进行代码转译。
+Modern.js 在 Rspack 模式下使用 Rspack [builtin:swc-loader](https://rspack.dev/zh/guide/features/builtin-swc-loader) 进行代码转译。
 
 Modern.js 已对 `builtin:swc-loader` 的常见配置提供了更方便的配置方式，如：通过 [source.transformImport](/configure/app/source/transform-import) 配置组件库按需引入。如果对 `builtin:swc-loader` 有自定义配置的需求，可通过 [tools.swc](/configure/app/tools/swc) 进行配置：
 
@@ -112,27 +98,52 @@ export default defineConfig<'rspack'>({
 
 通常情况下，Modern.js 内会集成 Rspack 的最新版本，通过 `npx modern upgrade` 即可将当前项目中的 Modern.js 相关依赖以及内置的 Rspack 更新至最新版本。
 
-但 Modern.js 对于 Rspack 的依赖方式为锁版本方式(非自动升级)，由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
+但 Modern.js 对于 Rspack 的依赖方式为锁版本方式（非自动升级），由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
 
 当你执行 dev / build 命令时，Modern.js 会在[开启调试模式时](https://rsbuild.dev/zh/guide/debug/debug-mode)自动打印当前使用的 Rspack 版本：
 
 ![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/20240110-155444.png)
 
-#### 修改内置 Rspack 版本
+### 修改内置 Rspack 版本
 
 可以使用 pnpm / yarn / npm 等包管理工具自带的依赖升级功能来将 Rspack 强制升级到指定版本。
 
-以 pnpm 为例，可通过 `overrides` 以下依赖更新 Rspack 版本:
+以 pnpm 为例，可通过 `overrides` 修改内置的 Rspack 版本。假设需要指定 Rspack 的版本为 0.7.5:
 
 ```json title=package.json
 {
   "pnpm": {
     "overrides": {
-      "@rspack/core": "nightly",
-      "@rspack/plugin-react-refresh": "nightly",
+      "@rspack/binding": "0.7.5",
+      "@rspack/core": "0.7.5",
+      "@rspack/plugin-react-refresh": "0.7.5"
     }
   }
 }
+```
+
+如果需要使用 Rspack 的 nightly/canary 版本，Rspack 的 nightly/canary 版本的包名会在增加 `-canary` 后缀之后发布，需要修改为:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/binding": "npm:@rspack/binding-canary@nightly",
+      "@rspack/core": "npm:@rspack/core-canary@nightly",
+      "@rspack/plugin-react-refresh": "npm:@rspack/plugin-react-refresh@nightly"
+    },
+    "peerDependencyRules": {
+      "allowAny": ["@rspack/*"]
+    }
+  }
+}
+```
+
+Rspack 提供了 [install-rspack](https://github.com/rspack-contrib/install-rspack) 工具来快速修改 Rspack 版本:
+
+```sh
+npx install-rspack --version nightly # nightly npm tag
+npx install-rspack --version 0.7.5-canary-d614005-20240625082730 # A specific canary version
 ```
 
 :::tip Nightly 版本介绍

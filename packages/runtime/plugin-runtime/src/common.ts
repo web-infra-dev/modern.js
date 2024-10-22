@@ -1,3 +1,4 @@
+import type { Plugin } from './core/plugin';
 import type { StateConfig } from './state';
 
 export const isBrowser = () =>
@@ -5,6 +6,13 @@ export const isBrowser = () =>
 
 export interface AppConfig {
   state?: StateConfig | boolean;
+  [key: string]: any;
+}
+
+export interface RuntimeConfig {
+  state?: StateConfig;
+  stateByEntries?: { [name: string]: StateConfig };
+  plugins?: Plugin[];
   [key: string]: any;
 }
 

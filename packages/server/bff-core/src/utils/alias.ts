@@ -1,7 +1,7 @@
-import * as path from 'path';
-import * as os from 'os';
 import fs from 'fs';
 import Module from 'module';
+import * as os from 'os';
+import * as path from 'path';
 
 interface Paths {
   [key: string]: string[] | string;
@@ -71,7 +71,6 @@ export const createMatchPath = (paths: Paths) => {
 // every path must be a absolute path;
 export const registerPaths = (paths: Paths) => {
   const originalResolveFilename = (Module as any)._resolveFilename;
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins
   const { builtinModules } = Module;
   const matchPath = createMatchPath(paths);
   (Module as any)._resolveFilename = function (
@@ -82,12 +81,12 @@ export const registerPaths = (paths: Paths) => {
     if (!isCoreModule) {
       const matched = matchPath(request);
       if (matched) {
-        // eslint-disable-next-line prefer-rest-params
+        // biome-ignore lint/style/noArguments: <explanation>
         const modifiedArguments = [matched, ...[].slice.call(arguments, 1)]; // Passes all arguments. Even those that is not specified above.
         return originalResolveFilename.apply(this, modifiedArguments);
       }
     }
-    // eslint-disable-next-line prefer-rest-params
+    // biome-ignore lint/style/noArguments: <explanation>
     return originalResolveFilename.apply(this, arguments);
   };
 

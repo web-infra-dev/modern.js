@@ -1,10 +1,17 @@
-import { runtime, Plugin } from './base';
-import { setGlobalRunner } from './runner';
+import { merge } from '@modern-js/runtime-utils/merge';
+import { type Plugin, RuntimeConfigContext, runtime } from './base';
+import { getGlobalRunner, setGlobalRunner } from './runner';
 
 export * from './base';
 
 export interface RuntimeConfig {
-  plugins: Plugin[];
+  plugins?: Plugin[];
+}
+
+function setupConfigContext() {
+  const runner = getGlobalRunner();
+  const configs = runner.modifyRuntimeConfig();
+  RuntimeConfigContext.set(merge({}, ...configs));
 }
 
 export function registerPlugin(
@@ -17,5 +24,13 @@ export function registerPlugin(
   const runner = (customRuntime || runtime).init();
   // It is necessary to execute init after usePlugin, so that the plugin can be registered successfully.
   setGlobalRunner(runner);
+  setupConfigContext();
   return runner;
+}
+
+export function mergeConfig(
+  config: Record<string, any>,
+  ...otherConfig: Record<string, any>[]
+) {
+  return merge({}, config, ...otherConfig);
 }

@@ -1,4 +1,4 @@
-import path from 'path';
+import path from 'node:path';
 
 const config = {
   stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx)'],
@@ -6,7 +6,7 @@ const config = {
   framework: {
     name: '@modern-js/storybook',
     options: {
-      bundler: 'webpack',
+      bundler: 'rspack',
     },
   },
 };

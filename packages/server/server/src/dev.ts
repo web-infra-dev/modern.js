@@ -1,55 +1,64 @@
-import { ServerPlugin, ServerBaseOptions } from '@modern-js/server-core';
+import type { ServerBaseOptions, ServerPlugin } from '@modern-js/server-core';
 import { connectMid2HonoMid } from '@modern-js/server-core/node';
+import type { RequestHandler } from '@modern-js/types';
+import type { UniBuilderInstance } from '@modern-js/uni-builder';
 import { API_DIR, SHARED_DIR } from '@modern-js/utils';
-import { ModernDevServerOptions } from './types';
 import {
-  startWatcher,
-  onRepack,
   getDevOptions,
+  getMockMiddleware,
   initFileReader,
-  registerMockHandlers,
+  onRepack,
+  startWatcher,
 } from './helpers';
+import type { ModernDevServerOptions } from './types';
 
-export const devPlugin = <O extends ServerBaseOptions>(
-  options: ModernDevServerOptions<O>,
-): ServerPlugin => ({
+type BuilderDevServer = Awaited<
+  ReturnType<UniBuilderInstance['createDevServer']>
+>;
+
+export type DevPluginOptions = ModernDevServerOptions<ServerBaseOptions> & {
+  builderDevServer?: BuilderDevServer;
+};
+
+export const devPlugin = (options: DevPluginOptions): ServerPlugin => ({
   name: '@modern-js/plugin-dev',
 
   setup(api) {
-    const { getMiddlewares, rsbuild, config, pwd } = options;
+    const { config, pwd, builder, builderDevServer } = options;
 
     const closeCb: Array<(...args: []) => any> = [];
-
-    // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
-    const {
-      middlewares: rsbuildMiddlewares,
-      close,
-      onHTTPUpgrade,
-    } = getMiddlewares?.() || {};
-
-    close && closeCb.push(close);
 
     const dev = getDevOptions(options);
 
     return {
       async prepare() {
+        // https://github.com/web-infra-dev/rsbuild/blob/32fbb85e22158d5c4655505ce75e3452ce22dbb1/packages/shared/src/types/server.ts#L112
+        const {
+          middlewares: builderMiddlewares,
+          close,
+          connectWebSocket,
+        } = builderDevServer || {};
+
+        close && closeCb.push(close);
+
         const {
           middlewares,
           distDirectory,
-          routes,
           nodeServer,
           apiDirectory,
           sharedDirectory,
           serverBase,
         } = api.useAppContext();
 
-        onHTTPUpgrade && nodeServer?.on('upgrade', onHTTPUpgrade);
+        connectWebSocket &&
+          nodeServer &&
+          connectWebSocket({ server: nodeServer });
 
         const runner = api.useHookRunners();
 
-        rsbuild?.onDevCompileDone(({ stats }) => {
+        builder?.onDevCompileDone(({ stats }) => {
           if (stats.toJson({ all: false }).name !== 'server') {
-            onRepack(distDirectory, runner, routes || []);
+            onRepack(distDirectory, runner);
           }
         });
 
@@ -73,16 +82,61 @@ export const devPlugin = <O extends ServerBaseOptions>(
             });
           });
 
-        if (rsbuildMiddlewares) {
-          middlewares.push({
-            name: 'rsbuild-dev',
-            handler: connectMid2HonoMid(rsbuildMiddlewares),
+        const before: RequestHandler[] = [];
+
+        const after: RequestHandler[] = [];
+
+        const { setupMiddlewares = [] } = dev;
+
+        if (dev.after?.length || dev.before?.length) {
+          setupMiddlewares.push(middlewares => {
+            // the order: devServer.before => setupMiddlewares.unshift => internal middlewares => setupMiddlewares.push => devServer.after.
+            middlewares.unshift(...(dev.before || []));
+
+            middlewares.push(...(dev.after || []));
           });
         }
 
-        await registerMockHandlers({
-          pwd,
-          server: serverBase!,
+        setupMiddlewares.forEach(handler => {
+          handler(
+            {
+              unshift: (...handlers) => before.unshift(...handlers),
+              push: (...handlers) => after.push(...handlers),
+            },
+            {
+              sockWrite: () => {
+                // ignore
+              },
+            },
+          );
+        });
+
+        before.forEach((middleware, index) => {
+          middlewares.push({
+            name: `before-dev-server-${index}`,
+            handler: connectMid2HonoMid(middleware),
+          });
+        });
+
+        const mockMiddleware = await getMockMiddleware(pwd);
+
+        middlewares.push({
+          name: 'mock-dev',
+
+          handler: mockMiddleware,
+        });
+
+        builderMiddlewares &&
+          middlewares.push({
+            name: 'rsbuild-dev',
+            handler: connectMid2HonoMid(builderMiddlewares),
+          });
+
+        after.forEach((middleware, index) => {
+          middlewares.push({
+            name: `after-dev-server-${index}`,
+            handler: connectMid2HonoMid(middleware),
+          });
         });
 
         middlewares.push({

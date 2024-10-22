@@ -1,0 +1,20 @@
+[
+  "rspack-start",
+  {
+    "type": "dir",
+    "name": "bff",
+    "label": "use-bff",
+    "collapsed": true
+  },
+  {
+    "type": "dir",
+    "name": "page-performance",
+    "label": "page-performance",
+    "collapsed": true
+  },
+  "build-performance",
+  "compatibility",
+  "low-level",
+  "source-build",
+  "web-server"
+]

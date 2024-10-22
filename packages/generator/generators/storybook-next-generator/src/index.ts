@@ -1,21 +1,21 @@
 import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
 import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
-  isTsProject,
-  getPackageManager,
-  fs,
-  isReact18,
-  getPackageVersion,
-  getPackageManagerText,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
-import {
   DependenceGenerator,
-  i18n as commonI18n,
   Language,
+  i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  fs,
+  getGeneratorPath,
+  getPackageManager,
+  getPackageManagerText,
+  getPackageVersion,
+  isReact18,
+  isTsProject,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 import { getMajorVersion } from './utils';
 
@@ -112,6 +112,7 @@ const handleTemplateFile = async (
         },
       },
     },
+    true,
   );
 
   await appApi.runSubGenerator(
@@ -142,9 +143,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
-  generator.logger.debug(`start run @modern-js/storybook-next-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Storybook Next Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   const { packageManager } = await handleTemplateFile(
     context,
@@ -158,5 +161,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     }),
   );
 
-  generator.logger.debug(`forge @modern-js/storybook-next-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Storybook Next Generator]`);
 };

@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "app-garfish-master",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev"
+  },
+  "dependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-garfish": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

@@ -1,11 +1,11 @@
-import type { RspackConfig, RspackRule } from '@rsbuild/shared';
+import type { Rspack, RspackRule } from '@rsbuild/core';
 import type { UniBuilderInstance } from '../src';
 
 export function matchRules({
   config,
   testFile,
 }: {
-  config: RspackConfig;
+  config: Rspack.Configuration;
   testFile: string;
 }): RspackRule[] {
   if (!config.module?.rules) {
@@ -31,7 +31,10 @@ export const unwrapConfig = async (rsbuild: UniBuilderInstance) => {
 };
 
 /** Match plugin by constructor name. */
-export const matchPlugins = (config: RspackConfig, pluginName: string) => {
+export const matchPlugins = (
+  config: Rspack.Configuration,
+  pluginName: string,
+) => {
   const result = config.plugins?.filter(
     item => item?.constructor.name === pluginName,
   );

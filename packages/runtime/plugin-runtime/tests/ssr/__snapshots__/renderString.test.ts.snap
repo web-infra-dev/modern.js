@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test render should render styledComponent correctly 1`] = `
+"<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <title></title>
+
+    <style data-styled="true" data-styled-version="5.3.5">.dgihId{color:red;}/*!sc*/
+data-styled.g1[id="sc-bczRLJ"]{content:"dgihId,"}/*!sc*/
+</style>
+  </head>
+
+  <body>
+    <div id="root"><div><h1>Hello Modern.js</h1><div class="sc-bczRLJ dgihId">Hello Modern.js-----</div></div></div>
+
+    
+    <script>window._SSR_DATA = {"data":{},"context":{"request":{"url":"http:\\u002F\\u002Flocalhost:8080"},"reporter":{}},"mode":"string","renderLevel":2}</script>
+  </body>
+</html>
+"
+`;

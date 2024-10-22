@@ -1,8 +1,8 @@
-import path from 'path';
 import { readFileSync } from 'fs';
+import path from 'path';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
-export async function testPublicHtml() {
+async function testPublicHtml() {
   const appDir = path.resolve(__dirname, '..');
 
   await modernBuild(appDir, undefined);

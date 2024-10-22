@@ -1,5 +1,5 @@
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { devtoolsPlugin } from '@modern-js/plugin-devtools';
-import { defineConfig, appTools } from '@modern-js/app-tools';
 import { RsdoctorRspackPlugin } from '@rsdoctor/rspack-plugin';
 
 const disableClientServer = !process.env.DOCTOR_SERVER;
@@ -10,7 +10,6 @@ export default defineConfig({
   },
   source: {
     mainEntryName: 'main',
-    // preEntry: ['./src/prelude.css'],
   },
   output: {
     // disable polyfill and ts checker to make test faster
@@ -36,5 +35,5 @@ export default defineConfig({
       );
     },
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' }), devtoolsPlugin()],
+  plugins: [appTools({ bundler: 'rspack' }), devtoolsPlugin()],
 });

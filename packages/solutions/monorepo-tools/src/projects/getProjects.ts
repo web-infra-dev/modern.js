@@ -1,5 +1,5 @@
 import { errorLog } from '../log/error';
-import { Package } from '../package';
+import type { Package } from '../package';
 import { getMonorepoBaseData } from '../parse-config/monorepo';
 import {
   getProjectsByPackageConfig,
@@ -47,8 +47,8 @@ export interface IProjectNode {
 export type IMonorepoSubProject = IProjectNode;
 
 enum FindProjectsMode {
-  Rough,
-  Precise,
+  Rough = 0,
+  Precise = 1,
 }
 
 const getProjectsByProjectsConfig = (
@@ -152,7 +152,6 @@ const syncGetProjectsByPackagesMatch = (
 
 const checkFindProjectsMode = (
   config: IFindSubProjectConfig,
-  // eslint-disable-next-line consistent-return
 ): FindProjectsMode | undefined => {
   if (config.packagesMatchs && Array.isArray(config.packagesMatchs)) {
     return FindProjectsMode.Rough;

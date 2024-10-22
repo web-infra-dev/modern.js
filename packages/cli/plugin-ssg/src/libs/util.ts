@@ -1,18 +1,18 @@
 import path from 'path';
+import type { ServerUserConfig } from '@modern-js/app-tools';
+import type { ServerRoute as ModernRoute } from '@modern-js/types';
 import {
-  ROUTE_SPEC_FILE,
   fs,
-  isSingleEntry,
+  ROUTE_SPEC_FILE,
   SERVER_BUNDLE_DIRECTORY,
+  isSingleEntry,
 } from '@modern-js/utils';
-import { ServerRoute as ModernRoute } from '@modern-js/types';
-import { ServerUserConfig } from '@modern-js/app-tools';
-import {
-  SsgRoute,
-  SSGConfig,
-  EntryPoint,
-  SSGMultiEntryOptions,
+import type {
   AgreedRoute,
+  EntryPoint,
+  SSGConfig,
+  SSGMultiEntryOptions,
+  SsgRoute,
 } from '../types';
 
 export function formatOutput(filename: string) {

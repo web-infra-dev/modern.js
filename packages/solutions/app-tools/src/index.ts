@@ -1,25 +1,22 @@
 import path from 'path';
-import { lintPlugin } from '@modern-js/plugin-lint';
+import type { CliPlugin } from '@modern-js/core';
+import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
+import { castArray } from '@modern-js/uni-builder';
 import {
   cleanRequireCache,
+  deprecatedCommands,
   emptyDir,
-  getCommand,
   getArgv,
-  fs,
-  NESTED_ROUTE_SPEC_FILE,
+  getCommand,
 } from '@modern-js/utils';
-import { CliPlugin } from '@modern-js/core';
-import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import initializePlugin from './plugins/initialize';
-import analyzePlugin from './plugins/analyze';
-import serverBuildPlugin from './plugins/serverBuild';
-import deployPlugin from './plugins/deploy';
-import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n } from './locale';
+import analyzePlugin from './plugins/analyze';
+import deployPlugin from './plugins/deploy';
+import initializePlugin from './plugins/initialize';
+import serverBuildPlugin from './plugins/serverBuild';
+import type { AppTools } from './types';
 
-import { restart } from './utils/restart';
-import { generateWatchFiles } from './utils/generateWatchFiles';
 import {
   buildCommand,
   deployCommand,
@@ -29,15 +26,16 @@ import {
   serverCommand,
   upgradeCommand,
 } from './commands';
+import { generateWatchFiles } from './utils/generateWatchFiles';
+import { restart } from './utils/restart';
 
 export { dev } from './commands/dev';
+export type { DevOptions } from './utils/types';
 
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
-// eslint-disable-next-line import/export
 export * from './types';
 
-// eslint-disable-next-line import/export
 export type { RuntimeUserConfig } from './types/config';
 
 export type AppToolsOptions = {
@@ -45,13 +43,14 @@ export type AppToolsOptions = {
    * Specify which bundler to use for the build.
    * @default `webpack`
    * */
-  bundler?: 'experimental-rspack' | 'webpack';
+  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
 /**
  * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
  */
 export const appTools = (
   options: AppToolsOptions = {
+    // default webpack to be compatible with original projects
     bundler: 'webpack',
   },
 ): CliPlugin<AppTools<'shared'>> => ({
@@ -73,14 +72,19 @@ export const appTools = (
   usePlugins: [
     initializePlugin({
       bundler:
-        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+        options?.bundler &&
+        ['rspack', 'experimental-rspack'].includes(options.bundler)
+          ? 'rspack'
+          : 'webpack',
     }),
     analyzePlugin({
       bundler:
-        options?.bundler === 'experimental-rspack' ? 'rspack' : 'webpack',
+        options?.bundler &&
+        ['rspack', 'experimental-rspack'].includes(options.bundler)
+          ? 'rspack'
+          : 'webpack',
     }),
     serverBuildPlugin(),
-    lintPlugin(),
     deployPlugin(),
   ],
 
@@ -90,7 +94,6 @@ export const appTools = (
       ...appContext,
       toolsType: 'app-tools',
     });
-    const nestedRoutes: Record<string, unknown> = {};
 
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
@@ -117,6 +120,7 @@ export const appTools = (
         newCommand(program, locale);
         inspectCommand(program, api);
         upgradeCommand(program);
+        deprecatedCommands(program);
       },
 
       async prepare() {
@@ -149,7 +153,19 @@ export const appTools = (
       async watchFiles() {
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
-        return await generateWatchFiles(appContext, config.source.configDir);
+        const files = await generateWatchFiles(
+          appContext,
+          config.source.configDir,
+        );
+
+        const watchFiles = castArray(config.dev.watchFiles);
+        watchFiles.forEach(({ type, paths }) => {
+          if (type === 'reload-server') {
+            files.push(...(Array.isArray(paths) ? paths : [paths]));
+          }
+        });
+
+        return files;
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
@@ -161,37 +177,14 @@ export const appTools = (
         const { filename, eventType, isPrivate } = e;
 
         if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
-          const { closeServer } = await import('./utils/createServer');
+          const { closeServer } = await import('./utils/createServer.js');
           await closeServer();
           await restart(api.useHookRunners(), filename);
         }
       },
 
       async beforeRestart() {
-        cleanRequireCache([require.resolve('./analyze')]);
-      },
-
-      async modifyFileSystemRoutes({ entrypoint, routes }) {
-        nestedRoutes[entrypoint.entryName] = routes;
-
-        return {
-          entrypoint,
-          routes,
-        };
-      },
-
-      async beforeGenerateRoutes({ entrypoint, code }) {
-        const { distDirectory } = api.useAppContext();
-
-        await fs.outputJSON(
-          path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
-          nestedRoutes,
-        );
-
-        return {
-          entrypoint,
-          code,
-        };
+        cleanRequireCache([require.resolve('./plugins/analyze')]);
       },
     };
   },

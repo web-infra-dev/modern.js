@@ -10,22 +10,22 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "6.22.0",
     "vue": "^3.3.4"
   },
   "devDependencies": {
-    "@rsbuild/plugin-swc": "0.7.9",
-    "@rsbuild/shared": "0.7.9",
-    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/e2e": "workspace:*",
+    "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@types/node": "^14",
-    "@types/lodash": "^4.14.202",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
     "@playwright/test": "1.33.0",
+    "@rsbuild/core": "~1.0.11",
+    "@rsbuild/plugin-webpack-swc": "~1.0.3",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^14",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "typescript": "^5"
   }
 }

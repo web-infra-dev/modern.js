@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
   launchOptions,
   modernBuild,
 } from '../../../utils/modernTestUtils';
@@ -43,7 +43,7 @@ describe('devtools dev', () => {
         FAST_REFRESH: 'false',
       },
     );
-    const errors = [];
+    const errors: string[] = [];
 
     const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();

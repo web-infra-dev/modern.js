@@ -1,6 +1,5 @@
-import type { Define } from '@rsbuild/shared';
-import type { RsbuildPlugin } from '@rsbuild/core';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { RsbuildPlugin } from '@rsbuild/core';
 import type { ChainedGlobalVars } from '../../types';
 
 export const pluginGlobalVars = (
@@ -16,7 +15,7 @@ export const pluginGlobalVars = (
 
       const globalVars = applyOptionsChain({}, options, { env, target });
 
-      const serializedVars: Define = {};
+      const serializedVars: Record<string, any> = {};
 
       Object.entries(globalVars).forEach(([key, value]) => {
         serializedVars[key] = JSON.stringify(value) ?? 'undefined';

@@ -1,9 +1,10 @@
-import { join } from 'path';
-import { type RsbuildPlugin, fse } from '@rsbuild/shared';
+import fs from 'node:fs';
+import { join } from 'node:path';
+import type { RsbuildPlugin } from '@rsbuild/core';
 
 export async function isFileExists(file: string) {
-  return fse.promises
-    .access(file, fse.constants.F_OK)
+  return fs.promises
+    .access(file, fs.constants.F_OK)
     .then(() => true)
     .catch(() => false);
 }
@@ -15,10 +16,18 @@ export const pluginEmitRouteFile = (): RsbuildPlugin => ({
   name: 'uni-builder:emit-route-file',
 
   setup(api) {
-    api.onBeforeStartDevServer(async () => {
+    api.onBeforeStartDevServer(async ({ environments }) => {
       const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
       const routeFilePath = join(api.context.distPath, ROUTE_SPEC_FILE);
-      const htmlPaths = api.getHTMLPaths();
+
+      const htmlPaths = Object.values(environments).reduce<
+        Record<string, string>
+      >((prev, curr) => {
+        return {
+          ...prev,
+          ...curr.htmlPaths,
+        };
+      }, {});
 
       const routesInfo = Object.entries(htmlPaths).map(
         ([entryName, filename], index) => ({

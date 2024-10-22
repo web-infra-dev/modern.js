@@ -1,5 +1,5 @@
+import type { Entrypoint } from '@modern-js/types';
 import { chalk, inquirer } from '@modern-js/utils';
-import { Entrypoint } from '@modern-js/types';
 import { i18n, localeKeys } from '../locale';
 
 /**

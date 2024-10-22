@@ -2,12 +2,12 @@ import fs from 'fs';
 import path from 'path';
 import puppeteer from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
+  launchOptions,
   modernBuild,
   modernServe,
-  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 import { SequenceWait } from '../../../utils/testInSequence';
@@ -77,7 +77,11 @@ describe('test build', () => {
   });
 
   test(`should not use babel-loader`, async () => {
-    const configPath = path.join(appDir, 'dist', 'rspack.config.web.mjs');
+    const configPath = path.join(
+      appDir,
+      'dist',
+      '.rsbuild/rspack.config.web.mjs',
+    );
     const configContent = fs.readFileSync(configPath, { encoding: 'utf-8' });
 
     expect(configContent.includes('babel-loader')).toBeFalsy();

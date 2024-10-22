@@ -1,0 +1,100 @@
+# Vitest
+
+Vitest is a testing framework driven by Vite, which can be used for unit testing in combination with React Testing Library.
+
+To use Vitest in Modern.js, you need to install the dependencies first. You can run the following commands:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom", 
+  yarn: "yarn add -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom", 
+  pnpm: "pnpm install -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom",
+  bun: "bun add -D vitest @vitejs/plugin-react jsdom @testing-library/react @testing-library/dom"
+}} />
+
+Next, you need to create a Vitest configuration file `vitest.config.ts` with the following content:
+
+```ts title="vitest.config.ts"
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+ 
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    environment: 'jsdom',
+  },
+})
+```
+
+For more information about Vitest configuration, you can refer to the [Vitest configuration documentation](https://vitest.dev/config/#configuration).
+
+You can optionally add the `vitest` command to `package.json`:
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "vitest"
+  }
+}
+```
+
+After running this command, Vitest will automatically watch your file changes and rerun the test cases.
+
+## Create Unit Tests
+
+First, create a simple page for testing:
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+Add a test case to check if the page has the expected text:
+
+```tsx title="__tests__/page.test.tsx"
+import { expect, test } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+test('Page', () => {
+  render(
+    <Router>
+      <Page />
+    </Router>,
+  );
+  expect(screen.getByRole('heading', { level: 1, name: 'Home' })).toBeDefined();
+});
+```
+
+In the above test case, we imported the `<Router>` component from `@modern-js/runtime/router` because React Router requires the corresponding context when rendering some route-related components.
+
+:::note
+When running directly in the Modern.js application, the `<Router>` component will be automatically injected.
+:::
+
+## Run Test Cases
+
+Execute the above `test` command to run the test cases:
+
+```bash
+✓ src/__tests__/page.test.tsx (1)
+  ✓ Page
+
+Test Files  1 passed (1)
+    Tests  1 passed (1)
+  Start at  15:37:12
+  Duration  999ms (transform 119ms, setup 0ms, collect 365ms, tests 33ms, environment 421ms, prepare 44ms)
+
+
+PASS  Waiting for file changes...
+```

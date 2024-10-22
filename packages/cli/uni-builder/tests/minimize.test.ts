@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { pluginSwc } from '@rsbuild/plugin-swc';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { unwrapConfig } from './helper';
 
@@ -124,6 +124,48 @@ describe('plugin-minimize', () => {
     expect(JSON.stringify(config.optimization?.minimizer)).toContain(
       '"ascii_only":false',
     );
+
+    process.env.NODE_ENV = 'test';
+  });
+});
+
+describe('html minify', () => {
+  it('should not apply html minify in production when disableMinimize', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'webpack',
+      cwd: '',
+      config: {
+        output: {
+          disableMinimize: true,
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(config.plugins).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
+
+  it('should not apply html plugin when htmlPlugin false', async () => {
+    process.env.NODE_ENV = 'production';
+
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'webpack',
+      cwd: '',
+      config: {
+        tools: {
+          htmlPlugin: false,
+        },
+      },
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(config.plugins).toMatchSnapshot();
 
     process.env.NODE_ENV = 'test';
   });

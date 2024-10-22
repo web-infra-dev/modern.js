@@ -1,0 +1,35 @@
+# Web 服务器
+
+Modern.js 为应用提供了内置的 Web 服务器，可以被运行在任何拥有 Node.js 的容器环境中。无论是在本地开发环境中执行 `dev` 命令，或是执行 `build && serve` 命令运行生成环境产物，或是官方的部署方案，都是通过这个 Web 服务器来托管应用。
+
+## 底层依赖
+
+Modern.js 基于 [Hono 框架](https://hono.dev/) 搭建了自己的 Web 服务器。Hono 是一个小型、简单且超快速的基于 Web 标准的框架，它能在任何 JavaScript 运行时上运行。
+
+## 开发 & 生产
+
+Modern.js 开发环境和生产环境的 Web 服务器流程是完全同构的，你无需担心开发环境和生产环境的差异。
+
+在 [构建工具](/guides/concept/builder) 一节我们提到，Modern.js 底层构建能力由 Rsbuild 提供，而部分开发环境的服务端能力是与构建工具耦合的，例如 HMR。Modern.js 需要复用 Rsbuild Dev Server 的能力。
+
+在开发环境，Modern.js 直接使用了 Rsbuild 提供的中间件，包含 HMR、Proxy 等开发阶段需要的能力。同时，Modern.js 在这之上提供了 Mock、路由、渲染等能力：
+
+![Server](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/web-server-modern.jpeg)
+
+因此，在 Modern.js 中开发环境只是在生产环境上增加了中间件。生产环境的所有能力，在开发环境中也同样适用，两者不会产生割裂。
+
+:::tip
+静态资源文件能够直接被 Modern.js 的服务器托管，但在生产环境中，强烈推荐将这些内容上传到 CDN。
+:::
+
+## 在 CI 环境中运行
+
+Modern.js 支持在任何 Node.js 环境运行构建产物。在 CI 环境中，通常情况下已经安装了应用全部的依赖。
+
+你可以执行 [`modern build`](/apis/app/commands#modern-build) 来构建应用，执行 [`modern serve`](/apis/app/commands#modern-serve) 命令来运行 Web 服务器，启动 Modern.js 应用。
+
+## 在生产环境中运行
+
+在部署到生产环境时，产物体积应该尽可能小，而上述在 CI 中运行的方案，会保留原项目的所有产物。因此在生产环境，不推荐通过上述命令运行应用。
+
+Modern.js 提供了独立的部署方案，当运行 [`modern deploy`](/apis/app/commands#modern-deploy) 命令时，产物中会包含可运行 Web 服务器的入口文件。

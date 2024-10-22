@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { runCli, initBeforeTest } from '../../fixtures/utils';
+import { initBeforeTest, runCli } from '../../fixtures/utils';
 
 initBeforeTest();
 

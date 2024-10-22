@@ -1,6 +1,6 @@
 import path from 'path';
-import type { Manifest } from '@rsdoctor/types';
 import fs from '@modern-js/utils/fs-extra';
+import type { Manifest } from '@rsdoctor/types';
 import * as utils from '@rsdoctor/utils/common';
 
 export async function fetchShardingFile(url: string): Promise<string> {

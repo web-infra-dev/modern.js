@@ -1,4 +1,4 @@
-import { expect, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchPlugins, unwrapConfig } from './helper';
 
@@ -17,8 +17,9 @@ describe('plugin-sri', () => {
     const config = await unwrapConfig(rsbuild);
     expect(config.output?.crossOriginLoading).toBe('anonymous');
 
-    expect(matchPlugins(config, 'SubresourceIntegrityPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'SubresourceIntegrityPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         SubresourceIntegrityPlugin {
           "options": {
@@ -56,8 +57,9 @@ describe('plugin-sri', () => {
     const config = await unwrapConfig(rsbuild);
     expect(config.output?.crossOriginLoading).toBe('anonymous');
 
-    expect(matchPlugins(config, 'SubresourceIntegrityPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'SubresourceIntegrityPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         SubresourceIntegrityPlugin {
           "options": {

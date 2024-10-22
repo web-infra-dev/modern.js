@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { NoSSR } from '../../src/ssr';
+import { NoSSR } from '../../src/core/server/index';
 
 describe('ssr', () => {
   it('nossr fallback', async () => {

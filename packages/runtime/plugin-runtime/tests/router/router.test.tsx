@@ -1,14 +1,14 @@
+import { Request, Response, fetch } from '@remix-run/web-fetch';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
-import { fetch, Request, Response } from '@remix-run/web-fetch';
 import { createApp } from '../../src/core';
+import { createRuntime } from '../../src/core/plugin';
+import { useNavigate } from '../../src/router';
 import createRouterPlugin, {
   Outlet,
   useLocation,
 } from '../../src/router/runtime';
-import { useNavigate } from '../../src/router';
 import { DefaultNotFound } from '../../src/router/runtime/DefaultNotFound';
-import { createRuntime } from '../../src/core/plugin';
 
 beforeAll(() => {
   // use React 18
@@ -35,117 +35,6 @@ beforeAll(() => {
 });
 
 describe('@modern-js/plugin-router', () => {
-  it('base usage', () => {
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: App as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-          },
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      return <div>App:{test}</div>;
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toBe('App:1');
-    expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
-  it('pages', () => {
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: App as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-          },
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      return <div>App:{test}</div>;
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toBe('App:1');
-    expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
-  it('pages with App.init', () => {
-    const App = (props: { Component: React.FC }) => {
-      const { Component, ...pageProps } = props;
-      return (
-        <div>
-          <Component {...pageProps} />
-        </div>
-      );
-    };
-
-    function RouterApp() {
-      return <div>Router App</div>;
-    }
-
-    const mockCallback = jest.fn();
-    App.init = mockCallback;
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App, config }, next) => next({ App, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [
-              {
-                path: '/',
-                component: RouterApp as any,
-                type: 'page',
-                _component: '',
-              },
-            ],
-            globalApp: App,
-          },
-        }),
-      ],
-    })();
-
-    render(<AppWrapper />);
-    expect(mockCallback).toHaveBeenCalledTimes(1);
-  });
-
   it('hash router could work', async () => {
     function App() {
       const navigate = useNavigate();
@@ -176,7 +65,7 @@ describe('@modern-js/plugin-router', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App, config }, next) => next({ App, config }),
+          wrapRoot: App => App,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -233,7 +122,7 @@ describe('@modern-js/plugin-router', () => {
                 routes[0].element = <App2>{routes[0].element}</App2>;
                 return routes;
               },
-            } as any),
+            }) as any,
         ),
         createRouterPlugin({
           routesConfig: {

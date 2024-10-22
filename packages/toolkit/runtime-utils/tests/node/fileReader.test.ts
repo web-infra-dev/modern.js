@@ -1,5 +1,5 @@
-import path from 'path';
 import * as FSModule from 'node:fs/promises';
+import path from 'path';
 import { fileReader } from '../../src/node/fileReader';
 
 test('should fileReader work correctly', async () => {

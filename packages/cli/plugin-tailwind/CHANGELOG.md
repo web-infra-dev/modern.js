@@ -1,5 +1,255 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.60.4
+
+### Patch Changes
+
+- Updated dependencies [c87813e]
+- Updated dependencies [df1bed5]
+  - @modern-js/runtime-utils@2.60.4
+  - @modern-js/runtime@2.60.4
+  - @modern-js/node-bundle-require@2.60.4
+  - @modern-js/utils@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/runtime@2.60.3
+  - @modern-js/node-bundle-require@2.60.3
+  - @modern-js/runtime-utils@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [8a709bc]
+- Updated dependencies [b36bf9f]
+- Updated dependencies [d4e32bf]
+- Updated dependencies [0a31d31]
+  - @modern-js/runtime@2.60.2
+  - @modern-js/utils@2.60.2
+  - @modern-js/node-bundle-require@2.60.2
+  - @modern-js/runtime-utils@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [4cfe425]
+- Updated dependencies [80825c4]
+- Updated dependencies [3f968e1]
+  - @modern-js/runtime@2.60.1
+  - @modern-js/node-bundle-require@2.60.1
+  - @modern-js/runtime-utils@2.60.1
+  - @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- Updated dependencies [d6e0118]
+- Updated dependencies [e27b46a]
+  - @modern-js/runtime@2.60.0
+  - @modern-js/node-bundle-require@2.60.0
+  - @modern-js/runtime-utils@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- Updated dependencies [553924c]
+- Updated dependencies [6c084da]
+  - @modern-js/runtime@2.59.0
+  - @modern-js/runtime-utils@2.59.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/node-bundle-require@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- Updated dependencies [6b0a5c4]
+- Updated dependencies [59fba90]
+- Updated dependencies [f624878]
+- Updated dependencies [e0cb246]
+  - @modern-js/runtime@2.58.3
+  - @modern-js/node-bundle-require@2.58.3
+  - @modern-js/runtime-utils@2.58.3
+  - @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- Updated dependencies [9bbb0a0]
+- Updated dependencies [7715b6d]
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+- Updated dependencies [81829b0]
+  - @modern-js/runtime@2.58.2
+  - @modern-js/runtime-utils@2.58.2
+  - @modern-js/utils@2.58.2
+  - @modern-js/node-bundle-require@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- Updated dependencies [ec01bad]
+- Updated dependencies [2482a6b]
+- Updated dependencies [7a88ae9]
+- Updated dependencies [c904ee2]
+- Updated dependencies [9db73d7]
+  - @modern-js/runtime@2.58.1
+  - @modern-js/runtime-utils@2.58.1
+  - @modern-js/utils@2.58.1
+  - @modern-js/node-bundle-require@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- Updated dependencies [7188385]
+- Updated dependencies [cc74dba]
+  - @modern-js/runtime@2.58.0
+  - @modern-js/node-bundle-require@2.58.0
+  - @modern-js/runtime-utils@2.58.0
+  - @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.57.1
+- @modern-js/node-bundle-require@2.57.1
+- @modern-js/runtime-utils@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Minor Changes
+
+- dc736ef: feat: refactor runtime plugin hooks
+
+  feat: 重构 runtime 插件钩子函数
+
+### Patch Changes
+
+- dc736ef: feat: Support Runtime Plugin Communication
+
+  feat: 支持 Runtime 插件通信
+
+- Updated dependencies [2515b00]
+- Updated dependencies [abad541]
+- Updated dependencies [223d63b]
+- Updated dependencies [a9807e5]
+- Updated dependencies [916559a]
+- Updated dependencies [db43d8e]
+- Updated dependencies [dc736ef]
+- Updated dependencies [dc736ef]
+  - @modern-js/runtime@2.57.0
+  - @modern-js/utils@2.57.0
+  - @modern-js/runtime-utils@2.57.0
+  - @modern-js/node-bundle-require@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- Updated dependencies [e9c724c]
+- Updated dependencies [9626370]
+- Updated dependencies [89e1df0]
+- Updated dependencies [c441e14]
+  - @modern-js/runtime@2.56.2
+  - @modern-js/node-bundle-require@2.56.2
+  - @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- Updated dependencies [ad9e984]
+- Updated dependencies [137d387]
+- Updated dependencies [1696694]
+  - @modern-js/runtime@2.56.1
+  - @modern-js/node-bundle-require@2.56.1
+  - @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- Updated dependencies [ced7039]
+- Updated dependencies [6fda6a2]
+- Updated dependencies [0f0a31e]
+- Updated dependencies [f27eaab]
+- Updated dependencies [32d31c3]
+- Updated dependencies [9eee52a]
+- Updated dependencies [1e85b76]
+- Updated dependencies [d36f095]
+  - @modern-js/runtime@2.56.0
+  - @modern-js/utils@2.56.0
+  - @modern-js/node-bundle-require@2.56.0
+
+## 2.55.0
+
+### Minor Changes
+
+- 1515ea9: feat: refactor runtime brower entry
+
+  feat: 重构客户端入口
+
+### Patch Changes
+
+- 380c4a3: fix: add bff/tailwindcss/swc plugin exported types
+  fix: 添加 bff/tailwindcss/swc 插件的导出类型
+- Updated dependencies [1430c5d]
+- Updated dependencies [bbcf55a]
+- Updated dependencies [a38bb04]
+- Updated dependencies [1515ea9]
+- Updated dependencies [59e46ad]
+- Updated dependencies [283ac69]
+  - @modern-js/runtime@2.55.0
+  - @modern-js/utils@2.55.0
+  - @modern-js/node-bundle-require@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.6
+- @modern-js/node-bundle-require@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- Updated dependencies [5510104]
+  - @modern-js/runtime@2.54.5
+  - @modern-js/node-bundle-require@2.54.5
+  - @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.4
+- @modern-js/node-bundle-require@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.54.3
+- @modern-js/node-bundle-require@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

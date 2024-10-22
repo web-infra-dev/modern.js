@@ -1,4 +1,4 @@
-import type { JestConfig, DevServerOptions } from '@modern-js/types';
+import type { DevServerOptions, JestConfig } from '@modern-js/types';
 import type { UniBuilderConfig } from '@modern-js/uni-builder';
 
 // FIXME: need definition by itself.

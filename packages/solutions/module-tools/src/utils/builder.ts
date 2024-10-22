@@ -1,6 +1,6 @@
 import path from 'path';
 import qs from 'querystring';
-import { logger, fs } from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
 import type { ExternalHelpers } from '../types/config';
 
 type Query = Record<string, string | boolean>;

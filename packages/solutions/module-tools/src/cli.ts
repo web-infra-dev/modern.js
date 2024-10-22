@@ -1,14 +1,14 @@
 import type { CliPlugin } from '@modern-js/core';
-import { dotenv, fs } from '@modern-js/utils';
-import type { ModuleTools } from './types';
-import { registerHook } from './hooks';
-import { getPlugins } from './plugins';
+import { fs, deprecatedCommands, dotenv } from '@modern-js/utils';
 import {
   buildCommand,
   devCommand,
   newCommand,
   upgradeCommand,
 } from './command';
+import { registerHook } from './hooks';
+import { getPlugins } from './plugins';
+import type { ModuleTools } from './types';
 import { addExitListener } from './utils/onExit';
 
 export const moduleTools = (): CliPlugin<ModuleTools> => ({
@@ -53,6 +53,7 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
       await devCommand(program, api);
       await newCommand(program);
       await upgradeCommand(program);
+      deprecatedCommands(program);
     },
   };
 };

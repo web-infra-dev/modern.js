@@ -3,7 +3,12 @@
  */
 
 import path from 'path';
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, {
+  type Express,
+  type Request,
+  type Response,
+  type NextFunction,
+} from 'express';
 import request from 'supertest';
 import plugin from '../src/plugin';
 import { APIPlugin, createPluginManager } from './helpers';
@@ -132,7 +137,6 @@ describe('add middlewares', () => {
     const fakeMiddleware2 = jest.fn((req, res) => {
       res.send(foo);
     });
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     const [mock_fakeMiddleware, mock_fakeMiddleware2] = [
       fakeMiddleware,
       fakeMiddleware2,
@@ -346,7 +350,6 @@ describe('support app.ts in lambda mode', () => {
             });
 
             app.use(
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               (err: Error, req: Request, res: Response, next: NextFunction) => {
                 res.status(500).send(`${msg}:${errMsg}`);
               },

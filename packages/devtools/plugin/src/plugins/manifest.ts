@@ -1,12 +1,14 @@
 import path from 'path';
 import {
-  replacer,
   type ExportedServerState,
+  type RouteAsset,
   type ServerManifest,
+  replacer,
 } from '@modern-js/devtools-kit/node';
 import { fs, logger, nanoid } from '@modern-js/utils';
 import createDeferred from 'p-defer';
-import { Plugin } from '../types';
+import { joinURL } from 'ufo';
+import type { Plugin } from '../types';
 
 declare global {
   interface DevtoolsPluginVars {
@@ -18,6 +20,7 @@ declare global {
 }
 
 export const pluginManifest: Plugin = {
+  name: 'manifest',
   async setup(api) {
     const deferredManifest = createDeferred<ServerManifest>();
     const deferredManifestJson = createDeferred<string>();
@@ -28,13 +31,36 @@ export const pluginManifest: Plugin = {
       const routesManifestName = require.resolve(
         '@modern-js/devtools-client/manifest',
       );
-      const routesManifest = await fs.readJSON(routesManifestName);
+      const routesManifest: { routeAssets: Record<string, RouteAsset> } =
+        await fs.readJSON(routesManifestName);
+      const { http } = api.vars;
+      if (process.env.NODE_ENV !== 'production' && http) {
+        const assetPrefix = `http://localhost:${http.port}`;
+        for (const routeAsset of Object.values(routesManifest.routeAssets)) {
+          routeAsset.assets = routeAsset.assets?.map(asset =>
+            joinURL(assetPrefix, asset),
+          );
+          routeAsset.referenceCssAssets = routeAsset.referenceCssAssets?.map(
+            asset =>
+              typeof asset === 'string' ? joinURL(assetPrefix, asset) : asset,
+          ) as [];
+        }
+      }
       const manifest: ServerManifest = {
         ...(api.vars.state as ExportedServerState),
-        client: '/__devtools',
-        websocket: '/__devtools/rpc',
         routeAssets: routesManifest.routeAssets,
+        version: require('../../package.json').version,
       };
+      const port = api.vars.http?.port;
+      if (port) {
+        manifest.client = `http://localhost:${port}/static/html/client/index.html`;
+        if (process.env.DEVTOOLS_RPC !== 'false') {
+          manifest.websocket = `ws://localhost:${port}/rpc`;
+        }
+      }
+
+      await api.hooks.callHook('createManifest', { manifest });
+
       api.vars.manifest = manifest;
       deferredManifest.resolve(manifest);
 

@@ -1,5 +1,5 @@
-import type { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
 import { modernTestActionName } from '@/common/utils';
+import type { ActionFunction, LoaderFunction } from '@modern-js/runtime/router';
 
 const storage = new Map();
 

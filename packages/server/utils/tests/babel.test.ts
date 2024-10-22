@@ -1,7 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
-import { resolveBabelConfig, compile } from '../src';
+import { compile, resolveBabelConfig } from '../src';
 import { defaults, join } from './helpers';
 
 initSnapshotSerializer({ cwd: path.resolve(__dirname, '../') });

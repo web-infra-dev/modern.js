@@ -1,0 +1,55 @@
+---
+title: setupMiddlewares
+configName: dev.setupMiddlewares
+---
+
+# dev.setupMiddlewares
+
+- **Type:**
+
+```ts
+type SetupMiddlewaresServer = {
+  sockWrite: (
+    type: string,
+    data?: string | boolean | Record<string, any>,
+  ) => void;
+  environments: {
+    [name: string]: {
+      /**
+       * Get stats info about current environment.
+       */
+      getStats: () => Promise<Stats>;
+      /**
+       * Load and execute stats bundle in server.
+       *
+       * @param entryName - relate to Rsbuild's `source.entry`
+       * @returns the return value of entry module.
+       */
+      loadBundle: <T = unknown>(entryName: string) => Promise<T>;
+
+      /**
+       * Get the compiled HTML template.
+       */
+      getTransformedHtml: (entryName: string) => Promise<string>;
+    };
+  };
+};
+
+type SetupMiddlewares = Array<
+  (
+    middlewares: {
+      unshift: (...handlers: RequestHandler[]) => void;
+      push: (...handlers: RequestHandler[]) => void;
+    },
+    server: SetupMiddlewaresServer,
+  ) => void
+>;
+```
+
+- **Default:** `undefined`
+
+Provides the ability to execute a custom function and apply custom middlewares.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

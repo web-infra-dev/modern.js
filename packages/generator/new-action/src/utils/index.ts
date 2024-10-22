@@ -1,12 +1,13 @@
 import path from 'path';
-import { json5, semver } from '@modern-js/utils';
+import { semver } from '@modern-js/codesmith-utils';
 import {
-  ActionFunction,
-  ActionRefactor,
+  type ActionFunction,
+  type ActionRefactor,
   Solution,
   SolutionToolsMap,
 } from '@modern-js/generator-common';
 import { fs, getModernPluginVersion } from '@modern-js/generator-utils';
+import json5 from 'json5';
 
 const swap = (obj: Record<string, string>) => {
   return Object.keys(obj).reduce<Record<string, string>>((acc, key) => {
@@ -72,7 +73,7 @@ export function getGeneratorPath(generator: string, distTag: string) {
 
 export async function usePluginNameExport(
   solution: Solution,
-  options: Record<string, string>,
+  options: Record<string, string | undefined>,
 ) {
   const solutionVersion = await getModernPluginVersion(
     solution,

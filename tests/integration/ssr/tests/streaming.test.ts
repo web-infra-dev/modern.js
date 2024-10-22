@@ -1,9 +1,9 @@
 import path, { join } from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
@@ -22,6 +22,10 @@ async function basicUsage(page: Page, appPort: number) {
 
   expect(body).toMatch(/<div hidden id="S:0">[\s\S]*<div>About content<\/div>/);
   expect(body).toMatch('reporter');
+
+  const headers = await res?.headers();
+
+  expect(headers).toHaveProperty('x-custom-key', '123');
 }
 
 async function deferredData(page: Page, appPort: number) {

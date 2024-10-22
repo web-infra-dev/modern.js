@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { pluginSwc } from '@rsbuild/plugin-webpack-swc';
 import { build } from '@scripts/shared';
-import { pluginSwc } from '@rsbuild/plugin-swc';
 
 const cwd = join(__dirname, 'removeConsole');
 

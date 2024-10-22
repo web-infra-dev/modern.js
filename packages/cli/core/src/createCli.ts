@@ -1,23 +1,23 @@
 import {
-  logger,
-  program,
   Command,
   DEFAULT_RUNTIME_CONFIG,
   DEFAULT_SERVER_CONFIG,
+  logger,
+  program,
 } from '@modern-js/utils';
-import { initAppDir, initCommandsMap, createFileWatcher } from './utils';
-import { loadPlugins } from './loadPlugins';
+import { createLoadedConfig, createResolveConfig } from './config';
 import {
   AppContext,
   ConfigContext,
-  initAppContext,
   ResolvedConfigContext,
+  initAppContext,
   useAppContext,
 } from './context';
 import { loadEnv } from './loadEnv';
+import { loadPlugins } from './loadPlugins';
 import { manager } from './manager';
 import type { CliHooksRunner, CoreOptions } from './types';
-import { createResolveConfig, createLoadedConfig } from './config';
+import { createFileWatcher, initAppDir, initCommandsMap } from './utils';
 import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
 
 const setProgramVersion = (version = 'unknown') => {
@@ -91,10 +91,14 @@ export const createCli = () => {
 
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
       event => {
-        process.on(event, async err => {
+        process.on(event, async (err: unknown) => {
           hooksRunner.beforeExit();
+
+          let hasError = false;
+
           if (err instanceof Error) {
             logger.error(err.stack);
+            hasError = true;
           } else if (
             err &&
             (event === 'unhandledRejection' || event === 'uncaughtException')
@@ -102,10 +106,11 @@ export const createCli = () => {
             // We should not pass it, if err is not instanceof Error.
             // We can use `console.trace` to follow it call stack,
             console.trace('Unknown Error', err);
+            hasError = true;
           }
+
           process.nextTick(() => {
-            // eslint-disable-next-line no-process-exit
-            process.exit(1);
+            process.exit(hasError ? 1 : 0);
           });
         });
       },

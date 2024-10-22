@@ -1,7 +1,7 @@
-import http, { OutgoingHttpHeaders } from 'http';
+import http, { type OutgoingHttpHeaders } from 'http';
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
+import { getPort, killApp, launchApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
@@ -14,7 +14,6 @@ async function request(
 }> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // eslint-disable-next-line prefer-promise-reject-errors
       reject(`timeout: ${options?.timeout || 3000}`);
     }, options?.timeout || 3000);
     const req = http.request(url, res => {

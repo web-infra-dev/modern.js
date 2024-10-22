@@ -15,11 +15,11 @@ describe('useLoader with SSR', () => {
   let $data;
   let logs = [];
   let errors = [];
-  let app,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser;
+  let app;
+  /** @type {puppeteer.Page} */
+  let page;
+  /** @type {puppeteer.Browser} */
+  let browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'use-loader');
@@ -30,7 +30,7 @@ describe('useLoader with SSR', () => {
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
-    page.on('pageerror', error => errors.push(error.text));
+    page.on('pageerror', error => errors.push(error.message));
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -98,12 +98,12 @@ describe('useLoader with SSR', () => {
 describe('convention router', () => {
   const logs = [];
   const errors = [];
-  let app,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser,
-    appPort;
+  let app;
+  /** @type {puppeteer.Page} */
+  let page;
+  /** @type {puppeteer.Browser} */
+  let browser;
+  let appPort;
 
   const getUrl = str => `http://localhost:${appPort}/${str}`;
 
@@ -117,7 +117,7 @@ describe('convention router', () => {
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
-    page.on('pageerror', error => errors.push(error.text));
+    page.on('pageerror', error => errors.push(error.message));
   });
 
   afterAll(async () => {

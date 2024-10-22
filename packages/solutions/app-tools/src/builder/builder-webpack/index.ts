@@ -1,6 +1,5 @@
-import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
-import { builderPluginAdapterModern } from './adapterModern';
+import type { BuilderOptions } from '../shared';
 
 export async function createWebpackBuilderForModern(
   options: BuilderOptions<'webpack'>,
@@ -15,8 +14,6 @@ export async function createWebpackBuilderForModern(
 
     builder.addPlugins([pluginEsbuild(esbuildOptions)]);
   }
-
-  builder.addPlugins([builderPluginAdapterModern(options)]);
 
   return builder;
 }

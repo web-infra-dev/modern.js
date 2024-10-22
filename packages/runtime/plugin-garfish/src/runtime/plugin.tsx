@@ -1,21 +1,21 @@
+import type { Plugin } from '@modern-js/runtime';
+import { merge } from '@modern-js/runtime-utils/merge';
 import GarfishInstance from 'garfish';
 import React from 'react';
-import type { Plugin } from '@modern-js/runtime';
-import hoistNonReactStatics from 'hoist-non-react-statics';
 import { logger } from '../util';
-import { GarfishProvider } from './utils/Context';
-import setExternal from './utils/setExternal';
-import {
+import type {
   Config,
   Manifest,
   MicroComponentProps,
   ModulesInfo,
   Options,
 } from './useModuleApps';
+import { GarfishProvider } from './utils/Context';
 import { generateMApp } from './utils/MApp';
-import { AppMap, generateApps } from './utils/apps';
+import { type AppMap, generateApps } from './utils/apps';
+import setExternal from './utils/setExternal';
 
-async function initOptions(manifest: Manifest = {}, options: Options) {
+async function initOptions(manifest: Manifest = {}, options: Options = {}) {
   let apps: ModulesInfo = options.apps || [];
 
   // use manifest modules
@@ -51,16 +51,17 @@ async function initOptions(manifest: Manifest = {}, options: Options) {
 }
 
 // export default garfishPlugin;
-export default (config: Config): Plugin => ({
+export const garfishPlugin = (userConfig: Config = {}): Plugin => ({
   name: '@modern-js/garfish-plugin',
-  setup: () => {
+  setup: api => {
     setExternal();
-
-    const { manifest, ...options } = config;
-    logger('createPlugin', config);
-    const promise = initOptions(manifest, options);
     return {
-      hoc({ App, config }, next) {
+      wrapRoot(App) {
+        const pluginConfig: Record<string, any> = api.useRuntimeConfigContext();
+        const config = merge(pluginConfig.garfish || {}, userConfig);
+        const { manifest, ...options } = config;
+        logger('createPlugin', config);
+        const promise = initOptions(manifest, options);
         class GetMicroFrontendApp extends React.Component {
           state: {
             MApp: React.FC<MicroComponentProps>;
@@ -121,11 +122,10 @@ export default (config: Config): Plugin => ({
           }
         }
 
-        return next({
-          App: hoistNonReactStatics(GetMicroFrontendApp, App),
-          config,
-        });
+        return GetMicroFrontendApp;
       },
     };
   },
 });
+
+export default garfishPlugin;

@@ -1,6 +1,7 @@
 import React from 'react';
-import { runtime, Plugin } from '../../src/core/plugin';
-import { RuntimeReactContext } from '../../src/core/context';
+import { getInitialContext } from '../../src/core/context/runtime';
+import { type Plugin, runtime } from '../../src/core/plugin';
+import { wrapRuntimeContextProvider } from '../../src/core/react/wrapper';
 
 export type WrapOptions = Record<string, unknown>;
 
@@ -13,9 +14,20 @@ export const initialWrapper = (plugins: Plugin[], manager = runtime) => {
   ) => wrap(App, config, manager);
 };
 
+export const wrapRuntimeProvider = (
+  App: React.ComponentType<any>,
+  manager = runtime,
+) => {
+  return (props: any) =>
+    wrapRuntimeContextProvider(
+      React.createElement(App, props),
+      getInitialContext(manager.init()),
+    );
+};
+
 export const wrap = <P = Record<string, unknown>>(
   App: React.ComponentType<any>,
-  // eslint-disable-next-line no-empty-pattern
+  // biome-ignore lint/correctness/noEmptyPattern: <explanation>
   {}: WrapOptions,
   manager = runtime,
 ) => {
@@ -30,19 +42,8 @@ export const wrap = <P = Record<string, unknown>>(
     return element;
   };
 
-  return runner.hoc(
-    { App: WrapperComponent, config: {} },
-    {
-      onLast: ({ App }) => {
-        const WrapComponent = ({ context, ...props }: any) =>
-          React.createElement(
-            RuntimeReactContext.Provider,
-            { value: context },
-            React.createElement(App, props),
-          );
+  const WrapperRoot = runner.wrapRoot(WrapperComponent);
 
-        return WrapComponent;
-      },
-    },
-  );
+  return (props: any) =>
+    React.createElement(wrapRuntimeProvider(WrapperRoot, runtime), props);
 };

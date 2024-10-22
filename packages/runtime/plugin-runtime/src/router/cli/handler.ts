@@ -1,10 +1,11 @@
 import path from 'path';
-import { Entrypoint } from '@modern-js/types';
-import { PluginAPI } from '@modern-js/core';
-import { AppTools } from '@modern-js/app-tools';
+import type { AppTools } from '@modern-js/app-tools';
+import type { PluginAPI } from '@modern-js/core';
+import type { Entrypoint } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
-import { modifyEntrypoints } from './entry';
+import * as templates from './code/templates';
 import { isPageComponentFile } from './code/utils';
+import { modifyEntrypoints } from './entry';
 
 let originEntrypoints: any[] = [];
 
@@ -13,14 +14,37 @@ export async function handleModifyEntrypoints(
   entrypoints: Entrypoint[],
 ) {
   const config = api.useResolvedConfigContext();
-  const newEntryPoints = modifyEntrypoints(entrypoints, config);
+  return modifyEntrypoints(entrypoints, config);
+}
+
+export async function handleGeneratorEntryCode(
+  api: PluginAPI<AppTools<'shared'>>,
+  entrypoints: Entrypoint[],
+) {
   const appContext = api.useAppContext();
+  const { internalDirectory } = api.useAppContext();
   const resolvedConfig = api.useResolvedConfigContext();
-  appContext.entrypoints = newEntryPoints;
-  originEntrypoints = cloneDeep(newEntryPoints);
-  const { generateCode } = await import('./code');
+  const { generatorRegisterCode, generateCode } = await import('./code');
+  originEntrypoints = cloneDeep(entrypoints);
   await generateCode(appContext, resolvedConfig, entrypoints, api);
-  return newEntryPoints;
+  await Promise.all(
+    entrypoints.map(async entrypoint => {
+      if (entrypoint.nestedRoutesEntry || entrypoint.pageRoutesEntry) {
+        generatorRegisterCode(
+          internalDirectory,
+          entrypoint.entryName,
+          await templates.runtimeGlobalContext({
+            metaName: appContext.metaName,
+            srcDirectory: appContext.srcDirectory,
+            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+            internalSrcAlias: appContext.internalSrcAlias,
+            globalApp: entrypoint.fileSystemRoutes?.globalApp,
+          }),
+        );
+      }
+    }),
+  );
+  return entrypoints;
 }
 
 export async function handleFileChange(

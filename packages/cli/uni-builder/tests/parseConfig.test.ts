@@ -1,5 +1,4 @@
-/* eslint-disable max-lines */
-import { describe, afterAll, test, expect } from 'vitest';
+import { afterAll, describe, expect, test } from 'vitest';
 import { parseCommonConfig } from '../src/shared/parseCommonConfig';
 
 describe('parseCommonConfig', () => {
@@ -11,7 +10,7 @@ describe('parseCommonConfig', () => {
 
   test('merge config', async () => {
     class A {
-      a: number = 1;
+      a = 1;
 
       apply() {
         return this.a;
@@ -386,54 +385,5 @@ describe('parseCommonConfig', () => {
         )
       ).rsbuildConfig,
     ).toMatchSnapshot();
-  });
-
-  test('output.overrideBrowserslist', async () => {
-    expect(
-      (
-        await parseCommonConfig(
-          {
-            output: {
-              overrideBrowserslist: ['iOS >= 9', 'Android >= 4.4'],
-            },
-          },
-          {},
-        )
-      ).rsbuildConfig.output!.overrideBrowserslist,
-    ).toMatchInlineSnapshot(`
-      {
-        "web": [
-          "iOS >= 9",
-          "Android >= 4.4",
-        ],
-      }
-    `);
-
-    expect(
-      (
-        await parseCommonConfig(
-          {},
-          {
-            target: ['web', 'node', 'web-worker'],
-          },
-        )
-      ).rsbuildConfig.output!.overrideBrowserslist,
-    ).toMatchInlineSnapshot(`
-      {
-        "node": [
-          "node >= 14",
-        ],
-        "web": [
-          "> 0.01%",
-          "not dead",
-          "not op_mini all",
-        ],
-        "web-worker": [
-          "> 0.01%",
-          "not dead",
-          "not op_mini all",
-        ],
-      }
-    `);
   });
 });

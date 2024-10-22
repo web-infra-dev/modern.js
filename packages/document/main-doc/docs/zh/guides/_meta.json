@@ -1,0 +1,33 @@
+[
+  {
+    "type": "dir",
+    "name": "get-started",
+    "label": "gettingStarted"
+  },
+  {
+    "type": "dir",
+    "name": "concept",
+    "label": "concept"
+  },
+  {
+    "type": "dir",
+    "name": "basic-features",
+    "label": "basic"
+  },
+  {
+    "type": "dir",
+    "name": "advanced-features",
+    "label": "advanced"
+  },
+  {
+    "type": "dir",
+    "name": "topic-detail",
+    "label": "topic"
+  },
+  {
+    "type": "dir",
+    "name": "troubleshooting",
+    "label": "troubleshooting"
+  },
+  "deprecated"
+]

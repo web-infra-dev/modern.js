@@ -1,13 +1,18 @@
 import path from 'node:path';
 import {
-  ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
+  ROUTE_SPEC_FILE,
   fs as fse,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
-import { CreatePreset } from './platform';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
+import type { CreatePreset } from './platform';
 
 async function cleanDistDirectory(dir: string) {
   try {
@@ -29,15 +34,25 @@ export const createNetlifyPreset: CreatePreset = (
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
-    appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    entrypoints,
+    serverPlugins,
+    moduleType,
+  } = appContext;
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const isEsmProject = moduleType === 'module';
+
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const netlifyOutput = path.join(appDirectory, '.netlify');
   const funcsDirectory = path.join(netlifyOutput, 'functions');
   const entryFilePath = path.join(funcsDirectory, 'index.js');
+  const handlerFilePath = path.join(funcsDirectory, 'netlify-handler.cjs');
   return {
     async prepare() {
       await fse.remove(netlifyOutput);
@@ -98,7 +113,9 @@ export const createNetlifyPreset: CreatePreset = (
           prefix: modernConfig?.bff?.prefix,
         },
         output: {
-          path: '.',
+          distPath: {
+            root: '.',
+          },
         },
       };
 
@@ -106,24 +123,38 @@ export const createNetlifyPreset: CreatePreset = (
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
 
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './netlifyEntry.js'))
+      const pluginsCode = getPluginsCode(plugins);
+
+      let handlerCode = (
+        await fse.readFile(path.join(__dirname, './netlify-handler.js'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
-      entryCode = entryCode
+      handlerCode = handlerCode
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
+      await fse.writeFile(handlerFilePath, handlerCode);
+      if (isEsmProject) {
+        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
+        await fse.copy(
+          path.join(__dirname, './netlify-entry.mjs'),
+          entryFilePath,
+        );
+      } else {
+        await fse.copy(
+          path.join(__dirname, './netlify-entry.js'),
+          entryFilePath,
+        );
+      }
     },
     async end() {
       if (process.env.NODE_ENV !== 'development') {
@@ -132,9 +163,11 @@ export const createNetlifyPreset: CreatePreset = (
       if (!needModernServer) {
         return;
       }
-      await handleDependencies(appDirectory, funcsDirectory, [
-        '@modern-js/prod-server',
-      ]);
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: funcsDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+      });
     },
   };
 };

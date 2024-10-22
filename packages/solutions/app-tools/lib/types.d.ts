@@ -36,6 +36,11 @@ declare module '*.png' {
   export default src;
 }
 
+declare module '*.avif' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.ico' {
   const src: string;
   export default src;
@@ -91,6 +96,11 @@ declare module '*.png?inline' {
   export default src;
 }
 
+declare module '*.avif?inline' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.ico?inline' {
   const src: string;
   export default src;
@@ -133,6 +143,11 @@ declare module '*.jpeg?url' {
 }
 
 declare module '*.png?url' {
+  const src: string;
+  export default src;
+}
+
+declare module '*.avif?url' {
   const src: string;
   export default src;
 }

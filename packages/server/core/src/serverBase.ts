@@ -1,6 +1,7 @@
-import { ISAppContext, ServerRoute } from '@modern-js/types';
-import { Hono } from 'hono';
 import { createContext } from '@modern-js/plugin';
+import type { ISAppContext, ServerRoute } from '@modern-js/types';
+import { Hono } from 'hono';
+import { PluginManager } from './pluginManager';
 import type {
   AppContext,
   Env,
@@ -10,7 +11,6 @@ import type {
   ServerPlugin,
 } from './types';
 import type { CliConfig } from './types/config';
-import { PluginManager } from './pluginManager';
 
 declare module '@modern-js/types' {
   interface ISAppContext {
@@ -26,6 +26,7 @@ export type ServerBaseOptions = {
   metaName?: string;
   routes?: ServerRoute[];
   appContext: {
+    internalDirectory?: string;
     appDirectory?: string;
     sharedDirectory?: string;
     apiDirectory?: string;
@@ -92,6 +93,7 @@ export class ServerBase<E extends Env = any> {
       middlewares: [],
       appDirectory: context?.appDirectory || '',
       apiDirectory: context?.apiDirectory,
+      internalDirectory: context?.internalDirectory || '',
       lambdaDirectory: context?.lambdaDirectory,
       sharedDirectory: context?.sharedDirectory || '',
       distDirectory: pwd,

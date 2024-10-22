@@ -1,4 +1,4 @@
-import { createPipeline, Middleware } from '../farrow-pipeline';
+import { type Middleware, createPipeline } from '../farrow-pipeline';
 
 const WORKFLOW_SYMBOL = Symbol.for('MODERN_WORKFLOW');
 
@@ -39,5 +39,4 @@ export const isWorkflow = (input: any): input is Workflow<unknown, unknown> =>
 
 const mapWorkerToMiddleware =
   <I, O>(worker: Worker<I, O>): Middleware<I, O[]> =>
-  (input, next) =>
-    [worker(input), ...next(input)];
+  (input, next) => [worker(input), ...next(input)];

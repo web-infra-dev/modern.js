@@ -12,5 +12,3 @@ export type {
   InputValidationError,
   OutputValidationError,
 } from './response';
-
-export type { RequestOption } from './compatible';

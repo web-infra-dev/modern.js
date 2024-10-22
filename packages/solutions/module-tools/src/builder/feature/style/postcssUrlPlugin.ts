@@ -1,13 +1,13 @@
-import { join, relative, dirname } from 'path';
-import { Plugin } from 'postcss';
-import { ICompiler } from '../../../types';
+import { dirname, join, relative } from 'path';
+import type { Plugin } from 'postcss';
+import type { ICompiler } from '../../../types';
 import { getAssetContents } from '../asset';
 import { rewriteCssUrls } from './utils';
 
 const Processed = Symbol('processed');
 const HTTP_PATTERNS = /^(https?:)?\/\//;
 const DATAURL_PATTERNS = /^data:/;
-const HASH_PATTERNS = /#[^#]+$/;
+const HASH_PATTERNS = /.#[^#]+$/;
 
 export const postcssUrlPlugin = (options: {
   entryPath: string;

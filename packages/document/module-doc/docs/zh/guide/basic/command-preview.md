@@ -69,22 +69,6 @@ Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev
 
 目前官方支持的调试工具有 [Rspress](https://rspress.dev/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev doc` 执行它。
 
-## `modern lint`
-
-```bash
-Usage: modern lint [options] [...files]
-
-lint and fix source files
-
-Options:
-  --no-fix    disable auto fix source file
-  -h, --help  display help for command
-```
-
-运行 [ESLint](https://eslint.org/) 检查代码语法情况。通常情况下，我们只需要在 `git commit` 阶段通过 [lint-staged](https://github.com/okonet/lint-staged) 检查本次提交修改的部分代码。
-
-- `--no-fix` 参数设置后可以关闭自动修复 lint 错误代码的能力。
-
 ## `modern change`
 
 ```bash

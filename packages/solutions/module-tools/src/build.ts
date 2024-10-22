@@ -1,6 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
 import { debug } from './debug';
-import type { ModuleTools, ModuleContext, BuildCommandOptions } from './types';
+import type { BuildCommandOptions, ModuleContext, ModuleTools } from './types';
 
 export const build = async (
   api: PluginAPI<ModuleTools>,

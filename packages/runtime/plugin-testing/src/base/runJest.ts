@@ -6,14 +6,14 @@
  * https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21
  */
 
-import { Config } from '@jest/types';
-import yargs from 'yargs/yargs';
-import { runCLI } from 'jest';
-import { chalk } from '@modern-js/utils';
+import type { Config } from '@jest/types';
 import type { PluginAPI } from '@modern-js/core';
-import { getJestUtils, patchConfig, UserConfig } from './config';
-import { TestConfig } from './types';
+import { chalk } from '@modern-js/utils';
+import { runCLI } from 'jest';
+import yargs from 'yargs/yargs';
+import { type UserConfig, getJestUtils, patchConfig } from './config';
 import type { Hooks } from './hook';
+import type { TestConfig } from './types';
 import { debug } from './utils';
 
 type Argv = Omit<Config.Argv, '_' | '$0'>;
@@ -68,12 +68,10 @@ const readResultsAndExit = (
       console.warn(
         `${chalk.bold(
           'Force exiting Jest: ',
-        )}Have you considered using \`--detectOpenHandles\` to detect ` +
-          `async operations that kept running after all tests finished?`,
+        )}Have you considered using \`--detectOpenHandles\` to detect async operations that kept running after all tests finished?`,
       );
     }
 
-    // eslint-disable-next-line no-process-exit
     process.exit(code);
   } else if (!globalConfig.detectOpenHandles) {
     setTimeout(() => {
@@ -106,7 +104,6 @@ export async function runJest(
   } catch (e: any) {
     console.error(chalk.red(e?.stack || e));
 
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 }

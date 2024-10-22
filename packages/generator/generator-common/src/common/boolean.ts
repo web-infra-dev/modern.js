@@ -1,4 +1,4 @@
-import { SchemaEnum } from '@modern-js/codesmith-formily';
+import type { SchemaEnum } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
 export enum BooleanConfig {

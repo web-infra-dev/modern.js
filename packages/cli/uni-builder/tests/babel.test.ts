@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchRules, unwrapConfig } from './helper';
 
@@ -237,8 +237,11 @@ describe('plugin-babel', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: 'node',
-      config: {},
+      config: {
+        output: {
+          target: 'node',
+        },
+      },
     });
     const config = await unwrapConfig(rsbuild);
 

@@ -1,10 +1,13 @@
-import { createUniBuilder, UniBuilderInstance } from '@modern-js/uni-builder';
-import { mergeRsbuildConfig, type RsbuildConfig } from '@rsbuild/core';
 import { loadConfig } from '@modern-js/core';
+import {
+  type UniBuilderInstance,
+  createUniBuilder,
+} from '@modern-js/uni-builder';
+import { type RsbuildConfig, mergeRsbuildConfig } from '@rsbuild/core';
 import type { Options } from '@storybook/types';
-import type { BuilderOptions, BuilderConfig } from './types';
+import { addonBabelAdapter, pluginStorybook } from './plugin-storybook';
+import type { BuilderConfig, BuilderOptions } from './types';
 import { getConfigFileName, runWithErrorMsg } from './utils';
-import { pluginStorybook, addonBabelAdapter } from './plugin-storybook';
 
 export async function createBuilder(
   cwd: string,
@@ -34,20 +37,21 @@ export async function createBuilder(
       ) as BuilderConfig)
     : finalConfig || {};
 
+  uniBuilderConfig.source ??= {};
+  uniBuilderConfig.source.entry = {
+    main: entries,
+  };
+
   const bundlerType = bundler || 'webpack';
 
   const builder = await createUniBuilder({
     bundlerType,
     cwd,
-    target: 'web',
     frameworkConfigPath: res?.path ? res.path : undefined,
     config:
       bundlerType === 'webpack'
         ? await addonBabelAdapter(uniBuilderConfig, options)
         : uniBuilderConfig,
-    entry: {
-      main: entries,
-    },
   });
 
   builder.addPlugins([

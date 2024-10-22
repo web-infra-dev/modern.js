@@ -1,14 +1,14 @@
 import path from 'path';
 import {
-  IAppContext,
+  type CliHooksRunner,
+  type CliPlugin,
+  type IAppContext,
   manager,
-  CliPlugin,
-  CliHooksRunner,
 } from '@modern-js/core';
-import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
-import { AppNormalizedConfig, AppTools } from '../../src/types';
-import { appTools } from '../../src/index';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
+import { appTools } from '../../src/index';
+import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
+import type { AppNormalizedConfig, AppTools } from '../../src/types';
 
 async function getRunner() {
   const main = manager
@@ -93,13 +93,11 @@ describe('get entrypoints from file system', () => {
     const appContext = { appDirectory: path.resolve(fixtures, './no-entry') };
 
     expect(
-      (
-        await getFileSystemEntry(
-          await getRunner(),
-          appContext as IAppContext,
-          config as AppNormalizedConfig<'shared'>,
-        )
-      ).length,
-    ).toBe(0);
+      getFileSystemEntry(
+        await getRunner(),
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
+    ).rejects.toThrow('There is no valid entry point in the current project!');
   });
 });

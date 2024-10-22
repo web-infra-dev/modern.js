@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { HttpMethodDecider } from '@modern-js/types';
 import { ApiRouter } from '../router';
-import { Result, Ok, Err } from './result';
+import { Err, Ok, type Result } from './result';
 
 export type GenClientResult = Result<string>;
 
@@ -36,7 +36,6 @@ export const generateClient = async ({
   httpMethodDecider,
 }: GenClientOptions): Promise<GenClientResult> => {
   if (!requestCreator) {
-    // eslint-disable-next-line no-param-reassign
     requestCreator = requireResolve(
       `${DEFAULT_CLIENT_REQUEST_CREATOR}${target ? `/${target}` : ''}`,
     ).replace(/\\/g, '/');
@@ -46,7 +45,6 @@ export const generateClient = async ({
     try {
       resolvedPath = path.dirname(requireResolve(requestCreator));
     } catch (error) {}
-    // eslint-disable-next-line no-param-reassign
     requestCreator = `${resolvedPath}${target ? `/${target}` : ''}`.replace(
       /\\/g,
       '/',
@@ -61,7 +59,7 @@ export const generateClient = async ({
     httpMethodDecider,
   });
 
-  const handlerInfos = apiRouter.getSingleModuleHandlers(resourcePath);
+  const handlerInfos = await apiRouter.getSingleModuleHandlers(resourcePath);
   if (!handlerInfos) {
     return Err(`generate client error: Cannot require module ${resourcePath}`);
   }

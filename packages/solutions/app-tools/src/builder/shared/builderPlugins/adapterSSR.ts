@@ -1,17 +1,24 @@
 import * as path from 'path';
-import { isHtmlDisabled, RsbuildPlugin, RspackChain } from '@rsbuild/shared';
-import { mergeRsbuildConfig } from '@rsbuild/core';
+import {
+  type HtmlWebpackPlugin,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+  isHtmlDisabled,
+} from '@modern-js/uni-builder';
 import { fs, isUseSSRBundle } from '@modern-js/utils';
-import type { HtmlWebpackPlugin } from '@modern-js/uni-builder';
+import {
+  type RsbuildPlugin,
+  type RspackChain,
+  mergeRsbuildConfig,
+} from '@rsbuild/core';
+import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
-  ServerUserConfig,
   SSGMultiEntryOptions,
+  ServerUserConfig,
 } from '../../../types';
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions } from '../types';
-import { getServerCombinedModueFile } from '../../../plugins/analyze/utils';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -28,10 +35,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         server: {
           // the http-compression can't handler stream http.
           // so we disable compress when user use stream ssr temporarily.
-          compress:
-            isStreamingSSR(normalizedConfig) || isSSRPreload(normalizedConfig)
-              ? false
-              : undefined,
+          compress: isStreamingSSR(normalizedConfig) ? false : undefined,
         },
       });
     });
@@ -39,9 +43,15 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     api.modifyBundlerChain(
       async (
         chain,
-        { target, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
+        {
+          target,
+          isProd,
+          HtmlPlugin: HtmlBundlerPlugin,
+          isServer,
+          environment,
+        },
       ) => {
-        const builderConfig = api.getNormalizedConfig();
+        const builderConfig = environment.config;
         const { normalizedConfig } = options;
 
         applyRouterPlugin(
@@ -50,17 +60,21 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           options,
           HtmlBundlerPlugin as unknown as typeof HtmlWebpackPlugin,
         );
-        if (isUseSSRBundle(normalizedConfig)) {
-          await applySSRLoaderEntry(chain, options, isServer);
-          applySSRDataLoader(chain, options);
-        }
 
-        if (['node', 'service-worker'].includes(target)) {
+        const isServiceWorker =
+          environment.name === SERVICE_WORKER_ENVIRONMENT_NAME;
+
+        if (target === 'node' || isServiceWorker) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
             appNormalizedConfig: normalizedConfig,
           });
+        }
+
+        if (isUseSSRBundle(normalizedConfig)) {
+          await applySSRLoaderEntry(chain, options, isServer);
+          applySSRDataLoader(chain, options);
         }
 
         if (!isHtmlDisabled(builderConfig, target)) {
@@ -74,20 +88,6 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
     );
   },
 });
-
-const isSSRPreload = (userConfig: AppNormalizedConfig<'shared'>) => {
-  const {
-    server: { ssr, ssrByEntries },
-  } = userConfig;
-
-  const checkUsePreload = (ssr?: ServerUserConfig['ssr']) =>
-    typeof ssr === 'object' && Boolean(ssr.preload);
-
-  return (
-    checkUsePreload(ssr) ||
-    Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
-  );
-};
 
 const isStreamingSSR = (userConfig: AppNormalizedConfig<'shared'>): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>

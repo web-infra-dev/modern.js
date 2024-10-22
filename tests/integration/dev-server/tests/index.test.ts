@@ -1,9 +1,9 @@
 import path from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
-  killApp,
   getPort,
+  killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
@@ -30,6 +30,17 @@ describe('dev', () => {
     const headers = response!.headers();
     expect(headers['x-config']).toBe('test-config');
     expect(headers['x-plugin']).toBe('test-plugin');
+  });
+
+  test('should provide history api fallback correctly', async () => {
+    await page.goto(`http://localhost:${appPort}`);
+    expect(await page.content()).toContain('<div>home<div>');
+
+    await page.goto(`http://localhost:${appPort}/a`);
+    expect(await page.content()).toContain('<div>A</div>');
+
+    await page.goto(`http://localhost:${appPort}/b`);
+    expect(await page.content()).toContain('<div>B</div>');
   });
 
   afterAll(async () => {

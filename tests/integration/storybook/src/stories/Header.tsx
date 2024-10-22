@@ -1,6 +1,6 @@
-import React from 'react';
 // @ts-expect-error
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import { Button } from './Button';
 import './header.css';

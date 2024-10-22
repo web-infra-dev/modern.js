@@ -1,7 +1,7 @@
-import React from 'react';
-import { useSnapshot } from 'valtio';
-import { useGlobals } from '@/entries/client/globals';
 import { ObjectInspector } from '@/components/ObjectInspector';
+import { useGlobals } from '@/entries/client/globals';
+import type React from 'react';
+import { useSnapshot } from 'valtio';
 
 const Page: React.FC = () => {
   const $globals = useGlobals();

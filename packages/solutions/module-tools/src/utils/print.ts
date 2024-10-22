@@ -1,15 +1,15 @@
 import { relative, resolve } from 'path';
-import { chalk, logger, fastGlob, slash } from '@modern-js/utils';
+import { chalk, fastGlob, logger, slash } from '@modern-js/utils';
 import type {
-  RollupOutput,
   OutputChunk,
+  RollupOutput,
 } from '../../compiled/rollup/types/rollup';
 import {
   buildSuccessText,
   reportFile1LineText,
   reportFile2LineText,
 } from '../constants/log';
-import { Chunk } from '../types';
+import type { Chunk } from '../types';
 
 type Files = {
   name: string;
@@ -86,7 +86,7 @@ const prettyBytes = (bytes: number) => {
   }
   const unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const exp = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, exp)).toFixed(1)} ${unit[exp]}`;
+  return `${(bytes / 1024 ** exp).toFixed(1)} ${unit[exp]}`;
 };
 
 const printBundleFiles = () => {

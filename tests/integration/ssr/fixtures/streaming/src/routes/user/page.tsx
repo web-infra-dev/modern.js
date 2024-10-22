@@ -1,4 +1,4 @@
-import { useNavigate, Outlet } from '@modern-js/runtime/router';
+import { Outlet, useNavigate } from '@modern-js/runtime/router';
 
 export default function Page() {
   const nav = useNavigate();

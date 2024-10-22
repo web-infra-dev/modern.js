@@ -1,9 +1,9 @@
+import type { PluginAPI } from '@modern-js/core';
 import type { Command } from '@modern-js/utils';
 import { newAction, upgradeAction } from '@modern-js/utils';
-import type { PluginAPI } from '@modern-js/core';
-import type { ModuleTools } from './types';
-import type { DevCommandOptions, BuildCommandOptions } from './types/command';
 import { i18n, localeKeys } from './locale';
+import type { ModuleTools } from './types';
+import type { BuildCommandOptions, DevCommandOptions } from './types/command';
 
 const initModuleContext = async (api: PluginAPI<ModuleTools>) => {
   const { isTypescript } = await import('@modern-js/utils');

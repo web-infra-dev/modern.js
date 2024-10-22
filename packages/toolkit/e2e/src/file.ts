@@ -1,5 +1,5 @@
-import fs, { PathLike } from 'fs';
-import { GlobbyOptions, upath } from '@modern-js/utils';
+import fs, { type PathLike } from 'fs';
+import { type GlobbyOptions, upath } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
 
 export interface GlobContentJSONOptions extends GlobbyOptions {

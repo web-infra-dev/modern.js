@@ -1,5 +1,158 @@
 # @modern-js/upgrade
 
+## 2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/plugin-i18n@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+- Updated dependencies [8a709bc]
+  - @modern-js/utils@2.60.2
+  - @modern-js/plugin-i18n@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.60.1
+- @modern-js/utils@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+  - @modern-js/plugin-i18n@2.60.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- @modern-js/utils@2.59.0
+- @modern-js/plugin-i18n@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.58.3
+- @modern-js/utils@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [44c1bc4]
+- Updated dependencies [a1a9373]
+  - @modern-js/plugin-i18n@2.58.2
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+- @modern-js/plugin-i18n@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.58.0
+- @modern-js/utils@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.57.1
+- @modern-js/utils@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+  - @modern-js/plugin-i18n@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.56.2
+- @modern-js/utils@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.56.1
+- @modern-js/utils@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+- @modern-js/plugin-i18n@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/plugin-i18n@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.54.6
+- @modern-js/utils@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.54.5
+- @modern-js/utils@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.54.4
+- @modern-js/utils@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.54.3
+- @modern-js/utils@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

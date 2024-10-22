@@ -9,12 +9,16 @@ Modern.js optimizes build performance by default, but as the project becomes lar
 This document provides some optional speed-up strategies, developers can choose some of them to improve the build performance.
 
 :::tip 📢 Notice
-The strategies in [Bundle Size Optimization](/guides/advanced-features/optimize-bundle.html) can also be used to improve build performance, so we won't repeat them here.
+The strategies in [Bundle Size Optimization](/guides/advanced-features/page-performance/optimize-bundle) can also be used to improve build performance, so we won't repeat them here.
 :::
 
 ## General optimization strategy
 
 The following are some general optimization strategies, which can speed up the development build and production build, and some of them also optimize the bundle size.
+
+### Using Rspack (recommended)
+
+If you are not using Rspack yet, you can switch to Rspack build mode to improve the build speed by 5~10 times, see [Using Rspack](/guides/advanced-features/rspack-start.html) for more information.
 
 ### Upgrade Node.js version
 
@@ -39,25 +43,6 @@ nvm default 18
 # View Node version
 node -v
 ```
-
-### Using Rspack build
-
-If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guides/advanced-features/rspack-start.html) for more information.
-
-### Using SWC or esbuild
-
-[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
-
-[esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
-
-Modern.js provides SWC plugin and esbuild plugin that allow you to use SWC or esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. See:
-
-- [SWC plugin document](/configure/app/tools/swc.html)
-- [esbuild plugin document](/configure/app/tools/esbuild.html)
-
-:::tip SWC vs esbuild
-The SWC compiled outputs has better compatibility, supports polyfills such as core-js, and has more complete features, so it is recommended to use the SWC plugin first.
-:::
 
 ### Avoid using ts-loader
 
@@ -118,7 +103,7 @@ export default {
 
 ### Adjust Browserslist for development
 
-This strategy is similar to ["Adjust Browserslist"](/guides/advanced-features/optimize-bundle.html#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
+This strategy is similar to ["Adjust Browserslist"](/guides/advanced-features/page-performance/optimize-bundle#adjust-browserslist), the difference is that we can set different browserslist for development and production environment, thereby reducing the compilation overhead in the development environment.
 
 For example, you can add the following config to `package.json`, which means that only the latest browsers are compatible in the development environment, and the actual browsers are compatible in the production environment:
 

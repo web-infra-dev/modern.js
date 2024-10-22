@@ -1,16 +1,13 @@
-import path from 'path';
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { getBaseSchema, PackageManager } from '@modern-js/generator-common';
-import { fs } from '@modern-js/generator-utils';
+import { PackageManager, getBaseSchema } from '@modern-js/generator-common';
 
 const handleTemplateFile = async (
   context: GeneratorContext,
-  generator: GeneratorCore,
+  _generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
   const { hasPlugin, generatorPlugin, ...extra } = context.config;
-
   let ans: Record<string, unknown> = {};
   if (hasPlugin) {
     await generatorPlugin.installPlugins('custom', extra);
@@ -52,8 +49,6 @@ const handleTemplateFile = async (
           .replace('.handlebars', ''),
     );
   }
-
-  fs.chmodSync(path.join(generator.outputPath, '.husky', 'pre-commit'), '755');
 };
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
@@ -62,13 +57,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/base-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run Base Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -76,5 +72,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
     await context.handleForged('custom', context, context.config.hasPlugin);
   }
 
-  generator.logger.debug(`forge @modern-js/base-generator succeed `);
+  generator.logger.debug(`🌟 [End Run Base Generator]`);
 };

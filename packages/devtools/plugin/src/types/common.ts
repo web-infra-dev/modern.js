@@ -1,11 +1,13 @@
-/* eslint-disable node/no-unsupported-features/es-builtins */
 import type { Buffer } from 'buffer';
-import { BaseHooks } from '@modern-js/core';
 import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
+import type { BaseHooks } from '@modern-js/core';
+import type {
+  DevtoolsContext,
+  ServerManifest,
+} from '@modern-js/devtools-kit/node';
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
 import type { RsbuildPluginAPI } from '@rsbuild/core';
-import { Hookable } from 'hookable';
-import { DevtoolsContext } from '@modern-js/devtools-kit/node';
+import type { Hookable } from 'hookable';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
@@ -53,6 +55,7 @@ export type $FrameworkHooks = CleanHooks<
 
 export interface FrameworkHooks extends $FrameworkHooks {
   config: () => void;
+  setup: (api: CliPluginAPI) => void;
 }
 
 type UnwrapBuilderHooks<T> = {
@@ -75,16 +78,17 @@ export type $BuilderHooks = UnwrapBuilderHooks<
   >
 >;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface BuilderHooks extends $BuilderHooks {}
+export interface BuilderHooks extends $BuilderHooks {
+  setup: (api: RsbuildPluginAPI) => void;
+}
 
 export interface DevtoolsHooks {
   cleanup: () => Promise<void> | void;
   settleState: () => Promise<void> | void;
+  createManifest: (arg: { manifest: ServerManifest }) => Promise<void> | void;
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   interface DevtoolsPluginVars extends Record<string, unknown> {}
 }
 
@@ -99,5 +103,6 @@ export interface PluginApi {
 }
 
 export interface Plugin {
+  name: string;
   setup: (api: PluginApi) => Promise<void>;
 }

@@ -1,9 +1,9 @@
-import { createBirpc } from 'birpc';
 import {
   MessagePortChannel,
-  PostMessageListener,
-  PostMessageTarget,
+  type PostMessageListener,
+  type PostMessageTarget,
 } from '@modern-js/devtools-kit/runtime';
+import { createBirpc } from 'birpc';
 import { WallAgent } from '../../src/utils/react-devtools';
 
 beforeAll(() => {
@@ -67,8 +67,10 @@ describe('WallAgent', () => {
     ]);
     const remote1 = createBirpc({}, channel1);
     const remote2 = createBirpc({}, channel2);
-    const wall1 = new WallAgent().bindRemote(remote1, 'sendRemote');
-    const wall2 = new WallAgent().bindRemote(remote2, 'sendRemote');
+    const wall1 = new WallAgent();
+    wall1.bindRemote(remote1, 'sendRemote');
+    const wall2 = new WallAgent();
+    wall2.bindRemote(remote2, 'sendRemote');
 
     const fn = jest.fn();
     wall1.listen(fn);

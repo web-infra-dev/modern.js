@@ -1,0 +1,119 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":disableDependencyDashboard"],
+  "rangeStrategy": "auto",
+  "schedule": ["every weekend"],
+  "ignorePaths": ["**/node_modules/**", "packages/toolkit/utils/tests/fixtures/plugin"],
+  "lockFileMaintenance": {
+    "enabled": false
+  },
+  "ignoreScripts": false,
+  "packageRules": [
+    // ignore all major update
+    {
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": [
+        "@rspress/**",
+      ],
+      "groupName": "rspress monorepo",
+      "groupSlug": "rspress",
+    },
+    {
+      "matchPackageNames": [
+        "@rsbuild/**",
+      ],
+      "groupName": "rsbuild monorepo",
+      "groupSlug": "rsbuild",
+      "schedule": ["at any time"]
+    },
+    {
+      "matchPackageNames": [
+        "@rsdoctor/**",
+      ],
+      "groupName": "rsdoctor monorepo",
+      "groupSlug": "rsdoctor",
+    },
+    {
+      "matchPackageNames": [
+        "@modern-js-reduck/**",
+      ],
+      "groupName": "reduck monorepo",
+      "groupSlug": "reduck",
+    },
+    {
+      "matchPackageNames": [
+        "@modern-js/codesmith",
+        "@modern-js/codesmith-**",
+      ],
+      "groupName": "codesmith monorepo",
+      "groupSlug": "codesmith",
+      "schedule": ["at any time"]
+    },
+    {
+      "matchPackageNames": [
+        "@remix-run/**",
+      ],
+      "groupName": "remix monorepo",
+      "groupSlug": "remix",
+    },
+    {
+      "matchPackageNames": [
+        "@changesets/**",
+      ],
+      "groupName": "changesets monorepo",
+      "groupSlug": "changesets",
+    },
+    {
+      "matchPackageNames": [
+        "@loadable/**",
+      ],
+      "groupName": "loadable monorepo",
+      "groupSlug": "loadable",
+    },
+    {
+      "groupName": "types",
+      "matchPackageNames": [
+        "@types/**",
+      ],
+      "groupSlug": "types",
+    },
+    {
+      "matchPackageNames": [
+        "actions/**",
+      ],
+      "groupName": "actions",
+      "groupSlug": "actions",
+    },
+  ],
+  "ignoreDeps": [
+    // manually update some packages
+    "pnpm",
+    "esbuild",
+    "typescript",
+    // related to the SWC version built into Rspack
+    "@swc/helpers",
+    // pure esm packages can not be used now
+    "globby",
+    "open",
+    "strip-ansi",
+    // align Node.js version minimum requirements
+    "@types/node",
+    "node",
+    // server core hono dependency can not bump
+    "hono",
+    "@types/history",
+    "history",
+    "@types/lru-cache",
+    "@types/testing-library__jest-dom",
+    "pkg-up",
+    "react",
+    "styled-components",
+    "webpack",
+    // need node 18
+    "http-compression",
+    "@biomejs/biome"
+  ]
+}

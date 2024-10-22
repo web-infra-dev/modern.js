@@ -1,5 +1,132 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.60.4
+
+### Patch Changes
+
+- @modern-js/module-tools@2.60.4
+
+## 2.60.3
+
+### Patch Changes
+
+- 0ae65bf: feat(module-plugin-polyfill): support polyfill Node.js builtin modules starting with node:
+  feat(module-plugin-polyfill): 支持对 node: 开头的 Node.js builtin modules 进行 polyfill
+  - @modern-js/module-tools@2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- Updated dependencies [7a78f22]
+  - @modern-js/module-tools@2.60.2
+
+## 2.60.1
+
+### Patch Changes
+
+- Updated dependencies [2ccddaf]
+  - @modern-js/module-tools@2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- 77bd2a2: fix: node polyfill globals.js should use correct import order
+  fix: node polyfill 插件需要使用正确的引入顺序
+  - @modern-js/module-tools@2.59.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/module-tools@2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- @modern-js/module-tools@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.58.1
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.58.0
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.57.0
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/module-tools@2.56.2
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.56.1
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.56.0
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [269a468]
+  - @modern-js/module-tools@2.55.0
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/module-tools@2.54.6
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/module-tools@2.54.5
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/module-tools@2.54.4
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/module-tools@2.54.3
+
 ## 2.54.2
 
 ### Patch Changes

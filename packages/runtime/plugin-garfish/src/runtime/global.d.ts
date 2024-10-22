@@ -1,4 +1,4 @@
-import garfish from 'garfish';
+import type garfish from 'garfish';
 
 declare global {
   interface Window {

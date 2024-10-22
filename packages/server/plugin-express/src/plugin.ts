@@ -1,26 +1,25 @@
-import * as path from 'path';
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import express, { RequestHandler, Express } from 'express';
-import type { Request, Response } from 'express';
-import cookieParser from 'cookie-parser';
-import { APIHandlerInfo } from '@modern-js/bff-core';
-import { fs, compatRequire, logger } from '@modern-js/utils';
-import finalhandler from 'finalhandler';
+import * as path from 'path';
+import type { APIHandlerInfo } from '@modern-js/bff-core';
 import type {
+  InternalRequest,
   Render,
   ServerManifest,
   ServerPlugin,
-  InternalRequest,
 } from '@modern-js/server-core';
 import {
   httpCallBack2HonoMid,
   sendResponse,
 } from '@modern-js/server-core/node';
+import { fs, compatibleRequire, logger } from '@modern-js/utils';
+import cookieParser from 'cookie-parser';
+import express, { type RequestHandler, type Express } from 'express';
+import type { Request, Response } from 'express';
+import finalhandler from 'finalhandler';
 import { run } from './context';
 import registerRoutes from './registerRoutes';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
       __honoRequest: InternalRequest;
@@ -44,21 +43,22 @@ const findAppModule = async (apiDir: string) => {
     if (await fs.pathExists(filename)) {
       // 每次获取 app.ts 的时候，避免使用缓存的 app.ts
       delete require.cache[filename];
-      return [compatRequire(filename), require(filename)];
+      return [await compatibleRequire(filename), require(filename)];
     }
   }
 
   return [];
 };
 
-const initMiddlewares = (middleware: Middleware[], app: Express) => {
-  middleware.forEach(middlewareItem => {
+const initMiddlewares = async (middleware: Middleware[], app: Express) => {
+  for (const middlewareItem of middleware) {
     const middlewareFunc =
       typeof middlewareItem === 'string'
-        ? compatRequire(middlewareItem)
+        ? await compatibleRequire(middlewareItem)
         : middlewareItem;
+
     app.use(middlewareFunc);
-  });
+  }
 };
 
 const useRun = (app: Express) => {
@@ -91,7 +91,7 @@ const createApp = async ({
     }
     initApp(app);
     if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
+      await initMiddlewares(middlewares, app);
     }
     useRun(app);
 
@@ -107,7 +107,7 @@ const createApp = async ({
     initApp(app);
 
     if (middlewares && middlewares.length > 0) {
-      initMiddlewares(middlewares, app);
+      await initMiddlewares(middlewares, app);
     }
 
     useRun(app);
@@ -118,7 +118,6 @@ const createApp = async ({
   }
 
   if (render) {
-    // eslint-disable-next-line consistent-return
     app.use(async (req, res, next) => {
       const response = await render(req.__honoRequest.raw, {
         logger,

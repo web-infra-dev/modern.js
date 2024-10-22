@@ -20,6 +20,7 @@ Modern.js Module 提供了微生成器工具，它可以为当前项目：
 使用 `modern dev` 和 `modern build --platform` 来调试和构建你的文档站点。
 
 :::tip
+
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 
 ```ts
@@ -30,6 +31,8 @@ export default defineConfig({
   plugins: [moduleTools(), modulePluginDoc()],
 });
 ```
+
+:::
 
 ## Storybook 调试
 
@@ -48,6 +51,7 @@ export default defineConfig({
 另外，Storybook 调试工具也会通过检测项目的依赖确定项目是否需要使用 Runtime API，并且提供与 Modern.js 应用项目一样的 Runtime API 运行环境。
 
 :::tip
+
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 
 ```ts

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-banner",
-  "version": "2.54.2",
+  "version": "2.60.4",
   "description": "The banner plugin of Modern.js Module.",
   "keywords": [
     "react",
@@ -33,20 +33,20 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@swc/helpers": "0.5.3"
+    "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@swc/helpers": "0.5.3",
+    "@swc/helpers": "0.5.13",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.54.2"
+    "@modern-js/module-tools": "workspace:^2.60.4"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

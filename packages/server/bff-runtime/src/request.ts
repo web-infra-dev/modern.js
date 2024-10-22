@@ -1,10 +1,10 @@
-import {
-  TypeOfFieldDescriptor,
-  TypeOfFieldDescriptors,
+import type {
   FieldDescriptor,
   FieldDescriptors,
+  TypeOfFieldDescriptor,
+  TypeOfFieldDescriptors,
 } from 'farrow-schema';
-import { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
+import type { MarkReadOnlyDeep, RouterSchemaDescriptor } from './types';
 
 export type RequestBaseSchema = {
   params?: RouterSchemaDescriptor;
@@ -28,7 +28,6 @@ export type RequestFormDataType = {
   formData?: FormData;
 };
 export type RequestFormUrlencodedType = {
-  // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
   formUrlencoded?: URLSearchParams | Record<string, string> | string;
 };
 export type PureRequestFormUrlencodedType = {
@@ -48,12 +47,12 @@ export type RequestSchema = RequestBaseSchema & RequestDataSchema;
 export type TypeOfRequestField<T> = T extends string
   ? string
   : T extends FormData
-  ? FormData
-  : T extends FieldDescriptor
-  ? TypeOfFieldDescriptor<T>
-  : T extends FieldDescriptors
-  ? TypeOfFieldDescriptors<T>
-  : never;
+    ? FormData
+    : T extends FieldDescriptor
+      ? TypeOfFieldDescriptor<T>
+      : T extends FieldDescriptors
+        ? TypeOfFieldDescriptors<T>
+        : never;
 
 export type TypeOfRequestDataSchema<T extends RequestDataSchema> =
   MarkReadOnlyDeep<

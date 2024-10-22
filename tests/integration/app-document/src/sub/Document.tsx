@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
 import {
+  Body,
+  Comment,
+  DocumentContext,
+  Head,
   Html,
   Root,
-  Head,
-  DocumentContext,
-  Body,
   Style,
-  Comment,
 } from '@modern-js/runtime/document';
+// biome-ignore lint/style/useImportType: <explanation>
+import React from 'react';
+import { useContext } from 'react';
 
 export default function Document(): React.ReactElement {
   // props: Record<string, unknown>,
@@ -33,17 +35,17 @@ export default function Document(): React.ReactElement {
         </Comment>
         {/* comment should be render to html by Comment.comment */}
         <Comment comment="!== COMMENT BY APP in inline ==" />
-        <link href="/ababad"></link>
+        <link href="/ababad" />
         <script
           dangerouslySetInnerHTML={{
             __html: `window.b = 22`,
           }}
-        ></script>
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `var a = function() {console.log('sss')}; a();`,
           }}
-        ></script>
+        />
       </Head>
       <Body {...{ dir: 'ltr' }}>
         <Root {...{ class: 'root' }}>

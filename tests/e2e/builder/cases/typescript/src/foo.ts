@@ -1,3 +1,4 @@
+// biome-ignore lint/suspicious/noConstEnum: <explanation>
 export const enum Animals {
-  Fish,
+  Fish = 0,
 }

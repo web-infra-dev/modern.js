@@ -1,10 +1,10 @@
-import type {
-  RouteProps,
-  RouteObject,
-  Params,
-} from '@modern-js/runtime-utils/router';
-import { PageRoute, NestedRoute } from '@modern-js/types';
 import type { RequestContext } from '@modern-js/runtime-utils/node';
+import type {
+  Params,
+  RouteObject,
+  RouteProps,
+} from '@modern-js/runtime-utils/router';
+import type { NestedRoute, PageRoute } from '@modern-js/types';
 
 declare global {
   interface Window {
@@ -37,7 +37,7 @@ export type RouterConfig = {
   mode?: 'react-router-5';
   routesConfig: {
     globalApp?: React.ComponentType<any>;
-    routes: (NestedRoute | PageRoute)[];
+    routes?: (NestedRoute | PageRoute)[];
   };
   /**
    * You should not use it
@@ -45,7 +45,6 @@ export type RouterConfig = {
   oldVersion?: boolean;
   serverBase?: string[];
   supportHtml5History?: boolean;
-  originalBaseUrl?: string;
   basename?: string;
   createRoutes?: () => RouteObject[];
 };

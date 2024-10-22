@@ -6,7 +6,6 @@ import {
   getServer,
 } from '../src/utils/createServer';
 import { getSelectedEntries } from '../src/utils/getSelectedEntries';
-import { safeReplacer } from '../src/utils/config';
 
 jest.mock('@modern-js/utils', () => ({
   __esModule: true,
@@ -66,15 +65,20 @@ describe('test app-tools utils', () => {
       config: {
         html: {},
         output: {
-          path: 'dist',
+          distPath: {
+            root: 'dist',
+          },
         },
         source: {},
         tools: {},
         server: {},
         runtime: {},
         bff: {},
+        dev: {},
+        security: {},
       },
       appContext: {},
+      dev: {},
     });
 
     expect(app instanceof Server).toBe(true);
@@ -82,50 +86,5 @@ describe('test app-tools utils', () => {
 
     await closeServer();
     expect(getServer()).toBeNull();
-  });
-
-  it('safeReplacer should handle circular object', () => {
-    const a: {
-      [key: string]: unknown;
-    } = {
-      name: 'a',
-    };
-
-    const b: {
-      [key: string]: unknown;
-    } = {
-      name: 'b',
-    };
-
-    a.b = b;
-    b.a = a;
-
-    const res1 = JSON.stringify(a, safeReplacer());
-    expect(res1).toMatchSnapshot();
-
-    const c: {
-      [key: string]: unknown;
-    } = {
-      name: 'c',
-    };
-
-    const d: {
-      [key: string]: unknown;
-    } = {
-      name: 'd',
-    };
-
-    const e: {
-      [key: string]: unknown;
-    } = {
-      name: 'e',
-    };
-
-    c.d = d;
-    d.e = e;
-    e.c = c;
-
-    const res2 = JSON.stringify(c, safeReplacer());
-    expect(res2).toMatchSnapshot();
   });
 });

@@ -1,7 +1,7 @@
 import path from 'path';
-import type { Options } from '@storybook/types';
 import type { BuilderConfig } from '@modern-js/storybook-builder/types';
 import { applyOptionsChain } from '@modern-js/utils';
+import type { Options } from '@storybook/types';
 
 export const frameworkOptions = async (_: never, options: Options) => {
   const config = await options.presets.apply('framework');

@@ -1,12 +1,12 @@
-import { dirname, resolve, extname, sep } from 'path';
 import module from 'module';
-import { ImportKind, Loader, Plugin } from 'esbuild';
+import { dirname, extname, resolve, sep } from 'path';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
-import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
+import type { ImportKind, Loader, Plugin } from 'esbuild';
 import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
-import type { SideEffects, ICompiler } from '../../types';
+import type { ICompiler, SideEffects } from '../../types';
+import { isJsExt, normalizeSourceMap, resolvePathAndQuery } from '../../utils';
 import { writeFile } from './write-file';
 
 /**
@@ -28,7 +28,7 @@ const globalNamespace = 'globals';
 
 const HTTP_PATTERNS = /^(https?:)?\/\//;
 const DATAURL_PATTERNS = /^data:/;
-const HASH_PATTERNS = /#[^#]+$/;
+const HASH_PATTERNS = /.#[^#]+$/;
 const DATAURL_JAVASCRIPT_PATTERNS = /^data:text\/javascript/;
 
 export const adapterPlugin = (compiler: ICompiler): Plugin => {
@@ -139,7 +139,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
                 }
                 curDir = dirname(curDir);
               }
-              // eslint-disable-next-line prefer-destructuring
               sideEffects = JSON.parse(
                 fs.readFileSync(pkgPath, 'utf-8'),
               ).sideEffects;
@@ -264,7 +263,10 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
 
         const ext = extname(args.path);
 
-        const loader = (transformResult.loader ?? loaderMap[ext]) as Loader;
+        // Priority: transform result > user loader > default loader
+        const loader = (transformResult.loader ??
+          compiler.config.loader[ext] ??
+          loaderMap[ext]) as Loader;
 
         const inlineSourceMap = context.getInlineSourceMap();
 
@@ -318,9 +320,8 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           if (value.type === 'chunk' && config.sourceMap) {
             context.addSourceMap(context.genPluginId('adapter'), value.map);
           }
-          const processedResult = await compiler.hooks.renderChunk.promise(
-            value,
-          );
+          const processedResult =
+            await compiler.hooks.renderChunk.promise(value);
           if (processedResult.type === 'chunk' && config.sourceMap) {
             processedResult.map = context.getSourceMap();
           }

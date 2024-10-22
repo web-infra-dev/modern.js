@@ -1,4 +1,4 @@
-import { Schema } from '@modern-js/codesmith-formily';
+import type { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
 export enum Solution {
@@ -50,8 +50,7 @@ export const getSolutionSchema = (extra: Record<string, any> = {}): Schema => {
 
 export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
   const hasPlugin =
-    extra?.customPlugin &&
-    extra.customPlugin[extra?.solution] &&
+    extra?.customPlugin?.[extra?.solution] &&
     extra.customPlugin[extra?.solution].length > 0;
   return {
     type: 'object',

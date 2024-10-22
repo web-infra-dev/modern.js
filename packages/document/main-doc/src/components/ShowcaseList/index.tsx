@@ -1,5 +1,5 @@
-import { useShowcases } from './useShowcases';
 import styles from './index.module.scss';
+import { useShowcases } from './useShowcases';
 
 const getDomain = (url: string) => new URL(url).hostname;
 

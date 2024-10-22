@@ -8,5 +8,6 @@ export const EN_LOCALE = {
     noNeedInstall: 'not run install command',
     config:
       'specify the configuration file, which can be a relative or absolute path',
+    time: 'show run generator time log',
   },
 };

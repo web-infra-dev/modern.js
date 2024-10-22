@@ -16,7 +16,6 @@ export const resolvePaths = (obj: any, path: Path) => {
 };
 
 export const applyOperation = (state: Record<any, any>, op: Op) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [operation, path, value, _prevValue] = op;
   const dirnames = path.slice(0, -1);
   const basename = path[path.length - 1];

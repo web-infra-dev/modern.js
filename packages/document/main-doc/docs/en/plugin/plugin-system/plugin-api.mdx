@@ -1,0 +1,138 @@
+---
+sidebar_position: 6
+---
+
+# Plugin API
+
+The `setup` function of the plugin will receive an `api` imported parameter, and you can call some methods provided on the api to obtain information such as configuration and application context.
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  name: 'my-plugin',
+
+  setup(api) {
+    // get user config
+    const config = api.useConfigContext();
+    // get plugin context
+    const appContext = api.useAppContext();
+    // get resolved config
+    const resolvedConfig = api.useResolvedConfigContext();
+  },
+});
+```
+
+## API
+
+### useConfigContext
+
+Used to retrieve the original configuration of the application.
+
+```ts
+const useConfigContext: () => UserConfig;
+
+interface UserConfig {
+  source?: SourceConfig;
+  output?: OutputConfig;
+  server?: ServerConfig;
+  deploy?: DeployConfig;
+  // ...other fields
+}
+```
+
+Please refer to [Configuration](/configure/app/usage) for the specific meanings of configuration fields.
+
+:::tip
+This method returns a read-only configuration and cannot be modified. If you need to modify the configuration, please use [config hook](/plugin/plugin-system/hook-list.html#config).
+:::
+
+### useResolvedConfigContext
+
+Used to retrieve the final configuration after parsing.
+
+```ts
+const useResolvedConfigContext: () => NormalizedConfig;
+
+interface NormalizedConfig {
+  source: NormalizedSourceConfig;
+  output: NormalizedOutputConfig;
+  server: NormalizedServerConfig;
+  deploy: NormalizedDeployConfig;
+  _raw: UserConfig; // the original user config
+  // ...other fields
+}
+```
+
+Please refer to [Configuration](/configure/app/usage) for the specific meanings of configuration fields.
+
+:::tip
+This method returns a read-only configuration and cannot be modified. If you need to modify the configuration, please use [config hook](/plugin/plugin-system/hook-list.html#config).
+:::
+
+### useAppContext
+
+Used to retrieve the runtime context of the application.
+
+```ts
+const useAppContext: () => IAppContext;
+
+interface IAppContext {
+  /** Root directory of the current project */
+  appDirectory: string;
+  /** Source code directory */
+  srcDirectory: string;
+  /** Directory for output files */
+  distDirectory: string;
+  /** Directory for shared modules */
+  sharedDirectory: string;
+  /** Directory for framework temp files */
+  internalDirectory: string;
+  /** node_modules directory */
+  nodeModulesDirectory: string;
+  /** Path to the configuration file */
+  configFile: string | false;
+  /** IPv4 address of the current machine */
+  ip?: string;
+  /** Port number of the development server */
+  port?: number;
+  /** Name of the current project's package.json */
+  packageName: string;
+  /** Currently registered plugins */
+  plugins: any[];
+  /** Information for entry points */
+  entrypoints: Entrypoint[];
+  /** Information for server routes */
+  serverRoutes: ServerRoute[];
+  /** Tools type of the current project */
+  toolsType?: 'app-tools' | 'module-tools';
+  /** Type of the bundler being used */
+  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
+}
+```
+
+:::tip
+Some fields in the AppContext are dynamically set and will change as the program runs. Therefore, when plugins read these fields at different times, they may get different values.
+:::
+
+### useHookRunners
+
+Used to retrieve the executor of Hooks and trigger the execution of specific Hooks.
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  name: 'my-plugin',
+
+  async setup(api) {
+    const hookRunners = api.useHookRunners();
+    // invoke afterBuild Hook
+    await hookRunners.afterBuild();
+  },
+});
+```
+
+:::tip
+Please avoid executing the built-in hooks, as it may break the internal execution logic of the framework.
+:::

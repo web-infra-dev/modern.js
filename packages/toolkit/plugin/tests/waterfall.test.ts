@@ -1,9 +1,9 @@
 import {
-  createWaterfall,
   createAsyncWaterfall,
   createContext,
-  isWaterfall,
+  createWaterfall,
   isAsyncWaterfall,
+  isWaterfall,
 } from '../src';
 import { sleep } from './helpers';
 

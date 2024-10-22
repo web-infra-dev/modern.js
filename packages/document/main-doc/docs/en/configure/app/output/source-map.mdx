@@ -1,0 +1,30 @@
+---
+title: sourceMap
+configName: output.sourceMap
+---
+
+# output.sourceMap
+
+- **Type:**
+
+```ts
+type SourceMap = {
+  js?: Rspack.Configuration['devtool'];
+  css?: boolean;
+};
+```
+
+- **Default:**
+
+```ts
+const defaultSourceMap = {
+  js: isDev ? 'cheap-module-source-map' : false,
+  css: false,
+};
+```
+
+Used to set whether to generate source map files, and which format of source map to generate.
+
+import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

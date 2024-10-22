@@ -38,7 +38,7 @@ export default applyBaseConfig({
     },
   },
   runtime: {
-    router: true,
+    router: false,
     state: false,
   },
 });

@@ -36,17 +36,17 @@ export const findMonorepoRoot = (
   maxDepth: number = PACKAGE_MAX_DEPTH,
 ) => {
   let inMonorepo = false;
+  let monorepoRoot = appDirectory;
 
   for (let depth = 0; depth < maxDepth; depth++) {
     if (isMonorepo(appDirectory)) {
       inMonorepo = true;
       break;
     }
-    // eslint-disable-next-line no-param-reassign
-    appDirectory = path.dirname(appDirectory);
+    monorepoRoot = path.dirname(appDirectory);
   }
 
-  return inMonorepo ? appDirectory : undefined;
+  return inMonorepo ? monorepoRoot : undefined;
 };
 
 export const getMonorepoPackages = (

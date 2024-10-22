@@ -1,28 +1,23 @@
-import type {
-  Logger,
-  NestedRoute,
-  Reporter,
-  ServerRoute,
-} from '@modern-js/types';
+import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import {
-  createStaticHandler,
+  createRequestContext,
+  matchEntry,
+  reporterCtx,
+} from '@modern-js/runtime-utils/node';
+import {
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
+  createStaticHandler,
   isRouteErrorResponse,
   json,
 } from '@modern-js/runtime-utils/remix-router';
-import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
-import { isPlainObject } from '@modern-js/utils/lodash';
-import {
-  matchEntry,
-  createRequestContext,
-  reporterCtx,
-} from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
+import type { NestedRoute, Reporter, ServerRoute } from '@modern-js/types';
+import { isPlainObject } from '@modern-js/utils/lodash';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
-import { createDeferredReadableStream } from './response';
 import { errorResponseToJson, serializeError } from './errors';
+import { createDeferredReadableStream } from './response';
 
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
 export function isRedirectResponse(status: number): boolean {
@@ -61,16 +56,18 @@ export const handleRequest = async ({
   serverRoutes,
   routes: routesConfig,
   context,
+  onTiming,
 }: {
   request: Request;
   serverRoutes: ServerRoute[];
   routes: NestedRoute[];
+  onError?: (error: unknown) => void;
+  onTiming?: (name: string, dur: number) => void;
   context: {
-    logger: Logger;
+    loaderContext?: Map<string, unknown>;
     reporter?: Reporter;
   };
 }): Promise<Response | void> => {
-  // eslint-disable-next-line node/prefer-global/url
   const url = new URL(request.url);
   const routeId = url.searchParams.get(LOADER_ID_PARAM) as string;
   const entry = matchEntry(url.pathname, serverRoutes);
@@ -81,13 +78,13 @@ export const handleRequest = async ({
 
   const basename = entry.urlPath;
   const end = time();
-  const { reporter } = context;
+  const { reporter, loaderContext } = context;
   const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
-  const requestContext = createRequestContext();
+  const requestContext = createRequestContext(loaderContext);
   // initial requestContext
   // 1. inject reporter
   requestContext.set(reporterCtx, reporter);
@@ -133,7 +130,8 @@ export const handleRequest = async ({
           });
     }
     const cost = end();
-    reporter?.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
+
+    onTiming?.(`${LOADER_REPORTER_NAME}-navigation`, cost);
   } catch (error) {
     if (isResponse(error)) {
       error.headers.set('X-Modernjs-Catch', 'yes');
@@ -156,6 +154,5 @@ export const handleRequest = async ({
     }
   }
 
-  // eslint-disable-next-line consistent-return
   return response as unknown as Response;
 };

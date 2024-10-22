@@ -1,8 +1,8 @@
-import { ICompiler } from '../../../types';
-import Less from '../../../../compiled/less';
-import { loadProcessor } from './utils';
-import { PreprocessRender } from './transformStyle';
+import type Less from '../../../../compiled/less';
+import type { ICompiler } from '../../../types';
 import LessAliasesPlugin from './lessAliasPlugin';
+import type { PreprocessRender } from './transformStyle';
+import { loadProcessor } from './utils';
 
 export const lessRender: PreprocessRender = async function (
   this: ICompiler,

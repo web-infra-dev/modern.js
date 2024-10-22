@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+// biome-ignore lint/style/useImportType: <explanation>
+import React, { type ReactElement } from 'react';
 import { Body } from './Body';
 import { DocumentStructureContext } from './DocumentStructureContext';
 import { Head } from './Head';

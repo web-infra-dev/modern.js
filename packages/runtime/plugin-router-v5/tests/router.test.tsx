@@ -1,10 +1,12 @@
-import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
-import { createBrowserHistory } from 'history';
 import { createApp } from '@modern-js/runtime';
 import { createRuntime } from '@modern-js/runtime/plugin';
-import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type React from 'react';
 import { useHistory } from '../src';
+import createRouterPlugin, {
+  type RouteProps,
+  useLocation,
+} from '../src/runtime';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
 describe('@modern-js/plugin-router-v5', () => {
@@ -14,7 +16,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({}),
       ],
@@ -38,13 +40,16 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({
-          routesConfig: { routes: [{ path: '/', component: App as any }] },
+          routesConfig: {
+            routes: [{ path: '/', component: App as any }],
+            globalApp: App,
+          },
         }),
       ],
-    })(App);
+    })();
 
     interface Props {
       test: number;
@@ -56,88 +61,6 @@ describe('@modern-js/plugin-router-v5', () => {
     const { container } = render(<AppWrapper test={1} />);
     expect(container.firstChild?.textContent).toBe('App:1');
     expect(container.innerHTML).toBe('<div>App:1</div>');
-  });
-
-  it('pages with App.init', () => {
-    const App = (props: { Component: React.FC }) => {
-      const { Component, ...pageProps } = props;
-      return (
-        <div>
-          <Component {...pageProps} />
-        </div>
-      );
-    };
-
-    function RouterApp() {
-      return <div>Router App</div>;
-    }
-
-    const mockCallback = jest.fn();
-    App.init = mockCallback;
-
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          routesConfig: {
-            routes: [{ path: '/', component: RouterApp as any }],
-            globalApp: App,
-          },
-        }),
-      ],
-    })();
-
-    render(<AppWrapper />);
-    expect(mockCallback).toHaveBeenCalledTimes(1);
-  });
-
-  it('custom history', () => {
-    const history = createBrowserHistory();
-    const customHistory = {
-      ...history,
-      push: jest.fn(),
-    };
-    const runtime = createRuntime();
-    const AppWrapper = createApp({
-      runtime,
-      plugins: [
-        runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
-        })),
-        createRouterPlugin({
-          history: customHistory,
-        }),
-      ],
-    })(App);
-
-    interface Props {
-      test: number;
-    }
-    function App({ test }: Props) {
-      const _history = useHistory();
-      return (
-        <div>
-          App:{test}
-          <button
-            type="button"
-            onClick={() => {
-              _history.push('/');
-            }}
-            data-testid="nav"
-          >
-            Go
-          </button>
-        </div>
-      );
-    }
-
-    const { container } = render(<AppWrapper test={1} />);
-    expect(container.firstChild?.textContent).toContain('App:1');
-    fireEvent.click(screen.getByTestId('nav'));
   });
 
   it('hash router could work', async () => {
@@ -170,7 +93,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
         })),
         createRouterPlugin({
           routesConfig: {
@@ -217,7 +140,7 @@ describe('@modern-js/plugin-router-v5', () => {
       runtime,
       plugins: [
         runtime.createPlugin(() => ({
-          hoc: ({ App: App1, config }, next) => next({ App: App1, config }),
+          wrapRoot: App1 => App1,
           modifyRoutes(routes: RouteProps[]) {
             return modifyFn?.(routes);
           },
@@ -237,6 +160,6 @@ describe('@modern-js/plugin-router-v5', () => {
     const { container } = render(<AppWrapper test={1} />);
 
     expect(container.firstChild?.textContent).toBe(`${expectedText}`);
-    expect(container.innerHTML).toBe(`<div>${expectedText}</div>`);
+    expect(container.innerHTML).toBe(expectedText);
   });
 });

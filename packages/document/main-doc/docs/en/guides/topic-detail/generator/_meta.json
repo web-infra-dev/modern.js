@@ -1,0 +1,17 @@
+[
+  {
+    "type": "dir",
+    "name": "create",
+    "label": "@modern-js/create"
+  },
+  {
+    "type": "dir",
+    "name": "new",
+    "label": "new-command"
+  },
+  {
+    "type": "dir",
+    "name": "plugin",
+    "label": "generator-plugin"
+  }
+]

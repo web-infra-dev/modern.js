@@ -1,3 +1,5 @@
+import { Card } from '@/components/Card';
+import { useGlobals } from '@/entries/client/globals';
 import {
   Outlet,
   useLoaderData,
@@ -5,21 +7,19 @@ import {
   useNavigate,
 } from '@modern-js/runtime/router';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
-import { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
+import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import _ from 'lodash';
-import { FC, ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { HiMiniFlag, HiPlus } from 'react-icons/hi2';
 import { snapshot, useSnapshot } from 'valtio';
 import { watch } from 'valtio/utils';
 import styles from './page.module.scss';
 import {
   STORAGE_TYPE_PALETTE,
-  StorageStatus,
+  type StorageStatus,
+  type UnwindPreset,
   unwindPreset,
-  UnwindPreset,
 } from './shared';
-import { useGlobals } from '@/entries/client/globals';
-import { Card } from '@/components/Card';
 
 type CardButtonProps = FlexProps & {
   selected?: boolean;

@@ -1,13 +1,13 @@
 import path from 'path';
 import { ApiRouter } from '@modern-js/bff-core';
+import type { ServerPlugin } from '@modern-js/server-core';
+import type { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import {
   API_DIR,
   isProd,
   isWebOnly,
   requireExistModule,
 } from '@modern-js/utils';
-import { getRenderHandler, type ServerPlugin } from '@modern-js/server-core';
-import { ServerNodeMiddleware } from '@modern-js/server-core/node';
 import { API_APP_NAME } from './constants';
 
 type SF = (args: any) => void;
@@ -35,12 +35,12 @@ export default (): ServerPlugin => ({
     return {
       async prepare() {
         const appContext = api.useAppContext();
-        const { appDirectory, distDirectory } = appContext;
+        const { appDirectory, distDirectory, render } = appContext;
         const root = isProd() ? distDirectory : appDirectory;
         const apiPath = path.resolve(root || process.cwd(), API_DIR);
         apiAppPath = path.resolve(apiPath, API_APP_NAME);
 
-        const apiMod = requireExistModule(apiAppPath);
+        const apiMod = await requireExistModule(apiAppPath);
         if (apiMod && typeof apiMod === 'function') {
           apiMod(transformAPI);
         }
@@ -57,11 +57,8 @@ export default (): ServerPlugin => ({
         const enableHandleWeb = config?.bff?.enableHandleWeb;
         const httpMethodDecider = config?.bff?.httpMethodDecider;
 
-        const {
-          distDirectory: pwd,
-          routes,
-          middlewares: globalMiddlewares,
-        } = api.useAppContext();
+        const { distDirectory: pwd, middlewares: globalMiddlewares } =
+          api.useAppContext();
 
         const webOnly = await isWebOnly();
 
@@ -74,13 +71,7 @@ export default (): ServerPlugin => ({
           };
         } else {
           const runner = api.useHookRunners();
-          const renderHandler = enableHandleWeb
-            ? await getRenderHandler({
-                pwd,
-                routes: routes || [],
-                config,
-              })
-            : null;
+          const renderHandler = enableHandleWeb ? render : null;
           handler = await runner.prepareApiServer(
             {
               pwd,
@@ -111,10 +102,10 @@ export default (): ServerPlugin => ({
           });
         }
       },
-      reset({ event }) {
+      async reset({ event }) {
         storage.reset();
         const appContext = api.useAppContext();
-        const newApiModule = requireExistModule(apiAppPath);
+        const newApiModule = await requireExistModule(apiAppPath);
         if (newApiModule && typeof newApiModule === 'function') {
           newApiModule(transformAPI);
         }
@@ -126,7 +117,7 @@ export default (): ServerPlugin => ({
         });
 
         if (event.type === 'file-change') {
-          const apiHandlerInfos = apiRouter.getApiHandlers();
+          const apiHandlerInfos = await apiRouter.getApiHandlers();
           const appContext = api.useAppContext();
           api.setAppContext({
             ...appContext,
@@ -135,7 +126,7 @@ export default (): ServerPlugin => ({
         }
       },
 
-      prepareApiServer(props, next) {
+      async prepareApiServer(props, next) {
         const { pwd, prefix, httpMethodDecider } = props;
         const apiDir = path.resolve(pwd, API_DIR);
         const appContext = api.useAppContext();
@@ -148,7 +139,8 @@ export default (): ServerPlugin => ({
           httpMethodDecider,
         });
         const apiMode = apiRouter.getApiMode();
-        const apiHandlerInfos = apiRouter.getApiHandlers();
+
+        const apiHandlerInfos = await apiRouter.getApiHandlers();
         api.setAppContext({
           ...appContext,
           apiRouter,

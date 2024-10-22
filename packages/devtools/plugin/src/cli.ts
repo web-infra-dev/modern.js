@@ -1,42 +1,43 @@
 import {
-  mergeConfig,
   type AppTools,
   type CliPlugin,
   type UserConfig,
+  mergeConfig,
 } from '@modern-js/app-tools';
-import { ClientDefinition } from '@modern-js/devtools-kit/node';
+import type { ClientDefinition } from '@modern-js/devtools-kit/node';
 import { logger } from '@modern-js/utils';
-import createDeferred from 'p-defer';
-import { createHooks } from 'hookable';
 import type { RsbuildPlugin, RsbuildPluginAPI } from '@rsbuild/core';
+import { createHooks } from 'hookable';
+import createDeferred from 'p-defer';
 import { proxy } from 'valtio';
-import { DevtoolsPluginOptions, resolveContext } from './options';
-import { CliPluginAPI, Plugin, PluginApi } from './types';
+import { type DevtoolsPluginOptions, resolveContext } from './options';
+import { pluginCleanup } from './plugins/cleanup';
 import { pluginDebug } from './plugins/debug';
+import { pluginHtml } from './plugins/html';
 import { pluginHttp } from './plugins/http';
+import { pluginManifest } from './plugins/manifest';
+import { pluginRpc } from './plugins/rpc';
+import { pluginServiceWorker } from './plugins/service-worker';
+import { pluginSettleState } from './plugins/settle';
 import { pluginState } from './plugins/state';
 import { pluginWatcher } from './plugins/watcher';
-import { pluginServiceWorker } from './plugins/service-worker';
-import { pluginHtml } from './plugins/html';
-import { pluginRpc } from './plugins/rpc';
-import { pluginCleanup } from './plugins/cleanup';
-import { pluginSettleState } from './plugins/settle';
-import { pluginManifest } from './plugins/manifest';
+import type { CliPluginAPI, Plugin, PluginApi } from './types';
 
 export type { DevtoolsPluginOptions };
 
 export type DevtoolsPlugin = CliPlugin<AppTools> & {
   setClientDefinition: (def: ClientDefinition) => void;
+  plugins: Plugin[];
 };
 
 export const BUILTIN_PLUGINS: Plugin[] = [
   pluginDebug,
   pluginWatcher,
   pluginServiceWorker,
-  pluginHtml,
   // --- //
-  pluginState,
   pluginHttp,
+  pluginHtml,
+  pluginState,
   pluginRpc,
   pluginSettleState,
   pluginManifest,
@@ -73,19 +74,23 @@ export const devtoolsPlugin = (
     // api.hooks.removeAllHooks();
   });
 
-  for (const plugin of BUILTIN_PLUGINS) {
-    plugin.setup(api);
-  }
-
-  return {
+  const instance: DevtoolsPlugin = {
     name: '@modern-js/plugin-devtools',
     usePlugins: [],
+    plugins: [...BUILTIN_PLUGINS],
     setClientDefinition(def) {
       Object.assign(ctx.def, def);
     },
     async setup(frameworkApi) {
       if (!ctx.enable) return {};
+
       setupFramework.resolve(frameworkApi);
+
+      for (const plugin of instance.plugins) {
+        await plugin.setup(api);
+      }
+
+      await api.frameworkHooks.callHook('setup', frameworkApi);
 
       return {
         async prepare() {
@@ -124,7 +129,8 @@ export const devtoolsPlugin = (
 
           const builderPlugin: RsbuildPlugin = {
             name: 'builder-plugin-devtools',
-            setup(builderApi) {
+            async setup(builderApi) {
+              await api.builderHooks.callHook('setup', builderApi);
               setupBuilder.resolve(builderApi);
 
               builderApi.modifyBundlerChain(async (options, utils) => {
@@ -180,6 +186,7 @@ export const devtoolsPlugin = (
       };
     },
   };
+  return instance;
 };
 
 export default devtoolsPlugin;

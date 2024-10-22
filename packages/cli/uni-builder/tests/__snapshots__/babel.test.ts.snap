@@ -19,7 +19,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resolve": {
       "alias": {
@@ -33,7 +32,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.36",
+            "coreJs": "3.38",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -43,19 +42,32 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           },
           "isModule": "unknown",
           "jsc": {
+            "experimental": {
+              "cacheRoot": "node_modules/.cache/.swc",
+              "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
+              ],
+            },
             "externalHelpers": true,
             "parser": {
               "decorators": true,
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
                 "development": false,
-                "refresh": true,
+                "refresh": false,
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
@@ -75,12 +87,6 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
                 "libraryName": "@arco-design/web-react/icon",
               },
             ],
-            "styledComponents": {
-              "displayName": true,
-              "pure": false,
-              "ssr": false,
-              "transpileTemplateLiterals": true,
-            },
           },
         },
       },
@@ -108,7 +114,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "resolve": {
       "alias": {
@@ -122,7 +127,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.36",
+            "coreJs": "3.38",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -132,19 +137,32 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           },
           "isModule": "unknown",
           "jsc": {
+            "experimental": {
+              "cacheRoot": "node_modules/.cache/.swc",
+              "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                ],
+              ],
+            },
             "externalHelpers": true,
             "parser": {
               "decorators": true,
               "syntax": "typescript",
               "tsx": true,
             },
-            "preserveAllComments": true,
             "transform": {
               "decoratorMetadata": true,
               "legacyDecorator": true,
               "react": {
                 "development": false,
-                "refresh": true,
+                "refresh": false,
                 "runtime": "automatic",
               },
               "useDefineForClassFields": false,
@@ -164,12 +182,6 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
                 "libraryName": "@arco-design/web-react/icon",
               },
             ],
-            "styledComponents": {
-              "displayName": true,
-              "pure": false,
-              "ssr": false,
-              "transpileTemplateLiterals": true,
-            },
           },
         },
       },
@@ -234,9 +246,9 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -266,7 +278,11 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -285,10 +301,6 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -313,7 +325,7 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -378,6 +390,7 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -402,6 +415,10 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
             ],
             "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-dynamic-import-node/lib/index.js",
             [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
+            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": false,
@@ -419,10 +436,6 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
@@ -499,9 +512,9 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -531,7 +544,11 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -550,10 +567,6 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -578,7 +591,7 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -641,9 +654,9 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -673,7 +686,11 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -692,10 +709,6 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -720,7 +733,7 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -777,9 +790,9 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -809,7 +822,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -837,7 +850,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -917,7 +930,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
               "<ROOT>/compiled/babel-plugin-lodash/index.js",
               {},
@@ -939,7 +952,7 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -996,9 +1009,9 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1028,7 +1041,11 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1047,10 +1064,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1075,7 +1088,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1155,7 +1168,11 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1176,10 +1193,6 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
               "@arco-design/web-react/icon",
             ],
             [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
               {
                 "displayName": true,
@@ -1196,7 +1209,7 @@ exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1261,6 +1274,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1290,7 +1304,11 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1309,10 +1327,6 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1337,7 +1351,7 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1398,9 +1412,9 @@ exports[`plugin-babel > should set babel-loader 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1430,7 +1444,11 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1449,10 +1467,6 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1477,7 +1491,7 @@ exports[`plugin-babel > should set babel-loader 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1543,10 +1557,10 @@ exports[`plugin-babel > should set include/exclude 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
       "src/**/*.ts",
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1576,7 +1590,11 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+            [
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
+            ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -1595,10 +1613,6 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "libraryName": "@arco-design/web-react/icon",
               },
               "@arco-design/web-react/icon",
-            ],
-            [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1623,7 +1637,7 @@ exports[`plugin-babel > should set include/exclude 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1680,9 +1694,9 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
         ],
       },
       /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-      /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
     ],
     "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+    "type": "javascript/auto",
     "use": [
       {
         "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -1712,14 +1726,10 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "camel2DashComponentName": true,
-                "libraryName": "foo",
-              },
-              "foo",
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
@@ -1741,8 +1751,12 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
               "@arco-design/web-react/icon",
             ],
             [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+              {
+                "camel2DashComponentName": true,
+                "libraryName": "foo",
+              },
+              "foo",
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -1767,7 +1781,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -1847,14 +1861,10 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "version": "7.24.7",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+            "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
-              {
-                "camel2DashComponentName": true,
-                "libraryName": "foo",
-              },
-              "foo",
+              "<ROOT>/compiled/babel-plugin-lodash/index.js",
+              {},
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
@@ -1876,8 +1886,12 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
               "@arco-design/web-react/icon",
             ],
             [
-              "<ROOT>/compiled/babel-plugin-lodash/index.js",
-              {},
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
+              {
+                "camel2DashComponentName": true,
+                "libraryName": "foo",
+              },
+              "foo",
             ],
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
@@ -1896,7 +1910,7 @@ exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": true,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.36",
+                  "version": "3.37",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

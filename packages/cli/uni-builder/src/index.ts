@@ -1,10 +1,10 @@
-import { createRspackBuilder, type UniBuilderInstance } from './rspack';
-import {
-  createWebpackBuilder,
-  type UniBuilderWebpackInstance,
-} from './webpack';
-import type { CreateUniBuilderOptions } from './types';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { type UniBuilderInstance, createRspackBuilder } from './rspack';
+import type { CreateUniBuilderOptions } from './types';
+import {
+  type UniBuilderWebpackInstance,
+  createWebpackBuilder,
+} from './webpack';
 
 export { HtmlWebpackPlugin };
 
@@ -13,18 +13,17 @@ export type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 };
+
 export type {
-  RspackChain,
-  RsbuildPlugin,
-  ConfigChain,
-  CopyPluginOptions,
-  ChainIdentifier,
-  NormalizedConfig,
+  UniBuilderConfig,
+  UniBuilderPlugin,
+  LooseRsbuildPlugin,
+  BundlerType,
+  MetaOptions,
+  Stats,
+  MultiStats,
   RspackConfig,
-  CacheGroup,
-} from '@rsbuild/shared';
-export type { UniBuilderConfig, UniBuilderPlugin } from './types';
-export type { StartDevServerOptions } from './shared/devServer';
+} from './types';
 
 export async function createUniBuilder(options: CreateUniBuilderOptions) {
   return options.bundlerType === 'rspack'
@@ -34,9 +33,21 @@ export async function createUniBuilder(options: CreateUniBuilderOptions) {
 
 export {
   logger,
+  type ConfigChain,
+  type RsbuildPlugin,
+  type ChainIdentifier,
+  type RspackChain,
   type Rspack,
   type RsbuildContext,
   type RsbuildConfig,
+  type RsbuildTarget,
+  type NormalizedConfig,
+  type CacheGroup,
 } from '@rsbuild/core';
 export type { webpack, WebpackConfig } from '@rsbuild/webpack';
-export { RUNTIME_CHUNK_NAME } from './shared/utils';
+export {
+  RUNTIME_CHUNK_NAME,
+  SERVICE_WORKER_ENVIRONMENT_NAME,
+  isHtmlDisabled,
+  castArray,
+} from './shared/utils';

@@ -1,13 +1,16 @@
+import dns from 'node:dns';
 import path, { join } from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
+
+dns.setDefaultResultOrder('ipv4first');
 
 jest.setTimeout(1000 * 20);
 
@@ -33,6 +36,16 @@ describe('init with SSR', () => {
     if (app) {
       await killApp(app);
     }
+  });
+
+  test('should apply entry.server.jsx correctly', async () => {
+    const res = await page.goto(`http://localhost:${appPort}`);
+
+    expect(res?.headers()).toHaveProperty('x-custom-value', 'abc');
+
+    const body = await res?.text();
+
+    expect(body).toMatch('Byte-Dance');
   });
 
   // FIXME: Skipped because this test often times out

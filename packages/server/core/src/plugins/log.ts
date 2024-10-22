@@ -1,7 +1,7 @@
+import type { Middleware, ServerEnv, ServerPlugin } from '../types';
 // The following code is modified based on https://github.com/honojs/hono/blob/main/src/middleware/logger/index.ts
 // license at https://github.com/honojs/hono/blob/main/LICENSE
 import { getPathname } from '../utils';
-import type { Middleware, ServerEnv, ServerPlugin } from '../types';
 
 enum LogPrefix {
   Outgoing = '-->',
@@ -62,13 +62,14 @@ function log(
 function logHandler(): Middleware<ServerEnv> {
   return async function logger(c, next) {
     const { method } = c.req;
-    const logger = c.get('logger');
-    if (!logger) {
+    const monitors = c.get('monitors');
+
+    if (!monitors) {
       await next();
       return;
     }
     const path = getPathname(c.req.raw);
-    const logFn = logger.debug;
+    const logFn = monitors.debug;
     log(logFn, LogPrefix.Incoming, method, path);
     const start = Date.now();
     await next();

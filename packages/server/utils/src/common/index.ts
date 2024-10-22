@@ -23,6 +23,7 @@ export interface CompileOptions {
   sourceDirs: string[];
   distDir: string;
   tsconfigPath?: string;
+  moduleType?: 'module' | 'commonjs';
 }
 
 export type CompileFunc = (

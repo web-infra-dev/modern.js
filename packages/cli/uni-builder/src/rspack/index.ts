@@ -1,18 +1,18 @@
 import { createRsbuild } from '@rsbuild/core';
 import type {
   RsbuildConfig,
-  RsbuildPlugin,
   RsbuildInstance,
+  RsbuildPlugin,
 } from '@rsbuild/core';
-import type {
-  UniBuilderConfig,
-  CreateUniBuilderOptions,
-  CreateBuilderCommonOptions,
-  OverridesUniBuilderInstance,
-} from '../types';
-import { parseCommonConfig } from '../shared/parseCommonConfig';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
-import type { StartDevServerOptions } from '../shared/devServer';
+import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
+import type {
+  CreateBuilderCommonOptions,
+  CreateUniBuilderOptions,
+  OverridesUniBuilderInstance,
+  UniBuilderConfig,
+} from '../types';
 
 export async function parseConfig(
   uniBuilderConfig: UniBuilderConfig,
@@ -31,6 +31,24 @@ export async function parseConfig(
       uniBuilderConfig.experiments.lazyCompilation;
   }
 
+  const { sri } = uniBuilderConfig.security || {};
+  if (sri) {
+    if (sri === true) {
+      rsbuildConfig.security!.sri = {
+        enable: 'auto',
+      };
+    } else {
+      const algorithm = Array.isArray(sri.hashFuncNames)
+        ? (sri.hashFuncNames[0] as 'sha256' | 'sha384' | 'sha512')
+        : undefined;
+
+      rsbuildConfig.security!.sri = {
+        enable: sri.enabled,
+        algorithm,
+      };
+    }
+  }
+
   if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
@@ -46,9 +64,11 @@ export async function parseConfig(
     const { pluginStyledComponents } = await import(
       '@rsbuild/plugin-styled-components'
     );
-    rsbuildPlugins.push(
-      pluginStyledComponents(uniBuilderConfig.tools?.styledComponents),
-    );
+    const options = uniBuilderConfig.tools?.styledComponents || {};
+    if (uniBuilderConfig.environments?.[SERVICE_WORKER_ENVIRONMENT_NAME]) {
+      options.ssr = true;
+    }
+    rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
   return {
@@ -87,11 +107,6 @@ export async function createRspackBuilder(
         return compatLegacyPlugin(plugin, { cwd });
       });
       rsbuild.addPlugins(warpedPlugins, options);
-    },
-    startDevServer: async (options: StartDevServerOptions = {}) => {
-      const { startDevServer } = await import('../shared/devServer');
-
-      return startDevServer(rsbuild, options, config);
     },
   };
 }

@@ -23,12 +23,11 @@
     "test:ut": "pnpm run test:jest && pnpm run test:vitest",
     "test:ut:update": "pnpm run test:jest -u && pnpm run test:vitest -u",
     "test:e2e": "cd tests && npm run test",
-    "fast-lint": "sh -x ./scripts/fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --maxParallel=100",
+    "prepare-build": "cross-env NX_DAEMON=false NX_REJECT_UNKNOWN_LOCAL_CACHE=0 nx run-many -t build -p @modern-js/* --exclude=@modern-js/main-doc,@modern-js/module-tools-docs --maxParallel=4",
     "prepare": "npm run prepare-build && husky install",
     "build:required": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/uni-builder",
-    "lint": "npm run fast-lint",
+    "lint": "biome check",
     "change": "modern change",
     "clear": "modern clear",
     "deploy": "modern deploy",
@@ -42,58 +41,54 @@
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
     "check-dependencies": "check-dependency-version-consistency .",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
-    "update-rspress": "cd ./scripts/update-rspress && pnpm start",
-    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start"
+    "update-rspress": "npx taze major --include /rspress/ -w -r -l",
+    "update-rsbuild": "npx taze major --include /rsbuild/ -w -r -l",
+    "build:main_docs": "pnpm --filter @modern-js/main-doc... build && pnpm --filter @modern-js/main-doc build",
+    "build:module_docs": "pnpm --filter @modern-js/module-tools-docs... build && pnpm --filter @modern-js/module-tools-docs build",
+    "gen:docs": "rm -rf doc_output && mkdir doc_output && cp -r ./packages/document/main-doc/doc_build/* ./doc_output && cp -r ./packages/document/module-doc/doc_build/ ./doc_output/module-tools",
+    "build:docs": "pnpm run build:main_docs && pnpm run build:module_docs && pnpm run gen:docs"
   },
   "engines": {
     "node": ">=14.17.6",
-    "pnpm": ">=8.7.0 <9"
+    "pnpm": ">=9.0.0"
   },
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@9.12.0",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ]
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "@modern-js"
+    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
+      "biome check --files-ignore-unknown=true"
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
+    "@babel/core": "^7.24.7",
     "@babel/plugin-transform-modules-commonjs": "^7.22.15",
+    "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
-    "@modern-js-app/eslint-config": "workspace:*",
-    "@modern-js/eslint-config": "workspace:*",
     "@modern-js/monorepo-tools": "workspace:*",
-    "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "@vitest/ui": "^0.33.0",
     "antd": "^5",
     "check-dependency-version-consistency": "4.1.0",
     "cross-env": "^7.0.3",
     "esbuild": "0.17.19",
-    "eslint": "^8.28.0",
     "husky": "^8.0.0",
     "lint-staged": "~13.1.0",
     "nx": "^17.0.1",
+    "rimraf": "^6.0.1",
     "vitest": "0.33.0"
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react": "^18.3.11",
+      "@types/react-dom": "^18.3.1"
     },
     "peerDependencyRules": {
       "allowedVersions": {

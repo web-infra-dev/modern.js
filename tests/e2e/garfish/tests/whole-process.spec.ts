@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
+import { killApp, launchApp } from '../../../utils/modernTestUtils';
 import { getPublicPath, webpackOnlyTest } from '../testUtils';
-import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 let app: unknown;
 let subApp1: unknown;
@@ -65,6 +65,12 @@ webpackOnlyTest('render sub app', async ({ page }) => {
   const subLink = await page.$('[data-test=sub-link-dashboard]');
   await subLink?.click();
   expect(await page.textContent('body')).toContain('Dashboard detail page');
+
+  // it should inject window.__GARFISH__ while run in main app
+  const garfishExists = await page.evaluate(
+    () => typeof window.__GARFISH__ !== 'undefined',
+  );
+  expect(garfishExists).toBe(true);
 });
 
 webpackOnlyTest('render module federation component', async ({ page }) => {

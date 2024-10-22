@@ -1,6 +1,8 @@
-import ModernSandpack, { ModernSandpackProps } from '@modern-js/sandpack-react';
-import React, { PropsWithChildren } from 'react';
-import { useDark, NoSSR } from 'rspress/runtime';
+import ModernSandpack, {
+  type ModernSandpackProps,
+} from '@modern-js/sandpack-react';
+import React, { type PropsWithChildren } from 'react';
+import { NoSSR, useDark } from 'rspress/runtime';
 
 import './index.css';
 

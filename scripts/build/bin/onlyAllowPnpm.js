@@ -25,6 +25,5 @@ if (usedPM && usedPM.name !== 'pnpm') {
   If you don't have pnpm, install it via "npm i -g pnpm".
   For more details, go to https://pnpm.js.org/
 `);
-  // eslint-disable-next-line no-process-exit
   process.exit(1);
 }

@@ -12,7 +12,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -37,12 +36,13 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -56,11 +56,43 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -79,13 +111,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -118,7 +143,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.38",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -128,13 +153,26 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": false,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -160,12 +198,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -189,7 +221,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.38",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -199,13 +231,26 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": false,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -231,12 +276,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": false,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -337,6 +376,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -359,10 +399,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 3,
               "modules": {
@@ -376,11 +416,43 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -399,13 +471,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -436,10 +501,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -453,11 +518,43 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -476,13 +573,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -524,7 +614,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.38",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -534,13 +624,26 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": false,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
                       "tsx": true,
                     },
-                    "preserveAllComments": true,
                     "transform": {
                       "decoratorMetadata": true,
                       "legacyDecorator": true,
@@ -566,12 +669,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": false,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -608,7 +705,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.38",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -618,13 +715,26 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": false,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
                       "tsx": true,
                     },
-                    "preserveAllComments": true,
                     "transform": {
                       "decoratorMetadata": true,
                       "legacyDecorator": true,
@@ -650,12 +760,6 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": false,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -704,7 +808,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -727,39 +831,29 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-lodash": {
-          "name": "lib-lodash",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
-      "enforceSizeThreshold": 50000,
     },
   },
   "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].js",
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
@@ -773,6 +867,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     HotModuleReplacementPlugin {
       "name": "HotModuleReplacementPlugin",
     },
@@ -783,7 +878,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "ignoreOrder": true,
       },
     },
-    HtmlWebpackPlugin {
+    HtmlRspackPlugin {
       "options": {
         "base": false,
         "cache": true,
@@ -804,64 +899,51 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": false,
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateContent": false,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
       },
-      "userOptions": {
-        "chunks": [
-          "index",
-        ],
-        "entryName": "index",
-        "filename": "html/index/index.html",
-        "inject": "head",
-        "meta": {
-          "charset": {
-            "charset": "UTF-8",
-          },
-          "viewport": "width=device-width, initial-scale=1.0",
-        },
-        "minify": false,
-        "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateParameters": [Function],
-        "title": "",
-      },
-      "version": 5,
+      "version": 6,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"development\\"",
-      },
+      "_args": [
+        {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
+          "import.meta.env.DEV": true,
+          "import.meta.env.MODE": "\\"development\\"",
+          "import.meta.env.PROD": false,
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "Client",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "web",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -884,11 +966,14 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     },
     ReactRefreshRspackPlugin {
       "options": {
-        "exclude": /node_modules/i,
+        "exclude": [
+          /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        ],
         "forceEnable": false,
         "include": [
           /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
         ],
+        "overlay": false,
       },
     },
   ],
@@ -900,16 +985,18 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
-    "tsConfigPath": "tsconfig.json",
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;
@@ -926,6 +1013,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:clean-output",
   "rsbuild:asset",
   "rsbuild:html",
+  "rsbuild:app-icon",
   "rsbuild:wasm",
   "rsbuild:moment",
   "rsbuild:node-addons",
@@ -936,12 +1024,11 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:swc",
   "rsbuild:externals",
   "rsbuild:split-chunks",
-  "rsbuild:open",
   "rsbuild:inline-chunk",
-  "rsbuild:bundle-analyzer",
   "rsbuild:rsdoctor",
   "rsbuild:resource-hints",
   "rsbuild:performance",
+  "rsbuild:bundle-analyzer",
   "rsbuild:server",
   "rsbuild:manifest",
   "rsbuild:module-federation",
@@ -959,6 +1046,8 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "uni-builder:arco",
   "rsbuild:sass",
   "rsbuild:less",
+  "uni-builder:environment-defaults-plugin",
+  "uni-builder:plugin-html-minifier-terser",
   "rsbuild:type-check",
   "uni-builder:runtime-chunk",
   "rsbuild:react",
@@ -967,6 +1056,757 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "uni-builder:postcss-plugins",
   "rsbuild:styled-components",
 ]
+`;
+
+exports[`uni-builder rspack > should generator rspack config correctly when node 1`] = `
+{
+  "context": "",
+  "devtool": "source-map",
+  "entry": {
+    "index": [
+      "src/index.ts",
+    ],
+  },
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "generator": {
+      "asset/resource": {
+        "emit": false,
+      },
+    },
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 0,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
+            "options": {
+              "getEnvironment": [Function],
+              "id": "rsbuild-transform-0",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "getEnvironment": [Function],
+              "id": "rsbuild-transform-1",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "named",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "emit": false,
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+  "name": "node",
+  "optimization": {
+    "minimize": true,
+    "minimizer": [
+      SwcJsMinimizerRspackPlugin {
+        "_args": [
+          {
+            "extractComments": true,
+            "minimizerOptions": {
+              "format": {
+                "asciiOnly": true,
+              },
+            },
+          },
+        ],
+        "affectedHooks": "compilation",
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
+    "splitChunks": false,
+  },
+  "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "chunkFilename": "[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "library": {
+      "type": "commonjs2",
+    },
+    "path": "dist/bundles",
+    "pathinfo": false,
+    "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    DefinePlugin {
+      "_args": [
+        {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
+          "import.meta.env.DEV": false,
+          "import.meta.env.MODE": "\\"production\\"",
+          "import.meta.env.PROD": true,
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
+        },
+      ],
+      "affectedHooks": "compilation",
+      "name": "DefinePlugin",
+    },
+    ProgressPlugin {
+      "_args": [
+        {
+          "prefix": "node",
+        },
+      ],
+      "affectedHooks": undefined,
+      "name": "ProgressPlugin",
+    },
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            [Function],
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "build": false,
+          "configFile": "tsconfig.json",
+          "memoryLimit": 8192,
+          "mode": "readonly",
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
+  "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".mjs",
+      ".js",
+      ".jsx",
+      ".json",
+    ],
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
+  },
+  "target": "node",
+}
 `;
 
 exports[`uni-builder rspack > should generator rspack config correctly when prod 1`] = `
@@ -981,7 +1821,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   },
   "experiments": {
     "asyncWebAssembly": true,
-    "css": false,
   },
   "infrastructureLogging": {
     "level": "error",
@@ -1006,12 +1845,13 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -1025,11 +1865,43 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -1048,13 +1920,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -1073,7 +1938,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "resolve": {
           "alias": {
@@ -1087,7 +1951,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.38",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1097,13 +1961,26 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -1129,12 +2006,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -1158,7 +2029,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.36",
+                "coreJs": "3.38",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -1168,13 +2039,26 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               },
               "isModule": "unknown",
               "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": false,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
                 "externalHelpers": true,
                 "parser": {
                   "decorators": true,
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -1200,12 +2084,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "styledComponents": {
-                  "displayName": true,
-                  "pure": true,
-                  "ssr": false,
-                  "transpileTemplateLiterals": true,
-                },
               },
             },
           },
@@ -1306,6 +2184,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -1328,10 +2207,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 3,
               "modules": {
@@ -1345,11 +2224,43 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -1368,13 +2279,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -1405,10 +2309,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/builtin-plugin/css-extract/loader.js",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -1422,11 +2326,43 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -1445,13 +2381,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -1493,7 +2422,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.38",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1503,13 +2432,26 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
                       "tsx": true,
                     },
-                    "preserveAllComments": true,
                     "transform": {
                       "decoratorMetadata": true,
                       "legacyDecorator": true,
@@ -1535,12 +2477,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": true,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -1577,7 +2513,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.36",
+                    "coreJs": "3.38",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -1587,13 +2523,26 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   },
                   "isModule": "unknown",
                   "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": false,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
                     "externalHelpers": true,
                     "parser": {
                       "decorators": true,
                       "syntax": "typescript",
                       "tsx": true,
                     },
-                    "preserveAllComments": true,
                     "transform": {
                       "decoratorMetadata": true,
                       "legacyDecorator": true,
@@ -1619,12 +2568,6 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                         "libraryName": "@arco-design/web-react/icon",
                       },
                     ],
-                    "styledComponents": {
-                      "displayName": true,
-                      "pure": true,
-                      "ssr": false,
-                      "transpileTemplateLiterals": true,
-                    },
                   },
                 },
               },
@@ -1673,23 +2616,21 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": true,
     "minimizer": [
       SwcJsMinimizerRspackPlugin {
-        "_options": {
-          "compress": "{\\"passes\\":1,\\"pure_funcs\\":[],\\"drop_console\\":false}",
-          "exclude": undefined,
-          "extractComments": {
-            "condition": "@preserve|@lic|@cc_on|^/**!",
+        "_args": [
+          {
+            "extractComments": true,
+            "minimizerOptions": {
+              "format": {
+                "asciiOnly": true,
+              },
+            },
           },
-          "format": "{\\"comments\\":false,\\"asciiOnly\\":true}",
-          "include": undefined,
-          "mangle": "{\\"keep_classnames\\":false,\\"keep_fnames\\":false}",
-          "module": undefined,
-          "test": undefined,
-        },
+        ],
         "affectedHooks": "compilation",
         "name": "SwcJsMinimizerRspackPlugin",
       },
@@ -1734,39 +2675,29 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-lodash": {
-          "name": "lib-lodash",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
-      "enforceSizeThreshold": 50000,
     },
   },
   "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
@@ -1779,6 +2710,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     CssExtractRspackPlugin {
       "options": {
         "chunkFilename": "static/css/async/[name].[contenthash:8].css",
@@ -1786,7 +2718,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "ignoreOrder": true,
       },
     },
-    HtmlWebpackPlugin {
+    HtmlRspackPlugin {
       "options": {
         "base": false,
         "cache": true,
@@ -1807,114 +2739,52 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
           },
           "viewport": "width=device-width, initial-scale=1.0",
         },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
+        "minify": [Function],
         "publicPath": "auto",
         "scriptLoading": "defer",
         "showErrors": true,
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateContent": false,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
         "xhtml": false,
       },
-      "userOptions": {
-        "chunks": [
-          "index",
-        ],
-        "entryName": "index",
-        "filename": "html/index/index.html",
-        "inject": "head",
-        "meta": {
-          "charset": {
-            "charset": "UTF-8",
-          },
-          "viewport": "width=device-width, initial-scale=1.0",
-        },
-        "minify": {
-          "collapseWhitespace": true,
-          "keepClosingSlash": true,
-          "minifyCSS": true,
-          "minifyJS": {
-            "format": {
-              "ascii_only": true,
-            },
-            "mangle": {
-              "safari10": true,
-            },
-          },
-          "minifyURLs": true,
-          "removeComments": false,
-          "removeEmptyAttributes": true,
-          "removeRedundantAttributes": true,
-          "removeScriptTypeAttributes": true,
-          "removeStyleLinkTypeAttributes": true,
-          "useShortDoctype": true,
-        },
-        "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
-        "templateParameters": [Function],
-        "title": "",
-      },
-      "version": 5,
+      "version": 6,
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
-      "_options": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
+      "_args": [
+        {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
+          "import.meta.env.DEV": false,
+          "import.meta.env.MODE": "\\"production\\"",
+          "import.meta.env.PROD": true,
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
+        },
+      ],
       "affectedHooks": "compilation",
       "name": "DefinePlugin",
     },
     ProgressPlugin {
-      "_options": {
-        "prefix": "Client",
-        "profile": false,
-        "progressChars": "━━",
-        "template": "● {prefix:.bold} {bar:25.green/white.dim} ({percent}%) {wide_msg:.dim}",
-        "tick": undefined,
-      },
+      "_args": [
+        {
+          "prefix": "web",
+        },
+      ],
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1943,15 +2813,749 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
-    "tsConfigPath": "tsconfig.json",
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
   },
   "target": [
     "web",
+    "browserslist:> 0.01%,not dead,not op_mini all",
+  ],
+}
+`;
+
+exports[`uni-builder rspack > should generator rspack config correctly when service-worker 1`] = `
+{
+  "context": "",
+  "devtool": "hidden-source-map",
+  "entry": {
+    "index": [
+      "src/index.ts",
+    ],
+  },
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "parser": {
+      "javascript": {
+        "dynamicImportMode": "eager",
+        "exportsPresence": "error",
+      },
+    },
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 0,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+          /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
+        ],
+        "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "mode": undefined,
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "env": {
+                "mode": undefined,
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "isModule": "unknown",
+              "jsc": {
+                "experimental": {
+                  "cacheRoot": "node_modules/.cache/.swc",
+                  "plugins": [
+                    [
+                      "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                      {
+                        "displayName": true,
+                        "pure": true,
+                        "ssr": true,
+                        "transpileTemplateLiterals": true,
+                      },
+                    ],
+                  ],
+                },
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                  "useDefineForClassFields": false,
+                },
+              },
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:png\\|jpg\\|jpeg\\|pjpeg\\|pjp\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tif\\|tiff\\|jfif\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:mp4\\|webm\\|ogg\\|mov\\|mp3\\|wav\\|flac\\|aac\\|m4a\\|opus\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(\\?:woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "options": {
+              "getEnvironment": [Function],
+              "id": "rsbuild-transform-1",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-yaml/compiled/yaml-loader",
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/resolve-url-loader/index.js",
+            "options": {
+              "join": [Function],
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-sass/compiled/sass-loader/index.js",
+            "options": {
+              "api": "modern-compiler",
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+      {
+        "resolve": {
+          "preferRelative": true,
+        },
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportGlobals": false,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[local]-[hash:base64:6]",
+                "namedExport": false,
+              },
+              "sourceMap": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less-loader/index.js",
+            "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-less/compiled/less/index.js",
+              "lessOptions": {
+                "javascriptEnabled": true,
+                "paths": [
+                  "node_modules",
+                ],
+              },
+              "sourceMap": false,
+            },
+          },
+        ],
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "resourceQuery": /react/,
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "mode": undefined,
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "default",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+            ],
+          },
+          {
+            "issuer": [
+              /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+              /\\\\\\.mdx\\$/,
+            ],
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "builtin:swc-loader",
+                "options": {
+                  "env": {
+                    "mode": undefined,
+                    "targets": [
+                      "node >= 14",
+                    ],
+                  },
+                  "isModule": "unknown",
+                  "jsc": {
+                    "experimental": {
+                      "cacheRoot": "node_modules/.cache/.swc",
+                      "plugins": [
+                        [
+                          "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
+                          {
+                            "displayName": true,
+                            "pure": true,
+                            "ssr": true,
+                            "transpileTemplateLiterals": true,
+                          },
+                        ],
+                      ],
+                    },
+                    "externalHelpers": true,
+                    "parser": {
+                      "decorators": true,
+                      "syntax": "typescript",
+                      "tsx": true,
+                    },
+                    "transform": {
+                      "decoratorMetadata": true,
+                      "legacyDecorator": true,
+                      "react": {
+                        "development": false,
+                        "refresh": false,
+                        "runtime": "automatic",
+                      },
+                      "useDefineForClassFields": false,
+                    },
+                  },
+                  "rspackExperiments": {
+                    "import": [
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "lib",
+                        "libraryName": "@arco-design/web-react",
+                        "style": true,
+                      },
+                      {
+                        "camelToDashComponentName": false,
+                        "libraryDirectory": "react-icon-cjs",
+                        "libraryName": "@arco-design/web-react/icon",
+                      },
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "options": {
+                  "exportType": "named",
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/compiled/url-loader/index.js",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+  "name": "workerSSR",
+  "optimization": {
+    "minimize": true,
+    "minimizer": [
+      SwcJsMinimizerRspackPlugin {
+        "_args": [
+          {
+            "extractComments": true,
+            "minimizerOptions": {
+              "format": {
+                "asciiOnly": true,
+              },
+            },
+          },
+        ],
+        "affectedHooks": "compilation",
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
+    "splitChunks": false,
+  },
+  "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
+    "chunkFilename": "[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "libraryTarget": "commonjs2",
+    "path": "dist/worker",
+    "pathinfo": false,
+    "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    DefinePlugin {
+      "_args": [
+        {
+          "import.meta.env.ASSET_PREFIX": "\\"\\"",
+          "import.meta.env.BASE_URL": "\\"/\\"",
+          "import.meta.env.DEV": false,
+          "import.meta.env.MODE": "\\"production\\"",
+          "import.meta.env.PROD": true,
+          "process.env.ASSET_PREFIX": "\\"\\"",
+          "process.env.BASE_URL": "\\"/\\"",
+        },
+      ],
+      "affectedHooks": "compilation",
+      "name": "DefinePlugin",
+    },
+    ProgressPlugin {
+      "_args": [
+        {
+          "prefix": "workerSSR",
+        },
+      ],
+      "affectedHooks": undefined,
+      "name": "ProgressPlugin",
+    },
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            [Function],
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "build": false,
+          "configFile": "tsconfig.json",
+          "memoryLimit": 8192,
+          "mode": "readonly",
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
+  "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".mjs",
+      ".js",
+      ".jsx",
+      ".json",
+    ],
+    "tsConfig": {
+      "configFile": "tsconfig.json",
+    },
+  },
+  "target": [
+    "webworker",
     "es5",
   ],
 }
@@ -2006,12 +3610,13 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -2025,11 +3630,43 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -2048,13 +3685,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -2076,6 +3706,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -2105,7 +3736,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2124,10 +3759,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                   "@arco-design/web-react/icon",
-                ],
-                [
-                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                  {},
                 ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -2152,7 +3783,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2232,7 +3863,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2253,10 +3888,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                  {},
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
@@ -2273,7 +3904,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2409,6 +4040,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -2434,7 +4066,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 3,
               "modules": {
@@ -2448,11 +4080,43 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -2471,13 +4135,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -2511,7 +4168,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -2525,11 +4182,43 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -2548,13 +4237,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": true,
@@ -2620,7 +4302,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -2640,10 +4326,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       },
                       "@arco-design/web-react/icon",
                     ],
-                    [
-                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                      {},
-                    ],
                   ],
                   "presets": [
                     [
@@ -2652,7 +4334,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -2748,7 +4430,11 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -2768,10 +4454,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                       },
                       "@arco-design/web-react/icon",
                     ],
-                    [
-                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                      {},
-                    ],
                   ],
                   "presets": [
                     [
@@ -2780,7 +4462,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -2864,7 +4546,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -2887,32 +4569,22 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-lodash": {
-          "name": "lib-lodash",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\|react-refresh\\|@rspack\\[\\\\\\\\/\\]plugin-react-refresh\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -2920,6 +4592,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
   },
   "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].js",
     "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
@@ -2933,6 +4606,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     HotModuleReplacementPlugin {
       "options": {},
     },
@@ -2952,6 +4626,36 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       },
     },
     HtmlWebpackPlugin {
+      "options": {
+        "base": false,
+        "cache": true,
+        "chunks": [
+          "index",
+        ],
+        "chunksSortMode": "auto",
+        "compile": true,
+        "entryName": "index",
+        "excludeChunks": [],
+        "favicon": false,
+        "filename": "html/index/index.html",
+        "hash": false,
+        "inject": "head",
+        "meta": {
+          "charset": {
+            "charset": "UTF-8",
+          },
+          "viewport": "width=device-width, initial-scale=1.0",
+        },
+        "minify": false,
+        "publicPath": "auto",
+        "scriptLoading": "defer",
+        "showErrors": true,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateParameters": [Function],
+        "title": "",
+        "xhtml": false,
+      },
       "userOptions": {
         "chunks": [
           "index",
@@ -2967,23 +4671,32 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         },
         "minify": false,
         "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
       },
       "version": 5,
     },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
       "definitions": {
+        "import.meta.env.ASSET_PREFIX": "\\"\\"",
+        "import.meta.env.BASE_URL": "\\"/\\"",
+        "import.meta.env.DEV": true,
+        "import.meta.env.MODE": "\\"development\\"",
+        "import.meta.env.PROD": false,
         "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"development\\"",
+        "process.env.BASE_URL": "\\"/\\"",
       },
     },
     ProgressPlugin {
@@ -2991,7 +4704,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "dependenciesCount": 10000,
       "handler": [Function],
       "hasCompileErrors": false,
-      "id": "Client",
+      "id": "web",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -3001,7 +4714,6 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3033,12 +4745,15 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     },
   ],
   "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "plugins": [
@@ -3048,9 +4763,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "extensions": [
           ".ts",
           ".tsx",
+          ".mjs",
           ".js",
           ".jsx",
-          ".mjs",
           ".json",
         ],
         "log": {
@@ -3068,7 +4783,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;
@@ -3122,12 +4837,13 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -3141,11 +4857,43 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -3164,13 +4912,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -3189,9 +4930,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             ],
           },
           /\\\\\\.\\(\\?:ts\\|tsx\\|jsx\\|mts\\|cts\\)\\$/,
-          /\\[\\\\\\\\/\\]@rsbuild\\[\\\\\\\\/\\]core\\[\\\\\\\\/\\]dist\\[\\\\\\\\/\\]/,
         ],
         "test": /\\\\\\.\\(\\?:js\\|jsx\\|mjs\\|cjs\\|ts\\|tsx\\|mts\\|cts\\)\\$/,
+        "type": "javascript/auto",
         "use": [
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-loader/lib/index.js",
@@ -3221,7 +4962,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3240,10 +4985,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "libraryName": "@arco-design/web-react/icon",
                   },
                   "@arco-design/web-react/icon",
-                ],
-                [
-                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                  {},
                 ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
@@ -3268,7 +5009,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3348,7 +5089,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "version": "7.24.7",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -3367,10 +5112,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "libraryName": "@arco-design/web-react/icon",
                   },
                   "@arco-design/web-react/icon",
-                ],
-                [
-                  "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                  {},
                 ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
@@ -3395,7 +5136,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.36",
+                      "version": "3.37",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3531,6 +5272,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
             "options": {
+              "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
             },
           },
@@ -3556,7 +5298,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 3,
               "modules": {
@@ -3570,11 +5312,43 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -3593,13 +5367,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -3633,7 +5400,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -3647,11 +5414,43 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
             "options": {
+              "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
               "postcssOptions": {
                 "config": false,
                 "plugins": [
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-flexbugs-fixes",
+                  },
+                  {
+                    "postcssPlugin": "postcss-custom-properties",
+                    "prepare": [Function],
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-initial",
+                  },
+                  {
+                    "Declaration": [Function],
+                    "postcssPlugin": "postcss-page-break",
+                  },
+                  {
+                    "Once": [Function],
+                    "postcssPlugin": "postcss-font-variant",
+                  },
+                  {
+                    "AtRule": {
+                      "custom-media": [Function],
+                      "media": [Function],
+                    },
+                    "postcssPlugin": "postcss-media-minmax",
+                  },
+                  {
+                    "Rule": [Function],
+                    "postcssPlugin": "postcss-nesting",
+                  },
                   {
                     "browsers": [
                       "> 0.01%",
@@ -3670,13 +5469,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                     "postcssPlugin": "autoprefixer",
                     "prepare": [Function],
                   },
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
-                  [Function],
                 ],
               },
               "sourceMap": false,
@@ -3742,7 +5534,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -3761,10 +5557,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "libraryName": "@arco-design/web-react/icon",
                       },
                       "@arco-design/web-react/icon",
-                    ],
-                    [
-                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                      {},
                     ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
@@ -3789,7 +5581,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -3885,7 +5677,11 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "version": "7.24.7",
                       },
                     ],
-                    "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion.cjs",
+                    "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
+                    [
+                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
+                      {},
+                    ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                       {
@@ -3904,10 +5700,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "libraryName": "@arco-design/web-react/icon",
                       },
                       "@arco-design/web-react/icon",
-                    ],
-                    [
-                      "<ROOT>/compiled/babel-plugin-lodash/index.js",
-                      {},
                     ],
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-react-remove-prop-types/lib/index.js",
@@ -3932,7 +5724,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                         "bugfixes": true,
                         "corejs": {
                           "proposals": true,
-                          "version": "3.36",
+                          "version": "3.37",
                         },
                         "exclude": [
                           "transform-typeof-symbol",
@@ -4016,7 +5808,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
     ],
   },
-  "name": "Client",
+  "name": "web",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -4081,32 +5873,22 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "lib-axios": {
           "name": "lib-axios",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-lodash": {
-          "name": "lib-lodash",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-react": {
+        "react": {
           "name": "lib-react",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
-        "lib-router": {
+        "router": {
           "name": "lib-router",
           "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:react-router\\|react-router-dom\\|history\\|@remix-run\\[\\\\\\\\/\\]router\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -4114,6 +5896,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
   },
   "output": {
+    "assetModuleFilename": "static/assets/[name].[contenthash:8][ext]",
     "chunkFilename": "static/js/async/[name].[contenthash:8].js",
     "filename": "static/js/[name].[contenthash:8].js",
     "hashFunction": "xxhash64",
@@ -4126,6 +5909,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "hints": false,
   },
   "plugins": [
+    RsbuildCorePlugin {},
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -4142,6 +5926,55 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       },
     },
     HtmlWebpackPlugin {
+      "options": {
+        "base": false,
+        "cache": true,
+        "chunks": [
+          "index",
+        ],
+        "chunksSortMode": "auto",
+        "compile": true,
+        "entryName": "index",
+        "excludeChunks": [],
+        "favicon": false,
+        "filename": "html/index/index.html",
+        "hash": false,
+        "inject": "head",
+        "meta": {
+          "charset": {
+            "charset": "UTF-8",
+          },
+          "viewport": "width=device-width, initial-scale=1.0",
+        },
+        "minify": {
+          "collapseWhitespace": true,
+          "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
+          "removeComments": false,
+          "removeEmptyAttributes": true,
+          "removeRedundantAttributes": true,
+          "removeScriptTypeAttributes": true,
+          "removeStyleLinkTypeAttributes": true,
+          "useShortDoctype": true,
+        },
+        "publicPath": "auto",
+        "scriptLoading": "defer",
+        "showErrors": true,
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        "templateParameters": [Function],
+        "title": "",
+        "xhtml": false,
+      },
       "userOptions": {
         "chunks": [
           "index",
@@ -4176,35 +6009,32 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
           "useShortDoctype": true,
         },
         "scriptLoading": "defer",
-        "template": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/static/template.html",
+        "template": "",
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
         "templateParameters": [Function],
         "title": "",
       },
       "version": 5,
     },
-    InlineChunkHtmlPlugin {
-      "distPath": {
-        "css": "static/css",
-        "js": "static/js",
-      },
-      "inlinedAssets": Set {},
-      "name": "InlineChunkHtmlPlugin",
-      "scriptTests": [
-        /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
-      ],
-      "styleTests": [],
-    },
-    HtmlBasicPlugin {
+    RsbuildHtmlPlugin {
+      "getEnvironment": [Function],
       "modifyTagsFn": [Function],
-      "name": "HtmlBasicPlugin",
+      "name": "RsbuildHtmlPlugin",
       "options": {
-        "index": {},
+        "index": {
+          "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+        },
       },
     },
     DefinePlugin {
       "definitions": {
+        "import.meta.env.ASSET_PREFIX": "\\"\\"",
+        "import.meta.env.BASE_URL": "\\"/\\"",
+        "import.meta.env.DEV": false,
+        "import.meta.env.MODE": "\\"production\\"",
+        "import.meta.env.PROD": true,
         "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
+        "process.env.BASE_URL": "\\"/\\"",
       },
     },
     ProgressPlugin {
@@ -4212,7 +6042,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "dependenciesCount": 10000,
       "handler": [Function],
       "hasCompileErrors": false,
-      "id": "Client",
+      "id": "web",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -4222,7 +6052,6 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showEntries": true,
       "showModules": true,
     },
-    RsbuildTransformPlugin {},
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -4245,12 +6074,15 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     },
   ],
   "resolve": {
+    "alias": {
+      "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
     "extensions": [
       ".ts",
       ".tsx",
+      ".mjs",
       ".js",
       ".jsx",
-      ".mjs",
       ".json",
     ],
     "plugins": [
@@ -4260,9 +6092,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "extensions": [
           ".ts",
           ".tsx",
+          ".mjs",
           ".js",
           ".jsx",
-          ".mjs",
           ".json",
         ],
         "log": {
@@ -4280,7 +6112,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   },
   "target": [
     "web",
-    "es5",
+    "browserslist:> 0.01%,not dead,not op_mini all",
   ],
 }
 `;

@@ -1,8 +1,8 @@
 import pMap from 'p-map';
-import { IProjectNode } from '../projects/getProjects';
 import { errorLog } from '../log/error';
-import { TaskRunner, TaskFunType } from './task';
+import type { IProjectNode } from '../projects/getProjects';
 import { EdgeManager } from './edgeManager';
+import { type TaskFunType, TaskRunner } from './task';
 import { recursiveGetDependency, sortProjects } from './utils';
 
 export type Task = (
@@ -104,7 +104,6 @@ export class DagOperator {
       }
       await pMap(
         projects,
-        // eslint-disable-next-line @typescript-eslint/no-loop-func
         async project => {
           if (!finishTaskHash[project.name]) {
             finishTaskHash[project.name] = true;

@@ -1,8 +1,8 @@
 import { once } from 'events';
 import {
   MessagePortChannel,
-  PostMessageListener,
-  PostMessageTarget,
+  type PostMessageListener,
+  type PostMessageTarget,
 } from '../src/channel';
 
 class MockPostMessageTarget implements PostMessageTarget {

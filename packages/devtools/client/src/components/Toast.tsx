@@ -1,8 +1,8 @@
 import * as ToastPrimitive from '@radix-ui/react-toast';
-import { ToastProps as ToastRootProps } from '@radix-ui/react-toast';
-import { FC, Fragment, useRef, useState } from 'react';
-import { HiMiniXMark } from 'react-icons/hi2';
+import type { ToastProps as ToastRootProps } from '@radix-ui/react-toast';
 import { Box } from '@radix-ui/themes';
+import { type FC, Fragment, useRef, useState } from 'react';
+import { HiMiniXMark } from 'react-icons/hi2';
 import styles from './Toast.module.scss';
 
 export interface ToastProps extends ToastRootProps {

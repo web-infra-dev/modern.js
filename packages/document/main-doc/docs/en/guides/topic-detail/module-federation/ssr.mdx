@@ -1,0 +1,31 @@
+# Server-Side Rendering
+
+`@module-federation/modern-js` offers powerful capabilities, enabling developers to easily combine Module Federation with server-side rendering (SSR) in Modern.js applications.
+
+## Enable SSR
+
+Using the application created in [Using Module Federation](/guides/topic-detail/module-federation/usage) as an example, you only need to add the `server.ssr` configuration to both the producer and the consumer:
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  server: {
+    ssr: {
+      mode: 'stream',
+    },
+  },
+});
+```
+
+For better performance, we only support using this capability combination in Streaming SSR scenarios.
+
+:::warning
+Currently, `@module-federation/bridge-react` is not compatible with the Node environment. You must remove it from the dependencies to use Module Federation and server-side rendering correctly. This means Bridge cannot work with server-side rendering.
+:::
+
+## Data Fetching
+
+:::note
+Stay tuned
+:::

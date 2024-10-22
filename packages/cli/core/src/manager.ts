@@ -1,20 +1,19 @@
 import {
-  createWorkflow,
   createAsyncManager,
-  createAsyncWorkflow,
   createAsyncWaterfall,
+  createAsyncWorkflow,
   createParallelWorkflow,
+  createWorkflow,
 } from '@modern-js/plugin';
-import { BaseHooks } from './types/hooks';
-import { BasePluginAPI } from './types';
 import {
   setAppContext,
   useAppContext,
   useConfigContext,
   useResolvedConfigContext,
 } from './context';
+import type { BasePluginAPI } from './types';
+import type { BaseHooks } from './types/hooks';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 const baseHooks: BaseHooks<{}> = {
   beforeConfig: createAsyncWorkflow(),
   config: createParallelWorkflow(),
@@ -27,7 +26,7 @@ const baseHooks: BaseHooks<{}> = {
   beforeExit: createWorkflow(),
   addRuntimeExports: createAsyncWaterfall(),
 };
-// eslint-disable-next-line @typescript-eslint/ban-types
+
 const pluginAPI: BasePluginAPI<{}> = {
   setAppContext,
   useAppContext,

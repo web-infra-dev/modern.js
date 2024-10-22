@@ -1,4 +1,14 @@
 import path from 'path';
+import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
+import type { IAppContext, PluginAPI } from '@modern-js/core';
+import type {
+  Entrypoint,
+  NestedRouteForCli,
+  PageRoute,
+  Route,
+  RouteLegacy,
+  SSRMode,
+} from '@modern-js/types';
 import {
   fs,
   getEntryOptions,
@@ -7,25 +17,18 @@ import {
   isUseSSRBundle,
   logger,
 } from '@modern-js/utils';
-import { IAppContext, PluginAPI } from '@modern-js/core';
-import type {
-  Entrypoint,
-  Route,
-  RouteLegacy,
-  PageRoute,
-  SSRMode,
-  NestedRouteForCli,
-} from '@modern-js/types';
 import {
-  AppNormalizedConfig,
-  AppTools,
-  ImportStatement,
-} from '@modern-js/app-tools';
+  filterRoutesForServer,
+  filterRoutesLoader,
+  markRoutes,
+} from '@modern-js/utils';
+import { cloneDeep } from '@modern-js/utils/lodash';
+import { ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME } from '../../../cli/constants';
 import { FILE_SYSTEM_ROUTES_FILE_NAME } from '../constants';
-import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
-import { getServerLoadersFile, getServerCombinedModueFile } from './utils';
 import { walk } from './nestedRoutes';
+import * as templates from './templates';
+import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 
 export const generateCode = async (
   appContext: IAppContext,
@@ -45,7 +48,6 @@ export const generateCode = async (
 
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
-  const importsStatemets = new Map<string, ImportStatement[]>();
   const oldVersion =
     typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
       ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
@@ -53,16 +55,18 @@ export const generateCode = async (
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
-  return {
-    importsStatemets,
-  };
-
   async function generateEntryCode(entrypoint: Entrypoint) {
-    const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
-      entrypoint;
+    const {
+      entryName,
+      isMainEntry,
+      isAutoMount,
+      pageRoutesEntry,
+      nestedRoutesEntry,
+    } = entrypoint;
+    const { metaName } = api.useAppContext();
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
-      if (fileSystemRoutes) {
+      if (pageRoutesEntry || nestedRoutesEntry) {
         let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
           [];
         let nestedRoutes: NestedRouteForCli | NestedRouteForCli[] | null = null;
@@ -88,23 +92,32 @@ export const generateCode = async (
             oldVersion,
           );
           if (nestedRoutes) {
-            // eslint-disable-next-line max-depth
             if (!Array.isArray(nestedRoutes)) {
               nestedRoutes = [nestedRoutes];
             }
-            // eslint-disable-next-line max-depth
             for (const route of nestedRoutes) {
               (initialRoutes as Route[]).unshift(route);
             }
           }
         }
 
+        const config = api.useResolvedConfigContext();
+        const ssrByRouteIds = config.server.ssrByRouteIds || [];
+        const clonedRoutes = cloneDeep(initialRoutes);
+
+        const markedRoutes =
+          ssrByRouteIds.length > 0
+            ? markRoutes(
+                clonedRoutes as (NestedRouteForCli | PageRoute)[],
+                ssrByRouteIds,
+              )
+            : initialRoutes;
+
         const { routes } = await hookRunners.modifyFileSystemRoutes({
           entrypoint,
-          routes: initialRoutes,
+          routes: markedRoutes,
         });
 
-        const config = api.useResolvedConfigContext();
         const ssr = getEntryOptions(
           entryName,
           isMainEntry,
@@ -126,7 +139,6 @@ export const generateCode = async (
             logger.error(
               'Streaming ssr is not supported when pages dir exists',
             );
-            // eslint-disable-next-line no-process-exit
             process.exit(1);
           }
         }
@@ -134,6 +146,7 @@ export const generateCode = async (
         const { code } = await hookRunners.beforeGenerateRoutes({
           entrypoint,
           code: await templates.fileSystemRoutes({
+            metaName,
             routes,
             ssrMode: useSSG ? 'string' : mode,
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
@@ -150,12 +163,35 @@ export const generateCode = async (
             entryName,
           );
 
+          const filtedRoutesForServer = filterRoutesForServer(
+            routes as (NestedRouteForCli | PageRoute)[],
+          );
+          const routesForServerLoaderMatches = filterRoutesLoader(
+            routes as (NestedRouteForCli | PageRoute)[],
+          );
+
           const code = templates.routesForServer({
-            routes: routes as (NestedRouteForCli | PageRoute)[],
+            routesForServerLoaderMatches,
           });
 
           await fs.ensureFile(routesServerFile);
           await fs.writeFile(routesServerFile, code);
+
+          const serverRoutesCode = await templates.fileSystemRoutes({
+            metaName,
+            routes: filtedRoutesForServer,
+            ssrMode: useSSG ? 'string' : mode,
+            nestedRoutesEntry: entrypoint.nestedRoutesEntry,
+            entryName: entrypoint.entryName,
+            internalDirectory,
+            splitRouteChunks: config?.output?.splitRouteChunks,
+          });
+
+          await fs.outputFile(
+            path.resolve(internalDirectory, `./${entryName}/routes.server.js`),
+            serverRoutesCode,
+            'utf8',
+          );
         }
 
         const serverLoaderCombined = templates.ssrLoaderCombinedModule(
@@ -173,7 +209,7 @@ export const generateCode = async (
           await fs.outputFile(serverLoaderFile, serverLoaderCombined);
         }
 
-        fs.outputFileSync(
+        await fs.outputFile(
           path.resolve(
             internalDirectory,
             `./${entryName}/${FILE_SYSTEM_ROUTES_FILE_NAME}`,
@@ -185,3 +221,18 @@ export const generateCode = async (
     }
   }
 };
+
+export function generatorRegisterCode(
+  internalDirectory: string,
+  entryName: string,
+  code: string,
+) {
+  fs.outputFileSync(
+    path.resolve(
+      internalDirectory,
+      `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
+    ),
+    code,
+    'utf8',
+  );
+}

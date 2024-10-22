@@ -1,9 +1,9 @@
+import type { IncomingMessage, ServerResponse } from 'http';
 import path from 'path';
-import { IncomingMessage, ServerResponse } from 'http';
-import { ApiRouter, APIHandlerInfo } from '@modern-js/bff-core';
+import { type APIHandlerInfo, ApiRouter } from '@modern-js/bff-core';
+import { closeServer, createApp } from './app';
 import { bff_info_key } from './constant';
 import mockAPI from './mockAPI';
-import { createApp, closeServer } from './app';
 
 let uped = false;
 
@@ -26,7 +26,7 @@ const setup = () => {
       prefix,
       httpMethodDecider,
     });
-    const apiInfos = apiRouter.getApiHandlers();
+    const apiInfos = await apiRouter.getApiHandlers();
 
     const apiInfosByFile = apiInfos.reduce<Record<string, APIHandlerInfo[]>>(
       (res, apiInfo) => {

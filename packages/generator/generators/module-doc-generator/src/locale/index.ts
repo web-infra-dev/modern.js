@@ -1,6 +1,6 @@
 import { I18n } from '@modern-js/plugin-i18n';
-import { ZH_LOCALE } from './zh';
 import { EN_LOCALE } from './en';
+import { ZH_LOCALE } from './zh';
 
 const i18n = new I18n();
 

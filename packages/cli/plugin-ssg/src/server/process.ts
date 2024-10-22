@@ -1,17 +1,19 @@
-import { Server, request } from 'http';
-import { ServerRoute as ModernRoute, ServerPlugin } from '@modern-js/types';
-import portfinder from 'portfinder';
+import { type Server, request } from 'http';
 import type { AppNormalizedConfig } from '@modern-js/app-tools';
 import {
-  ProdServerOptions,
+  type ProdServerOptions,
   createProdServer,
   loadServerPlugins,
 } from '@modern-js/prod-server';
+import type {
+  ServerRoute as ModernRoute,
+  ServerPlugin,
+} from '@modern-js/types';
+import portfinder from 'portfinder';
 import { CLOSE_SIGN } from './consts';
 
 process.on('message', async (chunk: string) => {
   if (chunk === CLOSE_SIGN) {
-    // eslint-disable-next-line no-process-exit
     process.exit();
   }
 
@@ -52,7 +54,7 @@ process.on('message', async (chunk: string) => {
       config: options as any,
       appContext,
       routes,
-      plugins: loadServerPlugins(
+      plugins: await loadServerPlugins(
         plugins,
         appContext.appDirectory || distDirectory,
       ),

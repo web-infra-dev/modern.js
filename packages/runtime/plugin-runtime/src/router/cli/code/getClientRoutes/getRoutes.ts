@@ -1,19 +1,19 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
 import type {
   Entrypoint,
   NestedRouteForCli,
   PageRoute,
 } from '@modern-js/types';
-import { makeLegalIdentifier } from '../makeLegalIdentifier';
+import { fs } from '@modern-js/utils';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
   FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP,
   FILE_SYSTEM_ROUTES_INDEX,
   FILE_SYSTEM_ROUTES_LAYOUT,
 } from '../../constants';
+import { makeLegalIdentifier } from '../makeLegalIdentifier';
 import { replaceWithAlias } from '../utils';
-import { debug, findLayout, shouldSkip, getRouteWeight } from './utils';
+import { debug, findLayout, getRouteWeight, shouldSkip } from './utils';
 
 const compName = (srcDirectory: string, filePath: string) => {
   const legalCompName = makeLegalIdentifier(
@@ -30,7 +30,6 @@ const layoutNameAbbr = (filePath: string) => {
 
 const parents: PageRoute[] = [];
 
-/* eslint-disable no-param-reassign */
 const recursiveReadDir = ({
   dir,
   routes,
@@ -140,7 +139,6 @@ const recursiveReadDir = ({
     parents.pop();
   }
 };
-/* eslint-enable  no-param-reassign */
 
 const normalizeNestedRoutes = (
   nested: PageRoute[],
@@ -166,8 +164,7 @@ const normalizeNestedRoutes = (
       `import React from 'react';`,
       `import ${lastComponent} from '${route._component}'`,
     ];
-
-    // eslint-disable-next-line no-param-reassign, no-cond-assign
+    // biome-ignore lint/style/noParameterAssign: <explanation>
     while ((route = route.parent!)) {
       const layoutComponent = route.component;
       const layoutComponentAbbr = layoutNameAbbr(route._component);

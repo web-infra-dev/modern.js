@@ -1,0 +1,148 @@
+# Jest
+
+Jest 是一个 JavaScript 测试框架，它主要和 React Testing Library 一起用于单元测试和 Snapshot 测试。
+
+在 Modern.js 中使用 Jest 需要先安装依赖，可以执行以下命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+  yarn: "yarn add -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom", 
+  pnpm: "pnpm install -D jest jest-environment-jsdom @testing-library/react @testing-library/dom @testing-library/jest-dom"
+}} />
+
+随后，你可以运行以下命令，这将自动在项目中初始化 Jets，并生成一个基础的 `jest.config.[jt]s` 配置：
+
+<PackageManagerTabs command={{ 
+  npm: "npm init jest@latest", 
+  yarn: "yarn create jest@latest", 
+  pnpm: "pnpm create jest@latest"
+}} />
+
+## 配置文件
+
+:::note
+本章节会使用 `.ts` 文件来完成 Jest 测试。
+:::
+
+相比于其他的测试框架，Jest 在构建层面需要更多的配置，例如处理 JSX 和 ESM 语法，因此首先需要安装一些额外的依赖：
+
+<PackageManagerTabs command={{ 
+  npm: "npm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+  yarn: "yarn add -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript", 
+  pnpm: "pnpm install -D babel-jest @babel/core @babel/preset-env @babel/preset-react @babel/preset-typescript"
+}} />
+
+### 配置 Jest
+
+你需要进一步配置 `jest.config.ts` 文件，以便让 Jest 能够正确地编译和运行测试用例。下面是一个最基本的配置：
+
+```ts title="jest.config.ts"
+import type { Config } from 'jest';
+
+const config: Config = {
+  coverageProvider: 'babel',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
+  transformIgnorePatterns: [],
+};
+
+export default config;
+```
+
+配置中，将 `transformIgnorePatterns` 设置为了空数组，意味着所有的文件都会经过编译，如果你希望提升测试运行的速度，可以按需配置。
+
+`setupFilesAfterEnv` 会在启动时执行，在 `jest.setup.ts` 中，可以引入 `@testing-library/jest-dom`。它包含了一组便捷的自定义匹配器，例如 `.toBeInTheDocument()`，使编写测试变得更容易：
+
+```ts title="jest.setup.ts"
+import '@testing-library/jest-dom';
+```
+
+### 配置 Babel
+
+你需要配置 Babel 让 Jest 能够自动编译 JSX 等语法，下面是一个基本的配置：
+
+```js title="babel.config.js"
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    ['@babel/preset-react', { runtime: 'automatic' }],
+    '@babel/preset-typescript',
+  ],
+};
+```
+
+## 编写测试用例
+
+现在，你可以开始编写测试用了，首先在 `package.json` 中添加一个 `test` 命令：
+
+```json title="package.json"
+{
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+创建一个简单的页面用于测试：
+
+```tsx title="routes/page.tsx"
+import { Link } from '@modern-js/runtime/router';
+
+const Index = () => (
+  <div>
+    <h1>Home</h1>
+    <Link to="/about">About</Link>
+  </div>
+);
+
+export default Index;
+```
+
+添加测试用例，检测页面中是否有预期的文本：
+
+```tsx title="__tests__/page.test.tsx"
+import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import { BrowserRouter as Router } from '@modern-js/runtime/router';
+import Page from '../routes/page';
+
+describe('Page', () => {
+  it('renders a heading', () => {
+    render(
+      <Router>
+        <Page />
+      </Router>,
+    );
+
+    const heading = screen.getByRole('heading', { level: 1 });
+
+    expect(heading).toBeInTheDocument();
+  });
+});
+```
+
+上述用例中，我们从 `@modern-js/runtime/router` 引入了 `<Router>` 组件，这是因为 React Router 在渲染部分路由相关组件时，必须要有对应的上下文。
+
+:::note
+直接在 Modern.js 应用中运行时，`<Router>` 组件会自动注入。
+:::
+
+## 运行测试用例
+
+执行上述 `test` 命令，运行测试用例：
+
+```bash
+ PASS  src/__tests__/page.test.tsx
+  Page
+    ✓ renders a heading (31 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        0.959 s, estimated 1 s
+```

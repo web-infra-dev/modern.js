@@ -1,4 +1,4 @@
-import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
+import { Link, Route, Switch } from '@modern-js/runtime/router-v5';
 import './App.css';
 
 const App = (props: {
@@ -48,7 +48,7 @@ const App = (props: {
           component={() => {
             return <div>throw Error</div>;
           }}
-        ></Route>
+        />
         <Route path="*">
           <div>404</div>
         </Route>

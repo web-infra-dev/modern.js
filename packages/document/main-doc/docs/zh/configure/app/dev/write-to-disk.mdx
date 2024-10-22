@@ -1,0 +1,15 @@
+---
+title: writeToDisk
+configName: dev.writeToDisk
+---
+
+# dev.writeToDisk
+
+- **类型：** `boolean | ((filename: string) => boolean)`
+- **默认值：** `(file: string) => !file.includes('.hot-update.')`
+
+用于控制是否将开发环境的构建产物写入到磁盘上。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

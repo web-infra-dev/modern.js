@@ -1,29 +1,43 @@
 import path from 'node:path';
 import {
-  ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
+  ROUTE_SPEC_FILE,
   fs as fse,
 } from '@modern-js/utils';
 import { isMainEntry } from '../../../utils/routes';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
-import { CreatePreset } from './platform';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
+import type { CreatePreset } from './platform';
 
 export const createVercelPreset: CreatePreset = (
   appContext,
   modernConfig,
   needModernServer,
 ) => {
-  const { appDirectory, distDirectory, entrypoints, serverPlugins } =
-    appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    entrypoints,
+    serverPlugins,
+    moduleType,
+  } = appContext;
+  const isEsmProject = moduleType === 'module';
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const vercelOutput = path.join(appDirectory, '.vercel');
   const outputDirectory = path.join(vercelOutput, 'output');
   const funcsDirectory = path.join(outputDirectory, 'functions', 'index.func');
   const entryFilePath = path.join(funcsDirectory, 'index.js');
+  const handlerFilePath = path.join(funcsDirectory, 'vercel-handler.cjs');
   return {
     async prepare() {
       await fse.remove(vercelOutput);
@@ -106,7 +120,9 @@ export const createVercelPreset: CreatePreset = (
           prefix: modernConfig?.bff?.prefix,
         },
         output: {
-          path: '.',
+          distPath: {
+            root: '.',
+          },
         },
       };
 
@@ -114,32 +130,48 @@ export const createVercelPreset: CreatePreset = (
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
+
+      const pluginsCode = getPluginsCode(plugins || []);
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
 
-      let entryCode = (
-        await fse.readFile(path.join(__dirname, './vercelEntry.js'))
+      let handlerCode = (
+        await fse.readFile(path.join(__dirname, './vercel-handler.js'))
       ).toString();
 
-      entryCode = entryCode
+      handlerCode = handlerCode
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
+      await fse.writeFile(handlerFilePath, handlerCode);
+      if (isEsmProject) {
+        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
+        await fse.copy(
+          path.join(__dirname, './vercel-entry.mjs'),
+          entryFilePath,
+        );
+      } else {
+        await fse.copy(
+          path.join(__dirname, './vercel-entry.js'),
+          entryFilePath,
+        );
+      }
     },
     async end() {
       if (!needModernServer) {
         return;
       }
-      await handleDependencies(appDirectory, funcsDirectory, [
-        '@modern-js/prod-server',
-      ]);
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: funcsDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+      });
     },
   };
 };

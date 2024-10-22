@@ -1,6 +1,6 @@
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
+import type { AppLegacyUserConfig, AppUserConfig, IAppContext } from '../types';
 import { getAutoInjectEnv } from '../utils/env';
-import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
 // Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(
@@ -21,8 +21,6 @@ export function createDefaultConfig(
       server: 'bundles',
       worker: 'worker',
     },
-    // no need to emit assets for SSR bundles
-    emitAssets: ({ target }) => target !== 'node',
     cleanDistPath: true,
     disableNodePolyfill: true,
     enableInlineRouteManifests: true,
@@ -35,6 +33,7 @@ export function createDefaultConfig(
     entries: undefined,
     mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
+    enableCustomEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',
@@ -108,6 +107,7 @@ export function createLegacyDefaultConfig(
     entries: undefined,
     mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
+    enableCustomEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',

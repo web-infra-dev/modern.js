@@ -42,10 +42,10 @@ test('externals', async ({ page }) => {
 test('should not external dependencies when target is web worker', async () => {
   const builder = await build({
     cwd: fixtures,
-    target: 'web-worker',
     entry: { index: resolve(fixtures, './src/index.js') },
     builderConfig: {
       output: {
+        target: 'web-worker',
         externals: {
           react: 'MyReact',
         },

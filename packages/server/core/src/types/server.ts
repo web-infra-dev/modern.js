@@ -1,12 +1,18 @@
 import type { Readable } from 'node:stream';
 import type {
-  Metrics,
-  Logger,
-  Reporter,
   BaseSSRServerContext,
-  ServerRoute,
+  Logger,
+  Metrics,
+  Monitors,
   NestedRoute,
+  Reporter,
+  ServerRoute,
 } from '@modern-js/types';
+import type {
+  RequestHandler as BundleRequestHandler,
+  OnError,
+  OnTiming,
+} from './requestHandler';
 
 export type SSRServerContext = BaseSSRServerContext & {
   staticGenerate?: boolean;
@@ -26,13 +32,19 @@ type ServerLoaderBundle = {
   handleRequest: (options: {
     request: Request;
     serverRoutes: ServerRoute[];
-    context: any;
     routes: NestedRoute[];
+    context: {
+      reporter?: Reporter;
+      loaderContext?: Map<string, unknown>;
+    };
+
+    onError?: OnError;
+    onTiming?: OnTiming;
   }) => Promise<any>;
 };
 
 type ServerRenderBundle = {
-  serverRender: () => any;
+  requestHandler: Promise<BundleRequestHandler>;
 };
 
 export type ServerManifest = {
@@ -40,13 +52,26 @@ export type ServerManifest = {
   renderBundles?: Record<string, ServerRenderBundle>;
   loadableStats?: Record<string, any>;
   routeManifest?: Record<string, any>;
+  nestedRoutesJson?: Record<string, any>;
 };
 
 type ServerVariables = {
+  /** @deprecated  */
   logger: Logger;
+
+  /** @deprecated  */
   reporter?: Reporter;
+
+  /** @deprecated  */
+  metrics?: Metrics;
+
+  monitors: Monitors;
+
   serverManifest?: ServerManifest;
+
   templates?: Record<string, string>;
+
+  matchPathname?: string;
   /**
    * Communicating with custom server hook & modern ssrContext.
    *
@@ -54,7 +79,6 @@ type ServerVariables = {
    * Custom by ssrRuntime.
    */
   locals?: Record<string, any>;
-  metrics?: Metrics;
 };
 
 export type ServerEnv = {

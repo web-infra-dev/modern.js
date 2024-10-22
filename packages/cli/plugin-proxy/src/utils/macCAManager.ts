@@ -1,5 +1,5 @@
-import os from 'os';
 import http from 'http';
+import os from 'os';
 import path from 'path';
 import { fs, logger } from '@modern-js/utils';
 import execSync from './execSync';
@@ -19,7 +19,6 @@ export const trustRootCA = () => {
   }
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const isRootCATrusted = () => {
   // current empty
 };

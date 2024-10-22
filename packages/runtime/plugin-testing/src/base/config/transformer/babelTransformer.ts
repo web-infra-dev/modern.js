@@ -1,12 +1,12 @@
-import babelJest from 'babel-jest';
 import { isBeyondReact17 } from '@modern-js/utils';
+import babelJest from 'babel-jest';
 
 const isNewJsx = isBeyondReact17(process.cwd());
 
 const babelTransformer = (babelJest.createTransformer as any)?.({
   presets: [
     [
-      require.resolve('@rsbuild/babel-preset/node'),
+      require.resolve('@modern-js/babel-preset/node'),
       {
         pluginDecorators: {
           version: 'legacy',

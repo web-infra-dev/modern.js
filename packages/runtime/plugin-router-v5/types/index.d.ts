@@ -1,4 +1,4 @@
-import { RouterConfig } from '../dist/types';
+import type { RouterConfig } from '../dist/types';
 import '../dist/types/runtime';
 
 declare module '@modern-js/runtime/router-v5' {
@@ -8,5 +8,12 @@ declare module '@modern-js/runtime/router-v5' {
 declare module '@modern-js/runtime' {
   interface AppConfig {
     router?: RouterConfig | boolean;
+  }
+
+  interface RuntimeConfig {
+    router?: RouterConfig;
+    routerEntries?: {
+      [name: string]: RouterConfig;
+    };
   }
 }

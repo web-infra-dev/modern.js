@@ -1,35 +1,35 @@
-import { merge } from '@modern-js/utils/lodash';
 import { CodeSmith } from '@modern-js/codesmith';
 import { FormilyAPI } from '@modern-js/codesmith-formily';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
-  getMWANewActionSchema,
-  MWAActionFunctions,
-  MWAActionReactors,
-  ActionFunction,
-  MWAActionFunctionsDependencies,
-  MWAActionFunctionsAppendTypeContent,
-  MWAActionReactorAppendTypeContent,
-  MWAActionFunctionsDevDependencies,
-  MWANewActionGenerators,
+  type ActionFunction,
+  type ActionRefactor,
   ActionType,
-  i18n,
-  Solution,
-  ActionRefactor,
+  MWAActionFunctions,
+  MWAActionFunctionsAppendTypeContent,
+  MWAActionFunctionsDependencies,
+  MWAActionFunctionsDevDependencies,
+  MWAActionReactorAppendTypeContent,
+  MWAActionReactors,
   MWAActionRefactorDependencies,
-  MWANewActionPluginName,
+  MWANewActionGenerators,
   MWANewActionPluginDependence,
+  MWANewActionPluginName,
+  Solution,
+  getMWANewActionSchema,
+  i18n,
 } from '@modern-js/generator-common';
 import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
+import { enableAlreadyText } from './constants';
 import {
   alreadyRepo,
   getGeneratorPath,
   hasEnabledFunction,
   usePluginNameExport,
 } from './utils';
-import { enableAlreadyText } from './constants';
 
 interface IMWANewActionOption {
   locale?: string;
@@ -46,7 +46,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     locale = 'zh',
     distTag = '',
     debug = false,
-    registry = '',
+    registry,
     config = '{}',
     cwd = process.cwd(),
     needInstall = true,
@@ -71,6 +71,20 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
   if (!alreadyRepo(cwd)) {
     smith.logger.warn('not valid modern.js repo');
   }
+
+  smith.logger?.timing('🕒 Run MWA New Tools');
+
+  const prepareGlobalPromise = smith.prepareGlobal();
+
+  const prepareGeneratorPromise = smith.prepareGenerators([
+    `@modern-js/dependence-generator@${distTag || 'latest'}`,
+    `@modern-js/bff-generator@${distTag || 'latest'}`,
+    `@modern-js/server-generator@${distTag || 'latest'}`,
+    `@modern-js/entry-generator@${distTag || 'latest'}`,
+    `@modern-js/ssg-generator@${distTag || 'latest'}`,
+    `@modern-js/storybook-next-generator@${distTag || 'latest'}`,
+    `@modern-js/tailwindcss-generator@${distTag || 'latest'}`,
+  ]);
 
   const formilyAPI = new FormilyAPI({
     materials: {},
@@ -185,6 +199,8 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     },
   ];
 
+  await Promise.all([prepareGlobalPromise, prepareGeneratorPromise]);
+
   await smith.forge({
     tasks: task.map(runner => ({
       generator: runner.name,
@@ -192,4 +208,6 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     })),
     pwd: cwd,
   });
+
+  smith.logger?.timing('🕒 Run MWA New Tools', true);
 };

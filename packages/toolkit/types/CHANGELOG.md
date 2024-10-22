@@ -1,5 +1,78 @@
 # @modern-js/types
 
+## 2.60.4
+
+## 2.60.3
+
+## 2.60.2
+
+## 2.60.1
+
+## 2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- 539d72b: fix: typo and type for internalDirectory in server appContext
+  fix: 修复 internalDirectory 在 server appContext 中的类型错误
+
+## 2.58.3
+
+## 2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- 2482a6b: fix: ssr context in runtime should get host from X-Forwarded-Host first
+  fix: ssr context 应该优先从 X-Forwarded-Host 获取
+
+## 2.58.0
+
+## 2.57.1
+
+## 2.57.0
+
+### Patch Changes
+
+- 2515b00: feat(ssr): support server.ssrByRouteIds
+  feat(ssr): 支持 server.ssrByRouteIds
+- 6cec127: fix: user can get status in afterRenderContext
+  fix: 用户可以从 afterRenderContext 上拿到 status
+
+## 2.56.2
+
+## 2.56.1
+
+## 2.56.0
+
+### Minor Changes
+
+- bedbbb3: feat: server monitors interface unity
+  feat: server 监控接口统一
+
+### Patch Changes
+
+- 1e85b76: feat: refactor the logic of the system file router entry
+
+  feat: 重构文件系统路由入口逻辑
+
+## 2.55.0
+
+### Patch Changes
+
+- e0c2384: fix: cacheProvider support return false
+  fix: cacheProvider 支持返回 false
+
+## 2.54.6
+
+## 2.54.5
+
+## 2.54.4
+
+## 2.54.3
+
 ## 2.54.2
 
 ## 2.54.1

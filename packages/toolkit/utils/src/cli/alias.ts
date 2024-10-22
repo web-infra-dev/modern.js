@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { readTsConfigByFile } from './get';
 import { applyOptionsChain } from './applyOptionsChain';
+import { readTsConfigByFile } from './get';
 
 export type Alias = Record<string, string | string[]>;
 
@@ -57,9 +57,12 @@ export const getAliasConfig = (
 
 // filter invalid ts paths that are not array
 export const getUserAlias = (alias: Record<string, string | string[]> = {}) =>
-  Object.keys(alias).reduce((o, k) => {
-    if (Array.isArray(alias[k])) {
-      o[k] = alias[k];
-    }
-    return o;
-  }, {} as Record<string, string | string[]>);
+  Object.keys(alias).reduce(
+    (o, k) => {
+      if (Array.isArray(alias[k])) {
+        o[k] = alias[k];
+      }
+      return o;
+    },
+    {} as Record<string, string | string[]>,
+  );

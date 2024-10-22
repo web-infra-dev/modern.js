@@ -1,11 +1,11 @@
-import { Server as NodeServer, ServerResponse } from 'node:http';
+import { type Server as NodeServer, ServerResponse } from 'node:http';
 import type { Server as NodeHttpsServer } from 'node:https';
-import { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import type { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import { installGlobals } from './polyfills/install';
 import {
   createReadableStreamFromReadable,
   writeReadableStreamToWritable,
 } from './polyfills/stream';
-import { installGlobals } from './polyfills/install';
 
 export { writeReadableStreamToWritable } from './polyfills';
 
@@ -30,7 +30,7 @@ export const createWebRequest = (
     headers: headerRecord,
     signal: controller.signal,
   };
-  res.on('close', () => controller.abort());
+  res.on('close', () => controller.abort('res closed'));
 
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
   if (
@@ -104,7 +104,6 @@ const handleResponseError = (e: unknown, res: NodeResponse) => {
 };
 
 const getRequestListener = (handler: RequestHandler) => {
-  // eslint-disable-next-line consistent-return
   return async (req: NodeRequest, res: NodeResponse) => {
     try {
       const request = createWebRequest(req, res);
@@ -130,7 +129,11 @@ const getRequestListener = (handler: RequestHandler) => {
        * ```
        */
 
-      if (!res.headersSent && !(response as any).res) {
+      if (
+        !res.headersSent &&
+        !(response as any).res &&
+        !(res as any)._modernBodyPiped
+      ) {
         await sendResponse(response, res);
       }
     } catch (error) {

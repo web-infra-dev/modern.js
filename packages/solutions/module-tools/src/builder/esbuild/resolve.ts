@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { CachedInputFileSystem, create } from 'enhanced-resolve';
+import type { ImportKind, Platform } from 'esbuild';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
-import { ImportKind, Platform } from 'esbuild';
 
 /**
  * supports require js plugin in less file

@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/naming-convention
 interface REACT_STATICS {
   childContextTypes: true;
   contextType: true;
@@ -13,7 +12,6 @@ interface REACT_STATICS {
   type: true;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 interface KNOWN_STATICS {
   name: true;
   length: true;
@@ -24,7 +22,6 @@ interface KNOWN_STATICS {
   arity: true;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 interface MEMO_STATICS {
   $$typeof: true;
   compare: true;
@@ -34,7 +31,6 @@ interface MEMO_STATICS {
   type: true;
 }
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
 interface FORWARD_REF_STATICS {
   $$typeof: true;
   render: true;
@@ -47,7 +43,6 @@ declare namespace hoistNonReactStatics {
     S extends React.ComponentType<any>,
     C extends {
       [key: string]: true;
-      // eslint-disable-next-line @typescript-eslint/ban-types
     } = {},
   > = {
     [key in Exclude<
@@ -55,8 +50,8 @@ declare namespace hoistNonReactStatics {
       S extends React.MemoExoticComponent<any>
         ? keyof MEMO_STATICS | keyof C
         : S extends React.ForwardRefExoticComponent<any>
-        ? keyof FORWARD_REF_STATICS | keyof C
-        : keyof REACT_STATICS | keyof KNOWN_STATICS | keyof C
+          ? keyof FORWARD_REF_STATICS | keyof C
+          : keyof REACT_STATICS | keyof KNOWN_STATICS | keyof C
     >]: S[key];
   };
 }
@@ -66,7 +61,6 @@ declare module 'hoist-non-react-statics' {
     S extends React.ComponentType<any>,
     C extends {
       [key: string]: true;
-      // eslint-disable-next-line @typescript-eslint/ban-types
     } = {},
   >(
     TargetComponent: T,

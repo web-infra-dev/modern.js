@@ -1,0 +1,28 @@
+{
+  "name": "@modern-js/tsconfig",
+  "version": "2.60.4",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/review/tsconfig"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true
+  },
+  "main": "./base.json"
+}

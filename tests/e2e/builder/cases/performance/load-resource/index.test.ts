@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { build } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
+import { build } from '@scripts/shared';
 
 const fixtures = __dirname;
 

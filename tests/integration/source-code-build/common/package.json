@@ -22,9 +22,5 @@
   "dependencies": {},
   "engines": {
     "node": ">=14.17.6"
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ]
+  }
 }

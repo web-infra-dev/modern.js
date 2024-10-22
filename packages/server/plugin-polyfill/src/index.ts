@@ -1,8 +1,8 @@
-import type { ServerPlugin } from '@modern-js/server-core';
 import { getPolyfillString } from '@modern-js/polyfill-lib';
+import type { ServerPlugin } from '@modern-js/server-core';
 import { mime } from '@modern-js/utils';
 import Parser from 'ua-parser-js';
-import { getDefaultFeatures, defaultPolyfill } from './const';
+import { defaultPolyfill, getDefaultFeatures } from './const';
 import PolyfillCache, { generateCacheKey } from './libs/cache';
 
 export default (): ServerPlugin => ({

@@ -1,4 +1,7 @@
-import { AppLegacyNormalizedConfig, AppNormalizedConfig } from '../../types';
+import type {
+  AppLegacyNormalizedConfig,
+  AppNormalizedConfig,
+} from '../../types';
 
 export function createSourceConfig(
   config: AppLegacyNormalizedConfig,
@@ -13,6 +16,7 @@ export function createSourceConfig(
     entries,
     mainEntryName,
     enableAsyncEntry,
+    enableCustomEntry,
     disableDefaultEntries,
     entriesDir,
     configDir,
@@ -34,6 +38,7 @@ export function createSourceConfig(
     entries,
     mainEntryName,
     enableAsyncEntry,
+    enableCustomEntry,
     disableDefaultEntries,
     entriesDir,
     configDir,

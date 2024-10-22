@@ -1,13 +1,16 @@
+import { RuntimeReactContext } from '@meta/runtime';
+import Garfish, { type interfaces } from 'garfish';
 // The loading logic of the current component refers to react-loadable https://github.com/jamiebuilds/react-loadable
-import React, { useContext, useState, useEffect, useRef } from 'react';
-// import { withRouter, useMatches } from '@modern-js/runtime/router';
-import { RuntimeReactContext } from '@modern-js/runtime';
-// eslint-disable-next-line import/no-named-as-default
-import Garfish, { interfaces } from 'garfish';
+import type React from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { generateSubAppContainerKey, logger } from '../../util';
+import { Loadable, type MicroProps } from '../loadable';
 // import Loadable from 'react-loadable';
-import { Manifest, MicroComponentProps, ModulesInfo } from '../useModuleApps';
-import { logger, generateSubAppContainerKey } from '../../util';
-import { Loadable, MicroProps } from '../loadable';
+import type {
+  Manifest,
+  MicroComponentProps,
+  ModulesInfo,
+} from '../useModuleApps';
 
 export interface Provider extends interfaces.Provider {
   SubModuleComponent?: React.ComponentType<any>;
@@ -90,12 +93,10 @@ or directly pass the "basename":
     if (useHistory /* react-router@5 */) {
       // there is no dynamic switching of the router version in the project
       // so hooks can be used in conditional judgment
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       const history = useHistory?.();
       // To be compatible to history@4.10.1 and @5.3.0 we cannot write like this `history.createHref(pathname)`
       basename = history?.createHref?.({ pathname: '/' });
     } else if (useHref /* react-router@6 */) {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       basename = useHref?.('/');
     }
 
@@ -118,7 +119,6 @@ or directly pass the "basename":
     // 3. props.basename has the highest priority
     // e.g: <Component basename={basename} useLocation={useLocation} />
     if (props.basename && typeof props.basename === 'string') {
-      // eslint-disable-next-line prefer-destructuring
       basename = props.basename;
     }
 

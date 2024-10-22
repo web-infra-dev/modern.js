@@ -1,5 +1,191 @@
 # @modern-js/new-action
 
+## 2.60.4
+
+### Patch Changes
+
+- d6986c5: feat: optimize generator download
+
+  feat: 优化生成器下载
+
+- Updated dependencies [d6986c5]
+  - @modern-js/generator-common@3.7.0
+  - @modern-js/generator-utils@3.7.0
+
+## 2.60.3
+
+### Patch Changes
+
+- Updated dependencies [303331c]
+  - @modern-js/utils@2.60.3
+  - @modern-js/generator-common@3.6.3
+  - @modern-js/generator-utils@3.6.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+- Updated dependencies [8a709bc]
+- Updated dependencies [0b6d335]
+  - @modern-js/utils@2.60.2
+  - @modern-js/generator-common@3.6.2
+  - @modern-js/generator-utils@3.6.2
+
+## 2.60.1
+
+### Patch Changes
+
+- @modern-js/utils@2.60.1
+- @modern-js/generator-common@3.6.1
+- @modern-js/generator-utils@3.6.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+- Updated dependencies [65b2922]
+- Updated dependencies [d5345b0]
+  - @modern-js/generator-common@3.6.0
+  - @modern-js/generator-utils@3.6.0
+  - @modern-js/utils@2.60.0
+
+## 2.59.0
+
+### Patch Changes
+
+- Updated dependencies [2f6d4e9]
+  - @modern-js/generator-common@3.5.0
+  - @modern-js/utils@2.59.0
+  - @modern-js/generator-utils@3.5.0
+
+## 2.58.3
+
+### Patch Changes
+
+- @modern-js/utils@2.58.3
+- @modern-js/generator-common@3.4.17
+- @modern-js/generator-utils@3.4.17
+
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [7715b6d]
+- Updated dependencies [a1a9373]
+  - @modern-js/generator-common@3.4.16
+  - @modern-js/generator-utils@3.4.16
+  - @modern-js/utils@2.58.2
+
+## 2.58.1
+
+### Patch Changes
+
+- @modern-js/utils@2.58.1
+- @modern-js/generator-common@3.4.15
+- @modern-js/generator-utils@3.4.15
+
+## 2.58.0
+
+### Patch Changes
+
+- @modern-js/utils@2.58.0
+- @modern-js/generator-common@3.4.14
+- @modern-js/generator-utils@3.4.14
+
+## 2.57.1
+
+### Patch Changes
+
+- @modern-js/utils@2.57.1
+- @modern-js/generator-common@3.4.13
+- @modern-js/generator-utils@3.4.13
+
+## 2.57.0
+
+### Patch Changes
+
+- Updated dependencies [2515b00]
+  - @modern-js/utils@2.57.0
+  - @modern-js/generator-common@3.4.12
+  - @modern-js/generator-utils@3.4.12
+
+## 2.56.2
+
+### Patch Changes
+
+- @modern-js/utils@2.56.2
+- @modern-js/generator-common@3.4.11
+- @modern-js/generator-utils@3.4.11
+
+## 2.56.1
+
+### Patch Changes
+
+- @modern-js/utils@2.56.1
+- @modern-js/generator-common@3.4.10
+- @modern-js/generator-utils@3.4.10
+
+## 2.56.0
+
+### Patch Changes
+
+- @modern-js/utils@2.56.0
+- @modern-js/generator-common@3.4.9
+- @modern-js/generator-utils@3.4.9
+
+## 2.55.0
+
+### Patch Changes
+
+- Updated dependencies [bbcf55a]
+  - @modern-js/utils@2.55.0
+  - @modern-js/generator-common@3.4.8
+  - @modern-js/generator-utils@3.4.8
+
+## 2.54.6
+
+### Patch Changes
+
+- @modern-js/utils@2.54.6
+- @modern-js/generator-common@3.4.7
+- @modern-js/generator-utils@3.4.7
+
+## 2.54.5
+
+### Patch Changes
+
+- @modern-js/utils@2.54.5
+- @modern-js/generator-common@3.4.6
+- @modern-js/generator-utils@3.4.6
+
+## 2.54.4
+
+### Patch Changes
+
+- @modern-js/utils@2.54.4
+- @modern-js/generator-common@3.4.5
+- @modern-js/generator-utils@3.4.5
+
+## 2.54.3
+
+### Patch Changes
+
+- @modern-js/utils@2.54.3
+- @modern-js/generator-common@3.4.4
+- @modern-js/generator-utils@3.4.4
+
 ## 2.54.2
 
 ### Patch Changes

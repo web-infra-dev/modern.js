@@ -1,4 +1,4 @@
-import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
+import { type LoaderFunctionArgs, defer } from '@modern-js/runtime/router';
 import type { User } from './page';
 
 export default ({ params }: LoaderFunctionArgs) => {

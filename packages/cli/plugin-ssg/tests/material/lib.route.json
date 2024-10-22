@@ -8,7 +8,7 @@
     {
       "urlPath": "/lib/home",
       "entryPath": "html/home/index.html",
-       "entryName": "home"
+      "entryName": "home"
     },
     {
       "urlPath": "/lib/user",

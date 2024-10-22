@@ -1,4 +1,4 @@
-import { CliPlugin, manager } from '../src';
+import { type CliPlugin, manager } from '../src';
 
 describe('pluginAPI', () => {
   it('api.setAppContext', done => {

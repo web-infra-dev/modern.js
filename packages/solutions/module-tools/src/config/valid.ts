@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { PartialBuildConfig, PartialBaseBuildConfig } from '../types';
+import type { PartialBaseBuildConfig, PartialBuildConfig } from '../types';
 
 export const validPartialBuildConfig = (
   config: PartialBuildConfig,
@@ -35,5 +35,12 @@ export const validBuildConfig = (
     !fs.existsSync(path.resolve(appDirectory, config.tsconfig))
   ) {
     throw new Error(`${config.tsconfig} does not exist in your project`);
+  }
+
+  // valid duplicate alias
+  if (config.alias && config.resolve?.alias) {
+    throw new Error(
+      'alias and resolve.alias are not allowed to be used together, alias will be deprecated in the future, please use resolve.alias instead',
+    );
   }
 };

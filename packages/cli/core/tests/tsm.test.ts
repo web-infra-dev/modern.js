@@ -1,5 +1,5 @@
-import path from 'path';
 import { spawnSync } from 'child_process';
+import path from 'path';
 
 describe('jsnext:source', () => {
   test('process exit status is 0', () => {

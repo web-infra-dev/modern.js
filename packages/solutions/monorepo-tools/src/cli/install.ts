@@ -1,6 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
 import type { Command } from '@modern-js/utils';
-import { install, IInstallCommandOption } from '../commands';
+import { type IInstallCommandOption, install } from '../commands';
 
 export const installCli = (program: Command, api: PluginAPI) => {
   program

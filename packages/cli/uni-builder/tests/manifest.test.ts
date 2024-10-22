@@ -1,4 +1,4 @@
-import { expect, describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 import { matchPlugins, unwrapConfig } from './helper';
 
@@ -16,8 +16,9 @@ describe('plugin-manifest', () => {
 
     const config = await unwrapConfig(rsbuild);
 
-    expect(matchPlugins(config, 'WebpackManifestPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'WebpackManifestPlugin'),
+    ).toMatchInlineSnapshot(`
       [
         WebpackManifestPlugin {
           "options": {
@@ -46,9 +47,9 @@ describe('plugin-manifest', () => {
     const rsbuild = await createUniBuilder({
       cwd: '',
       bundlerType: 'webpack',
-      target: ['node'],
       config: {
         output: {
+          target: 'node',
           enableAssetManifest: true,
         },
       },
@@ -56,8 +57,9 @@ describe('plugin-manifest', () => {
 
     const config = await unwrapConfig(rsbuild);
 
-    expect(matchPlugins(config, 'WebpackManifestPlugin'))
-      .toMatchInlineSnapshot(`
+    expect(
+      matchPlugins(config, 'WebpackManifestPlugin'),
+    ).toMatchInlineSnapshot(`
         [
           WebpackManifestPlugin {
             "options": {

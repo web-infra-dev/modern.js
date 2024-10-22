@@ -1,5 +1,6 @@
-import React, { useContext } from 'react';
 import { omit } from '@modern-js/utils/lodash';
+// biome-ignore lint/style/useImportType: <explanation>
+import React, { useContext } from 'react';
 import { DocumentContext } from './DocumentContext';
 import { DOCUMENT_SSR_PLACEHOLDER } from './constants';
 

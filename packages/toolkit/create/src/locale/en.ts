@@ -16,6 +16,7 @@ export const EN_LOCALE = {
     version: 'show create tools version',
     lang: 'set create tools language(en or zh)',
     cleanCache: 'clean locale generator cache',
+    time: 'show run generator time log',
   },
   tooltip: {
     dir_entry: `you can execute 'cd {dirName}' to entry the project directory`,

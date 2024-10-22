@@ -1,14 +1,14 @@
 import childProcess from 'child_process';
 import path from 'path';
-import { logger } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
-  PluginAPI,
   AppTools,
+  PluginAPI,
 } from '@modern-js/app-tools';
-import { ServerRoute as ModernRoute } from '@modern-js/types';
+import type { ServerRoute as ModernRoute } from '@modern-js/types';
+import { logger } from '@modern-js/utils';
 import { openRouteSSR } from '../libs/util';
-import { SsgRoute } from '../types';
+import type { SsgRoute } from '../types';
 import { CLOSE_SIGN } from './consts';
 
 export const createServer = (
@@ -43,8 +43,15 @@ export const createServer = (
         renderRoutes: ssgRoutes,
         routes: total,
         appContext: {
-          apiDirectory: appContext.apiDirectory,
-          lambdaDirectory: appContext.lambdaDirectory,
+          // Make sure that bff runs the product of the dist directory, because we dont register ts-node in the child process
+          apiDirectory: path.join(
+            appContext.distDirectory,
+            path.relative(appContext.appDirectory, appContext.apiDirectory),
+          ),
+          lambdaDirectory: path.join(
+            appContext.distDirectory,
+            path.relative(appContext.appDirectory, appContext.lambdaDirectory),
+          ),
           appDirectory: appContext.appDirectory,
         },
         plugins,
@@ -71,17 +78,6 @@ export const createServer = (
     });
 
     cp.stderr?.on('data', chunk => {
-      const str = chunk.toString();
-      if (str.includes('Error')) {
-        logger.error(str);
-        reject(new Error('ssg render failed'));
-        cp.kill('SIGKILL');
-      } else {
-        logger.info(str.replace(/[^\S\n]+/g, ' '));
-      }
-    });
-
-    cp.stdout?.on('data', chunk => {
       const str = chunk.toString();
       if (str.includes('Error')) {
         logger.error(str);

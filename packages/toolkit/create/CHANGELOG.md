@@ -1,5 +1,73 @@
 # @modern-js/create
 
+## 2.60.4
+
+### Patch Changes
+
+- d6986c5: feat: optimize generator download
+
+  feat: 优化生成器下载
+
+## 2.60.3
+
+## 2.60.2
+
+### Patch Changes
+
+- 0b6d335: feat: create tools support --time option
+
+  feat: create 工具支持 --time 选项
+
+- 0b6d335: feat: Optimize generator log information
+
+  feat: 优化生成器日志信息
+
+## 2.60.1
+
+## 2.60.0
+
+### Patch Changes
+
+- 65b2922: feat: generator update json add endWithNewLine params
+
+  feat: 生成器更新 json 文件增加 endWithNewLine 参数
+
+## 2.59.0
+
+## 2.58.3
+
+## 2.58.2
+
+### Patch Changes
+
+- 7715b6d: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+## 2.58.1
+
+## 2.58.0
+
+## 2.57.1
+
+## 2.57.0
+
+## 2.56.2
+
+## 2.56.1
+
+## 2.56.0
+
+## 2.55.0
+
+## 2.54.6
+
+## 2.54.5
+
+## 2.54.4
+
+## 2.54.3
+
 ## 2.54.2
 
 ## 2.54.1

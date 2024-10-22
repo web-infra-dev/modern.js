@@ -1,0 +1,1 @@
+export { handleDependencies } from './dependencies';

@@ -1,17 +1,18 @@
+import type { NestedRoute, Reporter } from '@modern-js/types';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 /**
  * runtime utils for nested routes generating
  */
-import React, { Suspense } from 'react';
-import type { NestedRoute, Reporter } from '@modern-js/types';
+import type React from 'react';
+import { Suspense } from 'react';
 import {
-  createRoutesFromElements,
-  LoaderFunction,
-  LoaderFunctionArgs,
+  type LoaderFunction,
+  type LoaderFunctionArgs,
   Outlet,
   Route,
-  RouteProps,
+  type RouteProps,
+  createRoutesFromElements,
 } from 'react-router-dom';
-import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { time } from '../time';
 
 export const transformNestedRoutes = (
@@ -86,11 +87,7 @@ export const renderNestedRoute = (
     } else if (isLoadableComponent(Component) && lazyImport) {
       element = <Component />;
     } else if (isRoot) {
-      element = (
-        <>
-          <Component {...props} />
-        </>
-      );
+      element = <Component {...props} />;
     } else if (lazyImport) {
       element = (
         <Suspense fallback={null}>

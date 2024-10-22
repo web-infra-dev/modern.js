@@ -1,0 +1,150 @@
+{
+  "guide": {
+    "zh": "指南",
+    "en": "Guide"
+  },
+  "tutorials": {
+    "zh": "教程",
+    "en": "Tutorials"
+  },
+  "configure": {
+    "zh": "配置",
+    "en": "Config"
+  },
+  "plugin-menu": {
+    "zh": "插件",
+    "en": "Plugin"
+  },
+  "apis": {
+    "zh": "API",
+    "en": "API"
+  },
+  "community": {
+    "zh": "社区",
+    "en": "Community"
+  },
+  "gettingStarted": {
+    "zh": "开始",
+    "en": "Start"
+  },
+  "concept": {
+    "zh": "核心概念",
+    "en": "Core Concept"
+  },
+  "basic": {
+    "zh": "基础功能",
+    "en": "Basic Features"
+  },
+  "advanced": {
+    "zh": "进阶功能",
+    "en": "Advanced Features"
+  },
+  "topic": {
+    "zh": "专题详解",
+    "en": "Topic Detail"
+  },
+  "troubleshooting": {
+    "zh": "常见问题",
+    "en": "FAQ"
+  },
+  "data-solution": {
+    "zh": "数据管理",
+    "en": "Data Solution"
+  },
+  "rendering": {
+    "zh": "渲染",
+    "en": "Rendering"
+  },
+  "css-solution": {
+    "zh": "样式开发",
+    "en": "Styling"
+  },
+  "debug": {
+    "zh": "调试",
+    "en": "Debug"
+  },
+  "static-assets": {
+    "zh": "引用静态资源",
+    "en": "Import Static Assets"
+  },
+  "testing": {
+    "zh": "测试",
+    "en": "Testing"
+  },
+  "use-bff": {
+    "zh": "使用 BFF",
+    "en": "Using BFF"
+  },
+  "page-performance": {
+    "zh": "优化页面性能",
+    "en": "Optimize Page Performance"
+  },
+  "micro-frontend": {
+    "zh": "微前端",
+    "en": "Micro Frontend"
+  },
+  "plugin-system": {
+    "zh": "插件系统",
+    "en": "Plugin System"
+  },
+  "cli-plugins": {
+    "zh": "CLI 插件",
+    "en": "CLI Plugins"
+  },
+  "server-plugins": {
+    "zh": "服务端插件",
+    "en": "Server Plugins"
+  },
+  "runtime-plugins": {
+    "zh": "运行时插件",
+    "en": "Runtime Plugins"
+  },
+  "rsbuild-plugins": {
+    "zh": "Rsbuild 插件",
+    "en": "Rsbuild Plugins"
+  },
+  "reduck": {
+    "zh": "Reduck 状态管理",
+    "en": "Reduck State Manager"
+  },
+  "module-federation": {
+    "zh": "模块联邦",
+    "en": "Module Federation"
+  },
+  "generator": {
+    "zh": "项目生成器",
+    "en": "Project Generator"
+  },
+  "new-command": {
+    "zh": "New 命令",
+    "en": "New Command"
+  },
+  "generator-plugin": {
+    "zh": "生成器插件",
+    "en": "Generator Plugin"
+  },
+  "examples": {
+    "zh": "示例",
+    "en": "Examples"
+  },
+  "first-app": {
+    "zh": "第一个应用",
+    "en": "First App"
+  },
+  "foundations": {
+    "zh": "基础",
+    "en": "Foundations"
+  },
+  "file-conventions": {
+    "zh": "文件约定",
+    "en": "File Conventions"
+  },
+  "runtime-api": {
+    "zh": "运行时",
+    "en": "Runtime"
+  },
+  "blog": {
+    "zh": "博客",
+    "en": "Blog"
+  }
+}

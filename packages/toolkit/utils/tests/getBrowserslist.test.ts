@@ -1,5 +1,5 @@
 import path from 'path';
-import { getBrowserslist, defaults } from '../src';
+import { defaults, getBrowserslist } from '../src';
 
 describe('get browserslist', () => {
   const fixture = path.resolve(__dirname, './fixtures/browserlist');

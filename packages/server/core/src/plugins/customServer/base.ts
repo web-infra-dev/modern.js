@@ -1,12 +1,12 @@
-import {
+import type {
   CookieAPI,
   HookContext,
   ModernRequest,
   ModernResponse,
 } from '@modern-js/types';
 import { getCookie } from 'hono/cookie';
-import { getHost } from '../../utils';
 import type { Context, HonoRequest, ServerEnv } from '../../types';
+import { getHost } from '../../utils';
 
 export type ResArgs = {
   status?: number;
@@ -61,7 +61,12 @@ class BaseHookRequest implements ModernRequest {
 
   get url(): string {
     // compat old middlwares,
-    return this.#req.path;
+
+    const query = this.#c.req.query();
+    const q = Object.entries(query)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+    return q ? `${this.#c.req.path}?${q}` : this.#c.req.path;
   }
 
   // TODO: remove next major version
@@ -131,7 +136,7 @@ class BaseHookResponse implements ModernResponse {
    *
    * Don't use this attribute.
    * */
-  private_overrided: boolean = false;
+  private_overrided = false;
 
   #c: Context;
 
@@ -166,6 +171,10 @@ class BaseHookResponse implements ModernResponse {
   status(code: number) {
     this.#c.status(code);
     this.#resArgs && (this.#resArgs.status = code);
+  }
+
+  getStatus(): number {
+    return this.#c.res.status;
   }
 
   get cookies() {

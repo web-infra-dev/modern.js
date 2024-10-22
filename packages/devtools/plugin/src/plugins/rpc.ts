@@ -1,21 +1,21 @@
 import { Buffer } from 'buffer';
 import path from 'path';
 import {
-  DevtoolsContext,
+  type ClientFunctions,
+  type DevtoolsContext,
+  type ServerFunctions,
+  type ServerManifest,
+  type StoragePresetWithIdent,
   replacer,
   reviver,
-  ServerManifest,
-  StoragePresetWithIdent,
-  type ClientFunctions,
-  type ServerFunctions,
 } from '@modern-js/devtools-kit/node';
 import { fs, nanoid } from '@modern-js/utils';
 import _ from '@modern-js/utils/lodash';
-import { BirpcOptions, createBirpc } from 'birpc';
+import { type BirpcOptions, createBirpc } from 'birpc';
 import * as flatted from 'flatted';
 import { subscribe } from 'valtio';
-import { RawData } from 'ws';
-import { CliPluginAPI, DevtoolsConfig, Plugin } from '../types';
+import type { RawData } from 'ws';
+import type { CliPluginAPI, DevtoolsConfig, Plugin } from '../types';
 import { SocketServer } from '../utils/socket';
 
 export interface SetupClientConnectionOptions {
@@ -25,9 +25,11 @@ export interface SetupClientConnectionOptions {
 }
 
 export const pluginRpc: Plugin = {
+  name: 'rpc',
   async setup(api) {
     const httpServer = api.vars.http;
-    if (!httpServer) return;
+    const disableRpc = process.env.DEVTOOLS_RPC === 'false';
+    if (!httpServer || disableRpc) return;
 
     const server = new SocketServer({ server: httpServer, path: '/rpc' });
     let handleMessage: null | ((data: RawData, isBinary: boolean) => void) =

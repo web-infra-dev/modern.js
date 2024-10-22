@@ -1,25 +1,30 @@
 import path from 'node:path';
-import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { DEFAULT_DEV_HOST, SERVER_DIR, getMeta } from '@modern-js/utils';
-import { createDevServer } from '@modern-js/server';
+import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { applyPlugins } from '@modern-js/prod-server';
-import { loadServerPlugins } from '../utils/loadPlugins';
-import { registerCompiler } from '../utils/register';
-import { printInstructions } from '../utils/printInstructions';
-import { setServer } from '../utils/createServer';
-import { generateRoutes } from '../utils/routes';
-import { DevOptions } from '../utils/types';
-import { buildServerConfig } from '../utils/config';
+import { type ApplyPlugins, createDevServer } from '@modern-js/server';
+import {
+  DEFAULT_DEV_HOST,
+  SERVER_DIR,
+  getMeta,
+  logger,
+} from '@modern-js/utils';
 import type { AppTools } from '../types';
+import { buildServerConfig } from '../utils/config';
+import { setServer } from '../utils/createServer';
+import { loadServerPlugins } from '../utils/loadPlugins';
+import { printInstructions } from '../utils/printInstructions';
+import { registerCompiler } from '../utils/register';
+import { generateRoutes } from '../utils/routes';
+import type { DevOptions } from '../utils/types';
 
 export interface ExtraServerOptions {
-  useSSRWorker?: boolean;
+  applyPlugins?: ApplyPlugins;
 }
 
 export const dev = async (
   api: PluginAPI<AppTools<'shared'>>,
   options: DevOptions,
-  devServerOptions: ExtraServerOptions = {},
+  devServerOptions?: ExtraServerOptions,
 ) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
@@ -28,6 +33,15 @@ export const dev = async (
   let normalizedConfig = api.useResolvedConfigContext();
   const appContext = api.useAppContext();
   const hookRunners = api.useHookRunners();
+
+  if (appContext.moduleType && appContext.moduleType === 'module') {
+    const { registerEsm } = await import('../esm/register-esm.mjs');
+    await registerEsm({
+      appDir: appContext.appDirectory,
+      distDir: appContext.distDirectory,
+      alias: normalizedConfig.source?.alias,
+    });
+  }
 
   await registerCompiler(
     appContext.appDirectory,
@@ -84,6 +98,7 @@ export const dev = async (
     },
     appContext: {
       appDirectory,
+      internalDirectory: appContext.internalDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
       sharedDirectory: appContext.sharedDirectory,
@@ -97,12 +112,18 @@ export const dev = async (
     ...devServerOptions,
   };
 
+  const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
+
   if (apiOnly) {
-    const app = await createDevServer(serverOptions as any, applyPlugins);
+    const { server } = await createDevServer(
+      {
+        ...serverOptions,
+        runCompile: false,
+      },
+      devServerOptions?.applyPlugins || applyPlugins,
+    );
 
-    const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
-
-    app.listen(
+    server.listen(
       {
         port,
         host,
@@ -112,11 +133,30 @@ export const dev = async (
       },
     );
   } else {
-    const { server } = await appContext.builder!.startDevServer({
-      serverOptions,
-      applyPlugins,
-    });
-    // TODO: set correct server
-    setServer(server as any);
+    const { server, afterListen } = await createDevServer(
+      {
+        ...serverOptions,
+        builder: appContext.builder,
+      },
+      devServerOptions?.applyPlugins || applyPlugins,
+    );
+
+    server.listen(
+      {
+        port,
+        host,
+      },
+      async (err?: Error) => {
+        if (err) {
+          logger.error('Occur error %s, when start dev server', err);
+        }
+
+        logger.debug('listen dev server done');
+
+        await afterListen();
+      },
+    );
+
+    setServer(server);
   }
 };

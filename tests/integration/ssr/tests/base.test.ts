@@ -1,12 +1,12 @@
 import dns from 'node:dns';
 import path, { join } from 'path';
-import puppeteer, { Browser, Page } from 'puppeteer';
 import { fs } from '@modern-js/utils';
 import axios from 'axios';
+import puppeteer, { type Browser, type Page } from 'puppeteer';
 import {
-  launchApp,
   getPort,
   killApp,
+  launchApp,
   launchOptions,
 } from '../../../utils/modernTestUtils';
 
@@ -89,7 +89,8 @@ describe('Traditional SSR', () => {
     await basicUsage(page, appPort);
   });
 
-  test(`should pass chunkLoadingGlobal`, async () => {
+  // We will not add chunkLoadingGlobal to entry(index.jsx)
+  test.skip(`should pass chunkLoadingGlobal`, async () => {
     await checkIsPassChunkLoadingGlobal();
   });
 
@@ -126,6 +127,10 @@ describe('Traditional SSR', () => {
     });
     const content1 = await page.content();
     expect(content1).toMatch(result);
+
+    await page.goto(`http://localhost:${appPort}/?no-cache=1`);
+    const content2 = await page.content();
+    expect(content2).not.toMatch(result);
   });
 
   test('x-render-cache http header', async () => {
@@ -133,5 +138,20 @@ describe('Traditional SSR', () => {
 
     const { headers } = response;
     expect(Boolean(headers['x-render-cache'])).toBeTruthy();
+  });
+
+  test('no ssr cache', async () => {
+    await page.goto(`http://localhost:${appPort}/no-ssr-cache`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content = await page.content();
+    const result = content.match(/count:(\d+)/)![0];
+
+    // twice visit, because the no-ssr-cache, the count is different.
+    await page.goto(`http://localhost:${appPort}/no-ssr-cache`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content1 = await page.content();
+    expect(content1).not.toMatch(result);
   });
 });

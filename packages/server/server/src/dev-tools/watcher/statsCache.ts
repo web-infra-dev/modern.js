@@ -1,5 +1,5 @@
-import fs from 'fs';
 import crypto from 'crypto';
+import fs from 'fs';
 
 export class StatsCache {
   private readonly cachedHash: Record<string, string> = {};

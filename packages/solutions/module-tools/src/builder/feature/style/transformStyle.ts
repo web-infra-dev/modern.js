@@ -1,8 +1,8 @@
 import path from 'path';
-import { PartialMessage } from 'esbuild';
-import { ICompiler, Source } from '../../../types';
-import { postcssTransformer } from './postcssTransformer';
+import type { PartialMessage } from 'esbuild';
+import type { ICompiler, Source } from '../../../types';
 import { lessRender } from './lessRender';
+import { postcssTransformer } from './postcssTransformer';
 import { sassRender } from './sassRender';
 
 const cssLangs = `\\.(css|less|sass|scss)($|\\?)`;

@@ -1,5 +1,5 @@
-import { UnstableMiddleware } from '@modern-js/runtime/server';
-import { Var } from '../shared';
+import type { UnstableMiddleware } from '@modern-js/runtime/server';
+import type { Var } from '../shared';
 
 function time(): UnstableMiddleware {
   return async (c, next) => {
@@ -13,9 +13,7 @@ function time(): UnstableMiddleware {
   };
 }
 
-// eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url-search-params
 function parseQuery(request: Request): URLSearchParams {
-  // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
   const url = new URL(request.url);
 
   return url.searchParams;
@@ -33,7 +31,6 @@ function auth(): UnstableMiddleware<Var> {
     };
   }
 
-  // eslint-disable-next-line consistent-return
   return async (c, next) => {
     if (c.request.url.includes('/login')) {
       return next();
@@ -76,8 +73,41 @@ function injectMessage(): UnstableMiddleware {
   };
 }
 
+function injectRequestBody(): UnstableMiddleware {
+  return async (c, next) => {
+    await next();
+
+    const { request, response } = c;
+
+    if (request.method.toUpperCase() === 'POST' && request.body) {
+      const requestBody = await request.text();
+
+      c.response = c.body(requestBody, {
+        status: response.status,
+        headers: response.headers,
+      });
+    }
+  };
+}
+
+function modifyRequest(): UnstableMiddleware {
+  return async (c, next) => {
+    const { request } = c;
+
+    if (request.url.includes('modify=1')) {
+      c.request = new Request(
+        request.url.replace('http', 'https').replace('modify=1', 'modify=222'),
+      );
+    }
+
+    await next();
+  };
+}
+
 export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
-  auth() as unknown as UnstableMiddleware,
+  modifyRequest(),
+  injectRequestBody(),
   injectMessage(),
+  auth() as unknown as UnstableMiddleware,
 ];

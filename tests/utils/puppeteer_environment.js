@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 // puppeteer_environment.js
 const { readFile } = require('fs').promises;
 const os = require('os');
@@ -9,10 +8,6 @@ const NodeEnvironment = require('jest-environment-node').TestEnvironment;
 const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 
 class PuppeteerEnvironment extends NodeEnvironment {
-  constructor(config) {
-    super(config);
-  }
-
   async setup() {
     await super.setup();
     // get the wsEndpoint
@@ -41,4 +36,3 @@ class PuppeteerEnvironment extends NodeEnvironment {
 }
 
 module.exports = PuppeteerEnvironment;
-/* eslint-enable no-useless-constructor */

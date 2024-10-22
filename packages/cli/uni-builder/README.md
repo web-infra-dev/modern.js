@@ -1,19 +1,26 @@
 <p align="center">
-  <a href="https://rsbuild.dev" target="blank"><img src="https://github.com/web-infra-dev/rsbuild/assets/7237365/84abc13e-b620-468f-a90b-dbf28e7e9427" alt="Rsbuild Logo" /></a>
+  <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
 </p>
 
-# Rsbuild
+<h1 align="center">Modern.js</h1>
 
-Unleash the power of Rspack with the out-of-the-box build tool.
+<p align="center">
+  A Progressive React Framework for modern web development.
+</p>
+
+## Getting Started
+
+Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
 
 ## Documentation
 
-https://rsbuild.dev/
+- [English Documentation](https://modernjs.dev/en/)
+- [中文文档](https://modernjs.dev)
 
 ## Contributing
 
-Please read the [Contributing Guide](https://github.com/web-infra-dev/rsbuild/blob/main/CONTRIBUTING.md).
+Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
 ## License
 
-Rsbuild is [MIT licensed](https://github.com/web-infra-dev/rsbuild/blob/main/LICENSE).
+Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).

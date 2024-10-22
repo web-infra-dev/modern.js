@@ -1,14 +1,14 @@
-import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
+import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import {
-  chalk,
-  getModernConfigFile,
-  getGeneratorPath,
-} from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
   i18n as commonI18n,
 } from '@modern-js/generator-common';
+import {
+  chalk,
+  getGeneratorPath,
+  getModernConfigFile,
+} from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
 
 const handleTemplateFile = async (
@@ -34,13 +34,14 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   appApi.i18n.changeLanguage({ locale });
 
   if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
 
-  generator.logger.debug(`start run @modern-js/ssg-generator`);
-  generator.logger.debug(`context=${JSON.stringify(context)}`);
-  generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
+  generator.logger.debug(`🚀 [Start Run SSG Generator]`);
+  generator.logger.debug(
+    '💡 [Current Config]:',
+    JSON.stringify(context.config),
+  );
 
   await handleTemplateFile(context, generator, appApi);
 
@@ -97,5 +98,5 @@ module.exports = {
       }
     }
   }
-  generator.logger.debug(`forge @modern-js/ssg-generator succeed `);
+  generator.logger.debug(`🌟 [End Run SSG Generator]`);
 };

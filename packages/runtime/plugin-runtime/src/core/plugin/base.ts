@@ -1,74 +1,61 @@
 import {
+  type PluginOptions,
+  type Setup,
+  createAsyncInterruptWorkflow,
+  createContext,
   createManager,
-  createPipeline,
-  createAsyncPipeline,
-  PluginOptions,
-  Setup,
+  createSyncParallelWorkflow,
+  createWaterfall,
 } from '@modern-js/plugin';
 
-import { RuntimeContext, TRuntimeContext } from '../context/runtime';
+import type { RuntimeContext, TRuntimeContext } from '../context/runtime';
+import type { RuntimeConfig } from './index';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export const RuntimeConfigContext = createContext<RuntimeConfig>({});
+
+export const useRuntimeConfigContext = () => RuntimeConfigContext.use().value;
+
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
 export interface AppProps {}
 
-/** TODO remove */
-const client = createAsyncPipeline<
-  {
-    App: React.ComponentType<any>;
-    readonly context: RuntimeContext;
-    ModernRender: (App: React.ReactElement) => void;
-    ModernHydrate: (App: React.ReactElement, callback?: () => void) => void;
-  },
-  void
->();
+const wrapRoot = createWaterfall<React.ComponentType<any>>();
 
-/** TODO remove */
-const server = createAsyncPipeline<
-  {
-    App: React.ComponentType<any>;
-    readonly context: RuntimeContext;
-  },
-  string
->();
-
-const hoc = createPipeline<
-  {
-    App: React.ComponentType<any>;
-    config: Record<string, any>;
-  },
-  React.ComponentType<any>
->();
-
-const init = createAsyncPipeline<
-  {
-    context: RuntimeContext;
-  },
-  RuntimeContext
->();
+const beforeRender = createAsyncInterruptWorkflow<RuntimeContext, void>();
 
 /**
  * To add runtime info to runtime context
  */
-const pickContext = createPipeline<
-  { context: RuntimeContext; pickedContext: TRuntimeContext },
-  TRuntimeContext
+const pickContext = createWaterfall<TRuntimeContext>();
+
+const modifyRuntimeConfig = createSyncParallelWorkflow<
+  void,
+  Record<string, any>
 >();
 
 const runtimeHooks = {
-  hoc,
-  init,
-  client,
-  server,
+  beforeRender,
+  wrapRoot,
   pickContext,
+  modifyRuntimeConfig,
+};
+
+const runtimePluginAPI = {
+  useRuntimeConfigContext,
 };
 
 /** All hooks of runtime plugin. */
 export type RuntimeHooks = typeof runtimeHooks;
 
-/** Plugin options of a runtime plugin. */
-export type Plugin = PluginOptions<RuntimeHooks, Setup<RuntimeHooks>>;
+export type RuntimePluginAPI = typeof runtimePluginAPI;
 
-export const createRuntime = () => createManager(runtimeHooks);
+/** Plugin options of a runtime plugin. */
+export type Plugin = PluginOptions<
+  RuntimeHooks,
+  Setup<RuntimeHooks, RuntimePluginAPI>
+>;
+
+export const createRuntime = () =>
+  createManager(runtimeHooks, runtimePluginAPI);
 
 export const runtime = createRuntime();
 

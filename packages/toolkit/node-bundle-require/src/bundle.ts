@@ -1,12 +1,18 @@
 import path from 'path';
 import {
   fs,
-  pkgUp,
-  nanoid,
   CONFIG_CACHE_DIR,
   createDebugger,
+  nanoid,
+  pkgUp,
 } from '@modern-js/utils';
-import { build, context, Loader, Plugin, BuildOptions } from 'esbuild';
+import {
+  type BuildOptions,
+  type Loader,
+  type Plugin,
+  build,
+  context,
+} from 'esbuild';
 
 const debug = createDebugger('node-bundle');
 

@@ -1,11 +1,11 @@
 import { join } from 'path';
-import glob from 'fast-glob';
 import logger from 'consola';
+import glob from 'fast-glob';
 import fs from 'fs-extra';
-import { ROOT } from './utils';
 import { lintExportsField } from './rules/lintExportsField';
 import { lintWorkspaceProtocol } from './rules/lintWorkspaceProtocol';
 import { noCyclicWorkspaceDependencies } from './rules/noCyclicWorkspaceDependencies';
+import { ROOT } from './utils';
 
 export type PackageJSON = {
   path: string;
@@ -41,7 +41,6 @@ async function run() {
 
   if (result.some(Boolean)) {
     logger.fatal('Lint package.json failed, please fix the errors.');
-    // eslint-disable-next-line no-process-exit
     process.exit(1);
   } else {
     logger.success('Lint package.json passed.');

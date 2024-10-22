@@ -1,19 +1,27 @@
 import path from 'node:path';
 import {
-  ROUTE_SPEC_FILE,
   DEFAULT_SERVER_CONFIG,
-  fs as fse,
+  ROUTE_SPEC_FILE,
   chalk,
+  fs as fse,
 } from '@modern-js/utils';
-import { genPluginImportsCode, serverAppContenxtTemplate } from '../utils';
 import { handleDependencies } from '../dependencies';
-import { CreatePreset } from './platform';
+import {
+  type PluginItem,
+  genPluginImportsCode,
+  getPluginsCode,
+  serverAppContenxtTemplate,
+} from '../utils';
+import type { CreatePreset } from './platform';
 
 export const createNodePreset: CreatePreset = (appContext, config) => {
-  const { appDirectory, distDirectory, serverPlugins } = appContext;
+  const { appDirectory, distDirectory, serverPlugins, moduleType } = appContext;
+  const isEsmProject = moduleType === 'module';
 
-  // TODO: support serverPlugin apply options.
-  const plugins = serverPlugins.map(plugin => plugin.name);
+  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+    plugin.name,
+    plugin.options,
+  ]);
 
   const outputDirectory = path.join(appDirectory, '.output');
   const staticDirectory = path.join(outputDirectory, 'static');
@@ -34,7 +42,9 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
           prefix: config?.bff?.prefix,
         },
         output: {
-          path: '.',
+          distPath: {
+            root: '.',
+          },
         },
       };
 
@@ -42,11 +52,12 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
-        plugins,
       };
 
+      const pluginsCode = getPluginsCode(plugins);
+
       let entryCode = (
-        await fse.readFile(path.join(__dirname, './nodeEntry.js'))
+        await fse.readFile(path.join(__dirname, './node-entry.js'))
       ).toString();
 
       const serverAppContext = serverAppContenxtTemplate(appContext);
@@ -55,11 +66,19 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_genPluginImportsCode', pluginImportCode)
         .replace('p_ROUTE_SPEC_FILE', `"${ROUTE_SPEC_FILE}"`)
         .replace('p_dynamicProdOptions', JSON.stringify(dynamicProdOptions))
+        .replace('p_plugins', pluginsCode)
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
 
-      await fse.writeFile(entryFilePath, entryCode);
+      if (isEsmProject) {
+        // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.
+        const cjsEntryFilePath = path.join(outputDirectory, 'index.cjs');
+        await fse.writeFile(cjsEntryFilePath, entryCode);
+        await fse.writeFile(entryFilePath, `import('./index.cjs');`);
+      } else {
+        await fse.writeFile(entryFilePath, entryCode);
+      }
     },
     async end() {
       console.log(
@@ -75,12 +94,12 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         return !filePath.startsWith(staticDirectory);
       };
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
-      await handleDependencies(
-        appDirectory,
-        outputDirectory,
-        ['@modern-js/prod-server'],
-        filter,
-      );
+      await handleDependencies({
+        appDir: appDirectory,
+        serverRootDir: outputDirectory,
+        includeEntries: [require.resolve('@modern-js/prod-server')],
+        entryFilter: filter,
+      });
     },
   };
 };
