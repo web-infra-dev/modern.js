@@ -1,6 +1,6 @@
 import { serializeJson } from '@modern-js/runtime-utils/node';
 import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
-import type { RenderLevel } from '../../constants';
+import { type RenderLevel, SSR_DATA_JSON_ID } from '../../constants';
 import type { RuntimeContext } from '../../context';
 import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
@@ -103,9 +103,16 @@ function createReplaceSSRData(options: {
   };
   const attrsStr = attributesToString({ nonce });
 
-  const ssrDataScript = `
-    <script${attrsStr}>window._SSR_DATA = ${serializeJson(ssrData)}</script>
-    `;
+  const inlineScript =
+    typeof ssrConfig === 'boolean' ? true : ssrConfig?.inlineScript !== false;
+  const useInlineScript = inlineScript !== false;
+  const serializeSSRData = serializeJson(ssrData);
+
+  const ssrDataScript = useInlineScript
+    ? `
+    <script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>
+    `
+    : `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`;
 
   return (template: string) =>
     safeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);
