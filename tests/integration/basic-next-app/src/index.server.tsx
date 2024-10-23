@@ -78,11 +78,14 @@ export const handleRequest = async (request: Request): Promise<Response> => {
 
   const [stream1, stream2] = stream.tee();
 
-  const moduleMap = getModuleMap(distDir);
-  const styles = collectStyles(moduleMap);
+  const clientManifest = getModuleMap(distDir);
+  const ssrManifest = JSON.parse(
+    readFileSync(path.resolve(distDir, './react-ssr-manifest.json'), 'utf8'),
+  );
+  const styles = collectStyles(clientManifest).concat(ssrManifest.styles);
 
   const elements: Promise<ReactNode[]> = createFromReadableStream(stream1, {
-    ssrManifest: { moduleMap },
+    ssrManifest: { moduleMap: clientManifest },
   });
 
   const htmlStream = await renderToStream(

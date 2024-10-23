@@ -10,12 +10,14 @@ export interface WebpackRscClientPluginOptions {
   readonly clientReferencesMap: ClientReferencesMap;
   readonly clientManifestFilename?: string;
   readonly ssrManifestFilename?: string;
+  readonly styles?: Set<string>;
 }
 
 export class WebpackRscClientPlugin {
   private clientReferencesMap: ClientReferencesMap;
   private clientManifestFilename: string;
   private ssrManifestFilename: string;
+  private styles?: Set<string>;
 
   constructor(options: WebpackRscClientPluginOptions) {
     this.clientReferencesMap = options.clientReferencesMap;
@@ -25,6 +27,8 @@ export class WebpackRscClientPlugin {
 
     this.ssrManifestFilename =
       options?.ssrManifestFilename || `react-ssr-manifest.json`;
+
+    this.styles = options.styles;
   }
 
   apply(compiler: Webpack.Compiler): void {
@@ -36,6 +40,12 @@ export class WebpackRscClientPlugin {
       sources: { RawSource },
     } = compiler.webpack;
 
+    const ssrManifest: SSRManifest = {
+      moduleMap: {},
+      moduleLoading: null,
+      styles: [],
+    };
+
     class ClientReferenceDependency extends ModuleDependency {
       override get type(): string {
         return `client-reference`;
@@ -44,7 +54,6 @@ export class WebpackRscClientPlugin {
 
     const getEntryModule = (compilation: Webpack.Compilation) => {
       const [entryTuple, ...otherEntries] = compilation.entries.entries();
-
       if (!entryTuple) {
         compilation.errors.push(
           new WebpackError(`Could not find an entry in the compilation.`),
@@ -92,6 +101,13 @@ export class WebpackRscClientPlugin {
 
         entryModule.addBlock(block);
       });
+
+      if (this.styles && this.styles.size > 0) {
+        for (const style of this.styles) {
+          const dep = new ClientReferenceDependency(style);
+          entryModule.addDependency(dep);
+        }
+      }
     };
 
     compiler.hooks.finishMake.tap(WebpackRscClientPlugin.name, compilation => {
@@ -161,10 +177,6 @@ export class WebpackRscClientPlugin {
 
         compilation.hooks.processAssets.tap(WebpackRscClientPlugin.name, () => {
           const clientManifest: ClientManifest = {};
-          const ssrManifest: SSRManifest = {
-            moduleMap: {},
-            moduleLoading: null,
-          };
           const { chunkGraph, moduleGraph, modules } = compilation;
 
           for (const module of modules) {
@@ -262,6 +274,18 @@ export class WebpackRscClientPlugin {
                 : ``
               : undefined,
           };
+
+          if (this.styles && this.styles.size > 0) {
+            const assets = compilation.getAssets();
+            for (const style of this.styles) {
+              const cssAsset = assets.find(asset =>
+                asset.name.endsWith('.css'),
+              );
+              if (cssAsset) {
+                ssrManifest.styles.push(cssAsset.name);
+              }
+            }
+          }
 
           compilation.emitAsset(
             this.ssrManifestFilename,

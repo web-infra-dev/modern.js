@@ -17,6 +17,7 @@ declare module 'react-server-dom-webpack' {
   export interface SSRManifest {
     moduleMap: SSRModuleMap;
     moduleLoading: ModuleLoading | null;
+    styles: string[];
   }
 
   export interface SSRModuleMap {

@@ -1,6 +1,6 @@
 import { applyBaseConfig } from '../../utils/applyBaseConfig';
 import path from 'path';
-import { WebpackRscServerPlugin } from '@mfng/webpack-rsc';
+import { WebpackRscServerPlugin } from './plugins/rsc-server-plugin';
 import { WebpackRscClientPlugin } from './plugins/rsc-client-plugin';
 import { RsdoctorWebpackPlugin } from '@rsdoctor/webpack-plugin';
 
@@ -20,6 +20,8 @@ const rscClientLoaderPath = path.join(
   path.dirname(require.resolve('@mfng/webpack-rsc')),
   '/webpack-rsc-client-loader.cjs',
 );
+
+const styles = new Set<string>();
 
 export default applyBaseConfig({
   runtime: {
@@ -128,13 +130,15 @@ export default applyBaseConfig({
         chain
           .plugin('rsc-server-plugin')
           .use(WebpackRscServerPlugin, [
-            { clientReferencesMap, serverReferencesMap },
+            { clientReferencesMap, serverReferencesMap, styles },
           ]);
 
         chain.module
           .rule('react-server')
           .issuerLayer(webpackRscLayerName)
           .resolve.conditionNames.merge(['react-server', '...']);
+
+        chain.module.rule('css').uses.delete('ignore-css');
       } else {
         chain.name('client');
         chain.dependencies(['server']);
@@ -160,7 +164,7 @@ export default applyBaseConfig({
 
         chain
           .plugin('rsc-client-plugin')
-          .use(WebpackRscClientPlugin, [{ clientReferencesMap }]);
+          .use(WebpackRscClientPlugin, [{ clientReferencesMap, styles }]);
       }
     },
   },
