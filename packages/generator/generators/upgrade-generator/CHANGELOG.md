@@ -1,5 +1,13 @@
 # @modern-js/upgrade-generator
 
+## 3.7.1
+
+### Patch Changes
+
+- ded1185: fix: upgrade command get modern version error
+
+  fix: 修复 upgrade 命令获取 modern 版本失败的问题
+
 ## 3.7.0
 
 ### Minor Changes

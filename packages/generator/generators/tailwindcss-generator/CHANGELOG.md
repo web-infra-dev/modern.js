@@ -1,5 +1,13 @@
 # @modern-js/tailwindcss-generator
 
+## 3.7.1
+
+### Patch Changes
+
+- d886d32: feat: generator upgrade tailwindcss version
+
+  feat: 生成器升级 tailwindcss 版本
+
 ## 3.7.0
 
 ### Minor Changes

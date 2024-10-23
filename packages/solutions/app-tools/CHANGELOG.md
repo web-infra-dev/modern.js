@@ -1,5 +1,28 @@
 # @modern-js/app-tools
 
+## 2.60.5
+
+### Patch Changes
+
+- 0c072d8: fix: when the enableCustomEntry is set to true, the `entry.tsx` should be recognized first.
+
+  fix: 开启 enableCustomEntry 后， `entry.tsx` 入口应优先被识别
+
+- Updated dependencies [0eb8b9d]
+  - @modern-js/uni-builder@2.60.5
+  - @modern-js/core@2.60.5
+  - @modern-js/server@2.60.5
+  - @modern-js/plugin-data-loader@2.60.5
+  - @modern-js/plugin-i18n@2.60.5
+  - @modern-js/rsbuild-plugin-esbuild@2.60.5
+  - @modern-js/server-core@2.60.5
+  - @modern-js/prod-server@2.60.5
+  - @modern-js/server-utils@2.60.5
+  - @modern-js/node-bundle-require@2.60.5
+  - @modern-js/plugin@2.60.5
+  - @modern-js/types@2.60.5
+  - @modern-js/utils@2.60.5
+
 ## 2.60.4
 
 ### Patch Changes
