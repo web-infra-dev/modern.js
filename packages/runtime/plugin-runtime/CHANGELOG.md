@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.60.5
+
+### Patch Changes
+
+- 03625a8: feat: router plugin add beforeCreateRoutes hook
+
+  feat: router 插件添加 beforeCreateRoutes 钩子
+
+  - @modern-js/plugin-data-loader@2.60.5
+  - @modern-js/plugin@2.60.5
+  - @modern-js/runtime-utils@2.60.5
+  - @modern-js/types@2.60.5
+  - @modern-js/utils@2.60.5
+
 ## 2.60.4
 
 ### Patch Changes
