@@ -17,6 +17,10 @@ import {
 import { createServer } from './server';
 import type { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
 
+const getRegionDist = (dist: string, region: string) => {
+  return path.resolve(dist, region);
+};
+
 export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
 
@@ -40,7 +44,7 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         const appContext = api.useAppContext();
 
         const { appDirectory, entrypoints } = appContext;
-        const { output, server } = resolvedConfig;
+        const { output, server, deploy } = resolvedConfig;
         const {
           ssg,
           distPath: { root: outputPath } = {},
@@ -48,6 +52,22 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
 
         const ssgOptions: SSGConfig =
           (Array.isArray(ssg) ? ssg.pop() : ssg) || true;
+        const regions = (deploy as { regions?: string[] })?.regions;
+
+        const computedOutputDir = (region: string) => {
+          const { distDirectory } = api.useAppContext();
+          return getRegionDist(distDirectory, region);
+        };
+
+        const outputDirs: string[] = [];
+
+        if (regions) {
+          regions.forEach(region => {
+            outputDirs.push(computedOutputDir(region));
+          });
+        } else {
+          outputDirs.push(path.join(appDirectory, outputPath as string));
+        }
 
         const buildDir = path.join(appDirectory, outputPath as string);
         const routes = readJSONSpec(buildDir);
@@ -187,7 +207,9 @@ export const ssgPlugin = (): CliPlugin<AppTools> => ({
         );
 
         // write to dist file
-        writeHtmlFile(htmlAry, ssgRoutes, buildDir);
+        for (const outputDir of outputDirs) {
+          writeHtmlFile(htmlAry, ssgRoutes, outputDir);
+        }
 
         // format route info, side effect
         replaceRoute(ssgRoutes, pageRoutes);
