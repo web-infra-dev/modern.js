@@ -79,3 +79,11 @@ export function getSSRMode(ssrConfig?: SSRConfig): 'string' | 'stream' | false {
 
   return ssrConfig?.mode === 'stream' ? 'stream' : 'string';
 }
+
+export function getSSRInlineScript(ssrConfig?: SSRConfig): boolean {
+  if (typeof ssrConfig === 'object') {
+    return ssrConfig.inlineScript === undefined ? true : ssrConfig.inlineScript;
+  }
+
+  return true;
+}
