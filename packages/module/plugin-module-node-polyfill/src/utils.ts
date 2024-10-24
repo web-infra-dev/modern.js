@@ -19,17 +19,22 @@ export function excludeObjectKeys(
   return filterObject(object, key => !keys.includes(key));
 }
 
-export function addResolveFallback(
+export function fillResolveAndFallback(
   object: Record<string, string | null>,
   overrides: Record<string, string> = {},
 ) {
   const keys = Object.keys(object);
   const newObject: Record<string, string> = {};
   for (const key of keys) {
+    let resultModule: string;
     if (object[key] === null) {
-      newObject[key] = path.join(__dirname, `./mock/${key}.js`);
+      resultModule = path.join(__dirname, `./mock/${key}.js`);
     } else {
-      newObject[key] = object[key] as string;
+      resultModule = object[key] as string;
+    }
+    newObject[key] = resultModule;
+    if (!key.startsWith('_')) {
+      newObject[`node:${key}`] = resultModule;
     }
   }
 
@@ -41,17 +46,4 @@ export function addResolveFallback(
   }
 
   return newObject;
-}
-
-export function addNodePrefix(
-  modules: Record<string, string | null>,
-): Record<string, string | null> {
-  return Object.fromEntries(
-    Object.entries(modules).map(([key, value]) => {
-      if (!key.startsWith('_')) {
-        return [`node:${key}`, value];
-      }
-      return [key, value];
-    }),
-  );
 }
