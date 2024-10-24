@@ -8,7 +8,7 @@ import type {
   ServerEnv,
   ServerManifest,
 } from '../../types';
-import { type NodeBindings, isResponseFinalized } from './helper';
+import { type NodeBindings, isResFinalized } from './helper';
 
 export type ServerNodeEnv = {
   Bindings: NodeBindings;
@@ -43,7 +43,7 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
       res.removeListener('pipe', onPipe);
     }
 
-    if (isResponseFinalized(res)) {
+    if (isResFinalized(res)) {
       context.finalized = true;
     } else {
       await next();

@@ -22,7 +22,7 @@ export type NodeBindings = {
   };
 };
 
-export const isResponseFinalized = (res: ExtendedNodeResponse): boolean => {
+export const isResFinalized = (res: ExtendedNodeResponse): boolean => {
   return (
     res.headersSent ||
     res._modernBodyPiped ||
