@@ -1,6 +1,7 @@
 import { type Server as NodeServer, ServerResponse } from 'node:http';
 import type { Server as NodeHttpsServer } from 'node:https';
 import type { NodeRequest, NodeResponse, RequestHandler } from '../../types';
+import { isResFinalized } from './helper';
 import { installGlobals } from './polyfills/install';
 import {
   createReadableStreamFromReadable,
@@ -129,11 +130,7 @@ const getRequestListener = (handler: RequestHandler) => {
        * ```
        */
 
-      if (
-        !res.headersSent &&
-        !(response as any).res &&
-        !(res as any)._modernBodyPiped
-      ) {
+      if (!(response as any).res && !isResFinalized(res)) {
         await sendResponse(response, res);
       }
     } catch (error) {
