@@ -5,13 +5,8 @@ import type {
 } from '@modern-js/runtime-utils/remix-router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
-import { ROUTER_DATA_JSON_ID } from 'src/core/constants';
-import {
-  defineRunInlineAndRouterDataInit,
-  initRouterDataAttrs,
-  runRouterDataFnStr,
-  runWindowFnStr,
-} from './constants';
+import { ROUTER_DATA_JSON_ID } from '../../core/constants';
+import { modernInline, runRouterDataFnStr, runWindowFnStr } from './constants';
 import { serializeErrors } from './utils';
 
 /**
@@ -37,8 +32,6 @@ const DeferredDataScripts = (props?: {
     | [
         string,
         string,
-        { fnName: string; fnArgs: any[]; fnRun: string; fnScriptSrc: string },
-        string,
         { fnName: string; fnArgs: any[]; fnRun: string; fnScriptSrc: string }[],
         JSX.Element[],
       ]
@@ -54,19 +47,11 @@ const DeferredDataScripts = (props?: {
       errors: serializeErrors(staticContext.errors),
     };
 
-    const initialScript0 = defineRunInlineAndRouterDataInit;
-
     // <script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>
-    const initialScript1 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
+    const initialScript0 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
 
-    const initialScript2 = {
-      fnName: 'initRouterData',
-      fnArgs: [ROUTER_DATA_JSON_ID],
-      fnRun: runWindowFnStr,
-      fnScriptSrc: 'modern-run-window-fn',
-    };
+    const initialScript1 = modernInline;
 
-    const initialScript3 = initRouterDataAttrs;
     const deferredDataScripts: JSX.Element[] = [];
     const initialScripts = Object.entries(activeDeferreds).map(
       ([routeId, deferredData]) => {
@@ -133,8 +118,6 @@ const DeferredDataScripts = (props?: {
     return [
       initialScript0,
       initialScript1,
-      initialScript2,
-      initialScript3,
       initialScripts,
       deferredDataScripts,
     ];
@@ -148,41 +131,24 @@ const DeferredDataScripts = (props?: {
     <>
       {!hydratedRef.current && (
         <>
-          <script
-            async
-            nonce={props?.nonce}
-            data-script-src="modern-define-init"
-            suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
-          />
           {/* json or empty string */}
-          {deferredScripts[1].length !== 0 && (
+          {deferredScripts[0].length !== 0 && (
             <script
               type="application/json"
               id={ROUTER_DATA_JSON_ID}
               nonce={props?.nonce}
               suppressHydrationWarning
-              dangerouslySetInnerHTML={{ __html: deferredScripts[1] }}
+              dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
             />
           )}
-          {/* run init _ROUTER_DATA */}
           <script
             async
             nonce={props?.nonce}
-            data-script-src={deferredScripts[2].fnScriptSrc}
-            data-fn-name={deferredScripts[2].fnName}
-            data-fn-args={JSON.stringify(deferredScripts[2].fnArgs)}
+            data-script-src="modern-define-init"
             suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: deferredScripts[2].fnRun }}
+            dangerouslySetInnerHTML={{ __html: deferredScripts[1] }}
           />
-          <script
-            async
-            nonce={props?.nonce}
-            data-script-src="router-data-attr-init-inline"
-            suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: deferredScripts[3] }}
-          />
-          {deferredScripts[4].map(({ fnName, fnRun, fnArgs, fnScriptSrc }) => (
+          {deferredScripts[2].map(({ fnName, fnRun, fnArgs, fnScriptSrc }) => (
             <script
               async
               key={fnName}
@@ -198,7 +164,7 @@ const DeferredDataScripts = (props?: {
           ))}
         </>
       )}
-      {!hydratedRef.current && deferredScripts[5]}
+      {!hydratedRef.current && deferredScripts[3]}
     </>
   );
 };
