@@ -29,6 +29,7 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/esm/index.js"
     },
+    "./package.json": "./package.json",
     "./types": "./types/index.d.ts",
     "./types/index": "./types/index.d.ts",
     "./types/router": "./types/router.d.ts",
