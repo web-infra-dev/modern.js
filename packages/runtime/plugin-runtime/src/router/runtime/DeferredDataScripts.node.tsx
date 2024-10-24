@@ -169,7 +169,7 @@ const DeferredDataScripts = (props?: {
           <script
             async
             nonce={props?.nonce}
-            data-fn-script-src={deferredScripts[2].fnScriptSrc}
+            data-script-src={deferredScripts[2].fnScriptSrc}
             data-fn-name={deferredScripts[2].fnName}
             data-fn-args={JSON.stringify(deferredScripts[2].fnArgs)}
             suppressHydrationWarning
@@ -178,7 +178,7 @@ const DeferredDataScripts = (props?: {
           <script
             async
             nonce={props?.nonce}
-            data-fn-script-src="router-data-attr-init-inline"
+            data-script-src="router-data-attr-init-inline"
             suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: deferredScripts[3] }}
           />
