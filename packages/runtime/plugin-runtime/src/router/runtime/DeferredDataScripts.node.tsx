@@ -259,15 +259,21 @@ const ErrorDeferredDataScript = ({
 
   return (
     <script
+      data-fn-name="r"
+      data-script-src="modern-run-router-data-fn"
+      data-fn-args={`${JSON.stringify([
+        routeId,
+        dataKey,
+        undefined,
+        {
+          message: error.message,
+          stack: error.stack,
+        },
+      ])}`}
       nonce={nonce}
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
-        __html: `_ROUTER_DATA.r(${JSON.stringify(routeId)}, ${JSON.stringify(
-          dataKey,
-        )}, ${undefined}, ${serializeJson({
-          message: error.message,
-          stack: error.stack,
-        })});`,
+        __html: runRouterDataFnStr,
       }}
     />
   );
