@@ -69,4 +69,5 @@ export type SSRServerContext = Pick<
   loaderFailureMode?: 'clientRender' | 'errorBoundary';
   onError?: (e: unknown) => void;
   onTiming?: (name: string, dur: number) => void;
+  inlineScript?: boolean;
 };
