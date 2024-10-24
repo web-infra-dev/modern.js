@@ -16,6 +16,7 @@ export enum HttpMetadata {
   Params = 'PARAMS',
   Headers = 'HEADERS',
   Response = 'RESPONSE',
+  Files = 'Files',
 }
 
 export enum ResponseMetaType {
@@ -42,6 +43,7 @@ export type InputSchemaMeata = Extract<
   | HttpMetadata.Query
   | HttpMetadata.Headers
   | HttpMetadata.Params
+  | HttpMetadata.Files
 >;
 
 export type ExecuteFunc<Outputs> = (

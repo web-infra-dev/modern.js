@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import { type z, z as zod } from 'zod';
 import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
@@ -210,6 +210,42 @@ export const Redirect = (url: string): Operator<void> => {
     name: 'Redirect',
     metadata(helper) {
       setResponseMeta(helper, ResponseMetaType.Redirect, url);
+    },
+  };
+};
+
+export const Upload = <Schema extends z.ZodType>(
+  urlPath: string,
+  schema: Schema = zod.any() as unknown as Schema,
+): Operator<
+  {
+    files: z.input<Schema>;
+  },
+  {
+    formData: z.output<Schema>;
+  }
+> => {
+  return {
+    name: 'Upload',
+    metadata({ setMetadata }) {
+      setMetadata(OperatorType.Trigger, {
+        type: TriggerType.Http,
+        path: urlPath,
+        method: HttpMethod.Post,
+        action: 'upload',
+      });
+      setMetadata(HttpMetadata.Files, schema);
+    },
+    async validate(helper, next) {
+      const {
+        inputs: { formData: files },
+      } = helper;
+
+      (helper.inputs as any) = {
+        ...helper.inputs,
+        files: await validateInput(schema, files),
+      };
+      return next();
     },
   };
 };
