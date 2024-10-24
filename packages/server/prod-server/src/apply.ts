@@ -18,7 +18,10 @@ import { createLogger, isProd } from '@modern-js/utils';
 import type { ProdServerOptions } from './types';
 
 function getLogger() {
-  if (process.env.DEBUG || process.env.NODE_ENV === 'production') {
+  if (
+    process.env.DEBUG ||
+    (process.env.NODE_ENV === 'production' && !process.env.DISABLE_LOG)
+  ) {
     return createLogger({ level: 'verbose' });
   } else {
     return createLogger();

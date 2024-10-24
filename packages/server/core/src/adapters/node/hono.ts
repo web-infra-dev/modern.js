@@ -55,7 +55,14 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
       res.removeListener('pipe', onPipe);
     }
 
-    if (res.headersSent || res._modernBodyPiped) {
+    // @ts-ignore
+    if (
+      res.headersSent ||
+      res._modernBodyPiped ||
+      res.writableEnded ||
+      res.finished ||
+      !res.socket?.writable
+    ) {
       context.finalized = true;
     } else {
       await next();
