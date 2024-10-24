@@ -67,6 +67,7 @@ export const buildCommand = async (
     .action(async (options: BuildOptions) => {
       const { build } = await import('./build.js');
       await build(api, options);
+      process.exit(0);
     });
 
   for (const platformBuilder of platformBuilders) {
