@@ -151,7 +151,7 @@ const getInputFromRequest = async (request: Request) => {
     draft.data = request.body;
   } else if (typeIs(request, ['multipart/form-data'])) {
     const files = await resolveFormData(request);
-    draft.formData = draft.files = (request as RequestWithFiles).files = files;
+    draft.formData = files;
   } else if (typeIs(request, ['application/x-www-form-urlencoded'])) {
     draft.formUrlencoded = request.body;
   } else {

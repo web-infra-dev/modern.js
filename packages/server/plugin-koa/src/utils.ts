@@ -114,7 +114,7 @@ const getInputFromRequest = async (ctx: Context): Promise<InputType> => {
   if (typeIs.is(ctx.request.type, ['application/json'])) {
     draft.data = ctx.request.body;
   } else if (typeIs.is(ctx.request.type, ['multipart/form-data'])) {
-    draft.formData = draft.files = ctx.request.files;
+    draft.formData = ctx.request.files;
   } else if (
     typeIs.is(ctx.request.type, ['application/x-www-form-urlencoded'])
   ) {

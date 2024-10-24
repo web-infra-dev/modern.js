@@ -5,6 +5,7 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
+  RequestUploader,
   Sender,
 } from './types';
 
@@ -36,9 +37,7 @@ export const createRequest: RequestCreator = (
   path,
   method,
   port,
-  httpMethodDecider = 'functionName',
-  action = '',
-  // 后续可能要修改，暂时先保留
+  httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
   fetch = originFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -51,29 +50,7 @@ export const createRequest: RequestCreator = (
     let finalURL: string;
     let headers: Record<string, any>;
 
-    if (action && action === 'upload') {
-      finalURL = path;
-      const payload: BFFRequestPayload =
-        typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
-      const files = payload.files;
-      if (!files) {
-        throw new Error('no files');
-      }
-      const formdata = new FormData();
-      for (const [key, value] of Object.entries(files)) {
-        if (value instanceof FileList) {
-          for (let i = 0; i < value.length; i++) {
-            formdata.append(key, value[i]);
-          }
-        } else {
-          formdata.append(key, value);
-        }
-      }
-
-      body = formdata;
-      // fetch 自动设置 'Content-Type': 'multipart/form-data' 和 boundary
-      headers = {};
-    } else if (httpMethodDecider === 'inputParams') {
+    if (httpMethodDecider === 'inputParams') {
       finalURL = path;
       body = JSON.stringify({
         args,
@@ -143,6 +120,45 @@ export const createRequest: RequestCreator = (
 
     return fetcher(finalURL, {
       method,
+      body,
+      headers,
+    });
+  };
+
+  return sender;
+};
+
+export const createUploader: RequestUploader = (path: string) => {
+  const keys: Key[] = [];
+  pathToRegexp(path, keys);
+
+  const sender: Sender = async (...args) => {
+    const fetcher = realRequest || originFetch;
+    const payload: BFFRequestPayload =
+      typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
+    const files = payload.files;
+    if (!files) {
+      throw new Error('no files');
+    }
+    const formdata = new FormData();
+    for (const [key, value] of Object.entries(files)) {
+      if (value instanceof FileList) {
+        for (let i = 0; i < value.length; i++) {
+          formdata.append(key, value[i]);
+        }
+      } else {
+        formdata.append(key, value);
+      }
+    }
+
+    const body = formdata;
+    // fetch 自动设置 'Content-Type': 'multipart/form-data' 和 boundary
+    const headers: Record<string, any> = {};
+
+    headers.accept = `application/json,*/*;q=0.8`;
+
+    return fetcher(path, {
+      method: 'POST',
       body,
       headers,
     });

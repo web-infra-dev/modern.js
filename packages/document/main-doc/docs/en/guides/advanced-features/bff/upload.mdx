@@ -1,40 +1,30 @@
 # File Upload
 
-BFF, in conjunction with the [runtime framework](/guides/advanced-features/bff/frameworks.html) provides file upload capability, supporting integrated calling and manual calling with pure functions.
+BFF combined with runtime framework provides file upload capabilities, supporting integrated calls and pure function manual calls.
 
 ### BFF Function
 
 First, create the `api/lambda/upload.ts` file:
 
 ```ts title="api/lambda/upload.ts"
-import {
-  Api,
-  Upload,
-  File,
-  useFiles,
-} from '@modern-js/runtime/server';
-import { z } from 'zod';
-
-const FileSchema = z.object({
-  images: z.any(),
-});
-
-export const upload = Api(Upload('/upload'), File(FileSchema), async () => {
-  const files = useFiles();
-
+export const post = async (req: {formData: Record<string, any>}) => {
+  console.info('formData:', req.formData);
+  // do somethings
   return {
     data: {
       code: 0,
-      message: 'success',
     },
   };
-});
+};
 ```
-n the BFF function,  `useFiles()` can be used to retrieve the uploaded files. The return value is an Object, with the key being the field name used during upload.
+:::tip
+In the BFF function, the client's uploaded file can be accessed through `formData` in the parameters. The value is an `Object`, with the key as the field name used during upload.
+:::
+
 
 ### Integrated Calling
 
-
+Next, directly import and call the function in `src/routes/upload/page.tsx`:
 ```tsx title="routes/upload/page.tsx"
 import { upload } from '@api/upload';
 import React from 'react';
@@ -65,8 +55,13 @@ export default (): JSX.Element => {
   );
 };
 ```
+:::tip
+Note: The input type must be `{formData: FormData}` for the upload to succeed.
+:::
 
-### Manual Calling (Uploading via FormData)
+
+### Manual Calling
+You can manually upload files using the `fetch API`, when calling `fetch`, set the `body` as `FormData` type and submit a post request.
 
 ```tsx title="routes/upload/page.tsx"
 import React from 'react';

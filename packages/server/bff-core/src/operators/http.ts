@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import { type z, z as zod } from 'zod';
 import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
@@ -214,7 +214,17 @@ export const Redirect = (url: string): Operator<void> => {
   };
 };
 
-export const Upload = (urlPath: string): Operator<void> => {
+export const Upload = <Schema extends z.ZodType>(
+  urlPath: string,
+  schema: Schema = zod.any() as unknown as Schema,
+): Operator<
+  {
+    files: z.input<Schema>;
+  },
+  {
+    formData: z.output<Schema>;
+  }
+> => {
   return {
     name: 'Upload',
     metadata({ setMetadata }) {
@@ -224,30 +234,14 @@ export const Upload = (urlPath: string): Operator<void> => {
         method: HttpMethod.Post,
         action: 'upload',
       });
-    },
-  };
-};
-
-export const File = <Schema extends z.ZodType>(
-  schema: Schema,
-): Operator<
-  {
-    files: z.input<Schema>;
-  },
-  {
-    files: z.output<Schema>;
-  }
-> => {
-  return {
-    name: HttpMetadata.Files,
-    metadata({ setMetadata }) {
       setMetadata(HttpMetadata.Files, schema);
     },
     async validate(helper, next) {
       const {
-        inputs: { files },
+        inputs: { formData: files },
       } = helper;
-      helper.inputs = {
+
+      (helper.inputs as any) = {
         ...helper.inputs,
         files: await validateInput(schema, files),
       };
