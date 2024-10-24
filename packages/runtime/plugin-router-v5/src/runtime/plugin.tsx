@@ -125,14 +125,18 @@ export const routerPlugin = (userConfig: RouterConfig = {}): Plugin => {
               return (props: any) => {
                 const runtimeContext = useContext(RuntimeReactContext);
                 const baseUrl = (
-                  runtimeContext._internalRouterBaseName ||
                   window._SERVER_DATA?.router.baseUrl ||
                   select(location.pathname)
                 ).replace(/^\/*/, '/');
                 const basename =
                   baseUrl === '/'
-                    ? urlJoin(baseUrl, historyOptions.basename as string)
+                    ? urlJoin(
+                        baseUrl,
+                        runtimeContext._internalRouterBaseName ||
+                          (historyOptions.basename as string),
+                      )
                     : baseUrl;
+
                 historyOptions.basename = basename;
                 const history =
                   customHistory ||
