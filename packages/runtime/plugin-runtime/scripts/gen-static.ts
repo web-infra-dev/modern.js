@@ -1,8 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import {
-  defineRunInlineAndRouterDataInit,
-  initRouterDataAttrs,
+  modernInline,
   runRouterDataFnStr,
   runWindowFnStr,
 } from '../src/router/runtime/constants';
@@ -11,18 +10,8 @@ import {
   const targetDir = path.join(__dirname, '../static');
   await fs.ensureDir(targetDir);
 
-  const modernDefineInitPath = path.join(targetDir, 'modern-define-init.js');
-  await fs.writeFile(
-    modernDefineInitPath,
-    defineRunInlineAndRouterDataInit,
-    'utf-8',
-  );
-
-  const initRouterDataFilePath = path.join(
-    targetDir,
-    'router-data-attr-init-inline.js',
-  );
-  await fs.writeFile(initRouterDataFilePath, initRouterDataAttrs, 'utf-8');
+  const modernDefineInitPath = path.join(targetDir, 'modern-inline.js');
+  await fs.writeFile(modernDefineInitPath, modernInline, 'utf-8');
 
   const runRouterDataFilePath = path.join(
     targetDir,
