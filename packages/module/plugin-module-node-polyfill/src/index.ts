@@ -5,7 +5,7 @@ import type {
   ICompiler,
   ModuleTools,
 } from '@modern-js/module-tools';
-import { addNodePrefix, addResolveFallback, excludeObjectKeys } from './utils';
+import { excludeObjectKeys, fillResolveAndFallback } from './utils';
 
 export interface NodePolyfillPluginOptions {
   // like https://github.com/Richienb/node-polyfill-webpack-plugin#excludealiases
@@ -60,11 +60,10 @@ const defualtModules = {
 export const getNodePolyfillHook = (
   polyfillOption: NodePolyfillPluginOptions = {},
 ) => {
-  const nodeModules = addNodePrefix(defualtModules);
-  const modules = Object.assign({ ...defualtModules }, nodeModules);
+  const modules = { ...defualtModules };
   const polyfillModules = {
     ...excludeObjectKeys(
-      addResolveFallback(modules, polyfillOption.overrides),
+      fillResolveAndFallback(modules, polyfillOption.overrides),
       polyfillOption.excludes ?? [],
     ),
   };

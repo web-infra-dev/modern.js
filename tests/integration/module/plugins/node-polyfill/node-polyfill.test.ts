@@ -16,7 +16,15 @@ describe('plugin-node-polyfill', () => {
       'utf8',
     );
     expect(content).toContain('init_globals()');
-    expect(content).toContain('__toESM(require_browser2())');
     expect(content).toContain('__toESM(require_path_browserify())');
+    expect(content).toContain('__toESM(require_browser2())');
+
+    const anotherContent = fs.readFileSync(
+      path.resolve(__dirname, 'dist/another_entry.js'),
+      'utf8',
+    );
+    expect(anotherContent).toContain('init_globals()');
+    expect(anotherContent).toContain('__toESM(require_path_browserify())');
+    expect(anotherContent).toContain('os-browserify/browser');
   });
 });
