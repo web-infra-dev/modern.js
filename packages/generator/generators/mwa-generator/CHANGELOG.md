@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 3.7.1
+
+### Patch Changes
+
+- c686e60: feat: update @types/node version for template
+
+  feat: 更新生成器模板 @types/node 版本
+
 ## 3.7.0
 
 ### Minor Changes

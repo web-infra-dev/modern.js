@@ -1,5 +1,17 @@
 # @modern-js/upgrade
 
+## 2.60.5
+
+### Patch Changes
+
+- ded1185: fix: upgrade command get modern version error
+
+  fix: 修复 upgrade 命令获取 modern 版本失败的问题
+
+- 5dbff5f: fix: upgrade tools prepare generator error
+
+  fix: 修复 upgrade 工具准备阶段生成器失败的问题
+
 ## 2.60.4
 
 ## 2.60.3

@@ -1,5 +1,13 @@
 # @modern-js/uni-builder
 
+## 2.60.5
+
+### Patch Changes
+
+- 0eb8b9d: feat(deps): bump html-webpack-plugin to support getCompilationHooks
+  - @modern-js/babel-preset@2.60.5
+  - @modern-js/utils@2.60.5
+
 ## 2.60.4
 
 ### Patch Changes
