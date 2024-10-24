@@ -8,19 +8,7 @@ import type {
   ServerEnv,
   ServerManifest,
 } from '../../types';
-
-type NodeBindings = {
-  node: {
-    req: NodeRequest & {
-      __honoRequest?: HonoRequest;
-      __templates?: Record<string, string>;
-      __serverManifest?: ServerManifest;
-    };
-    res: NodeResponse & {
-      _modernBodyPiped?: boolean;
-    };
-  };
-};
+import { type NodeBindings, isResponseFinalized } from './helper';
 
 export type ServerNodeEnv = {
   Bindings: NodeBindings;
@@ -55,14 +43,7 @@ export const httpCallBack2HonoMid = (handler: Handler) => {
       res.removeListener('pipe', onPipe);
     }
 
-    // @ts-ignore
-    if (
-      res.headersSent ||
-      res._modernBodyPiped ||
-      res.writableEnded ||
-      res.finished ||
-      !res.socket?.writable
-    ) {
+    if (isResponseFinalized(res)) {
       context.finalized = true;
     } else {
       await next();
