@@ -7,9 +7,3 @@ export type { Context };
 const { run, useContext } = createStorage<Context>();
 
 export { run, useContext };
-
-export function useFiles() {
-  const ctx = useContext();
-  const files = ctx.request.files;
-  return files;
-}

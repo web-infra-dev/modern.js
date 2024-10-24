@@ -1,14 +1,13 @@
-import { Api, File, Upload, useFiles } from '@modern-js/runtime/koa';
+import { Api, Upload } from '@modern-js/runtime/koa';
 import { z } from 'zod';
 
 const FileSchema = z.object({
-  images: z.any(),
+  images: z.record(z.string(), z.any()),
 });
 
-export const upload = Api(Upload('/upload'), File(FileSchema), async () => {
-  const files = useFiles();
-  console.log('upload files:>>', files);
-
+export const upload = Api(Upload('/upload', FileSchema), async req => {
+  console.info('formData:', req.formData);
+  // do somethings
   return {
     data: {
       code: 0,

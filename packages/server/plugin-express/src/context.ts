@@ -6,9 +6,3 @@ export type Context = { req: Request; res: Response };
 const { run, useContext } = createStorage<Context>();
 
 export { run, useContext };
-
-export function useFiles() {
-  const ctx = useContext();
-  const files = (ctx.req as any).files;
-  return files;
-}

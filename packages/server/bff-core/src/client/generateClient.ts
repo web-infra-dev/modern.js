@@ -74,24 +74,28 @@ export const generateClient = async ({
     const upperHttpMethod = httpMethod.toUpperCase();
 
     const routeName = routePath;
-    if (target === 'server') {
+    if (action) {
+      handlersCode += `export ${exportStatement} createUploader('${routeName}');`;
+    } else if (target === 'server') {
       handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', process.env.PORT || ${String(
         port,
-      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ,'${
-        action ? action : ''
-      }' ${fetcher ? `, fetch` : ''});
+      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
+        fetcher ? `, fetch` : ''
+      });
       `;
     } else {
       handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', ${String(
         port,
-      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ,'${
-        action ? action : ''
-      }' ${fetcher ? `, fetch` : ''});
+      )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
+        fetcher ? `, fetch` : ''
+      });
       `;
     }
   }
 
-  const importCode = `import { createRequest } from '${requestCreator}';
+  const importCode = `import { createRequest${
+    handlerInfos.find(i => i.action) ? ', createUploader' : ''
+  } } from '${requestCreator}';
 ${fetcher ? `import { fetch } from '${fetcher}';\n` : ''}`;
 
   return Ok(`${importCode}\n${handlersCode}`);
