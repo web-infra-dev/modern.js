@@ -17,5 +17,11 @@ describe('test ./src/url.ts', () => {
 
     pathname = '/a/b/c/d/';
     expect(normalizePathname(pathname)).toBe('/a/b/c/d');
+
+    pathname = '//';
+    expect(normalizePathname(pathname)).toBe('/');
+
+    pathname = '/api//';
+    expect(normalizePathname(pathname)).toBe('/api');
   });
 });
