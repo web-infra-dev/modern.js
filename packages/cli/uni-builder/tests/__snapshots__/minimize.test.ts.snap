@@ -130,6 +130,136 @@ exports[`html minify > should not apply html minify in production when disableMi
 ]
 `;
 
+exports[`html minify > should not apply html minify when htmlPlugin.minify false 1`] = `
+[
+  RsbuildCorePlugin {},
+  MiniCssExtractPlugin {
+    "_sortedModulesCache": WeakMap {},
+    "options": {
+      "chunkFilename": "static/css/async/[name].[contenthash:8].css",
+      "experimentalUseImportModule": undefined,
+      "filename": "static/css/[name].[contenthash:8].css",
+      "ignoreOrder": true,
+      "runtime": true,
+    },
+    "runtimeOptions": {
+      "attributes": undefined,
+      "insert": undefined,
+      "linkType": "text/css",
+    },
+  },
+  HtmlWebpackPlugin {
+    "options": {
+      "base": false,
+      "cache": true,
+      "chunks": [
+        "index",
+      ],
+      "chunksSortMode": "auto",
+      "compile": true,
+      "entryName": "index",
+      "excludeChunks": [],
+      "favicon": false,
+      "filename": "html/index/index.html",
+      "hash": false,
+      "inject": "head",
+      "meta": {
+        "charset": {
+          "charset": "UTF-8",
+        },
+        "viewport": "width=device-width, initial-scale=1.0",
+      },
+      "minify": false,
+      "publicPath": "auto",
+      "scriptLoading": "defer",
+      "showErrors": true,
+      "template": "",
+      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateParameters": [Function],
+      "title": "",
+      "xhtml": false,
+    },
+    "userOptions": {
+      "chunks": [
+        "index",
+      ],
+      "entryName": "index",
+      "filename": "html/index/index.html",
+      "inject": "head",
+      "meta": {
+        "charset": {
+          "charset": "UTF-8",
+        },
+        "viewport": "width=device-width, initial-scale=1.0",
+      },
+      "minify": false,
+      "scriptLoading": "defer",
+      "template": "",
+      "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      "templateParameters": [Function],
+      "title": "",
+    },
+    "version": 5,
+  },
+  RsbuildHtmlPlugin {
+    "getEnvironment": [Function],
+    "modifyTagsFn": [Function],
+    "name": "RsbuildHtmlPlugin",
+    "options": {
+      "index": {
+        "templateContent": "<!doctype html><html><head></head><body><div id=\\"root\\"></div></body></html>",
+      },
+    },
+  },
+  DefinePlugin {
+    "definitions": {
+      "import.meta.env.ASSET_PREFIX": "\\"\\"",
+      "import.meta.env.BASE_URL": "\\"/\\"",
+      "import.meta.env.DEV": false,
+      "import.meta.env.MODE": "\\"production\\"",
+      "import.meta.env.PROD": true,
+      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.BASE_URL": "\\"/\\"",
+    },
+  },
+  ProgressPlugin {
+    "compileTime": null,
+    "dependenciesCount": 10000,
+    "handler": [Function],
+    "hasCompileErrors": false,
+    "id": "web",
+    "modulesCount": 5000,
+    "name": "ProgressPlugin",
+    "percentBy": null,
+    "profile": false,
+    "showActiveModules": false,
+    "showDependencies": true,
+    "showEntries": true,
+    "showModules": true,
+  },
+  ForkTsCheckerWebpackPlugin {
+    "options": {
+      "issue": {
+        "exclude": [
+          [Function],
+        ],
+      },
+      "logger": {
+        "error": [Function],
+        "log": [Function],
+      },
+      "typescript": {
+        "build": false,
+        "configFile": "tsconfig.json",
+        "memoryLimit": 8192,
+        "mode": "readonly",
+        "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+      },
+    },
+  },
+]
+`;
+
 exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = `
 [
   RsbuildCorePlugin {},
