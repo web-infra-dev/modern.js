@@ -1,4 +1,4 @@
-import { type z, z as zod } from 'zod';
+import { z } from 'zod';
 import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
@@ -216,7 +216,7 @@ export const Redirect = (url: string): Operator<void> => {
 
 export const Upload = <Schema extends z.ZodType>(
   urlPath: string,
-  schema: Schema = zod.any() as unknown as Schema,
+  schema: Schema = z.any() as unknown as Schema,
 ): Operator<
   {
     files: z.input<Schema>;
