@@ -37,12 +37,17 @@ export const createUniBuilder = async (
   return builder;
 };
 
+// avoid net::ERR_UNSAFE_PORT error
+// only list unsafePorts > 10000
+// https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/net/base/port_util.cc
+const unsafePorts = [10080];
+
 const portMap = new Map();
 
 function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
   let port = defaultPort;
   while (true) {
-    if (!portMap.get(port)) {
+    if (!portMap.get(port) && !unsafePorts.includes(port)) {
       portMap.set(port, 1);
       return port;
     } else {
