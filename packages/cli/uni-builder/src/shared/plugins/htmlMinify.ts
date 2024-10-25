@@ -101,6 +101,10 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
 
             const userMinifyOption = options[0].minify;
 
+            if (userMinifyOption === false) {
+              return options;
+            }
+
             const minifyFn = (html: string) =>
               minify(
                 html,
@@ -122,11 +126,11 @@ export const pluginHtmlMinifierTerser = (): RsbuildPlugin => ({
         });
         if (isHtmlWebpackPlugin) {
           chain.plugin(id).tap(options => {
-            if (!options.length || options[0].minify) {
+            if (!options.length) {
               return options;
             }
 
-            if (disableHtmlMinify) {
+            if (disableHtmlMinify || options[0].minify === false) {
               options[0].minify = false;
               return options;
             }
