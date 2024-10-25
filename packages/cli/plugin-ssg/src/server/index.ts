@@ -87,4 +87,9 @@ export const createServer = (
         logger.info(str.replace(/[^\S\n]+/g, ' '));
       }
     });
+
+    cp.stdout?.on('data', chunk => {
+      const str = chunk.toString();
+      logger.info(str.replace(/[^\S\n]+/g, ' '));
+    });
   });
