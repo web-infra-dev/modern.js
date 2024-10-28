@@ -28,9 +28,9 @@
     "test:watch": "vitest dev"
   },
   "dependencies": {
-    "@babel/core": "^7.24.7",
+    "@babel/core": "^7.26.0",
     "@babel/preset-react": "^7.22.15",
-    "@babel/types": "^7.24.7",
+    "@babel/types": "^7.26.0",
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.15",
