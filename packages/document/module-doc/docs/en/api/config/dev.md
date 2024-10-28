@@ -9,7 +9,7 @@ This section describes all configuration of Modern.js Module related to debuggin
 ## storybook
 
 :::warning
-**Deprecated**: This configuration is deprecated and only applicable to Storybook V6. Please see [使用Storybook](/guide/basic/using-storybook) to get more info.
+**Deprecated**: This configuration is deprecated and only applicable to Storybook V6. Please see [使用 Storybook](/guide/basic/using-storybook) to get more info.
 :::
 
 ### storybook.webpack
@@ -28,8 +28,6 @@ export default {
   },
 };
 ```
-
-You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpack`. The usage can be found in the [`tools.webpack`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpack) configuration of Modern.js.
 
 ![Storybook](https://storybook.js.org/71522ac365feaf3338d7c242e53378f6/manager-preview.png)
 
@@ -65,5 +63,3 @@ export default {
   },
 };
 ```
-
-You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpackChain`. You can refer to Modern.js's [`tools.webpackChain`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpackchain) configuration for how to use it.
