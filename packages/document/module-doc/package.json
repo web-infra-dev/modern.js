@@ -18,9 +18,9 @@
   },
   "devDependencies": {
     "@modern-js/doc-plugin-auto-sidebar": "2.58.1",
-    "@rspress/shared": "1.31.1",
+    "@rspress/shared": "1.35.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rspress": "1.31.1"
+    "rspress": "1.35.2"
   }
 }
