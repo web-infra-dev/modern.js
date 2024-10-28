@@ -216,7 +216,7 @@ export const Redirect = (url: string): Operator<void> => {
 
 export const Upload = <Schema extends z.ZodType>(
   urlPath: string,
-  schema: Schema = z.any() as unknown as Schema,
+  schema?: Schema,
 ): Operator<
   {
     files: z.input<Schema>;
@@ -225,6 +225,7 @@ export const Upload = <Schema extends z.ZodType>(
     formData: z.output<Schema>;
   }
 > => {
+  const finalSchema = schema || z.any();
   return {
     name: 'Upload',
     metadata({ setMetadata }) {
@@ -234,7 +235,7 @@ export const Upload = <Schema extends z.ZodType>(
         method: HttpMethod.Post,
         action: 'upload',
       });
-      setMetadata(HttpMetadata.Files, schema);
+      setMetadata(HttpMetadata.Files, finalSchema);
     },
     async validate(helper, next) {
       const {
@@ -243,7 +244,7 @@ export const Upload = <Schema extends z.ZodType>(
 
       (helper.inputs as any) = {
         ...helper.inputs,
-        files: await validateInput(schema, files),
+        files: await validateInput(finalSchema, files),
       };
       return next();
     },

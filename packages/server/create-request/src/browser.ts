@@ -8,6 +8,7 @@ import type {
   RequestUploader,
   Sender,
 } from './types';
+import { getUploadPayload } from './utiles';
 
 let realRequest: typeof fetch;
 let realAllowedHeaders: string[];
@@ -129,39 +130,10 @@ export const createRequest: RequestCreator = (
 };
 
 export const createUploader: RequestUploader = (path: string) => {
-  const keys: Key[] = [];
-  pathToRegexp(path, keys);
-
-  const sender: Sender = async (...args) => {
+  const sender: Sender = (...args) => {
     const fetcher = realRequest || originFetch;
-    const payload: BFFRequestPayload =
-      typeof args[args.length - 1] === 'object' ? args[args.length - 1] : {};
-    const files = payload.files;
-    if (!files) {
-      throw new Error('no files');
-    }
-    const formdata = new FormData();
-    for (const [key, value] of Object.entries(files)) {
-      if (value instanceof FileList) {
-        for (let i = 0; i < value.length; i++) {
-          formdata.append(key, value[i]);
-        }
-      } else {
-        formdata.append(key, value);
-      }
-    }
-
-    const body = formdata;
-    // fetch 自动设置 'Content-Type': 'multipart/form-data' 和 boundary
-    const headers: Record<string, any> = {};
-
-    headers.accept = `application/json,*/*;q=0.8`;
-
-    return fetcher(path, {
-      method: 'POST',
-      body,
-      headers,
-    });
+    const { body, headers } = getUploadPayload(args);
+    return fetcher(path, { method: 'POST', body, headers });
   };
 
   return sender;
