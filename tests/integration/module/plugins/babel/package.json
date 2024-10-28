@@ -2,7 +2,7 @@
   "name": "plugin-babel",
   "version": "1.0.0",
   "devDependencies": {
-    "@babel/preset-env": "^7.24.7"
+    "@babel/preset-env": "^7.26.0"
   },
   "private": true
 }

@@ -64,8 +64,8 @@
   "dependencies": {
     "@ampproject/remapping": "^2.2.1",
     "@ast-grep/napi": "0.16.0",
-    "@babel/core": "^7.24.7",
-    "@babel/types": "^7.24.7",
+    "@babel/core": "^7.26.0",
+    "@babel/types": "^7.26.0",
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
