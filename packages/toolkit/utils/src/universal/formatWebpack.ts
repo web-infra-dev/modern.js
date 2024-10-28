@@ -114,7 +114,7 @@ export function addErrorTips(errors: string[], color = defaultColor) {
       formatter(message) {
         return `${message}\n\n${color.yellow(
           `If it is a TypeScript file, you can use "source.include" config to compile it. see ${color.underline(
-            'https://modernjs.dev/builder/en/api/config-source.html#sourceinclude',
+            'https://modernjs.dev/en/configure/app/source/include.html',
           )}`,
         )}
 
