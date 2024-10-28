@@ -491,7 +491,7 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -634,7 +634,7 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -777,7 +777,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
@@ -901,7 +901,7 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
                 "useESModules": true,
-                "version": "7.24.7",
+                "version": "7.26.0",
               },
             ],
             "<WORKSPACE>/packages/cli/babel-preset/src/pluginLockCorejsVersion.js",
