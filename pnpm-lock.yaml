@@ -8,8 +8,6 @@ overrides:
   '@types/react': ^18.3.11
   '@types/react-dom': ^18.3.1
 
-pnpmfileChecksum: xgsanqyu6btouvnpjms5qrs35q
-
 importers:
 
   .:
@@ -498,10 +496,10 @@ importers:
         version: link:../../toolkit/utils
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
-        version: 1.0.5(@rsbuild/core@1.0.17)
+        version: 1.0.5(@rsbuild/core@1.0.18)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -603,10 +601,10 @@ importers:
     devDependencies:
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@rsbuild/webpack':
         specifier: ~1.0.9
-        version: 1.0.11(@rsbuild/core@1.0.17)(esbuild@0.17.19)
+        version: 1.0.11(@rsbuild/core@1.0.18)(esbuild@0.17.19)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -636,58 +634,58 @@ importers:
         version: 0.5.15(@types/webpack@5.28.0(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.95.0(esbuild@0.17.19))
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@rsbuild/plugin-assets-retry':
         specifier: ~1.0.1
-        version: 1.0.3(@rsbuild/core@1.0.17)
+        version: 1.0.3(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-babel':
         specifier: ~1.0.1
-        version: 1.0.2(@rsbuild/core@1.0.17)
+        version: 1.0.2(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-check-syntax':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)
+        version: 1.0.1(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-css-minimizer':
         specifier: ~1.0.2
-        version: 1.0.2(@rsbuild/core@1.0.17)(esbuild@0.17.19)(webpack@5.95.0(esbuild@0.17.19))
+        version: 1.0.2(@rsbuild/core@1.0.18)(esbuild@0.17.19)(webpack@5.95.0(esbuild@0.17.19))
       '@rsbuild/plugin-less':
         specifier: ~1.0.1
-        version: 1.0.2(@rsbuild/core@1.0.17)
+        version: 1.0.3(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-pug':
         specifier: ~1.0.2
-        version: 1.0.2(@rsbuild/core@1.0.17)
+        version: 1.0.2(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-react':
         specifier: ~1.0.3
-        version: 1.0.5(@rsbuild/core@1.0.17)
+        version: 1.0.5(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-rem':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)
+        version: 1.0.1(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-sass':
         specifier: ~1.0.2
-        version: 1.0.4(@rsbuild/core@1.0.17)
+        version: 1.0.4(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-source-build':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)
+        version: 1.0.1(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-styled-components':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)
+        version: 1.0.1(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-svgr':
         specifier: ~1.0.3
-        version: 1.0.4(@rsbuild/core@1.0.17)
+        version: 1.0.4(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-toml':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)
+        version: 1.0.1(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-type-check':
         specifier: ~1.0.1
-        version: 1.0.1(@rsbuild/core@1.0.17)(esbuild@0.17.19)(typescript@5.3.3)
+        version: 1.0.1(@rsbuild/core@1.0.18)(esbuild@0.17.19)(typescript@5.3.3)
       '@rsbuild/plugin-typed-css-modules':
         specifier: ~1.0.2
-        version: 1.0.2(@rsbuild/core@1.0.17)
+        version: 1.0.2(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-yaml':
         specifier: ~1.0.2
-        version: 1.0.2(@rsbuild/core@1.0.17)
+        version: 1.0.2(@rsbuild/core@1.0.18)
       '@rsbuild/webpack':
         specifier: ~1.0.9
-        version: 1.0.11(@rsbuild/core@1.0.17)(esbuild@0.17.19)
+        version: 1.0.11(@rsbuild/core@1.0.18)(esbuild@0.17.19)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -775,7 +773,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
-        version: 1.0.5(@rsbuild/core@1.0.17)
+        version: 1.0.5(@rsbuild/core@1.0.18)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -848,7 +846,7 @@ importers:
         version: 3.0.5(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
@@ -1114,7 +1112,7 @@ importers:
         version: link:../../cli/uni-builder
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -2831,7 +2829,7 @@ importers:
         version: 4.3.2
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3826,10 +3824,10 @@ importers:
         version: link:../../toolkit/utils
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@rsbuild/plugin-node-polyfill':
         specifier: ~1.2.0
-        version: 1.2.0(@rsbuild/core@1.0.17)
+        version: 1.2.0(@rsbuild/core@1.0.18)
       '@swc/helpers':
         specifier: 0.5.13
         version: 0.5.13
@@ -3860,7 +3858,7 @@ importers:
     devDependencies:
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
-        version: 1.0.5(@rsbuild/core@1.0.17)
+        version: 1.0.5(@rsbuild/core@1.0.18)
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3978,7 +3976,7 @@ importers:
         version: 'link:'
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4069,7 +4067,7 @@ importers:
         version: link:../../toolkit/utils
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@storybook/components':
         specifier: ~7.6.12
         version: 7.6.20(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -4999,10 +4997,10 @@ importers:
         version: 1.33.0
       '@rsbuild/core':
         specifier: ~1.0.11
-        version: 1.0.17
+        version: 1.0.18
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
-        version: 1.0.5(@rsbuild/core@1.0.17)
+        version: 1.0.5(@rsbuild/core@1.0.18)
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.17.12
@@ -9549,6 +9547,12 @@ packages:
     cpu: [arm64]
     os: [android]
 
+  '@esbuild/android-arm@0.15.18':
+    resolution: {integrity: sha512-5GT+kcs2WVGjVs7+boataCkO5Fg0y4kCjzkB5bAip7H4jfnOS3dA6KPiww9W1OEKTKeAcUVhdZGvgI65OXmUnw==}
+    engines: {node: '>=12'}
+    cpu: [arm]
+    os: [android]
+
   '@esbuild/android-arm@0.17.19':
     resolution: {integrity: sha512-rIKddzqhmav7MSmoFCmDIb6e2W57geRsM94gV2l38fzhXMwq7hZoClug9USI2pFRGL06f4IOPHHpFNOkWieR8A==}
     engines: {node: '>=12'}
@@ -9713,6 +9717,12 @@ packages:
 
   '@esbuild/linux-loong64@0.14.54':
     resolution: {integrity: sha512-bZBrLAIX1kpWelV0XemxBZllyRmM6vgFQQG2GdNb+r3Fkp0FOh1NJSvekXDs7jq70k4euu1cryLMfU+mTXlEpw==}
+    engines: {node: '>=12'}
+    cpu: [loong64]
+    os: [linux]
+
+  '@esbuild/linux-loong64@0.15.18':
+    resolution: {integrity: sha512-L4jVKS82XVhw2nvzLg/19ClLWg0y27ulRwuP7lcyL6AbUWB5aPglXY3M21mauDQMDfRLs8cQmeT03r/+X3cZYQ==}
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
@@ -10263,12 +10273,12 @@ packages:
   '@mdx-js/react@1.6.22':
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
     peerDependencies:
-      react: '>= 17'
+      react: ^16.13.1 || ^17.0.0
 
   '@mdx-js/react@2.3.0':
     resolution: {integrity: sha512-zQH//gdOmuu7nt2oJR29vFhDv88oGPmVw6BggmrHeMI+xgEkp1B2dX9/bMBSYtK0dyLX/aOmesKS09g222K1/g==}
     peerDependencies:
-      react: '>= 17'
+      react: '>=16'
 
   '@mdx-js/util@1.6.22':
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
@@ -11557,11 +11567,6 @@ packages:
       rollup:
         optional: true
 
-  '@rsbuild/core@1.0.17':
-    resolution: {integrity: sha512-XbRrFsX5YiYrArD2f27a+WGhRWvoYgogaTMX/kiL7xcZOFuV+PbPBdU0e2o00NROGLRyVn7cTfkIkyMSr1B9Vg==}
-    engines: {node: '>=16.7.0'}
-    hasBin: true
-
   '@rsbuild/core@1.0.18':
     resolution: {integrity: sha512-NRdcGCAuBpzAIIdv+gVZxpgd9Cu9JSbaOC13nTbWRKXrHPpr+1iwYFBbM01KtX0Fe2TBLgmSaJfdDJAfEeZ3Dg==}
     engines: {node: '>=16.7.0'}
@@ -11592,11 +11597,6 @@ packages:
     peerDependenciesMeta:
       '@rsbuild/core':
         optional: true
-
-  '@rsbuild/plugin-less@1.0.2':
-    resolution: {integrity: sha512-FtnJbonHfBrPP5tCiAHaOYyfqUYpvCUZVHfDv6wsky5copjDG0xnW7NL4JCNdT2QxTbssudL46UhYq67pLW5eA==}
-    peerDependencies:
-      '@rsbuild/core': 1.x || ^1.0.1-rc.0
 
   '@rsbuild/plugin-less@1.0.3':
     resolution: {integrity: sha512-lz/u0C7Cj/sUO0WuwxJR976BLUxFy/mzT9fZOK/G6ceTuhUd1rEQw4FAPuOefhgkDxfqpJ4ZjliVfpm+n4CjyQ==}
@@ -13620,6 +13620,11 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+  browserslist@4.24.2:
+    resolution: {integrity: sha512-ZIc+Q62revdMcqC6aChtW4jz3My3klmCO1fEmINZY/8J3EpBg5/A/D0AKmBveUh6pgoeycoMkVMko84tuYS+Gg==}
+    engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
+    hasBin: true
+
   bs-logger@0.2.6:
     resolution: {integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==}
     engines: {node: '>= 6'}
@@ -13736,6 +13741,9 @@ packages:
 
   caniuse-lite@1.0.30001669:
     resolution: {integrity: sha512-DlWzFDJqstqtIVx1zeSpIMLjunf5SmwOw0N2Ck/QSQdS8PLS4+9HrLaYei4w8BIAL7IB/UEDu889d8vhCTPA0w==}
+
+  caniuse-lite@1.0.30001673:
+    resolution: {integrity: sha512-WTrjUCSMp3LYX0nE12ECkV0a+e6LC85E0Auz75555/qr78Oc8YWhEPNfDd6SHdtlCMSzqtuXY0uyEMNRcsKpKw==}
 
   ccount@1.1.0:
     resolution: {integrity: sha512-vlNK021QdI7PNeiUh/lKkC/mNHHfV0m/Ad5JoI0TYtlBnJAslM/JIkm/tGC88bkLIwO6OQ5uV6ztS6kVAtCDlg==}
@@ -14808,6 +14816,9 @@ packages:
   electron-to-chromium@1.5.29:
     resolution: {integrity: sha512-PF8n2AlIhCKXQ+gTpiJi0VhcHDb69kYX4MtCiivctc2QD3XuNZ/XIOlbGzt7WAjjEev0TtaH6Cu3arZExm5DOw==}
 
+  electron-to-chromium@1.5.47:
+    resolution: {integrity: sha512-zS5Yer0MOYw4rtK2iq43cJagHZ8sXN0jDHDKzB+86gSBSAI4v07S97mcq+Gs2vclAxSh1j7vOAHxSVgduiiuVQ==}
+
   elliptic@6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
 
@@ -14948,8 +14959,20 @@ packages:
     cpu: [x64]
     os: [android]
 
+  esbuild-android-64@0.15.18:
+    resolution: {integrity: sha512-wnpt3OXRhcjfIDSZu9bnzT4/TNTDsOUvip0foZOUBG7QbSt//w3QV4FInVJxNhKc/ErhUxc5z4QjHtMi7/TbgA==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [android]
+
   esbuild-android-arm64@0.14.54:
     resolution: {integrity: sha512-F9E+/QDi9sSkLaClO8SOV6etqPd+5DgJje1F9lOWoNncDdOBL2YF59IhsWATSt0TLZbYCf3pNlTHvVV5VfHdvg==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [android]
+
+  esbuild-android-arm64@0.15.18:
+    resolution: {integrity: sha512-G4xu89B8FCzav9XU8EjsXacCKSG2FT7wW9J6hOc18soEHJdtWu03L3TQDGf0geNxfLTtxENKBzMSq9LlbjS8OQ==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
@@ -14960,8 +14983,20 @@ packages:
     cpu: [x64]
     os: [darwin]
 
+  esbuild-darwin-64@0.15.18:
+    resolution: {integrity: sha512-2WAvs95uPnVJPuYKP0Eqx+Dl/jaYseZEUUT1sjg97TJa4oBtbAKnPnl3b5M9l51/nbx7+QAEtuummJZW0sBEmg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [darwin]
+
   esbuild-darwin-arm64@0.14.54:
     resolution: {integrity: sha512-OPafJHD2oUPyvJMrsCvDGkRrVCar5aVyHfWGQzY1dWnzErjrDuSETxwA2HSsyg2jORLY8yBfzc1MIpUkXlctmw==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [darwin]
+
+  esbuild-darwin-arm64@0.15.18:
+    resolution: {integrity: sha512-tKPSxcTJ5OmNb1btVikATJ8NftlyNlc8BVNtyT/UAr62JFOhwHlnoPrhYWz09akBLHI9nElFVfWSTSRsrZiDUA==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -14972,8 +15007,20 @@ packages:
     cpu: [x64]
     os: [freebsd]
 
+  esbuild-freebsd-64@0.15.18:
+    resolution: {integrity: sha512-TT3uBUxkteAjR1QbsmvSsjpKjOX6UkCstr8nMr+q7zi3NuZ1oIpa8U41Y8I8dJH2fJgdC3Dj3CXO5biLQpfdZA==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [freebsd]
+
   esbuild-freebsd-arm64@0.14.54:
     resolution: {integrity: sha512-sFwueGr7OvIFiQT6WeG0jRLjkjdqWWSrfbVwZp8iMP+8UHEHRBvlaxL6IuKNDwAozNUmbb8nIMXa7oAOARGs1Q==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [freebsd]
+
+  esbuild-freebsd-arm64@0.15.18:
+    resolution: {integrity: sha512-R/oVr+X3Tkh+S0+tL41wRMbdWtpWB8hEAMsOXDumSSa6qJR89U0S/PpLXrGF7Wk/JykfpWNokERUpCeHDl47wA==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
@@ -14984,8 +15031,20 @@ packages:
     cpu: [ia32]
     os: [linux]
 
+  esbuild-linux-32@0.15.18:
+    resolution: {integrity: sha512-lphF3HiCSYtaa9p1DtXndiQEeQDKPl9eN/XNoBf2amEghugNuqXNZA/ZovthNE2aa4EN43WroO0B85xVSjYkbg==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [linux]
+
   esbuild-linux-64@0.14.54:
     resolution: {integrity: sha512-EgjAgH5HwTbtNsTqQOXWApBaPVdDn7XcK+/PtJwZLT1UmpLoznPd8c5CxqsH2dQK3j05YsB3L17T8vE7cp4cCg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [linux]
+
+  esbuild-linux-64@0.15.18:
+    resolution: {integrity: sha512-hNSeP97IviD7oxLKFuii5sDPJ+QHeiFTFLoLm7NZQligur8poNOWGIgpQ7Qf8Balb69hptMZzyOBIPtY09GZYw==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -14996,8 +15055,20 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  esbuild-linux-arm64@0.15.18:
+    resolution: {integrity: sha512-54qr8kg/6ilcxd+0V3h9rjT4qmjc0CccMVWrjOEM/pEcUzt8X62HfBSeZfT2ECpM7104mk4yfQXkosY8Quptug==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [linux]
+
   esbuild-linux-arm@0.14.54:
     resolution: {integrity: sha512-qqz/SjemQhVMTnvcLGoLOdFpCYbz4v4fUo+TfsWG+1aOu70/80RV6bgNpR2JCrppV2moUQkww+6bWxXRL9YMGw==}
+    engines: {node: '>=12'}
+    cpu: [arm]
+    os: [linux]
+
+  esbuild-linux-arm@0.15.18:
+    resolution: {integrity: sha512-UH779gstRblS4aoS2qpMl3wjg7U0j+ygu3GjIeTonCcN79ZvpPee12Qun3vcdxX+37O5LFxz39XeW2I9bybMVA==}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
@@ -15008,8 +15079,20 @@ packages:
     cpu: [mips64el]
     os: [linux]
 
+  esbuild-linux-mips64le@0.15.18:
+    resolution: {integrity: sha512-Mk6Ppwzzz3YbMl/ZZL2P0q1tnYqh/trYZ1VfNP47C31yT0K8t9s7Z077QrDA/guU60tGNp2GOwCQnp+DYv7bxQ==}
+    engines: {node: '>=12'}
+    cpu: [mips64el]
+    os: [linux]
+
   esbuild-linux-ppc64le@0.14.54:
     resolution: {integrity: sha512-j3OMlzHiqwZBDPRCDFKcx595XVfOfOnv68Ax3U4UKZ3MTYQB5Yz3X1mn5GnodEVYzhtZgxEBidLWeIs8FDSfrQ==}
+    engines: {node: '>=12'}
+    cpu: [ppc64]
+    os: [linux]
+
+  esbuild-linux-ppc64le@0.15.18:
+    resolution: {integrity: sha512-b0XkN4pL9WUulPTa/VKHx2wLCgvIAbgwABGnKMY19WhKZPT+8BxhZdqz6EgkqCLld7X5qiCY2F/bfpUUlnFZ9w==}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
@@ -15020,8 +15103,20 @@ packages:
     cpu: [riscv64]
     os: [linux]
 
+  esbuild-linux-riscv64@0.15.18:
+    resolution: {integrity: sha512-ba2COaoF5wL6VLZWn04k+ACZjZ6NYniMSQStodFKH/Pu6RxzQqzsmjR1t9QC89VYJxBeyVPTaHuBMCejl3O/xg==}
+    engines: {node: '>=12'}
+    cpu: [riscv64]
+    os: [linux]
+
   esbuild-linux-s390x@0.14.54:
     resolution: {integrity: sha512-zaHpW9dziAsi7lRcyV4r8dhfG1qBidQWUXweUjnw+lliChJqQr+6XD71K41oEIC3Mx1KStovEmlzm+MkGZHnHA==}
+    engines: {node: '>=12'}
+    cpu: [s390x]
+    os: [linux]
+
+  esbuild-linux-s390x@0.15.18:
+    resolution: {integrity: sha512-VbpGuXEl5FCs1wDVp93O8UIzl3ZrglgnSQ+Hu79g7hZu6te6/YHgVJxCM2SqfIila0J3k0csfnf8VD2W7u2kzQ==}
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
@@ -15032,8 +15127,20 @@ packages:
     cpu: [x64]
     os: [netbsd]
 
+  esbuild-netbsd-64@0.15.18:
+    resolution: {integrity: sha512-98ukeCdvdX7wr1vUYQzKo4kQ0N2p27H7I11maINv73fVEXt2kyh4K4m9f35U1K43Xc2QGXlzAw0K9yoU7JUjOg==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [netbsd]
+
   esbuild-openbsd-64@0.14.54:
     resolution: {integrity: sha512-Qyk7ikT2o7Wu76UsvvDS5q0amJvmRzDyVlL0qf5VLsLchjCa1+IAvd8kTBgUxD7VBUUVgItLkk609ZHUc1oCaw==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [openbsd]
+
+  esbuild-openbsd-64@0.15.18:
+    resolution: {integrity: sha512-yK5NCcH31Uae076AyQAXeJzt/vxIo9+omZRKj1pauhk3ITuADzuOx5N2fdHrAKPxN+zH3w96uFKlY7yIn490xQ==}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
@@ -15074,8 +15181,20 @@ packages:
     cpu: [x64]
     os: [sunos]
 
+  esbuild-sunos-64@0.15.18:
+    resolution: {integrity: sha512-On22LLFlBeLNj/YF3FT+cXcyKPEI263nflYlAhz5crxtp3yRG1Ugfr7ITyxmCmjm4vbN/dGrb/B7w7U8yJR9yw==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [sunos]
+
   esbuild-windows-32@0.14.54:
     resolution: {integrity: sha512-T+rdZW19ql9MjS7pixmZYVObd9G7kcaZo+sETqNH4RCkuuYSuv9AGHUVnPoP9hhuE1WM1ZimHz1CIBHBboLU7w==}
+    engines: {node: '>=12'}
+    cpu: [ia32]
+    os: [win32]
+
+  esbuild-windows-32@0.15.18:
+    resolution: {integrity: sha512-o+eyLu2MjVny/nt+E0uPnBxYuJHBvho8vWsC2lV61A7wwTWC3jkN2w36jtA+yv1UgYkHRihPuQsL23hsCYGcOQ==}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
@@ -15086,14 +15205,31 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  esbuild-windows-64@0.15.18:
+    resolution: {integrity: sha512-qinug1iTTaIIrCorAUjR0fcBk24fjzEedFYhhispP8Oc7SFvs+XeW3YpAKiKp8dRpizl4YYAhxMjlftAMJiaUw==}
+    engines: {node: '>=12'}
+    cpu: [x64]
+    os: [win32]
+
   esbuild-windows-arm64@0.14.54:
     resolution: {integrity: sha512-M0kuUvXhot1zOISQGXwWn6YtS+Y/1RT9WrVIOywZnJHo3jCDyewAc79aKNQWFCQm+xNHVTq9h8dZKvygoXQQRg==}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
 
+  esbuild-windows-arm64@0.15.18:
+    resolution: {integrity: sha512-q9bsYzegpZcLziq0zgUi5KqGVtfhjxGbnksaBFYmWLxeV/S1fK4OLdq2DFYnXcLMjlZw2L0jLsk1eGoB522WXQ==}
+    engines: {node: '>=12'}
+    cpu: [arm64]
+    os: [win32]
+
   esbuild@0.14.54:
     resolution: {integrity: sha512-Cy9llcy8DvET5uznocPyqL3BFRrFXSVqbgpMJ9Wz8oVjZlh/zUSNbPRbov0VX7VxN2JH1Oa0uNxZ7eLRb62pJA==}
+    engines: {node: '>=12'}
+    hasBin: true
+
+  esbuild@0.15.18:
+    resolution: {integrity: sha512-x/R72SmW3sSFRm5zrrIjAhCeQSAWoni3CmHEqfQrZIQTM3lVCdehdwuIqaOtfC2slvpdlLa62GYoN8SxT23m6Q==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -15502,7 +15638,7 @@ packages:
   flux@4.0.4:
     resolution: {integrity: sha512-NCj3XlayA2UsapRpM7va6wU1+9rE5FIL7qoMcmxWHRzbp0yujihMBm9BBHZ1MDIk5h5o2Bl6eGiCe8rYELAmYw==}
     peerDependencies:
-      react: '>= 17'
+      react: ^15.0.2 || ^16.0.0 || ^17.0.0
 
   focus-lock@0.11.2:
     resolution: {integrity: sha512-pZ2bO++NWLHhiKkgP1bEXHhR1/OjVcSvlCJ98aNJDFeb7H5OOQaO+SKOZle6041O9rv2tmbrO4JzClAvDUHf0g==}
@@ -19281,8 +19417,8 @@ packages:
   react-element-to-jsx-string@15.0.0:
     resolution: {integrity: sha512-UDg4lXB6BzlobN60P8fHWVPX3Kyw8ORrTeBtClmIlGdkOOE+GYQSFvmEU5iLLpwp/6v42DINwNcwOhOLfQ//FQ==}
     peerDependencies:
-      react: '>= 17'
-      react-dom: '>= 17'
+      react: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1 || ^18.0.0
+      react-dom: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1 || ^18.0.0
 
   react-error-boundary@4.0.13:
     resolution: {integrity: sha512-b6PwbdSv8XeOSYvjt8LpgpKrZ0yGdtZokYwkwV2wlcZbxgopHX/hgPl5VgpnoVOWd868n1hktM8Qm4b+02MiLQ==}
@@ -19341,8 +19477,8 @@ packages:
   react-json-view@1.21.3:
     resolution: {integrity: sha512-13p8IREj9/x/Ye4WI/JpjhoIwuzEgUAtgJZNBJckfzJt1qyh24BdTm6UQNGnyTq9dapQdrqvquZTo3dz1X6Cjw==}
     peerDependencies:
-      react: '>= 17'
-      react-dom: '>= 17'
+      react: ^17.0.0 || ^16.3.0 || ^15.5.4
+      react-dom: ^17.0.0 || ^16.3.0 || ^15.5.4
 
   react-lazy-with-preload@2.2.1:
     resolution: {integrity: sha512-ONSb8gizLE5jFpdHAclZ6EAAKuFX2JydnFXPPPjoUImZlLjGtKzyBS8SJgJq7CpLgsGKh9QCZdugJyEEOVC16Q==}
@@ -23840,6 +23976,9 @@ snapshots:
   '@esbuild/android-arm64@0.19.2':
     optional: true
 
+  '@esbuild/android-arm@0.15.18':
+    optional: true
+
   '@esbuild/android-arm@0.17.19':
     optional: true
 
@@ -23922,6 +24061,9 @@ snapshots:
     optional: true
 
   '@esbuild/linux-loong64@0.14.54':
+    optional: true
+
+  '@esbuild/linux-loong64@0.15.18':
     optional: true
 
   '@esbuild/linux-loong64@0.17.19':
@@ -25150,7 +25292,7 @@ snapshots:
   '@modern-js/utils@2.60.3':
     dependencies:
       '@swc/helpers': 0.5.13
-      caniuse-lite: 1.0.30001669
+      caniuse-lite: 1.0.30001673
       lodash: 4.17.21
       rslog: 1.2.3
 
@@ -26374,15 +26516,6 @@ snapshots:
     optionalDependencies:
       rollup: 3.29.5
 
-  '@rsbuild/core@1.0.17':
-    dependencies:
-      '@rspack/core': 1.0.14(@swc/helpers@0.5.13)
-      '@rspack/lite-tapable': 1.0.1
-      '@swc/helpers': 0.5.13
-      core-js: 3.38.1
-    optionalDependencies:
-      fsevents: 2.3.3
-
   '@rsbuild/core@1.0.18':
     dependencies:
       '@rspack/core': 1.0.14(@swc/helpers@0.5.13)
@@ -26392,23 +26525,9 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  '@rsbuild/plugin-assets-retry@1.0.3(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-assets-retry@1.0.3(@rsbuild/core@1.0.18)':
     dependencies:
-      '@rsbuild/core': 1.0.17
-
-  '@rsbuild/plugin-babel@1.0.2(@rsbuild/core@1.0.17)':
-    dependencies:
-      '@babel/core': 7.26.0
-      '@babel/plugin-proposal-decorators': 7.25.7(@babel/core@7.26.0)
-      '@babel/plugin-transform-class-properties': 7.25.7(@babel/core@7.26.0)
-      '@babel/preset-typescript': 7.26.0(@babel/core@7.26.0)
-      '@rsbuild/core': 1.0.17
-      '@types/babel__core': 7.20.5
-      deepmerge: 4.3.1
-      reduce-configs: 1.0.0
-      upath: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
+      '@rsbuild/core': 1.0.18
 
   '@rsbuild/plugin-babel@1.0.2(@rsbuild/core@1.0.18)':
     dependencies:
@@ -26424,7 +26543,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-check-syntax@1.0.1(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-check-syntax@1.0.1(@rsbuild/core@1.0.18)':
     dependencies:
       acorn: 8.12.1
       browserslist-to-es-version: 1.0.0
@@ -26432,14 +26551,14 @@ snapshots:
       picocolors: 1.1.0
       source-map: 0.7.4
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-css-minimizer@1.0.2(@rsbuild/core@1.0.17)(esbuild@0.17.19)(webpack@5.95.0(esbuild@0.17.19))':
+  '@rsbuild/plugin-css-minimizer@1.0.2(@rsbuild/core@1.0.18)(esbuild@0.17.19)(webpack@5.95.0(esbuild@0.17.19))':
     dependencies:
       css-minimizer-webpack-plugin: 5.0.1(esbuild@0.17.19)(webpack@5.95.0(esbuild@0.17.19))
       reduce-configs: 1.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
     transitivePeerDependencies:
       - '@parcel/css'
       - '@swc/css'
@@ -26449,19 +26568,13 @@ snapshots:
       - lightningcss
       - webpack
 
-  '@rsbuild/plugin-less@1.0.2(@rsbuild/core@1.0.17)':
-    dependencies:
-      '@rsbuild/core': 1.0.17
-      deepmerge: 4.3.1
-      reduce-configs: 1.0.0
-
   '@rsbuild/plugin-less@1.0.3(@rsbuild/core@1.0.18)':
     dependencies:
       '@rsbuild/core': 1.0.18
       deepmerge: 4.3.1
       reduce-configs: 1.0.0
 
-  '@rsbuild/plugin-node-polyfill@1.2.0(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-node-polyfill@1.2.0(@rsbuild/core@1.0.18)':
     dependencies:
       assert: 2.1.0
       browserify-zlib: 0.2.0
@@ -26487,25 +26600,19 @@ snapshots:
       util: 0.12.5
       vm-browserify: 1.1.2
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-pug@1.0.2(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-pug@1.0.2(@rsbuild/core@1.0.18)':
     dependencies:
       '@types/pug': 2.0.10
       pug: 3.0.3
       reduce-configs: 1.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-react@1.0.4(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-react@1.0.4(@rsbuild/core@1.0.18)':
     dependencies:
-      '@rsbuild/core': 1.0.17
-      '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.14.2)
-      react-refresh: 0.14.2
-
-  '@rsbuild/plugin-react@1.0.5(@rsbuild/core@1.0.17)':
-    dependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.14.2)
       react-refresh: 0.14.2
 
@@ -26515,21 +26622,12 @@ snapshots:
       '@rspack/plugin-react-refresh': 1.0.0(react-refresh@0.14.2)
       react-refresh: 0.14.2
 
-  '@rsbuild/plugin-rem@1.0.1(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-rem@1.0.1(@rsbuild/core@1.0.18)':
     dependencies:
       deepmerge: 4.3.1
       terser: 5.31.6
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
-
-  '@rsbuild/plugin-sass@1.0.4(@rsbuild/core@1.0.17)':
-    dependencies:
-      '@rsbuild/core': 1.0.17
-      deepmerge: 4.3.1
-      loader-utils: 2.0.4
-      postcss: 8.4.47
-      reduce-configs: 1.0.0
-      sass-embedded: 1.80.3
+      '@rsbuild/core': 1.0.18
 
   '@rsbuild/plugin-sass@1.0.4(@rsbuild/core@1.0.18)':
     dependencies:
@@ -26540,25 +26638,25 @@ snapshots:
       reduce-configs: 1.0.0
       sass-embedded: 1.80.3
 
-  '@rsbuild/plugin-source-build@1.0.1(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-source-build@1.0.1(@rsbuild/core@1.0.18)':
     dependencies:
       fast-glob: 3.3.2
       json5: 2.2.3
       yaml: 2.5.0
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-styled-components@1.0.1(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-styled-components@1.0.1(@rsbuild/core@1.0.18)':
     dependencies:
       '@swc/plugin-styled-components': 2.0.11
       reduce-configs: 1.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-svgr@1.0.4(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-svgr@1.0.4(@rsbuild/core@1.0.18)':
     dependencies:
-      '@rsbuild/core': 1.0.17
-      '@rsbuild/plugin-react': 1.0.4(@rsbuild/core@1.0.17)
+      '@rsbuild/core': 1.0.18
+      '@rsbuild/plugin-react': 1.0.4(@rsbuild/core@1.0.18)
       '@svgr/core': 8.1.0
       '@svgr/plugin-jsx': 8.1.0(@svgr/core@8.1.0)
       '@svgr/plugin-svgo': 8.1.0(@svgr/core@8.1.0)
@@ -26567,13 +26665,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@rsbuild/plugin-toml@1.0.1(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-toml@1.0.1(@rsbuild/core@1.0.18)':
     dependencies:
       toml: 3.0.0
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-type-check@1.0.1(@rsbuild/core@1.0.17)(esbuild@0.17.19)(typescript@5.3.3)':
+  '@rsbuild/plugin-type-check@1.0.1(@rsbuild/core@1.0.18)(esbuild@0.17.19)(typescript@5.3.3)':
     dependencies:
       deepmerge: 4.3.1
       fork-ts-checker-webpack-plugin: 9.0.2(typescript@5.3.3)(webpack@5.95.0(esbuild@0.17.19))
@@ -26581,7 +26679,7 @@ snapshots:
       reduce-configs: 1.0.0
       webpack: 5.95.0(esbuild@0.17.19)
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -26589,14 +26687,14 @@ snapshots:
       - uglify-js
       - webpack-cli
 
-  '@rsbuild/plugin-typed-css-modules@1.0.2(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-typed-css-modules@1.0.2(@rsbuild/core@1.0.18)':
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/plugin-webpack-swc@1.0.5(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-webpack-swc@1.0.5(@rsbuild/core@1.0.18)':
     dependencies:
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.13)
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
       '@swc/helpers': 0.5.13
       core-js: 3.38.1
       deepmerge: 4.3.1
@@ -26604,13 +26702,13 @@ snapshots:
       picocolors: 1.1.1
       semver: 7.6.3
 
-  '@rsbuild/plugin-yaml@1.0.2(@rsbuild/core@1.0.17)':
+  '@rsbuild/plugin-yaml@1.0.2(@rsbuild/core@1.0.18)':
     optionalDependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
 
-  '@rsbuild/webpack@1.0.11(@rsbuild/core@1.0.17)(esbuild@0.17.19)':
+  '@rsbuild/webpack@1.0.11(@rsbuild/core@1.0.18)(esbuild@0.17.19)':
     dependencies:
-      '@rsbuild/core': 1.0.17
+      '@rsbuild/core': 1.0.18
       copy-webpack-plugin: 11.0.0(webpack@5.95.0(esbuild@0.17.19))
       mini-css-extract-plugin: 2.9.1(webpack@5.95.0(esbuild@0.17.19))
       picocolors: 1.1.1
@@ -26883,7 +26981,7 @@ snapshots:
     dependencies:
       '@module-federation/runtime-tools': 0.0.8
       '@rspack/binding': 0.5.9
-      browserslist: 4.23.1
+      browserslist: 4.24.2
       enhanced-resolve: 5.12.0
       events: 3.3.0
       graceful-fs: 4.2.10
@@ -26903,7 +27001,7 @@ snapshots:
       '@module-federation/runtime-tools': 0.5.1
       '@rspack/binding': 1.0.14
       '@rspack/lite-tapable': 1.0.1
-      caniuse-lite: 1.0.30001669
+      caniuse-lite: 1.0.30001673
     optionalDependencies:
       '@swc/helpers': 0.5.13
 
@@ -26922,7 +27020,7 @@ snapshots:
       '@mdx-js/loader': 2.3.0(webpack@5.95.0(@swc/core@1.3.42)(esbuild@0.17.19))
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
-      '@modern-js/utils': link:packages/toolkit/utils
+      '@modern-js/utils': 2.60.5
       '@rsbuild/core': 1.0.18
       '@rsbuild/plugin-less': 1.0.3(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-react': 1.0.5(@rsbuild/core@1.0.18)
@@ -26977,7 +27075,7 @@ snapshots:
       '@mdx-js/loader': 2.3.0(webpack@5.95.0(esbuild@0.17.19))
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
-      '@modern-js/utils': link:packages/toolkit/utils
+      '@modern-js/utils': 2.60.5
       '@rsbuild/core': 1.0.18
       '@rsbuild/plugin-less': 1.0.3(@rsbuild/core@1.0.18)
       '@rsbuild/plugin-react': 1.0.5(@rsbuild/core@1.0.18)
@@ -29529,6 +29627,14 @@ snapshots:
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
+  browserslist@4.24.2:
+    dependencies:
+      caniuse-lite: 1.0.30001673
+      electron-to-chromium: 1.5.47
+      node-releases: 2.0.18
+      update-browserslist-db: 1.1.1(browserslist@4.24.2)
+    optional: true
+
   bs-logger@0.2.6:
     dependencies:
       fast-json-stable-stringify: 2.1.0
@@ -29642,7 +29748,7 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.23.1
-      caniuse-lite: 1.0.30001669
+      caniuse-lite: 1.0.30001673
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
@@ -29653,6 +29759,8 @@ snapshots:
   caniuse-lite@1.0.30001668: {}
 
   caniuse-lite@1.0.30001669: {}
+
+  caniuse-lite@1.0.30001673: {}
 
   ccount@1.1.0: {}
 
@@ -30773,6 +30881,9 @@ snapshots:
 
   electron-to-chromium@1.5.29: {}
 
+  electron-to-chromium@1.5.47:
+    optional: true
+
   elliptic@6.5.4:
     dependencies:
       bn.js: 4.12.0
@@ -30966,49 +31077,97 @@ snapshots:
   esbuild-android-64@0.14.54:
     optional: true
 
+  esbuild-android-64@0.15.18:
+    optional: true
+
   esbuild-android-arm64@0.14.54:
+    optional: true
+
+  esbuild-android-arm64@0.15.18:
     optional: true
 
   esbuild-darwin-64@0.14.54:
     optional: true
 
+  esbuild-darwin-64@0.15.18:
+    optional: true
+
   esbuild-darwin-arm64@0.14.54:
+    optional: true
+
+  esbuild-darwin-arm64@0.15.18:
     optional: true
 
   esbuild-freebsd-64@0.14.54:
     optional: true
 
+  esbuild-freebsd-64@0.15.18:
+    optional: true
+
   esbuild-freebsd-arm64@0.14.54:
+    optional: true
+
+  esbuild-freebsd-arm64@0.15.18:
     optional: true
 
   esbuild-linux-32@0.14.54:
     optional: true
 
+  esbuild-linux-32@0.15.18:
+    optional: true
+
   esbuild-linux-64@0.14.54:
+    optional: true
+
+  esbuild-linux-64@0.15.18:
     optional: true
 
   esbuild-linux-arm64@0.14.54:
     optional: true
 
+  esbuild-linux-arm64@0.15.18:
+    optional: true
+
   esbuild-linux-arm@0.14.54:
+    optional: true
+
+  esbuild-linux-arm@0.15.18:
     optional: true
 
   esbuild-linux-mips64le@0.14.54:
     optional: true
 
+  esbuild-linux-mips64le@0.15.18:
+    optional: true
+
   esbuild-linux-ppc64le@0.14.54:
+    optional: true
+
+  esbuild-linux-ppc64le@0.15.18:
     optional: true
 
   esbuild-linux-riscv64@0.14.54:
     optional: true
 
+  esbuild-linux-riscv64@0.15.18:
+    optional: true
+
   esbuild-linux-s390x@0.14.54:
+    optional: true
+
+  esbuild-linux-s390x@0.15.18:
     optional: true
 
   esbuild-netbsd-64@0.14.54:
     optional: true
 
+  esbuild-netbsd-64@0.15.18:
+    optional: true
+
   esbuild-openbsd-64@0.14.54:
+    optional: true
+
+  esbuild-openbsd-64@0.15.18:
     optional: true
 
   esbuild-plugin-alias@0.2.1: {}
@@ -31040,13 +31199,25 @@ snapshots:
   esbuild-sunos-64@0.14.54:
     optional: true
 
+  esbuild-sunos-64@0.15.18:
+    optional: true
+
   esbuild-windows-32@0.14.54:
+    optional: true
+
+  esbuild-windows-32@0.15.18:
     optional: true
 
   esbuild-windows-64@0.14.54:
     optional: true
 
+  esbuild-windows-64@0.15.18:
+    optional: true
+
   esbuild-windows-arm64@0.14.54:
+    optional: true
+
+  esbuild-windows-arm64@0.15.18:
     optional: true
 
   esbuild@0.14.54:
@@ -31072,6 +31243,31 @@ snapshots:
       esbuild-windows-32: 0.14.54
       esbuild-windows-64: 0.14.54
       esbuild-windows-arm64: 0.14.54
+
+  esbuild@0.15.18:
+    optionalDependencies:
+      '@esbuild/android-arm': 0.15.18
+      '@esbuild/linux-loong64': 0.15.18
+      esbuild-android-64: 0.15.18
+      esbuild-android-arm64: 0.15.18
+      esbuild-darwin-64: 0.15.18
+      esbuild-darwin-arm64: 0.15.18
+      esbuild-freebsd-64: 0.15.18
+      esbuild-freebsd-arm64: 0.15.18
+      esbuild-linux-32: 0.15.18
+      esbuild-linux-64: 0.15.18
+      esbuild-linux-arm: 0.15.18
+      esbuild-linux-arm64: 0.15.18
+      esbuild-linux-mips64le: 0.15.18
+      esbuild-linux-ppc64le: 0.15.18
+      esbuild-linux-riscv64: 0.15.18
+      esbuild-linux-s390x: 0.15.18
+      esbuild-netbsd-64: 0.15.18
+      esbuild-openbsd-64: 0.15.18
+      esbuild-sunos-64: 0.15.18
+      esbuild-windows-32: 0.15.18
+      esbuild-windows-64: 0.15.18
+      esbuild-windows-arm64: 0.15.18
 
   esbuild@0.17.19:
     optionalDependencies:
@@ -39025,7 +39221,7 @@ snapshots:
 
   tsm@2.3.0:
     dependencies:
-      esbuild: 0.17.19
+      esbuild: 0.15.18
 
   tsscmp@1.0.6: {}
 
@@ -39329,6 +39525,13 @@ snapshots:
       escalade: 3.2.0
       picocolors: 1.1.1
 
+  update-browserslist-db@1.1.1(browserslist@4.24.2):
+    dependencies:
+      browserslist: 4.24.2
+      escalade: 3.2.0
+      picocolors: 1.1.1
+    optional: true
+
   upper-case@2.0.2:
     dependencies:
       tslib: 2.7.0
@@ -39515,7 +39718,7 @@ snapshots:
 
   vite@4.5.2(@types/node@18.19.55)(less@4.1.3)(sass@1.54.4)(terser@5.31.6):
     dependencies:
-      esbuild: 0.17.19
+      esbuild: 0.18.20
       postcss: 8.4.47
       rollup: 3.29.5
     optionalDependencies:
