@@ -114,6 +114,7 @@
     "webpack",
     // need node 18
     "http-compression",
-    "@biomejs/biome"
+    "@biomejs/biome",
+    "caniuse-lite"
   ]
 }
