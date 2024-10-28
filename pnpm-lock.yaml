@@ -719,8 +719,8 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       html-webpack-plugin:
-        specifier: 5.6.2
-        version: 5.6.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
+        specifier: 5.6.3
+        version: 5.6.3(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -771,7 +771,7 @@ importers:
         version: 5.95.0(esbuild@0.17.19)
       webpack-subresource-integrity:
         specifier: 5.1.0
-        version: 5.1.0(html-webpack-plugin@5.6.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19))
+        version: 5.1.0(html-webpack-plugin@5.6.3(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19))
     devDependencies:
       '@rsbuild/plugin-webpack-swc':
         specifier: ~1.0.3
@@ -2407,8 +2407,8 @@ importers:
         specifier: 1.0.0
         version: 1.0.0
       crypto-browserify:
-        specifier: 3.12.0
-        version: 3.12.0
+        specifier: 3.12.1
+        version: 3.12.1
       domain-browser:
         specifier: 4.19.0
         version: 4.19.0
@@ -4519,11 +4519,11 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.60.4
-        version: '@modern-js/core@2.60.4'
+        specifier: npm:@modern-js/core@2.60.5
+        version: '@modern-js/core@2.60.5'
       '@modern-js/module-tools-npm':
-        specifier: npm:@modern-js/module-tools@2.60.4
-        version: '@modern-js/module-tools@2.60.4(typescript@5.3.3)'
+        specifier: npm:@modern-js/module-tools@2.60.5
+        version: '@modern-js/module-tools@2.60.5(typescript@5.3.3)'
       '@types/jest':
         specifier: ^29
         version: 29.5.13
@@ -5474,9 +5474,6 @@ importers:
 
   tests/integration/basic-app:
     dependencies:
-      '@babel/plugin-syntax-import-attributes':
-        specifier: ^7.26.0
-        version: 7.26.0(@babel/core@7.26.0)
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
@@ -10783,8 +10780,8 @@ packages:
   '@modern-js/codesmith@2.6.5':
     resolution: {integrity: sha512-AxQuFAl63KDA8Izv0W12/IrMsPLrbc9/jU0dEzCHJKx8bpeqJiCtxdAUx7idb39zzP6xux+2qi1ETMF5WUaUQQ==}
 
-  '@modern-js/core@2.60.4':
-    resolution: {integrity: sha512-R4ZBR42LOdT43wOEfpV4d4RfNhCj3gn0WWa0LcTl6xZqUQAzx/gV9M+rcy0gyJBAifTqQRRRKJohnHQ8+fskbQ==}
+  '@modern-js/core@2.60.5':
+    resolution: {integrity: sha512-7C0RcMTPYRY7bsmpeu40r3npN7sBcLkhpUUpedm5HTEQ6oomKTUVVQKl+XEaW3zNAzQxN4YMRExhz9hMOJk4Kw==}
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1':
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
@@ -10792,8 +10789,8 @@ packages:
     peerDependencies:
       react: '>=17'
 
-  '@modern-js/module-tools@2.60.4':
-    resolution: {integrity: sha512-Kfe3+7HzquBvAkkA/J7sODRnbbH9FXNKDKBwm5j/XKOj2hPgrhLyQKyqCJxRaafIulldEhmVvqNnWPq1JtKa8Q==}
+  '@modern-js/module-tools@2.60.5':
+    resolution: {integrity: sha512-a5rtx2Nn4YhreUvmP7+D7iE86b33zMzliOMTuI/jh8uJ1NBCsisSg1ByS+117ech2TLCkdWNZCb7jkNGGRNzPA==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     peerDependencies:
@@ -10802,20 +10799,20 @@ packages:
       typescript:
         optional: true
 
-  '@modern-js/node-bundle-require@2.60.4':
-    resolution: {integrity: sha512-mU7cDB9pYQd5h7gtrI0E2zbMdRQdJi2nDqxqBCKb3KKtmSr0VyhAcvHw6vbBvOVKkfbqN+Q/QmUSN0dFSqWyVg==}
+  '@modern-js/node-bundle-require@2.60.5':
+    resolution: {integrity: sha512-jKFrGm3U4FVTfwR/hYpB8I+veXaLqzQU+6hVfxs4SINRP7CRcvsX0IBOIawx/01aS2u6hNH1Tadb1t++Es1hiA==}
 
-  '@modern-js/plugin-changeset@2.60.4':
-    resolution: {integrity: sha512-dNDeSOMgwojiOw2fqQICmGZddekLqD0Mv+AV6xYf6HmtAHAUKmjQ+SOckykno8yTJzUNPj58HGula0wbQDsoWA==}
+  '@modern-js/plugin-changeset@2.60.5':
+    resolution: {integrity: sha512-z//yRMg9JS9OHFPJ1x4r8UpfBXtK8A/d7rHI7anI03SzhOj+JZuzIR1oNVPV7/66TMlzR8gG0vBIdBh+jAZ+uA==}
 
   '@modern-js/plugin-i18n@2.60.3':
     resolution: {integrity: sha512-cWWg8DXFznwUovmXQLwP6SoRy/yMfKIJZbQ7ARb8HXpsLglvpzLi8Iw8wzE7IsUazzaJmwo7frmG1AXbMWLDxg==}
 
-  '@modern-js/plugin-i18n@2.60.4':
-    resolution: {integrity: sha512-sWDaJ5pZ3iyD5J2nSdiA4MYs0BD7jnadamKzLAqsX2KDPPQ/3ZwwZsgSeTel+p5IyuRq5hkwjVS8GoxnQzHDwg==}
+  '@modern-js/plugin-i18n@2.60.5':
+    resolution: {integrity: sha512-wjbrJ1V+sUEhJWSeMp20j05QHO7TmBsR4sRH+nN1h1yqRB3nljK2yyvyroHRPiM+xH9x0zJh4sQNVIg6aDa70g==}
 
-  '@modern-js/plugin@2.60.4':
-    resolution: {integrity: sha512-u1RljHNayfN/MJziVyv1qonFBo7nTKsTzbvvJzlWqzpbXTGQeJpdaZKbyoKA1Aj5Oc1OpfQahIxMlhktkZ2USw==}
+  '@modern-js/plugin@2.60.5':
+    resolution: {integrity: sha512-izz7iPq9nk4O2VdPm+A6smYPGwd6+OuYxd6njyP6S3Q7AyOqnkUPcGf0mpp2hePaWzLOqZygJSy0Z50/pjGybA==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -10878,8 +10875,8 @@ packages:
       '@swc/helpers':
         optional: true
 
-  '@modern-js/types@2.60.4':
-    resolution: {integrity: sha512-hdX8ve21gAleoV7LSICxrHJROlRDdL0nFU6TkTCw1DXJhfIPJod5b5XG73VnXpxv+kf1u4pPrVtCPq2XX1SRyA==}
+  '@modern-js/types@2.60.5':
+    resolution: {integrity: sha512-7h05SWzyj+hbRPnxbbXy6/3mFUT5GsQP4PyOMnTNcshqHV8E/jY2F1n0L+YDY9Akml6knAO8Zk2iLAP3KHcw4Q==}
 
   '@modern-js/utils@2.58.1':
     resolution: {integrity: sha512-JemTkJ4UqqFbJ72NqBXzMFG0dqw70HTGDoX7VAXdYPrEmn8LRvSqHlSCIeX5KF1U+KNa0a7OEdsb9Q56UESjdQ==}
@@ -10887,8 +10884,8 @@ packages:
   '@modern-js/utils@2.60.3':
     resolution: {integrity: sha512-g9kxWsYZ71MZPXMEf2ltDP229WjGIChNB95fjmcvtWRoW9grhINdQJ0/tO+jEaHZiDDQEWuPJlqqUrXWcZB0nQ==}
 
-  '@modern-js/utils@2.60.4':
-    resolution: {integrity: sha512-RQuROvNA68Dr2SI0mEc1MmG5X2yVmz+aWViZP1Q89z9ErVSJGCSspUHpM2kFQaCwDgbB7Oz84bcAnP0C+ED9TQ==}
+  '@modern-js/utils@2.60.5':
+    resolution: {integrity: sha512-ZnQNCs8Vdxji5K6OwSq9QUQ0MYU9QdOpWm7lWwi+YPq2RIQcHfAtnEkFu1B2RvifPyGfjVo2kafu+rldUlZMyw==}
 
   '@module-federation/runtime-tools@0.0.8':
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -13725,6 +13722,9 @@ packages:
   asap@2.0.6:
     resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
 
+  asn1.js@4.10.1:
+    resolution: {integrity: sha512-p32cOF5q0Zqs9uBiONKYLm6BClCoBCM5O9JfeUSlnQLBTxYdTK+pW+nXflm8UkKd2UYlEbYz5qEi0JuZR9ckSw==}
+
   asn1.js@5.4.1:
     resolution: {integrity: sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==}
 
@@ -14028,8 +14028,9 @@ packages:
   browserify-rsa@4.1.0:
     resolution: {integrity: sha512-AdEER0Hkspgno2aR97SAf6vi0y0k8NuOpGnVH3O99rcA5Q6sh8QxcngtHuJ6uXwnfAXNM4Gn1Gb7/MV1+Ymbog==}
 
-  browserify-sign@4.2.1:
-    resolution: {integrity: sha512-/vrA5fguVAKKAVTNJjgSm1tRQDHUU6DbwO9IROu/0WAzC8PKhucDSh18J0RMvVeHAn5puMd+QHC2erPRNf8lmg==}
+  browserify-sign@4.2.3:
+    resolution: {integrity: sha512-JWCZW6SKhfhjJxO8Tyiiy+XYB7cqd2S5/+WeYHsKdNKFlCBhKbblba1A/HN/90YwtxKc8tCErjffZl++UNmGiw==}
+    engines: {node: '>= 0.12'}
 
   browserify-zlib@0.1.4:
     resolution: {integrity: sha512-19OEpq7vWgsH6WkvkBJQDFvJS1uPcbFOQ4v9CU839dO+ZZXUZO6XpE6hNCqvlIIj+4fZvRiJ6DsAQ382GwiyTQ==}
@@ -14713,8 +14714,9 @@ packages:
   crypt@0.0.2:
     resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
 
-  crypto-browserify@3.12.0:
-    resolution: {integrity: sha512-fz4spIh+znjO2VjL+IdhEpRJ3YN6sMzITSBijk6FK2UvTqruSQW+/cCZTSNsMiZNvUeq0CqurF+dAbyiGOY6Wg==}
+  crypto-browserify@3.12.1:
+    resolution: {integrity: sha512-r4ESw/IlusD17lgQi1O20Fa3qNnsckR126TdUuBgAu7GBYSIPvdNyONd3Zrxh0xCwA4+6w/TDArBPsMvhur+KQ==}
+    engines: {node: '>= 0.10'}
 
   crypto-random-string@2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
@@ -15235,6 +15237,9 @@ packages:
 
   elliptic@6.5.4:
     resolution: {integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==}
+
+  elliptic@6.6.0:
+    resolution: {integrity: sha512-dpwoQcLc/2WLQvJvLRHKZ+f9FgOdjnq11rurqwekGQygGPsYSK29OMMD2WalatiqQ+XGFDglTNixpPfI+lpaAA==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -16317,6 +16322,10 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
 
+  hash-base@3.0.4:
+    resolution: {integrity: sha512-EeeoJKjTyt868liAlVmcv2ZsUfGHlE3Q+BICOXcZiwN3osr5Q/zFGYmTJpoIzuaSTAwndFy+GqhEwlU4L3j4Ow==}
+    engines: {node: '>=4'}
+
   hash-base@3.1.0:
     resolution: {integrity: sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==}
     engines: {node: '>=4'}
@@ -16468,8 +16477,8 @@ packages:
   html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
 
-  html-webpack-plugin@5.6.2:
-    resolution: {integrity: sha512-q7xp/FO9RGBVoTKNItkdX1jKLscLFkgn/dLVFNYbHVbfHLBk6DYW5nsQ8kCzIWcgKP/kUBocetjvav6lD8YfCQ==}
+  html-webpack-plugin@5.6.3:
+    resolution: {integrity: sha512-QSf1yjtSAsmf7rYBV7XX86uua4W/vkhIt0xNXKbsi2foEeW7vjJQz4bhnpL3xH+l1ryl1680uNv968Z+X6jSYg==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -18466,6 +18475,10 @@ packages:
 
   parse-asn1@5.1.6:
     resolution: {integrity: sha512-RnZRo1EPU6JBnra2vGHj0yhp6ebyjBZpmUCLHWiFhxlzvBCCpAuZ7elsBp1PVAbQN0/04VD/19rfzlBSwLstMw==}
+
+  parse-asn1@5.1.7:
+    resolution: {integrity: sha512-CTM5kuWR3sx9IFamcl5ErfPl6ea/N8IYwiJ+vpeB2g+1iknv7zBl5uPwbMbRVznRVbrNY6lGuDoE5b30grmbqg==}
+    engines: {node: '>= 0.10'}
 
   parse-entities@2.0.0:
     resolution: {integrity: sha512-kkywGpCcRYhqQIchaWqZ875wzpS/bMKhz5HnN3p7wveJTkTtyAB/AlnS0f8DFSqYW1T82t6yEAkEcB+A1I3MbQ==}
@@ -26595,11 +26608,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@modern-js/core@2.60.4':
+  '@modern-js/core@2.60.5':
     dependencies:
-      '@modern-js/node-bundle-require': 2.60.4
-      '@modern-js/plugin': 2.60.4
-      '@modern-js/utils': 2.60.4
+      '@modern-js/node-bundle-require': 2.60.5
+      '@modern-js/plugin': 2.60.5
+      '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
 
   '@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.3.1)':
@@ -26607,19 +26620,19 @@ snapshots:
       '@modern-js/utils': 2.58.1
       react: 18.3.1
 
-  '@modern-js/module-tools@2.60.4(typescript@5.3.3)':
+  '@modern-js/module-tools@2.60.5(typescript@5.3.3)':
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@ast-grep/napi': 0.16.0
       '@babel/core': 7.26.0
       '@babel/types': 7.26.0
-      '@modern-js/core': 2.60.4
-      '@modern-js/plugin': 2.60.4
-      '@modern-js/plugin-changeset': 2.60.4
-      '@modern-js/plugin-i18n': 2.60.4
+      '@modern-js/core': 2.60.5
+      '@modern-js/plugin': 2.60.5
+      '@modern-js/plugin-changeset': 2.60.5
+      '@modern-js/plugin-i18n': 2.60.5
       '@modern-js/swc-plugins': 0.6.11(@swc/helpers@0.5.13)
-      '@modern-js/types': 2.60.4
-      '@modern-js/utils': 2.60.4
+      '@modern-js/types': 2.60.5
+      '@modern-js/utils': 2.60.5
       '@rollup/pluginutils': 4.1.1
       '@swc/helpers': 0.5.13
       convert-source-map: 1.8.0
@@ -26641,19 +26654,19 @@ snapshots:
       - debug
       - supports-color
 
-  '@modern-js/node-bundle-require@2.60.4':
+  '@modern-js/node-bundle-require@2.60.5':
     dependencies:
-      '@modern-js/utils': 2.60.4
+      '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
       esbuild: 0.17.19
 
-  '@modern-js/plugin-changeset@2.60.4':
+  '@modern-js/plugin-changeset@2.60.5':
     dependencies:
       '@changesets/cli': 2.26.2
       '@changesets/git': 2.0.0
       '@changesets/read': 0.5.9
-      '@modern-js/plugin-i18n': 2.60.4
-      '@modern-js/utils': 2.60.4
+      '@modern-js/plugin-i18n': 2.60.5
+      '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
       axios: 1.7.7(debug@4.3.7)
       resolve-from: 5.0.0
@@ -26665,14 +26678,14 @@ snapshots:
       '@modern-js/utils': 2.60.3
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin-i18n@2.60.4':
+  '@modern-js/plugin-i18n@2.60.5':
     dependencies:
-      '@modern-js/utils': 2.60.4
+      '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
 
-  '@modern-js/plugin@2.60.4':
+  '@modern-js/plugin@2.60.5':
     dependencies:
-      '@modern-js/utils': 2.60.4
+      '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -26759,7 +26772,7 @@ snapshots:
       '@modern-js/swc-plugins-win32-x64-msvc': 0.6.11
       '@swc/helpers': 0.5.13
 
-  '@modern-js/types@2.60.4': {}
+  '@modern-js/types@2.60.5': {}
 
   '@modern-js/utils@2.58.1':
     dependencies:
@@ -26775,7 +26788,7 @@ snapshots:
       lodash: 4.17.21
       rslog: 1.2.3
 
-  '@modern-js/utils@2.60.4':
+  '@modern-js/utils@2.60.5':
     dependencies:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001669
@@ -28076,7 +28089,7 @@ snapshots:
       buffer: 5.7.1
       console-browserify: 1.2.0
       constants-browserify: 1.0.0
-      crypto-browserify: 3.12.0
+      crypto-browserify: 3.12.1
       domain-browser: 5.7.0
       events: 3.3.0
       https-browserify: 1.0.0
@@ -30686,6 +30699,12 @@ snapshots:
 
   asap@2.0.6: {}
 
+  asn1.js@4.10.1:
+    dependencies:
+      bn.js: 4.12.0
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+
   asn1.js@5.4.1:
     dependencies:
       bn.js: 4.12.0
@@ -31145,16 +31164,17 @@ snapshots:
       bn.js: 5.2.1
       randombytes: 2.1.0
 
-  browserify-sign@4.2.1:
+  browserify-sign@4.2.3:
     dependencies:
       bn.js: 5.2.1
       browserify-rsa: 4.1.0
       create-hash: 1.2.0
       create-hmac: 1.1.7
-      elliptic: 6.5.4
+      elliptic: 6.6.0
+      hash-base: 3.0.4
       inherits: 2.0.4
-      parse-asn1: 5.1.6
-      readable-stream: 3.6.2
+      parse-asn1: 5.1.7
+      readable-stream: 2.3.8
       safe-buffer: 5.2.1
 
   browserify-zlib@0.1.4:
@@ -31893,14 +31913,15 @@ snapshots:
 
   crypt@0.0.2: {}
 
-  crypto-browserify@3.12.0:
+  crypto-browserify@3.12.1:
     dependencies:
       browserify-cipher: 1.0.1
-      browserify-sign: 4.2.1
+      browserify-sign: 4.2.3
       create-ecdh: 4.0.4
       create-hash: 1.2.0
       create-hmac: 1.1.7
       diffie-hellman: 5.0.3
+      hash-base: 3.0.4
       inherits: 2.0.4
       pbkdf2: 3.1.2
       public-encrypt: 4.0.3
@@ -32427,6 +32448,16 @@ snapshots:
   electron-to-chromium@1.5.29: {}
 
   elliptic@6.5.4:
+    dependencies:
+      bn.js: 4.12.0
+      brorand: 1.1.0
+      hash.js: 1.1.7
+      hmac-drbg: 1.0.1
+      inherits: 2.0.4
+      minimalistic-assert: 1.0.1
+      minimalistic-crypto-utils: 1.0.1
+
+  elliptic@6.6.0:
     dependencies:
       bn.js: 4.12.0
       brorand: 1.1.0
@@ -33825,6 +33856,11 @@ snapshots:
     dependencies:
       function-bind: 1.1.1
 
+  hash-base@3.0.4:
+    dependencies:
+      inherits: 2.0.4
+      safe-buffer: 5.2.1
+
   hash-base@3.1.0:
     dependencies:
       inherits: 2.0.4
@@ -34065,7 +34101,7 @@ snapshots:
 
   html-void-elements@2.0.1: {}
 
-  html-webpack-plugin@5.6.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)):
+  html-webpack-plugin@5.6.3(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
@@ -36984,6 +37020,15 @@ snapshots:
       asn1.js: 5.4.1
       browserify-aes: 1.2.0
       evp_bytestokey: 1.0.3
+      pbkdf2: 3.1.2
+      safe-buffer: 5.2.1
+
+  parse-asn1@5.1.7:
+    dependencies:
+      asn1.js: 4.10.1
+      browserify-aes: 1.2.0
+      evp_bytestokey: 1.0.3
+      hash-base: 3.0.4
       pbkdf2: 3.1.2
       safe-buffer: 5.2.1
 
@@ -41201,12 +41246,12 @@ snapshots:
 
   webpack-sources@3.2.3: {}
 
-  webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.6.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19)):
+  webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.6.3(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19)))(webpack@5.95.0(esbuild@0.17.19)):
     dependencies:
       typed-assert: 1.0.9
       webpack: 5.95.0(esbuild@0.17.19)
     optionalDependencies:
-      html-webpack-plugin: 5.6.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
+      html-webpack-plugin: 5.6.3(@rspack/core@1.0.14(@swc/helpers@0.5.13))(webpack@5.95.0(esbuild@0.17.19))
 
   webpack-virtual-modules@0.6.2: {}
 
