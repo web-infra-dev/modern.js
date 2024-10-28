@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test:rspack": "pnpm test:builder:rspack && pnpm test:framework && pnpm test:garfish:rspack",
-    "test:framework": "MODERN_SERVER_LOG_LEVEL=info jest",
+    "test:framework": "cross-env MODERN_SERVER_LOG_LEVEL=info jest",
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
     "test:garfish:rspack": "cd e2e/garfish && pnpm test:rspack",
     "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
