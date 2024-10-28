@@ -8,7 +8,9 @@ title: tsLoader
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 webpack`
 
-:::warning 不再推荐使用 ts-loader
+:::warning 废弃提示
+
+不推荐在项目中使用 ts-loader，原因如下：
 
 - 启用 ts-loader 时将无法使用 [source.transformImport](/configure/app/source/transform-import) 和 [tools.styledComponents](/configure/app/tools/styled-components) 等由 Babel 和 SWC 提供支持的能力。
 - Rspack 不支持使用 ts-loader。
