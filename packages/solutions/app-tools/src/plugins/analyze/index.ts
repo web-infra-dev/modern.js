@@ -120,10 +120,6 @@ export default ({
 
         debug(`html templates: %o`, htmlTemplates);
 
-        await hookRunners.addDefineTypes();
-
-        debug(`add Define Types`);
-
         let checkedEntries = entrypoints.map(point => point.entryName);
         if (isDevCommand()) {
           const { entry } = minimist(getArgv());

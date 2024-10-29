@@ -42,7 +42,6 @@ export const devCommand = async (
         const { appDirectory } = api.useAppContext();
         const { isTypescript } = await import('@modern-js/utils');
 
-        await runner.beforeDevTask(meta);
         await meta.action(options, {
           isTsProject: isTypescript(appDirectory),
         });
@@ -76,7 +75,6 @@ export const buildCommand = async (
         const { appDirectory } = api.useAppContext();
         const { isTypescript } = await import('@modern-js/utils');
 
-        await runner.beforeBuildPlatform(platformBuilders);
         await platformBuilder.build(platform, {
           isTsProject: isTypescript(appDirectory),
         });
