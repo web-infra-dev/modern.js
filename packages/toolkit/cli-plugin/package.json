@@ -43,6 +43,7 @@
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
+    "@rsbuild/core": "~1.0.11",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
