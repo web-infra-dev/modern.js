@@ -5,8 +5,10 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
+  RequestUploader,
   Sender,
 } from './types';
+import { getUploadPayload } from './utiles';
 
 let realRequest: typeof fetch;
 let realAllowedHeaders: string[];
@@ -36,8 +38,7 @@ export const createRequest: RequestCreator = (
   path,
   method,
   port,
-  httpMethodDecider = 'functionName',
-  // 后续可能要修改，暂时先保留
+  httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
   fetch = originFetch,
 ) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
@@ -49,6 +50,7 @@ export const createRequest: RequestCreator = (
     let body;
     let finalURL: string;
     let headers: Record<string, any>;
+
     if (httpMethodDecider === 'inputParams') {
       finalURL = path;
       body = JSON.stringify({
@@ -122,6 +124,16 @@ export const createRequest: RequestCreator = (
       body,
       headers,
     });
+  };
+
+  return sender;
+};
+
+export const createUploader: RequestUploader = (path: string) => {
+  const sender: Sender = (...args) => {
+    const fetcher = realRequest || originFetch;
+    const { body, headers } = getUploadPayload(args);
+    return fetcher(path, { method: 'POST', body, headers });
   };
 
   return sender;

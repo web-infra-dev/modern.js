@@ -20,6 +20,7 @@ describe('bff express in dev', () => {
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const CUSTOM_PAGE = 'custom-sdk';
+  const UPLOAD_PAGE = 'upload';
   const host = `http://localhost`;
   const prefix = '/bff-api';
   let app: any;
@@ -71,6 +72,13 @@ describe('bff express in dev', () => {
     expect(text).toBe('Hello Custom SDK');
   });
 
+  test('support uoload', async () => {
+    await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const text = await page.$eval('.mock_file', el => el?.textContent);
+    expect(text).toBe('mock_image.png');
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
@@ -83,6 +91,7 @@ describe('bff express in prod', () => {
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const CUSTOM_PAGE = 'custom-sdk';
+  const UPLOAD_PAGE = 'upload';
   const host = `http://localhost`;
   const prefix = '/bff-api';
   let app: any;
@@ -137,6 +146,13 @@ describe('bff express in prod', () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Custom SDK');
+  });
+
+  test('support uoload', async () => {
+    await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const text = await page.$eval('.mock_file', el => el?.textContent);
+    expect(text).toBe('mock_image.png');
   });
 
   afterAll(async () => {

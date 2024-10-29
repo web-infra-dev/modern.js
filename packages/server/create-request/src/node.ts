@@ -7,8 +7,10 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
+  RequestUploader,
   Sender,
 } from './types';
+import { getUploadPayload } from './utiles';
 
 type Fetch = typeof nodeFetch;
 
@@ -123,6 +125,16 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
     headers.accept = `application/json,*/*;q=0.8`;
 
     return fetcher(url, { method, body, headers });
+  };
+
+  return sender;
+};
+
+export const createUploader: RequestUploader = (path: string) => {
+  const sender: Sender = (...args) => {
+    const fetcher = realRequest || originFetch;
+    const { body, headers } = getUploadPayload(args);
+    return fetcher(path, { method: 'POST', body, headers });
   };
 
   return sender;

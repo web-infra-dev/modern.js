@@ -19,6 +19,7 @@ if (isVersionAtLeast1819()) {
   describe('bff koa in dev', () => {
     let port = 8080;
     const host = `http://localhost`;
+    const UPLOAD_PAGE = 'upload';
     let app: any;
     let page: Page;
     let browser: Browser;
@@ -64,6 +65,13 @@ if (isVersionAtLeast1819()) {
       }
     });
 
+    test('support uoload', async () => {
+      await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const text = await page.$eval('.mock_file', el => el?.textContent);
+      expect(text).toBe('mock_image.png');
+    });
+
     afterAll(async () => {
       await killApp(app);
       await page.close();
@@ -74,6 +82,7 @@ if (isVersionAtLeast1819()) {
   describe('bff koa in prod', () => {
     let port = 8080;
     const host = `http://localhost`;
+    const UPLOAD_PAGE = 'upload';
     let app: any;
     let page: Page;
     let browser: Browser;
@@ -114,6 +123,13 @@ if (isVersionAtLeast1819()) {
         addRes: 3,
         url: '/api/info',
       });
+    });
+
+    test('support uoload', async () => {
+      await page.goto(`${host}:${port}/${UPLOAD_PAGE}`);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      const text = await page.$eval('.mock_file', el => el?.textContent);
+      expect(text).toBe('mock_image.png');
     });
 
     afterAll(async () => {

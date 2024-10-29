@@ -20,4 +20,5 @@ export type APIHandlerInfo = {
   routeName: string;
   // prefix+ routeName
   routePath: string;
+  action?: string;
 };

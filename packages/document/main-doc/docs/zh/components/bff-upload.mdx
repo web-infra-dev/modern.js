@@ -1,0 +1,97 @@
+BFF 搭配运行时框架提供了文件上传能力，支持一体化调用及纯函数手动调用。
+
+### BFF 函数
+
+首先创建 `api/lambda/upload.ts` 文件：
+
+```ts title="api/lambda/upload.ts"
+export const post = async ({ formData }: {formData: Record<string, any>}) => {
+  console.info('formData:', formData);
+  // do somethings
+  return {
+    data: {
+      code: 0,
+    },
+  };
+};
+```
+:::tip
+通过接口处理函数入参中的 `formData` 可以获取客户端上传的文件。值为 `Object`，key 为上传时的字段名。
+:::
+
+### 一体化调用
+
+接着在 `src/routes/upload/page.tsx` 中直接引入函数并调用：
+```tsx title="routes/upload/page.tsx"
+import { post } from '@api/upload';
+import React from 'react';
+
+export default (): JSX.Element => {
+  const [file, setFile] = React.useState<FileList | null>();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (file) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append('images', file[i]);
+      }
+      post({
+        formData,
+      });
+    }
+  };
+
+  return (
+    <div>
+      <input multiple type="file" onChange={handleChange} />
+      <button onClick={handleUpload}>upload</button>
+    </div>
+  );
+};
+```
+:::tip
+注意：入参类型必须为：`{ formData: FormData }` 才会正确上传。
+
+:::
+
+### 手动上传
+可以基于 `fetch API` 手动上传文件，需要在调用 `fetch` 时，将 `body` 设置为 `FormData` 类型并提交 `post` 请求。
+
+```tsx title="routes/upload/page.tsx"
+import React from 'react';
+
+export default (): JSX.Element => {
+  const [file, setFile] = React.useState<FileList | null>();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData();
+    if (file) {
+      for (let i = 0; i < file.length; i++) {
+        formData.append('images', file[i]);
+      }
+      await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input multiple type="file" onChange={handleChange} />
+      <button type="submit">upload</button>
+    </form>
+  );
+};
+
+```

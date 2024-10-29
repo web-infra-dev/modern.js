@@ -17,6 +17,10 @@ import typeIs from 'type-is';
 
 type Handler = APIHandlerInfo['handler'];
 
+interface RequestWithFiles extends Request {
+  files: Record<string, any>;
+}
+
 const handleResponseMeta = (res: Response, handler: Handler) => {
   const responseMeta: ResponseMeta[] = Reflect.getMetadata(
     HttpMetadata.Response,
@@ -146,7 +150,8 @@ const getInputFromRequest = async (request: Request) => {
   if (typeIs(request, ['application/json'])) {
     draft.data = request.body;
   } else if (typeIs(request, ['multipart/form-data'])) {
-    draft.formData = await resolveFormData(request);
+    const files = await resolveFormData(request);
+    draft.formData = files;
   } else if (typeIs(request, ['application/x-www-form-urlencoded'])) {
     draft.formUrlencoded = request.body;
   } else {

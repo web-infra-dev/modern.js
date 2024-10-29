@@ -66,7 +66,7 @@ export const generateClient = async ({
 
   let handlersCode = '';
   for (const handlerInfo of handlerInfos) {
-    const { name, httpMethod, routePath } = handlerInfo;
+    const { name, httpMethod, routePath, action } = handlerInfo;
     let exportStatement = `var ${name} =`;
     if (name.toLowerCase() === 'default') {
       exportStatement = 'default';
@@ -74,7 +74,9 @@ export const generateClient = async ({
     const upperHttpMethod = httpMethod.toUpperCase();
 
     const routeName = routePath;
-    if (target === 'server') {
+    if (action) {
+      handlersCode += `export ${exportStatement} createUploader('${routeName}');`;
+    } else if (target === 'server') {
       handlersCode += `export ${exportStatement} createRequest('${routeName}', '${upperHttpMethod}', process.env.PORT || ${String(
         port,
       )}, '${httpMethodDecider ? httpMethodDecider : 'functionName'}' ${
@@ -91,7 +93,9 @@ export const generateClient = async ({
     }
   }
 
-  const importCode = `import { createRequest } from '${requestCreator}';
+  const importCode = `import { createRequest${
+    handlerInfos.find(i => i.action) ? ', createUploader' : ''
+  } } from '${requestCreator}';
 ${fetcher ? `import { fetch } from '${fetcher}';\n` : ''}`;
 
   return Ok(`${importCode}\n${handlersCode}`);
