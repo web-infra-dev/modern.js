@@ -60,7 +60,7 @@ export class StatsCache {
   private hash(stats: fs.Stats, filename: string) {
     return crypto
       .createHash('md5')
-      .update(fs.readFileSync(filename))
+      .update(fs.readFileSync(filename) as any)
       .digest('hex');
   }
 }
