@@ -17,8 +17,6 @@ export const hooks: AppToolsHooks = {
   generateEntryCode: createAsyncWorkflow(),
   htmlPartials: createAsyncWaterfall(),
   beforeGenerateRoutes: createAsyncWaterfall(),
-  addDefineTypes: createAsyncWaterfall(),
-  collectServerPlugins: createAsyncWaterfall(),
   _internalServerPlugins: createAsyncWaterfall(),
   beforeDev: createAsyncWorkflow(),
   afterDev: createAsyncWorkflow(),
@@ -33,15 +31,15 @@ export const hooks: AppToolsHooks = {
 
   beforeRestart: createAsyncWorkflow(),
 
+  /**
+   * @deprecated
+   */
   registerDev: createParallelWorkflow<void, DevToolData>(),
-  beforeDevTask: createParallelWorkflow<DevToolData, void>(),
-
+  /**
+   * @deprecated
+   */
   registerBuildPlatform: createParallelWorkflow<
     void,
     RegisterBuildPlatformResult
-  >(),
-  beforeBuildPlatform: createParallelWorkflow<
-    RegisterBuildPlatformResult[],
-    void
   >(),
 };

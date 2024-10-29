@@ -60,10 +60,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
     entrypoint: Entrypoint;
     code: string;
   }>;
-  addDefineTypes: AsyncWaterfall<void>;
-  collectServerPlugins: AsyncWaterfall<{
-    plugins: Array<Record<string, string>>;
-  }>;
 
   _internalServerPlugins: AsyncWaterfall<{ plugins: ServerPlugin[] }>;
 
@@ -103,8 +99,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   beforeRestart: AsyncWorkflow<void, void>;
 
   registerDev: ParallelWorkflow<void, DevToolData>;
-  beforeDevTask: ParallelWorkflow<DevToolData, void>;
 
   registerBuildPlatform: ParallelWorkflow<void, RegisterBuildPlatformResult>;
-  beforeBuildPlatform: ParallelWorkflow<RegisterBuildPlatformResult[], void>;
 };
