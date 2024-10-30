@@ -16,7 +16,8 @@
       "packages/generator/sandpack-react/src/templates/**",
       "tests/integration/swc/fixtures/minify-css/src/bootstrap.css",
       "tests/integration/swc/fixtures/config-function/src/bootstrap.css",
-      "packages/runtime/plugin-garfish/type.d.ts"
+      "packages/runtime/plugin-garfish/type.d.ts",
+      "packages/runtime/plugin-runtime/static/**"
     ]
   },
   "css": {
@@ -112,7 +113,8 @@
       "tests/integration/ssr/fixtures/preload/**/*",
       "tests/integration/swc/fixtures/transform-fail/src/App.jsx",
       "tests/integration/module/plugins/vue/**/*",
-      "packages/module/plugin-module-node-polyfill/src/globals.js"
+      "packages/module/plugin-module-node-polyfill/src/globals.js",
+      "packages/runtime/plugin-runtime/static/**"
     ]
   }
 }
