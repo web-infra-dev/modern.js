@@ -155,6 +155,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -233,6 +234,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -626,6 +628,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -717,6 +720,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -1147,6 +1151,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -1218,6 +1223,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -1506,6 +1512,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -1593,6 +1600,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -1963,6 +1971,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -2041,6 +2050,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -2434,6 +2444,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -2525,6 +2536,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -2915,6 +2927,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -2987,6 +3000,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               "jsc": {
                 "experimental": {
                   "cacheRoot": "node_modules/.cache/.swc",
+                  "keepImportAttributes": true,
                   "plugins": [
                     [
                       "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -3257,6 +3271,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -3345,6 +3360,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                   "jsc": {
                     "experimental": {
                       "cacheRoot": "node_modules/.cache/.swc",
+                      "keepImportAttributes": true,
                       "plugins": [
                         [
                           "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
