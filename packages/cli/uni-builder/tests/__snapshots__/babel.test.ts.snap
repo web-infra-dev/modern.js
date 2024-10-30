@@ -44,6 +44,7 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
           "jsc": {
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
+              "keepImportAttributes": true,
               "plugins": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
@@ -139,6 +140,7 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
           "jsc": {
             "experimental": {
               "cacheRoot": "node_modules/.cache/.swc",
+              "keepImportAttributes": true,
               "plugins": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/plugin-styled-components/swc_plugin_styled_components.wasm",
