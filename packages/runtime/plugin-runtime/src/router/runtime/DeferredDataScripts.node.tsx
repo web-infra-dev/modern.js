@@ -5,51 +5,8 @@ import type {
 } from '@modern-js/runtime-utils/remix-router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
+import { preResolvedFnStr, resolveFnStr, setupFnStr } from './constants';
 import { serializeErrors } from './utils';
-
-/**
- * setup promises for deferred data
- * original function:
-  function setupDeferredPromise(routeId, key) {
-    _ROUTER_DATA.r  = _ROUTER_DATA.r || {};
-    _ROUTER_DATA.r[routeId] = _ROUTER_DATA.r[routeId] || {};
-    const promise = new Promise(function (resolve, reject) {
-      _ROUTER_DATA.r[routeId][key] = {
-        resolve,
-        reject,
-      };
-    });
-    return promise;
-  };
- *
- */
-const setupFnStr = `function s(r,e){_ROUTER_DATA.r=_ROUTER_DATA.r||{},_ROUTER_DATA.r[r]=_ROUTER_DATA.r[r]||{};return new Promise((function(A,R){_ROUTER_DATA.r[r][e]={resolve:A,reject:R}}))};`;
-
-/**
-   * resolve promises for deferred data
-   * original function:
-    function resolveDeferredPromise(routeId, key, data, error) {
-      if (error) {
-        _ROUTER_DATA.r[routeId][key].reject(error);
-      } else {
-        _ROUTER_DATA.r[routeId][key].resolve(data);
-      }
-    };
-   */
-const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A):_ROUTER_DATA.r[e][r].resolve(o)};`;
-
-/**
-   * update data for pre resolved promises
-   * original function:
-   * function preResovledDeferredPromise(data, error) {
-    if(typeof error !== 'undefined'){
-      return Promise.reject(new Error(error.message));
-    }else{
-      return Promise.resolve(data);
-    }
-  }
-   */
-const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resolve(e)};`;
 
 /**
  * DeferredDataScripts only renders in server side,
