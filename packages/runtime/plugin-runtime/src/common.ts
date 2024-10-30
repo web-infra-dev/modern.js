@@ -1,4 +1,5 @@
 import type { Plugin } from './core/plugin';
+import type { RouterConfig } from './router';
 import type { StateConfig } from './state';
 
 export const isBrowser = () =>
@@ -6,6 +7,7 @@ export const isBrowser = () =>
 
 export interface AppConfig {
   state?: StateConfig | boolean;
+  router?: Pick<RouterConfig, 'future' | 'basename'>;
   [key: string]: any;
 }
 

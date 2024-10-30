@@ -70,6 +70,7 @@ export const routerPlugin = (
             basename = '',
             routesConfig,
             createRoutes,
+            future,
           } = merge(pluginConfig.router || {}, userConfig) as RouterConfig;
           const select = (pathname: string) =>
             serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
@@ -181,7 +182,7 @@ export const routerPlugin = (
                 // According to react [useId generation algorithm](https://github.com/facebook/react/pull/22644), `useId` will generate id with the react node react struct.
                 // To void hydration failed, we must guarantee that the node tree when browser hydrate must have same struct with node tree when ssr render.
                 <>
-                  <RouterProvider router={router} />
+                  <RouterProvider router={router} future={future} />
                   <Null />
                   <Null />
                 </>

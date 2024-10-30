@@ -47,6 +47,9 @@ export type RouterConfig = {
   supportHtml5History?: boolean;
   basename?: string;
   createRoutes?: () => RouteObject[];
+  future?: Partial<{
+    v7_startTransition: boolean;
+  }>;
 };
 
 export type Routes = RouterConfig['routesConfig']['routes'];
