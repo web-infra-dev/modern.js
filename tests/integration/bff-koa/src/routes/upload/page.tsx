@@ -58,7 +58,7 @@ export default (): JSX.Element => {
   return (
     <>
       <h1>File Upload</h1>
-      <p className="mock_file">fileName: {fileName}</p>
+      <p className="mock_file">{fileName}</p>
       <form onSubmit={handleSubmit}>
         <input multiple type="file" onChange={handleChange} />
         <button type="submit">基于 fetch upload</button>
