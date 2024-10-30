@@ -1,5 +1,17 @@
 # @modern-js/plugin-ssg
 
+## 2.60.6
+
+### Patch Changes
+
+- 0e612b7: feat: print ssg subprocess log
+
+  feat: 输出 ssg 子进程日志
+
+- Updated dependencies [e6daf22]
+  - @modern-js/prod-server@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

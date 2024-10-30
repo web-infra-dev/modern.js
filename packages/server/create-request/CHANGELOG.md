@@ -1,5 +1,15 @@
 # @modern-js/create-request
 
+## 2.60.6
+
+### Patch Changes
+
+- 2beacbb: feat(bff): integrated file upload call
+  feat(bff): 支持文件上传一体化调用
+- Updated dependencies [c4894e6]
+  - @modern-js/runtime-utils@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.60.6
+
+### Patch Changes
+
+- e6daf22: fix(server): handle the cases that res cannot be writable
+  fix(server): 处理 res 无法写入的情况
+- Updated dependencies [c4894e6]
+  - @modern-js/runtime-utils@2.60.6
+  - @modern-js/plugin@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @modern-js/app-tools
 
+## 2.60.6
+
+### Patch Changes
+
+- 6cf2813: feat: delete unused hook api
+
+  feat: 删除没有使用的 hook api
+
+- Updated dependencies [50a4dca]
+- Updated dependencies [e6daf22]
+  - @modern-js/uni-builder@2.60.6
+  - @modern-js/prod-server@2.60.6
+  - @modern-js/server-core@2.60.6
+  - @modern-js/core@2.60.6
+  - @modern-js/server@2.60.6
+  - @modern-js/server-utils@2.60.6
+  - @modern-js/plugin-data-loader@2.60.6
+  - @modern-js/plugin-i18n@2.60.6
+  - @modern-js/rsbuild-plugin-esbuild@2.60.6
+  - @modern-js/node-bundle-require@2.60.6
+  - @modern-js/plugin@2.60.6
+  - @modern-js/types@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

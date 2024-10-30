@@ -1,5 +1,13 @@
 # @modern-js/runtime-utils
 
+## 2.60.6
+
+### Patch Changes
+
+- c4894e6: fix(runtime-utils): the normalizePathname should handles multiple slashes
+  fix(runtime-utils): normalizePathname 函数应该处理好多个 / 的情况
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes
