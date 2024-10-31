@@ -5,51 +5,13 @@ import type {
 } from '@modern-js/runtime-utils/remix-router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
+import {
+  mergeLoaderDataStr,
+  preResolvedFnStr,
+  resolveFnStr,
+  setupFnStr,
+} from './constants';
 import { serializeErrors } from './utils';
-
-/**
- * setup promises for deferred data
- * original function:
-  function setupDeferredPromise(routeId, key) {
-    _ROUTER_DATA.r  = _ROUTER_DATA.r || {};
-    _ROUTER_DATA.r[routeId] = _ROUTER_DATA.r[routeId] || {};
-    const promise = new Promise(function (resolve, reject) {
-      _ROUTER_DATA.r[routeId][key] = {
-        resolve,
-        reject,
-      };
-    });
-    return promise;
-  };
- *
- */
-const setupFnStr = `function s(r,e){_ROUTER_DATA.r=_ROUTER_DATA.r||{},_ROUTER_DATA.r[r]=_ROUTER_DATA.r[r]||{};return new Promise((function(A,R){_ROUTER_DATA.r[r][e]={resolve:A,reject:R}}))};`;
-
-/**
-   * resolve promises for deferred data
-   * original function:
-    function resolveDeferredPromise(routeId, key, data, error) {
-      if (error) {
-        _ROUTER_DATA.r[routeId][key].reject(error);
-      } else {
-        _ROUTER_DATA.r[routeId][key].resolve(data);
-      }
-    };
-   */
-const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A):_ROUTER_DATA.r[e][r].resolve(o)};`;
-
-/**
-   * update data for pre resolved promises
-   * original function:
-   * function preResovledDeferredPromise(data, error) {
-    if(typeof error !== 'undefined'){
-      return Promise.reject(new Error(error.message));
-    }else{
-      return Promise.resolve(data);
-    }
-  }
-   */
-const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resolve(e)};`;
 
 /**
  * DeferredDataScripts only renders in server side,
@@ -68,7 +30,19 @@ const DeferredDataScripts = (props?: {
 
   // No need to memo since DeferredDataScripts only renders in server side,
   // here we memo it in case DeferredDataScripts renders in client side one day.
-  const deferredScripts: [string, JSX.Element[]] | null = useMemo(() => {
+  const deferredScripts:
+    | [
+        string,
+        string,
+        {
+          fnName: string;
+          fnArgs: any[];
+          fnRun?: string;
+          fnScriptSrc?: string;
+        }[],
+        JSX.Element[],
+      ]
+    | null = useMemo(() => {
     if (!staticContext) {
       return null;
     }
@@ -80,68 +54,81 @@ const DeferredDataScripts = (props?: {
       errors: serializeErrors(staticContext.errors),
     };
 
-    let initialScripts = [
-      `_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`,
+    const initialScript0 = `_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`;
+    const initialScript1 = [
       `_ROUTER_DATA.s = ${setupFnStr}`,
       `_ROUTER_DATA.r = ${resolveFnStr}`,
       `_ROUTER_DATA.p = ${preResolvedFnStr}`,
+      mergeLoaderDataStr,
     ].join('\n');
     const deferredDataScripts: JSX.Element[] = [];
 
-    initialScripts += Object.entries(activeDeferreds)
-      .map(([routeId, deferredData]) => {
+    const initialScripts = Object.entries(activeDeferreds).map(
+      ([routeId, deferredData]) => {
         const pendingKeys = new Set(deferredData.pendingKeys);
         const { deferredKeys } = deferredData;
-        const deferredKeyPromiseStr = deferredKeys
-          .map(key => {
-            if (pendingKeys.has(key)) {
-              deferredDataScripts.push(
-                <DeferredDataScript
-                  nonce={props?.nonce}
-                  key={`${routeId} | ${key}`}
-                  data={deferredData.data[key]}
-                  dataKey={key}
-                  routeId={routeId}
-                />,
-              );
+        const deferredKeyPromiseManifests = deferredKeys.map(key => {
+          if (pendingKeys.has(key)) {
+            deferredDataScripts.push(
+              <DeferredDataScript
+                nonce={props?.nonce}
+                key={`${routeId} | ${key}`}
+                data={deferredData.data[key]}
+                dataKey={key}
+                routeId={routeId}
+              />,
+            );
 
-              return `${JSON.stringify(key)}: _ROUTER_DATA.s(${JSON.stringify(
-                routeId,
-              )},${JSON.stringify(key)}) `;
+            return {
+              key,
+              routerDataFnName: 's',
+              routerDataFnArgs: [routeId, key],
+            };
+          } else {
+            const trackedPromise = deferredData.data[key] as TrackedPromise;
+            if (typeof trackedPromise._error !== 'undefined') {
+              const error = {
+                message: trackedPromise._error.message,
+                stack:
+                  process.env.NODE_ENV !== 'production'
+                    ? trackedPromise._error.stack
+                    : undefined,
+              };
+
+              return {
+                key,
+                routerDataFnName: 'p',
+                routerDataFnArgs: [undefined, serializeJson(error)],
+              };
             } else {
-              const trackedPromise = deferredData.data[key] as TrackedPromise;
-              if (typeof trackedPromise._error !== 'undefined') {
-                const error = {
-                  message: trackedPromise._error.message,
-                  stack:
-                    process.env.NODE_ENV !== 'production'
-                      ? trackedPromise._error.stack
-                      : undefined,
-                };
-                return `${JSON.stringify(
-                  key,
-                )}: _ROUTER_DATA.p(${undefined}, ${serializeJson(error)})`;
-              } else {
-                if (typeof trackedPromise._data === 'undefined') {
-                  throw new Error(
-                    `The deferred data for ${key} was not resolved, did you forget to return data from a deferred promise`,
-                  );
-                }
-                return `${JSON.stringify(key)}: _ROUTER_DATA.p(${serializeJson(
-                  trackedPromise._data,
-                )})`;
+              if (typeof trackedPromise._data === 'undefined') {
+                throw new Error(
+                  `The deferred data for ${key} was not resolved, did you forget to return data from a deferred promise`,
+                );
               }
+
+              return {
+                key,
+                routerDataFnName: 'p',
+                routerDataFnArgs: [serializeJson(trackedPromise._data)],
+              };
             }
-          })
-          .join(',\n');
+          }
+        });
 
-        return `Object.assign(_ROUTER_DATA.loaderData[${JSON.stringify(
-          routeId,
-        )}], {${deferredKeyPromiseStr}});`;
-      })
-      .join('\n');
+        return {
+          fnName: `mergeLoaderData`,
+          fnArgs: [routeId, deferredKeyPromiseManifests],
+        };
+      },
+    );
 
-    return [initialScripts, deferredDataScripts];
+    return [
+      initialScript0,
+      initialScript1,
+      initialScripts,
+      deferredDataScripts,
+    ];
   }, []);
 
   if (!deferredScripts) {
@@ -151,14 +138,33 @@ const DeferredDataScripts = (props?: {
   return (
     <>
       {!hydratedRef.current && (
-        <script
-          async
-          nonce={props?.nonce}
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
-        />
+        <>
+          <script
+            async
+            nonce={props?.nonce}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
+          />
+          <script
+            async
+            nonce={props?.nonce}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: deferredScripts[1] }}
+          />
+          {deferredScripts[2].map(({ fnName, fnArgs }) => (
+            <script
+              async
+              key={fnName}
+              nonce={props?.nonce}
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{
+                __html: `${fnName}(${fnArgs.map(argv => `${JSON.stringify(argv)}`).join(',')})`,
+              }}
+            />
+          ))}
+        </>
       )}
-      {!hydratedRef.current && deferredScripts[1]}
+      {!hydratedRef.current && deferredScripts[3]}
     </>
   );
 };
