@@ -1,5 +1,21 @@
 # @modern-js/plugin-router-v5
 
+## 2.60.6
+
+### Patch Changes
+
+- b8461ba: fix: router v5 baseUrl problem
+
+  fix: 修复 router v5 的 baseUrl 问题
+
+- Updated dependencies [2492002]
+- Updated dependencies [c4894e6]
+  - @modern-js/runtime@2.60.6
+  - @modern-js/runtime-utils@2.60.6
+  - @modern-js/plugin@2.60.6
+  - @modern-js/types@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

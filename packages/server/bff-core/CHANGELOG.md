@@ -1,5 +1,13 @@
 # @modern-js/bff-core
 
+## 2.60.6
+
+### Patch Changes
+
+- 2beacbb: feat(bff): integrated file upload call
+  feat(bff): 支持文件上传一体化调用
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

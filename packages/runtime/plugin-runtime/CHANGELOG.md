@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.60.6
+
+### Patch Changes
+
+- 2492002: feat(router): support v7_startTransition configuration
+  feat(router): 支持 v7_startTransition 配置
+- Updated dependencies [c4894e6]
+  - @modern-js/runtime-utils@2.60.6
+  - @modern-js/plugin-data-loader@2.60.6
+  - @modern-js/plugin@2.60.6
+  - @modern-js/types@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

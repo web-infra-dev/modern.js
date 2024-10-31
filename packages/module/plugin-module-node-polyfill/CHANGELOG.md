@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.60.6
+
+### Patch Changes
+
+- db298d0: fix: using node:fs with node polyfill will lead to an error
+  - @modern-js/module-tools@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

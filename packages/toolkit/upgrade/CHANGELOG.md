@@ -1,5 +1,7 @@
 # @modern-js/upgrade
 
+## 2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

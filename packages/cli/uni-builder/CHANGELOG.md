@@ -1,5 +1,14 @@
 # @modern-js/uni-builder
 
+## 2.60.6
+
+### Patch Changes
+
+- 50a4dca: fix: support tools.htmlPlugin.minify false
+- Updated dependencies [f29432a]
+  - @modern-js/babel-preset@2.60.6
+  - @modern-js/utils@2.60.6
+
 ## 2.60.5
 
 ### Patch Changes

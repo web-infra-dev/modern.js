@@ -1,5 +1,7 @@
 # @modern-js/babel-plugin-module-resolver
 
+## 2.60.6
+
 ## 2.60.5
 
 ## 2.60.4
