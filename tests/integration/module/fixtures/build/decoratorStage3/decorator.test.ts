@@ -1,0 +1,25 @@
+import path from 'path';
+import { fs } from '@modern-js/utils';
+import { initBeforeTest, runCli } from '../../utils';
+
+initBeforeTest();
+
+describe('decorator', () => {
+  const fixtureDir = __dirname;
+  it('emitStage3Decorator', async () => {
+    const configFile = path.join(fixtureDir, './modern.config.ts');
+    const { success, error } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    console.log(error);
+    expect(success).toBeTruthy();
+    const distFilePath = path.join(fixtureDir, 'dist/main.js');
+    const content = await fs.readFile(distFilePath, 'utf-8');
+    expect(content).toMatchSnapshot();
+    const { Person } = await import(distFilePath);
+    const p = new Person('David');
+    expect(p.describe()).toBe('modern.js user David is calling describe!');
+  });
+});
