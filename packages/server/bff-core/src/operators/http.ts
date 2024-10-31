@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import type { z } from 'zod';
 import { ValidationError } from '../errors/http';
 import {
   HttpMetadata,
@@ -225,7 +225,6 @@ export const Upload = <Schema extends z.ZodType>(
     formData: z.output<Schema>;
   }
 > => {
-  const finalSchema = schema || z.any();
   return {
     name: 'Upload',
     metadata({ setMetadata }) {
@@ -235,16 +234,20 @@ export const Upload = <Schema extends z.ZodType>(
         method: HttpMethod.Post,
         action: 'upload',
       });
-      setMetadata(HttpMetadata.Files, finalSchema);
+      setMetadata(HttpMetadata.Files, schema);
     },
     async validate(helper, next) {
+      if (!schema) {
+        return next();
+      }
+
       const {
         inputs: { formData: files },
       } = helper;
 
       (helper.inputs as any) = {
         ...helper.inputs,
-        files: await validateInput(finalSchema, files),
+        files: await validateInput(schema, files),
       };
       return next();
     },
