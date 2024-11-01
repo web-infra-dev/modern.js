@@ -44,10 +44,15 @@ export async function loadConfigFile(appDirectory: string) {
 
   if (configFile) {
     const mod = await bundleRequire(configFile);
-    return mod.default || mod;
+    return {
+      path: configFile,
+      content: mod.default || mod,
+    };
   }
 
-  return {};
+  return {
+    content: {},
+  };
 }
 
 /**

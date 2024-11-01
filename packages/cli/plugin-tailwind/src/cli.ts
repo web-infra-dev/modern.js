@@ -33,7 +33,8 @@ export const tailwindcssPlugin = (
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
     const tailwindVersion = getTailwindVersion(appDirectory);
-    const userTailwindConfig = await loadConfigFile(appDirectory);
+    const { content: userTailwindConfig, path: userTailwindConfigPath } =
+      await loadConfigFile(appDirectory);
 
     return {
       prepare() {
@@ -68,13 +69,28 @@ export const tailwindcssPlugin = (
         const initTailwindConfig = () => {
           if (!tailwindConfig) {
             const modernConfig = api.useResolvedConfigContext();
-            tailwindConfig = getTailwindConfig({
-              appDirectory,
-              tailwindVersion,
-              userConfig: userTailwindConfig,
-              extraConfig: modernConfig?.tools?.tailwindcss,
-              designSystem: modernConfig?.source?.designSystem,
-            });
+
+            if (
+              tailwindVersion === '3' &&
+              userTailwindConfig.content &&
+              !modernConfig?.tools?.tailwindcss &&
+              !modernConfig?.source?.designSystem
+            ) {
+              // Prefer to use user's tailwind config file,
+              // this is faster then passing the config object to `tailwindcss()`.
+              // see: https://github.com/tailwindlabs/tailwindcss/issues/14229
+              tailwindConfig = {
+                config: userTailwindConfigPath,
+              };
+            } else {
+              tailwindConfig = getTailwindConfig({
+                appDirectory,
+                tailwindVersion,
+                userConfig: userTailwindConfig,
+                extraConfig: modernConfig?.tools?.tailwindcss,
+                designSystem: modernConfig?.source?.designSystem,
+              });
+            }
           }
         };
 
