@@ -82,7 +82,7 @@ const DeferredDataScripts = (props?: {
             return {
               key,
               routerDataFnName: 's',
-              routerDataFnArgs: [routeId, key],
+              routerDataFnArgs: [serializeJson(routeId), serializeJson(key)],
             };
           } else {
             const trackedPromise = deferredData.data[key] as TrackedPromise;
@@ -98,7 +98,10 @@ const DeferredDataScripts = (props?: {
               return {
                 key,
                 routerDataFnName: 'p',
-                routerDataFnArgs: [undefined, serializeJson(error)],
+                routerDataFnArgs: [
+                  serializeJson(undefined),
+                  serializeJson(error),
+                ],
               };
             } else {
               if (typeof trackedPromise._data === 'undefined') {

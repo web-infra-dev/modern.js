@@ -101,9 +101,15 @@ export const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.rejec
  * Abstracting the above logic to `mergeLoaderData`:
  *  function mergeLoaderData (routeIdJsonStr, deferredKeyPromiseManifests) {
       const source = deferredKeyPromiseManifests.reduce(function(o, {key, routerDataFnName, routerDataFnArgs }) {
-        return {...o, [key]: _ROUTER_DATA[routerDataFnName](...routerDataFnArgs)}
+        const args = routerDataFnArgs.map(arg => {
+          if (arg === 'undefined' || arg === null) {
+            return undefined;
+          }
+          return JSON.parse(arg);
+        });
+        return {...o, [key]: _ROUTER_DATA[routerDataFnName](...args)};
       }, {});
       Object.assign(_ROUTER_DATA.loaderData[routeIdJsonStr], source);
     };
  */
-export const mergeLoaderDataStr = `function mergeLoaderData(a,e){e=e.reduce(function(a,{key:e,routerDataFnName:r,routerDataFnArgs:t}){return{...a,[e]:_ROUTER_DATA[r](...t)}},{});Object.assign(_ROUTER_DATA.loaderData[a],e)}`;
+export const mergeLoaderDataStr = `function mergeLoaderData(e,n){const r=n.reduce((function(e,{key:n,routerDataFnName:r,routerDataFnArgs:a}){const t=a.map((e=>{if("undefined"!==e&&null!==e)return JSON.parse(e)}));return console.info("args",t),{...e,[n]:_ROUTER_DATA[r](...t)}}),{});Object.assign(_ROUTER_DATA.loaderData[e],r)}`;
