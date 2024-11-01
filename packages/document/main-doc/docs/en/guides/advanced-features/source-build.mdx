@@ -124,18 +124,25 @@ Project reference provides the following capabilities:
 
 ### Example
 
-In the example mentioned earlier, since the app project references the lib sub-project, we need to configure the `composite` and `references` options in the app project's `tsconfig.json` file and point them to the corresponding relative directory of lib:
+In the example mentioned earlier, since the app project references the lib sub-project, we need to configure the `references` options in the app project's `tsconfig.json` to point to the relative directory of the lib:
 
 ```json title="app/tsconfig.json"
 {
-  "compilerOptions": {
-    "composite": true
-  },
   "references": [
     {
       "path": "../lib"
     }
   ]
+}
+```
+
+At the same time, we need to set `composite` to `true` in the lib project's `tsconfig.json`:
+
+```json title="lib/A/tsconfig.json"
+{
+  "compilerOptions": {
+    "composite": true
+  },
 }
 ```
 
