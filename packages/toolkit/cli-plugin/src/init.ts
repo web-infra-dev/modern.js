@@ -2,12 +2,12 @@ import type { CLIPluginAPI } from './types/api';
 import type { InternalContext } from './types/context';
 import type { PluginManager } from './types/plugin';
 
-export function initPluginAPI({
+export function initPluginAPI<Config, NormalizedConfig, Entrypoint>({
   context,
 }: {
-  context: InternalContext;
+  context: InternalContext<Config, NormalizedConfig, Entrypoint>;
   pluginManager: PluginManager;
-}): CLIPluginAPI {
+}): CLIPluginAPI<Config, NormalizedConfig, Entrypoint> {
   const { hooks } = context;
   function getAppContext() {
     if (context) {
@@ -35,10 +35,32 @@ export function initPluginAPI({
     getAppContext,
     getConfig,
     getNormalizedConfig,
+
+    collectConfig: hooks.collectConfig.tap,
+    modifyConfig: hooks.modifyConfig.tap,
+    modifyResolvedConfig: hooks.modifyResolvedConfig.tap,
+
     modifyRsbuildConfig: hooks.modifyRsbuildConfig.tap,
     modifyBundlerChain: hooks.modifyBundlerChain.tap,
     modifyRspackConfig: hooks.modifyRspackConfig.tap,
     modifyWebpackChain: hooks.modifyWebpackChain.tap,
     // modifyWebpackConfig: hooks.modifyWebpackConfig.tap,
+    modifyHtmlPartials: hooks.modifyHtmlPartials.tap,
+
+    addCommand: hooks.addCommand.tap,
+
+    onPrepare: hooks.onPrepare.tap,
+    onWatchFiles: hooks.onWatchFiles.tap,
+    onFileChanged: hooks.onFileChanged.tap,
+    onBeforeRestart: hooks.onBeforeRestart.tap,
+    onBeforeCreateCompiler: hooks.onBeforeCreateCompiler.tap,
+    onAfterCreateCompiler: hooks.onAfterCreateCompiler.tap,
+    onBeforeBuild: hooks.onBeforeBuild.tap,
+    onAfterBuild: hooks.onAfterBuild.tap,
+    onBeforeDev: hooks.onBeforeDev.tap,
+    onAfterDev: hooks.onAfterDev.tap,
+    onBeforeDeploy: hooks.onBeforeDeploy.tap,
+    onAfterDeploy: hooks.onAfterDeploy.tap,
+    onBeforeExit: hooks.onBeforeExit.tap,
   };
 }

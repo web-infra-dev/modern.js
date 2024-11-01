@@ -3,8 +3,28 @@ import type {
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
   ModifyWebpackChainFn,
+  OnAfterBuildFn,
+  OnAfterCreateCompilerFn,
+  OnBeforeBuildFn,
+  OnBeforeCreateCompilerFn,
   // ModifyWebpackConfigFn,
 } from '@rsbuild/core';
+import type {
+  AddCommandFn,
+  CollectConfigFn,
+  ModifyConfigFn,
+  ModifyHtmlPartialsFn,
+  ModifyResolvedConfigFn,
+  OnAfterDeployFn,
+  OnAfterDevFn,
+  OnBeforeDeployFn,
+  OnBeforeDevFn,
+  OnBeforeExitFn,
+  OnBeforeRestartFn,
+  OnFileChangedFn,
+  OnPrepareFn,
+  OnWatchFilesFn,
+} from './types/hooks';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
@@ -38,21 +58,38 @@ export function createAsyncHook<
   };
 }
 
-export function initHooks(): {
-  /** The following hooks are global hooks */
-  modifyRspackConfig: AsyncHook<ModifyRspackConfigFn>;
-  modifyBundlerChain: AsyncHook<ModifyBundlerChainFn>;
-  modifyWebpackChain: AsyncHook<ModifyWebpackChainFn>;
-  // modifyWebpackConfig: AsyncHook<ModifyWebpackConfigFn>;
-  modifyRsbuildConfig: AsyncHook<ModifyRsbuildConfigFn>;
-} {
+export function initHooks<Config, NormalizedConfig, Entrypoint>() {
   return {
-    modifyRspackConfig: createAsyncHook<ModifyRspackConfigFn>(),
+    collectConfig: createAsyncHook<CollectConfigFn<Config>>(),
+    modifyConfig: createAsyncHook<ModifyConfigFn<Config>>(),
+    modifyResolvedConfig:
+      createAsyncHook<ModifyResolvedConfigFn<NormalizedConfig>>(),
+
+    modifyRsbuildConfig: createAsyncHook<ModifyRsbuildConfigFn>(),
     modifyBundlerChain: createAsyncHook<ModifyBundlerChainFn>(),
+    modifyRspackConfig: createAsyncHook<ModifyRspackConfigFn>(),
     modifyWebpackChain: createAsyncHook<ModifyWebpackChainFn>(),
     // modifyWebpackConfig: createAsyncHook<ModifyWebpackConfigFn>(),
-    modifyRsbuildConfig: createAsyncHook<ModifyRsbuildConfigFn>(),
+    modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn<Entrypoint>>(),
+
+    addCommand: createAsyncHook<AddCommandFn>(),
+
+    onPrepare: createAsyncHook<OnPrepareFn>(),
+    onWatchFiles: createAsyncHook<OnWatchFilesFn>(),
+    onFileChanged: createAsyncHook<OnFileChangedFn>(),
+    onBeforeRestart: createAsyncHook<OnBeforeRestartFn>(),
+    onBeforeCreateCompiler: createAsyncHook<OnBeforeCreateCompilerFn>(),
+    onAfterCreateCompiler: createAsyncHook<OnAfterCreateCompilerFn>(),
+    onBeforeBuild: createAsyncHook<OnBeforeBuildFn>(),
+    onAfterBuild: createAsyncHook<OnAfterBuildFn>(),
+    onBeforeDev: createAsyncHook<OnBeforeDevFn>(),
+    onAfterDev: createAsyncHook<OnAfterDevFn>(),
+    onBeforeDeploy: createAsyncHook<OnBeforeDeployFn>(),
+    onAfterDeploy: createAsyncHook<OnAfterDeployFn>(),
+    onBeforeExit: createAsyncHook<OnBeforeExitFn>(),
   };
 }
 
-export type Hooks = ReturnType<typeof initHooks>;
+export type Hooks<Config, NormalizedConfig, Entrypoint> = ReturnType<
+  typeof initHooks<Config, NormalizedConfig, Entrypoint>
+>;

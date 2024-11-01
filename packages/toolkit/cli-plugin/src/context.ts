@@ -1,17 +1,27 @@
 import { initHooks } from './hooks';
 import type { AppContext, InternalContext } from './types/context';
 
-interface ContextParams {
+interface ContextParams<Config, NormalizedConfig> {
   appContext: AppContext;
+  config: Config;
+  normalizedConfig: NormalizedConfig;
 }
 
-export async function createContext({
+export async function createContext<
+  Config = {},
+  NormalizedConfig = {},
+  Entrypoint = {},
+>({
   appContext,
-}: ContextParams): Promise<InternalContext> {
+  config,
+  normalizedConfig,
+}: ContextParams<Config, NormalizedConfig>): Promise<
+  InternalContext<Config, NormalizedConfig, Entrypoint>
+> {
   return {
     ...appContext,
-    hooks: initHooks(),
-    config: {},
-    normalizedConfig: {},
+    hooks: initHooks<Config, NormalizedConfig, Entrypoint>(),
+    config,
+    normalizedConfig,
   };
 }

@@ -41,15 +41,18 @@ export type AppContext = {
 };
 
 /** The inner context. */
-export type InternalContext<Config = {}, NormalizedConfig = {}> = AppContext & {
-  /** All hooks. */
-  hooks: Readonly<Hooks>;
-  /** Current App config. */
-  config: Readonly<Config>;
-  /** The normalized Rsbuild config. */
-  normalizedConfig?: NormalizedConfig;
-  /**
-   * Get the plugin API.
-   * */
-  getPluginAPI?: (environment?: string) => CLIPluginAPI;
-};
+export type InternalContext<Config, NormalizedConfig, Entrypoint> =
+  AppContext & {
+    /** All hooks. */
+    hooks: Readonly<Hooks<Config, NormalizedConfig, Entrypoint>>;
+    /** Current App config. */
+    config: Readonly<Config>;
+    /** The normalized Rsbuild config. */
+    normalizedConfig?: NormalizedConfig;
+    /**
+     * Get the plugin API.
+     * */
+    getPluginAPI?: (
+      environment?: string,
+    ) => CLIPluginAPI<Config, NormalizedConfig, Entrypoint>;
+  };
