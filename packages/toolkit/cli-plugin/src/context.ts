@@ -1,8 +1,15 @@
 import { initHooks } from './hooks';
-import type { InternalContext } from './types/context';
+import type { AppContext, InternalContext } from './types/context';
 
-export async function createContext(): Promise<InternalContext> {
+interface ContextParams {
+  appContext: AppContext;
+}
+
+export async function createContext({
+  appContext,
+}: ContextParams): Promise<InternalContext> {
   return {
+    ...appContext,
     hooks: initHooks(),
     config: {},
     normalizedConfig: {},

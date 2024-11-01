@@ -44,6 +44,8 @@
   },
   "devDependencies": {
     "@rsbuild/core": "~1.0.11",
+    "@modern-js/uni-builder": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

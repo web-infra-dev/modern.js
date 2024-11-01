@@ -11,8 +11,9 @@ export function initPluginAPI({
   const { hooks } = context;
   function getAppContext() {
     if (context) {
-      // TODO public App Context
-      return {};
+      const { hooks, config, normalizedConfig, getPluginAPI, ...appContext } =
+        context;
+      return appContext;
     }
     throw new Error('Cannot access context');
   }
