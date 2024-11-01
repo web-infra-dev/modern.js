@@ -2,6 +2,7 @@ import { isFunction, logger } from '@modern-js/utils';
 import type { CLIPlugin, PluginManager } from './types/plugin';
 import type { Falsy } from './types/utils';
 
+// Validates if the plugin is a valid CLIPlugin instance
 function validatePlugin(plugin: unknown) {
   const type = typeof plugin;
 
@@ -21,47 +22,127 @@ function validatePlugin(plugin: unknown) {
 }
 
 export function createPluginManager(): PluginManager {
-  let plugins: CLIPlugin[] = [];
+  // Map to store all plugins by name
+  const plugins = new Map<string, CLIPlugin>();
+  // Map to store dependencies for each plugin
+  // 'pre': plugins that must run before the current plugin
+  // 'post': plugins that must run after the current plugin
+  const dependencies = new Map<
+    string,
+    {
+      pre: Map<string, { name: string; isUse: boolean }>; // isUse: if the plugin is used in the current plugin
+      post: Map<string, { name: string }>;
+    }
+  >();
 
-  const addPlugins = (
-    newPlugins: Array<CLIPlugin | Falsy>,
-    options?: { before?: string },
+  // Adds a dependency relation between plugins
+  const addDependency = (
+    plugin: string,
+    dependency: string,
+    type: 'pre' | 'post' | 'use',
   ) => {
-    const { before } = options || {};
-
-    for (const newPlugin of newPlugins) {
-      if (!newPlugin) {
-        continue;
-      }
-
-      validatePlugin(newPlugin);
-
-      if (before) {
-        const index = plugins.findIndex(item => item.name === before);
-        if (index === -1) {
-          logger.warn(`Plugin "${before}" does not exist.`);
-          plugins.push(newPlugin);
-        } else {
-          plugins.splice(index, 0, newPlugin);
-        }
-      } else {
-        plugins.push(newPlugin);
+    if (!dependencies.has(dependency)) {
+      dependencies.set(dependency, {
+        pre: new Map(),
+        post: new Map(),
+      });
+    }
+    if (type === 'pre') {
+      dependencies
+        .get(plugin)!
+        .pre.set(dependency, { name: dependency, isUse: false });
+    } else if (type === 'post') {
+      dependencies.get(plugin)!.post.set(dependency, { name: dependency });
+    } else if (type === 'use') {
+      // 'use' plugins are added to the 'pre' order if not already in 'post'
+      if (!dependencies.get(plugin)!.post.has(dependency)) {
+        dependencies
+          .get(plugin)!
+          .pre.set(dependency, { name: dependency, isUse: true });
       }
     }
   };
 
-  const removePlugins = (pluginNames: string[]) => {
-    plugins = plugins.filter(plugin => !pluginNames.includes(plugin.name));
+  const addPlugin = (newPlugin: CLIPlugin | Falsy) => {
+    if (!newPlugin) {
+      return;
+    }
+    validatePlugin(newPlugin);
+    const { name, usePlugins = [], pre = [], post = [] } = newPlugin;
+    if (plugins.has(name)) {
+      logger.warn(`Plugin ${name} already exists.`);
+      return;
+    }
+    plugins.set(name, newPlugin);
+    dependencies.set(name, { pre: new Map(), post: new Map() });
+
+    pre.forEach(dep => {
+      addDependency(name, dep, 'pre');
+    });
+
+    post.forEach(dep => {
+      addDependency(name, dep, 'post');
+    });
+
+    // 'use' plugins are handled last to ensure correct dependency resolution
+    usePlugins.forEach(plugin => {
+      if (!plugins.has(plugin.name)) {
+        addPlugin(plugin);
+      }
+      addDependency(name, plugin.name, 'use');
+    });
   };
 
-  const isPluginExists = (pluginName: string) =>
-    Boolean(plugins.find(plugin => plugin.name === pluginName));
+  const addPlugins = (newPlugins: Array<CLIPlugin | Falsy>) => {
+    for (const newPlugin of newPlugins) {
+      addPlugin(newPlugin);
+    }
+  };
 
-  const getPlugins = () => plugins;
+  const getPlugins = () => {
+    const visited = new Set();
+    const temp = new Set();
+    const result: CLIPlugin[] = [];
+    const visit = (name: string) => {
+      if (temp.has(name)) {
+        throw new Error(`Circular dependency detected: ${name}`);
+      }
+      if (!visited.has(name)) {
+        temp.add(name);
+        const { pre } = dependencies.get(name)!;
+        // Process 'pre' dependencies that are not 'use' plugins
+        Array.from(pre.values())
+          .filter(dep => !dep.isUse)
+          .forEach(dep => visit(dep.name));
+        // Process 'use' plugins
+        Array.from(pre.values())
+          .filter(dep => dep.isUse)
+          .forEach(dep => visit(dep.name));
+        temp.delete(name);
+        visited.add(name);
+        result.push(plugins.get(name)!);
+      }
+    };
+
+    // Convert 'post' dependencies to 'pre' dependencies for processing
+    plugins.forEach((_, name) => {
+      const { post } = dependencies.get(name)!;
+      post.forEach(dep => {
+        if (!dependencies.get(dep.name)!.pre.has(name)) {
+          dependencies.get(dep.name)!.pre.set(name, { name, isUse: false });
+        }
+      });
+    });
+
+    plugins.forEach((_, name) => {
+      visit(name);
+    });
+
+    return result;
+  };
+
   return {
     getPlugins,
     addPlugins,
-    removePlugins,
-    isPluginExists,
   };
 }

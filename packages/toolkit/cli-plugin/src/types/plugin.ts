@@ -22,6 +22,10 @@ export type CLIPlugin = {
    */
   name: string;
   /**
+   * The plugins that this plugin depends on.
+   */
+  usePlugins?: CLIPlugin[];
+  /**
    * The setup function of the plugin, which can be an async function.
    * This function is called once when the plugin is initialized.
    * @param api provides the context info, utility functions and lifecycle hooks.
@@ -38,48 +42,6 @@ export type CLIPlugin = {
 };
 
 export type PluginManager = {
-  getPlugins: (options?: {
-    /**
-     * Get the plugins in the specified environment.
-     *
-     * If environment is not specified, get the global plugins.
-     */
-    environment: string;
-  }) => CLIPlugin[];
-  addPlugins: (
-    plugins: Array<CLIPlugin | Falsy>,
-    options?: {
-      /**
-       * Insert before the specified plugin.
-       */
-      before?: string;
-      /**
-       * Add a plugin for the specified environment.
-       * If environment is not specified, it will be registered as a global plugin (effective in all environments)
-       */
-      environment?: string;
-    },
-  ) => void;
-  removePlugins: (
-    pluginNames: string[],
-    options?: {
-      /**
-       * Remove the plugin in the specified environment.
-       *
-       * If environment is not specified, remove it in all environments.
-       */
-      environment: string;
-    },
-  ) => void;
-  isPluginExists: (
-    pluginName: string,
-    options?: {
-      /**
-       * Whether it exists in the specified environment.
-       *
-       * If environment is not specified, determine whether the plugin is a global plugin.
-       */
-      environment: string;
-    },
-  ) => boolean;
+  getPlugins: () => CLIPlugin[];
+  addPlugins: (plugins: Array<CLIPlugin | Falsy>) => void;
 };
