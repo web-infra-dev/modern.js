@@ -1,13 +1,9 @@
-import type { Rspack } from '@rsbuild/core';
+import type { ManifestPluginOptions } from 'rspack-manifest-plugin';
 
-export const generateManifest = (
-  seed: Record<string, any>,
-  files: Array<{
-    chunk?: Rspack.Chunk;
-    name: string;
-    path: string;
-  }>,
-  entries: Record<string, string[]>,
+export const generateManifest: ManifestPluginOptions['generate'] = (
+  seed,
+  files,
+  entries,
 ) => {
   const manifestFiles = files.reduce((manifest, file) => {
     manifest[file.name] = file.path;
