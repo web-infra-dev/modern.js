@@ -124,18 +124,25 @@ Project reference 提供了以下能力：
 
 ### 示例
 
-在上文的例子中，由于 app 引用了 lib 子项目，我们需要在 app 的 `tsconfig.json` 内配置 `composite` 和 `references`，并指向 lib 对应的相对目录：
+在上文的例子中，由于 app 引用了 lib 子项目，我们需要在 app 的 `tsconfig.json` 内配置 `references`，并指向 lib 对应的相对目录：
 
 ```json title="app/tsconfig.json"
 {
-  "compilerOptions": {
-    "composite": true
-  },
   "references": [
     {
       "path": "../lib"
     }
   ]
+}
+```
+
+同时，需要在 lib 子项目的 `tsconfig.json` 内配置 `composite` 为 `true`：
+
+```json title="lib/A/tsconfig.json"
+{
+  "compilerOptions": {
+    "composite": true
+  },
 }
 ```
 
