@@ -16,6 +16,7 @@ export const ZH_LOCALE = {
     },
     build: {
       describe: '构建生产环境产物',
+      watch: '开启 watch 模式, 监听文件变更并重新构建',
     },
     serve: { describe: '启动生产环境服务' },
     deploy: { describe: '部署应用' },
