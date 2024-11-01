@@ -25,6 +25,7 @@
       "matchPackageNames": [
         "@rsbuild/**",
       ],
+      "updateTypes": ["minor", "patch"],
       "groupName": "rsbuild monorepo",
       "groupSlug": "rsbuild",
       "schedule": ["at any time"]
