@@ -1,4 +1,3 @@
-import { isFunction } from '@modern-js/utils/lodash';
 import type {
   ModifyBundlerChainFn,
   ModifyRsbuildConfigFn,
@@ -6,35 +5,22 @@ import type {
   ModifyWebpackChainFn,
   // ModifyWebpackConfigFn,
 } from '@rsbuild/core';
-import type { HookDescriptor } from './types/plugin';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
-  tap: (cb: Callback | HookDescriptor<Callback>) => void;
+  tap: (cb: Callback) => void;
   call: (...args: Parameters<Callback>) => Promise<Parameters<Callback>>;
 };
 
 export function createAsyncHook<
   Callback extends (...args: any[]) => any,
 >(): AsyncHook<Callback> {
-  const preGroup: Callback[] = [];
-  const postGroup: Callback[] = [];
-  const defaultGroup: Callback[] = [];
+  const callbacks: Callback[] = [];
 
-  const tap = (cb: Callback | HookDescriptor<Callback>) => {
-    if (isFunction(cb)) {
-      defaultGroup.push(cb);
-    } else if (cb.order === 'pre') {
-      preGroup.push(cb.handler);
-    } else if (cb.order === 'post') {
-      postGroup.push(cb.handler);
-    } else {
-      defaultGroup.push(cb.handler);
-    }
+  const tap = (cb: Callback) => {
+    callbacks.push(cb);
   };
 
   const call = async (...params: Parameters<Callback>) => {
-    const callbacks = [...preGroup, ...defaultGroup, ...postGroup];
-
     for (const callback of callbacks) {
       const result = await callback(...params);
 

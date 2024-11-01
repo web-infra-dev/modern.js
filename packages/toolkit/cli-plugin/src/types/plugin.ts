@@ -2,15 +2,8 @@ import type { CLIPluginAPI } from './api';
 import type { Falsy } from './utils';
 import type { MaybePromise } from './utils';
 
-type HookOrder = 'pre' | 'post' | 'default';
-
-export type HookDescriptor<T extends (...args: any[]) => any> = {
-  handler: T;
-  order: HookOrder;
-};
-
 export type PluginHook<T extends (...args: any[]) => any> = (
-  options: T | HookDescriptor<T>,
+  options: T,
 ) => void;
 
 /**

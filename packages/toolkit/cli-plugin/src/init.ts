@@ -4,7 +4,6 @@ import type { PluginManager } from './types/plugin';
 
 export function initPluginAPI({
   context,
-  pluginManager,
 }: {
   context: InternalContext;
   pluginManager: PluginManager;
@@ -35,11 +34,10 @@ export function initPluginAPI({
     getAppContext,
     getConfig,
     getNormalizedConfig,
-    isPluginExists: pluginManager.isPluginExists,
     modifyRsbuildConfig: hooks.modifyRsbuildConfig.tap,
-    modifyBundlerChain: handler => hooks.modifyBundlerChain.tap(handler),
-    modifyRspackConfig: handler => hooks.modifyRspackConfig.tap(handler),
-    modifyWebpackChain: handler => hooks.modifyWebpackChain.tap(handler),
-    // modifyWebpackConfig: handler => hooks.modifyWebpackConfig.tap(handler),
+    modifyBundlerChain: hooks.modifyBundlerChain.tap,
+    modifyRspackConfig: hooks.modifyRspackConfig.tap,
+    modifyWebpackChain: hooks.modifyWebpackChain.tap,
+    // modifyWebpackConfig: hooks.modifyWebpackConfig.tap,
   };
 }

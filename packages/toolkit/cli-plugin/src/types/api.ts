@@ -5,7 +5,7 @@ import type {
   ModifyWebpackChainFn,
 } from '@rsbuild/core';
 import type { AppContext } from './context';
-import type { PluginHook, PluginManager } from './plugin';
+import type { PluginHook } from './plugin';
 
 /**
  * Define a generic CLI plugin API that provider can extend as needed.
@@ -14,7 +14,6 @@ export type CLIPluginAPI<Config = {}, NormalizedConfig = {}> = Readonly<{
   getAppContext: () => Readonly<AppContext>;
   getConfig: () => Readonly<Config>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
-  isPluginExists: PluginManager['isPluginExists'];
 
   modifyRsbuildConfig: PluginHook<ModifyRsbuildConfigFn>;
   modifyBundlerChain: PluginHook<ModifyBundlerChainFn>;
