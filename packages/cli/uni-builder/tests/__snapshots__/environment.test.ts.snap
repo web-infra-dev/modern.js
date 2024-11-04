@@ -977,6 +977,7 @@ exports[`uni-builder environment compat > should generator environment config co
       ],
       "tsConfig": {
         "configFile": "tsconfig.json",
+        "references": "auto",
       },
     },
     "target": [
@@ -1697,6 +1698,7 @@ exports[`uni-builder environment compat > should generator environment config co
       ],
       "tsConfig": {
         "configFile": "tsconfig.json",
+        "references": "auto",
       },
     },
     "target": "node",
@@ -2372,6 +2374,7 @@ exports[`uni-builder environment compat > should generator environment config co
       ],
       "tsConfig": {
         "configFile": "tsconfig.json",
+        "references": "auto",
       },
     },
     "target": [

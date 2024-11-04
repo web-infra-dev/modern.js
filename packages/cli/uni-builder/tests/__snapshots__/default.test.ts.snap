@@ -996,6 +996,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     ],
     "tsConfig": {
       "configFile": "tsconfig.json",
+      "references": "auto",
     },
   },
   "target": [
@@ -1811,6 +1812,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     ],
     "tsConfig": {
       "configFile": "tsconfig.json",
+      "references": "auto",
     },
   },
   "target": "node",
@@ -2832,6 +2834,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     ],
     "tsConfig": {
       "configFile": "tsconfig.json",
+      "references": "auto",
     },
   },
   "target": [
@@ -3568,6 +3571,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     ],
     "tsConfig": {
       "configFile": "tsconfig.json",
+      "references": "auto",
     },
   },
   "target": [
