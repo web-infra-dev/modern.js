@@ -17,6 +17,7 @@
     {
       "matchPackageNames": [
         "@rspress/**",
+        "rspress",
       ],
       "groupName": "rspress monorepo",
       "groupSlug": "rspress",
