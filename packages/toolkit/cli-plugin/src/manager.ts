@@ -138,6 +138,11 @@ export function createPluginManager(): PluginManager {
       visit(name);
     });
 
+    logger.info(
+      'CLI Plugins:',
+      result.map(p => p.name),
+    );
+
     return result;
   };
 
