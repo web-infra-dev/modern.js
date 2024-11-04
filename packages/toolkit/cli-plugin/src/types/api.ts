@@ -3,6 +3,7 @@ import type {
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
   ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
   OnAfterBuildFn,
   OnAfterCreateCompilerFn,
   OnBeforeBuildFn,
@@ -11,7 +12,7 @@ import type {
 import type { AppContext } from './context';
 import type {
   AddCommandFn,
-  CollectConfigFn,
+  ConfigFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
   ModifyResolvedConfigFn,
@@ -36,7 +37,7 @@ export type CLIPluginAPI<Config, NormalizedConfig, Entrypoint> = Readonly<{
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
 
   // config hooks TOOD check
-  collectConfig: PluginHook<CollectConfigFn<Config>>;
+  config: PluginHook<ConfigFn<Config>>;
   modifyConfig: PluginHook<ModifyConfigFn<Config>>;
   modifyResolvedConfig: PluginHook<ModifyResolvedConfigFn<NormalizedConfig>>;
 
@@ -48,7 +49,7 @@ export type CLIPluginAPI<Config, NormalizedConfig, Entrypoint> = Readonly<{
   /** Only works when bundler is Webpack */
   modifyWebpackChain: PluginHook<ModifyWebpackChainFn>;
   /** Only works when bundler is Webpack */
-  // modifyWebpackConfig: PluginHook<ModifyWebpackConfigFn>;
+  modifyWebpackConfig: PluginHook<ModifyWebpackConfigFn>;
   modifyHtmlPartials: PluginHook<ModifyHtmlPartialsFn<Entrypoint>>;
 
   addCommand: PluginHook<AddCommandFn>;

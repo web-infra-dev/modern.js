@@ -3,15 +3,15 @@ import type {
   ModifyRsbuildConfigFn,
   ModifyRspackConfigFn,
   ModifyWebpackChainFn,
+  ModifyWebpackConfigFn,
   OnAfterBuildFn,
   OnAfterCreateCompilerFn,
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
-  // ModifyWebpackConfigFn,
 } from '@rsbuild/core';
 import type {
   AddCommandFn,
-  CollectConfigFn,
+  ConfigFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
   ModifyResolvedConfigFn,
@@ -60,8 +60,18 @@ export function createAsyncHook<
 
 export function initHooks<Config, NormalizedConfig, Entrypoint>() {
   return {
-    collectConfig: createAsyncHook<CollectConfigFn<Config>>(),
+    /**
+     * add config for this cli plugin
+     */
+    config: createAsyncHook<ConfigFn<Config>>(),
+    /**
+     * @private
+     * modify config for this cli plugin
+     */
     modifyConfig: createAsyncHook<ModifyConfigFn<Config>>(),
+    /**
+     * modify final config
+     */
     modifyResolvedConfig:
       createAsyncHook<ModifyResolvedConfigFn<NormalizedConfig>>(),
 
@@ -69,7 +79,7 @@ export function initHooks<Config, NormalizedConfig, Entrypoint>() {
     modifyBundlerChain: createAsyncHook<ModifyBundlerChainFn>(),
     modifyRspackConfig: createAsyncHook<ModifyRspackConfigFn>(),
     modifyWebpackChain: createAsyncHook<ModifyWebpackChainFn>(),
-    // modifyWebpackConfig: createAsyncHook<ModifyWebpackConfigFn>(),
+    modifyWebpackConfig: createAsyncHook<ModifyWebpackConfigFn>(),
     modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn<Entrypoint>>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),

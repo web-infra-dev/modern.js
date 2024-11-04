@@ -1,6 +1,6 @@
 import type { Command } from '@modern-js/utils/commander';
 
-export type CollectConfigFn<Config> = () => Config;
+export type ConfigFn<Config> = () => Config;
 
 export type ModifyConfigFn<Config> = (config: Config) => Config;
 

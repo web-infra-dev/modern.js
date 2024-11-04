@@ -36,7 +36,7 @@ export function initPluginAPI<Config, NormalizedConfig, Entrypoint>({
     getConfig,
     getNormalizedConfig,
 
-    collectConfig: hooks.collectConfig.tap,
+    config: hooks.config.tap,
     modifyConfig: hooks.modifyConfig.tap,
     modifyResolvedConfig: hooks.modifyResolvedConfig.tap,
 
@@ -44,7 +44,7 @@ export function initPluginAPI<Config, NormalizedConfig, Entrypoint>({
     modifyBundlerChain: hooks.modifyBundlerChain.tap,
     modifyRspackConfig: hooks.modifyRspackConfig.tap,
     modifyWebpackChain: hooks.modifyWebpackChain.tap,
-    // modifyWebpackConfig: hooks.modifyWebpackConfig.tap,
+    modifyWebpackConfig: hooks.modifyWebpackConfig.tap,
     modifyHtmlPartials: hooks.modifyHtmlPartials.tap,
 
     addCommand: hooks.addCommand.tap,
