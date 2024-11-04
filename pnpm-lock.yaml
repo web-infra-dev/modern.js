@@ -4151,10 +4151,10 @@ importers:
         version: link:../../toolkit/utils
       '@storybook/react':
         specifier: ~7.6.1
-        version: 7.6.20(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)
+        version: 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)
       storybook:
         specifier: ~7.6.1
-        version: 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+        version: 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     devDependencies:
       '@storybook/types':
         specifier: ~7.6.12
@@ -4519,8 +4519,8 @@ importers:
   scripts/build:
     devDependencies:
       '@modern-js/core-npm':
-        specifier: npm:@modern-js/core@2.60.5
-        version: '@modern-js/core@2.60.5'
+        specifier: npm:@modern-js/core@2.60.6
+        version: '@modern-js/core@2.60.6'
       '@modern-js/module-tools-npm':
         specifier: npm:@modern-js/module-tools@2.60.5
         version: '@modern-js/module-tools@2.60.5(typescript@5.3.3)'
@@ -10329,6 +10329,9 @@ packages:
   '@modern-js/core@2.60.5':
     resolution: {integrity: sha512-7C0RcMTPYRY7bsmpeu40r3npN7sBcLkhpUUpedm5HTEQ6oomKTUVVQKl+XEaW3zNAzQxN4YMRExhz9hMOJk4Kw==}
 
+  '@modern-js/core@2.60.6':
+    resolution: {integrity: sha512-zfhOkB8uoOH6Mj06E9/sD8k+efC2b+cG1X/fDzRGyMI91k25Pqpq0yGl5lWn0Zz0/WnH2bLkHlIRlAcOmGgI8g==}
+
   '@modern-js/doc-plugin-auto-sidebar@2.58.1':
     resolution: {integrity: sha512-dw0HFaGKnXqZ2nztyvZF0KP21Sj6DLgnzcf9pUEJlKXnZjWfcL/ecOkJu0nh/tOzu6AV2EllqLHiehceBVmYxA==}
     engines: {node: '>=14.17.6'}
@@ -10348,6 +10351,9 @@ packages:
   '@modern-js/node-bundle-require@2.60.5':
     resolution: {integrity: sha512-jKFrGm3U4FVTfwR/hYpB8I+veXaLqzQU+6hVfxs4SINRP7CRcvsX0IBOIawx/01aS2u6hNH1Tadb1t++Es1hiA==}
 
+  '@modern-js/node-bundle-require@2.60.6':
+    resolution: {integrity: sha512-xrchg6yAg9dNPB9aAd94/ftpcIG21LXD//0EVxpdcFsMaHYbtXKG8hcA/9MgxlEA1ELJwxedRQov4N3/wFfvNQ==}
+
   '@modern-js/plugin-changeset@2.60.5':
     resolution: {integrity: sha512-z//yRMg9JS9OHFPJ1x4r8UpfBXtK8A/d7rHI7anI03SzhOj+JZuzIR1oNVPV7/66TMlzR8gG0vBIdBh+jAZ+uA==}
 
@@ -10359,6 +10365,9 @@ packages:
 
   '@modern-js/plugin@2.60.5':
     resolution: {integrity: sha512-izz7iPq9nk4O2VdPm+A6smYPGwd6+OuYxd6njyP6S3Q7AyOqnkUPcGf0mpp2hePaWzLOqZygJSy0Z50/pjGybA==}
+
+  '@modern-js/plugin@2.60.6':
+    resolution: {integrity: sha512-27CPUvnKEerq3kY7uPTYLO9PvP6LB2fV3Xo1RDPTNFgx3WhDUgiPtbqDi2yfzMIgPsaPn9AEdoJMGtD9EuXqfA==}
 
   '@modern-js/polyfill-lib@1.0.2':
     resolution: {integrity: sha512-UdBEpS0kwBYm43n60FEZFvZ3dUhqlzzvZkIMwiQGYHvlpXuAN/30GrWnp2WUdd5+eM5ObRCJ1bSJ7+UYouxPAQ==}
@@ -10432,6 +10441,9 @@ packages:
 
   '@modern-js/utils@2.60.5':
     resolution: {integrity: sha512-ZnQNCs8Vdxji5K6OwSq9QUQ0MYU9QdOpWm7lWwi+YPq2RIQcHfAtnEkFu1B2RvifPyGfjVo2kafu+rldUlZMyw==}
+
+  '@modern-js/utils@2.60.6':
+    resolution: {integrity: sha512-rAeqAHiUUnStwBTkP1tdQSz29o/Qtoc2OUfz6TEAtEPoAxcFSc44+hwux7mQkSxXSzBjkbev5RMkwVwuM2FWtw==}
 
   '@module-federation/runtime-tools@0.0.8':
     resolution: {integrity: sha512-tqx3wlVHnpWLk+vn22c0x9Nv1BqdZnoS6vdMb53IsVpbQIFP70nhhvymHUyFuPkoLzMFidS7GpG58DYT/4lvCw==}
@@ -25119,6 +25131,13 @@ snapshots:
       '@modern-js/utils': 2.60.5
       '@swc/helpers': 0.5.13
 
+  '@modern-js/core@2.60.6':
+    dependencies:
+      '@modern-js/node-bundle-require': 2.60.6
+      '@modern-js/plugin': 2.60.6
+      '@modern-js/utils': 2.60.6
+      '@swc/helpers': 0.5.13
+
   '@modern-js/doc-plugin-auto-sidebar@2.58.1(react@18.3.1)':
     dependencies:
       '@modern-js/utils': 2.58.1
@@ -25164,6 +25183,12 @@ snapshots:
       '@swc/helpers': 0.5.13
       esbuild: 0.17.19
 
+  '@modern-js/node-bundle-require@2.60.6':
+    dependencies:
+      '@modern-js/utils': 2.60.6
+      '@swc/helpers': 0.5.13
+      esbuild: 0.17.19
+
   '@modern-js/plugin-changeset@2.60.5':
     dependencies:
       '@changesets/cli': 2.26.2
@@ -25190,6 +25215,11 @@ snapshots:
   '@modern-js/plugin@2.60.5':
     dependencies:
       '@modern-js/utils': 2.60.5
+      '@swc/helpers': 0.5.13
+
+  '@modern-js/plugin@2.60.6':
+    dependencies:
+      '@modern-js/utils': 2.60.6
       '@swc/helpers': 0.5.13
 
   '@modern-js/polyfill-lib@1.0.2':
@@ -25296,6 +25326,13 @@ snapshots:
     dependencies:
       '@swc/helpers': 0.5.13
       caniuse-lite: 1.0.30001669
+      lodash: 4.17.21
+      rslog: 1.2.3
+
+  '@modern-js/utils@2.60.6':
+    dependencies:
+      '@swc/helpers': 0.5.13
+      caniuse-lite: 1.0.30001674
       lodash: 4.17.21
       rslog: 1.2.3
 
@@ -27088,7 +27125,7 @@ snapshots:
       '@mdx-js/loader': 2.3.0(webpack@5.95.0(@swc/core@1.3.42)(esbuild@0.17.19))
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
-      '@modern-js/utils': link:packages/toolkit/utils
+      '@modern-js/utils': 2.60.5
       '@rsbuild/core': 1.0.19
       '@rsbuild/plugin-less': 1.0.3(@rsbuild/core@1.0.19)
       '@rsbuild/plugin-react': 1.0.6(@rsbuild/core@1.0.19)
@@ -27143,7 +27180,7 @@ snapshots:
       '@mdx-js/loader': 2.3.0(webpack@5.95.0(esbuild@0.17.19))
       '@mdx-js/mdx': 2.3.0
       '@mdx-js/react': 2.3.0(react@18.3.1)
-      '@modern-js/utils': link:packages/toolkit/utils
+      '@modern-js/utils': 2.60.5
       '@rsbuild/core': 1.0.19
       '@rsbuild/plugin-less': 1.0.3(@rsbuild/core@1.0.19)
       '@rsbuild/plugin-react': 1.0.6(@rsbuild/core@1.0.19)
@@ -27449,7 +27486,7 @@ snapshots:
       '@storybook/components': 7.6.20(@types/react-dom@18.3.1)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/core-events': 7.6.20
       '@storybook/csf': 0.1.11
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/preview-api': 7.6.20
@@ -27475,7 +27512,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@7.6.20(encoding@0.1.13)':
+  '@storybook/builder-manager@7.6.20':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -27506,7 +27543,7 @@ snapshots:
       telejson: 7.2.0
       tiny-invariant: 1.3.3
 
-  '@storybook/cli@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/cli@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/preset-env': 7.26.0(@babel/core@7.26.0)
@@ -27515,10 +27552,10 @@ snapshots:
       '@storybook/codemod': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
-      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@storybook/csf-tools': 7.6.20
       '@storybook/node-logger': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/semver': 7.5.8
       '@yarnpkg/fslib': 2.10.3
@@ -27633,11 +27670,11 @@ snapshots:
     dependencies:
       ts-dedent: 2.2.0
 
-  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@aw-web-design/x-default-browser': 1.4.126
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 7.6.20(encoding@0.1.13)
+      '@storybook/builder-manager': 7.6.20
       '@storybook/channels': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
@@ -27648,7 +27685,7 @@ snapshots:
       '@storybook/manager': 7.6.20
       '@storybook/node-logger': 7.6.20
       '@storybook/preview-api': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/detect-port': 1.3.5
       '@types/node': 18.19.59
@@ -27709,7 +27746,7 @@ snapshots:
 
   '@storybook/docs-mdx@0.1.0': {}
 
-  '@storybook/docs-tools@7.6.20(encoding@0.1.13)':
+  '@storybook/docs-tools@7.6.20':
     dependencies:
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/preview-api': 7.6.20
@@ -27798,11 +27835,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@storybook/react@7.6.20(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)':
+  '@storybook/react@7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-client': 7.6.20
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/preview-api': 7.6.20
       '@storybook/react-dom-shim': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -27835,7 +27872,7 @@ snapshots:
       memoizerific: 1.11.3
       qs: 6.13.0
 
-  '@storybook/telemetry@7.6.20(encoding@0.1.13)':
+  '@storybook/telemetry@7.6.20':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -38458,9 +38495,9 @@ snapshots:
 
   store2@2.14.3: {}
 
-  storybook@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10):
+  storybook@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
-      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - encoding
