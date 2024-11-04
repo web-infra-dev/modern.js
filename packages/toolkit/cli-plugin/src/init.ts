@@ -6,7 +6,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
   context,
 }: {
   context: InternalContext<Config, NormalizedConfig>;
-  pluginManager: PluginManager;
+  pluginManager: PluginManager<Config, NormalizedConfig>;
 }): CLIPluginAPI<Config, NormalizedConfig> {
   const { hooks } = context;
   function getAppContext() {

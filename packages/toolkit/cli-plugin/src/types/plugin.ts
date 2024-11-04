@@ -9,7 +9,7 @@ export type PluginHook<T extends (...args: any[]) => any> = (
 /**
  * The type of the CLI plugin object.
  */
-export type CLIPlugin<Config = {}, NormalizedConfig = {}> = {
+export type CLIPlugin<Config, NormalizedConfig> = {
   /**
    * The name of the plugin, a unique identifier.
    */
@@ -17,7 +17,7 @@ export type CLIPlugin<Config = {}, NormalizedConfig = {}> = {
   /**
    * The plugins that this plugin depends on.
    */
-  usePlugins?: CLIPlugin[];
+  usePlugins?: CLIPlugin<Config, NormalizedConfig>[];
   /**
    * The setup function of the plugin, which can be an async function.
    * This function is called once when the plugin is initialized.
@@ -34,7 +34,9 @@ export type CLIPlugin<Config = {}, NormalizedConfig = {}> = {
   post?: string[];
 };
 
-export type PluginManager = {
-  getPlugins: () => CLIPlugin[];
-  addPlugins: (plugins: Array<CLIPlugin | Falsy>) => void;
+export type PluginManager<Config, NormalizedConfig> = {
+  getPlugins: () => CLIPlugin<Config, NormalizedConfig>[];
+  addPlugins: (
+    plugins: Array<CLIPlugin<Config, NormalizedConfig> | Falsy>,
+  ) => void;
 };

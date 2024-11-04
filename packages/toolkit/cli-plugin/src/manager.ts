@@ -3,7 +3,7 @@ import type { CLIPlugin, PluginManager } from './types/plugin';
 import type { Falsy } from './types/utils';
 
 // Validates if the plugin is a valid CLIPlugin instance
-function validatePlugin(plugin: unknown) {
+function validatePlugin<Config, NormalizedConfig>(plugin: unknown) {
   const type = typeof plugin;
 
   if (type !== 'object' || plugin === null) {
@@ -12,7 +12,7 @@ function validatePlugin(plugin: unknown) {
     );
   }
 
-  if (isFunction((plugin as CLIPlugin).setup)) {
+  if (isFunction((plugin as CLIPlugin<Config, NormalizedConfig>).setup)) {
     return;
   }
 
@@ -21,9 +21,12 @@ function validatePlugin(plugin: unknown) {
   );
 }
 
-export function createPluginManager(): PluginManager {
+export function createPluginManager<Config, NormalizedConfig>(): PluginManager<
+  Config,
+  NormalizedConfig
+> {
   // Map to store all plugins by name
-  const plugins = new Map<string, CLIPlugin>();
+  const plugins = new Map<string, CLIPlugin<Config, NormalizedConfig>>();
   // Map to store dependencies for each plugin
   // 'pre': plugins that must run before the current plugin
   // 'post': plugins that must run after the current plugin
@@ -63,7 +66,9 @@ export function createPluginManager(): PluginManager {
     }
   };
 
-  const addPlugin = (newPlugin: CLIPlugin | Falsy) => {
+  const addPlugin = (
+    newPlugin: CLIPlugin<Config, NormalizedConfig> | Falsy,
+  ) => {
     if (!newPlugin) {
       return;
     }
@@ -93,7 +98,9 @@ export function createPluginManager(): PluginManager {
     });
   };
 
-  const addPlugins = (newPlugins: Array<CLIPlugin | Falsy>) => {
+  const addPlugins = (
+    newPlugins: Array<CLIPlugin<Config, NormalizedConfig> | Falsy>,
+  ) => {
     for (const newPlugin of newPlugins) {
       addPlugin(newPlugin);
     }
@@ -102,7 +109,7 @@ export function createPluginManager(): PluginManager {
   const getPlugins = () => {
     const visited = new Set();
     const temp = new Set();
-    const result: CLIPlugin[] = [];
+    const result: CLIPlugin<Config, NormalizedConfig>[] = [];
     const visit = (name: string) => {
       if (temp.has(name)) {
         throw new Error(`Circular dependency detected: ${name}`);

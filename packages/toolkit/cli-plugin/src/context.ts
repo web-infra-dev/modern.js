@@ -2,12 +2,12 @@ import { initHooks } from './hooks';
 import type { AppContext, InternalContext } from './types/context';
 
 interface ContextParams<Config, NormalizedConfig> {
-  appContext: AppContext;
+  appContext: AppContext<Config, NormalizedConfig>;
   config: Config;
   normalizedConfig: NormalizedConfig;
 }
 
-export async function createContext<Config = {}, NormalizedConfig = {}>({
+export async function createContext<Config, NormalizedConfig>({
   appContext,
   config,
   normalizedConfig,

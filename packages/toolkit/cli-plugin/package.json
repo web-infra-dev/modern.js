@@ -29,6 +29,18 @@
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
+    },
+    "./run": {
+      "types": "./dist/types/cli/run.ts",
+      "jsnext:source": "./src/cli/run.ts",
+      "default": "./dist/cjs/cli/run.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "run": [
+        "./dist/types/cli/run.d.ts"
+      ]
     }
   },
   "scripts": {
@@ -40,6 +52,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@modern-js/node-bundle-require": "workspace:*",
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {

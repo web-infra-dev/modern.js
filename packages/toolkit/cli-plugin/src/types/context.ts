@@ -13,7 +13,7 @@ export interface Entrypoint {
 }
 
 /** The public context */
-export type AppContext = {
+export type AppContext<Config, NormalizedConfig> = {
   // current project package name
   packageName: string;
   // current config file absolute path
@@ -25,39 +25,37 @@ export type AppContext = {
   // project root path
   appDirectory: string;
   // project src code path
-  srcDirectory: string;
+  srcDirectory?: string;
   // project output path
-  distDirectory: string;
+  distDirectory?: string;
   // node_modules path
-  nodeModulesDirectory: string;
+  nodeModulesDirectory?: string;
   // cli plugins list
-  plugins: CLIPlugin[];
+  plugins: CLIPlugin<Config, NormalizedConfig>[];
   // bundler type
-  bundlerType: 'webpack' | 'rspack' | 'esbuild';
+  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
   // bundler instance
-  builder: UniBuilderInstance | UniBuilderWebpackInstance;
+  builder?: UniBuilderInstance | UniBuilderWebpackInstance;
   // current server port
-  port: number;
+  port?: number;
   // current server host name
-  host: string;
+  host?: string;
   // current server ip address
-  ip: string;
+  ip?: string;
   // server routes
-  serverRoutes: ServerRoute[];
+  serverRoutes?: ServerRoute[];
 };
 
 /** The inner context. */
-export type InternalContext<Config, NormalizedConfig> = AppContext & {
+export type InternalContext<Config, NormalizedConfig> = AppContext<
+  Config,
+  NormalizedConfig
+> & {
   /** All hooks. */
   hooks: Readonly<Hooks<Config, NormalizedConfig>>;
   /** Current App config. */
   config: Readonly<Config>;
   /** The normalized Rsbuild config. */
   normalizedConfig?: NormalizedConfig;
-  /**
-   * Get the plugin API.
-   * */
-  getPluginAPI?: (
-    environment?: string,
-  ) => CLIPluginAPI<Config, NormalizedConfig>;
+  pluginAPI?: CLIPluginAPI<Config, NormalizedConfig>;
 };

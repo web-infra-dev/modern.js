@@ -32,7 +32,7 @@ import type { PluginHook } from './plugin';
  * Define a generic CLI plugin API that provider can extend as needed.
  */
 export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
-  getAppContext: () => Readonly<AppContext>;
+  getAppContext: () => Readonly<AppContext<Config, NormalizedConfig>>;
   getConfig: () => Readonly<Config>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
 
