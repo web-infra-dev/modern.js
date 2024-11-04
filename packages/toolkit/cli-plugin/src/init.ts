@@ -2,12 +2,12 @@ import type { CLIPluginAPI } from './types/api';
 import type { InternalContext } from './types/context';
 import type { PluginManager } from './types/plugin';
 
-export function initPluginAPI<Config, NormalizedConfig, Entrypoint>({
+export function initPluginAPI<Config, NormalizedConfig>({
   context,
 }: {
-  context: InternalContext<Config, NormalizedConfig, Entrypoint>;
+  context: InternalContext<Config, NormalizedConfig>;
   pluginManager: PluginManager;
-}): CLIPluginAPI<Config, NormalizedConfig, Entrypoint> {
+}): CLIPluginAPI<Config, NormalizedConfig> {
   const { hooks } = context;
   function getAppContext() {
     if (context) {

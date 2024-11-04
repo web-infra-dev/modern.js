@@ -7,20 +7,16 @@ interface ContextParams<Config, NormalizedConfig> {
   normalizedConfig: NormalizedConfig;
 }
 
-export async function createContext<
-  Config = {},
-  NormalizedConfig = {},
-  Entrypoint = {},
->({
+export async function createContext<Config = {}, NormalizedConfig = {}>({
   appContext,
   config,
   normalizedConfig,
 }: ContextParams<Config, NormalizedConfig>): Promise<
-  InternalContext<Config, NormalizedConfig, Entrypoint>
+  InternalContext<Config, NormalizedConfig>
 > {
   return {
     ...appContext,
-    hooks: initHooks<Config, NormalizedConfig, Entrypoint>(),
+    hooks: initHooks<Config, NormalizedConfig>(),
     config,
     normalizedConfig,
   };

@@ -31,7 +31,7 @@ import type { PluginHook } from './plugin';
 /**
  * Define a generic CLI plugin API that provider can extend as needed.
  */
-export type CLIPluginAPI<Config, NormalizedConfig, Entrypoint> = Readonly<{
+export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
   getAppContext: () => Readonly<AppContext>;
   getConfig: () => Readonly<Config>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
@@ -50,7 +50,7 @@ export type CLIPluginAPI<Config, NormalizedConfig, Entrypoint> = Readonly<{
   modifyWebpackChain: PluginHook<ModifyWebpackChainFn>;
   /** Only works when bundler is Webpack */
   modifyWebpackConfig: PluginHook<ModifyWebpackConfigFn>;
-  modifyHtmlPartials: PluginHook<ModifyHtmlPartialsFn<Entrypoint>>;
+  modifyHtmlPartials: PluginHook<ModifyHtmlPartialsFn>;
 
   addCommand: PluginHook<AddCommandFn>;
 

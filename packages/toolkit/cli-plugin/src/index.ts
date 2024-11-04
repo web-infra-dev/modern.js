@@ -4,7 +4,9 @@ export { createPluginManager } from './manager';
 
 export type {
   CLIPlugin,
+  PluginManager,
   AppContext,
   InternalContext,
   CLIPluginAPI,
+  Entrypoint,
 } from './types';

@@ -58,7 +58,7 @@ export function createAsyncHook<
   };
 }
 
-export function initHooks<Config, NormalizedConfig, Entrypoint>() {
+export function initHooks<Config, NormalizedConfig>() {
   return {
     /**
      * add config for this cli plugin
@@ -80,7 +80,7 @@ export function initHooks<Config, NormalizedConfig, Entrypoint>() {
     modifyRspackConfig: createAsyncHook<ModifyRspackConfigFn>(),
     modifyWebpackChain: createAsyncHook<ModifyWebpackChainFn>(),
     modifyWebpackConfig: createAsyncHook<ModifyWebpackConfigFn>(),
-    modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn<Entrypoint>>(),
+    modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),
 
@@ -100,6 +100,6 @@ export function initHooks<Config, NormalizedConfig, Entrypoint>() {
   };
 }
 
-export type Hooks<Config, NormalizedConfig, Entrypoint> = ReturnType<
-  typeof initHooks<Config, NormalizedConfig, Entrypoint>
+export type Hooks<Config, NormalizedConfig> = ReturnType<
+  typeof initHooks<Config, NormalizedConfig>
 >;

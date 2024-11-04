@@ -6,6 +6,12 @@ import type {
 import type { Hooks } from '../hooks';
 import type { CLIPluginAPI } from './api';
 import type { CLIPlugin } from './plugin';
+
+export interface Entrypoint {
+  name: string;
+  entry: string;
+}
+
 /** The public context */
 export type AppContext = {
   // current project package name
@@ -41,18 +47,17 @@ export type AppContext = {
 };
 
 /** The inner context. */
-export type InternalContext<Config, NormalizedConfig, Entrypoint> =
-  AppContext & {
-    /** All hooks. */
-    hooks: Readonly<Hooks<Config, NormalizedConfig, Entrypoint>>;
-    /** Current App config. */
-    config: Readonly<Config>;
-    /** The normalized Rsbuild config. */
-    normalizedConfig?: NormalizedConfig;
-    /**
-     * Get the plugin API.
-     * */
-    getPluginAPI?: (
-      environment?: string,
-    ) => CLIPluginAPI<Config, NormalizedConfig, Entrypoint>;
-  };
+export type InternalContext<Config, NormalizedConfig> = AppContext & {
+  /** All hooks. */
+  hooks: Readonly<Hooks<Config, NormalizedConfig>>;
+  /** Current App config. */
+  config: Readonly<Config>;
+  /** The normalized Rsbuild config. */
+  normalizedConfig?: NormalizedConfig;
+  /**
+   * Get the plugin API.
+   * */
+  getPluginAPI?: (
+    environment?: string,
+  ) => CLIPluginAPI<Config, NormalizedConfig>;
+};

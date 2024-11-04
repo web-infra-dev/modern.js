@@ -1,4 +1,5 @@
 import type { Command } from '@modern-js/utils/commander';
+import type { Entrypoint } from './context';
 
 export type ConfigFn<Config> = () => Config;
 
@@ -14,7 +15,7 @@ export interface PartialMethod {
   prepend: IPartialMethod;
 }
 
-export type ModifyHtmlPartialsFn<Entrypoint> = (params: {
+export type ModifyHtmlPartialsFn = (params: {
   entrypoint: Entrypoint;
   partials: {
     top: PartialMethod;

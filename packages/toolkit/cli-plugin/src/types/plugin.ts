@@ -9,7 +9,7 @@ export type PluginHook<T extends (...args: any[]) => any> = (
 /**
  * The type of the CLI plugin object.
  */
-export type CLIPlugin<Config = {}, NormalizedConfig = {}, Entrypoint = {}> = {
+export type CLIPlugin<Config = {}, NormalizedConfig = {}> = {
   /**
    * The name of the plugin, a unique identifier.
    */
@@ -23,9 +23,7 @@ export type CLIPlugin<Config = {}, NormalizedConfig = {}, Entrypoint = {}> = {
    * This function is called once when the plugin is initialized.
    * @param api provides the context info, utility functions and lifecycle hooks.
    */
-  setup: (
-    api: CLIPluginAPI<Config, NormalizedConfig, Entrypoint>,
-  ) => MaybePromise<void>;
+  setup: (api: CLIPluginAPI<Config, NormalizedConfig>) => MaybePromise<void>;
   /**
    * Declare the names of pre-plugins, which will be executed before the current plugin.
    */
