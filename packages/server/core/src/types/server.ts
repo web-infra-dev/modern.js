@@ -1,6 +1,5 @@
 import type { Readable } from 'node:stream';
 import type {
-  BaseSSRServerContext,
   Logger,
   Metrics,
   Monitors,
@@ -13,14 +12,6 @@ import type {
   OnError,
   OnTiming,
 } from './requestHandler';
-
-export type SSRServerContext = BaseSSRServerContext & {
-  staticGenerate?: boolean;
-};
-
-export type ServerRender = (
-  ssrContext: SSRServerContext,
-) => Promise<string | Readable | ReadableStream>;
 
 export type RequestHandler = (
   request: Request,
