@@ -1,7 +1,7 @@
 import { logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import type { CLIPlugin } from 'src/types';
-import { createContext } from '../context';
+import { createContext, initAppContext } from '../context';
 import { initPluginAPI } from '../init';
 import { createPluginManager } from '../manager';
 import { createLoadedConfig } from './config/createLoadedConfig';
@@ -45,14 +45,13 @@ export const createCli = <Config, NormalizedConfig>() => {
     const plugins = await pluginManager.getPlugins();
 
     const context = await createContext<Config, NormalizedConfig>({
-      appContext: {
+      appContext: initAppContext({
         packageName: loaded.packageName,
         configFile: loaded.configFile,
         command: command,
-        isProd: process.env.NODE_ENV === 'production',
         appDirectory,
         plugins,
-      },
+      }),
       config: loaded.config,
       normalizedConfig: {} as NormalizedConfig,
     });
