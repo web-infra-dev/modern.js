@@ -2,7 +2,6 @@
 
 import { Command } from 'commander';
 
-import { ModuleNewAction } from './module';
 import { MWANewAction } from './mwa';
 
 import { getSolutionByDependance } from './utils';
@@ -32,7 +31,9 @@ const main = async () => {
           MWANewAction(config);
           break;
         case 'module':
-          ModuleNewAction(config);
+          console.error(
+            'Modern.js not support module new command yet, Please use Rslib',
+          );
           break;
         default:
           break;
