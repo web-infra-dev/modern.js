@@ -8,7 +8,6 @@ import { createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  module?: boolean;
   debug?: boolean;
   config?: string;
   packages?: string;
@@ -27,7 +26,7 @@ type RunnerTask = Array<{
   config: Record<string, any>;
 }>;
 
-const REPO_GENERATOR = '@modern-js/repo-generator';
+const MWA_GENERATOR = '@modern-js/mwa-generator';
 
 function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
@@ -36,7 +35,6 @@ function getDefaultConfig(
 ) {
   const {
     mwa,
-    module,
     config,
     packages,
     registry,
@@ -64,13 +62,6 @@ function getDefaultConfig(
 
   if (mwa) {
     initialConfig.defaultSolution = 'mwa';
-  }
-
-  if (module) {
-    initialConfig.defaultSolution = 'module';
-    if (!initialConfig.packageName) {
-      initialConfig.packageName = projectDir;
-    }
   }
 
   if (registry) {
@@ -142,13 +133,9 @@ export async function createAction(projectDir: string, options: Options) {
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
-    `@modern-js/repo-generator@${distTag || 'latest'}`,
-    `@modern-js/repo-next-generator@${distTag || 'latest'}`,
     `@modern-js/base-generator@${distTag || 'latest'}`,
     `@modern-js/mwa-generator@${distTag || 'latest'}`,
     `@modern-js/entry-generator@${distTag || 'latest'}`,
-    `@modern-js/module-generator@${distTag || 'latest'}`,
-    `@modern-js/changeset-generator@${distTag || 'latest'}`,
   ]);
 
   smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
@@ -168,13 +155,13 @@ export async function createAction(projectDir: string, options: Options) {
 
   const config = getDefaultConfig(projectDir, options, smith.logger);
 
-  let generator = customGenerator || REPO_GENERATOR;
+  let generator = customGenerator || MWA_GENERATOR;
 
   if (
     process.env.CODESMITH_ENV === 'development' &&
-    generator === REPO_GENERATOR
+    generator === MWA_GENERATOR
   ) {
-    generator = require.resolve(REPO_GENERATOR);
+    generator = require.resolve(MWA_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
     await prepareGeneratorPromise;

@@ -48,7 +48,6 @@
     "@modern-js/entry-generator": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
-    "@modern-js/module-generator": "workspace:*",
     "@modern-js/mwa-generator": "workspace:*",
     "@modern-js/codesmith-utils": "2.6.5",
     "@scripts/build": "workspace:*",
