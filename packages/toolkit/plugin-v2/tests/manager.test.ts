@@ -1,7 +1,7 @@
 import { createPluginManager } from '../src/manager';
 import type { CLIPlugin } from '../src/types/plugin';
 
-const pluginModern = (): CLIPlugin => {
+const pluginModern = (): CLIPlugin<{}, {}> => {
   return {
     name: 'pluginModern',
     setup() {
@@ -10,7 +10,7 @@ const pluginModern = (): CLIPlugin => {
   };
 };
 
-const pluginInner = (): CLIPlugin => {
+const pluginInner = (): CLIPlugin<{}, {}> => {
   return {
     name: 'pluginInner',
     usePlugins: [pluginModern()],
@@ -21,7 +21,7 @@ const pluginInner = (): CLIPlugin => {
   };
 };
 
-const pluginPost = (): CLIPlugin => {
+const pluginPost = (): CLIPlugin<{}, {}> => {
   return {
     name: 'pluginPost',
     usePlugins: [pluginModern()],
@@ -32,7 +32,7 @@ const pluginPost = (): CLIPlugin => {
   };
 };
 
-const pluginCustom = (): CLIPlugin => {
+const pluginCustom = (): CLIPlugin<{}, {}> => {
   return {
     name: 'pluginCustom',
     post: ['pluginInner', 'pluginPost'],
@@ -44,28 +44,28 @@ const pluginCustom = (): CLIPlugin => {
 
 describe('plugin order', () => {
   it('handle add plugin', () => {
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginInner()]);
     const plugins = manager.getPlugins().map(plugin => plugin.name);
     expect(plugins).toEqual(['pluginModern', 'pluginInner']);
   });
 
   it('handle custom plugin', () => {
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginModern(), pluginCustom()]);
     const plugins = manager.getPlugins().map(plugin => plugin.name);
     expect(plugins).toEqual(['pluginModern', 'pluginCustom']);
   });
 
   it('handle use plugin', () => {
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginInner(), pluginCustom()]);
     const plugins = manager.getPlugins().map(plugin => plugin.name);
     expect(plugins).toEqual(['pluginCustom', 'pluginModern', 'pluginInner']);
   });
 
   it('handle use plugin but add post order', () => {
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginPost(), pluginCustom()]);
     const plugins = manager.getPlugins().map(plugin => plugin.name);
     expect(plugins).toEqual(['pluginCustom', 'pluginPost', 'pluginModern']);
@@ -79,14 +79,14 @@ describe('plugin order', () => {
   });
 
   it('handles single plugin without dependencies', () => {
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginModern()]);
     const plugins = manager.getPlugins().map(plugin => plugin.name);
     expect(plugins).toEqual(['pluginModern']);
   });
 
   it('detects circular dependencies', () => {
-    const pluginCircular = (): CLIPlugin => {
+    const pluginCircular = (): CLIPlugin<{}, {}> => {
       return {
         name: 'pluginCircular',
         pre: ['pluginInner'],
@@ -97,7 +97,7 @@ describe('plugin order', () => {
       };
     };
 
-    const manager = createPluginManager();
+    const manager = createPluginManager<{}, {}>();
     manager.addPlugins([pluginInner(), pluginCircular()]);
     expect(() => manager.getPlugins()).toThrow(
       'Circular dependency detected: pluginInner',

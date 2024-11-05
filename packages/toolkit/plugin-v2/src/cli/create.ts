@@ -39,7 +39,7 @@ export const createCli = <Config, NormalizedConfig>() => {
         loaded.config as unknown as {
           plugins: CLIPlugin<Config, NormalizedConfig>[];
         }
-      ).plugins || [],
+      )?.plugins || [],
     );
 
     const plugins = await pluginManager.getPlugins();

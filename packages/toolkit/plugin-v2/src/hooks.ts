@@ -25,6 +25,7 @@ import type {
   OnFileChangedFn,
   OnPrepareFn,
 } from './types/hooks';
+import type { DeepPartial } from './types/utils';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
@@ -58,12 +59,46 @@ export function createAsyncHook<
   };
 }
 
+export type CollectAsyncHook<Callback extends (...args: any[]) => any> = {
+  tap: (cb: Callback) => void;
+  call: (...args: Parameters<Callback>) => Promise<ReturnType<Callback>[]>;
+};
+
+export function createCollectAsyncHook<
+  Callback extends (...args: any[]) => any,
+>(): CollectAsyncHook<Callback> {
+  const callbacks: Callback[] = [];
+
+  const tap = (cb: Callback) => {
+    callbacks.push(cb);
+  };
+
+  const call = async (...params: Parameters<Callback>) => {
+    const results: ReturnType<Callback>[] = [];
+    for (const callback of callbacks) {
+      const result = await callback(...params);
+
+      if (result !== undefined) {
+        params[0] = result;
+        results.push(result);
+      }
+    }
+
+    return results;
+  };
+
+  return {
+    tap,
+    call,
+  };
+}
+
 export function initHooks<Config, NormalizedConfig>() {
   return {
     /**
      * add config for this cli plugin
      */
-    config: createAsyncHook<ConfigFn<Config>>(),
+    config: createCollectAsyncHook<ConfigFn<DeepPartial<Config>>>(),
     /**
      * @private
      * modify config for this cli plugin
@@ -83,7 +118,7 @@ export function initHooks<Config, NormalizedConfig>() {
     modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),
-    addWatchFiles: createAsyncHook<AddWatchFilesFn>(),
+    addWatchFiles: createCollectAsyncHook<AddWatchFilesFn>(),
 
     onPrepare: createAsyncHook<OnPrepareFn>(),
     onFileChanged: createAsyncHook<OnFileChangedFn>(),

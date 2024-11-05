@@ -17,9 +17,7 @@ export const createFileWatcher = async <Config, NormalizedConfig>(
   // only add fs watcher on dev mode.
   if (isDevCommand()) {
     const { appDirectory } = appContext;
-    const extraFiles: Array<
-      string[] | { files: string[]; isPrivate: boolean }
-    > = await appContext.hooks.addWatchFiles.call();
+    const extraFiles = await appContext.hooks.addWatchFiles.call();
     const watched = extraFiles
       .filter((extra): extra is string[] => {
         return Array.isArray(extra);

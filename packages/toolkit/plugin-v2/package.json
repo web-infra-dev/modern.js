@@ -48,7 +48,7 @@
     "new": "modern-lib new",
     "dev": "modern-lib build --watch",
     "build": "modern-lib build",
-    "test": "jest --passWithNoTests"
+    "test": "jest"
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",

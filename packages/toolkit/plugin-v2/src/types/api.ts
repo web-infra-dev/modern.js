@@ -27,6 +27,7 @@ import type {
   OnPrepareFn,
 } from './hooks';
 import type { PluginHook } from './plugin';
+import type { DeepPartial } from './utils';
 
 /**
  * Define a generic CLI plugin API that provider can extend as needed.
@@ -37,7 +38,7 @@ export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
 
   // config hooks TOOD check
-  config: PluginHook<ConfigFn<Config>>;
+  config: PluginHook<ConfigFn<DeepPartial<Config>>>;
   modifyConfig: PluginHook<ModifyConfigFn<Config>>;
   modifyResolvedConfig: PluginHook<ModifyResolvedConfigFn<NormalizedConfig>>;
 
