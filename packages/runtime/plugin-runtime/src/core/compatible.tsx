@@ -13,6 +13,7 @@ import { createLoaderManager } from './loader/loaderManager';
 import { type Plugin, registerPlugin, type runtime } from './plugin';
 import { getGlobalRunner } from './plugin/runner';
 import { wrapRuntimeContextProvider } from './react/wrapper';
+import type { TSSRContext } from './types';
 
 const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
@@ -226,8 +227,20 @@ export const bootstrap: BootStrap = async (
 export const useRuntimeContext = () => {
   const context = useContext(RuntimeReactContext);
 
+  const baseSSRContext = context.ssrContext;
+  const tSSRContext = baseSSRContext
+    ? {
+        isBrowser: context.isBrowser,
+        request: baseSSRContext.request || ({} as TSSRContext['request']),
+        response: baseSSRContext.response || ({} as TSSRContext['response']),
+        logger: baseSSRContext.logger || ({} as TSSRContext['logger']),
+      }
+    : ({} as TSSRContext);
+
+  // TODO: Here we should not provide all the RuntimeReactContext to the user
   const pickedContext: TRuntimeContext = {
     ...context,
+    context: tSSRContext,
     request: context.ssrContext?.request,
     response: context.ssrContext?.response,
   };
