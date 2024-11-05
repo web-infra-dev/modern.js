@@ -18,15 +18,13 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Modern.js is an open source web engineering system from ByteDance, including:
+The Modern.js framework is a progressive web framework based on React. At ByteDance, we use Modern.js to build upper-level frameworks that have supported the development of thousands of web applications.
 
-- 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
-- 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
+When developing React applications, developers usually need to design implementation plans for certain features or use other libraries and frameworks to solve these problems. Modern.js supports all configurations and tools needed by React applications, and has built-in additional features and optimizations. Developers can use React to build the UI of the application, and then gradually adopt the features of Modern.js to solve common application requirements, such as routing, data acquisition, and state management.
 
 ## Getting Started
 
-- Use [Modern.js Framework](https://modernjs.dev/en/guides/get-started/quick-start) to develop a web application.
-- Use [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to develop an npm package.
+See [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start).
 
 ## Ecosystem
 
@@ -35,6 +33,7 @@ The following solutions and libraries are available within the Modern.js ecosyst
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
 - 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild): An Rspack-based build tool for the web, rebranded from Modern.js Builder.
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress): A fast Rspack-based static site generator.
+- 🦄 [Rslib](https://github.com/web-infra-dev/rslib): An Rspack-based library development tool.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): An redux-based state management library.
 - 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins): Built-in SWC plugins for Modern.js.
@@ -45,7 +44,7 @@ We use [Modern.js Benchmark](https://web-infra-qos.netlify.app/) to observe the 
 
 ## Roadmap
 
-Please refer to the [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741). We will update the Roadmap content every quarter. Please stay tuned.
+Please refer to the [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741). We will update the Roadmap content regularly. Please stay tuned.
 
 ## Examples
 

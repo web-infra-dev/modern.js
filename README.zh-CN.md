@@ -18,23 +18,22 @@
 
 ## 介绍
 
-Modern.js 是字节跳动 Web 工程体系的开源版本，包含：
+Modern.js 框架是一个基于 React 的渐进式 Web 开发框架。在字节跳动内部，我们将 Modern.js 封装为上层框架，并支撑了数千个 Web 应用的研发。
 
-- 🦄 [Modern.js Framework](https://modernjs.dev/)：基于 React 的渐进式 Web 开发框架。
-- 🐧 [Modern.js Module](https://modernjs.dev/module-tools)：简单、高性能的 npm 包开发方案。
+在开发 React 应用过程中，开发者通常需要去为某些功能去设计实现方案，或是使用其他的库、框架来解决这些问题。Modern.js 支持 React 应用所需要的所有配置和工具，并内置额外的功能和优化。开发者可以使用 React 构建应用的 UI，然后逐步采用 Modern.js 的功能来解决常见的应用需求，如路由、数据获取、状态管理等。
 
 ## 快速上手
 
-- 使用 [Modern.js Framework](https://modernjs.dev/guides/get-started/quick-start) 来开发一个 Web 应用。
-- 使用 [Modern.js Module](https://modernjs.dev/module-tools/guide/intro/getting-started.html) 来开发一个 npm 包。
+参考 [快速上手](https://modernjs.dev/zh/guides/get-started/quick-start)。
 
 ## 生态
 
 Modern.js 生态提供了以下解决方案和底层库：
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack)：基于 Rust 的高性能模块打包工具。
-- 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：基于 Rspack 的 Web 构建工具，由 Modern.js Builder 演变而来。
+- 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：基于 Rspack 的 Web 构建工具。
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress)：基于 Rspack 的静态站点生成器。
+- 🦄 [Rslib](https://github.com/web-infra-dev/rslib)：基于 Rspack 的 Library 开发工具。
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish)：一站式微前端解决方案。
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck)：基于 Redux 的状态管理库。
 - 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins)：Modern.js 的 SWC 插件。
@@ -45,7 +44,7 @@ Modern.js 生态提供了以下解决方案和底层库：
 
 ## Roadmap
 
-请参阅 [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741)。我们将在每个季度更新 Roadmap 的内容。
+请参阅 [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741)。我们将定期更新 Roadmap 的内容。
 
 ## 示例
 
