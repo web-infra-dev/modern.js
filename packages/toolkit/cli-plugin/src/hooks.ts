@@ -11,6 +11,7 @@ import type {
 } from '@rsbuild/core';
 import type {
   AddCommandFn,
+  AddWatchFilesFn,
   ConfigFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
@@ -23,7 +24,6 @@ import type {
   OnBeforeRestartFn,
   OnFileChangedFn,
   OnPrepareFn,
-  OnWatchFilesFn,
 } from './types/hooks';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
@@ -83,9 +83,9 @@ export function initHooks<Config, NormalizedConfig>() {
     modifyHtmlPartials: createAsyncHook<ModifyHtmlPartialsFn>(),
 
     addCommand: createAsyncHook<AddCommandFn>(),
+    addWatchFiles: createAsyncHook<AddWatchFilesFn>(),
 
     onPrepare: createAsyncHook<OnPrepareFn>(),
-    onWatchFiles: createAsyncHook<OnWatchFilesFn>(),
     onFileChanged: createAsyncHook<OnFileChangedFn>(),
     onBeforeRestart: createAsyncHook<OnBeforeRestartFn>(),
     onBeforeCreateCompiler: createAsyncHook<OnBeforeCreateCompilerFn>(),

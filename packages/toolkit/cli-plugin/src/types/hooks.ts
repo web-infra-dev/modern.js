@@ -28,7 +28,7 @@ export type AddCommandFn = (params: { program: Command }) => void;
 
 export type OnPrepareFn = () => Promise<void> | void;
 
-export type OnWatchFilesFn = () => Promise<
+export type AddWatchFilesFn = () => Promise<
   Array<string | { files: string[]; isPrivate: boolean }>
 >;
 
