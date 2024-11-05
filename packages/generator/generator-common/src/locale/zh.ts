@@ -1,19 +1,4 @@
 export const ZH_LOCALE = {
-  solution: {
-    self: '请选择你想创建的工程类型',
-    mwa: 'Web 应用',
-    module: 'Npm 模块',
-    custom: '自定义',
-    default: '默认',
-  },
-  scenes: {
-    self: '请选择项目场景',
-  },
-  sub_solution: {
-    self: '请选择你想创建的工程类型',
-    mwa: 'Web 应用',
-    module: 'Npm 模块',
-  },
   action: {
     self: '请选择你想要的操作',
     function: {
