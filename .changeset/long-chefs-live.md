@@ -1,7 +1,7 @@
 ---
-'@modern-js/new-action': patch
-'@modern-js/create': patch
-'@modern-js/upgrade': patch
+'@modern-js/new-action': minor
+'@modern-js/create': minor
+'@modern-js/upgrade': minor
 ---
 
 feat: create tools and new command not support Module project
