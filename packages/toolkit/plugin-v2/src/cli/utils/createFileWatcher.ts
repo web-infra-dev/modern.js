@@ -19,7 +19,7 @@ export const createFileWatcher = async <Config, NormalizedConfig>(
     const { appDirectory } = appContext;
     const extraFiles: Array<
       string[] | { files: string[]; isPrivate: boolean }
-    > = await appContext.hooks.onWatchFiles.call();
+    > = await appContext.hooks.addWatchFiles.call();
     const watched = extraFiles
       .filter((extra): extra is string[] => {
         return Array.isArray(extra);

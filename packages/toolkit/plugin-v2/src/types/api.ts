@@ -12,6 +12,7 @@ import type {
 import type { AppContext } from './context';
 import type {
   AddCommandFn,
+  AddWatchFilesFn,
   ConfigFn,
   ModifyConfigFn,
   ModifyHtmlPartialsFn,
@@ -24,7 +25,6 @@ import type {
   OnBeforeRestartFn,
   OnFileChangedFn,
   OnPrepareFn,
-  OnWatchFilesFn,
 } from './hooks';
 import type { PluginHook } from './plugin';
 
@@ -55,7 +55,7 @@ export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
   addCommand: PluginHook<AddCommandFn>;
 
   onPrepare: PluginHook<OnPrepareFn>;
-  onWatchFiles: PluginHook<OnWatchFilesFn>;
+  onWatchFiles: PluginHook<AddWatchFilesFn>;
   onFileChanged: PluginHook<OnFileChangedFn>;
   onBeforeRestart: PluginHook<OnBeforeRestartFn>;
   onBeforeCreateCompiler: PluginHook<OnBeforeCreateCompilerFn>;

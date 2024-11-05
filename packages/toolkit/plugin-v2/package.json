@@ -1,5 +1,5 @@
 {
-  "name": "@modern-js/cli-plugin",
+  "name": "@modern-js/plugin-v2",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",

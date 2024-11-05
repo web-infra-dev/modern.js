@@ -50,7 +50,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
     addCommand: hooks.addCommand.tap,
 
     onPrepare: hooks.onPrepare.tap,
-    onWatchFiles: hooks.onWatchFiles.tap,
+    onWatchFiles: hooks.addWatchFiles.tap,
     onFileChanged: hooks.onFileChanged.tap,
     onBeforeRestart: hooks.onBeforeRestart.tap,
     onBeforeCreateCompiler: hooks.onBeforeCreateCompiler.tap,
