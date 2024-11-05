@@ -5,19 +5,21 @@ import { createContext } from '../context';
 import { initPluginAPI } from '../init';
 import { createPluginManager } from '../manager';
 import { createLoadedConfig } from './config/createLoadedConfig';
-import type { CLIOptions } from './types';
-import { initCommandsMap } from './utils.ts/commander';
-import { initAppDir } from './utils.ts/initAppDir';
-import { loadEnv } from './utils.ts/loadEnv';
+import { createResolveConfig } from './config/createResolvedConfig';
+import type { CLIRunOptions } from './types';
+import { initCommandsMap } from './utils/commander';
+import { createFileWatcher } from './utils/createFileWatcher';
+import { initAppDir } from './utils/initAppDir';
+import { loadEnv } from './utils/loadEnv';
 
 export const createCli = <Config, NormalizedConfig>() => {
   const pluginManager = createPluginManager<Config, NormalizedConfig>();
 
-  async function init(options: CLIOptions) {
+  async function init(options: CLIRunOptions) {
     const {
       metaName = 'MODERN',
-      command,
       configFile,
+      command,
       packageJsonConfig,
     } = options;
 
@@ -46,7 +48,7 @@ export const createCli = <Config, NormalizedConfig>() => {
       appContext: {
         packageName: loaded.packageName,
         configFile: loaded.configFile,
-        command: command!,
+        command: command,
         isProd: process.env.NODE_ENV === 'production',
         appDirectory,
         plugins,
@@ -66,12 +68,55 @@ export const createCli = <Config, NormalizedConfig>() => {
       await plugin.setup(pluginAPI);
     }
 
+    ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
+      event => {
+        process.on(event, async (err: unknown) => {
+          await context.hooks.onBeforeExit.call();
+
+          let hasError = false;
+
+          if (err instanceof Error) {
+            logger.error(err.stack);
+            hasError = true;
+          } else if (
+            err &&
+            (event === 'unhandledRejection' || event === 'uncaughtException')
+          ) {
+            // We should not pass it, if err is not instanceof Error.
+            // We can use `console.trace` to follow it call stack,
+            console.trace('Unknown Error', err);
+            hasError = true;
+          }
+
+          process.nextTick(() => {
+            process.exit(hasError ? 1 : 0);
+          });
+        });
+      },
+    );
+
+    const extraConfigs = await context.hooks.config.call();
+
+    const normalizedConfig = await createResolveConfig<
+      Config,
+      NormalizedConfig
+    >(loaded, extraConfigs);
+
+    const resolved =
+      await context.hooks.modifyResolvedConfig.call(normalizedConfig);
+
+    context.normalizedConfig = resolved[0];
+
+    await context.hooks.onPrepare.call();
+
     return { appContext: context };
   }
-  async function run(options: CLIOptions) {
+  async function run(options: CLIRunOptions) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
-    // await createFileWatcher(appContext, hooksRunner);
+
+    await createFileWatcher(appContext);
+
     program.parse(process.argv);
     if (!program.commands?.length) {
       logger.warn(

@@ -27,9 +27,9 @@ export const run = async (options: CLIOptions) => {
   }>(process.argv.slice(2));
 
   await cli.run({
-    command,
     version,
     cwd,
+    command,
     configFile: cliParams.c || cliParams.config || configFile,
     ...params,
   });

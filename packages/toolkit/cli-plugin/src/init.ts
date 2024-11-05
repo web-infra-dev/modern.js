@@ -11,7 +11,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
   const { hooks } = context;
   function getAppContext() {
     if (context) {
-      const { hooks, config, normalizedConfig, getPluginAPI, ...appContext } =
+      const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
         context;
       return appContext;
     }

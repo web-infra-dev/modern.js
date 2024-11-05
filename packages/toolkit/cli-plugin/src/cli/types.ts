@@ -2,7 +2,6 @@ export interface CLIOptions {
   cwd?: string;
   version?: string;
   metaName?: string;
-  command?: string;
   /**
    * The initial log message when CLI started
    */
@@ -21,3 +20,7 @@ export type LoadedConfig<T> = {
   config: T;
   pkgConfig?: T;
 };
+
+export interface CLIRunOptions extends CLIOptions {
+  command: string;
+}
