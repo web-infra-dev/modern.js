@@ -19,9 +19,6 @@ Options:
   -c, --config <config>    set default project config(json string) (default: "{}")
   -d,--debug               using debug mode to log something (default: false)
   --mwa                    create mwa application using default config (default: false)
-  --module                 create module application using default config (default: false)
-  --generator <generator>  run custom generator
-  -p, --plugin <plugin>    use generator plugin to create new solution or customize Modern.js solution (default: [])
   --dist-tag <distTag>     use specified tag version for it\'s generator (default: "")
   --packages <packages>    set project specific dependency version information (default: "{}")
   --registry <registry>    set npm registry url to run npm command (default: "")
@@ -83,23 +80,6 @@ When encountering problems during use, you can use this parameter to display deb
 ## --mwa
 
 Quickly create a Web App project.
-
-## --module
-
-Quickly create a Npm Module project.
-
-## -p, --plugin \<plugin>
-
-Specify a generator plugin.
-
-`@modern-js/create` supports customizing the default project solution type of Modern.js or adding project solution type scenarios using generator plugin. For details, please refer to [Developing Generator Plugin](/guides/topic-detail/generator/plugin/structure.html).
-
-## --generator \<generator>
-
-Specify a micro-generator.
-
-<!-- TODO 详情可查看[开发微生成器]-->
-`@modern-js/create` supports completely customizing the project generation process using micro-generator.
 
 ## --dist-tag \<distTag>
 

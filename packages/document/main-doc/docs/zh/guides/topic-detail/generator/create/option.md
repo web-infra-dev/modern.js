@@ -19,9 +19,6 @@ Options:
   -c, --config <config>    创建项目默认配置(JSON 字符串) (default: "{}")
   -d,--debug               开启 Debug 模式，打印调试日志信息 (default: false)
   --mwa                    一键创建 Web 应用(使用默认配置) (default: false)
-  --module                 一键创建 Module 应用(使用默认配置) (default: false)
-  --generator <generator>  使用自定义生成器
-  -p, --plugin <plugin>    使用生成器插件创建新的工程方案类型或定制化 Modern.js 工程方案 (default: [])
   --dist-tag <distTag>     生成项目时生成器使用特殊的 npm Tag (default: "")
   --packages <packages>    创建项目指定特定依赖版本信息 (default: "{}")
   --registry <registry>    在创建过程中定制 npm Registry (default: "")
@@ -83,23 +80,6 @@ npx @modern-js/create@latest --config '{"packageManager": "pnpm"}'
 ## --mwa
 
 快速创建 Web 应用项目。
-
-## --module
-
-快速创建 Npm 模块项目。
-
-## -p, --plugin \<plugin>
-
-指定生成器插件。
-
-`@modern-js/create` 支持使用生成器插件定制 Modern.js 默认的工程方案类型或者添加工程方案类型场景，详情可查看[开发生成器插件](/guides/topic-detail/generator/plugin/structure.html)。
-
-## --generator \<generator>
-
-指定微生成器。
-
-<!-- TODO 详情可查看[开发微生成器]-->
-`@modern-js/create` 支持使用微生成器完全定制项目生成流程。
 
 ## --dist-tag \<distTag>
 
