@@ -6,7 +6,6 @@ import {
   logger,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
-import type { CLIPlugin } from '../../types';
 import type { LoadedConfig } from '../types';
 import { getConfigFilePath, loadConfig } from './loadConfig';
 

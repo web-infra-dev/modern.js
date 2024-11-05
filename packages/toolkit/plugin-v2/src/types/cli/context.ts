@@ -3,7 +3,7 @@ import type {
   UniBuilderInstance,
   UniBuilderWebpackInstance,
 } from '@modern-js/uni-builder';
-import type { Hooks } from '../hooks';
+import type { Hooks } from '../../cli/hooks';
 import type { CLIPluginAPI } from './api';
 import type { CLIPlugin } from './plugin';
 

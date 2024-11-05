@@ -1,9 +1,9 @@
 import { logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
-import type { CLIPlugin } from 'src/types';
+import { createPluginManager } from '../../manager';
+import type { Plugin } from '../../types/plugin';
+import { initPluginAPI } from '../api';
 import { createContext, initAppContext } from '../context';
-import { initPluginAPI } from '../init';
-import { createPluginManager } from '../manager';
 import { createLoadedConfig } from './config/createLoadedConfig';
 import { createResolveConfig } from './config/createResolvedConfig';
 import type { CLIRunOptions } from './types';
@@ -13,7 +13,7 @@ import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
 export const createCli = <Config, NormalizedConfig>() => {
-  const pluginManager = createPluginManager<Config, NormalizedConfig>();
+  const pluginManager = createPluginManager();
 
   async function init(options: CLIRunOptions) {
     const {
@@ -35,11 +35,7 @@ export const createCli = <Config, NormalizedConfig>() => {
     );
 
     pluginManager.addPlugins(
-      (
-        loaded.config as unknown as {
-          plugins: CLIPlugin<Config, NormalizedConfig>[];
-        }
-      )?.plugins || [],
+      (loaded.config as unknown as { plugins: Plugin[] }).plugins || [],
     );
 
     const plugins = await pluginManager.getPlugins();

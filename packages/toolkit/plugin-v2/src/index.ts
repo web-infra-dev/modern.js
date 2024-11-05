@@ -1,12 +1,4 @@
-export { createContext } from './context';
-export { initPluginAPI } from './init';
 export { createPluginManager } from './manager';
+export * from './cli';
 
-export type {
-  CLIPlugin,
-  PluginManager,
-  AppContext,
-  InternalContext,
-  CLIPluginAPI,
-  Entrypoint,
-} from './types';
+export * from './types';

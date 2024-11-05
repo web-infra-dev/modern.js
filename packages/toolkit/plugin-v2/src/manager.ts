@@ -1,10 +1,10 @@
 import { createDebugger, isFunction, logger } from '@modern-js/utils';
-import type { CLIPlugin, PluginManager } from './types/plugin';
+import type { Plugin, PluginManager } from './types/plugin';
 import type { Falsy } from './types/utils';
 
-const debug = createDebugger('cli-plugin');
+const debug = createDebugger('plugin-v2');
 // Validates if the plugin is a valid CLIPlugin instance
-function validatePlugin<Config, NormalizedConfig>(plugin: unknown) {
+function validatePlugin(plugin: unknown) {
   const type = typeof plugin;
 
   if (type !== 'object' || plugin === null) {
@@ -13,7 +13,7 @@ function validatePlugin<Config, NormalizedConfig>(plugin: unknown) {
     );
   }
 
-  if (isFunction((plugin as CLIPlugin<Config, NormalizedConfig>).setup)) {
+  if (isFunction((plugin as Plugin).setup)) {
     return;
   }
 
@@ -22,12 +22,9 @@ function validatePlugin<Config, NormalizedConfig>(plugin: unknown) {
   );
 }
 
-export function createPluginManager<Config, NormalizedConfig>(): PluginManager<
-  Config,
-  NormalizedConfig
-> {
+export function createPluginManager(): PluginManager {
   // Map to store all plugins by name
-  const plugins = new Map<string, CLIPlugin<Config, NormalizedConfig>>();
+  const plugins = new Map<string, Plugin>();
   // Map to store dependencies for each plugin
   // 'pre': plugins that must run before the current plugin
   // 'post': plugins that must run after the current plugin
@@ -67,9 +64,7 @@ export function createPluginManager<Config, NormalizedConfig>(): PluginManager<
     }
   };
 
-  const addPlugin = (
-    newPlugin: CLIPlugin<Config, NormalizedConfig> | Falsy,
-  ) => {
+  const addPlugin = (newPlugin: Plugin | Falsy) => {
     if (!newPlugin) {
       return;
     }
@@ -99,9 +94,7 @@ export function createPluginManager<Config, NormalizedConfig>(): PluginManager<
     });
   };
 
-  const addPlugins = (
-    newPlugins: Array<CLIPlugin<Config, NormalizedConfig> | Falsy>,
-  ) => {
+  const addPlugins = (newPlugins: Array<Plugin | Falsy>) => {
     for (const newPlugin of newPlugins) {
       addPlugin(newPlugin);
     }
@@ -110,7 +103,7 @@ export function createPluginManager<Config, NormalizedConfig>(): PluginManager<
   const getPlugins = () => {
     const visited = new Set();
     const temp = new Set();
-    const result: CLIPlugin<Config, NormalizedConfig>[] = [];
+    const result: Plugin[] = [];
     const visit = (name: string) => {
       if (temp.has(name)) {
         throw new Error(`Circular dependency detected: ${name}`);

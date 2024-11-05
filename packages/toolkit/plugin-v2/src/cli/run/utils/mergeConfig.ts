@@ -1,8 +1,9 @@
 import { ensureArray, isOverriddenConfigKey } from '@modern-js/utils';
 import { isFunction, mergeWith } from '@modern-js/utils/lodash';
+import type { DeepPartial } from '../../../types/utils';
 
 export const mergeConfig = <Config, NormalizedConfig>(
-  configs: Array<Config>,
+  configs: Array<DeepPartial<Config>>,
 ): NormalizedConfig =>
   mergeWith({}, ...configs, (target: any, source: any, key: string) => {
     // Do not use the following merge logic for some keys

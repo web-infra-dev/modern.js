@@ -9,6 +9,8 @@ import type {
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
 } from '@rsbuild/core';
+import type { PluginHook } from '../plugin';
+import type { DeepPartial } from '../utils';
 import type { AppContext } from './context';
 import type {
   AddCommandFn,
@@ -26,8 +28,6 @@ import type {
   OnFileChangedFn,
   OnPrepareFn,
 } from './hooks';
-import type { PluginHook } from './plugin';
-import type { DeepPartial } from './utils';
 
 /**
  * Define a generic CLI plugin API that provider can extend as needed.

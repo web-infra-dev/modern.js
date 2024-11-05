@@ -1,3 +1,4 @@
-import { createCli } from './create';
-
-export const cli = createCli();
+export { initPluginAPI } from './api';
+export { initAppContext } from './context';
+export { initHooks } from './hooks';
+export { cli } from './run';

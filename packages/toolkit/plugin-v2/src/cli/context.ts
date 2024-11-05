@@ -1,7 +1,7 @@
 import path from 'path';
+import type { AppContext, InternalContext } from '../types/cli/context';
+import type { CLIPlugin } from '../types/cli/plugin';
 import { initHooks } from './hooks';
-import type { CLIPlugin } from './types';
-import type { AppContext, InternalContext } from './types/context';
 
 interface ContextParams<Config, NormalizedConfig> {
   appContext: AppContext<Config, NormalizedConfig>;

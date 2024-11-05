@@ -24,8 +24,8 @@ import type {
   OnBeforeRestartFn,
   OnFileChangedFn,
   OnPrepareFn,
-} from './types/hooks';
-import type { DeepPartial } from './types/utils';
+} from '../types/cli/hooks';
+import type { DeepPartial } from '../types/utils';
 
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
