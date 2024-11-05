@@ -1,10 +1,12 @@
 import path from 'path';
 import type { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
+import { merge } from '@modern-js/codesmith-utils/lodash';
 import {
   BaseGenerator,
   EntryGenerator,
   Language,
+  MWADefaultConfig,
   PackagesGenerator,
   Solution,
   i18n as commonI18n,
@@ -21,6 +23,14 @@ import {
   validatePackagePath,
 } from '@modern-js/generator-utils';
 import { i18n, localeKeys } from './locale';
+
+const mergeDefaultConfig = (context: GeneratorContext) => {
+  const { defaultSolution } = context.config;
+
+  if (defaultSolution) {
+    merge(context.config, MWADefaultConfig);
+  }
+};
 
 export const handleTemplateFile = async (
   context: GeneratorContext,
@@ -56,55 +66,24 @@ export const handleTemplateFile = async (
     isEmptySrc: true,
   };
 
-  const { hasPlugin, generatorPlugin, ...extra } = context.config;
-
   let ans: Record<string, unknown> = {};
 
-  if (hasPlugin) {
-    await generatorPlugin.installPlugins(Solution.MWA, extra);
-    const schema = generatorPlugin.getInputSchema();
-    const inputValue = generatorPlugin.getInputValue();
-    const defaultConfig = generatorPlugin.getDefaultConfig();
-    context.config.gitCommitMessage =
-      generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
-    ans = await appApi.getInputBySchema(
-      schema,
-      'formily',
-      { ...context.config, ...defaultConfig },
-      {
-        packageName: input =>
-          validatePackageName(input as string, packages, {
-            isMonorepoSubProject,
-          }),
-        packagePath: input =>
-          validatePackagePath(
-            input as string,
-            path.join(process.cwd(), projectDir),
-            {
-              isMwa: true,
-            },
-          ),
-      },
-      { ...inputValue },
-    );
-  } else {
-    ans = await appApi.getInputBySchemaFunc(
-      getMWASchema,
-      { ...context.config },
-      {
-        packageName: input =>
-          validatePackageName(input as string, packages, {
-            isMonorepoSubProject,
-          }),
-        packagePath: input =>
-          validatePackagePath(
-            input as string,
-            path.join(process.cwd(), projectDir),
-            { isMwa: true },
-          ),
-      },
-    );
-  }
+  ans = await appApi.getInputBySchemaFunc(
+    getMWASchema,
+    { ...context.config },
+    {
+      packageName: input =>
+        validatePackageName(input as string, packages, {
+          isMonorepoSubProject,
+        }),
+      packagePath: input =>
+        validatePackagePath(
+          input as string,
+          path.join(process.cwd(), projectDir),
+          { isMwa: true },
+        ),
+    },
+  );
 
   generator.logger.debug(`💡 [Input Answer]: ${JSON.stringify(ans)}`);
 
@@ -123,7 +102,7 @@ export const handleTemplateFile = async (
   await appApi.runSubGenerator(
     getGeneratorPath(BaseGenerator, context.config.distTag, [__dirname]),
     undefined,
-    { ...context.config, hasPlugin: false },
+    { ...context.config },
   );
 
   await appApi.forgeTemplate(
@@ -216,19 +195,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   let projectPath = '';
   try {
+    mergeDefaultConfig(context);
     ({ projectPath } = await handleTemplateFile(context, generator, appApi));
   } catch (e) {
     generator.logger.error(`🔴 [Handle MWA Template Error]:`, e);
     process.exit(1);
-  }
-
-  if (context.handleForged) {
-    await context.handleForged(
-      Solution.MWA,
-      context,
-      context.config.hasPlugin,
-      projectPath,
-    );
   }
 
   try {

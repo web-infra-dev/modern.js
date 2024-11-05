@@ -68,9 +68,5 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 
   await handleTemplateFile(context, generator, appApi);
 
-  if (context.handleForged) {
-    await context.handleForged('custom', context, context.config.hasPlugin);
-  }
-
   generator.logger.debug(`🌟 [End Run Base Generator]`);
 };
