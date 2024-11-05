@@ -46,6 +46,7 @@ export interface SSRContainer {
 
 type BuildHtmlCb = (tempalte: string) => string;
 
+/* 在服务端获取的 SSRContext */
 export type SSRServerContext = Pick<
   BaseSSRServerContext,
   | 'redirection'
@@ -70,3 +71,24 @@ export type SSRServerContext = Pick<
   onError?: (e: unknown) => void;
   onTiming?: (name: string, dur: number) => void;
 };
+
+/* 通过 useRuntimeContext 获取的 SSRContext */
+interface TSSRBaseContext {
+  request: BaseSSRServerContext['request'] & {
+    userAgent: string;
+    cookie: string;
+  };
+  [propName: string]: any;
+}
+
+interface ServerContext extends TSSRBaseContext {
+  isBrowser: false;
+  response: BaseSSRServerContext['response'];
+  logger: BaseSSRServerContext['logger'];
+}
+
+interface ClientContext extends TSSRBaseContext {
+  isBrowser: true;
+}
+
+export declare type TSSRContext = ServerContext | ClientContext;

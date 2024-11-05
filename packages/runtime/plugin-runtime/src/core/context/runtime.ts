@@ -9,11 +9,12 @@ import { createContext } from 'react';
 import type { RouteManifest } from '../../router/runtime/types';
 import { createLoaderManager } from '../loader/loaderManager';
 import type { PluginRunner, runtime } from '../plugin';
-import type { SSRServerContext } from '../types';
+import type { SSRServerContext, TSSRContext } from '../types';
 
-export interface BaseRuntimeContext {
+interface BaseRuntimeContext {
   initialData?: Record<string, unknown>;
   loaderManager: ReturnType<typeof createLoaderManager>;
+  isBrowser: boolean;
   runner: ReturnType<typeof runtime.init>;
   // ssr type
   ssrContext?: SSRServerContext;
@@ -39,10 +40,12 @@ export const RuntimeReactContext = createContext<RuntimeContext>({} as any);
 
 export const ServerRouterContext = createContext({} as any);
 
-export interface BaseTRuntimeContext extends Partial<BaseRuntimeContext> {
+export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   initialData?: Record<string, unknown>;
-  // ssr type
+  context: TSSRContext;
+  /** @deprecated use context.request field instead */
   request?: SSRServerContext['request'];
+  /** @deprecated use context.response field instead */
   response?: SSRServerContext['response'];
   // store type
   store?: Store;
@@ -50,10 +53,6 @@ export interface BaseTRuntimeContext extends Partial<BaseRuntimeContext> {
     navigate: Router['navigate'];
     location: RouterState['location'];
   };
-}
-
-export interface TRuntimeContext extends BaseTRuntimeContext {
-  [key: string]: any;
 }
 
 export const getInitialContext = (
