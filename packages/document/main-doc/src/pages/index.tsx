@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useEffect } from 'react';
-import { Helmet, useLang, useLocation } from 'rspress/runtime';
+import { Helmet, useLocation } from 'rspress/runtime';
 import ContentCard from '../components/ContentCard';
 import { FeatureLayout } from '../components/FeatureLayout';
 import Footer from '../components/Footer';
@@ -92,22 +92,6 @@ export default function Home() {
     },
   ];
 
-  const lang = useLang();
-  const solutions = [
-    {
-      id: 'framework',
-      title: 'Modern.js Framework',
-      href: useUrl('/guides/get-started/introduction'),
-      desc: t('solutionsDesc1'),
-    },
-    {
-      id: 'module',
-      title: 'Modern.js Module',
-      href: `https://modernjs.dev/module-tools${lang === 'en' ? '/en' : ''}`,
-      desc: t('solutionsDesc2'),
-    },
-  ];
-
   return (
     <div>
       <Helmet>
@@ -122,9 +106,9 @@ export default function Home() {
       <HomepageHeader />
       <main className={styles['homepage-main']}>
         <FeatureLayout>
-          <SecondaryTitle>{t('solutions')}</SecondaryTitle>
+          <SecondaryTitle>Features</SecondaryTitle>
           <div className={styles.cardContainer}>
-            {solutions.map(card => (
+            {features.map(card => (
               <ContentCard
                 key={card.id}
                 title={card.title}
@@ -145,19 +129,6 @@ export default function Home() {
           </h1>
         </FeatureLayout>
 
-        <FeatureLayout>
-          <SecondaryTitle>Modern.js Framework</SecondaryTitle>
-          <div className={styles.cardContainer}>
-            {features.map(card => (
-              <ContentCard
-                key={card.id}
-                title={card.title}
-                desc={card.desc}
-                href={card.href}
-              />
-            ))}
-          </div>
-        </FeatureLayout>
         <Footer />
       </main>
     </div>
