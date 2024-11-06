@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.61.0
+
+### Patch Changes
+
+- d8d5679: fix: parse `routerDataFnArgs` in `mergeLoaderData` function
+  fix: 在 `mergeLoaderData` 函数中解析 routerDataFnArgs
+- 4b8b957: feat: splitting the code for \_ROUTER_DATA initialisation
+  feat: 拆分 \_ROUTER_DATA 初始化的代码
+- Updated dependencies [45230e2]
+  - @modern-js/utils@2.61.0
+  - @modern-js/plugin-data-loader@2.61.0
+  - @modern-js/plugin@2.61.0
+  - @modern-js/runtime-utils@2.61.0
+  - @modern-js/types@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

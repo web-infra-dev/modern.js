@@ -1,5 +1,18 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.61.0
+
+### Patch Changes
+
+- b6acb98: perf(plugin-tailwind): reduce tailwindcss `hash()` overhead
+- Updated dependencies [45230e2]
+- Updated dependencies [d8d5679]
+- Updated dependencies [4b8b957]
+  - @modern-js/utils@2.61.0
+  - @modern-js/runtime@2.61.0
+  - @modern-js/node-bundle-require@2.61.0
+  - @modern-js/runtime-utils@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.61.0
+
+### Patch Changes
+
+- 45230e2: fix: hot reload problems for server
+  fix: 修复服务端热更新问题
+
 ## 2.60.6
 
 ## 2.60.5

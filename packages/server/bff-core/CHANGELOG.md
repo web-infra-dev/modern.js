@@ -1,5 +1,14 @@
 # @modern-js/bff-core
 
+## 2.61.0
+
+### Patch Changes
+
+- 8bd7799: fix(bff): fix zod not found error
+  fix(bff): 修复无法找到 zod 错误
+- Updated dependencies [45230e2]
+  - @modern-js/utils@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

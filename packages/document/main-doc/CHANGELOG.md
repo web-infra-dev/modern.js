@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.61.0
+
+### Patch Changes
+
+- eee1e49: docs: remove Module from Modern.js introduction
+- 64ada6b: chore(docs): fix the documentation of source build error
+  - @modern-js/sandpack-react@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

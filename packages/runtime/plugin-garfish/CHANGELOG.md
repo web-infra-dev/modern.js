@@ -1,5 +1,21 @@
 # @modern-js/plugin-garfish
 
+## 2.61.0
+
+### Patch Changes
+
+- c9ff8c0: fix: garfish plugin export path error
+
+  fix: 修复 garfish 插件导出路径错误
+
+- Updated dependencies [45230e2]
+- Updated dependencies [d8d5679]
+- Updated dependencies [4b8b957]
+  - @modern-js/utils@2.61.0
+  - @modern-js/runtime@2.61.0
+  - @modern-js/plugin@2.61.0
+  - @modern-js/runtime-utils@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

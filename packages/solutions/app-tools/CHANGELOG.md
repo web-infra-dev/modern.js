@@ -1,5 +1,26 @@
 # @modern-js/app-tools
 
+## 2.61.0
+
+### Patch Changes
+
+- f6dcd8d: chore(deps): bump webpack to 5.96.x
+- Updated dependencies [45230e2]
+- Updated dependencies [a7ff13f]
+  - @modern-js/utils@2.61.0
+  - @modern-js/server-core@2.61.0
+  - @modern-js/core@2.61.0
+  - @modern-js/plugin-data-loader@2.61.0
+  - @modern-js/plugin-i18n@2.61.0
+  - @modern-js/uni-builder@2.61.0
+  - @modern-js/prod-server@2.61.0
+  - @modern-js/server@2.61.0
+  - @modern-js/server-utils@2.61.0
+  - @modern-js/node-bundle-require@2.61.0
+  - @modern-js/plugin@2.61.0
+  - @modern-js/rsbuild-plugin-esbuild@2.61.0
+  - @modern-js/types@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes

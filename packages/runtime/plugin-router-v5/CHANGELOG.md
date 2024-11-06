@@ -1,5 +1,18 @@
 # @modern-js/plugin-router-v5
 
+## 2.61.0
+
+### Patch Changes
+
+- Updated dependencies [45230e2]
+- Updated dependencies [d8d5679]
+- Updated dependencies [4b8b957]
+  - @modern-js/utils@2.61.0
+  - @modern-js/runtime@2.61.0
+  - @modern-js/plugin@2.61.0
+  - @modern-js/runtime-utils@2.61.0
+  - @modern-js/types@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes
