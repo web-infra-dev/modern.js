@@ -8,14 +8,11 @@ import { createDir } from './utils';
 
 interface Options {
   mwa?: boolean;
-  module?: boolean;
   debug?: boolean;
   config?: string;
   packages?: string;
   registry?: string;
   distTag?: string;
-  plugin?: string[];
-  generator?: string;
   needInstall?: boolean;
   version?: boolean;
   lang?: string;
@@ -27,24 +24,15 @@ type RunnerTask = Array<{
   config: Record<string, any>;
 }>;
 
-const REPO_GENERATOR = '@modern-js/repo-generator';
+const MWA_GENERATOR = '@modern-js/mwa-generator';
 
 function getDefaultConfig(
   projectDir: string = path.basename(process.cwd()),
   options: Options = {},
   logger?: Logger,
 ) {
-  const {
-    mwa,
-    module,
-    config,
-    packages,
-    registry,
-    distTag,
-    plugin,
-    needInstall,
-    lang,
-  } = options;
+  const { mwa, config, packages, registry, distTag, needInstall, lang } =
+    options;
 
   let initialConfig: Record<string, unknown> = {};
 
@@ -66,13 +54,6 @@ function getDefaultConfig(
     initialConfig.defaultSolution = 'mwa';
   }
 
-  if (module) {
-    initialConfig.defaultSolution = 'module';
-    if (!initialConfig.packageName) {
-      initialConfig.packageName = projectDir;
-    }
-  }
-
   if (registry) {
     initialConfig.registry = registry;
   }
@@ -82,10 +63,6 @@ function getDefaultConfig(
   }
 
   initialConfig.defaultBranch = initialConfig.defaultBranch || 'main';
-
-  if (plugin) {
-    initialConfig.plugins = plugin;
-  }
 
   if (!needInstall) {
     initialConfig.noNeedInstall = true;
@@ -110,15 +87,7 @@ function getDefaultConfig(
 }
 
 export async function createAction(projectDir: string, options: Options) {
-  const {
-    lang,
-    version,
-    debug,
-    registry,
-    distTag,
-    generator: customGenerator,
-    time,
-  } = options;
+  const { lang, version, debug, registry, distTag, time } = options;
   const smith = new CodeSmith({
     debug,
     time,
@@ -142,13 +111,9 @@ export async function createAction(projectDir: string, options: Options) {
   const prepareGlobalPromise = smith.prepareGlobal();
 
   const prepareGeneratorPromise = smith.prepareGenerators([
-    `@modern-js/repo-generator@${distTag || 'latest'}`,
-    `@modern-js/repo-next-generator@${distTag || 'latest'}`,
     `@modern-js/base-generator@${distTag || 'latest'}`,
     `@modern-js/mwa-generator@${distTag || 'latest'}`,
     `@modern-js/entry-generator@${distTag || 'latest'}`,
-    `@modern-js/module-generator@${distTag || 'latest'}`,
-    `@modern-js/changeset-generator@${distTag || 'latest'}`,
   ]);
 
   smith.logger.debug('📦 @modern-js/create:', `v${pkgVersion}`);
@@ -168,13 +133,13 @@ export async function createAction(projectDir: string, options: Options) {
 
   const config = getDefaultConfig(projectDir, options, smith.logger);
 
-  let generator = customGenerator || REPO_GENERATOR;
+  let generator = MWA_GENERATOR;
 
   if (
     process.env.CODESMITH_ENV === 'development' &&
-    generator === REPO_GENERATOR
+    generator === MWA_GENERATOR
   ) {
-    generator = require.resolve(REPO_GENERATOR);
+    generator = require.resolve(MWA_GENERATOR);
   } else if (!path.isAbsolute(generator) && distTag) {
     generator = `${generator}@${distTag}`;
     await prepareGeneratorPromise;

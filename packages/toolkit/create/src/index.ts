@@ -23,18 +23,6 @@ export default function () {
     .option('--lang <lang>', i18n.t(localeKeys.command.lang))
     .option('-c, --config <config>', i18n.t(localeKeys.command.config), '{}')
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
-    .option('--mwa', i18n.t(localeKeys.command.mwa), false)
-    .option('--module', i18n.t(localeKeys.command.module), false)
-    .option('--generator <generator>', i18n.t(localeKeys.command.generator))
-    .option(
-      '-p, --plugin <plugin>',
-      i18n.t(localeKeys.command.plugin),
-      (val: string, memo: string[]) => {
-        memo.push(val);
-        return memo;
-      },
-      [],
-    )
     .option('--dist-tag <distTag>', i18n.t(localeKeys.command.distTag), '')
     .option('--packages <packages>', i18n.t(localeKeys.command.packages), '{}')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')

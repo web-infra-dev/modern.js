@@ -11,7 +11,7 @@ import {
 import { ModernTemplates } from './templates';
 
 export type ModernSandpackProps = {
-  template: 'web-app' | 'npm-module';
+  template: 'web-app';
   customSetup?: SandpackSetup;
   files?: SandpackFiles;
   removeFiles?: string[];

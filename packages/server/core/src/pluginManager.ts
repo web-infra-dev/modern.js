@@ -2,6 +2,7 @@ import {
   createAsyncManager,
   createAsyncPipeline,
   createAsyncWaterfall,
+  createAsyncWorkflow,
   createContext,
   createParallelWorkflow,
 } from '@modern-js/plugin';
@@ -60,7 +61,7 @@ export class PluginManager {
     const hooks: ServerHooks = {
       config: createAsyncWaterfall(),
       prepare: createAsyncWaterfall(),
-      reset: createParallelWorkflow(),
+      reset: createAsyncWorkflow(),
 
       prepareWebServer: createAsyncPipeline(),
       fallback: createParallelWorkflow(),
