@@ -220,7 +220,7 @@ export const garfishPlugin = (): CliPlugin<
           'plugins',
         );
         if (masterApp) {
-          const addExportStatement = `export { default as garfish, default as masterApp } from '${metaName}/plugin-garfish/runtime'`;
+          const addExportStatement = `export { default as garfish, default as masterApp } from '@${metaName}/plugin-garfish/runtime'`;
           logger('exportStatement', addExportStatement);
           pluginsExportsUtils.addExport(addExportStatement);
         }
