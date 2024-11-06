@@ -1,5 +1,13 @@
 # @modern-js/create
 
+## 2.61.0
+
+### Minor Changes
+
+- 2c95681: feat: create tools and new command not support Module project
+
+  feat: create 工具和 new 命令不再支持模块项目
+
 ## 2.60.6
 
 ## 2.60.5

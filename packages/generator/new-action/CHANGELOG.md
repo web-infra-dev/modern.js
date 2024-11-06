@@ -1,5 +1,18 @@
 # @modern-js/new-action
 
+## 2.61.0
+
+### Minor Changes
+
+- 2c95681: feat: create tools and new command not support Module project
+
+  feat: create 工具和 new 命令不再支持模块项目
+
+### Patch Changes
+
+- @modern-js/generator-common@3.7.3
+- @modern-js/generator-utils@3.7.3
+
 ## 2.60.6
 
 ### Patch Changes

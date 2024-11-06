@@ -1,5 +1,18 @@
 # @modern-js/server-plugin
 
+## 2.61.0
+
+### Patch Changes
+
+- 45230e2: fix: hot reload problems for server
+  fix: 修复服务端热更新问题
+- a7ff13f: feat: passthrough body, when receiving an mf request
+  feat: 当收到一个 mf 请求时，透传 body
+- Updated dependencies [45230e2]
+  - @modern-js/utils@2.61.0
+  - @modern-js/plugin@2.61.0
+  - @modern-js/runtime-utils@2.61.0
+
 ## 2.60.6
 
 ### Patch Changes
