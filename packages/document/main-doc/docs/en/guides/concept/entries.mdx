@@ -249,36 +249,6 @@ It is worth noting that, by default, Modern.js considers entries specified throu
 
 If your application is migrating from build tools like Webpack or Vite to the Modern.js framework, you typically need to enable the `disableMount` option in the entry configuration. In this case, Modern.js will treat the entry as a **build mode entry**.
 
-## Deprecated
-
-Currently, if the entry directory meets the following conditions, it will also be considered an application entry:
-
-1. Has an `index.[jt]sx?` file.
-2. Has a `pages/` directory.
-
-The `pages/` directory was the convention routing in older versions of Modern.js. Now, it is recommended to use the `routes/` directory.
-
-The `index.[jt]sx?` file supported **Custom Bootstrap** and **Build Mode Entry** in older versions. Now, it is recommended to use `entry.[jt]sx?` instead.
-
-### Custom Bootstrap
-
-When there is an `index.[jt]sx` file in the entry, and  the file's default export is a function, Modern.js will pass the default `bootstrap` function as an argument and use the exported function to replace the default `bootstrap`.
-
-This allows developers to customize mounting components to DOM or add custom behaviors before mounting. For example:
-
-```tsx
-export default (App: React.ComponentType, bootstrap: () => void) => {
-  // do something before bootstrap...
-  initSomething().then(() => {
-    bootstrap();
-  });
-};
-```
-
-### Build Mode Entry
-
-When an `index.[jt]sx` file exists in the entry directory and does not export a function via export default, this entry will also be considered a build mode entry.
-
 ## In-Depth
 
 The concept of page entry is derived from the concept of [Entrypoint](https://webpack.js.org/concepts/entry-points/) in webpack. It is mainly used to configure the JavaScript or any other modules to be executed during the application startup. Webpack usually corresponds each entry to an HTML file in the output. The modules imported by the entry will be bundled and split into multiple chunks in the output. For a JavaScript module, it might be compiled into several chunks like `dist/static/js/index.ea39u8.js`.
@@ -297,7 +267,6 @@ Their relationships are as follows:
 - Each HTML file can contain multiple client-side routing solutions (for example, using `react-router` and `@tanstack/react-router` in the same page).
 - Each HTML file can be mapped to multiple server-side routes.
 - Each HTML file can contain multiple client-side routing solutions, and when accessing different routes of a single-entry application, the same HTML file is actually used.
-- Server-side routing can be one-to-one mapped to client-side routing, or implement any routing logic as needed.
 
 ## Troubleshooting
 
@@ -332,3 +301,33 @@ Generally, any application that outputs multiple entries and multiple HTML files
 Narrowly speaking, a Multi-Page Application does not contain client-side routing, and navigation between pages is usually achieved through elements like `<a>` tags. But in practice, Multi-Page Applications also often need to configure client-side routing to meet different needs.
 
 Conversely, a application with `react-router` defined routes that generates only one HTML file is called a Single-Page Application (SPA).
+
+## Deprecated
+
+Currently, if the entry directory meets the following conditions, it will also be considered an application entry:
+
+1. Has an `index.[jt]sx?` file.
+2. Has a `pages/` directory.
+
+The `pages/` directory was the convention routing in older versions of Modern.js. Now, it is recommended to use the `routes/` directory.
+
+The `index.[jt]sx?` file supported **Custom Bootstrap** and **Build Mode Entry** in older versions. Now, it is recommended to use `entry.[jt]sx?` instead.
+
+### Custom Bootstrap
+
+When there is an `index.[jt]sx` file in the entry, and  the file's default export is a function, Modern.js will pass the default `bootstrap` function as an argument and use the exported function to replace the default `bootstrap`.
+
+This allows developers to customize mounting components to DOM or add custom behaviors before mounting. For example:
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### Build Mode Entry
+
+When an `index.[jt]sx` file exists in the entry directory and does not export a function via export default, this entry will also be considered a build mode entry.

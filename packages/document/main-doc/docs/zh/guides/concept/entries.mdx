@@ -239,35 +239,6 @@ export default defineConfig({
 值得注意的是，默认情况下，Modern.js 认为通过配置指定的入口是**框架模式入口**，将自动生成真正的编译入口。如果你的应用是从 Webpack 或 Vite 等构建工具迁移到 Modern.js 框架时，你通常需要在入口配置中开启 `disableMount` 选项，此时 Modern.js 认为该入口是**构建模式入口**。
 
 
-## 弃用功能
-
-目前，如果入口所在的目录满足以下条件，也会成为应用入口。
-
-1. 具有 `index.[jt]sx?` 文件。
-2. 具有 `pages/` 目录。
-
-
-`pages/` 目录为 Modern.js 旧版本中的约定式路由，新版本中推荐使用 `routes/` 目录。
-
-`index.[jt]sx?` 在旧版本中支持应用自定义 Bootstrap 逻辑和构建模式入口，新版本中推荐使用 `entry.[jt]sx?` 代替。
-
-### 自定义 Bootstrap
-
-当入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
-
-```tsx
-export default (App: React.ComponentType, bootstrap: () => void) => {
-  // do something before bootstrap...
-  initSomething().then(() => {
-    bootstrap();
-  });
-};
-```
-
-### 构建模式入口
-
-当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数时，该入口也将被认为是构建模式入口。
-
 ## 深入了解
 
 页面入口的概念衍生自 webpack 的入口（Entrypoint）概念，其主要用于配置 JavaScript 或其他模块在应用启动时加载和执行。webpack 对于网页应用的 [最佳实践](https://webpack.docschina.org/concepts/entry-points/#multi-page-application) 通常将入口与 HTML 产物对应，即每增加一个入口最终就会在产物中生成一份对应的 HTML 文件。入口引入的模块会在编译打包后生成多个 Chunk 产物，例如对于 JavaScript 模块最终可能会生成数个类似 `dist/static/js/index.ea39u8.js` 的文件产物。
@@ -286,7 +257,6 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 - 每个 HTML 文件可以包含多个客户端路由方案（比如在页面中同时使用 `react-router` 和 `@tanstack/react-router`）。
 - 每个 HTML 文件可以被多个服务端路由对应。
 - 每个 HTML 文件可以包含多个客户端路由，当访问单入口应用的不同路由时实际使用的是同一个 HTML 文件。
-- 服务端路由可以与客户端路由一一对应，也可以自行实现任何路由逻辑。
 
 ## 常见问题
 
@@ -319,3 +289,32 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 狭义的多页应用可能不包含客户端路由、仅通过 `<a>` 之类的标签元素进行 HTML 静态页面之间的跳转，但实践中上多页应用也经常需要为其入口配置客户端路由以满足不同需求。
 
 相反地，通过 `react-router` 定义多个路由的单入口应用因为只生成一个 HTML 文件产物，所以被称为单页应用（Single Page Application）。
+
+## 弃用功能
+
+目前，如果入口所在的目录满足以下条件，也会成为应用入口。
+
+1. 具有 `index.[jt]sx?` 文件。
+2. 具有 `pages/` 目录。
+
+
+`pages/` 目录为 Modern.js 旧版本中的约定式路由，新版本中推荐使用 `routes/` 目录。
+
+`index.[jt]sx?` 在旧版本中支持应用自定义 Bootstrap 逻辑和构建模式入口，新版本中推荐使用 `entry.[jt]sx?` 代替。
+
+### 自定义 Bootstrap
+
+当入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 `bootstrap` 函数作为入参传入，并用导出的函数替代默认的 `bootstrap`，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  });
+};
+```
+
+### 构建模式入口
+
+当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数时，该入口也将被认为是构建模式入口。
