@@ -50,6 +50,7 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   response?: SSRServerContext['response'];
   // store type
   store?: Store;
+  [key: string]: any;
 }
 
 export const getInitialContext = (
