@@ -13,7 +13,13 @@ export function App() {
 }
 ```
 
-context 中包含的信息包括：
+## 函数签名
+
+```ts
+type RuntimeContext = {
+  context: RequestContext;
+};
+```
 
 ### context
 
@@ -51,17 +57,17 @@ function App() {
 import { Tabs, Tab as TabItem } from "@theme";
 
 <Tabs
-  defaultValue="SSRContext"
+  defaultValue="RequestContext"
   values={[
-    { label: 'SSRContext', value: 'SSRContext', },
+    { label: 'RequestContext', value: 'RequestContext', },
     { label: 'ServerContext', value: 'ServerContext', },
     { label: 'ClientContext', value: 'ClientContext', },
   ]
 }>
-<TabItem value="SSRContext">
+<TabItem value="RequestContext">
 
 ```ts
-type SSRContext = ServerContext | ClientContext;
+type RequestContext = ServerContext | ClientContext;
 ```
 
 </TabItem>
