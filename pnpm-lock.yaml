@@ -1266,76 +1266,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/generator/generator-plugin:
-    dependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-git':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-api-json':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-npm':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-formily':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../generator-utils
-      '@modern-js/new-action':
-        specifier: workspace:*
-        version: link:../new-action
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../cli/plugin-i18n
-      '@swc/helpers':
-        specifier: 0.5.13
-        version: 0.5.13
-      ejs:
-        specifier: ^3.1.9
-        version: 3.1.10
-      globby:
-        specifier: 11.1.0
-        version: 11.1.0
-      handlebars:
-        specifier: ^4.7.7
-        version: 4.7.8
-      json5:
-        specifier: 2.2.3
-        version: 2.2.3
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/ejs':
-        specifier: ^3.1.2
-        version: 3.1.5
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
   packages/generator/generator-utils:
     dependencies:
       '@modern-js/codesmith-utils':
@@ -1466,39 +1396,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/generator/generators/changeset-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
   packages/generator/generators/dependence-generator:
     devDependencies:
       '@modern-js/codesmith':
@@ -1561,147 +1458,6 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  packages/generator/generators/generator-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)
-      '@modern-js/codesmith-api-json':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/module-generator':
-        specifier: workspace:*
-        version: link:../module-generator
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  packages/generator/generators/module-doc-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)
-      '@modern-js/codesmith-api-json':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/dependence-generator':
-        specifier: workspace:*
-        version: link:../dependence-generator
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  packages/generator/generators/module-generator:
-    devDependencies:
-      '@modern-js/base-generator':
-        specifier: workspace:*
-        version: link:../base-generator
-      '@modern-js/changeset-generator':
-        specifier: workspace:*
-        version: link:../changeset-generator
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/dependence-generator':
-        specifier: workspace:*
-        version: link:../dependence-generator
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/packages-generator':
-        specifier: workspace:*
-        version: link:../packages-generator
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../../cli/plugin-i18n
@@ -1813,78 +1569,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.3.3
-
-  packages/generator/generators/repo-generator:
-    devDependencies:
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/repo-next-generator':
-        specifier: workspace:*
-        version: link:../repo-next-generator
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
-  packages/generator/generators/repo-next-generator:
-    devDependencies:
-      '@modern-js/base-generator':
-        specifier: workspace:*
-        version: link:../base-generator
-      '@modern-js/codesmith':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/codesmith-api-app':
-        specifier: 2.6.5
-        version: 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.4.5)
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-plugin':
-        specifier: workspace:*
-        version: link:../../generator-plugin
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/module-generator':
-        specifier: workspace:*
-        version: link:../module-generator
-      '@modern-js/mwa-generator':
-        specifier: workspace:*
-        version: link:../mwa-generator
-      '@modern-js/plugin-module-banner':
-        specifier: workspace:*
-        version: link:../../../module/plugin-module-banner
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.4.5))
-      typescript:
-        specifier: ^5
-        version: 5.4.5
 
   packages/generator/generators/router-v5-generator:
     devDependencies:
@@ -2187,39 +1871,6 @@ importers:
         specifier: ^5
         version: 5.3.3
 
-  packages/generator/plugins/generator-plugin:
-    devDependencies:
-      '@modern-js/codesmith-utils':
-        specifier: 2.6.5
-        version: 2.6.5
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-plugin':
-        specifier: workspace:*
-        version: link:../../generator-plugin
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.5.14
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.2(@swc/core@1.3.42)(@types/node@14.18.35)(typescript@5.3.3))
-      typescript:
-        specifier: ^5
-        version: 5.3.3
-
   packages/generator/sandpack-react:
     dependencies:
       '@codesandbox/sandpack-react':
@@ -2253,9 +1904,6 @@ importers:
       '@modern-js/generator-utils':
         specifier: workspace:*
         version: link:../generator-utils
-      '@modern-js/module-generator':
-        specifier: workspace:*
-        version: link:../generators/module-generator
       '@modern-js/mwa-generator':
         specifier: workspace:*
         version: link:../generators/mwa-generator
@@ -4151,10 +3799,10 @@ importers:
         version: link:../../toolkit/utils
       '@storybook/react':
         specifier: ~7.6.1
-        version: 7.6.20(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)
+        version: 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)
       storybook:
         specifier: ~7.6.1
-        version: 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+        version: 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     devDependencies:
       '@storybook/types':
         specifier: ~7.6.12
@@ -4217,15 +3865,12 @@ importers:
       '@modern-js/codesmith-utils':
         specifier: 2.6.5
         version: 2.6.5
-      '@modern-js/generator-plugin-plugin':
+      '@modern-js/mwa-generator':
         specifier: workspace:*
-        version: link:../../generator/plugins/generator-plugin
+        version: link:../../generator/generators/mwa-generator
       '@modern-js/plugin-i18n':
         specifier: workspace:*
         version: link:../../cli/plugin-i18n
-      '@modern-js/repo-generator':
-        specifier: workspace:*
-        version: link:../../generator/generators/repo-generator
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -24322,13 +23967,6 @@ snapshots:
       '@formily/shared': 2.2.24
       typescript: 5.3.3
 
-  '@formily/json-schema@2.2.24(typescript@5.4.5)':
-    dependencies:
-      '@formily/core': 2.2.24
-      '@formily/reactive': 2.2.24
-      '@formily/shared': 2.2.24
-      typescript: 5.4.5
-
   '@formily/path@2.2.24': {}
 
   '@formily/reactive@2.2.24': {}
@@ -25068,24 +24706,6 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@modern-js/codesmith-api-app@2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.4.5)':
-    dependencies:
-      '@modern-js/codesmith': 2.6.5
-      '@modern-js/codesmith-api-ejs': 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-api-fs': 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-api-git': 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-api-handlebars': 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-api-npm': 2.6.5(@modern-js/codesmith@2.6.5)
-      '@modern-js/codesmith-formily': 2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.4.5)
-      '@modern-js/codesmith-utils': 2.6.5
-      '@modern-js/plugin-i18n': 2.60.3
-      '@swc/helpers': 0.5.1
-      comment-json: 4.2.3
-      extra: 0.2.1
-      inquirer: 8.1.3
-    transitivePeerDependencies:
-      - typescript
-
   '@modern-js/codesmith-api-ejs@2.6.5(@modern-js/codesmith@2.6.5)':
     dependencies:
       '@modern-js/codesmith': 2.6.5
@@ -25128,17 +24748,6 @@ snapshots:
   '@modern-js/codesmith-formily@2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.3.3)':
     dependencies:
       '@formily/json-schema': 2.2.24(typescript@5.3.3)
-      '@formily/validator': 2.2.24
-      '@modern-js/codesmith': 2.6.5
-      '@modern-js/codesmith-utils': 2.6.5
-      '@swc/helpers': 0.5.1
-      inquirer: 8.2.6
-    transitivePeerDependencies:
-      - typescript
-
-  '@modern-js/codesmith-formily@2.6.5(@modern-js/codesmith@2.6.5)(typescript@5.4.5)':
-    dependencies:
-      '@formily/json-schema': 2.2.24(typescript@5.4.5)
       '@formily/validator': 2.2.24
       '@modern-js/codesmith': 2.6.5
       '@modern-js/codesmith-utils': 2.6.5
@@ -27623,7 +27232,7 @@ snapshots:
       '@storybook/components': 7.6.20(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/core-events': 7.6.20
       '@storybook/csf': 0.1.11
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/preview-api': 7.6.20
@@ -27649,7 +27258,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@storybook/builder-manager@7.6.20(encoding@0.1.13)':
+  '@storybook/builder-manager@7.6.20':
     dependencies:
       '@fal-works/esbuild-plugin-global-externals': 2.1.2
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -27680,7 +27289,7 @@ snapshots:
       telejson: 7.2.0
       tiny-invariant: 1.3.3
 
-  '@storybook/cli@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/cli@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@babel/core': 7.26.0
       '@babel/preset-env': 7.26.0(@babel/core@7.26.0)
@@ -27689,10 +27298,10 @@ snapshots:
       '@storybook/codemod': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
-      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/core-server': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
       '@storybook/csf-tools': 7.6.20
       '@storybook/node-logger': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/semver': 7.5.8
       '@yarnpkg/fslib': 2.10.3
@@ -27807,11 +27416,11 @@ snapshots:
     dependencies:
       ts-dedent: 2.2.0
 
-  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)':
+  '@storybook/core-server@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
     dependencies:
       '@aw-web-design/x-default-browser': 1.4.126
       '@discoveryjs/json-ext': 0.5.7
-      '@storybook/builder-manager': 7.6.20(encoding@0.1.13)
+      '@storybook/builder-manager': 7.6.20
       '@storybook/channels': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/core-events': 7.6.20
@@ -27822,7 +27431,7 @@ snapshots:
       '@storybook/manager': 7.6.20
       '@storybook/node-logger': 7.6.20
       '@storybook/preview-api': 7.6.20
-      '@storybook/telemetry': 7.6.20(encoding@0.1.13)
+      '@storybook/telemetry': 7.6.20
       '@storybook/types': 7.6.20
       '@types/detect-port': 1.3.5
       '@types/node': 18.19.64
@@ -27883,7 +27492,7 @@ snapshots:
 
   '@storybook/docs-mdx@0.1.0': {}
 
-  '@storybook/docs-tools@7.6.20(encoding@0.1.13)':
+  '@storybook/docs-tools@7.6.20':
     dependencies:
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
       '@storybook/preview-api': 7.6.20
@@ -27972,11 +27581,11 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@storybook/react@7.6.20(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)':
+  '@storybook/react@7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.3.3)':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-client': 7.6.20
-      '@storybook/docs-tools': 7.6.20(encoding@0.1.13)
+      '@storybook/docs-tools': 7.6.20
       '@storybook/global': 5.0.0
       '@storybook/preview-api': 7.6.20
       '@storybook/react-dom-shim': 7.6.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -28009,7 +27618,7 @@ snapshots:
       memoizerific: 1.11.3
       qs: 6.13.0
 
-  '@storybook/telemetry@7.6.20(encoding@0.1.13)':
+  '@storybook/telemetry@7.6.20':
     dependencies:
       '@storybook/client-logger': 7.6.20
       '@storybook/core-common': 7.6.20(encoding@0.1.13)
@@ -38550,9 +38159,9 @@ snapshots:
 
   store2@2.14.3: {}
 
-  storybook@7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10):
+  storybook@7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10):
     dependencies:
-      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(encoding@0.1.13)(utf-8-validate@5.0.10)
+      '@storybook/cli': 7.6.20(bufferutil@4.0.8)(utf-8-validate@5.0.10)
     transitivePeerDependencies:
       - bufferutil
       - encoding

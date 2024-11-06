@@ -1,19 +1,4 @@
 export const EN_LOCALE = {
-  solution: {
-    self: 'Please select the type of project you want to create:',
-    mwa: 'Web App',
-    module: 'Npm Module',
-    custom: 'Custom Solution',
-    default: 'Default',
-  },
-  scenes: {
-    self: 'Please select the project scenario:',
-  },
-  sub_solution: {
-    self: 'Please select the type of project you want to create:',
-    mwa: 'Web App',
-    module: 'Npm Module',
-  },
   action: {
     self: 'Please select the operation you want:',
     function: {
