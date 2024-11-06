@@ -12,7 +12,7 @@ sidebar_position: 1
 
 在 Modern.js 应用中，每一个入口对应一个独立的页面，也对应一条服务端路由。默认情况下，Modern.js 会基于目录约定来自动确定页面的入口，同时也支持通过配置项来自定义入口。
 
-Modern.js 提供的很多配置项都是以入口为维度进行划分的，比如页面标题、HTML 模板、页面 Meta 信息、是否开启 SSR/SSG、服务端路由规则等。
+Modern.js 提供的很多配置项都是以入口为维度进行划分的，比如页面标题、HTML 模板、页面 Meta 信息、是否开启 SSR/SSG、服务端路由规则等。如果你希望了解更多关于入口的技术细节，请参考[深入了解](#深入了解)章节的内容。
 
 ## 单入口与多入口
 
@@ -239,6 +239,57 @@ export default defineConfig({
 值得注意的是，默认情况下，Modern.js 认为通过配置指定的入口是**框架模式入口**，将自动生成真正的编译入口。如果你的应用是从 Webpack 或 Vite 等构建工具迁移到 Modern.js 框架时，你通常需要在入口配置中开启 `disableMount` 选项，此时 Modern.js 认为该入口是**构建模式入口**。
 
 
+## 深入了解
+
+页面入口的概念衍生自 webpack 的入口（Entrypoint）概念，其主要用于配置 JavaScript 或其他模块在应用启动时加载和执行。webpack 对于网页应用的 [最佳实践](https://webpack.docschina.org/concepts/entry-points/#multi-page-application) 通常将入口与 HTML 产物对应，即每增加一个入口最终就会在产物中生成一份对应的 HTML 文件。入口引入的模块会在编译打包后生成多个 Chunk 产物，例如对于 JavaScript 模块最终可能会生成数个类似 `dist/static/js/index.ea39u8.js` 的文件产物。
+
+需要注意区分入口、路由等概念之间的关系：
+
+- **入口**：包含多个用于启动时执行的模块。
+- **客户端路由**：在 Modern.js 中通常由 `react-router` 实现，通过 History API 判断浏览器当前 URL 决定加载和显示哪个 React 组件。
+- **服务端路由**：服务端可以模仿 [devServer 的行为](https://webpack.docschina.org/configuration/dev-server/#devserverhistoryapifallback)，将 index.html 页面代替所有 404 响应被返回以实现客户端路由，也可以自行实现任何路由逻辑。
+
+它们的对应关系如下：
+
+- 每个 webpack 网站项目可以包含多个入口
+- 每个入口包含若干个模块（源码文件）
+- 每个入口通常对应一个 HTML 文件产物和若干其它产物。
+- 每个 HTML 文件可以包含多个客户端路由方案（比如在页面中同时使用 `react-router` 和 `@tanstack/react-router`）。
+- 每个 HTML 文件可以被多个服务端路由对应。
+- 每个 HTML 文件可以包含多个客户端路由，当访问单入口应用的不同路由时实际使用的是同一个 HTML 文件。
+
+## 常见问题
+
+1. **`react-router` 定义的每个客户端路由会分别生成一个 HTML 文件吗？**
+
+不会。每个入口通常只会生成一个 HTML 文件，单个入口中如果定义多个客户端路由系统会共用这一个 HTML 文件。
+
+2. **约定式路由的 `routes/` 目录下每个 `page.tsx` 文件都会生成一个 HTML 文件吗？**
+
+不是。约定式路由是基于 `react-router` 实现的客户端路由方案，其约定 `routes/` 目录下每个 `page.tsx` 文件都会对应生成一个 `react-router` 的客户端路由。`routes/` 本身作为一个页面入口，对应最终产物中的一个 HTML 文件。
+
+3. **服务端渲染（SSR）的项目是否会构建多份 HTML 产物？**
+
+在使用服务端渲染应用时并不必须在编译时生成一份 HTML 产物，它可以只包含用于渲染的服务端 JavaScript 产物。此时 `react-router` 将在服务端运行和调度路由，并在每次请求时渲染并响应 HTML 内容。
+
+而 Modern.js 在编译时仍会为每个入口生成包含 HTML 文件的完整的客户端产物，用于在服务端渲染失败时降级为客户端渲染使用。
+
+另一个特殊情况是使用静态站点生成（SSG）的项目，即使是使用约定式路由搭建的单入口 SSG 应用，Modern.js 也会在 webpack 的流程外为每个 `page.tsx` 文件生成一份单独的 HTML 文件。
+
+需要注意的是即使开启服务端渲染，React 通常仍需要执行水合阶段并在前端执行 `react-router` 的路由。
+
+4. **单入口应用是否存在输出多个 HTML 文件的例外情况？**
+
+你可以自行配置 [html-rspack-plugin](https://rspack.dev/zh/plugins/rspack/html-rspack-plugin#%E7%94%9F%E6%88%90%E5%A4%9A%E4%B8%AA-html-%E6%96%87%E4%BB%B6) 为每个入口生成多个 HTML 产物，或使多个入口共用一个 HTML 产物。
+
+5. **什么叫多页应用（Multi-Page Application）？**
+
+多页应用的 “页面” 指的是静态的 HTML 文件。
+一般可以将任何包含多个入口、多个 HTML 文件产物的网页应用称为多页应用。
+狭义的多页应用可能不包含客户端路由、仅通过 `<a>` 之类的标签元素进行 HTML 静态页面之间的跳转，但实践中上多页应用也经常需要为其入口配置客户端路由以满足不同需求。
+
+相反地，通过 `react-router` 定义多个路由的单入口应用因为只生成一个 HTML 文件产物，所以被称为单页应用（Single Page Application）。
+
 ## 弃用功能
 
 目前，如果入口所在的目录满足以下条件，也会成为应用入口。
@@ -267,6 +318,3 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
 ### 构建模式入口
 
 当入口目录中存在 `index.[jt]sx`(即将废弃) 并且没有通过 `export default` 导出函数时，该入口也将被认为是构建模式入口。
-
-
-
