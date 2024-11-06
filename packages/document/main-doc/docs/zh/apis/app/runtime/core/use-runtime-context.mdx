@@ -1,6 +1,3 @@
----
-title: useRuntimeContext
----
 # useRuntimeContext
 
 该函数主要用于获取 Runtime 上下文，只能在函数组件中使用。
@@ -12,7 +9,7 @@ import { useRuntimeContext } from '@modern-js/runtime';
 
 export function App() {
   const runtimeContext = useRuntimeContext();
-  return <div>Hello World</div>;
+  return <div>Hello World</div>
 }
 ```
 
@@ -20,44 +17,100 @@ export function App() {
 
 ```ts
 type RuntimeContext = {
-  request: {
-    params: Record<string, string>;
-    pathname: string;
-    query: Record<string, string>;
-    headers: IncomingHttpHeaders;
-    cookie: string;
-  };
-  store: ReduckStore;
-  router: RemixRouter;
+  context: RequestContext;
 };
-
-function useRuntimeContext(): RuntimeContext;
 ```
 
-### 返回值
+### context
 
-- `request`：请求上下文中的附加信息。
-  - `params`：请求路径中的动态参数。
-  - `pathname`：请求的 pathname。
-  - `query`：请求的查询字符串对象。
-  - `headers`：请求头信息。
-  - `cookie`：请求的 cookie 信息。
-- `store`：在开启了 state 插件的时候，该值为 Reduck 全局 `store`。
-- `router`：在开启 router 插件的时候存在。
-  - `location`：当前路由对应的位置信息。同 [`useLocation`](/apis/app/runtime/router/router.html#uselocation) 返回值。
-  - `navigate`：导航到给定路径。同 [`useNavigate`](/apis/app/runtime/router/router.html#usenavigate) 返回值。
+用于获取[请求上下文](#请求上下文)。
 
-## 示例
+## 使用示例
 
-```tsx
-import { useRuntimeContext } from '@modern-js/runtime';
-import { fooModel } from '@/common/models';
+### 区分运行环境
 
+```ts
 function App() {
-  const { store } = useRuntimeContext();
+  const { context } = useRuntimeContext();
 
-  const [state, actions] = store.use(fooModel);
-
-  return <div>state: {state}</div>;
+  if (context.isBrowser === true) {
+    // 浏览器端执行逻辑
+    console.log('browser render')
+  } else {
+    // 服务器端执行逻辑 logger 功能需开启
+    context.logger.info('server render')
+  }
 }
 ```
+
+### 请求上下文
+
+开启 SSR 时，在 Node 环境和浏览器端环境可以获取到同构的请求上下文。
+
+稍有不同的是 Node 环境还支持设置响应头、响应码，并提供了 Logger 日志与 Metrics 打点。
+
+:::tip
+当 SSR 未开启时，仅包含可在浏览器端获取的部分信息。
+
+:::
+
+import { Tabs, Tab as TabItem } from "@theme";
+
+<Tabs
+  defaultValue="RequestContext"
+  values={[
+    { label: 'RequestContext', value: 'RequestContext', },
+    { label: 'ServerContext', value: 'ServerContext', },
+    { label: 'ClientContext', value: 'ClientContext', },
+  ]
+}>
+<TabItem value="RequestContext">
+
+```ts
+type RequestContext = ServerContext | ClientContext;
+```
+
+</TabItem>
+<TabItem value="ServerContext">
+
+```ts
+interface ServerContext {
+  isBrowser: false;
+  request: {
+    userAgent: string;
+    cookie: string;
+    cookieMap: Record<string, any>;
+    query: Record<string, any>;
+    url: string;
+    host: string;
+    headers?: IncomingHttpHeaders;
+  };
+  response: {
+    setHeader: (key: string, value: string) => void;
+    status: (code: number) => void;
+  };
+  logger: Logger;
+  metrics: Metrics;
+}
+```
+
+</TabItem>
+<TabItem value="ClientContext">
+
+```ts
+interface ClientContext {
+  isBrowser: true;
+  request: {
+    userAgent: string;
+    cookie: string;
+    cookieMap: Record<string, any>;
+    query: Record<string, any>;
+    url: string;
+    host: string;
+    headers?: IncomingHttpHeaders;
+  };
+}
+```
+
+</TabItem>
+</Tabs>

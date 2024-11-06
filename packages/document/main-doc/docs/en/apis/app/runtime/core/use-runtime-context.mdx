@@ -1,9 +1,6 @@
----
-title: useRuntimeContext
----
 # useRuntimeContext
 
-Used to get the runtime context and can only be used in function components.
+This function is primarily used to obtain the runtime context and can only be used in the function component.
 
 ## Usage
 
@@ -12,7 +9,7 @@ import { useRuntimeContext } from '@modern-js/runtime';
 
 export function App() {
   const runtimeContext = useRuntimeContext();
-  return <div>Hello World</div>;
+  return <div>Hello World</div>
 }
 ```
 
@@ -20,44 +17,100 @@ export function App() {
 
 ```ts
 type RuntimeContext = {
-  request: {
-    params: Record<string, string>;
-    pathname: string;
-    query: Record<string, string>;
-    headers: IncomingHttpHeaders;
-    cookie: string;
-  };
-  store: ReduckStore;
-  router: RemixRouter;
+  context: RequestContext;
 };
-
-function useRuntimeContext(): RuntimeContext;
 ```
 
-### Return Value
+### context
 
-- `request`: additional information in the request context.
-  - `params`: dynamic parameters in the request path.
-  - `pathname`: the pathname of the request.
-  - `query`: the query of the request.
-  - `headers`: the header info of the request.
-  - `cookie`: the cookie of the request.
-- `store`: when the `runtime.state` is enabled, this value is the Reduck global `store`.
-- `router`: When the `runtime.router` is enabled, this value exists.
-  - `location`: The current location reflected by the router. The same as [`useLocation`] the return value of (/apis/app/runtime/router/router.html#uselocation).
-  - `navigate`: Navigate to the given path. The same as the return value of [`useNavigate`](/apis/app/runtime/router/router.html#usenavigate).
+Used to get [Request Context](#request-context).
 
 ## Example
 
-```tsx
-import { useRuntimeContext } from '@modern-js/runtime';
-import { fooModel } from '@/common/models';
+### Distinguish the runtime environment
 
+```ts
 function App() {
-  const { store } = useRuntimeContext();
+  const { context } = useRuntimeContext();
 
-  const [state, actions] = store.use(fooModel);
-
-  return <div>state: {state}</div>;
+  if (context.isBrowser === true) {
+    // browser-side execution logic
+    console.log('browser render')
+  } else {
+    // The server-side executes logic, which can access the unique 'logger' attribute
+    context.logger.info('server render')
+  }
 }
 ```
+
+### Request context
+
+When SSR is enabled, uniform request contexts can be obtained in both the node environment and the browser-side environment.
+
+The slightly different is that the node environment also supports setting response headers, response codes, and provides Logger logs and Metrics management.
+
+:::tip
+when ssr is disabled, only the part of information that can be obtained in the browser environment is included.
+
+:::
+
+import { Tabs, Tab as TabItem } from "@theme";
+
+<Tabs
+  defaultValue="RequestContext"
+  values={[
+    { label: 'RequestContext', value: 'RequestContext', },
+    { label: 'ServerContext', value: 'ServerContext', },
+    { label: 'ClientContext', value: 'ClientContext', },
+  ]
+}>
+<TabItem value="RequestContext">
+
+```ts
+type RequestContext = ServerContext | ClientContext;
+```
+
+</TabItem>
+<TabItem value="ServerContext">
+
+```ts
+interface ServerContext {
+  isBrowser: false;
+  request: {
+    userAgent: string;
+    cookie: string;
+    cookieMap: Record<string, any>;
+    query: Record<string, any>;
+    url: string;
+    host: string;
+    headers?: IncomingHttpHeaders;
+  };
+  response: {
+    setHeader: (key: string, value: string) => void;
+    status: (code: number) => void;
+  }
+  logger: Logger;
+  metrics: Metrics;
+}
+```
+
+</TabItem>
+<TabItem value="ClientContext">
+
+```ts
+interface ClientContext {
+  isBrowser: true;
+  request: {
+    userAgent: string;
+    cookie: string;
+    cookieMap: Record<string, any>;
+    query: Record<string, any>;
+    url: string;
+    host: string;
+    headers?: IncomingHttpHeaders;
+  };
+}
+```
+
+</TabItem>
+</Tabs>
