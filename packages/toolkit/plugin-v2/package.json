@@ -50,7 +50,7 @@
         "./dist/types/cli/run/run.d.ts"
       ],
       "cli": [
-        "./dist/types/cli/index/run.d.ts"
+        "./dist/types/cli/index.d.ts"
       ]
     }
   },

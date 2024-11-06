@@ -7,7 +7,8 @@ import { createContext, initAppContext } from '../context';
 import { createLoadedConfig } from './config/createLoadedConfig';
 import { createResolveConfig } from './config/createResolvedConfig';
 import type { CLIRunOptions } from './types';
-import { initCommandsMap } from './utils/commander';
+import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
+import { initCommandsMap, setProgramVersion } from './utils/commander';
 import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
@@ -15,16 +16,22 @@ import { loadEnv } from './utils/loadEnv';
 export const createCli = <Config, NormalizedConfig>() => {
   const pluginManager = createPluginManager();
 
-  async function init(options: CLIRunOptions) {
+  async function init(options: CLIRunOptions<Config>) {
     const {
       metaName = 'MODERN',
       configFile,
       command,
+      version,
       packageJsonConfig,
+      loadedConfig,
+      internalPlugins,
     } = options;
 
     const appDirectory = await initAppDir(options?.cwd);
+
     initCommandsMap();
+
+    setProgramVersion(version);
 
     loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
 
@@ -32,11 +39,20 @@ export const createCli = <Config, NormalizedConfig>() => {
       appDirectory,
       configFile,
       packageJsonConfig,
+      loadedConfig,
     );
 
-    pluginManager.addPlugins(
-      (loaded.config as unknown as { plugins: Plugin[] }).plugins || [],
+    const allPlugins = [
+      ...(internalPlugins || []),
+      ...((loaded.config as unknown as { plugins: Plugin[] }).plugins || []),
+    ];
+    checkIsDuplicationPlugin(
+      allPlugins.map(plugin => plugin.name),
+      (loaded.config as unknown as { autoLoadPlugins?: boolean })
+        .autoLoadPlugins,
     );
+
+    pluginManager.addPlugins(allPlugins);
 
     const plugins = await pluginManager.getPlugins();
 
@@ -106,7 +122,7 @@ export const createCli = <Config, NormalizedConfig>() => {
 
     return { appContext: context };
   }
-  async function run(options: CLIRunOptions) {
+  async function run(options: CLIRunOptions<Config>) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
 

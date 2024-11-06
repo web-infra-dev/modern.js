@@ -1,12 +1,18 @@
+import path from 'path';
 import {
+  fs,
+  CONFIG_FILE_EXTENSIONS,
   chalk,
+  findExists,
   getCommand,
   getNodeEnv,
+  isDevCommand,
   isPlainObject,
   logger,
 } from '@modern-js/utils';
 import { mergeWith } from '@modern-js/utils/lodash';
 import type { LoadedConfig } from '../types';
+import { mergeConfig } from '../utils/mergeConfig';
 import { getConfigFilePath, loadConfig } from './loadConfig';
 
 /**
@@ -18,6 +24,31 @@ async function getConfigObject<T>(config?: T) {
     return (await config({ env: getNodeEnv(), command: getCommand() })) || {};
   }
   return config || {};
+}
+
+async function loadLocalConfig<T>(
+  appDirectory: string,
+  configFile: string | false,
+) {
+  let localConfigFile: string | false = false;
+
+  if (typeof configFile === 'string') {
+    for (const ext of CONFIG_FILE_EXTENSIONS) {
+      if (configFile.endsWith(ext)) {
+        const replacedPath = configFile.replace(ext, `.local${ext}`);
+        if (fs.existsSync(replacedPath)) {
+          localConfigFile = replacedPath;
+        }
+      }
+    }
+  }
+
+  if (localConfigFile) {
+    const loaded = await loadConfig<T>(appDirectory, localConfigFile);
+    return getConfigObject(loaded.config);
+  }
+
+  return null;
 }
 
 /**
@@ -39,6 +70,7 @@ export async function createLoadedConfig<T>(
   appDirectory: string,
   configFilePath: string,
   packageJsonConfig?: string,
+  loadedConfig?: T,
 ): Promise<LoadedConfig<T>> {
   const configFile = getConfigFilePath(appDirectory, configFilePath);
 
@@ -46,6 +78,7 @@ export async function createLoadedConfig<T>(
     appDirectory,
     configFile,
     packageJsonConfig,
+    loadedConfig,
   );
 
   if (!loaded.config && !loaded.pkgConfig) {
@@ -62,10 +95,21 @@ export async function createLoadedConfig<T>(
     mergedConfig = assignPkgConfig(config, loaded?.pkgConfig);
   }
 
+  // Only load local config when running dev command
+  if (isDevCommand()) {
+    const localConfig = await loadLocalConfig(appDirectory, configFile);
+
+    // The priority of local config is higher than the user config and pkg config
+    if (localConfig) {
+      mergedConfig = mergeConfig([mergedConfig, localConfig]);
+    }
+  }
+
   return {
     packageName: loaded.packageName,
     config: mergedConfig,
     configFile: loaded.configFile,
     pkgConfig: loaded.pkgConfig,
+    jsConfig: loaded.config,
   };
 }

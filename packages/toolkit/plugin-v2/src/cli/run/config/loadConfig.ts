@@ -100,6 +100,7 @@ export const loadConfig = async <T>(
   appDirectory: string,
   configFile: string,
   packageJsonConfig?: string,
+  loadedConfig?: T,
 ): Promise<{
   packageName: string;
   configFile: string;
@@ -117,7 +118,9 @@ export const loadConfig = async <T>(
 
   let config: T | undefined;
 
-  if (configFile) {
+  if (loadedConfig) {
+    config = loadedConfig;
+  } else if (configFile) {
     delete require.cache[configFile];
 
     const mod = await bundleRequireWithCatch(configFile, { appDirectory });

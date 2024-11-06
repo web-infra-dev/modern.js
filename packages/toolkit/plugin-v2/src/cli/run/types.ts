@@ -1,4 +1,5 @@
-export interface CLIOptions {
+import type { Plugin } from '../../types/plugin';
+export interface CLIOptions<Config> {
   cwd?: string;
   version?: string;
   metaName?: string;
@@ -12,6 +13,8 @@ export interface CLIOptions {
    * `package.json` config field, will be removed in the future, expect use configFile instead
    */
   packageJsonConfig?: string;
+  loadedConfig?: Config;
+  internalPlugins?: Plugin[];
 }
 
 export type LoadedConfig<T> = {
@@ -19,8 +22,9 @@ export type LoadedConfig<T> = {
   configFile: string;
   config: T;
   pkgConfig?: T;
+  jsConfig?: T;
 };
 
-export interface CLIRunOptions extends CLIOptions {
+export interface CLIRunOptions<Config> extends CLIOptions<Config> {
   command: string;
 }

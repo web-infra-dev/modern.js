@@ -2,7 +2,7 @@ import { logger, minimist } from '@modern-js/utils';
 import { cli } from '.';
 import type { CLIOptions } from './types';
 
-export const run = async (options: CLIOptions) => {
+export const run = async <Config>(options: CLIOptions<Config>) => {
   const { initialLog, version, cwd, configFile, ...params } = options;
 
   if (initialLog) {
@@ -21,16 +21,11 @@ export const run = async (options: CLIOptions) => {
     }
   }
 
-  const cliParams = minimist<{
-    c?: string;
-    config?: string;
-  }>(process.argv.slice(2));
-
   await cli.run({
     version,
     cwd,
     command,
-    configFile: cliParams.c || cliParams.config || configFile,
+    configFile,
     ...params,
   });
 };
