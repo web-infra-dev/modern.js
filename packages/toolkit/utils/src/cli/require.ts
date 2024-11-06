@@ -19,9 +19,14 @@ export async function compatibleRequire(
   try {
     requiredModule = require(path);
   } catch (err: any) {
-    if (err.code === 'ERR_REQUIRE_ESM' || err instanceof SyntaxError) {
+    if (err.code === 'ERR_REQUIRE_ESM') {
       const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
-      requiredModule = await import(modulePath);
+      if (process.env.NODE_ENV === 'development') {
+        const timestamp = Date.now();
+        requiredModule = await import(`${modulePath}?t=${timestamp}`);
+      } else {
+        requiredModule = await import(modulePath);
+      }
       return interop ? requiredModule.default : requiredModule;
     } else {
       throw err;
