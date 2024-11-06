@@ -8,6 +8,7 @@ import type {
   AsyncPipeline,
   AsyncSetup,
   AsyncWaterfall,
+  AsyncWorkflow,
   CommonAPI,
   ParallelWorkflow,
   PluginOptions,
@@ -94,7 +95,7 @@ export interface ServerHooks {
 
   prepare: AsyncWaterfall<void>;
 
-  reset: ParallelWorkflow<{ event: ResetEvent }>;
+  reset: AsyncWorkflow<{ event: ResetEvent }, void>;
 
   /**
    * @deprecated
