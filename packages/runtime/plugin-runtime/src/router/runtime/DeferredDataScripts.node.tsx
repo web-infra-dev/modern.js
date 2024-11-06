@@ -54,7 +54,11 @@ const DeferredDataScripts = (props?: {
 
     // <script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>
     const initialScript0 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
-    const initialScript1 = modernInline;
+    const initialScript1 = inlineScript
+      ? [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
+          '\n',
+        )
+      : modernInline;
     // const initialScript1 = [
     //   `_ROUTER_DATA.s = ${setupFnStr}`,
     //   `_ROUTER_DATA.r = ${resolveFnStr}`,
