@@ -23,13 +23,6 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   feature6: '易于配置',
   featureDesc6: '以零配置启动，然后一切皆可配置。',
 
-  // Solutions
-  solutions: '解决方案',
-  solutionsDesc1: '基于 React 的渐进式 Web 开发框架。',
-  solutionsDesc2: '简单、高性能的 npm 包开发方案。',
-  solutionsDesc3: '基于 Rspack 的 Web 构建工具。',
-  solutionsDesc4: '基于 Rspack 的静态站点生成器。',
-
   // Footer
   guide: '指南',
   topic: '专题',
