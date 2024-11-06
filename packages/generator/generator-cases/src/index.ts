@@ -7,8 +7,6 @@ import {
   Language,
   MWAActionTypes,
   MWAActionTypesMap,
-  ModuleActionTypes,
-  ModuleActionTypesMap,
   PackageManager,
   Solution,
 } from '@modern-js/generator-common';
@@ -25,11 +23,6 @@ export const MWAValueMap: Record<string, string[]> = {
   packageManager: PackageManagerValues,
 };
 
-export const ModuleValueMap: Record<string, string[]> = {
-  language: LanguageValues,
-  packageManager: PackageManagerValues,
-};
-
 export const getMWACases = (length?: number) => {
   const cases = make(MWAValueMap, {
     length: length || Object.keys(MWAValueMap).length,
@@ -37,16 +30,6 @@ export const getMWACases = (length?: number) => {
   return cases.map(item => ({
     ...item,
     solution: Solution.MWA,
-  }));
-};
-
-export const getModuleCases = (length?: number) => {
-  const cases = make(ModuleValueMap, {
-    length: length || Object.keys(ModuleValueMap).length,
-  });
-  return cases.map(item => ({
-    ...item,
-    solution: Solution.Module,
   }));
 };
 
@@ -111,22 +94,6 @@ export const getMWANewCases = (length?: number) => {
   return cases;
 };
 
-export const getModuleNewCases = () => {
-  const cases: Array<Record<string, string>> = [];
-  ModuleActionTypes.forEach(action => {
-    const config: Record<string, any> = { actionType: action };
-    ModuleActionTypesMap[action].forEach(option => {
-      const currentConfig = { ...config, [action]: option };
-      cases.push(currentConfig);
-    });
-  });
-  return cases;
-};
-
 export const MWASubProjectValueMap: Record<string, string[]> = {
-  language: LanguageValues,
-};
-
-export const ModuleSubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
 };

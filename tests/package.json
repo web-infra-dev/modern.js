@@ -13,9 +13,7 @@
     "test": "pnpm test --filter api-service-koa & pnpm test:framework",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "prepare": "node node_modules/puppeteer/install.js",
-    "test:mwa": "ts-node -T generator/mwa.ts",
-    "test:module": "ts-node -T generator/module.ts",
-    "test:monorepo": "ts-node -T generator/monorepo.ts"
+    "test:mwa": "ts-node -T generator/mwa.ts"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

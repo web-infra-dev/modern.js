@@ -102,28 +102,6 @@ async function handleMWATemplate() {
   return files;
 }
 
-async function handleModuleTemplate() {
-  const templateDir = path.join(
-    require.resolve('@modern-js/module-generator'),
-    '../../',
-    'templates',
-  );
-  const baseTemplate = path.join(templateDir, 'base-template');
-  const tsTemplate = path.join(templateDir, 'ts-template');
-  const modernVersion = await getModernVersion(Solution.Module);
-  const files = {
-    ...(await handleTemplate(baseTemplate, {
-      name: 'modern-npm-module',
-      isMonorepoSubProject: false,
-      modernVersion,
-      isTs: true,
-      language: 'ts',
-      packageManager: 'pnpm',
-    })),
-    ...(await handleTemplate(tsTemplate)),
-  };
-  return files;
-}
 async function main() {
   const codesandboxFiles = await handleCodesandboxTemplate();
   const baseFiles = await handleBaseTemplate();
@@ -142,18 +120,6 @@ async function main() {
 export const MWAFiles = {
   ...commonFiles,
   ...${JSON.stringify(mwaFiles, null, 2)}
-};`,
-    'utf-8',
-  );
-
-  const moduleFiles = await handleModuleTemplate();
-  fs.writeFileSync(
-    path.join(srcTemplatesDir, 'module.ts'),
-    `import { commonFiles } from './common';
-
-export const ModuleFiles = {
-  ...commonFiles,
-  ...${JSON.stringify(moduleFiles, null, 2)}
 };`,
     'utf-8',
   );

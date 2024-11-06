@@ -5,7 +5,6 @@ import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   PackageManager,
   type Solution,
-  SolutionText,
   SolutionToolsMap,
 } from '@modern-js/generator-common';
 import {
@@ -66,12 +65,6 @@ export const handleTemplateFile = async (
   if (solutions.length >= 2) {
     throw Error(i18n.t(localeKeys.tooltip.more_solution));
   }
-
-  generator.logger.info(
-    `[${i18n.t(localeKeys.projectType)}]: ${SolutionText[
-      solutions[0] as Solution
-    ]()}`,
-  );
 
   // get modern latest version
   const modernVersion = await getModernVersion(
