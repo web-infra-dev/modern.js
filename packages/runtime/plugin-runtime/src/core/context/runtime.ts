@@ -42,6 +42,7 @@ export const ServerRouterContext = createContext({} as any);
 
 export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   initialData?: Record<string, unknown>;
+  isBrowser: boolean;
   context: TSSRContext;
   /** @deprecated use context.request field instead */
   request?: SSRServerContext['request'];
@@ -49,10 +50,6 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
   response?: SSRServerContext['response'];
   // store type
   store?: Store;
-  router?: {
-    navigate: Router['navigate'];
-    location: RouterState['location'];
-  };
   [key: string]: any;
 }
 
