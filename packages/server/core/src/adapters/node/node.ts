@@ -36,7 +36,9 @@ export const createWebRequest = (
   // Since we don't want break changes and now node.req.body will be consumed in bff, custom server, render, so we don't create a stream and consume node.req here by default.
   if (
     body ||
-    (!(method === 'GET' || method === 'HEAD') && req.url?.includes('__loader'))
+    (!(method === 'GET' || method === 'HEAD') &&
+      req.url?.includes('__loader')) ||
+    req.headers['x-mf-micro']
   ) {
     init.body = body ?? createReadableStreamFromReadable(req);
     (init as { duplex: 'half' }).duplex = 'half';
