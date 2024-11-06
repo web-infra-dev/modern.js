@@ -53,6 +53,7 @@ export interface TRuntimeContext extends Partial<BaseRuntimeContext> {
     navigate: Router['navigate'];
     location: RouterState['location'];
   };
+  [key: string]: any;
 }
 
 export const getInitialContext = (
