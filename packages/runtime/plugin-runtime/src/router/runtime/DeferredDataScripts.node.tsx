@@ -52,19 +52,12 @@ const DeferredDataScripts = (props?: {
       errors: serializeErrors(staticContext.errors),
     };
 
-    // <script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>
     const initialScript0 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
     const initialScript1 = inlineScript
       ? [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
           '\n',
         )
       : modernInline;
-    // const initialScript1 = [
-    //   `_ROUTER_DATA.s = ${setupFnStr}`,
-    //   `_ROUTER_DATA.r = ${resolveFnStr}`,
-    //   `_ROUTER_DATA.p = ${preResolvedFnStr}`,
-    //   mergeLoaderDataStr,
-    // ].join('\n');
     const deferredDataScripts: JSX.Element[] = [];
 
     const initialScripts = Object.entries(activeDeferreds).map(
@@ -175,7 +168,6 @@ const DeferredDataScripts = (props?: {
               nonce={props?.nonce}
               suppressHydrationWarning
               dangerouslySetInnerHTML={{
-                // __html: `${fnName}(${fnArgs.map(argv => `${JSON.stringify(argv)}`).join(',')})`,
                 __html: fnRun,
               }}
             />
@@ -220,9 +212,6 @@ const DeferredDataScript = ({
               data-fn-args={`${JSON.stringify([routeId, dataKey, data])}`}
               suppressHydrationWarning
               dangerouslySetInnerHTML={{
-                // __html: `_ROUTER_DATA.r(${JSON.stringify(
-                //   routeId,
-                // )}, ${JSON.stringify(dataKey)}, ${serializeJson(data)});`,
                 __html: runRouterDataFnStr,
               }}
             />
@@ -260,12 +249,6 @@ const ErrorDeferredDataScript = ({
       nonce={nonce}
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
-        // __html: `_ROUTER_DATA.r(${JSON.stringify(routeId)}, ${JSON.stringify(
-        //   dataKey,
-        // )}, ${undefined}, ${serializeJson({
-        //   message: error.message,
-        //   stack: error.stack,
-        // })});`,
         __html: runRouterDataFnStr,
       }}
     />

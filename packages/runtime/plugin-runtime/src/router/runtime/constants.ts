@@ -127,6 +127,27 @@ export const mergeLoaderDataStr = `function mergeLoaderData(e,n){const r=n.reduc
    */
 export const initRouterDataAttrs = `_ROUTER_DATA.s = ${setupFnStr}_ROUTER_DATA.r = ${resolveFnStr}_ROUTER_DATA.p = ${preResolvedFnStr}${mergeLoaderDataStr}`;
 
+/**
+  function runWindowFn() {
+    window[document.currentScript.getAttribute('data-fn-name')](...JSON.parse(document.currentScript.getAttribute('data-fn-args')))
+  }
+  function runRouterDataFn() {
+    _ROUTER_DATA[document.currentScript.getAttribute('data-fn-name')](...JSON.parse(document.currentScript.getAttribute('data-fn-args')))
+  }
+  function initRouterData(id) {
+    const ele = document.getElementById(id);
+    if (ele) {
+      try {
+        _ROUTER_DATA = JSON.parse(ele.textContent);
+      } catch(e) {
+        console.error("parse ".concat(id, " error"), t);
+        _ROUTER_DATA = {};
+      }
+    }
+  }
+  initRouterData();
+  ${initRouterDataAttrs}
+*/
 export const modernInline = `function runWindowFn(){window[document.currentScript.getAttribute("data-fn-name")](...JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function runRouterDataFn(){_ROUTER_DATA[document.currentScript.getAttribute("data-fn-name")](...JSON.parse(document.currentScript.getAttribute("data-fn-args")))}function initRouterData(e){var r=document.getElementById(e);if(r)try{_ROUTER_DATA=JSON.parse(r.textContent)}catch(r){console.error("parse ".concat(e," error"),t),_ROUTER_DATA={}}};initRouterData('${ROUTER_DATA_JSON_ID}');${initRouterDataAttrs}`;
 
 export const runRouterDataFnStr = `runRouterDataFn();`;
