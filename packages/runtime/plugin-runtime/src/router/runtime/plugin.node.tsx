@@ -126,6 +126,8 @@ export const routerPlugin = (
             return interrupt(routerContext);
           }
 
+          // requestHandler.ts also has same logic, but handle common status code
+          // maybe we can put the logic in requestHandler.ts in the future
           if (
             routerContext.statusCode >= 500 &&
             routerContext.statusCode < 600 &&
@@ -136,8 +138,17 @@ export const routerPlugin = (
           }
 
           const router = createStaticRouter(routes, routerContext);
-          context.remixRouter = router;
+          // routerContext is used in in css colletor、handle status code、inject loader data in html
           context.routerContext = routerContext;
+
+          // private api, pass to React Component in `wrapRoot`
+          // in the browser, we not need to pass router, cause we create Router in `wrapRoot`
+          // but in node, we need to pass router, cause we need run async function, it can only run in `beforeRender`
+          // when we deprected React 17, we can use Suspense to handle this async function
+          // so the `remixRouter` has no type declare in RuntimeContext
+          context.remixRouter = router;
+
+          // private api, pass to React Component in `wrapRoot`
           context.routes = routes;
         },
         wrapRoot: App => {
