@@ -1061,6 +1061,35 @@ export default defineConfig({
 });
 ```
 
+### resolve.tsconfig
+
+用于配置 enhanced-resolve 中的 [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)，来支持解析 tsconfig.json 中的 alias 和嵌套 `@` 别名冲突的问题。
+
+- 类型：
+
+```ts
+type Tsconfig = {
+  configFile: string,
+  references?: string[] | undefined,
+};
+```
+
+- 默认值： `{ configFile: config.tsconfig, references: undefined }`
+- 版本：`>=MAJOR_VERSION.60.5`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      tsConfig: {
+        configFile: './tsconfig.json',
+      }
+    },
+  },
+});
+```
+
+
 ## shims
 
 在构建 cjs / esm 产物时注入一些垫片代码。

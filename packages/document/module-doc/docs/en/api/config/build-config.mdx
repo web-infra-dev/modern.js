@@ -1074,6 +1074,36 @@ export default defineConfig({
 });
 ```
 
+
+### resolve.tsconfig
+
+Used to configure enhanced-resolve in [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin) to support resolution of alias in tsconfig.json and nested `@` alias conflicts.
+
+- **Type**:
+
+```ts
+type Tsconfig = {
+  configFile: string,
+  references?: string[] | undefined,
+};
+```
+
+- **Default**: `{ configFile: './tsconfig.json', references: undefined }`
+- **Version**: `>=MAJOR_VERSION.60.5`
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      tsConfig: {
+        configFile: './tsconfig.json',
+      }
+    },
+  },
+});
+```
+
+
 ## shims
 
 When building CommonJS/ESM artifacts, inject some polyfill code such as `__dirname` which can only be used in CommonJS.
