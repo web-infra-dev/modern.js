@@ -29,7 +29,11 @@ import { getDefaultOutExtension, withLogTitle } from '../../utils';
 import { getInternalList } from '../feature';
 import { adapterPlugin } from './adapter';
 import { createRenderChunkHook, createTransformHook } from './hook';
-import { createCssResolver, createJsResolver } from './resolve';
+import {
+  type ResolverOptions,
+  createCssResolver,
+  createJsResolver,
+} from './resolve';
 import { SourcemapContext } from './sourcemap';
 import { TransformContext } from './transform';
 import { initWatcher } from './watch';
@@ -84,13 +88,16 @@ export class EsbuildCompiler implements ICompiler {
       transform: createTransformHook(this),
       renderChunk: createRenderChunkHook(this),
     });
-    const resolveOptions = {
-      root,
-      platform: config.platform,
-      alias: config.alias,
-      tsconfig: config.tsconfig,
-      mainFields: config.resolve.mainFields,
-    };
+
+    const resolveOptions: Omit<ResolverOptions, 'resolveType' | 'extensions'> =
+      {
+        root,
+        platform: config.platform,
+        alias: config.alias,
+        tsConfig: config.resolve?.tsConfig,
+        mainFields: config.resolve.mainFields,
+      };
+
     this.css_resolve = createCssResolver({
       ...resolveOptions,
       resolveType: 'css',

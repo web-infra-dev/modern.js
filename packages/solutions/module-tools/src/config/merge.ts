@@ -110,6 +110,11 @@ export const mergeDefaultBaseConfig = async (
     jsExtensions:
       pConfig.resolve?.jsExtensions ?? defaultConfig.resolve.jsExtensions,
     alias: mergedResolveAlias,
+    tsConfig:
+      pConfig.resolve?.tsConfig ??
+      (pConfig.tsconfig
+        ? { configFile: pConfig.tsconfig }
+        : defaultConfig.resolve.tsConfig),
   };
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
