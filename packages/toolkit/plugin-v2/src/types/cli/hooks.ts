@@ -1,13 +1,13 @@
 import type { Command } from '@modern-js/utils/commander';
+import type { TransformFunction } from '../plugin';
 import type { Entrypoint } from './context';
 
 export type ConfigFn<Config> = () => Config;
 
-export type ModifyConfigFn<Config> = (config: Config) => Config;
+export type ModifyConfigFn<Config> = TransformFunction<Config>;
 
-export type ModifyResolvedConfigFn<NormalizedConfig> = (
-  config: NormalizedConfig,
-) => NormalizedConfig;
+export type ModifyResolvedConfigFn<NormalizedConfig> =
+  TransformFunction<NormalizedConfig>;
 
 type IPartialMethod = (...script: string[]) => void;
 export interface PartialMethod {

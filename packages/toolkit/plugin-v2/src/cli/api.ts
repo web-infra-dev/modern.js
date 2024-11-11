@@ -1,3 +1,4 @@
+import type { PluginHookTap } from '../types';
 import type { CLIPluginAPI } from '../types/cli/api';
 import type { InternalContext } from '../types/cli/context';
 import type { PluginManager } from '../types/plugin';
@@ -8,7 +9,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
   context: InternalContext<Config, NormalizedConfig>;
   pluginManager: PluginManager;
 }): CLIPluginAPI<Config, NormalizedConfig> {
-  const { hooks } = context;
+  const { hooks, extendsHooks } = context;
   function getAppContext() {
     if (context) {
       const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
@@ -31,10 +32,26 @@ export function initPluginAPI<Config, NormalizedConfig>({
     throw new Error('Cannot access normalized config');
   }
 
+  function getHooks() {
+    return {
+      ...context.hooks,
+      ...context.extendsHooks,
+    };
+  }
+  const extendsPluginApi: Record<
+    string,
+    PluginHookTap<(...args: any[]) => any>
+  > = {};
+
+  Object.keys(extendsHooks).forEach(hookName => {
+    extendsPluginApi[hookName] = extendsHooks[hookName].tap;
+  });
+
   return {
     getAppContext,
     getConfig,
     getNormalizedConfig,
+    getHooks,
 
     config: hooks.config.tap,
     modifyConfig: hooks.modifyConfig.tap,
@@ -62,5 +79,6 @@ export function initPluginAPI<Config, NormalizedConfig>({
     onBeforeDeploy: hooks.onBeforeDeploy.tap,
     onAfterDeploy: hooks.onAfterDeploy.tap,
     onBeforeExit: hooks.onBeforeExit.tap,
+    ...extendsPluginApi,
   };
 }

@@ -1,2 +1,7 @@
-export type { Plugin, PluginManager } from './plugin';
+export type {
+  Plugin,
+  PluginManager,
+  TransformFunction,
+} from './plugin';
 export * from './cli';
+export * from './hooks';

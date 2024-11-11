@@ -9,7 +9,8 @@ import type {
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
 } from '@rsbuild/core';
-import type { PluginHook } from '../plugin';
+import type { Hooks } from '../../cli/hooks';
+import type { PluginHook, PluginHookTap } from '../hooks';
 import type { DeepPartial } from '../utils';
 import type { AppContext } from './context';
 import type {
@@ -36,36 +37,40 @@ export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
   getAppContext: () => Readonly<AppContext<Config, NormalizedConfig>>;
   getConfig: () => Readonly<Config>;
   getNormalizedConfig: () => Readonly<NormalizedConfig>;
+  getHooks: () => Readonly<
+    Hooks<Config, NormalizedConfig> &
+      Record<string, PluginHook<(...args: any[]) => any>>
+  >;
 
   // config hooks TOOD check
-  config: PluginHook<ConfigFn<DeepPartial<Config>>>;
-  modifyConfig: PluginHook<ModifyConfigFn<Config>>;
-  modifyResolvedConfig: PluginHook<ModifyResolvedConfigFn<NormalizedConfig>>;
+  config: PluginHookTap<ConfigFn<DeepPartial<Config>>>;
+  modifyConfig: PluginHookTap<ModifyConfigFn<Config>>;
+  modifyResolvedConfig: PluginHookTap<ModifyResolvedConfigFn<NormalizedConfig>>;
 
   // modify rsbuild config hooks
-  modifyRsbuildConfig: PluginHook<ModifyRsbuildConfigFn>;
-  modifyBundlerChain: PluginHook<ModifyBundlerChainFn>;
+  modifyRsbuildConfig: PluginHookTap<ModifyRsbuildConfigFn>;
+  modifyBundlerChain: PluginHookTap<ModifyBundlerChainFn>;
   /** Only works when bundler is Rspack */
-  modifyRspackConfig: PluginHook<ModifyRspackConfigFn>;
+  modifyRspackConfig: PluginHookTap<ModifyRspackConfigFn>;
   /** Only works when bundler is Webpack */
-  modifyWebpackChain: PluginHook<ModifyWebpackChainFn>;
+  modifyWebpackChain: PluginHookTap<ModifyWebpackChainFn>;
   /** Only works when bundler is Webpack */
-  modifyWebpackConfig: PluginHook<ModifyWebpackConfigFn>;
-  modifyHtmlPartials: PluginHook<ModifyHtmlPartialsFn>;
+  modifyWebpackConfig: PluginHookTap<ModifyWebpackConfigFn>;
+  modifyHtmlPartials: PluginHookTap<ModifyHtmlPartialsFn>;
 
-  addCommand: PluginHook<AddCommandFn>;
+  addCommand: PluginHookTap<AddCommandFn>;
 
-  onPrepare: PluginHook<OnPrepareFn>;
-  onWatchFiles: PluginHook<AddWatchFilesFn>;
-  onFileChanged: PluginHook<OnFileChangedFn>;
-  onBeforeRestart: PluginHook<OnBeforeRestartFn>;
-  onBeforeCreateCompiler: PluginHook<OnBeforeCreateCompilerFn>;
-  onAfterCreateCompiler: PluginHook<OnAfterCreateCompilerFn>;
-  onBeforeBuild: PluginHook<OnBeforeBuildFn>;
-  onAfterBuild: PluginHook<OnAfterBuildFn>;
-  onBeforeDev: PluginHook<OnBeforeDevFn>;
-  onAfterDev: PluginHook<OnAfterDevFn>;
-  onBeforeDeploy: PluginHook<OnBeforeDeployFn>;
-  onAfterDeploy: PluginHook<OnAfterDeployFn>;
-  onBeforeExit: PluginHook<OnBeforeExitFn>;
+  onPrepare: PluginHookTap<OnPrepareFn>;
+  onWatchFiles: PluginHookTap<AddWatchFilesFn>;
+  onFileChanged: PluginHookTap<OnFileChangedFn>;
+  onBeforeRestart: PluginHookTap<OnBeforeRestartFn>;
+  onBeforeCreateCompiler: PluginHookTap<OnBeforeCreateCompilerFn>;
+  onAfterCreateCompiler: PluginHookTap<OnAfterCreateCompilerFn>;
+  onBeforeBuild: PluginHookTap<OnBeforeBuildFn>;
+  onAfterBuild: PluginHookTap<OnAfterBuildFn>;
+  onBeforeDev: PluginHookTap<OnBeforeDevFn>;
+  onAfterDev: PluginHookTap<OnAfterDevFn>;
+  onBeforeDeploy: PluginHookTap<OnBeforeDeployFn>;
+  onAfterDeploy: PluginHookTap<OnAfterDeployFn>;
+  onBeforeExit: PluginHookTap<OnBeforeExitFn>;
 }>;

@@ -4,6 +4,7 @@ import type {
   UniBuilderWebpackInstance,
 } from '@modern-js/uni-builder';
 import type { Hooks } from '../../cli/hooks';
+import type { PluginHook } from '../hooks';
 import type { CLIPluginAPI } from './api';
 import type { CLIPlugin } from './plugin';
 
@@ -52,10 +53,14 @@ export type InternalContext<Config, NormalizedConfig> = AppContext<
   NormalizedConfig
 > & {
   /** All hooks. */
-  hooks: Readonly<Hooks<Config, NormalizedConfig>>;
+  hooks: Hooks<Config, NormalizedConfig> &
+    Record<string, PluginHook<(...args: any[]) => any>>;
+  /** All plugin registry hooks */
+  extendsHooks: Record<string, PluginHook<(...args: any[]) => any>>;
   /** Current App config. */
   config: Readonly<Config>;
   /** The normalized Rsbuild config. */
   normalizedConfig?: NormalizedConfig;
-  pluginAPI?: CLIPluginAPI<Config, NormalizedConfig>;
+  pluginAPI?: CLIPluginAPI<Config, NormalizedConfig> &
+    Record<string, (...args: any[]) => any>;
 };

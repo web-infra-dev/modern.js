@@ -9,6 +9,7 @@ import type {
   OnBeforeBuildFn,
   OnBeforeCreateCompilerFn,
 } from '@rsbuild/core';
+import { createAsyncHook, createCollectAsyncHook } from '../hooks';
 import type {
   AddCommandFn,
   AddWatchFilesFn,
@@ -26,72 +27,6 @@ import type {
   OnPrepareFn,
 } from '../types/cli/hooks';
 import type { DeepPartial } from '../types/utils';
-
-export type AsyncHook<Callback extends (...args: any[]) => any> = {
-  tap: (cb: Callback) => void;
-  call: (...args: Parameters<Callback>) => Promise<Parameters<Callback>>;
-};
-
-export function createAsyncHook<
-  Callback extends (...args: any[]) => any,
->(): AsyncHook<Callback> {
-  const callbacks: Callback[] = [];
-
-  const tap = (cb: Callback) => {
-    callbacks.push(cb);
-  };
-
-  const call = async (...params: Parameters<Callback>) => {
-    for (const callback of callbacks) {
-      const result = await callback(...params);
-
-      if (result !== undefined) {
-        params[0] = result;
-      }
-    }
-
-    return params;
-  };
-
-  return {
-    tap,
-    call,
-  };
-}
-
-export type CollectAsyncHook<Callback extends (...args: any[]) => any> = {
-  tap: (cb: Callback) => void;
-  call: (...args: Parameters<Callback>) => Promise<ReturnType<Callback>[]>;
-};
-
-export function createCollectAsyncHook<
-  Callback extends (...args: any[]) => any,
->(): CollectAsyncHook<Callback> {
-  const callbacks: Callback[] = [];
-
-  const tap = (cb: Callback) => {
-    callbacks.push(cb);
-  };
-
-  const call = async (...params: Parameters<Callback>) => {
-    const results: ReturnType<Callback>[] = [];
-    for (const callback of callbacks) {
-      const result = await callback(...params);
-
-      if (result !== undefined) {
-        params[0] = result;
-        results.push(result);
-      }
-    }
-
-    return results;
-  };
-
-  return {
-    tap,
-    call,
-  };
-}
 
 export function initHooks<Config, NormalizedConfig>() {
   return {

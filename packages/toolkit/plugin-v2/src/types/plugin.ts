@@ -1,9 +1,8 @@
+import type { PluginHook } from './hooks';
 import type { Falsy } from './utils';
 import type { MaybePromise } from './utils';
 
-export type PluginHook<T extends (...args: any[]) => any> = (
-  options: T,
-) => void;
+export type TransformFunction<T> = (arg: T) => T | Promise<T>;
 
 export type Plugin<PluginAPI = {}> = {
   /**
@@ -14,6 +13,7 @@ export type Plugin<PluginAPI = {}> = {
    * The plugins that this plugin depends on.
    */
   usePlugins?: Plugin<PluginAPI>[];
+  registryHooks?: Record<string, PluginHook<(...args: any[]) => any>>;
   /**
    * The setup function of the plugin, which can be an async function.
    * This function is called once when the plugin is initialized.

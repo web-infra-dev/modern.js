@@ -1,6 +1,7 @@
 import path from 'path';
 import type { AppContext, InternalContext } from '../types/cli/context';
 import type { CLIPlugin } from '../types/cli/plugin';
+import type { PluginHook } from '../types/hooks';
 import { initHooks } from './hooks';
 
 interface ContextParams<Config, NormalizedConfig> {
@@ -39,9 +40,18 @@ export async function createContext<Config, NormalizedConfig>({
 }: ContextParams<Config, NormalizedConfig>): Promise<
   InternalContext<Config, NormalizedConfig>
 > {
+  const { plugins } = appContext;
+  const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
+  plugins.forEach(plugin => {
+    const { registryHooks = {} } = plugin;
+    Object.keys(registryHooks).forEach(hookName => {
+      extendsHooks[hookName] = registryHooks[hookName];
+    });
+  });
   return {
     ...appContext,
     hooks: initHooks<Config, NormalizedConfig>(),
+    extendsHooks,
     config,
     normalizedConfig,
   };
