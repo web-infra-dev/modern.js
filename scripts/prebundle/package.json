@@ -38,7 +38,7 @@
     "@types/signal-exit": "3.0.4",
     "@types/signale": "1.4.7",
     "@types/url-join": "4.0.3",
-    "address": "1.1.2",
+    "address": "1.2.2",
     "browserslist": "4.24.2",
     "chalk": "4.1.2",
     "chokidar": "3.6.0",
