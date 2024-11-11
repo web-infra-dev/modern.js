@@ -89,6 +89,13 @@
       "groupName": "actions",
       "groupSlug": "actions",
     },
+    {
+      "matchPackageNames": [
+        "@modern-js/**",
+      ],
+      "groupName": "modern",
+      "groupSlug": "modern",
+    },
   ],
   "ignoreDeps": [
     // manually update some packages
