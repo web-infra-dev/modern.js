@@ -157,6 +157,20 @@ describe('test dev and build', () => {
       );
       expect(htmlWithDoc.includes('<title>test-title</title>')).toBe(true);
     });
+
+    test('should has Script origin script properties', async () => {
+      const htmlWithDoc = fs.readFileSync(
+        path.join(appDir, 'dist', 'html/sub/index.html'),
+        'utf-8',
+      );
+      expect(
+        htmlWithDoc.includes('<script defer="" async="" id="script-has-id" >'),
+      ).toBe(true);
+      // IIFE should worked
+      expect(
+        htmlWithDoc.includes('console.log("this is a IIFE function");'),
+      ).toBe(true);
+    });
   });
 
   describe('test dev', () => {
