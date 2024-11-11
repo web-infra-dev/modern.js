@@ -755,8 +755,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       rspack-manifest-plugin:
-        specifier: 5.0.1
-        version: 5.0.1(@rspack/core@1.0.14(@swc/helpers@0.5.13))
+        specifier: 5.0.2
+        version: 5.0.2(@rspack/core@1.0.14(@swc/helpers@0.5.13))
       terser-webpack-plugin:
         specifier: 5.3.10
         version: 5.3.10(esbuild@0.17.19)(webpack@5.96.1(esbuild@0.17.19))
@@ -19604,8 +19604,8 @@ packages:
     resolution: {integrity: sha512-antALPJaKBRPBU1X2q9t085K4htWDOOv/K1qhTUk7h0l1ePU/KbDqKJn19eKP0dk7PqMioeA0+fu3gyPXCsXxQ==}
     engines: {node: '>=14.17.6'}
 
-  rspack-manifest-plugin@5.0.1:
-    resolution: {integrity: sha512-K2g7kcOdj+cHTi+xvzwdLZ4rdL1nnphJhs9P8VH5sVcoQd1U/FxpNXnEm5ARxhE7qZO0yfqaL74aXwcQH0T0Ig==}
+  rspack-manifest-plugin@5.0.2:
+    resolution: {integrity: sha512-VnILlrJfDMM+KvAmbIYFboTwktrr29GtrewSUpwOZc0PGVyh/aoCD5O7i6eKZqVybY1GUv2+LTV/jX/rmOUYgg==}
     engines: {node: '>=14'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -37499,7 +37499,7 @@ snapshots:
 
   rslog@1.2.3: {}
 
-  rspack-manifest-plugin@5.0.1(@rspack/core@1.0.14(@swc/helpers@0.5.13)):
+  rspack-manifest-plugin@5.0.2(@rspack/core@1.0.14(@swc/helpers@0.5.13)):
     dependencies:
       '@rspack/lite-tapable': 1.0.1
     optionalDependencies:
