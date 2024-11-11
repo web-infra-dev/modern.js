@@ -119,6 +119,14 @@ export const transformToAbsPath = async (
 
   newConfig.tsconfig = path.resolve(context.appDirectory, newConfig.tsconfig);
 
+  // resolve.tsConfig
+  if (newConfig.resolve.tsConfig) {
+    newConfig.resolve.tsConfig.configFile = path.resolve(
+      context.appDirectory,
+      newConfig.resolve.tsConfig.configFile,
+    );
+  }
+
   // dts path
   if (newConfig.dts) {
     newConfig.dts.distPath = path.resolve(

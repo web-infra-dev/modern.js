@@ -94,7 +94,7 @@ export class EsbuildCompiler implements ICompiler {
         root,
         platform: config.platform,
         alias: config.alias,
-        tsConfig: config.resolve?.tsConfig,
+        tsConfig: config.resolve.tsConfig,
         mainFields: config.resolve.mainFields,
       };
 
