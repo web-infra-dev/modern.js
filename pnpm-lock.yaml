@@ -4326,8 +4326,8 @@ importers:
         specifier: 4.0.3
         version: 4.0.3
       address:
-        specifier: 1.1.2
-        version: 1.1.2
+        specifier: 1.2.2
+        version: 1.2.2
       browserslist:
         specifier: 4.24.2
         version: 4.24.2
@@ -12943,10 +12943,6 @@ packages:
     resolution: {integrity: sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-
-  address@1.1.2:
-    resolution: {integrity: sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==}
-    engines: {node: '>= 0.12.0'}
 
   address@1.2.2:
     resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==}
@@ -28767,8 +28763,6 @@ snapshots:
   acorn@8.12.1: {}
 
   acorn@8.14.0: {}
-
-  address@1.1.2: {}
 
   address@1.2.2: {}
 
