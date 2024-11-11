@@ -113,7 +113,29 @@ If a Client Loader is defined for the route, it will be used to re-fetch the dat
 
 ### Component Rendering Error
 
-If a component throws an error during rendering, Modern.js automatically falls back to CSR mode and re-fetches the data. If re-rendering fails again, the `<ErrorBoundary>` component will be displayed.
+If the Data Loader executes correctly but the component rendering fails, SSR rendering will partially or completely fail, as shown in the following code:
+
+```tsx
+import { Await, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+
+const Page = () => {
+  const data = useLoaderData();
+  const isNode = typeof window === 'undefined';
+  const undefinedVars = data.unDefined;
+  const definedVars = data.defined;
+
+  return (
+    <div>
+      {isNode ? undefinedVars.msg : definedVars.msg}
+    </div>
+  );
+};
+
+export default Page;
+```
+
+In this case, Modern.js will fallback the page to CSR and use the existing data from the Data Loader to render. If the rendering still fails, the `<ErrorBoundary>` component will be rendered.
 
 :::tip
 The behavior of component rendering errors is unaffected by `loaderFailureMode` and will not execute the Client Loader on the browser side.
