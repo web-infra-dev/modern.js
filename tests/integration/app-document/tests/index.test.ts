@@ -169,7 +169,7 @@ describe('test dev and build', () => {
       ).toBe(true);
       // IIFE should worked
       expect(
-        htmlWithDoc.includes('console.log("this is a IIFE function");'),
+        htmlWithDoc.includes('console.log("this is a IIFE function")'),
       ).toBe(true);
     });
   });
