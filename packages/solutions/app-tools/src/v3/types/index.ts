@@ -3,6 +3,7 @@ import type {
   PluginHookTap,
   TransformFunction,
 } from '@modern-js/plugin-v2';
+import type { AppContext } from '@modern-js/plugin-v2/dist/types';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -40,7 +41,7 @@ export type DeplpoyFn = () => Promise<void> | void;
 export interface AppTools<B extends Bundler>
   extends CLIPluginAPI<
     AppToolsUserConfig<B>,
-    AppToolsNormalizedConfig<AppToolsUserConfig<'shared'>>
+    AppToolsNormalizedConfig<AppToolsUserConfig<B>>
   > {
   _internalRuntimePlugins: PluginHookTap<InternalRuntimePluginsFn>;
   _internalServerPlugins: PluginHookTap<InternalServerPluginsFn>;
@@ -50,4 +51,26 @@ export interface AppTools<B extends Bundler>
   modifyServerRoutes: PluginHookTap<ModifyServerRoutesFn>;
 
   deploy: PluginHookTap<DeplpoyFn>;
+
+  /**
+   * @deprecated use getAppContext instead
+   */
+  useAppContext: () => AppContext<
+    AppToolsUserConfig<B>,
+    AppToolsNormalizedConfig<AppToolsUserConfig<B>>
+  >;
+  /**
+   * @deprecated use getConfig instead
+   */
+  useConfigContext: () => AppToolsUserConfig<B>;
+  /**
+   * @deprecated use getNormalizedConfig instead
+   */
+  useResolvedConfigContext: () => AppToolsNormalizedConfig<
+    AppToolsUserConfig<B>
+  >;
+  /**
+   * @deprecated use api.xx instead
+   */
+  useHookRunners: () => {};
 }

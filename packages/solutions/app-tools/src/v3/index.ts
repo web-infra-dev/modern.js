@@ -1,5 +1,7 @@
-import type { Plugin } from '@modern-js/plugin-v2';
+import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
 import { createAsyncHook } from '@modern-js/plugin-v2';
+import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
+import { compatPlugin } from './compat';
 import type {
   AppTools,
   CheckEntryPointFn,
@@ -21,26 +23,17 @@ export type AppToolsOptions = {
   bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
 
-const testPlugin = (): Plugin<AppTools<'shared'>> => {
-  return {
-    name: 'test-plugin',
-    setup: api => {
-      api.checkEntryPoint(({ path, entry }) => {
-        console.log('checkEntryPoint');
-        return { path, entry };
-      });
-    },
-  };
-};
-
 export const appTools = (
   options: AppToolsOptions = {
     // default webpack to be compatible with original projects
     bundler: 'webpack',
   },
-): Plugin<AppTools<'shared'>> => ({
+): Plugin<
+  AppTools<'shared'>,
+  InternalContext<AppToolsUserConfig<'shared'>, AppToolsNormalizedConfig>
+> => ({
   name: '@modern-js/plugin-app-tools',
-  usePlugins: [testPlugin()],
+  usePlugins: [compatPlugin()],
   registryHooks: {
     _internalRuntimePlugins: createAsyncHook<InternalRuntimePluginsFn>(),
     _internalServerPlugins: createAsyncHook<InternalServerPluginsFn>(),
@@ -52,12 +45,10 @@ export const appTools = (
   },
   setup: api => {
     api.onPrepare(() => {
-      const hooks = api.getHooks();
-      hooks.checkEntryPoint.call({ path: '', entry: '' });
       console.log('app-tools prepare', options);
       api.updateAppContext({ command: 'test' });
       const context = api.getAppContext();
-      console.log(context);
+      console.log('app-tools', context);
     });
   },
 });

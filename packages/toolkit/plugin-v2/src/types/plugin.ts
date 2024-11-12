@@ -4,7 +4,7 @@ import type { MaybePromise } from './utils';
 
 export type TransformFunction<T> = (arg: T) => T | Promise<T>;
 
-export type Plugin<PluginAPI = {}> = {
+export type Plugin<PluginAPI = {}, Context = {}> = {
   /**
    * The name of the plugin, a unique identifier.
    */
@@ -12,11 +12,15 @@ export type Plugin<PluginAPI = {}> = {
   /**
    * The plugins that this plugin depends on.
    */
-  usePlugins?: Plugin<PluginAPI>[];
+  usePlugins?: Plugin<PluginAPI, Context>[];
   /**
    * The plugins add new hooks to the plugin manager.
    */
   registryHooks?: Record<string, PluginHook<(...args: any[]) => any>>;
+  /**
+   * The plugins add new apis to the plugin manager.
+   */
+  registryApi?: (context: Context) => Record<string, (...args: any[]) => any>;
   /**
    * The setup function of the plugin, which can be an async function.
    * This function is called once when the plugin is initialized.

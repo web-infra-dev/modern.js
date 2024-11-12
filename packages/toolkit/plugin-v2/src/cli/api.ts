@@ -11,7 +11,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
   context: InternalContext<Config, NormalizedConfig>;
   pluginManager: PluginManager;
 }): CLIPluginAPI<Config, NormalizedConfig> {
-  const { hooks, extendsHooks } = context;
+  const { hooks, extendsHooks, plugins } = context;
   function getAppContext() {
     if (context) {
       const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
@@ -40,10 +40,25 @@ export function initPluginAPI<Config, NormalizedConfig>({
       ...context.extendsHooks,
     };
   }
+
   const extendsPluginApi: Record<
     string,
     PluginHookTap<(...args: any[]) => any>
   > = {};
+
+  function updateRegistryApi() {
+    plugins.forEach(plugin => {
+      const { registryApi } = plugin;
+      if (registryApi) {
+        const apis = registryApi(context);
+        Object.keys(apis).forEach(apiName => {
+          extendsPluginApi[apiName] = apis[apiName];
+        });
+      }
+    });
+  }
+
+  updateRegistryApi();
 
   Object.keys(extendsHooks).forEach(hookName => {
     extendsPluginApi[hookName] = extendsHooks[hookName].tap;
@@ -53,6 +68,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
     updateContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
   ) {
     context = merge(context, updateContext);
+    updateRegistryApi();
   }
 
   return {
