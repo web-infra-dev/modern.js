@@ -1,7 +1,9 @@
+import { merge } from '@modern-js/utils/lodash';
 import type { PluginHookTap } from '../types';
 import type { CLIPluginAPI } from '../types/cli/api';
-import type { InternalContext } from '../types/cli/context';
+import type { AppContext, InternalContext } from '../types/cli/context';
 import type { PluginManager } from '../types/plugin';
+import type { DeepPartial } from '../types/utils';
 
 export function initPluginAPI<Config, NormalizedConfig>({
   context,
@@ -47,13 +49,21 @@ export function initPluginAPI<Config, NormalizedConfig>({
     extendsPluginApi[hookName] = extendsHooks[hookName].tap;
   });
 
+  function updateAppContext(
+    updateContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
+  ) {
+    context = merge(context, updateContext);
+  }
+
   return {
     getAppContext,
     getConfig,
     getNormalizedConfig,
     getHooks,
+    updateAppContext,
 
     config: hooks.config.tap,
+
     modifyConfig: hooks.modifyConfig.tap,
     modifyResolvedConfig: hooks.modifyResolvedConfig.tap,
 

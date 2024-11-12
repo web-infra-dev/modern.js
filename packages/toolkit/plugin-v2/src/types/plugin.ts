@@ -13,6 +13,9 @@ export type Plugin<PluginAPI = {}> = {
    * The plugins that this plugin depends on.
    */
   usePlugins?: Plugin<PluginAPI>[];
+  /**
+   * The plugins add new hooks to the plugin manager.
+   */
   registryHooks?: Record<string, PluginHook<(...args: any[]) => any>>;
   /**
    * The setup function of the plugin, which can be an async function.

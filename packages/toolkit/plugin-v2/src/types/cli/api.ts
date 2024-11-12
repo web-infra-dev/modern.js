@@ -42,7 +42,11 @@ export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
       Record<string, PluginHook<(...args: any[]) => any>>
   >;
 
-  // config hooks TOOD check
+  updateAppContext: (
+    appContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
+  ) => void;
+
+  // config hooks
   config: PluginHookTap<ConfigFn<DeepPartial<Config>>>;
   modifyConfig: PluginHookTap<ModifyConfigFn<Config>>;
   modifyResolvedConfig: PluginHookTap<ModifyResolvedConfigFn<NormalizedConfig>>;

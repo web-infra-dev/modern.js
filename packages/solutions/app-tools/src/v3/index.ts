@@ -55,6 +55,9 @@ export const appTools = (
       const hooks = api.getHooks();
       hooks.checkEntryPoint.call({ path: '', entry: '' });
       console.log('app-tools prepare', options);
+      api.updateAppContext({ command: 'test' });
+      const context = api.getAppContext();
+      console.log(context);
     });
   },
 });
