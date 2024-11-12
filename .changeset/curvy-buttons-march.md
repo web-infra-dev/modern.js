@@ -1,6 +1,6 @@
 ---
 '@modern-js/runtime': patch
-'app-docmuent': patch
+'app-document': patch
 ---
 
 feat: support script properties with Script
