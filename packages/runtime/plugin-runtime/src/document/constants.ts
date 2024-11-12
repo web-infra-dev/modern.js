@@ -37,6 +37,12 @@ export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
 export const DOCUMENT_SCRIPT_PLACEHOLDER_END = encodeURIComponent(
   '<!-- script-end -->',
 );
+export const DOCUMENT_SCRIPT_ATTRIBUTES_START = encodeURIComponent(
+  '<!-- script-scriptpProperties-start -->',
+);
+export const DOCUMENT_SCRIPT_ATTRIBUTES_END = encodeURIComponent(
+  '<!-- script-scriptpProperties-end -->',
+);
 export const DOCUMENT_STYLE_PLACEHOLDER_START = encodeURIComponent(
   '<!-- style-start -->',
 );
