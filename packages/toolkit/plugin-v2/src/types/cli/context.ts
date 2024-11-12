@@ -51,13 +51,13 @@ export type AppContext<Config, NormalizedConfig> = {
 export type InternalContext<
   Config,
   NormalizedConfig,
-  ExtendsHooksKey extends string | number | symbol,
+  ExtendsHooksKey extends string,
 > = AppContext<Config, NormalizedConfig> & {
   /** All hooks. */
   hooks: Hooks<Config, NormalizedConfig> &
     Record<ExtendsHooksKey, AsyncHook<(...args: any[]) => any>>;
   /** All plugin registry hooks */
-  extendsHooks: Record<string, PluginHook<(...args: any[]) => any>>;
+  extendsHooks: Record<ExtendsHooksKey, AsyncHook<(...args: any[]) => any>>;
   /** Current App config. */
   config: Readonly<Config>;
   /** The normalized Rsbuild config. */

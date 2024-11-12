@@ -2,11 +2,11 @@ import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
 import { createAsyncHook } from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
 import { compatPlugin } from './compat';
-import type { getHookRunners } from './compat/hooks';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
   AppTools,
+  AppToolsExtendAPIName,
   BeforeConfigFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,
@@ -42,7 +42,7 @@ export const appTools = (
   InternalContext<
     AppToolsUserConfig<'shared'>,
     AppToolsNormalizedConfig,
-    keyof ReturnType<typeof getHookRunners>
+    AppToolsExtendAPIName<'shared'>
   >
 > => ({
   name: '@modern-js/plugin-app-tools',

@@ -13,7 +13,11 @@ import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
-export const createCli = <Config, NormalizedConfig>() => {
+export const createCli = <
+  Config,
+  NormalizedConfig,
+  ExtendsHooksKey extends string,
+>() => {
   const pluginManager = createPluginManager();
 
   async function init(options: CLIRunOptions<Config>) {
@@ -56,7 +60,11 @@ export const createCli = <Config, NormalizedConfig>() => {
 
     const plugins = await pluginManager.getPlugins();
 
-    const context = await createContext<Config, NormalizedConfig>({
+    const context = await createContext<
+      Config,
+      NormalizedConfig,
+      ExtendsHooksKey
+    >({
       appContext: initAppContext({
         packageName: loaded.packageName,
         configFile: loaded.configFile,
@@ -68,7 +76,7 @@ export const createCli = <Config, NormalizedConfig>() => {
       normalizedConfig: {} as NormalizedConfig,
     });
 
-    const pluginAPI = initPluginAPI<Config, NormalizedConfig>({
+    const pluginAPI = initPluginAPI<Config, NormalizedConfig, ExtendsHooksKey>({
       context,
       pluginManager,
     });

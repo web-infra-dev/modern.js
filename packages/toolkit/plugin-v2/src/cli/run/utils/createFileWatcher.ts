@@ -11,8 +11,12 @@ const hashMap = new Map<string, string>();
 const md5 = (data: string) =>
   crypto.createHash('md5').update(data).digest('hex');
 
-export const createFileWatcher = async <Config, NormalizedConfig>(
-  appContext: InternalContext<Config, NormalizedConfig>,
+export const createFileWatcher = async <
+  Config,
+  NormalizedConfig,
+  ExtendsHooksKey extends string,
+>(
+  appContext: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>,
 ) => {
   // only add fs watcher on dev mode.
   if (isDevCommand()) {

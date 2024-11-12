@@ -1,8 +1,8 @@
 import path from 'path';
 import type { AppContext, InternalContext } from '../types/cli/context';
 import type { CLIPlugin } from '../types/cli/plugin';
-import type { PluginHook } from '../types/hooks';
-import { initHooks } from './hooks';
+import type { AsyncHook, PluginHook } from '../types/hooks';
+import { type Hooks, initHooks } from './hooks';
 
 interface ContextParams<Config, NormalizedConfig> {
   appContext: AppContext<Config, NormalizedConfig>;
@@ -33,12 +33,16 @@ export function initAppContext<Config, NormalizedConfig>(params: {
   };
 }
 
-export async function createContext<Config, NormalizedConfig>({
+export async function createContext<
+  Config,
+  NormalizedConfig,
+  ExtendsHooksKey extends string,
+>({
   appContext,
   config,
   normalizedConfig,
 }: ContextParams<Config, NormalizedConfig>): Promise<
-  InternalContext<Config, NormalizedConfig>
+  InternalContext<Config, NormalizedConfig, ExtendsHooksKey>
 > {
   const { plugins } = appContext;
   const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
@@ -50,7 +54,11 @@ export async function createContext<Config, NormalizedConfig>({
   });
   return {
     ...appContext,
-    hooks: initHooks<Config, NormalizedConfig>(),
+    hooks: {
+      ...initHooks<Config, NormalizedConfig>(),
+      ...extendsHooks,
+    } as Hooks<Config, NormalizedConfig> &
+      Record<ExtendsHooksKey, AsyncHook<(...args: any[]) => any>>,
     extendsHooks,
     config,
     normalizedConfig,

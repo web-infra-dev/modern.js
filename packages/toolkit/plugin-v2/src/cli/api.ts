@@ -5,10 +5,14 @@ import type { AppContext, InternalContext } from '../types/cli/context';
 import type { PluginManager } from '../types/plugin';
 import type { DeepPartial } from '../types/utils';
 
-export function initPluginAPI<Config, NormalizedConfig>({
+export function initPluginAPI<
+  Config,
+  NormalizedConfig,
+  ExtendsHooksKey extends string,
+>({
   context,
 }: {
-  context: InternalContext<Config, NormalizedConfig>;
+  context: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>;
   pluginManager: PluginManager;
 }): CLIPluginAPI<Config, NormalizedConfig> {
   const { hooks, extendsHooks, plugins } = context;
@@ -60,7 +64,7 @@ export function initPluginAPI<Config, NormalizedConfig>({
 
   updateRegistryApi();
 
-  Object.keys(extendsHooks).forEach(hookName => {
+  (Object.keys(extendsHooks) as ExtendsHooksKey[]).forEach(hookName => {
     extendsPluginApi[hookName] = extendsHooks[hookName].tap;
   });
 

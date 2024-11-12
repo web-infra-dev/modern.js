@@ -19,6 +19,7 @@ import type {
 } from '../../types/config';
 import type { RuntimePlugin } from '../../types/hooks';
 import type { Bundler } from '../../types/utils';
+import type { getHookRunners } from '../compat/hooks';
 
 export type BeforeConfigFn = () => Promise<void> | void;
 export type AfterPrepareFn = () => Promise<void> | void;
@@ -56,11 +57,7 @@ export type RegisterBuildPlatformFn = () =>
   | RegisterBuildPlatformResult;
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
-export interface AppTools<B extends Bundler>
-  extends CLIPluginAPI<
-    AppToolsUserConfig<B>,
-    AppToolsNormalizedConfig<AppToolsUserConfig<B>>
-  > {
+export interface AppToolsExtendAPI<B extends Bundler> {
   onBeforeConfig: PluginHookTap<BeforeConfigFn>;
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
@@ -111,5 +108,14 @@ export interface AppTools<B extends Bundler>
   /**
    * @deprecated use api.xx instead
    */
-  useHookRunners: () => {};
+  useHookRunners: () => ReturnType<typeof getHookRunners>;
 }
+export interface AppTools<B extends Bundler>
+  extends CLIPluginAPI<
+      AppToolsUserConfig<B>,
+      AppToolsNormalizedConfig<AppToolsUserConfig<B>>
+    >,
+    AppToolsExtendAPI<B> {}
+
+export type AppToolsExtendAPIName<B extends Bundler> =
+  keyof AppToolsExtendAPI<B> & string;

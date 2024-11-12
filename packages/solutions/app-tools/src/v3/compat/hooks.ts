@@ -10,21 +10,22 @@ import type {
 import type { Command } from '@modern-js/utils';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
+import type { AppToolsExtendAPIName } from '../types';
 
 export function getHookRunners(
   context: InternalContext<
     AppToolsUserConfig<'shared'>,
     AppToolsNormalizedConfig,
-    string
+    AppToolsExtendAPIName<'shared'>
   >,
-) {
+): Record<string, any> {
   const { hooks } = context;
   return {
     /**
      * app tools hooks
      */
     beforeConfig: async () => {
-      return hooks.onBeforeDeveforeConfig.call();
+      return hooks.onBeforeConfig.call();
     },
     afterPrepare: async () => {
       return hooks.onAfterPrepare.call();
@@ -88,7 +89,7 @@ export function getHookRunners(
       return hooks.modifyHtmlPartials.call(params as any);
     },
     commands: async (params: { program: Command }) => {
-      return hooks.command.call(params);
+      return hooks.addCommand.call(params);
     },
     watchFiles: async () => {
       return hooks.addWatchFiles.call();
