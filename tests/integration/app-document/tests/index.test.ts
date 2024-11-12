@@ -163,8 +163,9 @@ describe('test dev and build', () => {
         path.join(appDir, 'dist', 'html/sub/index.html'),
         'utf-8',
       );
+
       expect(
-        htmlWithDoc.includes('<script defer="" async="" id="script-has-id" >'),
+        htmlWithDoc.includes('<script defer="" async="" id="script-has-id">'),
       ).toBe(true);
       // IIFE should worked
       expect(
