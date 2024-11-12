@@ -14,7 +14,7 @@ const resolveCliPlugin = async (
   appDirectory: string,
 ): Promise<Plugin> => {
   const pkg = typeof p === 'string' ? p : p[0];
-  //   const pluginOptions = typeof p === 'string' ? undefined : p[1];
+  const pluginOptions = typeof p === 'string' ? undefined : p[1];
   const path = tryResolve(pkg, appDirectory);
   let module;
   try {
@@ -24,11 +24,11 @@ const resolveCliPlugin = async (
     ({ default: module } = await dynamicImport(path));
   }
 
-  // TODO handle string plugin
-  //   if (typeof module === 'function') {
-  //     const result: Plugin = module(pluginOptions);
-  //     return createPlugin(result.setup, result);
-  //   }
+  // handle string plugin
+  if (typeof module === 'function') {
+    const result: Plugin = module(pluginOptions);
+    return result;
+  }
 
   return module;
 };
@@ -43,10 +43,11 @@ export const loadInternalPlugins = async (
   appDirectory: string,
   internalPlugins?: InternalPlugins,
   autoLoad?: InternalPlugins,
+  autoLoadPlugins?: boolean, // user config auto load plugins
   forceAutoLoadPlugins?: boolean,
 ) => {
   const plugins = [
-    ...(forceAutoLoadPlugins
+    ...(forceAutoLoadPlugins || autoLoadPlugins
       ? getInternalPlugins(appDirectory, internalPlugins)
       : []),
     ...(autoLoad ? getInternalPlugins(appDirectory, autoLoad) : []),

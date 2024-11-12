@@ -103,7 +103,7 @@ export function createPluginManager(): PluginManager {
   const getPlugins = () => {
     const visited = new Set();
     const temp = new Set();
-    const result: Plugin[] = [];
+    let result: Plugin[] = [];
     const visit = (name: string) => {
       if (temp.has(name)) {
         throw new Error(`Circular dependency detected: ${name}`);
@@ -138,6 +138,8 @@ export function createPluginManager(): PluginManager {
     plugins.forEach((_, name) => {
       visit(name);
     });
+
+    result = result.filter(result => result);
 
     debug(
       'CLI Plugins:',

@@ -9,11 +9,14 @@ import {
 } from './constants';
 import { getConfigFile } from './getConfigFile';
 import { loadInternalPlugins } from './loadPlugins';
+import { getIsAutoLoadPlugins } from './utils';
 
 export interface RunOptions {
   cwd?: string;
-  internalPlugins?: InternalPlugins;
-  autoLoad?: InternalPlugins;
+  internalPlugins?: {
+    cli?: InternalPlugins;
+    autoLoad?: InternalPlugins;
+  };
   forceAutoLoadPlugins?: boolean;
   version: string;
 }
@@ -21,7 +24,6 @@ export async function run({
   cwd,
   version,
   internalPlugins,
-  autoLoad,
   forceAutoLoadPlugins,
 }: RunOptions) {
   const command = process.argv[2];
@@ -55,10 +57,15 @@ export async function run({
   }
 
   const appDirectory = await initAppDir(cwd);
+  const autoLoadPlugins = await getIsAutoLoadPlugins(
+    appDirectory,
+    customConfigFile,
+  );
   const plugins = await loadInternalPlugins(
     appDirectory,
-    internalPlugins,
-    autoLoad,
+    internalPlugins?.cli,
+    internalPlugins?.autoLoad,
+    autoLoadPlugins,
     forceAutoLoadPlugins,
   );
 
