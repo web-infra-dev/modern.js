@@ -4,7 +4,7 @@ import type {
   UniBuilderWebpackInstance,
 } from '@modern-js/uni-builder';
 import type { Hooks } from '../../cli/hooks';
-import type { PluginHook } from '../hooks';
+import type { AsyncHook, PluginHook } from '../hooks';
 import type { CLIPluginAPI } from './api';
 import type { CLIPlugin } from './plugin';
 
@@ -48,13 +48,14 @@ export type AppContext<Config, NormalizedConfig> = {
 };
 
 /** The inner context. */
-export type InternalContext<Config, NormalizedConfig> = AppContext<
+export type InternalContext<
   Config,
-  NormalizedConfig
-> & {
+  NormalizedConfig,
+  ExtendsHooksKey extends string | number | symbol,
+> = AppContext<Config, NormalizedConfig> & {
   /** All hooks. */
   hooks: Hooks<Config, NormalizedConfig> &
-    Record<string, PluginHook<(...args: any[]) => any>>;
+    Record<ExtendsHooksKey, AsyncHook<(...args: any[]) => any>>;
   /** All plugin registry hooks */
   extendsHooks: Record<string, PluginHook<(...args: any[]) => any>>;
   /** Current App config. */

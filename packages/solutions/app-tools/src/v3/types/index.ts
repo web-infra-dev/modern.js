@@ -1,3 +1,4 @@
+import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   CLIPluginAPI,
   PluginHookTap,
@@ -19,6 +20,8 @@ import type {
 import type { RuntimePlugin } from '../../types/hooks';
 import type { Bundler } from '../../types/utils';
 
+export type BeforeConfigFn = () => Promise<void> | void;
+export type AfterPrepareFn = () => Promise<void> | void;
 export type InternalRuntimePluginsFn = TransformFunction<{
   entrypoint: Entrypoint;
   plugins: RuntimePlugin[];
@@ -37,12 +40,31 @@ export type ModifyFileSystemRoutesFn = TransformFunction<{
 }>;
 export type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>;
 export type DeplpoyFn = () => Promise<void> | void;
+export type GenerateEntryCodeFn = (
+  entrypoints: Entrypoint[],
+) => Promise<void> | void;
+export type BeforeGenerateRoutesFn = TransformFunction<{
+  entrypoint: Entrypoint;
+  code: string;
+}>;
+export type BeforePrintInstructionsFn = TransformFunction<{
+  instructions: string;
+}>;
+export type RegisterDevFn = () => Promise<DevToolData> | DevToolData;
+export type RegisterBuildPlatformFn = () =>
+  | Promise<RegisterBuildPlatformResult>
+  | RegisterBuildPlatformResult;
+export type AddRuntimeExportsFn = () => Promise<void> | void;
 
 export interface AppTools<B extends Bundler>
   extends CLIPluginAPI<
     AppToolsUserConfig<B>,
     AppToolsNormalizedConfig<AppToolsUserConfig<B>>
   > {
+  onBeforeConfig: PluginHookTap<BeforeConfigFn>;
+  onAfterPrepare: PluginHookTap<AfterPrepareFn>;
+  deploy: PluginHookTap<DeplpoyFn>;
+
   _internalRuntimePlugins: PluginHookTap<InternalRuntimePluginsFn>;
   _internalServerPlugins: PluginHookTap<InternalServerPluginsFn>;
   checkEntryPoint: PluginHookTap<CheckEntryPointFn>;
@@ -50,7 +72,24 @@ export interface AppTools<B extends Bundler>
   modifyFileSystemRoutes: PluginHookTap<ModifyFileSystemRoutesFn>;
   modifyServerRoutes: PluginHookTap<ModifyServerRoutesFn>;
 
-  deploy: PluginHookTap<DeplpoyFn>;
+  generateEntryCode: PluginHookTap<GenerateEntryCodeFn>;
+  onBeforeGenerateRoutes: PluginHookTap<BeforeGenerateRoutesFn>;
+  /**
+   * @deprecated
+   */
+  onBeforePrintInstructions: PluginHookTap<BeforePrintInstructionsFn>;
+  /**
+   * @deprecated
+   */
+  registerDev: PluginHookTap<RegisterDevFn>;
+  /**
+   * @deprecated
+   */
+  registerBuildPlatform: PluginHookTap<RegisterBuildPlatformFn>;
+  /**
+   * @deprecated
+   */
+  addRuntimeExports: PluginHookTap<AddRuntimeExportsFn>;
 
   /**
    * @deprecated use getAppContext instead

@@ -4,10 +4,15 @@ import type {
   AppToolsUserConfig,
 } from '../../types/config';
 import type { AppTools } from '../types';
+import { getHookRunners } from './hooks';
 
 export const compatPlugin = (): Plugin<
   AppTools<'shared'>,
-  InternalContext<AppToolsUserConfig<'shared'>, AppToolsNormalizedConfig>
+  InternalContext<
+    AppToolsUserConfig<'shared'>,
+    AppToolsNormalizedConfig,
+    keyof ReturnType<typeof getHookRunners>
+  >
 > => ({
   name: '@modern-js/app-tools-compat',
   registryApi: context => {
@@ -22,7 +27,7 @@ export const compatPlugin = (): Plugin<
         return context.normalizedConfig;
       },
       useHookRunners: () => {
-        return {};
+        return getHookRunners(context);
       },
     };
   },
