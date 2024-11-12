@@ -33,7 +33,7 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -130,7 +130,7 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -212,7 +212,7 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -309,7 +309,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",
@@ -391,7 +391,7 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
         "loader": "builtin:swc-loader",
         "options": {
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",

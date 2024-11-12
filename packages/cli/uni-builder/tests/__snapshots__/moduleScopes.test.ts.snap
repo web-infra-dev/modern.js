@@ -5,6 +5,17 @@ exports[`plugin-module-scopes > should set entry correctly 1`] = `
   "alias": {
     "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
   },
+  "extensionAlias": {
+    ".js": [
+      ".ts",
+      ".tsx",
+      ".js",
+    ],
+    ".jsx": [
+      ".tsx",
+      ".jsx",
+    ],
+  },
   "extensions": [
     ".ts",
     ".tsx",
