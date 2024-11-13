@@ -18,7 +18,7 @@ export function createAsyncHook<
       }
     }
 
-    return params;
+    return params[0] || [];
   };
 
   return {

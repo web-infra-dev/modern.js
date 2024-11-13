@@ -54,7 +54,7 @@ export const appTools = (
     bundler: 'webpack',
   },
 ): CliPlugin<AppTools<'shared'>> => ({
-  name: '@modern-js/app-tools',
+  name: '@modern-js/app-tools-old',
 
   post: [
     '@modern-js/plugin-initialize',

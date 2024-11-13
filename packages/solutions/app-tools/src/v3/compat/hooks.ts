@@ -11,7 +11,11 @@ import type { Command } from '@modern-js/utils';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
 import type { AppToolsExtendAPIName } from '../types';
-import { transformHookRunner } from './utils';
+import {
+  transformHookParams,
+  transformHookResult,
+  transformHookRunner,
+} from './utils';
 
 export function getHookRunners(
   context: InternalContext<
@@ -83,7 +87,7 @@ export function getHookRunners(
     resolvedConfig: (params: AppToolsNormalizedConfig) => {
       return hooks.modifyResolvedConfig.call(params);
     },
-    modifyHtmlPartials: async (params: {
+    htmlPartials: async (params: {
       entrypoint: Entrypoint;
       partials: HtmlPartials;
     }) => {
@@ -190,7 +194,9 @@ export function handleSetupResult(
     if (typeof fn === 'function') {
       const newAPI = transformHookRunner(key);
       if (api[newAPI]) {
-        api[newAPI](fn);
+        api[newAPI](async (params: any) =>
+          transformHookResult(key, await fn(transformHookParams(key, params))),
+        );
       }
     }
   });

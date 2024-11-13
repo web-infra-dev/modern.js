@@ -128,7 +128,9 @@ export const createCli = <
     const resolved =
       await context.hooks.modifyResolvedConfig.call(normalizedConfig);
 
-    context.normalizedConfig = resolved[0];
+    context.normalizedConfig = resolved[0] || normalizedConfig;
+
+    await pluginAPI.updateAppContext(context);
 
     await context.hooks.onPrepare.call();
 

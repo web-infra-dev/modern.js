@@ -34,13 +34,5 @@ export const compatPlugin = (): Plugin<
       },
     };
   },
-  setup: api => {
-    api.onPrepare(() => {
-      api.updateAppContext({
-        command: 'compat',
-      });
-      const context = api.useAppContext();
-      console.log('compat', context);
-    });
-  },
+  setup: _api => {},
 });

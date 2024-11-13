@@ -38,10 +38,10 @@ export function transformHookRunner(hookRunnerName: string) {
       return 'onBeforeExit';
     case 'beforeRestart':
       return 'onBeforeRestart';
+    case 'htmlPartials':
+      return 'modifyHtmlPartials';
     // case 'config':
     //   return 'config';
-    // case 'modifyHtmlPartials':
-    //   return 'modifyHtmlPartials';
     // case 'deploy':
     //   return 'deploy';
     // case 'checkEntryPoint':
@@ -60,5 +60,25 @@ export function transformHookRunner(hookRunnerName: string) {
     //   return '_internalServerPlugins';
     default:
       return hookRunnerName;
+  }
+}
+
+export function transformHookParams(hookRunnerName: string, params: any) {
+  switch (hookRunnerName) {
+    case 'resolvedConfig':
+      return {
+        resolved: params,
+      };
+    default:
+      return params;
+  }
+}
+
+export function transformHookResult(hookRunnerName: string, result: any) {
+  switch (hookRunnerName) {
+    case 'resolvedConfig':
+      return result.resolved;
+    default:
+      return result;
   }
 }

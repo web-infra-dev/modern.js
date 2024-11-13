@@ -3,6 +3,11 @@ import { createAsyncHook } from '@modern-js/plugin-v2';
 import { appTools as oldAppTools } from '../index';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
 import { compatPlugin } from './compat';
+import {
+  DEFAULT_RUNTIME_CONFIG_FILE,
+  DEFAULT_SERVER_CONFIG_FILE,
+} from './constants';
+import { initAppContext } from './context';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
@@ -48,6 +53,7 @@ export const appTools = (
 > => ({
   name: '@modern-js/plugin-app-tools',
   usePlugins: [compatPlugin(), oldAppTools(options) as any],
+  post: ['@modern-js/app-tools-old'],
   registryHooks: {
     onBeforeConfig: createAsyncHook<BeforeConfigFn>(),
     onAfterPrepare: createAsyncHook<AfterPrepareFn>(),
@@ -66,11 +72,14 @@ export const appTools = (
     addRuntimeExports: createAsyncHook<AddRuntimeExportsFn>(),
   },
   setup: api => {
-    api.onPrepare(() => {
-      console.log('app-tools prepare', options);
-      api.updateAppContext({ command: 'test' });
-      const context = api.getAppContext();
-      console.log('app-tools', context);
-    });
+    const context = api.getAppContext();
+    api.updateAppContext(
+      initAppContext({
+        appDirectory: context.appDirectory,
+        options: {},
+        serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
+        runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
+      }),
+    );
   },
 });

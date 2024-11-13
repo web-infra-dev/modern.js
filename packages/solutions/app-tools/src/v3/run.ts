@@ -3,11 +3,7 @@ import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { minimist } from '@modern-js/utils';
 import { handleSetupResult } from './compat/hooks';
-import {
-  // DEFAULT_RUNTIME_CONFIG_FILE,
-  // DEFAULT_SERVER_CONFIG_FILE,
-  PACKAGE_JSON_CONFIG_NAME,
-} from './constants';
+import { PACKAGE_JSON_CONFIG_NAME } from './constants';
 import { getConfigFile } from './getConfigFile';
 import { loadInternalPlugins } from './loadPlugins';
 import { getIsAutoLoadPlugins } from './utils';
@@ -77,7 +73,5 @@ export async function run({
     packageJsonConfig: PACKAGE_JSON_CONFIG_NAME,
     internalPlugins: plugins,
     handleSetupResult,
-    // serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
-    // runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
   });
 }
