@@ -5,12 +5,8 @@ import type {
 } from '@modern-js/runtime-utils/remix-router';
 import { Await, useAsyncError } from '@modern-js/runtime-utils/router';
 import { Suspense, useEffect, useMemo, useRef } from 'react';
-import {
-  mergeLoaderDataStr,
-  preResolvedFnStr,
-  resolveFnStr,
-  setupFnStr,
-} from './constants';
+import { ROUTER_DATA_JSON_ID } from '../../core/constants';
+import { modernInline, runRouterDataFnStr, runWindowFnStr } from './constants';
 import { serializeErrors } from './utils';
 
 /**
@@ -19,9 +15,11 @@ import { serializeErrors } from './utils';
  */
 const DeferredDataScripts = (props?: {
   nonce?: string;
+  inlineScript?: boolean;
   context: StaticHandlerContext;
 }) => {
   const staticContext = props?.context;
+  const inlineScript = props?.inlineScript;
   const hydratedRef = useRef(false);
 
   useEffect(() => {
@@ -37,8 +35,8 @@ const DeferredDataScripts = (props?: {
         {
           fnName: string;
           fnArgs: any[];
-          fnRun?: string;
-          fnScriptSrc?: string;
+          fnRun: string;
+          fnScriptSrc: string;
         }[],
         JSX.Element[],
       ]
@@ -54,13 +52,12 @@ const DeferredDataScripts = (props?: {
       errors: serializeErrors(staticContext.errors),
     };
 
-    const initialScript0 = `_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`;
-    const initialScript1 = [
-      `_ROUTER_DATA.s = ${setupFnStr}`,
-      `_ROUTER_DATA.r = ${resolveFnStr}`,
-      `_ROUTER_DATA.p = ${preResolvedFnStr}`,
-      mergeLoaderDataStr,
-    ].join('\n');
+    const initialScript0 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
+    const initialScript1 = inlineScript
+      ? [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
+          '\n',
+        )
+      : modernInline;
     const deferredDataScripts: JSX.Element[] = [];
 
     const initialScripts = Object.entries(activeDeferreds).map(
@@ -121,7 +118,9 @@ const DeferredDataScripts = (props?: {
 
         return {
           fnName: `mergeLoaderData`,
+          fnRun: runWindowFnStr,
           fnArgs: [routeId, deferredKeyPromiseManifests],
+          fnScriptSrc: 'modern-run-window-fn',
         };
       },
     );
@@ -142,26 +141,34 @@ const DeferredDataScripts = (props?: {
     <>
       {!hydratedRef.current && (
         <>
+          {/* json or empty string */}
+          {deferredScripts[0].length !== 0 && (
+            <script
+              type="application/json"
+              id={ROUTER_DATA_JSON_ID}
+              nonce={props?.nonce}
+              suppressHydrationWarning
+              dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
+            />
+          )}
           <script
             async
             nonce={props?.nonce}
-            suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
-          />
-          <script
-            async
-            nonce={props?.nonce}
+            data-script-src="modern-inline"
             suppressHydrationWarning
             dangerouslySetInnerHTML={{ __html: deferredScripts[1] }}
           />
-          {deferredScripts[2].map(({ fnName, fnArgs }) => (
+          {deferredScripts[2].map(({ fnName, fnArgs, fnRun, fnScriptSrc }) => (
             <script
               async
               key={fnName}
+              data-script-src={fnScriptSrc}
+              data-fn-name={fnName}
+              data-fn-args={JSON.stringify(fnArgs)}
               nonce={props?.nonce}
               suppressHydrationWarning
               dangerouslySetInnerHTML={{
-                __html: `${fnName}(${fnArgs.map(argv => `${JSON.stringify(argv)}`).join(',')})`,
+                __html: fnRun,
               }}
             />
           ))}
@@ -200,11 +207,12 @@ const DeferredDataScript = ({
             <script
               async
               nonce={nonce}
+              data-fn-name="r"
+              data-script-src="modern-run-router-data-fn"
+              data-fn-args={`${JSON.stringify([routeId, dataKey, data])}`}
               suppressHydrationWarning
               dangerouslySetInnerHTML={{
-                __html: `_ROUTER_DATA.r(${JSON.stringify(
-                  routeId,
-                )}, ${JSON.stringify(dataKey)}, ${serializeJson(data)});`,
+                __html: runRouterDataFnStr,
               }}
             />
           )}
@@ -227,15 +235,21 @@ const ErrorDeferredDataScript = ({
 
   return (
     <script
+      data-fn-name="r"
+      data-script-src="modern-run-router-data-fn"
+      data-fn-args={`${JSON.stringify([
+        routeId,
+        dataKey,
+        undefined,
+        {
+          message: error.message,
+          stack: error.stack,
+        },
+      ])}`}
       nonce={nonce}
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
-        __html: `_ROUTER_DATA.r(${JSON.stringify(routeId)}, ${JSON.stringify(
-          dataKey,
-        )}, ${undefined}, ${serializeJson({
-          message: error.message,
-          stack: error.stack,
-        })});`,
+        __html: runRouterDataFnStr,
       }}
     />
   );

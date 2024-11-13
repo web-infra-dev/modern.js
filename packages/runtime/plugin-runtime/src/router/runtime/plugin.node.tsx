@@ -163,7 +163,7 @@ export const routerPlugin = (
               const context = useContext(RuntimeReactContext);
               const { remixRouter, routerContext, ssrContext } = context;
 
-              const { nonce, mode } = ssrContext!;
+              const { nonce, mode, inlineScript } = ssrContext!;
 
               const routerWrapper = (
                 <>
@@ -179,6 +179,7 @@ export const routerPlugin = (
                     <DeferredDataScripts
                       nonce={nonce}
                       context={routerContext!}
+                      inlineScript={inlineScript}
                     />
                   )}
                   {mode === 'stream' && JSX_SHELL_STREAM_END_MARK}
