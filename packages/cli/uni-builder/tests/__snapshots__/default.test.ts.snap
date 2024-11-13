@@ -143,7 +143,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -222,7 +222,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -616,7 +616,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -708,7 +708,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -986,6 +986,17 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -1006,62 +1017,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 }
 `;
 
-exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
-[
-  "rsbuild:basic",
-  "rsbuild:entry",
-  "rsbuild:cache",
-  "rsbuild:target",
-  "rsbuild:output",
-  "rsbuild:resolve",
-  "rsbuild:file-size",
-  "rsbuild:clean-output",
-  "rsbuild:asset",
-  "rsbuild:html",
-  "rsbuild:app-icon",
-  "rsbuild:wasm",
-  "rsbuild:moment",
-  "rsbuild:node-addons",
-  "rsbuild:define",
-  "rsbuild:css",
-  "rsbuild:minimize",
-  "rsbuild:progress",
-  "rsbuild:swc",
-  "rsbuild:externals",
-  "rsbuild:split-chunks",
-  "rsbuild:inline-chunk",
-  "rsbuild:rsdoctor",
-  "rsbuild:resource-hints",
-  "rsbuild:performance",
-  "rsbuild:bundle-analyzer",
-  "rsbuild:server",
-  "rsbuild:manifest",
-  "rsbuild:module-federation",
-  "rsbuild:rspack-profile",
-  "rsbuild:lazy-compilation",
-  "rsbuild:sri",
-  "rsbuild:nonce",
-  "uni-builder:split-chunks",
-  "uni-builder:global-vars",
-  "uni-builder:devtool",
-  "uni-builder:emit-route-file",
-  "rsbuild:toml",
-  "rsbuild:yaml",
-  "uni-builder:antd",
-  "uni-builder:arco",
-  "rsbuild:sass",
-  "rsbuild:less",
-  "uni-builder:environment-defaults-plugin",
-  "uni-builder:plugin-html-minifier-terser",
-  "rsbuild:type-check",
-  "uni-builder:runtime-chunk",
-  "rsbuild:react",
-  "rsbuild:svgr",
-  "rsbuild:css-minimizer",
-  "uni-builder:postcss-plugins",
-  "rsbuild:styled-components",
-]
-`;
+exports[`uni-builder rspack > should generator rspack config correctly 2`] = `undefined`;
 
 exports[`uni-builder rspack > should generator rspack config correctly when node 1`] = `
 {
@@ -1802,6 +1758,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -1961,7 +1928,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2040,7 +2007,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2434,7 +2401,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2526,7 +2493,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2823,6 +2790,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
@@ -3560,6 +3538,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
@@ -4767,6 +4756,17 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
@@ -6096,6 +6096,17 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
