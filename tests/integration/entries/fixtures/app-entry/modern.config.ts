@@ -1,4 +1,4 @@
-import { appTools, defineConfig } from '@modern-js/app-tools/v3';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {

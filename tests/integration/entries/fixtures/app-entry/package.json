@@ -3,7 +3,7 @@
   "name": "app-entry",
   "version": "2.9.0",
   "scripts": {
-    "dev": "modern-v3 dev"
+    "dev": "modern dev"
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",

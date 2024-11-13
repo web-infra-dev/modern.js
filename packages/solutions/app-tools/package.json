@@ -48,11 +48,6 @@
       "types": "./dist/types/plugins/deploy/exports.d.ts",
       "jsnext:source": "./src/plugins/deploy/exports.ts",
       "default": "./dist/cjs/plugins/deploy/exports.js"
-    },
-    "./v3": {
-      "types": "./dist/types/v3/index.d.ts",
-      "jsnext:source": "./src/v3/index.ts",
-      "default": "./dist/cjs/v3/index.js"
     }
   },
   "engines": {
@@ -71,16 +66,12 @@
       ],
       "deploy": [
         "./dist/types/plugins/deploy/exports.d.ts"
-      ],
-      "v3": [
-        "./dist/types/v3/index.d.ts"
       ]
     }
   },
   "bin": {
     "modern": "./bin/modern.js",
-    "modern-app": "./bin/modern.js",
-    "modern-v3": "./bin/modernv3.js"
+    "modern-app": "./bin/modern.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",

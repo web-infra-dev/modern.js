@@ -1,6 +1,6 @@
 import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
 import { createAsyncHook } from '@modern-js/plugin-v2';
-import { appTools as oldAppTools } from '../index';
+import { appTools as oldAppTools } from '../old';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
 import { compatPlugin } from './compat';
 import {
