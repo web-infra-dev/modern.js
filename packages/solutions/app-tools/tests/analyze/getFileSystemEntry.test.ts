@@ -6,7 +6,7 @@ import {
   manager,
 } from '@modern-js/core';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
-import { appTools } from '../../src/index';
+import { appTools } from '../../src/old';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
 import type { AppNormalizedConfig, AppTools } from '../../src/types';
 
