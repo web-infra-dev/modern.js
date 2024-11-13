@@ -4,36 +4,19 @@ sidebar_position: 3
 
 # 快速开始
 
+:::tip
+
+我们不再推荐创建新的 Modern.js Module 项目，因为我们已经基于 Rsbuild 开发了 Rslib，它是下一代的 Library 开发工具，将提供更好的构建性能和插件生态，你可以参考 [Rslib 仓库](https://github.com/web-infra-dev/rslib) 了解更多信息。
+
+Modern.js 后续将专注于构建一流的全栈 React 框架，Modern.js Module 会被逐渐废弃。我们已经为 Modern.js Module 项目提供了 [迁移指南](https://lib.rsbuild.dev/guide/migration/modernjs-module)，你可以参考该指南将 Modern.js Module 项目迁移到 Rslib。
+
+Modern.js Module 的 npm 包和文档将继续保持可用，我们不再向 Modern.js Module 添加新功能，但会提供必要的 bug fixes。
+
+:::
+
 ## 三分钟快速上手
 
 想要实际体验 Modern.js Module？首先你需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **16.0.0**。我们推荐使用 Node.js 18 的 LTS 版本。
-
-### 创建新项目
-
-**如果你想要创建一个完整的 Modern.js Module 项目，可以执行以下命令：**
-
-```bash
-npx @modern-js/create your-project-dir-name
-```
-
-:::info
-执行 `npx @modern-js/create -h` 查看更多命令行参数
-:::
-
-接着在问题交互中，按照如下选择：
-
-```bash
-? 请选择你想创建的工程类型：Npm 模块
-? 请填写项目名称：library
-? 请选择开发语言：TS
-? 请选择包管理工具：pnpm
-```
-
-> 项目名称为 `package.json` 中的 `"name"` 字段值。
-
-接着就会开始初始化项目的流程。在项目目录和文件生成以及依赖安装完毕后，此时就创建了一个完整的 Modern.js Module 项目。
-
-我们可以直接执行 `pnpm build` 命令启动项目的构建，执行 `pnpm build --watch` 命令开启构建的观察模式。
 
 ### 接入已有项目
 
