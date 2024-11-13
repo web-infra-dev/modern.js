@@ -1,5 +1,6 @@
 import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
 import { createAsyncHook } from '@modern-js/plugin-v2';
+import { appTools as oldAppTools } from '../index';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
 import { compatPlugin } from './compat';
 import type {
@@ -46,7 +47,7 @@ export const appTools = (
   >
 > => ({
   name: '@modern-js/plugin-app-tools',
-  usePlugins: [compatPlugin()],
+  usePlugins: [compatPlugin(), oldAppTools(options) as any],
   registryHooks: {
     onBeforeConfig: createAsyncHook<BeforeConfigFn>(),
     onAfterPrepare: createAsyncHook<AfterPrepareFn>(),

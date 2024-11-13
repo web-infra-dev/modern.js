@@ -15,6 +15,10 @@ export interface CLIOptions<Config> {
   packageJsonConfig?: string;
   loadedConfig?: Config;
   internalPlugins?: Plugin[];
+  handleSetupResult?: (
+    params: any,
+    api: Record<string, any>,
+  ) => Promise<void> | void;
 }
 
 export type LoadedConfig<T> = {

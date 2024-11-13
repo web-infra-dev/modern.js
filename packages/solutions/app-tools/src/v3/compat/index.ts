@@ -15,10 +15,13 @@ export const compatPlugin = (): Plugin<
   >
 > => ({
   name: '@modern-js/app-tools-compat',
-  registryApi: context => {
+  registryApi: (context, updateAppContext) => {
     return {
       useAppContext: () => {
         return context;
+      },
+      setAppContext: context => {
+        return updateAppContext(context);
       },
       useConfigContext: () => {
         return context.config;

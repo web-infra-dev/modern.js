@@ -2,6 +2,7 @@ import { initAppDir } from '@modern-js/plugin-v2/cli';
 import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { minimist } from '@modern-js/utils';
+import { handleSetupResult } from './compat/hooks';
 import {
   // DEFAULT_RUNTIME_CONFIG_FILE,
   // DEFAULT_SERVER_CONFIG_FILE,
@@ -75,6 +76,7 @@ export async function run({
     configFile: customConfigFile || getConfigFile(),
     packageJsonConfig: PACKAGE_JSON_CONFIG_NAME,
     internalPlugins: plugins,
+    handleSetupResult,
     // serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
     // runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
   });

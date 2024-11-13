@@ -29,6 +29,7 @@ export const createCli = <
       packageJsonConfig,
       loadedConfig,
       internalPlugins,
+      handleSetupResult,
     } = options;
 
     const appDirectory = await initAppDir(options?.cwd);
@@ -84,7 +85,10 @@ export const createCli = <
     context.pluginAPI = pluginAPI;
 
     for (const plugin of plugins) {
-      await plugin.setup(pluginAPI);
+      const setupResult = await plugin.setup(pluginAPI);
+      if (handleSetupResult) {
+        await handleSetupResult(setupResult, pluginAPI);
+      }
     }
 
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(

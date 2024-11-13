@@ -1,4 +1,4 @@
-import { merge } from '@modern-js/utils/lodash';
+import { merge, update } from '@modern-js/utils/lodash';
 import type { PluginHookTap } from '../types';
 import type { CLIPluginAPI } from '../types/cli/api';
 import type { AppContext, InternalContext } from '../types/cli/context';
@@ -54,7 +54,7 @@ export function initPluginAPI<
     plugins.forEach(plugin => {
       const { registryApi } = plugin;
       if (registryApi) {
-        const apis = registryApi(context);
+        const apis = registryApi(context, updateAppContext);
         Object.keys(apis).forEach(apiName => {
           extendsPluginApi[apiName] = apis[apiName];
         });

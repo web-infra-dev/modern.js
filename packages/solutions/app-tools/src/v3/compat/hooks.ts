@@ -11,6 +11,7 @@ import type { Command } from '@modern-js/utils';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
 import type { AppToolsExtendAPIName } from '../types';
+import { transformHookRunner } from './utils';
 
 export function getHookRunners(
   context: InternalContext<
@@ -175,4 +176,22 @@ export function getHookRunners(
       return hooks.addRuntimeExports.call(params);
     },
   };
+}
+
+export function handleSetupResult(
+  setupResult: Record<string, (...args: any) => any>,
+  api: Record<string, any>,
+) {
+  if (!setupResult) {
+    return;
+  }
+  Object.keys(setupResult).forEach(key => {
+    const fn = setupResult[key];
+    if (typeof fn === 'function') {
+      const newAPI = transformHookRunner(key);
+      if (api[newAPI]) {
+        api[newAPI](fn);
+      }
+    }
+  });
 }
