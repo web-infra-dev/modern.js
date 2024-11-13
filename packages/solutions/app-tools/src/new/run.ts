@@ -56,7 +56,7 @@ export async function run({
   const appDirectory = await initAppDir(cwd);
   const autoLoadPlugins = await getIsAutoLoadPlugins(
     appDirectory,
-    customConfigFile,
+    customConfigFile || getConfigFile(),
   );
   const plugins = await loadInternalPlugins(
     appDirectory,

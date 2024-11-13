@@ -21,6 +21,7 @@ export const initAppContext = ({
   const {
     metaName = 'modern-js',
     apiDir = 'api',
+    distDir = '',
     sharedDir = 'shared',
   } = options || {};
   return {
@@ -34,6 +35,7 @@ export const initAppContext = ({
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
     sharedDirectory: path.resolve(appDirectory, sharedDir),
+    distDirectory: distDir,
     serverPlugins: [],
     internalDirectory: path.resolve(
       appDirectory,
