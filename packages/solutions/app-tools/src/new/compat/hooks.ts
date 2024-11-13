@@ -17,6 +17,9 @@ import {
   transformHookRunner,
 } from './utils';
 
+/**
+ * old plugin useHookRunners function result
+ */
 export function getHookRunners(
   context: InternalContext<
     AppToolsUserConfig<'shared'>,

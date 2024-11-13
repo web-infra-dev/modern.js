@@ -1,3 +1,6 @@
+/**
+ * Maps old plugin hook function names to new plugin API names
+ */
 export function transformHookRunner(hookRunnerName: string) {
   switch (hookRunnerName) {
     case 'beforeConfig':
@@ -40,24 +43,6 @@ export function transformHookRunner(hookRunnerName: string) {
       return 'onBeforeRestart';
     case 'htmlPartials':
       return 'modifyHtmlPartials';
-    // case 'config':
-    //   return 'config';
-    // case 'deploy':
-    //   return 'deploy';
-    // case 'checkEntryPoint':
-    //   return 'checkEntryPoint';
-    // case 'modifyEntrypoints':
-    //   return 'modifyEntrypoints';
-    // case 'modifyFileSystemRoutes':
-    //   return 'modifyFileSystemRoutes';
-    // case 'modifyServerRoutes':
-    //   return 'modifyServerRoutes';
-    // case 'generateEntryCode':
-    //   return 'generateEntryCode';
-    // case '_internalRuntimePlugins':
-    //   return '_internalRuntimePlugins';
-    // case '_internalServerPlugins':
-    //   return '_internalServerPlugins';
     default:
       return hookRunnerName;
   }
