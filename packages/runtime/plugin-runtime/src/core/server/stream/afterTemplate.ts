@@ -6,7 +6,7 @@ import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
-import { attributesToString, safeReplace } from '../utils';
+import { attributesToString, getSSRInlineScript, safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: RuntimeContext;
@@ -103,8 +103,7 @@ function createReplaceSSRData(options: {
   };
   const attrsStr = attributesToString({ nonce });
 
-  const inlineScript =
-    typeof ssrConfig === 'boolean' ? true : ssrConfig?.inlineScript !== false;
+  const inlineScript = getSSRInlineScript(ssrConfig);
   const useInlineScript = inlineScript !== false;
   const serializeSSRData = serializeJson(ssrData);
 

@@ -4,7 +4,11 @@ import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
 import type { SSRContainer, SSRServerContext } from '../../types';
 import type { SSRConfig } from '../shared';
-import { attributesToString, serializeErrors } from '../utils';
+import {
+  attributesToString,
+  getSSRInlineScript,
+  serializeErrors,
+} from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
@@ -83,8 +87,7 @@ export class SSRDataCollector implements Collector {
     routerData?: Record<string, any>,
   ) {
     const { nonce, ssrConfig } = this.#options;
-    const inlineScript =
-      typeof ssrConfig === 'boolean' ? true : ssrConfig?.inlineScript !== false;
+    const inlineScript = getSSRInlineScript(ssrConfig);
 
     const useInlineScript = inlineScript !== false;
     const serializeSSRData = serializeJson(ssrData);
