@@ -29,6 +29,7 @@ import type {
 } from './types';
 
 export * from '../defineConfig';
+export { initAppContext };
 
 export type AppToolsOptions = {
   /**
@@ -38,20 +39,22 @@ export type AppToolsOptions = {
   bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
 
-export const appTools = (
-  options: AppToolsOptions = {
-    // default webpack to be compatible with original projects
-    bundler: 'webpack',
-  },
-): Plugin<
+export type AppToolsPlugin = Plugin<
   AppTools<'shared'>,
   InternalContext<
     AppToolsUserConfig<'shared'>,
     AppToolsNormalizedConfig,
     AppToolsExtendAPIName<'shared'>
   >
-> => ({
-  name: '@modern-js/plugin-app-tools',
+>;
+
+export const appTools = (
+  options: AppToolsOptions = {
+    // default webpack to be compatible with original projects
+    bundler: 'webpack',
+  },
+): AppToolsPlugin => ({
+  name: '@modern-js/app-tools',
   usePlugins: [compatPlugin(), oldAppTools(options) as any],
   post: ['@modern-js/app-tools-old'],
   registryHooks: {
