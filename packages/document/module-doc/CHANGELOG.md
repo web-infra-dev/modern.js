@@ -1,5 +1,11 @@
 # @modern-js/module-tools-docs
 
+## 2.62.0
+
+### Patch Changes
+
+- 02a2461: docs: add migration tip for Modern.js Module
+
 ## 2.61.0
 
 ## 2.60.6

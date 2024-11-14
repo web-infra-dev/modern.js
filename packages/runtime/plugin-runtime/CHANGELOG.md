@@ -1,5 +1,24 @@
 # @modern-js/runtime
 
+## 2.62.0
+
+### Minor Changes
+
+- ed32577: feat: stream ssr support inlineScript config
+  feat: Stream SSR 支持 inlineScript 配置
+
+### Patch Changes
+
+- 99469d6: feat: support script properties with Script
+
+  feat: 支持 script 原生属性
+
+  - @modern-js/plugin-data-loader@2.62.0
+  - @modern-js/plugin@2.62.0
+  - @modern-js/runtime-utils@2.62.0
+  - @modern-js/types@2.62.0
+  - @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes

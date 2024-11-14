@@ -1,5 +1,20 @@
 # @modern-js/module-tools
 
+## 2.62.0
+
+### Patch Changes
+
+- 38ec7f8: feat(module-tool): add resolve.tsConfig
+
+  feat(module-tool): 增加 resolve.tsConfig
+
+  - @modern-js/core@2.62.0
+  - @modern-js/plugin-changeset@2.62.0
+  - @modern-js/plugin-i18n@2.62.0
+  - @modern-js/plugin@2.62.0
+  - @modern-js/types@2.62.0
+  - @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes
