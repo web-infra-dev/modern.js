@@ -13,6 +13,8 @@ function validatePlugin(plugin: unknown) {
     );
   }
 
+  if (!(plugin as Plugin).setup) return;
+
   if (isFunction((plugin as Plugin).setup)) {
     return;
   }
@@ -110,6 +112,14 @@ export function createPluginManager(): PluginManager {
       }
       if (!visited.has(name)) {
         temp.add(name);
+        const { required = [] } = plugins.get(name)!;
+        required.forEach(dep => {
+          if (!plugins.get(dep)) {
+            throw new Error(
+              `${name} plugin required plugin ${dep}, but not found.`,
+            );
+          }
+        });
         const { pre } = dependencies.get(name)!;
         // Process 'pre' dependencies that are not 'use' plugins
         Array.from(pre.values())

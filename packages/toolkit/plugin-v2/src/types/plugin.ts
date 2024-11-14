@@ -38,6 +38,10 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
    * Declare the names of post-plugins, which will be executed after the current plugin.
    */
   post?: string[];
+  /**
+   * Declare the names of required plugins, which will check if the plugin is added.
+   */
+  required?: string[];
 };
 
 export type PluginManager = {
