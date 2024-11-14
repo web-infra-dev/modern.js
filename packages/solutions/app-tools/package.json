@@ -34,6 +34,11 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
+    "./cli/run": {
+      "types": "./dist/types/new/run.d.ts",
+      "jsnext:source": "./src/new/run.ts",
+      "default": "./dist/cjs/new/run.js"
+    },
     "./types": {
       "types": "./lib/types.d.ts",
       "jsnext:source": "./lib/types.d.ts",
@@ -57,6 +62,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "cli/run": [
+        "./dist/types/new/run.d.ts"
       ],
       "types": [
         "./lib/types.d.ts"

@@ -10,6 +10,7 @@ import { getIsAutoLoadPlugins } from './utils';
 
 export interface RunOptions {
   cwd?: string;
+  packageJsonConfig?: string;
   internalPlugins?: {
     cli?: InternalPlugins;
     autoLoad?: InternalPlugins;
@@ -22,6 +23,7 @@ export async function run({
   version,
   internalPlugins,
   forceAutoLoadPlugins,
+  packageJsonConfig,
 }: RunOptions) {
   const command = process.argv[2];
 
@@ -70,7 +72,7 @@ export async function run({
     cwd,
     initialLog: `Modern.js Framework v${version}`,
     configFile: customConfigFile || getConfigFile(),
-    packageJsonConfig: PACKAGE_JSON_CONFIG_NAME,
+    packageJsonConfig: packageJsonConfig || PACKAGE_JSON_CONFIG_NAME,
     internalPlugins: plugins,
     handleSetupResult,
   });
