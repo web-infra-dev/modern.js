@@ -65,6 +65,7 @@ const universalBuildConfig = [
     outDir: './dist/cjs',
     externalHelpers,
     transformLodash,
+    sourceMap: true,
   },
   {
     buildType: 'bundleless',
@@ -74,6 +75,7 @@ const universalBuildConfig = [
     outDir: './dist/esm',
     externalHelpers,
     transformLodash,
+    sourceMap: true,
   },
   {
     buildType: 'bundleless',
@@ -83,6 +85,7 @@ const universalBuildConfig = [
     outDir: './dist/esm-node',
     externalHelpers,
     transformLodash,
+    sourceMap: true,
   },
   skipDts
     ? null

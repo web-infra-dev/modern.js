@@ -28,6 +28,7 @@ export const getTemplates = async (
     beforeAppTemplate,
     options,
   );
+  console.info('builtBeforeTemplate', builtBeforeTemplate);
 
   const builtAfterTemplate = await buildShellAfterTemplate(
     afterAppHtmlTemplate,

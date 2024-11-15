@@ -2,6 +2,7 @@ import { loadableReady } from '@loadable/component';
 import { normalizePathname } from '@modern-js/runtime-utils/url';
 import type React from 'react';
 import type { Root } from 'react-dom/client';
+import { HelmetProvider } from 'react-helmet-async';
 import { RenderLevel } from '../constants';
 import type { RuntimeContext } from '../context';
 import { wrapRuntimeContextProvider } from '../react/wrapper';
@@ -55,17 +56,24 @@ export function hydrateRoot(
   const renderMode = window?._SSR_DATA?.mode || 'string';
 
   if (isReact18() && renderMode === 'stream') {
+    console.info('streamSSRHydrate');
     return streamSSRHydrate();
   }
 
   function streamSSRHydrate() {
+    console.info('renderLevel', renderLevel);
     if (renderLevel === RenderLevel.SERVER_RENDER) {
       // callback: https://github.com/reactwg/react-18/discussions/5
       const SSRApp: React.FC = () => (
         <WithCallback callback={callback}>{App}</WithCallback>
       );
       return ModernHydrate(
-        wrapRuntimeContextProvider(<SSRApp />, hydrateContext),
+        wrapRuntimeContextProvider(
+          // <HelmetProvider>
+          <SSRApp />,
+          // </HelmetProvider>,
+          hydrateContext,
+        ),
       );
     } else {
       return ModernRender(wrapRuntimeContextProvider(App, context));

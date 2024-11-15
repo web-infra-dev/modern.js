@@ -55,7 +55,9 @@ async function processCache({
     const push = () =>
       reader.read().then(({ done, value }) => {
         if (done) {
+          console.info('html output:', html);
           const match = ZERO_RENDER_LEVEL.test(html) || NO_SSR_CACHE.test(html);
+          console.info('match result:', match);
           // case 1: We should not cache the html, if we can match the html is downgrading.
           // case 2: We should not cache the html, if the user's code contains <NoSSRCache>.
           if (match) {
