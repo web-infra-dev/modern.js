@@ -7,13 +7,7 @@ export default applyBaseConfig({
   server: {
     ssr: {
       mode: 'stream',
-      disablePrerender: true,
-      unsafeHeaders: ['Host'],
-    },
-  },
-  tools: {
-    bundlerChain(chain) {
-      chain.output.chunkLoadingGlobal('hello xxx');
+      inlineScript: false,
     },
   },
 });

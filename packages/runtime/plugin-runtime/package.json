@@ -106,6 +106,11 @@
       "jsnext:source": "./src/router/index.ts",
       "default": "./dist/esm/router/index.js"
     },
+    "./helmet": {
+      "types": "./dist/types/helmet/index.d.ts",
+      "jsnext:source": "./src/helmet/index.ts",
+      "default": "./dist/esm/helmet/index.js"
+    },
     "./router/server": {
       "types": "./dist/types/router/runtime/server.d.ts",
       "jsnext:source": "./src/router/runtime/server.ts",
@@ -179,7 +184,7 @@
     "dev": "modern-lib build --watch",
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build && pnpm run gen-static",
+    "build": "modern-lib build",
     "gen-static": "ts-node ./scripts/gen-static.ts",
     "test": "jest"
   },
@@ -204,6 +209,7 @@
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",
     "@types/styled-components": "^5.1.14",
+    "react-helmet-async": "^2.0.5",
     "cookie": "0.7.2",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",

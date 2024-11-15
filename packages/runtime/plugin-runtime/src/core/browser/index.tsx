@@ -136,14 +136,17 @@ export async function render(
       App: React.ReactElement,
       callback?: () => void,
     ) {
+      console.info('IS_REACT18', IS_REACT18);
       const hydrateFunc = IS_REACT18 ? hydrateWithReact18 : hydrateWithReact17;
       return hydrateFunc(App, rootElement, callback);
     }
-
+    console.info('render');
     // we should hydateRoot only when ssr
     if (ssrData) {
+      console.info('hydrateRoot');
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
+    console.info('ModernRender');
     return ModernRender(wrapRuntimeContextProvider(App, context));
   }
   throw Error(

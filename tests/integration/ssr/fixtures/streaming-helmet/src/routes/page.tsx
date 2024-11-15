@@ -1,0 +1,18 @@
+import { Helmet } from '@modern-js/runtime/head';
+import { NoSSRCache } from '@modern-js/runtime/ssr';
+
+const Index = (): JSX.Element => (
+  <div className="container-box">
+    <Helmet>
+      <link
+        rel="icon"
+        type="image/x-icon"
+        href="https://lf3-static.bytednsdoc.com/obj/eden-cn/upspbovhj/edenx-ico.ico"
+      />
+    </Helmet>
+    11
+    <NoSSRCache />
+  </div>
+);
+
+export default Index;

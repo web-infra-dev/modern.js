@@ -5,6 +5,7 @@ export const NoSSRCache = () => {
   return (
     <Helmet>
       <meta name="no-ssr-cache" />
+      <meta name="no-custom" />
     </Helmet>
   );
 };

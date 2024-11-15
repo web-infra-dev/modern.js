@@ -1,6 +1,7 @@
 // 用于 react-helmet 正则替换
 import { EOL } from 'os';
-import type { HelmetData } from 'react-helmet';
+import type { HelmetServerState } from 'react-helmet-async';
+import { helmetContext } from '../helmetContext';
 import { safeReplace } from './utils';
 
 const RE_HTML_ATTR = /<html[^>]*>/;
@@ -10,14 +11,15 @@ const RE_TITLE = /<title[^>]*>([\s\S\n\r]*?)<\/title>/;
 const TEST_TITLE_CONTENT =
   /(?<=<title[^>]*>)([\s\S\n\r]*?)([.|\S])([\s\S\n\r]*?)(?=<\/title>)/;
 
-export function createReplaceHelemt(helmetData?: HelmetData) {
-  return helmetData
-    ? (template: string) => helmetReplace(template, helmetData)
+export function createReplaceHelemt() {
+  return helmetContext.helmet
+    ? (template: string) => helmetReplace(template, helmetContext.helmet!)
     : (tempalte: string) => tempalte;
 }
 
 // 通过 react-helmet 修改模板
-export function helmetReplace(content: string, helmetData: HelmetData) {
+export function helmetReplace(content: string, helmetData: HelmetServerState) {
+  console.info('call helmetReplace');
   let result = content;
   const bodyAttributes = helmetData.bodyAttributes.toString();
   if (bodyAttributes) {
@@ -32,6 +34,7 @@ export function helmetReplace(content: string, helmetData: HelmetData) {
   const base = helmetData.base.toString();
   const link = helmetData.link.toString();
   const meta = helmetData.meta.toString();
+  console.info('helmetData:', meta);
   const noscript = helmetData.noscript.toString();
   const script = helmetData.script.toString();
   const style = helmetData.style.toString();

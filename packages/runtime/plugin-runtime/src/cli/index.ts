@@ -6,6 +6,7 @@ import {
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import { documentPlugin } from '../document/cli';
+import { helmetPlugin } from '../helmet/cli';
 import { routerPlugin } from '../router/cli';
 import { statePlugin } from '../state/cli';
 import { builderPluginAlias } from './alias';
@@ -26,6 +27,7 @@ export const runtimePlugin = (params?: {
     '@modern-js/plugin-router',
     '@modern-js/plugin-document',
     '@modern-js/plugin-design-token',
+    '@modern-js/plugin-helmet',
   ],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
   usePlugins: params?.plugins || [
@@ -33,8 +35,10 @@ export const runtimePlugin = (params?: {
     routerPlugin(),
     statePlugin(),
     documentPlugin(),
+    helmetPlugin(),
   ],
   setup: api => {
+    console.info('fuck fuck');
     return {
       checkEntryPoint({ path, entry }) {
         return { path, entry: entry || isRuntimeEntry(path) };

@@ -158,7 +158,7 @@ async function generateHtml(
     createReplaceChunkJs(jsChunk),
     createReplaceChunkCss(cssChunk),
     createReplaceSSRDataScript(ssrScripts),
-    createReplaceHelemt(helmetData),
+    createReplaceHelemt(),
     ...htmlModifiers,
   ]);
 
