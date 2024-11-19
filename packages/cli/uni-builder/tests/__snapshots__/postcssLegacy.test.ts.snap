@@ -200,6 +200,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
         "options": {
           "api": "modern-compiler",
           "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+          "sassOptions": {
+            "quietDeps": true,
+          },
           "sourceMap": true,
         },
       },
@@ -469,6 +472,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
         "options": {
           "api": "modern-compiler",
           "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+          "sassOptions": {
+            "quietDeps": true,
+          },
           "sourceMap": true,
         },
       },

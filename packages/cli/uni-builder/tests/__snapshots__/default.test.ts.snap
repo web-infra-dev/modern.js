@@ -490,6 +490,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -1394,6 +1397,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -2275,6 +2281,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -3177,6 +3186,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -4161,6 +4173,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -4717,6 +4732,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
+      "prettyTime": [Function],
       "profile": false,
       "showActiveModules": false,
       "showDependencies": true,
@@ -5404,6 +5420,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -6066,6 +6085,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
+      "prettyTime": [Function],
       "profile": false,
       "showActiveModules": false,
       "showDependencies": true,
