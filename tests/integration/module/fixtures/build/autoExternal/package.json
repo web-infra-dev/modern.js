@@ -8,7 +8,7 @@
     "react": "^18.3.1"
   },
   "peerDependencies": {
-    "postcss": "8.4.47"
+    "postcss": "8.4.49"
   },
   "private": true
 }
