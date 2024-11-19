@@ -110,7 +110,7 @@ export function createPluginManager(): PluginManager {
       if (temp.has(name)) {
         throw new Error(`Circular dependency detected: ${name}`);
       }
-      if (!visited.has(name)) {
+      if (!visited.has(name) && plugins.get(name)) {
         temp.add(name);
         const { required = [] } = plugins.get(name)!;
         required.forEach(dep => {

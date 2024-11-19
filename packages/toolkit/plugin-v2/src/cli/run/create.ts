@@ -134,6 +134,9 @@ export const createCli = <
 
     await context.hooks.onPrepare.call();
 
+    // compat old modernjs hook
+    await (context.hooks as any)?.onAfterPrepare.call();
+
     return { appContext: context };
   }
   async function run(options: CLIRunOptions<Config>) {
