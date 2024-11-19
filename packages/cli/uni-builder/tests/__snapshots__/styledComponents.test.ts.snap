@@ -433,7 +433,7 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
         "options": {
           "cwd": "",
           "env": {
-            "coreJs": "3.38",
+            "coreJs": "3.39",
             "mode": "entry",
             "targets": [
               "> 0.01%",

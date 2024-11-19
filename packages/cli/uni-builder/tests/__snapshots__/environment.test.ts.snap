@@ -491,6 +491,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
@@ -1370,6 +1373,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
@@ -2079,6 +2085,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
