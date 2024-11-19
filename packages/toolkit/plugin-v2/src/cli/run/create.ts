@@ -2,6 +2,7 @@ import { logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
 import type { Plugin } from '../../types/plugin';
+import type { DeepPartial } from '../../types/utils';
 import { initPluginAPI } from '../api';
 import { createContext, initAppContext } from '../context';
 import { createLoadedConfig } from './config/createLoadedConfig';
@@ -18,9 +19,11 @@ export const createCli = <
   NormalizedConfig,
   ExtendsHooksKey extends string,
 >() => {
+  let initOptions: CLIRunOptions<Config>;
   const pluginManager = createPluginManager();
 
   async function init(options: CLIRunOptions<Config>) {
+    initOptions = options;
     const {
       metaName = 'MODERN',
       configFile,
@@ -123,7 +126,7 @@ export const createCli = <
     const normalizedConfig = await createResolveConfig<
       Config,
       NormalizedConfig
-    >(loaded, extraConfigs);
+    >(loaded, extraConfigs as DeepPartial<Config>[]);
 
     const resolved =
       await context.hooks.modifyResolvedConfig.call(normalizedConfig);
@@ -155,5 +158,6 @@ export const createCli = <
   return {
     init,
     run,
+    getPrevInitOptions: () => initOptions,
   };
 };

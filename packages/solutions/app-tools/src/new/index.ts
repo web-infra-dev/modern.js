@@ -1,6 +1,6 @@
-import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
 import { createAsyncHook } from '@modern-js/plugin-v2';
-import { appTools as oldAppTools } from '../old';
+import type { InternalContext, Plugin } from '@modern-js/plugin-v2/types';
+import { type AppToolsOptions, appTools as oldAppTools } from '../old';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
 import { compatPlugin } from './compat';
 import {
@@ -30,14 +30,6 @@ import type {
 
 export * from '../defineConfig';
 export { initAppContext };
-
-export type AppToolsOptions = {
-  /**
-   * Specify which bundler to use for the build.
-   * @default `webpack`
-   * */
-  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
-};
 
 export type AppToolsPlugin = Plugin<
   AppTools<'shared'>,

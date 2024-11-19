@@ -39,10 +39,7 @@ export function initPluginAPI<
   }
 
   function getHooks() {
-    return {
-      ...context.hooks,
-      ...context.extendsHooks,
-    };
+    return context.hooks;
   }
 
   const extendsPluginApi: Record<

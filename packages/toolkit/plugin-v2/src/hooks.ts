@@ -1,4 +1,5 @@
 import type { AsyncHook, CollectAsyncHook } from './types/hooks';
+import type { UnwrapPromise } from './types/utils';
 
 export function createAsyncHook<
   Callback extends (...args: any[]) => any,
@@ -28,7 +29,7 @@ export function createAsyncHook<
 }
 
 export function createCollectAsyncHook<
-  Callback extends (...args: any[]) => any,
+  Callback extends () => any,
 >(): CollectAsyncHook<Callback> {
   const callbacks: Callback[] = [];
 
@@ -36,13 +37,12 @@ export function createCollectAsyncHook<
     callbacks.push(cb);
   };
 
-  const call = async (...params: Parameters<Callback>) => {
-    const results: ReturnType<Callback>[] = [];
+  const call = async () => {
+    const results: UnwrapPromise<ReturnType<Callback>>[] = [];
     for (const callback of callbacks) {
-      const result = await callback(...params);
+      const result = await callback();
 
       if (result !== undefined) {
-        params[0] = result;
         results.push(result);
       }
     }

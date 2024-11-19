@@ -2,6 +2,11 @@ import type { Command } from '@modern-js/utils/commander';
 import type { TransformFunction } from '../plugin';
 import type { Entrypoint } from './context';
 
+declare module '@modern-js/utils/commander' {
+  export interface Command {
+    commandsMap: Map<string, Command>;
+  }
+}
 export type ConfigFn<Config> = () => Config;
 
 export type ModifyConfigFn<Config> = TransformFunction<Config>;
@@ -28,9 +33,12 @@ export type AddCommandFn = (params: { program: Command }) => void;
 
 export type OnPrepareFn = () => Promise<void> | void;
 
-export type AddWatchFilesFn = () =>
+type WatchFilesReturnType =
   | Array<string>
   | { files: string[]; isPrivate: boolean };
+export type AddWatchFilesFn = () =>
+  | WatchFilesReturnType
+  | Promise<WatchFilesReturnType>;
 
 export type OnFileChangedFn = (params: {
   filename: string;
@@ -46,8 +54,12 @@ export type OnAfterDevFn = (params: {
   isFirstCompile: boolean;
 }) => Promise<void> | void;
 
-export type OnBeforeDeployFn = () => Promise<void> | void;
+export type OnBeforeDeployFn = (
+  options: Record<string, any>,
+) => Promise<void> | void;
 
-export type OnAfterDeployFn = () => Promise<void> | void;
+export type OnAfterDeployFn = (
+  options: Record<string, any>,
+) => Promise<void> | void;
 
 export type OnBeforeExitFn = () => void;

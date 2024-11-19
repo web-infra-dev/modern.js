@@ -1,11 +1,13 @@
+import type { UnwrapPromise } from './utils';
+
 export type AsyncHook<Callback extends (...args: any[]) => any> = {
   tap: (cb: Callback) => void;
   call: (...args: Parameters<Callback>) => Promise<Parameters<Callback>>;
 };
 
-export type CollectAsyncHook<Callback extends (...args: any[]) => any> = {
+export type CollectAsyncHook<Callback extends () => any> = {
   tap: (cb: Callback) => void;
-  call: (...args: Parameters<Callback>) => Promise<ReturnType<Callback>[]>;
+  call: () => Promise<UnwrapPromise<ReturnType<Callback>>[]>;
 };
 
 export type PluginHook<Callback extends (...args: any[]) => any> =

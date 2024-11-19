@@ -1,10 +1,10 @@
 import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
+import type { AppContext } from '@modern-js/plugin-v2/types';
 import type {
   CLIPluginAPI,
   PluginHookTap,
   TransformFunction,
-} from '@modern-js/plugin-v2';
-import type { AppContext } from '@modern-js/plugin-v2/dist/types';
+} from '@modern-js/plugin-v2/types';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -57,7 +57,7 @@ export type RegisterBuildPlatformFn = () =>
   | RegisterBuildPlatformResult;
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
-export interface AppToolsExtendAPI<B extends Bundler> {
+interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   onBeforeConfig: PluginHookTap<BeforeConfigFn>;
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
@@ -110,12 +110,12 @@ export interface AppToolsExtendAPI<B extends Bundler> {
    */
   useHookRunners: () => ReturnType<typeof getHookRunners>;
 }
-export interface AppTools<B extends Bundler>
+export interface AppTools<B extends Bundler = 'webpack'>
   extends CLIPluginAPI<
       AppToolsUserConfig<B>,
       AppToolsNormalizedConfig<AppToolsUserConfig<B>>
     >,
     AppToolsExtendAPI<B> {}
 
-export type AppToolsExtendAPIName<B extends Bundler> =
+export type AppToolsExtendAPIName<B extends Bundler = 'webpack'> =
   keyof AppToolsExtendAPI<B> & string;

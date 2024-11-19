@@ -15,7 +15,7 @@ import analyzePlugin from './plugins/analyze';
 import deployPlugin from './plugins/deploy';
 import initializePlugin from './plugins/initialize';
 import serverBuildPlugin from './plugins/serverBuild';
-import type { AppTools } from './types';
+import type { AppTools, AppToolsOptions } from './types';
 
 import {
   buildCommand,
@@ -38,13 +38,6 @@ export * from './types';
 
 export type { RuntimeUserConfig } from './types/config';
 
-export type AppToolsOptions = {
-  /**
-   * Specify which bundler to use for the build.
-   * @default `webpack`
-   * */
-  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
-};
 /**
  * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
  */

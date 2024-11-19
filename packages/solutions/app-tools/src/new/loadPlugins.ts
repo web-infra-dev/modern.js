@@ -1,4 +1,4 @@
-import type { Plugin } from '@modern-js/plugin-v2';
+import type { Plugin } from '@modern-js/plugin-v2/types';
 import type { InternalPlugins } from '@modern-js/types';
 import {
   compatibleRequire,
@@ -44,10 +44,9 @@ export const loadInternalPlugins = async (
   internalPlugins?: InternalPlugins,
   autoLoad?: InternalPlugins,
   autoLoadPlugins?: boolean, // user config auto load plugins
-  forceAutoLoadPlugins?: boolean,
 ) => {
   const plugins = [
-    ...(forceAutoLoadPlugins || autoLoadPlugins
+    ...(autoLoadPlugins
       ? getInternalPlugins(appDirectory, internalPlugins)
       : []),
     ...(autoLoad ? getInternalPlugins(appDirectory, autoLoad) : []),

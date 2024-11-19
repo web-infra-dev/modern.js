@@ -57,3 +57,11 @@ export type AppUserConfig<B extends Bundler = 'webpack'> = UserConfig<
   AppTools<B>
 >;
 export type AppLegacyUserConfig = UserConfig<LegacyAppTools>;
+
+export type AppToolsOptions = {
+  /**
+   * Specify which bundler to use for the build.
+   * @default `webpack`
+   * */
+  bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
+};

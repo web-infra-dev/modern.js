@@ -16,14 +16,14 @@ export interface RunOptions {
     cli?: InternalPlugins;
     autoLoad?: InternalPlugins;
   };
-  forceAutoLoadPlugins?: boolean;
+  initialLog?: string;
   version: string;
 }
 export async function run({
   cwd,
+  initialLog,
   version,
   internalPlugins,
-  forceAutoLoadPlugins,
   packageJsonConfig,
   configFile,
 }: RunOptions) {
@@ -58,22 +58,22 @@ export async function run({
   }
 
   const appDirectory = await initAppDir(cwd);
+  const finalConfigFile = customConfigFile || getConfigFile(configFile);
   const autoLoadPlugins = await getIsAutoLoadPlugins(
     appDirectory,
-    customConfigFile || getConfigFile(configFile),
+    finalConfigFile,
   );
   const plugins = await loadInternalPlugins(
     appDirectory,
     internalPlugins?.cli,
     internalPlugins?.autoLoad,
     autoLoadPlugins,
-    forceAutoLoadPlugins,
   );
 
   await CLIPluginRun({
     cwd,
-    initialLog: `Modern.js Framework v${version}`,
-    configFile: customConfigFile || getConfigFile(configFile),
+    initialLog: initialLog || `Modern.js Framework v${version}`,
+    configFile: finalConfigFile,
     packageJsonConfig: packageJsonConfig || PACKAGE_JSON_CONFIG_NAME,
     internalPlugins: plugins,
     handleSetupResult,

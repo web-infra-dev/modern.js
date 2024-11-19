@@ -3,5 +3,16 @@ export type {
   PluginManager,
   TransformFunction,
 } from './plugin';
-export * from './cli';
-export * from './hooks';
+export type {
+  CLIPluginAPI,
+  AppContext,
+  InternalContext,
+  Entrypoint,
+  CLIPlugin,
+} from './cli';
+export type {
+  AsyncHook,
+  CollectAsyncHook,
+  PluginHook,
+  PluginHookTap,
+} from './hooks';

@@ -1,4 +1,4 @@
-import type { InternalContext, Plugin } from '@modern-js/plugin-v2';
+import type { InternalContext, Plugin } from '@modern-js/plugin-v2/types';
 import type {
   AppToolsNormalizedConfig,
   AppToolsUserConfig,
