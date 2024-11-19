@@ -29,7 +29,7 @@ function createEnhancedResolve(options: ResolverOptions): {
   }
   const resolveOptions = {
     aliasFields: options.platform === 'browser' ? ['browser'] : [],
-    FileSystem: new CachedInputFileSystem(fs, 4000),
+    FileSystem: new CachedInputFileSystem(fs as any, 4000),
     mainFields: options.mainFields,
     mainFiles: ['index'],
     extensions: options.extensions,
