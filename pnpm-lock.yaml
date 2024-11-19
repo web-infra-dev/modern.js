@@ -6072,8 +6072,8 @@ importers:
         specifier: 1.0.1
         version: 1.0.1
       postcss:
-        specifier: 8.4.47
-        version: 8.4.47
+        specifier: 8.4.49
+        version: 8.4.49
     devDependencies:
       react:
         specifier: ^18.3.1
@@ -26504,7 +26504,7 @@ snapshots:
       '@rsbuild/core': 1.0.19
       deepmerge: 4.3.1
       loader-utils: 2.0.4
-      postcss: 8.4.47
+      postcss: 8.4.49
       reduce-configs: 1.0.0
       sass-embedded: 1.81.0
 
