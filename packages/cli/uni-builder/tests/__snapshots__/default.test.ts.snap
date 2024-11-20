@@ -31,6 +31,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -119,6 +122,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -1057,6 +1063,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1085,6 +1094,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -1823,6 +1835,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1911,6 +1926,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -2862,6 +2880,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2890,6 +2911,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -3626,6 +3650,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -3714,6 +3741,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -4868,6 +4898,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -4956,6 +4989,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [

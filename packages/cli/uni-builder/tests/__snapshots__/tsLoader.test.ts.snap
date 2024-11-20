@@ -9,6 +9,9 @@ exports[`plugin-ts-loader > should insert babel plugin correctly in some edge ca
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [

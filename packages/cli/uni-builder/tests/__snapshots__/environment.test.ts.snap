@@ -32,6 +32,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -120,6 +123,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [
@@ -1033,6 +1039,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1061,6 +1070,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [
@@ -1761,6 +1773,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1789,6 +1804,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [

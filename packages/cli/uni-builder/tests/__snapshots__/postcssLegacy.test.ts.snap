@@ -3,6 +3,9 @@
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 1`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "resolve": {
       "preferRelative": true,
     },
@@ -323,6 +326,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
 exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "resolve": {
       "preferRelative": true,
     },

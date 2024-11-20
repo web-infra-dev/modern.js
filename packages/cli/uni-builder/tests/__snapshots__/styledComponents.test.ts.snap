@@ -9,6 +9,9 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -151,6 +154,9 @@ exports[`plugins/styled-components > should enable ssr when target contain node 
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -272,6 +278,9 @@ exports[`plugins/styled-components > should works in webpack babel mode 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -414,6 +423,9 @@ exports[`plugins/styled-components > should works in webpack swc mode 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
