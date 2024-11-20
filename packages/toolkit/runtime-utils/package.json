@@ -48,6 +48,12 @@
       "require": "./dist/cjs/node/router.js",
       "default": "./dist/esm/node/router.js"
     },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
+      "require": "./dist/cjs/server/index.js",
+      "default": "./dist/esm/server/index.js"
+    },
     "./time": {
       "types": "./dist/types/time.d.ts",
       "jsnext:source": "./src/time.ts",
@@ -118,6 +124,11 @@
         "require": "./dist/cjs/node/index.js",
         "default": "./dist/esm/node/index.js"
       },
+      "./server": {
+        "types": "./dist/types/server/index.d.ts",
+        "require": "./dist/cjs/server/index.js",
+        "default": "./dist/esm/server/index.js"
+      },
       "./node/router": {
         "types": "./dist/types/node/router.d.ts",
         "require": "./dist/cjs/node/router.js",
@@ -173,6 +184,9 @@
       ],
       "node": [
         "./dist/types/node/index.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
       ],
       "node/router": [
         "./dist/types/node/router.d.ts"
