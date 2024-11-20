@@ -1,6 +1,5 @@
-import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
 import { logger } from '@modern-js/utils';
-import type { AppTools } from '../types';
+import type { AppTools } from '../new/types';
 import { buildServerConfig } from '../utils/config';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { registerCompiler } from '../utils/register';
@@ -8,7 +7,7 @@ import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
 export const build = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  api: AppTools<'shared'>,
   options?: BuildOptions,
 ) => {
   if (options?.analyze) {
@@ -16,9 +15,9 @@ export const build = async (
     process.env.BUNDLE_ANALYZE = 'true';
   }
 
-  let resolvedConfig = api.useResolvedConfigContext();
-  const appContext = api.useAppContext();
-  const hookRunners = api.useHookRunners();
+  const resolvedConfig = api.getNormalizedConfig();
+  const appContext = api.getAppContext();
+  const hooks = api.getHooks();
 
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
@@ -34,7 +33,7 @@ export const build = async (
 
   await registerCompiler(
     appContext.appDirectory,
-    appContext.distDirectory,
+    appContext.distDirectory!,
     resolvedConfig?.source?.alias,
   );
 
@@ -42,20 +41,20 @@ export const build = async (
 
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;
-    await hookRunners.beforeBuild({
+    await hooks.onBeforeBuild.call({
       // "null" bundlerConfigs
       bundlerConfigs: undefined,
     });
 
     await buildServerConfig({
       appDirectory,
-      distDirectory,
+      distDirectory: distDirectory!,
       configFile: serverConfigFile,
     });
 
     await generateRoutes(appContext);
 
-    await hookRunners.afterBuild({
+    await hooks.onAfterBuild.call({
       // "null" stats
       stats: undefined,
     });
@@ -63,14 +62,18 @@ export const build = async (
     return;
   }
 
-  resolvedConfig = { ...resolvedConfig, cliOptions: options };
-  ResolvedConfigContext.set(resolvedConfig);
+  api.modifyResolvedConfig(_config => {
+    return {
+      ..._config,
+      cliOptions: options,
+    };
+  });
 
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
 
   await buildServerConfig({
     appDirectory,
-    distDirectory,
+    distDirectory: distDirectory!,
     configFile: serverConfigFile,
   });
 

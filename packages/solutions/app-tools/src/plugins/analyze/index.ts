@@ -1,5 +1,5 @@
 import * as path from 'path';
-import type { CliPlugin } from '@modern-js/core';
+import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import {
   fs,
   createDebugger,
@@ -10,7 +10,8 @@ import {
 } from '@modern-js/utils';
 import { createBuilderGenerator } from '../../builder';
 import { initialNormalizedConfig } from '../../config';
-import type { AppTools, webpack } from '../../types';
+import type { AppToolsPlugin } from '../../new';
+import type { AppNormalizedConfig, webpack } from '../../types';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
 import { printInstructions } from '../../utils/printInstructions';
@@ -23,201 +24,193 @@ export default ({
   bundler,
 }: {
   bundler: 'webpack' | 'rspack';
-}): CliPlugin<AppTools<'shared'>> => ({
+}): AppToolsPlugin => ({
   name: '@modern-js/plugin-analyze',
   post: ['@modern-js/runtime'],
   setup: api => {
     let pagesDir: string[] = [];
     let nestedRouteEntries: string[] = [];
 
-    return {
-      async prepare() {
-        let appContext = api.useAppContext();
-        const resolvedConfig = api.useResolvedConfigContext();
-        const hookRunners = api.useHookRunners();
+    api.onPrepare(async () => {
+      const appContext = api.getAppContext();
+      const resolvedConfig = api.getNormalizedConfig();
+      const hooks = api.getHooks();
 
-        try {
-          if (checkIsBuildCommands()) {
-            fs.emptydirSync(appContext.internalDirectory);
-          }
-        } catch {
-          // FIXME:
+      try {
+        if (checkIsBuildCommands()) {
+          fs.emptydirSync(appContext.internalDirectory);
         }
+      } catch {
+        // FIXME:
+      }
 
-        const apiOnly = await isApiOnly(
-          appContext.appDirectory,
-          resolvedConfig.source?.entriesDir,
-          appContext.apiDirectory,
-        );
-        await hookRunners.addRuntimeExports();
+      const apiOnly = await isApiOnly(
+        appContext.appDirectory,
+        resolvedConfig.source?.entriesDir,
+        appContext.apiDirectory,
+      );
+      await hooks.addRuntimeExports.call();
 
-        if (apiOnly) {
-          const { routes } = await hookRunners.modifyServerRoutes({
-            routes: [],
-          });
-
-          debug(`server routes: %o`, routes);
-
-          appContext = {
-            ...api.useAppContext(),
-            apiOnly,
-            serverRoutes: routes,
-          };
-          api.setAppContext(appContext);
-          return;
-        }
-
-        const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
-          await Promise.all([
-            import('./getBundleEntry.js'),
-            import('./getServerRoutes.js'),
-            import('./getHtmlTemplate.js'),
-          ]);
-
-        // get runtime entry points
-        const { entrypoints } = await hookRunners.modifyEntrypoints({
-          entrypoints: await getBundleEntry(
-            hookRunners,
-            appContext,
-            resolvedConfig,
-          ),
-        });
-
-        debug(`entrypoints: %o`, entrypoints);
-
-        const initialRoutes = getServerRoutes(entrypoints, {
-          appContext,
-          config: resolvedConfig,
-        });
-
-        const { routes } = await hookRunners.modifyServerRoutes({
-          routes: initialRoutes,
-        });
+      if (apiOnly) {
+        const { routes } = (await hooks.modifyServerRoutes.call({
+          routes: [],
+        })) as any as { routes: ServerRoute[] };
 
         debug(`server routes: %o`, routes);
 
-        appContext = {
-          ...api.useAppContext(),
-          entrypoints,
-          serverRoutes: routes,
-        };
-        api.setAppContext(appContext);
+        api.updateAppContext({ apiOnly, serverRoutes: routes });
+        return;
+      }
 
-        nestedRouteEntries = entrypoints
-          .map(point => point.nestedRoutesEntry)
-          .filter(Boolean) as string[];
+      const [{ getBundleEntry }, { getServerRoutes }, { getHtmlTemplate }] =
+        await Promise.all([
+          import('./getBundleEntry.js'),
+          import('./getServerRoutes.js'),
+          import('./getHtmlTemplate.js'),
+        ]);
 
-        pagesDir = entrypoints
-          .map(point => point.entry)
-          // should only watch file-based routes
-          .filter(entry => entry && !path.extname(entry))
-          .concat(nestedRouteEntries);
-
-        const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
+      // get runtime entry points
+      const { entrypoints } = (await hooks.modifyEntrypoints.call({
+        entrypoints: await getBundleEntry(
+          api,
           appContext,
-          config: resolvedConfig,
+          resolvedConfig as any,
+        ),
+      })) as any as { entrypoints: Entrypoint[] };
+
+      console.log('===entrypoints', entrypoints);
+
+      debug(`entrypoints: %o`, entrypoints);
+
+      const initialRoutes = getServerRoutes(entrypoints, {
+        appContext,
+        config: resolvedConfig as any,
+      });
+
+      const { routes } = (await hooks.modifyServerRoutes.call({
+        routes: initialRoutes,
+      })) as any;
+
+      debug(`server routes: %o`, routes);
+
+      api.updateAppContext({
+        entrypoints,
+        serverRoutes: routes,
+      });
+
+      nestedRouteEntries = entrypoints
+        .map(point => point.nestedRoutesEntry)
+        .filter(Boolean) as string[];
+
+      pagesDir = entrypoints
+        .map(point => point.entry)
+        // should only watch file-based routes
+        .filter(entry => entry && !path.extname(entry))
+        .concat(nestedRouteEntries);
+
+      const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
+        appContext,
+        config: resolvedConfig as any,
+      });
+
+      debug(`html templates: %o`, htmlTemplates);
+
+      let checkedEntries = entrypoints.map(point => point.entryName);
+      if (isDevCommand()) {
+        const { entry } = minimist(getArgv());
+        checkedEntries = await getSelectedEntries(
+          typeof entry === 'string' ? entry.split(',') : entry,
+          entrypoints,
+        );
+      }
+
+      api.updateAppContext({
+        entrypoints,
+        checkedEntries,
+        apiOnly,
+        serverRoutes: routes,
+        htmlTemplates,
+      });
+
+      if (checkIsBuildCommands()) {
+        await hooks.generateEntryCode.call({ entrypoints });
+
+        const normalizedConfig = api.getNormalizedConfig();
+        const createBuilderForModern = await createBuilderGenerator(bundler);
+        const builder = await createBuilderForModern({
+          normalizedConfig: normalizedConfig as any,
+          appContext: appContext as any,
         });
 
-        debug(`html templates: %o`, htmlTemplates);
+        builder.onBeforeBuild(async ({ bundlerConfigs, isFirstCompile }) => {
+          if (!isFirstCompile) {
+            return;
+          }
+          const hooks = api.getHooks();
+          await generateRoutes(appContext as any);
+          await hooks.onBeforeBuild.call({
+            bundlerConfigs:
+              bundlerConfigs as unknown as webpack.Configuration[],
+          });
+        });
 
-        let checkedEntries = entrypoints.map(point => point.entryName);
-        if (isDevCommand()) {
-          const { entry } = minimist(getArgv());
-          checkedEntries = await getSelectedEntries(
-            typeof entry === 'string' ? entry.split(',') : entry,
-            entrypoints,
+        builder.onAfterBuild(async ({ stats }) => {
+          const hooks = api.getHooks();
+          hooks.onAfterBuild.call({ stats });
+          await emitResolvedConfig(
+            appContext.appDirectory,
+            normalizedConfig as any,
           );
-        }
+        });
 
-        appContext = {
-          ...api.useAppContext(),
-          entrypoints,
-          checkedEntries,
-          apiOnly,
-          serverRoutes: routes,
-          htmlTemplates,
-        };
+        builder.onDevCompileDone(async ({ isFirstCompile }) => {
+          const hooks = api.getHooks();
+          hooks.onAfterDev.call({ isFirstCompile });
 
-        api.setAppContext(appContext);
+          if (isFirstCompile) {
+            printInstructions(api, appContext, normalizedConfig);
+          }
+        });
 
-        if (checkIsBuildCommands()) {
-          await hookRunners.generateEntryCode({ entrypoints });
-
-          const normalizedConfig = api.useResolvedConfigContext();
-          const createBuilderForModern = await createBuilderGenerator(bundler);
-          const builder = await createBuilderForModern({
-            normalizedConfig: normalizedConfig as any,
-            appContext,
-          });
-
-          builder.onBeforeBuild(async ({ bundlerConfigs, isFirstCompile }) => {
-            if (!isFirstCompile) {
-              return;
-            }
-            const hookRunners = api.useHookRunners();
-            await generateRoutes(appContext);
-            await hookRunners.beforeBuild({
-              bundlerConfigs:
-                bundlerConfigs as unknown as webpack.Configuration[],
-            });
-          });
-
-          builder.onAfterBuild(async ({ stats }) => {
-            const hookRunners = api.useHookRunners();
-            await hookRunners.afterBuild({ stats });
-            await emitResolvedConfig(appContext.appDirectory, normalizedConfig);
-          });
-
-          builder.onDevCompileDone(async ({ isFirstCompile }) => {
-            const hookRunners = api.useHookRunners();
-            hookRunners.afterDev({ isFirstCompile });
-
-            if (isFirstCompile) {
-              printInstructions(hookRunners, appContext, normalizedConfig);
-            }
-          });
-
-          builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
-            const hookRunners = api.useHookRunners();
+        builder.onBeforeCreateCompiler(
+          async ({ bundlerConfigs, environments }) => {
+            const hooks = api.getHooks();
 
             // run modernjs framework `beforeCreateCompiler` hook
-            await hookRunners.beforeCreateCompiler({
-              bundlerConfigs:
-                bundlerConfigs as unknown as webpack.Configuration[],
+            await hooks.onBeforeCreateCompiler.call({
+              bundlerConfigs: bundlerConfigs,
+              environments,
             });
+          },
+        );
+
+        builder.onAfterCreateCompiler(async ({ compiler, environments }) => {
+          const hooks = api.getHooks();
+          // run modernjs framework afterCreateCompiler hooks
+          await hooks.onAfterCreateCompiler.call({
+            compiler,
+            environments,
           });
+        });
 
-          builder.onAfterCreateCompiler(async ({ compiler }) => {
-            const hookRunners = api.useHookRunners();
-            // run modernjs framework afterCreateCompiler hooks
-            await hookRunners.afterCreateCompiler({
-              compiler: compiler as unknown as
-                | webpack.Compiler
-                | webpack.MultiCompiler,
-            });
-          });
+        builder.addPlugins(resolvedConfig.builderPlugins);
 
-          builder.addPlugins(resolvedConfig.builderPlugins);
+        api.updateAppContext({ builder });
+      }
+    });
 
-          appContext = {
-            ...api.useAppContext(),
-            builder,
-          };
-          api.setAppContext(appContext);
-        }
-      },
+    api.onWatchFiles(async () => {
+      return { files: pagesDir, isPrivate: true };
+    });
 
-      watchFiles() {
-        return { files: pagesDir, isPrivate: true };
-      },
-
-      resolvedConfig({ resolved }) {
-        const appContext = api.useAppContext();
-        const config = initialNormalizedConfig(resolved, appContext, bundler);
-        return {
-          resolved: config,
-        };
-      },
-    };
+    api.modifyResolvedConfig(resolved => {
+      const appContext = api.getAppContext();
+      const config = initialNormalizedConfig(
+        resolved as AppNormalizedConfig<'shared'>,
+        appContext,
+        bundler,
+      );
+      return config;
+    });
   },
 });

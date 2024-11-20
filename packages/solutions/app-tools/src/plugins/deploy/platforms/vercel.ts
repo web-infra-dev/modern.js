@@ -1,4 +1,5 @@
 import path from 'node:path';
+import type { Entrypoint, ServerPlugin } from '@modern-js/types';
 import {
   DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
@@ -28,7 +29,7 @@ export const createVercelPreset: CreatePreset = (
   } = appContext;
   const isEsmProject = moduleType === 'module';
 
-  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+  const plugins: PluginItem[] = serverPlugins.map((plugin: ServerPlugin) => [
     plugin.name,
     plugin.options,
   ]);
@@ -63,7 +64,7 @@ export const createVercelPreset: CreatePreset = (
         const {
           source: { mainEntryName },
         } = modernConfig;
-        entrypoints.forEach(entry => {
+        entrypoints.forEach((entry: Entrypoint) => {
           const isMain = isMainEntry(entry.entryName, mainEntryName);
           config.routes.push({
             src: `/${isMain ? '' : entry.entryName}(?:/.*)?`,
@@ -84,9 +85,9 @@ export const createVercelPreset: CreatePreset = (
       });
 
       const staticDirectory = path.join(outputDirectory, 'static/static');
-      await fse.copy(path.join(distDirectory, 'static'), staticDirectory);
+      await fse.copy(path.join(distDirectory!, 'static'), staticDirectory);
       if (!needModernServer) {
-        const destHtmlDirectory = path.join(distDirectory, 'html');
+        const destHtmlDirectory = path.join(distDirectory!, 'html');
         const outputHtmlDirectory = path.join(
           path.join(outputDirectory, 'static'),
           'html',
@@ -94,9 +95,9 @@ export const createVercelPreset: CreatePreset = (
         await fse.copy(destHtmlDirectory, outputHtmlDirectory);
       } else {
         await fse.ensureDir(funcsDirectory);
-        await fse.copy(distDirectory, funcsDirectory, {
+        await fse.copy(distDirectory!, funcsDirectory, {
           filter: (src: string) => {
-            const distStaticDirectory = path.join(distDirectory, 'static');
+            const distStaticDirectory = path.join(distDirectory!, 'static');
             return !src.includes(distStaticDirectory);
           },
         });

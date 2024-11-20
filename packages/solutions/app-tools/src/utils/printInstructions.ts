@@ -1,18 +1,23 @@
-import type { CliHooksRunner, IAppContext } from '@modern-js/core';
 import { logger, prettyInstructions } from '@modern-js/utils';
-import type { AppNormalizedConfig, AppTools } from '../types';
+import type { AppTools, AppToolsContext } from '../new/types';
+import type {
+  AppToolsNormalizedConfig,
+  AppToolsUserConfig,
+} from '../types/config';
 
 export const printInstructions = async (
-  hookRunners: CliHooksRunner<AppTools<'shared'>>,
-  appContext: IAppContext,
-  config: AppNormalizedConfig<'shared'>,
+  api: AppTools<'shared'>,
+  appContext: AppToolsContext<'shared'>,
+  config: Readonly<AppToolsNormalizedConfig<AppToolsUserConfig<'shared'>>>,
 ) => {
+  console.log('=====appContext.serverRoutes', appContext.serverRoutes);
   const message = prettyInstructions(appContext, config);
 
   // call beforePrintInstructions hook.
-  const { instructions } = await hookRunners.beforePrintInstructions({
+  const hooks = api.getHooks();
+  const { instructions } = (await hooks.onBeforePrintInstructions.call({
     instructions: message,
-  });
+  })) as any;
 
   logger.log(instructions);
 };

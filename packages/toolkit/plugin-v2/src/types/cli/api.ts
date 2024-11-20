@@ -1,3 +1,4 @@
+import type { Command as OriginCommand } from '@modern-js/utils';
 import type {
   ModifyBundlerChainFn,
   ModifyRsbuildConfigFn,
@@ -30,6 +31,7 @@ import type {
   OnPrepareFn,
 } from './hooks';
 
+export type Command = OriginCommand & { commandsMap?: Map<string, Command> };
 /**
  * Define a generic CLI plugin API that provider can extend as needed.
  */

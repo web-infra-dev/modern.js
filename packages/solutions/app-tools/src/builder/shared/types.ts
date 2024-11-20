@@ -1,6 +1,7 @@
-import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import type { AppToolsContext } from '../../new/types';
+import type { AppNormalizedConfig, Bundler } from '../../types';
 
 export type BuilderOptions<B extends Bundler> = {
   normalizedConfig: AppNormalizedConfig<B>;
-  appContext: IAppContext;
+  appContext: AppToolsContext<B>;
 };

@@ -1,5 +1,5 @@
-import type { Command } from '@modern-js/utils/commander';
 import type { TransformFunction } from '../plugin';
+import type { Command } from './api';
 import type { Entrypoint } from './context';
 
 declare module '@modern-js/utils/commander' {
@@ -29,7 +29,9 @@ export type ModifyHtmlPartialsFn = (params: {
   };
 }) => Promise<void> | void;
 
-export type AddCommandFn = (params: { program: Command }) => void;
+export type AddCommandFn = (params: {
+  program: Command;
+}) => void;
 
 export type OnPrepareFn = () => Promise<void> | void;
 

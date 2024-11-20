@@ -1,4 +1,3 @@
-import type { ToRunners } from '@modern-js/core';
 import { cli } from '@modern-js/plugin-v2/cli';
 import {
   chalk,
@@ -7,21 +6,19 @@ import {
   logger,
   program,
 } from '@modern-js/utils';
-import type { AppToolsHooks } from '../types/hooks';
+import type { AppTools } from '../new/types';
 
-export async function restart(
-  hooksRunner: ToRunners<AppToolsHooks>,
-  filename: string,
-) {
+export async function restart(api: AppTools<'shared'>, filename: string) {
   clearConsole();
   logger.info(`Restart because ${chalk.yellow(filename)} is changed...\n`);
 
   let hasGetError = false;
 
-  await hooksRunner.beforeRestart();
+  const hooks = api.getHooks();
+  await hooks.onBeforeRestart.call();
 
   try {
-    await cli.init(cli.getPrevInitOptions());
+    await cli.init(cli.getPrevInitOptions()!);
   } catch (err) {
     console.error(err);
     hasGetError = true;

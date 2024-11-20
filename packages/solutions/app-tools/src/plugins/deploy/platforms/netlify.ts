@@ -1,4 +1,5 @@
 import path from 'node:path';
+import type { Entrypoint, ServerPlugin } from '@modern-js/types';
 import {
   DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
@@ -44,7 +45,7 @@ export const createNetlifyPreset: CreatePreset = (
 
   const isEsmProject = moduleType === 'module';
 
-  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+  const plugins: PluginItem[] = serverPlugins.map((plugin: ServerPlugin) => [
     plugin.name,
     plugin.options,
   ]);
@@ -68,7 +69,7 @@ export const createNetlifyPreset: CreatePreset = (
       } = modernConfig;
 
       if (!needModernServer) {
-        entrypoints.forEach(entry => {
+        entrypoints.forEach((entry: Entrypoint) => {
           const isMain = isMainEntry(entry.entryName, mainEntryName);
           routes.push({
             src: `/${isMain ? '' : `${entry.entryName}/`}*`,
@@ -92,16 +93,16 @@ export const createNetlifyPreset: CreatePreset = (
 
       if (needModernServer) {
         await fse.ensureDir(funcsDirectory);
-        await fse.copy(distDirectory, funcsDirectory, {
+        await fse.copy(distDirectory!, funcsDirectory, {
           filter: (src: string) => {
-            const distStaticDirectory = path.join(distDirectory, `static`);
+            const distStaticDirectory = path.join(distDirectory!, `static`);
             return !src.includes(distStaticDirectory);
           },
         });
       }
 
       // redirect files don't need to be in the function directory
-      const redirectFilePath = path.join(distDirectory, '_redirects');
+      const redirectFilePath = path.join(distDirectory!, '_redirects');
       await fse.writeFile(redirectFilePath, redirectContent);
     },
     async genEntry() {
@@ -158,7 +159,7 @@ export const createNetlifyPreset: CreatePreset = (
     },
     async end() {
       if (process.env.NODE_ENV !== 'development') {
-        await cleanDistDirectory(distDirectory);
+        await cleanDistDirectory(distDirectory!);
       }
       if (!needModernServer) {
         return;

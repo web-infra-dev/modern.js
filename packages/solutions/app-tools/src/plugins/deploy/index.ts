@@ -1,5 +1,7 @@
-import type { CliPlugin, IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { NormalizedConfig } from '@modern-js/core';
 import { provider } from 'std-env';
+import type { AppToolsPlugin } from '../../new';
+import type { AppToolsContext } from '../../new/types';
 import type { AppTools } from '../../types';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
@@ -21,14 +23,14 @@ const deployPresets: DeployPresetCreators = {
 };
 
 async function getDeployPreset(
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   modernConfig: NormalizedConfig<AppTools>,
   deployTarget: DeployTarget,
 ) {
   const { appDirectory, distDirectory } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
     appDirectory,
-    distDirectory,
+    distDirectory!,
   );
   const needModernServer = useSSR || useAPI || useWebServer;
 
@@ -43,30 +45,28 @@ async function getDeployPreset(
   return createPreset(appContext, modernConfig, needModernServer);
 }
 
-export default (): CliPlugin<AppTools> => ({
+export default (): AppToolsPlugin => ({
   name: '@modern-js/plugin-deploy',
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 
-    return {
-      async deploy() {
-        const appContext = api.useAppContext();
-        const { metaName } = appContext;
-        if (metaName !== 'modern-js' && !process.env.MODERNJS_DEPLOY) {
-          return;
-        }
-        const modernConfig = api.useResolvedConfigContext();
-        const deployPreset = await getDeployPreset(
-          appContext,
-          modernConfig,
-          deployTarget as DeployTarget,
-        );
+    api.deploy(async () => {
+      const appContext = api.getAppContext();
+      const { metaName } = appContext;
+      if (metaName !== 'modern-js' && !process.env.MODERNJS_DEPLOY) {
+        return;
+      }
+      const modernConfig = api.getNormalizedConfig();
+      const deployPreset = await getDeployPreset(
+        appContext,
+        modernConfig as any,
+        deployTarget as DeployTarget,
+      );
 
-        deployPreset?.prepare && (await deployPreset?.prepare());
-        deployPreset?.writeOutput && (await deployPreset?.writeOutput());
-        deployPreset?.genEntry && (await deployPreset?.genEntry());
-        deployPreset?.end && (await deployPreset?.end());
-      },
-    };
+      deployPreset?.prepare && (await deployPreset?.prepare());
+      deployPreset?.writeOutput && (await deployPreset?.writeOutput());
+      deployPreset?.genEntry && (await deployPreset?.genEntry());
+      deployPreset?.end && (await deployPreset?.end());
+    });
   },
 });

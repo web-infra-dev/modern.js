@@ -1,5 +1,4 @@
 import path from 'path';
-import type { PluginAPI } from '@modern-js/core';
 import { createProdServer } from '@modern-js/prod-server';
 import {
   SERVER_DIR,
@@ -8,14 +7,13 @@ import {
   isApiOnly,
   logger,
 } from '@modern-js/utils';
-import type { AppTools } from '../types';
+import type { AppTools } from '../new/types';
 import { loadServerPlugins } from '../utils/loadPlugins';
 import { printInstructions } from '../utils/printInstructions';
 
-export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
-  const appContext = api.useAppContext();
-  const userConfig = api.useResolvedConfigContext();
-  const hookRunners = api.useHookRunners();
+export const start = async (api: AppTools<'shared'>) => {
+  const appContext = api.getAppContext();
+  const userConfig = api.getNormalizedConfig();
 
   const {
     distDirectory,
@@ -41,7 +39,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
 
   const meta = getMeta(metaName);
   const serverConfigPath = path.resolve(
-    distDirectory,
+    distDirectory!,
     SERVER_DIR,
     `${meta}.server`,
   );
@@ -50,7 +48,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
 
   const app = await createProdServer({
     metaName,
-    pwd: distDirectory,
+    pwd: distDirectory!,
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
@@ -70,23 +68,23 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        appContext.distDirectory!,
       ),
       apiDirectory: getTargetDir(
         appContext.apiDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        appContext.distDirectory!,
       ),
       lambdaDirectory: getTargetDir(
         appContext.lambdaDirectory,
         appContext.appDirectory,
-        appContext.distDirectory,
+        appContext.distDirectory!,
       ),
     },
     runMode,
   });
 
   app.listen(port, async () => {
-    await printInstructions(hookRunners, appContext, userConfig);
+    await printInstructions(api, appContext, userConfig);
   });
 };

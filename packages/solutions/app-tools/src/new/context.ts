@@ -50,5 +50,6 @@ export const initAppContext = ({
     apiOnly: false,
     internalDirAlias: `@_${metaName.replace(/-/g, '_')}_internal`,
     internalSrcAlias: `@_${metaName.replace(/-/g, '_')}_src`,
+    toolsType: 'app-tools',
   };
 };

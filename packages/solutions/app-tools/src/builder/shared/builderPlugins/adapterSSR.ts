@@ -1,4 +1,5 @@
 import * as path from 'path';
+import type { Entrypoint } from '@modern-js/types';
 import {
   type HtmlWebpackPlugin,
   SERVICE_WORKER_ENVIRONMENT_NAME,
@@ -137,7 +138,7 @@ function applyRouterPlugin<B extends Bundler>(
   const { appContext, normalizedConfig } = options;
   const { entrypoints } = appContext;
   const existNestedRoutes = entrypoints.some(
-    entrypoint => entrypoint.nestedRoutesEntry,
+    (entrypoint: Entrypoint) => entrypoint.nestedRoutesEntry,
   );
 
   const routerConfig: any = normalizedConfig?.runtime?.router;
@@ -232,7 +233,7 @@ async function applySSRLoaderEntry<B extends Bundler>(
   const { entrypoints } = appContext;
 
   await Promise.all(
-    entrypoints.map(async entrypoint => {
+    entrypoints.map(async (entrypoint: Entrypoint) => {
       const { entryName } = entrypoint;
       const serverLoadersFile = getServerCombinedModueFile(
         internalDirectory,

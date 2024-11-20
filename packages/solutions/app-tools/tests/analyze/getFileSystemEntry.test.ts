@@ -1,22 +1,10 @@
 import path from 'path';
-import {
-  type CliHooksRunner,
-  type CliPlugin,
-  type IAppContext,
-  manager,
-} from '@modern-js/core';
-import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
-import { appTools } from '../../src/old';
+import type { AppToolsContext } from '@/new/types';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
 import type { AppNormalizedConfig, AppTools } from '../../src/types';
 
-async function getRunner() {
-  const main = manager
-    .clone()
-    .usePlugin(appTools as CliPlugin, runtimePlugin as CliPlugin);
-
-  const runner: CliHooksRunner<AppTools<'shared'>> = (await main.init()) as any;
-  return runner;
+async function getApi() {
+  return {};
 }
 
 describe('get entrypoints from file system', () => {
@@ -31,8 +19,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       await getFileSystemEntry(
-        await getRunner(),
-        appContext as IAppContext,
+        await getApi(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -52,8 +40,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       await getFileSystemEntry(
-        await getRunner(),
-        appContext as IAppContext,
+        await getApi(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -72,8 +60,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       await getFileSystemEntry(
-        await getRunner(),
-        appContext as IAppContext,
+        await getApi(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -94,8 +82,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       getFileSystemEntry(
-        await getRunner(),
-        appContext as IAppContext,
+        await getApi(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).rejects.toThrow('There is no valid entry point in the current project!');

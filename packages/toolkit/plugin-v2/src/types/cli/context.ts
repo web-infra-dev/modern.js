@@ -45,6 +45,7 @@ export type AppContext<Config, NormalizedConfig> = {
   ip?: string;
   // server routes
   serverRoutes?: ServerRoute[];
+  [key: string]: any;
 };
 
 /** The inner context. */

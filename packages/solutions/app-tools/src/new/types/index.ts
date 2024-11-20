@@ -91,10 +91,7 @@ interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   /**
    * @deprecated use getAppContext instead
    */
-  useAppContext: () => AppContext<
-    AppToolsUserConfig<B>,
-    AppToolsNormalizedConfig<AppToolsUserConfig<B>>
-  >;
+  useAppContext: () => AppToolsContext<B>;
   /**
    * @deprecated use getConfig instead
    */
@@ -119,3 +116,8 @@ export interface AppTools<B extends Bundler = 'webpack'>
 
 export type AppToolsExtendAPIName<B extends Bundler = 'webpack'> =
   keyof AppToolsExtendAPI<B> & string;
+
+export type AppToolsContext<B extends Bundler> = AppContext<
+  AppToolsUserConfig<B>,
+  AppToolsNormalizedConfig<AppToolsUserConfig<B>>
+>;

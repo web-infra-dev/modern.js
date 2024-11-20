@@ -29,7 +29,7 @@ export async function generateBuilder<B extends Bundler>(
 
   const { environments, builderConfig } = getBuilderEnvironments(
     normalizedConfig,
-    appContext,
+    appContext as any,
     tempBuilderConfig,
   );
 
@@ -65,7 +65,7 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterHtml(options),
   ]);
 
-  builder.addPlugins([builderPluginAdapterCopy(options)], {
+  builder.addPlugins([builderPluginAdapterCopy(options as any)], {
     environment: 'web',
   });
 

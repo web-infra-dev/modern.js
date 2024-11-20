@@ -1,4 +1,5 @@
 import path from 'node:path';
+import type { ServerPlugin } from '@modern-js/types';
 import {
   DEFAULT_SERVER_CONFIG,
   ROUTE_SPEC_FILE,
@@ -18,7 +19,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
   const { appDirectory, distDirectory, serverPlugins, moduleType } = appContext;
   const isEsmProject = moduleType === 'module';
 
-  const plugins: PluginItem[] = serverPlugins.map(plugin => [
+  const plugins: PluginItem[] = serverPlugins.map((plugin: ServerPlugin) => [
     plugin.name,
     plugin.options,
   ]);
@@ -31,7 +32,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       await fse.remove(outputDirectory);
     },
     async writeOutput() {
-      await fse.copy(distDirectory, outputDirectory);
+      await fse.copy(distDirectory!, outputDirectory);
     },
     async genEntry() {
       const serverConfig = {

@@ -48,6 +48,10 @@ export interface AppToolsUserConfig<B extends Bundler> {
   performance?: PerformanceUserConfig;
   devtools?: any;
   environments?: RsbuildConfig['environments'];
+  /**
+   * @deprecated
+   */
+  autoLoadPlugins?: boolean;
 }
 
 interface SharedNormalizedConfig<RawConfig> {

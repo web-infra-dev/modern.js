@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import {
   SERVER_BUNDLE_DIRECTORY,
@@ -11,6 +10,7 @@ import {
   removeTailSlash,
   urlJoin,
 } from '@modern-js/utils';
+import type { AppToolsContext } from '../../new/types';
 import type { AppNormalizedConfig } from '../../types';
 import { isMainEntry } from '../../utils/routes';
 import { walkDirectory } from './utils';
@@ -116,7 +116,7 @@ const applyRouteOptions = (
  */
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const {
@@ -200,7 +200,7 @@ const collectHtmlRoutes = (
  * @returns Static public file routes.
  */
 const collectStaticRoutes = (
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
@@ -241,7 +241,7 @@ export const getServerRoutes = (
     appContext,
     config,
   }: {
-    appContext: IAppContext;
+    appContext: AppToolsContext<'shared'>;
     config: AppNormalizedConfig<'shared'>;
   },
 ): ServerRoute[] => [

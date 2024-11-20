@@ -1,12 +1,8 @@
 import path from 'path';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import { fs, findExists } from '@modern-js/utils';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-  PluginAPI,
-} from '../../types';
+import type { AppTools, AppToolsContext } from '../../new/types';
+import type { AppNormalizedConfig } from '../../types';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 
@@ -46,12 +42,12 @@ const findPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
-  api: PluginAPI<AppTools<'shared'>>,
+  api: AppTools<'shared'>,
   {
     appContext,
     config,
   }: {
-    appContext: IAppContext;
+    appContext: AppToolsContext<'shared'>;
     config: AppNormalizedConfig<'shared'>;
   },
 ) => {
@@ -126,8 +122,7 @@ export const getHtmlTemplate = async (
     }
   }
   // sync partialsByEntrypoint to context
-  api.setAppContext({
-    ...api.useAppContext(),
+  api.updateAppContext({
     partialsByEntrypoint,
   });
   return htmlTemplates;

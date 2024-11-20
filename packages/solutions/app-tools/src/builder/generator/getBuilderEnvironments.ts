@@ -1,4 +1,3 @@
-import type { IAppContext } from '@modern-js/core';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '@modern-js/uni-builder';
 import {
   isProd,
@@ -7,11 +6,12 @@ import {
   isUseSSRBundle,
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
+import type { AppToolsContext } from '../../new/types';
 import type { AppNormalizedConfig, Bundler } from '../../types';
 
 export function getBuilderEnvironments<B extends Bundler>(
   normalizedConfig: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   tempBuilderConfig: Omit<AppNormalizedConfig<B>, 'plugins'>,
 ) {
   // create entries

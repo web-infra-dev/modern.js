@@ -1,6 +1,7 @@
 import { logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
+import type { Command } from '../../types/cli/api';
 import type { Plugin } from '../../types/plugin';
 import type { DeepPartial } from '../../types/utils';
 import { initPluginAPI } from '../api';
@@ -120,7 +121,8 @@ export const createCli = <
       },
     );
 
-    const extraConfigs = await context.hooks.config.call();
+    const extraConfigs =
+      (await context.hooks.config.call()) as DeepPartial<Config>[];
 
     const normalizedConfig = await createResolveConfig<
       Config,
@@ -143,7 +145,7 @@ export const createCli = <
   }
   async function run(options: CLIRunOptions) {
     const { appContext } = await init(options);
-    await appContext.hooks.addCommand.call({ program });
+    await appContext.hooks.addCommand.call({ program: program as Command });
 
     await createFileWatcher(appContext);
 

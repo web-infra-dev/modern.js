@@ -30,7 +30,6 @@ export type {
   RequestHandler,
 } from '@modern-js/server-core';
 export type {
-  IAppContext,
   PluginAPI,
   CliPlugin,
   NormalizedConfig,
