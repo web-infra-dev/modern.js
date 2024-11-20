@@ -1,5 +1,5 @@
-const { generatorBuildConfig } = require('@scripts/build');
+const { generatorBuildUmdConfig } = require('@scripts/build');
 
 module.exports = {
-  buildConfig: generatorBuildConfig,
+  buildConfig: generatorBuildUmdConfig,
 };
