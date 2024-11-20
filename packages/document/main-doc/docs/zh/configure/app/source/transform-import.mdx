@@ -11,6 +11,7 @@ configName: source.transformImport
 
 ```ts
 type TransformImport =
+  | false
   | Array<{
       libraryName: string;
       libraryDirectory?: string;
@@ -61,3 +62,29 @@ const defaultArcoConfig = [
 import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConig />
+
+### 禁用默认配置
+
+你可以手动设置 `transformImport: false` 来关掉 transformImport 的默认行为。
+
+```js
+export default {
+  source: {
+    transformImport: false,
+  },
+};
+```
+
+你也可以使用 `transformImport` 的 [function 用法](https://rsbuild.dev/zh/config/source/transform-import#function-%E7%B1%BB%E5%9E%8B) 对默认配置进行自定义修改。
+
+```js
+export default {
+  source: {
+    transformImport: (imports) => {
+      return imports.filter(data => data.libraryName !== 'antd');
+    },
+  },
+};
+```
+
+比如，当你使用了 `externals` 来避免打包 antd 时，由于 `transformImport` 默认会转换 antd 的引用路径，导致匹配的路径发生了变化，因此 externals 无法正确生效，此时你可以设置关闭 `transformImport` 来避免该问题。
