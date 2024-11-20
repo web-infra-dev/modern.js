@@ -9,6 +9,9 @@ exports[`uni-builder rspack > should allow custom arco import config 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -106,6 +109,9 @@ exports[`uni-builder rspack > should allow filter arco import config 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -188,6 +194,9 @@ exports[`uni-builder rspack > should apply arco correctly 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -285,6 +294,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport false 1
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -367,6 +379,9 @@ exports[`uni-builder rspack > should not apply arco when transformImport return 
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -456,6 +471,9 @@ exports[`uni-builder webpack > should allow custom arco import config 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -599,6 +617,9 @@ exports[`uni-builder webpack > should apply arco correctly 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -742,6 +763,9 @@ exports[`uni-builder webpack > should not apply arco when transformImport false 
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -866,6 +890,9 @@ exports[`uni-builder webpack > should not apply arco when transformImport return
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [

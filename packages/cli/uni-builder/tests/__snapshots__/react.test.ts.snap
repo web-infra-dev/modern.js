@@ -9,6 +9,9 @@ exports[`plugins/react > should work with babel-loader 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [

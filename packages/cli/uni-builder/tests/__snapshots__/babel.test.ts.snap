@@ -9,6 +9,9 @@ exports[`plugin-babel (rspack mode) > should not set babel-loader when babel con
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -105,6 +108,9 @@ exports[`plugin-babel (rspack mode) > should set babel-loader when babel config 
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -238,6 +244,9 @@ exports[`plugin-babel > should add core-js-entry when output.polyfill is entry 1
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -380,6 +389,9 @@ exports[`plugin-babel > should adjust browserslist when target is node 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -501,6 +513,9 @@ exports[`plugin-babel > should apply exclude condition when using source.exclude
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "exclude": [
       "src/foo/**/*.js",
     ],
@@ -646,6 +661,9 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -782,6 +800,9 @@ exports[`plugin-babel > should not add core-js-entry when output.polyfill is usa
 exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -1001,6 +1022,9 @@ exports[`plugin-babel > should not have any pluginImport in Babel 1`] = `
 exports[`plugin-babel > should not set default pluginImport for Babel 1`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -1264,6 +1288,9 @@ exports[`plugin-babel > should override targets of babel-preset-env when using o
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -1404,6 +1431,9 @@ exports[`plugin-babel > should set babel-loader 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
@@ -1546,6 +1576,9 @@ exports[`plugin-babel > should set include/exclude 1`] = `
     "test": /\\\\\\.m\\?js/,
   },
   {
+    "dependency": {
+      "not": "url",
+    },
     "exclude": [
       "src/**/*.js",
     ],
@@ -1686,6 +1719,9 @@ exports[`plugin-babel > should set include/exclude 1`] = `
 exports[`plugin-babel > should set proper pluginImport option in Babel 1`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "include": [
       {
         "and": [
