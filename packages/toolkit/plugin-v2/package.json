@@ -75,7 +75,7 @@
     "@swc/helpers": "0.5.13"
   },
   "devDependencies": {
-    "@rsbuild/core": "~1.1.0",
+    "@rsbuild/core": "~1.1.5",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
