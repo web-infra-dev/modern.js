@@ -1,5 +1,16 @@
 # @modern-js/plugin-server
 
+## 2.62.1
+
+### Patch Changes
+
+- 86213ae: chore: add a server directory for universal server utils
+  chore: 添加一个 server 目录用于存放通用的服务端工具函数
+- Updated dependencies [86213ae]
+  - @modern-js/runtime-utils@2.62.1
+  - @modern-js/server-utils@2.62.1
+  - @modern-js/utils@2.62.1
+
 ## 2.62.0
 
 ### Patch Changes
