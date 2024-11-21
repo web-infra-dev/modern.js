@@ -1,6 +1,6 @@
 import { appTools } from './new/index';
 
-export { appTools, type AppToolsPlugin } from './new/index';
+export { appTools, initAppContext, type AppToolsPlugin } from './new/index';
 export { dev } from './commands/dev';
 export type { DevOptions } from './utils/types';
 
