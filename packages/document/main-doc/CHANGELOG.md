@@ -1,5 +1,12 @@
 # @modern-js/main-doc
 
+## 2.62.1
+
+### Patch Changes
+
+- 2a857a3: feat: bump rsbuild version
+  - @modern-js/sandpack-react@2.62.1
+
 ## 2.62.0
 
 ### Patch Changes

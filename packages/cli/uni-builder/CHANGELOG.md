@@ -1,5 +1,13 @@
 # @modern-js/uni-builder
 
+## 2.62.1
+
+### Patch Changes
+
+- 2a857a3: feat: bump rsbuild version
+  - @modern-js/babel-preset@2.62.1
+  - @modern-js/utils@2.62.1
+
 ## 2.62.0
 
 ### Patch Changes
