@@ -68,12 +68,14 @@ export const appTools = (
   },
   setup: api => {
     const context = api.getAppContext();
+    const userConfig = api.getConfig();
     api.updateAppContext(
       initAppContext({
         appDirectory: context.appDirectory,
         options: {},
         serverConfigFile: DEFAULT_SERVER_CONFIG_FILE,
         runtimeConfigFile: DEFAULT_RUNTIME_CONFIG_FILE,
+        tempDir: userConfig.output?.tempDir,
       }),
     );
   },

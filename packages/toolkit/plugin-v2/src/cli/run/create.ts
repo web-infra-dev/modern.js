@@ -19,10 +19,11 @@ export const createCli = <
   NormalizedConfig,
   ExtendsHooksKey extends string,
 >() => {
-  let initOptions: CLIRunOptions<Config>;
+  let initOptions: CLIRunOptions;
   const pluginManager = createPluginManager();
 
-  async function init(options: CLIRunOptions<Config>) {
+  async function init(options: CLIRunOptions) {
+    pluginManager.clear();
     initOptions = options;
     const {
       metaName = 'MODERN',
@@ -30,7 +31,6 @@ export const createCli = <
       command,
       version,
       packageJsonConfig,
-      loadedConfig,
       internalPlugins,
       handleSetupResult,
     } = options;
@@ -47,7 +47,6 @@ export const createCli = <
       appDirectory,
       configFile,
       packageJsonConfig,
-      loadedConfig,
     );
 
     const allPlugins = [
@@ -142,7 +141,7 @@ export const createCli = <
 
     return { appContext: context };
   }
-  async function run(options: CLIRunOptions<Config>) {
+  async function run(options: CLIRunOptions) {
     const { appContext } = await init(options);
     await appContext.hooks.addCommand.call({ program });
 

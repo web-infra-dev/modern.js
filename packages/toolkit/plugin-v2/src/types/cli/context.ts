@@ -64,4 +64,5 @@ export type InternalContext<
   normalizedConfig?: NormalizedConfig;
   pluginAPI?: CLIPluginAPI<Config, NormalizedConfig> &
     Record<string, (...args: any[]) => any>;
+  _internalContext?: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>;
 };

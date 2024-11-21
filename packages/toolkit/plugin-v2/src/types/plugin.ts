@@ -20,8 +20,8 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
   /**
    * The plugins add new apis to the plugin manager.
    */
-  registryApi?: (
-    context: Context,
+  _registryApi?: (
+    getAppContext: () => Context,
     updateAppContext: (context: Context) => void,
   ) => Record<string, (...args: any[]) => any>;
   /**
@@ -47,4 +47,5 @@ export type Plugin<PluginAPI = {}, Context = {}> = {
 export type PluginManager = {
   getPlugins: () => Plugin[];
   addPlugins: (plugins: Array<Plugin | Falsy>) => void;
+  clear: () => void;
 };

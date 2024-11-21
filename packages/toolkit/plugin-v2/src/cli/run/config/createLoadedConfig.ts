@@ -70,7 +70,6 @@ export async function createLoadedConfig<T>(
   appDirectory: string,
   configFilePath: string,
   packageJsonConfig?: string,
-  loadedConfig?: T,
 ): Promise<LoadedConfig<T>> {
   const configFile = getConfigFilePath(appDirectory, configFilePath);
 
@@ -78,7 +77,6 @@ export async function createLoadedConfig<T>(
     appDirectory,
     configFile,
     packageJsonConfig,
-    loadedConfig,
   );
 
   if (!loaded.config && !loaded.pkgConfig) {

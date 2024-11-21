@@ -15,22 +15,25 @@ export const compatPlugin = (): Plugin<
   >
 > => ({
   name: '@modern-js/app-tools-compat',
-  registryApi: (context, updateAppContext) => {
+  _registryApi: (getAppContext, updateAppContext) => {
+    const getInternalContext = () => {
+      return getAppContext()._internalContext!;
+    };
     return {
       useAppContext: () => {
-        return context;
+        return getAppContext();
       },
       setAppContext: context => {
         return updateAppContext(context);
       },
       useConfigContext: () => {
-        return context.config;
+        return getInternalContext().config;
       },
       useResolvedConfigContext: () => {
-        return context.normalizedConfig;
+        return getInternalContext().normalizedConfig;
       },
       useHookRunners: () => {
-        return getHookRunners(context);
+        return getHookRunners(getInternalContext());
       },
     };
   },

@@ -6,6 +6,7 @@ export const initAppContext = ({
   runtimeConfigFile,
   options,
   serverConfigFile,
+  tempDir,
 }: {
   appDirectory: string;
   runtimeConfigFile: string | false;
@@ -17,6 +18,7 @@ export const initAppContext = ({
     sharedDir?: string;
   };
   serverConfigFile: string;
+  tempDir?: string;
 }) => {
   const {
     metaName = 'modern-js',
@@ -39,7 +41,7 @@ export const initAppContext = ({
     serverPlugins: [],
     internalDirectory: path.resolve(
       appDirectory,
-      `./node_modules/.${metaName}`,
+      tempDir || `./node_modules/.${metaName}`,
     ),
     htmlTemplates: {},
     serverRoutes: [],

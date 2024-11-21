@@ -1,8 +1,8 @@
-import { logger, minimist } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import { cli } from '.';
 import type { CLIOptions } from './types';
 
-export const run = async <Config>(options: CLIOptions<Config>) => {
+export const run = async (options: CLIOptions) => {
   const { initialLog, version, cwd, configFile, ...params } = options;
 
   if (initialLog) {

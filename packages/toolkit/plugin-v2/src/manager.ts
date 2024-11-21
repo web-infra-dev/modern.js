@@ -159,8 +159,14 @@ export function createPluginManager(): PluginManager {
     return result;
   };
 
+  const clear = () => {
+    plugins.clear();
+    dependencies.clear();
+  };
+
   return {
     getPlugins,
     addPlugins,
+    clear,
   };
 }

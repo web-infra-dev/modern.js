@@ -20,6 +20,7 @@ export function initPluginAPI<
     if (context) {
       const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
         context;
+      context._internalContext = context;
       return appContext;
     }
     throw new Error('Cannot access context');
@@ -47,19 +48,15 @@ export function initPluginAPI<
     PluginHookTap<(...args: any[]) => any>
   > = {};
 
-  function updateRegistryApi() {
-    plugins.forEach(plugin => {
-      const { registryApi } = plugin;
-      if (registryApi) {
-        const apis = registryApi(context, updateAppContext);
-        Object.keys(apis).forEach(apiName => {
-          extendsPluginApi[apiName] = apis[apiName];
-        });
-      }
-    });
-  }
-
-  updateRegistryApi();
+  plugins.forEach(plugin => {
+    const { _registryApi } = plugin;
+    if (_registryApi) {
+      const apis = _registryApi(getAppContext, updateAppContext);
+      Object.keys(apis).forEach(apiName => {
+        extendsPluginApi[apiName] = apis[apiName];
+      });
+    }
+  });
 
   (Object.keys(extendsHooks) as ExtendsHooksKey[]).forEach(hookName => {
     extendsPluginApi[hookName] = extendsHooks[hookName].tap;
@@ -69,7 +66,6 @@ export function initPluginAPI<
     updateContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
   ) {
     context = merge(context, updateContext);
-    updateRegistryApi();
   }
 
   return {
