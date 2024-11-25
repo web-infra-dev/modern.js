@@ -8,10 +8,12 @@ configName: output.sourceMap
 - **Type:**
 
 ```ts
-type SourceMap = {
-  js?: Rspack.Configuration['devtool'];
-  css?: boolean;
-};
+type SourceMap =
+  | boolean
+  | {
+      js?: Rspack.Configuration['devtool'];
+      css?: boolean;
+    };
 ```
 
 - **Default:**

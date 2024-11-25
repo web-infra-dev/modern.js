@@ -43,15 +43,15 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "commander": "10.0.1",
     "@modern-js/codesmith": "2.6.5",
     "@modern-js/codesmith-utils": "2.6.5",
-    "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/mwa-generator": "workspace:*",
+    "@modern-js/plugin-i18n": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
+    "commander": "10.0.1",
     "jest": "^29",
     "ts-node": "^10.9.1",
     "typescript": "^5"
