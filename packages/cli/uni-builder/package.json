@@ -76,7 +76,7 @@
     "react-refresh": "^0.14.0",
     "rspack-manifest-plugin": "5.0.2",
     "terser-webpack-plugin": "5.3.10",
-    "ts-deepmerge": "7.0.1",
+    "ts-deepmerge": "7.0.2",
     "ts-loader": "9.4.4",
     "webpack": "^5.96.1",
     "webpack-subresource-integrity": "5.1.0"
