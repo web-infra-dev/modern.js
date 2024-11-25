@@ -20,7 +20,7 @@ export function initPluginAPI<
     if (context) {
       const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
         context;
-      context._internalContext = context;
+      appContext._internalContext = context;
       return appContext;
     }
     throw new Error('Cannot access context');
