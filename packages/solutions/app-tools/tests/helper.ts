@@ -12,7 +12,7 @@ export const runCli = async (options: {
 }) => {
   const plugins: Record<string, any> = {
     '@modern-js/app-tools': {
-      path: path.join(__dirname, '../src'),
+      path: path.join(__dirname, '../src/old'),
       forced: true,
     } as any,
     ...(options.addonPlugins || {}),
