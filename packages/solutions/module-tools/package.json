@@ -78,7 +78,7 @@
     "convert-source-map": "1.8.0",
     "enhanced-resolve": "5.17.1",
     "esbuild": "0.19.2",
-    "magic-string": "0.30.12",
+    "magic-string": "0.30.13",
     "postcss": "^8.4.35",
     "postcss-modules": "4.3.1",
     "safe-identifier": "0.4.2",
