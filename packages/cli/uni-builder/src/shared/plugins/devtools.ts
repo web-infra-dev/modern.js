@@ -11,7 +11,7 @@ const isUseJsSourceMap = (disableSourceMap: DisableSourceMapOption = {}) => {
 
 export const pluginDevtool = (options: {
   disableSourceMap?: DisableSourceMapOption;
-  sourceMap?: SourceMap | Boolean;
+  sourceMap?: SourceMap | boolean;
 }): RsbuildPlugin => ({
   name: 'uni-builder:devtool',
 
@@ -21,7 +21,7 @@ export const pluginDevtool = (options: {
     const devtoolJs =
       typeof options.sourceMap === 'boolean'
         ? options.sourceMap
-        : (options.sourceMap as SourceMap)?.js;
+        : options.sourceMap?.js;
     if (devtoolJs) {
       if (!isUseJsSourceMap(options.disableSourceMap)) {
         logger.warn(
