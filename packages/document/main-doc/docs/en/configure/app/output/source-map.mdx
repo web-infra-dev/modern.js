@@ -17,7 +17,9 @@ type SourceMap = {
 - **Default:**
 
 ```ts
-const defaultSourceMap = {
+const defaultSourceMap =
+  | boolean
+  | {
   js: isDev ? 'cheap-module-source-map' : false,
   css: false,
 };
