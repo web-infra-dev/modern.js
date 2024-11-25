@@ -29,7 +29,7 @@ export function createAsyncHook<
 }
 
 export function createCollectAsyncHook<
-  Callback extends () => any,
+  Callback extends (...params: any[]) => any,
 >(): CollectAsyncHook<Callback> {
   const callbacks: Callback[] = [];
 
@@ -37,10 +37,10 @@ export function createCollectAsyncHook<
     callbacks.push(cb);
   };
 
-  const call = async () => {
+  const call = async (...params: Parameters<Callback>) => {
     const results: UnwrapPromise<ReturnType<Callback>>[] = [];
     for (const callback of callbacks) {
-      const result = await callback();
+      const result = await callback(params);
 
       if (result !== undefined) {
         results.push(result);
