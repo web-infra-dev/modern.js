@@ -45,11 +45,11 @@
   "devDependencies": {
     "@modern-js/base-generator": "workspace:*",
     "@modern-js/codesmith-api-handlebars": "2.6.5",
+    "@modern-js/codesmith-utils": "2.6.5",
     "@modern-js/entry-generator": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/mwa-generator": "workspace:*",
-    "@modern-js/codesmith-utils": "2.6.5",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
