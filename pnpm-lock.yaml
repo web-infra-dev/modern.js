@@ -4302,8 +4302,8 @@ importers:
         specifier: 4.0.9
         version: 4.0.9
       '@types/less':
-        specifier: 3.0.6
-        version: 3.0.6
+        specifier: 3.0.7
+        version: 3.0.7
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.17.13
@@ -12437,8 +12437,8 @@ packages:
   '@types/koa@2.15.0':
     resolution: {integrity: sha512-7QFsywoE5URbuVnG3loe03QXuGajrnotr3gQkXcEBShORai23MePfFYdhz90FEtBBpkyIYQbVD+evKtloCgX3g==}
 
-  '@types/less@3.0.6':
-    resolution: {integrity: sha512-PecSzorDGdabF57OBeQO/xFbAkYWo88g4Xvnsx7LRwqLC17I7OoKtA3bQB9uXkY6UkMWCOsA8HSVpaoitscdXw==}
+  '@types/less@3.0.7':
+    resolution: {integrity: sha512-+SD1DrM8EwJsilPFSR1IMMGWOTg5sO1waewoJ1k3BHCvU07zQThy8t2wTfxvHz//R0uK3koAUl9WbWwal0H+YA==}
 
   '@types/loadable__component@5.13.9':
     resolution: {integrity: sha512-QWOtIkwZqHNdQj3nixQ8oyihQiTMKZLk/DNuvNxMSbTfxf47w+kqcbnxlUeBgAxdOtW0Dh48dTAIp83iJKtnrQ==}
@@ -28144,7 +28144,7 @@ snapshots:
       '@types/koa-compose': 3.2.8
       '@types/node': 18.19.55
 
-  '@types/less@3.0.6': {}
+  '@types/less@3.0.7': {}
 
   '@types/loadable__component@5.13.9':
     dependencies:
