@@ -4571,7 +4571,7 @@ importers:
         version: 14.18.35
       cross-spawn:
         specifier: ^7.0.3
-        version: 7.0.5
+        version: 7.0.6
       enhanced-resolve:
         specifier: 5.17.1
         version: 5.17.1
@@ -14128,8 +14128,8 @@ packages:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
 
-  cross-spawn@7.0.5:
-    resolution: {integrity: sha512-ZVJrKKYunU38/76t0RMOulHOnUcbU9GbpWKAOZ0mhjr7CX6FVrH+4FrAapSOekrgFQ3f/8gwMEuIft0aKq6Hug==}
+  cross-spawn@7.0.6:
+    resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
   crypt@0.0.2:
@@ -27304,7 +27304,7 @@ snapshots:
       '@yarnpkg/libzip': 2.3.0
       chalk: 4.1.2
       commander: 6.2.1
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       detect-indent: 6.1.0
       envinfo: 7.14.0
       execa: 5.1.1
@@ -27347,7 +27347,7 @@ snapshots:
       '@storybook/node-logger': 7.6.20
       '@storybook/types': 7.6.20
       '@types/cross-spawn': 6.0.6
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       globby: 11.1.0
       jscodeshift: 0.15.2(@babel/preset-env@7.26.0(@babel/core@7.26.0))
       lodash: 4.17.21
@@ -30158,7 +30158,7 @@ snapshots:
 
   cross-env@7.0.3:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
 
   cross-fetch@3.1.5(encoding@0.1.13):
     dependencies:
@@ -30186,7 +30186,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  cross-spawn@7.0.5:
+  cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
       shebang-command: 2.0.0
@@ -31225,7 +31225,7 @@ snapshots:
 
   execa@7.1.1:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       get-stream: 6.0.1
       human-signals: 4.3.1
       is-stream: 3.0.0
@@ -31237,7 +31237,7 @@ snapshots:
 
   execa@8.0.1:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       get-stream: 8.0.1
       human-signals: 5.0.0
       is-stream: 3.0.0
@@ -31641,17 +31641,17 @@ snapshots:
 
   foreground-child@2.0.0:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       signal-exit: 3.0.7
 
   foreground-child@3.1.1:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
   foreground-child@3.3.0:
     dependencies:
-      cross-spawn: 7.0.5
+      cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
   fork-ts-checker-webpack-plugin@9.0.2(typescript@5.3.3)(webpack@5.96.1(esbuild@0.17.19)):
