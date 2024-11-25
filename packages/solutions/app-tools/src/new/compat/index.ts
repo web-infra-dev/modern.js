@@ -21,7 +21,8 @@ export const compatPlugin = (): Plugin<
     };
     return {
       useAppContext: () => {
-        return getAppContext();
+        const { _internalContext, ...appContext } = getAppContext();
+        return appContext;
       },
       setAppContext: context => {
         return updateAppContext(context);
