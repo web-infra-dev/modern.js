@@ -188,7 +188,7 @@ export async function parseCommonConfig(
     output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
-  if (isUseCssSourceMap(disableSourceMap)) {
+  if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
     output.sourceMap ||= {};
     output.sourceMap.css = true;
   }
