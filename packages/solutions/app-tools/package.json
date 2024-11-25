@@ -34,6 +34,11 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
+    "./cli/run": {
+      "types": "./dist/types/new/run.d.ts",
+      "jsnext:source": "./src/new/run.ts",
+      "default": "./dist/cjs/new/run.js"
+    },
     "./types": {
       "types": "./lib/types.d.ts",
       "jsnext:source": "./lib/types.d.ts",
@@ -57,6 +62,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "cli/run": [
+        "./dist/types/new/run.d.ts"
       ],
       "types": [
         "./lib/types.d.ts"
@@ -84,6 +92,7 @@
     "@babel/parser": "^7.22.15",
     "@babel/traverse": "^7.23.2",
     "@babel/types": "^7.26.0",
+    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin": "workspace:*",

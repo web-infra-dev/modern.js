@@ -10,10 +10,10 @@ if (!process.env.MODERN_JS_VERSION) {
   process.env.MODERN_JS_VERSION = version;
 }
 
-require('@modern-js/core/runBin').run({
+require('../dist/cjs/new/run.js').run({
   internalPlugins: {
     cli: INTERNAL_APP_TOOLS_PLUGINS,
     autoLoad: INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
   },
-  initialLog: `Modern.js Framework v${version}`,
+  version,
 });
