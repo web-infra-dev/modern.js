@@ -1,10 +1,17 @@
+import { createCollectAsyncHook } from '@modern-js/plugin-v2';
 import type { InternalContext, Plugin } from '@modern-js/plugin-v2/types';
+import type { Entrypoint } from '@modern-js/types';
 import type {
   AppToolsNormalizedConfig,
   AppToolsUserConfig,
 } from '../../types/config';
 import type { AppTools, AppToolsExtendAPIName } from '../types';
 import { getHookRunners } from './hooks';
+
+type AppendEntryCodeFn = (params: {
+  entrypoint: Entrypoint;
+  code: string;
+}) => string | Promise<string>;
 
 export const compatPlugin = (): Plugin<
   AppTools<'shared'>,
@@ -37,6 +44,9 @@ export const compatPlugin = (): Plugin<
         return getHookRunners(getInternalContext());
       },
     };
+  },
+  registryHooks: {
+    appendEntryCode: createCollectAsyncHook<AppendEntryCodeFn>(),
   },
   setup: _api => {},
 });

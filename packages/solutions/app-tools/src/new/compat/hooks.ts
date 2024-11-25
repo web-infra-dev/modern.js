@@ -80,6 +80,14 @@ export function getHookRunners(
     beforePrintInstructions: async (params: { instructions: string }) => {
       return hooks.onBeforePrintInstructions.call(params);
     },
+    // garfish plugin hooks
+    appendEntryCode: async (params: {
+      entrypoint: Entrypoint;
+      code: string;
+    }) => {
+      const result = await (hooks as any)?.appendEntryCode.call(params);
+      return result;
+    },
 
     /**
      * common hooks
