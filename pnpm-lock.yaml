@@ -878,7 +878,7 @@ importers:
         version: 1.2.1
       flatted:
         specifier: ^3.2.9
-        version: 3.2.9
+        version: 3.3.2
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -974,7 +974,7 @@ importers:
         version: 1.0.0
       flatted:
         specifier: ^3.2.9
-        version: 3.2.9
+        version: 3.3.2
       hookable:
         specifier: ^5.5.3
         version: 5.5.3
@@ -1065,7 +1065,7 @@ importers:
         version: 1.0.0
       flatted:
         specifier: ^3.2.9
-        version: 3.2.9
+        version: 3.3.2
       hono:
         specifier: 4.5.8
         version: 4.5.8
@@ -2813,7 +2813,7 @@ importers:
         version: 1.0.3
       flatted:
         specifier: ^3.2.9
-        version: 3.3.1
+        version: 3.3.2
       hono:
         specifier: ^3.12.2
         version: 3.12.12
@@ -3498,7 +3498,7 @@ importers:
         version: 3.5.0(esbuild@0.17.19)
       flatted:
         specifier: ^3.2.9
-        version: 3.3.1
+        version: 3.3.2
       mlly:
         specifier: ^1.6.1
         version: 1.7.3
@@ -15327,11 +15327,8 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
 
-  flatted@3.2.9:
-    resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
-
-  flatted@3.3.1:
-    resolution: {integrity: sha512-X8cqMLLie7KsNUDSdzeN8FYK9rEt4Dt67OsG/DNGnYTSDBG4uFAJFBnUeiV+zCVAvwFy56IjM9sH51jVaEhNxw==}
+  flatted@3.3.2:
+    resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}
 
   flexsearch@0.7.43:
     resolution: {integrity: sha512-c5o/+Um8aqCSOXGcZoqZOm+NqtVwNsvVpWv6lfmSclU954O3wvQKxxK8zj74fPaSJbXpSLTs4PRhh+wnoCXnKg==}
@@ -28494,7 +28491,7 @@ snapshots:
       '@vitest/utils': 0.33.0
       fast-glob: 3.3.2
       fflate: 0.8.0
-      flatted: 3.3.1
+      flatted: 3.3.2
       pathe: 1.1.1
       picocolors: 1.0.1
       sirv: 2.0.3
@@ -31611,14 +31608,12 @@ snapshots:
 
   flat-cache@3.0.4:
     dependencies:
-      flatted: 3.3.1
+      flatted: 3.3.2
       rimraf: 3.0.2
 
   flat@5.0.2: {}
 
-  flatted@3.2.9: {}
-
-  flatted@3.3.1: {}
+  flatted@3.3.2: {}
 
   flexsearch@0.7.43: {}
 
