@@ -4365,8 +4365,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0
       fs-extra:
-        specifier: 10.0.1
-        version: 10.0.1
+        specifier: 10.1.0
+        version: 10.1.0
       glob:
         specifier: 7.2.3
         version: 7.2.3
