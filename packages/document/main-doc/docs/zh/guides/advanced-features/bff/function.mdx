@@ -84,6 +84,10 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 - TypeScript 类型文件。例如：`hello.d.ts`。
 - `node_module` 下的文件。
 
+### 共享源码
+
+默认 `api/` 目录下所有文件，在  `src` 目录中都不可以被引用。当项目在 `api/` 下有公共代码时，可将这些代码放到 `shared` 目录下。
+
 ## RESTful API
 
 Modern.js 的 BFF 函数需要遵循 RESTful API 标准来定义，开发者需要按照一系列规则来定义 BFF 函数。

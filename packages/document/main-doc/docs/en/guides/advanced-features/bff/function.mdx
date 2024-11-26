@@ -83,6 +83,10 @@ By default, all files under the `api/lambda/` directory are parsed as BFF functi
 - TypeScript type files. For example: `hello.d.ts`.
 - Files under `node_modules`.
 
+### Shared source
+
+By default, all files in the `api/` directory cannot be referenced in the `src` directory. When there is common code in the `api/` directory within a project, you can place this code in the `shared` directory.
+
 ## RESTful API
 
 Modern.js BFF functions need to follow RESTful API standards for definition. Developers must define BFF functions according to a set of rules.
