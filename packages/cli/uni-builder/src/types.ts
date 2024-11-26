@@ -148,7 +148,7 @@ export type UniBuilderExtraConfig = {
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
      */
-    tsChecker?: PluginTypeCheckerOptions['forkTsCheckerOptions'];
+    tsChecker?: PluginTypeCheckerOptions['tsCheckerOptions'];
     /**
      * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
      */
