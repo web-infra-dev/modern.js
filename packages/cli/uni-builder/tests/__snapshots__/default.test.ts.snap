@@ -957,7 +957,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -1751,7 +1751,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -2793,7 +2793,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -3550,7 +3550,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -4769,7 +4769,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -6128,7 +6128,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
