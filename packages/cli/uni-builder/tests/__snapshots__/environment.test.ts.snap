@@ -1692,7 +1692,7 @@ exports[`uni-builder environment compat > should generator environment config co
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
       },
-      ForkTsCheckerWebpackPlugin {
+      TsCheckerRspackPlugin {
         "options": {
           "issue": {
             "exclude": [
