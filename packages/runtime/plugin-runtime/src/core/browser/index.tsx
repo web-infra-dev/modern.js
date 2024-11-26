@@ -141,7 +141,7 @@ export async function render(
     }
 
     // we should hydateRoot only when ssr
-    if (ssrData) {
+    if (window._SSR_DATA) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
     return ModernRender(wrapRuntimeContextProvider(App, context));
