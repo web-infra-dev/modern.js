@@ -58,7 +58,10 @@ export function createPluginManager(): PluginManager {
       dependencies.get(plugin)!.post.set(dependency, { name: dependency });
     } else if (type === 'use') {
       // 'use' plugins are added to the 'pre' order if not already in 'post'
-      if (!dependencies.get(plugin)!.post.has(dependency)) {
+      if (
+        !dependencies.get(plugin)!.post.has(dependency) &&
+        !dependencies.get(dependency)!.pre.has(plugin)
+      ) {
         dependencies
           .get(plugin)!
           .pre.set(dependency, { name: dependency, isUse: true });
