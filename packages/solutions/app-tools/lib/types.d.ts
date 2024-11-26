@@ -11,6 +11,10 @@ declare namespace NodeJS {
   }
 }
 
+// reference @rsbuild/core/types, but there are some differences, such as svg
+/**
+ * Image assets
+ */
 declare module '*.bmp' {
   const src: string;
   export default src;
@@ -36,6 +40,31 @@ declare module '*.png' {
   export default src;
 }
 
+declare module '*.pjpeg' {
+  const src: string;
+  export default src;
+}
+declare module '*.pjp' {
+  const src: string;
+  export default src;
+}
+declare module '*.apng' {
+  const src: string;
+  export default src;
+}
+declare module '*.tif' {
+  const src: string;
+  export default src;
+}
+declare module '*.tiff' {
+  const src: string;
+  export default src;
+}
+declare module '*.jfif' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.avif' {
   const src: string;
   export default src;
@@ -47,6 +76,78 @@ declare module '*.ico' {
 }
 
 declare module '*.webp' {
+  const src: string;
+  export default src;
+}
+
+/**
+ * Font assets
+ */
+declare module '*.woff' {
+  const src: string;
+  export default src;
+}
+declare module '*.woff2' {
+  const src: string;
+  export default src;
+}
+declare module '*.eot' {
+  const src: string;
+  export default src;
+}
+declare module '*.ttf' {
+  const src: string;
+  export default src;
+}
+declare module '*.otf' {
+  const src: string;
+  export default src;
+}
+declare module '*.ttc' {
+  const src: string;
+  export default src;
+}
+
+/**
+ * Media assets
+ */
+declare module '*.mp4' {
+  const src: string;
+  export default src;
+}
+declare module '*.webm' {
+  const src: string;
+  export default src;
+}
+declare module '*.ogg' {
+  const src: string;
+  export default src;
+}
+declare module '*.mp3' {
+  const src: string;
+  export default src;
+}
+declare module '*.wav' {
+  const src: string;
+  export default src;
+}
+declare module '*.flac' {
+  const src: string;
+  export default src;
+}
+declare module '*.aac' {
+  const src: string;
+  export default src;
+}
+declare module '*.mov' {
+  const src: string;
+  export default src;
+}
+declare module '*.m4a' {
+  const src: string;
+  export default src;
+}
+declare module '*.opus' {
   const src: string;
   export default src;
 }
@@ -71,107 +172,19 @@ declare module '*.svg?react' {
   export default ReactComponent;
 }
 
-declare module '*.bmp?inline' {
+/**
+ * Queries
+ */
+declare module '*?inline' {
+  const content: string;
+  export default content;
+}
+
+declare module '*?url' {
   const src: string;
   export default src;
 }
 
-declare module '*.gif?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.jpg?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.jpeg?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.png?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.avif?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.ico?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.webp?inline' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.svg?inline' {
-  import * as React from 'react';
-
-  export const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement>
-  >;
-
-  const src: string;
-  export default src;
-}
-
-declare module '*.bmp?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.gif?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.jpg?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.jpeg?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.png?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.avif?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.ico?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.webp?url' {
-  const src: string;
-  export default src;
-}
-
-declare module '*.svg?url' {
-  import * as React from 'react';
-
-  export const ReactComponent: React.FunctionComponent<
-    React.SVGProps<SVGSVGElement>
-  >;
-
-  const src: string;
-  export default src;
-}
 
 declare module '*.css' {
   const classes: { readonly [key: string]: string };
@@ -193,6 +206,9 @@ declare module '*.sass' {
   export default classes;
 }
 
+/**
+ * CSS Modules
+ */
 declare module '*.module.css' {
   const classes: { readonly [key: string]: string };
   export default classes;
@@ -224,12 +240,17 @@ declare module '*.hbs' {
 }
 
 declare module '*.yaml' {
-  const src: string;
+  const src: Record<string, any>;
   export default src;
 }
 
+declare module '*.yml' {
+  const content: Record<string, any>;
+  export default content;
+}
+
 declare module '*.toml' {
-  const src: string;
+  const src: Record<string, any>;
   export default src;
 }
 
