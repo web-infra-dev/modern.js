@@ -359,7 +359,7 @@ export async function parseCommonConfig(
     const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
-        forkTsCheckerOptions: tsChecker,
+        tsCheckerOptions: tsChecker,
       }),
     );
   }
