@@ -91,8 +91,10 @@ export async function render(
   };
 
   if (isClientArgs(id)) {
+    // This field may suitable to be called `requestData`,
+    // because both SSR and CSR can get the context
     const ssrData = getSSRData();
-    const loadersData = ssrData?.data?.loadersData || {};
+    const loadersData = ssrData.data?.loadersData || {};
 
     const initialLoadersState = Object.keys(loadersData).reduce(
       (res: any, key) => {
@@ -114,10 +116,10 @@ export async function render(
       }),
       // garfish plugin params
       _internalRouterBaseName: App.props.basename,
-      ...(ssrData ? { ssrContext: ssrData?.context } : {}),
+      ...{ ssrContext: ssrData.context },
     });
 
-    context.initialData = ssrData?.data?.initialData;
+    context.initialData = ssrData.data?.initialData;
     const initialData = await runBeforeRender(context);
     if (initialData) {
       context.initialData = initialData;
@@ -141,7 +143,7 @@ export async function render(
     }
 
     // we should hydateRoot only when ssr
-    if (ssrData) {
+    if (window._SSR_DATA) {
       return hydrateRoot(App, context, ModernRender, ModernHydrate);
     }
     return ModernRender(wrapRuntimeContextProvider(App, context));
