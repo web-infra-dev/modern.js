@@ -1,10 +1,11 @@
 import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
-import type { AppContext, InternalContext } from '@modern-js/plugin-v2/types';
 import type {
+  AppContext,
+  InternalContext,
   PluginHook,
   PluginHookTap,
   TransformFunction,
-} from '@modern-js/plugin-v2/types';
+} from '@modern-js/plugin-v2';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -155,6 +156,10 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
   sharedDirectory: string;
   internalDirAlias: string;
   internalSrcAlias: string;
+  apiDirectory: string;
+  lambdaDirectory: string;
+  serverPlugins: ServerPlugin[];
+  moduleType: 'module' | 'commonjs';
   _internalContext: InternalContext<AppTools<B>>;
 };
 

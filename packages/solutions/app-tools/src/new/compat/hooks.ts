@@ -1,4 +1,4 @@
-import type { InternalContext } from '@modern-js/plugin-v2/types';
+import type { InternalContext } from '@modern-js/plugin-v2';
 import type {
   Entrypoint,
   HtmlPartials,

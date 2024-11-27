@@ -52,9 +52,9 @@ export type AppTools<B extends Bundler = 'webpack'> = {
   hooks: AppToolsHooks<B>;
   // v2
   config: AppToolsUserConfig<B>;
-  extendsHooks: AppToolsExtendHooks;
+  extendHooks: AppToolsExtendHooks;
   extendApi: AppToolsExtendAPI<B>;
-  extendContext: AppToolsExtendContext;
+  extendContext: AppToolsExtendContext<B>;
 };
 
 export type LegacyAppTools = {
