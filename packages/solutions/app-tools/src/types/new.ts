@@ -120,7 +120,8 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   useHookRunners: () => ReturnType<typeof getHookRunners>;
 }
 
-export interface AppToolsExtendHooks {
+export interface AppToolsExtendHooks
+  extends Record<string, PluginHook<(...args: any[]) => any>> {
   onBeforeConfig: PluginHook<BeforeConfigFn>;
   onAfterPrepare: PluginHook<AfterPrepareFn>;
   deploy: PluginHook<DeplpoyFn>;

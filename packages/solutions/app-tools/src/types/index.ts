@@ -44,17 +44,18 @@ export type {
 } from '@modern-js/core';
 
 // 同时支持 plugin and plugin v2
-export type AppTools<B extends Bundler = 'webpack'> = {
-  // common
-  normalizedConfig: AppToolsNormalizedConfig;
-  // v1
+export type AppTools<B extends Bundler = 'webpack'> = Required<
+  CLIPluginExtends<
+    AppToolsUserConfig<B>,
+    AppToolsNormalizedConfig,
+    AppToolsExtendContext<B>,
+    AppToolsExtendAPI<B>,
+    AppToolsExtendHooks
+  >
+> & {
+  // v1 params
   userConfig: AppToolsUserConfig<B>;
   hooks: AppToolsHooks<B>;
-  // v2
-  config: AppToolsUserConfig<B>;
-  extendHooks: AppToolsExtendHooks;
-  extendApi: AppToolsExtendAPI<B>;
-  extendContext: AppToolsExtendContext<B>;
 };
 
 export type LegacyAppTools = {
