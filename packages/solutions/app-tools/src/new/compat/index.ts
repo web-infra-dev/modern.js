@@ -1,5 +1,5 @@
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
-import type { CLIPlugin } from '@modern-js/plugin-v2/types';
+import type { CLIPlugin } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
 import type { AppTools } from '../../types';
 import { getHookRunners } from './hooks';

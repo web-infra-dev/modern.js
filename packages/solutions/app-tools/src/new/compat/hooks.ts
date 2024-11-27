@@ -8,8 +8,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
-import type { AppToolsNormalizedConfig } from '../../types';
-import type { AppTools } from '../../types';
+import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
 import {
   transformHookParams,

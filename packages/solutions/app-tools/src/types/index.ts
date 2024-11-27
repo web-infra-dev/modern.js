@@ -1,5 +1,5 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { CLIPlugin } from '@modern-js/plugin-v2/types';
+import type { CLIPlugin } from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
