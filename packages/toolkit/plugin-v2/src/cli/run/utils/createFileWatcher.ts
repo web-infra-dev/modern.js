@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { chokidar, createDebugger, isDevCommand } from '@modern-js/utils';
 import type { InternalContext } from '../../../types';
+import type { CLIPluginExtends } from '../../../types/cli/plugin';
 
 const debug = createDebugger('watch-files');
 
@@ -11,12 +12,8 @@ const hashMap = new Map<string, string>();
 const md5 = (data: string) =>
   crypto.createHash('md5').update(data).digest('hex');
 
-export const createFileWatcher = async <
-  Config,
-  NormalizedConfig,
-  ExtendsHooksKey extends string,
->(
-  appContext: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>,
+export const createFileWatcher = async <Extends extends CLIPluginExtends>(
+  appContext: InternalContext<Extends>,
 ) => {
   // only add fs watcher on dev mode.
   if (isDevCommand()) {

@@ -1,4 +1,4 @@
-import type { Plugin } from '@modern-js/plugin-v2/types';
+import type { Plugin } from '@modern-js/plugin-v2';
 import type { InternalPlugins } from '@modern-js/types';
 import {
   compatibleRequire,

@@ -1,6 +1,7 @@
 import { logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
 import { createPluginManager } from '../../manager';
+import type { CLIPlugin, CLIPluginExtends } from '../../types/cli/plugin';
 import type { Plugin } from '../../types/plugin';
 import type { DeepPartial } from '../../types/utils';
 import { initPluginAPI } from '../api';
@@ -14,11 +15,7 @@ import { createFileWatcher } from './utils/createFileWatcher';
 import { initAppDir } from './utils/initAppDir';
 import { loadEnv } from './utils/loadEnv';
 
-export const createCli = <
-  Config,
-  NormalizedConfig,
-  ExtendsHooksKey extends string,
->() => {
+export const createCli = <Extends extends CLIPluginExtends>() => {
   let initOptions: CLIRunOptions;
   const pluginManager = createPluginManager();
 
@@ -43,7 +40,7 @@ export const createCli = <
 
     loadEnv(appDirectory, process.env[`${metaName.toUpperCase()}_ENV`]);
 
-    const loaded = await createLoadedConfig<Config>(
+    const loaded = await createLoadedConfig<Extends['config']>(
       appDirectory,
       configFile,
       packageJsonConfig,
@@ -61,14 +58,10 @@ export const createCli = <
 
     pluginManager.addPlugins(allPlugins);
 
-    const plugins = await pluginManager.getPlugins();
+    const plugins = (await pluginManager.getPlugins()) as CLIPlugin<Extends>[];
 
-    const context = await createContext<
-      Config,
-      NormalizedConfig,
-      ExtendsHooksKey
-    >({
-      appContext: initAppContext({
+    const context = await createContext<Extends>({
+      appContext: initAppContext<Extends>({
         packageName: loaded.packageName,
         configFile: loaded.configFile,
         command: command,
@@ -76,10 +69,10 @@ export const createCli = <
         plugins,
       }),
       config: loaded.config,
-      normalizedConfig: {} as NormalizedConfig,
+      normalizedConfig: {},
     });
 
-    const pluginAPI = initPluginAPI<Config, NormalizedConfig, ExtendsHooksKey>({
+    const pluginAPI = initPluginAPI<Extends>({
       context,
       pluginManager,
     });
@@ -123,9 +116,9 @@ export const createCli = <
     const extraConfigs = await context.hooks.config.call();
 
     const normalizedConfig = await createResolveConfig<
-      Config,
-      NormalizedConfig
-    >(loaded, extraConfigs as DeepPartial<Config>[]);
+      Extends['config'],
+      Extends['normalizedConfig']
+    >(loaded, extraConfigs as DeepPartial<Extends['config']>[]);
 
     const resolved =
       await context.hooks.modifyResolvedConfig.call(normalizedConfig);

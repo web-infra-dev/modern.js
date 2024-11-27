@@ -1,10 +1,16 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
+import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
   AppToolsLegacyNormalizedConfig,
   AppToolsLegacyUserConfig,
 } from './legacyConfig';
+import type {
+  AppToolsExtendAPI,
+  AppToolsExtendContext,
+  AppToolsExtendHooks,
+} from './new';
 import type { Bundler } from './utils';
 
 export * from './hooks';
@@ -37,10 +43,19 @@ export type {
   UserConfig,
 } from '@modern-js/core';
 
-export type AppTools<B extends Bundler = 'webpack'> = {
-  hooks: AppToolsHooks<B>;
+// 同时支持 plugin and plugin v2
+export type AppTools<B extends Bundler = 'webpack'> = Required<
+  CLIPluginExtends<
+    AppToolsUserConfig<B>,
+    AppToolsNormalizedConfig,
+    AppToolsExtendContext<B>,
+    AppToolsExtendAPI<B>,
+    AppToolsExtendHooks
+  >
+> & {
+  // v1 params
   userConfig: AppToolsUserConfig<B>;
-  normalizedConfig: AppToolsNormalizedConfig<AppToolsUserConfig<'shared'>>;
+  hooks: AppToolsHooks<B>;
 };
 
 export type LegacyAppTools = {
@@ -48,6 +63,10 @@ export type LegacyAppTools = {
   userConfig: AppToolsLegacyUserConfig;
   normalizedConfig: AppToolsLegacyNormalizedConfig;
 };
+
+// plugin v2
+export type CliPluginFuture<Extends extends CLIPluginExtends> =
+  CLIPlugin<Extends>;
 
 export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
   NormalizedConfig<AppTools<B>>;
