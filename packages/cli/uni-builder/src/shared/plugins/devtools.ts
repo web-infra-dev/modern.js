@@ -18,12 +18,8 @@ export const pluginDevtool = (options: {
   setup(api) {
     // priority order
     // 1. output.sourceMap.js, if this value is set, we won't apply this plugin and let rsbuild handles it
-    const devtoolJs =
-      typeof options.sourceMap === 'boolean'
-        ? options.sourceMap
-        : options.sourceMap?.js;
-    if (devtoolJs) {
-      if (!isUseJsSourceMap(options.disableSourceMap)) {
+    if (options.sourceMap !== undefined) {
+      if (options.disableSourceMap !== undefined) {
         logger.warn(
           'Detected that `output.sourceMap` and `output.disableSourceMap` are used together, use the value of `output.sourceMap`',
         );

@@ -145,6 +145,7 @@ export async function parseCommonConfig(
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
       dataUriLimit,
+      sourceMap,
       ...outputConfig,
     },
     source: {
