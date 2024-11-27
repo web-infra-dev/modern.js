@@ -1,5 +1,5 @@
 import path from 'path';
-import { address } from '@modern-js/utils';
+import { fs, address } from '@modern-js/utils';
 
 export const initAppContext = ({
   appDirectory,
@@ -26,14 +26,16 @@ export const initAppContext = ({
     distDir = '',
     sharedDir = 'shared',
   } = options || {};
+  const pkgPath = path.resolve(appDirectory, './package.json');
   return {
     metaName,
     runtimeConfigFile,
     serverConfigFile,
     ip: address.ip(),
     port: 0,
-    moduleType:
-      require(path.resolve(appDirectory, './package.json')).type || 'commonjs',
+    moduleType: fs.existsSync(pkgPath)
+      ? require(pkgPath).type || 'commonjs'
+      : 'commonjs',
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
     sharedDirectory: path.resolve(appDirectory, sharedDir),
