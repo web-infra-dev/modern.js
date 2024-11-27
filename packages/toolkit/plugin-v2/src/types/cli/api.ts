@@ -35,12 +35,12 @@ import type { CLIPluginExtends } from './plugin';
  * Define a generic CLI plugin API that provider can extend as needed.
  */
 export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<{
-  getAppContext: () => Readonly<AppContext<Extends>>;
+  getAppContext: () => Readonly<AppContext<Extends> & Extends['extendContext']>;
   getConfig: () => Readonly<Extends['config']>;
   getNormalizedConfig: () => Readonly<Extends['normalizedConfig']>;
   getHooks: () => Readonly<
     Hooks<Extends['config'], Extends['normalizedConfig']> &
-      Extends['extendsHooks']
+      Extends['extendHooks']
   >;
 
   updateAppContext: (appContext: DeepPartial<AppContext<Extends>>) => void;

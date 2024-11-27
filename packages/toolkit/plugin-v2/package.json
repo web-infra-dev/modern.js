@@ -51,9 +51,6 @@
       ".": [
         "./dist/index.d.ts"
       ],
-      "types": [
-        "./dist/types/types/index.d.ts"
-      ],
       "run": [
         "./dist/types/cli/run/run.d.ts"
       ],

@@ -51,9 +51,9 @@ export type InternalContext<Extends extends CLIPluginExtends> =
   AppContext<Extends> & {
     /** All hooks. */
     hooks: Hooks<Extends['config'], Extends['normalizedConfig']> &
-      Extends['extendsHooks'];
+      Extends['extendHooks'];
     /** All plugin registry hooks */
-    extendsHooks: Extends['extendsHooks'];
+    extendsHooks: Extends['extendHooks'];
     /** Current App config. */
     config: Readonly<Extends['config']>;
     /** The normalized Rsbuild config. */

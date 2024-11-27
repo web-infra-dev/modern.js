@@ -14,7 +14,7 @@ export interface CLIPluginExtends<
   normalizedConfig?: NormalizedConfig;
   extendContext?: ExtendContext;
   extendApi?: ExtendAPI;
-  extendsHooks?: ExtendHook;
+  extendHooks?: ExtendHook;
 }
 
 /**

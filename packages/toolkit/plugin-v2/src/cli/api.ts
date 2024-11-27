@@ -15,10 +15,16 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
   const { hooks, extendsHooks, plugins } = context;
   function getAppContext() {
     if (context) {
-      const { hooks, config, normalizedConfig, pluginAPI, ...appContext } =
-        context;
+      const {
+        hooks,
+        extendsHooks,
+        config,
+        normalizedConfig,
+        pluginAPI,
+        ...appContext
+      } = context;
       appContext._internalContext = context;
-      return appContext;
+      return appContext as AppContext<Extends> & Extends['extendContext'];
     }
     throw new Error('Cannot access context');
   }
