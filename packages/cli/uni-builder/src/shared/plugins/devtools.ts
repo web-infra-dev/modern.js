@@ -16,11 +16,11 @@ export const pluginDevtool = (options: {
   name: 'uni-builder:devtool',
 
   setup(api) {
+    // priority order
+    // 1. output.sourceMap.js, if this value is set, we won't apply this plugin and let rsbuild handles it
     const devtoolJs =
       typeof options.sourceMap === 'boolean' ||
       options.sourceMap?.js !== undefined;
-    // priority order
-    // 1. output.sourceMap.js, if this value is set, we won't apply this plugin and let rsbuild handles it
     if (devtoolJs) {
       if (
         typeof options.disableSourceMap === 'boolean' ||
