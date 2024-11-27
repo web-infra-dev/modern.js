@@ -1,24 +1,24 @@
 import path from 'path';
 import type { AppContext, InternalContext } from '../types/cli/context';
-import type { CLIPlugin } from '../types/cli/plugin';
-import type { AsyncHook, PluginHook } from '../types/hooks';
-import { type Hooks, initHooks } from './hooks';
+import type { CLIPlugin, CLIPluginExtends } from '../types/cli/plugin';
+import type { PluginHook } from '../types/hooks';
+import { initHooks } from './hooks';
 
-interface ContextParams<Config, NormalizedConfig> {
-  appContext: AppContext<Config, NormalizedConfig>;
-  config: Config;
-  normalizedConfig: NormalizedConfig;
+interface ContextParams<Extends extends CLIPluginExtends> {
+  appContext: AppContext<Extends>;
+  config: Extends['config'];
+  normalizedConfig: Extends['normalizedConfig'];
 }
 
-export function initAppContext<Config, NormalizedConfig>(params: {
+export function initAppContext<Extends extends CLIPluginExtends>(params: {
   packageName: string;
   configFile: string;
   command: string;
   appDirectory: string;
-  plugins: CLIPlugin<Config, NormalizedConfig>[];
+  plugins: CLIPlugin<Extends>[];
   srcDir?: string;
   distDir?: string;
-}): AppContext<Config, NormalizedConfig> {
+}): AppContext<Extends> {
   const { appDirectory, srcDir = 'src', distDir = 'dist' } = params;
   return {
     packageName: params.packageName,
@@ -33,17 +33,11 @@ export function initAppContext<Config, NormalizedConfig>(params: {
   };
 }
 
-export async function createContext<
-  Config,
-  NormalizedConfig,
-  ExtendsHooksKey extends string,
->({
+export async function createContext<Extends extends CLIPluginExtends>({
   appContext,
   config,
   normalizedConfig,
-}: ContextParams<Config, NormalizedConfig>): Promise<
-  InternalContext<Config, NormalizedConfig, ExtendsHooksKey>
-> {
+}: ContextParams<Extends>): Promise<InternalContext<Extends>> {
   const { plugins } = appContext;
   const extendsHooks: Record<string, PluginHook<(...args: any[]) => any>> = {};
   plugins.forEach(plugin => {
@@ -55,10 +49,9 @@ export async function createContext<
   return {
     ...appContext,
     hooks: {
-      ...initHooks<Config, NormalizedConfig>(),
+      ...initHooks<Extends['config'], Extends['normalizedConfig']>(),
       ...extendsHooks,
-    } as Hooks<Config, NormalizedConfig> &
-      Record<ExtendsHooksKey, AsyncHook<(...args: any[]) => any>>,
+    },
     extendsHooks,
     config,
     normalizedConfig,

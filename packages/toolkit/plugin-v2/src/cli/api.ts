@@ -1,20 +1,17 @@
-import { merge, update } from '@modern-js/utils/lodash';
-import type { PluginHookTap } from '../types';
+import { merge } from '@modern-js/utils/lodash';
+import type { PluginHook, PluginHookTap } from '../types';
 import type { CLIPluginAPI } from '../types/cli/api';
 import type { AppContext, InternalContext } from '../types/cli/context';
+import type { CLIPluginExtends } from '../types/cli/plugin';
 import type { PluginManager } from '../types/plugin';
 import type { DeepPartial } from '../types/utils';
 
-export function initPluginAPI<
-  Config,
-  NormalizedConfig,
-  ExtendsHooksKey extends string,
->({
+export function initPluginAPI<Extends extends CLIPluginExtends>({
   context,
 }: {
-  context: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>;
+  context: InternalContext<Extends>;
   pluginManager: PluginManager;
-}): CLIPluginAPI<Config, NormalizedConfig> {
+}): CLIPluginAPI<Extends> {
   const { hooks, extendsHooks, plugins } = context;
   function getAppContext() {
     if (context) {
@@ -58,13 +55,15 @@ export function initPluginAPI<
     }
   });
 
-  (Object.keys(extendsHooks) as ExtendsHooksKey[]).forEach(hookName => {
-    extendsPluginApi[hookName] = extendsHooks[hookName].tap;
-  });
+  if (extendsHooks) {
+    Object.keys(extendsHooks!).forEach(hookName => {
+      extendsPluginApi[hookName] = (
+        extendsHooks as Record<string, PluginHook<(...args: any[]) => any>>
+      )[hookName].tap;
+    });
+  }
 
-  function updateAppContext(
-    updateContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
-  ) {
+  function updateAppContext(updateContext: DeepPartial<AppContext<Extends>>) {
     context = merge(context, updateContext);
   }
 

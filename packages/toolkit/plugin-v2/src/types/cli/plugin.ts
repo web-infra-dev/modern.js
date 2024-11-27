@@ -1,8 +1,26 @@
+import type { PluginHook } from '../hooks';
 import type { Plugin } from '../plugin';
 import type { CLIPluginAPI } from './api';
+import type { AppContext } from './context';
+
+export interface CLIPluginExtends<
+  Config extends Record<string, any> = {},
+  NormalizedConfig extends Record<string, any> = {},
+  ExtendContext extends Record<string, any> = {},
+  ExtendAPI extends Record<string, any> = {},
+  ExtendHook extends Record<string, PluginHook<(...args: any[]) => any>> = {},
+> {
+  config?: Config;
+  normalizedConfig?: NormalizedConfig;
+  extendContext?: ExtendContext;
+  extendApi?: ExtendAPI;
+  extendsHooks?: ExtendHook;
+}
+
 /**
  * The type of the CLI plugin object.
  */
-export type CLIPlugin<Config, NormalizedConfig> = Plugin<
-  CLIPluginAPI<Config, NormalizedConfig>
+export type CLIPlugin<Extends extends CLIPluginExtends> = Plugin<
+  CLIPluginAPI<Extends> & Extends['extendApi'],
+  AppContext<Extends> & Extends['extendContext']
 >;
