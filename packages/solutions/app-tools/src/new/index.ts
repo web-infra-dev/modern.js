@@ -1,9 +1,9 @@
 import { createAsyncHook } from '@modern-js/plugin-v2';
 import { type AppToolsOptions, appTools as oldAppTools } from '../old';
+import type { AppToolsPlugin } from '../types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
-  AppToolsPlugin,
   BeforeConfigFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,
