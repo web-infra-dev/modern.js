@@ -150,10 +150,15 @@ export interface AppToolsExtendHooks {
 }
 
 export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
+  metaName: string;
+  internalDirectory: string;
+  sharedDirectory: string;
+  internalDirAlias: string;
+  internalSrcAlias: string;
   _internalContext: InternalContext<AppTools<B>>;
 };
 
 export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
   AppTools<B>
 > &
-  AppToolsExtendContext;
+  AppToolsExtendContext<B>;

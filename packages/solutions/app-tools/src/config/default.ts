@@ -1,10 +1,11 @@
 import { MAIN_ENTRY_NAME } from '@modern-js/utils';
-import type { AppLegacyUserConfig, AppUserConfig, IAppContext } from '../types';
+import type { AppLegacyUserConfig, AppUserConfig } from '../types';
+import type { AppToolsContext } from '../types/new';
 import { getAutoInjectEnv } from '../utils/env';
 
 // Define some default values that are different from rsbuild default config or used in useResolvedConfigContext
 export function createDefaultConfig(
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
 ): AppUserConfig<'webpack'> | AppUserConfig<'rspack'> {
   const dev: AppUserConfig['dev'] = {
     // `dev.port` should not have a default value
@@ -40,8 +41,8 @@ export function createDefaultConfig(
     globalVars: getAutoInjectEnv(appContext),
     alias: {
       [appContext.internalDirAlias]: appContext.internalDirectory,
-      [appContext.internalSrcAlias]: appContext.srcDirectory,
-      '@': appContext.srcDirectory,
+      [appContext.internalSrcAlias]: appContext.srcDirectory!,
+      '@': appContext.srcDirectory!,
       '@shared': appContext.sharedDirectory,
     },
   };
@@ -92,13 +93,13 @@ export function createDefaultConfig(
 }
 
 export function createLegacyDefaultConfig(
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
 ): AppLegacyUserConfig {
   const defaultAlias: Record<string, string> = appContext
     ? {
         [appContext.internalDirAlias]: appContext.internalDirectory,
-        [appContext.internalSrcAlias]: appContext.srcDirectory,
-        '@': appContext.srcDirectory,
+        [appContext.internalSrcAlias]: appContext.srcDirectory!,
+        '@': appContext.srcDirectory!,
         '@shared': appContext.sharedDirectory,
       }
     : {};

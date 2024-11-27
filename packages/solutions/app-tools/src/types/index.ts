@@ -64,7 +64,9 @@ export type LegacyAppTools = {
 };
 
 // plugin v2
-export type AppToolsPlugin = CLIPlugin<AppTools>;
+export type AppToolsPlugin<B extends Bundler = 'webpack'> = CLIPlugin<
+  AppTools<B>
+>;
 
 export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
   NormalizedConfig<AppTools<B>>;

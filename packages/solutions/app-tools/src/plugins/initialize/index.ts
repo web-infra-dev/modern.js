@@ -11,17 +11,18 @@ import {
   transformNormalizedConfig,
 } from '../../config';
 import type {
-  AppTools,
+  AppNormalizedConfig,
   AppToolsNormalizedConfig,
+  AppToolsPlugin,
   AppUserConfig,
-  CliPlugin,
 } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 
 export default ({
   bundler,
 }: {
   bundler: 'rspack' | 'webpack';
-}): CliPlugin<AppTools<'shared'>> => ({
+}): AppToolsPlugin<'shared'> => ({
   name: '@modern-js/plugin-initialize',
 
   post: [
@@ -34,13 +35,12 @@ export default ({
   ],
 
   setup(api) {
-    const config = () => {
-      const appContext = api.useAppContext();
-      const userConfig = api.useConfigContext();
+    api.config(() => {
+      const appContext = api.getAppContext() as AppToolsContext<'shared'>;
+      const userConfig = api.getConfig();
 
       // set bundlerType to appContext
-      api.setAppContext({
-        ...appContext,
+      api.updateAppContext({
         bundlerType: bundler,
       });
 
@@ -49,37 +49,40 @@ export default ({
         : createDefaultConfig(
             appContext,
           )) as unknown as AppUserConfig<'shared'>;
-    };
+    });
 
-    return {
-      config,
-      async resolvedConfig({ resolved }) {
-        let appContext = api.useAppContext();
-        const userConfig = api.useConfigContext();
-        const port = await getServerPort(resolved);
+    api.modifyResolvedConfig(async resolved => {
+      let appContext = api.getAppContext();
+      const userConfig = api.getConfig();
+      const port = await getServerPort(resolved);
 
-        appContext = {
-          ...appContext,
-          port,
-          distDirectory: ensureAbsolutePath(
-            appContext.distDirectory,
-            resolved.output.distPath?.root || 'dist',
-          ),
-        };
+      appContext = {
+        ...appContext,
+        port,
+        distDirectory: ensureAbsolutePath(
+          appContext.distDirectory!,
+          resolved.output.distPath?.root || 'dist',
+        ),
+      };
 
-        api.setAppContext(appContext);
+      api.updateAppContext(appContext);
 
-        const normalizedConfig = checkIsLegacyConfig(resolved)
-          ? transformNormalizedConfig(resolved as any)
-          : resolved;
+      const normalizedConfig = checkIsLegacyConfig(resolved)
+        ? transformNormalizedConfig(resolved as any)
+        : resolved;
 
-        resolved._raw = userConfig;
-        resolved.server = {
-          ...(normalizedConfig.server || {}),
-          port,
-        };
-        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins ?? false;
-        stabilizeConfig(resolved, normalizedConfig, [
+      resolved._raw = userConfig;
+      resolved.server = {
+        ...(normalizedConfig.server || {}),
+        port,
+      };
+      (resolved as unknown as AppNormalizedConfig).autoLoadPlugins =
+        (normalizedConfig as unknown as AppNormalizedConfig).autoLoadPlugins ??
+        false;
+      stabilizeConfig(
+        resolved,
+        normalizedConfig as AppToolsNormalizedConfig & { plugins: any },
+        [
           'source',
           'bff',
           'dev',
@@ -93,16 +96,16 @@ export default ({
           'runtimeByEntries',
           'deploy',
           'performance',
-        ]);
+        ],
+      );
 
-        if (bundler === 'webpack') {
-          resolved.security = normalizedConfig.security || {};
-          resolved.experiments = normalizedConfig.experiments;
-        }
+      if (bundler === 'webpack') {
+        resolved.security = normalizedConfig.security || {};
+        resolved.experiments = normalizedConfig.experiments;
+      }
 
-        return { resolved };
-      },
-    };
+      return resolved;
+    });
   },
 });
 
