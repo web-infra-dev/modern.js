@@ -1,5 +1,15 @@
 # @modern-js/uni-builder
 
+## 2.63.0
+
+### Patch Changes
+
+- 93f50f4: fix: output.sourceMap not works
+- 4cf8833: fix(uni-builder): bump postcss plugin to support cyclic variables
+- 89117d8: chore(deps): bump @rsbuild/plugin-type-check v1.1
+  - @modern-js/babel-preset@2.63.0
+  - @modern-js/utils@2.63.0
+
 ## 2.62.1
 
 ### Patch Changes
