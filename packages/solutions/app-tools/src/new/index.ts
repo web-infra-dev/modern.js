@@ -1,6 +1,6 @@
 import { createAsyncHook } from '@modern-js/plugin-v2';
 import { type AppToolsOptions, appTools as oldAppTools } from '../old';
-import type { AppToolsPlugin } from '../types';
+import type { AppTools, CliPluginFuture } from '../types';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
@@ -33,7 +33,7 @@ export const appTools = (
     // default webpack to be compatible with original projects
     bundler: 'webpack',
   },
-): AppToolsPlugin => ({
+): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools',
   usePlugins: [compatPlugin(), oldAppTools(options) as any],
   post: ['@modern-js/app-tools-old'],

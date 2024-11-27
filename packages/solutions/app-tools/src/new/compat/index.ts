@@ -1,7 +1,6 @@
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
-import type { CLIPlugin } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppTools } from '../../types';
+import type { AppTools, CliPluginFuture } from '../../types';
 import { getHookRunners } from './hooks';
 
 type AppendEntryCodeFn = (params: {
@@ -9,7 +8,7 @@ type AppendEntryCodeFn = (params: {
   code: string;
 }) => string | Promise<string>;
 
-export const compatPlugin = (): CLIPlugin<AppTools> => ({
+export const compatPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/app-tools-compat',
   _registryApi: (getAppContext, updateAppContext) => {
     const getInternalContext = () => {

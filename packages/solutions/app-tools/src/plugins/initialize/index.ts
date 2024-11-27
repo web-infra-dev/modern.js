@@ -12,17 +12,17 @@ import {
 } from '../../config';
 import type {
   AppNormalizedConfig,
+  AppTools,
   AppToolsNormalizedConfig,
-  AppToolsPlugin,
   AppUserConfig,
+  CliPluginFuture,
 } from '../../types';
-import type { AppToolsContext } from '../../types/new';
 
 export default ({
   bundler,
 }: {
   bundler: 'rspack' | 'webpack';
-}): AppToolsPlugin<'shared'> => ({
+}): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-initialize',
 
   post: [
@@ -36,7 +36,7 @@ export default ({
 
   setup(api) {
     api.config(() => {
-      const appContext = api.getAppContext() as AppToolsContext<'shared'>;
+      const appContext = api.getAppContext();
       const userConfig = api.getConfig();
 
       // set bundlerType to appContext

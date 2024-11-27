@@ -12,6 +12,7 @@ export type {
   InternalContext,
   Entrypoint,
   CLIPlugin,
+  CLIPluginExtends,
 } from './types/cli';
 export type {
   AsyncHook,

@@ -1,5 +1,5 @@
 import type { NormalizedConfig, UserConfig } from '@modern-js/core';
-import type { CLIPlugin } from '@modern-js/plugin-v2';
+import type { CLIPlugin, CLIPluginExtends } from '@modern-js/plugin-v2';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { AppToolsHooks } from './hooks';
 import type {
@@ -64,9 +64,8 @@ export type LegacyAppTools = {
 };
 
 // plugin v2
-export type AppToolsPlugin<B extends Bundler = 'webpack'> = CLIPlugin<
-  AppTools<B>
->;
+export type CliPluginFuture<Extends extends CLIPluginExtends> =
+  CLIPlugin<Extends>;
 
 export type AppNormalizedConfig<B extends Bundler = 'webpack'> =
   NormalizedConfig<AppTools<B>>;
