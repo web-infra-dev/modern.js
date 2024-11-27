@@ -1,6 +1,10 @@
-import type { CliPlugin, IAppContext, NormalizedConfig } from '@modern-js/core';
 import { provider } from 'std-env';
-import type { AppTools } from '../../types';
+import type {
+  AppTools,
+  AppToolsNormalizedConfig,
+  CliPluginFuture,
+} from '../../types';
+import type { AppToolsContext } from '../../types/new';
 import { createNetlifyPreset } from './platforms/netlify';
 import { createNodePreset } from './platforms/node';
 import { createVercelPreset } from './platforms/vercel';
@@ -21,14 +25,14 @@ const deployPresets: DeployPresetCreators = {
 };
 
 async function getDeployPreset(
-  appContext: IAppContext,
-  modernConfig: NormalizedConfig<AppTools>,
+  appContext: AppToolsContext<'shared'>,
+  modernConfig: AppToolsNormalizedConfig,
   deployTarget: DeployTarget,
 ) {
   const { appDirectory, distDirectory } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
     appDirectory,
-    distDirectory,
+    distDirectory!,
   );
   const needModernServer = useSSR || useAPI || useWebServer;
 
@@ -43,30 +47,28 @@ async function getDeployPreset(
   return createPreset(appContext, modernConfig, needModernServer);
 }
 
-export default (): CliPlugin<AppTools> => ({
+export default (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-deploy',
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 
-    return {
-      async deploy() {
-        const appContext = api.useAppContext();
-        const { metaName } = appContext;
-        if (metaName !== 'modern-js' && !process.env.MODERNJS_DEPLOY) {
-          return;
-        }
-        const modernConfig = api.useResolvedConfigContext();
-        const deployPreset = await getDeployPreset(
-          appContext,
-          modernConfig,
-          deployTarget as DeployTarget,
-        );
+    api.deploy(async () => {
+      const appContext = api.getAppContext();
+      const { metaName } = appContext;
+      if (metaName !== 'modern-js' && !process.env.MODERNJS_DEPLOY) {
+        return;
+      }
+      const modernConfig = api.getNormalizedConfig();
+      const deployPreset = await getDeployPreset(
+        appContext,
+        modernConfig,
+        deployTarget as DeployTarget,
+      );
 
-        deployPreset?.prepare && (await deployPreset?.prepare());
-        deployPreset?.writeOutput && (await deployPreset?.writeOutput());
-        deployPreset?.genEntry && (await deployPreset?.genEntry());
-        deployPreset?.end && (await deployPreset?.end());
-      },
-    };
+      deployPreset?.prepare && (await deployPreset?.prepare());
+      deployPreset?.writeOutput && (await deployPreset?.writeOutput());
+      deployPreset?.genEntry && (await deployPreset?.genEntry());
+      deployPreset?.end && (await deployPreset?.end());
+    });
   },
 });

@@ -161,6 +161,7 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
   lambdaDirectory: string;
   serverPlugins: ServerPlugin[];
   moduleType: 'module' | 'commonjs';
+  entrypoints: Entrypoint[];
   _internalContext: InternalContext<AppTools<B>>;
 };
 
