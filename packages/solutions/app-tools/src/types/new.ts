@@ -1,7 +1,7 @@
 import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
-import type { AppContext } from '@modern-js/plugin-v2/types';
+import type { AppContext, InternalContext } from '@modern-js/plugin-v2/types';
 import type {
-  CLIPluginAPI,
+  PluginHook,
   PluginHookTap,
   TransformFunction,
 } from '@modern-js/plugin-v2/types';
@@ -13,13 +13,11 @@ import type {
   ServerPlugin,
   ServerRoute,
 } from '@modern-js/types';
-import type {
-  AppToolsNormalizedConfig,
-  AppToolsUserConfig,
-} from '../../types/config';
-import type { RuntimePlugin } from '../../types/hooks';
-import type { Bundler } from '../../types/utils';
-import type { getHookRunners } from '../compat/hooks';
+import type { AppTools } from '.';
+import type { getHookRunners } from '../new/compat/hooks';
+import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
+import type { RuntimePlugin } from './hooks';
+import type { Bundler } from './utils';
 
 export type BeforeConfigFn = () => Promise<void> | void;
 export type AfterPrepareFn = () => Promise<void> | void;
@@ -34,16 +32,18 @@ export type CheckEntryPointFn = TransformFunction<{
   path: string;
   entry: false | string;
 }>;
-export type ModifyEntrypointsFn = TransformFunction<Entrypoint[]>;
+export type ModifyEntrypointsFn = TransformFunction<{
+  entrypoints: Entrypoint[];
+}>;
 export type ModifyFileSystemRoutesFn = TransformFunction<{
   entrypoint: Entrypoint;
   routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
 }>;
 export type ModifyServerRoutesFn = TransformFunction<{ routes: ServerRoute[] }>;
 export type DeplpoyFn = () => Promise<void> | void;
-export type GenerateEntryCodeFn = (
-  entrypoints: Entrypoint[],
-) => Promise<void> | void;
+export type GenerateEntryCodeFn = (params: {
+  entrypoints: Entrypoint[];
+}) => Promise<void> | void;
 export type BeforeGenerateRoutesFn = TransformFunction<{
   entrypoint: Entrypoint;
   code: string;
@@ -51,13 +51,24 @@ export type BeforeGenerateRoutesFn = TransformFunction<{
 export type BeforePrintInstructionsFn = TransformFunction<{
   instructions: string;
 }>;
-export type RegisterDevFn = () => Promise<DevToolData> | DevToolData;
-export type RegisterBuildPlatformFn = () =>
-  | Promise<RegisterBuildPlatformResult>
-  | RegisterBuildPlatformResult;
-export type AddRuntimeExportsFn = () => Promise<void> | void;
+export type RegisterDevFn = (params: {
+  name: string;
+  entry: string;
+  type: string;
+  config: any;
+}) => Promise<DevToolData> | DevToolData;
+export type RegisterBuildPlatformFn = (params: {
+  name: string;
+  entry: string;
+  type: string;
+  config: any;
+}) => Promise<RegisterBuildPlatformResult> | RegisterBuildPlatformResult;
+export type AddRuntimeExportsFn = (params: {
+  entrypoint: Entrypoint;
+  exports: string[];
+}) => Promise<void> | void;
 
-interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
+export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   onBeforeConfig: PluginHookTap<BeforeConfigFn>;
   onAfterPrepare: PluginHookTap<AfterPrepareFn>;
   deploy: PluginHookTap<DeplpoyFn>;
@@ -91,10 +102,7 @@ interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   /**
    * @deprecated use getAppContext instead
    */
-  useAppContext: () => AppContext<
-    AppToolsUserConfig<B>,
-    AppToolsNormalizedConfig<AppToolsUserConfig<B>>
-  >;
+  useAppContext: () => AppToolsContext<B>;
   /**
    * @deprecated use getConfig instead
    */
@@ -110,12 +118,42 @@ interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
    */
   useHookRunners: () => ReturnType<typeof getHookRunners>;
 }
-export interface AppTools<B extends Bundler = 'webpack'>
-  extends CLIPluginAPI<
-      AppToolsUserConfig<B>,
-      AppToolsNormalizedConfig<AppToolsUserConfig<B>>
-    >,
-    AppToolsExtendAPI<B> {}
 
-export type AppToolsExtendAPIName<B extends Bundler = 'webpack'> =
-  keyof AppToolsExtendAPI<B> & string;
+export interface AppToolsExtendHooks {
+  onBeforeConfig: PluginHook<BeforeConfigFn>;
+  onAfterPrepare: PluginHook<AfterPrepareFn>;
+  deploy: PluginHook<DeplpoyFn>;
+  _internalRuntimePlugins: PluginHook<InternalRuntimePluginsFn>;
+  _internalServerPlugins: PluginHook<InternalServerPluginsFn>;
+  checkEntryPoint: PluginHook<CheckEntryPointFn>;
+  modifyEntrypoints: PluginHook<ModifyEntrypointsFn>;
+  modifyFileSystemRoutes: PluginHook<ModifyFileSystemRoutesFn>;
+  modifyServerRoutes: PluginHook<ModifyServerRoutesFn>;
+  generateEntryCode: PluginHook<GenerateEntryCodeFn>;
+  onBeforeGenerateRoutes: PluginHook<BeforeGenerateRoutesFn>;
+  /**
+   * @deprecated
+   */
+  onBeforePrintInstructions: PluginHook<BeforePrintInstructionsFn>;
+  /**
+   * @deprecated
+   */
+  registerDev: PluginHook<RegisterDevFn>;
+  /**
+   * @deprecated
+   */
+  registerBuildPlatform: PluginHook<RegisterBuildPlatformFn>;
+  /**
+   * @deprecated
+   */
+  addRuntimeExports: PluginHook<AddRuntimeExportsFn>;
+}
+
+export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
+  _internalContext: InternalContext<AppTools<B>>;
+};
+
+export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
+  AppTools<B>
+> &
+  AppToolsExtendContext;

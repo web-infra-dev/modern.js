@@ -8,9 +8,9 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
-import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../../types';
+import type { AppToolsNormalizedConfig } from '../../types';
+import type { AppTools } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
-import type { AppToolsExtendAPIName } from '../types';
 import {
   transformHookParams,
   transformHookResult,
@@ -21,11 +21,7 @@ import {
  * old plugin useHookRunners function result
  */
 export function getHookRunners(
-  context: InternalContext<
-    AppToolsUserConfig<'shared'>,
-    AppToolsNormalizedConfig,
-    AppToolsExtendAPIName<'shared'>
-  >,
+  context: InternalContext<AppTools>,
 ): Record<string, any> {
   const { hooks } = context;
   return {

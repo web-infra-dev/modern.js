@@ -1,18 +1,9 @@
 import { createAsyncHook } from '@modern-js/plugin-v2';
-import type { InternalContext, Plugin } from '@modern-js/plugin-v2/types';
 import { type AppToolsOptions, appTools as oldAppTools } from '../old';
-import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../types';
-import { compatPlugin } from './compat';
-import {
-  DEFAULT_RUNTIME_CONFIG_FILE,
-  DEFAULT_SERVER_CONFIG_FILE,
-} from './constants';
-import { initAppContext } from './context';
 import type {
   AddRuntimeExportsFn,
   AfterPrepareFn,
-  AppTools,
-  AppToolsExtendAPIName,
+  AppToolsPlugin,
   BeforeConfigFn,
   BeforeGenerateRoutesFn,
   BeforePrintInstructionsFn,
@@ -26,19 +17,16 @@ import type {
   ModifyServerRoutesFn,
   RegisterBuildPlatformFn,
   RegisterDevFn,
-} from './types';
+} from '../types/new';
+import { compatPlugin } from './compat';
+import {
+  DEFAULT_RUNTIME_CONFIG_FILE,
+  DEFAULT_SERVER_CONFIG_FILE,
+} from './constants';
+import { initAppContext } from './context';
 
 export * from '../defineConfig';
 export { initAppContext };
-
-export type AppToolsPlugin = Plugin<
-  AppTools<'shared'>,
-  InternalContext<
-    AppToolsUserConfig<'shared'>,
-    AppToolsNormalizedConfig,
-    AppToolsExtendAPIName<'shared'>
-  >
->;
 
 export const appTools = (
   options: AppToolsOptions = {
