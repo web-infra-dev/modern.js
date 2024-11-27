@@ -84,10 +84,6 @@ Modern.js 中，BFF 函数对应的路由系统是基于文件系统实现的，
 - TypeScript 类型文件。例如：`hello.d.ts`。
 - `node_module` 下的文件。
 
-### 共享源码
-
-默认 `api/` 目录下所有文件，在  `src` 目录中都不可以被引用。当项目在 `api/` 下有公共代码时，可将这些代码放到 `shared` 目录下。
-
 ## RESTful API
 
 Modern.js 的 BFF 函数需要遵循 RESTful API 标准来定义，开发者需要按照一系列规则来定义 BFF 函数。
@@ -265,3 +261,7 @@ export default () => {
 import ExtendBFF from "@site-docs/components/extend-bff-function"
 
 <ExtendBFF/>
+
+## 代码共享
+
+除 `api/` 目录下的 BFF 函数可在 `src/` 中通过一体化调用方式引用，项目中 `src/` 和 `api/` 目录默认不能直接引用对方代码。为实现代码共享，可在项目根目录创建 [`shared`](/apis/app/hooks/shared.html) 目录，供 `src/` 和 `api/` 共同引用。
