@@ -81,7 +81,7 @@ describe('output.sourceMap & disableSourceMap', () => {
     process.env.NODE_ENV = NODE_ENV;
   });
 
-  it('should use sourceMap when defined', async () => {
+  it('should use sourceMap false', async () => {
     const { NODE_ENV } = process.env;
     process.env.NODE_ENV = 'production';
 
