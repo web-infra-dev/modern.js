@@ -176,6 +176,12 @@ const tscLikeBuildConfig = [
 ];
 
 const generatorBuildConfig = {
+  autoExternal: false,
+  dts: false,
+  sideEffects: false,
+};
+
+const generatorBuildUmdConfig = {
   format: 'umd',
   autoExternal: false,
   dts: false,
@@ -213,4 +219,5 @@ module.exports = {
   extendUniversalBuildConfig,
   universalBuildConfigWithBundle,
   generatorBuildConfig,
+  generatorBuildUmdConfig,
 };

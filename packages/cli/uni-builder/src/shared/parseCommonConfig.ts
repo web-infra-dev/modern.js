@@ -188,7 +188,7 @@ export async function parseCommonConfig(
     output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
-  if (isUseCssSourceMap(disableSourceMap)) {
+  if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
     output.sourceMap ||= {};
     output.sourceMap.css = true;
   }
@@ -359,7 +359,7 @@ export async function parseCommonConfig(
     const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
-        forkTsCheckerOptions: tsChecker,
+        tsCheckerOptions: tsChecker,
       }),
     );
   }

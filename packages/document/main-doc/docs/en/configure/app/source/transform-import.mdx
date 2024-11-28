@@ -11,6 +11,7 @@ Transform the import path, which can be used to modularly import the subpath of 
 
 ```ts
 type TransformImport =
+  | false
   | Array<{
       libraryName: string;
       libraryDirectory?: string;
@@ -61,3 +62,29 @@ When you add configurations for `antd` or `@arco-design/web-react`, the priority
 import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
 
 <RsbuildConig />
+
+### Disable Default Config
+
+You can manually set `transformImport: false` to disable the default config.
+
+```js
+export default {
+  source: {
+    transformImport: false,
+  },
+};
+```
+
+You can also use the [function usage](https://rsbuild.dev/config/source/transform-import#function-type) of `transformImport` to modify the default configuration.
+
+```js
+export default {
+  source: {
+    transformImport: (imports) => {
+      return imports.filter(data => data.libraryName !== 'antd');
+    },
+  },
+};
+```
+
+For example, if you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can disable `transformImport` to avoid this problem.
