@@ -31,10 +31,12 @@ import { restart } from './utils/restart';
 
 export { dev } from './commands/dev';
 export type { DevOptions } from './utils/types';
+export { generateWatchFiles } from './utils/generateWatchFiles';
 
 export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
 export * from './types';
+export { generateWatchFiles };
 
 export type { RuntimeUserConfig } from './types/config';
 
@@ -176,7 +178,11 @@ export const appTools = (
       }) {
         const { filename, eventType, isPrivate } = e;
 
-        if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
+        if (
+          !isPrivate &&
+          (eventType === 'change' || eventType === 'unlink') &&
+          !filename.startsWith('api/')
+        ) {
           const { closeServer } = await import('./utils/createServer.js');
           await closeServer();
           await restart(api.useHookRunners(), filename);

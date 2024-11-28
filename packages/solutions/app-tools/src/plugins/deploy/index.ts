@@ -48,6 +48,7 @@ export default (): CliPlugin<AppTools> => ({
   setup: api => {
     const deployTarget = process.env.MODERNJS_DEPLOY || provider || 'node';
 
+    console.log('deployTarget', deployTarget);
     return {
       async deploy() {
         const appContext = api.useAppContext();
