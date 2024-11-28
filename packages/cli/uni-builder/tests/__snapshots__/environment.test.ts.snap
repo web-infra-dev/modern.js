@@ -1004,6 +1004,10 @@ exports[`uni-builder environment compat > should generator environment config co
       "web",
       "browserslist:> 0.01%,not dead,not op_mini all",
     ],
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
   {
     "context": "",
@@ -1742,6 +1746,10 @@ exports[`uni-builder environment compat > should generator environment config co
       },
     },
     "target": "node",
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
   {
     "context": "",
@@ -2441,6 +2449,10 @@ exports[`uni-builder environment compat > should generator environment config co
       "webworker",
       "es5",
     ],
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
 ]
 `;
