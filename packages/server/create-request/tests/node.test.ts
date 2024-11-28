@@ -41,7 +41,7 @@ describe('configure', () => {
         const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
-        const request = createRequest(path, method, port);
+        const request = createRequest({ path, method, port });
         const res = await request();
         const data = await res.json();
 
@@ -72,7 +72,7 @@ describe('configure', () => {
         const customRequest = jest.fn((requestPath: any) => fetch(requestPath));
 
         configure({ request: customRequest as unknown as typeof fetch });
-        const request = createRequest(path, method, port);
+        const request = createRequest({ path, method, port });
         const res = await request({
           query: {
             users: ['foo', 'bar'],
@@ -96,7 +96,7 @@ describe('configure', () => {
       );
 
       configure({ interceptor: interceptor as any });
-      const request = createRequest(path, method, 8080);
+      const request = createRequest({ path, method, port: 8080 });
       const res = await request();
       const data = await res.json();
 
@@ -120,7 +120,7 @@ describe('configure', () => {
         request: customRequest as unknown as typeof fetch,
         interceptor: interceptor as any,
       });
-      const request = createRequest(path, method, 8080);
+      const request = createRequest({ path, method, port: 8080 });
       const res = await request();
       const data = await res.json();
 
@@ -149,7 +149,7 @@ describe('configure', () => {
           .reply(200, response);
 
         configure({ allowedHeaders: ['authorization'] });
-        const request = createRequest(path, method, 8080);
+        const request = createRequest({ path, method, port: 8080 });
         const data = await request();
 
         expect(data).toStrictEqual(response);
@@ -168,7 +168,11 @@ describe('configure', () => {
 
       configure({ interceptor: interceptor as any });
 
-      const request = createRequest(`${path}/:id`, method, 8080, undefined);
+      const request = createRequest({
+        path: `${path}/:id`,
+        method,
+        port: 8080,
+      });
       const res = await request('modernjs');
       const data = await res.json();
       expect(res instanceof Response).toBe(true);
@@ -187,7 +191,11 @@ describe('configure', () => {
 
       configure({ interceptor: interceptor as any });
 
-      const request = createRequest(`${path}/:id`, method, 8080, undefined);
+      const request = createRequest({
+        path: `${path}/:id`,
+        method,
+        port: 8080,
+      });
       const res = await request({
         params: {
           id: 'modernjs',
