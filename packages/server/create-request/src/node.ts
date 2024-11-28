@@ -7,14 +7,15 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
-  RequestUploader,
   Sender,
+  UploadCreator,
 } from './types';
 import { getUploadPayload } from './utiles';
 
 type Fetch = typeof nodeFetch;
 
-let realRequest: Fetch;
+const realRequest: Map<string, Fetch> = new Map();
+
 let realAllowedHeaders: string[] = [];
 const originFetch = (...params: Parameters<typeof nodeFetch>) => {
   const [, init] = params;
@@ -27,24 +28,30 @@ const originFetch = (...params: Parameters<typeof nodeFetch>) => {
 };
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {
-  const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as Fetch) || originFetch;
+  const {
+    request,
+    interceptor,
+    allowedHeaders,
+    requestId = 'default',
+  } = options;
+  let configuredRequest = (request as Fetch) || originFetch;
   if (interceptor && !request) {
-    realRequest = interceptor(nodeFetch);
+    configuredRequest = interceptor(nodeFetch);
   }
   if (Array.isArray(allowedHeaders)) {
     realAllowedHeaders = allowedHeaders;
   }
+  realRequest.set(requestId, configuredRequest);
 };
 
-export const createRequest: RequestCreator<typeof nodeFetch> = (
-  path: string,
-  method: string,
-  port: number,
-  httpMethodDecider = 'functionName',
-  // 后续可能要修改，暂时先保留
-  fetch = nodeFetch,
-) => {
+export const createRequest: RequestCreator<typeof nodeFetch> = ({
+  path,
+  method,
+  port,
+  httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
+  fetch = originFetch,
+  requestId = 'default',
+}) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
@@ -116,7 +123,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
       url = `http://127.0.0.1:${port}${finalPath}`;
     }
 
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
 
     if (method.toLowerCase() === 'get') {
       body = undefined;
@@ -130,9 +137,12 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   return sender;
 };
 
-export const createUploader: RequestUploader = (path: string) => {
+export const createUploader: UploadCreator = ({
+  path,
+  requestId = 'default',
+}) => {
   const sender: Sender = (...args) => {
-    const fetcher = realRequest || originFetch;
+    const fetcher = realRequest.get(requestId) || originFetch;
     const { body, headers } = getUploadPayload(args);
     return fetcher(path, { method: 'POST', body, headers });
   };

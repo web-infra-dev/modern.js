@@ -32,5 +32,27 @@
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "typescript": "^5"
-  }
+  },
+  "exports": {
+    "./context/index": {
+      "import": "./dist/client/context/index.js",
+      "types": "./dist/api/context/index.d.ts"
+    },
+    "./index": {
+      "import": "./dist/client/index.js",
+      "types": "./dist/api/index.d.ts"
+    },
+    "./upload": {
+      "import": "./dist/client/upload.js",
+      "types": "./dist/api/upload.d.ts"
+    },
+    "./server-plugin": "./dist/server-plugin/index.js",
+    "./runtime": {
+      "import": "./dist/runtime/index.js",
+      "types": "./dist/runtime/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ]
 }
