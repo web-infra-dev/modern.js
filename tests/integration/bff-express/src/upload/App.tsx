@@ -27,7 +27,7 @@ const Index = (): JSX.Element => {
       for (let i = 0; i < file.length; i++) {
         formData.append('images', file[i]);
       }
-      await fetch('/bff-api/upload', {
+      await fetch('https://x_oncall.bytedance.net/bff-api/upload', {
         method: 'POST',
         body: formData,
       });

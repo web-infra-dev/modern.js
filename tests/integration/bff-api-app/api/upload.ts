@@ -11,7 +11,7 @@ export const upload = Api(
     // do somethings
     return {
       data: {
-        code: 10,
+        code: 0,
         file_name: formData.images.name,
       },
     };

@@ -7,8 +7,8 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
-  RequestUploader,
   Sender,
+  UploadCreator,
 } from './types';
 import { getUploadPayload } from './utiles';
 
@@ -37,14 +37,13 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
   }
 };
 
-export const createRequest: RequestCreator<typeof nodeFetch> = (
-  path: string,
-  method: string,
-  port: number,
-  httpMethodDecider = 'functionName',
-  // 后续可能要修改，暂时先保留
-  fetch = nodeFetch,
-) => {
+export const createRequest: RequestCreator<typeof nodeFetch> = ({
+  path,
+  method,
+  port,
+  httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
+  fetch = originFetch,
+}) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
@@ -130,7 +129,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
   return sender;
 };
 
-export const createUploader: RequestUploader = (path: string) => {
+export const createUploader: UploadCreator = ({ path }) => {
   const sender: Sender = (...args) => {
     const fetcher = realRequest || originFetch;
     const { body, headers } = getUploadPayload(args);
