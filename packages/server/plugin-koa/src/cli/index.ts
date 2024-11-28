@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { AppTools } from '@modern-js/app-tools';
 import type { CliPlugin } from '@modern-js/core';
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { fs, createRuntimeExportsUtils } from '@modern-js/utils';
 
 export const koaPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-koa',
@@ -17,9 +17,10 @@ export const koaPlugin = (): CliPlugin<AppTools> => ({
           'server',
         );
 
+        const existSrcDir = fs.existsSync(appContext.srcDirectory);
         const runtimePath = '@modern-js/plugin-koa/runtime';
         const alias =
-          process.env.NODE_ENV === 'production'
+          process.env.NODE_ENV === 'production' || !existSrcDir
             ? runtimePath
             : require.resolve(runtimePath);
 

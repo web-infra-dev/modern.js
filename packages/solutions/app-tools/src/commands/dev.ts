@@ -101,6 +101,7 @@ export const dev = async (
       internalDirectory: appContext.internalDirectory,
       apiDirectory: appContext.apiDirectory,
       lambdaDirectory: appContext.lambdaDirectory,
+      indepBffPrefix: appContext.indepBffPrefix,
       sharedDirectory: appContext.sharedDirectory,
     },
     serverConfigPath,
@@ -110,7 +111,7 @@ export const dev = async (
     serverConfigFile,
     plugins: pluginInstances,
     ...devServerOptions,
-  };
+  } as any;
 
   const host = normalizedConfig.dev?.host || DEFAULT_DEV_HOST;
 
@@ -132,6 +133,7 @@ export const dev = async (
         printInstructions(hookRunners, appContext, normalizedConfig);
       },
     );
+    setServer(server);
   } else {
     const { server, afterListen } = await createDevServer(
       {

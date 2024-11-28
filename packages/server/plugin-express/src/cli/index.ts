@@ -1,7 +1,7 @@
 import * as path from 'path';
 import type { AppTools } from '@modern-js/app-tools';
 import type { CliPlugin } from '@modern-js/core';
-import { createRuntimeExportsUtils } from '@modern-js/utils';
+import { fs, createRuntimeExportsUtils } from '@modern-js/utils';
 
 export const expressPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
@@ -16,10 +16,13 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
           appContext.internalDirectory,
           'server',
         );
+
+        const existSrcDir = fs.existsSync(appContext.srcDirectory);
         const runtimePath =
-          process.env.NODE_ENV === 'development'
+          process.env.NODE_ENV === 'development' && existSrcDir
             ? require.resolve('@modern-js/plugin-express/runtime')
             : '@modern-js/plugin-express/runtime';
+
         return {
           source: {
             alias: {
