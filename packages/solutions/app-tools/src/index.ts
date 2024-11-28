@@ -11,6 +11,7 @@ export type { RuntimeUserConfig } from './types/config';
 
 export { dev } from './commands/dev';
 export type { DevOptions } from './utils/types';
+export { generateWatchFiles } from './utils/generateWatchFiles';
 
 export * from './types';
 

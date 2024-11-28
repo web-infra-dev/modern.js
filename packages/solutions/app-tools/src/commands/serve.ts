@@ -25,6 +25,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
     metaName,
     serverRoutes,
     serverConfigFile,
+    indepBffPrefix,
   } = appContext;
 
   logger.info(`Starting production server...`);
@@ -72,16 +73,21 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
         appContext.appDirectory,
         appContext.distDirectory,
       ),
-      apiDirectory: getTargetDir(
-        appContext.apiDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
-      lambdaDirectory: getTargetDir(
-        appContext.lambdaDirectory,
-        appContext.appDirectory,
-        appContext.distDirectory,
-      ),
+      apiDirectory: indepBffPrefix
+        ? appContext.apiDirectory
+        : getTargetDir(
+            appContext.apiDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+      lambdaDirectory: indepBffPrefix
+        ? appContext.lambdaDirectory
+        : getTargetDir(
+            appContext.lambdaDirectory,
+            appContext.appDirectory,
+            appContext.distDirectory,
+          ),
+      indepBffPrefix,
     },
     runMode,
   });
