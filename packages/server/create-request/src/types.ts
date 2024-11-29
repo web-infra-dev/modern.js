@@ -20,7 +20,7 @@ export type RequestOptions<F = typeof fetch> = {
   path: string;
   method: string;
   port: number;
-  httpMethodDecider: HttpMethodDecider;
+  httpMethodDecider?: HttpMethodDecider;
   domain?: string;
   fetch?: F;
 };

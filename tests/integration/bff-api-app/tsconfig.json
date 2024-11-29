@@ -13,5 +13,5 @@
     "modern.config.ts",
     "modern-app-env.d.ts"
   ],
-  "exclude": ["node_modules", "client", "server-plugin"]
+  "exclude": ["node_modules", "dist"]
 }

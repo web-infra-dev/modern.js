@@ -35,22 +35,22 @@
     "typescript": "^5"
   },
   "exports": {
+    "./_app": {
+      "import": "./dist/client/_app.js",
+      "types": "./dist/api/_app.d.ts"
+    },
     "./index": {
-      "import": "./client/index.js",
+      "import": "./dist/client/index.js",
       "types": "./dist/api/index.d.ts"
     },
-    "./user": {
-      "import": "./client/user.js",
-      "types": "./dist/api/user.d.ts"
-    },
-    "./server-plugin": "./server-plugin/index.js",
     "./upload": {
-      "import": "./client/upload.js",
+      "import": "./dist/client/upload.js",
       "types": "./dist/api/upload.d.ts"
     },
-    "./_app": {
-      "import": "./client/_app.js",
-      "types": "./dist/api/_app.d.ts"
-    }
+    "./user": {
+      "import": "./dist/client/user.js",
+      "types": "./dist/api/user.d.ts"
+    },
+    "./server-plugin": "./dist/server-plugin/index.js"
   }
 }

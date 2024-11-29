@@ -8,7 +8,7 @@ async function pluginGenerator(prefix: string) {
   const packageJson = JSON.parse(packageData);
 
   const cwd = process.cwd();
-  const pluginPath = path.resolve(cwd, 'server-plugin');
+  const pluginPath = path.resolve(cwd, './dist', 'server-plugin');
   if (!fs.existsSync(pluginPath)) {
     fs.mkdirSync(pluginPath);
   }

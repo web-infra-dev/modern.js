@@ -40,7 +40,7 @@ async function readDirectoryFiles(appDirectory: string, directory: string) {
       } else {
         const source = await fs.readFile(resourcePath, 'utf8');
         const targetDir = path.join(
-          './client',
+          './dist/client',
           path.relative(directory, currentPath),
           entry.name.replace('.ts', '.js'),
         );
@@ -84,7 +84,6 @@ async function clientGenerator(draftOptions: APILoaderOptions) {
     draftOptions.appDir,
     draftOptions.lambdaDir,
   );
-  console.log('sourceList:>>', sourceList);
 
   const getClitentCode = async (resourcePath: string, source: string) => {
     const warning = `The file ${resourcePath} is not allowd to be imported in src directory, only API definition files are allowed.`;
@@ -151,7 +150,6 @@ async function setPackage(
       packageJson.exports = {};
     }
 
-    console.log('files:>>', files);
     files.forEach(file => {
       const exportKey = `./${file.name}`;
       const jsFilePath = `./${file.targetDir}`;
@@ -162,7 +160,7 @@ async function setPackage(
       };
     });
 
-    packageJson.exports['./server-plugin'] = `./server-plugin/index.js`;
+    packageJson.exports['./server-plugin'] = `./dist/server-plugin/index.js`;
 
     await fs.writeFile(packagePath, JSON.stringify(packageJson, null, 2));
     logger.info(`Update package.json succeed`);

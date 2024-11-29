@@ -37,6 +37,7 @@ export const bffPlugin = (options?: BffPluginOptions): CliPlugin<AppTools> => ({
         moduleType,
       } = api.useAppContext();
       const modernConfig = api.useResolvedConfigContext();
+      console.log('compileApi: modernConfig', modernConfig);
 
       const distDir = path.resolve(distDirectory);
       const apiDir = apiDirectory || path.resolve(appDirectory, API_DIR);
@@ -115,7 +116,6 @@ export const bffPlugin = (options?: BffPluginOptions): CliPlugin<AppTools> => ({
 
     return {
       config() {
-        const modernConfig = api.useResolvedConfigContext();
         return {
           tools: {
             bundlerChain: (chain, { CHAIN_ID, isServer }) => {
@@ -127,11 +127,12 @@ export const bffPlugin = (options?: BffPluginOptions): CliPlugin<AppTools> => ({
                 indepBffPrefix,
               } = api.useAppContext() as any;
 
+              const modernConfig = api.useResolvedConfigContext();
+
               const { bff } = modernConfig || {};
               const prefix =
                 indepBffPrefix || bff?.prefix || DEFAULT_API_PREFIX;
 
-              console.log('modernConfig:>>', modernConfig);
               const httpMethodDecider = bff?.httpMethodDecider;
 
               const apiRouter = new ApiRouter({
@@ -183,7 +184,9 @@ export const bffPlugin = (options?: BffPluginOptions): CliPlugin<AppTools> => ({
             moduleScopes: [`./${API_DIR}`, /create-request/],
           },
           dev: {
-            hmr: isApiProject ? false : modernConfig?.dev?.hmr,
+            hmr: isApiProject
+              ? false
+              : api.useResolvedConfigContext()?.dev?.hmr,
           },
         };
       },
