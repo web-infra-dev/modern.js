@@ -122,7 +122,6 @@ export const routerPlugin = (
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.
             // Throw the Response to bail out and let the server handle it with an HTTP redirect
-
             return interrupt(routerContext);
           }
 
@@ -131,10 +130,14 @@ export const routerPlugin = (
           if (
             routerContext.statusCode >= 500 &&
             routerContext.statusCode < 600 &&
+            // TODO: if loaderFailureMode is not 'errroBoundary', error log will not be printed.
             loaderFailureMode === 'clientRender'
           ) {
             routerContext.statusCode = 200;
-            throw (routerContext.errors as Error[])[0];
+            const errors = Object.values(
+              routerContext.errors as Record<string, Error>,
+            );
+            throw errors[0];
           }
 
           const router = createStaticRouter(routes, routerContext);
