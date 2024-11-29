@@ -145,6 +145,7 @@ export async function parseCommonConfig(
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
       dataUriLimit,
+      sourceMap,
       ...outputConfig,
     },
     source: {
@@ -359,7 +360,7 @@ export async function parseCommonConfig(
     const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
-        forkTsCheckerOptions: tsChecker,
+        tsCheckerOptions: tsChecker,
       }),
     );
   }

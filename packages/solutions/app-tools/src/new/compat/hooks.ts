@@ -1,4 +1,4 @@
-import type { InternalContext } from '@modern-js/plugin-v2/types';
+import type { InternalContext } from '@modern-js/plugin-v2';
 import type {
   Entrypoint,
   HtmlPartials,
@@ -8,9 +8,8 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
-import type { AppToolsNormalizedConfig, AppToolsUserConfig } from '../../types';
+import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
-import type { AppToolsExtendAPIName } from '../types';
 import {
   transformHookParams,
   transformHookResult,
@@ -21,11 +20,7 @@ import {
  * old plugin useHookRunners function result
  */
 export function getHookRunners(
-  context: InternalContext<
-    AppToolsUserConfig<'shared'>,
-    AppToolsNormalizedConfig,
-    AppToolsExtendAPIName<'shared'>
-  >,
+  context: InternalContext<AppTools>,
 ): Record<string, any> {
   const { hooks } = context;
   return {

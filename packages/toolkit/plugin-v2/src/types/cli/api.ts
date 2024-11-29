@@ -29,27 +29,28 @@ import type {
   OnFileChangedFn,
   OnPrepareFn,
 } from './hooks';
+import type { CLIPluginExtends } from './plugin';
 
 /**
  * Define a generic CLI plugin API that provider can extend as needed.
  */
-export type CLIPluginAPI<Config, NormalizedConfig> = Readonly<{
-  getAppContext: () => Readonly<AppContext<Config, NormalizedConfig>>;
-  getConfig: () => Readonly<Config>;
-  getNormalizedConfig: () => Readonly<NormalizedConfig>;
+export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<{
+  getAppContext: () => Readonly<AppContext<Extends> & Extends['extendContext']>;
+  getConfig: () => Readonly<Extends['config']>;
+  getNormalizedConfig: () => Readonly<Extends['normalizedConfig']>;
   getHooks: () => Readonly<
-    Hooks<Config, NormalizedConfig> &
-      Record<string, PluginHook<(...args: any[]) => any>>
+    Hooks<Extends['config'], Extends['normalizedConfig']> &
+      Extends['extendHooks']
   >;
 
-  updateAppContext: (
-    appContext: DeepPartial<AppContext<Config, NormalizedConfig>>,
-  ) => void;
+  updateAppContext: (appContext: DeepPartial<AppContext<Extends>>) => void;
 
   // config hooks
-  config: PluginHookTap<ConfigFn<DeepPartial<Config>>>;
-  modifyConfig: PluginHookTap<ModifyConfigFn<Config>>;
-  modifyResolvedConfig: PluginHookTap<ModifyResolvedConfigFn<NormalizedConfig>>;
+  config: PluginHookTap<ConfigFn<DeepPartial<Extends['config']>>>;
+  modifyConfig: PluginHookTap<ModifyConfigFn<Extends['config']>>;
+  modifyResolvedConfig: PluginHookTap<
+    ModifyResolvedConfigFn<Extends['normalizedConfig']>
+  >;
 
   // modify rsbuild config hooks
   modifyRsbuildConfig: PluginHookTap<ModifyRsbuildConfigFn>;

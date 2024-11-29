@@ -108,7 +108,7 @@ exports[`html minify > should not apply html minify in production when disableMi
     "showEntries": true,
     "showModules": true,
   },
-  ForkTsCheckerWebpackPlugin {
+  TsCheckerRspackPlugin {
     "options": {
       "issue": {
         "exclude": [
@@ -239,7 +239,7 @@ exports[`html minify > should not apply html minify when htmlPlugin.minify false
     "showEntries": true,
     "showModules": true,
   },
-  ForkTsCheckerWebpackPlugin {
+  TsCheckerRspackPlugin {
     "options": {
       "issue": {
         "exclude": [
@@ -307,7 +307,7 @@ exports[`html minify > should not apply html plugin when htmlPlugin false 1`] = 
     "showEntries": true,
     "showModules": true,
   },
-  ForkTsCheckerWebpackPlugin {
+  TsCheckerRspackPlugin {
     "options": {
       "issue": {
         "exclude": [

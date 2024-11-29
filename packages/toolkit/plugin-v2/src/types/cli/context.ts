@@ -4,9 +4,8 @@ import type {
   UniBuilderWebpackInstance,
 } from '@modern-js/uni-builder';
 import type { Hooks } from '../../cli/hooks';
-import type { PluginHook } from '../hooks';
 import type { CLIPluginAPI } from './api';
-import type { CLIPlugin } from './plugin';
+import type { CLIPlugin, CLIPluginExtends } from './plugin';
 
 export interface Entrypoint {
   name: string;
@@ -14,7 +13,7 @@ export interface Entrypoint {
 }
 
 /** The public context */
-export type AppContext<Config, NormalizedConfig> = {
+export type AppContext<Extends extends CLIPluginExtends> = {
   // current project package name
   packageName: string;
   // current config file absolute path
@@ -32,7 +31,7 @@ export type AppContext<Config, NormalizedConfig> = {
   // node_modules path
   nodeModulesDirectory?: string;
   // cli plugins list
-  plugins: CLIPlugin<Config, NormalizedConfig>[];
+  plugins: CLIPlugin<Extends>[];
   // bundler type
   bundlerType?: 'webpack' | 'rspack' | 'esbuild';
   // bundler instance
@@ -48,21 +47,17 @@ export type AppContext<Config, NormalizedConfig> = {
 };
 
 /** The inner context. */
-export type InternalContext<
-  Config,
-  NormalizedConfig,
-  ExtendsHooksKey extends string,
-> = AppContext<Config, NormalizedConfig> & {
-  /** All hooks. */
-  hooks: Hooks<Config, NormalizedConfig> &
-    Record<ExtendsHooksKey, PluginHook<(...args: any[]) => any>>;
-  /** All plugin registry hooks */
-  extendsHooks: Record<ExtendsHooksKey, PluginHook<(...args: any[]) => any>>;
-  /** Current App config. */
-  config: Readonly<Config>;
-  /** The normalized Rsbuild config. */
-  normalizedConfig?: NormalizedConfig;
-  pluginAPI?: CLIPluginAPI<Config, NormalizedConfig> &
-    Record<string, (...args: any[]) => any>;
-  _internalContext?: InternalContext<Config, NormalizedConfig, ExtendsHooksKey>;
-};
+export type InternalContext<Extends extends CLIPluginExtends> =
+  AppContext<Extends> & {
+    /** All hooks. */
+    hooks: Hooks<Extends['config'], Extends['normalizedConfig']> &
+      Extends['extendHooks'];
+    /** All plugin registry hooks */
+    extendsHooks: Extends['extendHooks'];
+    /** Current App config. */
+    config: Readonly<Extends['config']>;
+    /** The normalized Rsbuild config. */
+    normalizedConfig?: Extends['normalizedConfig'];
+    pluginAPI?: CLIPluginAPI<Extends> & Record<string, (...args: any[]) => any>;
+    _internalContext?: InternalContext<Extends>;
+  };

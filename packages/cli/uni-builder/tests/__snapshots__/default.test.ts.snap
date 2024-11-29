@@ -957,7 +957,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -1023,6 +1023,10 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -1751,7 +1755,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -1801,6 +1805,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     },
   },
   "target": "node",
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -2793,7 +2801,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -2846,6 +2854,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -3550,7 +3562,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -3603,6 +3615,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "webworker",
     "es5",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -4769,7 +4785,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -4851,6 +4867,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -6128,7 +6148,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -6201,5 +6221,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;

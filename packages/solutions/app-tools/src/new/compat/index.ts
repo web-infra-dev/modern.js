@@ -1,11 +1,6 @@
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
-import type { InternalContext, Plugin } from '@modern-js/plugin-v2/types';
 import type { Entrypoint } from '@modern-js/types';
-import type {
-  AppToolsNormalizedConfig,
-  AppToolsUserConfig,
-} from '../../types/config';
-import type { AppTools, AppToolsExtendAPIName } from '../types';
+import type { AppTools, CliPluginFuture } from '../../types';
 import { getHookRunners } from './hooks';
 
 type AppendEntryCodeFn = (params: {
@@ -13,14 +8,7 @@ type AppendEntryCodeFn = (params: {
   code: string;
 }) => string | Promise<string>;
 
-export const compatPlugin = (): Plugin<
-  AppTools<'shared'>,
-  InternalContext<
-    AppToolsUserConfig<'shared'>,
-    AppToolsNormalizedConfig,
-    AppToolsExtendAPIName<'shared'>
-  >
-> => ({
+export const compatPlugin = (): CliPluginFuture<AppTools> => ({
   name: '@modern-js/app-tools-compat',
   _registryApi: (getAppContext, updateAppContext) => {
     const getInternalContext = () => {

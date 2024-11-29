@@ -1,7 +1,7 @@
 import { cutNameByHyphen } from '@modern-js/utils/universal';
-import type { IAppContext } from '../types';
+import type { AppToolsContext } from '../types/new';
 
-export function getAutoInjectEnv(appContext: IAppContext) {
+export function getAutoInjectEnv(appContext: AppToolsContext<'shared'>) {
   const { metaName } = appContext;
   const prefix = `${cutNameByHyphen(metaName)}_`.toUpperCase();
   const envReg = new RegExp(`^${prefix}`);
