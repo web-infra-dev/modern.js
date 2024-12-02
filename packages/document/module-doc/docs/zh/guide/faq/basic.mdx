@@ -4,9 +4,8 @@
 
 Modern.js Module 使用 esbuild 构建工具库和组件库，Rsbuild 专注于解决 Web 应用构建场景。
 
-## Modern.js Module 是否可以使用 webpack plugin 或者 loader?
+## Modern.js Module 是否可以使用 webpack 插件或者 loader?
 
 Modern.js Module 基于 esbuild 构建，无法使用 webpack 相关生态的工具。
-[这里](https://github.com/esbuild/community-plugins)可以发现更多 esbuild 社区插件
 
-如果 Modern.js Module 生产的 UMD 产物达不到你的要求，可以使用 Rsbuild 并添加 [UMD Plugin](https://github.com/rspack-contrib/rsbuild-plugin-umd) 构建 UMD 产物。
+为了允许复用 webpack 和 Rspack 的生态，我们已经基于 Rsbuild 开发了 Rslib，它是下一代的 library 开发工具，将提供更好的构建性能和插件生态，你可以参考 [Rslib 仓库](https://github.com/web-infra-dev/rslib) 了解更多信息。
