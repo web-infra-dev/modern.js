@@ -3597,8 +3597,8 @@ importers:
         specifier: 0.19.2
         version: 0.19.2
       magic-string:
-        specifier: 0.30.13
-        version: 0.30.13
+        specifier: 0.30.14
+        version: 0.30.14
       postcss:
         specifier: ^8.4.35
         version: 8.4.49
@@ -17128,8 +17128,8 @@ packages:
   magic-string@0.30.12:
     resolution: {integrity: sha512-Ea8I3sQMVXr8JhN4z+H/d8zwo+tYDgHE9+5G4Wnrwhs0gaK9fXTKx0Tw5Xwsd/bCPTTZNRAdpyzvoeORe9LYpw==}
 
-  magic-string@0.30.13:
-    resolution: {integrity: sha512-8rYBO+MsWkgjDSOvLomYnzhdwEG51olQ4zL5KXnNJWV5MNmrb4rTZdrtkhxjnD/QyZUqR/Z/XDsUs/4ej2nx0g==}
+  magic-string@0.30.14:
+    resolution: {integrity: sha512-5c99P1WKTed11ZC0HMJOj6CDIue6F8ySu+bJL+85q1zBEIY8IklrJ1eiKC2NDRh3Ct3FcvmJPyQHb9erXMTJNw==}
 
   make-dir@2.1.0:
     resolution: {integrity: sha512-LS9X+dc8KLxXCb8dni79fLIIUA5VyZoyjSMCwTluaXA0o27cCK0bhXkpgw+sTXVpPy/lSO57ilRixqk0vDmtRA==}
@@ -28541,7 +28541,7 @@ snapshots:
 
   '@vitest/snapshot@0.33.0':
     dependencies:
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       pathe: 1.1.1
       pretty-format: 29.7.0
 
@@ -28604,7 +28604,7 @@ snapshots:
       '@vue/reactivity-transform': 3.3.4
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       postcss: 8.4.49
       source-map-js: 1.2.1
 
@@ -28619,7 +28619,7 @@ snapshots:
       '@vue/compiler-core': 3.3.4
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
-      magic-string: 0.30.13
+      magic-string: 0.30.14
 
   '@vue/reactivity@3.3.4':
     dependencies:
@@ -34281,7 +34281,7 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  magic-string@0.30.13:
+  magic-string@0.30.14:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.0
 
@@ -37514,7 +37514,7 @@ snapshots:
 
   rollup-plugin-dts@6.1.1(rollup@3.29.5)(typescript@5.3.3):
     dependencies:
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       rollup: 3.29.5
       typescript: 5.3.3
     optionalDependencies:
@@ -39505,7 +39505,7 @@ snapshots:
       chai: 4.3.7
       debug: 4.3.7(supports-color@5.5.0)
       local-pkg: 0.4.3
-      magic-string: 0.30.13
+      magic-string: 0.30.14
       pathe: 1.1.1
       picocolors: 1.0.0
       std-env: 3.3.3
