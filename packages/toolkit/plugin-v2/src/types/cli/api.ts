@@ -43,7 +43,9 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<{
       Extends['extendHooks']
   >;
 
-  updateAppContext: (appContext: DeepPartial<AppContext<Extends>>) => void;
+  updateAppContext: (
+    appContext: DeepPartial<AppContext<Extends> & Extends['extendContext']>,
+  ) => void;
 
   // config hooks
   config: PluginHookTap<ConfigFn<DeepPartial<Extends['config']>>>;
