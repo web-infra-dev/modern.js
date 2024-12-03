@@ -1,6 +1,6 @@
 import { createCollectAsyncHook } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
-import type { AppTools, CliPluginFuture } from '../../types';
+import type { AppTools, CliPluginFuture } from '../types';
 import { getHookRunners } from './hooks';
 
 type AppendEntryCodeFn = (params: {
