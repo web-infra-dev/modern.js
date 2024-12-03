@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { applyPlugins } from '@modern-js/prod-server';
 import { type ApplyPlugins, createDevServer } from '@modern-js/server';
 import {
@@ -8,11 +8,11 @@ import {
   getMeta,
   logger,
 } from '@modern-js/utils';
-import type { AppTools } from '../types';
+import type { AppNormalizedConfig, AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
 import { setServer } from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
-import { printInstructionsCompat } from '../utils/printInstructions';
+import { printInstructions } from '../utils/printInstructions';
 import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
@@ -22,7 +22,7 @@ export interface ExtraServerOptions {
 }
 
 export const dev = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   options: DevOptions,
   devServerOptions?: ExtraServerOptions,
 ) => {
@@ -30,9 +30,9 @@ export const dev = async (
     // Builder will read this env var to enable bundle analyzer
     process.env.BUNDLE_ANALYZE = 'true';
   }
-  let normalizedConfig = api.useResolvedConfigContext();
-  const appContext = api.useAppContext();
-  const hookRunners = api.useHookRunners();
+  const normalizedConfig = api.getNormalizedConfig();
+  const appContext = api.getAppContext();
+  const hooks = api.getHooks();
 
   if (appContext.moduleType && appContext.moduleType === 'module') {
     const { registerEsm } = await import('../esm/register-esm.mjs');
@@ -45,12 +45,13 @@ export const dev = async (
 
   await registerCompiler(
     appContext.appDirectory,
-    appContext.distDirectory,
+    appContext.distDirectory!,
     normalizedConfig?.source?.alias,
   );
 
-  normalizedConfig = { ...normalizedConfig, cliOptions: options };
-  ResolvedConfigContext.set(normalizedConfig);
+  api.modifyResolvedConfig(config => {
+    return { ...config, cliOptions: options };
+  });
 
   const {
     appDirectory,
@@ -64,7 +65,7 @@ export const dev = async (
 
   await buildServerConfig({
     appDirectory,
-    distDirectory,
+    distDirectory: distDirectory!,
     configFile: serverConfigFile,
     watch: true,
   });
@@ -76,7 +77,7 @@ export const dev = async (
     `${meta}.server`,
   );
 
-  await hookRunners.beforeDev();
+  await hooks.onBeforeDev.call();
 
   if (!appContext.builder && !apiOnly) {
     throw new Error(
@@ -129,7 +130,11 @@ export const dev = async (
         host,
       },
       () => {
-        printInstructionsCompat(hookRunners, appContext, normalizedConfig);
+        printInstructions(
+          hooks,
+          appContext,
+          normalizedConfig as AppNormalizedConfig<'shared'>,
+        );
       },
     );
   } else {

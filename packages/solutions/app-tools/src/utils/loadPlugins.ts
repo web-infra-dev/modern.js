@@ -1,22 +1,22 @@
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
 import type { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/types';
-import type { AppTools, PluginAPI } from '../types';
+import type { AppTools } from '../types';
 
 export async function getServerPlugins(
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   metaName = 'modern-js',
 ): Promise<ServerPlugin[]> {
-  const runner = api.useHookRunners();
-  const { plugins } = await runner._internalServerPlugins({ plugins: [] });
+  const hooks = api.getHooks();
+  const { plugins } = await hooks._internalServerPlugins.call({ plugins: [] });
 
   // filter plugins by metaName
   const filtedPlugins = plugins.filter(plugin =>
     plugin.name.includes(metaName),
   );
 
-  api.setAppContext({
-    ...api.useAppContext(),
+  api.updateAppContext({
     serverPlugins: filtedPlugins,
   });
 
@@ -24,7 +24,7 @@ export async function getServerPlugins(
 }
 
 export async function loadServerPlugins(
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   appDirectory: string,
   metaName: string,
 ): Promise<ServerPluginInstance[]> {

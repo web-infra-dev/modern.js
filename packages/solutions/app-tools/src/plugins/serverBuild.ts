@@ -22,7 +22,7 @@ function checkHasConfig(appDir: string, metaName = 'modern-js') {
   return fs.existsSync(tsFilepath) || fs.existsSync(jsfilepath);
 }
 
-export default (): CliPluginFuture<AppTools> => ({
+export default (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/server-build',
 
   setup(api) {

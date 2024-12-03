@@ -8,7 +8,7 @@ type AppendEntryCodeFn = (params: {
   code: string;
 }) => string | Promise<string>;
 
-export const compatPlugin = (): CliPluginFuture<AppTools> => ({
+export const compatPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/app-tools-compat',
   _registryApi: (getAppContext, updateAppContext) => {
     const getInternalContext = () => {
@@ -36,5 +36,9 @@ export const compatPlugin = (): CliPluginFuture<AppTools> => ({
   registryHooks: {
     appendEntryCode: createCollectAsyncHook<AppendEntryCodeFn>(),
   },
-  setup: _api => {},
+  setup: api => {
+    api.updateAppContext({
+      toolsType: 'app-tools',
+    });
+  },
 });
