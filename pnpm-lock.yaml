@@ -746,8 +746,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(postcss@8.4.49)
       postcss-nesting:
-        specifier: 12.1.2
-        version: 12.1.2(postcss@8.4.49)
+        specifier: 12.1.5
+        version: 12.1.5(postcss@8.4.49)
       postcss-page-break:
         specifier: 3.0.4
         version: 3.0.4(postcss@8.4.49)
@@ -4471,8 +4471,8 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(postcss@8.4.49)
       postcss-nesting:
-        specifier: 12.1.2
-        version: 12.1.2(postcss@8.4.49)
+        specifier: 12.1.5
+        version: 12.1.5(postcss@8.4.49)
       postcss-page-break:
         specifier: 3.0.4
         version: 3.0.4(postcss@8.4.49)
@@ -18377,8 +18377,8 @@ packages:
     peerDependencies:
       postcss: ^8.2.14
 
-  postcss-nesting@12.1.2:
-    resolution: {integrity: sha512-FUmTHGDNundodutB4PUBxt/EPuhgtpk8FJGRsBhOuy+6FnkR2A8RZWIsyyy6XmhvX2DZQQWIkvu+HB4IbJm+Ew==}
+  postcss-nesting@12.1.5:
+    resolution: {integrity: sha512-N1NgI1PDCiAGWPTYrwqm8wpjv0bgDmkYHH72pNsqTCv9CObxjxftdYu6AKtGN+pnJa7FQjMm3v4sp8QJbFsYdQ==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
       postcss: ^8.4
@@ -35749,13 +35749,13 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.49)
       postcss: 8.4.49
-      postcss-selector-parser: 6.0.13
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
 
   postcss-modules-scope@3.0.0(postcss@8.4.49):
     dependencies:
       postcss: 8.4.49
-      postcss-selector-parser: 6.0.13
+      postcss-selector-parser: 6.1.2
 
   postcss-modules-values@4.0.0(postcss@8.4.49):
     dependencies:
@@ -35777,14 +35777,14 @@ snapshots:
   postcss-nested@5.0.6(postcss@8.4.49):
     dependencies:
       postcss: 8.4.49
-      postcss-selector-parser: 6.0.13
+      postcss-selector-parser: 6.1.2
 
   postcss-nested@6.0.1(postcss@8.4.49):
     dependencies:
       postcss: 8.4.49
       postcss-selector-parser: 6.0.13
 
-  postcss-nesting@12.1.2(postcss@8.4.49):
+  postcss-nesting@12.1.5(postcss@8.4.49):
     dependencies:
       '@csstools/selector-resolve-nested': 1.1.0(postcss-selector-parser@6.1.2)
       '@csstools/selector-specificity': 3.1.1(postcss-selector-parser@6.1.2)
@@ -36146,7 +36146,7 @@ snapshots:
       commander: 8.3.0
       glob: 7.2.3
       postcss: 8.4.49
-      postcss-selector-parser: 6.0.13
+      postcss-selector-parser: 6.1.2
 
   qrcode.react@3.1.0(react@18.3.1):
     dependencies:
