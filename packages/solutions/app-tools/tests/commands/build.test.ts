@@ -1,4 +1,4 @@
-import { manager } from '@modern-js/core';
+import { type Plugin, createPluginManager } from '@modern-js/plugin-v2';
 import { build } from '../../src/commands/build';
 
 const mockGenerateRoutes = jest.fn();
@@ -14,35 +14,43 @@ describe('command build', () => {
   });
 
   test('hooks should be invoke correctly', async () => {
-    const mockBeforeBuild = jest.fn();
-    const mockAfterBuild = jest.fn();
-    const mockInternalServerPlugins = jest.fn(() => ({ plugins: [] }));
+    const mockBeforeBuild = { call: jest.fn() };
+    const mockAfterBuild = { call: jest.fn() };
+    const mockInternalServerPlugins = {
+      call: jest.fn(() => ({ plugins: [] })),
+    };
 
     const mockAPI = {
-      useAppContext: jest.fn((): any => ({
+      getAppContext: jest.fn((): any => ({
         apiOnly: true,
         distDirectory: '',
         appDirectory: '',
       })),
-      useResolvedConfigContext: jest.fn(),
-
-      useHookRunners: (): any => ({
-        afterBuild: mockAfterBuild,
-        beforeBuild: mockBeforeBuild,
+      getNormalizedConfig: jest.fn(),
+      getHooks: (): any => ({
+        onAfterBuild: mockAfterBuild,
+        onBeforeBuild: mockBeforeBuild,
         _internalServerPlugins: mockInternalServerPlugins,
       }),
+      updateAppContext: jest.fn(),
     };
 
-    const cloned = manager.clone(mockAPI);
-    cloned.usePlugin({
-      async setup(api) {
-        await build(api as any);
-        expect(mockBeforeBuild).toBeCalled();
-        expect(mockGenerateRoutes).toBeCalled();
-        expect(mockAfterBuild).toBeCalled();
-        expect(mockInternalServerPlugins).toBeCalled();
-      },
-    });
-    await cloned.init();
+    const pluginManager = createPluginManager();
+    pluginManager.addPlugins([
+      {
+        name: 'test',
+        async setup(api) {
+          await build(api as any);
+          expect(mockBeforeBuild.call).toBeCalled();
+          expect(mockGenerateRoutes).toBeCalled();
+          expect(mockAfterBuild.call).toBeCalled();
+          expect(mockInternalServerPlugins.call).toBeCalled();
+        },
+      } as Plugin,
+    ]);
+    const plugins = await pluginManager.getPlugins();
+    for (const plugin of plugins) {
+      await plugin.setup(mockAPI);
+    }
   });
 });

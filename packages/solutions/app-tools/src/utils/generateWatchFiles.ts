@@ -1,6 +1,6 @@
 import path from 'path';
 import { fs, getServerConfig } from '@modern-js/utils';
-import type { IAppContext } from '../types';
+import type { AppToolsContext } from '../types/new';
 
 /**
  * Get user config from package.json.
@@ -32,7 +32,7 @@ export const addServerConfigToDeps = async (
 };
 
 export async function generateWatchFiles(
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   configDir?: string,
 ): Promise<string[]> {
   const { appDirectory, configFile } = appContext;

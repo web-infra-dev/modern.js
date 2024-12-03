@@ -17,18 +17,3 @@ export const printInstructions = async (
 
   logger.log(instructions);
 };
-
-export const printInstructionsCompat = async (
-  hookRunners: CliHooksRunner<AppTools<'shared'>>,
-  appContext: IAppContext,
-  config: AppNormalizedConfig<'shared'>,
-) => {
-  const message = prettyInstructions(appContext, config);
-
-  // call beforePrintInstructions hook.
-  const { instructions } = await hookRunners.beforePrintInstructions({
-    instructions: message,
-  });
-
-  logger.log(instructions);
-};
