@@ -13,7 +13,7 @@ import { initialNormalizedConfig } from '../../config';
 import type { AppTools, webpack } from '../../types';
 import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
-import { printInstructions } from '../../utils/printInstructions';
+import { printInstructionsCompat } from '../../utils/printInstructions';
 import { generateRoutes } from '../../utils/routes';
 import { checkIsBuildCommands } from './utils';
 
@@ -173,7 +173,11 @@ export default ({
             hookRunners.afterDev({ isFirstCompile });
 
             if (isFirstCompile) {
-              printInstructions(hookRunners, appContext, normalizedConfig);
+              printInstructionsCompat(
+                hookRunners,
+                appContext,
+                normalizedConfig,
+              );
             }
           });
 
