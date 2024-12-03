@@ -66,7 +66,7 @@ export type CLIPluginAPI<Extends extends CLIPluginExtends> = Readonly<{
   addCommand: PluginHookTap<AddCommandFn>;
 
   onPrepare: PluginHookTap<OnPrepareFn>;
-  onWatchFiles: PluginHookTap<AddWatchFilesFn>;
+  addWatchFiles: PluginHookTap<AddWatchFilesFn>;
   onFileChanged: PluginHookTap<OnFileChangedFn>;
   onBeforeRestart: PluginHookTap<OnBeforeRestartFn>;
   onBeforeCreateCompiler: PluginHookTap<OnBeforeCreateCompilerFn>;

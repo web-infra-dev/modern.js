@@ -19,7 +19,7 @@ export function transformHookRunner(hookRunnerName: string) {
       return 'addCommand';
     case 'watchFiles':
       return 'addWatchFiles';
-    case 'filedChange':
+    case 'fileChange':
       return 'onFileChanged';
     case 'beforeCreateCompiler':
       return 'onBeforeCreateCompiler';

@@ -108,7 +108,7 @@ export function getHookRunners(
     prepare: async () => {
       return hooks.onPrepare.call();
     },
-    filedChange: async (params: {
+    fileChange: async (params: {
       filename: string;
       eventType: 'add' | 'change' | 'unlink';
       isPrivate: boolean;
