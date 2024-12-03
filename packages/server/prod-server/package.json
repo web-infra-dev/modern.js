@@ -62,7 +62,7 @@
     "@types/node": "~16.11.7",
     "@types/source-map-support": "0.5.10",
     "jest": "^29",
-    "lint-staged": "~13.1.0",
+    "lint-staged": "~13.3.0",
     "tsx": "^3.12.7",
     "typescript": "~5.0.4"
   },
