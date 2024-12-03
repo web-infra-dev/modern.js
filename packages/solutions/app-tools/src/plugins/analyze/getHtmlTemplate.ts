@@ -43,6 +43,40 @@ const findPartials = (
   return null;
 };
 
+export const getModifyHtmlPartials = (
+  partials: Record<keyof HtmlPartials, string[]>,
+) => {
+  const append = (type: keyof HtmlPartials, ...script: string[]) => {
+    script.forEach(item => {
+      partials[type].push(item);
+    });
+  };
+  const prepend = (type: keyof HtmlPartials, ...script: string[]) => {
+    script.forEach(item => {
+      partials[type].unshift(item);
+    });
+  };
+  return {
+    top: {
+      append: (...script: string[]) => append(PartialPosition.TOP, ...script),
+      prepend: (...script: string[]) => prepend(PartialPosition.TOP, ...script),
+      current: partials.top, // compat old plugin
+    },
+    head: {
+      append: (...script: string[]) => append(PartialPosition.HEAD, ...script),
+      prepend: (...script: string[]) =>
+        prepend(PartialPosition.HEAD, ...script),
+      current: partials.head, // compat old plugin
+    },
+    body: {
+      append: (...script: string[]) => append(PartialPosition.BODY, ...script),
+      prepend: (...script: string[]) =>
+        prepend(PartialPosition.BODY, ...script),
+      current: partials.body, // compat old plugin
+    },
+  };
+};
+
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
