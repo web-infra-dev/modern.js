@@ -54,6 +54,15 @@ export function transformHookParams(hookRunnerName: string, params: any) {
       return {
         resolved: params,
       };
+    case 'htmlPartials':
+      return {
+        partials: {
+          top: params.partials.top.current,
+          head: params.partials.head.current,
+          body: params.partials.body.current,
+        },
+        entrypoint: params.entrypoint,
+      };
     default:
       return params;
   }

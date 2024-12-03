@@ -1,13 +1,17 @@
 import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AppContext,
+  AsyncHook,
   InternalContext,
   PluginHook,
   PluginHookTap,
   TransformFunction,
 } from '@modern-js/plugin-v2';
+import type { Hooks } from '@modern-js/plugin-v2/cli';
 import type {
   Entrypoint,
+  HtmlPartials,
+  HtmlTemplates,
   NestedRouteForCli,
   PageRoute,
   RouteLegacy,
@@ -64,10 +68,7 @@ export type RegisterBuildPlatformFn = (params: {
   type: string;
   config: any;
 }) => Promise<RegisterBuildPlatformResult> | RegisterBuildPlatformResult;
-export type AddRuntimeExportsFn = (params: {
-  entrypoint: Entrypoint;
-  exports: string[];
-}) => Promise<void> | void;
+export type AddRuntimeExportsFn = () => Promise<void> | void;
 
 export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
   onBeforeConfig: PluginHookTap<BeforeConfigFn>;
@@ -122,33 +123,33 @@ export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
 
 export interface AppToolsExtendHooks
   extends Record<string, PluginHook<(...args: any[]) => any>> {
-  onBeforeConfig: PluginHook<BeforeConfigFn>;
-  onAfterPrepare: PluginHook<AfterPrepareFn>;
-  deploy: PluginHook<DeplpoyFn>;
-  _internalRuntimePlugins: PluginHook<InternalRuntimePluginsFn>;
-  _internalServerPlugins: PluginHook<InternalServerPluginsFn>;
-  checkEntryPoint: PluginHook<CheckEntryPointFn>;
-  modifyEntrypoints: PluginHook<ModifyEntrypointsFn>;
-  modifyFileSystemRoutes: PluginHook<ModifyFileSystemRoutesFn>;
-  modifyServerRoutes: PluginHook<ModifyServerRoutesFn>;
-  generateEntryCode: PluginHook<GenerateEntryCodeFn>;
-  onBeforeGenerateRoutes: PluginHook<BeforeGenerateRoutesFn>;
+  onBeforeConfig: AsyncHook<BeforeConfigFn>;
+  onAfterPrepare: AsyncHook<AfterPrepareFn>;
+  deploy: AsyncHook<DeplpoyFn>;
+  _internalRuntimePlugins: AsyncHook<InternalRuntimePluginsFn>;
+  _internalServerPlugins: AsyncHook<InternalServerPluginsFn>;
+  checkEntryPoint: AsyncHook<CheckEntryPointFn>;
+  modifyEntrypoints: AsyncHook<ModifyEntrypointsFn>;
+  modifyFileSystemRoutes: AsyncHook<ModifyFileSystemRoutesFn>;
+  modifyServerRoutes: AsyncHook<ModifyServerRoutesFn>;
+  generateEntryCode: AsyncHook<GenerateEntryCodeFn>;
+  onBeforeGenerateRoutes: AsyncHook<BeforeGenerateRoutesFn>;
   /**
    * @deprecated
    */
-  onBeforePrintInstructions: PluginHook<BeforePrintInstructionsFn>;
+  onBeforePrintInstructions: AsyncHook<BeforePrintInstructionsFn>;
   /**
    * @deprecated
    */
-  registerDev: PluginHook<RegisterDevFn>;
+  registerDev: AsyncHook<RegisterDevFn>;
   /**
    * @deprecated
    */
-  registerBuildPlatform: PluginHook<RegisterBuildPlatformFn>;
+  registerBuildPlatform: AsyncHook<RegisterBuildPlatformFn>;
   /**
    * @deprecated
    */
-  addRuntimeExports: PluginHook<AddRuntimeExportsFn>;
+  addRuntimeExports: AsyncHook<AddRuntimeExportsFn>;
 }
 
 export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
@@ -161,11 +162,34 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
   lambdaDirectory: string;
   serverPlugins: ServerPlugin[];
   moduleType: 'module' | 'commonjs';
+  /** Information for entry points */
   entrypoints: Entrypoint[];
+  /** Selected entry points */
+  checkedEntries: string[];
+  /** Information for server routes */
+  serverRoutes: ServerRoute[];
+  /** Whether to use api only mode */
+  apiOnly: boolean;
   _internalContext: InternalContext<AppTools<B>>;
+  /**
+   * Information for HTML templates by entry
+   * @private
+   */
+  partialsByEntrypoint?: Record<string, HtmlPartials>;
+  /**
+   * Information for HTML templates
+   * @private
+   */
+  htmlTemplates: HtmlTemplates;
 };
 
 export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<
   AppTools<B>
 > &
   AppToolsExtendContext<B>;
+
+export type AppToolsHooks<B extends Bundler = 'webpack'> = Hooks<
+  AppToolsUserConfig<B>,
+  AppToolsNormalizedConfig
+> &
+  AppToolsExtendHooks;
