@@ -16,10 +16,12 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
           appContext.internalDirectory,
           'server',
         );
-        const runtimePath =
-          process.env.NODE_ENV === 'development'
-            ? require.resolve('@modern-js/plugin-express/runtime')
-            : '@modern-js/plugin-express/runtime';
+        // const runtimePath =
+        //   process.env.NODE_ENV === 'development'
+        //     ? require.resolve('@modern-js/plugin-express/runtime')
+        //     : '@modern-js/plugin-express/runtime';
+
+        const runtimePath = '@modern-js/plugin-express/runtime';
         return {
           source: {
             alias: {
