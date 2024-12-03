@@ -73,7 +73,7 @@ importers:
         version: 6.0.1
       vitest:
         specifier: 0.33.0
-        version: 0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.0)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0)
+        version: 0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.1)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0)
 
   packages/cli/babel-preset:
     dependencies:
@@ -4432,8 +4432,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3
       less:
-        specifier: 4.2.0
-        version: 4.2.0
+        specifier: 4.2.1
+        version: 4.2.1
       mime-types:
         specifier: 2.1.35
         version: 2.1.35
@@ -16913,8 +16913,8 @@ packages:
   leac@0.6.0:
     resolution: {integrity: sha512-y+SqErxb8h7nE/fiEX07jsbuhrpO9lL8eca7/Y1nuWV2moNlXhyd59iDGcRf6moVyDMbmTNzL40SUyrFU/yDpg==}
 
-  less@4.2.0:
-    resolution: {integrity: sha512-P3b3HJDBtSzsXUl0im2L7gTO5Ubg8mEN6G8qoTS77iXxXX4Hvu4Qj540PZDvQ8V6DmX6iXo98k7Md0Cm1PrLaA==}
+  less@4.2.1:
+    resolution: {integrity: sha512-CasaJidTIhWmjcqv0Uj5vccMI7pJgfD9lMkKtlnTHAdJdYK/7l8pM9tumLyJ0zhbD4KJLo/YvTj+xznQd5NBhg==}
     engines: {node: '>=6'}
     hasBin: true
 
@@ -28559,7 +28559,7 @@ snapshots:
       pathe: 1.1.1
       picocolors: 1.0.1
       sirv: 2.0.3
-      vitest: 0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.0)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0)
+      vitest: 0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.1)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0)
 
   '@vitest/utils@0.33.0':
     dependencies:
@@ -34070,7 +34070,7 @@ snapshots:
 
   leac@0.6.0: {}
 
-  less@4.2.0:
+  less@4.2.1:
     dependencies:
       copy-anything: 2.0.6
       parse-node-version: 1.0.1
@@ -39456,14 +39456,14 @@ snapshots:
       '@types/unist': 3.0.3
       vfile-message: 4.0.2
 
-  vite-node@0.33.0(@types/node@18.19.64)(less@4.2.0)(sass@1.54.4)(terser@5.36.0):
+  vite-node@0.33.0(@types/node@18.19.64)(less@4.2.1)(sass@1.54.4)(terser@5.36.0):
     dependencies:
       cac: 6.7.14
       debug: 4.3.7(supports-color@5.5.0)
       mlly: 1.7.3
       pathe: 1.1.1
       picocolors: 1.1.1
-      vite: 4.5.2(@types/node@18.19.64)(less@4.2.0)(sass@1.54.4)(terser@5.36.0)
+      vite: 4.5.2(@types/node@18.19.64)(less@4.2.1)(sass@1.54.4)(terser@5.36.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -39474,7 +39474,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite@4.5.2(@types/node@18.19.64)(less@4.2.0)(sass@1.54.4)(terser@5.36.0):
+  vite@4.5.2(@types/node@18.19.64)(less@4.2.1)(sass@1.54.4)(terser@5.36.0):
     dependencies:
       esbuild: 0.17.19
       postcss: 8.4.49
@@ -39482,11 +39482,11 @@ snapshots:
     optionalDependencies:
       '@types/node': 18.19.64
       fsevents: 2.3.3
-      less: 4.2.0
+      less: 4.2.1
       sass: 1.54.4
       terser: 5.36.0
 
-  vitest@0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.0)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0):
+  vitest@0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3(bufferutil@4.0.8)(utf-8-validate@5.0.10))(less@4.2.1)(playwright@1.33.0)(sass@1.54.4)(terser@5.36.0):
     dependencies:
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
@@ -39509,8 +39509,8 @@ snapshots:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.6.0
-      vite: 4.5.2(@types/node@18.19.64)(less@4.2.0)(sass@1.54.4)(terser@5.36.0)
-      vite-node: 0.33.0(@types/node@18.19.64)(less@4.2.0)(sass@1.54.4)(terser@5.36.0)
+      vite: 4.5.2(@types/node@18.19.64)(less@4.2.1)(sass@1.54.4)(terser@5.36.0)
+      vite-node: 0.33.0(@types/node@18.19.64)(less@4.2.1)(sass@1.54.4)(terser@5.36.0)
       why-is-node-running: 2.2.2
     optionalDependencies:
       '@vitest/ui': 0.33.0(vitest@0.33.0)
