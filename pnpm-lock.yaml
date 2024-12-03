@@ -274,7 +274,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
       resolve-from:
         specifier: ^5.0.0
         version: 5.0.0
@@ -3295,7 +3295,7 @@ importers:
         version: 0.5.13
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
       connect-history-api-fallback:
         specifier: ^2.0.0
         version: 2.0.0
@@ -5735,7 +5735,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
 
   tests/integration/entries/fixtures/app-builder:
     dependencies:
@@ -6682,7 +6682,7 @@ importers:
         version: link:../../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -6855,7 +6855,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -6886,7 +6886,7 @@ importers:
         version: link:../../../packages/runtime/plugin-runtime
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
       express:
         specifier: ^4.17.2
         version: 4.20.0
@@ -7074,7 +7074,7 @@ importers:
         version: 14.18.35
       axios:
         specifier: ^1.7.4
-        version: 1.7.7(debug@4.3.7)
+        version: 1.7.8(debug@4.3.7)
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -13295,8 +13295,8 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  axios@1.7.7:
-    resolution: {integrity: sha512-S4kL7XrjgBmvdGut0sN3yJxqYzrDOnivkBiN0OFs6hLiUam3UPvswUo0kqGyhqUZGEOytHyumEdXsAkgCOUf3Q==}
+  axios@1.7.8:
+    resolution: {integrity: sha512-Uu0wb7KNqK2t5K+YQyVCLM76prD5sRFjKHbJYCP1J7JFGEQ6nN7HWn9+04LAeiJ3ji54lgS/gZCH1oxyrf1SPw==}
 
   b-tween@0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
@@ -15462,10 +15462,6 @@ packages:
   foreground-child@3.3.0:
     resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
     engines: {node: '>=14'}
-
-  form-data@4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
 
   form-data@4.0.1:
     resolution: {integrity: sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==}
@@ -24835,7 +24831,7 @@ snapshots:
     dependencies:
       '@modern-js/codesmith-utils': 2.6.5
       '@swc/helpers': 0.5.1
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       debug: 4.3.7(supports-color@5.5.0)
       tar: 6.2.1
     transitivePeerDependencies:
@@ -24901,7 +24897,7 @@ snapshots:
       '@modern-js/plugin-i18n': 2.60.6
       '@modern-js/utils': 2.60.6
       '@swc/helpers': 0.5.13
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       resolve-from: 5.0.0
     transitivePeerDependencies:
       - debug
@@ -26585,7 +26581,7 @@ snapshots:
       '@rsdoctor/sdk': 0.4.9(@rspack/core@1.1.4(@swc/helpers@0.5.15))(bufferutil@4.0.8)(utf-8-validate@5.0.10)(webpack@5.96.1(esbuild@0.17.19))
       '@rsdoctor/types': 0.4.9(@rspack/core@1.1.4(@swc/helpers@0.5.15))(webpack@5.96.1(esbuild@0.17.19))
       '@rsdoctor/utils': 0.4.9(@rspack/core@1.1.4(@swc/helpers@0.5.15))(webpack@5.96.1(esbuild@0.17.19))
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       enhanced-resolve: 5.12.0
       filesize: 10.1.6
       fs-extra: 11.2.0
@@ -28404,7 +28400,7 @@ snapshots:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
       '@types/node': 18.19.64
-      form-data: 4.0.0
+      form-data: 4.0.1
 
   '@types/supertest@2.0.16':
     dependencies:
@@ -29190,10 +29186,10 @@ snapshots:
 
   available-typed-arrays@1.0.5: {}
 
-  axios@1.7.7(debug@4.3.7):
+  axios@1.7.8(debug@4.3.7):
     dependencies:
       follow-redirects: 1.15.9(debug@4.3.7)
-      form-data: 4.0.0
+      form-data: 4.0.1
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
@@ -31713,12 +31709,6 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  form-data@4.0.0:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-
   form-data@4.0.1:
     dependencies:
       asynckit: 0.4.0
@@ -33911,7 +33901,7 @@ snapshots:
       decimal.js: 10.4.3
       domexception: 4.0.0
       escodegen: 2.1.0
-      form-data: 4.0.0
+      form-data: 4.0.1
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
@@ -35139,7 +35129,7 @@ snapshots:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -38326,7 +38316,7 @@ snapshots:
       cookiejar: 2.1.3
       debug: 4.3.7(supports-color@5.5.0)
       fast-safe-stringify: 2.1.1
-      form-data: 4.0.0
+      form-data: 4.0.1
       formidable: 2.0.1
       methods: 1.1.2
       mime: 2.6.0
@@ -39550,7 +39540,7 @@ snapshots:
 
   wait-on@7.2.0:
     dependencies:
-      axios: 1.7.7(debug@4.3.7)
+      axios: 1.7.8(debug@4.3.7)
       joi: 17.13.3
       lodash: 4.17.21
       minimist: 1.2.8
