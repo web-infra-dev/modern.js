@@ -1,12 +1,8 @@
 import path from 'path';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import { fs, findExists } from '@modern-js/utils';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-  PluginAPI,
-} from '../../types';
+import type { AppNormalizedConfig } from '../../types';
+import type { AppToolsContext, AppToolsHooks } from '../../types/new';
 import { HTML_PARTIALS_EXTENSIONS, HTML_PARTIALS_FOLDER } from './constants';
 import * as templates from './templates';
 
@@ -80,12 +76,12 @@ export const getModifyHtmlPartials = (
 // generate html template for
 export const getHtmlTemplate = async (
   entrypoints: Entrypoint[],
-  api: PluginAPI<AppTools<'shared'>>,
+  hooks: AppToolsHooks<'shared'>,
   {
     appContext,
     config,
   }: {
-    appContext: IAppContext;
+    appContext: AppToolsContext<'shared'>;
     config: AppNormalizedConfig<'shared'>;
   },
 ) => {
@@ -115,27 +111,19 @@ export const getHtmlTemplate = async (
     if (customIndexTemplate) {
       htmlTemplates[entryName] = customIndexTemplate.file;
     } else {
-      const hookRunners = api.useHookRunners();
-      const { partials } = await hookRunners.htmlPartials({
+      const getPartialInitValue = (position: PartialPosition) => {
+        const partial = findPartials(htmlDir, name, position);
+        return partial ? [partial.content] : [];
+      };
+      const partials: Record<keyof HtmlPartials, string[]> = {
+        top: getPartialInitValue(PartialPosition.TOP),
+        head: getPartialInitValue(PartialPosition.HEAD),
+        body: getPartialInitValue(PartialPosition.BODY),
+      };
+
+      await hooks.modifyHtmlPartials.call({
         entrypoint,
-        partials: [
-          PartialPosition.TOP,
-          PartialPosition.HEAD,
-          PartialPosition.BODY,
-        ].reduce<HtmlPartials>(
-          (previous, position) => {
-            const found = findPartials(htmlDir, name, position);
-            previous[position as keyof HtmlPartials] = found
-              ? [found.content]
-              : [];
-            return previous;
-          },
-          {
-            top: [],
-            head: [],
-            body: [],
-          },
-        ),
+        partials: getModifyHtmlPartials(partials),
       });
 
       const templatePath = path.resolve(
@@ -159,10 +147,8 @@ export const getHtmlTemplate = async (
       }
     }
   }
-  // sync partialsByEntrypoint to context
-  api.setAppContext({
-    ...api.useAppContext(),
+  return {
     partialsByEntrypoint,
-  });
-  return htmlTemplates;
+    htmlTemplates,
+  };
 };

@@ -12,6 +12,7 @@ import {
   urlJoin,
 } from '@modern-js/utils';
 import type { AppNormalizedConfig } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 import { isMainEntry } from '../../utils/routes';
 import { walkDirectory } from './utils';
 
@@ -116,7 +117,7 @@ const applyRouteOptions = (
  */
 const collectHtmlRoutes = (
   entrypoints: Entrypoint[],
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const {
@@ -200,7 +201,7 @@ const collectHtmlRoutes = (
  * @returns Static public file routes.
  */
 const collectStaticRoutes = (
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
 ): ServerRoute[] => {
   const { appDirectory } = appContext;
@@ -241,7 +242,7 @@ export const getServerRoutes = (
     appContext,
     config,
   }: {
-    appContext: IAppContext;
+    appContext: AppToolsContext<'shared'>;
     config: AppNormalizedConfig<'shared'>;
   },
 ): ServerRoute[] => [
