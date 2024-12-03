@@ -147,7 +147,7 @@ export default ({
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
-            appContext,
+            appContext: appContext as any,
           });
 
           builder.onBeforeBuild(async ({ bundlerConfigs, isFirstCompile }) => {
@@ -217,7 +217,11 @@ export default ({
 
       resolvedConfig({ resolved }) {
         const appContext = api.useAppContext();
-        const config = initialNormalizedConfig(resolved, appContext, bundler);
+        const config = initialNormalizedConfig(
+          resolved,
+          appContext as any,
+          bundler,
+        );
         return {
           resolved: config,
         };

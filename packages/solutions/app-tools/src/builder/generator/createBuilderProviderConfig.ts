@@ -1,9 +1,10 @@
-import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import type { AppNormalizedConfig, Bundler } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 import { createUploadPattern } from './createCopyPattern';
 
 function modifyOutputConfig<B extends Bundler>(
   config: AppNormalizedConfig<B>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<B>,
 ) {
   const defaultCopyPattern = createUploadPattern(appContext, config);
   const { copy } = config.output;
@@ -18,7 +19,7 @@ function modifyOutputConfig<B extends Bundler>(
 
 export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig<B>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<B>,
 ): Omit<AppNormalizedConfig<B>, 'plugins'> {
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
