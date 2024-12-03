@@ -412,7 +412,7 @@ importers:
         version: 0.5.13
       whistle:
         specifier: ^2.7.18
-        version: 2.9.87
+        version: 2.9.90
     devDependencies:
       '@modern-js/core':
         specifier: workspace:*
@@ -21480,8 +21480,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  whistle@2.9.87:
-    resolution: {integrity: sha512-V0nyRyk4FGiEFbuHhXvRpBD4Z341vVPG+/547QkatVtw0VMb9itm+oVLFqxgSLo2vn7PZAm08wop9K33dGrO8w==}
+  whistle@2.9.90:
+    resolution: {integrity: sha512-gY3IJcoaWtoYhtGl4zY2giGQqizr1t1XftcVBj/ytvEeBoU8DX84gfHBKPOTScBwcx6JxlARKcUsrY5uQYQM2A==}
     engines: {node: '>= 8'}
     hasBin: true
 
@@ -31423,7 +31423,7 @@ snapshots:
 
   extract-zip@2.0.1:
     dependencies:
-      debug: 4.3.7(supports-color@5.5.0)
+      debug: 4.3.4
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -39789,7 +39789,7 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  whistle@2.9.87:
+  whistle@2.9.90:
     dependencies:
       adm-zip: 0.5.10
       async-limiter: 2.0.0
