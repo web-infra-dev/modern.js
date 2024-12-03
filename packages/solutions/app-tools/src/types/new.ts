@@ -20,7 +20,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { AppTools } from '.';
-import type { getHookRunners } from '../new/compat/hooks';
+import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { RuntimePlugin } from './hooks';
 import type { Bundler } from './utils';

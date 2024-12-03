@@ -8,9 +8,9 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
-import { getModifyHtmlPartials } from '../../plugins/analyze/getHtmlTemplate';
-import type { AppTools, AppToolsNormalizedConfig } from '../../types';
-import type { RuntimePlugin } from '../../types/hooks';
+import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
+import type { AppTools, AppToolsNormalizedConfig } from '../types';
+import type { RuntimePlugin } from '../types/hooks';
 import {
   transformHookParams,
   transformHookResult,
