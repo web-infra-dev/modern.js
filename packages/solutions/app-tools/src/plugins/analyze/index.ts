@@ -213,7 +213,7 @@ export default ({
       }
     });
 
-    api.onWatchFiles(() => {
+    api.addWatchFiles(() => {
       return { files: pagesDir, isPrivate: true };
     });
 
