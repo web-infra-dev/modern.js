@@ -27,7 +27,7 @@ export function initAppContext<Extends extends CLIPluginExtends>(params: {
     isProd: process.env.NODE_ENV === 'production',
     appDirectory: appDirectory,
     srcDirectory: path.resolve(appDirectory, srcDir),
-    distDirectory: path.resolve(appDirectory, distDir),
+    distDirectory: '',
     nodeModulesDirectory: path.resolve(appDirectory, 'node_modules'),
     plugins: params.plugins,
   };

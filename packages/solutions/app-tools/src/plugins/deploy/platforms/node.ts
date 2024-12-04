@@ -31,7 +31,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       await fse.remove(outputDirectory);
     },
     async writeOutput() {
-      await fse.copy(distDirectory!, outputDirectory);
+      await fse.copy(distDirectory, outputDirectory);
     },
     async genEntry() {
       const serverConfig = {

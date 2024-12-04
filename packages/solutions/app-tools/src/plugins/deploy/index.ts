@@ -32,7 +32,7 @@ async function getDeployPreset(
   const { appDirectory, distDirectory } = appContext;
   const { useSSR, useAPI, useWebServer } = getProjectUsage(
     appDirectory,
-    distDirectory!,
+    distDirectory,
   );
   const needModernServer = useSSR || useAPI || useWebServer;
 

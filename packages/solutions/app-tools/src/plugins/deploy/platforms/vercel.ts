@@ -84,9 +84,9 @@ export const createVercelPreset: CreatePreset = (
       });
 
       const staticDirectory = path.join(outputDirectory, 'static/static');
-      await fse.copy(path.join(distDirectory!, 'static'), staticDirectory);
+      await fse.copy(path.join(distDirectory, 'static'), staticDirectory);
       if (!needModernServer) {
-        const destHtmlDirectory = path.join(distDirectory!, 'html');
+        const destHtmlDirectory = path.join(distDirectory, 'html');
         const outputHtmlDirectory = path.join(
           path.join(outputDirectory, 'static'),
           'html',
@@ -94,9 +94,9 @@ export const createVercelPreset: CreatePreset = (
         await fse.copy(destHtmlDirectory, outputHtmlDirectory);
       } else {
         await fse.ensureDir(funcsDirectory);
-        await fse.copy(distDirectory!, funcsDirectory, {
+        await fse.copy(distDirectory, funcsDirectory, {
           filter: (src: string) => {
-            const distStaticDirectory = path.join(distDirectory!, 'static');
+            const distStaticDirectory = path.join(distDirectory, 'static');
             return !src.includes(distStaticDirectory);
           },
         });

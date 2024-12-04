@@ -92,16 +92,16 @@ export const createNetlifyPreset: CreatePreset = (
 
       if (needModernServer) {
         await fse.ensureDir(funcsDirectory);
-        await fse.copy(distDirectory!, funcsDirectory, {
+        await fse.copy(distDirectory, funcsDirectory, {
           filter: (src: string) => {
-            const distStaticDirectory = path.join(distDirectory!, `static`);
+            const distStaticDirectory = path.join(distDirectory, `static`);
             return !src.includes(distStaticDirectory);
           },
         });
       }
 
       // redirect files don't need to be in the function directory
-      const redirectFilePath = path.join(distDirectory!, '_redirects');
+      const redirectFilePath = path.join(distDirectory, '_redirects');
       await fse.writeFile(redirectFilePath, redirectContent);
     },
     async genEntry() {
@@ -158,7 +158,7 @@ export const createNetlifyPreset: CreatePreset = (
     },
     async end() {
       if (process.env.NODE_ENV !== 'development') {
-        await cleanDistDirectory(distDirectory!);
+        await cleanDistDirectory(distDirectory);
       }
       if (!needModernServer) {
         return;

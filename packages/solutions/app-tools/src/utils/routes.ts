@@ -8,7 +8,7 @@ export const generateRoutes = async (
 ) => {
   const { serverRoutes, distDirectory } = appContext;
   const output = JSON.stringify({ routes: serverRoutes }, null, 2);
-  await fs.outputFile(path.join(distDirectory!, ROUTE_SPEC_FILE), output);
+  await fs.outputFile(path.join(distDirectory, ROUTE_SPEC_FILE), output);
 };
 
 export const getPathWithoutExt = (filename: string) => {
