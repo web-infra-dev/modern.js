@@ -1,7 +1,7 @@
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
 import type { ServerRoute } from '@modern-js/types';
 import { ROUTE_SPEC_FILE, fs as fse, isDepExists } from '@modern-js/utils';
+import type { AppToolsContext } from '../../types/new';
 
 export type ServerAppContext = {
   sharedDirectory: string;
@@ -10,7 +10,9 @@ export type ServerAppContext = {
   metaName: string;
 };
 
-export const serverAppContenxtTemplate = (appContext: IAppContext) => {
+export const serverAppContenxtTemplate = (
+  appContext: AppToolsContext<'shared'>,
+) => {
   const {
     appDirectory,
     sharedDirectory,

@@ -5,11 +5,8 @@ import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { appTools } from '../../src';
 import { handleSetupResult } from '../../src/new/compat/hooks';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
-import type {
-  AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-} from '../../src/types';
+import type { AppNormalizedConfig, AppTools } from '../../src/types';
+import type { AppToolsContext } from '../../src/types/new';
 
 describe('get entrypoints from file system', () => {
   let pluginAPI: any;
@@ -48,8 +45,8 @@ describe('get entrypoints from file system', () => {
     await setup(appContext);
     expect(
       await getFileSystemEntry(
-        await pluginAPI.useHookRunners(),
-        appContext as IAppContext,
+        await pluginAPI.getHooks(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -70,8 +67,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       await getFileSystemEntry(
-        await pluginAPI.useHookRunners(),
-        appContext as IAppContext,
+        await pluginAPI.getHooks(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -91,8 +88,8 @@ describe('get entrypoints from file system', () => {
 
     expect(
       await getFileSystemEntry(
-        await pluginAPI.useHookRunners(),
-        appContext as IAppContext,
+        await pluginAPI.getHooks(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).toMatchObject([
@@ -113,8 +110,8 @@ describe('get entrypoints from file system', () => {
     await setup(appContext);
     expect(
       getFileSystemEntry(
-        await pluginAPI.useHookRunners(),
-        appContext as IAppContext,
+        await pluginAPI.getHooks(),
+        appContext as AppToolsContext<'shared'>,
         config as AppNormalizedConfig<'shared'>,
       ),
     ).rejects.toThrow('There is no valid entry point in the current project!');

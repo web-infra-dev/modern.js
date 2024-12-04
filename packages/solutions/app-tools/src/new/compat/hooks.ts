@@ -8,6 +8,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
+import { getModifyHtmlPartials } from '../../plugins/analyze/getHtmlTemplate';
 import type { AppTools, AppToolsNormalizedConfig } from '../../types';
 import type { RuntimePlugin } from '../../types/hooks';
 import {
@@ -97,7 +98,11 @@ export function getHookRunners(
       entrypoint: Entrypoint;
       partials: HtmlPartials;
     }) => {
-      return hooks.modifyHtmlPartials.call(params as any);
+      await hooks.modifyHtmlPartials.call({
+        entrypoint: params.entrypoint,
+        partials: getModifyHtmlPartials(params.partials),
+      });
+      return { partials: params.partials };
     },
     commands: async (params: { program: Command }) => {
       return hooks.addCommand.call(params);
@@ -179,11 +184,8 @@ export function getHookRunners(
     /**
      * @deprecated
      */
-    addRuntimeExports: async (params: {
-      entrypoint: Entrypoint;
-      exports: string[];
-    }) => {
-      return hooks.addRuntimeExports.call(params);
+    addRuntimeExports: async () => {
+      return hooks.addRuntimeExports.call();
     },
   };
 }

@@ -123,7 +123,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     const resolved =
       await context.hooks.modifyResolvedConfig.call(normalizedConfig);
 
-    context.normalizedConfig = resolved[0] || normalizedConfig;
+    context.normalizedConfig = resolved || normalizedConfig;
 
     await pluginAPI.updateAppContext(context);
 

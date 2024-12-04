@@ -8,7 +8,7 @@ import type { CLIPluginAPI } from './api';
 import type { CLIPlugin, CLIPluginExtends } from './plugin';
 
 export interface Entrypoint {
-  name: string;
+  entryName: string;
   entry: string;
 }
 
@@ -25,11 +25,11 @@ export type AppContext<Extends extends CLIPluginExtends> = {
   // project root path
   appDirectory: string;
   // project src code path
-  srcDirectory?: string;
-  // project output path
-  distDirectory?: string;
+  srcDirectory: string;
+  // project output path, this value will be set after api.modifyResolvedConfig
+  distDirectory: string;
   // node_modules path
-  nodeModulesDirectory?: string;
+  nodeModulesDirectory: string;
   // cli plugins list
   plugins: CLIPlugin<Extends>[];
   // bundler type

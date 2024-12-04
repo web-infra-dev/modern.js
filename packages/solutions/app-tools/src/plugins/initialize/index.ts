@@ -60,7 +60,7 @@ export default ({
         ...appContext,
         port,
         distDirectory: ensureAbsolutePath(
-          appContext.distDirectory!,
+          appContext.appDirectory,
           resolved.output.distPath?.root || 'dist',
         ),
       };

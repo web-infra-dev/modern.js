@@ -1,9 +1,10 @@
 import path from 'path';
-import type { AppNormalizedConfig, IAppContext } from '../../types';
+import type { AppNormalizedConfig, Bundler } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 
-export function createCopyInfo(
-  appContext: IAppContext,
-  config: AppNormalizedConfig<'shared'>,
+export function createCopyInfo<B extends Bundler>(
+  appContext: AppToolsContext<B>,
+  config: AppNormalizedConfig<B>,
 ) {
   const configDir = path.resolve(
     appContext.appDirectory,

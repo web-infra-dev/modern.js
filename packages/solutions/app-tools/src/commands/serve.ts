@@ -10,7 +10,7 @@ import {
 } from '@modern-js/utils';
 import type { AppTools } from '../types';
 import { loadServerPlugins } from '../utils/loadPlugins';
-import { printInstructions } from '../utils/printInstructions';
+import { printInstructionsCompat } from '../utils/printInstructions';
 
 export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const appContext = api.useAppContext();
@@ -87,6 +87,6 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   });
 
   app.listen(port, async () => {
-    await printInstructions(hookRunners, appContext, userConfig);
+    await printInstructionsCompat(hookRunners, appContext, userConfig);
   });
 };

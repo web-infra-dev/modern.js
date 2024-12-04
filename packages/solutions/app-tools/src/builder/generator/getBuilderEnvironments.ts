@@ -8,10 +8,11 @@ import {
 } from '@modern-js/utils';
 import type { RsbuildConfig } from '@rsbuild/core';
 import type { AppNormalizedConfig, Bundler } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 
 export function getBuilderEnvironments<B extends Bundler>(
-  normalizedConfig: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  normalizedConfig: AppNormalizedConfig<B>,
+  appContext: AppToolsContext<B>,
   tempBuilderConfig: Omit<AppNormalizedConfig<B>, 'plugins'>,
 ) {
   // create entries

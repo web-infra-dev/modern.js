@@ -39,7 +39,6 @@ export const initAppContext = ({
     apiDirectory: path.resolve(appDirectory, apiDir),
     lambdaDirectory: path.resolve(appDirectory, apiDir, 'lambda'),
     sharedDirectory: path.resolve(appDirectory, sharedDir),
-    distDirectory: distDir, // Special case: use ' ' to ensure compatibility with older plugins
     serverPlugins: [],
     internalDirectory: path.resolve(
       appDirectory,
