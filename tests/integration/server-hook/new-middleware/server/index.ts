@@ -104,10 +104,19 @@ function modifyRequest(): UnstableMiddleware {
   };
 }
 
+function getRoute(): UnstableMiddleware {
+  return async (c, next) => {
+    c.response.headers.set('x-matched-route', c.route.entryName);
+
+    await next();
+  };
+}
+
 export const unstableMiddleware: UnstableMiddleware[] = [
   time(),
   modifyRequest(),
   injectRequestBody(),
   injectMessage(),
   auth() as unknown as UnstableMiddleware,
+  getRoute(),
 ];

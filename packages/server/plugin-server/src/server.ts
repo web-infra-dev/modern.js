@@ -85,6 +85,7 @@ export default (): ServerPlugin => ({
     const pwd = isProd() ? distDirectory : appDirectory;
 
     const loadMod = async () => {
+      // TODO：future, Modern.js removes the Hook concept, and `_middleware` file conventions can also be removed
       const { middleware: unstableMiddleware } = await loadMiddleware(pwd);
       const {
         defaultExports,

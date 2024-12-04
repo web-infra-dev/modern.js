@@ -10,7 +10,11 @@ import type {
   ServerPlugin,
 } from '../../types';
 import { sortRoutes } from '../../utils';
-import { CustomServer, getServerMidFromUnstableMid } from '../customServer';
+import {
+  CustomServer,
+  getServerMidFromUnstableMid,
+  injectRoute,
+} from '../customServer';
 import { initReporter } from '../monitors';
 
 export * from './inject';
@@ -44,20 +48,25 @@ export const renderPlugin = (): ServerPlugin => ({
         const pageRoutes = getPageRoutes(routes);
 
         for (const route of pageRoutes) {
-          const { urlPath: originUrlPath, entryName } = route;
+          const { urlPath: originUrlPath, entryName = MAIN_ENTRY_NAME } = route;
           const urlPath = originUrlPath.endsWith('/')
             ? `${originUrlPath}*`
             : `${originUrlPath}/*`;
 
           middlewares.push({
             name: 'init-reporter',
-            handler: initReporter(entryName || MAIN_ENTRY_NAME),
+            handler: initReporter(entryName),
           });
 
           const customServerHookMiddleware = customServer.getHookMiddleware(
-            entryName || 'main',
+            entryName,
             routes,
           );
+
+          middlewares.push({
+            name: 'inject-route-info',
+            handler: injectRoute({ entryName }),
+          });
 
           middlewares.push({
             name: 'custom-server-hook',
