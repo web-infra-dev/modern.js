@@ -1,8 +1,18 @@
 import type { CLIPluginAPI } from '@modern-js/plugin-v2';
+import type { Plugin } from '@modern-js/plugin-v2';
 import { loadServerPlugins as loadServerPluginInstances } from '@modern-js/prod-server';
 import type { ServerPlugin as ServerPluginInstance } from '@modern-js/server-core';
 import type { ServerPlugin } from '@modern-js/types';
+import type { InternalPlugins } from '@modern-js/types';
+import {
+  compatibleRequire,
+  createDebugger,
+  dynamicImport,
+  getInternalPlugins,
+  tryResolve,
+} from '@modern-js/utils';
 import type { AppTools } from '../types';
+const debug = createDebugger('load-plugins');
 
 export async function getServerPlugins(
   api: CLIPluginAPI<AppTools<'shared'>>,
@@ -34,17 +44,6 @@ export async function loadServerPlugins(
 
   return instances;
 }
-
-import type { Plugin } from '@modern-js/plugin-v2';
-import type { InternalPlugins } from '@modern-js/types';
-import {
-  compatibleRequire,
-  createDebugger,
-  dynamicImport,
-  getInternalPlugins,
-  tryResolve,
-} from '@modern-js/utils';
-const debug = createDebugger('load-plugins');
 
 const resolveCliPlugin = async (
   p: string,

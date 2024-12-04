@@ -41,7 +41,7 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
 
   const meta = getMeta(metaName);
   const serverConfigPath = path.resolve(
-    distDirectory!,
+    distDirectory,
     SERVER_DIR,
     `${meta}.server`,
   );
@@ -50,7 +50,7 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
 
   const app = await createProdServer({
     metaName,
-    pwd: distDirectory!,
+    pwd: distDirectory,
     config: {
       ...userConfig,
       dev: userConfig.dev as any,
@@ -70,17 +70,17 @@ export const start = async (api: CLIPluginAPI<AppTools<'shared'>>) => {
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,
-        appContext.distDirectory!,
+        appContext.distDirectory,
       ),
       apiDirectory: getTargetDir(
         appContext.apiDirectory,
         appContext.appDirectory,
-        appContext.distDirectory!,
+        appContext.distDirectory,
       ),
       lambdaDirectory: getTargetDir(
         appContext.lambdaDirectory,
         appContext.appDirectory,
-        appContext.distDirectory!,
+        appContext.distDirectory,
       ),
     },
     runMode,

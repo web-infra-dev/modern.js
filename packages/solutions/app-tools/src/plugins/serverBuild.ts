@@ -36,7 +36,7 @@ export default (): CliPluginFuture<AppTools<'shared'>> => ({
       }
       const modernConfig = api.getNormalizedConfig();
 
-      const distDir = path.resolve(distDirectory!);
+      const distDir = path.resolve(distDirectory);
       const serverDir = path.resolve(appDirectory, SERVER_DIR);
       const sharedDir = path.resolve(appDirectory, SHARED_DIR);
       const tsconfigPath = path.resolve(appDirectory, TS_CONFIG_FILENAME);

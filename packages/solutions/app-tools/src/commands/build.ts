@@ -34,7 +34,7 @@ export const build = async (
 
   await registerCompiler(
     appContext.appDirectory,
-    appContext.distDirectory!,
+    appContext.distDirectory,
     resolvedConfig?.source?.alias,
   );
 
@@ -52,7 +52,7 @@ export const build = async (
 
     await buildServerConfig({
       appDirectory,
-      distDirectory: distDirectory!,
+      distDirectory,
       configFile: serverConfigFile,
     });
 
@@ -77,7 +77,7 @@ export const build = async (
 
   await buildServerConfig({
     appDirectory,
-    distDirectory: distDirectory!,
+    distDirectory,
     configFile: serverConfigFile,
   });
 
