@@ -1,5 +1,14 @@
 # @modern-js/uni-builder
 
+## 2.63.1
+
+### Patch Changes
+
+- c85ba7f: fix: uni-builder plugins should be registered earlier than user plugins
+- 30f77f6: chore(deps): pin rsbuild version
+  - @modern-js/babel-preset@2.63.1
+  - @modern-js/utils@2.63.1
+
 ## 2.63.0
 
 ### Patch Changes
