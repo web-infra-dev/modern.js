@@ -35,9 +35,9 @@
       "default": "./dist/cjs/index.js"
     },
     "./cli/run": {
-      "types": "./dist/types/new/run.d.ts",
-      "jsnext:source": "./src/new/run.ts",
-      "default": "./dist/cjs/new/run.js"
+      "types": "./dist/types/run/index.d.ts",
+      "jsnext:source": "./src/run/index.ts",
+      "default": "./dist/cjs/run/index.js"
     },
     "./types": {
       "types": "./lib/types.d.ts",
@@ -64,7 +64,7 @@
         "./dist/types/index.d.ts"
       ],
       "cli/run": [
-        "./dist/types/new/run.d.ts"
+        "./dist/types/run/index.d.ts"
       ],
       "types": [
         "./lib/types.d.ts"
