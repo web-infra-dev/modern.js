@@ -34,7 +34,7 @@
     "@modern-js/babel-preset": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.15",
-    "@rsbuild/core": "1.1.7",
+    "@rsbuild/core": "1.1.8",
     "@rsbuild/plugin-assets-retry": "1.0.6",
     "@rsbuild/plugin-babel": "1.0.3",
     "@rsbuild/plugin-check-syntax": "1.1.0",
