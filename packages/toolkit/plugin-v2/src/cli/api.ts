@@ -95,7 +95,7 @@ export function initPluginAPI<Extends extends CLIPluginExtends>({
     addCommand: hooks.addCommand.tap,
 
     onPrepare: hooks.onPrepare.tap,
-    onWatchFiles: hooks.addWatchFiles.tap,
+    addWatchFiles: hooks.addWatchFiles.tap,
     onFileChanged: hooks.onFileChanged.tap,
     onBeforeRestart: hooks.onBeforeRestart.tap,
     onBeforeCreateCompiler: hooks.onBeforeCreateCompiler.tap,
