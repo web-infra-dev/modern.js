@@ -80,6 +80,10 @@ export async function parseConfig(
     rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
+  rsbuildPlugins.push(
+    pluginModuleScopes(uniBuilderConfig.source?.moduleScopes),
+  );
+
   return {
     rsbuildConfig,
     rsbuildPlugins,
@@ -115,15 +119,12 @@ export async function createWebpackBuilder(
 
   rsbuildConfig.provider = webpackProvider;
 
+  rsbuildConfig.plugins = [...rsbuildPlugins, ...(rsbuildConfig.plugins || [])];
+
   const rsbuild = await createRsbuild({
     rsbuildConfig,
     cwd,
   });
-
-  rsbuild.addPlugins([
-    ...rsbuildPlugins,
-    pluginModuleScopes(options.config.source?.moduleScopes),
-  ]);
 
   return {
     ...rsbuild,
