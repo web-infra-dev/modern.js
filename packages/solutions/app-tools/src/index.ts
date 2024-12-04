@@ -152,7 +152,7 @@ export const appTools = (
         const resolvedConfig = api.getNormalizedConfig();
         if (resolvedConfig.output.cleanDistPath) {
           const appContext = api.getAppContext();
-          await emptyDir(appContext.distDirectory!);
+          await emptyDir(appContext.distDirectory);
         }
       }
     });

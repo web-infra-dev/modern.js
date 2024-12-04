@@ -45,7 +45,7 @@ export const dev = async (
 
   await registerCompiler(
     appContext.appDirectory,
-    appContext.distDirectory!,
+    appContext.distDirectory,
     normalizedConfig?.source?.alias,
   );
 
@@ -65,7 +65,7 @@ export const dev = async (
 
   await buildServerConfig({
     appDirectory,
-    distDirectory: distDirectory!,
+    distDirectory,
     configFile: serverConfigFile,
     watch: true,
   });
