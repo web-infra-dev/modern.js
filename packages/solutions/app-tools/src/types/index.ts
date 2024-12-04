@@ -84,3 +84,11 @@ export type AppToolsOptions = {
    * */
   bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
+
+export type {
+  AppToolsExtendAPI,
+  AppToolsExtendContext,
+  AppToolsExtendHooks,
+  AppToolsContext,
+  AppToolsHooks as AppToolsFeatureHooks,
+} from './new';
