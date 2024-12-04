@@ -13,6 +13,7 @@ import type {
 } from './new';
 import type { Bundler } from './utils';
 
+export type { CLIPluginExtends };
 export * from './hooks';
 export * from './config';
 export * from './legacyConfig';
