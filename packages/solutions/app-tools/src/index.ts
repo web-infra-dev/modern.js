@@ -157,7 +157,7 @@ export const appTools = (
       }
     });
 
-    api.onWatchFiles(async () => {
+    api.addWatchFiles(async () => {
       const appContext = api.getAppContext();
       const config = api.getNormalizedConfig();
       const files = await generateWatchFiles(
