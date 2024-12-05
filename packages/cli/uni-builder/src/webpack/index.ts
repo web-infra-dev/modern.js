@@ -44,39 +44,42 @@ export async function parseConfig(
           ...castArray(uniBuilderConfig.tools?.babel),
         );
       }
-      return;
+      return config;
     };
 
-    Object.entries(uniBuilderConfig.environments!).forEach(
-      ([_name, config]) => {
-        config.plugins ??= [];
-        if (config.tools?.babel) {
-          config.plugins.push(
-            pluginBabel(
-              {
-                babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
-              },
-              {
-                transformLodash:
-                  uniBuilderConfig.performance?.transformLodash ?? true,
-              },
-            ),
-          );
-        } else {
-          config.plugins.push(
-            pluginBabel(
-              {
-                babelLoaderOptions: uniBuilderConfig.tools?.babel,
-              },
-              {
-                transformLodash:
-                  uniBuilderConfig.performance?.transformLodash ?? true,
-              },
-            ),
-          );
-        }
-      },
-    );
+    Object.entries(uniBuilderConfig.environments!).forEach(([name, config]) => {
+      const environmentConfig = rsbuildConfig.environments?.[name];
+      if (!environmentConfig) {
+        return;
+      }
+      environmentConfig.plugins ??= [];
+
+      if (config.tools?.babel) {
+        environmentConfig.plugins.push(
+          pluginBabel(
+            {
+              babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
+            },
+            {
+              transformLodash:
+                uniBuilderConfig.performance?.transformLodash ?? true,
+            },
+          ),
+        );
+      } else {
+        environmentConfig.plugins.push(
+          pluginBabel(
+            {
+              babelLoaderOptions: uniBuilderConfig.tools?.babel,
+            },
+            {
+              transformLodash:
+                uniBuilderConfig.performance?.transformLodash ?? true,
+            },
+          ),
+        );
+      }
+    });
   } else {
     rsbuildPlugins.push(
       pluginBabel(

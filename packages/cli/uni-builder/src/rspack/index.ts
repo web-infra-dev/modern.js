@@ -63,23 +63,33 @@ export async function parseConfig(
           ...castArray(uniBuilderConfig.tools?.babel),
         );
       }
-      return;
+      return config;
     };
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
-    Object.entries(uniBuilderConfig.environments!).forEach(
-      ([_name, config]) => {
-        if (config.tools?.babel) {
-          config.plugins ??= [];
-          config.plugins.push(
-            pluginBabel({
-              babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
-            }),
-            pluginBabelPost(),
-          );
-        }
-      },
-    );
+    Object.entries(uniBuilderConfig.environments!).forEach(([name, config]) => {
+      const environmentConfig = rsbuildConfig.environments?.[name];
+      if (!environmentConfig) {
+        return;
+      }
+      if (config.tools?.babel) {
+        environmentConfig.plugins ??= [];
+        environmentConfig.plugins.push(
+          pluginBabel({
+            babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
+          }),
+          pluginBabelPost(),
+        );
+      } else if (uniBuilderConfig.tools?.babel) {
+        environmentConfig.plugins ??= [];
+        environmentConfig.plugins.push(
+          pluginBabel({
+            babelLoaderOptions: uniBuilderConfig.tools?.babel,
+          }),
+          pluginBabelPost(),
+        );
+      }
+    });
   } else if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
