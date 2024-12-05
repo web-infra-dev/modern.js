@@ -1,4 +1,5 @@
 import type { RequestPayload } from './context';
+import type { ServerRoute } from './route';
 
 type Set<V extends Record<string>> = <Key extends keyof V>(
   key: Key,
@@ -16,6 +17,7 @@ export type UnstableMiddlewareContext<
 > = {
   request: Request;
   response: Response;
+  route: Required<Pick<ServerRoute, 'entryName'>>;
   get: Get<V & RequestPayload>;
   set: Set<V & RequestPayload>;
   header: (name: string, value: string, options?: { append?: boolean }) => void;
