@@ -2,4 +2,4 @@
 '@modern-js/uni-builder': patch
 ---
 
-feat: support environment tools.babel config
+feat(uni-builder): support environment tools.babel config
