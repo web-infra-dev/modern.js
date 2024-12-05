@@ -79,6 +79,9 @@ export const isWebOnly = async () => {
   return Boolean(options['web-only']);
 };
 
+/**
+ * @deprecated Use {@link isSupportAutomaticJsx} to check if the project supports automatic JSX instead.
+ */
 export const isBeyondReact17 = (cwd: string) => {
   const pkgPath = pkgUp.sync({ cwd });
 
@@ -97,6 +100,26 @@ export const isBeyondReact17 = (cwd: string) => {
   }
 
   return semver.satisfies(semver.minVersion(deps.react)!, '>=17.0.0');
+};
+
+export const isSupportAutomaticJsx = (cwd: string) => {
+  const pkgPath = pkgUp.sync({ cwd });
+
+  if (!pkgPath) {
+    return false;
+  }
+
+  const pkgInfo = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  const deps = {
+    ...pkgInfo.devDependencies,
+    ...pkgInfo.dependencies,
+  };
+
+  if (typeof deps.react !== 'string') {
+    return false;
+  }
+
+  return semver.satisfies(semver.minVersion(deps.react)!, '>=16.14.0');
 };
 
 export const isReact18 = (cwd: string = process.cwd()) => {
