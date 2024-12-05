@@ -50,6 +50,8 @@ describe('test new middleware run correctly', () => {
     expect(body).toMatch(/lang="en"/);
 
     expect(headers).toHaveProperty('x-custom-value', 'modern');
+
+    expect(headers).toHaveProperty('x-matched-route', 'main');
   });
 
   test('should redirect corretly', async () => {

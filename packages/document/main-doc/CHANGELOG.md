@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.63.1
+
+### Patch Changes
+
+- 2ef496c: feat: bff doc add shared source
+
+  feat: bff 文档增加共享源码
+
+  - @modern-js/sandpack-react@2.63.1
+
 ## 2.63.0
 
 ### Patch Changes

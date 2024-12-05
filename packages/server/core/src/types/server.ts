@@ -70,6 +70,11 @@ type ServerVariables = {
    * Custom by ssrRuntime.
    */
   locals?: Record<string, any>;
+
+  /**
+   * The current matched route, now only expose entryName field.
+   */
+  route: Required<Pick<ServerRoute, 'entryName'>>;
 };
 
 export type ServerEnv = {

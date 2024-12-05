@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 2.63.1
+
+### Patch Changes
+
+- 4a76c84: feat: feat: app tools analyze plugin use new cli plugin
+
+  feat: app tools analyze 插件使用新的 cli 插件
+
+- b0b8847: fix: addWatchFiles hook not work
+- 4a76c84: feat: app tools deploy plugin use new cli plugin
+
+  feat: app tools deploy 插件使用新的 cli 插件
+
+- Updated dependencies [c85ba7f]
+- Updated dependencies [30f77f6]
+- Updated dependencies [b0b8847]
+  - @modern-js/uni-builder@2.63.1
+  - @modern-js/plugin-v2@2.63.1
+  - @modern-js/core@2.63.1
+  - @modern-js/server@2.63.1
+  - @modern-js/plugin-data-loader@2.63.1
+  - @modern-js/plugin-i18n@2.63.1
+  - @modern-js/rsbuild-plugin-esbuild@2.63.1
+  - @modern-js/server-core@2.63.1
+  - @modern-js/prod-server@2.63.1
+  - @modern-js/server-utils@2.63.1
+  - @modern-js/node-bundle-require@2.63.1
+  - @modern-js/plugin@2.63.1
+  - @modern-js/types@2.63.1
+  - @modern-js/utils@2.63.1
+
 ## 2.63.0
 
 ### Minor Changes
