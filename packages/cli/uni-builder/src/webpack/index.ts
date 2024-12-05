@@ -4,9 +4,10 @@ import {
   type RsbuildPlugin,
   createRsbuild,
 } from '@rsbuild/core';
+import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
+import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
   CreateUniBuilderOptions,
@@ -29,16 +30,67 @@ export async function parseConfig(
     options,
   );
 
-  rsbuildPlugins.push(
-    pluginBabel(
-      {
-        babelLoaderOptions: uniBuilderConfig.tools?.babel,
+  const hasEnvironmentBabelConfig = Object.values(
+    uniBuilderConfig.environments || {},
+  ).some(c => c.tools?.babel !== undefined);
+
+  // Add babel plugin into each environment separately
+  if (hasEnvironmentBabelConfig) {
+    const mergeSharedBabelConfig = (
+      config: PluginBabelOptions['babelLoaderOptions'],
+    ) => {
+      if (uniBuilderConfig.tools?.babel) {
+        return castArray(config).concat(
+          ...castArray(uniBuilderConfig.tools?.babel),
+        );
+      }
+      return;
+    };
+
+    Object.entries(uniBuilderConfig.environments!).forEach(
+      ([_name, config]) => {
+        config.plugins ??= [];
+        if (config.tools?.babel) {
+          config.plugins.push(
+            pluginBabel(
+              {
+                babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
+              },
+              {
+                transformLodash:
+                  uniBuilderConfig.performance?.transformLodash ?? true,
+              },
+            ),
+          );
+        } else {
+          config.plugins.push(
+            pluginBabel(
+              {
+                babelLoaderOptions: uniBuilderConfig.tools?.babel,
+              },
+              {
+                transformLodash:
+                  uniBuilderConfig.performance?.transformLodash ?? true,
+              },
+            ),
+          );
+        }
       },
-      {
-        transformLodash: uniBuilderConfig.performance?.transformLodash ?? true,
-      },
-    ),
-  );
+    );
+  } else {
+    rsbuildPlugins.push(
+      pluginBabel(
+        {
+          babelLoaderOptions: uniBuilderConfig.tools?.babel,
+        },
+        {
+          transformLodash:
+            uniBuilderConfig.performance?.transformLodash ?? true,
+        },
+      ),
+    );
+  }
+
   rsbuildPlugins.push(pluginReact());
 
   if (uniBuilderConfig.tools?.tsLoader) {
