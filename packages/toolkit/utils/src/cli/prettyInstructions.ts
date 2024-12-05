@@ -142,5 +142,11 @@ export const prettyInstructions = (appContext: any, config: any) => {
     );
   }
 
+  if (config.dev?.cliShortcuts) {
+    message += `  ${chalk.dim('> press')} ${chalk.bold(
+      'h + enter',
+    )} ${chalk.dim('to show shortcuts')}\n`;
+  }
+
   return message;
 };
