@@ -118,7 +118,29 @@ Modern.js 也支持通过 [`server.ssr`](/configure/app/server/ssr) 配置项中
 
 ### 组件渲染报错
 
-当组件渲染报错时，Modern.js 会自动降级到 CSR 模式，并重新发起数据请求。如果重新渲染仍然出错，则展示 `<ErrorBoundary>` 组件。
+如果 Data Loader 执行正常，但组件渲染报错时，SSR 渲染将会部分或完全失败，例如以下代码：
+
+```tsx
+import { Await, useLoaderData } from '@modern-js/runtime/router';
+import { Suspense } from 'react';
+
+const Page = () => {
+  const data = useLoaderData();
+  const isNode = typeof window === 'undefined';
+  const undefinedVars = data.unDefined;
+  const definedVars = data.defined;
+
+  return (
+    <div>
+      {isNode ? undefinedVars.msg : definedVars.msg}
+    </div>
+  );
+};
+
+export default Page;
+```
+
+此时，Modern.js 会将页面降级为 CSR，并利用 Data Loader 中已有的数据渲染。如果重新渲染仍然出错，则展示 `<ErrorBoundary>` 组件。
 
 :::tip
 组件渲染报错的行为，不会受到 `loaderFailureMode` 的影响，也不会在浏览器端执行 Client Loader。

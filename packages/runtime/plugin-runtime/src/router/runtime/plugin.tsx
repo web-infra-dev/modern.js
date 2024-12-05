@@ -24,6 +24,7 @@ export let finalRouteConfig: RouterConfig['routesConfig'] = {
 };
 export let beforeCreateRouter = true;
 // support csr only, it is not allowed to use in ssr app.
+// inhouse private, will deprecated
 export function modifyRoutes(modifyFunction: (routes: Routes) => Routes) {
   if (beforeCreateRouter) {
     const { routes: originRoutes } = finalRouteConfig;
@@ -49,12 +50,16 @@ export const routerPlugin = (
       window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
       return {
         beforeRender(context) {
+          // for garfish plugin to get basename,
+          // why not let garfish plugin just import @modern-js/runtime/router
+          // so the `router` has no type declare in RuntimeContext
           context.router = {
             useMatches,
             useLocation,
             useHref,
           };
 
+          // Prefetch Link will use routes for match next route
           Object.defineProperty(context, 'routes', {
             get() {
               return routes;
@@ -79,6 +84,7 @@ export const routerPlugin = (
             globalApp: getGlobalLayoutApp(),
             ...routesConfig,
           };
+
           // can not get routes config, skip wrapping React Router.
           // e.g. App.tsx as the entrypoint
           if (!finalRouteConfig.routes && !createRoutes) {
@@ -126,6 +132,7 @@ export const routerPlugin = (
                     );
 
                 const runner = (api as any).useHookRunners();
+                // inhouse private, try deprecated, different from the export function
                 routes = runner.modifyRoutes(routes);
 
                 const router = supportHtml5History
@@ -153,14 +160,6 @@ export const routerPlugin = (
                   };
                   return originSubscribe(wrapedListener);
                 };
-
-                Object.defineProperty(runtimeContext, 'remixRouter', {
-                  get() {
-                    return router;
-                  },
-                  configurable: true,
-                  enumerable: true,
-                });
 
                 return router;
               }, [

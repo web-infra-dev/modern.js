@@ -48,6 +48,10 @@ export const getDefaultBuildConfig = () => {
       mainFields: ['module', 'main'],
       jsExtensions: ['.jsx', '.tsx', '.js', '.ts', '.json'],
       alias: {},
+      tsConfig: {
+        configFile: 'tsconfig.json',
+        references: undefined,
+      },
     },
     shims: false,
     sideEffects: undefined,

@@ -145,6 +145,7 @@ export async function parseCommonConfig(
     output: {
       polyfill: polyfill === 'ua' ? 'off' : polyfill,
       dataUriLimit,
+      sourceMap,
       ...outputConfig,
     },
     source: {
@@ -188,7 +189,7 @@ export async function parseCommonConfig(
     output.cssModules.localIdentName = cssModuleLocalIdentName;
   }
 
-  if (isUseCssSourceMap(disableSourceMap)) {
+  if (isUseCssSourceMap(disableSourceMap) && output.sourceMap !== true) {
     output.sourceMap ||= {};
     output.sourceMap.css = true;
   }
@@ -315,14 +316,14 @@ export async function parseCommonConfig(
     };
   }
 
-  const { dev: RsbuildDev, server } = transformToRsbuildServerOptions(
+  const { dev: rsbuildDev, server } = transformToRsbuildServerOptions(
     dev || {},
     devServer || {},
   );
 
   rsbuildConfig.server = removeUndefinedKey(server);
 
-  rsbuildConfig.dev = removeUndefinedKey(RsbuildDev);
+  rsbuildConfig.dev = removeUndefinedKey(rsbuildDev);
   rsbuildConfig.html = html;
   rsbuildConfig.output = output;
 
@@ -359,7 +360,7 @@ export async function parseCommonConfig(
     const { pluginTypeCheck } = await import('@rsbuild/plugin-type-check');
     rsbuildPlugins.push(
       pluginTypeCheck({
-        forkTsCheckerOptions: tsChecker,
+        tsCheckerOptions: tsChecker,
       }),
     );
   }

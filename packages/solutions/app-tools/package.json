@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.61.0",
+  "version": "2.63.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -33,6 +33,11 @@
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
+    },
+    "./cli/run": {
+      "types": "./dist/types/new/run.d.ts",
+      "jsnext:source": "./src/new/run.ts",
+      "default": "./dist/cjs/new/run.js"
     },
     "./types": {
       "types": "./lib/types.d.ts",
@@ -57,6 +62,9 @@
     "*": {
       ".": [
         "./dist/types/index.d.ts"
+      ],
+      "cli/run": [
+        "./dist/types/new/run.d.ts"
       ],
       "types": [
         "./lib/types.d.ts"
@@ -89,6 +97,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-data-loader": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
+    "@modern-js/plugin-v2": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/rsbuild-plugin-esbuild": "workspace:*",
     "@modern-js/server": "workspace:*",
@@ -97,8 +106,8 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/uni-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rsbuild/core": "~1.1.0-beta.1",
-    "@rsbuild/plugin-node-polyfill": "~1.2.0",
+    "@rsbuild/core": "1.1.8",
+    "@rsbuild/plugin-node-polyfill": "1.2.0",
     "@swc/helpers": "0.5.13",
     "@vercel/nft": "^0.26.4",
     "es-module-lexer": "^1.1.0",
@@ -110,7 +119,7 @@
     "std-env": "^3.7.0"
   },
   "devDependencies": {
-    "@rsbuild/plugin-webpack-swc": "~1.0.3",
+    "@rsbuild/plugin-webpack-swc": "1.0.9",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "7.20.6",

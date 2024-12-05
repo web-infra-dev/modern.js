@@ -1,5 +1,4 @@
 import path from 'path';
-import type { CliHooksRunner } from '@modern-js/core';
 import type { Entrypoint } from '@modern-js/types';
 import {
   fs,
@@ -8,7 +7,8 @@ import {
   ensureAbsolutePath,
   findExists,
 } from '@modern-js/utils';
-import type { AppNormalizedConfig, AppTools, IAppContext } from '../../types';
+import type { AppNormalizedConfig } from '../../types';
+import type { AppToolsContext, AppToolsHooks } from '../../types/new';
 import { getFileSystemEntry } from './getFileSystemEntry';
 import { isSubDirOrEqual } from './utils';
 
@@ -51,8 +51,8 @@ const ifAlreadyExists = (
   });
 
 export const getBundleEntry = async (
-  hookRunners: CliHooksRunner<AppTools<'shared'>>,
-  appContext: IAppContext,
+  hooks: AppToolsHooks<'shared'>,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
 ) => {
   const { appDirectory, packageName } = appContext;
@@ -61,7 +61,7 @@ export const getBundleEntry = async (
 
   const defaults = disableDefaultEntries
     ? []
-    : await getFileSystemEntry(hookRunners, appContext, config);
+    : await getFileSystemEntry(hooks, appContext, config);
 
   // merge entrypoints from user config with directory convention.
   if (entries) {

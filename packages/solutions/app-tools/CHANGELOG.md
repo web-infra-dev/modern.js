@@ -1,5 +1,109 @@
 # @modern-js/app-tools
 
+## 2.63.1
+
+### Patch Changes
+
+- 4a76c84: feat: feat: app tools analyze plugin use new cli plugin
+
+  feat: app tools analyze 插件使用新的 cli 插件
+
+- b0b8847: fix: addWatchFiles hook not work
+- 4a76c84: feat: app tools deploy plugin use new cli plugin
+
+  feat: app tools deploy 插件使用新的 cli 插件
+
+- Updated dependencies [c85ba7f]
+- Updated dependencies [30f77f6]
+- Updated dependencies [b0b8847]
+  - @modern-js/uni-builder@2.63.1
+  - @modern-js/plugin-v2@2.63.1
+  - @modern-js/core@2.63.1
+  - @modern-js/server@2.63.1
+  - @modern-js/plugin-data-loader@2.63.1
+  - @modern-js/plugin-i18n@2.63.1
+  - @modern-js/rsbuild-plugin-esbuild@2.63.1
+  - @modern-js/server-core@2.63.1
+  - @modern-js/prod-server@2.63.1
+  - @modern-js/server-utils@2.63.1
+  - @modern-js/node-bundle-require@2.63.1
+  - @modern-js/plugin@2.63.1
+  - @modern-js/types@2.63.1
+  - @modern-js/utils@2.63.1
+
+## 2.63.0
+
+### Minor Changes
+
+- ccedaab: feat: new cli plugin
+
+  feat: 新版 CLI 插件
+
+### Patch Changes
+
+- 28bd3ac: feat: define new app tools plugin type
+
+  feat: 定义新的 app tools 插件类型
+
+- d818b58: feat(app-tools): update preset type definitions
+- Updated dependencies [93f50f4]
+- Updated dependencies [28bd3ac]
+- Updated dependencies [ccedaab]
+- Updated dependencies [4cf8833]
+- Updated dependencies [89117d8]
+  - @modern-js/uni-builder@2.63.0
+  - @modern-js/plugin-v2@2.63.0
+  - @modern-js/core@2.63.0
+  - @modern-js/server@2.63.0
+  - @modern-js/plugin-data-loader@2.63.0
+  - @modern-js/plugin-i18n@2.63.0
+  - @modern-js/rsbuild-plugin-esbuild@2.63.0
+  - @modern-js/server-core@2.63.0
+  - @modern-js/prod-server@2.63.0
+  - @modern-js/server-utils@2.63.0
+  - @modern-js/node-bundle-require@2.63.0
+  - @modern-js/plugin@2.63.0
+  - @modern-js/types@2.63.0
+  - @modern-js/utils@2.63.0
+
+## 2.62.1
+
+### Patch Changes
+
+- Updated dependencies [2a857a3]
+- Updated dependencies [86213ae]
+  - @modern-js/uni-builder@2.62.1
+  - @modern-js/plugin-data-loader@2.62.1
+  - @modern-js/core@2.62.1
+  - @modern-js/plugin-i18n@2.62.1
+  - @modern-js/rsbuild-plugin-esbuild@2.62.1
+  - @modern-js/server-core@2.62.1
+  - @modern-js/prod-server@2.62.1
+  - @modern-js/server@2.62.1
+  - @modern-js/server-utils@2.62.1
+  - @modern-js/node-bundle-require@2.62.1
+  - @modern-js/plugin@2.62.1
+  - @modern-js/types@2.62.1
+  - @modern-js/utils@2.62.1
+
+## 2.62.0
+
+### Patch Changes
+
+- @modern-js/core@2.62.0
+- @modern-js/plugin-data-loader@2.62.0
+- @modern-js/plugin-i18n@2.62.0
+- @modern-js/rsbuild-plugin-esbuild@2.62.0
+- @modern-js/uni-builder@2.62.0
+- @modern-js/server-core@2.62.0
+- @modern-js/prod-server@2.62.0
+- @modern-js/server@2.62.0
+- @modern-js/server-utils@2.62.0
+- @modern-js/node-bundle-require@2.62.0
+- @modern-js/plugin@2.62.0
+- @modern-js/types@2.62.0
+- @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes

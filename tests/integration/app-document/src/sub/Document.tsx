@@ -5,11 +5,11 @@ import {
   Head,
   Html,
   Root,
+  Script,
   Style,
 } from '@modern-js/runtime/document';
 // biome-ignore lint/style/useImportType: <explanation>
-import React from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 
 export default function Document(): React.ReactElement {
   // props: Record<string, unknown>,
@@ -44,6 +44,14 @@ export default function Document(): React.ReactElement {
         <script
           dangerouslySetInnerHTML={{
             __html: `var a = function() {console.log('sss')}; a();`,
+          }}
+        />
+        <Script
+          defer
+          async
+          id="script-has-id"
+          content={() => {
+            console.log('this is a IIFE function');
           }}
         />
       </Head>

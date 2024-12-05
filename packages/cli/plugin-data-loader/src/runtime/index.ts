@@ -1,7 +1,6 @@
 import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import {
   createRequestContext,
-  matchEntry,
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
 import {
@@ -11,6 +10,7 @@ import {
   isRouteErrorResponse,
   json,
 } from '@modern-js/runtime-utils/remix-router';
+import { matchEntry } from '@modern-js/runtime-utils/server';
 import { time } from '@modern-js/runtime-utils/time';
 import type { NestedRoute, Reporter, ServerRoute } from '@modern-js/types';
 import { isPlainObject } from '@modern-js/utils/lodash';

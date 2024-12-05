@@ -259,3 +259,7 @@ export default () => {
 import ExtendBFF from "@site-docs-en/components/extend-bff-function"
 
 <ExtendBFF/>
+
+## Code Sharing
+
+Besides the BFF functions in the `api/` directory, which can be referenced in the `src/` directory through an integrated calling method, the `src/` and `api/` directories cannot directly reference each other's code by default. To achieve code sharing, a [`shared`](/en/apis/app/hooks/shared.html) directory can be created at the root of the project for both `src/` and `api/` to use commonly.

@@ -11,6 +11,7 @@ import React from 'react';
 import ReactDomServer from 'react-dom/server';
 
 import { DocumentContext } from '../DocumentContext';
+
 import {
   BODY_PARTICALS_SEPARATOR,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
@@ -20,6 +21,8 @@ import {
   DOCUMENT_LINKS_PLACEHOLDER,
   DOCUMENT_META_PLACEHOLDER,
   DOCUMENT_SCRIPTS_PLACEHOLDER,
+  DOCUMENT_SCRIPT_ATTRIBUTES_END,
+  DOCUMENT_SCRIPT_ATTRIBUTES_START,
   DOCUMENT_SCRIPT_PLACEHOLDER_END,
   DOCUMENT_SCRIPT_PLACEHOLDER_START,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
@@ -240,16 +243,16 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
         ) {
-          const { nonce } = config.security;
+          const { nonce } = config.security || {};
           const nonceAttr = nonce ? `nonce=${nonce}` : '';
 
           html = html.replace(
             new RegExp(
-              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
+              `${DOCUMENT_SCRIPT_PLACEHOLDER_START}${DOCUMENT_SCRIPT_ATTRIBUTES_START}(.*)${DOCUMENT_SCRIPT_ATTRIBUTES_END}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
               'g',
             ),
-            (_scriptStr, $1) =>
-              `<script ${nonceAttr}>${decodeURIComponent($1)}</script>`,
+            (_scriptStr, $1, $2) =>
+              `<script ${decodeURIComponent($1)} ${nonceAttr}>${decodeURIComponent($2)}</script>`,
           );
         }
         // if the Document.tsx has a style, replace to convert it

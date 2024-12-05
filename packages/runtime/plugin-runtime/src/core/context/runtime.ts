@@ -23,10 +23,6 @@ interface BaseRuntimeContext {
   routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
   /**
-   * private method
-   */
-  remixRouter?: Router;
-  /**
    * private
    */
   unstable_getBlockNavState?: () => boolean;

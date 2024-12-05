@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.61.0",
+  "version": "2.63.1",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     "./router": {
@@ -47,6 +47,12 @@
       "jsnext:source": "./src/node/router.ts",
       "require": "./dist/cjs/node/router.js",
       "default": "./dist/esm/node/router.js"
+    },
+    "./server": {
+      "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
+      "require": "./dist/cjs/server/index.js",
+      "default": "./dist/esm/server/index.js"
     },
     "./time": {
       "types": "./dist/types/time.d.ts",
@@ -118,6 +124,11 @@
         "require": "./dist/cjs/node/index.js",
         "default": "./dist/esm/node/index.js"
       },
+      "./server": {
+        "types": "./dist/types/server/index.d.ts",
+        "require": "./dist/cjs/server/index.js",
+        "default": "./dist/esm/server/index.js"
+      },
       "./node/router": {
         "types": "./dist/types/node/router.d.ts",
         "require": "./dist/cjs/node/router.js",
@@ -173,6 +184,9 @@
       ],
       "node": [
         "./dist/types/node/index.d.ts"
+      ],
+      "server": [
+        "./dist/types/server/index.d.ts"
       ],
       "node/router": [
         "./dist/types/node/router.d.ts"

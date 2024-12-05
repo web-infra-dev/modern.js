@@ -4,6 +4,7 @@ import type {
   ConfigChainWithContext,
   DevConfig,
   DistPathConfig,
+  EnvironmentConfig,
   HtmlConfig,
   HtmlTagDescriptor,
   OutputConfig,
@@ -148,7 +149,7 @@ export type UniBuilderExtraConfig = {
     /**
      * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
      */
-    tsChecker?: PluginTypeCheckerOptions['forkTsCheckerOptions'];
+    tsChecker?: PluginTypeCheckerOptions['tsCheckerOptions'];
     /**
      * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
      */
@@ -452,5 +453,14 @@ export type UniBuilderConfig = {
   source?: Omit<SourceConfig, 'alias' | 'transformImport'>;
   // plugins is a new field, should avoid adding modern plugin by mistake
   plugins?: RsbuildPlugins;
-  environments?: RsbuildConfig['environments'];
+  environments?: {
+    [key: string]: EnvironmentConfig & {
+      tools?: {
+        /**
+         * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
+         */
+        babel?: PluginBabelOptions['babelLoaderOptions'];
+      };
+    };
+  };
 } & UniBuilderExtraConfig;

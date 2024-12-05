@@ -1,3 +1,4 @@
+import type { RsbuildPlugin } from '@rsbuild/core';
 import { describe, expect, it } from 'vitest';
 import { createUniBuilder } from '../src';
 
@@ -8,7 +9,14 @@ describe('uni-builder rspack', () => {
 
     const rsbuild = await createUniBuilder({
       bundlerType: 'rspack',
-      config: {},
+      config: {
+        plugins: [
+          {
+            name: 'user-plugin',
+            setup: () => {},
+          },
+        ],
+      },
       cwd: '',
     });
 
@@ -18,7 +26,9 @@ describe('uni-builder rspack', () => {
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
 
-    expect(rsbuildConfig.pluginNames).toMatchSnapshot();
+    expect(
+      rsbuildConfig.plugins?.map(p => (p as RsbuildPlugin)?.name),
+    ).toMatchSnapshot();
 
     process.env.NODE_ENV = NODE_ENV;
   });

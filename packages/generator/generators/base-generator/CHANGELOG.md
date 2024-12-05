@@ -1,5 +1,19 @@
 # @modern-js/base-generator
 
+## 3.7.7
+
+## 3.7.6
+
+## 3.7.5
+
+### Patch Changes
+
+- 6203806: fix: new and upgrade command run error
+
+  fix: 修复 new 命令和 upgrade 命令执行报错
+
+## 3.7.4
+
 ## 3.7.3
 
 ## 3.7.2

@@ -1,5 +1,39 @@
 # @modern-js/uni-builder
 
+## 2.63.1
+
+### Patch Changes
+
+- c85ba7f: fix: uni-builder plugins should be registered earlier than user plugins
+- 30f77f6: chore(deps): pin rsbuild version
+  - @modern-js/babel-preset@2.63.1
+  - @modern-js/utils@2.63.1
+
+## 2.63.0
+
+### Patch Changes
+
+- 93f50f4: fix: output.sourceMap not works
+- 4cf8833: fix(uni-builder): bump postcss plugin to support cyclic variables
+- 89117d8: chore(deps): bump @rsbuild/plugin-type-check v1.1
+  - @modern-js/babel-preset@2.63.0
+  - @modern-js/utils@2.63.0
+
+## 2.62.1
+
+### Patch Changes
+
+- 2a857a3: feat: bump rsbuild version
+  - @modern-js/babel-preset@2.62.1
+  - @modern-js/utils@2.62.1
+
+## 2.62.0
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.62.0
+- @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes

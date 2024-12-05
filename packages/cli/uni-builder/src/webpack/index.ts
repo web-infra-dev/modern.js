@@ -4,9 +4,10 @@ import {
   type RsbuildPlugin,
   createRsbuild,
 } from '@rsbuild/core';
+import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
-import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
+import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
   CreateUniBuilderOptions,
@@ -29,16 +30,70 @@ export async function parseConfig(
     options,
   );
 
-  rsbuildPlugins.push(
-    pluginBabel(
-      {
-        babelLoaderOptions: uniBuilderConfig.tools?.babel,
-      },
-      {
-        transformLodash: uniBuilderConfig.performance?.transformLodash ?? true,
-      },
-    ),
-  );
+  const hasEnvironmentBabelConfig = Object.values(
+    uniBuilderConfig.environments || {},
+  ).some(c => c.tools?.babel !== undefined);
+
+  // Add babel plugin into each environment separately
+  if (hasEnvironmentBabelConfig) {
+    const mergeSharedBabelConfig = (
+      config: PluginBabelOptions['babelLoaderOptions'],
+    ) => {
+      if (uniBuilderConfig.tools?.babel) {
+        return castArray(config).concat(
+          ...castArray(uniBuilderConfig.tools?.babel),
+        );
+      }
+      return config;
+    };
+
+    Object.entries(uniBuilderConfig.environments!).forEach(([name, config]) => {
+      const environmentConfig = rsbuildConfig.environments?.[name];
+      if (!environmentConfig) {
+        return;
+      }
+      environmentConfig.plugins ??= [];
+
+      if (config.tools?.babel) {
+        environmentConfig.plugins.push(
+          pluginBabel(
+            {
+              babelLoaderOptions: mergeSharedBabelConfig(config.tools?.babel),
+            },
+            {
+              transformLodash:
+                uniBuilderConfig.performance?.transformLodash ?? true,
+            },
+          ),
+        );
+      } else {
+        environmentConfig.plugins.push(
+          pluginBabel(
+            {
+              babelLoaderOptions: uniBuilderConfig.tools?.babel,
+            },
+            {
+              transformLodash:
+                uniBuilderConfig.performance?.transformLodash ?? true,
+            },
+          ),
+        );
+      }
+    });
+  } else {
+    rsbuildPlugins.push(
+      pluginBabel(
+        {
+          babelLoaderOptions: uniBuilderConfig.tools?.babel,
+        },
+        {
+          transformLodash:
+            uniBuilderConfig.performance?.transformLodash ?? true,
+        },
+      ),
+    );
+  }
+
   rsbuildPlugins.push(pluginReact());
 
   if (uniBuilderConfig.tools?.tsLoader) {
@@ -80,6 +135,10 @@ export async function parseConfig(
     rsbuildPlugins.push(pluginStyledComponents(options));
   }
 
+  rsbuildPlugins.push(
+    pluginModuleScopes(uniBuilderConfig.source?.moduleScopes),
+  );
+
   return {
     rsbuildConfig,
     rsbuildPlugins,
@@ -115,15 +174,12 @@ export async function createWebpackBuilder(
 
   rsbuildConfig.provider = webpackProvider;
 
+  rsbuildConfig.plugins = [...rsbuildPlugins, ...(rsbuildConfig.plugins || [])];
+
   const rsbuild = await createRsbuild({
     rsbuildConfig,
     cwd,
   });
-
-  rsbuild.addPlugins([
-    ...rsbuildPlugins,
-    pluginModuleScopes(options.config.source?.moduleScopes),
-  ]);
 
   return {
     ...rsbuild,

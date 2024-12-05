@@ -11,7 +11,7 @@ describe('test both source.transformImport and performance.transformLodash to ha
 
   test(`should build`, async () => {
     expect(buildRes.stdout).toContain(
-      'warn    Detected a potential conflict between `source.transformImport` and `performance.transformLodash` for lodash. Please ensure only one of these configurations is used to handle lodash imports. If you want to use `source.transformImport`, set `performance.transformLodash` to `false` in your configuration.\n',
+      'Detected a potential conflict between `source.transformImport` and `performance.transformLodash` for lodash. Please ensure only one of these configurations is used to handle lodash imports. If you want to use `source.transformImport`, set `performance.transformLodash` to `false` in your configuration.\n',
     );
   });
 });

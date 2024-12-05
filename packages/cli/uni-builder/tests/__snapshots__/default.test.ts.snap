@@ -31,6 +31,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -119,6 +122,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -143,7 +149,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -222,7 +228,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -376,7 +382,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -490,6 +496,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -616,7 +625,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -708,7 +717,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -948,7 +957,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -986,6 +995,17 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -1003,44 +1023,15 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
 exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
 [
-  "rsbuild:basic",
-  "rsbuild:entry",
-  "rsbuild:cache",
-  "rsbuild:target",
-  "rsbuild:output",
-  "rsbuild:resolve",
-  "rsbuild:file-size",
-  "rsbuild:clean-output",
-  "rsbuild:asset",
-  "rsbuild:html",
-  "rsbuild:app-icon",
-  "rsbuild:wasm",
-  "rsbuild:moment",
-  "rsbuild:node-addons",
-  "rsbuild:define",
-  "rsbuild:css",
-  "rsbuild:minimize",
-  "rsbuild:progress",
-  "rsbuild:swc",
-  "rsbuild:externals",
-  "rsbuild:split-chunks",
-  "rsbuild:inline-chunk",
-  "rsbuild:rsdoctor",
-  "rsbuild:resource-hints",
-  "rsbuild:performance",
-  "rsbuild:bundle-analyzer",
-  "rsbuild:server",
-  "rsbuild:manifest",
-  "rsbuild:module-federation",
-  "rsbuild:rspack-profile",
-  "rsbuild:lazy-compilation",
-  "rsbuild:sri",
-  "rsbuild:nonce",
   "uni-builder:split-chunks",
   "uni-builder:global-vars",
   "uni-builder:devtool",
@@ -1060,6 +1051,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
   "rsbuild:css-minimizer",
   "uni-builder:postcss-plugins",
   "rsbuild:styled-components",
+  "user-plugin",
 ]
 `;
 
@@ -1098,6 +1090,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1106,7 +1101,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1126,6 +1121,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -1372,7 +1370,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.node\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-0",
@@ -1384,7 +1382,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -1409,7 +1407,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1438,6 +1436,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -1451,7 +1452,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1777,7 +1778,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -1802,6 +1803,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -1816,6 +1828,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
     },
   },
   "target": "node",
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -1850,6 +1866,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1938,6 +1957,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -1961,7 +1983,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2040,7 +2062,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "loader": "builtin:swc-loader",
             "options": {
               "env": {
-                "coreJs": "3.38",
+                "coreJs": "3.39",
                 "mode": "entry",
                 "targets": [
                   "> 0.01%",
@@ -2194,7 +2216,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -2308,6 +2330,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -2434,7 +2459,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2526,7 +2551,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 "loader": "builtin:swc-loader",
                 "options": {
                   "env": {
-                    "coreJs": "3.38",
+                    "coreJs": "3.39",
                     "mode": "entry",
                     "targets": [
                       "> 0.01%",
@@ -2799,7 +2824,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -2824,6 +2849,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -2841,6 +2877,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -2875,6 +2915,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2883,7 +2926,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2903,6 +2946,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -3145,7 +3191,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -3170,7 +3216,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -3199,6 +3245,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -3212,7 +3261,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
           },
           {
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -3536,7 +3585,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
       "affectedHooks": undefined,
       "name": "ProgressPlugin",
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -3561,6 +3610,17 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
     },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
+    },
     "extensions": [
       ".ts",
       ".tsx",
@@ -3578,6 +3638,10 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
     "webworker",
     "es5",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -3625,6 +3689,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -3713,6 +3780,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -4058,7 +4128,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -4172,6 +4242,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -4728,13 +4801,14 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
+      "prettyTime": [Function],
       "profile": false,
       "showActiveModules": false,
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -4767,6 +4841,17 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
@@ -4805,6 +4890,10 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;
 
@@ -4852,6 +4941,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "test": /\\\\\\.m\\?js/,
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -4940,6 +5032,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "include": [
           {
             "and": [
@@ -5290,7 +5385,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         "test": /\\\\\\.toml\\$/,
         "use": [
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
             "options": {
               "getEnvironment": [Function],
               "id": "rsbuild-transform-1",
@@ -5404,6 +5499,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
             "options": {
               "api": "modern-compiler",
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+              "sassOptions": {
+                "quietDeps": true,
+              },
               "sourceMap": true,
             },
           },
@@ -6066,13 +6164,14 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
+      "prettyTime": [Function],
       "profile": false,
       "showActiveModules": false,
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
     },
-    ForkTsCheckerWebpackPlugin {
+    TsCheckerRspackPlugin {
       "options": {
         "issue": {
           "exclude": [
@@ -6096,6 +6195,17 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
   "resolve": {
     "alias": {
       "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+    },
+    "extensionAlias": {
+      ".js": [
+        ".ts",
+        ".tsx",
+        ".js",
+      ],
+      ".jsx": [
+        ".tsx",
+        ".jsx",
+      ],
     },
     "extensions": [
       ".ts",
@@ -6134,5 +6244,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
     "web",
     "browserslist:> 0.01%,not dead,not op_mini all",
   ],
+  "watchOptions": {
+    "aggregateTimeout": 0,
+    "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+  },
 }
 `;

@@ -146,12 +146,19 @@ export type Resolve = {
   /// but now recognized as any path that doesn't start with "./" "../" and "/"
   /// and this will remove the default alias for "@"
   alias?: AliasOption;
+  tsConfig?: Tsconfig;
+};
+
+type Tsconfig = {
+  configFile: string;
+  references?: string[] | undefined;
 };
 
 export type ResolveOptions = {
   mainFields: string[];
   jsExtensions: string[];
   alias: Record<string, string>;
+  tsConfig: Tsconfig;
 };
 
 export type BaseBuildConfig = Omit<

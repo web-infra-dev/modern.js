@@ -1,10 +1,11 @@
 import path, { isAbsolute } from 'path';
 import { findExists } from '@modern-js/utils';
-import type { AppNormalizedConfig, IAppContext } from '../../types';
+import type { AppNormalizedConfig } from '../../types';
+import type { AppToolsContext } from '../../types/new';
 
 export function initHtmlConfig(
   config: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
 ): AppNormalizedConfig<'shared'>['html'] {
   const ICON_EXTENSIONS = ['png', 'jpg', 'jpeg', 'svg', 'ico'];
   config.html.appIcon = createBuilderAppIcon(config, appContext);
@@ -14,7 +15,7 @@ export function initHtmlConfig(
 
   function createBuilderAppIcon(
     config: AppNormalizedConfig<'shared'>,
-    appContext: IAppContext,
+    appContext: AppToolsContext<'shared'>,
   ) {
     const { appIcon } = config.html;
     const { configDir } = config.source;
@@ -32,7 +33,7 @@ export function initHtmlConfig(
   }
   function createBuilderFavicon(
     config: AppNormalizedConfig<'shared'>,
-    appContext: IAppContext,
+    appContext: AppToolsContext<'shared'>,
   ) {
     const { configDir } = config.source;
     const { favicon } = config.html;
@@ -52,7 +53,7 @@ export function initHtmlConfig(
 
 export function initSourceConfig(
   config: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
@@ -64,7 +65,7 @@ export function initSourceConfig(
 
 function createBuilderInclude(
   config: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
 ) {
   const { include } = config.source;
   const defaultInclude = [appContext.internalDirectory];

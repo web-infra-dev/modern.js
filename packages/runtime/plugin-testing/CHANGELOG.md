@@ -1,5 +1,65 @@
 # @modern-js/plugin-testing
 
+## 2.63.1
+
+### Patch Changes
+
+- Updated dependencies [8ffaedb]
+  - @modern-js/runtime@2.63.1
+  - @modern-js/babel-preset@2.63.1
+  - @modern-js/bff-core@2.63.1
+  - @modern-js/server-core@2.63.1
+  - @modern-js/prod-server@2.63.1
+  - @modern-js/babel-compiler@2.63.1
+  - @modern-js/plugin@2.63.1
+  - @modern-js/types@2.63.1
+  - @modern-js/utils@2.63.1
+
+## 2.63.0
+
+### Patch Changes
+
+- Updated dependencies [192f82e]
+  - @modern-js/runtime@2.63.0
+  - @modern-js/babel-preset@2.63.0
+  - @modern-js/bff-core@2.63.0
+  - @modern-js/server-core@2.63.0
+  - @modern-js/prod-server@2.63.0
+  - @modern-js/babel-compiler@2.63.0
+  - @modern-js/plugin@2.63.0
+  - @modern-js/types@2.63.0
+  - @modern-js/utils@2.63.0
+
+## 2.62.1
+
+### Patch Changes
+
+- @modern-js/babel-preset@2.62.1
+- @modern-js/runtime@2.62.1
+- @modern-js/bff-core@2.62.1
+- @modern-js/server-core@2.62.1
+- @modern-js/prod-server@2.62.1
+- @modern-js/babel-compiler@2.62.1
+- @modern-js/plugin@2.62.1
+- @modern-js/types@2.62.1
+- @modern-js/utils@2.62.1
+
+## 2.62.0
+
+### Patch Changes
+
+- Updated dependencies [99469d6]
+- Updated dependencies [ed32577]
+  - @modern-js/runtime@2.62.0
+  - @modern-js/babel-preset@2.62.0
+  - @modern-js/bff-core@2.62.0
+  - @modern-js/server-core@2.62.0
+  - @modern-js/prod-server@2.62.0
+  - @modern-js/babel-compiler@2.62.0
+  - @modern-js/plugin@2.62.0
+  - @modern-js/types@2.62.0
+  - @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes

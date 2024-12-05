@@ -1,9 +1,9 @@
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
-import type { AppTools } from '../../../types';
+import type { AppToolsNormalizedConfig } from '../../../types';
+import type { AppToolsContext } from '../../../types/new';
 
 export type CreatePreset = (
-  appContext: IAppContext,
-  config: NormalizedConfig<AppTools>,
+  appContext: AppToolsContext<'shared'>,
+  config: AppToolsNormalizedConfig,
   needModernServer?: boolean,
 ) => DeployPreset;
 

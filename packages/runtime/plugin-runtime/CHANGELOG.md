@@ -1,5 +1,59 @@
 # @modern-js/runtime
 
+## 2.63.1
+
+### Patch Changes
+
+- 8ffaedb: fix(entry): compatible with jsx
+  fix(entry): 兼容 jsx
+  - @modern-js/plugin-data-loader@2.63.1
+  - @modern-js/plugin@2.63.1
+  - @modern-js/runtime-utils@2.63.1
+  - @modern-js/types@2.63.1
+  - @modern-js/utils@2.63.1
+
+## 2.63.0
+
+### Patch Changes
+
+- 192f82e: fix: 只需要在 SSR 模式下才调用 hydrateRoot 函数，修复必定进入 hydrateRoot 函数的问题
+  fix: only call hydrateRoot in ssr mode, fix bug that always call hydrateRoot
+  - @modern-js/plugin-data-loader@2.63.0
+  - @modern-js/plugin@2.63.0
+  - @modern-js/runtime-utils@2.63.0
+  - @modern-js/types@2.63.0
+  - @modern-js/utils@2.63.0
+
+## 2.62.1
+
+### Patch Changes
+
+- Updated dependencies [86213ae]
+  - @modern-js/plugin-data-loader@2.62.1
+  - @modern-js/runtime-utils@2.62.1
+  - @modern-js/plugin@2.62.1
+  - @modern-js/types@2.62.1
+  - @modern-js/utils@2.62.1
+
+## 2.62.0
+
+### Minor Changes
+
+- ed32577: feat: stream ssr support inlineScript config
+  feat: Stream SSR 支持 inlineScript 配置
+
+### Patch Changes
+
+- 99469d6: feat: support script properties with Script
+
+  feat: 支持 script 原生属性
+
+  - @modern-js/plugin-data-loader@2.62.0
+  - @modern-js/plugin@2.62.0
+  - @modern-js/runtime-utils@2.62.0
+  - @modern-js/types@2.62.0
+  - @modern-js/utils@2.62.0
+
 ## 2.61.0
 
 ### Patch Changes

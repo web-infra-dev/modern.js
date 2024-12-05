@@ -12,7 +12,7 @@ import type { AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
 import { setServer } from '../utils/createServer';
 import { loadServerPlugins } from '../utils/loadPlugins';
-import { printInstructions } from '../utils/printInstructions';
+import { printInstructionsCompat } from '../utils/printInstructions';
 import { registerCompiler } from '../utils/register';
 import { generateRoutes } from '../utils/routes';
 import type { DevOptions } from '../utils/types';
@@ -129,7 +129,7 @@ export const dev = async (
         host,
       },
       () => {
-        printInstructions(hookRunners, appContext, normalizedConfig);
+        printInstructionsCompat(hookRunners, appContext, normalizedConfig);
       },
     );
   } else {

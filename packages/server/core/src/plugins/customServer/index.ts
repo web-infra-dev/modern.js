@@ -218,7 +218,7 @@ export function getServerMidFromUnstableMid(
 ): Array<Middleware<ServerNodeEnv & ServerEnv>> {
   return serverMiddleware.map(middleware => {
     return async (c, next) => {
-      const context = await createMiddlewareContextFromHono(c as Context);
+      const context = await createMiddlewareContextFromHono(c);
 
       return middleware(context, next);
     };
@@ -230,7 +230,7 @@ function isRedirect(headers: Headers, code?: number) {
 }
 
 async function createMiddlewareContextFromHono(
-  c: Context<ServerNodeEnv>,
+  c: Context<ServerNodeEnv & ServerEnv>,
 ): Promise<UnstableMiddlewareContext> {
   const loaderContext = getLoaderCtx(c as Context);
 
@@ -276,6 +276,10 @@ async function createMiddlewareContextFromHono(
       c.res = newRes;
     },
 
+    get route() {
+      return c.get('route');
+    },
+
     get(key) {
       return loaderContext.get(key as string);
     },
@@ -293,5 +297,17 @@ async function createMiddlewareContextFromHono(
     html: c.html.bind(c),
 
     redirect: c.redirect.bind(c),
+  };
+}
+
+export function injectRoute(route: {
+  entryName: string;
+}): Middleware<ServerEnv> {
+  return async (c, next) => {
+    if (route && !c.get('route')) {
+      c.set('route', route);
+    }
+
+    await next();
   };
 }

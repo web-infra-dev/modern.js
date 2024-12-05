@@ -32,6 +32,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -120,6 +123,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [
@@ -144,7 +150,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.38",
+                  "coreJs": "3.39",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -223,7 +229,7 @@ exports[`uni-builder environment compat > should generator environment config co
               "loader": "builtin:swc-loader",
               "options": {
                 "env": {
-                  "coreJs": "3.38",
+                  "coreJs": "3.39",
                   "mode": "entry",
                   "targets": [
                     "> 0.01%",
@@ -377,7 +383,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.toml\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
               "options": {
                 "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
@@ -491,6 +497,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
@@ -617,7 +626,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.38",
+                      "coreJs": "3.39",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -709,7 +718,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   "loader": "builtin:swc-loader",
                   "options": {
                     "env": {
-                      "coreJs": "3.38",
+                      "coreJs": "3.39",
                       "mode": "entry",
                       "targets": [
                         "> 0.01%",
@@ -967,6 +976,17 @@ exports[`uni-builder environment compat > should generator environment config co
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
         "react-refresh": "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
       },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
+        ".jsx": [
+          ".tsx",
+          ".jsx",
+        ],
+      },
       "extensions": [
         ".ts",
         ".tsx",
@@ -984,6 +1004,10 @@ exports[`uni-builder environment compat > should generator environment config co
       "web",
       "browserslist:> 0.01%,not dead,not op_mini all",
     ],
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
   {
     "context": "",
@@ -1019,6 +1043,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1027,7 +1054,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "type": "javascript/auto",
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1047,6 +1074,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [
@@ -1293,7 +1323,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.node\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformRawLoader.mjs",
               "options": {
                 "getEnvironment": [Function],
                 "id": "rsbuild-transform-0",
@@ -1305,7 +1335,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.toml\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
               "options": {
                 "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
@@ -1330,7 +1360,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1359,6 +1389,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
@@ -1372,7 +1405,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.less\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1663,7 +1696,7 @@ exports[`uni-builder environment compat > should generator environment config co
         "affectedHooks": undefined,
         "name": "ProgressPlugin",
       },
-      ForkTsCheckerWebpackPlugin {
+      TsCheckerRspackPlugin {
         "options": {
           "issue": {
             "exclude": [
@@ -1688,6 +1721,17 @@ exports[`uni-builder environment compat > should generator environment config co
       "alias": {
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
+        ".jsx": [
+          ".tsx",
+          ".jsx",
+        ],
+      },
       "extensions": [
         ".ts",
         ".tsx",
@@ -1702,6 +1746,10 @@ exports[`uni-builder environment compat > should generator environment config co
       },
     },
     "target": "node",
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
   {
     "context": "",
@@ -1733,6 +1781,9 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.m\\?js/,
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1741,7 +1792,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "type": "javascript/auto",
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -1761,6 +1812,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "include": [
             {
               "and": [
@@ -2003,7 +2057,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.toml\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/transformLoader.mjs",
               "options": {
                 "getEnvironment": [Function],
                 "id": "rsbuild-transform-1",
@@ -2028,7 +2082,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.s\\(\\?:a\\|c\\)ss\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2057,6 +2111,9 @@ exports[`uni-builder environment compat > should generator environment config co
               "options": {
                 "api": "modern-compiler",
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
+                "sassOptions": {
+                  "quietDeps": true,
+                },
                 "sourceMap": true,
               },
             },
@@ -2070,7 +2127,7 @@ exports[`uni-builder environment compat > should generator environment config co
           "test": /\\\\\\.less\\$/,
           "use": [
             {
-              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.cjs",
+              "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/dist/ignoreCssLoader.mjs",
             },
             {
               "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
@@ -2364,6 +2421,17 @@ exports[`uni-builder environment compat > should generator environment config co
       "alias": {
         "@swc/helpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
       },
+      "extensionAlias": {
+        ".js": [
+          ".ts",
+          ".tsx",
+          ".js",
+        ],
+        ".jsx": [
+          ".tsx",
+          ".jsx",
+        ],
+      },
       "extensions": [
         ".ts",
         ".tsx",
@@ -2381,6 +2449,10 @@ exports[`uni-builder environment compat > should generator environment config co
       "webworker",
       "es5",
     ],
+    "watchOptions": {
+      "aggregateTimeout": 0,
+      "ignored": /\\[\\\\\\\\/\\]\\(\\?:\\\\\\.git\\|node_modules\\)\\[\\\\\\\\/\\]/,
+    },
   },
 ]
 `;

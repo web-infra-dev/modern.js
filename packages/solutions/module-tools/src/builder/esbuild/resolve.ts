@@ -13,19 +13,23 @@ function createEnhancedResolve(options: ResolverOptions): {
   esmResolveSync: (dir: string, id: string) => string | false;
 } {
   const plugins = [];
-  const { tsconfig } = options;
+  const { tsConfig } = options;
+
+  const tsConfigFilePath = tsConfig?.configFile;
+  const references = tsConfig?.references;
 
   // tsconfig-paths directly statSync `tsconfig.json` without confirm it's exist.
-  if (fs.existsSync(tsconfig)) {
+  if (fs.existsSync(tsConfigFilePath)) {
     plugins.push(
       new TsconfigPathsPlugin({
-        configFile: tsconfig,
+        configFile: tsConfigFilePath,
+        references,
       }),
     );
   }
   const resolveOptions = {
     aliasFields: options.platform === 'browser' ? ['browser'] : [],
-    FileSystem: new CachedInputFileSystem(fs, 4000),
+    FileSystem: new CachedInputFileSystem(fs as any, 4000),
     mainFields: options.mainFields,
     mainFiles: ['index'],
     extensions: options.extensions,
@@ -105,13 +109,17 @@ export const createCssResolver = (options: ResolverOptions) => {
   return resolver;
 };
 
-interface ResolverOptions {
+export interface ResolverOptions {
   platform: Platform;
   resolveType: 'js' | 'css';
   extensions: string[];
   root: string;
   alias: Record<string, string>;
-  tsconfig: string;
+  // https://rspack.dev/zh/config/resolve#resolvetsconfigreferences
+  tsConfig: {
+    configFile: string;
+    references?: string[] | undefined;
+  };
   mainFields: string[];
   preferRelative?: boolean;
 }

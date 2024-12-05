@@ -1,5 +1,19 @@
 # @modern-js/create
 
+## 2.63.1
+
+## 2.63.0
+
+## 2.62.1
+
+### Patch Changes
+
+- 6203806: fix: new and upgrade command run error
+
+  fix: 修复 new 命令和 upgrade 命令执行报错
+
+## 2.62.0
+
 ## 2.61.0
 
 ### Minor Changes

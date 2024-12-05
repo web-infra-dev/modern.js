@@ -261,3 +261,7 @@ export default () => {
 import ExtendBFF from "@site-docs/components/extend-bff-function"
 
 <ExtendBFF/>
+
+## 代码共享
+
+除 `api/` 目录下的 BFF 函数可在 `src/` 中通过一体化调用方式引用，项目中 `src/` 和 `api/` 目录默认不能直接引用对方代码。为实现代码共享，可在项目根目录创建 [`shared`](/apis/app/hooks/shared.html) 目录，供 `src/` 和 `api/` 共同引用。

@@ -5,6 +5,7 @@ import {
 import type { RouteObject } from '@modern-js/runtime-utils/router';
 import type { RuntimeContext } from '../../core';
 
+// only for inhouse use
 const modifyRoutes = createWaterfall<RouteObject[]>();
 const beforeCreateRoutes = createAsyncInterruptWorkflow<RuntimeContext, void>();
 
