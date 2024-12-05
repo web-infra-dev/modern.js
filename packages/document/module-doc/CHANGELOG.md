@@ -1,5 +1,11 @@
 # @modern-js/module-tools-docs
 
+## 2.63.1
+
+### Patch Changes
+
+- 57619b4: docs: recommend using Rslib to reuse webpack plugins
+
 ## 2.63.0
 
 ## 2.62.1
