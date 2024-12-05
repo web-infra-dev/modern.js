@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.63.1
+
+### Patch Changes
+
+- 8ffaedb: fix(entry): compatible with jsx
+  fix(entry): 兼容 jsx
+  - @modern-js/plugin-data-loader@2.63.1
+  - @modern-js/plugin@2.63.1
+  - @modern-js/runtime-utils@2.63.1
+  - @modern-js/types@2.63.1
+  - @modern-js/utils@2.63.1
+
 ## 2.63.0
 
 ### Patch Changes

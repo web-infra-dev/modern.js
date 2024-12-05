@@ -1030,7 +1030,30 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
 }
 `;
 
-exports[`uni-builder rspack > should generator rspack config correctly 2`] = `undefined`;
+exports[`uni-builder rspack > should generator rspack config correctly 2`] = `
+[
+  "uni-builder:split-chunks",
+  "uni-builder:global-vars",
+  "uni-builder:devtool",
+  "uni-builder:emit-route-file",
+  "rsbuild:toml",
+  "rsbuild:yaml",
+  "uni-builder:antd",
+  "uni-builder:arco",
+  "rsbuild:sass",
+  "rsbuild:less",
+  "uni-builder:environment-defaults-plugin",
+  "uni-builder:plugin-html-minifier-terser",
+  "rsbuild:type-check",
+  "uni-builder:runtime-chunk",
+  "rsbuild:react",
+  "rsbuild:svgr",
+  "rsbuild:css-minimizer",
+  "uni-builder:postcss-plugins",
+  "rsbuild:styled-components",
+  "user-plugin",
+]
+`;
 
 exports[`uni-builder rspack > should generator rspack config correctly when node 1`] = `
 {

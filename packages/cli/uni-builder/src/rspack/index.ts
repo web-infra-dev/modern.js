@@ -93,12 +93,13 @@ export async function createRspackBuilder(
     cwd,
   });
 
+  // uni-builder plugins should be registered earlier than user plugins
+  rsbuildConfig.plugins = [...rsbuildPlugins, ...(rsbuildConfig.plugins || [])];
+
   const rsbuild = await createRsbuild({
     cwd,
     rsbuildConfig,
   });
-
-  rsbuild.addPlugins(rsbuildPlugins);
 
   return {
     ...rsbuild,
