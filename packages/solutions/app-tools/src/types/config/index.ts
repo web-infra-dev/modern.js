@@ -46,7 +46,6 @@ export interface AppToolsUserConfig<B extends Bundler> {
   testing?: TestingUserConfig;
   builderPlugins?: Array<LooseRsbuildPlugin | UniBuilderPlugin>;
   performance?: PerformanceUserConfig;
-  devtools?: any;
   environments?: RsbuildConfig['environments'];
 }
 
