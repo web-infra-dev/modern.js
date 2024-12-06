@@ -1,7 +1,7 @@
 import type { BabelConfig } from '@modern-js/babel-preset';
 import { getBabelConfigForNode } from '@modern-js/babel-preset/node';
 import { getBabelConfigForWeb } from '@modern-js/babel-preset/web';
-import { applyOptionsChain, isBeyondReact17 } from '@modern-js/utils';
+import { applyOptionsChain, isSupportAutomaticJsx } from '@modern-js/utils';
 import { logger } from '@rsbuild/core';
 import type {
   NormalizedEnvironmentConfig,
@@ -25,7 +25,7 @@ import {
  * webpack mode: uni-builder:babel -> uni-builder:ts-loader -> rsbuild-webpack:swc
  */
 export const getPresetReact = (rootPath: string, isProd: boolean) => {
-  const isNewJsx = isBeyondReact17(rootPath);
+  const isNewJsx = isSupportAutomaticJsx(rootPath);
 
   const presetReactOptions = {
     development: !isProd,

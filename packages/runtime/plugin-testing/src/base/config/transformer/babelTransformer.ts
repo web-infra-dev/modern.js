@@ -1,7 +1,7 @@
-import { isBeyondReact17 } from '@modern-js/utils';
+import { isSupportAutomaticJsx } from '@modern-js/utils';
 import babelJest from 'babel-jest';
 
-const isNewJsx = isBeyondReact17(process.cwd());
+const isNewJsx = isSupportAutomaticJsx(process.cwd());
 
 const babelTransformer = (babelJest.createTransformer as any)?.({
   presets: [
