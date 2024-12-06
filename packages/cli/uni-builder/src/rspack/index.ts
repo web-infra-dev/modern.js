@@ -49,6 +49,15 @@ export async function parseConfig(
     }
   }
 
+  if (Boolean(rsbuildConfig.tools!.lightningcssLoader) === false) {
+    const { pluginPostcss } = await import('../shared/plugins/postcss');
+    rsbuildPlugins.push(
+      pluginPostcss({
+        autoprefixer: uniBuilderConfig.tools?.autoprefixer,
+      }),
+    );
+  }
+
   if (uniBuilderConfig.tools?.babel) {
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');

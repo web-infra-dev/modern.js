@@ -6,6 +6,7 @@ import {
 } from '@rsbuild/core';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { pluginPostcss } from '../shared/plugins/postcss';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -27,6 +28,12 @@ export async function parseConfig(
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
     options,
+  );
+
+  rsbuildPlugins.push(
+    pluginPostcss({
+      autoprefixer: uniBuilderConfig.tools?.autoprefixer,
+    }),
   );
 
   rsbuildPlugins.push(
