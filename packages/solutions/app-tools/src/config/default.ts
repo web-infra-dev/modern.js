@@ -11,6 +11,12 @@ export function createDefaultConfig(
     // `dev.port` should not have a default value
     // because we will use `server.port` by default
     port: undefined,
+    cliShortcuts: {
+      help: false,
+      // does not support restart server and print urls yet
+      custom: (shortcuts = []) =>
+        shortcuts.filter(({ key }) => key !== 'r' && key !== 'u'),
+    },
   };
 
   const output: AppUserConfig['output'] = {

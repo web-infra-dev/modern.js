@@ -44,7 +44,7 @@
     "@rsbuild/plugin-react": "1.0.7",
     "@rsbuild/plugin-rem": "1.0.2",
     "@rsbuild/plugin-sass": "1.1.1",
-    "@rsbuild/plugin-source-build": "1.0.1",
+    "@rsbuild/plugin-source-build": "1.0.2",
     "@rsbuild/plugin-styled-components": "1.1.0",
     "@rsbuild/plugin-svgr": "1.0.5",
     "@rsbuild/plugin-toml": "1.0.1",
