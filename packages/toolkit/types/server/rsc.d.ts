@@ -57,7 +57,7 @@ declare module 'react-server-dom-webpack/server' {
   export const registerClientReference: <T>(
     proxyImplementation: any,
     id: string,
-    exportName: string
+    exportName: string,
   ) => ClientReference[];
 }
 

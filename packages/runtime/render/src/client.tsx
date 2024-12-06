@@ -1,8 +1,12 @@
 import { use, useState } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import { createFromFetch, encodeReply } from 'react-server-dom-webpack/client';
+import {
+  createFromFetch,
+  createFromReadableStream,
+  encodeReply,
+} from 'react-server-dom-webpack/client.browser';
 export { rscStream } from 'rsc-html-stream/client';
-export { createFromReadableStream } from 'react-server-dom-webpack/client.edge';
+export { createFromReadableStream };
 
 export async function callServer(id: string, args: any[]): Promise<any> {
   const response = fetch('/', {
