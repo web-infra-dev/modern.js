@@ -25,8 +25,6 @@ export const pluginPostcss = ({
 
       const enableCssMinify = !enableExtractCSS && isProd;
 
-      const enableAutoprefixer = config.tools.lightningcssLoader === false;
-
       const plugins = [
         require('postcss-flexbugs-fixes'),
         !cssSupport.customProperties && require('postcss-custom-properties'),
@@ -49,16 +47,15 @@ export const pluginPostcss = ({
             })
           : false,
         // The last insert autoprefixer
-        enableAutoprefixer &&
-          require('autoprefixer')(
-            applyOptionsChain(
-              {
-                flexbox: 'no-2009',
-                overrideBrowserslist: config.output.overrideBrowserslist!,
-              },
-              autoprefixer,
-            ),
+        require('autoprefixer')(
+          applyOptionsChain(
+            {
+              flexbox: 'no-2009',
+              overrideBrowserslist: config.output.overrideBrowserslist!,
+            },
+            autoprefixer,
           ),
+        ),
       ].filter(Boolean);
 
       return mergeEnvironmentConfig(

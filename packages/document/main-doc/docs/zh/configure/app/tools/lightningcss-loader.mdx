@@ -1,0 +1,41 @@
+---
+title: lightningcssLoader
+configName: tools.lightningcssLoader
+---
+
+# tools.lightningcssLoader
+
+- **类型：** `Rspack.LightningcssLoaderOptions | Function | boolean`
+- **默认值：** `false`
+- **打包工具：** `仅支持 rspack`
+
+通过 `tools.lightningcssLoader` 可以设置 [builtin:lightningcss-loader](https://rspack.dev/guide/features/builtin-lightningcss-loader) 的选项。
+
+## 开启 loader
+
+将 `tools.lightningcssLoader` 设置为 `true`，可以开启 Rsbuild 内置的 `lightningcss-loader`：
+
+```js
+export default {
+  tools: {
+    lightningcssLoader: true,
+  },
+};
+```
+
+此时，默认生效的配置如下：
+
+```js
+const defaultOptions = {
+  // use current browserslist config
+  targets: browserslist,
+  // minify is enabled when output.injectStyles is true and in production mode
+  minify: config.mode === 'production' && config.output.injectStyles,
+};
+```
+
+需要注意的是，开启 `lightningcss-loader` 时，将会默认关闭 `postcss-loader`。
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />

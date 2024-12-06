@@ -7,6 +7,7 @@ import {
 import type { PluginBabelOptions } from '@rsbuild/plugin-babel';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { pluginPostcss } from '../shared/plugins/postcss';
 import { SERVICE_WORKER_ENVIRONMENT_NAME, castArray } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -28,6 +29,12 @@ export async function parseConfig(
   const { rsbuildConfig, rsbuildPlugins } = await parseCommonConfig(
     uniBuilderConfig,
     options,
+  );
+
+  rsbuildPlugins.push(
+    pluginPostcss({
+      autoprefixer: uniBuilderConfig.tools?.autoprefixer,
+    }),
   );
 
   const hasEnvironmentBabelConfig = Object.values(

@@ -1,0 +1,41 @@
+---
+title: lightningcssLoader
+configName: tools.lightningcssLoader
+---
+
+# tools.lightningcssLoader
+
+- **Type:** `Rspack.LightningcssLoaderOptions | Function | boolean`
+- **Default:** `Rspack.LightningcssLoaderOptions | Function | boolean`
+- **Bundler:** `only support rspack`
+
+You can configure [builtin:lightningcss-loader](https://rspack.dev/guide/features/builtin-lightningcss-loader) through `tools.lightningcssLoader`.
+
+## Enable loader
+
+Set `tools.lightningcssLoader` to `true` to enable Rsbuild's built-in `lightningcss-loader`:
+
+```js
+export default {
+  tools: {
+    lightningcssLoader: true,
+  },
+};
+```
+
+At this time, the default configuration is as follows:
+
+```js
+const defaultOptions = {
+  // use current browserslist config
+  targets: browserslist,
+  // minify is enabled when output.injectStyles is true and in production mode
+  minify: config.mode === 'production' && config.output.injectStyles,
+};
+```
+
+It should be noted that when `lightningcss-loader` is turned on, `postcss-loader` will be turned off by default.
+
+import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
+
+<RsbuildConig />
