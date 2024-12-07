@@ -57,7 +57,7 @@
     "p-defer": "^3.0.0",
     "postcss-custom-media": "^10.0.1",
     "react": "^18.3.1",
-    "react-base16-styling": "^0.9.1",
+    "react-base16-styling": "^0.10.0",
     "react-devtools-inline": "^4.28.5",
     "react-dom": "^18.3.1",
     "react-dom-exp": "npm:react-dom@0.0.0-experimental-51ffd3564-20231025",
