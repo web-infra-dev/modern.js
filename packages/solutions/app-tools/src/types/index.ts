@@ -13,6 +13,7 @@ import type {
 } from './new';
 import type { Bundler } from './utils';
 
+export type { CLIPluginExtends };
 export * from './hooks';
 export * from './config';
 export * from './legacyConfig';
@@ -84,3 +85,11 @@ export type AppToolsOptions = {
    * */
   bundler?: 'rspack' | 'webpack' | 'experimental-rspack';
 };
+
+export type {
+  AppToolsExtendAPI,
+  AppToolsExtendContext,
+  AppToolsExtendHooks,
+  AppToolsContext,
+  AppToolsHooks as AppToolsFeatureHooks,
+} from './new';
