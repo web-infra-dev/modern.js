@@ -16,7 +16,7 @@ import { getGlobalRunner } from '../plugin/runner';
 import { createRoot } from '../react';
 import type { SSRServerContext } from '../types';
 import { CHUNK_CSS_PLACEHOLDER } from './constants';
-import { getSSRConfigByEntry, getSSRInlineScript, getSSRMode } from './utils';
+import { getSSRConfigByEntry, getSSRMode } from './utils';
 
 export type { RequestHandlerConfig as HandleRequestConfig } from '@modern-js/app-tools';
 
@@ -62,7 +62,7 @@ function createSSRContext(
     reporter,
   } = options;
 
-  const { nonce } = config;
+  const { nonce, useJsonScript } = config;
 
   const { entryName, route } = resource;
 
@@ -100,15 +100,14 @@ function createSSRContext(
     config.ssr,
     config.ssrByEntries,
   );
-
   const ssrMode = getSSRMode(ssrConfig);
-  const inlineScript = getSSRInlineScript(ssrConfig);
 
   const loaderFailureMode =
     typeof ssrConfig === 'object' ? ssrConfig.loaderFailureMode : undefined;
 
   return {
     nonce,
+    useJsonScript,
     loaderContext,
     redirection: {},
     htmlModifiers: [],
@@ -138,7 +137,6 @@ function createSSRContext(
     },
     reporter,
     mode: ssrMode,
-    inlineScript,
     onError,
     onTiming,
     loaderFailureMode,

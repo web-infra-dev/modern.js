@@ -6,7 +6,7 @@ import type { SSRContainer } from '../../types';
 import { SSR_DATA_PLACEHOLDER } from '../constants';
 import type { HandleRequestConfig } from '../requestHandler';
 import { type BuildHtmlCb, type SSRConfig, buildHtml } from '../shared';
-import { attributesToString, getSSRInlineScript, safeReplace } from '../utils';
+import { attributesToString, safeReplace } from '../utils';
 
 export type BuildShellAfterTemplateOptions = {
   runtimeContext: RuntimeContext;
@@ -29,6 +29,7 @@ export function buildShellAfterTemplate(
       request,
       ssrConfig,
       nonce: config.nonce,
+      useJsonScript: config.useJsonScript,
       runtimeContext,
       renderLevel,
     }),
@@ -62,9 +63,11 @@ function createReplaceSSRData(options: {
   runtimeContext: RuntimeContext;
   ssrConfig: SSRConfig;
   nonce?: string;
+  useJsonScript?: boolean;
   renderLevel: RenderLevel;
 }) {
-  const { runtimeContext, nonce, renderLevel, ssrConfig } = options;
+  const { runtimeContext, nonce, renderLevel, useJsonScript, ssrConfig } =
+    options;
 
   const { request, reporter } = runtimeContext.ssrContext!;
 
@@ -102,16 +105,11 @@ function createReplaceSSRData(options: {
     renderLevel,
   };
   const attrsStr = attributesToString({ nonce });
-
-  const inlineScript = getSSRInlineScript(ssrConfig);
-  const useInlineScript = inlineScript !== false;
   const serializeSSRData = serializeJson(ssrData);
 
-  const ssrDataScript = useInlineScript
-    ? `
-    <script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>
-    `
-    : `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`;
+  const ssrDataScript = useJsonScript
+    ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
+    : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
 
   return (template: string) =>
     safeReplace(template, SSR_DATA_PLACEHOLDER, ssrDataScript);
