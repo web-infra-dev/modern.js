@@ -27,7 +27,6 @@ import { pluginEnvironmentDefaults } from './plugins/environmentDefaults';
 import { pluginFrameworkConfig } from './plugins/frameworkConfig';
 import { pluginGlobalVars } from './plugins/globalVars';
 import { pluginHtmlMinifierTerser } from './plugins/htmlMinify';
-import { pluginPostcss } from './plugins/postcss';
 import { pluginRuntimeChunk } from './plugins/runtimeChunk';
 import { pluginSplitChunks } from './plugins/splitChunk';
 import { NODE_MODULES_REGEX, castArray } from './utils';
@@ -449,12 +448,6 @@ export async function parseCommonConfig(
   rsbuildPlugins.push(
     pluginCssMinimizer({
       pluginOptions: minifyCss,
-    }),
-  );
-
-  rsbuildPlugins.push(
-    pluginPostcss({
-      autoprefixer,
     }),
   );
 

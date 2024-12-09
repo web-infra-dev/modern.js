@@ -48,3 +48,47 @@ describe('plugin-postcssLegacy', () => {
     expect(matchRules({ config, testFile: 'a.less' })).toMatchSnapshot();
   });
 });
+
+describe('lightningcss-loader', () => {
+  it('should register lightningcss-loader and disable postcss-loader when lightningcssLoader enabled', async () => {
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'rspack',
+      config: {
+        tools: {
+          lightningcssLoader: true,
+        },
+      },
+      cwd: '',
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
+  });
+
+  it('should register lightningcss-loader and postcss-loader both', async () => {
+    const rsbuild = await createUniBuilder({
+      bundlerType: 'rspack',
+      config: {
+        tools: {
+          lightningcssLoader: true,
+          postcss: {
+            postcssOptions: {
+              plugins: [
+                {
+                  postcssPlugin: 'postcss-plugin-test',
+                  AtRule: {},
+                },
+              ],
+            },
+          },
+        },
+      },
+      cwd: '',
+    });
+
+    const config = await unwrapConfig(rsbuild);
+
+    expect(matchRules({ config, testFile: 'a.css' })).toMatchSnapshot();
+  });
+});

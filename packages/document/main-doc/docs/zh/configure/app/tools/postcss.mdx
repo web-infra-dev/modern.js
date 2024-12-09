@@ -33,6 +33,8 @@ const defaultOptions = {
 
 Modern.js 默认集成 PostCSS，你可以通过 `tools.postcss` 对 [postcss-loader](https://github.com/webpack-contrib/postcss-loader) 进行配置。
 
+需要注意的是，当你开启 `tools.lightningcss` 配置时，PostCSS 将会被默认禁用，包括 `postcss-loader` 及其默认插件。
+
 import RsbuildConig from '@site-docs/components/rsbuild-config-tooltip';
 
 <RsbuildConig />

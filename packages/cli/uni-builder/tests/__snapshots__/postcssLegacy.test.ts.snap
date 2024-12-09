@@ -1,5 +1,111 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`lightningcss-loader > should register lightningcss-loader and disable postcss-loader when lightningcssLoader enabled 1`] = `
+[
+  {
+    "dependency": {
+      "not": "url",
+    },
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "importLoaders": 1,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "builtin:lightningcss-loader",
+        "options": {
+          "targets": [
+            "> 0.01%",
+            "not dead",
+            "not op_mini all",
+          ],
+        },
+      },
+    ],
+  },
+]
+`;
+
+exports[`lightningcss-loader > should register lightningcss-loader and postcss-loader both 1`] = `
+[
+  {
+    "dependency": {
+      "not": "url",
+    },
+    "resolve": {
+      "preferRelative": true,
+    },
+    "sideEffects": true,
+    "test": /\\\\\\.css\\$/,
+    "type": "javascript/auto",
+    "use": [
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/core/dist/cssExtractLoader.js",
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/css-loader/index.js",
+        "options": {
+          "importLoaders": 2,
+          "modules": {
+            "auto": true,
+            "exportGlobals": false,
+            "exportLocalsConvention": "camelCase",
+            "localIdentName": "[path][name]__[local]-[hash:base64:6]",
+            "namedExport": false,
+          },
+          "sourceMap": true,
+        },
+      },
+      {
+        "loader": "builtin:lightningcss-loader",
+        "options": {
+          "targets": [
+            "> 0.01%",
+            "not dead",
+            "not op_mini all",
+          ],
+        },
+      },
+      {
+        "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss-loader/index.js",
+        "options": {
+          "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/core/compiled/postcss/index.js",
+          "postcssOptions": {
+            "config": false,
+            "plugins": [
+              {
+                "AtRule": {},
+                "postcssPlugin": "postcss-plugin-test",
+              },
+            ],
+          },
+          "sourceMap": true,
+        },
+      },
+    ],
+  },
+]
+`;
+
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 1`] = `
 [
   {

@@ -50,6 +50,15 @@ export async function parseConfig(
     }
   }
 
+  if (Boolean(rsbuildConfig.tools!.lightningcssLoader) === false) {
+    const { pluginPostcss } = await import('../shared/plugins/postcss');
+    rsbuildPlugins.push(
+      pluginPostcss({
+        autoprefixer: uniBuilderConfig.tools?.autoprefixer,
+      }),
+    );
+  }
+
   const hasEnvironmentBabelConfig = Object.values(
     uniBuilderConfig.environments || {},
   ).some(c => c.tools?.babel !== undefined);
@@ -65,6 +74,7 @@ export async function parseConfig(
       }
       return config;
     };
+
     const { pluginBabel } = await import('@rsbuild/plugin-babel');
     const { pluginBabelPost } = await import('./plugins/babel-post');
     Object.entries(uniBuilderConfig.environments!).forEach(([name, config]) => {

@@ -12,25 +12,27 @@ configName: tools.postcss
 const defaultOptions = {
   postcssOptions: {
     plugins: [
-      // 以下插件默认启用
+      // The following plugins are enabled by default
       require('postcss-nesting'),
       require('postcss-media-minmax'),
       require('postcss-flexbugs-fixes'),
       require('autoprefixer')({
         flexbox: 'no-2009',
       }),
-      // 以下插件仅在需要兼容低版本浏览器时启用
+      // The following plugins are only enabled when compatible with legacy browsers
       require('postcss-custom-properties'),
       require('postcss-initial'),
       require('postcss-page-break'),
       require('postcss-font-variant'),
     ],
-    // 默认在开发环境下启用 CSS 的 Source Map
     sourceMap: isDev,
   },
 };
 ```
+
 Modern.js integrates PostCSS by default, you can configure [postcss-loader](https://github.com/webpack-contrib/postcss-loader) through `tools.postcss`.
+
+It should be noted that when you enable the `tools.lightningcss` configuration, PostCSS will be disabled by default, including `postcss-loader` and its default plugins.
 
 import RsbuildConig from '@site-docs-en/components/rsbuild-config-tooltip';
 
