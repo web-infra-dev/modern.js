@@ -158,19 +158,28 @@ export class CustomServer {
     };
   }
 
-  async getServerMiddleware(): Promise<
+  async getServerMiddleware(
+    renderMiddlewares?: Middleware<ServerNodeEnv & ServerEnv>[],
+  ): Promise<
     | Middleware<ServerNodeEnv & ServerEnv>
     | Array<Middleware<ServerNodeEnv & ServerEnv>>
     | undefined
   > {
     const serverMiddleware = await this.serverMiddlewarePromise;
 
+    // if no server middleware in server/index.ts, return render middleware
     if (!serverMiddleware) {
-      return;
+      return renderMiddlewares;
     }
 
+    // if server middleware is array, concat it with render middleware
     if (Array.isArray(serverMiddleware)) {
-      return getServerMidFromUnstableMid(serverMiddleware);
+      const unstableMiddlewares = getServerMidFromUnstableMid(serverMiddleware);
+      return [...(renderMiddlewares || []), ...unstableMiddlewares];
+    } else if (renderMiddlewares) {
+      // if server middleware is not array, which means it is deprecated mode.
+      // if there has render middlewares, ignore the deprecated middlewares.
+      return renderMiddlewares;
     }
 
     return async (c, next) => {
