@@ -209,6 +209,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
 exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugins 2`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "resolve": {
       "preferRelative": true,
     },
@@ -311,6 +314,9 @@ exports[`plugin-postcssLegacy > should allow tools.postcss to override the plugi
           "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
           "sassOptions": {
             "quietDeps": true,
+            "silenceDeprecations": [
+              "import",
+            ],
           },
           "sourceMap": true,
         },
@@ -508,6 +514,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 1
 exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2`] = `
 [
   {
+    "dependency": {
+      "not": "url",
+    },
     "resolve": {
       "preferRelative": true,
     },
@@ -586,6 +595,9 @@ exports[`plugin-postcssLegacy > should register postcss plugin by browserslist 2
           "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
           "sassOptions": {
             "quietDeps": true,
+            "silenceDeprecations": [
+              "import",
+            ],
           },
           "sourceMap": true,
         },
