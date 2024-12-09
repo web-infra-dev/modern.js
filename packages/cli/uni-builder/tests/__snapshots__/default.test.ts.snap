@@ -400,6 +400,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -498,6 +501,9 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -685,7 +691,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -777,7 +783,7 @@ exports[`uni-builder rspack > should generator rspack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -1400,6 +1406,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -1438,6 +1447,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -1562,7 +1574,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -1650,7 +1662,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when node
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -2234,6 +2246,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -2332,6 +2347,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -2519,7 +2537,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -2611,7 +2629,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when prod
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -3209,6 +3227,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -3247,6 +3268,9 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -3371,7 +3395,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -3460,7 +3484,7 @@ exports[`uni-builder rspack > should generator rspack config correctly when serv
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -4146,6 +4170,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -4244,6 +4271,9 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -4467,7 +4497,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -4595,7 +4625,7 @@ exports[`uni-builder webpack > should generator webpack config correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,
@@ -5403,6 +5433,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
         ],
       },
       {
+        "dependency": {
+          "not": "url",
+        },
         "resolve": {
           "preferRelative": true,
         },
@@ -5501,6 +5534,9 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
               "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
               "sassOptions": {
                 "quietDeps": true,
+                "silenceDeprecations": [
+                  "import",
+                ],
               },
               "sourceMap": true,
             },
@@ -5739,7 +5775,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "default",
                   "svgo": true,
@@ -5882,7 +5918,7 @@ exports[`uni-builder webpack > should generator webpack config correctly when pr
                 },
               },
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                 "options": {
                   "exportType": "named",
                   "svgo": true,

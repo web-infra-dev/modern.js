@@ -401,6 +401,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -499,6 +502,9 @@ exports[`uni-builder environment compat > should generator environment config co
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                 "sassOptions": {
                   "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
                 },
                 "sourceMap": true,
               },
@@ -686,7 +692,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -778,7 +784,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
@@ -1353,6 +1359,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -1391,6 +1400,9 @@ exports[`uni-builder environment compat > should generator environment config co
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                 "sassOptions": {
                   "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
                 },
                 "sourceMap": true,
               },
@@ -1515,7 +1527,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -1603,7 +1615,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
@@ -2075,6 +2087,9 @@ exports[`uni-builder environment compat > should generator environment config co
           ],
         },
         {
+          "dependency": {
+            "not": "url",
+          },
           "resolve": {
             "preferRelative": true,
           },
@@ -2113,6 +2128,9 @@ exports[`uni-builder environment compat > should generator environment config co
                 "implementation": "<WORKSPACE>/node_modules/<PNPM_INNER>/sass-embedded/dist/lib/index.js",
                 "sassOptions": {
                   "quietDeps": true,
+                  "silenceDeprecations": [
+                    "import",
+                  ],
                 },
                 "sourceMap": true,
               },
@@ -2237,7 +2255,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "default",
                     "svgo": true,
@@ -2326,7 +2344,7 @@ exports[`uni-builder environment compat > should generator environment config co
                   },
                 },
                 {
-                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.cjs",
+                  "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/plugin-svgr/dist/loader.mjs",
                   "options": {
                     "exportType": "named",
                     "svgo": true,
