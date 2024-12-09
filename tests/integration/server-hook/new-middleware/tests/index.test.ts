@@ -52,6 +52,10 @@ describe('test new middleware run correctly', () => {
     expect(headers).toHaveProperty('x-custom-value', 'modern');
 
     expect(headers).toHaveProperty('x-matched-route', 'main');
+
+    expect(headers).toHaveProperty('x-render-middleware-config', 'ok');
+
+    expect(headers).toHaveProperty('x-render-middleware-plugin', 'ok');
   });
 
   test('should redirect corretly', async () => {

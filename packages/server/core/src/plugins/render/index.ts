@@ -41,6 +41,9 @@ export const renderPlugin = (): ServerPlugin => ({
 
         const customServer = new CustomServer(runner, serverBase!, pwd);
 
+        // render.middleware can register by server config and prepare hook
+        // render.middleware is the same as unstable_middleware in server/index.ts, but execute before unstable_middleware
+        // TODO：check api and add docs for render.middleware
         const serverMiddleware =
           config.render?.middleware &&
           getServerMidFromUnstableMid(config.render.middleware);
@@ -75,7 +78,7 @@ export const renderPlugin = (): ServerPlugin => ({
           });
 
           const customServerMiddleware =
-            serverMiddleware || (await customServer.getServerMiddleware());
+            await customServer.getServerMiddleware(serverMiddleware);
 
           customServerMiddleware &&
             middlewares.push({
