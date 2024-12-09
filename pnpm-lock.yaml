@@ -51,8 +51,8 @@ importers:
         specifier: ^5
         version: 5.3.0(date-fns@2.29.3)(moment@2.29.4)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       check-dependency-version-consistency:
-        specifier: 4.1.0
-        version: 4.1.0
+        specifier: 4.1.1
+        version: 4.1.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -633,7 +633,7 @@ importers:
         version: link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.15
-        version: 0.5.15(@types/webpack@5.28.0(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.96.1(esbuild@0.17.19))
+        version: 0.5.15(@types/webpack@5.28.0(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.30.0)(webpack@5.96.1(esbuild@0.17.19))
       '@rsbuild/core':
         specifier: 1.1.8
         version: 1.1.8
@@ -13724,8 +13724,8 @@ packages:
   charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
 
-  check-dependency-version-consistency@4.1.0:
-    resolution: {integrity: sha512-xghkzKgMxpAfeP9OJfVrErtv8BU4h5kHYQyheHC0j0RYRVNWti0qI3+HkFgWBKejq2UE2wOnoWZlvDKFj6jFoA==}
+  check-dependency-version-consistency@4.1.1:
+    resolution: {integrity: sha512-9YqYued0IoqiaM0H3pOKSygvnvmm+7dCqzpRMS6lP0OZU3SScp4ps55irbEEnC0Owihn9elbEQngCCfxQir11A==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -20867,12 +20867,12 @@ packages:
     resolution: {integrity: sha512-RAH822pAdBgcNMAfWnCBU3CFZcfZ/i1eZjwFU/dsLKumyuuP3niueg2UAukXYF0E2AAoc82ZSSf9J0WQBinzHA==}
     engines: {node: '>=12.20'}
 
-  type-fest@3.13.1:
-    resolution: {integrity: sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==}
-    engines: {node: '>=14.16'}
-
   type-fest@4.1.0:
     resolution: {integrity: sha512-VJGJVepayd8OWavP+rgXt4i3bfLk+tSomTV7r4mca2XD/oTCWnkJlNkpXavkxdmtU2aKdAmFGeHvoQutOVHCZg==}
+    engines: {node: '>=16'}
+
+  type-fest@4.30.0:
+    resolution: {integrity: sha512-G6zXWS1dLj6eagy6sVhOMQiLtJdxQBHIA9Z6HFUNLOlr6MFOgzV8wvmidtPONfPtEUv0uZsy77XJNzTAfwPDaA==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -25151,7 +25151,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
-  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(@types/webpack@5.28.0(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.96.1(esbuild@0.17.19))':
+  '@pmmmwh/react-refresh-webpack-plugin@0.5.15(@types/webpack@5.28.0(esbuild@0.17.19))(react-refresh@0.14.0)(type-fest@4.30.0)(webpack@5.96.1(esbuild@0.17.19))':
     dependencies:
       ansi-html: 0.0.9
       core-js-pure: 3.26.0
@@ -25164,7 +25164,7 @@ snapshots:
       webpack: 5.96.1(esbuild@0.17.19)
     optionalDependencies:
       '@types/webpack': 5.28.0(esbuild@0.17.19)
-      type-fest: 4.1.0
+      type-fest: 4.30.0
 
   '@polka/url@1.0.0-next.21': {}
 
@@ -29727,17 +29727,17 @@ snapshots:
 
   charenc@0.0.2: {}
 
-  check-dependency-version-consistency@4.1.0:
+  check-dependency-version-consistency@4.1.1:
     dependencies:
       '@types/js-yaml': 4.0.9
       chalk: 5.3.0
-      commander: 10.0.1
+      commander: 11.0.0
       edit-json-file: 1.7.0
       globby: 13.2.2
       js-yaml: 4.1.0
       semver: 7.6.3
       table: 6.8.1
-      type-fest: 3.13.1
+      type-fest: 4.30.0
 
   check-error@1.0.2: {}
 
@@ -39063,9 +39063,9 @@ snapshots:
 
   type-fest@2.19.0: {}
 
-  type-fest@3.13.1: {}
-
   type-fest@4.1.0: {}
+
+  type-fest@4.30.0: {}
 
   type-is@1.6.18:
     dependencies:
