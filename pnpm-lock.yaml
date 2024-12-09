@@ -8,6 +8,8 @@ overrides:
   '@types/react': ^18.3.11
   '@types/react-dom': ^18.3.1
 
+pnpmfileChecksum: xgsanqyu6btouvnpjms5qrs35q
+
 importers:
 
   .:
