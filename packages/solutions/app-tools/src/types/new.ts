@@ -2,6 +2,7 @@ import type { DevToolData, RegisterBuildPlatformResult } from '@modern-js/core';
 import type {
   AppContext,
   AsyncHook,
+  CollectAsyncHook,
   InternalContext,
   PluginHook,
   PluginHookTap,
@@ -19,7 +20,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { AppTools } from '.';
-import type { getHookRunners } from '../new/compat/hooks';
+import type { getHookRunners } from '../compat/hooks';
 import type { AppToolsNormalizedConfig, AppToolsUserConfig } from './config';
 import type { RuntimePlugin } from './hooks';
 import type { Bundler } from './utils';
@@ -56,18 +57,10 @@ export type BeforeGenerateRoutesFn = TransformFunction<{
 export type BeforePrintInstructionsFn = TransformFunction<{
   instructions: string;
 }>;
-export type RegisterDevFn = (params: {
-  name: string;
-  entry: string;
-  type: string;
-  config: any;
-}) => Promise<DevToolData> | DevToolData;
-export type RegisterBuildPlatformFn = (params: {
-  name: string;
-  entry: string;
-  type: string;
-  config: any;
-}) => Promise<RegisterBuildPlatformResult> | RegisterBuildPlatformResult;
+export type RegisterDevFn = () => Promise<DevToolData> | DevToolData;
+export type RegisterBuildPlatformFn = () =>
+  | Promise<RegisterBuildPlatformResult>
+  | RegisterBuildPlatformResult;
 export type AddRuntimeExportsFn = () => Promise<void> | void;
 
 export interface AppToolsExtendAPI<B extends Bundler = 'webpack'> {
@@ -141,11 +134,11 @@ export interface AppToolsExtendHooks
   /**
    * @deprecated
    */
-  registerDev: AsyncHook<RegisterDevFn>;
+  registerDev: CollectAsyncHook<RegisterDevFn>;
   /**
    * @deprecated
    */
-  registerBuildPlatform: AsyncHook<RegisterBuildPlatformFn>;
+  registerBuildPlatform: CollectAsyncHook<RegisterBuildPlatformFn>;
   /**
    * @deprecated
    */
@@ -160,6 +153,7 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
   internalSrcAlias: string;
   apiDirectory: string;
   lambdaDirectory: string;
+  serverConfigFile: string;
   serverPlugins: ServerPlugin[];
   moduleType: 'module' | 'commonjs';
   /** Information for entry points */
@@ -181,6 +175,10 @@ export type AppToolsExtendContext<B extends Bundler = 'webpack'> = {
    * @private
    */
   htmlTemplates: HtmlTemplates;
+  /**
+   * @deprecated compat old plugin, default is app tools
+   */
+  toolsType?: string;
 };
 
 export type AppToolsContext<B extends Bundler = 'webpack'> = AppContext<

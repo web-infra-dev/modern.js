@@ -3,7 +3,7 @@ import { type Plugin, createPluginManager } from '@modern-js/plugin-v2';
 import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
 import { runtimePlugin } from '../../../../runtime/plugin-runtime/src/cli';
 import { appTools } from '../../src';
-import { handleSetupResult } from '../../src/new/compat/hooks';
+import { handleSetupResult } from '../../src/compat/hooks';
 import { getFileSystemEntry } from '../../src/plugins/analyze/getFileSystemEntry';
 import type { AppNormalizedConfig, AppTools } from '../../src/types';
 import type { AppToolsContext } from '../../src/types/new';
