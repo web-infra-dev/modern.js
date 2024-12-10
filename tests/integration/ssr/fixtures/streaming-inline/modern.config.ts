@@ -5,9 +5,9 @@ export default applyBaseConfig({
     router: true,
   },
   server: {
+    useJsonScript: true,
     ssr: {
       mode: 'stream',
-      inlineScript: false,
     },
   },
 });
