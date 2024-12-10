@@ -19,6 +19,7 @@ export type RequestHandlerConfig = {
   enableInlineScripts?: boolean | RegExp;
   ssr?: ServerUserConfig['ssr'];
   ssrByEntries?: ServerUserConfig['ssrByEntries'];
+  useJsonScript?: ServerUserConfig['useJsonScript'];
 };
 
 export type LoaderContext = Map<string, any>;

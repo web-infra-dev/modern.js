@@ -36,10 +36,13 @@ export interface ServerUserConfig {
   ssrByEntries?: SSRByEntries;
   baseUrl?: string | string[];
   port?: number;
-  enableMicroFrontendDebug?: boolean;
   watchOptions?: WatchOptions;
   compiler?: 'babel' | 'typescript';
-  enableFrameworkExt?: boolean;
+  /**
+   * @description use json script tag instead of inline script
+   * @default false
+   */
+  useJsonScript?: boolean;
 }
 
 export type ServerNormalizedConfig = ServerUserConfig;

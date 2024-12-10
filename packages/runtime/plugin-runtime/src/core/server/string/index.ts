@@ -96,6 +96,7 @@ export const renderString: RenderString = async (
         chunkSet,
         routerContext,
         nonce: config.nonce,
+        useJsonScript: config.useJsonScript,
       }),
     ];
 
