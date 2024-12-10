@@ -15,11 +15,11 @@ import { serializeErrors } from './utils';
  */
 const DeferredDataScripts = (props?: {
   nonce?: string;
-  inlineScript?: boolean;
+  useJsonScript?: boolean;
   context: StaticHandlerContext;
 }) => {
   const staticContext = props?.context;
-  const inlineScript = props?.inlineScript;
+  const useJsonScript = props?.useJsonScript;
   const hydratedRef = useRef(false);
 
   useEffect(() => {
@@ -52,12 +52,14 @@ const DeferredDataScripts = (props?: {
       errors: serializeErrors(staticContext.errors),
     };
 
-    const initialScript0 = inlineScript ? '' : `${serializeJson(_ROUTER_DATA)}`;
-    const initialScript1 = inlineScript
-      ? [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
+    const initialScript0 = useJsonScript
+      ? `${serializeJson(_ROUTER_DATA)}`
+      : '';
+    const initialScript1 = useJsonScript
+      ? modernInline
+      : [`_ROUTER_DATA = ${serializeJson(_ROUTER_DATA)};`, modernInline].join(
           '\n',
-        )
-      : modernInline;
+        );
     const deferredDataScripts: JSX.Element[] = [];
 
     const initialScripts = Object.entries(activeDeferreds).map(

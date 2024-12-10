@@ -160,5 +160,6 @@ function createRequestHandlerConfig(
     enableInlineStyles: output?.enableInlineStyles,
     crossorigin: html?.crossorigin,
     scriptLoading: html?.scriptLoading,
+    useJsonScript: server?.useJsonScript,
   };
 }

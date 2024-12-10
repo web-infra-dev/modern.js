@@ -4,11 +4,7 @@ import type { HeadersData } from '@modern-js/runtime-utils/universal/request';
 import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../../constants';
 import type { SSRContainer, SSRServerContext } from '../../types';
 import type { SSRConfig } from '../shared';
-import {
-  attributesToString,
-  getSSRInlineScript,
-  serializeErrors,
-} from '../utils';
+import { attributesToString, serializeErrors } from '../utils';
 import type { ChunkSet, Collector } from './types';
 
 export interface SSRDataCreatorOptions {
@@ -19,6 +15,7 @@ export interface SSRDataCreatorOptions {
   ssrConfig?: SSRConfig;
   routerContext?: StaticHandlerContext;
   nonce?: string;
+  useJsonScript?: boolean;
 }
 
 export class SSRDataCollector implements Collector {
@@ -86,22 +83,19 @@ export class SSRDataCollector implements Collector {
     ssrData: Record<string, any>,
     routerData?: Record<string, any>,
   ) {
-    const { nonce, ssrConfig } = this.#options;
-    const inlineScript = getSSRInlineScript(ssrConfig);
-
-    const useInlineScript = inlineScript !== false;
+    const { nonce, useJsonScript = false } = this.#options;
     const serializeSSRData = serializeJson(ssrData);
     const attrsStr = attributesToString({ nonce });
 
-    let ssrDataScripts = useInlineScript
-      ? `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`
-      : `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`;
+    let ssrDataScripts = useJsonScript
+      ? `<script type="application/json" id="${SSR_DATA_JSON_ID}">${serializeSSRData}</script>`
+      : `<script${attrsStr}>window._SSR_DATA = ${serializeSSRData}</script>`;
 
     if (routerData) {
       const serializedRouterData = serializeJson(routerData);
-      ssrDataScripts += useInlineScript
-        ? `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`
-        : `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`;
+      ssrDataScripts += useJsonScript
+        ? `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`
+        : `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`;
     }
     return ssrDataScripts;
   }
