@@ -9,7 +9,7 @@ export function createRoot(UserApp?: React.ComponentType | null) {
   const App = UserApp || getGlobalApp();
 
   if (isBrowser()) {
-    // we should get data from HTMLElement when set server.useInline = false
+    // we should get data from HTMLElement when set server.useJsonScript = true
     window._SSR_DATA =
       window._SSR_DATA || parsedJSONFromElement(SSR_DATA_JSON_ID);
 
