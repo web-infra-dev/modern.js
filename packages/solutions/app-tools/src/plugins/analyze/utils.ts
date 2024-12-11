@@ -74,6 +74,12 @@ export const checkIsBuildCommands = () => {
   return buildCommands.includes(command);
 };
 
+export const checkIsServeCommand = () => {
+  const command = getCommand();
+
+  return command === 'serve';
+};
+
 export const isSubDirOrEqual = (parent: string, child: string): boolean => {
   if (parent === child) {
     return true;

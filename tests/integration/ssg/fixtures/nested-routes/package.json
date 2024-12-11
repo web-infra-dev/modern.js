@@ -3,7 +3,8 @@
   "name": "ssg-fixtures-nested-routes",
   "version": "2.9.0",
   "scripts": {
-    "build": "modern build"
+    "build": "modern build",
+    "serve": "modern serve"
   },
   "dependencies": {
     "@modern-js/app-tools": "workspace:*",
