@@ -55,7 +55,7 @@ function createClientReferenceProxy(exportName) {
         if (exportName === 'default') {
           return `export default registerClientReference(() => {
   throw new Error("Attempted to call the default export of ${resourcePath} from the server but it's on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.");
-}, "${id}", "");`;
+}, "${id}", "${exportName}");`;
         } else {
           return `export const ${exportName} = registerClientReference(createClientReferenceProxy("${exportName}"), "${id}", "${exportName}");`;
         }

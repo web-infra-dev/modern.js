@@ -3,7 +3,7 @@ import { useRuntimeContext } from '@modern-js/runtime';
 import './App.css';
 import { Counter } from './components/Counter';
 
-export const App = () => {
+const App = () => {
   const context = useRuntimeContext();
   return (
     <>
@@ -45,3 +45,5 @@ export const App = () => {
     </>
   );
 };
+
+export { App };
