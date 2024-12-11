@@ -12,6 +12,7 @@ import type {
 } from '../../types';
 import type { Render } from '../../types';
 import type { Params } from '../../types/requestHandler';
+import { uniqueKeyByRoute } from '../../utils';
 import {
   ErrorDigest,
   createErrorHtml,
@@ -139,8 +140,7 @@ export async function createRender({
       });
     }
 
-    const html = templates[routeInfo.entryName!];
-
+    const html = templates[uniqueKeyByRoute(routeInfo)];
     if (!html) {
       return new Response(createErrorHtml(404), {
         status: 404,

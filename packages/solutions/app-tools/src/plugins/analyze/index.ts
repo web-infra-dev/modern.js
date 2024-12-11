@@ -1,4 +1,5 @@
 import * as path from 'path';
+import type { ServerRoute } from '@modern-js/types';
 import {
   fs,
   createDebugger,
@@ -18,7 +19,7 @@ import { emitResolvedConfig } from '../../utils/config';
 import { getSelectedEntries } from '../../utils/getSelectedEntries';
 import { printInstructions } from '../../utils/printInstructions';
 import { generateRoutes } from '../../utils/routes';
-import { checkIsBuildCommands } from './utils';
+import { checkIsBuildCommands, checkIsServeCommand } from './utils';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -54,8 +55,21 @@ export default ({
       );
       await hooks.addRuntimeExports.call();
 
+      const [{ getProdServerRoutes }] = await Promise.all([
+        import('./getServerRoutes.js'),
+      ]);
+
       if (apiOnly) {
-        const { routes } = await hooks.modifyServerRoutes.call({ routes: [] });
+        const routes: ServerRoute[] = [];
+        if (checkIsServeCommand()) {
+          routes.push(...getProdServerRoutes(appContext.distDirectory));
+        } else {
+          const { routes: modifiedRoutes } =
+            await hooks.modifyServerRoutes.call({
+              routes: [],
+            });
+          routes.push(...modifiedRoutes);
+        }
 
         debug(`server routes: %o`, routes);
 
@@ -80,14 +94,20 @@ export default ({
 
       debug(`entrypoints: %o`, entrypoints);
 
-      const initialRoutes = getServerRoutes(entrypoints, {
-        appContext,
-        config: resolvedConfig,
-      });
+      const routes: ServerRoute[] = [];
+      if (checkIsServeCommand()) {
+        routes.push(...getProdServerRoutes(appContext.distDirectory));
+      } else {
+        const initialRoutes = getServerRoutes(entrypoints, {
+          appContext,
+          config: resolvedConfig,
+        });
 
-      const { routes } = await hooks.modifyServerRoutes.call({
-        routes: initialRoutes,
-      });
+        const { routes: modifiedRoutes } = await hooks.modifyServerRoutes.call({
+          routes: initialRoutes,
+        });
+        routes.push(...modifiedRoutes);
+      }
 
       debug(`server routes: %o`, routes);
 

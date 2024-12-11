@@ -16,6 +16,7 @@ import type {
   ServerManifest,
   ServerPlugin,
 } from '../../../types';
+import { uniqueKeyByRoute } from '../../../utils';
 
 export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
   const htmls = await Promise.all(
@@ -27,7 +28,7 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
       } catch (e) {
         // ignore error
       }
-      return [route.entryName!, html];
+      return [uniqueKeyByRoute(route), html];
     }) || [],
   );
 

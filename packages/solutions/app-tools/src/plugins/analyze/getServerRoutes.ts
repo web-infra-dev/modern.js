@@ -1,8 +1,8 @@
-import fs from 'fs';
 import path from 'path';
-import type { IAppContext } from '@modern-js/core';
 import type { Entrypoint, ServerRoute } from '@modern-js/types';
 import {
+  fs,
+  ROUTE_SPEC_FILE,
   SERVER_BUNDLE_DIRECTORY,
   SERVER_WORKER_BUNDLE_DIRECTORY,
   getEntryOptions,
@@ -252,3 +252,15 @@ export const getServerRoutes = (
 
 const toPosix = (pathStr: string) =>
   pathStr.split(path.sep).join(path.posix.sep);
+
+export const getProdServerRoutes = (distDirectory: string) => {
+  const routeJSON = path.join(distDirectory, ROUTE_SPEC_FILE);
+  try {
+    const { routes } = fs.readJSONSync(routeJSON);
+    return routes;
+  } catch (e) {
+    throw new Error(
+      `Failed to read routes from ${routeJSON}, please check if the file exists.`,
+    );
+  }
+};
