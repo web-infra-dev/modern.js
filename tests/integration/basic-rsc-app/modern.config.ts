@@ -49,6 +49,9 @@ export default applyBaseConfig({
       mode: 'stream',
     },
   },
+  source: {
+    enableCustomEntry: true,
+  },
   output: {
     minify: false,
   },
@@ -61,10 +64,10 @@ export default applyBaseConfig({
 
     webpack(config) {
       // @ts-ignore
-      config.entry.main = {
-        import: [config.entry.main[0]],
-        layer: webpackRscLayerName,
-      };
+      // config.entry.main = {
+      //   import: [config.entry.main[0]],
+      //   layer: webpackRscLayerName,
+      // };
       config.experiments = {
         ...config.experiments,
         layers: true,
@@ -106,8 +109,7 @@ export default applyBaseConfig({
           .use('rsc-server-loader')
           .loader(rscServerLoaderPath)
           .options({
-            clientReferencesMap,
-            serverReferencesMap,
+            runtimeExport: '@modern-js/render/rsc',
           })
           .end()
           .use('babel')
@@ -140,6 +142,11 @@ export default applyBaseConfig({
           .rule('server-module')
           .resource([
             /render\/.*\/server\/rsc/,
+            // /runtime-register/,
+            // /server\/requestHandler/, // 会调用 getInitialContext，getInitialContext，getGlobalAppInit 有点类似于组件入口了
+            // /RootProxy/, // 引入 App.tsx 的文件
+            // /index\.server/,
+            /src\/Root/,
             // /index\.server/,
             // /App\.tsx/,
             // /runtime-global-context/,
@@ -147,17 +154,32 @@ export default applyBaseConfig({
           .layer(webpackRscLayerName)
           .end();
 
-        chain.module
-          .rule('client-module')
-          .resource([
-            /runtime-utils/,
-            /core\/context/,
-            /core\/loader/,
-            /core\/react/,
-            /core\/server/,
-          ])
-          .layer('default')
-          .end();
+        // chain.module
+        //   .rule('client-module')
+        //   .resource([
+        //     /jsx-dev-runtime/,
+        //     // /plugin-runtime\/dist\/esm/,
+        //     // /react-router/,
+        //     // /react-router-dom/,
+        //     // /runtime-utils/, // 因为调用 getGlobalAppInit，getGlobalAppInit 必须放在 client layer，保证只有一份，且被 client component 消费
+        //     // /requestHandler/,
+        //     // /core\/server\/utils/, // 避免因为 requestHandler 导致 storage 多实例
+        //     // /core\/plugin/,
+        //     // /main\/register/,
+        //     // /plugin-runtime/, // 为了解决 plugin-runtime 中使用 react 的 createContext useState useEffect 的场景
+        //     // /runtime-global-context/, // 为了解决 setGlobalContext 调用方和定义方不一致的问题
+        //     // /core\/context\/index/,
+        //     // /core\/loader/,
+        //     // /core\/react/,
+        //     // /core\/server/,
+        //     // /core\/server/, // ssr 部分的内容必须放在 default 层，否则会报错
+        //     // /beforeTemplate/,
+        //     // /react-helmet/,
+        //     // /ssr/, // 为了 server/ssr 引入时不使用 react-server
+        //   ])
+        //   .layer('default')
+        //   // .exclude.add(/core\/server\/storage/)
+        //   .end();
 
         chain
           .plugin('rsc-server-plugin')

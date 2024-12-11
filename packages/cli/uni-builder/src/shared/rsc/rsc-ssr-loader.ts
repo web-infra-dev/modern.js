@@ -21,7 +21,6 @@ export default async function rscSsrLoader(
   const ast = await parseSource(source);
   const hasDeclareServerDirective = await isServerModule(ast);
   const resourcePath = this.resourcePath;
-  console.log('resourcePath22222', resourcePath);
   if (!hasDeclareServerDirective) {
     callback(null, source, sourceMap);
     return;

@@ -53,6 +53,14 @@ export type ClientManifest = {
   [id: string]: ImportManifestEntry;
 };
 
+declare module 'react-server-dom-webpack/server' {
+  export const registerClientReference: <T>(
+    proxyImplementation: any,
+    id: string,
+    exportName: string,
+  ) => ClientReference[];
+}
+
 declare module 'react-server-dom-webpack/server.edge' {
   type Options = {
     environmentName?: string;

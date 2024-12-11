@@ -160,18 +160,5 @@ export const runtimeGlobalContext = ({
 }) => {
   return `import { setGlobalContext } from '@${metaName}/runtime/context'
 
-import App from '${
-    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
-    formatImportPath(
-      customEntry
-        ? entry
-            .replace('entry.tsx', 'App')
-            .replace(srcDirectory, internalSrcAlias)
-        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
-    )
-  }';
-
-setGlobalContext({
-  App,
-});`;
+setGlobalContext({});`;
 };

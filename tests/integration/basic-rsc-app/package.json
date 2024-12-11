@@ -3,7 +3,7 @@
   "name": "basic-rsc-app",
   "version": "2.9.0",
   "scripts": {
-    "dev": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server --inspect' modern dev",
+    "dev": "BUNDLER=webpack NODE_OPTIONS='--conditions=react-server' modern dev",
     "build": "BUNDLER=webpack modern build",
     "serve": "BUNDLER=webpack modern serve",
     "new": "modern new"
@@ -14,6 +14,7 @@
   "dependencies": {
     "@modern-js/runtime": "workspace:*",
     "react": "^18",
+    "@modern-js/render": "workspace:*",
     "react-dom": "^18"
   },
   "devDependencies": {

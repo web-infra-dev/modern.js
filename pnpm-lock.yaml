@@ -5672,6 +5672,9 @@ importers:
 
   tests/integration/basic-rsc-app:
     dependencies:
+      '@modern-js/render':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/render
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime

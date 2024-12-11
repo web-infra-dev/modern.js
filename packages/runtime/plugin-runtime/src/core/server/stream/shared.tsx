@@ -25,9 +25,11 @@ export type CreateReadableStreamFromElementOptions = {
   ssrConfig: SSRConfig;
   htmlTemplate: string;
   entryName: string;
+
   rscClientManifest?: RscClientManifest;
   rscSSRManifest?: RscSSRManifest;
   rscServerManifest?: RscServerManifest;
+  rscRoot?: React.ReactElement;
   onShellReady?: () => void;
   onShellError?: (error: unknown) => void;
   onAllReady?: () => void;
@@ -113,6 +115,7 @@ export function createRenderStreaming(
           rscClientManifest: options.rscClientManifest,
           rscSSRManifest: options.rscSSRManifest,
           rscServerManifest: options.rscServerManifest,
+          rscRoot: options.rscRoot,
           onShellReady() {
             const cost = end();
             onTiming(SSRTimings.RENDER_SHELL, cost);

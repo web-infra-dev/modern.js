@@ -96,7 +96,7 @@ export const generateCode = async (
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
 
-        fs.outputFileSync(indexFile, indexCode, 'utf8');
+        await fs.outputFile(indexFile, indexCode, 'utf8');
 
         const ssrMode = getSSRMode(entryName, config);
 
@@ -106,7 +106,7 @@ export const generateCode = async (
             `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
           );
           // bootstrap.jsx
-          fs.outputFileSync(
+          await fs.outputFile(
             bootstrapFile,
             `import(/* webpackChunkName: "async-${entryName}" */ './${INDEX_FILE_NAME}');`,
             'utf8',
@@ -119,7 +119,7 @@ export const generateCode = async (
 
           if (ssrMode) {
             // bootstrap.server.jsx
-            fs.outputFileSync(
+            await fs.outputFile(
               bootstrapServerFile,
               `export const requestHandler = import('./${SERVER_ENTRY_POINT_FILE_NAME}').then((m) => m.requestHandler)`,
               'utf8',
@@ -143,7 +143,7 @@ export const generateCode = async (
             `./${entryName}/${SERVER_ENTRY_POINT_FILE_NAME}`,
           );
 
-          fs.outputFileSync(indexServerFile, indexServerCode, 'utf8');
+          await fs.outputFile(indexServerFile, indexServerCode, 'utf8');
         }
 
         // register.js
@@ -152,7 +152,7 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_REGISTER_FILE_NAME}`,
         );
-        fs.outputFileSync(registerFile, registerCode, 'utf8');
+        await fs.outputFile(registerFile, registerCode, 'utf8');
 
         // runtime-register.js
         const registerRuntimeCode = template.runtimeRegister({
@@ -167,7 +167,7 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_REGISTER_FILE_NAME}`,
         );
-        fs.outputFileSync(registerRuntimeFile, registerRuntimeCode, 'utf8');
+        await fs.outputFile(registerRuntimeFile, registerRuntimeCode, 'utf8');
 
         // runtime-global-context.js
         const contextCode = template.runtimeGlobalContext({
@@ -181,7 +181,7 @@ export const generateCode = async (
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
         );
-        fs.outputFileSync(contextFile, contextCode, 'utf8');
+        await fs.outputFile(contextFile, contextCode, 'utf8');
       }
     }),
   );

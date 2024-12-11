@@ -17,7 +17,9 @@ import {
   parseSourceWithOxc,
 } from './parse-with-oxc';
 
-export type RscServerLoaderOptions = {};
+export type RscServerLoaderOptions = {
+  runtimeExport: string;
+};
 
 export default async function rscServerLoader(
   this: LoaderContext<RscServerLoaderOptions>,
@@ -30,14 +32,15 @@ export default async function rscServerLoader(
   const { resourcePath } = this;
   const ast = await parseSource(source);
   const isClientComponent = await isClientModule(ast);
+  const runtimeExport =
+    this.getOptions().runtimeExport || 'react-server-dom-webpack/server';
 
-  console.log('resourcePath111111', resourcePath);
   if (isClientComponent) {
     // TODO: should be changed to runtime of modern.js
     const importsCode = `
 'use client';
 
-import { registerClientReference } from "react-server-dom-webpack/server";
+import { registerClientReference } from "${runtimeExport}";
 function createClientReferenceProxy(exportName) {
   return () => {
     throw new Error(\`Attempted to call \${exportName}() from the server but \${exportName} is on the client. It's not possible to invoke a client function from the server, it can only be rendered as a Component or passed to props of a Client Component.\`);

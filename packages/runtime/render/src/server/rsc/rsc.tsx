@@ -4,6 +4,7 @@ import { type ReactNode, use } from 'react';
 import { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
 import { decodeReply } from 'react-server-dom-webpack/server.edge';
 export { createFromReadableStream } from 'react-server-dom-webpack/client.edge';
+export { registerClientReference } from 'react-server-dom-webpack/server';
 
 declare const __webpack_require__: (path: string) => any;
 
