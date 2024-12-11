@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.63.2
+
+### Patch Changes
+
+- 3d2bf55: feat: add route info into unstable_middleware context
+  feat: 添加路由信息到 unstable_middleware 上下文中
+
 ## 2.63.1
 
 ## 2.63.0

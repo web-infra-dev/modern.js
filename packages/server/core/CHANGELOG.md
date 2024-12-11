@@ -1,5 +1,23 @@
 # @modern-js/server-plugin
 
+## 2.63.2
+
+### Patch Changes
+
+- 524d6af: feat: add server.useJsonScript , for instead ssr.inlineScript
+  feat: 添加 server.useJsonScript 配置，代替 ssr.inlineScript
+- 3d2bf55: feat: add route info into unstable_middleware context
+  feat: 添加路由信息到 unstable_middleware 上下文中
+- bc1670a: fix: should get server routes from route.json in serve command
+  fix: 在 serve 命令下应该从 route.json 中获取 server routes
+- 30f89d5: fix: unstable_middlwares doesn't exec when render.middlewares not empty
+  fix: 修复 unstable_middlwares 在 `render.middlewares` 不为空时不执行的问题
+- Updated dependencies [5fc95f7]
+- Updated dependencies [53e3ae0]
+  - @modern-js/utils@2.63.2
+  - @modern-js/plugin@2.63.2
+  - @modern-js/runtime-utils@2.63.2
+
 ## 2.63.1
 
 ### Patch Changes
