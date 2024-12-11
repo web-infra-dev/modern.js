@@ -245,12 +245,10 @@ export const getServerRoutes = (
     appContext: AppToolsContext<'shared'>;
     config: AppNormalizedConfig<'shared'>;
   },
-): ServerRoute[] => {
-  return [
-    ...collectHtmlRoutes(entrypoints, appContext, config),
-    ...collectStaticRoutes(appContext, config),
-  ];
-};
+): ServerRoute[] => [
+  ...collectHtmlRoutes(entrypoints, appContext, config),
+  ...collectStaticRoutes(appContext, config),
+];
 
 const toPosix = (pathStr: string) =>
   pathStr.split(path.sep).join(path.posix.sep);

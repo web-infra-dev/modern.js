@@ -121,7 +121,6 @@ export async function createRender({
     },
   ) => {
     const forMatchpathname = matchPathname ?? getPathname(req);
-
     const [routeInfo, params] = matchRoute(router, forMatchpathname);
     const framework = metaName || 'modern-js';
     const fallbackHeader = `x-${cutNameByHyphen(framework)}-ssr-fallback`;
