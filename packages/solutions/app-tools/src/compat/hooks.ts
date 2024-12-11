@@ -8,9 +8,9 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import type { Command } from '@modern-js/utils';
-import { getModifyHtmlPartials } from '../../plugins/analyze/getHtmlTemplate';
-import type { AppTools, AppToolsNormalizedConfig } from '../../types';
-import type { RuntimePlugin } from '../../types/hooks';
+import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
+import type { AppTools, AppToolsNormalizedConfig } from '../types';
+import type { RuntimePlugin } from '../types/hooks';
 import {
   transformHookParams,
   transformHookResult,
@@ -21,7 +21,7 @@ import {
  * old plugin useHookRunners function result
  */
 export function getHookRunners(
-  context: InternalContext<AppTools>,
+  context: InternalContext<AppTools<'shared'>>,
 ): Record<string, any> {
   const { hooks } = context;
   return {
@@ -162,24 +162,14 @@ export function getHookRunners(
     /**
      * @deprecated
      */
-    registerDev: async (params: {
-      name: string;
-      entry: string;
-      type: string;
-      config: any;
-    }) => {
-      return hooks.registerDev.call(params);
+    registerDev: async () => {
+      return hooks.registerDev.call();
     },
     /**
      * @deprecated
      */
-    registerBuildPlatform: async (params: {
-      name: string;
-      entry: string;
-      type: string;
-      config: any;
-    }) => {
-      return hooks.registerBuildPlatform.call(params);
+    registerBuildPlatform: async () => {
+      return hooks.registerBuildPlatform.call();
     },
     /**
      * @deprecated

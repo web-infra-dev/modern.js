@@ -1,4 +1,4 @@
-import { type PluginAPI, ResolvedConfigContext } from '@modern-js/core';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { logger } from '@modern-js/utils';
 import type { AppTools } from '../types';
 import { buildServerConfig } from '../utils/config';
@@ -8,7 +8,7 @@ import { generateRoutes } from '../utils/routes';
 import type { BuildOptions } from '../utils/types';
 
 export const build = async (
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   options?: BuildOptions,
 ) => {
   if (options?.analyze) {
@@ -16,9 +16,9 @@ export const build = async (
     process.env.BUNDLE_ANALYZE = 'true';
   }
 
-  let resolvedConfig = api.useResolvedConfigContext();
-  const appContext = api.useAppContext();
-  const hookRunners = api.useHookRunners();
+  const resolvedConfig = api.getNormalizedConfig();
+  const appContext = api.getAppContext();
+  const hooks = api.getHooks();
 
   // we need load server plugin to appContext for ssg & deploy commands.
   await loadServerPlugins(api, appContext.appDirectory, appContext.metaName);
@@ -42,9 +42,12 @@ export const build = async (
 
   if (apiOnly) {
     const { appDirectory, distDirectory, serverConfigFile } = appContext;
-    await hookRunners.beforeBuild({
+    await hooks.onBeforeBuild.call({
+      environments: {},
       // "null" bundlerConfigs
       bundlerConfigs: undefined,
+      isFirstCompile: false,
+      isWatch: false,
     });
 
     await buildServerConfig({
@@ -55,16 +58,20 @@ export const build = async (
 
     await generateRoutes(appContext);
 
-    await hookRunners.afterBuild({
+    await hooks.onAfterBuild.call({
+      environments: {},
       // "null" stats
       stats: undefined,
+      isFirstCompile: false,
+      isWatch: false,
     });
 
     return;
   }
 
-  resolvedConfig = { ...resolvedConfig, cliOptions: options };
-  ResolvedConfigContext.set(resolvedConfig);
+  api.modifyResolvedConfig(config => {
+    return { ...config, cliOptions: options };
+  });
 
   const { distDirectory, appDirectory, serverConfigFile } = appContext;
 

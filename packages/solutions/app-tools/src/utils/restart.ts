@@ -1,11 +1,10 @@
-import type { ToRunners } from '@modern-js/core';
 import { cli } from '@modern-js/plugin-v2/cli';
 import { chalk, clearConsole, getFullArgv, logger } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
-import type { AppToolsHooks } from '../types/hooks';
+import type { AppToolsHooks } from '../types/new';
 
 export async function restart(
-  hooksRunner: ToRunners<AppToolsHooks>,
+  hooks: AppToolsHooks<'shared'>,
   filename: string,
 ) {
   clearConsole();
@@ -13,7 +12,7 @@ export async function restart(
 
   let hasGetError = false;
 
-  await hooksRunner.beforeRestart();
+  await hooks.onBeforeRestart.call();
 
   try {
     await cli.init(cli.getPrevInitOptions());

@@ -1,4 +1,4 @@
-import type { PluginAPI } from '@modern-js/core';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { castArray } from '@modern-js/uni-builder';
 import { type Command, newAction, upgradeAction } from '@modern-js/utils';
 import { i18n, localeKeys } from '../locale';
@@ -12,10 +12,10 @@ import type {
 
 export const devCommand = async (
   program: Command,
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
-  const runner = api.useHookRunners();
-  const devToolMetas = await runner.registerDev();
+  const hooks = api.getHooks();
+  const devToolMetas = await hooks.registerDev.call();
 
   const devProgram = program
     .command('dev')
@@ -39,7 +39,7 @@ export const devCommand = async (
 
     for (const subCmd of meta.subCommands) {
       devProgram.command(subCmd).action(async (options: DevOptions = {}) => {
-        const { appDirectory } = api.useAppContext();
+        const { appDirectory } = api.getAppContext();
         const { isTypescript } = await import('@modern-js/utils');
 
         await meta.action(options, {
@@ -52,10 +52,10 @@ export const devCommand = async (
 
 export const buildCommand = async (
   program: Command,
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
-  const runner = api.useHookRunners();
-  const platformBuilders = await runner.registerBuildPlatform();
+  const hooks = api.getHooks();
+  const platformBuilders = await hooks.registerBuildPlatform.call();
 
   const buildProgram = program
     .command('build')
@@ -72,7 +72,7 @@ export const buildCommand = async (
     const platforms = castArray(platformBuilder.platform);
     for (const platform of platforms) {
       buildProgram.command(platform).action(async () => {
-        const { appDirectory } = api.useAppContext();
+        const { appDirectory } = api.getAppContext();
         const { isTypescript } = await import('@modern-js/utils');
 
         await platformBuilder.build(platform, {
@@ -85,7 +85,7 @@ export const buildCommand = async (
 
 export const serverCommand = (
   program: Command,
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
   program
     .command('serve')
@@ -101,7 +101,7 @@ export const serverCommand = (
 
 export const deployCommand = (
   program: Command,
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
   program
     .command('deploy')
@@ -152,7 +152,7 @@ export const newCommand = (program: Command, locale: string) => {
 
 export const inspectCommand = (
   program: Command,
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
   program
     .command('inspect')

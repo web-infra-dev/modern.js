@@ -2,11 +2,11 @@ import { initAppDir } from '@modern-js/plugin-v2/cli';
 import { run as CLIPluginRun } from '@modern-js/plugin-v2/run';
 import type { InternalPlugins } from '@modern-js/types';
 import { minimist } from '@modern-js/utils';
-import { handleSetupResult } from './compat/hooks';
-import { PACKAGE_JSON_CONFIG_NAME } from './constants';
-import { getConfigFile } from './getConfigFile';
-import { loadInternalPlugins } from './loadPlugins';
-import { getIsAutoLoadPlugins } from './utils';
+import { handleSetupResult } from '../compat/hooks';
+import { PACKAGE_JSON_CONFIG_NAME } from '../constants';
+import { getConfigFile } from '../utils/getConfigFile';
+import { isAutoLoadPlugins } from '../utils/isAutoLoadPlugins';
+import { loadInternalPlugins } from '../utils/loadPlugins';
 
 export interface RunOptions {
   cwd?: string;
@@ -59,7 +59,7 @@ export async function run({
 
   const appDirectory = await initAppDir(cwd);
   const finalConfigFile = customConfigFile || getConfigFile(configFile);
-  const autoLoadPlugins = await getIsAutoLoadPlugins(
+  const autoLoadPlugins = await isAutoLoadPlugins(
     appDirectory,
     finalConfigFile,
   );
