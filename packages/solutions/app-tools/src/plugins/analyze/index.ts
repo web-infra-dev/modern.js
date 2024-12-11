@@ -55,14 +55,14 @@ export default ({
       );
       await hooks.addRuntimeExports.call();
 
-      const [{ getServerRoutesServe }] = await Promise.all([
+      const [{ getProdServerRoutes }] = await Promise.all([
         import('./getServerRoutes.js'),
       ]);
 
       if (apiOnly) {
         const routes: ServerRoute[] = [];
         if (checkIsServeCommand()) {
-          routes.push(...getServerRoutesServe(appContext.distDirectory));
+          routes.push(...getProdServerRoutes(appContext.distDirectory));
         } else {
           const { routes: modifiedRoutes } =
             await hooks.modifyServerRoutes.call({
@@ -96,7 +96,7 @@ export default ({
 
       const routes: ServerRoute[] = [];
       if (checkIsServeCommand()) {
-        routes.push(...getServerRoutesServe(appContext.distDirectory));
+        routes.push(...getProdServerRoutes(appContext.distDirectory));
       } else {
         const initialRoutes = getServerRoutes(entrypoints, {
           appContext,
