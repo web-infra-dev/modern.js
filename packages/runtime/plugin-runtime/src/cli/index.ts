@@ -29,8 +29,8 @@ export const runtimePlugin = (params?: {
   ],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
   usePlugins: params?.plugins || [
-    ssrPlugin() as any,
-    routerPlugin(),
+    ssrPlugin(),
+    routerPlugin() as any,
     statePlugin(),
     documentPlugin(),
   ],
