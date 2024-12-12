@@ -32,7 +32,7 @@ export const runtimePlugin = (params?: {
     ssrPlugin(),
     routerPlugin(),
     statePlugin(),
-    documentPlugin() as any,
+    documentPlugin(),
   ],
   setup: api => {
     api.checkEntryPoint(({ path, entry }) => {
