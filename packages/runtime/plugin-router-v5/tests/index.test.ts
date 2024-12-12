@@ -16,7 +16,7 @@ describe('plugin-router-legacy', () => {
 describe('cli-router-legacy', () => {
   const setup = async () => {
     const pluginManager = createPluginManager();
-    pluginManager.addPlugins([runtimePlugin(), cliPlugin() as Plugin]);
+    pluginManager.addPlugins([runtimePlugin(), cliPlugin()]);
     const plugins = pluginManager.getPlugins();
     const context = await createContext<AppTools>({
       appContext: {
