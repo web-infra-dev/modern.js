@@ -1,12 +1,7 @@
-import { createAsyncHook, createCollectAsyncHook } from '@modern-js/plugin-v2';
-import type { Entrypoint } from '@modern-js/types';
+import { createAsyncHook } from '@modern-js/plugin-v2';
 import type { AppTools, CliPluginFuture } from '../types';
 import { getHookRunners } from './hooks';
 
-type AppendEntryCodeFn = (params: {
-  entrypoint: Entrypoint;
-  code: string;
-}) => string | Promise<string>;
 type JestConfigFn = (
   utils: any,
   next: (utils: any) => any,
@@ -39,7 +34,6 @@ export const compatPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
     };
   },
   registryHooks: {
-    appendEntryCode: createCollectAsyncHook<AppendEntryCodeFn>(),
     jestConfig: createAsyncHook<JestConfigFn>(),
     afterTest: createAsyncHook<AfterTestFn>(),
   },
