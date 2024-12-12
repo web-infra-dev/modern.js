@@ -3,7 +3,7 @@ import { createRuntimeExportsUtils, getEntryOptions } from '@modern-js/utils';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-export const statePlugin = (): CliPluginFuture<AppTools> => ({
+export const statePlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-state',
 
   required: ['@modern-js/runtime'],
