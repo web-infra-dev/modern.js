@@ -80,7 +80,7 @@ export const createCli = <Extends extends CLIPluginExtends>() => {
     context.pluginAPI = pluginAPI;
 
     for (const plugin of plugins) {
-      const setupResult = await plugin.setup(pluginAPI);
+      const setupResult = await plugin.setup?.(pluginAPI);
       if (handleSetupResult) {
         await handleSetupResult(setupResult, pluginAPI);
       }
