@@ -1,14 +1,12 @@
 import path from 'path';
 import type {
   AppNormalizedConfig,
-  AppTools,
-  IAppContext,
-  NormalizedConfig,
-  RuntimePlugin,
+  AppToolsContext,
+  AppToolsFeatureHooks,
+  AppToolsNormalizedConfig,
 } from '@modern-js/app-tools';
-import type { MaybeAsync } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
-import { fs, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import {
   ENTRY_BOOTSTRAP_FILE_NAME,
   ENTRY_POINT_FILE_NAME,
@@ -24,7 +22,7 @@ import * as serverTemplate from './template.server';
 
 function getSSRMode(
   entry: string,
-  config: AppNormalizedConfig,
+  config: AppToolsNormalizedConfig,
 ): 'string' | 'stream' | false {
   const { ssr, ssrByEntries } = config.server;
 
@@ -49,12 +47,9 @@ function getSSRMode(
 
 export const generateCode = async (
   entrypoints: Entrypoint[],
-  appContext: IAppContext,
-  config: NormalizedConfig<AppTools>,
-  onCollectRuntimePlugins: (params: {
-    entrypoint: Entrypoint;
-    plugins: RuntimePlugin[];
-  }) => MaybeAsync<{ entrypoint: Entrypoint; plugins: RuntimePlugin[] }>,
+  appContext: AppToolsContext<'shared'>,
+  config: AppToolsNormalizedConfig,
+  hooks: AppToolsFeatureHooks<'shared'>,
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;
@@ -75,10 +70,11 @@ export const generateCode = async (
         customBootstrap,
         customServerEntry,
       } = entrypoint;
-      const { plugins: runtimePlugins } = await onCollectRuntimePlugins({
-        entrypoint,
-        plugins: [],
-      });
+      const { plugins: runtimePlugins } =
+        await hooks._internalRuntimePlugins.call({
+          entrypoint,
+          plugins: [],
+        });
       if (isAutoMount) {
         // index.jsx
         const indexCode = template.index({
