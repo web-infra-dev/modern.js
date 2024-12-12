@@ -7,11 +7,7 @@ import {
 } from '@modern-js/plugin-v2';
 import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
 
-import type {
-  AppTools,
-  AppToolsContext,
-  AppToolsHooks,
-} from '@modern-js/app-tools';
+import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';
 
