@@ -30,8 +30,8 @@ export const runtimePlugin = (params?: {
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
   usePlugins: params?.plugins || [
     ssrPlugin(),
-    routerPlugin() as any,
-    statePlugin(),
+    routerPlugin(),
+    statePlugin() as any,
     documentPlugin(),
   ],
   setup: api => {
@@ -67,9 +67,9 @@ export const runtimePlugin = (params?: {
     });
 
     /* Note that the execution time of the config hook is before prepare.
-      /* This means that the entry information cannot be obtained in the config hook.
-      /* Therefore, aliases cannot be set directly in the config.
-      */
+    /* This means that the entry information cannot be obtained in the config hook.
+    /* Therefore, aliases cannot be set directly in the config.
+    */
     api.onPrepare(() => {
       const { builder, entrypoints, internalDirectory, metaName } =
         api.getAppContext();
