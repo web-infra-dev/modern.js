@@ -1,5 +1,39 @@
 # @modern-js/app-tools
 
+## 2.63.2
+
+### Patch Changes
+
+- 5fc95f7: feat(app-tools): enable Rsbuild CLI shortcuts
+- 811f30b: feat: migrate app tools to use new cli plugin
+
+  feat: app tools 使用新的 cli 插件
+
+- bc1670a: fix: should get server routes from route.json in serve command
+  fix: 在 serve 命令下应该从 route.json 中获取 server routes
+- Updated dependencies [5fc95f7]
+- Updated dependencies [524d6af]
+- Updated dependencies [53e3ae0]
+- Updated dependencies [e6980aa]
+- Updated dependencies [3d2bf55]
+- Updated dependencies [809c64e]
+- Updated dependencies [bc1670a]
+- Updated dependencies [30f89d5]
+  - @modern-js/uni-builder@2.63.2
+  - @modern-js/utils@2.63.2
+  - @modern-js/server-core@2.63.2
+  - @modern-js/types@2.63.2
+  - @modern-js/core@2.63.2
+  - @modern-js/server@2.63.2
+  - @modern-js/plugin-v2@2.63.2
+  - @modern-js/plugin-data-loader@2.63.2
+  - @modern-js/plugin-i18n@2.63.2
+  - @modern-js/prod-server@2.63.2
+  - @modern-js/server-utils@2.63.2
+  - @modern-js/node-bundle-require@2.63.2
+  - @modern-js/plugin@2.63.2
+  - @modern-js/rsbuild-plugin-esbuild@2.63.2
+
 ## 2.63.1
 
 ### Patch Changes

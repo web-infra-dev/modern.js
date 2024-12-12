@@ -1,5 +1,7 @@
 # @modern-js/bff-generator
 
+## 3.7.8
+
 ## 3.7.7
 
 ## 3.7.6

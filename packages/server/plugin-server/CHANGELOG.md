@@ -1,5 +1,17 @@
 # @modern-js/plugin-server
 
+## 2.63.2
+
+### Patch Changes
+
+- 3d2bf55: feat: add route info into unstable_middleware context
+  feat: 添加路由信息到 unstable_middleware 上下文中
+- Updated dependencies [5fc95f7]
+- Updated dependencies [53e3ae0]
+  - @modern-js/utils@2.63.2
+  - @modern-js/server-utils@2.63.2
+  - @modern-js/runtime-utils@2.63.2
+
 ## 2.63.1
 
 ### Patch Changes
