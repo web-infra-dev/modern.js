@@ -4,8 +4,8 @@ import {
   ROUTE_SPEC_FILE,
   fs as fse,
 } from '@modern-js/utils';
+import { nodeDepEmit as handleDependencies } from 'ndepe';
 import { isMainEntry } from '../../../utils/routes';
-import { handleDependencies } from '../dependencies';
 import {
   type PluginItem,
   genPluginImportsCode,
@@ -169,8 +169,11 @@ export const createVercelPreset: CreatePreset = (
       }
       await handleDependencies({
         appDir: appDirectory,
-        serverRootDir: funcsDirectory,
+        sourceDir: funcsDirectory,
         includeEntries: [require.resolve('@modern-js/prod-server')],
+        copyWholePackage(pkgName) {
+          return pkgName === '@modern-js/utils';
+        },
       });
     },
   };
