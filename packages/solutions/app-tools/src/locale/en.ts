@@ -17,6 +17,7 @@ export const EN_LOCALE = {
     },
     build: {
       describe: 'build the app for production',
+      watch: 'turn on watch mode, watch for changes and rebuild',
     },
     serve: { describe: 'preview the production build locally' },
     deploy: { describe: 'deploy the application' },
