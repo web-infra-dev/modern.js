@@ -5,7 +5,7 @@ import {
   chalk,
   fs as fse,
 } from '@modern-js/utils';
-import { handleDependencies } from '../dependencies';
+import { nodeDepEmit as handleDependencies } from 'ndepe';
 import {
   type PluginItem,
   genPluginImportsCode,
@@ -96,8 +96,11 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       // Because @modern-js/prod-server is an implicit dependency of the entry, so we add it to the include here.
       await handleDependencies({
         appDir: appDirectory,
-        serverRootDir: outputDirectory,
+        sourceDir: outputDirectory,
         includeEntries: [require.resolve('@modern-js/prod-server')],
+        copyWholePackage(pkgName) {
+          return pkgName === '@modern-js/utils';
+        },
         entryFilter: filter,
       });
     },

@@ -48,11 +48,6 @@
       "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
       "default": "./dist/cjs/exports/server.js"
-    },
-    "./deploy": {
-      "types": "./dist/types/plugins/deploy/exports.d.ts",
-      "jsnext:source": "./src/plugins/deploy/exports.ts",
-      "default": "./dist/cjs/plugins/deploy/exports.js"
     }
   },
   "engines": {
@@ -116,6 +111,7 @@
     "flatted": "^3.2.9",
     "mlly": "^1.6.1",
     "pkg-types": "^1.1.0",
+    "ndepe": "0.1.4",
     "std-env": "^3.7.0"
   },
   "devDependencies": {
