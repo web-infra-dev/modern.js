@@ -150,7 +150,7 @@ class IncomingMessgeProxy {
 function createRequestHandlerConfig(
   userConfig: UserConfig,
 ): RequestHandlerConfig {
-  const { output, server, security, html } = userConfig;
+  const { output, server, security, html, source } = userConfig;
 
   return {
     ssr: server?.ssr,
@@ -161,5 +161,6 @@ function createRequestHandlerConfig(
     crossorigin: html?.crossorigin,
     scriptLoading: html?.scriptLoading,
     useJsonScript: server?.useJsonScript,
+    enableAsyncEntry: source?.enableAsyncEntry,
   };
 }
