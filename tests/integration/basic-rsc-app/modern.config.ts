@@ -48,9 +48,11 @@ export default applyBaseConfig({
     ssr: {
       mode: 'stream',
     },
+    rsc: true,
   },
   source: {
     enableCustomEntry: true,
+    preEntry: './src/polyfill.ts',
   },
   output: {
     minify: false,
@@ -63,11 +65,6 @@ export default applyBaseConfig({
     },
 
     webpack(config) {
-      // @ts-ignore
-      // config.entry.main = {
-      //   import: [config.entry.main[0]],
-      //   layer: webpackRscLayerName,
-      // };
       config.experiments = {
         ...config.experiments,
         layers: true,
@@ -77,10 +74,6 @@ export default applyBaseConfig({
     bundlerChain(chain, { isServer }) {
       if (isServer) {
         chain.name('server');
-        // chain.entryPoints.clear();
-        // chain.entry('main').add({
-        //   import: [path.resolve(__dirname, './src/index.server.tsx')],
-        // });
 
         chain.experiments({
           ...chain.experiments,
@@ -146,7 +139,7 @@ export default applyBaseConfig({
             // /server\/requestHandler/, // 会调用 getInitialContext，getInitialContext，getGlobalAppInit 有点类似于组件入口了
             // /RootProxy/, // 引入 App.tsx 的文件
             // /index\.server/,
-            /src\/Root/,
+            /AppProxy/,
             // /index\.server/,
             // /App\.tsx/,
             // /runtime-global-context/,

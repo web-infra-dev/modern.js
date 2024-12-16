@@ -18,6 +18,7 @@ export const renderRsc = (options: RenderRscOptions) => {
   const payload = options.returnValue
     ? { returnValue: options.returnValue, root: options.element }
     : options.element;
+
   const readable = renderToReadableStream(payload, options.clientManifest);
   return readable;
 };

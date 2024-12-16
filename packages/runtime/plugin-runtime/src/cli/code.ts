@@ -170,13 +170,33 @@ export const generateCode = async (
         await fs.outputFile(registerRuntimeFile, registerRuntimeCode, 'utf8');
 
         // runtime-global-context.js
-        const contextCode = template.runtimeGlobalContext({
-          srcDirectory,
-          internalSrcAlias,
-          metaName,
-          entry,
-          customEntry,
-        });
+        let contextCode = '';
+        if (!config.server.rsc) {
+          contextCode = template.runtimeGlobalContext({
+            srcDirectory,
+            internalSrcAlias,
+            metaName,
+            entry,
+            customEntry,
+          });
+        } else {
+          const AppProxyPath = path.join(
+            internalDirectory,
+            entryName,
+            './AppProxy.jsx',
+          );
+          const appProxyCode = template.AppProxyForRSC({
+            srcDirectory,
+            internalSrcAlias,
+            metaName,
+            entry,
+            customEntry,
+          });
+          await fs.outputFile(AppProxyPath, appProxyCode);
+          contextCode = template.runtimeGlobalContextForRSC({
+            metaName,
+          });
+        }
         const contextFile = path.resolve(
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,

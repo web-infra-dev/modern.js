@@ -43,7 +43,7 @@ type Elements = Promise<ReactNode[]>;
 
 const ElementsContext = createContext<Elements | null>(null);
 
-// 为了用户传递的是 element，而不是 Component
+// For users to pass an element, not a Component.
 export const ServerElementsProvider = ({
   elements,
   children,
@@ -59,7 +59,7 @@ export const ServerElementsProvider = ({
   );
 };
 
-export const ServerSlot = () => {
+export const RSCServerSlot = () => {
   const elements = useContext(ElementsContext);
   return <>{elements}</>;
 };

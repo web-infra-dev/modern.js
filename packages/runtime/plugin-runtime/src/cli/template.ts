@@ -160,5 +160,65 @@ export const runtimeGlobalContext = ({
 }) => {
   return `import { setGlobalContext } from '@${metaName}/runtime/context'
 
-setGlobalContext({});`;
+import App from '${
+    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
+    formatImportPath(
+      customEntry
+        ? entry
+            .replace('entry.tsx', 'App')
+            .replace(srcDirectory, internalSrcAlias)
+        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
+    )
+  }';
+
+setGlobalContext({
+  App,
+});`;
+};
+
+export const runtimeGlobalContextForRSC = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `import { setGlobalContext } from '@${metaName}/runtime/context'
+
+ import AppProxy from './AppProxy';
+
+setGlobalContext({
+  App: AppProxy,
+});`;
+};
+
+export const AppProxyForRSC = ({
+  srcDirectory,
+  internalSrcAlias,
+  metaName,
+  entry,
+  customEntry,
+}: {
+  srcDirectory: string;
+  internalSrcAlias: string;
+  metaName: string;
+  entry: string;
+  customEntry?: boolean;
+}) => {
+  return `
+  import App from '${
+    // We need to get the path of App.tsx here, but the entry is `src/entry.tsx`
+    formatImportPath(
+      customEntry
+        ? entry
+            .replace('entry.tsx', 'App')
+            .replace(srcDirectory, internalSrcAlias)
+        : entry.replace(srcDirectory, internalSrcAlias).replace('.tsx', ''),
+    )
+  }';
+
+   import React from 'react';
+
+    export default function Root() {
+      return React.createElement(App, null);
+    }
+  `;
 };

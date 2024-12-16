@@ -73,9 +73,9 @@ export class RscServerPlugin {
       resource: string,
       layer?: string,
     ) => {
-      const [entry, ...otherEntries] = compilation.entries.entries();
+      const entries = Array.from(compilation.entries.entries());
 
-      if (!entry) {
+      if (entries.length === 0) {
         compilation.errors.push(
           new WebpackError(`Could not find an entry in the compilation.`),
         );
@@ -83,52 +83,45 @@ export class RscServerPlugin {
         return;
       }
 
-      if (otherEntries.length > 0) {
-        compilation.warnings.push(
-          new WebpackError(
-            `Found multiple entries in the compilation, adding module include for ${resource} only to the first entry.`,
-          ),
-        );
-      }
+      const includePromises = entries.map(([entryName]) => {
+        const dependency = EntryPlugin.createDependency(resource, {
+          name: resource,
+        });
 
-      const [entryName] = entry;
+        return new Promise<void>((resolve, reject) => {
+          compilation.addInclude(
+            compiler.context,
+            dependency,
+            { name: entryName, layer },
+            (error, module) => {
+              if (error) {
+                compilation.errors.push(error);
+                return reject(error);
+              }
 
-      const dependency = EntryPlugin.createDependency(resource, {
-        name: resource,
+              if (!module) {
+                const noModuleError = new WebpackError(`Module not added`);
+                noModuleError.file = resource;
+                compilation.errors.push(noModuleError);
+
+                return reject(noModuleError);
+              }
+
+              const runtime = getEntryRuntime(compilation, entryName, {
+                name: entryName,
+              });
+
+              compilation.moduleGraph
+                .getExportsInfo(module)
+                .setUsedInUnknownWay(runtime);
+
+              resolve();
+            },
+          );
+        });
       });
 
-      return new Promise<void>((resolve, reject) => {
-        compilation.addInclude(
-          compiler.context,
-          dependency,
-          { name: entryName, layer },
-          (error, module) => {
-            if (error) {
-              compilation.errors.push(error);
-
-              return reject(error);
-            }
-
-            if (!module) {
-              const noModuleError = new WebpackError(`Module not added`);
-              noModuleError.file = resource;
-              compilation.errors.push(noModuleError);
-
-              return reject(noModuleError);
-            }
-
-            const runtime = getEntryRuntime(compilation, entryName, {
-              name: entryName,
-            });
-
-            compilation.moduleGraph
-              .getExportsInfo(module)
-              .setUsedInUnknownWay(runtime);
-
-            resolve();
-          },
-        );
-      });
+      await Promise.all(includePromises);
     };
 
     let needsAdditionalPass = false;

@@ -5706,6 +5706,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.3.1
+      isomorphic-fetch:
+        specifier: ^3.0.0
+        version: 3.0.0(encoding@0.1.13)
       typescript:
         specifier: ^5
         version: 5.4.5
@@ -26387,7 +26390,7 @@ snapshots:
       detect-libc: 2.0.3
       https-proxy-agent: 5.0.1
       make-dir: 3.1.0
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.7.0(encoding@0.1.13)
       nopt: 5.0.0
       npmlog: 5.0.1
       rimraf: 3.0.2
@@ -34949,7 +34952,7 @@ snapshots:
 
   isomorphic-fetch@3.0.0(encoding@0.1.13):
     dependencies:
-      node-fetch: 2.6.7(encoding@0.1.13)
+      node-fetch: 2.7.0(encoding@0.1.13)
       whatwg-fetch: 3.6.2
     transitivePeerDependencies:
       - encoding

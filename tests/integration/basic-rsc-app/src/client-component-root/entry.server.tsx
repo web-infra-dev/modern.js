@@ -1,25 +1,19 @@
-import { ServerSlot } from '@modern-js/render/client';
+import { RSCServerSlot } from '@modern-js/render/client';
 import { createRoot } from '@modern-js/runtime/react';
 import {
   createRequestHandler,
   renderStreaming,
 } from '@modern-js/runtime/ssr/server';
-import type { ReactNode } from 'react';
-import Root from './Root';
 
 const handleRequest = async (request, ServerRoot, options) => {
-  const DefaultRoot = ({ children }: { children: ReactNode }) => (
-    <>{children}</>
-  );
-  const ModernRoot = createRoot(DefaultRoot);
   const body = await renderStreaming(
     request,
-    <ModernRoot>
-      <ServerSlot />
-    </ModernRoot>,
+    <ServerRoot>
+      <RSCServerSlot />
+    </ServerRoot>,
     {
       ...options,
-      rscRoot: <Root />,
+      rscRoot: <options.rscRoot />,
     },
   );
 
@@ -31,6 +25,8 @@ const handleRequest = async (request, ServerRoot, options) => {
   });
 };
 
-const requestHandler = createRequestHandler(handleRequest);
+const requestHandler = createRequestHandler(handleRequest, {
+  enableRsc: true,
+});
 
 export default requestHandler;

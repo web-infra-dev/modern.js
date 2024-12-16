@@ -1,6 +1,6 @@
 import path from 'node:path';
 import MagicString from 'magic-string';
-import type { LoaderContext } from 'webpack';
+import type { LoaderContext, Module } from 'webpack';
 import {
   type ClientReference,
   type ClientReferencesMap,
@@ -21,12 +21,24 @@ export type RscServerLoaderOptions = {
   runtimeExport: string;
 };
 
+function findRootIssuer(module: Module): Module {
+  let currentModule = module;
+  while (currentModule?.issuer) {
+    currentModule = currentModule.issuer;
+  }
+
+  return currentModule;
+}
+
 export default async function rscServerLoader(
   this: LoaderContext<RscServerLoaderOptions>,
   source: string,
   sourceMap: SourceMap,
 ) {
   this.cacheable(true);
+  if (this.resourcePath.includes('App')) {
+    console.log('mmmmmmmmmmm', findRootIssuer(this._module!).rawRequest);
+  }
   const callback = this.async();
   const clientReferences: ClientReference[] = [];
   const { resourcePath } = this;
