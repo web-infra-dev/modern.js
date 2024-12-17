@@ -9,6 +9,7 @@ import {
   ROUTE_MANIFEST_FILE,
   SERVER_BUNDLE_DIRECTORY,
   compatibleRequire,
+  isProd,
 } from '@modern-js/utils';
 import type {
   Middleware,
@@ -147,6 +148,11 @@ export const injectResourcePlugin = (): ServerPlugin => ({
     return {
       async prepare() {
         const { middlewares, routes, distDirectory: pwd } = api.useAppContext();
+
+        // In Production, should warmup server bundles on prepare.
+        if (isProd()) {
+          getServerManifest(pwd, routes || [], console);
+        }
 
         middlewares.push({
           name: 'inject-server-manifest',
