@@ -33,6 +33,8 @@ import type {
   Module as WebpackModule,
 } from 'webpack';
 
+export const webpackRscLayerName = `react-server`;
+
 export type SourceMap = Parameters<LoaderDefinitionFunction>[1];
 
 export const MODERN_RSC_INFO = 'modernRscInfo';

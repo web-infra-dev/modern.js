@@ -6,6 +6,7 @@ import {
 } from '@rsbuild/core';
 import { compatLegacyPlugin } from '../shared/compatLegacyPlugin';
 import { parseCommonConfig } from '../shared/parseCommonConfig';
+import { rscRsbuildPlugin } from '../shared/rsc/plugins/rsc-rsbuild-plugin';
 import { SERVICE_WORKER_ENVIRONMENT_NAME } from '../shared/utils';
 import type {
   CreateBuilderCommonOptions,
@@ -29,6 +30,8 @@ export async function parseConfig(
     options,
   );
 
+  const enableRsc = uniBuilderConfig.server?.rsc ?? false;
+
   rsbuildPlugins.push(
     pluginBabel(
       {
@@ -40,6 +43,10 @@ export async function parseConfig(
     ),
   );
   rsbuildPlugins.push(pluginReact());
+
+  if (enableRsc) {
+    rsbuildPlugins.push(rscRsbuildPlugin());
+  }
 
   if (uniBuilderConfig.tools?.tsLoader) {
     const { pluginTsLoader } = await import('./plugins/tsLoader');

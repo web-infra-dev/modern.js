@@ -36,9 +36,6 @@ export default async function rscServerLoader(
   sourceMap: SourceMap,
 ) {
   this.cacheable(true);
-  if (this.resourcePath.includes('App')) {
-    console.log('mmmmmmmmmmm', findRootIssuer(this._module!).rawRequest);
-  }
   const callback = this.async();
   const clientReferences: ClientReference[] = [];
   const { resourcePath } = this;

@@ -5,6 +5,7 @@ import {
   getRscBuildInfo,
   isCssModule,
   sharedData,
+  webpackRscLayerName,
 } from '../common';
 import type { ClientReferencesMap } from '../common';
 
@@ -18,7 +19,6 @@ export interface ModuleExportsInfo {
   readonly exportName: string;
 }
 
-export const webpackRscLayerName = `react-server`;
 export class RscServerPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
   private serverReferencesMap: ServerReferencesMap = new Map();
