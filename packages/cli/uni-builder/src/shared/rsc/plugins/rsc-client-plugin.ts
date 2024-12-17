@@ -1,4 +1,5 @@
 import type Webpack from 'webpack';
+import type { Module } from 'webpack';
 import {
   type ClientManifest,
   type ClientReferencesMap,
@@ -50,44 +51,46 @@ export class RscClientPlugin {
       }
     }
 
-    const getEntryModule = (compilation: Webpack.Compilation) => {
-      const [entryTuple, ...otherEntries] = compilation.entries.entries();
-      if (!entryTuple) {
+    const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
+      const entryModules: Webpack.Module[] = [];
+
+      // console.log('entries', compilation.entries.entries());
+
+      for (const [, entryValue] of compilation.entries.entries()) {
+        const entryDependency = entryValue.dependencies.find(
+          dependency => dependency.constructor.name === `EntryDependency`,
+        );
+
+        if (!entryDependency) {
+          compilation.errors.push(
+            new WebpackError(`Could not find an entry dependency.`),
+          );
+          continue;
+        }
+
+        const resolvedModule =
+          compilation.moduleGraph.getResolvedModule(entryDependency);
+
+        if (resolvedModule) {
+          entryModules.push(resolvedModule);
+        }
+      }
+
+      if (entryModules.length === 0) {
         compilation.errors.push(
-          new WebpackError(`Could not find an entry in the compilation.`),
+          new WebpackError(`Could not find any entries in the compilation.`),
         );
-
-        return;
+        return [];
       }
 
-      if (otherEntries.length > 0) {
-        compilation.warnings.push(
-          new WebpackError(
-            `Found multiple entries in the compilation, adding client reference chunks only to the first entry.`,
-          ),
-        );
-      }
-
-      const [, entryValue] = entryTuple;
-
-      const entryDependency = entryValue.dependencies.find(
-        dependency => dependency.constructor.name === `EntryDependency`,
-      );
-
-      if (!entryDependency) {
-        compilation.errors.push(
-          new WebpackError(`Could not find an entry dependency.`),
-        );
-
-        return;
-      }
-
-      return compilation.moduleGraph.getResolvedModule(entryDependency);
+      return entryModules;
     };
 
     const addClientReferencesChunks = (entryModule: Webpack.Module) => {
       [...this.clientReferencesMap.keys()].forEach((resourcePath, index) => {
         const chunkName = `client${index}`;
+
+        console.log('return22222222', chunkName);
 
         const block = new AsyncDependenciesBlock(
           { name: chunkName },
@@ -109,9 +112,9 @@ export class RscClientPlugin {
 
     compiler.hooks.finishMake.tap(RscClientPlugin.name, compilation => {
       if (compiler.watchMode) {
-        const entryModule = getEntryModule(compilation);
+        const entryModules = getEntryModule(compilation);
 
-        if (entryModule) {
+        for (const entryModule of entryModules) {
           // Remove stale client references.
           entryModule.blocks = entryModule.blocks.filter(block =>
             block.dependencies.some(
@@ -150,12 +153,13 @@ export class RscClientPlugin {
         const onNormalModuleFactoryParser = (
           parser: Webpack.javascript.JavascriptParser,
         ) => {
-          compilation.assetsInfo;
           parser.hooks.program.tap(RscClientPlugin.name, () => {
-            const entryModule = getEntryModule(compilation);
+            const entryModules = getEntryModule(compilation);
 
-            if (entryModule === parser.state.module) {
-              addClientReferencesChunks(entryModule);
+            for (const entryModule of entryModules) {
+              if (entryModule === parser.state.module) {
+                addClientReferencesChunks(entryModule);
+              }
             }
           });
         };

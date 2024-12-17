@@ -14,6 +14,16 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
         const styles = new Set<string>();
         const babelHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
+          const entryPath2Name = new Map<string, string>();
+
+          for (const [name, entry] of Object.entries(
+            chain.entryPoints.entries(),
+          )) {
+            entry.values().forEach(value => {
+              entryPath2Name.set(value as unknown as string, name);
+            });
+          }
+
           if (originalJsRule) {
             const babelLoaderOptions = chain.module
               .rule(CHAIN_ID.RULE.JS)
@@ -30,6 +40,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
               .loader(require.resolve('../rsc-server-loader'))
               .options({
                 runtimeExport: '@modern-js/render/rsc',
+                entryPath2Name,
               })
               .end()
               .use(CHAIN_ID.USE.BABEL)

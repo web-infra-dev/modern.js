@@ -5,6 +5,7 @@ import { Counter } from './components/Counter';
 
 const App = () => {
   const context = useRuntimeContext();
+  console.log('888888888888', typeof context);
   return (
     <>
       <div className="container">

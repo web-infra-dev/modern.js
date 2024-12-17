@@ -19,6 +19,7 @@ import {
 
 export type RscServerLoaderOptions = {
   runtimeExport: string;
+  entryPath2Name: Map<string, string>;
 };
 
 function findRootIssuer(module: Module): Module {
@@ -39,13 +40,13 @@ export default async function rscServerLoader(
   const callback = this.async();
   const clientReferences: ClientReference[] = [];
   const { resourcePath } = this;
+  const { entryPath2Name } = this.getOptions();
   const ast = await parseSource(source);
   const isClientComponent = await isClientModule(ast);
   const runtimeExport =
     this.getOptions().runtimeExport || 'react-server-dom-webpack/server';
 
   if (isClientComponent) {
-    // TODO: should be changed to runtime of modern.js
     const importsCode = `
 'use client';
 
@@ -72,10 +73,14 @@ function createClientReferenceProxy(exportName) {
       .join('\n');
 
     if (clientReferences.length > 0) {
+      const entryPath = findRootIssuer(this._module!).rawRequest as string;
+      const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'client',
         resourcePath,
         clientReferences,
+        __entryName: entryName,
+        __entryPath: entryPath,
       });
     }
 
@@ -89,10 +94,14 @@ function createClientReferenceProxy(exportName) {
       .filter(Boolean) as string[];
 
     if (serverReferenceExportNames.length > 0) {
+      const entryPath = findRootIssuer(this._module!).rawRequest as string;
+      const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'server',
         resourcePath,
         exportNames: serverReferenceExportNames,
+        __entryName: entryName,
+        __entryPath: entryPath,
       });
     }
 

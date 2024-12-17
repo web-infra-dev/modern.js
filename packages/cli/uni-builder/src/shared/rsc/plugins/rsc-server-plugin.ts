@@ -19,6 +19,13 @@ export interface ModuleExportsInfo {
   readonly exportName: string;
 }
 
+const resourcePath2Entry = new Map<
+  string,
+  {
+    entryName: string;
+    entryPath: string;
+  }
+>();
 export class RscServerPlugin {
   private clientReferencesMap: ClientReferencesMap = new Map();
   private serverReferencesMap: ServerReferencesMap = new Map();
@@ -71,6 +78,7 @@ export class RscServerPlugin {
     const includeModule = async (
       compilation: Webpack.Compilation,
       resource: string,
+      resourceEntryName: string,
       layer?: string,
     ) => {
       const entries = Array.from(compilation.entries.entries());
@@ -83,43 +91,45 @@ export class RscServerPlugin {
         return;
       }
 
-      const includePromises = entries.map(([entryName]) => {
-        const dependency = EntryPlugin.createDependency(resource, {
-          name: resource,
+      const includePromises = entries
+        .filter(([entryName]) => entryName === resourceEntryName)
+        .map(([entryName]) => {
+          const dependency = EntryPlugin.createDependency(resource, {
+            name: resource,
+          });
+
+          return new Promise<void>((resolve, reject) => {
+            compilation.addInclude(
+              compiler.context,
+              dependency,
+              { name: entryName, layer },
+              (error, module) => {
+                if (error) {
+                  compilation.errors.push(error);
+                  return reject(error);
+                }
+
+                if (!module) {
+                  const noModuleError = new WebpackError(`Module not added`);
+                  noModuleError.file = resource;
+                  compilation.errors.push(noModuleError);
+
+                  return reject(noModuleError);
+                }
+
+                const runtime = getEntryRuntime(compilation, entryName, {
+                  name: entryName,
+                });
+
+                compilation.moduleGraph
+                  .getExportsInfo(module)
+                  .setUsedInUnknownWay(runtime);
+
+                resolve();
+              },
+            );
+          });
         });
-
-        return new Promise<void>((resolve, reject) => {
-          compilation.addInclude(
-            compiler.context,
-            dependency,
-            { name: entryName, layer },
-            (error, module) => {
-              if (error) {
-                compilation.errors.push(error);
-                return reject(error);
-              }
-
-              if (!module) {
-                const noModuleError = new WebpackError(`Module not added`);
-                noModuleError.file = resource;
-                compilation.errors.push(noModuleError);
-
-                return reject(noModuleError);
-              }
-
-              const runtime = getEntryRuntime(compilation, entryName, {
-                name: entryName,
-              });
-
-              compilation.moduleGraph
-                .getExportsInfo(module)
-                .setUsedInUnknownWay(runtime);
-
-              resolve();
-            },
-          );
-        });
-      });
 
       await Promise.all(includePromises);
     };
@@ -161,6 +171,11 @@ export class RscServerPlugin {
                 buildInfo.exportNames,
               );
             }
+
+            resourcePath2Entry.set(buildInfo.resourcePath, {
+              entryName: buildInfo.__entryName,
+              entryPath: buildInfo.__entryPath,
+            });
           }
 
           return hasChangeReference;
@@ -176,7 +191,11 @@ export class RscServerPlugin {
         await Promise.all([
           ...clientReferences.map(async resource => {
             try {
-              await includeModule(compilation, resource);
+              await includeModule(
+                compilation,
+                resource,
+                resourcePath2Entry.get(resource)?.entryName || '',
+              );
             } catch (error) {
               console.error('error', error);
               hasChangeReference = true;
@@ -185,7 +204,12 @@ export class RscServerPlugin {
           }),
           ...serverReferences.map(async resource => {
             try {
-              await includeModule(compilation, resource, webpackRscLayerName);
+              await includeModule(
+                compilation,
+                resource,
+                resourcePath2Entry.get(resource)?.entryName || '',
+                webpackRscLayerName,
+              );
             } catch (error) {
               console.error('error', error);
               hasChangeReference = true;
@@ -217,6 +241,7 @@ export class RscServerPlugin {
     compiler.hooks.done.tap(RscServerPlugin.name, () => {
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
+      sharedData.set('resourcePath2Entry', resourcePath2Entry);
     });
 
     compiler.hooks.thisCompilation.tap(
