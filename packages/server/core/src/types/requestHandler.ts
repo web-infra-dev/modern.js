@@ -1,5 +1,5 @@
 import type { Logger, Metrics, Reporter, ServerRoute } from '@modern-js/types';
-import type { ServerUserConfig } from './config';
+import type { ServerUserConfig, SourceUserConfig } from './config';
 
 export type Resource = {
   loadableStats: Record<string, any>;
@@ -20,6 +20,7 @@ export type RequestHandlerConfig = {
   ssr?: ServerUserConfig['ssr'];
   ssrByEntries?: ServerUserConfig['ssrByEntries'];
   useJsonScript?: ServerUserConfig['useJsonScript'];
+  enableAsyncEntry?: SourceUserConfig['enableAsyncEntry'];
 };
 
 export type LoaderContext = Map<string, any>;

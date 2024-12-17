@@ -5,9 +5,9 @@ import type { ChunkSet, Collector } from './types';
 
 declare module '@loadable/server' {
   export interface ChunkExtractor {
-    chunks: Chunk;
+    chunks: string[];
 
-    getChunkAssets: (chunks: Chunk) => Chunk[];
+    getChunkAssets: (chunks: string[]) => Chunk[];
   }
 }
 
@@ -66,6 +66,7 @@ export interface LoadableCollectorConfig {
   enableInlineStyles?: boolean | RegExp;
   enableInlineScripts?: boolean | RegExp;
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
+  enableAsyncEntry?: boolean;
 }
 
 export class LoadableCollector implements Collector {
@@ -101,10 +102,20 @@ export class LoadableCollector implements Collector {
     if (!this.extractor) {
       return;
     }
-    const { extractor } = this;
+    const { extractor, options } = this;
+    const { entryName, config } = options;
+    const asyncChunks = [];
+    if (config.enableAsyncEntry) {
+      try {
+        asyncChunks.push(...extractor.getChunkAssets([`async-${entryName}`]));
+      } catch (e) {
+        // TODO add log, now runtime not inject logger instance
+      }
+    }
 
-    const chunks = extractor.getChunkAssets(extractor.chunks);
-
+    const chunks = ([] as Chunk[])
+      .concat(asyncChunks)
+      .concat(extractor.getChunkAssets(extractor.chunks));
     const scriptChunks = generateChunks(chunks, 'js');
     const styleChunks = generateChunks(chunks, 'css');
 
@@ -192,7 +203,7 @@ export class LoadableCollector implements Collector {
   }
 
   private async emitStyleAssets(chunks: Chunk[]) {
-    const { template, chunkSet, config } = this.options;
+    const { template, chunkSet, config, entryName } = this.options;
 
     const { enableInlineStyles } = config;
 
