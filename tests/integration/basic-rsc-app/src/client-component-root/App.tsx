@@ -1,4 +1,5 @@
 'use client';
+import 'client-only';
 import { useRuntimeContext } from '@modern-js/runtime';
 import './App.css';
 import { Counter } from './components/Counter';

@@ -90,8 +90,6 @@ export class RscClientPlugin {
       [...this.clientReferencesMap.keys()].forEach((resourcePath, index) => {
         const chunkName = `client${index}`;
 
-        console.log('return22222222', chunkName);
-
         const block = new AsyncDependenciesBlock(
           { name: chunkName },
           undefined,

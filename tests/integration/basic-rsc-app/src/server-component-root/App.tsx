@@ -1,7 +1,9 @@
+import 'server-only';
 import './App.css';
 import { Counter } from './components/Counter';
 
 const App = () => {
+  console.log('server-only111111111');
   return (
     <>
       <div className="container">

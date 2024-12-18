@@ -26,6 +26,10 @@ describe('test basic rsc app', () => {
     );
   });
 
+  afterAll(async () => {
+    await killApp(app);
+  });
+
   describe('test client component root', () => {
     const baseUrl = `client-component-root`;
     it('should render page correctly', async () => {
@@ -40,8 +44,6 @@ describe('test basic rsc app', () => {
       const pageText = await res.text();
 
       expect(pageText?.trim()).toContain('Get started by editing');
-
-      await killApp(app);
     });
   });
 
@@ -59,8 +61,6 @@ describe('test basic rsc app', () => {
       const pageText = await res.text();
 
       expect(pageText?.trim()).toContain('Get started by editing');
-
-      await killApp(app);
     });
   });
 });

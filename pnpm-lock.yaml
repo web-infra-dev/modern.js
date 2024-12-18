@@ -5678,12 +5678,18 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../packages/runtime/plugin-runtime
+      client-only:
+        specifier: ^0.0.1
+        version: 0.0.1
       react:
         specifier: '19.0.0-rc-e1ef8c95-20241115 '
         version: 19.0.0-rc-e1ef8c95-20241115
       react-dom:
         specifier: '19.0.0-rc-e1ef8c95-20241115 '
         version: 19.0.0-rc-e1ef8c95-20241115(react@19.0.0-rc-e1ef8c95-20241115)
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -14277,6 +14283,9 @@ packages:
   cli-width@3.0.0:
     resolution: {integrity: sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==}
     engines: {node: '>= 10'}
+
+  client-only@0.0.1:
+    resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
 
   clipboardy@4.0.0:
     resolution: {integrity: sha512-5mOlNS0mhX0707P2I0aZ2V/cmHUEO/fL7VFLqszkhUsxt7RwnmrInf/eEQKlf5GzvYeHIjT+Ov1HRfNmymlG0w==}
@@ -31739,6 +31748,8 @@ snapshots:
       string-width: 5.1.2
 
   cli-width@3.0.0: {}
+
+  client-only@0.0.1: {}
 
   clipboardy@4.0.0:
     dependencies:
