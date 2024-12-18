@@ -84,6 +84,17 @@ export function getHookRunners(
       const result = await (hooks as any)?.appendEntryCode.call(params);
       return result;
     },
+    // test plugin hooks
+    jestConfig: async (utils: any) => {
+      const result = await (hooks as any)?.jestConfig.call(
+        utils,
+        (utils: any) => utils,
+      );
+      return result;
+    },
+    afterTest: async () => {
+      return (hooks as any).afterTest.call();
+    },
 
     /**
      * common hooks
@@ -192,9 +203,17 @@ export function handleSetupResult(
     if (typeof fn === 'function') {
       const newAPI = transformHookRunner(key);
       if (api[newAPI]) {
-        api[newAPI](async (params: any) =>
-          transformHookResult(key, await fn(transformHookParams(key, params))),
-        );
+        api[newAPI](async (...params: any) => {
+          const { isMultiple, params: transformParams } = transformHookParams(
+            key,
+            params,
+          );
+          if (isMultiple) {
+            transformHookResult(key, await fn(...transformParams));
+          } else {
+            transformHookResult(key, await fn(transformParams));
+          }
+        });
       }
     }
   });
