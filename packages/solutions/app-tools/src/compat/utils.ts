@@ -66,11 +66,11 @@ export function transformHookParams(hookRunnerName: string, params: any) {
         isMultiple: false,
         params: {
           partials: {
-            top: params.partials.top.current,
-            head: params.partials.head.current,
-            body: params.partials.body.current,
+            top: params[0].partials.top.current,
+            head: params[0].partials.head.current,
+            body: params[0].partials.body.current,
           },
-          entrypoint: params.entrypoint,
+          entrypoint: params[0].entrypoint,
         },
       };
     case 'jestConfig': {
