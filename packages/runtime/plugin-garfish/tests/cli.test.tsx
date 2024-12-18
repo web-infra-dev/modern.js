@@ -1,10 +1,12 @@
 import '@testing-library/jest-dom';
-import { manager, CliPlugin } from '@modern-js/core';
+import { type AppTools } from '@modern-js/app-tools';
 import WebpackChain from '@modern-js/utils/webpack-chain';
-import type { AppUserConfig } from '@modern-js/app-tools';
 import { garfishPlugin, externals } from '../src/cli';
-import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
+import { createPluginManager, Plugin } from '@modern-js/plugin-v2';
+import runtimePlugin from '@modern-js/runtime/cli';
+import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
+import path from 'path';
 
 const CHAIN_ID = {
   PLUGIN: {
@@ -12,41 +14,86 @@ const CHAIN_ID = {
   },
 };
 
+async function setup(config: any) {
+  const pluginManager = createPluginManager();
+
+  pluginManager.addPlugins([runtimePlugin() as Plugin, garfishPlugin() as Plugin]);
+  const plugins = pluginManager.getPlugins();
+  const context = await createContext<AppTools>({
+    appContext: {
+      plugins,
+      appDirectory: path.join(__dirname, './feature'),
+    } as any,
+    config: config,
+    normalizedConfig: { ...config, plugins: [] } as any,
+  });
+  const pluginAPI = {
+    ...initPluginAPI<AppTools>({
+      context,
+      pluginManager,
+    }),
+    checkEntryPoint: ({ path, entry }: any) => {
+      return { path, entry };
+    },
+    modifyEntrypoints: ({ entrypoints }: any) => {
+      return { entrypoints };
+    },
+    generateEntryCode: async ({ entrypoints }: any) => {},
+    _internalRuntimePlugins: ({ entrypoint, plugins }: any) => {
+      return { entrypoint, plugins };
+    },
+    addRuntimeExports: () => {},
+    modifyFileSystemRoutes: () => {},
+    onBeforeGenerateRoutes: () => {},
+  };
+  pluginAPI.config(() => {
+    return config
+  })
+  pluginAPI.modifyResolvedConfig(() => {
+    return config
+  })
+  for (const plugin of plugins) {
+    await plugin.setup(pluginAPI);
+  }
+  return pluginAPI;
+}
+
 describe('plugin-garfish cli', () => {
-  test('cli garfish basename', async () => {
+  test('cli garfish instance', async () => {
     expect(garfishPlugin().name).toBe('@modern-js/plugin-garfish');
+  });
 
-    const main = manager.clone().usePlugin(garfishPlugin as CliPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const configHistoryOptions: any = await runner.resolvedConfig({
-      resolved: {
-        runtime: {
-          router: {
-            historyOptions: { basename: '/test' },
-          },
-          masterApp: {},
+  test('test config historyOptions', async () => {
+    const pluginAPI = await setup({
+      runtime: {
+        router: {
+          historyOptions: { basename: '/test' },
         },
+        masterApp: {},
       },
-    } as any);
-
-    expect(configHistoryOptions.resolved.runtime.masterApp.basename).toBe(
+    });
+    const hooks = pluginAPI.getHooks();
+    const configHistory: any = await hooks.modifyResolvedConfig.call({} as any);
+    expect(configHistory.runtime.masterApp.basename).toBe(
       '/test',
     );
+  })
 
-    const configHistory: any = await runner.resolvedConfig({
-      resolved: {
-        runtime: {
-          router: {
-            basename: '/test2',
-          },
-          masterApp: {},
+  test('test config basename', async () => {
+    const pluginAPI = await setup({
+      runtime: {
+        router: {
+          basename: '/test2',
         },
+        masterApp: {},
       },
-    } as any);
-
-    expect(configHistory.resolved.runtime.masterApp.basename).toBe('/test2');
-  });
+    });
+    const hooks = pluginAPI.getHooks();
+    const configHistory: any = await hooks.modifyResolvedConfig.call({} as any);
+    expect(configHistory.runtime.masterApp.basename).toBe(
+      '/test2',
+    );
+  })
 
   test('cli get runtime config', () => {
     const runtimeConfig = getRuntimeConfig({
@@ -107,7 +154,10 @@ describe('plugin-garfish cli', () => {
   });
 
   test('webpack config close external and use js entry', async () => {
-    const resolveConfig: any = {
+    const webpackConfig = new WebpackChain();
+    function HTMLWebpackPlugin() {}
+    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+    const pluginAPI = await setup({
       deploy: {
         microFrontend: {
           externalBasicLibrary: true,
@@ -117,23 +167,10 @@ describe('plugin-garfish cli', () => {
       server: {
         port: 8080,
       },
-    };
-
-    const main = manager
-      .clone({
-        useResolvedConfigContext: () => resolveConfig,
-      })
-      .usePlugin(garfishPlugin as CliPlugin);
-
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
-
-    function HTMLWebpackPlugin() {}
-    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
-
-    config[0].tools.bundlerChain(webpackConfig, {
+    });
+    const hooks = pluginAPI.getHooks();
+    const configs: any = await hooks.config.call();
+    configs[5].tools.bundlerChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development',
       CHAIN_ID,
@@ -147,7 +184,6 @@ describe('plugin-garfish cli', () => {
         },
       }
     });
-
     const generateConfig = webpackConfig.toConfig();
     expect(generateConfig).toMatchSnapshot();
     expect(generateConfig).toMatchObject({
@@ -159,31 +195,24 @@ describe('plugin-garfish cli', () => {
       externals,
       optimization: { runtimeChunk: false, splitChunks: { chunks: 'async' } },
     });
-  });
+
+  })
 
   test('webpack config default micro config', async () => {
-    const resolveConfig: any = {
+    const webpackConfig = new WebpackChain();
+    function HTMLWebpackPlugin() {}
+    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+    const pluginAPI = await setup({
       deploy: {
         microFrontend: true,
       },
       server: {
         port: '8080',
       },
-    };
-
-    const main = manager
-      .clone({
-        useResolvedConfigContext: () => resolveConfig,
-      })
-      .usePlugin(garfishPlugin as CliPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config: any = await runner.config();
-    const webpackConfig = new WebpackChain();
-    function HTMLWebpackPlugin() {}
-    webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
-
-    config[0].tools.bundlerChain(webpackConfig, {
+    });
+    const hooks = pluginAPI.getHooks();
+    const configs: any = await hooks.config.call();
+    configs[5].tools.bundlerChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development',
       CHAIN_ID,
@@ -197,9 +226,8 @@ describe('plugin-garfish cli', () => {
         },
       }
     });
-
     const generateConfig = webpackConfig.toConfig();
-    expect(config[0].tools.devServer).toMatchObject({
+    expect(configs[5].tools.devServer).toMatchObject({
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
@@ -214,30 +242,21 @@ describe('plugin-garfish cli', () => {
     });
     expect(generateConfig.externals).toBeUndefined();
     expect(generateConfig.output!.filename).toBeUndefined();
-  });
+  })
 
   test('micro fronted default config disableCssExtract false', async () => {
-    const resolveConfig: Partial<UseConfig> = {
+    const pluginAPI = await setup({
       deploy: {
         microFrontend: {},
       },
-    };
-
-    const main = manager
-      .clone({
-        useResolvedConfigContext: () => resolveConfig as any,
-        useConfigContext: () => resolveConfig,
-      })
-      .usePlugin(garfishPlugin as CliPlugin);
-
-    const runner = await main.init();
-    await runner.prepare();
-    const config = (await runner.config()) as AppUserConfig[];
-    expect(config[0].output!.disableCssExtract).toBe(false);
-  });
+    });
+    const hooks = pluginAPI.getHooks();
+    const configs: any = await hooks.config.call();
+    expect(configs[5].output!.disableCssExtract).toBe(false);
+  })
 
   test('micro fronted js entry disableCssExtract true', async () => {
-    const resolveConfig: Partial<UseConfig> = {
+    const pluginAPI = await setup({
       output: {
         disableCssExtract: false,
       },
@@ -246,32 +265,17 @@ describe('plugin-garfish cli', () => {
           enableHtmlEntry: false,
         },
       },
-    };
-
-    const main = manager
-      .clone({
-        useResolvedConfigContext: () => resolveConfig as any,
-        useConfigContext: () => resolveConfig,
-      })
-      .usePlugin(garfishPlugin as CliPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config = (await runner.config()) as AppUserConfig[];
-    expect(config[0].output!.disableCssExtract).toBe(true);
-  });
+    });
+    const hooks = pluginAPI.getHooks();
+    const configs: any = await hooks.config.call();
+    expect(configs[5].output!.disableCssExtract).toBe(true);
+  })
 
   test('normal disableCssExtract false', async () => {
-    const resolveConfig: Partial<UseConfig> = {};
+    const pluginAPI = await setup({})
+    const hooks = pluginAPI.getHooks();
+    const configs: any = await hooks.config.call();
+    expect(configs[5].output!.disableCssExtract).toBe(false);
+  })
 
-    const main = manager
-      .clone({
-        useResolvedConfigContext: () => resolveConfig as any,
-        useConfigContext: () => resolveConfig,
-      })
-      .usePlugin(garfishPlugin as CliPlugin);
-    const runner = await main.init();
-    await runner.prepare();
-    const config = (await runner.config()) as AppUserConfig[];
-    expect(config[0].output!.disableCssExtract).toBe(false);
-  });
 });
