@@ -48,6 +48,10 @@ export function transformHookRunner(hookRunnerName: string) {
   }
 }
 
+/**
+ * Note:
+ * isMultiple Indicates whether the function parameter represents multiple values.
+ */
 export function transformHookParams(hookRunnerName: string, params: any) {
   switch (hookRunnerName) {
     case 'resolvedConfig':

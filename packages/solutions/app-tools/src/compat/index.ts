@@ -41,7 +41,7 @@ export const compatPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   registryHooks: {
     appendEntryCode: createCollectAsyncHook<AppendEntryCodeFn>(),
     jestConfig: createAsyncHook<JestConfigFn>(),
-    afterHest: createAsyncHook<AfterTestFn>(),
+    afterTest: createAsyncHook<AfterTestFn>(),
   },
   setup: api => {
     api.updateAppContext({
