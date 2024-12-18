@@ -11,7 +11,6 @@ import type { ClientReferencesMap } from '../common';
 
 export interface RscServerPluginOptions {
   readonly serverManifestFilename?: string;
-  readonly styles?: Set<string>;
 }
 
 export interface ModuleExportsInfo {
@@ -33,7 +32,7 @@ export class RscServerPlugin {
   private serverManifestFilename: string;
   private styles: Set<string>;
   constructor(options: RscServerPluginOptions) {
-    this.styles = options.styles ?? new Set();
+    this.styles = new Set();
 
     this.serverManifestFilename =
       options?.serverManifestFilename || `react-server-manifest.json`;
@@ -242,6 +241,7 @@ export class RscServerPlugin {
       sharedData.set('serverReferencesMap', this.serverReferencesMap);
       sharedData.set('clientReferencesMap', this.clientReferencesMap);
       sharedData.set('resourcePath2Entry', resourcePath2Entry);
+      sharedData.set('styles', this.styles);
     });
 
     compiler.hooks.thisCompilation.tap(

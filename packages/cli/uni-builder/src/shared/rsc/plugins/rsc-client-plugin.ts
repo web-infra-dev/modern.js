@@ -11,7 +11,6 @@ import {
 export interface RscClientPluginOptions {
   readonly clientManifestFilename?: string;
   readonly ssrManifestFilename?: string;
-  readonly styles?: Set<string>;
 }
 
 export class RscClientPlugin {
@@ -20,14 +19,12 @@ export class RscClientPlugin {
   private ssrManifestFilename: string;
   private styles?: Set<string>;
 
-  constructor(options: RscClientPluginOptions) {
+  constructor(options?: RscClientPluginOptions) {
     this.clientManifestFilename =
-      options.clientManifestFilename || `react-client-manifest.json`;
+      options?.clientManifestFilename || `react-client-manifest.json`;
 
     this.ssrManifestFilename =
       options?.ssrManifestFilename || `react-ssr-manifest.json`;
-
-    this.styles = options.styles;
   }
 
   apply(compiler: Webpack.Compiler): void {
@@ -145,6 +142,7 @@ export class RscClientPlugin {
     compiler.hooks.thisCompilation.tap(
       RscClientPlugin.name,
       (compilation, { normalModuleFactory }) => {
+        this.styles = sharedData.get('styles') as Set<string>;
         this.clientReferencesMap = sharedData.get(
           'clientReferencesMap',
         ) as ClientReferencesMap;

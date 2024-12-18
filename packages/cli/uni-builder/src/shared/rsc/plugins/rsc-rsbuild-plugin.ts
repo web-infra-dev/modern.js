@@ -10,8 +10,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain({
-      handler: async (chain, { isServer, CHAIN_ID, environment }) => {
-        const styles = new Set<string>();
+      handler: async (chain, { isServer, CHAIN_ID }) => {
         const babelHandler = () => {
           const originalJsRule = chain.module.rules.get(CHAIN_ID.RULE.JS);
           const entryPath2Name = new Map<string, string>();
@@ -91,7 +90,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
         };
 
         const addServerRscPlugin = () => {
-          chain.plugin('rsc-server-plugin').use(RscServerPlugin, [{ styles }]);
+          chain.plugin('rsc-server-plugin').use(RscServerPlugin);
         };
 
         const addRscClientLoader = () => {
@@ -104,7 +103,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
         };
 
         const addRscClientPlugin = () => {
-          chain.plugin('rsc-client-plugin').use(RscClientPlugin, [{ styles }]);
+          chain.plugin('rsc-client-plugin').use(RscClientPlugin);
         };
 
         if (isServer) {

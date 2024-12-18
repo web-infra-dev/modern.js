@@ -4,6 +4,8 @@ import {
   createRequestHandler,
   renderStreaming,
 } from '@modern-js/runtime/ssr/server';
+// import AppProxy from './AppProxy';
+// console.log('aaaaaaa', AppProxy);
 
 const handleRequest = async (request, ServerRoot, options) => {
   const body = await renderStreaming(

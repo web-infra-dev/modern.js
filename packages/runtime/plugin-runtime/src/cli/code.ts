@@ -193,13 +193,21 @@ export const generateCode = async (
             customEntry,
           });
           await fs.outputFile(AppProxyPath, appProxyCode);
-          contextCode = template.runtimeGlobalContextForRSC({
+          contextCode = template.runtimeGlobalContextForRSCClient({
             metaName,
           });
+          const contextServerCode = template.runtimeGlobalContextForRSCServer({
+            metaName,
+          });
+          const contextFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.server.js`,
+          );
+          await fs.outputFile(contextFile, contextServerCode, 'utf8');
         }
         const contextFile = path.resolve(
           internalDirectory,
-          `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}`,
+          `./${entryName}/${ENTRY_POINT_RUNTIME_GLOBAL_CONTEXT_FILE_NAME}.js`,
         );
         await fs.outputFile(contextFile, contextCode, 'utf8');
       }

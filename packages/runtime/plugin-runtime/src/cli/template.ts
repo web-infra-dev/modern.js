@@ -176,7 +176,7 @@ setGlobalContext({
 });`;
 };
 
-export const runtimeGlobalContextForRSC = ({
+export const runtimeGlobalContextForRSCServer = ({
   metaName,
 }: {
   metaName: string;
@@ -187,6 +187,17 @@ export const runtimeGlobalContextForRSC = ({
 
 setGlobalContext({
   App: AppProxy,
+});`;
+};
+
+export const runtimeGlobalContextForRSCClient = ({
+  metaName,
+}: {
+  metaName: string;
+}) => {
+  return `import { setGlobalContext } from '@${metaName}/runtime/context'
+
+setGlobalContext({
 });`;
 };
 
