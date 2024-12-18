@@ -48,23 +48,42 @@ export function transformHookRunner(hookRunnerName: string) {
   }
 }
 
+/**
+ * Note:
+ * isMultiple Indicates whether the function parameter represents multiple values.
+ */
 export function transformHookParams(hookRunnerName: string, params: any) {
   switch (hookRunnerName) {
     case 'resolvedConfig':
       return {
-        resolved: params,
+        isMultiple: false,
+        params: {
+          resolved: params[0],
+        },
       };
     case 'htmlPartials':
       return {
-        partials: {
-          top: params.partials.top.current,
-          head: params.partials.head.current,
-          body: params.partials.body.current,
+        isMultiple: false,
+        params: {
+          partials: {
+            top: params.partials.top.current,
+            head: params.partials.head.current,
+            body: params.partials.body.current,
+          },
+          entrypoint: params.entrypoint,
         },
-        entrypoint: params.entrypoint,
       };
+    case 'jestConfig': {
+      return {
+        isMultiple: true,
+        params: params,
+      };
+    }
     default:
-      return params;
+      return {
+        isMultiple: false,
+        params: params[0],
+      };
   }
 }
 
