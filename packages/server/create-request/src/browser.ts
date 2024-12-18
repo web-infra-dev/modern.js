@@ -5,8 +5,8 @@ import type {
   BFFRequestPayload,
   IOptions,
   RequestCreator,
-  RequestUploader,
   Sender,
+  UploadCreator,
 } from './types';
 import { getUploadPayload } from './utiles';
 
@@ -34,13 +34,14 @@ export const configure = (options: IOptions) => {
   }
 };
 
-export const createRequest: RequestCreator = (
+export const createRequest: RequestCreator = ({
   path,
   method,
   port,
   httpMethodDecider = 'functionName', // 后续可能要修改，暂时先保留
   fetch = originFetch,
-) => {
+  domain,
+}) => {
   const getFinalPath = compile(path, { encode: encodeURIComponent });
   const keys: Key[] = [];
   pathToRegexp(path, keys);
@@ -119,6 +120,9 @@ export const createRequest: RequestCreator = (
 
     headers.accept = `application/json,*/*;q=0.8`;
 
+    if (domain) {
+      finalURL = `${domain}${finalURL}`;
+    }
     return fetcher(finalURL, {
       method,
       body,
@@ -129,11 +133,15 @@ export const createRequest: RequestCreator = (
   return sender;
 };
 
-export const createUploader: RequestUploader = (path: string) => {
+export const createUploader: UploadCreator = ({ path, domain }) => {
   const sender: Sender = (...args) => {
     const fetcher = realRequest || originFetch;
     const { body, headers } = getUploadPayload(args);
-    return fetcher(path, { method: 'POST', body, headers });
+    return fetcher(domain ? `${domain}${path}` : path, {
+      method: 'POST',
+      body,
+      headers,
+    });
   };
 
   return sender;

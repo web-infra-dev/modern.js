@@ -23,6 +23,7 @@ export async function compatibleRequire(
       const modulePath = isAbsolute(path) ? pathToFileURL(path).href : path;
       if (process.env.NODE_ENV === 'development') {
         const timestamp = Date.now();
+
         requiredModule = await import(`${modulePath}?t=${timestamp}`);
       } else {
         requiredModule = await import(modulePath);

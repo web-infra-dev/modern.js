@@ -49,6 +49,7 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
       };
 
       const pluginImportCode = genPluginImportsCode(plugins || []);
+
       const dynamicProdOptions = {
         config: serverConfig,
         serverConfigFile: DEFAULT_SERVER_CONFIG,
@@ -70,6 +71,8 @@ export const createNodePreset: CreatePreset = (appContext, config) => {
         .replace('p_sharedDirectory', serverAppContext.sharedDirectory)
         .replace('p_apiDirectory', serverAppContext.apiDirectory)
         .replace('p_lambdaDirectory', serverAppContext.lambdaDirectory);
+
+      console.log('isEsmProject', isEsmProject);
 
       if (isEsmProject) {
         // We will not modify the entry file for the time, because we have not yet converted all the packages available for esm.

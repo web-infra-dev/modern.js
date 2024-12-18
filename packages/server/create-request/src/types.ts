@@ -16,15 +16,25 @@ export type Sender<F = typeof fetch> = ((...args: any[]) => Promise<any>) & {
   fetch?: F;
 };
 
+export type RequestOptions<F = typeof fetch> = {
+  path: string;
+  method: string;
+  port: number;
+  httpMethodDecider?: HttpMethodDecider;
+  domain?: string;
+  fetch?: F;
+};
+
 export type RequestCreator<F = typeof fetch> = (
-  path: string,
-  method: string,
-  port: number,
-  httpMethodDecider: HttpMethodDecider,
-  fetch?: F,
+  options: RequestOptions<F>,
 ) => Sender;
 
-export type RequestUploader = (path: string) => Sender;
+export type UploadOptions = {
+  path: string;
+  domain?: string;
+};
+
+export type UploadCreator = (options: UploadOptions) => Sender;
 
 export type IOptions<F = typeof fetch> = {
   request?: F;
