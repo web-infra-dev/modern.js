@@ -209,9 +209,9 @@ export function handleSetupResult(
             params,
           );
           if (isMultiple) {
-            transformHookResult(key, await fn(...transformParams));
+            return transformHookResult(key, await fn(...transformParams));
           } else {
-            transformHookResult(key, await fn(transformParams));
+            return transformHookResult(key, await fn(transformParams));
           }
         });
       }
