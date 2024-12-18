@@ -1,5 +1,36 @@
 # @modern-js/app-tools
 
+## 2.63.3
+
+### Patch Changes
+
+- 35d8b79: fix: compat jest plugin hooks
+
+  fix: 兼容 jest 插件 hooks 函数
+
+- 6f1222f: fix: compat htmlPartials hooks result error
+
+  fix: 修复兼容 htmlPartials 钩子函数时返回值错误
+
+- 9049f80: fix(deploy): should handle prebundle package correctly
+  fix(deploy): 应该正确地处理 prebundle 的包
+- Updated dependencies [5c97ec2]
+- Updated dependencies [e5b16df]
+  - @modern-js/server-core@2.63.3
+  - @modern-js/plugin-data-loader@2.63.3
+  - @modern-js/prod-server@2.63.3
+  - @modern-js/server@2.63.3
+  - @modern-js/server-utils@2.63.3
+  - @modern-js/core@2.63.3
+  - @modern-js/plugin-i18n@2.63.3
+  - @modern-js/rsbuild-plugin-esbuild@2.63.3
+  - @modern-js/uni-builder@2.63.3
+  - @modern-js/node-bundle-require@2.63.3
+  - @modern-js/plugin@2.63.3
+  - @modern-js/plugin-v2@2.63.3
+  - @modern-js/types@2.63.3
+  - @modern-js/utils@2.63.3
+
 ## 2.63.2
 
 ### Patch Changes

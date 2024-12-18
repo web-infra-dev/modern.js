@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.63.3
+
+### Patch Changes
+
+- 9c93579: fix(doc): update doc routing link
+  fix(doc): 更新文档自控路由链接
+  - @modern-js/sandpack-react@2.63.3
+
 ## 2.63.2
 
 ### Patch Changes
