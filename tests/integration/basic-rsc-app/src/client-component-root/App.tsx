@@ -6,11 +6,11 @@ import { Counter } from './components/Counter';
 
 const App = () => {
   const context = useRuntimeContext();
-  console.log('888888888888', typeof context);
   return (
     <>
       <div className="container">
         <main>
+          <div className="use-agent">{typeof context.request?.userAgent}</div>
           <div className="logo">
             <img
               src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png"
