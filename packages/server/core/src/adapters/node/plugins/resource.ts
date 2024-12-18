@@ -41,10 +41,12 @@ export async function getHtmlTemplates(pwd: string, routes: ServerRoute[]) {
 export function injectTemplates(
   pwd: string,
   routes?: ServerRoute[],
+  htmlTemplatePromise?: ReturnType<typeof getHtmlTemplates>,
 ): Middleware<ServerEnv> {
   return async (c, next) => {
     if (routes && !c.get('templates')) {
-      const templates = await getHtmlTemplates(pwd, routes);
+      const templates = await (htmlTemplatePromise ||
+        getHtmlTemplates(pwd, routes));
       c.set('templates', templates);
     }
 
@@ -149,9 +151,13 @@ export const injectResourcePlugin = (): ServerPlugin => ({
       async prepare() {
         const { middlewares, routes, distDirectory: pwd } = api.useAppContext();
 
+        let htmlTemplatePromise:
+          | ReturnType<typeof getHtmlTemplates>
+          | undefined;
         // In Production, should warmup server bundles on prepare.
         if (isProd()) {
           getServerManifest(pwd, routes || [], console);
+          htmlTemplatePromise = getHtmlTemplates(pwd, routes || []);
         }
 
         middlewares.push({
@@ -163,7 +169,7 @@ export const injectResourcePlugin = (): ServerPlugin => ({
         middlewares.push({
           name: 'inject-html',
 
-          handler: injectTemplates(pwd, routes),
+          handler: injectTemplates(pwd, routes, htmlTemplatePromise),
         });
       },
     };
