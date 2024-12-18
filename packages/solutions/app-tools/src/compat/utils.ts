@@ -1,3 +1,5 @@
+import { getModifyHtmlPartials } from '../plugins/analyze/getHtmlTemplate';
+
 /**
  * Maps old plugin hook function names to new plugin API names
  */
@@ -91,6 +93,11 @@ export function transformHookResult(hookRunnerName: string, result: any) {
   switch (hookRunnerName) {
     case 'resolvedConfig':
       return result.resolved;
+    case 'htmlPartials':
+      return {
+        partials: getModifyHtmlPartials(result.partials),
+        entrypoint: result.entrypoint,
+      };
     default:
       return result;
   }
