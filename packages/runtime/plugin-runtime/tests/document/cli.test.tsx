@@ -1,46 +1,66 @@
 import { existsSync } from 'fs';
 import path from 'path';
-import { type CliPlugin, type IAppContext, manager } from '@modern-js/core';
+import {
+  type CLIPluginAPI,
+  type Plugin,
+  createPluginManager,
+} from '@modern-js/plugin-v2';
+import { createContext, initPluginAPI } from '@modern-js/plugin-v2/cli';
 
+import type { AppTools, AppToolsContext } from '@modern-js/app-tools';
 import { getBundleEntry } from '../../../../solutions/app-tools/src/plugins/analyze/getBundleEntry';
 import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';
 
 describe('plugin runtime cli', () => {
-  const main = manager.clone().usePlugin(documentPlugin as CliPlugin);
-  let runner: any;
-
+  let pluginAPI: CLIPluginAPI<AppTools>;
+  const setup = async ({ appDirectory }: { appDirectory: string }) => {
+    const pluginManager = createPluginManager();
+    pluginManager.addPlugins([documentPlugin() as Plugin]);
+    const plugins = pluginManager.getPlugins();
+    const context = await createContext<AppTools>({
+      appContext: {
+        appDirectory,
+        plugins,
+      } as any,
+      config: {},
+      normalizedConfig: { plugins: [] } as any,
+    });
+    pluginAPI = initPluginAPI<AppTools>({
+      context,
+      pluginManager,
+    });
+    context.pluginAPI = pluginAPI;
+    for (const plugin of plugins) {
+      await plugin.setup(pluginAPI);
+    }
+  };
   beforeAll(async () => {
-    runner = await main.init();
+    await setup({ appDirectory: path.join(__dirname, './feature') });
   });
-
   it('plugin is defined', () => {
     expect(documentPlugin).toBeDefined();
   });
 
   it('plugin-document cli config is defined', async () => {
-    const config = await runner.config();
+    const hooks = pluginAPI.getHooks();
+    const config = await hooks.config.call();
     expect(config.find((item: any) => item.tools)).toBeTruthy();
     expect(config.find((item: any) => item.tools.htmlPlugin)).toBeTruthy();
   });
 
   it('plugin-document htmlPlugin can return the right', async () => {
-    const mockAPI = {
-      useAppContext: jest.fn((): any => ({
-        internalDirectory: path.join(__dirname, './feature'),
-        appDirectory: path.join(__dirname, './feature'),
-        entrypoints: [
-          {
-            entryName: 'main',
-            absoluteEntryDir: path.join(__dirname, './feature'),
-          },
-        ],
-      })),
-    };
-    const cloned = manager.clone(mockAPI);
-    cloned.usePlugin(documentPlugin as CliPlugin);
-    const runner2 = await cloned.init();
-    const config = await runner2.config();
-
+    pluginAPI.updateAppContext({
+      internalDirectory: path.join(__dirname, './feature'),
+      appDirectory: path.join(__dirname, './feature'),
+      entrypoints: [
+        {
+          entryName: 'main',
+          absoluteEntryDir: path.join(__dirname, './feature'),
+        },
+      ],
+    });
+    const hooks = pluginAPI.getHooks();
+    const config = await hooks.config.call();
     const { htmlPlugin } = (
       config.find((item: any) => item.tools.htmlPlugin)! as any
     ).tools;
@@ -77,12 +97,13 @@ describe('plugin runtime cli', () => {
     ).toBeTruthy();
   });
   it('when user config set empty entries and disableDefaultEntries true, should get the ', async () => {
+    const hooks: any = pluginAPI.getHooks();
     const entries = await getBundleEntry(
-      runner,
+      hooks,
       {
         internalDirectory: path.join(__dirname, './feature'),
         appDirectory: path.join(__dirname, './feature'),
-      } as IAppContext,
+      } as AppToolsContext<'shared'>,
       {
         source: {
           disableDefaultEntries: true,

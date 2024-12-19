@@ -1,6 +1,6 @@
 import path from 'path';
-import type { AppTools } from '@modern-js/app-tools';
-import type { PluginAPI } from '@modern-js/core';
+import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import type { Entrypoint } from '@modern-js/types';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import * as templates from './code/templates';
@@ -10,23 +10,28 @@ import { modifyEntrypoints } from './entry';
 let originEntrypoints: any[] = [];
 
 export async function handleModifyEntrypoints(
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   entrypoints: Entrypoint[],
 ) {
-  const config = api.useResolvedConfigContext();
+  const config = api.getNormalizedConfig();
   return modifyEntrypoints(entrypoints, config);
 }
 
 export async function handleGeneratorEntryCode(
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   entrypoints: Entrypoint[],
 ) {
-  const appContext = api.useAppContext();
-  const { internalDirectory } = api.useAppContext();
-  const resolvedConfig = api.useResolvedConfigContext();
+  const appContext = api.getAppContext();
+  const { internalDirectory } = appContext;
+  const resolvedConfig = api.getNormalizedConfig();
   const { generatorRegisterCode, generateCode } = await import('./code');
   originEntrypoints = cloneDeep(entrypoints);
-  await generateCode(appContext, resolvedConfig, entrypoints, api);
+  await generateCode(
+    appContext,
+    resolvedConfig as AppNormalizedConfig<'shared'>,
+    entrypoints,
+    api,
+  );
   await Promise.all(
     entrypoints.map(async entrypoint => {
       if (entrypoint.nestedRoutesEntry || entrypoint.pageRoutesEntry) {
@@ -48,10 +53,10 @@ export async function handleGeneratorEntryCode(
 }
 
 export async function handleFileChange(
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
   e: any,
 ) {
-  const appContext = api.useAppContext();
+  const appContext = api.getAppContext();
   const { appDirectory, entrypoints } = appContext;
   const { filename, eventType } = e;
   const nestedRouteEntries = entrypoints
@@ -70,9 +75,14 @@ export async function handleFileChange(
     isPageFile(absoluteFilePath) && isPageComponentFile(absoluteFilePath);
 
   if (isRouteComponent && (eventType === 'add' || eventType === 'unlink')) {
-    const resolvedConfig = api.useResolvedConfigContext();
+    const resolvedConfig = api.getNormalizedConfig();
     const { generateCode } = await import('./code');
     const entrypoints = cloneDeep(originEntrypoints);
-    await generateCode(appContext, resolvedConfig, entrypoints, api);
+    await generateCode(
+      appContext,
+      resolvedConfig as AppNormalizedConfig<'shared'>,
+      entrypoints,
+      api,
+    );
   }
 }
