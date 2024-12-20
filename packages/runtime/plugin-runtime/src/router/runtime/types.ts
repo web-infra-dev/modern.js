@@ -6,17 +6,6 @@ import type {
 } from '@modern-js/runtime-utils/router';
 import type { NestedRoute, PageRoute } from '@modern-js/types';
 
-declare global {
-  interface Window {
-    _SERVER_DATA?: {
-      router: {
-        baseUrl: string;
-        params: Record<string, string>;
-      };
-    };
-  }
-}
-
 export type SingleRouteConfig = RouteProps & {
   redirect?: string;
   routes?: SingleRouteConfig[];

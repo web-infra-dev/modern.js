@@ -23,17 +23,6 @@ import {
 import { modifyRoutesHook } from './hooks';
 import { getLocation, renderRoutes, urlJoin } from './utils';
 
-declare global {
-  interface Window {
-    _SERVER_DATA?: {
-      router: {
-        baseUrl: string;
-        params: Record<string, string>;
-      };
-    };
-  }
-}
-
 export type SingleRouteConfig = RouteProps & {
   redirect?: string;
   routes?: SingleRouteConfig[];
@@ -115,19 +104,12 @@ export const routerPlugin = (userConfig: RouterConfig = {}): Plugin => {
 
           const select = (pathname: string) =>
             serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
-          if (isBrow) {
-            window._SERVER_DATA = parsedJSONFromElement(
-              '__MODERN_SERVER_DATA__',
-            );
-          }
+
           const getRouteApp = () => {
             if (isBrow) {
               return (props: any) => {
                 const runtimeContext = useContext(RuntimeReactContext);
-                const baseUrl = (
-                  window._SERVER_DATA?.router.baseUrl ||
-                  select(location.pathname)
-                ).replace(/^\/*/, '/');
+                const baseUrl = select(location.pathname).replace(/^\/*/, '/');
                 const basename =
                   baseUrl === '/'
                     ? urlJoin(
