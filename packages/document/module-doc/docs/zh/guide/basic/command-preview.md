@@ -47,7 +47,6 @@ Options:
 
 - Storybook V7
 - Tailwind CSS 支持
-- Modern.js Runtime API
 
 关于这些功能，可以通过[「使用微生成器」](/guide/basic/use-micro-generator) 章节了解更多。
 

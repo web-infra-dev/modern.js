@@ -47,7 +47,6 @@ The following features can currently be enabled.
 
 - Storybook V7
 - Tailwind CSS support
-- Modern.js Runtime API
 
 You can learn more about these features in the [Using the micro generator](/guide/basic/use-micro-generator) section.
 
