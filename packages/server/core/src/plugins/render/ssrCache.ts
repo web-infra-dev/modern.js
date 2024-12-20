@@ -6,6 +6,7 @@ import type {
   CacheOptionProvider,
   Container,
 } from '@modern-js/types';
+import { removeTailSlash } from '@modern-js/utils';
 import { X_RENDER_CACHE } from '../../constants';
 import type {
   RequestHandler,
@@ -120,7 +121,7 @@ function computedKey(req: Request, cacheControl: CacheControl): string {
   // examples:
   // pathname1: '/api', pathname2: '/api/'
   // pathname1 as same as pathname2
-  const defaultKey = pathname.replace(/.+\/+$/, '');
+  const defaultKey = pathname === '/' ? pathname : removeTailSlash(pathname);
 
   if (customKey) {
     if (typeof customKey === 'string') {
