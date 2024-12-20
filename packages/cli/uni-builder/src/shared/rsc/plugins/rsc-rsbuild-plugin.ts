@@ -28,7 +28,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
               .rule(CHAIN_ID.RULE.JS)
               .use(CHAIN_ID.USE.BABEL)
               .get('options');
-            chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
+            originalJsRule.uses.delete(CHAIN_ID.USE.BABEL);
 
             const babelLoaderPath = require.resolve('babel-loader');
             chain.module
@@ -50,6 +50,9 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
               .oneOf('rsc-ssr')
               .use('rsc-ssr-loader')
               .loader(require.resolve('../rsc-ssr-loader'))
+              .options({
+                entryPath2Name,
+              })
               .end()
               .use(CHAIN_ID.USE.BABEL)
               .loader(babelLoaderPath)

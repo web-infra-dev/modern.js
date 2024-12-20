@@ -114,6 +114,16 @@
       "types": "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/cli/ssr/loadable-bundler-plugin.ts",
       "default": "./dist/cjs/cli/ssr/loadable-bundler-plugin.js"
+    },
+    "./rsc/server": {
+      "types": "./dist/types/rsc/server.d.ts",
+      "jsnext:source": "./src/rsc/server.ts",
+      "default": "./dist/esm/rsc/server.js"
+    },
+    "./rsc/client": {
+      "types": "./dist/types/rsc/client.d.ts",
+      "jsnext:source": "./src/rsc/client.ts",
+      "default": "./dist/esm/rsc/client.js"
     }
   },
   "typesVersions": {

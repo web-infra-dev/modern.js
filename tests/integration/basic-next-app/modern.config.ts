@@ -92,6 +92,15 @@ export default applyBaseConfig({
           layers: true,
         });
 
+        const entryPath2Name = new Map<string, string>();
+
+        for (const [name, entry] of Object.entries(
+          chain.entryPoints.entries(),
+        )) {
+          entry.values().forEach(value => {
+            entryPath2Name.set(value as unknown as string, name);
+          });
+        }
         const jsRule = chain.module.rule('js');
         const babelUse = jsRule.use('babel');
         const babelLoaderPath = require.resolve('babel-loader', {
@@ -116,8 +125,7 @@ export default applyBaseConfig({
           .use('rsc-server-loader')
           .loader(rscServerLoaderPath)
           .options({
-            clientReferencesMap,
-            serverReferencesMap,
+            entryPath2Name,
           })
           .end()
           .use('babel')
@@ -130,9 +138,6 @@ export default applyBaseConfig({
           .end()
           .use('rsc-ssr-loader')
           .loader(rscSsrLoaderPath)
-          .options({
-            serverReferencesMap,
-          })
           .end()
           .use('babel')
           .loader(babelLoaderPath)

@@ -2,8 +2,10 @@ import type Webpack from 'webpack';
 import {
   type ServerManifest,
   type ServerReferencesMap,
+  findRootIssuer,
   getRscBuildInfo,
   isCssModule,
+  setRscBuildInfo,
   sharedData,
   webpackRscLayerName,
 } from '../common';
@@ -77,7 +79,7 @@ export class RscServerPlugin {
     const includeModule = async (
       compilation: Webpack.Compilation,
       resource: string,
-      resourceEntryName: string,
+      resourceEntryName?: string,
       layer?: string,
     ) => {
       const entries = Array.from(compilation.entries.entries());
@@ -115,6 +117,10 @@ export class RscServerPlugin {
 
                   return reject(noModuleError);
                 }
+
+                setRscBuildInfo(module, {
+                  __entryName: entryName,
+                });
 
                 const runtime = getEntryRuntime(compilation, entryName, {
                   name: entryName,
@@ -165,15 +171,26 @@ export class RscServerPlugin {
               );
             } else if (buildInfo?.type === 'server' && !currentReference) {
               hasChangeReference = true;
+
               this.serverReferencesMap.set(
                 buildInfo.resourcePath,
                 buildInfo.exportNames,
               );
             }
 
+            let entryName = buildInfo.__entryName;
+            let entryPath = buildInfo.__entryPath;
+            // server component -> client -component(react-server layer) -> client component(default layer) -> server action(default layer) -> server action(react-server layer)
+            if (!entryName) {
+              const entryModule = findRootIssuer(module);
+              const entryModuleBuildInfo = getRscBuildInfo(entryModule);
+              entryName = entryModuleBuildInfo.__entryName;
+              entryPath = entryModuleBuildInfo.__entryPath;
+            }
+
             resourcePath2Entry.set(buildInfo.resourcePath, {
-              entryName: buildInfo.__entryName,
-              entryPath: buildInfo.__entryPath,
+              entryName,
+              entryPath,
             });
           }
 
@@ -203,6 +220,11 @@ export class RscServerPlugin {
           }),
           ...serverReferences.map(async resource => {
             try {
+              console.log(
+                'serverReferences11111111',
+                resourcePath2Entry.get(resource),
+                resource,
+              );
               await includeModule(
                 compilation,
                 resource,
@@ -232,6 +254,7 @@ export class RscServerPlugin {
           ) &&
             hasChangeReference)
         ) {
+          console.log('needsAdditionalPass11111111', needsAdditionalPass);
           needsAdditionalPass = true;
         }
       },
@@ -327,6 +350,17 @@ export class RscServerPlugin {
               if (moduleId === null) {
                 continue;
               }
+
+              // if (resource.includes('action')) {
+              //   console.log(
+              //     'rrrrrrrrrr',
+              //     resource,
+              //     module.layer,
+              //     moduleId,
+              //     webpackRscLayerName,
+              //     hasServerReferenceDependency(module),
+              //   );
+              // }
 
               if (
                 module.layer !== webpackRscLayerName &&

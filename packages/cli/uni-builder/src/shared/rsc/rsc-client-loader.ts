@@ -9,6 +9,7 @@ import {
 
 export type ClientLoaderOptions = {
   callServerImport?: string;
+  registerImport?: string;
 };
 
 export default async function rscClientLoader(
@@ -26,7 +27,10 @@ export default async function rscClientLoader(
     return;
   }
 
-  const { callServerImport = `@modern-js/runtime/rsc` } = this.getOptions();
+  const {
+    callServerImport = `@modern-js/runtime/rsc/client`,
+    registerImport = `@modern-js/runtime/rsc/client`,
+  } = this.getOptions();
 
   const buildInfo = sharedData.get<ServerReferencesModuleInfo>(
     this.resourcePath,
@@ -69,7 +73,7 @@ export default async function rscClientLoader(
   }
 
   const importsCode = `
-    import { createServerReference } from "react-server-dom-webpack/client";
+    import { createServerReference } from "${registerImport}";
     import { callServer } from "${callServerImport}";
   `;
 

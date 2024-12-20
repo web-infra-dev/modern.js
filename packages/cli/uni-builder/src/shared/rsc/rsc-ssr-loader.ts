@@ -1,7 +1,7 @@
 import type { LoaderContext } from 'webpack';
 import {
-  type ServerReferencesMap,
   type SourceMap,
+  findRootIssuer,
   getExportNames,
   isServerModule,
   parseSource,
@@ -9,7 +9,9 @@ import {
   sharedData,
 } from './common';
 
-export type RscSsrLoaderOptions = {};
+export type RscSsrLoaderOptions = {
+  entryPath2Name: Map<string, string>;
+};
 
 export default async function rscSsrLoader(
   this: LoaderContext<RscSsrLoaderOptions>,
@@ -18,6 +20,7 @@ export default async function rscSsrLoader(
 ) {
   this.cacheable(true);
   const callback = this.async();
+  const { entryPath2Name } = this.getOptions();
   const ast = await parseSource(source);
   const hasDeclareServerDirective = await isServerModule(ast);
   const resourcePath = this.resourcePath;

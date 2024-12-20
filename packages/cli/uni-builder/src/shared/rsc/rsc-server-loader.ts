@@ -3,9 +3,8 @@ import MagicString from 'magic-string';
 import type { LoaderContext, Module } from 'webpack';
 import {
   type ClientReference,
-  type ClientReferencesMap,
-  type ServerReferencesMap,
   type SourceMap,
+  findRootIssuer,
   getExportNames,
   isClientModule,
   parseSource,
@@ -22,15 +21,6 @@ export type RscServerLoaderOptions = {
   entryPath2Name: Map<string, string>;
 };
 
-function findRootIssuer(module: Module): Module {
-  let currentModule = module;
-  while (currentModule?.issuer) {
-    currentModule = currentModule.issuer;
-  }
-
-  return currentModule;
-}
-
 export default async function rscServerLoader(
   this: LoaderContext<RscServerLoaderOptions>,
   source: string,
@@ -43,8 +33,7 @@ export default async function rscServerLoader(
   const { entryPath2Name } = this.getOptions();
   const ast = await parseSource(source);
   const isClientComponent = await isClientModule(ast);
-  const runtimeExport =
-    this.getOptions().runtimeExport || 'react-server-dom-webpack/server';
+  const { runtimeExport = '@modern-js/runtime/rsc/server' } = this.getOptions();
 
   if (isClientComponent) {
     const importsCode = `
@@ -73,7 +62,7 @@ function createClientReferenceProxy(exportName) {
       .join('\n');
 
     if (clientReferences.length > 0) {
-      const entryPath = findRootIssuer(this._module!).rawRequest as string;
+      const entryPath = findRootIssuer(this._module!).resource as string;
       const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'client',
@@ -94,7 +83,7 @@ function createClientReferenceProxy(exportName) {
       .filter(Boolean) as string[];
 
     if (serverReferenceExportNames.length > 0) {
-      const entryPath = findRootIssuer(this._module!).rawRequest as string;
+      const entryPath = findRootIssuer(this._module!).resource as string;
       const entryName = entryPath2Name.get(entryPath);
       setRscBuildInfo(this._module!, {
         type: 'server',
@@ -117,7 +106,7 @@ function createClientReferenceProxy(exportName) {
       const useServerPos = moduleUseServerInfo ? moduleUseServerInfo.end : 0;
       ms.appendRight(
         useServerPos,
-        `\nimport { registerServerReference } from "react-server-dom-webpack/server";`,
+        `\nimport { registerServerReference } from "${runtimeExport}";`,
       );
 
       return callback(null, ms.toString());

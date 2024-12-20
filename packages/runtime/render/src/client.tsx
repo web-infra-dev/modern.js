@@ -5,14 +5,14 @@ import {
   useContext,
   useState,
 } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
 import {
   createFromFetch,
   createFromReadableStream,
+  createServerReference,
   encodeReply,
 } from 'react-server-dom-webpack/client.browser';
 export { rscStream } from 'rsc-html-stream/client';
-export { createFromReadableStream };
+export { createFromReadableStream, createServerReference };
 
 export async function callServer(id: string, args: any[]): Promise<any> {
   const response = fetch('/', {

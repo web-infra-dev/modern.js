@@ -29,7 +29,9 @@ import swc, {
 } from '@swc/core';
 import { Visitor } from '@swc/core/Visitor.js';
 import type {
+  Compilation,
   LoaderDefinitionFunction,
+  ModuleGraph,
   Module as WebpackModule,
 } from 'webpack';
 
@@ -328,4 +330,13 @@ export function getServerActions(ast: Module): ServerAction[] {
   const collector = new ServerActionCollector();
   collector.visitProgram(ast);
   return collector.getServerActions();
+}
+
+export function findRootIssuer(module: WebpackModule): WebpackModule {
+  let currentModule = module;
+  while (currentModule?.issuer) {
+    currentModule = currentModule.issuer;
+  }
+
+  return currentModule;
 }
