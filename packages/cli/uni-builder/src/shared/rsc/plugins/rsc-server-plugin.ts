@@ -157,7 +157,14 @@ export class RscServerPlugin {
               continue;
             }
 
-            sharedData.set(buildInfo?.resourcePath, buildInfo);
+            if (module.layer && buildInfo.type === 'server') {
+              sharedData.set(buildInfo?.resourcePath, buildInfo);
+            }
+
+            if (!module.layer && buildInfo.type === 'client') {
+              sharedData.set(buildInfo?.resourcePath, buildInfo);
+            }
+
             const currentReference =
               buildInfo?.type === 'client'
                 ? this.clientReferencesMap.get(buildInfo.resourcePath)
@@ -213,7 +220,7 @@ export class RscServerPlugin {
                 resourcePath2Entry.get(resource)?.entryName || '',
               );
             } catch (error) {
-              console.error('error', error);
+              console.error(error);
               hasChangeReference = true;
               this.clientReferencesMap.delete(resource);
             }
@@ -344,17 +351,6 @@ export class RscServerPlugin {
               if (moduleId === null) {
                 continue;
               }
-
-              // if (resource.includes('action')) {
-              //   console.log(
-              //     'rrrrrrrrrr',
-              //     resource,
-              //     module.layer,
-              //     moduleId,
-              //     webpackRscLayerName,
-              //     hasServerReferenceDependency(module),
-              //   );
-              // }
 
               if (
                 module.layer !== webpackRscLayerName &&

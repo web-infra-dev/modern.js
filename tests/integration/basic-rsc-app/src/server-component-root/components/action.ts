@@ -3,7 +3,7 @@ import 'server-only';
 import { getCountState, setCountState } from './ServerState';
 
 export async function greet(name: string) {
-  return 'Hi ';
+  return 'Hi';
 }
 
 export async function increment(num: number) {

@@ -71,5 +71,5 @@ export const ServerElementsProvider = ({
 
 export const RSCServerSlot = () => {
   const elements = useContext(ElementsContext);
-  return <>{elements}</>;
+  return elements;
 };
