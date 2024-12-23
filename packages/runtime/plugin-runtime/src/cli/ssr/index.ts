@@ -1,15 +1,15 @@
 import path from 'path';
 import type {
-  AppNormalizedConfig,
   AppTools,
-  CliPlugin,
-  PluginAPI,
+  AppToolsNormalizedConfig,
+  CliPluginFuture,
   ServerUserConfig,
 } from '@modern-js/app-tools';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import { LOADABLE_STATS_FILE, isUseSSRBundle } from '@modern-js/utils';
 import type { RsbuildPlugin } from '@rsbuild/core';
 
-const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
+const hasStringSSREntry = (userConfig: AppToolsNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
@@ -34,7 +34,7 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-const checkUseStringSSR = (config: AppNormalizedConfig): boolean => {
+const checkUseStringSSR = (config: AppToolsNormalizedConfig): boolean => {
   const { output } = config;
 
   // ssg is not support streaming ssr.
@@ -42,14 +42,16 @@ const checkUseStringSSR = (config: AppNormalizedConfig): boolean => {
   return Boolean(output?.ssg) || hasStringSSREntry(config);
 };
 
-const ssrBuilderPlugin = (modernAPI: PluginAPI<AppTools>): RsbuildPlugin => ({
+const ssrBuilderPlugin = (
+  modernAPI: CLIPluginAPI<AppTools<'shared'>>,
+): RsbuildPlugin => ({
   name: '@modern-js/builder-plugin-ssr',
 
   setup(api) {
     api.modifyEnvironmentConfig((config, { name, mergeEnvironmentConfig }) => {
       const isServerEnvironment =
         config.output.target === 'node' || name === 'workerSSR';
-      const userConfig = modernAPI.useResolvedConfigContext();
+      const userConfig = modernAPI.getNormalizedConfig();
 
       const useLoadablePlugin =
         isUseSSRBundle(userConfig) &&
@@ -81,78 +83,74 @@ const ssrBuilderPlugin = (modernAPI: PluginAPI<AppTools>): RsbuildPlugin => ({
   },
 });
 
-export const ssrPlugin = (): CliPlugin<AppTools> => ({
+export const ssrPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-ssr',
 
   required: ['@modern-js/runtime'],
 
   setup: api => {
-    const appContext = api.useAppContext();
-    return {
-      // for bundle
-      config() {
-        const { bundlerType = 'webpack' } = api.useAppContext();
-        const babelHandler = (() => {
-          // In webpack build, we should let `useLoader` support CSR & SSR both.
-          if (bundlerType === 'webpack') {
-            return (config: any) => {
-              const userConfig = api.useResolvedConfigContext();
-              // Add id for useLoader method,
-              // The useLoader can be used even if the SSR is not enabled
+    const appContext = api.getAppContext();
+
+    api.config(() => {
+      const { bundlerType = 'webpack' } = api.getAppContext();
+      const babelHandler = (() => {
+        // In webpack build, we should let `useLoader` support CSR & SSR both.
+        if (bundlerType === 'webpack') {
+          return (config: any) => {
+            const userConfig = api.getNormalizedConfig();
+            // Add id for useLoader method,
+            // The useLoader can be used even if the SSR is not enabled
+            config.plugins?.push(
+              path.join(__dirname, './babel-plugin-ssr-loader-id'),
+            );
+
+            if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
+              config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+            }
+          };
+        } else if (bundlerType === 'rspack') {
+          // In Rspack build, we need transform the babel-loader again.
+          // It would increase performance overhead,
+          // so we only use useLoader in CSR on Rspack build temporarily.
+          return (config: any) => {
+            const userConfig = api.useResolvedConfigContext();
+            if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
               config.plugins?.push(
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
+              config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+            }
+          };
+        }
+      })();
 
-              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-              }
-            };
-          } else if (bundlerType === 'rspack') {
-            // In Rspack build, we need transform the babel-loader again.
-            // It would increase performance overhead,
-            // so we only use useLoader in CSR on Rspack build temporarily.
-            return (config: any) => {
-              const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
-                config.plugins?.push(
-                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
-                );
-                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-              }
-            };
-          }
-        })();
-
-        return {
-          builderPlugins: [ssrBuilderPlugin(api)],
-          source: {
-            alias: {
-              // ensure that all packages use the same storage in @modern-js/runtime-utils/node
-              '@modern-js/runtime-utils/node$': require.resolve(
-                '@modern-js/runtime-utils/node',
-              ),
-            },
+      return {
+        builderPlugins: [ssrBuilderPlugin(api)],
+        source: {
+          alias: {
+            // ensure that all packages use the same storage in @modern-js/runtime-utils/node
+            '@modern-js/runtime-utils/node$': require.resolve(
+              '@modern-js/runtime-utils/node',
+            ),
           },
-          tools: {
-            babel: babelHandler,
-            bundlerChain: (chain, { isServer }) => {
-              if (isServer && appContext.moduleType === 'module') {
-                chain.output
-                  .libraryTarget('module')
-                  .set('chunkFormat', 'module');
-                chain.output.library({
-                  type: 'module',
-                });
-                chain.experiments({
-                  ...chain.get('experiments'),
-                  outputModule: true,
-                });
-              }
-            },
+        },
+        tools: {
+          babel: babelHandler,
+          bundlerChain: (chain, { isServer }) => {
+            if (isServer && appContext.moduleType === 'module') {
+              chain.output.libraryTarget('module').set('chunkFormat', 'module');
+              chain.output.library({
+                type: 'module',
+              });
+              chain.experiments({
+                ...chain.get('experiments'),
+                outputModule: true,
+              });
+            }
           },
-        };
-      },
-    };
+        },
+      };
+    });
   },
 });
 

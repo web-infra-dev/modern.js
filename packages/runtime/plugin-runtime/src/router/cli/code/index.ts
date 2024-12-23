@@ -1,6 +1,10 @@
 import path from 'path';
-import type { AppNormalizedConfig, AppTools } from '@modern-js/app-tools';
-import type { IAppContext, PluginAPI } from '@modern-js/core';
+import type {
+  AppNormalizedConfig,
+  AppTools,
+  AppToolsContext,
+} from '@modern-js/app-tools';
+import type { CLIPluginAPI } from '@modern-js/plugin-v2';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -31,10 +35,10 @@ import * as templates from './templates';
 import { getServerCombinedModueFile, getServerLoadersFile } from './utils';
 
 export const generateCode = async (
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: AppNormalizedConfig<'shared'>,
   entrypoints: Entrypoint[],
-  api: PluginAPI<AppTools<'shared'>>,
+  api: CLIPluginAPI<AppTools<'shared'>>,
 ) => {
   const {
     internalDirectory,
@@ -44,7 +48,7 @@ export const generateCode = async (
     packageName,
   } = appContext;
 
-  const hookRunners = api.useHookRunners();
+  const hooks = api.getHooks();
 
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
@@ -63,7 +67,7 @@ export const generateCode = async (
       pageRoutesEntry,
       nestedRoutesEntry,
     } = entrypoint;
-    const { metaName } = api.useAppContext();
+    const { metaName } = api.getAppContext();
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (pageRoutesEntry || nestedRoutesEntry) {
@@ -101,7 +105,7 @@ export const generateCode = async (
           }
         }
 
-        const config = api.useResolvedConfigContext();
+        const config = api.getNormalizedConfig();
         const ssrByRouteIds = config.server.ssrByRouteIds || [];
         const clonedRoutes = cloneDeep(initialRoutes);
 
@@ -113,7 +117,7 @@ export const generateCode = async (
               )
             : initialRoutes;
 
-        const { routes } = await hookRunners.modifyFileSystemRoutes({
+        const { routes } = await hooks.modifyFileSystemRoutes.call({
           entrypoint,
           routes: markedRoutes,
         });
@@ -143,7 +147,7 @@ export const generateCode = async (
           }
         }
 
-        const { code } = await hookRunners.beforeGenerateRoutes({
+        const { code } = await hooks.onBeforeGenerateRoutes.call({
           entrypoint,
           code: await templates.fileSystemRoutes({
             metaName,
@@ -197,7 +201,7 @@ export const generateCode = async (
         const serverLoaderCombined = templates.ssrLoaderCombinedModule(
           entrypoints,
           entrypoint,
-          config,
+          config as AppNormalizedConfig<'shared'>,
           appContext,
         );
         if (serverLoaderCombined) {

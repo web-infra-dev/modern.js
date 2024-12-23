@@ -1,10 +1,10 @@
 import path from 'path';
 import type {
   AppTools,
-  IAppContext,
+  AppToolsContext,
+  AppToolsFeatureHooks,
   NormalizedConfig,
 } from '@modern-js/app-tools';
-import type { MaybeAsync } from '@modern-js/plugin';
 import type { Entrypoint } from '@modern-js/types';
 import { fs } from '@modern-js/utils';
 import * as template from './template';
@@ -15,9 +15,9 @@ export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 
 export const generateCode = async (
   entrypoints: Entrypoint[],
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
   config: NormalizedConfig<AppTools>,
-  appendEntryCode: (input: { entrypoint: Entrypoint }) => MaybeAsync<string[]>,
+  hooks: AppToolsFeatureHooks<'shared'>,
 ) => {
   const { mountId } = config.html;
   const { enableAsyncEntry } = config.source;
@@ -27,7 +27,7 @@ export const generateCode = async (
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, entry, customEntry, customBootstrap } =
         entrypoint;
-      const appendCode = await appendEntryCode({ entrypoint });
+      const appendCode = await hooks.appendEntryCode.call({ entrypoint });
 
       if (isAutoMount) {
         // index.jsx

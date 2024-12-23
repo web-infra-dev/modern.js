@@ -11,6 +11,7 @@ import { loadInternalPlugins } from '../utils/loadPlugins';
 export interface RunOptions {
   cwd?: string;
   configFile?: string;
+  metaName?: string;
   packageJsonConfig?: string;
   internalPlugins?: {
     cli?: InternalPlugins;
@@ -22,6 +23,7 @@ export interface RunOptions {
 export async function run({
   cwd,
   initialLog,
+  metaName,
   version,
   internalPlugins,
   packageJsonConfig,
@@ -74,6 +76,7 @@ export async function run({
     cwd,
     initialLog: initialLog || `Modern.js Framework v${version}`,
     configFile: finalConfigFile,
+    metaName,
     packageJsonConfig: packageJsonConfig || PACKAGE_JSON_CONFIG_NAME,
     internalPlugins: plugins,
     handleSetupResult,

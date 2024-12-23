@@ -43,24 +43,3 @@ export default defineConfig({
 [Tailwind CSS](https://tailwindcss.com/) 是一个以 Utility Class 为基础的 CSS 框架和设计系统，可以快速地为组件添加常用样式，同时支持主题样式的灵活扩展。
 
 如果你想要在项目使用 [Tailwind CSS](https://tailwindcss.com/)，可以参考 [「使用 Tailwind CSS」](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css)。
-
-## Modern.js Runtime API 支持
-
-**Modern.js 提供了 [Runtime API](https://modernjs.dev/configure/app/runtime/intro) 能力，这些 API 只能在 Modern.js 的应用项目环境中使用**。如果你需要开发一个 Modern.js 应用环境中使用的组件，那么你可以开启该特性，微生成器会增加 `"@modern-js/runtime"`依赖。
-
-另外，Storybook 调试工具也会通过检测项目的依赖确定项目是否需要使用 Runtime API，并且提供与 Modern.js 应用项目一样的 Runtime API 运行环境。
-
-:::tip
-
-在成功开启后，会提示需要手动在配置中增加如下类似的代码。
-
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import runtime from '@modern-js/runtime/cli';
-
-export default defineConfig({
-  plugins: [moduleTools(), runtime()],
-});
-```
-
-:::

@@ -9,7 +9,7 @@ export const initAppContext = ({
   tempDir,
 }: {
   appDirectory: string;
-  runtimeConfigFile: string | false;
+  runtimeConfigFile: string;
   options?: {
     metaName?: string;
     srcDir?: string;

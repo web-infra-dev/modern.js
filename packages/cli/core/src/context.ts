@@ -52,7 +52,7 @@ export const initAppContext = ({
   appDirectory: string;
   plugins: CliPlugin[];
   configFile: string | false;
-  runtimeConfigFile: string | false;
+  runtimeConfigFile: string;
   options?: {
     metaName?: string;
     srcDir?: string;
