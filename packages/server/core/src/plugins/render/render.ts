@@ -80,6 +80,7 @@ function matchRoute(
 
   const result = matched[0][0];
 
+  // here we can parse the dynamic server routes params
   return result || [];
 }
 
@@ -237,14 +238,6 @@ async function renderHandler(
   mode: 'ssr' | 'csr',
   onError: (e: unknown) => Promise<void>,
 ) {
-  // inject server.baseUrl message
-  const serverData = {
-    router: {
-      baseUrl: options.routeInfo.urlPath,
-      params: options.params,
-    },
-  };
-
   let response: Response | null = null;
 
   const { serverManifest } = options;
