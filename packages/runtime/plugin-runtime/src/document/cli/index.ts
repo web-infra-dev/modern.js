@@ -1,7 +1,7 @@
 import path from 'path';
 import type {
   AppTools,
-  CliPlugin,
+  CliPluginFuture,
   NormalizedConfig,
 } from '@modern-js/app-tools';
 import type { Entrypoint } from '@modern-js/types/cli';
@@ -64,7 +64,7 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export const documentPlugin = (): CliPlugin<AppTools> => ({
+export const documentPlugin = (): CliPluginFuture<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-document',
 
   pre: ['@modern-js/plugin-analyze'],
@@ -92,7 +92,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       templateParameters: Record<string, unknown>,
     ) => {
       const { entrypoints, internalDirectory, appDirectory } =
-        api.useAppContext();
+        api.getAppContext();
       // search the document.[tsx|jsx|js|ts] under entry
       const documentFilePath = getDocumenByEntryName(
         entrypoints,
@@ -105,10 +105,10 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
       }
 
       return async ({ htmlWebpackPlugin }: { [option: string]: any }) => {
-        const config = api.useResolvedConfigContext();
+        const config = api.getNormalizedConfig();
 
         const documentParams = getDocParams({
-          config,
+          config: config as NormalizedConfig<AppTools>,
           entryName,
           templateParameters,
         });
@@ -186,7 +186,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
 
         debug("entry %s's document jsx rendered html: %o", entryName, html);
         // htmlWebpackPlugin.tags
-        const { partialsByEntrypoint } = api.useAppContext();
+        const { partialsByEntrypoint } = api.getAppContext();
         const scripts = [
           htmlWebpackPlugin.tags.headTags
             .filter((item: any) => item.tagName === 'script')
@@ -300,52 +300,51 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         return finalHtml;
       };
     };
-    return {
-      config: () => {
-        const userConfig = api.useConfigContext();
 
-        if (userConfig.tools?.htmlPlugin === false) {
-          return {};
-        }
+    api.config(() => {
+      const userConfig = api.getConfig();
 
-        return {
-          tools: {
-            htmlPlugin: (options, entry) => {
-              // just for reuse the baseParames calculate by builder:
-              // https://github.com/web-infra-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
-              const hackParameters: Record<string, unknown> =
-                typeof options?.templateParameters === 'function'
-                  ? options?.templateParameters(
-                      {} as any,
-                      {} as any,
-                      {} as any,
-                      {} as any,
-                    )
-                  : { ...options?.templateParameters };
+      if (userConfig.tools?.htmlPlugin === false) {
+        return {};
+      }
 
-              const templateContent = documentEntry(
-                entry.entryName,
-                // options,
-                hackParameters,
-              );
+      return {
+        tools: {
+          htmlPlugin: (options, entry) => {
+            // just for reuse the baseParames calculate by builder:
+            // https://github.com/web-infra-dev/modern.js/blob/1abb452a87ae1adbcf8da47d62c05da39cbe4d69/packages/builder/builder-webpack-provider/src/plugins/html.ts#L69-L103
+            const hackParameters: Record<string, unknown> =
+              typeof options?.templateParameters === 'function'
+                ? options?.templateParameters(
+                    {} as any,
+                    {} as any,
+                    {} as any,
+                    {} as any,
+                  )
+                : { ...options?.templateParameters };
 
-              const documentHtmlOptions = templateContent
-                ? {
-                    templateContent,
-                    // Note: the behavior of inject/modify tags in afterTemplateExecution hook will not take effect
-                    inject: false,
-                  }
-                : {};
+            const templateContent = documentEntry(
+              entry.entryName,
+              // options,
+              hackParameters,
+            );
 
-              return {
-                ...options,
-                ...documentHtmlOptions,
-              };
-            },
+            const documentHtmlOptions = templateContent
+              ? {
+                  templateContent,
+                  // Note: the behavior of inject/modify tags in afterTemplateExecution hook will not take effect
+                  inject: false,
+                }
+              : {};
+
+            return {
+              ...options,
+              ...documentHtmlOptions,
+            };
           },
-        };
-      },
-    };
+        },
+      };
+    });
   },
 });
 

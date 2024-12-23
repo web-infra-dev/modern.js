@@ -1,5 +1,8 @@
 import path from 'path';
-import type { AppNormalizedConfig, IAppContext } from '@modern-js/app-tools';
+import type {
+  AppNormalizedConfig,
+  AppToolsContext,
+} from '@modern-js/app-tools';
 import type {
   Entrypoint,
   NestedRouteForCli,
@@ -452,7 +455,7 @@ export function ssrLoaderCombinedModule(
   entrypoints: Entrypoint[],
   entrypoint: Entrypoint,
   config: AppNormalizedConfig<'shared'>,
-  appContext: IAppContext,
+  appContext: AppToolsContext<'shared'>,
 ) {
   const { entryName, isMainEntry } = entrypoint;
   const { packageName, internalDirectory } = appContext;

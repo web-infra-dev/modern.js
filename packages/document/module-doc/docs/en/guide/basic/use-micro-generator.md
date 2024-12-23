@@ -43,24 +43,3 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 [Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
 If you want to use Tailwind CSS for a project, you can refer to ["Using Tailwind CSS"](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css).
-
-## Modern.js Runtime API
-
-**Modern.js provides Runtime API capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
-
-Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js application project.
-
-:::tip
-
-After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
-
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import runtime from '@modern-js/runtime/cli';
-
-export default defineConfig({
-  plugins: [moduleTools(), runtime()],
-});
-```
-
-:::
