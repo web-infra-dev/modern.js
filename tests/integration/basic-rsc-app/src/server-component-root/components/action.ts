@@ -1,4 +1,5 @@
 'use server';
+import 'server-only';
 import { getCountState, setCountState } from './ServerState';
 
 export async function greet(name: string) {

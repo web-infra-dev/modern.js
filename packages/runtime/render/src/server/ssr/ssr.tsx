@@ -5,9 +5,8 @@ import type {
 } from '@modern-js/types/server';
 import { type ReactNode, use } from 'react';
 import type { ReactDOMServerReadableStream } from 'react-dom/server';
-// biome-ignore lint/style/useImportType: <explanation>
 import { renderToReadableStream } from 'react-dom/server.edge';
-import { ServerElementsProvider } from 'src/client';
+import { ServerElementsProvider } from '../../client';
 
 type Options = {
   request: Request;
@@ -15,26 +14,12 @@ type Options = {
   ssrManifest: SSRManifest;
 } & Parameters<typeof renderToReadableStream>[1];
 
-// TODO:临时代码，需要移除 styles，div 等
 const ServerShell = ({
   styles,
   elements,
 }: { styles?: string[]; elements: Promise<ReactNode[]> }) => {
   const res = use(elements);
-  return (
-    <>
-      {/* <div>
-        {styles.map(style => (
-          // biome-ignore lint/style/useSelfClosingElements: <explanation>
-          <link key={style} rel="stylesheet" href={style}></link>
-        ))}
-        {res}
-      </div>
-      &lt;!--&lt;?- SHELL_STREAM_END ?&gt;--&gt; */}
-      {res}
-      &lt;!--&lt;?- SHELL_STREAM_END ?&gt;--&gt;
-    </>
-  );
+  return <>{res}</>;
 };
 
 function collectStyles(moduleMap: ClientManifest) {
@@ -73,7 +58,7 @@ export const renderSSRStreamWithRSCRoot = async (
       const { createFromReadableStream } = await import(
         'react-server-dom-webpack/client.edge'
       );
-      const { injectRSCPayload } = await import('rsc-html-stream/server');
+      const { injectRSCPayload } = await import('../../rsc-html-stream/server');
       const stream = await renderRsc({
         element: rscRoot,
         clientManifest,
@@ -92,9 +77,15 @@ export const renderSSRStreamWithRSCRoot = async (
       );
 
       const responseStream = wrapStream(
-        htmlStream.pipeThrough(injectRSCPayload(stream2)),
+        htmlStream.pipeThrough(
+          injectRSCPayload(stream2, {
+            injectClosingTags: false,
+            closeFlag: '&lt;!--&lt;?- SHELL_STREAM_END ?&gt;--&gt;',
+          }),
+        ),
         htmlStream,
       );
+
       return responseStream;
     } catch (error) {
       console.error(error);

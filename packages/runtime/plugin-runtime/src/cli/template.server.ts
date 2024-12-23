@@ -49,9 +49,12 @@ function genHandlerCode({
   internalSrcAlias,
 }: GenHandlerCodeOptions) {
   if (customServerEntry) {
-    return `export { default as requestHandler } from '${formatImportPath(
+    const realEntryPath = formatImportPath(
       customServerEntry.replace(srcDirectory, internalSrcAlias),
-    )}'`;
+    );
+    return `
+    export * from '${realEntryPath}';
+    export { default as requestHandler } from '${realEntryPath}'`;
   } else {
     const serverEntry = transformServerEntry(SERVER_ENTRY, {
       metaName: metaName || 'modern-js',

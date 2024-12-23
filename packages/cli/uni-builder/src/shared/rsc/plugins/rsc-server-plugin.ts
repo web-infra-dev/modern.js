@@ -220,11 +220,6 @@ export class RscServerPlugin {
           }),
           ...serverReferences.map(async resource => {
             try {
-              console.log(
-                'serverReferences11111111',
-                resourcePath2Entry.get(resource),
-                resource,
-              );
               await includeModule(
                 compilation,
                 resource,
@@ -254,7 +249,6 @@ export class RscServerPlugin {
           ) &&
             hasChangeReference)
         ) {
-          console.log('needsAdditionalPass11111111', needsAdditionalPass);
           needsAdditionalPass = true;
         }
       },

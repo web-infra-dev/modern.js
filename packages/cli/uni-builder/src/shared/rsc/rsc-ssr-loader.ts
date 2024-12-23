@@ -39,7 +39,9 @@ export default async function rscSsrLoader(
       if (name === 'default') {
         return `export default () => {throw new Error("Server actions must not be called during server-side rendering.")}`;
       } else {
-        return `export const ${name} = () => {throw new Error("Server actions must not be called during server-side rendering.")}`;
+        return `export const ${name} = () => {
+          throw new Error("Server actions must not be called during server-side rendering.")
+        }`;
       }
     })
     .join('\n');

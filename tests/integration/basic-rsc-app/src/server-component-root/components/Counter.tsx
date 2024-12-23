@@ -5,7 +5,6 @@ import { increment, incrementByForm } from './action';
 import { useActionState, useState } from 'react';
 
 export const Counter = () => {
-  console.log('Counter111111111', useActionState);
   const [count, setCount] = useState(0);
   const [result, formAction, isPending] = useActionState(incrementByForm, 0);
 

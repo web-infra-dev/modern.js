@@ -24,6 +24,7 @@ import {
   transformResponse,
 } from '../../utils';
 import { dataHandler } from './dataHandler';
+import { serverActionHandler } from './serverActionHandler';
 import { type SSRRenderOptions, ssrRender } from './ssrRender';
 
 interface CreateRenderOptions {
@@ -217,6 +218,9 @@ export async function createRender({
           (await dataHandler(req, renderOptions)) ||
           (await renderHandler(req, renderOptions, 'ssr', onBoundError));
         break;
+      case 'server-action':
+        response = await serverActionHandler(req, renderOptions);
+        break;
       case 'ssr':
       case 'csr':
         response = await renderHandler(
@@ -328,8 +332,11 @@ async function getRenderMode(
   forceCSR?: boolean,
   nodeReq?: IncomingMessage,
   onFallback?: (reason: FallbackReason, err?: unknown) => Promise<void>,
-): Promise<'ssr' | 'csr' | 'data'> {
+): Promise<'ssr' | 'csr' | 'data' | 'server-action'> {
   const query = parseQuery(req);
+  if (req.headers.get('rsc-action')) {
+    return 'server-action';
+  }
 
   if (isSSR) {
     if (query.__loader) {

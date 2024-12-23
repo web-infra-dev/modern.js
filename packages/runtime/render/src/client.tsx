@@ -14,8 +14,19 @@ import {
 export { rscStream } from 'rsc-html-stream/client';
 export { createFromReadableStream, createServerReference };
 
+declare global {
+  interface Window {
+    _SERVER_DATA?: {
+      router: {
+        baseUrl: string;
+        params: Record<string, string>;
+      };
+    };
+  }
+}
+
 export async function callServer(id: string, args: any[]): Promise<any> {
-  const response = fetch('/', {
+  const response = fetch(`/${window._SERVER_DATA?.router.baseUrl}`, {
     method: 'POST',
     headers: {
       Accept: 'text/x-component',
@@ -54,7 +65,6 @@ export const ServerElementsProvider = ({
   return (
     <ElementsContext.Provider value={elements}>
       {children}
-      &lt;!--&lt;?- SHELL_STREAM_END ?&gt;--&gt;
     </ElementsContext.Provider>
   );
 };

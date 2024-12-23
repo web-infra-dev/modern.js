@@ -5,7 +5,6 @@ import { getCountState } from './components/ServerState';
 
 const App = ({ name }: { name: string }) => {
   const countStateFromServer = getCountState();
-  console.log('render11111111111');
   return (
     <div
       id="root"

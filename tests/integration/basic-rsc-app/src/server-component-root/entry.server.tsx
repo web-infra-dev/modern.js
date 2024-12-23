@@ -1,11 +1,9 @@
 import { RSCServerSlot } from '@modern-js/render/client';
-import { createRoot } from '@modern-js/runtime/react';
+import { handleAction as _handleAction } from '@modern-js/runtime/rsc/server';
 import {
   createRequestHandler,
   renderStreaming,
 } from '@modern-js/runtime/ssr/server';
-// import AppProxy from './AppProxy';
-// console.log('aaaaaaa', AppProxy);
 
 const handleRequest = async (request, ServerRoot, options) => {
   const body = await renderStreaming(
@@ -32,3 +30,5 @@ const requestHandler = createRequestHandler(handleRequest, {
 });
 
 export default requestHandler;
+
+export const handleAction = _handleAction;

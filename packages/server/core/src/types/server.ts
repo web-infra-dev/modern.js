@@ -50,6 +50,10 @@ type ServerLoaderBundle = {
 
 type ServerRenderBundle = {
   requestHandler: Promise<BundleRequestHandler>;
+  handleAction?: (
+    req: Request,
+    options: { clientManifest: RscClientManifest },
+  ) => Promise<Response>;
 };
 
 export type ServerManifest = {

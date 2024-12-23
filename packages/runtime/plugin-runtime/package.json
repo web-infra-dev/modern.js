@@ -181,6 +181,12 @@
       ],
       "loadable-bundler-plugin": [
         "./dist/types/cli/ssr/loadable-bundler-plugin.d.ts"
+      ],
+      "rsc/server": [
+        "./dist/types/rsc/server.d.ts"
+      ],
+      "rsc/client": [
+        "./dist/types/rsc/client.d.ts"
       ]
     }
   },

@@ -1,6 +1,5 @@
 export { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
 import type { ClientManifest } from '@modern-js/types/server';
-import { type ReactNode, use } from 'react';
 import { renderToReadableStream } from 'react-server-dom-webpack/server.edge';
 import { decodeReply } from 'react-server-dom-webpack/server.edge';
 export { createFromReadableStream } from 'react-server-dom-webpack/client.edge';
@@ -65,5 +64,5 @@ export const handleAction = async (
 
     return response;
   }
-  return null;
+  return new Response('Cannot find server reference', { status: 404 });
 };
