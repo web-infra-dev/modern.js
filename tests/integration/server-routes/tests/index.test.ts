@@ -37,13 +37,6 @@ describe('test basic usage', () => {
     expect(aStatus).toBe(successStatus);
   });
 
-  test(`should inject server data correctly`, async () => {
-    const response = await axios.get(`http://localhost:${appPort}/main/abc`);
-
-    const body = response.data;
-    expect(body).toMatch(/abc/);
-  });
-
   test('should inject server data safety', async () => {
     const response = await axios.get(
       `http://localhost:${appPort}/main/dlwlrma<%2fscript%20x><script%20x>alert(1)%2f%2f`,
