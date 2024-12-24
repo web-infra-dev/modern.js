@@ -38,7 +38,6 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
               .use('rsc-server-loader')
               .loader(require.resolve('../rsc-server-loader'))
               .options({
-                runtimeExport: '@modern-js/render/rsc',
                 entryPath2Name,
               })
               .end()
@@ -109,6 +108,12 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
           chain.plugin('rsc-client-plugin').use(RscClientPlugin);
         };
 
+        const configureRuntimeChunk = () => {
+          chain.optimization.runtimeChunk({
+            name: entrypoint => `runtime-${entrypoint.name}`, // 为每个入口点生成独立的 runtime chunk
+          });
+        };
+
         if (isServer) {
           chain.name('server');
           layerHandler();
@@ -120,6 +125,7 @@ export const rscRsbuildPlugin = (): RsbuildPlugin => ({
           chain.dependencies(['server']);
           addRscClientLoader();
           addRscClientPlugin();
+          configureRuntimeChunk();
         }
       },
       order: 'post',

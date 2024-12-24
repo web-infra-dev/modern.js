@@ -44,7 +44,7 @@ export type RequestHandlerOptions = {
   rscServerManifest?: RscServerManifest;
   rscClientManifest?: RscClientManifest;
   rscSSRManifest?: RscSSRManifest;
-  rscRoot?: any;
+  RSCRoot?: any;
 
   /** @deprecated  */
   locals?: Record<string, any>;

@@ -51,8 +51,6 @@ export class RscClientPlugin {
     const getEntryModule = (compilation: Webpack.Compilation): Module[] => {
       const entryModules: Webpack.Module[] = [];
 
-      // console.log('entries', compilation.entries.entries());
-
       for (const [, entryValue] of compilation.entries.entries()) {
         const entryDependency = entryValue.dependencies.find(
           dependency => dependency.constructor.name === `EntryDependency`,
@@ -136,6 +134,33 @@ export class RscClientPlugin {
           ClientReferenceDependency,
           new NullDependency.Template(),
         );
+
+        class EntryNameRuntimeModule extends compiler.webpack.RuntimeModule {
+          private entryName: string;
+          constructor(entryName: string) {
+            super('entry-name', 10); // Set a higher stage to ensure priority execution
+            this.entryName = entryName;
+          }
+
+          generate() {
+            return `window.__MODERN_JS_ENTRY_NAME="${this.entryName}";`;
+          }
+        }
+
+        compilation.hooks.runtimeRequirementInTree
+          .for(RuntimeGlobals.ensureChunk)
+          .tap(RscClientPlugin.name, (chunk, set) => {
+            Array.from(compilation.entrypoints.entries()).forEach(
+              ([entryName, entrypoint]) => {
+                if (entrypoint.chunks.includes(chunk)) {
+                  compilation.addRuntimeModule(
+                    chunk,
+                    new EntryNameRuntimeModule(entryName),
+                  );
+                }
+              },
+            );
+          });
       },
     );
 
@@ -232,7 +257,7 @@ export class RscClientPlugin {
                 }
 
                 clientManifest[id] = {
-                  id: ssrId!,
+                  id: moduleId!,
                   name: clientExportName,
                   chunks,
                   styles,

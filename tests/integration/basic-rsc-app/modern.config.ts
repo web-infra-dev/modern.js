@@ -63,11 +63,15 @@ export default applyBaseConfig({
       });
     },
 
-    // webpack(config) {
-    //   config.experiments = {
-    //     ...config.experiments,
-    //     layers: true,
-    //   };
+    // webpack(config, { isServer }) {
+    //   if (!isServer) {
+    //     config.optimization = {
+    //       ...config.optimization,
+    //       runtimeChunk: {
+    //         name: entrypoint => `runtime-${entrypoint.name}`, // 为每个入口点生成独立的 runtime chunk
+    //       },
+    //     };
+    //   }
     // },
 
     // bundlerChain(chain, { isServer }) {

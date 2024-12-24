@@ -234,7 +234,7 @@ export class RscServerPlugin {
                 webpackRscLayerName,
               );
             } catch (error) {
-              console.error('error', error);
+              console.error(error);
               hasChangeReference = true;
               this.serverReferencesMap.delete(resource);
             }

@@ -12,7 +12,7 @@ import { Fragment } from 'react/jsx-runtime';
 
 const DefaultRoot = ({ children }: { children?: ReactNode }) =>
   createElement(Fragment, null, children);
-const ModernRoot = createRoot(DefaultRoot);
+const ModernRoot = createRoot();
 
 const data = createFromReadableStream(rscStream);
 

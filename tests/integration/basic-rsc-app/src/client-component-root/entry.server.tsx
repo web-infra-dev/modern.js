@@ -13,7 +13,7 @@ const handleRequest = async (request, ServerRoot, options) => {
     </ServerRoot>,
     {
       ...options,
-      rscRoot: <options.rscRoot />,
+      rscRoot: <options.RSCRoot />,
     },
   );
 

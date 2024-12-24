@@ -16,17 +16,12 @@ export { createFromReadableStream, createServerReference };
 
 declare global {
   interface Window {
-    _SERVER_DATA?: {
-      router: {
-        baseUrl: string;
-        params: Record<string, string>;
-      };
-    };
+    __MODERN_JS_ENTRY_NAME?: string;
   }
 }
 
 export async function callServer(id: string, args: any[]): Promise<any> {
-  const response = fetch(`/${window._SERVER_DATA?.router.baseUrl}`, {
+  const response = fetch(`/${window.__MODERN_JS_ENTRY_NAME}`, {
     method: 'POST',
     headers: {
       Accept: 'text/x-component',

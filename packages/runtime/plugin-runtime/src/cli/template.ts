@@ -181,13 +181,19 @@ export const runtimeGlobalContextForRSCServer = ({
 }: {
   metaName: string;
 }) => {
-  return `import { setGlobalContext } from '@${metaName}/runtime/context'
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
+  import AppProxy from './AppProxy';
 
- import AppProxy from './AppProxy';
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
 
-setGlobalContext({
-  App: AppProxy,
-});`;
+
+  setGlobalContext({
+    App: DefaultRoot,
+    RSCRoot: AppProxy,
+  });`;
 };
 
 export const runtimeGlobalContextForRSCClient = ({
@@ -195,10 +201,16 @@ export const runtimeGlobalContextForRSCClient = ({
 }: {
   metaName: string;
 }) => {
-  return `import { setGlobalContext } from '@${metaName}/runtime/context'
+  return `
+  import { createElement, Fragment } from 'react';
+  import { setGlobalContext } from '@${metaName}/runtime/context';
 
-setGlobalContext({
-});`;
+  const DefaultRoot = ({ children }: { children?: ReactNode }) =>
+    createElement(Fragment, null, children);
+
+  setGlobalContext({
+    App: DefaultRoot
+  });`;
 };
 
 export const AppProxyForRSC = ({

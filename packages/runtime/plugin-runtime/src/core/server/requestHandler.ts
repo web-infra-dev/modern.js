@@ -15,6 +15,7 @@ import {
   getGlobalApp,
   getGlobalAppInit,
   getGlobalLayoutApp,
+  getGlobalRSCRoot,
 } from '../context';
 import { getInitialContext } from '../context/runtime';
 import { createLoaderManager } from '../loader/loaderManager';
@@ -157,14 +158,7 @@ export const createRequestHandler: CreateRequestHandler = async (
   createRequestOptions,
 ) => {
   const requestHandler: RequestHandler = async (request, options) => {
-    let Root;
-    if (createRequestOptions?.enableRsc) {
-      const DefaultRoot = ({ children }: { children?: ReactNode }) =>
-        createElement(Fragment, null, children);
-      Root = createRoot(DefaultRoot);
-    } else {
-      Root = createRoot();
-    }
+    const Root = createRoot();
 
     const runner = getGlobalRunner();
 
@@ -261,9 +255,7 @@ export const createRequestHandler: CreateRequestHandler = async (
     const response = await handleRequest(request, Root, {
       ...options,
       runtimeContext: context,
-      rscRoot:
-        createRequestOptions?.enableRsc &&
-        (getGlobalApp() || getGlobalLayoutApp()),
+      RSCRoot: createRequestOptions?.enableRsc && getGlobalRSCRoot(),
     });
 
     Object.entries(responseProxy.headers).forEach(([key, value]) => {
