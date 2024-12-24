@@ -16,10 +16,15 @@ export const expressPlugin = (): CliPlugin<AppTools> => ({
           appContext.internalDirectory,
           'server',
         );
+
+        const useConfig = api.useConfigContext();
+
         const runtimePath =
-          process.env.NODE_ENV === 'development'
+          process.env.NODE_ENV === 'development' &&
+          !useConfig?.bff?.enableCrossProjectInvocation
             ? require.resolve('@modern-js/plugin-express/runtime')
             : '@modern-js/plugin-express/runtime';
+
         return {
           source: {
             alias: {

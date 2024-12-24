@@ -41,6 +41,11 @@
       "types": "./dist/types/loader.d.ts",
       "jsnext:source": "./src/loader.ts",
       "default": "./dist/cjs/loader.js"
+    },
+    "./create-request": {
+      "types": "./dist/types/create-request.d.ts",
+      "jsnext:source": "./src/create-request.ts",
+      "default": "./dist/cjs/create-request.js"
     }
   },
   "typesVersions": {
