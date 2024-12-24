@@ -920,7 +920,7 @@ importers:
         version: react@0.0.0-experimental-51ffd3564-20231025
       react-icons:
         specifier: ^4.11.0
-        version: 4.11.0(react@18.3.1)
+        version: 4.12.0(react@18.3.1)
       react-is:
         specifier: ^18
         version: 18.2.0
@@ -19332,8 +19332,8 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
 
-  react-icons@4.11.0:
-    resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
+  react-icons@4.12.0:
+    resolution: {integrity: sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==}
     peerDependencies:
       react: '*'
 
@@ -37182,7 +37182,7 @@ snapshots:
       react-fast-compare: 3.2.0
       react-side-effect: 2.1.2(react@18.3.1)
 
-  react-icons@4.11.0(react@18.3.1):
+  react-icons@4.12.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
