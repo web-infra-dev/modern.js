@@ -914,7 +914,7 @@ importers:
         version: react-dom@0.0.0-experimental-51ffd3564-20231025(react@18.3.1)
       react-error-boundary:
         specifier: ^4.0.12
-        version: 4.0.13(react@18.3.1)
+        version: 4.1.2(react@18.3.1)
       react-exp:
         specifier: npm:react@0.0.0-experimental-51ffd3564-20231025
         version: react@0.0.0-experimental-51ffd3564-20231025
@@ -19304,8 +19304,8 @@ packages:
       react: '>= 17'
       react-dom: '>= 17'
 
-  react-error-boundary@4.0.13:
-    resolution: {integrity: sha512-b6PwbdSv8XeOSYvjt8LpgpKrZ0yGdtZokYwkwV2wlcZbxgopHX/hgPl5VgpnoVOWd868n1hktM8Qm4b+02MiLQ==}
+  react-error-boundary@4.1.2:
+    resolution: {integrity: sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==}
     peerDependencies:
       react: '>=16.13.1'
 
@@ -37145,7 +37145,7 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       react-is: 18.1.0
 
-  react-error-boundary@4.0.13(react@18.3.1):
+  react-error-boundary@4.1.2(react@18.3.1):
     dependencies:
       '@babel/runtime': 7.26.0
       react: 18.3.1
